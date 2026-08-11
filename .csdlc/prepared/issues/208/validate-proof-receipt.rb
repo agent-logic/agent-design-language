@@ -95,7 +95,7 @@ proof.fetch("protected_files").each do |entry|
   end
 end
 expected_commands = %w[
-  diff_hygiene kernel_clippy kernel_markers kernel_nextest kernel_nextest_repeat
+  diff_hygiene guardian_cli_nextest kernel_clippy kernel_markers kernel_nextest kernel_nextest_repeat
   kernel_nextest_isolated kernel_nextest_isolated_repeat runtime_clippy runtime_markers
   nextest_workspace_contract production_acip_nextest runtime_nextest runtime_nextest_repeat
   runtime_nextest_isolated runtime_nextest_isolated_repeat
@@ -115,7 +115,7 @@ fail_receipt("forbidden LEAK sentinel in retained behavior evidence") if markers
 nextest_names = %w[
   runtime_nextest kernel_nextest runtime_nextest_repeat kernel_nextest_repeat
   runtime_nextest_isolated kernel_nextest_isolated
-  runtime_nextest_isolated_repeat kernel_nextest_isolated_repeat
+  runtime_nextest_isolated_repeat kernel_nextest_isolated_repeat guardian_cli_nextest
 ]
 nextest_text = nextest_names.flat_map { |name|
   %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])) }
@@ -132,6 +132,9 @@ fail_receipt("repeated isolated/concurrent nextest denominator mismatch") unless
 }
 fail_receipt("production ACIP denominator mismatch") unless %w[stdout stderr].any? { |stream|
   File.binread(ROOT.join(commands["production_acip_nextest"]["#{stream}_path"])).include?("2 tests run: 2 passed")
+}
+fail_receipt("Guardian CLI denominator mismatch") unless %w[stdout stderr].any? { |stream|
+  File.binread(ROOT.join(commands["guardian_cli_nextest"]["#{stream}_path"])).include?("3 tests run: 3 passed")
 }
 config_contract_text = %w[stdout stderr].map { |stream|
   File.binread(ROOT.join(commands["nextest_workspace_contract"]["#{stream}_path"]))

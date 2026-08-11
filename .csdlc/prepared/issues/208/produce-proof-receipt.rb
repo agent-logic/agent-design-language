@@ -26,7 +26,8 @@ PROTECTED = %w[
   adl-runtime/Cargo.toml adl-runtime/Cargo.lock adl-runtime/src/kernel_continuity_client.rs
   adl-runtime/src/bin/adl-runtime-guardian.rs adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
   adl-runtime/src/distributed/polis_runtime.rs
-  adl-runtime/src/guardian.rs adl-runtime/src/lib.rs adl-runtime/tests/kernel_continuity_client.rs
+  adl-runtime/src/guardian.rs adl-runtime/src/lib.rs adl-runtime/tests/guardian_cli.rs
+  adl-runtime/tests/kernel_continuity_client.rs
   infra/runtime-v3/runtime-init.toml
   .csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json
   .csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb
@@ -107,8 +108,9 @@ commands["kernel_nextest_isolated"] = run_command("kernel-nextest-isolated", %w[
 commands["runtime_nextest_isolated_repeat"] = run_command("runtime-nextest-isolated-repeat", %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime/Cargo.toml --test kernel_continuity_client --no-tests=fail])
 commands["kernel_nextest_isolated_repeat"] = run_command("kernel-nextest-isolated-repeat", %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control --no-tests=fail])
 commands["production_acip_nextest"] = run_command("production-acip-nextest", %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime-kernel/Cargo.toml --test production_acip_wss --no-tests=fail])
+commands["guardian_cli_nextest"] = run_command("guardian-cli-nextest", %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime/Cargo.toml --test guardian_cli --no-tests=fail])
 commands["nextest_workspace_contract"] = run_command("nextest-workspace-contract", %w[ruby .csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb])
-commands["runtime_clippy"] = run_command("runtime-clippy", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib --bin adl-runtime-guardian --test kernel_continuity_client -- -D warnings])
+commands["runtime_clippy"] = run_command("runtime-clippy", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib --bin adl-runtime-guardian --test guardian_cli --test kernel_continuity_client -- -D warnings])
 commands["kernel_clippy"] = run_command("kernel-clippy", %w[cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib --bin adl-runtime-kernel --test kernel_continuity_control --test production_acip_wss -- -D warnings])
 commands["diff_hygiene"] = run_command("diff-hygiene", %w[ruby .csdlc/prepared/issues/208/verify-diff-hygiene.rb], {"ISSUE_208_EXECUTION_BASE" => BASE, "ISSUE_208_PROVING_SOURCE" => source})
 commands["runtime_markers"] = run_command("runtime-markers", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test kernel_continuity_client -- --nocapture --test-threads=1])
@@ -118,7 +120,7 @@ fail_proof("commands failed: #{failed.join(', ')}") unless failed.empty?
 nextest_names = %w[
   runtime_nextest kernel_nextest runtime_nextest_repeat kernel_nextest_repeat
   runtime_nextest_isolated kernel_nextest_isolated
-  runtime_nextest_isolated_repeat kernel_nextest_isolated_repeat
+  runtime_nextest_isolated_repeat kernel_nextest_isolated_repeat guardian_cli_nextest
 ]
 nextest_text = nextest_names.flat_map { |name| %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])) } }.join
 fail_proof("nextest denominator mismatch") unless %w[
@@ -133,6 +135,9 @@ fail_proof("nextest denominator mismatch") unless %w[
 fail_proof("isolated/concurrent nextest process leak") if nextest_text.include?("LEAK")
 fail_proof("production ACIP denominator mismatch") unless %w[stdout stderr].any? { |stream|
   File.binread(ROOT.join(commands["production_acip_nextest"]["#{stream}_path"])).include?("2 tests run: 2 passed")
+}
+fail_proof("Guardian CLI denominator mismatch") unless %w[stdout stderr].any? { |stream|
+  File.binread(ROOT.join(commands["guardian_cli_nextest"]["#{stream}_path"])).include?("3 tests run: 3 passed")
 }
 config_contract_text = %w[stdout stderr].map { |stream|
   File.binread(ROOT.join(commands["nextest_workspace_contract"]["#{stream}_path"]))

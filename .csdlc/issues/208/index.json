@@ -4,62 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "50ca6fd43f5b405ec1d942ed846978798206b1a15480a8d72bdd35cf9667b750",
-  "phase": "published",
-  "generation": 55,
-  "digest": "8b5e4138ebfe30a40280fbc21c8b119ab51f2ce2478b5cc1165eedbb93fe74f2",
+  "phase": "implemented",
+  "generation": 56,
+  "digest": "9dff2f81e2fe10f1629a995dcaa4fa6c38e4d9d58112f8ed57b1ce9f77b68bc1",
   "branch": "codex/208-authenticated-guardian-kernel-continuity-bridge",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-208-kernel-continuity-bridge",
   "review_assignment": null,
-  "review": {
-    "reviewer": "codex:/root/review_208_canonical_option_final",
-    "scope": [
-      ".csdlc/issues/208",
-      ".csdlc/prepared/issues/208",
-      ".csdlc/evidence/208",
-      "adl/.config/nextest.toml",
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/continuity_control.rs",
-      "adl-runtime-kernel/src/governance.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/operations.rs",
-      "adl-runtime-kernel/src/reasoning.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/kernel_continuity_control.rs",
-      "adl-runtime-kernel/tests/production_acip_wss.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      "adl-runtime/src/distributed/polis_runtime.rs",
-      "adl-runtime/src/guardian.rs",
-      "adl-runtime/src/kernel_continuity_client.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/tests/kernel_continuity_client.rs",
-      "infra/runtime-v3/runtime-init.toml"
-    ],
-    "reviewed_revision": "git-blake3:5411ebebb463b8d0ee3f0a46bfa034ff0eaf608d:7e028a14e3db5b553ff905b72fc76fab33a1172fd85b5179f6b58a755d73bb90",
-    "findings": [],
-    "residual_risks": [
-      "Hosted CI and live GitHub merge state remain pending until the exact reviewed head is republished."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 208,
-    "pull_request": 230,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/230",
-    "base": "main",
-    "head": "codex/208-authenticated-guardian-kernel-continuity-bridge",
-    "revision": "git-blake3:f9ce302b06d1fc4c226fcc3dc6fd35917a6fbf92:4c8c5ce55daa6b390074473a6ee1ee29a5118a7aef2fac658e7f1941661561ba",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -73,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "097ca5cb1c65e001e1b495b470beda5bd6208f8bafab89173dc15b69d826a8e4",
+      "values_digest": "4bcf8db70736d26f7eac99931e7501721cb7dcfb2f5b93b182a603b6e2c3d3d9",
       "rendered_digest": "5b2a673ab5bea5e6dde4d54e7f04b7922b882214032760db3a41deaa16e86323",
       "ast_digest": "0fcdacc0eb8f8218bef0614153064c837cc6aafd75e29eeff95ea5502c341bbf"
     },
     "stp": {
-      "values_digest": "ae5e099c5fd40e95357cf880b2d019837877c7608afaa644820c57a1e106963e",
+      "values_digest": "bb9de4f404d193dcc09a0be486afee52ad79d198d09113283b39169c6ef28dc9",
       "rendered_digest": "78e8b9b9b614a832343bc985bf3eccc25251698f3f11ad95c06c6a0c98557f25",
       "ast_digest": "64ac9a8c5f2efde02f4d0c33baa531952fcf4efecfaff71e9c3fc7de78c38751"
     },
     "spp": {
-      "values_digest": "8e2b08a96c7ab274070eac8e8f398587343c29e370b5402774ff8ffe412372e7",
+      "values_digest": "325df2c7e2f2c56448cab5ce09431d65887cca6bb4448488e9a9f7ff734f8514",
       "rendered_digest": "8cae788a1f9d55f6f0e5f188e535df1b9b8ddc1e0811dfae2ecaf1e3aff6964b",
       "ast_digest": "7b060d64d99e45f1f112bc86a169823ef8303b2456684aafe538b63474edb761"
     },
     "vpp": {
-      "values_digest": "2b4e8eabd3b2dbdb4f25b3a2df497a7ae42b695e26340d734b12ba8ae0a241c1",
+      "values_digest": "cbd50ea1e38e5e21d227ef5f401a48bd9aa4684129b7bc27ddf888357c39b225",
       "rendered_digest": "61ebce4bd91891b849aa0d6605ae175d8551ab8065bd5d42e5204db5f4edd760",
       "ast_digest": "013010973c9635259aed2bdb2787a2f4c4a550f07d55c9622bf5f86ddc739317"
     },
     "srp": {
-      "values_digest": "771fd952283f78c55a7f4635e59c27524f9509661bba2e73fbc7e1e35e672157",
-      "rendered_digest": "6de6cc6d7a7cec1007968f7872b35fdd776d73c8eba8c5728afbea5dc4a229d4",
-      "ast_digest": "2a51d87eadd5b5cc096daa26bd33ffc0ebb280f0a4dddba1ade243ee07045dff"
+      "values_digest": "76b1e18c48185c868db494f7ddbb8ad613d937eff2add3eaf59cc81fe39b3be2",
+      "rendered_digest": "f232a757053e661faf097130e00849d84b0bcfe7aaeaebba08e76aa0cc310725",
+      "ast_digest": "bf31673f1f85b5b1d7c8c7ead97e005913df10e168f532014240ff2fc43fc84d"
     },
     "sor": {
-      "values_digest": "e3970952be0f20550f4419d5605aaa6523e3910ec7b8063e376ba9f54469902d",
-      "rendered_digest": "c5f70306dba1a0e191dd9fd2e336fb491921f2b26f4a1befff126dfa1ca785d9",
-      "ast_digest": "b44652deb1f12d45f8445567e4ea89f7cee4600a71281a7af0b04ae807d6cc58"
+      "values_digest": "aa98013639b4fa21dcfe6c1bd60b220c051e6d41d1e651d04ece2e4b07ccc8b8",
+      "rendered_digest": "fce296c443e8cc77af8a22bc6c3a7db29f2c5e00016f710927a0619d42d93c46",
+      "ast_digest": "0b85b7daf03c819c9f2590b10378d36e1a2356ddd687212eabc876cc1a273e07"
     }
   },
   "transitions": [
@@ -173,6 +125,13 @@
       "to": "published",
       "actor": "codex:/root/resolve_208_final_review",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Recover stale review and publication truth after exact-head PR #230 runtime coverage exposed the bounded positive Guardian CLI fixture still emitting a pre-continuity partial runtime init; production mandatory continuity remains fail closed and fresh proof plus independent rereview are required."
     }
   ],
   "audit": [
@@ -581,6 +540,13 @@
       "actor": "codex:/root/resolve_208_final_review",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 59,
+      "generation": 56,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Recover stale review and publication truth after exact-head PR #230 runtime coverage exposed the bounded positive Guardian CLI fixture still emitting a pre-continuity partial runtime init; production mandatory continuity remains fail closed and fresh proof plus independent rereview are required.",
+      "operation": "recover_review"
     }
   ]
 }
