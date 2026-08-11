@@ -47,8 +47,8 @@ use super::learner_transport::{
     establish_learner_voter_sessions, establish_voter_learner_sessions,
     route_cut_digest as learner_route_cut_digest, EstablishedLearnerSession,
     LearnerBootAttestationCustody, LearnerIdentity, LearnerRpcKind, LearnerTransportError,
-    LearnerVoterBinding, PendingExclusionSnapshot, ProductionLearnerAuthority,
-    VerifiedLearnerAdmission,
+    LearnerVoterBinding, MembershipReceiptParts, PendingExclusionSnapshot,
+    ProductionLearnerAuthority, VerifiedLearnerAdmission,
 };
 use crate::distributed::authority_protocol::{
     verify_replicated_finalization, AuthorityFinalizeProposal, AuthorityIntentEndorsement,
@@ -2174,11 +2174,11 @@ pub struct GovernedMembershipAuthorityReceipt {
 }
 
 impl GovernedMembershipAuthorityReceipt {
-    fn from_parts(parts: ([u8; 32], u64, [u8; 32])) -> Self {
+    fn from_parts(parts: MembershipReceiptParts) -> Self {
         Self {
-            operation_sha256: parts.0,
-            generation: parts.1,
-            published_state_sha256: parts.2,
+            operation_sha256: parts.operation_sha256,
+            generation: parts.generation,
+            published_state_sha256: parts.published_state_sha256,
         }
     }
 
@@ -2192,6 +2192,19 @@ impl GovernedMembershipAuthorityReceipt {
 
     pub fn published_state_sha256(&self) -> [u8; 32] {
         self.published_state_sha256
+    }
+
+    #[cfg(test)]
+    pub(crate) fn for_membership_coordinator_test(
+        operation_sha256: [u8; 32],
+        generation: u64,
+        published_state_sha256: [u8; 32],
+    ) -> Self {
+        Self {
+            operation_sha256,
+            generation,
+            published_state_sha256,
+        }
     }
 }
 
@@ -2952,7 +2965,7 @@ impl SecurePolisNetworkFactory {
         snapshot
             .membership_receipt_parts()
             .map_err(map_learner_error)?
-            .filter(|parts| parts.0 == admission.operation_sha256())
+            .filter(|parts| parts.operation_sha256 == admission.operation_sha256())
             .map(GovernedMembershipAuthorityReceipt::from_parts)
             .ok_or(PolisRuntimeError::AuthorityDenied)
     }
@@ -2968,7 +2981,7 @@ impl SecurePolisNetworkFactory {
             .map_err(map_learner_error)
             .map(|parts| {
                 parts
-                    .filter(|parts| parts.0 == operation_sha256)
+                    .filter(|parts| parts.operation_sha256 == operation_sha256)
                     .map(GovernedMembershipAuthorityReceipt::from_parts)
             })
     }
@@ -3161,7 +3174,7 @@ impl SecurePolisNetworkFactory {
         snapshot
             .membership_receipt_parts()
             .map_err(map_learner_error)?
-            .filter(|parts| parts.0 == result.result_sha256())
+            .filter(|parts| parts.operation_sha256 == result.result_sha256())
             .map(GovernedMembershipAuthorityReceipt::from_parts)
             .ok_or(PolisRuntimeError::AuthorityDenied)
     }
@@ -3177,7 +3190,7 @@ impl SecurePolisNetworkFactory {
             .map_err(map_learner_error)
             .map(|parts| {
                 parts
-                    .filter(|parts| parts.0 == operation_sha256)
+                    .filter(|parts| parts.operation_sha256 == operation_sha256)
                     .map(GovernedMembershipAuthorityReceipt::from_parts)
             })
     }

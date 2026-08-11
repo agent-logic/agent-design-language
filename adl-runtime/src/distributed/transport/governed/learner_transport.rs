@@ -1640,6 +1640,12 @@ pub struct LearnerAdmissionSnapshot {
     current: Option<VerifiedLearnerAdmission>,
 }
 
+pub(in crate::distributed::transport) struct MembershipReceiptParts {
+    pub operation_sha256: [u8; 32],
+    pub generation: u64,
+    pub published_state_sha256: [u8; 32],
+}
+
 impl LearnerAdmissionSnapshot {
     pub fn generation(&self) -> u64 {
         self.generation
@@ -1651,7 +1657,7 @@ impl LearnerAdmissionSnapshot {
 
     pub(in crate::distributed::transport) fn membership_receipt_parts(
         &self,
-    ) -> Result<Option<([u8; 32], u64, [u8; 32])>, LearnerTransportError> {
+    ) -> Result<Option<MembershipReceiptParts>, LearnerTransportError> {
         self.current
             .as_ref()
             .map(|current| {
@@ -1665,11 +1671,11 @@ impl LearnerAdmissionSnapshot {
                     ))
                     .map_err(|_| LearnerTransportError::Storage)?,
                 ));
-                Ok((
-                    current.operation_sha256,
-                    self.generation,
+                Ok(MembershipReceiptParts {
+                    operation_sha256: current.operation_sha256,
+                    generation: self.generation,
                     published_state_sha256,
-                ))
+                })
             })
             .transpose()
     }
@@ -1837,7 +1843,7 @@ impl PendingExclusionSnapshot {
 
     pub(in crate::distributed::transport) fn membership_receipt_parts(
         &self,
-    ) -> Result<Option<([u8; 32], u64, [u8; 32])>, LearnerTransportError> {
+    ) -> Result<Option<MembershipReceiptParts>, LearnerTransportError> {
         self.published
             .as_ref()
             .map(|published| {
@@ -1851,11 +1857,11 @@ impl PendingExclusionSnapshot {
                     ))
                     .map_err(|_| LearnerTransportError::Storage)?,
                 ));
-                Ok((
-                    published.operation_sha256,
-                    self.generation,
+                Ok(MembershipReceiptParts {
+                    operation_sha256: published.operation_sha256,
+                    generation: self.generation,
                     published_state_sha256,
-                ))
+                })
             })
             .transpose()
     }
