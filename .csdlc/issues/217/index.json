@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "043cf4baaa244241d04c17933035cff870bc658c4ed2b6a116dd94077e6a85eb",
   "phase": "initialized",
-  "generation": 7,
-  "digest": "039d9a28e6d031cf60873913183daeae307315c6c36fec1889ab585cce865f5e",
+  "generation": 8,
+  "digest": "063e9b357d1d80d03d7847ea2888ca484d4b56ae2cf3dce6c732e737b59631b8",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/217/design.md",
   "diagram_path": ".csdlc/prepared/issues/217/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "/root/review_217_97dac68",
+      "revision": "8a11ce10e9cc06b3c5bbbeec53378c9f831e813c30052988aaefc50be66d371f"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "2754206f243d291e147295bf3def5fdaea3ff2660da4008d3d7762a17a63b0c0",
+      "values_digest": "b5460f4604eed8214ff5199c7ba81aa456379ac3097a83b09c9475f52f77818b",
       "rendered_digest": "a989adca89f39e74d79e1887b76cb8c0bb95a24c196524c48983478eb6ddbb96",
       "ast_digest": "8a432891032c24112f8e5b368214f38d8a57ce71e5397b6cb1c8a54b128d63de"
     },
     "stp": {
-      "values_digest": "ab52d32d3d18ebcc76835a951eb9ab3d68bc8719328dedba3fe5f069ca7b3c76",
+      "values_digest": "43dd5766f7fab5f053334e233e88a085a74bd3de5bdf157eb8176763a579f2ff",
       "rendered_digest": "ebd802e6aab9367ff80a045cf7b11cfb8a47b9a1857f73cd11b351fc14354d66",
       "ast_digest": "332d5f46983526ce41525e3f7cc7ffffa6c30c39dbed2ece6567433af8428567"
     },
     "spp": {
-      "values_digest": "907288a6c09e6b87e8f7bbf67127bc7a32c21699c8591e3027b2b4a423b0ee69",
-      "rendered_digest": "c2a5a81f996d0723629bb1a9445ca4680418232689779846d363b2d6f503f54f",
-      "ast_digest": "0227bf2193c79379023702c2aefe77100003f05b73f0a81a280ce3a7855cb19d"
+      "values_digest": "805dc871f59994133cf589b22191ad7ce3fa507e5ebf9432c8661ea1c2621b52",
+      "rendered_digest": "874d04a035edae0bd46df13da8922fd49727d94527766171c2155c1909980dd8",
+      "ast_digest": "3bc7c90f2ba159a8bca33443951fd86a193f402c6f3ee3df2ab93fee0b0ab214"
     },
     "vpp": {
-      "values_digest": "c0c3bf559934f04fb057b1a349cf28a8f177da132a9e2e20a508c60a8a53fe6a",
+      "values_digest": "8a227651bebcff474384ffbfa5bd1c5a614e724cde75c2abfd4fada5773b12ca",
       "rendered_digest": "2b5a38f21f1ca85734de4bb5ab4abfa95f4971a2097320f7c82bbcf4f7bc8940",
       "ast_digest": "5bddce9fde13b73cdc1db582ecb9b1194e8b7daf5bd73084103f6b17564e3f3d"
     },
     "srp": {
-      "values_digest": "0f3520ade816900261b4dac3ee05fa6a62ab1918b2a7b5a052fff27fd50068d7",
+      "values_digest": "309e0aa5e1532ed6330a5605b229d7c8ecd00e327cb48c083367b945832615e8",
       "rendered_digest": "1370542e364f694d6e9bd501245c0a5f17bd1d71a6181cd1228ab6093374c909",
       "ast_digest": "a9639ee67355ef0745c3359e955446da5d4c0b41711c28d9ddaab2b12eedadda"
     },
     "sor": {
-      "values_digest": "c82559c6430050e06ed797d44539a88fa5907279cda2f087c339d4e961cea67c",
+      "values_digest": "e041cccc653e5d1b48c1df9079a94cffda8d60066d1e2cfb23e5d651bfd6d3cb",
       "rendered_digest": "1c281a238160a23ca2d9522f521acc4d55a2dca5e4a72308ce5616c76aa63c59",
       "ast_digest": "2581958855efc1d1ff0b20f11890a11444d91d86ee9caefc9f25135ab9f44f4b"
     }
@@ -106,6 +111,13 @@
       "actor": "/root/shepherd_pr215_green",
       "reason": "Own the historical wrapper, fresh proof producer/workflow, retained validator, and exact denominators under issue #217.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Exact restored ten-file historical packet beneath .csdlc/evidence/209\",\".csdlc/prepared/issues/217/historical-c640-denominator.json\",\".csdlc/prepared/issues/217/verify-historical-c640-packet.rb\",\".csdlc/prepared/issues/217/produce-native-receipt.rb\",\".csdlc/prepared/issues/217/validate-retained-native-proof.rb\",\".github/workflows/wp14-retained-native-proof.yml\",\"Fresh exact ten-file native packet plus machine-consumed denominator beneath .csdlc/evidence/217\",\".csdlc/issues/217 complete typed lifecycle and review evidence\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "/root/review_217_97dac68",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
     }
   ]
 }
