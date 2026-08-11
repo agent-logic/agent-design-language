@@ -5,23 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "36d0e5d7c5fdd25ccf58788e603520d79a0511eab1bc0dfe2aebf32308d708fd",
+  "generation": 28,
+  "digest": "771d95d06407ce6412e26e46243e056563667ec95b28f14c9942204181dc587d",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": {
-    "reviewer": "codex-exec:issue-226-publication-safe-review",
-    "assigned_by": "codex:226-focused-runtime-validation-routing",
-    "revision": "git-blake3:ba7b02d32179b999cca0afdbc772b7ab0c87fe43:9b4dd68564ac330d3de581eeb7359e898c83676ee016bcfe9c9dadec10ac0904",
-    "scope": [
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      ".csdlc/evidence/226",
-      ".csdlc/prepared/issues/226/design.md",
-      ".csdlc/prepared/issues/226"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "79076f95f8f20bb4a2e84468ead79643ee60ce94fab5a130d715a4f099395403",
+      "values_digest": "ef1de9de01f9b636cb09c325404cf30d0660c971bead25a66e99da26b19abba3",
       "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
       "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
     },
     "stp": {
-      "values_digest": "5f5a6c4c8ba406a55e331ece8714224766e94fa628122b776ad27f9d986292db",
+      "values_digest": "441a99df4434ba06a80b175e05528cc0092ea7972c00d43fd0a9869608a1c12b",
       "rendered_digest": "a6faeaeb82e223d1b0d7ad0414ad40e1b89002e5bea0b8443c885b7af71fee58",
       "ast_digest": "7624a3c03abf3bcca7cac469399714c1e1010189fa7be49366dbc24dbf8b6166"
     },
     "spp": {
-      "values_digest": "437e1e728329fd92f0d1686490e68297f1c21f2dfea5c76fa99c73e2a1ab25c6",
+      "values_digest": "5afde042a3a3cdfa56738dcf8b6675745b5eb783e286a8a4bd9d77001f5590b6",
       "rendered_digest": "b3e191c0cb5d1523edd4ed04a5ff4110124a0b16c58912723c8a0a5aabc0550f",
       "ast_digest": "a0cd926a07e9c1d7518af1efd50f744a2cc49ce7b43c7d50c920e94d0ad9b452"
     },
     "vpp": {
-      "values_digest": "225859e30c7a4b15d51686d725c8746b2c3ccdbb71b79c481afa30566f086cf6",
+      "values_digest": "39d083f5482437ad1540098007a40db7b0ceba2b3ee8f9b2988987a5a3317c09",
       "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "e30a7b9b3e6d79b0f0fb8cc2a05f2dc5612b1c3745d456031792accb1bcdf4b4",
-      "rendered_digest": "d0cfcc5371cee9cbe18bb1fda75ef9ac6acef150fba2f2538651208f194a889f",
-      "ast_digest": "caa8de021e3952901a29b2b21782051f1bbf7f2e973b0a11304ec32c53889ccc"
+      "values_digest": "d14319f2e9feef57da8774bcd6d0aedc09615f924f77c5855c9e6235d813e0a7",
+      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
+      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
     },
     "sor": {
-      "values_digest": "12e36ee132e98828bf3f5b4c6037053a0c175aa4d02a4dbf12fd65d4597ea589",
+      "values_digest": "f6c0946ac1f3b71e0d82ac15ed33e875fea69f3d7af3e23cc97f9cc594dd426f",
       "rendered_digest": "50bd38ec524e3785c2da01e6fd2426c164d084b259b4828ded63ab55a6985722",
       "ast_digest": "bec40a0c58bd803ce0e96adc993cca684734f0e46c86bdf7d2dc487df456113d"
     }
@@ -468,6 +456,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 28,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace stalled publication-safe codex-exec reviewer with the FastWork reviewer who already approved the unchanged exact scope.",
+      "operation": "recover_review"
     }
   ]
 }

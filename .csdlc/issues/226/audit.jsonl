@@ -44,3 +44,4 @@
 {"sequence":44,"generation":26,"actor":"subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":45,"generation":27,"actor":"codex:226-focused-runtime-validation-routing","reason":"Recover review for a publication-safe metadata-only tail; all typed review requests now remain outside tracked substantive preparation paths.","operation":"recover_review"}
 {"sequence":46,"generation":27,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":47,"generation":28,"actor":"codex:226-focused-runtime-validation-routing","reason":"Replace stalled publication-safe codex-exec reviewer with the FastWork reviewer who already approved the unchanged exact scope.","operation":"recover_review"}
