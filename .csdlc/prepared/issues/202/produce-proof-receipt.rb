@@ -51,7 +51,9 @@ EXPECTED_ASSERTIONS = [
   %w[crash_after_exclusion_checkpoint committed_view_survives_restart]
 ].freeze
 
-def fail_proof(message) = abort("issue 202 producer: #{message}")
+def fail_proof(message)
+  abort("issue 202 producer: #{message}")
+end
 
 def run_command(name, argv)
   started = Time.now.utc.iso8601(6)

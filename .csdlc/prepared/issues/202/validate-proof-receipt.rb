@@ -17,7 +17,9 @@ EXPECTED_PROTECTED = %w[
   .csdlc/prepared/issues/202/produce-proof-receipt.rb .csdlc/prepared/issues/202/validate-proof-receipt.rb
 ].freeze
 
-def fail_receipt(message) = abort("issue 202 receipt: #{message}")
+def fail_receipt(message)
+  abort("issue 202 receipt: #{message}")
+end
 def git(*args)
   out, err, status = Open3.capture3("git", *args, chdir: ROOT.to_s)
   fail_receipt("git failed: #{err.strip}") unless status.success?
