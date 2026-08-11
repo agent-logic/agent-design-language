@@ -1,0 +1,61 @@
+{
+  "issue": 112,
+  "actor": "codex:wp18c02-prebind-readiness-repair",
+  "card": "vpp",
+  "expected_generation": 10,
+  "expected_digest": "5323c27f17c949488918c2096411bb6c34e900e3cd921b97b3456dd2e23d09a4",
+  "reason": "Make the gated pre-bind packet doctor-valid without treating missing product targets as preparation proof; execution must restore the exact nonzero product lanes after #111 is merged and ancestral.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "issue-112-preparation-hygiene",
+        "proof_role": "Prove all six typed cards, approved design, exact #83 and #111 serial gates, fail-closed validation truth, and pre-execution SRP/SOR truth without claiming product behavior.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["ruby", ".csdlc/prepared/issues/112/validate-preparation.rb"],
+        "parallel_group": "112-preparation",
+        "defer_reason": null
+      },
+      {
+        "lane": "layer8-authority-contract-plan",
+        "proof_role": "Validate the future product PVF contract cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["ruby", ".csdlc/prepared/issues/112/validate-preparation.rb", "--lane", "authority-contract"],
+        "parallel_group": "112-preparation",
+        "defer_reason": null
+      },
+      {
+        "lane": "layer8-runtime-api-integration-plan",
+        "proof_role": "Validate the future product PVF contract cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["ruby", ".csdlc/prepared/issues/112/validate-preparation.rb", "--lane", "runtime-api-integration"],
+        "parallel_group": "112-preparation",
+        "defer_reason": null
+      },
+      {
+        "lane": "layer8-observatory-ui-plan",
+        "proof_role": "Validate the future real-browser product PVF contract adl/tools/validate_layer8_authority_observatory_ui.sh for authorized and refused states after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.",
+        "acceptance_ids": ["AC-3", "AC-5", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["ruby", ".csdlc/prepared/issues/112/validate-preparation.rb", "--lane", "observatory-ui"],
+        "parallel_group": "112-preparation",
+        "defer_reason": null
+      }
+    ]
+  }
+}

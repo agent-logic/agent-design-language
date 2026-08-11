@@ -1,0 +1,22 @@
+{
+  "issue": 112,
+  "actor": "codex:wp18c02-prebind-readiness-repair",
+  "card": "stp",
+  "expected_generation": 11,
+  "expected_digest": "383cdc3c3d0189085977bc3981a693ceebe33799195a0d2a1d0b4d8143f78eb8",
+  "reason": "Describe gated future product outputs without falsely requiring their files before bind, while retaining the existing preparation validator as the issue-owned pre-bind denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Runtime-owned Layer 8 principal, authority, refusal, replay, and redacted audit module at the execution-planned source path",
+      "Narrow Runtime module export and pre-delivery API integration at the execution-planned source paths",
+      "Focused nonzero authority and Runtime API integration test targets required after the serial gate",
+      "Dedicated real-browser Observatory authority-state contract required after the serial gate",
+      "Feature contract for Layer 8 conversation authority under the v0.92 milestone documentation",
+      ".csdlc/prepared/issues/112/design.md",
+      ".csdlc/prepared/issues/112/diagram.mmd",
+      ".csdlc/prepared/issues/112/validate-preparation.rb"
+    ]
+  }
+}

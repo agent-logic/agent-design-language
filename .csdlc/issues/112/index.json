@@ -3,9 +3,9 @@
   "issue": 112,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
-  "phase": "initialized",
-  "generation": 9,
-  "digest": "2fabb15931ac7573298ba848ca9ff0db7a32261c6a9d17115b1fc7eef4bf4ed8",
+  "phase": "ready",
+  "generation": 13,
+  "digest": "a84c81127b6f98dc8ac542c34694469b3110dd5ced3510f1a030d841b363d2bb",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cdd73308e7be3d9cb31220483dd3307fd27c618264079d57dcab5f40087e6047",
+      "values_digest": "f7f5db21247ea489d94c1e2f9c5b756637f55f110353f5a03b11008cb97a35b1",
       "rendered_digest": "b8c33d505a1cd92baf597953ef6b21336be077e8871718bb430a8a4faf53dbb8",
       "ast_digest": "1e920f5a080a8d58bac47d6dca57f7d151f15f9d04e4b2b105d2d0688b9c5283"
     },
     "stp": {
-      "values_digest": "878e43fd4867df5889d4f1b4f80be691df3e0b88fae63a2321b411e132f89207",
-      "rendered_digest": "a28ddea762027403f39dfbbc5a1fdf5f6c6e2e325735dad0a34fe83f02e70bab",
-      "ast_digest": "bd5010b53aff6216ae0fbdd09cb21e428a083d5997977fa64a9abd5c223fc9c0"
+      "values_digest": "133ae13248db6d37430c5995c590e520d6f4e9273417e73ee13ecfa13278f605",
+      "rendered_digest": "0f929fe354af6ee2645f935b02c2b926e8b51a6b43064d4a40800229127cefbf",
+      "ast_digest": "16ef4762d8c07190f624a437164ec54d417e22f12130c16fb3405919ffd6f08e"
     },
     "spp": {
-      "values_digest": "576e54e5b49703252c87ce385aa986fb7bc16ea2de2e523cd81511f79b0f26a2",
-      "rendered_digest": "ca49c0e32673a8b9fa9130867a41eef2621096e950eefb4cc286937321ec1b9c",
-      "ast_digest": "399bd1864bcc1b5a5c484d7ca0a70d8fcd7fc1a7c9724acd01d0035508db49b0"
+      "values_digest": "6f66bebdf12185c18a9008f308a98d9a9d1e2945943317c571a82c84f1b90dd8",
+      "rendered_digest": "9d44acfdcdd6a83edefb4c534432e6c8ed26b8a49908f07450d522b795887028",
+      "ast_digest": "cc852ed7f3a7f1eff3bf8635e1b1fc03536b1ceec1226db9058ef74188886475"
     },
     "vpp": {
-      "values_digest": "c529ca731a823407e32e7dafc7f350f63dd8c31d1ab0feae2ad23f3236290a65",
-      "rendered_digest": "a2027617ead35cbb1e2555e06fb8336fdd1125a2f0f774baee2c847e9f22bd8f",
-      "ast_digest": "53a8eeed4e3ec2b7007084315c484f27ded4f4a5af9b10de6fee1913ebb99a9e"
+      "values_digest": "884f0194712b4f6c9f3dba7215f8442fdacfff0b6ba87053c623d63edc5b3df5",
+      "rendered_digest": "7de0943383c2dfad3ab077dcf331f3cfe3e7c48a7d83b45d3f19c0b1d47b284f",
+      "ast_digest": "30d20b65c5bd8f3341a776f9bb06c3ae9a602e69995413f525ba29134d631e3a"
     },
     "srp": {
-      "values_digest": "a0a1b6fa616e5b8c10bbd6321872d8d444b7b12392651586bb363403ad008e87",
+      "values_digest": "59eb92d97edf5fdb1ce69a4f286e512022b71ff4ff6849ad1497cd225bbb81b2",
       "rendered_digest": "601b2d0d0c0552f995cfc4a9a187aa1b689b4b1e292ec01b26b85850ca016aa1",
       "ast_digest": "6a0a7dfad55bcc06b7d7784c063086769c1f4e879874ef039e7307eadfd44137"
     },
     "sor": {
-      "values_digest": "10663597dcd7efde94fa24e9d47a7c80273c5429f1c1068fcd1296c1463d5ad0",
+      "values_digest": "738e38d6e2d88833d4fd8c072dfefb4fef9355b25304db271ab9a2d10bd1eaa4",
       "rendered_digest": "a0564026b2d4a57a1a5cbaa9fa222d0ac661820c43f4871fd9b9dc90ebdd8a47",
       "ast_digest": "c0065cfecbfe94f68170322c50c2bb26a7b5d3d8335345c1cbcf5b11a985bffd"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:wp18c02-execution",
+      "reason": "All six typed cards, approved design, shared ACIP authority boundary, and focused validation lanes are ready for execution binding after #111 and #113 publication."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -125,6 +133,34 @@
       "actor": "codex:112-layer8-authority-readiness-repair",
       "reason": "Make the pre-bind plan summary name the preserved Rust/API targets and the added Observatory real-browser/UI contract target.",
       "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, reconcile their concrete contracts, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:wp18c02-execution",
+      "reason": "All six typed cards, approved design, shared ACIP authority boundary, and focused validation lanes are ready for execution binding after #111 and #113 publication.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:wp18c02-prebind-readiness-repair",
+      "reason": "Make the gated pre-bind packet doctor-valid without treating missing product targets as preparation proof; execution must restore the exact nonzero product lanes after #111 is merged and ancestral.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-112-preparation-hygiene\",\"proof_role\":\"Prove all six typed cards, approved design, exact #83 and #111 serial gates, fail-closed validation truth, and pre-execution SRP/SOR truth without claiming product behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null},{\"lane\":\"layer8-authority-contract-plan\",\"proof_role\":\"Validate the future product PVF contract cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\",\"--lane\",\"authority-contract\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null},{\"lane\":\"layer8-runtime-api-integration-plan\",\"proof_role\":\"Validate the future product PVF contract cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\",\"--lane\",\"runtime-api-integration\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null},{\"lane\":\"layer8-observatory-ui-plan\",\"proof_role\":\"Validate the future real-browser product PVF contract adl/tools/validate_layer8_authority_observatory_ui.sh for authorized and refused states after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\",\"--lane\",\"observatory-ui\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:wp18c02-prebind-readiness-repair",
+      "reason": "Describe gated future product outputs without falsely requiring their files before bind, while retaining the existing preparation validator as the issue-owned pre-bind denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Runtime-owned Layer 8 principal, authority, refusal, replay, and redacted audit module at the execution-planned source path\",\"Narrow Runtime module export and pre-delivery API integration at the execution-planned source paths\",\"Focused nonzero authority and Runtime API integration test targets required after the serial gate\",\"Dedicated real-browser Observatory authority-state contract required after the serial gate\",\"Feature contract for Layer 8 conversation authority under the v0.92 milestone documentation\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\",\".csdlc/prepared/issues/112/validate-preparation.rb\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex:wp18c02-prebind-readiness-repair",
+      "reason": "Own the exact preparation validator path used by the current denominator while preserving every planned product path for post-gate execution.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\",\".csdlc/issues/112\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\",\".csdlc/prepared/issues/112/validate-preparation.rb\"]}"
     }
   ]
 }

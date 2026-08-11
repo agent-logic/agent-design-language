@@ -1,0 +1,13 @@
+{
+  "issue": 112,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "2fabb15931ac7573298ba848ca9ff0db7a32261c6a9d17115b1fc7eef4bf4ed8",
+  "actor": "codex:wp18c02-execution",
+  "reason": "All six typed cards, approved design, shared ACIP authority boundary, and focused validation lanes are ready for execution binding after #111 and #113 publication.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  },
+  "fail_after_backup": false
+}
