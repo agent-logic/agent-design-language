@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
-  "generation": 28,
-  "digest": "670a66f6d7e9352eb5fca6252eb955020bcfa31dab938c930de4730008584a7e",
+  "generation": 29,
+  "digest": "de5a47fa3dc20f605428088dd67d5413843562588c259e76f892f02161fa3242",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": {
-    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
-    "assigned_by": "codex:226-focused-runtime-validation-routing",
-    "revision": "git-blake3:e83eeade07b3988d05676f49bae0b375c33b7d05:459e0102cc19bcbce5a088f7ccabff9eef4ca2afc635132ce99eacfa338d6125",
-    "scope": [
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      ".csdlc/evidence/226",
-      ".csdlc/prepared/issues/226/design.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ef1de9de01f9b636cb09c325404cf30d0660c971bead25a66e99da26b19abba3",
+      "values_digest": "79f6f7f61aae46b7b8434b71aca8eaf3f72eb865ad571b451a4bed5fa304949b",
       "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
       "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
     },
     "stp": {
-      "values_digest": "441a99df4434ba06a80b175e05528cc0092ea7972c00d43fd0a9869608a1c12b",
+      "values_digest": "ffafb9b9642d4377ff1dd13c78113971079825b4c553429c77b01a304213f384",
       "rendered_digest": "a6faeaeb82e223d1b0d7ad0414ad40e1b89002e5bea0b8443c885b7af71fee58",
       "ast_digest": "7624a3c03abf3bcca7cac469399714c1e1010189fa7be49366dbc24dbf8b6166"
     },
     "spp": {
-      "values_digest": "5afde042a3a3cdfa56738dcf8b6675745b5eb783e286a8a4bd9d77001f5590b6",
+      "values_digest": "92dd8a2eb0009bf93282c8d5ca0a8229e8c0f99702af1f8d160f5bec5a539502",
       "rendered_digest": "b3e191c0cb5d1523edd4ed04a5ff4110124a0b16c58912723c8a0a5aabc0550f",
       "ast_digest": "a0cd926a07e9c1d7518af1efd50f744a2cc49ce7b43c7d50c920e94d0ad9b452"
     },
     "vpp": {
-      "values_digest": "39d083f5482437ad1540098007a40db7b0ceba2b3ee8f9b2988987a5a3317c09",
+      "values_digest": "60bcdf39248288ec299bfff9313c84b267841938161cdf46aec6f9cf226074fd",
       "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "f573f3d4cb44d5b19ea66491873104e9cb1e0c15d10e1df81999624470ded9b4",
-      "rendered_digest": "e1ac8934aa11c005160834b5b095a8e83756cf055f48e66c1acf96eebd811a26",
-      "ast_digest": "fccdd8a8cbae10354c4926365995351d865784831b3544d45c5bf0866fd223a3"
+      "values_digest": "2bfe1f5d4a9976a581efd024000603823ef9fbffe4d220e5a8662f23f681a4c2",
+      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
+      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
     },
     "sor": {
-      "values_digest": "f6c0946ac1f3b71e0d82ac15ed33e875fea69f3d7af3e23cc97f9cc594dd426f",
+      "values_digest": "135e0c34a3168d31eb68aa5ccdae79f8c92f4255d1cdf1fca13b48d174b058db",
       "rendered_digest": "50bd38ec524e3785c2da01e6fd2426c164d084b259b4828ded63ab55a6985722",
       "ast_digest": "bec40a0c58bd803ce0e96adc993cca684734f0e46c86bdf7d2dc487df456113d"
     }
@@ -481,6 +470,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 29,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Correct sequence 45: historical prepared review requests remain tracked evidence; beginning with this recovery, all new review and publication requests stay outside the repository so subsequent publication metadata remains non-substantive.",
+      "operation": "recover_review"
     }
   ]
 }
