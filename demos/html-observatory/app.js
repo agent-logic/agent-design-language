@@ -1684,11 +1684,23 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   let liveStoppedByOperator = false;
   let liveRequestGeneration = 0;
   let runtimeV3Readiness = null;
+  let runtimeV3ReadinessRefresh = null;
   const nextLiveGeneration = () => {
     liveRequestGeneration += 1;
     return liveRequestGeneration;
   };
   const isCurrentLiveGeneration = (generation) => generation === liveRequestGeneration;
+  const fetchCurrentRuntimeV3Readiness = async (base) => {
+    const readiness = await fetchRuntimeV3Readiness(normalizeTrustedRuntimeV3ApiBase(base));
+    return {
+      schema: readiness?.schema,
+      status: readiness?.ready ? "ready" : "degraded",
+      ready: readiness?.ready === true,
+      state: readiness?.ready ? "ready" : "degraded",
+      blocking_reasons: asArray(readiness?.degraded_reasons),
+      weather_freshness: readiness?.weather_freshness
+    };
+  };
   const refs = {
     statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
     healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
@@ -1960,15 +1972,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         socketEndpoint.protocol = "wss:";
         setRuntimeTestStatus("connecting secure stream", `Opening ${socketEndpoint}.`);
         try {
-          const readiness = await fetchRuntimeV3Readiness(normalizeTrustedRuntimeV3ApiBase(base));
-          runtimeV3Readiness = {
-            schema: readiness?.schema,
-            status: readiness?.ready ? "ready" : "degraded",
-            ready: readiness?.ready === true,
-            state: readiness?.ready ? "ready" : "degraded",
-            blocking_reasons: asArray(readiness?.degraded_reasons),
-            weather_freshness: readiness?.weather_freshness
-          };
+          runtimeV3Readiness = await fetchCurrentRuntimeV3Readiness(base);
         } catch (error) {
           runtimeV3Readiness = {
             status: "pending",
@@ -1990,6 +1994,18 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               : snapshot;
             if (!acceptRuntimeRosterSnapshot(streamSnapshot)) return;
             renderPanopticon(streamSnapshot, packet);
+            if (runtimeV3Readiness?.ready !== true && !runtimeV3ReadinessRefresh) {
+              runtimeV3ReadinessRefresh = fetchCurrentRuntimeV3Readiness(base)
+                .then((readiness) => {
+                  if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) return;
+                  runtimeV3Readiness = readiness;
+                  renderPanopticon({ ...snapshot, ready: readiness }, packet);
+                })
+                .catch(() => {})
+                .finally(() => {
+                  runtimeV3ReadinessRefresh = null;
+                });
+            }
             liveReconnectAttempt = 0;
             setText("live-status", "live secure stream");
             setText("statusbar-websocket", "connected");

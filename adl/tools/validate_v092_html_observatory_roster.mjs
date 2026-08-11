@@ -257,6 +257,10 @@ try {
   assert.equal(restartedFeed.agents.sample[0].state, "ready");
   await page.locator("#statusbar-websocket").getByText("connected", { exact: true }).waitFor({ timeout: 12_000 });
   await row.waitFor({ state: "visible" });
+  await page.waitForFunction(
+    () => document.getElementById("agent-state")?.textContent?.trim().toLowerCase() === "ready",
+    { timeout: 12_000 }
+  );
   assert.equal(await page.locator('[data-agent-id="shepherd"]').count(), 1, "Runtime reincarnation must reset cursor without duplicate rows");
 
   await retain("roster-desktop.png", await page.screenshot({ fullPage: true }));
