@@ -3151,13 +3151,10 @@ impl TargetContinuityEffectPort {
             let mut next_offset = 0_u64;
             let mut next_index = 0_u32;
             let mut predecessor: Option<String> = None;
-            loop {
-                let Some(chunk) = state
-                    .received
-                    .get(&target_chunk_key(entry.ordinal, next_index))
-                else {
-                    break;
-                };
+            while let Some(chunk) = state
+                .received
+                .get(&target_chunk_key(entry.ordinal, next_index))
+            {
                 if chunk.relative_offset != next_offset
                     || chunk.predecessor_sha256 != predecessor
                     || chunk.receipt_sha256
