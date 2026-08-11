@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented all eight final-review remediation areas for #208: executable role-specific production continuity ports; independent boot-trusted #204 decision verification; exact durable five-participant prepare/resume reconciliation; bounded predecessor-linked resumable target streaming; assertion-site-only 56/64/12 proof markers; descriptor-relative no-follow inode/link-anchored filesystem effects; absolute deadline and cancellation coverage; and durable certificate-retirement refresh before exact retry. Both focused suites and both strict Clippy lanes pass locally; fresh v3 proof production and distinct exact-head rereview remain pending, and publication/merge remain untouched.
+Implemented all eight final-review remediation areas for #208: executable role-specific production continuity ports; independent boot-trusted #204 decision verification; exact durable five-participant prepare/resume reconciliation; bounded predecessor-linked resumable target streaming; assertion-site-only 56/64/12 proof markers; descriptor-relative no-follow inode/link-anchored filesystem effects; absolute deadline and cancellation coverage; and durable certificate-retirement refresh before exact retry. The fresh immutable v3 producer passed at source aba094d73069f4c3516a39e097c142257d2f2924 with exact 56-case, 64-boundary, and 12-lifecycle parity; distinct exact-head rereview remains pending, and publication/merge remain untouched.
 
 ## Artifacts
 
@@ -25,6 +25,7 @@ Implemented all eight final-review remediation areas for #208: executable role-s
 - adl-runtime/tests/kernel_continuity_client.rs
 - .csdlc/prepared/issues/208/produce-proof-receipt.rb
 - .csdlc/prepared/issues/208/validate-proof-receipt.rb
+- .csdlc/evidence/208/v3/execution-proof.json
 
 ## Execution
 
@@ -54,7 +55,7 @@ Implemented all eight final-review remediation areas for #208: executable role-s
     ],
     "purpose": "Prove the Runtime private continuity boundary and exact client denominator after remediation.",
     "outcome": "passed",
-    "evidence_ref": "local resolver output: 21 tests run, 21 passed"
+    "evidence_ref": ".csdlc/evidence/208/v3/runtime-nextest.stdout.log and runtime-nextest.stderr.log: 21 passed"
   },
   {
     "command": [
@@ -70,7 +71,7 @@ Implemented all eight final-review remediation areas for #208: executable role-s
     ],
     "purpose": "Prove durable source/target reconciliation, streaming, decision verification, cleanup lifecycle, and filesystem races.",
     "outcome": "passed",
-    "evidence_ref": "local resolver output: 35 tests run, 35 passed"
+    "evidence_ref": ".csdlc/evidence/208/v3/kernel-nextest.stdout.log and kernel-nextest.stderr.log: 35 passed"
   },
   {
     "command": [
@@ -90,7 +91,7 @@ Implemented all eight final-review remediation areas for #208: executable role-s
     ],
     "purpose": "Reject Runtime and Guardian warnings across the changed production and test surfaces.",
     "outcome": "passed",
-    "evidence_ref": "local resolver output: strict Runtime Clippy passed"
+    "evidence_ref": ".csdlc/evidence/208/v3/runtime-clippy.stderr.log"
   },
   {
     "command": [
@@ -110,7 +111,25 @@ Implemented all eight final-review remediation areas for #208: executable role-s
     ],
     "purpose": "Reject kernel warnings across the changed effect, persistence, server, and proof surfaces.",
     "outcome": "passed",
-    "evidence_ref": "local resolver output: strict kernel Clippy passed"
+    "evidence_ref": ".csdlc/evidence/208/v3/kernel-clippy.stderr.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/208/verify-diff-hygiene.rb"
+    ],
+    "purpose": "Verify exact execution-base-to-source diff hygiene and ancestry.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v3/diff-hygiene.stdout.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
+    ],
+    "purpose": "Produce fresh canonical assertion-bound behavior evidence with exact 56/64/12 parity and no LEAK marker.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v3/execution-proof.json"
   }
 ]
 
