@@ -3,30 +3,38 @@
   "issue": 234,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
-  "phase": "implemented",
-  "generation": 34,
-  "digest": "cddf028e4cb77cd0c7209190eb2d9324ee3547db1104d3c7b595bf6de1a411ca",
+  "phase": "reviewed",
+  "generation": 35,
+  "digest": "cb5a63686de5215c3964fc0d45e01a7ca1edf8c1c953c8833601373f4b6395d5",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": {
     "reviewer": "subagent:019ff295-bb90-7dd2-b121-266e74fd384a",
     "assigned_by": "codex:234-final-remediation",
-    "revision": "git-blake3:e0f630fd143cd25556032e60cab142f6c7f1843b:929162aaceea23badf0ad1a1161d0972c33e5ad43b613c1b2cdcb0d38ccac4a9",
+    "revision": "git-blake3:2aecc985c6d67c3d6f6d57a816181e91644e7ca0:c9568578e22e9fcfd620d7a0c827f171b52a2758bb44bce498ef66c4b6fce77d",
     "scope": [
-      ".github/workflows",
-      "adl/tools/ci_path_policy.sh",
-      "adl/tools/test_ci_path_policy.sh",
+      ".github/workflows/ci.yaml",
       "adl/tools/test_ci_runtime_contracts.sh",
       "adl/tools/validate_ci_workflow_policy.rb",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/src/finish.rs",
-      "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md",
-      ".csdlc/evidence/234",
-      ".csdlc/issues/234",
-      ".csdlc/prepared/issues/234"
+      ".csdlc/issues/234"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019ff295-bb90-7dd2-b121-266e74fd384a",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/validate_ci_workflow_policy.rb",
+      ".csdlc/issues/234"
+    ],
+    "reviewed_revision": "git-blake3:2aecc985c6d67c3d6f6d57a816181e91644e7ca0:c9568578e22e9fcfd620d7a0c827f171b52a2758bb44bce498ef66c4b6fce77d",
+    "findings": [],
+    "residual_risks": [
+      "Manual workflow_dispatch remains operator-authorized and may intentionally select non-PR proof routes; ordinary pull requests cannot select Spot/AWS."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bab5fd1b0878592d9d708318d24d9e0de27d402df83276aa9000c536b3a43981",
+      "values_digest": "ee35a9a91acb9862c1cc4ac5ff0024da2fb30d6db94c19a1d5abf6bcd08236f3",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "3b6fd337323c0b6d0e7cf99cb0ddc1677f4fed8bcc28de2ad7c89f23ea21a6cd",
+      "values_digest": "9e446f9e48ef00b8e956069a9445da5dd113cdc1c659ddf0b7b0872192536773",
       "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
       "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "3fa59a9cfd95eaf040ed4e6ab12722583b17b644da29b7dd66998d7eb9804328",
+      "values_digest": "377d58157df2f3eef5ebfd633ddb83ad589863d93b7d1f1cf7e6d3307680d288",
       "rendered_digest": "4aefac7b866c381e05080459460429c537d4ef79b16a3d8d1207c2d93aa5c2f8",
       "ast_digest": "4275040bf85db61f054c1978dcb59027ff4817fc3e9cad80287eaea38385c582"
     },
     "vpp": {
-      "values_digest": "019a1e9de89dea785a1c582bfb243e391dfaa6f42f4a29bd4531ae96512cda82",
+      "values_digest": "6b89e9061f7cb25fdd3ed467fa8aa3ff7560efce0887ec1c65d9e7772715c8fd",
       "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "77542eb5393874225b5d3bb90ad7322a14d3e420bc29b64e3126a48602c9414e",
-      "rendered_digest": "611e29a645c86a1f8f8fbb40a3f705e698ecde387a219e1f092d3dc1089d7637",
-      "ast_digest": "0afcd59a88d04e134ac384b1170120a4b07ce18252ab7d1535b8ba781a3a1a4b"
+      "values_digest": "ce514c69c66d1ca9afd7cb9b4d6cdb6098f173b642822deb297da350c810477f",
+      "rendered_digest": "3fb4cd1209b716d5158a9e23feb7b7f50cbc9439d9aaff32e56c73e4cfc464a0",
+      "ast_digest": "cf7cce7d2fcde8528ac8dca4e5b96629e3b7eb788d0f6a100558f6e7c71772a5"
     },
     "sor": {
-      "values_digest": "3db0cbf823468c4970401df0147d2b6be31804a2aee69fe700221d6df7f8fd75",
+      "values_digest": "118d81a560e02bd16e506af6e4b7d26140f24605c821cf4e9ee4ad9d7e944fb7",
       "rendered_digest": "0f08d7176293d4938d59aeb496de728c5450ef9b7a728ab418219f497870bc17",
       "ast_digest": "f3dcb5b22172f22417ad381d26a1ac0832b4f1e8f75d4ac5d2f694849c589073"
     }
@@ -92,6 +100,13 @@
       "to": "implemented",
       "actor": "codex:234-systemic-ci-cost-control",
       "reason": "The bounded CI fanout controls and all declared local proof lanes are complete; exact-head independent review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff295-bb90-7dd2-b121-266e74fd384a",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -367,6 +382,20 @@
       "actor": "codex:234-final-validation",
       "reason": "Record focused validation of the final review remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-lc\",\"ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Prove pull requests cannot select Spot/AWS work, hosted aggregation skips before allocation when hosted is unselected, and the complete workflow and runtime cost-control contracts remain green.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-head-ab410bdb9:spot-routing-remediation:passed\"}}"
+    },
+    {
+      "sequence": 40,
+      "generation": 34,
+      "actor": "codex:234-final-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 35,
+      "actor": "subagent:019ff295-bb90-7dd2-b121-266e74fd384a",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
