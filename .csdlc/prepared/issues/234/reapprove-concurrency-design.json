@@ -1,6 +1,6 @@
 {
   "issue": 234,
-  "expected_generation": 12,
-  "expected_digest": "816b9ca1c087828e0094ad905d7b910b1ca8114299b7a4cde9177b03515e48b9",
+  "expected_generation": 17,
+  "expected_digest": "b57777f6e04090fab54e4c74abe34f33e2cff63a7f4415120f657ad553dc4a76",
   "reviewer": "subagent:019ff278-d9aa-7bd3-80b0-55c7c3318dc3"
 }
