@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-All GitHub Actions workflows, central path policy, CI and coverage routing contracts, duplicate-head concurrency, optional proof isolation, and the operator procedure for cost-controlled required validation.
+.github/workflows
+adl/tools
+docs/tooling
+csdlc-v2
+.csdlc/issues/234
+.csdlc/prepared/issues/234
 
 ## Prompts
 

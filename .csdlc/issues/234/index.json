@@ -5,10 +5,22 @@
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
   "generation": 26,
-  "digest": "8efd187c2dedb5ff4de3ea656d0d4831eb9d21f219a6e22e43af75763af4fb9f",
+  "digest": "389964c180709290ad8dd104709eebdfb753b913d756781790135aed56f3206c",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+    "assigned_by": "operator",
+    "revision": "git-blake3:d4ef71f1fbb649b2f2a32b168f449d1c092325c4:28266f4ea5fc00af643932878e1dd519b3b27408b2a6f062181194396b590bce",
+    "scope": [
+      ".github/workflows",
+      "adl/tools",
+      "docs/tooling",
+      "csdlc-v2",
+      ".csdlc/issues/234",
+      ".csdlc/prepared/issues/234"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "5e08adc9f802688ad8be2cc93dfffc4ec1e725eebac5ced465089ee9a5b4d7f8",
-      "rendered_digest": "77626bc721006bed1b02d7f8346dc821491f2814047b76157665a72a250dfa92",
-      "ast_digest": "62d954a925d06397d2332035e0ca173f48f78e3547d37b092ffad20f0b4fc9f2"
+      "values_digest": "8e60804bca1b7bb53648cea1dd7a579a224fdbe9f2f9f201add8e5edca96aed2",
+      "rendered_digest": "0eeafc2ec52fc108a85d659a970295e8083c465c8e6e1d4569b5b355b82cc3a7",
+      "ast_digest": "c3e80579cb5abc6c7da556066a1a54e25ac2cf32ac6f0fda170e12a30dce9678"
     },
     "sor": {
       "values_digest": "6e496473e13933d984433ee14d13a8f11f15424d55b6eb2cb585c8c46bd7a13a",
@@ -273,6 +285,13 @@
       "actor": "codex:234-validation",
       "reason": "Record final syntax, YAML, and diff-hygiene proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"purpose\":\"Prove shell and Ruby syntax, all workflow YAML parsing, and clean final patch whitespace.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-final-syntax-yaml-diff:passed\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 26,
+      "actor": "operator",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "All GitHub Actions workflows, central path policy, CI and coverage routing contracts, duplicate-head concurrency, optional proof isolation, and the operator procedure for cost-controlled required validation.",
+      "review_scope": ".github/workflows\nadl/tools\ndocs/tooling\ncsdlc-v2\n.csdlc/issues/234\n.csdlc/prepared/issues/234",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
