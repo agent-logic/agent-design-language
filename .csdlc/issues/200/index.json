@@ -3,11 +3,11 @@
   "issue": 200,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 2,
-  "digest": "c04773202ee7f13b461ebef761bedc27e1c511e3a8961d415dfb850e223aee99",
-  "branch": null,
-  "worktree": null,
+  "digest": "13ab838ca4c61cee351e0e08ff9a5d5fc0c323d15ff8f95499d232f2f7b53994",
+  "branch": "codex/200-concrete-authority-reconciliation-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-200-concrete-authority-reconciliation-preparation",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +54,22 @@
       "ast_digest": "e4517ecca803ffa7e9bbca085fe73d80d878315c9a8fa57b69eef3269503673a"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -76,6 +91,13 @@
       "actor": "codex:/root/prepare_5875_release:fafd09c9a",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
