@@ -1,0 +1,98 @@
+{
+  "issue": 117,
+  "card": "vpp",
+  "expected_generation": 4,
+  "expected_digest": "97e935a8d3544a4d1e2a2c2b82eee9defd5fe4fcde8a424dc9254d96b8961bca",
+  "actor": "codex:117-readiness-proof-review-fix",
+  "reason": "Remove AC-10 from generic diff hygiene so independent exact-head review remains mapped only to the deferred issue-owned artifacts and review-record validator.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "observatory-runtime-baseline",
+        "proof_role": "Run the existing generic Observatory Rust integration target only as a nonzero regression baseline for currently implemented Runtime-to-Observatory behavior; it does not prove the #117 integrated roster, chat, history, rooms, inbox, accessibility, security, resilience, scale, or artifact acceptance behavior.",
+        "acceptance_ids": ["AC-9"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 2400,
+        "budget_tokens": 16000,
+        "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "observatory", "--no-tests=fail"],
+        "parallel_group": "runtime-baseline",
+        "defer_reason": null
+      },
+      {
+        "lane": "observatory-openapi-baseline",
+        "proof_role": "Run the existing generic OpenAPI contract target only as a nonzero schema-regression baseline; it does not prove the unimplemented #117 integrated route, stream, refusal, degradation, recovery, security, resilience, or scale contract.",
+        "acceptance_ids": ["AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "openapi_contract", "--no-tests=fail"],
+        "parallel_group": "runtime-baseline",
+        "defer_reason": null
+      },
+      {
+        "lane": "html-observatory-baseline",
+        "proof_role": "Run the checked-in generic HTML Observatory contract only as a nonzero static browser-surface baseline; it does not prove real Runtime browser integration, accessibility, responsive behavior, adversarial security, resilience, scale, resources, redaction, screenshots, artifacts, or a clean console for #117.",
+        "acceptance_ids": ["AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["adl/tools/test_html_observatory.sh"],
+        "parallel_group": "browser-baseline",
+        "defer_reason": null
+      },
+      {
+        "lane": "observatory-117-integrated-browser-hardening",
+        "proof_role": "Use the exact issue-owned nonzero validator to prove the complete #117 real Runtime-backed roster, one-to-one chat, durable history, governed rooms, attention inbox, keyboard, focus, semantics, announcements, responsive screenshots, safe rendering, adversarial inputs, reconnect, restart, backpressure, offline, version mismatch, scale, resource bounds, redaction, and clean-console behavior at one candidate revision.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-9"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 2400,
+        "budget_tokens": 16000,
+        "argv": ["node", "adl/tools/validate_v092_html_observatory_hardening.mjs"],
+        "parallel_group": "issue-owned-browser",
+        "defer_reason": "Fail-closed implementation gate: #117 must create this exact issue-owned validator after #83 and #111-#116 are terminal and handed off; its current absence is not validation evidence, and the lane must execute nonzero real Runtime and browser assertions before acceptance can pass."
+      },
+      {
+        "lane": "observatory-117-artifacts-only",
+        "proof_role": "Use the exact issue-owned artifacts-only mode to validate the operator runbook, exact artifact index, candidate revision, desktop and mobile screenshots, machine-readable assertions, environment assumptions, recovery and rollback evidence, redaction inventory, independent exact-head review records, and absence of unresolved actionable findings.",
+        "acceptance_ids": ["AC-7", "AC-8", "AC-9", "AC-10"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["node", "adl/tools/validate_v092_html_observatory_hardening.mjs", "--artifacts-only"],
+        "parallel_group": "issue-owned-artifacts",
+        "defer_reason": "Fail-closed implementation gate: #117 must create the exact issue-owned validator, runbook, artifact index, retained evidence, and review records; artifacts-only must select nonzero assertions and cannot pass from missing or generic preparation artifacts."
+      },
+      {
+        "lane": "observatory-focused-clippy",
+        "proof_role": "Reject warning-bearing Rust across the bounded Runtime kernel library and production binary as a narrow static-quality component of the final #117 proof; this lane does not prove integrated product behavior.",
+        "acceptance_ids": ["AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": ["cargo", "clippy", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "--bin", "adl-runtime-kernel", "--", "-D", "warnings"],
+        "parallel_group": "static",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue-diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts as a narrow exact-head hygiene check; this lane does not substitute for #117 product, architecture, or security review.",
+        "acceptance_ids": ["AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "static",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

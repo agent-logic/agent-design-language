@@ -24,14 +24,9 @@ Diagram: .csdlc/prepared/issues/117/diagram.mmd
 
 [
   {
-    "lane": "integrated-observatory-runtime",
-    "proof_role": "Use the existing exact nonzero Observatory integration target as the preparation-time denominator for real-Runtime roster, chat, history, rooms, inbox, refusal, degradation, reconnect, restart, and duplicate-action behavior added during #117 execution.",
+    "lane": "observatory-runtime-baseline",
+    "proof_role": "Run the existing generic Observatory Rust integration target only as a nonzero regression baseline for currently implemented Runtime-to-Observatory behavior; it does not prove the #117 integrated roster, chat, history, rooms, inbox, accessibility, security, resilience, scale, or artifact acceptance behavior.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-7",
       "AC-9"
     ],
     "deterministic": true,
@@ -48,16 +43,13 @@ Diagram: .csdlc/prepared/issues/117/diagram.mmd
       "observatory",
       "--no-tests=fail"
     ],
-    "parallel_group": "runtime",
+    "parallel_group": "runtime-baseline",
     "defer_reason": null
   },
   {
-    "lane": "observatory-openapi-contract",
-    "proof_role": "Use the existing exact OpenAPI contract target for every integrated Observatory route, stream, refusal, degradation, version, recovery, and bounded-input schema after #117 integration.",
+    "lane": "observatory-openapi-baseline",
+    "proof_role": "Run the existing generic OpenAPI contract target only as a nonzero schema-regression baseline; it does not prove the unimplemented #117 integrated route, stream, refusal, degradation, recovery, security, resilience, or scale contract.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-4",
-      "AC-6",
       "AC-9"
     ],
     "deterministic": true,
@@ -74,21 +66,13 @@ Diagram: .csdlc/prepared/issues/117/diagram.mmd
       "openapi_contract",
       "--no-tests=fail"
     ],
-    "parallel_group": "runtime",
+    "parallel_group": "runtime-baseline",
     "defer_reason": null
   },
   {
-    "lane": "html-observatory-contract",
-    "proof_role": "Run the checked-in executable HTML Observatory contract as the preparation-time browser denominator; execution must add the deferred issue-owned live Runtime browser hardening validator through typed VPP replanning for accessibility, responsive screenshots, adversarial security, resilience, scale, resources, redaction, artifacts, and clean-console proof.",
+    "lane": "html-observatory-baseline",
+    "proof_role": "Run the checked-in generic HTML Observatory contract only as a nonzero static browser-surface baseline; it does not prove real Runtime browser integration, accessibility, responsive behavior, adversarial security, resilience, scale, resources, redaction, screenshots, artifacts, or a clean console for #117.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-7",
-      "AC-8",
       "AC-9"
     ],
     "deterministic": true,
@@ -98,12 +82,57 @@ Diagram: .csdlc/prepared/issues/117/diagram.mmd
     "argv": [
       "adl/tools/test_html_observatory.sh"
     ],
-    "parallel_group": "browser-contract",
+    "parallel_group": "browser-baseline",
     "defer_reason": null
   },
   {
+    "lane": "observatory-117-integrated-browser-hardening",
+    "proof_role": "Use the exact issue-owned nonzero validator to prove the complete #117 real Runtime-backed roster, one-to-one chat, durable history, governed rooms, attention inbox, keyboard, focus, semantics, announcements, responsive screenshots, safe rendering, adversarial inputs, reconnect, restart, backpressure, offline, version mismatch, scale, resource bounds, redaction, and clean-console behavior at one candidate revision.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 2400,
+    "budget_tokens": 16000,
+    "argv": [
+      "node",
+      "adl/tools/validate_v092_html_observatory_hardening.mjs"
+    ],
+    "parallel_group": "issue-owned-browser",
+    "defer_reason": "Fail-closed implementation gate: #117 must create this exact issue-owned validator after #83 and #111-#116 are terminal and handed off; its current absence is not validation evidence, and the lane must execute nonzero real Runtime and browser assertions before acceptance can pass."
+  },
+  {
+    "lane": "observatory-117-artifacts-only",
+    "proof_role": "Use the exact issue-owned artifacts-only mode to validate the operator runbook, exact artifact index, candidate revision, desktop and mobile screenshots, machine-readable assertions, environment assumptions, recovery and rollback evidence, redaction inventory, independent exact-head review records, and absence of unresolved actionable findings.",
+    "acceptance_ids": [
+      "AC-7",
+      "AC-8",
+      "AC-9",
+      "AC-10"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "node",
+      "adl/tools/validate_v092_html_observatory_hardening.mjs",
+      "--artifacts-only"
+    ],
+    "parallel_group": "issue-owned-artifacts",
+    "defer_reason": "Fail-closed implementation gate: #117 must create the exact issue-owned validator, runbook, artifact index, retained evidence, and review records; artifacts-only must select nonzero assertions and cannot pass from missing or generic preparation artifacts."
+  },
+  {
     "lane": "observatory-focused-clippy",
-    "proof_role": "Reject warning-bearing Rust across the bounded Runtime kernel library and production binary after integrated Observatory hardening.",
+    "proof_role": "Reject warning-bearing Rust across the bounded Runtime kernel library and production binary as a narrow static-quality component of the final #117 proof; this lane does not prove integrated product behavior.",
     "acceptance_ids": [
       "AC-9"
     ],
@@ -128,10 +157,9 @@ Diagram: .csdlc/prepared/issues/117/diagram.mmd
   },
   {
     "lane": "issue-diff-hygiene",
-    "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+    "proof_role": "Reject malformed whitespace and patch artifacts as a narrow exact-head hygiene check; this lane does not substitute for #117 product, architecture, or security review.",
     "acceptance_ids": [
-      "AC-9",
-      "AC-10"
+      "AC-9"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -162,6 +190,8 @@ Tokens: 50000
 - `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test observatory --no-tests=fail`
 - `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract --no-tests=fail`
 - `adl/tools/test_html_observatory.sh`
+- `node adl/tools/validate_v092_html_observatory_hardening.mjs`
+- `node adl/tools/validate_v092_html_observatory_hardening.mjs --artifacts-only`
 - `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib --bin adl-runtime-kernel -- -D warnings`
 - `git diff --check`
 
