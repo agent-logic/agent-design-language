@@ -1,6 +1,7 @@
-source_revision=2390794997bf216cc3f1826561978a9f716c3a1d
+source_revision=aef6729640dc89918f34b4337a27167c6ed625fb
 command=ruby .csdlc/prepared/issues/209/produce-native-receipt.rb --self-test
 {"status":"passed","check":"wp14-native-producer"}
+assertion=semantic_output_absolute_under_package_working_directory passed
 command=ruby .csdlc/prepared/issues/209/validate-native-receipts.rb --self-test
 {"status":"passed","check":"wp14-native-validator"}
 result=passed

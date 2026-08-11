@@ -38,7 +38,7 @@ Repaired production ACIP replay authority, transactional pressure rollback, plat
 - Normalized native semantic comparison independently of platform and expanded exact authority source provenance.
 - Aligned the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression.
 - Run 31452115116 failed both native producers because the production kernel test requires the verified Vector component; the issue workflow now installs it before proof, hashes the installer in source provenance, and requires a replacement run.
-- Replacement run 31452684900 passed the Linux production target 2/2 but exposed a package-working-directory semantic path error; the producer now supplies its already-confined semantic destination as an absolute path, with local exact nextest generation proof, and requires another replacement run.
+- Replacement run 31452684900 passed both platform test targets but exposed a package-working-directory semantic path error; the producer now exports its already-confined semantic destination as an absolute path, and its focused self-test proves the destination remains exact from a crate working directory before another replacement run.
 
 ## Validation
 
@@ -52,7 +52,7 @@ Repaired production ACIP replay authority, transactional pressure rollback, plat
       "--test",
       "production_acip_wss"
     ],
-    "purpose": "Prove production dispatch plus WebSocket-observed saturation rollback and corrected retry; repeated five times for stability.",
+    "purpose": "Prove both production ACIP/WSS tests at the semantic-path repair revision and generate the ten-assertion semantic document at an absolute temporary destination; the unchanged production behavior also retains its prior five-run stability proof.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/209/production-acip-wss.log"
   },
@@ -122,7 +122,7 @@ Repaired production ACIP replay authority, transactional pressure rollback, plat
       ".csdlc/prepared/issues/209/produce-native-receipt.rb",
       "--self-test"
     ],
-    "purpose": "Prove native producer authority-source and platform-neutral projection behavior.",
+    "purpose": "Prove native producer authority-source binding, platform-neutral projection behavior, and exact absolute semantic-output resolution from a simulated crate working directory.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/209/native-contract-selftests.log"
   },
