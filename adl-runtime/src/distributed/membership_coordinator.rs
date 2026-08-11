@@ -4,7 +4,11 @@
 //! #202 authority receipts. It never constructs transport admission/exclusion
 //! state and never treats a journaled receipt projection as live authority.
 
-use std::{collections::BTreeMap, path::Path, sync::Arc};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    path::Path,
+    sync::Arc,
+};
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -17,7 +21,7 @@ use super::{
     learner_transport::LearnerIdentity,
     polis_runtime::GovernedMembershipAuthorityReceipt,
     polis_runtime::{
-        CheckpointMetadata, CheckpointMetadataSource, CheckpointedJson,
+        AppliedMembershipEntry, CheckpointMetadata, CheckpointMetadataSource, CheckpointedJson,
         ConsensusCheckpointAuthority, DurableEnvelope,
     },
 };
@@ -251,6 +255,33 @@ impl MembershipCoordinator {
         self.commit(next)
     }
 
+    pub fn record_committed_membership_history(
+        &mut self,
+        operation_sha256: [u8; 32],
+        history: &[AppliedMembershipEntry],
+        expected_old: &BTreeSet<u64>,
+        expected_target: &BTreeSet<u64>,
+    ) -> MembershipCoordinatorResult<()> {
+        let joint_index = history.iter().position(|entry| {
+            entry.joint_configs.len() == 2
+                && entry.joint_configs[0] == *expected_old
+                && entry.joint_configs[1] == *expected_target
+        });
+        let Some(joint_index) = joint_index else {
+            return Err(MembershipCoordinatorError::StateRegression);
+        };
+        let final_entry = history[joint_index + 1..]
+            .iter()
+            .find(|entry| {
+                entry.joint_configs.len() == 1 && entry.joint_configs[0] == *expected_target
+            })
+            .ok_or(MembershipCoordinatorError::StateRegression)?;
+        let joint_sha256 = membership_history_entry_sha256(&history[joint_index])?;
+        let final_sha256 = membership_history_entry_sha256(final_entry)?;
+        self.record_joint_membership(operation_sha256, joint_sha256)?;
+        self.record_final_membership(operation_sha256, final_sha256)
+    }
+
     pub fn reconcile_authority_parity(
         &mut self,
         operation_sha256: [u8; 32],
@@ -335,6 +366,14 @@ impl MembershipCoordinator {
             .map_err(|_| MembershipCoordinatorError::Storage)?;
         Ok(())
     }
+}
+
+pub fn membership_history_entry_sha256(
+    entry: &AppliedMembershipEntry,
+) -> MembershipCoordinatorResult<[u8; 32]> {
+    serde_jcs::to_vec(entry)
+        .map(|bytes| <[u8; 32]>::from(Sha256::digest(bytes)))
+        .map_err(|_| MembershipCoordinatorError::StateRegression)
 }
 
 fn exact_active_mut(

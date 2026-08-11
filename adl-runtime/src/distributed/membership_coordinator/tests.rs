@@ -7,6 +7,7 @@ use crate::distributed::{
     authority_protocol::{
         test_published_reconciliation_token, AuthorityNodeIdentity, CanonicalAuthorityTime,
     },
+    lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
     polis_runtime::{ConsensusCheckpoint, PolisRuntimeError},
 };
 
@@ -104,6 +105,47 @@ fn stable_map_digest_rejects_collisions_and_zero() {
         ])),
         Err(MembershipCoordinatorError::WrongStableMap)
     );
+}
+
+#[test]
+fn authority_membership_preserves_explicit_stable_ids() {
+    let guardians = [
+        b"guardian-b".to_vec(),
+        b"guardian-c".to_vec(),
+        b"guardian-d".to_vec(),
+    ];
+    let configs = vec![guardians.iter().cloned().collect()];
+    let voters = guardians
+        .iter()
+        .enumerate()
+        .map(|(index, guardian_id)| VoterAuthority {
+            guardian_id: guardian_id.clone(),
+            trust_domain_id: b"runtime-prod".to_vec(),
+            certificate_generation: 3,
+            purpose: ControlCertificatePurpose::AuthorityEndorsement,
+            not_before_unix_seconds: NOW - 100,
+            not_after_unix_seconds: NOW + 100,
+            revoked: false,
+            control_public_key: SigningKey::from_bytes(&[(index + 1) as u8; 32])
+                .verifying_key()
+                .to_bytes(),
+        })
+        .collect();
+    let ids = BTreeMap::from([
+        (b"guardian-b".to_vec(), 91),
+        (b"guardian-c".to_vec(), 7),
+        (b"guardian-d".to_vec(), 33),
+    ]);
+    let authority = AuthorityMembership::new_with_stable_ids(
+        b"runtime-prod".to_vec(),
+        3,
+        20,
+        configs,
+        voters,
+        ids.clone(),
+    )
+    .unwrap();
+    assert_eq!(authority.raft_ids, ids);
 }
 
 #[test]
