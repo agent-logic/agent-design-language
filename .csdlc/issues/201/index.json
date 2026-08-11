@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "initialized",
-  "generation": 12,
-  "digest": "50871522b7fb8db97ff665eb87c7825c30844676441ceb49879329cb63b2b389",
+  "generation": 17,
+  "digest": "4a75aafc9f68e718f060ce70a4e4bf70924b88b311b94b6f06645778512f561c",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c47f206f1d6ac9e5758ebe390e233184dfa02a027401644b55983f06aa44e9c6",
-      "rendered_digest": "f980b79efefdd650489881122036bae7df7da8ce98f22ba7cc2d3c2b81b113c4",
-      "ast_digest": "d275b3c3a3157cccbe0b96c5dab7effe592b3830963e9884db6173f7772d7960"
+      "values_digest": "f8ec3483a6644a2ce8cf84eb6681faa4b059809b1959cccdc58ad067d6ac6e8e",
+      "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
+      "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "b9f5466e7287dc05a6c28fac91352c135ee42bd8cf6ee6a876014669a455e151",
-      "rendered_digest": "cb02ebb494c1d3623e820edefa4da9eaa1a6109233a9bb93bbeee7e18d1f8a18",
-      "ast_digest": "5af802b0757383235c0a8da1f690b1efc0a247594c31bf9b169096e271c88bee"
+      "values_digest": "b70a2a61eeb3b75e792d804c373ec3758e9ec388ddc645bcf72597a5076630d7",
+      "rendered_digest": "d3e34b8dcbfac46114e66cff41bf781db80839ee67d486a0612cb4e44e7dd321",
+      "ast_digest": "e617a4f64e7ae1762257ddde4fb67887b5984d501215f784011ca7b52d1d25c0"
     },
     "spp": {
-      "values_digest": "4c47179effbd4c29c930da8f41ea46c7840477c39d783a97831026be6e8d9d3a",
-      "rendered_digest": "58b0b9859ebea853881dc9dc173da390759f26f9dcb365d96804d619386909ad",
-      "ast_digest": "d4381084bf9e6689917b026168fe8c3b7d1128b3817495582d4c6dae6f03e60e"
+      "values_digest": "61cf54e909f07d79df794d777e5daf55d0ad9fe28acb980715bcf269610a9b99",
+      "rendered_digest": "774960b62ef362859e4eaf976da7db00e572316e0501bebc42e85aad27adc56a",
+      "ast_digest": "310713a2946b898189c756cc5109b6ba43589304186d21eef9036135d0757b9c"
     },
     "vpp": {
-      "values_digest": "d46551330f77d3911e35d826321be96ed5cf44a102b9167910573872ab1d1944",
-      "rendered_digest": "c2dfcef09113ec5837805b570c07a0a41704a6d694c0eb820df3c4c697075ae3",
-      "ast_digest": "06366a53f16287d34a62d9b567f9b42b1865443729b3d597d97195b97ece0cd7"
+      "values_digest": "6f84dddc1933835d3b0b316db3628a1a317fd801af8a4c6465f367c59719b90a",
+      "rendered_digest": "6aa23fa4a94d098fb10b7e5f2b900ad031b4b65a076d247b4ac66882719397cf",
+      "ast_digest": "b3c3be447377b75fec1a474af99ecc3f845a212fa9cb2536d3f2e3b290757a14"
     },
     "srp": {
-      "values_digest": "e33daa86a773e9a9439d4e7a1d4689275bebfd31ba802def828b8a368396513e",
-      "rendered_digest": "1c7c49e61e5dd4b7b7c0b1bbe13f8797c6befc6f0af72099b986030461ad2339",
-      "ast_digest": "54a63bba887d6f624a35f8c408c063cd13b1c5850eca19191396471ed6ca9ba1"
+      "values_digest": "38f052354bd83f0f4b7e2af4d8a1f5a81f1e2d7dc908556b12a0b0723be9438b",
+      "rendered_digest": "719fda29904612175a0263a704c7ae9e97650c842ebe1690d7d3fb96567561a9",
+      "ast_digest": "e0daf7ed341a6cdd579976e8a561182d07376bb27cf686954d66185309722bd6"
     },
     "sor": {
-      "values_digest": "3aa47120319582636a4994d49924a36e648a59df14676f4d4f3d25bd648843af",
+      "values_digest": "7436968e641c446540a711e42fefdadefac7dfd43258445aadd5764c3f020870",
       "rendered_digest": "dd074b4fa9e4431fe2d9bec84b129f0ae6f0187e7df563f658756033aa354313",
       "ast_digest": "39cc131d0e4042080ae44500a2d66d4a67ce65a724fd47e2836886ae741db8b7"
     }
@@ -146,6 +146,41 @@
       "actor": "codex:/root/rereview_203_design",
       "reason": "reapprove stale initialized issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex:210-review-resolution",
+      "reason": "Add one narrow sealed continuity-transfer projection for #210 while preserving private exact artifact authority.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Implement and publish only the committed quorum authority protocol, its private exact-artifact views for sealed #199/#200/#203 consumers, and a separate sealed #210-only ContinuityTransferGrantProjection for exact continuity-transfer variants; the #210 projection is borrowed, read-only, operation-bound, nonconstructible, and cannot authorize generic payload conversion, signing, migration, fencing, activation, serving, or concrete store effects.\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex:210-review-resolution",
+      "reason": "Authorize only a sealed exact-variant projection to #210 without exposing generic artifact or operation authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Only concrete MembershipState and AuthorityMembership plus opaque distinct current-voter endorsements authorize finalization\",\"The leader, caller, runner, model, Shepherd, harness, local history, and replica-local clock are never quorum authority\",\"Raw signing keys, caller-produced endorsements, caller-selected voter sets, caller-substituted artifact bytes, and digest-only artifact reconstruction are rejected\",\"The private-field VerifiedAuthorityOperation retains exact committed operation-specific signed bytes, digest, intent, and operation binding; sealed #199/#200/#203 consumers retain their existing borrowed exact-artifact view\",\"A separate sealed #210-only ContinuityTransferGrantProjection is available only for the continuity-transfer variant and binds exact source, target, route/membership/certificate/boot cuts, signed bundle/catalog bytes and digests, bounded entry/chunk/range commitments, deadline, and cleanup identity; wrong-variant or wrong-consumer access is denied\",\"Neither private view exposes a constructor, replacement setter, generic payload conversion, raw endorsement, signing operation, migration decision, fencing, activation, serving, or concrete store effect\",\"#201 emits opaque verified projections but performs no OpenRaft membership or downstream authority-store side effect\",\"Governed membership belongs to #199, reconciliation publication to #200, concrete existing-store application to #203, transfer execution to #210, and kernel stage/read/discard effects to #208\",\"Guardian/API/WSS, models, AWS, live demonstrations, and #142 terminal delivery remain out of scope\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 15,
+      "actor": "codex:210-review-resolution",
+      "reason": "Pin exact sealed #210 projection invariants and consumer-confusion denial.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No uncommitted proposal, single voter, leader, caller, harness, Shepherd, model, local history, or local clock can mint a verified authority-operation token\",\"Every finalized token binds exact polis, domain, membership cut, committed index, operation, bounded store-native signed artifact bytes and digest, time token, and distinct quorum endorsements\",\"The existing private artifact view returns byte-identical retained committed bytes only to sealed #199/#200/#203 consumers; it cannot accept replacement bytes or reconstruct authority from a digest\",\"The separate #210 projection is constructible only by #201 from an exact finalized continuity-transfer variant and exposes a borrowed read-only bounded transfer grant; every other operation variant and consumer identity is rejected\",\"The #210 projection binds signed bundle/catalog bytes and digests plus exact source, target, route, membership, certificate, boot, entry, chunk, range, bounds, deadline, and cleanup identity without granting transport, filesystem, migration, fence, activation, serving, or store-effect authority\",\"No token, artifact view, projection, or canonical response is published before protocol result, retry record, and external checkpoint reconcile\",\"Legacy direct authority commands cannot mint or restore authority\",\"One-of-three always halts new authority token finalization\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 16,
+      "actor": "codex:210-review-resolution",
+      "reason": "Extend the exact denominator with sealed #210 projection and consumer-confusion proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"committed-authority-protocol\",\"proof_role\":\"Prove exact forty-four-case denominator: current_three_voter_finalize, exact_retry_returns_cached_result, signer_rotation_current_generation, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, missing_quorum, duplicate_signer, wrong_voter, signer_unavailable, expired_signer_cert, stale_membership, config_digest_mismatch, joint_old_only, joint_new_only, joint_union_majority_only, joint_duplicate_guardian_reuse, declared_finalize_time_after_deadline, finalize_before_prepare_time, replay_with_regressed_finalize_time, local_clock_skew_apply_parity, checkpoint_object_collision, node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker, checkpoint_result_retry_digest_mismatch, coherent_rollback_rejected, corrupt_journal_rejected, corrupt_retry_cache_rejected, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected, legacy_fence_voter_rejected, legacy_activate_owner_rejected, legacy_activate_shepherd_rejected, legacy_acquire_observatory_rejected, legacy_demote_voter_rejected, exact_store_artifact_bytes_retained, artifact_bytes_digest_substitution_rejected, sealed_continuity_transfer_projection, continuity_projection_consumer_confusion_rejected.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--no-tests=fail\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":\"Deferred until PR #197 is merged and this issue creates the focused target; fail closed on a missing target/source, zero tests, any result not mapping exactly once to all forty-four canonical names, any artifact/projection byte, digest, operation, source, target, signed catalog, bound, deadline, or cleanup-identity mismatch, any wrong-variant/wrong-consumer projection success, or any public/caller-substitutable view.\"},{\"lane\":\"committed-authority-protocol-clippy\",\"proof_role\":\"Reject warnings and API misuse across the bounded core protocol, private exact artifact view, and sealed #210 projection surface.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"committed-authority-protocol-producer\",\"proof_role\":\"Produce exact Git/source/command/stream/timing/protected-digest evidence and private artifact/projection parity for all forty-four declared cases.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":\"Deferred until the exact producer exists; fail closed on dirty protected source, a case count other than forty-four, missing/extra/duplicate/reordered names, artifact or projection binding mismatch, nonpassing result, or nonzero status.\"},{\"lane\":\"committed-authority-protocol-receipt\",\"proof_role\":\"Bind exact protected source, commands, the exact forty-four-case name/result/marker denominator including retained artifact bytes and the sealed #210 projection, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":\"Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, all forty-four names/results/markers, exact artifact/projection parity, and consumer-confusion denial are bound.\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 17,
+      "actor": "codex:210-review-resolution",
+      "reason": "Require fresh review of the narrow sealed #210 projection and its non-escalation boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?\",\"Does the existing private artifact view retain byte-identical committed signed bytes only for sealed #199/#200/#203 consumers without replacement or digest-only reconstruction?\",\"Can only an exact finalized continuity-transfer variant produce the separate sealed #210 ContinuityTransferGrantProjection, with wrong consumer and wrong variant denied?\",\"Does the #210 projection bind source, target, route/membership/certificate/boot cuts, exact signed bundle/catalog bytes and digests, entry/chunk/range bounds, deadline, and cleanup identity while exposing no constructor, generic conversion, signing, transport, filesystem, migration, fence, activation, serving, or store-effect authority?\",\"Does replicated apply consume only committed deterministic time, membership, and artifact evidence, including skew and uncertainty boundaries?\",\"Do initialization, exact retry, artifact retention, projection retention, result-cache, and external-checkpoint crash windows reconcile without false publication, substitution, or rollback acceptance?\",\"Are all legacy direct authority commands retired or explicitly versioned fail-closed across apply, log replay, and snapshot restore?\",\"Does exact proof bind all forty-four machine cases, protected-source drift, immutable evidence, strict Clippy, and merge topology?\"]}"
     }
   ]
 }

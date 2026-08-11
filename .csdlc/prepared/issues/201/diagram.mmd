@@ -12,5 +12,8 @@ flowchart LR
   B --> M["#199 sealed membership consumer"]
   B --> Q["#200 sealed reconciliation consumer"]
   B --> S["#203 sealed existing-store consumer"]
+  T --> U["Exact continuity-transfer variant only"]
+  U --> V["Sealed #210 read-only transfer grant projection"]
+  V --> W["No send, path, discard, migration, fence, activation, or serving authority"]
   L["Legacy direct authority command"] --> D["Versioned migration or fail-closed rejection"]
   J -. "crash, rollback, conflict, or ambiguity" .-> Z["Fail closed; reconcile only the exact operation"]

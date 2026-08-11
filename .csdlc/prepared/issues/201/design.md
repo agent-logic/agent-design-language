@@ -16,7 +16,11 @@ an opaque local voter authority, durably publishes an exact result and retry
 record through an external checkpoint, and emits an opaque operation token whose
 private operation-specific view retains the exact bounded store-native signed
 artifact bytes, their digest, and operation binding for sealed downstream
-membership, reconciliation, and existing-store integrations.
+membership, reconciliation, and existing-store integrations. For an exact
+continuity-transfer operation only, the token also exposes a separate sealed
+`ContinuityTransferGrantProjection` to #210. That projection is a borrowed,
+read-only, nonconstructible view of the already-finalized variant; it does not
+broaden the generic artifact view or create a new authorization path.
 
 This issue does not apply OpenRaft membership changes or mutate certificate,
 lease, fencing, migration, or recovery stores. Governed membership is #199;
@@ -67,7 +71,8 @@ exact canonical bytes committed by `PrepareAuthorityIntent`, their SHA-256
 digest, the operation class, and the intent digest. It is journaled and replayed
 byte-for-byte; retry never asks a caller to resupply it.
 
-Only sealed consumers for #199, #200, and #203 receive a borrowed read-only view.
+Only sealed consumers for #199, #200, and #203 receive the existing borrowed
+read-only exact-artifact view.
 That view exposes the exact bytes and binding needed by the destination's native
 verifier but offers no constructor, replacement setter, raw endorsement, signing
 operation, or generic caller-selected payload conversion. #201 validates the
@@ -75,6 +80,20 @@ bounded envelope and its committed binding; it does not interpret or apply the
 certificate, lease, fencing, or membership effect. #203 remains responsible for
 decoding and verifying the retained bytes through the existing store-native
 signature or quorum path before any concrete effect.
+
+The distinct sealed #210 projection is available only when the operation class
+is continuity transfer. It binds the exact source and target voter/Guardian,
+route, membership, certificate and boot cuts; transfer and bundle ids; the
+retained signed bundle manifest and catalog bytes plus their digests and trusted
+key generation; canonical entry order and each entry's schema, range, length,
+and digest; canonical chunk index, absolute range, expected digest, and
+predecessor; total bounds, deadline, uncertainty policy, and a cleanup identity.
+The projection borrows those values from the finalized journal record and has no
+public constructor, replacement setter, generic artifact conversion, or method
+that signs, sends bytes, reads or writes a path, discards a stage, decides
+migration, fences a source, activates a target, or grants serving. Wrong
+operation variants and every consumer other than the sealed #210 adapter are
+rejected before a view is returned.
 
 Serialization, snapshot restore, retry-cache load, and checkpoint reconciliation
 all compare both the retained bytes and digest. A record that preserves the
@@ -104,8 +123,10 @@ union-majority endorsement sets fail closed.
   concrete `MembershipState` plus exact `AuthorityMembership` parity. Caller
   route or configuration data is never voter authority.
 - The protocol produces a private-field `VerifiedAuthorityOperation` token.
-  Only sealed #199, #200, and #203 consumers may inspect its read-only exact
-  artifact view; public constructors, replacement bytes, raw endorsements, and
+  Only sealed #199, #200, and #203 consumers may inspect its existing read-only
+  exact-artifact view. Only the sealed #210 continuity-transfer adapter may
+  inspect the separate exact-variant projection described above. Public
+  constructors, replacement bytes, generic conversions, raw endorsements, and
   caller-selected quorum sets are absent.
 - Membership coordination, certificate/lease/fence application, and external
   migration/recovery workflows do not run inside deterministic Raft apply here.
@@ -154,6 +175,9 @@ protocol atomicity, not a transaction over downstream authority stores.
 - #203 consumes the private exact artifact view through #200's published plan and
   applies existing certificate, lease, and fencing store effects. #201 never
   performs or reconstructs those effects.
+- #210 consumes only the separate sealed continuity-transfer projection and
+  combines it with #208's opaque source, stage, verifier, and cleanup ports. #201
+  neither transports bytes nor performs a kernel continuity effect.
 - #193 and later children consume those merged authorities for real kernel
   continuity and operational serving. They do not broaden this protocol.
 
@@ -173,7 +197,7 @@ protocol atomicity, not a transaction over downstream authority stores.
   strict Clippy, marker parity, protected-source drift, immutable evidence
   introduction, and eventual squash-merge topology.
 
-The denominator is exactly forty-two cases, with exact name/result/marker parity:
+The denominator is exactly forty-four cases, with exact name/result/marker parity:
 `current_three_voter_finalize`, `exact_retry_returns_cached_result`,
 `signer_rotation_current_generation`, `joint_majority_each_config`,
 `finalize_at_deadline`, `three_node_checkpoint_restart_reconcile`,
@@ -193,7 +217,9 @@ The denominator is exactly forty-two cases, with exact name/result/marker parity
 `legacy_activate_owner_rejected`, `legacy_activate_shepherd_rejected`,
 `legacy_acquire_observatory_rejected`, `legacy_demote_voter_rejected`,
 `exact_store_artifact_bytes_retained`, and
-`artifact_bytes_digest_substitution_rejected`.
+`artifact_bytes_digest_substitution_rejected`,
+`sealed_continuity_transfer_projection`, and
+`continuity_projection_consumer_confusion_rejected`.
 
 ## Non-goals
 

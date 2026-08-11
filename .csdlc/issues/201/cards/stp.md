@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Implement and publish only the deterministic committed intent/finalize protocol, opaque voter endorsement authority, quorum-attested time, durable checkpoint/retry state, a private-field VerifiedAuthorityOperation that retains the exact bounded operation-specific store-native signed artifact bytes plus digest/binding for sealed #199/#200/#203 consumers, and legacy direct-authority closure required between WP-04.16a and downstream integrations; do not execute any downstream store side effect.
+Implement and publish only the committed quorum authority protocol, its private exact-artifact views for sealed #199/#200/#203 consumers, and a separate sealed #210-only ContinuityTransferGrantProjection for exact continuity-transfer variants; the #210 projection is borrowed, read-only, operation-bound, nonconstructible, and cannot authorize generic payload conversion, signing, migration, fencing, activation, serving, or concrete store effects.
 
 ## Deliverables
 

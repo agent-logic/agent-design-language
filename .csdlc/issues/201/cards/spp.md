@@ -16,7 +16,7 @@ After WP-04.16a merges, bind and implement the bounded committed authority proto
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -75,8 +75,10 @@ Revision 3
 
 - No uncommitted proposal, single voter, leader, caller, harness, Shepherd, model, local history, or local clock can mint a verified authority-operation token
 - Every finalized token binds exact polis, domain, membership cut, committed index, operation, bounded store-native signed artifact bytes and digest, time token, and distinct quorum endorsements
-- The private artifact view returns byte-identical retained committed bytes only to sealed #199/#200/#203 consumers; it cannot accept replacement bytes or reconstruct authority from a digest
-- No token, artifact view, or canonical response is published before protocol result, retry record, and external checkpoint reconcile
+- The existing private artifact view returns byte-identical retained committed bytes only to sealed #199/#200/#203 consumers; it cannot accept replacement bytes or reconstruct authority from a digest
+- The separate #210 projection is constructible only by #201 from an exact finalized continuity-transfer variant and exposes a borrowed read-only bounded transfer grant; every other operation variant and consumer identity is rejected
+- The #210 projection binds signed bundle/catalog bytes and digests plus exact source, target, route, membership, certificate, boot, entry, chunk, range, bounds, deadline, and cleanup identity without granting transport, filesystem, migration, fence, activation, serving, or store-effect authority
+- No token, artifact view, projection, or canonical response is published before protocol result, retry record, and external checkpoint reconcile
 - Legacy direct authority commands cannot mint or restore authority
 - One-of-three always halts new authority token finalization
 

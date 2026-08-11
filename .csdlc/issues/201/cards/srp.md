@@ -17,12 +17,13 @@ Exact core authority-protocol source, legacy PolisCommand closure, focused three
 ## Prompts
 
 - Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?
-- Does the private operation-specific artifact view retain the exact bounded committed store-native signed bytes, digest, and operation binding for sealed #199/#200/#203 consumers without accepting caller replacement or digest-only reconstruction?
+- Does the existing private artifact view retain byte-identical committed signed bytes only for sealed #199/#200/#203 consumers without replacement or digest-only reconstruction?
+- Can only an exact finalized continuity-transfer variant produce the separate sealed #210 ContinuityTransferGrantProjection, with wrong consumer and wrong variant denied?
+- Does the #210 projection bind source, target, route/membership/certificate/boot cuts, exact signed bundle/catalog bytes and digests, entry/chunk/range bounds, deadline, and cleanup identity while exposing no constructor, generic conversion, signing, transport, filesystem, migration, fence, activation, serving, or store-effect authority?
 - Does replicated apply consume only committed deterministic time, membership, and artifact evidence, including skew and uncertainty boundaries?
-- Do initialization, exact retry, artifact retention, result-cache, and external-checkpoint crash windows reconcile without false publication, byte substitution, or rollback acceptance?
+- Do initialization, exact retry, artifact retention, projection retention, result-cache, and external-checkpoint crash windows reconcile without false publication, substitution, or rollback acceptance?
 - Are all legacy direct authority commands retired or explicitly versioned fail-closed across apply, log replay, and snapshot restore?
-- Does implementation stay strictly out of #199 membership transitions, #200 reconciliation effects, and #203 concrete store effects?
-- Does exact proof bind all forty-two machine cases, protected-source drift, immutable evidence, strict Clippy, and merge topology?
+- Does exact proof bind all forty-four machine cases, protected-source drift, immutable evidence, strict Clippy, and merge topology?
 
 ## Findings
 

@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
     "slug": "quorum-committed-authority-protocol",
     "version": "v0.92",
-    "generation": 12
+    "generation": 17
   },
   "status": "ready",
   "content": {
@@ -28,10 +28,12 @@
         "Only concrete MembershipState and AuthorityMembership plus opaque distinct current-voter endorsements authorize finalization",
         "The leader, caller, runner, model, Shepherd, harness, local history, and replica-local clock are never quorum authority",
         "Raw signing keys, caller-produced endorsements, caller-selected voter sets, caller-substituted artifact bytes, and digest-only artifact reconstruction are rejected",
-        "The private-field VerifiedAuthorityOperation retains an operation-specific bounded artifact view containing the exact committed store-native signed bytes, their digest, and operation binding; only sealed #199/#200/#203 consumers can inspect that view",
-        "#201 emits the opaque verified token and private exact artifact view but performs no OpenRaft membership or concrete authority-store side effect",
-        "Governed membership belongs to #199, reconciliation publication belongs to #200, and existing certificate/lease/fencing application belongs to #203",
-        "Kernel continuity, Guardian/API/WSS, models, AWS, live demonstrations, and #142 terminal delivery remain out of scope"
+        "The private-field VerifiedAuthorityOperation retains exact committed operation-specific signed bytes, digest, intent, and operation binding; sealed #199/#200/#203 consumers retain their existing borrowed exact-artifact view",
+        "A separate sealed #210-only ContinuityTransferGrantProjection is available only for the continuity-transfer variant and binds exact source, target, route/membership/certificate/boot cuts, signed bundle/catalog bytes and digests, bounded entry/chunk/range commitments, deadline, and cleanup identity; wrong-variant or wrong-consumer access is denied",
+        "Neither private view exposes a constructor, replacement setter, generic payload conversion, raw endorsement, signing operation, migration decision, fencing, activation, serving, or concrete store effect",
+        "#201 emits opaque verified projections but performs no OpenRaft membership or downstream authority-store side effect",
+        "Governed membership belongs to #199, reconciliation publication to #200, concrete existing-store application to #203, transfer execution to #210, and kernel stage/read/discard effects to #208",
+        "Guardian/API/WSS, models, AWS, live demonstrations, and #142 terminal delivery remain out of scope"
       ],
       "initial_assumptions": [],
       "operator_constraints": [
