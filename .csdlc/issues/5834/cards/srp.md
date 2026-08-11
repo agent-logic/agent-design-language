@@ -39,12 +39,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Publication and exact-head CI remain required before typed merge; this packet does not authorize the downstream birthday demo or public release.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:d3fddd139feac88efdfe14b863a6cda374d9c307:ddcaf760d669614af0a0c5fa71223e6e35ccb0823d8f350912f9cab06b0faf0c")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5834_exact_head")
 
-Result: pre_review
+Result: pass
