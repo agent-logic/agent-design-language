@@ -6,10 +6,34 @@
   "initialization_digest": "e489915a11df3b89a0864fc0dc5f4f7d5e8af55bf967136e961c4946457d9a97",
   "phase": "implemented",
   "generation": 5,
-  "digest": "7acdddbaa2e519b4a156aa63f0eb4ec02a0ba4779bbe0fe4c58ada67e64ef7ea",
+  "digest": "dbb80f3f2c6d939066217a9627e7ee202d31c72d6b9318c8a8df379b50214e02",
   "branch": "codex/5857-sprint4-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5857-sprint4-review",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5857_exact_head",
+    "assigned_by": "/root/sprint4_5857",
+    "revision": "git-blake3:833d7bffa9700da174eb34ca364e6c1bd7266fb7:7c4c9d4670297ea273b0e9076b814b9d8eb5fe27828fdbe10da409f8be821c15",
+    "scope": [
+      ".csdlc/issues/5857",
+      ".csdlc/prepared/issues/5857/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml",
+      ".csdlc/prepared/issues/5857/validate-sprint-review.rb",
+      ".csdlc/evidence/5857",
+      ".csdlc/issues/5825",
+      ".csdlc/issues/5826",
+      ".csdlc/issues/5827",
+      ".csdlc/issues/5828",
+      ".csdlc/issues/5829",
+      ".csdlc/issues/5830",
+      ".csdlc/issues/5831",
+      ".csdlc/issues/5833",
+      ".csdlc/issues/5834",
+      ".csdlc/prepared/issues/5834/validate-review-packet.rb",
+      "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
+      "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+      "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +69,9 @@
       "ast_digest": "d1319d9e68f30243e33080865594b440614c75bbb4b3334996226323ddb1f8a4"
     },
     "srp": {
-      "values_digest": "78ec6d6f7cc9a56eef9d1acb5c9eff6136ed2d729e84314306de1f1556fed8cc",
-      "rendered_digest": "a391b8ba05b259641f15955423ae9118514eb80a6a87eeef4f8b47af0ba76cae",
-      "ast_digest": "7b6c06585692fc2af0e4689e1d27a07fef40f30a876d19b41b0de395bbcf4812"
+      "values_digest": "3b984a9a041f13f7a1b348d7c3e87463c867f85482674a991044ec76668d1801",
+      "rendered_digest": "684530e7d2f87085dbebfc812bdc422e4a9f4b3e2f6a32f49450acd9f6ad4c39",
+      "ast_digest": "d1452889f8a736efee39921f0a2f04a5b23d963bee37cbede5d8c56144eb024c"
     },
     "sor": {
       "values_digest": "b21206084bdf0fbf90dc983edb44c1ec646511009d7085aff3de25cec267fe38",
@@ -134,6 +158,13 @@
       "actor": "/root/sprint4_5857",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
