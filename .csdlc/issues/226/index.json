@@ -6,10 +6,21 @@
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
   "generation": 23,
-  "digest": "37b0a2afa0c65e29bb1d1ac982b34dafd684705d72d293f6ebff8cdb56ea1b83",
+  "digest": "473ed8c65aaad05b144811a618ef1c0ee1ad063ef1741ea9f9d32e6d4542bb3e",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+    "assigned_by": "codex:226-focused-runtime-validation-routing",
+    "revision": "git-blake3:8c17e28340e35fc48103cb4f8841fdef3dd96baf:e97d52a8e5d8aa3d4a0785b4f69182050ded825e632efd155f8269c3620105ee",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226/design.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "02c015d1b4345ca4296821892254a718a54786844af319e29f064fbfb8afe431",
-      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
-      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
+      "values_digest": "e3e27afeec854a2c79930415b632c8cd437b4af227ac0c469fd0db6dadf54875",
+      "rendered_digest": "e1ac8934aa11c005160834b5b095a8e83756cf055f48e66c1acf96eebd811a26",
+      "ast_digest": "fccdd8a8cbae10354c4926365995351d865784831b3544d45c5bf0866fd223a3"
     },
     "sor": {
       "values_digest": "6a1b6052215852e70cd85e8a7fafe657b773a3b93a2b52da55a1fd3402fe28e2",
@@ -386,6 +397,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Recover review truth after making the JavaScript deletion regression unconditional on branches where the real validator already exists.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 23,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
