@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1d] Stream authenticated continuity bundles between voters",
     "slug": "authenticated-continuity-bundle-transfer",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "ready",
   "content": {
@@ -127,7 +127,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on invalid token/session/route/certificate/boot/cut, generic or confused dispatch, wrong source/target/lineage/polis/domain, bad frame/order/digest/manifest, bound overflow, deadline, cancellation ambiguity, prefix/result drift, rollback, disk-full, unsafe path, residue, evidence leak, source drift or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/210/design.md",
-      "design_digest": "bfe137499e1fec51c6eff2c65773f51a10d9488b5ad94ea365fd381d354b0adc",
+      "design_digest": "8ce674c0e9f6e1ab36da4d10763ba80cb56353ce75496946d5c3098504db6f35",
       "diagram_ref": ".csdlc/prepared/issues/210/diagram.mmd",
       "diagram_digest": "fca1602e1956dbdc13cf1a9dd1bda620246bd281ff007e8aab503165ddaa1923"
     }
