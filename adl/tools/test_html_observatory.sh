@@ -19,6 +19,7 @@ const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 const observatoryFeed = {
   schema: "adl.runtime_v3.observatory_feed.v2",
   runtime_instance_id: "runtime-v3-test",
+  runtime_incarnation_id: "runtime-incarnation-a",
   runtime_process_id: 12345,
   runtime_selection: "runtime_v3_explicit_opt_in",
   control: {
@@ -99,7 +100,8 @@ const readiness = {
   ready: true,
   degraded_reasons: [],
   observability_ready: true,
-  runtime_instance_id: "runtime-v3-test"
+  runtime_instance_id: "runtime-v3-test",
+  runtime_incarnation_id: "runtime-incarnation-a"
 };
 
 const calls = [];
@@ -118,6 +120,28 @@ const context = {
       return { ok: true, status: 200, json: async () => readiness };
     }
     if (String(url).startsWith(`${config.api_base}/v1/agents?`)) {
+      const pageToken = new URL(String(url)).searchParams.get("page_token");
+      if (pageToken === "next-token") {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            ...observatoryFeed.agents,
+            revision: 7,
+            total_count: 2,
+            rendered_sample_count: 1,
+            has_more: false,
+            next_page_token: null,
+            sample: [{
+              ...observatoryFeed.agents.sample[0],
+              id: "agent-2",
+              label: "Agent Two",
+              state: "degraded",
+              location: "node-b"
+            }]
+          })
+        };
+      }
       return { ok: true, status: 200, json: async () => observatoryFeed.agents };
     }
     if (String(url) === `${config.api_base}/v1/control`) {
@@ -171,16 +195,37 @@ assert.deepEqual(
   "an empty authoritative Runtime page must not invent fallback agents"
 );
 const rosterPage = await api.fetchRuntimeV3AgentRosterPage(config.api_base, "next-token");
-assert.equal(rosterPage.sample[0].id, "shepherd");
+assert.equal(rosterPage.sample[0].id, "agent-2");
+assert.equal(rosterPage.has_more, false);
 assert(calls.some((call) => call.url.includes("/v1/agents?page_size=50&page_token=next-token")));
-const cursorSnapshot = (runtimeId, revision) => ({
-  status: { runtime_id: runtimeId, agent_population: { revision } }
+const transitionStates = ["ready", "degraded", "migrating", "unreachable"];
+const transitionRows = api.buildRuntimeAgentRows({
+  status: {
+    schema: observatoryFeed.schema,
+    agent_population: {
+      sample: transitionStates.map((state, index) => ({
+        ...observatoryFeed.agents.sample[0],
+        id: `agent-${index}`,
+        state,
+        location: index === 2 ? "node-b" : "node-a"
+      }))
+    }
+  }
 });
-assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", 7)), true);
-assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", 7)), false, "duplicate revision rejected");
-assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", 6)), false, "out-of-order revision rejected");
-assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", 9)), true, "newer status revision accepted");
-assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-b", 1)), true, "Runtime restart resets cursor safely");
+assert.deepEqual(Array.from(transitionRows, (agent) => agent.state), transitionStates);
+assert.equal(transitionRows[2].id, "agent-2", "relocation preserves stable identity");
+assert.equal(transitionRows[2].location, "node-b", "relocation projects the new location");
+const cursorSnapshot = (runtimeId, incarnationId, revision) => ({
+  status: { runtime_id: runtimeId, runtime_incarnation_id: incarnationId, agent_population: { revision } }
+});
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 7)), true);
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 7)), false, "duplicate revision rejected");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 6)), false, "out-of-order revision rejected");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 9)), true, "newer status revision accepted");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-b", 1)), true, "new Runtime incarnation resets a lower roster revision under the stable instance");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-b", 4)), true, "a full authoritative snapshot closes a roster revision gap");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-b", 3)), false, "an older snapshot after a gap remains fenced");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-b", "incarnation-c", 1)), true, "new Runtime instance resets cursor safely");
 
 const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");
