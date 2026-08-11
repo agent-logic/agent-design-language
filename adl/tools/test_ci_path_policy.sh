@@ -34,81 +34,20 @@ assert_file_not_has() {
   fi
 }
 
-assert_file_order() {
-  local file="$1"
-  local first="$2"
-  local second="$3"
-  local first_line
-  local second_line
-  first_line="$(grep -Fn -- "$first" "$file" | head -n 1 | cut -d: -f1 || true)"
-  second_line="$(grep -Fn -- "$second" "$file" | head -n 1 | cut -d: -f1 || true)"
-  if [ -z "$first_line" ] || [ -z "$second_line" ] || [ "$first_line" -ge "$second_line" ]; then
-    echo "expected $file to contain '$first' before '$second'" >&2
-    exit 1
-  fi
-}
-
-assert_current_coverage_workflow_contract() {
+assert_current_pr_workflow_contract() {
   local workflow="$ROOT_DIR/.github/workflows/ci.yaml"
-  assert_file_has "$workflow" 'Determine PR fast coverage filters'
-  assert_file_has "$workflow" "adl_coverage_workspace_fast_hosted:"
-  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.runtime_coverage_required == 'true'"
-  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.workspace_fast_coverage_required == 'true'"
-  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.workspace_full_coverage_required == 'true'"
-  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && !contains(github.event.pull_request.head.ref, 'csdlc-v2')"
-  assert_file_has "$workflow" '--print-risk-nextest-expression > adl/coverage-impact-filter-expression.txt'
-  assert_file_has "$workflow" 'filter_expression<<ADL_COVERAGE_EXPR'
-  assert_file_has "$workflow" 'PR fast coverage summary (json)'
-  # runtime-bounded-pr-fast-coverage-policy-change
-  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && steps.coverage-impact.outputs.needs_fast_summary == 'true'"
-  assert_file_has "$workflow" 'bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"'
-  assert_file_has "$workflow" 'PR coverage-impact preflight'
-  assert_file_has "$workflow" 'args+=(--summary coverage-artifacts/workspace/adl/target/coverage-impact-summary.json)'
-  assert_file_has "$workflow" 'args+=(--require-summary-for-risk)'
-  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.full_coverage_required == 'true'"
-  assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld'
-  assert_file_has "$workflow" 'bash adl/tools/setup_required_coverage_toolchain.sh configure "$GITHUB_ENV"'
-  assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh verify'
-  assert_file_order "$workflow" 'Install cargo-llvm-cov for CI contract checks' 'path-policy PR-fast coverage contract'
-  assert_file_order "$workflow" 'Install cargo-nextest for CI contract checks' 'path-policy PR-fast coverage contract'
-  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-runtime-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
-  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-profraw-shard-${{ matrix.shard }}" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
-  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-aggregate-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
-  assert_file_has "$workflow" 'Upload runtime coverage evidence'
-  assert_file_has "$workflow" 'Upload workspace coverage evidence'
-  assert_file_has "$workflow" 'name: adl-coverage-runtime-${{ github.run_id }}-${{ github.run_attempt }}'
-  assert_file_has "$workflow" 'name: adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}'
-  assert_file_has "$workflow" 'name: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}'
-  assert_file_has "$workflow" 'pattern: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-*'
-  assert_file_has "$workflow" 'policy coverage execution state'
-  assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh stats'
-  assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
-  assert_file_has "$workflow" 'actual adl-coverage execution state'
-  # The tooling-contract job always executes nested llvm-cov/nextest contracts.
-  assert_file_not_has "$workflow" "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'"
-  assert_file_has "$workflow" "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'"
-  assert_file_has "$workflow" "needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'"
-  assert_file_has "$workflow" "Aggregate split adl-ci lanes"
-  assert_file_has "$workflow" 'Stable required check \`adl-ci\` is an aggregator over parallel lanes.'
-  assert_file_has "$workflow" 'name: adl-runtime-v3-fast'
-  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.runtime_v3_fast_required == 'true'"
-  assert_file_has "$workflow" 'cargo test --manifest-path adl-runtime-kernel/Cargo.toml'
-  assert_file_has "$workflow" 'adl_runtime_v3_fast:${{ needs.adl_runtime_v3_fast.result }}'
-  assert_file_has "$workflow" 'name: csdlc-v2-standalone'
-  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.csdlc_v2_standalone_required == 'true'"
-  assert_file_has "$workflow" 'csdlc_v2_standalone:${{ needs.csdlc_v2_standalone.result }}'
-  assert_file_has "$workflow" 'selected C-SDLC v2 standalone lane is $CSDLC_V2_STANDALONE_RESULT; expected success'
-  assert_file_has "$workflow" 'unselected C-SDLC v2 standalone lane is $CSDLC_V2_STANDALONE_RESULT; expected skipped'
-  assert_file_has "$workflow" 'csdlc_v2_standalone_required must be exactly true or false'
-  assert_file_has "$workflow" 'name: adl-v2-standalone'
-  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.adl_v2_standalone_required == 'true'"
-  assert_file_has "$workflow" 'adl_v2_standalone:${{ needs.adl_v2_standalone.result }}'
-  assert_file_has "$workflow" 'selected ADL v2 standalone lane is $ADL_V2_STANDALONE_RESULT; expected success'
-  assert_file_has "$workflow" 'unselected ADL v2 standalone lane is $ADL_V2_STANDALONE_RESULT; expected skipped'
-  assert_file_has "$workflow" 'adl_v2_standalone_required must be exactly true or false'
-  assert_file_has "$workflow" 'Full workspace coverage gate deferred for PR'
-  assert_file_has "$workflow" 'adl/target/coverage-impact-summary.json'
-  assert_file_not_has "$workflow" '--authority "adl_coverage_always_on"'
+  local out_of_band="$ROOT_DIR/.github/workflows/ci-out-of-band.yaml"
+  ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" >/dev/null
+  ruby "$ROOT_DIR/adl/tools/test_validate_ci_workflow_policy.rb"
+  assert_file_has "$workflow" '  adl_path_policy:'
+  assert_file_has "$workflow" '  adl_ci:'
+  assert_file_has "$workflow" '  adl_coverage:'
+  assert_file_has "$workflow" 'runs-on: ${{ needs.adl_path_policy.outputs.required_runner }}'
+  assert_file_not_has "$workflow" 'strategy:'
+  assert_file_not_has "$workflow" 'matrix:'
+  assert_file_not_has "$workflow" 'Determine PR fast coverage filters'
+  assert_file_has "$out_of_band" '  workflow_dispatch:'
+  assert_file_has "$out_of_band" 'Determine PR fast coverage filters'
 }
 
 tmp_dir="$(mktemp -d)"
@@ -118,7 +57,7 @@ python3 "$ROOT_DIR/adl/tools/test_warm_rust_dependency_cache.py"
 bash "$ROOT_DIR/adl/tools/test_run_authoritative_coverage_lane.sh"
 bash "$ROOT_DIR/adl/tools/test_run_ci_step_with_log.sh"
 bash "$ROOT_DIR/adl/tools/test_setup_required_coverage_toolchain.sh"
-assert_current_coverage_workflow_contract
+assert_current_pr_workflow_contract
 (cd "$ROOT_DIR" && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh)
 
 (
@@ -1372,7 +1311,7 @@ from pathlib import Path
 
 workflow = Path(".github/workflows/ci.yaml")
 text = workflow.read_text()
-needle = "      - name: Determine PR fast coverage filters\n"
+needle = "      - name: Enforce workflow topology\n"
 if needle not in text:
     raise SystemExit("expected coverage classifier insertion point missing")
 replacement = r"""      - name: Validation profile summary (adl-coverage)
@@ -1392,7 +1331,7 @@ replacement = r"""      - name: Validation profile summary (adl-coverage)
           } >> "$GITHUB_STEP_SUMMARY"
         working-directory: .
 
-      - name: Determine PR fast coverage filters
+      - name: Enforce workflow topology
 """
 workflow.write_text(text.replace(needle, replacement, 1))
 PY
@@ -1466,7 +1405,7 @@ from pathlib import Path
 
 workflow = Path(".github/workflows/ci.yaml")
 text = workflow.read_text()
-needle = "      - name: Determine PR fast coverage filters\n"
+needle = "      - name: Enforce workflow topology\n"
 replacement = r"""      - name: Validation profile summary (adl-coverage)
         run: |
           {
@@ -1484,7 +1423,7 @@ replacement = r"""      - name: Validation profile summary (adl-coverage)
           } >> "$GITHUB_STEP_SUMMARY"
         working-directory: .
 
-      - name: Determine PR fast coverage filters
+      - name: Enforce workflow topology
 """
 text = text.replace(needle, replacement, 1)
 text = text.replace("run: bash adl/tools/run_authoritative_coverage_lane.sh", "run: bash adl/tools/run_authoritative_coverage_lane.sh --strict", 1)
@@ -1531,7 +1470,7 @@ from pathlib import Path
 
 workflow = Path(".github/workflows/ci.yaml")
 text = workflow.read_text()
-needle = "      - name: Determine PR fast coverage filters\n"
+needle = "      - name: Enforce workflow topology\n"
 replacement = r"""      - name: Validation profile summary (adl-coverage)
         run: |
           {
@@ -1549,7 +1488,7 @@ replacement = r"""      - name: Validation profile summary (adl-coverage)
           } >> "$GITHUB_STEP_SUMMARY"
         working-directory: .
 
-      - name: Determine PR fast coverage filters
+      - name: Enforce workflow topology
 """
 workflow.write_text(text.replace(needle, replacement, 1))
 workflow = Path(".github/workflows/ci.yaml")
