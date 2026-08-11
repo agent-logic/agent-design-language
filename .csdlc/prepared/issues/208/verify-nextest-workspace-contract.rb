@@ -24,6 +24,6 @@ fail_contract("filter is not the exact ordered issue case set") unless alternati
 fail_contract("global leak policy drift") unless config.include?("leak-timeout = \"100ms\"")
 fail_contract("tracked leak policy must remain fail-closed") unless config.include?('leak-timeout = { period = "5s", result = "fail" }')
 producer = File.binread(PRODUCER)
-fail_contract("standalone proof lanes must load the tracked config explicitly") unless producer.scan("nextest run --config-file adl/.config/nextest.toml").length == 7
+fail_contract("standalone proof lanes must load the tracked config explicitly") unless producer.scan("nextest run --config-file adl/.config/nextest.toml").length == 8
 
 puts "PASS: nextest workspace and slow-proof selections remain loadable without absent-binary operators; exact 56-case leak policy remains fail-closed"
