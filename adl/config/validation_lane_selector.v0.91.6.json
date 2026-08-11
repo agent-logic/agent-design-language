@@ -520,23 +520,40 @@
       ],
       "path_selectors": [
         "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-        "adl/tools/test_html_observatory.sh",
         "adl/tools/validate_v0917_html_observatory.py",
-        "adl/tools/validate_v092_html_observatory_roster.mjs",
         "adl/tools/validate_v092_browser_trusted_observatory.mjs",
         "demos/html-observatory/**"
       ],
       "path_hints": [
         "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-        "adl/tools/test_html_observatory.sh",
         "adl/tools/validate_v0917_html_observatory.py",
-        "adl/tools/validate_v092_html_observatory_roster.mjs",
         "adl/tools/validate_v092_browser_trusted_observatory.mjs",
         "demos/html-observatory/"
       ],
       "command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
       "run_command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
       "reason": "v0917_html_observatory_surface_requires_integrated_runtime_demo_proof"
+    },
+    {
+      "id": "html_observatory_tooling_syntax",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "proof_role": "tooling_contract",
+      "requirement_ids": [
+        "html_observatory_tooling_syntax"
+      ],
+      "path_selectors": [
+        "adl/tools/test_html_observatory.sh",
+        "adl/tools/validate_v092_html_observatory_roster.mjs"
+      ],
+      "path_hints": [
+        "adl/tools/test_html_observatory.sh",
+        "adl/tools/validate_v092_html_observatory_roster.mjs"
+      ],
+      "command": "bash -n adl/tools/test_html_observatory.sh && if [[ -f adl/tools/validate_v092_html_observatory_roster.mjs ]]; then node --check adl/tools/validate_v092_html_observatory_roster.mjs; fi",
+      "run_command": "bash -n adl/tools/test_html_observatory.sh && if [[ -f adl/tools/validate_v092_html_observatory_roster.mjs ]]; then node --check adl/tools/validate_v092_html_observatory_roster.mjs; fi",
+      "reason": "html_observatory_tooling_changes_require_direct_shell_and_javascript_syntax_proof"
     },
     {
       "id": "csdlc_owner_lane",

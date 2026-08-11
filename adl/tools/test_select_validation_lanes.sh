@@ -129,6 +129,7 @@ EOF
 bash "$SCRIPT" --changed-files "$issue_111_113" >"$TMP/issue-111-113.out"
 assert_has "$TMP/issue-111-113.out" "aggregate_status=selected"
 assert_has "$TMP/issue-111-113.out" "html_observatory_v0917_runtime_surface status=selected"
+assert_has "$TMP/issue-111-113.out" "html_observatory_tooling_syntax status=selected"
 assert_has "$TMP/issue-111-113.out" "docs_diff_check status=selected"
 assert_has "$TMP/issue-111-113.out" "runtime_kernel_contracts status=selected"
 assert_not_has "$TMP/issue-111-113.out" "unmapped_change_surface"
@@ -149,6 +150,31 @@ assert all(
 assert all(item["lane_id"] != "slow_proof_review" for item in profile["run"])
 assert any(item["surface"] == "slow_proof" for item in profile["not_run"])
 PY
+
+shell_tool="$TMP/html-observatory-shell-tool.txt"
+printf 'M\tadl/tools/test_html_observatory.sh\n' >"$shell_tool"
+bash "$SCRIPT" --changed-files "$shell_tool" >"$TMP/html-observatory-shell-tool.out"
+assert_has "$TMP/html-observatory-shell-tool.out" "html_observatory_tooling_syntax status=selected"
+assert_has "$TMP/html-observatory-shell-tool.out" "bash -n adl/tools/test_html_observatory.sh"
+assert_not_has "$TMP/html-observatory-shell-tool.out" "html_observatory_v0917_runtime_surface status=selected"
+
+javascript_tool="$TMP/html-observatory-javascript-tool.txt"
+printf 'M\tadl/tools/validate_v092_html_observatory_roster.mjs\n' >"$javascript_tool"
+bash "$SCRIPT" --changed-files "$javascript_tool" >"$TMP/html-observatory-javascript-tool.out"
+assert_has "$TMP/html-observatory-javascript-tool.out" "html_observatory_tooling_syntax status=selected"
+assert_has "$TMP/html-observatory-javascript-tool.out" "node --check adl/tools/validate_v092_html_observatory_roster.mjs"
+assert_not_has "$TMP/html-observatory-javascript-tool.out" "html_observatory_v0917_runtime_surface status=selected"
+
+printf 'if then\n' >"$TMP/invalid-observatory-tool.sh"
+if bash -n "$TMP/invalid-observatory-tool.sh" >/dev/null 2>&1; then
+  echo "expected malformed Observatory shell tooling to fail syntax validation" >&2
+  exit 1
+fi
+printf 'const = ;\n' >"$TMP/invalid-observatory-tool.mjs"
+if node --check "$TMP/invalid-observatory-tool.mjs" >/dev/null 2>&1; then
+  echo "expected malformed Observatory JavaScript tooling to fail syntax validation" >&2
+  exit 1
+fi
 
 unknown_tooling="$TMP/unknown-tooling.txt"
 printf 'A\tadl/tools/future_unclassified_route.sh\n' >"$unknown_tooling"

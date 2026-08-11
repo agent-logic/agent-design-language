@@ -461,7 +461,7 @@ PY
   assert_has "$issue_111_113_output" "coverage_authority=not_required"
   assert_has "$issue_111_113_output" "validation_profile_status=ready_to_run"
   assert_has "$issue_111_113_output" "validation_profile_escalation_required=false"
-  assert_has "$issue_111_113_output" "validation_profile_run_lanes=docs_diff_check,html_observatory_v0917_runtime_surface,runtime_kernel_contracts"
+  assert_has "$issue_111_113_output" "validation_profile_run_lanes=docs_diff_check,html_observatory_tooling_syntax,html_observatory_v0917_runtime_surface,runtime_kernel_contracts"
 
   printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/future_unclassified_route.sh
   git add adl/tools/future_unclassified_route.sh
