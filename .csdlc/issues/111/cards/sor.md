@@ -230,11 +230,11 @@ Closed the integrated review findings by rechecking live recipient eligibility a
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
     "slug": "wp18c01-canonical-human-agent-conversation-sessions",
     "version": "v0.92",
-    "generation": 54
+    "generation": 56
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/operations.rs\nadl-runtime-kernel/tests/conversation_sessions.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/openapi_contract.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/conversation_sessions.test.mjs\n.csdlc/issues/111",
+      "review_revision": "git-blake3:a101b23ec21a674e3cb3d7165061d8c83b0aa142:b45d622e263c4cf33ef0ffe68fbb78b707cbe11de791c1ad53508a60c06233af",
+      "reviewer": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
       "review_prompts": [
         "Verify Runtime is the only session/order/outcome authority and the browser cannot synthesize turns, delivery, or replies.",
         "Probe duplicate submission, sequence gaps, reconnect replay, cancellation/timeout races, late adapter output, saturation, shutdown, and restart behavior.",
@@ -24,8 +24,11 @@
         "Verify every product path in the diff is issue-owned, PVF-classified, and supported by exact-revision proof."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Durable cross-restart conversation history remains owned by downstream issue #114.",
+        "Broader multi-agent room and routing semantics remain owned by downstream issues #115 and #116."
+      ],
+      "review_result": "pass"
     }
   }
 }

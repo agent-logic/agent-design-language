@@ -4,14 +4,69 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
-  "phase": "implemented",
-  "generation": 54,
-  "digest": "af17107658b38a077a6b4b1597a9e4a58378014528be1e255d2af677dce7f951",
+  "phase": "published",
+  "generation": 56,
+  "digest": "5c91ce77fe0914c1cfa5dff128f967f9b4ec1908574a54f7220569906b39041f",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+    "assigned_by": "codex:wp18c01-execution",
+    "revision": "git-blake3:a101b23ec21a674e3cb3d7165061d8c83b0aa142:b45d622e263c4cf33ef0ffe68fbb78b707cbe11de791c1ad53508a60c06233af",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ],
+    "reviewed_revision": "git-blake3:a101b23ec21a674e3cb3d7165061d8c83b0aa142:b45d622e263c4cf33ef0ffe68fbb78b707cbe11de791c1ad53508a60c06233af",
+    "findings": [],
+    "residual_risks": [
+      "Durable cross-restart conversation history remains owned by downstream issue #114.",
+      "Broader multi-agent room and routing semantics remain owned by downstream issues #115 and #116."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 111,
+    "pull_request": 223,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/223",
+    "base": "codex/113-wp18c03-roster-presence-preparation",
+    "head": "codex/111-wp18c01-conversation-session-preparation",
+    "revision": "git-blake3:a101b23ec21a674e3cb3d7165061d8c83b0aa142:b45d622e263c4cf33ef0ffe68fbb78b707cbe11de791c1ad53508a60c06233af",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +80,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "756ff845f66d2e101a8f506d46715df4eb8af538533d7247b0d96a1b7061f8a8",
+      "values_digest": "5e4df70e9eb5007a5d75e72a918d71cf4fd6645abdfcfdbbba823d0cf79eae04",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "7802c6acc95e0f801b7a20699e426af5d827b052af0fe6eafc89646e2447f6f8",
+      "values_digest": "be8e4a43410564cdfaafb6ca7cd43d7dc25bfce296200aebb00622ae997f18ef",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "eab7479077a58f4a255ef01e8d8905aeda6165810ca93ad46e19e019ae6b2bbf",
+      "values_digest": "2406c033e9a8d9a2fab5c5645e20b9059d5a9b4a0e0f536a6d6a80b63b4a980d",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "c301f6cb8719fdde91c8861fc47f385e8a3557d956dffd0c86955d5ab57c599e",
+      "values_digest": "9ef7f6a187ddd5a4a35e283dc2d6fda0c761205f6969238dab67019ce22a9c59",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "1172069fc4cb455382c4708f8a71280b77fbd7ec3d604ff414d83648b0964cb9",
-      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
-      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
+      "values_digest": "cf96fe337157d7705d0d2355acba8d63178263b1af5a71d34d6b609ea63c5211",
+      "rendered_digest": "a31e03d5dc4ad795861d3b245f1161de358e5e702d5818798565428b2a736ac0",
+      "ast_digest": "93e4143dd05c672e65424bfbdfe02fce8d58dd53eee00ac319cb0f249e87205d"
     },
     "sor": {
-      "values_digest": "56a402991e6c20fc30a656dddeec974d8c3b9fd0a6ac3bfedb9210339c60cb82",
-      "rendered_digest": "e30d70451629ff34e8685558009aa7ce2fc7db1ec46bf3db26ac7b7e6199d997",
-      "ast_digest": "d2a804b287ed2e9662cb2f46003536623cb13c7afced54b92dadb83f5bc9da5c"
+      "values_digest": "3324acbf7c7688d94eb85c573ed175e027cc42497396e0767d2d2ffedb4317d1",
+      "rendered_digest": "61409d2777ef903cd7f0d26f7c6b638481c7c43bbdd3659025ddbb03d85b7d5f",
+      "ast_digest": "b6f49e9d0172a3aba7ef30eeaeb84344740db2e15c183688cfab09ddb0034c2c"
     }
   },
   "transitions": [
@@ -90,6 +145,20 @@
       "to": "implemented",
       "actor": "codex:wp18c01-execution",
       "reason": "Refresh exact-head execution and review truth after integrating the published #113 roster branch and aligning conversation admission with live communication eligibility."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp18c01-execution",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -498,6 +567,27 @@
       "actor": "codex:wp18c01-execution",
       "reason": "Record focused proof for the integrated review remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused WP-18C.01 Runtime, browser, static, lint, format, and diff gates\"],\"purpose\":\"Prove recipient eligibility is fail-closed at dispatch, reconnect replay is bounded per disconnect, and the complete integrated issue surface remains green.\",\"outcome\":\"passed\",\"evidence_ref\":\"conversation_sessions 1/1; agent_roster 10/10; control 24/24; openapi_contract 6/6; observatory 7/7; browser conversation PASS; HTML static PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS\"}}"
+    },
+    {
+      "sequence": 59,
+      "generation": 54,
+      "actor": "codex:wp18c01-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 55,
+      "actor": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 56,
+      "actor": "codex:wp18c01-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
