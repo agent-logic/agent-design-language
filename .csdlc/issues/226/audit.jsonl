@@ -39,3 +39,4 @@
 {"sequence":39,"generation":23,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":40,"generation":24,"actor":"codex:226-focused-runtime-validation-routing","reason":"Recover review truth after correcting the deletion-test cleanup order so an originally present validator is restored before its temporary backup directory is removed.","operation":"recover_review"}
 {"sequence":41,"generation":24,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":42,"generation":25,"actor":"codex:226-focused-runtime-validation-routing","reason":"Replace the stalled codex-exec reviewer after bounded waits; a FastWork-capable independent reviewer completed the exact db28e8687 scope with no findings.","operation":"recover_review"}
