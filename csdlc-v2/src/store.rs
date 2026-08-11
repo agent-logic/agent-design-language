@@ -2816,12 +2816,6 @@ pub(crate) fn read_regular_authored_artifact(
     root: &Path,
     relative: &Path,
 ) -> Result<Option<Vec<u8>>> {
-    if !crate::pvf::clean_relative(relative) {
-        return Err(V2Error::new(
-            ErrorCode::CorruptRecord,
-            "terminal authored artifact path must be clean and repository-relative",
-        ));
-    }
     read_regular_authored_artifact_with_hook(root, relative, |_| {})
 }
 
@@ -2832,8 +2826,44 @@ enum AuthoredReadStage {
     BeforeFinalOpen,
 }
 
-#[cfg(unix)]
 fn read_regular_authored_artifact_with_hook(
+    root: &Path,
+    relative: &Path,
+    hook: impl FnMut(AuthoredReadStage),
+) -> Result<Option<Vec<u8>>> {
+    validate_authored_relative_path(relative)?;
+    read_regular_authored_artifact_platform_with_hook(root, relative, hook)
+}
+
+fn validate_authored_relative_path(relative: &Path) -> Result<()> {
+    let value = relative.to_str().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "authored artifact path must be UTF-8",
+        )
+    })?;
+    let segments: Vec<_> = value.split('/').collect();
+    if value.is_empty()
+        || value.contains('\\')
+        || !crate::pvf::clean_relative(relative)
+        || segments.iter().any(|segment| segment.is_empty())
+        || segments
+            .iter()
+            .any(|segment| *segment == "." || *segment == "..")
+        || segments
+            .first()
+            .is_some_and(|segment| segment.ends_with(':'))
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "authored artifact path must be nonempty, clean, canonical, and repository-relative",
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+fn read_regular_authored_artifact_platform_with_hook(
     root: &Path,
     relative: &Path,
     mut hook: impl FnMut(AuthoredReadStage),
@@ -2942,7 +2972,10 @@ fn open_relative_no_follow(root: &File, relative: &Path) -> Result<Option<File>>
     let mut directory_fd = root.as_raw_fd();
     for (index, component) in components.iter().enumerate() {
         let std::path::Component::Normal(name) = component else {
-            unreachable!("clean relative path contains only normal components")
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "authored artifact path contains a non-normal component",
+            ));
         };
         let name = CString::new(name.as_bytes()).map_err(|_| {
             V2Error::new(
@@ -2987,7 +3020,7 @@ fn open_relative_no_follow(root: &File, relative: &Path) -> Result<Option<File>>
 }
 
 #[cfg(windows)]
-fn read_regular_authored_artifact_with_hook(
+fn read_regular_authored_artifact_platform_with_hook(
     root: &Path,
     relative: &Path,
     mut hook: impl FnMut(AuthoredReadStage),
@@ -3037,7 +3070,7 @@ fn read_regular_authored_artifact_with_hook(
 }
 
 #[cfg(not(any(unix, windows)))]
-fn read_regular_authored_artifact_with_hook(
+fn read_regular_authored_artifact_platform_with_hook(
     _root: &Path,
     _relative: &Path,
     _hook: impl FnMut(AuthoredReadStage),
@@ -3122,7 +3155,12 @@ fn canonical_path_metadata_beneath(root: &Path, relative: &Path) -> Result<Optio
     for (index, component) in components.iter().enumerate() {
         match component {
             std::path::Component::Normal(part) => current.push(part),
-            _ => unreachable!("clean_relative accepted a non-normal component"),
+            _ => {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "authored artifact path contains a non-normal component",
+                ));
+            }
         }
         let metadata = match fs::symlink_metadata(&current) {
             Ok(metadata) => metadata,

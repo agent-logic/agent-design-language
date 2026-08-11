@@ -294,6 +294,26 @@ fn write_consistent_card(
     write_consistent_record(repo, record);
 }
 
+fn write_consistent_design_reference(
+    repo: &Path,
+    record: &mut csdlc_v2::IssueRecord,
+    design_ref: &str,
+) {
+    let store = Store::new(repo);
+    let mut cards = store
+        .load_cards(record.issue)
+        .expect("design reference cards");
+    record.design_path = design_ref.to_owned();
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        match &mut cards.get_mut(&kind).expect("design-bearing card").content {
+            CardContent::Spp(values) => values.design_ref = design_ref.to_owned(),
+            CardContent::Vpp(values) => values.design_ref = design_ref.to_owned(),
+            _ => unreachable!("design-bearing card"),
+        }
+        write_consistent_card(repo, record, kind, &cards[&kind]);
+    }
+}
+
 fn assert_single_generation_preserves_lifecycle_shell(
     before: &csdlc_v2::IssueRecord,
     after: &csdlc_v2::IssueRecord,
@@ -2227,6 +2247,69 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         &old_diagram_digest,
         &new_diagram_digest,
     );
+    let clean_initialized_repair = issue_projection_snapshot(&repo, 42);
+    for (name, invalid_design_ref) in [
+        ("absolute", "/tmp/outside-design.md"),
+        ("traversal", "../design/issue-42.md"),
+        ("empty", ""),
+        ("noncanonical", "design//issue-42.md"),
+    ] {
+        let mut invalid_record = record.clone();
+        write_consistent_design_reference(&repo, &mut invalid_record, invalid_design_ref);
+        let injected = issue_projection_snapshot(&repo, 42);
+
+        let repair_error = direct_edit(
+            &store,
+            &invalid_record,
+            CardKind::Stp,
+            initialized_operation.clone(),
+            false,
+        )
+        .expect_err(name);
+        assert_eq!(repair_error.code, csdlc_v2::ErrorCode::CorruptRecord);
+        assert_eq!(
+            repair_error.message,
+            "authored artifact path must be nonempty, clean, canonical, and repository-relative"
+        );
+        assert_eq!(issue_projection_snapshot(&repo, 42), injected);
+
+        let approval_error = csdlc_v2::store::approve_design(
+            &store,
+            csdlc_v2::store::ApproveDesignRequest {
+                issue: 42,
+                expected_generation: invalid_record.generation,
+                expected_digest: invalid_record.digest.clone(),
+                reviewer: "adversarial-path-reviewer".into(),
+            },
+        )
+        .expect_err(name);
+        assert_eq!(approval_error.code, csdlc_v2::ErrorCode::CorruptRecord);
+        assert_eq!(
+            approval_error.message,
+            "authored artifact path must be nonempty, clean, canonical, and repository-relative"
+        );
+        assert_eq!(issue_projection_snapshot(&repo, 42), injected);
+
+        let validation = command(
+            &repo,
+            env!("CARGO_BIN_EXE_csdlc-validate"),
+            &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+        );
+        assert!(!validation.status.success(), "{name} validation succeeded");
+        let validation_stdout = String::from_utf8_lossy(&validation.stdout);
+        assert!(
+            validation_stdout.contains("corrupt_record"),
+            "{name}: {validation_stdout}"
+        );
+        assert!(
+            validation_stdout.contains(
+                "authored artifact path must be nonempty, clean, canonical, and repository-relative"
+            ),
+            "{name}: {validation_stdout}"
+        );
+        assert_eq!(issue_projection_snapshot(&repo, 42), injected);
+        restore_issue_projection(&repo, 42, &clean_initialized_repair);
+    }
     for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
         assert!(repo
             .join(format!(".csdlc/issues/42/cards/{card}.values.json"))
