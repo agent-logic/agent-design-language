@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
 [
   {
     "lane": "committed-authority-contract-47",
-    "proof_role": "Prove the exact ordered 47-case authority protocol contract from the internal cfg(test) module with no production-selectable bypass feature.",
+    "proof_role": "Prove the exact ordered 47-case authority protocol contract with no production-selectable bypass.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -56,7 +56,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "production-three-voter-openraft",
-    "proof_role": "Exercise production PrepareAuthority, FinalizeAuthority, actual applied log IDs, trusted route-cut custody, wrong self-consistent cut denial, pending response, and per-node publication reconciliation through a real three-voter OpenRaft cluster.",
+    "proof_role": "Exercise production PrepareAuthority, FinalizeAuthority, actual apply IDs, trusted route custody, pending publication, and snapshot install/restart with exact custody/finalization verification plus injection and tamper denial through the production state machine.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -87,7 +87,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "committed-authority-production-clippy",
-    "proof_role": "Reject warnings and API misuse across the production library without compiling cfg(test)-only direct fault helpers.",
+    "proof_role": "Reject warnings and API misuse across the production library without cfg(test)-only authority helpers.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -111,7 +111,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "committed-authority-proof-producer",
-    "proof_role": "Produce one v6 packet binding the protected source, strict production Clippy, exact 47/47 contract, and real three-voter OpenRaft result.",
+    "proof_role": "Produce one v6 packet binding protected source, strict Clippy, exact 47/47, real three-voter OpenRaft, and snapshot trust-boundary results.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -128,7 +128,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "committed-authority-proof-validator",
-    "proof_role": "Validate the immutable v6 packet by ancestry when source objects exist or exact protected-tree equivalence in a depth-one or squash-like history when they do not.",
+    "proof_role": "Require ancestry whenever the source object exists; allow exact protected-tree fallback only when it is genuinely unavailable, proving available-divergent rejection and depth-one pass.",
     "acceptance_ids": [
       "AC-8"
     ],

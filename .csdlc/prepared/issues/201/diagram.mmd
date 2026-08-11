@@ -16,4 +16,7 @@ flowchart LR
   U --> V["Sealed #210 projection binds lineage plus exact SourceCheckpointHandle and bundle handle"]
   V --> W["No send, path, discard, migration, fence, activation, or serving authority"]
   L["Legacy direct authority command"] --> D["Versioned migration or fail-closed rejection"]
+  H["Snapshot candidate"] --> K["Exact configured custody plus empty legacy fields plus reverified finalize evidence"]
+  K --> J
+  H -. "polis, epoch, membership, boot, prepared, finalized, quorum, or legacy tamper" .-> Z
   J -. "crash, rollback, conflict, or ambiguity" .-> Z["Fail closed; reconcile only the exact operation"]

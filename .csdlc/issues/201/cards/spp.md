@@ -16,42 +16,47 @@ After WP-04.16a merges, bind and implement the bounded committed authority proto
 
 ## Plan
 
-Revision 16
+Revision 17
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Bind production PrepareAuthority and FinalizeAuthority commands to actual OpenRaft applied log IDs and the verified route cut's exact polis, membership epoch, authority cut, and boot generations; reject caller-selected authority, caller indices, route relabeling, legacy replay, and stale custody.",
+    "action": "Bind production PrepareAuthority and FinalizeAuthority to actual OpenRaft applied IDs and exact verified route custody; reject caller authority, relabeling, legacy replay, and stale custody.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Keep signer custody runtime-local and non-serialized; cryptographically bind guardian, certificate generation, boot generation, membership index, intent, committed prepare index, and finalization time, while separately validating and recording the actual finalize apply index; deny every non-replicated route to a sealed artifact or projection.",
+    "action": "Keep signer custody runtime-local and cryptographically bind exact endorsement fields while separately validating the actual finalize apply index; deny non-replicated artifact routes.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Return only a fail-closed pending response from committed finalize apply, then use state-held local voter identity, root, and checkpoint authority to reconcile that voter's exact result, retry record, journal, and fresh CAS before exposing an opaque PublishedAuthorityResult; regenerate and validate the exact independent 47-case and real three-voter OpenRaft proof.",
+    "action": "Keep trusted route custody outside snapshot-replaceable state; accept snapshot install only when current and every prepared custody exactly match configured polis, epoch, authority, and boots, legacy authority fields are empty, and every finalized entry carries complete evidence that re-verifies quorum, signatures, time, and committed indices before publication; prove legitimate restart plus all injection and tamper negatives through the production state machine.",
     "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-6",
+      "AC-7"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Retain one immutable v6 proof, validate it in full-history and depth-one squash-like history, obtain fresh independent exact-head review, and stop before publication or merge.",
+    "action": "Regenerate one immutable v6 proof, validate ancestry whenever its source object is available and protected-tree equivalence only when genuinely unavailable, obtain fresh independent exact-head review, and stop before publication or merge.",
     "acceptance_ids": [
       "AC-8"
     ],

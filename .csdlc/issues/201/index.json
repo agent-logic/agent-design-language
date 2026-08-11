@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "implemented",
-  "generation": 47,
-  "digest": "a2e12935e3d65d15cd8894427ca6f6c05e1f0ff1b3960856e44ced18d16736e5",
+  "generation": 50,
+  "digest": "9a2e55e2de21bbe353308f41ad95a23ca526613642ab85f91a042688bdea12fe",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e9c4c923bd2ab41990ccc97d5dac0775a6e4f601d40c4d50df8628fdfd0a3a57",
+      "values_digest": "fd19160799b2016542d07aa7f6c44f3b71aa27d9bcac313299414961e78b6308",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "cd91c5a6580ad96c66c6e7e2d7e18154138bff404bf8f4686f5fda5736614321",
+      "values_digest": "752f5b16c974fadabbdcacdc39ef42204e55c197beed26071450853aab7a5b1f",
       "rendered_digest": "b9dc9472b5cb780e06096f27d1ea410affd2ef1dbe6879575b904767dd8e5a96",
       "ast_digest": "933b98acdd836328d3647ded0d86e0a2aed1320befac8f59ce373d1c34fb1041"
     },
     "spp": {
-      "values_digest": "213bc06f9898ef82ddd4e38bcf6c4d5a9608fcf98074b2bdf7e8910b618a7785",
-      "rendered_digest": "be1da8f9fa4c0c52e4509fc049706104d1f0b84eb0ac5a7fb28430a9e4cb00f4",
-      "ast_digest": "839a6fa6efb2290a4c3b8117a8ec0409a57c537e46af73912d8b03c65a9e36ff"
+      "values_digest": "0746bb567a8ab32ceb57b96bf1ea33287c43b3cab17eca4172e2efbbc4124ac2",
+      "rendered_digest": "405aca99e3d0c563df2d69fb030a0404bbd8d2938338aefa21e6c69a5f62b69d",
+      "ast_digest": "b24292d2ff6c604f649ebc05d50e580b2084bb5645898cd228cdde2f1b6093e7"
     },
     "vpp": {
-      "values_digest": "69d952e2130761ad6e37d7cae0a1a381c98d66af085a86181f9973c686486811",
-      "rendered_digest": "42a390c74604fc4273bf3e1a861ece961444f50988e9289f707715edbed60559",
-      "ast_digest": "7f269ed3178a7aaff27ca611b7373893e8262283ef10e798b55ffec597969f04"
+      "values_digest": "c1d0f4d44682545f0cd888a5df00ca17f9d73a34a7415f522d0b4fe03eb7826c",
+      "rendered_digest": "1b2b316baec72a67471f4b53374206c82da397e598c215de5a4e7a50d807d5aa",
+      "ast_digest": "0ab8e6fc9d34fe63130d7eb4a31f798621ac27a117151ba8acc60a389649b2b1"
     },
     "srp": {
-      "values_digest": "2b91f162c6ddc6c4b787b99429835d58918583e77079d79be959862107fcdc56",
-      "rendered_digest": "2ebd7b74465430ffbb6acd15c33462060b46de2365908b3aed8622ae54266d1d",
-      "ast_digest": "13c1b8227b09144168af3061755df4d86a7c19afc00c36dbf97c550164221481"
+      "values_digest": "622f6d5219c7121cab8fdc60e22658c5bbaedf88f448fa3771340a7f06e08d37",
+      "rendered_digest": "f7f99929fd7c1e263acfea746924c023a26d13c05aee241c049927b757d4701f",
+      "ast_digest": "d3ab32dfeb51984bb10735e147b3a586fbe26393f4aa6fd9591e0a792c2f48cf"
     },
     "sor": {
-      "values_digest": "4cec7c6bf1e3bbf1742c5165e7f3fe022eba9b2b2ebed5b6f4fecd4fb072a3ee",
+      "values_digest": "d7aee93fdd6f6247fb2e5c72949218c836f207ce0deda476b9438948e13bd9ce",
       "rendered_digest": "495d01770fb4dbc917d21f2c8e901096c41e5bde3a21923d9680a3dd32777814",
       "ast_digest": "ecbf6184851523a72b9a10742a875d36b9d159abe4cc67ef10a8998d3b501745"
     }
@@ -420,6 +420,27 @@
       "actor": "codex:/root/resolve_201_review_129ea",
       "reason": "Record exact current-source proof truth after regeneration and full and shallow validation.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Authority-protocol review repairs are implemented and the final v6 receipt binds source 5386a3a44ea2b5c0edc7490c086bb953b03751e8 with exact ordered 47/47 cases, strict production Clippy, a real three-voter OpenRaft path, legacy denial, and full-history plus depth-one validation.\",\"changes\":[\"Bound production PrepareAuthority to state-held verified route custody: exact polis id, membership epoch, authority membership, and boot generations, with real OpenRaft denial of relabeled polis, epoch, and self-consistent wrong authority cuts.\",\"Kept signer custody runtime-local and non-serialized; signatures bind guardian, certificate generation, boot generation, membership index, intent digest, committed prepare index, and finalization time, while actual finalize apply index is separately verified and recorded.\",\"Made committed finalize return authority_publication_pending with no token and removed caller-selected node identity, root, and checkpoint authority from public reconciliation.\",\"Proved each store publishes only through configured local voter context, rejecting fake-node, fake-root, fake-CAS, retry, and restart substitutions.\",\"Made the validator independently enforce exact ordered canonical 47 names, results, and marker hashes, including substitution and reorder regressions in full and shallow history.\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_protocol_contract_tests.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/tests/distributed_authority_protocol.rs\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201/v6/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"-E\",\"test(/^distributed::authority_protocol::contract_tests::/)\",\"--no-tests=fail\"],\"purpose\":\"Prove the exact ordered 47-case denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove real three-voter OpenRaft route custody, pending response, local reconcile/restart, and substitution denial.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove production code is warning-free without test-only authority helpers.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\"],\"purpose\":\"Prove legacy caller-indexed authority shapes fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/tests/distributed_authority_protocol.rs\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"purpose\":\"Prove independent exact-case and immutable receipt validation in full and depth-one history.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"201\"],\"purpose\":\"Prove typed card projections after independent design approval.\",\"outcome\":\"deferred\",\"evidence_ref\":\".csdlc/issues/201/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Prove branch diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 48,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Add the snapshot trust-boundary review repair to the operative implementation plan.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Bind production PrepareAuthority and FinalizeAuthority to actual OpenRaft applied IDs and exact verified route custody; reject caller authority, relabeling, legacy replay, and stale custody.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Keep signer custody runtime-local and cryptographically bind exact endorsement fields while separately validating the actual finalize apply index; deny non-replicated artifact routes.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Keep trusted route custody outside snapshot-replaceable state; accept snapshot install only when current and every prepared custody exactly match configured polis, epoch, authority, and boots, legacy authority fields are empty, and every finalized entry carries complete evidence that re-verifies quorum, signatures, time, and committed indices before publication; prove legitimate restart plus all injection and tamper negatives through the production state machine.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Regenerate one immutable v6 proof, validate ancestry whenever its source object is available and protected-tree equivalence only when genuinely unavailable, obtain fresh independent exact-head review, and stop before publication or merge.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 51,
+      "generation": 49,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Bind snapshot-install trust validation and available-divergent ancestry denial into the existing proving lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"committed-authority-contract-47\",\"proof_role\":\"Prove the exact ordered 47-case authority protocol contract with no production-selectable bypass.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":15000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"-E\",\"test(/^distributed::authority_protocol::contract_tests::/)\",\"--no-tests=fail\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":null},{\"lane\":\"production-three-voter-openraft\",\"proof_role\":\"Exercise production PrepareAuthority, FinalizeAuthority, actual apply IDs, trusted route custody, pending publication, and snapshot install/restart with exact custody/finalization verification plus injection and tamper denial through the production state machine.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids\",\"--\",\"--exact\",\"--nocapture\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":null},{\"lane\":\"committed-authority-production-clippy\",\"proof_role\":\"Reject warnings and API misuse across the production library without cfg(test)-only authority helpers.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":null},{\"lane\":\"committed-authority-proof-producer\",\"proof_role\":\"Produce one v6 packet binding protected source, strict Clippy, exact 47/47, real three-voter OpenRaft, and snapshot trust-boundary results.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":null},{\"lane\":\"committed-authority-proof-validator\",\"proof_role\":\"Require ancestry whenever the source object exists; allow exact protected-tree fallback only when it is genuinely unavailable, proving available-divergent rejection and depth-one pass.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 50,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Require fresh review of snapshot custody/evidence validation and exact validator ancestry behavior.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or verified authority token?\",\"Does production prepare match the state-held verified route cut's exact polis, membership epoch, authority membership, and boot generations?\",\"Is trusted custody retained outside snapshot-replaceable state, with snapshot install requiring exact current and every prepared custody plus empty legacy authority fields?\",\"Does every restored finalized entry retain complete proposal/endorsement evidence and rerun the same quorum, signature, time, operation, prepare-index, and finalize-index verification before publication?\",\"Do production state-machine tests prove legitimate snapshot install/restart and reject altered polis, epoch, membership, boot, prepared custody, finalized evidence/quorum, and legacy-field injection?\",\"Does deterministic finalize apply return pending with no token while runtime reconciliation uses only state-held local identity, root, and checkpoint authority?\",\"Are actual signature fields stated exactly, with committed prepare index and finalization time bound while actual finalize apply index is separately verified and recorded?\",\"Are all legacy direct authority commands retired or fail-closed across apply, log replay, and snapshot restore?\",\"Does the validator require ancestry whenever the source object exists, reject an available divergent source, and use protected-tree fallback only when the object is genuinely unavailable in a depth-one history?\",\"Does exact proof independently bind ordered forty-seven names, results, marker hashes, protected source, strict Clippy, production OpenRaft, and merge topology?\"]}"
     }
   ]
 }

@@ -100,9 +100,18 @@ migration, fences a source, activates a target, or grants serving. Wrong
 operation variants and every consumer other than the sealed #210 adapter are
 rejected before a view is returned.
 
+Trusted route custody is runtime configuration outside snapshot-replaceable
+state. Snapshot install accepts an application image only when its current
+custody and every prepared operation custody exactly equal the configured polis
+id, membership epoch, authority membership, and boot-generation map, and when
+all retired owner, Shepherd, Observatory, fence, and demotion authority fields
+are empty. A finalized snapshot entry retains its complete finalize proposal and
+endorsements; install reruns the same operation, quorum, signature, certificate,
+boot, time-window, committed-prepare-index, and finalize-index verification used
+by live apply before the entry can become eligible for local publication.
 Serialization, snapshot restore, retry-cache load, and checkpoint reconciliation
-all compare both the retained bytes and digest. A record that preserves the
-digest but changes, omits, re-encodes, or substitutes the bytes fails closed.
+compare retained bytes and digests. Any omitted, re-encoded, injected, or
+substituted custody, evidence, or legacy field fails closed.
 
 The prepare and finalize entries contain canonical quorum-attested time tokens.
 Replica-local clocks may determine whether a voter is willing to endorse a
