@@ -69,6 +69,50 @@ pub struct LiveAssembly {
     pub topology_hash: String,
     pub config_hash: String,
     pub canonical_ingress: CanonicalIngress,
+    pub(crate) operation_continuity: crate::LiveOperationContinuity,
+}
+
+/// Construct the continuity registry from the same live handles and durable
+/// operation root consumed by the production kernel assembly.
+pub fn build_live_continuity_registry(
+    assembly: &LiveAssembly,
+    recorder: RuntimeRecorder,
+    reasoning: Arc<ReasoningServices>,
+    operation_state_root: &Path,
+    max_services: usize,
+) -> Result<crate::LiveContinuityRegistry, crate::ContinuityControlError> {
+    crate::LiveContinuityRegistry::from_production_handles(
+        assembly.canonical_ingress.clone(),
+        recorder,
+        reasoning,
+        operation_state_root.to_path_buf(),
+        assembly.operation_continuity.clone(),
+        max_services,
+    )
+}
+
+pub(crate) fn operation_state_projection(
+    root: &Path,
+) -> Result<Vec<u8>, crate::ContinuityControlError> {
+    let metadata = fs::symlink_metadata(root)?;
+    if metadata.file_type().is_symlink() || !metadata.is_dir() {
+        return Err(crate::ContinuityControlError::UnsafeRoot);
+    }
+    let mut entries = Vec::new();
+    for entry in fs::read_dir(root)? {
+        let entry = entry?;
+        let metadata = entry.file_type()?;
+        if metadata.is_symlink() {
+            return Err(crate::ContinuityControlError::UnsafePath);
+        }
+        entries.push(entry.file_name().to_string_lossy().into_owned());
+    }
+    entries.sort();
+    serde_jcs::to_vec(&serde_json::json!({
+        "schema": "adl.runtime.operation_state_registry.v1",
+        "entries": entries,
+    }))
+    .map_err(|error| crate::ContinuityControlError::Encoding(error.to_string()))
 }
 
 #[derive(Debug, Error)]
@@ -112,6 +156,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
 
     let mut registrations = Vec::<(Arc<dyn ComponentFactory>, ServiceContract)>::new();
     let mut ingress_dispatchers = BTreeMap::new();
+    let mut continuity_factories = BTreeMap::new();
     let dependencies = representative_dependencies();
     for kind in REQUIRED_OPERATIONAL_ADAPTERS {
         let policy = AdapterPolicy {
@@ -152,6 +197,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
                 ingress_dispatchers.insert("parity-a".to_owned(), factory.clone());
             }
         }
+        continuity_factories.insert(kind.service_name().to_owned(), factory.clone());
         let mut contract = adapter.contract(kinds);
         if kind == AdapterKind::Chronosense {
             contract.requires.push(CapabilityRequirement {
@@ -260,6 +306,8 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         topology_hash,
         config_hash,
         canonical_ingress,
+        operation_continuity: crate::LiveOperationContinuity::from_factories(continuity_factories)
+            .map_err(|error| AssemblyError::Encoding(error.to_string()))?,
     })
 }
 

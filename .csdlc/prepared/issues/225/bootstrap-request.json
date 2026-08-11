@@ -1,0 +1,122 @@
+{
+  "issue": 225,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:225-bounded-card-review-repair",
+  "design_path": ".csdlc/prepared/issues/225/design.md",
+  "diagram_path": ".csdlc/prepared/issues/225/diagram.mmd",
+  "design_reviewer": "subagent:225-design-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92][C-SDLC v2] Permit bounded card correction after review recovery",
+    "slug": "bounded-card-review-repair",
+    "version": "v0.92",
+    "goal": "Permit two exact typed card corrections needed to resolve PR #224 review without direct edits or premature binding.",
+    "required_outcome": "The typed editor atomically corrects recovered SPP plan summaries and initialized/ready SIP operator constraints under exact phase, card, topology, truth, audit, and rendering guards.",
+    "declared_scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/prepared/issues/225",
+      ".csdlc/issues/225"
+    ],
+    "authority_boundary": [
+      "Only csdlc-edit apply owns both semantic corrections",
+      "correct_plan_summary_after_recovery owns only recovered implemented SPP plan_summary",
+      "correct_operator_constraints_before_bind owns only initialized/ready unbound SIP operator_constraints",
+      "csdlc-review remains sole review/publication recovery authority",
+      "Binding, execution, publication, merge, terminal, and cleanup authority are unchanged"
+    ],
+    "operator_constraints": [
+      "Never hand-edit cards or canonical issue state",
+      "Do not bind or start WP-20",
+      "Do not add generic planning mutation authority",
+      "Use focused FastWork Rust validation",
+      "Publish a ready PR closing #225 and stop before merge"
+    ],
+    "task_boundary": "Add two exact semantic corrections and focused fail-closed proof; do not redesign lifecycle or modify PR #224 planning content.",
+    "deliverables": [
+      "Two named semantic operation contracts",
+      "Exact phase/card/topology/recovery/truth authorization",
+      "Old/new audit serialization and atomic projection regeneration",
+      "Focused Gate 2 and Gate 5 regression proof"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Recovered implemented SPP plan_summary correction succeeds only after typed review recovery with stale truth cleared",
+      "AC-2: Initialized/ready unbound SIP operator_constraints correction succeeds without granting bind or execution authority",
+      "AC-3: Both operations enforce nonempty values, card ownership, lifecycle phase, topology, CAS, and retained-truth guards",
+      "AC-4: Audit truth retains complete previous and replacement values plus actor and reason",
+      "AC-5: Values, Markdown, AST, cross-card identity, generation, digest, and design-review truth remain coherent and atomic",
+      "AC-6: Wrong phase/card, stale CAS, empty input, retained truth, and partial-write cases fail without mutation",
+      "AC-7: Focused tests, strict Clippy, formatting, typed validation, diff hygiene, and independent exact-head review pass"
+    ],
+    "dependencies": [
+      "agent-logic/agent-design-language#225",
+      "Merged #213 initialized/ready contract-repair authority",
+      "Existing typed review recovery and semantic editor transaction"
+    ],
+    "repo_inputs": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/templates/prompts/current.json"
+    ],
+    "non_goals": [
+      "Generic implemented replanning",
+      "Arbitrary initialized SIP mutation",
+      "Direct Markdown or JSON patching",
+      "Binding or implementing WP-20",
+      "Broad C-SDLC simplification"
+    ],
+    "plan_summary": "Review and approve the two-operation design, bind #225, implement exact authorization and audit semantics, prove both accepted paths and adjacent rejection boundaries, obtain exact-head review, and publish a ready unmerged PR.",
+    "affected_areas": [
+      "C-SDLC v2 semantic operations",
+      "Pre-bind SIP repair",
+      "Post-recovery SPP repair",
+      "Audit and generated card projections"
+    ],
+    "steps": [
+      {"id":"S1","action":"Review and approve exact operation, phase, card, topology, recovery, and audit contracts, then bind #225.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S2","action":"Implement both semantic operations through the existing store transaction and renderer.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S3","action":"Add focused Gate 2 and Gate 5 accepted and fail-closed regression sequences.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Run focused validation, resolve independent exact-head review, and publish a ready PR closing #225.","acceptance_ids":["AC-7"],"status":"pending"}
+    ],
+    "invariants": [
+      "No correction grants Git topology or execution authority",
+      "Only the two named card fields are mutable through the new operations",
+      "CAS, renderer, AST, cross-card validation, audit, and transaction atomicity remain fail closed",
+      "Pre-bind SIP correction invalidates stale design approval",
+      "Post-recovery SPP correction requires cleared review/publication/readiness truth"
+    ],
+    "risks": [
+      "Over-broad matching could authorize adjacent fields or phases",
+      "Recovery checks could rely only on phase and ignore retained truth",
+      "Audit serialization could omit the previous value",
+      "Tests could bypass the real editor/store/render path"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "A direct card/state mutation is required",
+      "Either operation cannot remain field- and phase-specific",
+      "Review recovery or binding authority must move into csdlc-edit",
+      "Atomic rendering, audit preservation, or negative proof fails"
+    ],
+    "validation_lanes": [
+      {"lane":"prebind-sip-correction","proof_role":"Prove initialized/ready unbound SIP operator-constraint correction, design invalidation, atomic regeneration, audit truth, and fail-closed boundaries.","deterministic":true,"resource_profile":"small","parallel_group":"225-serial-01","budget_seconds":600,"budget_tokens":6000,"argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate2","prebind_operator_constraints_correction"],"acceptance_ids":["AC-2","AC-3","AC-4","AC-5","AC-6"]},
+      {"lane":"recovered-spp-correction","proof_role":"Prove SPP summary correction only after typed review recovery with stale truth cleared, plus audit, atomic regeneration, and adjacent rejection boundaries.","deterministic":true,"resource_profile":"small","parallel_group":"225-serial-02","budget_seconds":600,"budget_tokens":6000,"argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate5","recovered_spp_plan_summary_correction"],"acceptance_ids":["AC-1","AC-3","AC-4","AC-5","AC-6"]},
+      {"lane":"focused-clippy","proof_role":"Reject type, exhaustiveness, and editor owner regressions.","deterministic":true,"resource_profile":"small","parallel_group":"225-serial-03","budget_seconds":600,"budget_tokens":3000,"argv":["cargo","clippy","--locked","--manifest-path","csdlc-v2/Cargo.toml","--lib","--bin","csdlc-edit","--","-D","warnings"],"acceptance_ids":["AC-5","AC-7"]},
+      {"lane":"format","proof_role":"Require canonical Rust formatting.","deterministic":true,"resource_profile":"small","parallel_group":"225-serial-04","budget_seconds":120,"budget_tokens":500,"argv":["cargo","fmt","--manifest-path","csdlc-v2/Cargo.toml","--","--check"],"acceptance_ids":["AC-7"]},
+      {"lane":"diff-hygiene","proof_role":"Reject whitespace and patch defects.","deterministic":true,"resource_profile":"small","parallel_group":"225-serial-05","budget_seconds":60,"budget_tokens":500,"argv":["git","diff","--check"],"acceptance_ids":["AC-7"]}
+    ],
+    "failure_policy": "Fail closed on wrong phase/card/topology/recovery state, retained lifecycle truth, stale CAS, empty values, incomplete audit, projection drift, or validation/review failure.",
+    "review_prompts": [
+      "Can either operation mutate any field, phase, or card outside its exact contract?",
+      "Does SPP correction prove a real typed review recovery and cleared stale truth?",
+      "Does SIP correction remain pre-bind and invalidate stale design approval?",
+      "Do audit and real editor tests prove complete old/new values and atomic projections?",
+      "Are all later phases, retained-truth states, and direct-edit paths still rejected?"
+    ],
+    "review_scope": "Issue #225 design, two semantic operations, exact authorization and audit paths, focused Gate 2/Gate 5 proof, and absence of broader lifecycle authority."
+  }
+}

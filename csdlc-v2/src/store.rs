@@ -1137,7 +1137,16 @@ impl Store {
             sor.merge_state = crate::cards::MergeState::NotMerged;
             sor.closeout_state = crate::cards::CloseoutState::NotStarted;
         }
-        if record.phase != LifecyclePhase::Implemented {
+        if record.phase == LifecyclePhase::MergeReady {
+            record.phase = LifecyclePhase::Implemented;
+            record.transitions.push(TransitionEvent {
+                sequence: record.transitions.len() as u64 + 1,
+                from: LifecyclePhase::MergeReady,
+                to: LifecyclePhase::Implemented,
+                actor: actor.clone(),
+                reason: reason.clone(),
+            });
+        } else if record.phase != LifecyclePhase::Implemented {
             record.advance(LifecyclePhase::Implemented, actor.clone(), reason.clone())?;
         }
         record.review_assignment = None;
@@ -1550,10 +1559,21 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     }
     let mut cards = store.load_cards(request.issue)?;
     let prebind_contract_repair = is_prebind_contract_repair(&record, &request);
+    let prebind_operator_constraints_correction = matches!(
+        (record.phase, request.card, &request.operation),
+        (
+            LifecyclePhase::Initialized | LifecyclePhase::Ready,
+            CardKind::Sip,
+            SemanticOperation::CorrectOperatorConstraintsBeforeBind { .. }
+        )
+    );
     if prebind_contract_repair {
         verify_prebind_contract_repair_inputs(store, &record, &cards)?;
     } else {
         verify_cards(store, &record, &cards)?;
+    }
+    if prebind_operator_constraints_correction {
+        validate_prebind_operator_constraints_correction(&record, &cards, &request)?;
     }
     if matches!(
         record.phase,
@@ -1667,6 +1687,51 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             ));
         }
     }
+    if matches!(
+        request.operation,
+        SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
+    ) {
+        let latest_review_operation = record.audit.iter().rev().find(|event| {
+            matches!(
+                event.operation.as_str(),
+                "assign_review" | "record_review" | "recover_review"
+            )
+        });
+        let latest_transition = record.transitions.last();
+        if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "post-recovery SPP summary correction requires actor and reason",
+            ));
+        }
+        let current_recovery = latest_review_operation.is_some_and(|event| {
+            event.operation == "recover_review"
+                && event.generation == record.generation
+                && latest_transition.is_some_and(|transition| {
+                    transition.to == LifecyclePhase::Implemented
+                        && matches!(
+                            transition.from,
+                            LifecyclePhase::Reviewed
+                                | LifecyclePhase::Published
+                                | LifecyclePhase::MergeReady
+                        )
+                        && transition.actor == event.actor
+                        && transition.reason == event.reason
+                })
+        });
+        if !current_recovery
+            || record.review_assignment.is_some()
+            || record.review.is_some()
+            || record.publication.is_some()
+            || record.readiness.is_some()
+            || record.terminal.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "post-recovery SPP summary correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+            ));
+        }
+    }
     let replan_before = match &request.operation {
         SemanticOperation::Replan { field, .. } => Some(current_text_value(
             cards
@@ -1698,6 +1763,28 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    let plan_summary_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Spp].content {
+            CardContent::Spp(value) => Some(value.summary.clone()),
+            _ => unreachable!("SPP"),
+        }
+    } else {
+        None
+    };
+    let operator_constraints_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectOperatorConstraintsBeforeBind { .. }
+    ) {
+        match &cards[&CardKind::Sip].content {
+            CardContent::Sip(value) => Some(value.operator_constraints.clone()),
+            _ => unreachable!("SIP"),
+        }
+    } else {
+        None
+    };
     let binding_refresh = if prebind_contract_repair {
         Some(refresh_prebind_design_bindings(store, &record, &mut cards)?)
     } else {
@@ -1724,6 +1811,21 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "operation": "correct_stp_deliverables_after_recovery",
                 "previous_values": stp_deliverables_before
                     .expect("STP deliverable correction snapshot"),
+                "new_values": values,
+            })
+            .to_string()
+        }
+        (SemanticOperation::CorrectPlanSummaryAfterRecovery { value }, _) => serde_json::json!({
+            "operation": "correct_plan_summary_after_recovery",
+            "previous_value": plan_summary_before.expect("SPP summary correction snapshot"),
+            "new_value": value,
+        })
+        .to_string(),
+        (SemanticOperation::CorrectOperatorConstraintsBeforeBind { values }, _) => {
+            serde_json::json!({
+                "operation": "correct_operator_constraints_before_bind",
+                "previous_values": operator_constraints_before
+                    .expect("SIP operator-constraint correction snapshot"),
                 "new_values": values,
             })
             .to_string()
@@ -1770,7 +1872,7 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             record.advance(next, request.actor.clone(), request.reason.clone())?;
         }
     }
-    if prebind_contract_repair {
+    if prebind_contract_repair || prebind_operator_constraints_correction {
         record.design_review = DesignReview::Pending;
     }
     let design_digest = authored_digest(store, &record.design_path)?;
@@ -1913,6 +2015,51 @@ fn verify_prebind_contract_repair_inputs(
         return Err(V2Error::new(
             ErrorCode::CardInvalid,
             "pre-bind repair design/diagram references disagree with issue authority",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_prebind_operator_constraints_correction(
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+    request: &EditRequest,
+) -> Result<()> {
+    if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "pre-bind SIP operator-constraint correction requires actor and reason",
+        ));
+    }
+    if record.branch.is_some()
+        || record.worktree.is_some()
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.migration.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "pre-bind SIP operator-constraint correction requires unmigrated, unbound topology and no later lifecycle evidence",
+        ));
+    }
+    let sor = match &cards[&CardKind::Sor].content {
+        CardContent::Sor(values) => values,
+        _ => unreachable!("SOR"),
+    };
+    if !sor.actual_changes.is_empty()
+        || !sor.artifacts.is_empty()
+        || !sor.actual_validation.is_empty()
+        || sor.integration_state != crate::cards::IntegrationState::NotStarted
+        || sor.publication_state != crate::cards::PublicationState::NotPublished
+        || sor.merge_state != crate::cards::MergeState::NotMerged
+        || sor.closeout_state != crate::cards::CloseoutState::NotStarted
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "pre-bind SIP operator-constraint correction requires absent execution and validation truth",
         ));
     }
     Ok(())
@@ -2442,6 +2589,14 @@ fn authorize_card_operation(
             CardKind::Stp,
             SemanticOperation::ReplaceAcceptanceCriteria { .. }
                 | SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Spp,
+            SemanticOperation::CorrectPlanSummaryAfterRecovery { .. },
+        ) | (
+            LifecyclePhase::Initialized | LifecyclePhase::Ready,
+            CardKind::Sip,
+            SemanticOperation::CorrectOperatorConstraintsBeforeBind { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Srp,

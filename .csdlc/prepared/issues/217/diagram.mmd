@@ -1,0 +1,27 @@
+flowchart LR
+    DR["First design review PASS"] --> AP["Typed approve and bind only"]
+    AP --> CR["Typed STP SPP VPP repair"]
+    CR --> FR["Second full-package review PASS"]
+    FR --> IMPL["Implementation allowed"]
+
+    O["Historical c640 run"] --> HD["Exact ten-path historical denominator"]
+    HD --> HC["Detached c640 validator with evidence overlay"]
+    HC --> HP["Provenance only"]
+
+    IMPL --> H["Reviewed producer head H"]
+    H --> N["Fresh #217 Linux and macOS Actions artifacts"]
+    N --> H2["Exact-allowlist retention head H2"]
+    H2 --> AL["Required denominator + ten evidence + retained-surface manifest; only named lifecycle paths optional"]
+    AL --> PI["Eight proof-contract paths byte-identical H to H2"]
+    PI --> RM["Manifest: exact 19 retained path digests"]
+    RM --> HR["Independent exact-H2 review"]
+    HR --> H3["H3 adds manifest-bound receipt + named lifecycle only"]
+    H3 --> RA["Retain unique ancestral H3 or integration receipt blob anchor"]
+    RA --> OA["Discard only H2 refs and objects in fixture"]
+    OA --> DV["Reconstruct exact H2 retained-surface equality from manifest + receipt"]
+    DV --> SM["Exact 17-path protected source manifest"]
+    SM --> REL{"Source relation"}
+    REL -->|"ancestor"| EQ["Current protected-byte equality"]
+    REL -->|"complete source-manifest equivalent"| EQ
+    EQ -->|"all equal"| PASS["Current retained proof passes"]
+    EQ -->|"drift or omission"| FAIL["Fail closed"]

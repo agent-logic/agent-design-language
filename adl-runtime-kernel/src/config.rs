@@ -222,6 +222,8 @@ pub struct RuntimeInitConfig {
     pub paths: RuntimePathsInitConfig,
     pub api: RuntimeApiInitConfig,
     pub kernel: RuntimeKernelInitConfig,
+    #[serde(default)]
+    pub continuity_control: Option<crate::ContinuityControlInitConfig>,
     pub credentials: RuntimeCredentialInitConfig,
     pub shutdown: RuntimeShutdownInitConfig,
     pub guardian: RuntimeGuardianInitConfig,
@@ -265,6 +267,11 @@ impl RuntimeInitConfig {
             return Err(RuntimeInitError::Policy(
                 "api.address must resolve only to IPv4".to_owned(),
             ));
+        }
+        if let Some(continuity_control) = &self.continuity_control {
+            continuity_control
+                .validate(&self.state_root, &self.socket_addrs()?)
+                .map_err(|error| RuntimeInitError::Policy(error.to_string()))?;
         }
         validate_https_base_url("api.public_base_url", &self.api.public_base_url)?;
         let public_uri = parse_http_uri(&self.api.public_base_url)?;
@@ -350,11 +357,25 @@ impl RuntimeInitConfig {
                 &self.credentials.operation_key_id,
             ),
             (
+                "credentials.migration_decision_key_id",
+                &self.credentials.migration_decision_key_id,
+            ),
+            (
                 "credentials.continuity_key_id",
                 &self.credentials.continuity_key_id,
             ),
         ] {
             validate_non_empty_trimmed(field, value)?;
+        }
+        if self.credentials.migration_decision_key_generation == 0
+            || self.credentials.migration_decision_key_id == self.credentials.operation_key_id
+            || self.credentials.migration_decision_public_key_path
+                == self.credentials.operation_public_key_path
+        {
+            return Err(RuntimeInitError::Policy(
+                "migration decision authority must be nonzero and distinct from the operation permit authority"
+                    .to_owned(),
+            ));
         }
         validate_non_empty_trimmed("credentials.sntp_server", &self.credentials.sntp_server)?;
         for (field, path) in [
@@ -365,6 +386,10 @@ impl RuntimeInitConfig {
             (
                 "credentials.operation_public_key_path",
                 &self.credentials.operation_public_key_path,
+            ),
+            (
+                "credentials.migration_decision_public_key_path",
+                &self.credentials.migration_decision_public_key_path,
             ),
             (
                 "credentials.continuity_signing_key_path",
@@ -639,6 +664,11 @@ pub struct RuntimeCredentialInitConfig {
     pub control_principal: String,
     pub operation_public_key_path: PathBuf,
     pub operation_key_id: String,
+    /// Boot-trusted #204 decision authority. This key is deliberately
+    /// independent from the generic governed-operation permit authority.
+    pub migration_decision_public_key_path: PathBuf,
+    pub migration_decision_key_id: String,
+    pub migration_decision_key_generation: u64,
     pub continuity_signing_key_path: PathBuf,
     pub continuity_key_id: String,
     pub observatory_token_path: PathBuf,

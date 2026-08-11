@@ -11,14 +11,17 @@ use std::{
 mod observability;
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly,
-    build_production_operation_executors_with_recorder, generate_runtime_instance_id,
-    load_control_tls, monitor_until_stop, serve_control_listener_until_ready,
+    bootstrap_reasoning_services, build_live_assembly, build_live_continuity_registry,
+    build_mutual_tls_server_config, build_production_operation_executors_with_recorder,
+    generate_runtime_instance_id, load_control_tls, load_identity, load_trust_roots,
+    monitor_until_stop, serve_control_listener_until_ready, serve_private_continuity_listener,
     validate_production_operation_executors, verifying_key_from_hex, AgentPopulationFeed,
-    CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy, ControlAuthority,
-    ControlCapability, ControlService, Kernel, KernelExit, LiveBindings, LiveContinuity,
+    CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl,
+    ContinuityControlService, ControlApiPolicy, ControlAuthority, ControlCapability,
+    ControlService, DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity,
     LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
+    SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource,
+    TlsIdentityPaths, TrustedControlKey, PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -55,6 +58,13 @@ async fn main() -> ExitCode {
                 Ok(config) => config,
                 Err(error) => {
                     eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let continuity_control_config = match init.continuity_control.clone() {
+                Some(config) => config,
+                None => {
+                    eprintln!("runtime private continuity configuration is required");
                     return ExitCode::from(78);
                 }
             };
@@ -103,6 +113,59 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let private_listener = match tokio::net::TcpListener::bind(
+                continuity_control_config
+                    .socket_addr()
+                    .expect("validated continuity address"),
+            )
+            .await
+            {
+                Ok(listener) => listener,
+                Err(error) => {
+                    eprintln!("runtime private continuity bind failed: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let private_identity = match load_identity(&TlsIdentityPaths {
+                certificate_chain_path: continuity_control_config
+                    .tls
+                    .server_certificate_chain_path
+                    .clone(),
+                private_key_path: continuity_control_config
+                    .tls
+                    .server_private_key_path
+                    .clone(),
+            })
+            .await
+            {
+                Ok(identity) => identity,
+                Err(error) => {
+                    eprintln!("runtime private continuity TLS identity invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let private_client_roots = match load_trust_roots(
+                &continuity_control_config.tls.server_trust_roots_path,
+            )
+            .await
+            {
+                Ok(roots) => roots,
+                Err(error) => {
+                    eprintln!("runtime private continuity client roots invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let private_tls = match build_mutual_tls_server_config(
+                private_identity,
+                private_client_roots,
+                PRIVATE_ALPN,
+            ) {
+                Ok(config) => config,
+                Err(error) => {
+                    eprintln!("runtime private continuity TLS invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let continuity_secret_text = match read_trimmed_config_file(
                 &init.credentials.continuity_signing_key_path,
                 "runtime continuity signing key",
@@ -145,6 +208,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let continuity_reasoning = reasoning.clone();
             let operation_executors = match build_production_operation_executors_with_recorder(
                 operation_state_identity.clone(),
                 recorder.clone(),
@@ -185,6 +249,31 @@ async fn main() -> ExitCode {
                 return ExitCode::from(78);
             }
             let operation_key_id = init.credentials.operation_key_id.clone();
+            let migration_decision_key_text = match read_trimmed_config_file(
+                &init.credentials.migration_decision_public_key_path,
+                "runtime migration decision key",
+            )
+            .await
+            {
+                Ok(value) => value,
+                Err(error) => {
+                    eprintln!("{error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let migration_decision_key = match verifying_key_from_hex(&migration_decision_key_text)
+            {
+                Ok(key) if key != operation_key => key,
+                _ => {
+                    eprintln!(
+                            "runtime migration decision key is invalid or aliases the operation permit key"
+                        );
+                    return ExitCode::from(78);
+                }
+            };
+            let migration_decision_key_id = init.credentials.migration_decision_key_id.clone();
+            let migration_decision_key_generation =
+                init.credentials.migration_decision_key_generation;
             let time_source_identity = format!("sntp:{}", init.credentials.sntp_server);
             let time_source: Arc<dyn TimeSampleSource> = Arc::new(RsntpTimeSampleSource::new(
                 init.credentials.sntp_server.clone(),
@@ -220,6 +309,78 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let continuity_registry = match build_live_continuity_registry(
+                &assembly,
+                recorder.clone(),
+                continuity_reasoning.clone(),
+                &operation_state_identity,
+                continuity_control_config.bounds.max_services,
+            ) {
+                Ok(registry) => registry,
+                Err(error) => {
+                    eprintln!("runtime live continuity registry invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let catalog_authority = match CatalogSigningAuthority::from_secret(
+                init.credentials.continuity_key_id.clone(),
+                1,
+                &continuity_secret,
+            ) {
+                Ok(authority) => authority,
+                Err(error) => {
+                    eprintln!("runtime private continuity authority invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let catalog_verifying_key = catalog_authority.verifying_key();
+            let source_effects = match adl_runtime_kernel::SourceContinuityEffectPort::open(
+                continuity_root.join("private-exports"),
+                continuity_registry,
+                catalog_authority,
+                continuity_control_config.bounds.clone(),
+                continuity_control_config.channel_epoch,
+            ) {
+                Ok(port) => Arc::new(port),
+                Err(error) => {
+                    eprintln!("runtime source continuity effects invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let target_effects = match TargetContinuityCoordinator::open(
+                continuity_control_config.clone(),
+                BTreeMap::from([(
+                    (init.credentials.continuity_key_id.clone(), 1),
+                    catalog_verifying_key,
+                )]),
+                BTreeMap::from([(
+                    (
+                        migration_decision_key_id.clone(),
+                        migration_decision_key_generation,
+                    ),
+                    migration_decision_key,
+                )]),
+            ) {
+                Ok(port) => Arc::new(port),
+                Err(error) => {
+                    eprintln!("runtime target continuity effects invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let continuity_journal =
+                match DurableContinuityJournal::open(&continuity_control_config) {
+                    Ok(journal) => journal,
+                    Err(error) => {
+                        eprintln!("runtime private continuity journal invalid: {error}");
+                        return ExitCode::from(78);
+                    }
+                };
+            let private_service = Arc::new(ContinuityControlService::new(
+                continuity_control_config,
+                continuity_journal,
+                source_effects,
+                target_effects,
+            ));
             let minimum_generation = init.credentials.continuity_min_generation;
             let public_key_text = match read_trimmed_config_file(
                 &init.credentials.control_public_key_path,
@@ -242,8 +403,14 @@ async fn main() -> ExitCode {
             };
             let continuity_public_key =
                 ed25519_dalek::SigningKey::from_bytes(&continuity_secret).verifying_key();
-            if public_key == operation_key || public_key == continuity_public_key {
-                eprintln!("runtime control, operation, and continuity keys must be distinct");
+            if public_key == operation_key
+                || public_key == continuity_public_key
+                || public_key == migration_decision_key
+                || migration_decision_key == continuity_public_key
+            {
+                eprintln!(
+                    "runtime control, operation, migration decision, and continuity keys must be distinct"
+                );
                 return ExitCode::from(78);
             }
             let key_id = init.credentials.control_key_id.clone();
@@ -273,6 +440,9 @@ async fn main() -> ExitCode {
                 "time_source": &time_source_identity,
                 "operation_key_id": &operation_key_id,
                 "operation_key": hex::encode(operation_key.as_bytes()),
+                "migration_decision_key_id": &migration_decision_key_id,
+                "migration_decision_key_generation": migration_decision_key_generation,
+                "migration_decision_key": hex::encode(migration_decision_key.as_bytes()),
                 "control_key_id": &key_id,
                 "control_principal": &principal,
                 "control_key": hex::encode(public_key.as_bytes()),
@@ -443,6 +613,12 @@ async fn main() -> ExitCode {
                     return ExitCode::from(70);
                 }
             };
+            let mut private_api = tokio::spawn(serve_private_continuity_listener(
+                private_listener,
+                private_tls,
+                private_service,
+                api_shutdown.child_token(),
+            ));
             let (ready_sender, ready_receiver) = tokio::sync::oneshot::channel();
             let mut api = tokio::spawn(serve_control_listener_until_ready(
                 service.clone(),
@@ -458,6 +634,7 @@ async fn main() -> ExitCode {
                     eprintln!("runtime control API failed before readiness");
                     let _ = handle.shutdown(kernel_shutdown_grace).await;
                     drain_control_api(&mut api, api_drain_timeout).await;
+                    drain_private_api(&mut private_api, api_drain_timeout).await;
                     let _ = observability.shutdown().await;
                     return ExitCode::from(70);
                 }
@@ -513,6 +690,7 @@ async fn main() -> ExitCode {
                             api_shutdown.cancel();
                             let _ = handle.shutdown(kernel_shutdown_grace).await;
                             drain_control_api(&mut api, api_drain_timeout).await;
+                            drain_private_api(&mut private_api, api_drain_timeout).await;
                             break 'serve ExitCode::from(70);
                         }
                         break 'wait TerminalTrigger::Signal;
@@ -523,6 +701,7 @@ async fn main() -> ExitCode {
                             api_shutdown.cancel();
                             let _ = handle.shutdown(kernel_shutdown_grace).await;
                             drain_control_api(&mut api, api_drain_timeout).await;
+                            drain_private_api(&mut private_api, api_drain_timeout).await;
                             break 'serve ExitCode::from(70);
                         };
                         break 'wait TerminalTrigger::Signed(request);
@@ -535,6 +714,7 @@ async fn main() -> ExitCode {
                         Ok(exit) => {
                             api_shutdown.cancel();
                             drain_control_api(&mut api, api_drain_timeout).await;
+                            drain_private_api(&mut private_api, api_drain_timeout).await;
                             break 'serve process_exit(exit);
                         },
                         Err(error) => {
@@ -542,6 +722,7 @@ async fn main() -> ExitCode {
                             api_shutdown.cancel();
                             let _ = handle.shutdown(kernel_shutdown_grace).await;
                             drain_control_api(&mut api, api_drain_timeout).await;
+                            drain_private_api(&mut private_api, api_drain_timeout).await;
                             break 'serve ExitCode::from(70);
                         }
                     },
@@ -551,7 +732,20 @@ async fn main() -> ExitCode {
                             Ok(Err(error)) => eprintln!("runtime control API failed: {error}"),
                             Err(error) => eprintln!("runtime control API task failed: {error}"),
                         }
+                        api_shutdown.cancel();
                         let _ = handle.shutdown(kernel_shutdown_grace).await;
+                        drain_private_api(&mut private_api, api_drain_timeout).await;
+                        break 'serve ExitCode::from(70);
+                    },
+                    result = &mut private_api => {
+                        match result {
+                            Ok(Ok(())) => eprintln!("runtime private continuity API stopped unexpectedly"),
+                            Ok(Err(error)) => eprintln!("runtime private continuity API failed: {error}"),
+                            Err(error) => eprintln!("runtime private continuity API task failed: {error}"),
+                        }
+                        api_shutdown.cancel();
+                        let _ = handle.shutdown(kernel_shutdown_grace).await;
+                        drain_control_api(&mut api, api_drain_timeout).await;
                         break 'serve ExitCode::from(70);
                     },
                     };
@@ -608,6 +802,7 @@ async fn main() -> ExitCode {
                     api_shutdown.cancel();
                     let _ = handle.shutdown(kernel_shutdown_grace).await;
                     drain_control_api(&mut api, api_drain_timeout).await;
+                    drain_private_api(&mut private_api, api_drain_timeout).await;
                     break 'serve ExitCode::from(74);
                 }
 
@@ -629,6 +824,7 @@ async fn main() -> ExitCode {
                     }
                 };
                 drain_control_api(&mut api, api_drain_timeout).await;
+                drain_private_api(&mut private_api, api_drain_timeout).await;
                 break 'serve terminal;
             };
             recorder.set_observability_pipeline(observability.snapshot());
@@ -947,6 +1143,15 @@ fn process_exit(exit: KernelExit) -> ExitCode {
 
 async fn drain_control_api(
     api: &mut tokio::task::JoinHandle<Result<(), adl_runtime_kernel::ControlApiError>>,
+    timeout: std::time::Duration,
+) {
+    if tokio::time::timeout(timeout, &mut *api).await.is_err() {
+        api.abort();
+    }
+}
+
+async fn drain_private_api(
+    api: &mut tokio::task::JoinHandle<Result<(), adl_runtime_kernel::ContinuityControlError>>,
     timeout: std::time::Duration,
 ) {
     if tokio::time::timeout(timeout, &mut *api).await.is_err() {

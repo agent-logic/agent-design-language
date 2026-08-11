@@ -1,0 +1,62 @@
+{
+  "issue": 200,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "0761d9e644f875ced9ac63df620d090b01759a6a19d6e5367edb25bb60efaa63",
+  "actor": "codex:/root/advance_200_after_201",
+  "reason": "Record the bounded hosted Linux fixture-root repair and immutable v4 proof while leaving SPP S4 pending for a different fresh reviewer.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Resolved the hosted Runtime coverage failure caused by issue-200 tests creating fixtures beneath the macOS-only /private/tmp path. Both unit and production-integration fixtures now use a canonical repository-local current-directory anchor compatible with the runtime storage symlink policy. The unchanged exact 36-case denominator and all 13 subassertions pass, strict Clippy passes, the full Runtime library passes 264/264, and the immutable v4 receipt binds the portable-path guard and protected digests at source bb400c8c832e29c93c0ca45b486d313acb01c83e. Different fresh review is pending; the existing PR is stale and nothing is merged or closed.",
+    "changes": [
+      "Replaced both hard-coded /private/tmp fixture roots with temporary directories beneath the canonical current checkout, preserving the absolute and symlink-free storage-root contract on macOS and Linux.",
+      "Added producer and validator guards that fail if /private/tmp is reintroduced into either issue-200 test layer.",
+      "Advanced immutable proof evidence from v3 to v4 without changing the approved 36-case or 13-subassertion denominators."
+    ],
+    "artifacts": [
+      "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
+      "adl-runtime/tests/distributed_authority_reconciliation.rs",
+      ".csdlc/prepared/issues/200/produce-proof-receipt.rb",
+      ".csdlc/prepared/issues/200/validate-proof-receipt.rb",
+      ".csdlc/evidence/200/v4/execution-proof.json"
+    ],
+    "validation": [
+      {
+        "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "--test", "distributed_authority_reconciliation", "--no-tests=fail", "-E", "test(/authority_reconciliation/)"],
+        "purpose": "Prove the unchanged exact unit-plus-integration denominator on portable fixture roots: 36 tests run and 36 passed.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
+      },
+      {
+        "command": ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "--test", "distributed_authority_reconciliation", "authority_reconciliation", "--", "--nocapture", "--test-threads=1"],
+        "purpose": "Emit and bind exactly 36 case markers plus the exact 13 required subassertion markers.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
+      },
+      {
+        "command": ["cargo", "clippy", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "--test", "distributed_authority_reconciliation", "--", "-D", "warnings"],
+        "purpose": "Prove the owned production and test target remains warning-free.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
+      },
+      {
+        "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "--no-tests=fail"],
+        "purpose": "Run the coverage-equivalent full Runtime library denominator: 264 tests run and 264 passed.",
+        "outcome": "passed",
+        "evidence_ref": "adl-runtime/src/distributed/authority_reconciliation/tests.rs"
+      },
+      {
+        "command": ["ruby", ".csdlc/prepared/issues/200/validate-proof-receipt.rb"],
+        "purpose": "Prove exact cases, exact subassertions, portable fixture policy, source/proof immutability, protected digests, and merge-safe ancestry.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
+      },
+      {
+        "command": ["cargo", "fmt", "--check", "--manifest-path", "adl-runtime/Cargo.toml"],
+        "purpose": "Prove Rust formatting hygiene.",
+        "outcome": "passed",
+        "evidence_ref": "adl-runtime/tests/distributed_authority_reconciliation.rs"
+      }
+    ]
+  }
+}

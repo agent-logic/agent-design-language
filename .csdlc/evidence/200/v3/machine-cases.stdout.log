@@ -1,0 +1,94 @@
+
+running 34 tests
+test distributed::authority_reconciliation::tests::authority_reconciliation_capacity_n_plus_one_no_partial ... ADL_ISSUE_200_CASE_V1 capacity_n_plus_one_no_partial rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_checkpoint_object_collision ... ADL_ISSUE_200_CASE_V1 checkpoint_object_collision rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_coherent_rollback ... ADL_ISSUE_200_CASE_V1 coherent_rollback rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_conflicting_retry ... ADL_ISSUE_200_CASE_V1 conflicting_retry rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_corrupt_journal_rejected ... ADL_ISSUE_200_CASE_V1 corrupt_journal_rejected rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_crash_after_checkpoint ... ADL_ISSUE_200_ASSERTION_V1 crash_after_checkpoint missing_marker_and_view_retry
+ADL_ISSUE_200_ASSERTION_V1 crash_after_checkpoint committed_marker_missing_view_retry
+ADL_ISSUE_200_ASSERTION_V1 crash_after_checkpoint published_view_exact_retry
+ADL_ISSUE_200_CASE_V1 crash_after_checkpoint reconciled
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_crash_after_journal ... ADL_ISSUE_200_CASE_V1 crash_after_journal reconciled
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_crash_after_result ... ADL_ISSUE_200_CASE_V1 crash_after_result reconciled
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_crash_before_checkpoint ... ADL_ISSUE_200_CASE_V1 crash_before_checkpoint reconciled
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_crash_each_step ... ADL_ISSUE_200_CASE_V1 crash_each_step reconciled
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_duplicate_step ... ADL_ISSUE_200_CASE_V1 duplicate_step rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_exact_retry_cached_result ... ADL_ISSUE_200_ASSERTION_V1 exact_retry_cached_result cached_result_no_reexecution
+ADL_ISSUE_200_ASSERTION_V1 exact_retry_cached_result conflicting_view_rejected
+ADL_ISSUE_200_ASSERTION_V1 exact_retry_cached_result corrupt_view_rejected
+ADL_ISSUE_200_CASE_V1 exact_retry_cached_result passed
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_forged_step_receipt ... ADL_ISSUE_200_CASE_V1 forged_step_receipt rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_happy_multi_step ... ADL_ISSUE_200_CASE_V1 happy_multi_step passed
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_happy_single_step ... ADL_ISSUE_200_CASE_V1 happy_single_step passed
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_legacy_command_denied ... ADL_ISSUE_200_CASE_V1 legacy_command_denied rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_missing_step ... ADL_ISSUE_200_CASE_V1 missing_step rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_noncanonical_state_rejected ... ADL_ISSUE_200_CASE_V1 noncanonical_state_rejected rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_opened_handle_growth_rejected ... ADL_ISSUE_200_CASE_V1 opened_handle_growth_rejected rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_pending_blocks_mutation ... ADL_ISSUE_200_CASE_V1 pending_blocks_mutation rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_pending_blocks_read ... ADL_ISSUE_200_CASE_V1 pending_blocks_read rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_published_permit_current ... ADL_ISSUE_200_ASSERTION_V1 published_permit_current current_read_valid
+ADL_ISSUE_200_ASSERTION_V1 published_permit_current current_mutation_valid
+ADL_ISSUE_200_ASSERTION_V1 published_permit_current read_escalation_denied
+ADL_ISSUE_200_ASSERTION_V1 published_permit_current wrong_lineage_denied
+ADL_ISSUE_200_ASSERTION_V1 published_permit_current wrong_mutation_action_denied
+ADL_ISSUE_200_ASSERTION_V1 published_permit_current retained_read_denied_after_pending
+ADL_ISSUE_200_ASSERTION_V1 published_permit_current retained_mutation_denied_after_pending
+ADL_ISSUE_200_CASE_V1 published_permit_current passed
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_reordered_step ... ADL_ISSUE_200_CASE_V1 reordered_step rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_state_or_lock_symlink_rejected ... ADL_ISSUE_200_CASE_V1 state_or_lock_symlink_rejected rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_wrong_adapter_version ... ADL_ISSUE_200_CASE_V1 wrong_adapter_version rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_wrong_boot ... ADL_ISSUE_200_CASE_V1 wrong_boot rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_wrong_domain ... ADL_ISSUE_200_CASE_V1 wrong_domain rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_wrong_guardian ... ADL_ISSUE_200_CASE_V1 wrong_guardian rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_wrong_membership ... ADL_ISSUE_200_CASE_V1 wrong_membership rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_wrong_node ... ADL_ISSUE_200_CASE_V1 wrong_node rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_wrong_operation_kind ... ADL_ISSUE_200_CASE_V1 wrong_operation_kind rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_wrong_polis ... ADL_ISSUE_200_CASE_V1 wrong_polis rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_wrong_protocol_instance ... ADL_ISSUE_200_CASE_V1 wrong_protocol_instance rejected
+ok
+test distributed::authority_reconciliation::tests::authority_reconciliation_wrong_time_digest ... ADL_ISSUE_200_CASE_V1 wrong_time_digest rejected
+ok
+
+test result: ok. 34 passed; 0 failed; 0 ignored; 0 measured; 230 filtered out; finished in 5.99s
+
+
+running 2 tests
+test authority_reconciliation_missing_201_token ... ADL_ISSUE_200_CASE_V1 missing_201_token rejected
+ok
+test authority_reconciliation_public_token_forgery_denied ... ADL_ISSUE_200_CASE_V1 public_token_forgery_denied rejected
+ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
