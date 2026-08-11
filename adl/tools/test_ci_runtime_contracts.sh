@@ -102,7 +102,7 @@ workflow_root = workflow_path.parent
 
 concurrency_lines = [line for line in workflow.splitlines() if line.strip().startswith("group:")]
 expected_concurrency = "group: ${{ github.repository }}:${{ github.workflow }}:${{ github.event.pull_request.base.ref || github.ref_name }}:${{ github.event.pull_request.head.repo.id || github.repository_id }}:${{ github.event.pull_request.head.ref || github.ref }}"
-if expected_concurrency not in concurrency_lines:
+if not any(expected_concurrency in line for line in concurrency_lines):
     raise SystemExit("CI concurrency must use an unambiguous target/source identity")
 
 if re.search(r"^\s{2}push:\s*$", workflow, re.MULTILINE):
