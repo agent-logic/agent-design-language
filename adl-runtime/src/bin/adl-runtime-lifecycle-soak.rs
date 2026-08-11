@@ -309,9 +309,12 @@ impl ProductionFixture {
 
         let control_key = SigningKey::from_bytes(&[17_u8; 32]);
         let operation_key = SigningKey::from_bytes(&[29_u8; 32]);
+        let migration_decision_key = SigningKey::from_bytes(&[31_u8; 32]);
         let continuity_key = SigningKey::from_bytes(&[23_u8; 32]);
         let control_public_key = hex::encode(control_key.verifying_key().as_bytes());
         let operation_public_key = hex::encode(operation_key.verifying_key().as_bytes());
+        let migration_decision_public_key =
+            hex::encode(migration_decision_key.verifying_key().as_bytes());
         let continuity_signing_key = hex::encode([23_u8; 32]);
         let observatory_token = "wp12-observatory-token-000000000001".to_owned();
         let acip_write_token = "wp12-acip-write-token-0000000000001".to_owned();
@@ -322,6 +325,10 @@ impl ProductionFixture {
         let operation_public_key_path = credentials_root.join(toml_file_name(
             &init_document,
             &["credentials", "operation_public_key_path"],
+        )?);
+        let migration_decision_public_key_path = credentials_root.join(toml_file_name(
+            &init_document,
+            &["credentials", "migration_decision_public_key_path"],
         )?);
         let continuity_signing_key_path = credentials_root.join(toml_file_name(
             &init_document,
@@ -339,6 +346,11 @@ impl ProductionFixture {
             .map_err(|error| error.to_string())?;
         std::fs::write(&operation_public_key_path, &operation_public_key)
             .map_err(|error| error.to_string())?;
+        std::fs::write(
+            &migration_decision_public_key_path,
+            &migration_decision_public_key,
+        )
+        .map_err(|error| error.to_string())?;
         write_secret(
             &continuity_signing_key_path,
             continuity_signing_key.as_bytes(),
@@ -378,6 +390,10 @@ impl ProductionFixture {
         for (field, path) in [
             ("control_public_key_path", &control_public_key_path),
             ("operation_public_key_path", &operation_public_key_path),
+            (
+                "migration_decision_public_key_path",
+                &migration_decision_public_key_path,
+            ),
             ("continuity_signing_key_path", &continuity_signing_key_path),
             ("observatory_token_path", &observatory_token_path),
             ("acip_write_token_path", &acip_write_token_path),

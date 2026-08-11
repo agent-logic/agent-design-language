@@ -357,11 +357,25 @@ impl RuntimeInitConfig {
                 &self.credentials.operation_key_id,
             ),
             (
+                "credentials.migration_decision_key_id",
+                &self.credentials.migration_decision_key_id,
+            ),
+            (
                 "credentials.continuity_key_id",
                 &self.credentials.continuity_key_id,
             ),
         ] {
             validate_non_empty_trimmed(field, value)?;
+        }
+        if self.credentials.migration_decision_key_generation == 0
+            || self.credentials.migration_decision_key_id == self.credentials.operation_key_id
+            || self.credentials.migration_decision_public_key_path
+                == self.credentials.operation_public_key_path
+        {
+            return Err(RuntimeInitError::Policy(
+                "migration decision authority must be nonzero and distinct from the operation permit authority"
+                    .to_owned(),
+            ));
         }
         validate_non_empty_trimmed("credentials.sntp_server", &self.credentials.sntp_server)?;
         for (field, path) in [
@@ -372,6 +386,10 @@ impl RuntimeInitConfig {
             (
                 "credentials.operation_public_key_path",
                 &self.credentials.operation_public_key_path,
+            ),
+            (
+                "credentials.migration_decision_public_key_path",
+                &self.credentials.migration_decision_public_key_path,
             ),
             (
                 "credentials.continuity_signing_key_path",
@@ -646,6 +664,11 @@ pub struct RuntimeCredentialInitConfig {
     pub control_principal: String,
     pub operation_public_key_path: PathBuf,
     pub operation_key_id: String,
+    /// Boot-trusted #204 decision authority. This key is deliberately
+    /// independent from the generic governed-operation permit authority.
+    pub migration_decision_public_key_path: PathBuf,
+    pub migration_decision_key_id: String,
+    pub migration_decision_key_generation: u64,
     pub continuity_signing_key_path: PathBuf,
     pub continuity_key_id: String,
     pub observatory_token_path: PathBuf,

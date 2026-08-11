@@ -69,6 +69,7 @@ pub struct LiveAssembly {
     pub topology_hash: String,
     pub config_hash: String,
     pub canonical_ingress: CanonicalIngress,
+    pub(crate) operation_continuity: crate::LiveOperationContinuity,
 }
 
 /// Construct the continuity registry from the same live handles and durable
@@ -85,6 +86,7 @@ pub fn build_live_continuity_registry(
         recorder,
         reasoning,
         operation_state_root.to_path_buf(),
+        assembly.operation_continuity.clone(),
         max_services,
     )
 }
@@ -154,6 +156,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
 
     let mut registrations = Vec::<(Arc<dyn ComponentFactory>, ServiceContract)>::new();
     let mut ingress_dispatchers = BTreeMap::new();
+    let mut continuity_factories = BTreeMap::new();
     let dependencies = representative_dependencies();
     for kind in REQUIRED_OPERATIONAL_ADAPTERS {
         let policy = AdapterPolicy {
@@ -194,6 +197,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
                 ingress_dispatchers.insert("parity-a".to_owned(), factory.clone());
             }
         }
+        continuity_factories.insert(kind.service_name().to_owned(), factory.clone());
         let mut contract = adapter.contract(kinds);
         if kind == AdapterKind::Chronosense {
             contract.requires.push(CapabilityRequirement {
@@ -302,6 +306,8 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         topology_hash,
         config_hash,
         canonical_ingress,
+        operation_continuity: crate::LiveOperationContinuity::from_factories(continuity_factories)
+            .map_err(|error| AssemblyError::Encoding(error.to_string()))?,
     })
 }
 

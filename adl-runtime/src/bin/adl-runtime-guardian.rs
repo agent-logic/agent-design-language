@@ -4,7 +4,7 @@ use std::{
 };
 
 use adl_runtime::{
-    distributed::polis_runtime::PolisRuntimeContinuityCapability,
+    distributed::polis_runtime::ProductionPolisRuntime,
     guardian::{
         run_guardian_with_continuity_and_os_signals, GuardianConfig, GuardianTerminalState,
     },
@@ -34,14 +34,14 @@ async fn main() -> ExitCode {
             return ExitCode::from(78);
         }
     };
-    let continuity = match PolisRuntimeContinuityCapability::from_runtime_init(&init).await {
-        Ok(client) => client,
+    let polis_runtime = match ProductionPolisRuntime::from_runtime_init(&init).await {
+        Ok(runtime) => runtime,
         Err(error) => {
             eprintln!("runtime private continuity client invalid: {error}");
             return ExitCode::from(78);
         }
     };
-    match run_guardian_with_continuity_and_os_signals(config, continuity).await {
+    match run_guardian_with_continuity_and_os_signals(config, polis_runtime).await {
         Ok(outcome) => {
             let terminal = outcome.terminal_state;
             match serde_json::to_string(&outcome) {

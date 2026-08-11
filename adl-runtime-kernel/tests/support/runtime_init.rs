@@ -55,6 +55,7 @@ pub fn write_with_certificate_for_state_and_ingress_capacity(
     std::fs::create_dir_all(&credentials_root).unwrap();
     let control_public_key = credentials_root.join("control-public-key.hex");
     let operation_public_key = credentials_root.join("operation-public-key.hex");
+    let migration_decision_public_key = credentials_root.join("migration-decision-public-key.hex");
     let continuity_signing_key = credentials_root.join("continuity-signing-key.hex");
     let observatory_token = credentials_root.join("observatory-token.txt");
     let acip_write_token = credentials_root.join("acip-write-token.txt");
@@ -62,6 +63,15 @@ pub fn write_with_certificate_for_state_and_ingress_capacity(
         &control_public_key,
         hex::encode(
             ed25519_dalek::SigningKey::from_bytes(&[17_u8; 32])
+                .verifying_key()
+                .as_bytes(),
+        ),
+    )
+    .unwrap();
+    std::fs::write(
+        &migration_decision_public_key,
+        hex::encode(
+            ed25519_dalek::SigningKey::from_bytes(&[31_u8; 32])
                 .verifying_key()
                 .as_bytes(),
         ),
@@ -128,6 +138,9 @@ control_key_id = "operator"
 control_principal = "operator"
 operation_public_key_path = "{}"
 operation_key_id = "runtime-operations"
+migration_decision_public_key_path = "{}"
+migration_decision_key_id = "runtime-migration-decisions"
+migration_decision_key_generation = 1
 continuity_signing_key_path = "{}"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "{}"
@@ -202,6 +215,7 @@ snapshot_concurrency = 4
             toml_path(&trust_roots),
             toml_path(&control_public_key),
             toml_path(&operation_public_key),
+            toml_path(&migration_decision_public_key),
             toml_path(&continuity_signing_key),
             toml_path(&observatory_token),
             toml_path(&acip_write_token),

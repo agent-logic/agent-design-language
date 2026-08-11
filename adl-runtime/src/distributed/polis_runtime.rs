@@ -70,19 +70,105 @@ pub type PolisRaft = openraft::Raft<PolisTypeConfig>;
 /// Non-forgeable continuity capability injected into the production Guardian
 /// polis runtime only after the Guardian has validated the common init
 /// contract and constructed the opaque private client.
-pub struct PolisRuntimeContinuityCapability {
+struct PolisRuntimeContinuityCapability {
     client: Arc<KernelContinuityClient>,
     transfer_210: TransferContinuityPort,
     migration_204: MigrationContinuityPort,
+}
+
+/// Production owner of the private continuity capability used by the running
+/// Polis Runtime. The Guardian retains this value for the full supervised
+/// process lifetime; downstream #210 and #204 code can request only their
+/// role-specific effects through these methods. The low-level client is never
+/// installed as Guardian status state or exposed to a public route.
+pub struct ProductionPolisRuntime {
+    continuity: PolisRuntimeContinuityCapability,
+}
+
+impl ProductionPolisRuntime {
+    pub async fn from_runtime_init(
+        init: &RuntimeInitConfig,
+    ) -> Result<Self, ContinuityControlError> {
+        Ok(Self {
+            continuity: PolisRuntimeContinuityCapability::from_runtime_init(init).await?,
+        })
+    }
+
+    pub(crate) async fn establish_continuity(
+        &self,
+        attempt: u32,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<(), ContinuityControlError> {
+        self.continuity
+            .client
+            .establish_attempt_with_cancellation(attempt, deadline_unix_millis, cancellation)
+            .await
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub async fn source_checkpoint_210(
+        &self,
+        operation_id: &str,
+        generation: u64,
+        predecessor_sha256: Option<String>,
+        accepted_prefix: u64,
+        topology_sha256: String,
+        config_sha256: String,
+        quiesce_millis: u64,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<(SourceQuiesceReceipt, SourceCheckpointHandle), ContinuityControlError> {
+        self.continuity
+            .transfer_210
+            .source_checkpoint(
+                operation_id,
+                generation,
+                predecessor_sha256,
+                accepted_prefix,
+                topology_sha256,
+                config_sha256,
+                quiesce_millis,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await
+    }
+
+    pub async fn activate_target_204(
+        &self,
+        operation_id: &str,
+        verified: VerifiedTransferPossession,
+        decision: MigrationDecisionCertificate,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<TargetActivationReceipt, ContinuityControlError> {
+        self.continuity
+            .migration_204
+            .activate_target(
+                operation_id,
+                verified,
+                decision,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await
+    }
+
+    pub fn transfer_210(&self) -> &TransferContinuityPort {
+        &self.continuity.transfer_210
+    }
+
+    pub fn migration_204(&self) -> &MigrationContinuityPort {
+        &self.continuity.migration_204
+    }
 }
 
 impl PolisRuntimeContinuityCapability {
     /// Production bootstrap is the only public constructor. The returned
     /// capability contains distinct, sealed #210 transfer and #204 migration
     /// views; neither view exposes the generic control protocol.
-    pub async fn from_runtime_init(
-        init: &RuntimeInitConfig,
-    ) -> Result<Self, ContinuityControlError> {
+    async fn from_runtime_init(init: &RuntimeInitConfig) -> Result<Self, ContinuityControlError> {
         let client = Arc::new(KernelContinuityClient::from_runtime_init(init).await?);
         let cleanup_permits = Arc::new(std::sync::Mutex::new(BTreeMap::new()));
         Ok(Self {
@@ -96,18 +182,6 @@ impl PolisRuntimeContinuityCapability {
             },
             client,
         })
-    }
-
-    pub(crate) fn client(&self) -> &Arc<KernelContinuityClient> {
-        &self.client
-    }
-
-    pub fn transfer_210(&self) -> &TransferContinuityPort {
-        &self.transfer_210
-    }
-
-    pub fn migration_204(&self) -> &MigrationContinuityPort {
-        &self.migration_204
     }
 }
 

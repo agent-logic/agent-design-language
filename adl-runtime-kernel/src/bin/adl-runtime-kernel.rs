@@ -249,7 +249,31 @@ async fn main() -> ExitCode {
                 return ExitCode::from(78);
             }
             let operation_key_id = init.credentials.operation_key_id.clone();
-            let migration_decision_key = operation_key;
+            let migration_decision_key_text = match read_trimmed_config_file(
+                &init.credentials.migration_decision_public_key_path,
+                "runtime migration decision key",
+            )
+            .await
+            {
+                Ok(value) => value,
+                Err(error) => {
+                    eprintln!("{error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let migration_decision_key = match verifying_key_from_hex(&migration_decision_key_text)
+            {
+                Ok(key) if key != operation_key => key,
+                _ => {
+                    eprintln!(
+                            "runtime migration decision key is invalid or aliases the operation permit key"
+                        );
+                    return ExitCode::from(78);
+                }
+            };
+            let migration_decision_key_id = init.credentials.migration_decision_key_id.clone();
+            let migration_decision_key_generation =
+                init.credentials.migration_decision_key_generation;
             let time_source_identity = format!("sntp:{}", init.credentials.sntp_server);
             let time_source: Arc<dyn TimeSampleSource> = Arc::new(RsntpTimeSampleSource::new(
                 init.credentials.sntp_server.clone(),
@@ -329,7 +353,13 @@ async fn main() -> ExitCode {
                     (init.credentials.continuity_key_id.clone(), 1),
                     catalog_verifying_key,
                 )]),
-                BTreeMap::from([((operation_key_id.clone(), 1), migration_decision_key)]),
+                BTreeMap::from([(
+                    (
+                        migration_decision_key_id.clone(),
+                        migration_decision_key_generation,
+                    ),
+                    migration_decision_key,
+                )]),
             ) {
                 Ok(port) => Arc::new(port),
                 Err(error) => {
@@ -373,8 +403,14 @@ async fn main() -> ExitCode {
             };
             let continuity_public_key =
                 ed25519_dalek::SigningKey::from_bytes(&continuity_secret).verifying_key();
-            if public_key == operation_key || public_key == continuity_public_key {
-                eprintln!("runtime control, operation, and continuity keys must be distinct");
+            if public_key == operation_key
+                || public_key == continuity_public_key
+                || public_key == migration_decision_key
+                || migration_decision_key == continuity_public_key
+            {
+                eprintln!(
+                    "runtime control, operation, migration decision, and continuity keys must be distinct"
+                );
                 return ExitCode::from(78);
             }
             let key_id = init.credentials.control_key_id.clone();
@@ -404,6 +440,9 @@ async fn main() -> ExitCode {
                 "time_source": &time_source_identity,
                 "operation_key_id": &operation_key_id,
                 "operation_key": hex::encode(operation_key.as_bytes()),
+                "migration_decision_key_id": &migration_decision_key_id,
+                "migration_decision_key_generation": migration_decision_key_generation,
+                "migration_decision_key": hex::encode(migration_decision_key.as_bytes()),
                 "control_key_id": &key_id,
                 "control_principal": &principal,
                 "control_key": hex::encode(public_key.as_bytes()),

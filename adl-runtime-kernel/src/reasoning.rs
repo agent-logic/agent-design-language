@@ -1138,6 +1138,42 @@ impl ReasoningServices {
     pub fn continuity_snapshot_bytes(&self) -> Result<Vec<u8>, ReasoningError> {
         self.mutation.snapshot_bytes()
     }
+
+    pub fn continuity_quiesce(&self) -> Result<Vec<u8>, ReasoningError> {
+        {
+            let mut state = self
+                .mutation
+                .state
+                .lock()
+                .map_err(|_| ReasoningError::MutationEvidence)?;
+            let mut adaptation = self
+                .mutation
+                .adaptation
+                .inner
+                .lock()
+                .map_err(|_| ReasoningError::MutationEvidence)?;
+            state.quiesced = true;
+            adaptation.quiesced = true;
+        }
+        self.continuity_snapshot_bytes()
+    }
+
+    pub fn continuity_resume(&self) -> Result<(), ReasoningError> {
+        let mut state = self
+            .mutation
+            .state
+            .lock()
+            .map_err(|_| ReasoningError::MutationEvidence)?;
+        let mut adaptation = self
+            .mutation
+            .adaptation
+            .inner
+            .lock()
+            .map_err(|_| ReasoningError::MutationEvidence)?;
+        state.quiesced = false;
+        adaptation.quiesced = false;
+        Ok(())
+    }
 }
 
 struct ReasoningServiceComponent {

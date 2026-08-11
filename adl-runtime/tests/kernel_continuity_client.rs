@@ -3,7 +3,7 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-use adl_runtime::distributed::polis_runtime::PolisRuntimeContinuityCapability;
+use adl_runtime::distributed::polis_runtime::ProductionPolisRuntime;
 use adl_runtime_kernel::{
     decode_canonical, sha256, BeginOperation, CertificateSuccession, ContinuityCommand,
     ContinuityControlBounds, ContinuityControlError, ContinuityControlInitConfig,
@@ -230,18 +230,25 @@ async fn actual_production_capability_init(root: &Path) {
     continuity.tls.guardian_spki_sha256 = guardian.spki_sha256;
     continuity.tls.successor = None;
     init.continuity_control = Some(continuity);
-    let capability = PolisRuntimeContinuityCapability::from_runtime_init(&init)
+    let runtime = ProductionPolisRuntime::from_runtime_init(&init)
         .await
         .unwrap();
-    let _transfer = capability.transfer_210();
-    let _migration = capability.migration_204();
+    let _transfer = runtime.transfer_210();
+    let _migration = runtime.migration_204();
 }
 
 fn private_key(bytes: &[u8]) -> PrivateKeyDer<'static> {
     PrivatePkcs8KeyDer::from(bytes.to_vec()).into()
 }
 
-fn actual_tls13_mtls_round_trip() {
+struct TlsBehaviorProof {
+    exporter: Vec<u8>,
+    wrong_label_exporter: Vec<u8>,
+    invalid_client_eku_denied: bool,
+    unknown_ca_denied: bool,
+}
+
+fn actual_tls13_mtls_round_trip() -> TlsBehaviorProof {
     let runtime = tokio::runtime::Builder::new_current_thread()
         .enable_all()
         .build()
@@ -428,6 +435,7 @@ fn actual_tls13_mtls_round_trip() {
                 || server_task.await.unwrap()
         );
 
+        let mut denied_results = Vec::new();
         for denied in [server_only, unknown] {
             let client = Arc::new(
                 ClientConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
@@ -468,12 +476,21 @@ fn actual_tls13_mtls_round_trip() {
             let client_result = tokio_rustls::TlsConnector::from(client)
                 .connect(ServerName::try_from("localhost").unwrap(), tcp)
                 .await;
-            assert!(client_result.is_err() || server_task.await.unwrap());
+            let server_denied = server_task.await.unwrap();
+            let denied = client_result.is_err() || server_denied;
+            assert!(denied);
+            denied_results.push(denied);
         }
         let live_root = TempDir::new().unwrap();
         let live_root = live_root.path().canonicalize().unwrap();
         actual_production_capability_init(&live_root).await;
-    });
+        TlsBehaviorProof {
+            exporter: client_exporter.to_vec(),
+            wrong_label_exporter: wrong_label_exporter.to_vec(),
+            invalid_client_eku_denied: denied_results[0],
+            unknown_ca_denied: denied_results[1],
+        }
+    })
 }
 
 fn emit_case(name: &str, root: &Path, proved_markers: Vec<String>) {
@@ -626,7 +643,14 @@ fn run_case(name: &str) {
             );
         }
         "guardian_mtls_authorized" => {
-            actual_tls13_mtls_round_trip();
+            let tls = actual_tls13_mtls_round_trip();
+            let mut journal = DurableContinuityJournal::open(&cfg).unwrap();
+            let (mut exporter_bound, _) = envelope(&cfg, 1, "actual-exporter-binding");
+            exporter_bound.exporter_sha256 = sha256(&tls.exporter);
+            assert!(matches!(
+                journal.begin(&cfg, &exporter_bound, &tls.wrong_label_exporter, 0),
+                Err(ContinuityControlError::ExporterBinding)
+            ));
             let canonical = serde_jcs::to_vec(&ContinuityCommand::Status).unwrap();
             let decoded: ContinuityCommand = decode_canonical(&canonical, 1024).unwrap();
             assert_eq!(decoded, ContinuityCommand::Status);
@@ -660,6 +684,8 @@ fn run_case(name: &str) {
             );
         }
         "unknown_client_certificate_denied" => {
+            let tls = actual_tls13_mtls_round_trip();
+            assert!(tls.unknown_ca_denied);
             let mut journal = DurableContinuityJournal::open(&cfg).unwrap();
             let (mut request, exporter) = envelope(&cfg, 1, name);
             request.leaf_spki_sha256 = "44".repeat(32);
@@ -674,11 +700,8 @@ fn run_case(name: &str) {
             );
         }
         "invalid_client_eku_denied" => {
-            assert!(decode_canonical::<ContinuityCommand>(
-                b"{\"kind\":\"status\",\"eku\":\"server\"}",
-                1024
-            )
-            .is_err());
+            let tls = actual_tls13_mtls_round_trip();
+            assert!(tls.invalid_client_eku_denied);
             proved_markers.extend(
                 [
                     "proved:case:invalid_client_eku_denied",

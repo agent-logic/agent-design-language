@@ -22,7 +22,7 @@ use tokio::task::JoinHandle;
 use tokio::time::{sleep, timeout};
 use tokio_util::sync::CancellationToken;
 
-use crate::distributed::polis_runtime::PolisRuntimeContinuityCapability;
+use crate::distributed::polis_runtime::ProductionPolisRuntime;
 
 #[cfg(windows)]
 use windows_sys::Win32::{
@@ -243,15 +243,15 @@ pub async fn run_guardian(
 pub async fn run_guardian_with_continuity(
     config: GuardianConfig,
     shutdown: CancellationToken,
-    continuity: PolisRuntimeContinuityCapability,
+    polis_runtime: ProductionPolisRuntime,
 ) -> Result<GuardianOutcome, GuardianConfigError> {
-    run_guardian_internal(config, shutdown, Some(continuity)).await
+    run_guardian_internal(config, shutdown, Some(polis_runtime)).await
 }
 
 async fn run_guardian_internal(
     config: GuardianConfig,
     shutdown: CancellationToken,
-    continuity: Option<PolisRuntimeContinuityCapability>,
+    polis_runtime: Option<ProductionPolisRuntime>,
 ) -> Result<GuardianOutcome, GuardianConfigError> {
     config.validate()?;
     let mut attempts_detail = Vec::new();
@@ -336,7 +336,7 @@ async fn run_guardian_internal(
         ));
         let mut lease_finished = false;
 
-        if let Some(continuity) = &continuity {
+        if let Some(polis_runtime) = &polis_runtime {
             let now = std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
                 .map(|duration| duration.as_millis() as u64)
@@ -344,9 +344,7 @@ async fn run_guardian_internal(
             let deadline = now.saturating_add(config.lease_auth_timeout_ms);
             let readiness = timeout(
                 Duration::from_millis(config.lease_auth_timeout_ms),
-                continuity
-                    .client()
-                    .establish_attempt_with_cancellation(attempts, deadline, &shutdown),
+                polis_runtime.establish_continuity(attempts, deadline, &shutdown),
             )
             .await;
             if !matches!(readiness, Ok(Ok(()))) {
@@ -793,7 +791,7 @@ pub async fn run_guardian_with_os_signals(
 #[cfg(unix)]
 pub async fn run_guardian_with_continuity_and_os_signals(
     config: GuardianConfig,
-    continuity: PolisRuntimeContinuityCapability,
+    polis_runtime: ProductionPolisRuntime,
 ) -> Result<GuardianOutcome, GuardianConfigError> {
     use tokio::signal::unix::{signal, SignalKind};
 
@@ -810,7 +808,7 @@ pub async fn run_guardian_with_continuity_and_os_signals(
         }
         signal_shutdown.cancel();
     });
-    let outcome = run_guardian_with_continuity(config, shutdown, continuity).await;
+    let outcome = run_guardian_with_continuity(config, shutdown, polis_runtime).await;
     signal_task.abort();
     outcome
 }
@@ -854,9 +852,9 @@ pub async fn run_guardian_with_os_signals(
 #[cfg(not(unix))]
 pub async fn run_guardian_with_continuity_and_os_signals(
     config: GuardianConfig,
-    continuity: PolisRuntimeContinuityCapability,
+    polis_runtime: ProductionPolisRuntime,
 ) -> Result<GuardianOutcome, GuardianConfigError> {
-    run_guardian_with_continuity(config, CancellationToken::new(), continuity).await
+    run_guardian_with_continuity(config, CancellationToken::new(), polis_runtime).await
 }
 
 struct GuardianLease {
