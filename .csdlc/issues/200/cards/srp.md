@@ -12,7 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-Exact barrier/authority-protocol/PolisRuntime/mod integration, focused deterministic test adapter, proof/evidence, typed issue truth, and absence of concrete #203/#204 or operational side effects.
+.csdlc/issues/200
+.csdlc/prepared/issues/200
+.csdlc/evidence/200
+adl-runtime/src/distributed/authority_protocol.rs
+adl-runtime/src/distributed/authority_reconciliation.rs
+adl-runtime/src/distributed/authority_reconciliation/tests.rs
+adl-runtime/src/distributed/mod.rs
+adl-runtime/src/distributed/polis_runtime.rs
+adl-runtime/tests/distributed_authority_reconciliation.rs
 
 ## Prompts
 
@@ -33,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI and live GitHub merge state remain pending until exact-head publication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:19a0c1e5e8bfc81cdfc0e4404bdd39aa320a265c:efcc31c37bbff3b4811e8ed1912bd14ff30e1d6ef5a4bf33fbb7a02d6730c404")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_200_impl_19a0")
 
-Result: pre_review
+Result: pass
