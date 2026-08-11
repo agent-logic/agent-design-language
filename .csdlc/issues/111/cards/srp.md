@@ -12,7 +12,19 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/agent_roster.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/ingress.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/src/operations.rs
+adl-runtime-kernel/tests/agent_roster.rs
+adl-runtime-kernel/tests/conversation_sessions.rs
+adl-runtime-kernel/tests/parity_b_live_kernel.rs
+demos/html-observatory/app.js
+demos/html-observatory/tests/conversation_sessions.test.mjs
+.csdlc/issues/111
 
 ## Prompts
 

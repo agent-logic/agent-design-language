@@ -6,10 +6,29 @@
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
   "generation": 89,
-  "digest": "4b9bc56d3b00acc890190de6ad489a43401ad2f4e7f432bfa3acfa9eaea23ba9",
+  "digest": "57716062a0b9b2f57944cc723b3c99c8d7b7322a871dd55196e1286d2618209e",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+    "assigned_by": "codex:issue-111-minimum-required-validation",
+    "revision": "git-blake3:46acdca3492198987ecc509a2895eecc3b052a2b:68b243a0e843a188ed13cd128c41401fed1aa660d7723ad1ea9cc58d3e5b6a1b",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +64,9 @@
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "862b1639dc7a2d716b8ebb5e1e3d67d94572e21c7f292047b31d14172877d39b",
-      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
-      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
+      "values_digest": "9c107fde056abe1368528759a803c132c3fea98bd80d9fc119e8517a8646f332",
+      "rendered_digest": "ec22ad209e4d10610661d8b2911f78899048d99b86782987a60f4b4e48f85d48",
+      "ast_digest": "8ecfed7072dbe3774353607813319891e23c84d43a1305260d01c970365d2ddd"
     },
     "sor": {
       "values_digest": "713dc5f5ec402610946b87086c723e75d40b0e784cb3640f30182593dca5d71d",
@@ -946,6 +965,13 @@
       "actor": "codex:issue-111-minimum-required-validation",
       "reason": "Remove issue #226 validation-routing changes from issue #111 so only the product-scoped Runtime-fast proof remains required.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 105,
+      "generation": 89,
+      "actor": "codex:issue-111-minimum-required-validation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

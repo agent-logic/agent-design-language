@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/operations.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/conversation_sessions.rs\nadl-runtime-kernel/tests/parity_b_live_kernel.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/conversation_sessions.test.mjs\n.csdlc/issues/111",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
