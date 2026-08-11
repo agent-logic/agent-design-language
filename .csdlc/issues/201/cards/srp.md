@@ -46,12 +46,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains pending until the exact reviewed repair is pushed and PR #229 is updated; merge is not authorized by this review record.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:591d3931a3802fbaeb0123e7b49452944f5564b3:43d7ee352a5a8f32977f43d0cccd9cd310a9e0d9261e6ae672e2a2aeefca581e")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_201_coverage_truth_final")
 
-Result: pre_review
+Result: pass
