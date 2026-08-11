@@ -1,0 +1,18 @@
+{
+  "schema": "adl.sprint_review_local_validation.v1",
+  "issue": 5857,
+  "source_revision": "f99d581f13574611894190ab9b720f2542a620d9",
+  "source_tree": "e383c751c5e76bfcd2801df5c3afe88cf146c57c",
+  "command": ["ruby", ".csdlc/prepared/issues/5857/validate-sprint-review.rb"],
+  "outcome": "passed",
+  "counts": {"children": 9, "repairs": 2, "wp16_entries": 9},
+  "files": {
+    ".csdlc/prepared/issues/5857/validate-sprint-review.rb": "58facd5d186bebf8e0e56d9639866172372651bf633f803c5179cae2fd7b618c",
+    ".csdlc/prepared/issues/5857/sprint-execution-packet.md": "aca001f05ba8baaf909db534afdd37da0298cd48e581de8062d04f25af2ca4aa",
+    ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml": "635580abd8dc2e2023631d135d3be02b477364fb424606b88419e5665ca1ff40",
+    ".csdlc/evidence/5857/sprint-review.json": "c0dffcfff6e0de743a667def0219b6c2b0e29ddc03122af9a84c2fe32b110af9",
+    ".csdlc/evidence/5857/sprint-review.md": "a582fafd199366a4ba33d42f40fc74b4edff9334ead15fd620e454e2d4529197",
+    ".csdlc/evidence/5857/activity.jsonl": "43a35e108191f612cfb57df72c34464e7542c202170d05f4a7a7c2f1d5abd02d"
+  },
+  "non_claims": ["No merge approval", "No public release authorization", "No personhood, citizenship, consciousness, or governance claim"]
+}
