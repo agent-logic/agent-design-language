@@ -37,6 +37,7 @@ Repaired production ACIP replay authority, transactional pressure rollback, plat
 - Added production WebSocket saturation rejection, non-reserving typed response, exact retry recovery, and concurrency regressions.
 - Normalized native semantic comparison independently of platform and expanded exact authority source provenance.
 - Aligned the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression.
+- Run 31452115116 failed both native producers because the production kernel test requires the verified Vector component; the issue workflow now installs it before proof, hashes the installer in source provenance, and requires a replacement run.
 
 ## Validation
 
@@ -138,11 +139,11 @@ Repaired production ACIP replay authority, transactional pressure rollback, plat
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

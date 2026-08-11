@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
     "slug": "wp14-production-acip-authority-repair",
     "version": "v0.92",
-    "generation": 18
+    "generation": 20
   },
   "status": "pre_phase",
   "content": {
@@ -18,7 +18,8 @@
         "Replaced delimiter-ambiguous global replay state with structured runtime/source domains partitioned by authenticated principal and exact pending rollback.",
         "Added production WebSocket saturation rejection, non-reserving typed response, exact retry recovery, and concurrency regressions.",
         "Normalized native semantic comparison independently of platform and expanded exact authority source provenance.",
-        "Aligned the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression."
+        "Aligned the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression.",
+        "Run 31452115116 failed both native producers because the production kernel test requires the verified Vector component; the issue workflow now installs it before proof, hashes the installer in source provenance, and requires a replacement run."
       ],
       "artifacts": [
         "adl-runtime-kernel/src/assembly.rs",
@@ -131,8 +132,8 @@
           "evidence_ref": ".csdlc/evidence/209/native-contract-selftests.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
