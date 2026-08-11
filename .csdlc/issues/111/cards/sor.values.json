@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
     "slug": "wp18c01-canonical-human-agent-conversation-sessions",
     "version": "v0.92",
-    "generation": 36
+    "generation": 43
   },
   "status": "pre_phase",
   "content": {
@@ -30,7 +30,96 @@
         "demos/html-observatory/tests/conversation_sessions.test.mjs",
         "docs/api/runtime-v3/v1/observatory.openapi.json"
       ],
-      "actual_validation": [],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "conversation_sessions"
+          ],
+          "purpose": "Prove Runtime-owned session identity, ordered dispatch, duplicate handling, one absolute timeout budget, cancellation, reconnect retrieval, and bounded capacity behavior.",
+          "outcome": "passed",
+          "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; independent-review:019fef02-f7cd-7c11-bea0-4d1bf0ddb133"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "observatory"
+          ],
+          "purpose": "Prove authenticated Observatory WSS conversation routing and correlated Runtime-authoritative outcomes.",
+          "outcome": "passed",
+          "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; 7 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "openapi_contract"
+          ],
+          "purpose": "Prove checked-in conversation and cancellation OpenAPI parity.",
+          "outcome": "passed",
+          "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; independent exact-head review confirmed pass"
+        },
+        {
+          "command": [
+            "node",
+            "demos/html-observatory/tests/conversation_sessions.test.mjs"
+          ],
+          "purpose": "Prove Runtime-authoritative rendering, correlation checks, cancellation state, and bounded reconnect replay without browser-synthesized delivery truth.",
+          "outcome": "passed",
+          "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; browser contract PASS"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Reject production-library warnings on the bounded conversation implementation.",
+          "outcome": "passed",
+          "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; strict lib Clippy PASS"
+        },
+        {
+          "command": [
+            "csdlc-validate",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "111"
+          ],
+          "purpose": "Validate the complete typed issue-111 lifecycle card set and projections.",
+          "outcome": "passed",
+          "evidence_ref": "typed-validation:issue-111:generation-36:passed"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "058635d7db00cde88714e84c158a5c70bc59411d^",
+            "058635d7db00cde88714e84c158a5c70bc59411d"
+          ],
+          "purpose": "Reject malformed whitespace in the independently approved implementation revision.",
+          "outcome": "passed",
+          "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; diff hygiene PASS"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

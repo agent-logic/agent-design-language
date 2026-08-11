@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
-  "generation": 36,
-  "digest": "1ec05af46b09c1840690b1b49372c993b178c63953aaabcba75c51ce2124a0bd",
+  "generation": 43,
+  "digest": "20dbec8c9307827eacb5b3a51560c4fe06c2e78d7342583a9c43c2fcee336c04",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8286cd2172f457f33f130b4d3612ca2ced50691645a4737a1ded8e3d53fb25af",
+      "values_digest": "3e35cea30a47243f21df2e5c667cab644e2b01f7aedb05c14f330e8d42bc4185",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "e3218df887d2bb388180bba5fc68f7238e06f04ec9fbdb077c5bb8d54182e06c",
+      "values_digest": "8e3a320c6efdd09c68d28f2a07bbf81d4bc09d10a7fa79dfbe643d8275e5507e",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "b72ad751e9ef27e2538d904f2dcbaf1e65cf6e25c5a6386b9154a3b5e00565cb",
+      "values_digest": "935153a03781c52da917ddf62b1759896730e19e5587220511037db998c9b9a8",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "b217cebeac31f3f0542564acaefe939b4df2bbf8efae76dcf26935f7ecbe5dc3",
+      "values_digest": "df02bcd119e02b826e1b2be64bd8f975aba35a1c095e6dfcb7651ade2d05428d",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "e822dd2fb4b6718636511eef6784753f05b9fc4b9969f17d06f72b0e85612b60",
+      "values_digest": "d7b5a39bd9c5d030608c6c3d9fa519985563127d53135a576be1b2d7755df36d",
       "rendered_digest": "e37a0643a47fb863a387964ca9e69e03eea12c6cfb959ebfbc5c60f69ec98b2b",
       "ast_digest": "998b9887f80c2418e8b940fed6ddaeeeaaa92fbf2c6a08f79884820b30e5dd90"
     },
     "sor": {
-      "values_digest": "87110c6c7776d51777c76425f854c4471d44b9c5b19cd52ad67696e3085ec97f",
-      "rendered_digest": "b43d2c0a3131be800c3aa9ea4e05cbe09dce3c3e99b0de77150c1ec5d9fc7695",
-      "ast_digest": "55eb6d526a9d0456fbef98ad20f486d06be6298b6bd1ede11e9c32d648f2b7ed"
+      "values_digest": "8066f61d668d16db34342f3b89061e9338bb299e44112865dfd6e4d3cba484bc",
+      "rendered_digest": "d2418f2560d0a43e858baa8965bb3a7cb8a41be65a670f95851c762392b0b80e",
+      "ast_digest": "47bd3da56dd7d0425031af5f256b8f2eec27fd734bee528aa2d2e3e5808a0f91"
     }
   },
   "transitions": [
@@ -344,6 +344,55 @@
       "actor": "codex:111-review-remediation",
       "reason": "Focused product, contract, browser, cancellation, ordering, timeout, typed-card, lint, and diff validation is complete at the independently approved implementation revision.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 39,
+      "generation": 37,
+      "actor": "codex:111-execution",
+      "reason": "Record the focused production conversation-session integration proof run against product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"purpose\":\"Prove Runtime-owned session identity, ordered dispatch, duplicate handling, one absolute timeout budget, cancellation, reconnect retrieval, and bounded capacity behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; independent-review:019fef02-f7cd-7c11-bea0-4d1bf0ddb133\"}}"
+    },
+    {
+      "sequence": 40,
+      "generation": 38,
+      "actor": "codex:111-execution",
+      "reason": "Record focused Observatory WSS integration validation at product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"purpose\":\"Prove authenticated Observatory WSS conversation routing and correlated Runtime-authoritative outcomes.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; 7 passed\"}}"
+    },
+    {
+      "sequence": 41,
+      "generation": 39,
+      "actor": "codex:111-execution",
+      "reason": "Record focused public contract validation at product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"purpose\":\"Prove checked-in conversation and cancellation OpenAPI parity.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; independent exact-head review confirmed pass\"}}"
+    },
+    {
+      "sequence": 42,
+      "generation": 40,
+      "actor": "codex:111-execution",
+      "reason": "Record focused browser conversation behavior validation at product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"purpose\":\"Prove Runtime-authoritative rendering, correlation checks, cancellation state, and bounded reconnect replay without browser-synthesized delivery truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; browser contract PASS\"}}"
+    },
+    {
+      "sequence": 43,
+      "generation": 41,
+      "actor": "codex:111-execution",
+      "reason": "Record strict Rust lint validation at product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject production-library warnings on the bounded conversation implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; strict lib Clippy PASS\"}}"
+    },
+    {
+      "sequence": 44,
+      "generation": 42,
+      "actor": "codex:111-execution",
+      "reason": "Record typed six-card validation after execution evidence at product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"111\"],\"purpose\":\"Validate the complete typed issue-111 lifecycle card set and projections.\",\"outcome\":\"passed\",\"evidence_ref\":\"typed-validation:issue-111:generation-36:passed\"}}"
+    },
+    {
+      "sequence": 45,
+      "generation": 43,
+      "actor": "codex:111-execution",
+      "reason": "Record exact product-head diff hygiene validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"058635d7db00cde88714e84c158a5c70bc59411d^\",\"058635d7db00cde88714e84c158a5c70bc59411d\"],\"purpose\":\"Reject malformed whitespace in the independently approved implementation revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; diff hygiene PASS\"}}"
     }
   ]
 }
