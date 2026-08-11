@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
     "slug": "crash-safe-authority-reconciliation-barrier",
     "version": "v0.92",
-    "generation": 2
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -25,7 +25,7 @@
             "AC-4",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -39,7 +39,7 @@
             "AC-6",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -54,7 +54,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "in_progress"
         },
         {
           "id": "S4",

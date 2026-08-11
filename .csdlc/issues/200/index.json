@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
   "phase": "bound",
-  "generation": 2,
-  "digest": "13ab838ca4c61cee351e0e08ff9a5d5fc0c323d15ff8f95499d232f2f7b53994",
+  "generation": 5,
+  "digest": "86406473920ea5a11dde9e105960c379cf50623d09531c4f5fa72aafdbace198",
   "branch": "codex/200-concrete-authority-reconciliation-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-200-concrete-authority-reconciliation-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8f8bfcf3aa58c6d028641c0a96406fd9d33ccf1be38aa61933c865f902ac8e99",
+      "values_digest": "a0d3780ef123d1e5724d4a9f58088e667ddb19a19971851584f7360edc52d638",
       "rendered_digest": "2bf7b8cfacd8ddd000f15d512793721dd8a66a41495705e6eea0e4720f11b449",
       "ast_digest": "923d2e83e0be4ba4a7d60955f63d16ee37ccd6f57575b3d316923eec9d5a102c"
     },
     "stp": {
-      "values_digest": "f6c8e3193b755c2106ca6c46fbb964c83e824151addc27922b2637c273cca6b6",
+      "values_digest": "fa23ce5f3ca6ab701519d5c532ee6ea8250222407de74c7998a9b60cb26ec3de",
       "rendered_digest": "b57d439d1570e4d0f8228d5c1801e852b4ef66b058757c8f52598b0191fdc466",
       "ast_digest": "ed3f711248a7c94c706cb3ef8eba0be4f78f4cb1890030f4e03aa319a4dc9fae"
     },
     "spp": {
-      "values_digest": "4f79a975ff0e36d9c2dd0d22671066b5c684dfecd0b49988370f27f40d318005",
-      "rendered_digest": "f09760f595c6e1a0019a12acf6d0cac09b1ae48cc273425fd3e999b4ce0757bf",
-      "ast_digest": "b74dc6f59e3cbb54aaab6c331c3a73f7892e53f4fb8a34ee505a18269774795e"
+      "values_digest": "e267fd099c1da97913fb37b948dabcd1cfbff5511188d2c57c7a7955d8de9c6c",
+      "rendered_digest": "197716261a0714a0fd57f7607ce83e3f650acf53f6afecddc8fb776c286c0273",
+      "ast_digest": "889affad6a6921f814b883a23fcd4b3abbc2df7ec712c2f8a3cfa70898120e16"
     },
     "vpp": {
-      "values_digest": "f5e984b61244d903ce6c19a3af1990472ddd296ce59b2329753cdd1eab9a480e",
+      "values_digest": "d33ec0c669d435088bc0a540d14922a500ee58f09b9aad26554d8dc984a2c86b",
       "rendered_digest": "b19adcd318fa48f408a267f17c2a1f74c54cc933155eb4f1c75c9edaff1413b7",
       "ast_digest": "af01edb6ae4e6432d48e99719f6c2eec6f31c3afbd0c0ae7d0e33c079cf9e479"
     },
     "srp": {
-      "values_digest": "5f595b247d0347946ba1e148537d947c1fdf1f843c81e5a7a78cc9929c90ebd7",
+      "values_digest": "ec46b99095147e33074346057cf200fcf50dcc81e969afaf549d3b7dc29a63d0",
       "rendered_digest": "4d7083bad3aa26de013aca07967f97d2db2738cd1771028d035a7e8316a2f3bc",
       "ast_digest": "cd1b7f39fc02e2a9acb63111ce8f25eefa9c354685111feeec13080532aa9bd1"
     },
     "sor": {
-      "values_digest": "726e66897b902e2622eed47047330d2aab6e155f7613c764323c04a4f0f9b680",
+      "values_digest": "b486a83401883418f7169350c1886c25d9f330b2f4d9363cd8bc50fc2523cf8a",
       "rendered_digest": "f30f60df6721af0736e5a2e444c83f79ef29191bd8d607ba8af55dd8af8b4a83",
       "ast_digest": "e4517ecca803ffa7e9bbca085fe73d80d878315c9a8fa57b69eef3269503673a"
     }
@@ -98,6 +98,27 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Merged #191/#201 ancestry, typed bind, and the frozen opaque token, journal, checkpoint, view, and permit contracts are confirmed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Implemented the sealed reconciliation registry, deterministic time carrier, bounded durable phases, restart reconciliation, publication view, and cfg(test)-only deterministic adapter.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "The exact 36-case lane and strict Clippy pass locally; immutable receipt production and typed finalize remain in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
     }
   ]
 }

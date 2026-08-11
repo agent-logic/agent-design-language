@@ -1,0 +1,13 @@
+{
+  "issue": 200,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "53a840fbda4a51096b074de3090ae12b88e5229ed0f35487a608d5fe30a5196e",
+  "actor": "codex:/root/advance_200_after_201",
+  "reason": "Implemented the sealed reconciliation registry, deterministic time carrier, bounded durable phases, restart reconciliation, publication view, and cfg(test)-only deterministic adapter.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S2",
+    "status": "completed"
+  }
+}
