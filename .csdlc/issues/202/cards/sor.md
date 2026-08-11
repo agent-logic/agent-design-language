@@ -12,35 +12,38 @@ Status: pre_phase
 
 ## Summary
 
-Resolved all four fresh P1 findings on exact current-main ancestry: public raw stream dispatch is sealed, production stream creation and exclusion or successor changes share an atomic fence, learner boot is live-signed at session establishment, and exclusion publisher and removal-target identity are exact. Immutable v5 proof passes 39 private and 13 public cases with 23 behavior assertions. Exact fresh independent rereview and publication remain pending.
+Resolved the fresh authority-boundary findings on exact current-main ancestry. The private governed subtree gives SecurePolisNetworkFactory sole mutation ownership; durable local instance and exact peer pins bind fresh and retained connections; runtime-owned boot custody rechecks the durable generation while signing; and one shared authority lease spans stream creation, actual Raft effect, and response. Immutable v6 proof passes 42 private runner tests representing the unchanged 36 semantic cases, separately 13 public tests and 29 named subassertions, all three standalone integration compiles, and strict library/public Clippy. The STP repo-input reference to the former polis_runtime.rs path and SPP S3 shorthand 36+13 are retained historical planning inputs: current paths are authoritative in STP deliverables/SPP affected areas, while VPP and this SOR separate 36 semantic, 42 runner, 13 public, and 29 subassertion denominators. Fresh independent exact-head review and publication remain pending.
 
 ## Artifacts
 
+- adl-runtime/src/distributed/mod.rs
 - adl-runtime/src/distributed/authority_protocol.rs
-- adl-runtime/src/distributed/learner_transport.rs
-- adl-runtime/src/distributed/learner_transport/tests.rs
-- adl-runtime/src/distributed/polis_runtime.rs
 - adl-runtime/src/distributed/transport.rs
+- adl-runtime/src/distributed/transport/core.rs
+- adl-runtime/src/distributed/transport/root.rs
+- adl-runtime/src/distributed/transport/governed/learner_transport.rs
+- adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
+- adl-runtime/src/distributed/transport/governed/polis_runtime.rs
+- adl-runtime/tests/distributed_authorized_learner_transport.rs
+- adl-runtime/tests/distributed_transport.rs
+- adl-runtime/tests/distributed_discovery.rs
 - adl-runtime/tests/distributed_runtime_transport.rs
 - .csdlc/prepared/issues/202/produce-proof-receipt.rb
 - .csdlc/prepared/issues/202/validate-proof-receipt.rb
-- .csdlc/evidence/202/v5/execution-proof.json
+- .csdlc/evidence/202/v6/execution-proof.json
 
 ## Execution
 
-- Removed production allow-all endorsement and ordinary-session APIs; ProductionLearnerAuthority reconstructs admission and exclusion before exposure and owns exclusion-aware endorsement.
-- Made ProductionLearnerAuthority mandatory for SecurePolisNetworkFactory construction and consulted it for ordinary pending, install, revalidation, learner install and server sessions, exclusion activation, and successor-flip fencing.
-- Sealed raw AuthenticatedConnection send and receive methods to crate scope; every public ordinary handshake, request, accept, response, learner handshake, and replication path takes a shared authority guard before revalidation and holds it through stream open or send.
-- Made exclusion activation and learner successor flip drain route-local dispatch and take the exclusive authority fence, so no new governed stream crosses the revocation boundary.
-- Added a deterministic production-path race proof that pauses a real retained-session request after revalidation and before QUIC stream creation, proves exclusion waits for the in-flight boundary, then proves every next retained-session entry point emits zero additional STREAM frames.
-- Added a challenge-bound signed JCS learner handshake that binds voter and learner keys, node and Guardian identities, certificate and boot generations, the full admission and route cut, and operation authority; an explicit stale live learner boot is denied at establishment.
-- Reacquired transition and dispatch authority after the asynchronous learner handshake and rechecked current cut, admission, exclusion, and live session through final route insertion or server return, preventing a concurrent flip or exclusion from installing stale route truth.
-- Required exclusion publication by the exact trusted publisher node, Guardian, and boot tuple and required an exact live removal-target route cut including stable Raft id, node, Guardian, control key, certificate generation, boot generation, address, and nonrevoked voter state.
-- Preserved exact predecessor staging and atomic successor flip semantics, including retained old-session denial without cross-generation reuse.
-- Retained the real SecurePolisNetworkFactory to Quinn server to fourth PolisRaft proof with forced snapshot catch-up, later append replication, unchanged voters, and denied vote, generic, and unknown messages.
-- Expanded immutable v5 proof to 39 private and 13 public cases with 23 behavior assertions covering wrong publisher node, wrong removal target, stale live boot, actual governed API fencing, and zero post-revocation STREAM creation.
-- Bound proof to exact 2afa820c current-main ancestry and passed runtime integration compile plus strict library and public-target Clippy.
-- Preserved token predecessor binding, exact retry, crash-recovery, capacity, replay, expiry, address, direction, certificate, and exclusion restart behavior from the prior proof.
+- Moved learner authority and Polis runtime integration below private transport::governed while preserving public distributed learner_transport and polis_runtime reexports and unchanged standalone targets.
+- Made the dependency-free transport core own private authority state, nonclone mutation ownership, opaque wire sessions, and opaque handshake, send, receive, pending-response, and response permits.
+- Made SecurePolisNetworkFactory the sole mutation owner and serialized admission, successor flip, expiry, exclusion, and authority-cut replacement through one transition and route-drain order.
+- Retained one shared authority lease from exact revalidation through QUIC stream creation, actual ordinary or learner Raft effect, and response send or receive without a dropped gap or nested read.
+- Persisted a separate random local transport instance id and canonical exact peer pins keyed by role, stable Raft id, node id, and Guardian id; signed handshakes bind sender and intended receiver instances.
+- Added runtime-owned nonclone boot generation custody and held its durable current-generation guard while the nonextractable Guardian signer signs each live learner binding.
+- Reconstructed exact voter-cut digest, admission, peer-pin, and exclusion view before factory exposure and revalidated them on every governed session operation.
+- Added deterministic real-effect expiry fencing, retained-session exclusion zero-STREAM, boot N to N plus 1 signing denial, durable instance restart, and fresh alternate-factory peer denial regressions.
+- Preserved the exact thirty-six semantic learner contract while expanding the private runner to forty-two tests and the named behavior inventory to twenty-nine subassertions.
+- Protected the transport shim, core, root, governed learner source and tests, governed runtime, module root, authority protocol, public target, three integration targets, and v6 proof scripts.
 
 ## Validation
 
@@ -53,14 +56,14 @@ Resolved all four fresh P1 findings on exact current-main ancestry: public raw s
       "--manifest-path",
       "adl-runtime/Cargo.toml",
       "--lib",
-      "learner_transport::tests",
+      "distributed::transport::governed::learner_transport::tests",
       "--",
       "--nocapture",
       "--test-threads=1"
     ],
-    "purpose": "Run the exact behavior-bound private authorized learner lane including the production API revocation race.",
+    "purpose": "Run 42 private runner tests for the unchanged 36 semantic cases and exact 29 named subassertions.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v5/execution-proof.json: private 39/39 and 23 exact behavior assertions"
+    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
   },
   {
     "command": [
@@ -74,9 +77,39 @@ Resolved all four fresh P1 findings on exact current-main ancestry: public raw s
       "--",
       "--test-threads=1"
     ],
-    "purpose": "Run the exact public canonical Membership artifact boundary.",
+    "purpose": "Run the separate exact 13-test public artifact boundary.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v5/execution-proof.json: public 13/13"
+    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_transport",
+      "--no-run"
+    ],
+    "purpose": "Compile the unchanged standalone transport target.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_discovery",
+      "--no-run"
+    ],
+    "purpose": "Compile the unchanged standalone discovery target.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
   },
   {
     "command": [
@@ -89,9 +122,9 @@ Resolved all four fresh P1 findings on exact current-main ancestry: public raw s
       "distributed_runtime_transport",
       "--no-run"
     ],
-    "purpose": "Compile the full runtime transport integration surface against mandatory shared authority construction.",
+    "purpose": "Compile the governed runtime integration target.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v5/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
   },
   {
     "command": [
@@ -105,9 +138,9 @@ Resolved all four fresh P1 findings on exact current-main ancestry: public raw s
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict Clippy across the production library.",
+    "purpose": "Run strict production library Clippy.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v5/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
   },
   {
     "command": [
@@ -122,27 +155,18 @@ Resolved all four fresh P1 findings on exact current-main ancestry: public raw s
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict Clippy across the exact public learner target.",
+    "purpose": "Run strict public target Clippy.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v5/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
   },
   {
     "command": [
       "ruby",
       ".csdlc/prepared/issues/202/produce-proof-receipt.rb"
     ],
-    "purpose": "Produce immutable exact-source issue proof for the four P1 repairs.",
+    "purpose": "Produce immutable v6 exact-source evidence.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v5/execution-proof.json"
-  },
-  {
-    "command": [
-      "ruby",
-      ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
-    ],
-    "purpose": "Validate current-main ancestry, immutable evidence, protected source, exact denominators, and behavior assertions.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
+    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
   }
 ]
 

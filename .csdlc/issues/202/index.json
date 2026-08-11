@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
   "phase": "implemented",
-  "generation": 35,
-  "digest": "e439af73cf11581211e5d435b9530c18f81be4474567924e31c992854270a332",
+  "generation": 36,
+  "digest": "4aef20ededde7c5eeb3b28773b3570cf9034d3bad3772281bcb7c5c7398f07b3",
   "branch": "codex/202-authorized-learner-transport-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-202-authorized-learner-transport-preparation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1ddb31d6a0b051a41e804fa488b0b3966486aefe55fe483123fcf1814ca8d252",
+      "values_digest": "04400d2e2d2e98b05361ca1dd0f5116ea1e85ba8116e209a268ae1285739ac28",
       "rendered_digest": "69a805a23892f34aeda5bc6c018c4b6d3425674b3472f433c95fa96c01aa8830",
       "ast_digest": "004791ead09b105cebf8ab0978301127312b0ae5a7c0c34cebf6291fa33a196d"
     },
     "stp": {
-      "values_digest": "0577f8eea7ba4c38195e343da1b2ec2ca976c3458f6372aa0fe6d4b73b0a979d",
+      "values_digest": "849c5c74991b7e51953ec90012c3c096de8403ae551e15e8ff9b68025bd2ab60",
       "rendered_digest": "dfddaeadcb4d739c0c3331bc30dbfd94b4b57d0d9ad9f9a74ab81174a9dcee43",
       "ast_digest": "1614c5e31e990ab93563b802b9a8d59738cb7f5b68caede9b9107241152d43fc"
     },
     "spp": {
-      "values_digest": "04f7909f7ee4bbdb144e073d8c9a412f4689587a41f0c37dcbba9aecce7c0154",
+      "values_digest": "197c495fbc595b53e65bd1ba140a44a03ed85233fe0e6e8cacdc11044e0b6d42",
       "rendered_digest": "093cc6780f5a2d975bf7b1b164fe4eba33825f122f62fb3d4f5f7c50b181d5bb",
       "ast_digest": "bdf56b18f8b8a4ad50b131b2c6d134a634c810789f2a69f6e75593fbacb827bc"
     },
     "vpp": {
-      "values_digest": "f700caae613e41ae494827edb64fb5e42637e98b6cf2074e553ee943640d38b8",
+      "values_digest": "15b6c312bd4bbb77e27c70103f0fb5cc3179ed0d5eb4943ae83f88d65c28ba0b",
       "rendered_digest": "88819c7b9f074f934810f6a93237044a438267df95b080edaa41abb0dc64a2b8",
       "ast_digest": "7643c556cdacd81b2c6b760e7d2085791e5e5de6830db2a00d915c11b1733976"
     },
     "srp": {
-      "values_digest": "3ff4f75424e9d65eca8c7d1b00d5a049d9d1a0654199200ae37e0a4693c9ca81",
+      "values_digest": "e8bbdfc5d9594c8a33ade45f1b20bb41010fc20f9db652f061bec469caa18d1c",
       "rendered_digest": "bf736485fa6a9bd49ec2f72b81d687f809819e372b57ab6bc15df4e11a9f6e31",
       "ast_digest": "7b33026f81971a165f778349c1be19bf5ea81dadbfac1578be557657d0e1feb4"
     },
     "sor": {
-      "values_digest": "3841ee2084fe8c07e81bec9c767668fb9f054ea9f64c0e182769a0043746607c",
-      "rendered_digest": "6976b76851f7f116ddab91edc1438c1142c65eb69e7dc2810b014279f4f77e49",
-      "ast_digest": "ab806f71c5e77f79d57c204e292265934fba1caa38794d956c4430f0eb77819a"
+      "values_digest": "dddc25044ba8ad9c49b030252820365479612f49900fb31e316676fa37cb0cdd",
+      "rendered_digest": "9361a8579d8c755e0ee892e821c81634e8ec17455666921874bd7bcd957aa844",
+      "ast_digest": "aea384b8c6e952683734210675f1f57aca39a797a857d23fa0e4831cb62516a5"
     }
   },
   "transitions": [
@@ -350,6 +350,13 @@
       "actor": "codex:/root/prepare_204_parallel:review-resolution",
       "reason": "Focus fresh exact-head review on the approved governed ownership, lease, boot, pin, transition, compatibility, and proof contracts.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the private transport::governed subtree make TransportAuthorityOwner construction and every authority mutation reachable only from SecurePolisNetworkFactory, while preserving public distributed learner_transport and polis_runtime source paths?\",\"Are raw QUIC send, receive, learner handshake, permit construction, exclusion activation, flip, expiry, and cut replacement private or opaque so no crate sibling can mint a governed-looking bypass?\",\"Does each ordinary and learner request retain one shared authority lease from under-fence revalidation through stream creation, actual OpenRaft append or snapshot effect, and response send or receive without a dropped gap or nested read deadlock?\",\"Do exclusion, successor flip, expiry, and authority-cut replacement serialize under one lock order, update exact current view and durable truth, drain routes, and make retained sessions fail before any later governed data STREAM?\",\"Does a separate checkpointed random transport instance id survive restart, do canonical peer pins bind role plus stable Raft id plus node and Guardian ids, and do signed handshakes reject a fresh alternate-root peer while accepting a same-root restart?\",\"Does production learner boot attestation require runtime-owned nonclone custody and hold the durable current-generation guard while the nonextractable Guardian signer signs, so retained generation N cannot attest or sign after N plus 1?\",\"Do the untouched distributed_transport and distributed_discovery targets and the distributed_runtime_transport target all compile against the dependency-free transport core and compatible public reexports?\",\"Does real_four_node_learner_replication prove a writer waits across the real learner Raft effect and response while preserving snapshot, append, and unchanged voter behavior?\",\"Does the retained exclusion race prove the in-flight request boundary and zero post-exclusion STREAM frames across every public ordinary dispatch route?\",\"Does v6 evidence distinguish exactly 36 semantic cases from 42 private runner tests, separately require 13 public tests and 29 named subassertions, protect every moved or new path, and bind exact current-main ancestor dbd060d1e?\",\"Are all changes bounded to #202, with #199 promotion and later serving or recovery integration left to their declared owners, and no paid runner, AWS, publish, merge, or closeout side effect?\"]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 36,
+      "actor": "codex:/root/prepare_204_parallel:review-resolution",
+      "reason": "Record actual approved governed transport implementation and immutable v6 proof without claiming review, publication, merge, or closeout.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved the fresh authority-boundary findings on exact current-main ancestry. The private governed subtree gives SecurePolisNetworkFactory sole mutation ownership; durable local instance and exact peer pins bind fresh and retained connections; runtime-owned boot custody rechecks the durable generation while signing; and one shared authority lease spans stream creation, actual Raft effect, and response. Immutable v6 proof passes 42 private runner tests representing the unchanged 36 semantic cases, separately 13 public tests and 29 named subassertions, all three standalone integration compiles, and strict library/public Clippy. The STP repo-input reference to the former polis_runtime.rs path and SPP S3 shorthand 36+13 are retained historical planning inputs: current paths are authoritative in STP deliverables/SPP affected areas, while VPP and this SOR separate 36 semantic, 42 runner, 13 public, and 29 subassertion denominators. Fresh independent exact-head review and publication remain pending.\",\"changes\":[\"Moved learner authority and Polis runtime integration below private transport::governed while preserving public distributed learner_transport and polis_runtime reexports and unchanged standalone targets.\",\"Made the dependency-free transport core own private authority state, nonclone mutation ownership, opaque wire sessions, and opaque handshake, send, receive, pending-response, and response permits.\",\"Made SecurePolisNetworkFactory the sole mutation owner and serialized admission, successor flip, expiry, exclusion, and authority-cut replacement through one transition and route-drain order.\",\"Retained one shared authority lease from exact revalidation through QUIC stream creation, actual ordinary or learner Raft effect, and response send or receive without a dropped gap or nested read.\",\"Persisted a separate random local transport instance id and canonical exact peer pins keyed by role, stable Raft id, node id, and Guardian id; signed handshakes bind sender and intended receiver instances.\",\"Added runtime-owned nonclone boot generation custody and held its durable current-generation guard while the nonextractable Guardian signer signs each live learner binding.\",\"Reconstructed exact voter-cut digest, admission, peer-pin, and exclusion view before factory exposure and revalidated them on every governed session operation.\",\"Added deterministic real-effect expiry fencing, retained-session exclusion zero-STREAM, boot N to N plus 1 signing denial, durable instance restart, and fresh alternate-factory peer denial regressions.\",\"Preserved the exact thirty-six semantic learner contract while expanding the private runner to forty-two tests and the named behavior inventory to twenty-nine subassertions.\",\"Protected the transport shim, core, root, governed learner source and tests, governed runtime, module root, authority protocol, public target, three integration targets, and v6 proof scripts.\"],\"artifacts\":[\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/transport/core.rs\",\"adl-runtime/src/distributed/transport/root.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\",\"adl-runtime/src/distributed/transport/governed/polis_runtime.rs\",\"adl-runtime/tests/distributed_authorized_learner_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\",\".csdlc/evidence/202/v6/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::transport::governed::learner_transport::tests\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Run 42 private runner tests for the unchanged 36 semantic cases and exact 29 named subassertions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authorized_learner_transport\",\"--\",\"--test-threads=1\"],\"purpose\":\"Run the separate exact 13-test public artifact boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\",\"--no-run\"],\"purpose\":\"Compile the unchanged standalone transport target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-run\"],\"purpose\":\"Compile the unchanged standalone discovery target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-run\"],\"purpose\":\"Compile the governed runtime integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict production library Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authorized_learner_transport\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict public target Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v6/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\"],\"purpose\":\"Produce immutable v6 exact-source evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v6/execution-proof.json\"}]}"
     }
   ]
 }
