@@ -2,6 +2,7 @@
 
 pub mod acip;
 pub mod adaptive_learning;
+pub mod agent_roster;
 pub mod assembly;
 pub mod birth_witness;
 pub mod birthday;
@@ -39,6 +40,7 @@ pub mod weather;
 
 pub use acip::*;
 pub use adaptive_learning::*;
+pub use agent_roster::*;
 pub use assembly::*;
 pub use birth_witness::*;
 pub use birthday::*;
