@@ -11,8 +11,14 @@ if (process.argv.includes("--review-only")) {
     cwd: repoRoot,
     encoding: "utf8"
   }).trim();
-  assert.equal(index.review?.revision, head, "independent review must cover the exact HEAD");
-  assert.equal(index.review?.decision, "approved", "independent exact-head review must be approved");
+  assert.equal(index.review?.completed, true, "independent exact-head review must be complete");
+  assert.equal(index.review?.findings?.length, 0, "independent exact-head review must have no findings");
+  assert.ok(index.review?.reviewer, "independent exact-head review must name its reviewer");
+  assert.match(
+    index.review?.reviewed_revision || "",
+    new RegExp(`^git-blake3:${head}:[0-9a-f]{64}$`),
+    "independent review must cover the exact HEAD"
+  );
   console.log("WP-18C.01 exact-head review receipt: PASS");
   process.exit(0);
 }
