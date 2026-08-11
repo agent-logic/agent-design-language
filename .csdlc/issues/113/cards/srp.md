@@ -17,6 +17,9 @@ adl-runtime-kernel/src/control.rs
 adl-runtime-kernel/tests/agent_roster.rs
 adl-runtime-kernel/tests/control.rs
 adl-runtime-kernel/tests/openapi_contract.rs
+adl-runtime-kernel/tests/parity_b_live_kernel.rs
+adl-runtime-kernel/tests/guardian_soak.rs
+adl-runtime-kernel/tests/shepherd.rs
 docs/api/runtime-v3/v1/observatory.openapi.json
 demos/html-observatory/app.js
 adl/tools/test_html_observatory.sh
@@ -43,12 +46,12 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.
-- Long-running Runtime and soak-style validation routing is tracked separately by issue #226 and is non-gating for this focused product issue.
+- Long-running Runtime and soak-style validation remains out of band under issue #226 and is not coupled to this focused product issue.
 
 ## Review Result
 
-Revision: Some("git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2")
+Revision: Some("git-blake3:05fa579228dc983ec9a91d8895f19dc8acfb78d9:e0d8a79ab0b8028983766c5b9a45733b337e5c7696c84e99466d845ce62502dd")
 
-Reviewer: Some("subagent:019fefbc-1619-7a21-b27c-8edb01692b23")
+Reviewer: Some("openai-codex:gpt-5:wp18c-required-ci-review:2026-08-11")
 
 Result: pass

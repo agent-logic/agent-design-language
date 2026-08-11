@@ -1,0 +1,21 @@
+{
+  "issue": 202,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "71736b31b7fdf805f0244278d9f37978a8a2ba45685d699554a2035aeaf9f8e9",
+  "actor": "codex:/root/advance_202_after_201:review-resolution",
+  "reason": "Bind the merged #201 coarse-operation semantics and serial #200 ownership gate as operative invariants.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Adding a learner never changes voter membership, quorum, stable voter ids, or ordinary voter route authority",
+      "EnrollNonVoting and RemoveVoter are canonical issue-local discriminators inside exact retained artifacts for coarse #201 AuthorityOperationKind::Membership operations; they are never #201 enum variants or values of an operation_kind field",
+      "Only the crate-private #202 adapter consumes #201's sealed artifact accessor and it validates exact operation class, canonical domain, bytes, digest, and discriminator before decoding; no caller, config, address, certificate alone, local state, public accessor, or generic artifact conversion can create learner or exclusion authority",
+      "A learner can replicate only and cannot vote or invoke any authority/client/serving operation",
+      "Pending exclusion denies ordinary authority from its published generation onward and only an exact later validated Membership artifact may grant replication-only recovery",
+      "No admission or exclusion becomes visible before state, result, checkpoint, and published generation agree",
+      "#202 remains unbound and makes no product edit while #200 is active or unmerged, then synchronizes to exact merged #200 ancestry and revalidates before binding"
+    ]
+  }
+}

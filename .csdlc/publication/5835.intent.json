@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5835,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5835-wp17-continuity-migration",
+  "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
+  "body": "Closes danielbaustin/agent-design-language#5835\n\n## Outcome\n\nDefines an 11-row, documentation-only continuity-transfer contract over landed v0.92 Birthday evidence. Proposal fields remain untrusted until they match provisioned repository, revision, authority-context, redaction-policy, and replacement ACIP anchors.\n\n## Proof\n\n- binds ACIP authority to agent-logic/agent-design-language#209, PR #215, merge a77519c3, and digest-pinned local/native manifests\n- retains six rejected transfer cases and eight mutation-negative checks\n- verifies rollback against exact base 1567469e using before/after digests, restore/delete simulation, byte-identical read-only handoff, retained evidence, and preserved upstream authority\n- focused positive proof: 11 matrix rows, 11 landed schemas, dependencies #5826/#5827/#5834, trusted authority #209, six rollback cases\n- fresh independent exact-head review of 1d765ecfd61fcd7bccd50b37d0dc660a8ccf9f43: APPROVED with no findings\n\n## Boundaries\n\nNo Runtime, storage, networking, production migration, federation, citizenship, standing, rights, or governance implementation is claimed. The v0.93 handoff remains byte-identical and read-only.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:62d773836d06b8e7a7aea9adb76b25cad9062e7c:ac9d772aa30993577280a292ff494d520bbccd63f7e3e362d901fdfd48a69226",
+  "commit_sha": "62d773836d06b8e7a7aea9adb76b25cad9062e7c"
+}

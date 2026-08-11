@@ -3,21 +3,24 @@
   "issue": 113,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
-  "phase": "published",
-  "generation": 61,
-  "digest": "97dc18e9fac2563b37fcd30aa885cd673a2633fb2b7c74114f3334f0faf17a95",
+  "phase": "reviewed",
+  "generation": 63,
+  "digest": "fd503f643e2b66562dd57ab0aff9e66a4bbdeb9506a97f0aa29191bb1fb4a9bf",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
   "review_assignment": {
-    "reviewer": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
-    "assigned_by": "codex:wp18c03-execution",
-    "revision": "git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2",
+    "reviewer": "openai-codex:gpt-5:wp18c-required-ci-review:2026-08-11",
+    "assigned_by": "codex:wp18c-sprint-execution",
+    "revision": "git-blake3:05fa579228dc983ec9a91d8895f19dc8acfb78d9:e0d8a79ab0b8028983766c5b9a45733b337e5c7696c84e99466d845ce62502dd",
     "scope": [
       "adl-runtime-kernel/src/agent_roster.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/tests/agent_roster.rs",
       "adl-runtime-kernel/tests/control.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
       "docs/api/runtime-v3/v1/observatory.openapi.json",
       "demos/html-observatory/app.js",
       "adl/tools/test_html_observatory.sh",
@@ -26,40 +29,32 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+    "reviewer": "openai-codex:gpt-5:wp18c-required-ci-review:2026-08-11",
     "scope": [
       "adl-runtime-kernel/src/agent_roster.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/tests/agent_roster.rs",
       "adl-runtime-kernel/tests/control.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
       "docs/api/runtime-v3/v1/observatory.openapi.json",
       "demos/html-observatory/app.js",
       "adl/tools/test_html_observatory.sh",
       ".csdlc/evidence/113/roster-live-proof-2118c05b3",
       ".csdlc/issues/113"
     ],
-    "reviewed_revision": "git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2",
+    "reviewed_revision": "git-blake3:05fa579228dc983ec9a91d8895f19dc8acfb78d9:e0d8a79ab0b8028983766c5b9a45733b337e5c7696c84e99466d845ce62502dd",
     "findings": [],
     "residual_risks": [
       "Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.",
-      "Long-running Runtime and soak-style validation routing is tracked separately by issue #226 and is non-gating for this focused product issue."
+      "Long-running Runtime and soak-style validation remains out of band under issue #226 and is not coupled to this focused product issue."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 113,
-    "pull_request": 222,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/222",
-    "base": "main",
-    "head": "codex/113-wp18c03-roster-presence-preparation",
-    "revision": "git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -73,34 +68,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4528210db2a7557bb92dc2f88dbb21b53658fc168850c5045fbaa5aab9edfcfb",
+      "values_digest": "fa717d268f303ed9f3682b999e687cbfa40b8211a3a9179165d4c4a01aeecd8d",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "e3140695b442f95fdfcc97ba62c97b902e6e93975f46d801d6a436c4ded8a439",
+      "values_digest": "3173a1a73c42140b3426f7dbc777494e691f486ad55ef9e47961d914b4091d97",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "9437006b66ac9727e2b770f3600bcac4dcfcc6bdc0bad3c9af390431b0d81265",
+      "values_digest": "9b1694788429a887d12bfe42e12a86c3444c430ca220beb3b7134fb2e1aca8b8",
       "rendered_digest": "0a87219293ddd139966aaf0c77f56b8c6164f3213687bfda3ad8f4c32d49f1ba",
       "ast_digest": "793ed408d19b5d2ae07fdab2f8c6d13ca845ed5618969a25cc8fbb7b1f1187dc"
     },
     "vpp": {
-      "values_digest": "035ca0251dc8627ab0c0b7b0109e5204ad9ba22a9ba5bd4ee8fc4d669a670944",
+      "values_digest": "4f8f18dea1ec0d1f002cc8501465827633163a5504b0e6bc9277c20d0272123e",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "1f94a7232e5d7a6a94680f69dc2d3b41acc2ab2d789f177052b9622a5e54dd45",
-      "rendered_digest": "d18431fb9d5bb66cc6085aca23309ba1d273ce053113fc5697c2c8ebe3c4f21a",
-      "ast_digest": "3e55b9e366dab983040ec633981ab2dbbc71b26dc242d0fd84247d738086f11e"
+      "values_digest": "39a5e2a9de7883741c727afcfa17fe11852d343f9748d48bb524ac4ba7996a3a",
+      "rendered_digest": "305c4d6dfcfdee4bc5b9d8aa9c3376a4462b11d744bb355650d92fc8131f4299",
+      "ast_digest": "3c1f78773d64560d5889bd3607314d9337c94df9a35c712ffb5fe0c0e51daca3"
     },
     "sor": {
-      "values_digest": "54a3e6a04fef6f5edcd60eff675ff848dc10847773b677a5179b123960042e5b",
-      "rendered_digest": "c4fd9c6ac7b269ed709637bbe0186da3be9748b22820e3a56f22b1aa5e07c9e8",
-      "ast_digest": "79b79a71a92b831d0974563ac338a440cde61cf8bb956de5661c36caf660865e"
+      "values_digest": "3d9f743da2922fee0f75d9c00f3b7fb638bef2dc3ebdc3f1290428d376f6ce54",
+      "rendered_digest": "4268a62342b4a0f53b3b79dc8dc829cbe59c59eed7dd4e4a5f22a3579d0bec5d",
+      "ast_digest": "fcc156ebfe5a1153f9d57149e4668d6b434c78c7f783b789cd14c8b72a97108a"
     }
   },
   "transitions": [
@@ -201,6 +196,20 @@
       "to": "published",
       "actor": "codex:wp18c03-execution",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:wp18c-sprint-execution",
+      "reason": "Refresh exact-head review and publication truth after required CI exposed and remediation fixed obsolete Guardian ACIP coverage and Linux Shepherd process-test isolation."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "openai-codex:gpt-5:wp18c-required-ci-review:2026-08-11",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -707,6 +716,27 @@
       "actor": "codex:wp18c03-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 73,
+      "generation": 62,
+      "actor": "codex:wp18c-sprint-execution",
+      "reason": "Refresh exact-head review and publication truth after required CI exposed and remediation fixed obsolete Guardian ACIP coverage and Linux Shepherd process-test isolation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 74,
+      "generation": 62,
+      "actor": "codex:wp18c-sprint-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 75,
+      "generation": 63,
+      "actor": "openai-codex:gpt-5:wp18c-required-ci-review:2026-08-11",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

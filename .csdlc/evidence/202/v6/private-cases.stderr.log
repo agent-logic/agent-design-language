@@ -1,0 +1,115 @@
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:422:19
+    |
+265 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+422 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:794:19
+    |
+713 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+794 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+807 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:560:19
+    |
+422 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:643:19
+    |
+540 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+643 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.45s
+     Running unittests src/lib.rs (adl-runtime/target/debug/deps/adl_runtime-30b6a4afc4cb8884)
+ADL_ISSUE_202_CASE_V1 capacity_n_plus_one_no_partial=passed
+ADL_ISSUE_202_ASSERTION_V1 certificate_overlap_authorized successor_private_before_flip
+ADL_ISSUE_202_ASSERTION_V1 certificate_overlap_authorized successor_atomic_flip
+ADL_ISSUE_202_ASSERTION_V1 certificate_overlap_authorized retained_old_clones_atomically_revoked
+ADL_ISSUE_202_CASE_V1 certificate_overlap_authorized=passed
+ADL_ISSUE_202_ASSERTION_V1 crash_after_exclusion_checkpoint committed_admission_and_exclusion_survive_restart
+ADL_ISSUE_202_CASE_V1 crash_after_exclusion_checkpoint=passed
+ADL_ISSUE_202_ASSERTION_V1 crash_before_exclusion_checkpoint failed_admission_and_exclusion_cas_recover_old_view
+ADL_ISSUE_202_CASE_V1 crash_before_exclusion_checkpoint=passed
+ADL_ISSUE_202_CASE_V1 current_voter_cut_unchanged=passed
+ADL_ISSUE_202_ASSERTION_V1 exact_retry_session exclusion_exact_retry_cached
+ADL_ISSUE_202_ASSERTION_V1 exact_retry_session admission_exact_retry_cached
+ADL_ISSUE_202_CASE_V1 exact_retry_session=passed
+ADL_ISSUE_202_CASE_V1 excluded_node_recovery_learner=passed
+ADL_ISSUE_202_ASSERTION_V1 exclusion_exact_publisher_and_target_required wrong_publisher_node_denied
+ADL_ISSUE_202_ASSERTION_V1 exclusion_exact_publisher_and_target_required wrong_target_certificate_and_boot_denied
+ADL_ISSUE_202_CASE_V1 exclusion_exact_publisher_and_target_required=passed
+ADL_ISSUE_202_ASSERTION_V1 exclusion_ordinary_session_denied published_exclusion_denies_retained_identity
+ADL_ISSUE_202_ASSERTION_V1 exclusion_ordinary_session_denied production_endorsement_uses_durable_exclusion
+ADL_ISSUE_202_ASSERTION_V1 exclusion_ordinary_session_denied retained_excluded_session_zero_bytes_all_public_dispatch
+ADL_ISSUE_202_ASSERTION_V1 exclusion_ordinary_session_denied actual_request_stream_fenced_against_exclusion_race
+ADL_ISSUE_202_CASE_V1 exclusion_ordinary_session_denied=passed
+ADL_ISSUE_202_ASSERTION_V1 exclusion_waits_for_inflight_dispatch_fence exclusive_exclusion_waits_for_shared_dispatch
+ADL_ISSUE_202_CASE_V1 exclusion_waits_for_inflight_dispatch_fence=passed
+ADL_ISSUE_202_CASE_V1 exclusion_wrong_recovery_token=passed
+ADL_ISSUE_202_CASE_V1 expired_certificate=passed
+ADL_ISSUE_202_ASSERTION_V1 fresh_connection_requires_durable_peer_instance_pin fresh_connection_accepts_restarted_peer_with_persisted_instance
+ADL_ISSUE_202_ASSERTION_V1 fresh_connection_requires_durable_peer_instance_pin alternate_factory_denied_before_session_or_post_denial_stream
+ADL_ISSUE_202_CASE_V1 fresh_connection_requires_durable_peer_instance_pin=passed
+ADL_ISSUE_202_CASE_V1 learner_endorsement_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_finalize_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_mutation_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_observatory_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_promotion_route_handoff=passed
+ADL_ISSUE_202_CASE_V1 learner_renewal_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_shepherd_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_vote_rpc_denied=passed
+ADL_ISSUE_202_CASE_V1 missing_201_token=passed
+ADL_ISSUE_202_CASE_V1 oversized_frame=passed
+ADL_ISSUE_202_ASSERTION_V1 production_factory_boot_custody_current_then_stale_denied factory_attestation_rechecks_generation_under_signing_guard
+ADL_ISSUE_202_CASE_V1 production_factory_boot_custody_current_then_stale_denied=passed
+ADL_ISSUE_202_CASE_V1 public_caller_denied=passed
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication expiry_writer_waits_through_real_raft_effect_and_response
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication raft_add_learner_replicated
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication voter_quorum_unchanged
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication quinn_append_snapshot_only
+ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed
+ADL_ISSUE_202_CASE_V1 reconnect_boot_rotation=passed
+ADL_ISSUE_202_CASE_V1 replay_conflict=passed
+ADL_ISSUE_202_CASE_V1 revoked_certificate=passed
+ADL_ISSUE_202_CASE_V1 stale_admission=passed
+ADL_ISSUE_202_ASSERTION_V1 stale_live_learner_boot_handshake_denied live_boot_generation_must_match_signed_admission_binding
+ADL_ISSUE_202_CASE_V1 stale_live_learner_boot_handshake_denied=passed
+ADL_ISSUE_202_CASE_V1 state_or_lock_symlink_rejected=passed
+ADL_ISSUE_202_ASSERTION_V1 transport_instance_and_peer_pin_are_durable_and_unique restart_preserves_instance_and_exact_peer_pin
+ADL_ISSUE_202_ASSERTION_V1 transport_instance_and_peer_pin_are_durable_and_unique alternate_root_and_identity_alias_are_denied
+ADL_ISSUE_202_CASE_V1 transport_instance_and_peer_pin_are_durable_and_unique=passed
+ADL_ISSUE_202_CASE_V1 truncated_frame=passed
+ADL_ISSUE_202_ASSERTION_V1 wrong_address live_authorized_address_rejected
+ADL_ISSUE_202_ASSERTION_V1 wrong_address live_wrong_direction_rejected
+ADL_ISSUE_202_CASE_V1 wrong_address=passed
+ADL_ISSUE_202_ASSERTION_V1 wrong_boot_generation live_stale_voter_boot_rejected
+ADL_ISSUE_202_CASE_V1 wrong_boot_generation=passed
+ADL_ISSUE_202_CASE_V1 wrong_certificate_generation=passed
+ADL_ISSUE_202_CASE_V1 wrong_domain=passed
+ADL_ISSUE_202_CASE_V1 wrong_guardian=passed
+ADL_ISSUE_202_CASE_V1 wrong_learner=passed
+ADL_ISSUE_202_CASE_V1 wrong_operation_kind=passed
+ADL_ISSUE_202_ASSERTION_V1 wrong_polis cross_polis_published_result_denied
+ADL_ISSUE_202_ASSERTION_V1 wrong_polis cross_polis_live_install_denied
+ADL_ISSUE_202_CASE_V1 wrong_polis=passed

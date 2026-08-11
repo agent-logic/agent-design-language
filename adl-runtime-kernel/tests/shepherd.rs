@@ -19,6 +19,12 @@ use sha2::{Digest, Sha256};
 use tempfile::TempDir;
 use tokio_util::sync::CancellationToken;
 
+static SHEPHERD_TEST_LOCK: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
+
+async fn serialize_shepherd_process_test() -> tokio::sync::MutexGuard<'static, ()> {
+    SHEPHERD_TEST_LOCK.lock().await
+}
+
 fn write_script(temp: &TempDir, name: &str, body: &str) -> PathBuf {
     write_executable(temp, name, &format!("#!/bin/sh\nset -eu\n{body}\n"))
 }
@@ -42,9 +48,15 @@ fn config(program: &Path, arguments: Vec<String>) -> LocalShepherdConfig {
         program.to_path_buf(),
         arguments,
     );
-    config.timeout = Duration::from_millis(300);
+    config.timeout = Duration::from_secs(2);
     config.max_prompt_bytes = 128;
     config.max_output_bytes = 1024;
+    config
+}
+
+fn short_timeout_config(program: &Path, arguments: Vec<String>) -> LocalShepherdConfig {
+    let mut config = config(program, arguments);
+    config.timeout = Duration::from_millis(300);
     config
 }
 
@@ -144,8 +156,9 @@ fn governed_adapter(executor: Arc<dyn OperationExecutor>, key: &SigningKey) -> O
     .unwrap()
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn governed_request_invokes_local_process_and_classifies_test_evidence() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let script = write_script(
         &temp,
@@ -175,8 +188,9 @@ async fn governed_request_invokes_local_process_and_classifies_test_evidence() {
     assert_eq!(response.response_sha256.len(), 64);
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn completed_idempotency_replay_is_retained_and_does_not_reinvoke_provider() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("invocations");
     let script = write_script(
@@ -208,8 +222,9 @@ async fn completed_idempotency_replay_is_retained_and_does_not_reinvoke_provider
     assert_eq!(fs::read(marker).unwrap(), b"x");
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn correlated_failure_and_replay_retention_are_truthful() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let key = SigningKey::from_bytes(&[39; 32]);
     let adapter = governed_adapter(Arc::new(LocalShepherdExecutor::unavailable()), &key);
     let mut request = request("hello");
@@ -236,8 +251,9 @@ async fn correlated_failure_and_replay_retention_are_truthful() {
     assert!(replay.retained);
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn real_classification_requires_exact_nonce_bound_runner_attestation() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let runner = write_python(
         &temp,
@@ -267,8 +283,9 @@ print(json.dumps(response, sort_keys=True))"#,
     assert_eq!(response.runner_nonce_sha256.unwrap().len(), 64);
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn forged_real_runner_binding_is_rejected() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let runner = write_python(
         &temp,
@@ -303,8 +320,9 @@ fn real_runner_bytes_must_match_the_operator_pinned_digest() {
     ));
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn configured_runner_executes_captured_bytes_after_source_replacement() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("replacement-executed");
     let runner = write_script(
@@ -328,8 +346,9 @@ async fn configured_runner_executes_captured_bytes_after_source_replacement() {
     assert!(!marker.exists());
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn provider_environment_is_cleared_and_allow_listed() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let script = write_script(
         &temp,
@@ -347,8 +366,9 @@ async fn provider_environment_is_cleared_and_allow_listed() {
     assert_eq!(response.response, "unset:present");
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn every_authority_mutation_fails_before_process_invocation() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("invoked");
     let script = write_script(
@@ -407,8 +427,9 @@ async fn every_authority_mutation_fails_before_process_invocation() {
     assert!(!marker.exists());
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn malformed_oversized_and_wrong_runtime_requests_fail_before_invocation() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("invoked");
     let script = write_script(
@@ -446,8 +467,9 @@ async fn malformed_oversized_and_wrong_runtime_requests_fail_before_invocation()
     assert!(!marker.exists());
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn timeout_releases_capacity_and_runtime_remains_usable() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("first");
     let script = write_script(
@@ -458,7 +480,8 @@ async fn timeout_releases_capacity_and_runtime_remains_usable() {
             marker.display(), marker.display()
         ),
     );
-    let executor = LocalShepherdExecutor::configured(config(&script, vec![])).unwrap();
+    let executor =
+        LocalShepherdExecutor::configured(short_timeout_config(&script, vec![])).unwrap();
 
     assert_eq!(
         reason(&executor.execute(&request("first")).await.unwrap_err()),
@@ -470,8 +493,9 @@ async fn timeout_releases_capacity_and_runtime_remains_usable() {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn normal_parent_exit_kills_observed_descendants_and_bounds_pipe_drain() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("descendant-survived");
     let runner = write_python(
@@ -498,8 +522,9 @@ os._exit(0)"#,
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn timeout_kills_observed_descendants() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("descendant-survived");
     let runner = write_python(
@@ -512,7 +537,8 @@ time.sleep(5)"#,
             marker.display()
         ),
     );
-    let executor = LocalShepherdExecutor::configured(config(&runner, vec![])).unwrap();
+    let executor =
+        LocalShepherdExecutor::configured(short_timeout_config(&runner, vec![])).unwrap();
     assert_eq!(
         reason(&executor.execute(&request("hello")).await.unwrap_err()),
         "shepherd_timeout"
@@ -522,8 +548,9 @@ time.sleep(5)"#,
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn dropped_execution_future_kills_observed_descendants() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let started = temp.path().join("started");
     let escaped = temp.path().join("descendant-survived");
@@ -552,8 +579,9 @@ time.sleep(5)"#,
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn runner_inherits_declared_resource_limits() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let runner = write_python(
         &temp,
@@ -584,30 +612,37 @@ print(json.dumps({
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn process_tree_memory_pressure_is_terminated_and_capacity_recovers() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("pressure-started");
     let runner = write_python(
         &temp,
         "memory-pressure",
         &format!(
-            r#"import pathlib, time
+            r#"import pathlib, subprocess, sys, time
 marker = pathlib.Path("{}")
 if marker.exists():
     print("recovered")
 else:
     marker.touch()
-    chunks = []
-    for _ in range(256):
-        chunks.append(bytearray(1024 * 1024))
-        time.sleep(0.002)
+    children = [
+        subprocess.Popen([
+            sys.executable,
+            "-c",
+            "import time; allocation = bytearray(8 * 1024 * 1024); time.sleep(5)",
+        ])
+        for _ in range(8)
+    ]
     time.sleep(5)"#,
             marker.display()
         ),
     );
     let mut bounded = config(&runner, vec![]);
-    bounded.max_memory_bytes = 32 * 1024 * 1024;
+    // Leave enough per-process headroom for Python itself while the aggregate
+    // process tree deterministically crosses the configured limit.
+    bounded.max_memory_bytes = 64 * 1024 * 1024;
     bounded.timeout = Duration::from_secs(3);
     let executor = LocalShepherdExecutor::configured(bounded).unwrap();
 
@@ -618,11 +653,12 @@ else:
     assert_eq!(response.response, "recovered");
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn stdin_backpressure_is_covered_by_timeout() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let script = write_script(&temp, "never-read", "exec sleep 5");
-    let mut blocked = config(&script, vec![]);
+    let mut blocked = short_timeout_config(&script, vec![]);
     blocked.max_prompt_bytes = 128 * 1024;
     let executor = LocalShepherdExecutor::configured(blocked).unwrap();
     let started = Instant::now();
@@ -639,8 +675,9 @@ async fn stdin_backpressure_is_covered_by_timeout() {
     assert!(started.elapsed() < Duration::from_secs(1));
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn cancellation_is_bounded_and_releases_capacity() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("first");
     let script = write_script(
@@ -670,8 +707,9 @@ async fn cancellation_is_bounded_and_releases_capacity() {
 }
 
 #[cfg(unix)]
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn cancellation_kills_observed_descendant_that_escaped_the_process_group() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let started = temp.path().join("started");
     let escaped = temp.path().join("descendant-survived");
@@ -708,8 +746,9 @@ time.sleep(5)"#,
     assert!(!escaped.exists());
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn pre_cancelled_request_never_invokes_provider() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("invoked");
     let script = write_script(
@@ -729,8 +768,9 @@ async fn pre_cancelled_request_never_invokes_provider() {
     assert!(!marker.exists());
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn concurrent_request_is_rejected_without_exceeding_capacity() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let marker = temp.path().join("started");
     let script = write_script(
@@ -741,7 +781,8 @@ async fn concurrent_request_is_rejected_without_exceeding_capacity() {
             marker.display()
         ),
     );
-    let executor = LocalShepherdExecutor::configured(config(&script, vec![])).unwrap();
+    let executor =
+        LocalShepherdExecutor::configured(short_timeout_config(&script, vec![])).unwrap();
     let first_executor = executor.clone();
     let first = tokio::spawn(async move { first_executor.execute(&request("first")).await });
     wait_for_marker(&marker).await;
@@ -756,8 +797,9 @@ async fn concurrent_request_is_rejected_without_exceeding_capacity() {
     );
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn provider_failure_redacts_prompt_and_stderr() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let temp = tempfile::tempdir().unwrap();
     let script = write_script(
         &temp,
@@ -803,8 +845,9 @@ fn invalid_configuration_is_rejected_before_execution() {
     ));
 }
 
-#[tokio::test]
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn unavailable_and_excess_output_are_truthful() {
+    let _test_guard = serialize_shepherd_process_test().await;
     let unavailable = LocalShepherdExecutor::unavailable()
         .execute(&request("hello"))
         .await

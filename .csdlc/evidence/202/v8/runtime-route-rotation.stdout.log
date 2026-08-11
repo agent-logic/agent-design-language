@@ -1,0 +1,5 @@
+
+running 1 test
+test route_replacement_retries_exact_sequence_after_peer_restart_and_certificate_rotation ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 2.64s
