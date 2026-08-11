@@ -125,6 +125,14 @@ operative_closeout = "the four operative children (#5835, #5836, #5838, and #583
 raise "STP does not name the exact operative closeout boundary" unless stp_values.fetch("acceptance_criteria").any? { |criterion| criterion.include?(operative_closeout) && criterion.include?("WP-24A #5845 cannot gate") }
 srp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/srp.values.json").read).dig("content", "values")
 raise "SRP does not review the exact operative closeout boundary" unless srp_values.fetch("review_prompts").any? { |prompt| prompt.include?(operative_closeout) && prompt.include?("WP-24A #5845 excluded") }
+expected_card_children = UNBOUND.sort
+{
+  "SIP required outcome" => JSON.parse((ROOT / ".csdlc/issues/5854/cards/sip.values.json").read).dig("content", "values", "required_outcome"),
+  "SPP summary" => JSON.parse((ROOT / ".csdlc/issues/5854/cards/spp.values.json").read).dig("content", "values", "summary")
+}.each do |surface, text|
+  observed_children = text.scan(/#(\d+)/).flatten.map(&:to_i).uniq.sort
+  raise "#{surface} child denominator mismatch: #{observed_children.inspect}" unless observed_children == expected_card_children
+end
 
 session_prompt = (ROOT / ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md").read
 session_text = session_prompt.split.join(" ")
