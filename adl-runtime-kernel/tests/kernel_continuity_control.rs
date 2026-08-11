@@ -1404,6 +1404,9 @@ async fn run_case(name: &str) {
     let mut proved_markers = Vec::<String>::new();
     execute_case(name, &root, &mut proved_markers).await;
     emit_case(name, &root, proved_markers);
+    drop(root);
+    temp.close()
+        .unwrap_or_else(|error| panic!("test root teardown leaked for {name}: {error}"));
 }
 
 macro_rules! cases {

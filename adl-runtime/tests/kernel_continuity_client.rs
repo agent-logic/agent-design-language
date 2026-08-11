@@ -515,6 +515,32 @@ async fn actual_production_capability_init(root: &Path) {
         .await
         .is_err());
     std::fs::write(&journal_path, &journal_bytes).unwrap();
+    let mut semantically_missing: serde_json::Value =
+        serde_json::from_slice(&journal_bytes).unwrap();
+    semantically_missing["cleanup_permits"] = serde_json::json!({});
+    std::fs::write(
+        &journal_path,
+        serde_jcs::to_vec(&semantically_missing).unwrap(),
+    )
+    .unwrap();
+    assert!(ProductionPolisRuntime::from_runtime_init(&init)
+        .await
+        .is_err());
+    std::fs::write(&journal_path, &journal_bytes).unwrap();
+    let mut semantically_extra: serde_json::Value = serde_json::from_slice(&journal_bytes).unwrap();
+    let mut orphan = serde_json::to_value(&cleanup).unwrap();
+    orphan["stage_id"] = serde_json::json!("orphan-stage");
+    orphan["cleanup_id"] = serde_json::json!(sha256(b"cleanup:orphan-stage:7"));
+    semantically_extra["cleanup_permits"]["orphan-stage"] = orphan;
+    std::fs::write(
+        &journal_path,
+        serde_jcs::to_vec(&semantically_extra).unwrap(),
+    )
+    .unwrap();
+    assert!(ProductionPolisRuntime::from_runtime_init(&init)
+        .await
+        .is_err());
+    std::fs::write(&journal_path, &journal_bytes).unwrap();
     let mut corrupt: serde_json::Value = serde_json::from_slice(&journal_bytes).unwrap();
     corrupt["cleanup_permits"][stage.id()]["channel_epoch"] =
         serde_json::json!(continuity.channel_epoch + 1);
@@ -558,6 +584,24 @@ async fn actual_production_capability_init(root: &Path) {
         .unwrap();
     assert!(continuity.state_dir.join("active-target.json").is_file());
     drop(restarted);
+    let terminal_journal = std::fs::read(&journal_path).unwrap();
+    let mut revived_terminal_custody: serde_json::Value =
+        serde_json::from_slice(&terminal_journal).unwrap();
+    assert!(revived_terminal_custody["cleanup_permits"]
+        .as_object()
+        .unwrap()
+        .is_empty());
+    revived_terminal_custody["cleanup_permits"][stage.id()] =
+        serde_json::to_value(&cleanup).unwrap();
+    std::fs::write(
+        &journal_path,
+        serde_jcs::to_vec(&revived_terminal_custody).unwrap(),
+    )
+    .unwrap();
+    assert!(ProductionPolisRuntime::from_runtime_init(&init)
+        .await
+        .is_err());
+    std::fs::write(&journal_path, terminal_journal).unwrap();
     shutdown.cancel();
     listener_task.await.unwrap();
 }
@@ -1190,6 +1234,9 @@ fn run_case(name: &str) {
     }
     assert!(SystemTime::now().duration_since(UNIX_EPOCH).is_ok());
     emit_case(name, &root, proved_markers);
+    drop(root);
+    temp.close()
+        .unwrap_or_else(|error| panic!("test root teardown leaked for {name}: {error}"));
 }
 
 macro_rules! cases {

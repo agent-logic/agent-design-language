@@ -16,7 +16,7 @@ use adl_runtime_kernel::{
     verify_spki_generation, ContinuityCommand, ContinuityControlError, ContinuityControlInitConfig,
     ContinuityEnvelope, ContinuityOperation, ContinuityReply, ContinuityResultState,
     ContinuityWireReply, RuntimeInitConfig, TargetCleanupPermit, TlsIdentityPaths,
-    CONTROL_REQUEST_SCHEMA, EXPORTER_LABEL, PRIVATE_ALPN,
+    CONTINUITY_CONTROL_RESPONSE_SCHEMA, CONTROL_REQUEST_SCHEMA, EXPORTER_LABEL, PRIVATE_ALPN,
 };
 use fs2::FileExt;
 use rustls::pki_types::ServerName;
@@ -24,12 +24,13 @@ use serde::{Deserialize, Serialize};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio_util::sync::CancellationToken;
 
-const CLIENT_JOURNAL_SCHEMA: &str = "adl.runtime.kernel_continuity.client_journal.v2";
+const CLIENT_JOURNAL_SCHEMA: &str = "adl.runtime.kernel_continuity.client_journal.v3";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct ClientAcceptedOperation {
     operation: ContinuityOperation,
+    command: ContinuityCommand,
     command_sha256: String,
     response: Option<adl_runtime_kernel::ContinuityResponse>,
 }
@@ -109,6 +110,7 @@ impl ClientJournal {
             {
                 return Err(ContinuityControlError::CorruptJournal);
             }
+            validate_client_journal_history(&value)?;
             value
         } else {
             let value = ClientJournalState {
@@ -148,6 +150,7 @@ impl ClientJournal {
         let command_sha256 = sha256(&command_bytes);
         if let Some(existing) = self.state.accepted.get(operation_id) {
             if existing.command_sha256 != command_sha256
+                || existing.command != *command
                 || existing.operation.accepted_prefix != accepted_prefix
             {
                 return Err(ContinuityControlError::ConflictingRetry);
@@ -181,6 +184,7 @@ impl ClientJournal {
             operation_id.to_owned(),
             ClientAcceptedOperation {
                 operation: operation.clone(),
+                command: command.clone(),
                 command_sha256,
                 response: None,
             },
@@ -266,6 +270,10 @@ impl ClientJournal {
             }
             _ => {}
         }
+        if let Err(error) = validate_client_journal_history(&self.state) {
+            self.state = previous;
+            return Err(error);
+        }
         if let Err(error) = self.persist() {
             self.state = previous;
             return Err(error);
@@ -276,13 +284,11 @@ impl ClientJournal {
     fn cleanup_permits(
         &self,
     ) -> Result<BTreeMap<String, TargetCleanupPermit>, ContinuityControlError> {
-        for (stage_id, permit) in &self.state.cleanup_permits {
-            if stage_id != permit.stage_id() || !permit.is_self_consistent(self.state.channel_epoch)
-            {
-                return Err(ContinuityControlError::CorruptJournal);
-            }
+        let expected = reconstruct_cleanup_permits(&self.state)?;
+        if expected != self.state.cleanup_permits {
+            return Err(ContinuityControlError::CorruptJournal);
         }
-        Ok(self.state.cleanup_permits.clone())
+        Ok(expected)
     }
 
     fn persist(&self) -> Result<(), ContinuityControlError> {
@@ -301,6 +307,112 @@ impl ClientJournal {
             write_state(&self.root.join("journal.json"), &self.state)
         }
     }
+}
+
+fn validate_client_journal_history(
+    state: &ClientJournalState,
+) -> Result<(), ContinuityControlError> {
+    let expected = reconstruct_cleanup_permits(state)?;
+    if expected != state.cleanup_permits {
+        return Err(ContinuityControlError::CorruptJournal);
+    }
+    Ok(())
+}
+
+fn reconstruct_cleanup_permits(
+    state: &ClientJournalState,
+) -> Result<BTreeMap<String, TargetCleanupPermit>, ContinuityControlError> {
+    let mut ordered = state.accepted.iter().collect::<Vec<_>>();
+    ordered.sort_by_key(|(_, entry)| entry.operation.sequence);
+    let expected_next = ordered
+        .last()
+        .map_or(1, |(_, entry)| entry.operation.sequence.saturating_add(1));
+    if state.next_sequence != expected_next
+        || ordered
+            .iter()
+            .enumerate()
+            .any(|(index, (operation_id, entry))| {
+                entry.operation.sequence != index as u64 + 1
+                    || operation_id.as_str() != entry.operation.operation_id
+            })
+    {
+        return Err(ContinuityControlError::CorruptJournal);
+    }
+
+    let mut expected = BTreeMap::new();
+    for (_, entry) in ordered {
+        let command_bytes = serde_jcs::to_vec(&entry.command)
+            .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?;
+        if entry.command_sha256 != sha256(&command_bytes)
+            || entry.operation.payload_sha256 != entry.command_sha256
+            || entry.operation.kind != entry.command.kind()
+        {
+            return Err(ContinuityControlError::CorruptJournal);
+        }
+        let Some(response) = &entry.response else {
+            continue;
+        };
+        let receipt_sha256 = sha256(
+            &serde_jcs::to_vec(&response.result)
+                .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?,
+        );
+        let mut response_for_digest = response.clone();
+        response_for_digest.response_sha256.clear();
+        let response_sha256 = sha256(
+            &serde_jcs::to_vec(&response_for_digest)
+                .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?,
+        );
+        if response.schema != CONTINUITY_CONTROL_RESPONSE_SCHEMA
+            || response.state != ContinuityResultState::Completed
+            || response.request_sha256 != entry.operation.digest()?
+            || response.receipt_sha256 != receipt_sha256
+            || response.response_sha256 != response_sha256
+        {
+            return Err(ContinuityControlError::CorruptJournal);
+        }
+        match (&entry.command, &response.result) {
+            (
+                ContinuityCommand::StageTarget {
+                    stage_id,
+                    root_generation,
+                    catalog,
+                },
+                ContinuityReply::StageCreated { handle, cleanup },
+            ) => {
+                if handle.id() != stage_id
+                    || handle.root_generation() != *root_generation
+                    || handle.catalog_digest() != catalog.digest()?
+                    || !cleanup.matches_stage(handle, state.channel_epoch)
+                    || expected.insert(stage_id.clone(), cleanup.clone()).is_some()
+                {
+                    return Err(ContinuityControlError::CorruptJournal);
+                }
+            }
+            (
+                ContinuityCommand::ActivateTarget {
+                    handle, cleanup, ..
+                },
+                ContinuityReply::TargetActivated { .. },
+            )
+            | (
+                ContinuityCommand::DiscardTarget { handle, cleanup },
+                ContinuityReply::TargetDiscarded { .. },
+            ) => {
+                if expected.get(handle.id()) != Some(cleanup)
+                    || expected.remove(handle.id()).is_none()
+                {
+                    return Err(ContinuityControlError::CorruptJournal);
+                }
+            }
+            (ContinuityCommand::StageTarget { .. }, _)
+            | (ContinuityCommand::ActivateTarget { .. }, _)
+            | (ContinuityCommand::DiscardTarget { .. }, _) => {
+                return Err(ContinuityControlError::CorruptJournal);
+            }
+            _ => {}
+        }
+    }
+    Ok(expected)
 }
 
 fn verify_directory_anchor(path: &Path, handle: &File) -> Result<(), ContinuityControlError> {

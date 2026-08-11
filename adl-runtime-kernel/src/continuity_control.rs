@@ -819,20 +819,28 @@ impl LiveOperationContinuity {
             .map_err(|error| ContinuityControlError::Encoding(error.to_string()))
     }
 
-    async fn resume_governance(&self) {
+    async fn resume_governance(
+        &self,
+        guard: Option<&EffectGuard<'_>>,
+    ) -> Result<(), ContinuityControlError> {
         for factory in self
             .factories
             .values()
             .filter(|factory| factory.is_governed())
         {
-            factory.continuity_resume().await;
+            resume_operation_factory(factory, guard).await?;
         }
+        Ok(())
     }
 
-    async fn resume_all(&self) {
+    async fn resume_all(
+        &self,
+        guard: Option<&EffectGuard<'_>>,
+    ) -> Result<(), ContinuityControlError> {
         for factory in self.factories.values() {
-            factory.continuity_resume().await;
+            resume_operation_factory(factory, guard).await?;
         }
+        Ok(())
     }
 }
 
@@ -1029,19 +1037,22 @@ impl LiveContinuityRegistry {
             }
             check_optional_guard(guard)?;
             match *participant {
-                "operation_state" => self.operation_continuity.resume_all().await,
-                "governance" => self.operation_continuity.resume_governance().await,
-                "reasoning_mutation" => self
-                    .reasoning
-                    .continuity_resume()
-                    .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?,
+                "operation_state" => self.operation_continuity.resume_all(guard).await?,
+                "governance" => self.operation_continuity.resume_governance(guard).await?,
+                "reasoning_mutation" => {
+                    run_optional_guarded(guard, async {
+                        self.reasoning
+                            .continuity_resume()
+                            .map_err(|error| ContinuityControlError::Encoding(error.to_string()))
+                    })
+                    .await??;
+                }
                 "accepted_prefix" | "admission" => {}
                 _ => return Err(ContinuityControlError::ParticipantRegistry),
             }
             check_optional_guard(guard)?;
         }
-        check_optional_guard(guard)?;
-        self.ingress.reopen();
+        run_optional_guarded(guard, async { self.ingress.reopen() }).await?;
         Ok(())
     }
 }
@@ -2427,10 +2438,59 @@ impl EffectGuard<'_> {
     fn check(&self) -> Result<(), ContinuityControlError> {
         check_effect_window(self.deadline_unix_millis, self.cancellation)
     }
+
+    fn remaining(&self) -> Result<std::time::Duration, ContinuityControlError> {
+        self.check()?;
+        remaining_effect_window(self.deadline_unix_millis)
+    }
 }
 
 fn check_optional_guard(guard: Option<&EffectGuard<'_>>) -> Result<(), ContinuityControlError> {
     guard.map_or(Ok(()), EffectGuard::check)
+}
+
+async fn resume_operation_factory(
+    factory: &crate::OperationalFactory,
+    guard: Option<&EffectGuard<'_>>,
+) -> Result<(), ContinuityControlError> {
+    let Some(guard) = guard else {
+        factory.continuity_resume().await;
+        return Ok(());
+    };
+    let remaining = guard.remaining()?;
+    if factory
+        .continuity_resume_bounded(remaining, guard.cancellation)
+        .await
+    {
+        guard.check()
+    } else {
+        Err(guard
+            .check()
+            .err()
+            .unwrap_or(ContinuityControlError::RecoveryRequired))
+    }
+}
+
+async fn run_optional_guarded<F, T>(
+    guard: Option<&EffectGuard<'_>>,
+    effect: F,
+) -> Result<T, ContinuityControlError>
+where
+    F: std::future::Future<Output = T>,
+{
+    let Some(guard) = guard else {
+        return Ok(effect.await);
+    };
+    let remaining = guard.remaining()?;
+    tokio::select! {
+        biased;
+        _ = guard.cancellation.cancelled() => Err(ContinuityControlError::Cancelled),
+        _ = tokio::time::sleep(remaining) => Err(ContinuityControlError::Deadline),
+        output = effect => {
+            guard.check()?;
+            Ok(output)
+        }
+    }
 }
 
 impl TargetContinuityEffectPort {

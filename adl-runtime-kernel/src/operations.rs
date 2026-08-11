@@ -340,8 +340,20 @@ impl OperationalFactory {
         self.adapter.continuity_snapshot().await
     }
 
-    pub async fn continuity_resume(&self) {
+    pub(crate) async fn continuity_resume(&self) {
         *self.accepting.write().await = true;
+    }
+
+    /// Reopen this exact live factory only while the caller's remaining
+    /// effect window is still live.  The selection owns the pending write
+    /// future, so cancellation or expiry drops it instead of allowing a
+    /// waiter to acquire the gate and commit later.
+    pub(crate) async fn continuity_resume_bounded(
+        &self,
+        remaining: Duration,
+        cancellation: &CancellationToken,
+    ) -> bool {
+        set_continuity_admission_open_bounded(&self.accepting, remaining, cancellation).await
     }
 
     pub fn is_governed(&self) -> bool {
@@ -368,6 +380,26 @@ impl OperationalFactory {
         result
             .await
             .map_err(|_| OperationError::Fatal("component stopped before reply".to_owned()))?
+    }
+}
+
+async fn set_continuity_admission_open_bounded(
+    accepting: &RwLock<bool>,
+    remaining: Duration,
+    cancellation: &CancellationToken,
+) -> bool {
+    tokio::select! {
+        biased;
+        _ = cancellation.cancelled() => false,
+        _ = tokio::time::sleep(remaining) => false,
+        mut gate = accepting.write() => {
+            if cancellation.is_cancelled() {
+                false
+            } else {
+                *gate = true;
+                true
+            }
+        }
     }
 }
 
@@ -844,4 +876,53 @@ pub fn validate_operational_dependencies(
         return Err(OperationError::InvalidPolicy);
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod continuity_resume_tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn cancellation_while_waiting_never_reopens_after_release() {
+        let accepting = RwLock::new(false);
+        let held = accepting.read().await;
+        let cancellation = CancellationToken::new();
+        let trigger = cancellation.clone();
+        let cancel = tokio::spawn(async move {
+            tokio::task::yield_now().await;
+            trigger.cancel();
+        });
+
+        assert!(
+            !set_continuity_admission_open_bounded(
+                &accepting,
+                Duration::from_secs(5),
+                &cancellation,
+            )
+            .await
+        );
+        cancel.await.unwrap();
+        drop(held);
+        tokio::task::yield_now().await;
+        assert!(!*accepting.read().await);
+    }
+
+    #[tokio::test]
+    async fn expiry_while_waiting_never_reopens_after_release() {
+        let accepting = RwLock::new(false);
+        let held = accepting.read().await;
+        let cancellation = CancellationToken::new();
+
+        assert!(
+            !set_continuity_admission_open_bounded(
+                &accepting,
+                Duration::from_millis(1),
+                &cancellation,
+            )
+            .await
+        );
+        drop(held);
+        tokio::task::yield_now().await;
+        assert!(!*accepting.read().await);
+    }
 }
