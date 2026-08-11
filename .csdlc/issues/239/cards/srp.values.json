@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 239,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Reconcile terminal envelopes across publication metadata-only heads",
+    "slug": "csdlc-v2-terminal-envelope-metadata-only-head-reconciliation",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #239 finish.rs reconciliation, gate_finish regression, typed cards, and focused proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the fix reuse or exactly preserve the existing metadata-only policy?",
+        "Can substantive source drift validate?",
+        "Does the regression reproduce publication revision before the terminal metadata-only head?",
+        "Are canonical issue, generation, digest, repository, PR, and head checks unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

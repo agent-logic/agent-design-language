@@ -1,0 +1,109 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 239,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "74ac66d5503a454f1b2eb18cd92f8fa7b6c1c4dbaf3046edc3b044a6e0f44993",
+  "phase": "initialized",
+  "generation": 6,
+  "digest": "dec8a26421c1289b5bf98b0cabc01102a1da50afd5553df6749fc4056fd94ecd",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/239/design.md",
+  "diagram_path": ".csdlc/prepared/issues/239/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "/root/sprint5_5835/review_5835_remediation_exact_head",
+      "revision": "77fb0844a36c274eb6e41e368346366406a4a341852d1107ff0a4b1e5d1ee253"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "1c653becbe0cce67f3e8c71b980dc1adadfe701eeaf75f7555ad106f5b914e79",
+      "rendered_digest": "9d74c8560ecdcda1980e90b7424b807d02b045f61cb14979c9f02a10dcd95416",
+      "ast_digest": "92b029c86686bf2c67512129288dc7fd23f0a4d4594cdd1a3fc5d5a8c326abec"
+    },
+    "stp": {
+      "values_digest": "a4b36253e6062a6950009a3874704da91c0e0fb66beea17be3230c4a02f3660c",
+      "rendered_digest": "32fb959c852e7f690dd835deb13d567fbdc8bd10da0657f3cfc78f20c9fbde6f",
+      "ast_digest": "7572881f9306365e6f9a5d91678de8e9ad2e6c79402ec85b408766c24e827e44"
+    },
+    "spp": {
+      "values_digest": "5360fb8b8db1acef91bfabcbb6ba2c72fb92a8f560f52fde3cff301bf185053f",
+      "rendered_digest": "57d9ef7ea6bbdc4fd029a30de8190b237f4f0f665fe872451a8acb2a268989e1",
+      "ast_digest": "50343c63c049a9bea4e443df3a8c3c69e97fe90c2c7f9d2e7a5e3729f494c259"
+    },
+    "vpp": {
+      "values_digest": "c0664a9dd93bf7ac58e52581581c237adb5714f12ac8fc43ff72e3fceb705193",
+      "rendered_digest": "7f2c552b51e157f5b12080c3fd4260bbfdcdd35973b03864c8f47de193f3670a",
+      "ast_digest": "e92b2d8fbfc390c866a34ad23c997be354bb3f0f603ec3afb8c3b6ee9f9d38a9"
+    },
+    "srp": {
+      "values_digest": "0c9d3f1c88877f6d73eb2f633cbae9e290945b1f7de0a6e129400acf0b13a61e",
+      "rendered_digest": "940cb1b661630f8d9d0d1b79218323d4a3d4feede74406a1a8766bd89c7a6133",
+      "ast_digest": "e1f3d23e9a9c574d45764d29442791a2472e2e1edef13e3b1ddafd7f622f5f29"
+    },
+    "sor": {
+      "values_digest": "c59dda777d85f4c074b9250b3bd32ada42585ee2f90372966e5d0ee28fa4b93e",
+      "rendered_digest": "5d149bc4bca453b6ffa668435b6db2a0e440e0292b203a6efb61e0ae06a06515",
+      "ast_digest": "adefa9ad0ade20e54919773a9d41d05424b72256c848f735953282a1bd2652c0"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "/root/sprint5_5835",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "/root/sprint5_5835/review_5835_remediation_exact_head",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "/root/sprint5_5835",
+      "reason": "Align declared scope with approved root-aware envelope consumers.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/cleanup.rs\",\"csdlc-v2/tests/gate_finish.rs\",\".csdlc/evidence/239/\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "/root/sprint5_5835",
+      "reason": "Align affected areas with approved root-aware envelope consumers.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/cleanup.rs\",\"csdlc-v2/tests/gate_finish.rs\",\".csdlc/evidence/239/\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "/root/sprint5_5835",
+      "reason": "Align deliverables with the approved full fail-closed regression set.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Root-aware repository-grounded terminal envelope reconciliation across cached validation and cleanup consumers\",\"Focused PR #238-shaped acceptance regression\",\"Substantive-drift, malformed-publication-revision, and metadata-only non-ancestor rejection regressions\",\"Post-merge cached #5835 validation\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "/root/sprint5_5835",
+      "reason": "Align VPP with all approved metadata-only and fail-closed regression cases.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"terminal-envelope-metadata-head\",\"proof_role\":\"Reproduce PR #238 topology and prove metadata-only acceptance plus substantive-drift, malformed-publication-revision, and metadata-only non-ancestor rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":700,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\",\"derived_terminal_accepts_publication_metadata_only_head_and_rejects_substantive_drift\",\"--\",\"--exact\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed patch structure.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":100,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"post-merge-5835-cache\",\"proof_role\":\"Prove the merged binary validates the retained #5835 terminal envelope without tracked rewrites.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":200,\"budget_tokens\":1000,\"argv\":[\"csdlc-finish\",\"--root\",\".\",\"--validate-cached-issue\",\"5835\"],\"parallel_group\":\"post-merge\",\"defer_reason\":\"This terminal acceptance lane can run only after #239 merges to main; pre-merge proof is the focused gate_finish regression.\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "/root/sprint5_5835",
+      "reason": "Use the governed Cargo owner-binary route for deferred post-merge cache validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"terminal-envelope-metadata-head\",\"proof_role\":\"Reproduce PR #238 topology and prove metadata-only acceptance plus substantive-drift, malformed-publication-revision, and metadata-only non-ancestor rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":700,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\",\"derived_terminal_accepts_publication_metadata_only_head_and_rejects_substantive_drift\",\"--\",\"--exact\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed patch structure.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":100,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"post-merge-5835-cache\",\"proof_role\":\"Prove the merged binary validates the retained #5835 terminal envelope without tracked rewrites.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":200,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-finish\",\"--\",\"--root\",\".\",\"--validate-cached-issue\",\"5835\"],\"parallel_group\":\"post-merge\",\"defer_reason\":\"This terminal acceptance lane can run only after #239 merges to main; pre-merge proof is the focused gate_finish regression.\"}]}"
+    }
+  ]
+}

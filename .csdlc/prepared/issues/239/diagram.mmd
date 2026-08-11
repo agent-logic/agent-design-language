@@ -1,0 +1,7 @@
+flowchart LR
+  P["Publication revision"] --> M["Typed metadata-only commits"]
+  M --> H["Merged terminal head"]
+  P --> V["Terminal envelope validation"]
+  H --> V
+  V -->|"exact or allowed metadata-only ancestry"| A["Accept"]
+  V -->|"substantive drift or invalid ancestry"| R["Reject"]

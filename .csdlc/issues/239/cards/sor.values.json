@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 239,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Reconcile terminal envelopes across publication metadata-only heads",
+    "slug": "csdlc-v2-terminal-envelope-metadata-only-head-reconciliation",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Pre-execution output record.",
+      "actual_changes": [],
+      "artifacts": [],
+      "actual_validation": [],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
