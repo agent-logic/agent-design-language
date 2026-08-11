@@ -7,10 +7,14 @@ MANAGER="$ROOT/adl/tools/validation_manager.sh"
 TMP="$(mktemp -d)"
 UNTRACKED_FIXTURE="$ROOT/docs/architecture/__selector_untracked_fixture__.md"
 JAVASCRIPT_VALIDATOR_FIXTURE=""
+JAVASCRIPT_VALIDATOR_BACKUP=""
 cleanup() {
   rm -rf "$TMP" "$UNTRACKED_FIXTURE"
   if [[ -n "$JAVASCRIPT_VALIDATOR_FIXTURE" ]]; then
     rm -f "$JAVASCRIPT_VALIDATOR_FIXTURE"
+  fi
+  if [[ -n "$JAVASCRIPT_VALIDATOR_BACKUP" ]]; then
+    mv "$JAVASCRIPT_VALIDATOR_BACKUP" "$ROOT/adl/tools/validate_v092_html_observatory_roster.mjs"
   fi
 }
 trap cleanup EXIT
@@ -221,12 +225,19 @@ assert_observatory_tooling_run \
 if [[ "$javascript_validator_created" == true ]]; then
   rm "$javascript_validator"
   JAVASCRIPT_VALIDATOR_FIXTURE=""
-  if bash "$SCRIPT" --changed-files "$javascript_tool" --run \
-    --report-out "$TMP/html-observatory-javascript-tool-missing.json" \
-    >"$TMP/html-observatory-javascript-tool-missing.out" 2>&1; then
-    echo "expected a deleted Observatory JavaScript validator to fail closed" >&2
-    exit 1
-  fi
+else
+  JAVASCRIPT_VALIDATOR_BACKUP="$TMP/validate_v092_html_observatory_roster.mjs"
+  mv "$javascript_validator" "$JAVASCRIPT_VALIDATOR_BACKUP"
+fi
+if bash "$SCRIPT" --changed-files "$javascript_tool" --run \
+  --report-out "$TMP/html-observatory-javascript-tool-missing.json" \
+  >"$TMP/html-observatory-javascript-tool-missing.out" 2>&1; then
+  echo "expected a deleted Observatory JavaScript validator to fail closed" >&2
+  exit 1
+fi
+if [[ -n "$JAVASCRIPT_VALIDATOR_BACKUP" ]]; then
+  mv "$JAVASCRIPT_VALIDATOR_BACKUP" "$javascript_validator"
+  JAVASCRIPT_VALIDATOR_BACKUP=""
 fi
 
 printf 'if then\n' >"$TMP/invalid-observatory-tool.sh"
