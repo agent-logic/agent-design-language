@@ -1,0 +1,60 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 210
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Implement and publish only the authenticated typed transfer session, bounded stream/prefix protocol, incremental verification, #208 handle integration, cleanup, and focused proof.
+
+## Deliverables
+
+- adl-runtime/src/distributed/continuity_transfer.rs
+- adl-runtime/src/distributed/transport.rs
+- adl-runtime/src/distributed/polis_runtime.rs
+- adl-runtime/src/distributed/snapshot_catalog.rs
+- adl-runtime/src/distributed/mod.rs
+- adl-runtime/tests/distributed_continuity_transfer.rs
+- .csdlc/prepared/issues/210/produce-proof-receipt.rb
+- .csdlc/prepared/issues/210/validate-proof-receipt.rb
+- .csdlc/evidence/210
+- .csdlc/issues/210
+
+## Acceptance
+
+1. AC-1: Only the exact current authorized source and target route/certificate/boot/membership cut may establish a private transfer session; wrong or stale identity, lineage, domain, polis, cut, token, generic send, Raft, or unknown-kind input fails before bytes move.
+2. AC-2: Every canonical frame binds transfer, manifest, index, offset, length, payload and predecessor digests and session generations; all frame, queue, file, count and total-byte bounds reject N+1 before prefix mutation.
+3. AC-3: The target durably records each exact accepted prefix before acknowledgment; exact duplicate is cached, conflict/gap/reorder/overlap fails closed, and restart resumes only at the exact next offset.
+4. AC-4: Incremental verification proves the signed catalog/manifest, service/file order, schemas, chunk list, total length and whole digest without whole-bundle allocation before #208 possession evidence.
+5. AC-5: Deadline, cancellation, partition, source/target restart, disk-full, crash and reply loss reconcile the exact prefix/result or leave isolated denied state; no false terminal success or duplicate write is possible.
+6. AC-6: Authorized abort closes the session, invokes exact #208 discard, removes only transfer-owned state and returns a live independently verified zero-residue receipt.
+7. AC-7: Evidence contains only opaque refs, digests, bounded counts and outcomes, with no raw content, identity, certificate, token, address, path, key, signature or secret.
+8. AC-8: Exact forty-five-case focused proof, strict Clippy, merge-safe immutable receipt validation, diff hygiene and fresh independent exact-head review pass before a ready unmerged PR opens.
+
+## Dependencies
+
+- Issue #191 / PR #197 externally reviewed and merged as an ancestor
+- Issue #201 authority protocol externally reviewed and merged as an ancestor
+- Issue #203 concrete authority adapters externally reviewed and merged as an ancestor
+- Issue #208 Guardian-kernel continuity bridge externally reviewed and merged as an ancestor
+- Issue #204 remains blocked until #210 merges
+
+## Inputs
+
+- agent-logic/agent-design-language#210
+- adl-runtime/src/distributed/authority_protocol.rs from merged #201
+- adl-runtime/src/distributed/authority_store_adapters.rs from merged #203
+- adl-runtime/src/kernel_continuity_client.rs from merged #208
+- adl-runtime/src/distributed/transport.rs and polis_runtime.rs from merged #191
+- adl-runtime/src/distributed/snapshot_catalog.rs
+
+## Non Goals
+
+- Consensus, authority issuance, membership transitions, local kernel continuity implementation (#208), migration/recovery policy (#204), fence/activation/OwnerCommit/serving authority, models, AWS, live qualification, final #142 delivery, merge without operator authorization, or lifecycle closeout

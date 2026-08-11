@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 210,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1d] Stream authenticated continuity bundles between voters",
+    "slug": "authenticated-continuity-bundle-transfer",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact transfer authority/session, existing transport integration, frame/prefix protocol, incremental catalog verification, #208 handles, persistence/retry/cleanup/redaction, focused proof/evidence, typed issue truth and absence of migration/cloud policy.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any generic, Raft, public, unknown, wrong-source or wrong-target path move continuity bytes?",
+        "Does every frame and durable prefix preserve exact ordering, replay, bounds and crash/restart behavior before acknowledgment?",
+        "Does incremental verification prove the exact signed catalog and whole bundle without whole-content allocation?",
+        "Do partition, cancellation, deadline, disk-full, source/target restart and reply loss reconcile without false success or duplicate bytes?",
+        "Does abort produce live #208-attested zero residue with no caller paths or evidence leaks?",
+        "Does the exact proof bind all forty-five cases without claiming #204 policy or cloud integration?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

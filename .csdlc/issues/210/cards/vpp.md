@@ -1,0 +1,140 @@
+# Validation Planning Prompt
+
+Template: 1.0.0
+
+Issue: 210
+
+Repository: agent-logic/agent-design-language
+
+Card: vpp
+
+Status: ready
+
+## Summary
+
+Execute the smallest proving validation DAG.
+
+## Lane Inputs
+
+Design: .csdlc/prepared/issues/210/design.md
+
+Diagram: .csdlc/prepared/issues/210/diagram.mmd
+
+## Selected Lanes
+
+[
+  {
+    "lane": "continuity-transfer",
+    "proof_role": "Prove exact forty-five-case denominator: authorized_transfer, real_bundle_source, exact_target_stage, incremental_catalog_verify, resume_after_partition, exact_retry_cached, wrong_source_denied, wrong_target_denied, wrong_polis_denied, wrong_domain_denied, wrong_lineage_denied, wrong_membership_cut_denied, stale_certificate_denied, wrong_boot_generation_denied, generic_send_denied, raft_rpc_confusion_denied, unknown_kind_denied, frame_n_accepted, frame_n_plus_one_denied, reordered_frame_denied, exact_duplicate_frame_cached, conflicting_duplicate_denied, wrong_predecessor_denied, wrong_chunk_digest_denied, wrong_manifest_denied, oversized_frame_denied, oversized_total_denied, deadline_before_first_byte, deadline_midstream, cancellation_before_effect, cancellation_midstream, source_restart_resume, target_restart_resume, crash_after_admission, crash_after_frame_write, crash_after_prefix_receipt, crash_after_completion_result, crash_before_checkpoint, crash_after_checkpoint, reply_loss_retry, disk_full_no_false_success, coherent_rollback_denied, unsafe_path_denied, zero_residue_abort, evidence_redaction. One marker per exact name; no execution-defined subdenominator.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1800,
+    "budget_tokens": 24000,
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_continuity_transfer",
+      "--no-tests=fail"
+    ],
+    "parallel_group": "210-runtime",
+    "defer_reason": "Deferred until all four dependencies merge and this issue creates the exact target; fail closed on missing target, zero tests or missing, extra, duplicate, renamed, reordered, nonpassing case/result/marker."
+  },
+  {
+    "lane": "continuity-transfer-clippy",
+    "proof_role": "Reject warnings and API misuse across the exact transfer target.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 900,
+    "budget_tokens": 10000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_continuity_transfer",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "210-runtime",
+    "defer_reason": "Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source."
+  },
+  {
+    "lane": "continuity-transfer-producer",
+    "proof_role": "Produce exact Git, source, command, stream, timing, protected-digest and forty-five-case evidence.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 1800,
+    "budget_tokens": 10000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/210/produce-proof-receipt.rb"
+    ],
+    "parallel_group": "210-producer",
+    "defer_reason": "Deferred until the exact producer exists; fail closed on dirty protected source, wrong case count, missing, extra, duplicate, renamed, reordered, nonpassing case or nonzero status."
+  },
+  {
+    "lane": "continuity-transfer-receipt",
+    "proof_role": "After producer completion, bind exact protected source, commands, forty-five cases, strict Clippy, immutable evidence introduction, review and squash-merge-safe validation.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 300,
+    "budget_tokens": 5000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/210/validate-proof-receipt.rb"
+    ],
+    "parallel_group": "210-receipt",
+    "defer_reason": "Deferred until producer, validator, typed finalize, post-finalize immutable evidence and review exist; fail closed until exact source and all cases are bound."
+  }
+]
+
+## Parallelization
+
+Only declared parallel groups may overlap.
+
+## Budgets
+
+Seconds: 7200
+
+Tokens: 50000
+
+## Commands
+
+- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_continuity_transfer --no-tests=fail`
+- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_continuity_transfer -- -D warnings`
+- `ruby .csdlc/prepared/issues/210/produce-proof-receipt.rb`
+- `ruby .csdlc/prepared/issues/210/validate-proof-receipt.rb`
+
+## Failure Semantics
+
+Fail closed on invalid token/session/route/certificate/boot/cut, generic or confused dispatch, wrong source/target/lineage/polis/domain, bad frame/order/digest/manifest, bound overflow, deadline, cancellation ambiguity, prefix/result drift, rollback, disk-full, unsafe path, residue, evidence leak, source drift or unresolved review findings.
+
+## Handoff
+
+Retain typed evidence before convergence.

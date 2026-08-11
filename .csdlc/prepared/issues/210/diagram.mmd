@@ -1,0 +1,14 @@
+flowchart LR
+    T["Opaque finalized #201 transfer token"] --> S["Established typed transfer session"]
+    R["Current #191 route cut and #203 certificate truth"] --> S
+    B["#208 opaque source bundle reader"] --> F["Bounded canonical frames"]
+    S --> F
+    F --> P["Target durable accepted prefix"]
+    P --> I["Incremental catalog and content verifier"]
+    I --> W["#208 isolated-stage writer and possession receipt"]
+    W --> C["Result checkpoint marker and published completion"]
+    X["Partition cancellation restart disk full or reply loss"] --> Y["Exact prefix reconciliation and resume"]
+    Y --> P
+    A["Authorized abort"] --> D["#208 discard plus live zero-residue receipt"]
+    Q["Raft generic public or unknown message"] --> N["Rejected before transfer dispatch"]
+    C --> Z["No ownership activation serving or cloud authority"]
