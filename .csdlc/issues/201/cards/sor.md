@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the deterministic committed authority protocol with strict current and joint quorum, opaque voter endorsements, canonical time, durable node-local fresh-CAS publication, exact retry, sealed continuity binding, and fail-closed legacy commands.
+Implemented the deterministic committed authority protocol with strict current and joint quorum, opaque voter endorsements, canonical committed time, monotonic prepare/finalize log ordering, durable node-local fresh-CAS publication, exact retry, sealed continuity binding, and fail-closed legacy commands.
 
 ## Artifacts
 
@@ -21,14 +21,15 @@ Implemented the deterministic committed authority protocol with strict current a
 - adl-runtime/tests/distributed_authority_protocol.rs
 - .csdlc/prepared/issues/201/produce-proof-receipt.rb
 - .csdlc/prepared/issues/201/validate-proof-receipt.rb
-- .csdlc/evidence/201/v2/execution-proof.json
+- .csdlc/evidence/201/v5/execution-proof.json
 
 ## Execution
 
-- Added canonical prepare, endorsement, finalization, artifact, membership, time, and quorum verification for committed authority operations.
-- Added symlink-safe locked durable result and retry publication through independent node-local checkpoint objects with restart reconciliation and rollback denial.
+- Added canonical prepare, endorsement, finalization, artifact, membership, time, and strict current/joint quorum verification for committed authority operations.
+- Added symlink-safe locked durable result and retry publication through independent node-local checkpoint objects with restart reconciliation, rollback denial, and cache-first exact retry.
+- Bound distinct operations to strictly increasing committed prepare/finalize log indices while permitting multiple operations under one unchanged membership cut and rejecting reordered finalization.
 - Added sealed continuity-transfer binding validation and retired legacy direct authority commands at replicated apply.
-- Added and retained the exact ordered 47-case contract, strict Clippy proof, and merge-safe proof validator.
+- Retained one final exact ordered 47-case proof packet with strict Clippy, merge-safe validation, protected-source drift denial, and clean diff hygiene.
 
 ## Validation
 
@@ -45,9 +46,9 @@ Implemented the deterministic committed authority protocol with strict current a
       "distributed_authority_protocol",
       "--no-tests=fail"
     ],
-    "purpose": "Run the exact focused authority protocol target.",
+    "purpose": "Prove the exact nonzero 47-case authority protocol denominator including sequential same-membership operations and reordered-finalize denial.",
     "outcome": "passed",
-    "evidence_ref": "committed-authority-protocol.log"
+    "evidence_ref": ".csdlc/evidence/201/v5/execution-proof.json"
   },
   {
     "command": [
@@ -62,18 +63,29 @@ Implemented the deterministic committed authority protocol with strict current a
       "-D",
       "warnings"
     ],
-    "purpose": "Strict lint the bounded authority protocol surface.",
+    "purpose": "Prove warning-free bounded protocol, persistence, projection, and test surfaces.",
     "outcome": "passed",
-    "evidence_ref": "committed-authority-protocol-clippy.log"
+    "evidence_ref": ".csdlc/evidence/201/v5/execution-proof.json"
   },
   {
     "command": [
       "ruby",
       ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
     ],
-    "purpose": "Run the canonical merge-safe retained proof validator.",
+    "purpose": "Prove exact source, command, stream, case-marker, immutable-introduction, protected-drift, and merge-topology bindings.",
     "outcome": "passed",
-    "evidence_ref": "committed-authority-protocol-receipt.log"
+    "evidence_ref": ".csdlc/evidence/201/v5/execution-proof.json"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Prove final branch diff hygiene after consolidating superseded proof packets.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/201/v5/execution-proof.json"
   }
 ]
 

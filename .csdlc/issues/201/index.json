@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "implemented",
-  "generation": 29,
-  "digest": "7cf5f49d5dd2f2f60ee7ef06205ee19d4d6c2f97f886cdb5621de3224f92ae09",
+  "generation": 30,
+  "digest": "3c9016752d72efbdd424211b9f91df70151a582dba97ec575b4056f04729d94e",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4ee46c981fd379c03908a06c1693484a9faeac77b85a45e5b5e842d596e3884c",
+      "values_digest": "e0520b2acd1bb52b2fc2e74abddcad43832a87db910a7ae9a0a620c75065fc30",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "726ac93c5dfed656180460e0196e3cbec9821e222e54135e271b0dff24c120d8",
+      "values_digest": "403ddff89ab052da661fc5c9e830b083a283660ae5136f33c2fb5d39da3f2b6c",
       "rendered_digest": "b9dc9472b5cb780e06096f27d1ea410affd2ef1dbe6879575b904767dd8e5a96",
       "ast_digest": "933b98acdd836328d3647ded0d86e0a2aed1320befac8f59ce373d1c34fb1041"
     },
     "spp": {
-      "values_digest": "54685e5412bf9c3c0efbe4630328d4bf12be9167a8d48d8a30418938e10f7e50",
+      "values_digest": "95c2568157d6144d80e2cefe42909ef4ac4ff684c68df4bcfdc8b10a912412f7",
       "rendered_digest": "10ce9a9edb4e76b3362c1d3de2096f809583c3a57f7d207325bb3258855f7052",
       "ast_digest": "1a41a09ee89d37928caaab6d352f64c3b031eecffaa5aee6e48dfd17d2ade2c8"
     },
     "vpp": {
-      "values_digest": "fe5efb2348d90afb8ab219d18d7885837c278e8fbc7edbda1f9504e6cb73ceb1",
+      "values_digest": "1cde91ae797a5221283b41db1a2f0077b1d255347505f7360aaea32540f89c15",
       "rendered_digest": "db671aa0607a480b4a925142fa568d4d22bdee057b9bd0c60ffdbc2d5364620b",
       "ast_digest": "184c02956b7ba54244773345a62706068bdfb7cf226e9844c4c37d8b3ebb3f6e"
     },
     "srp": {
-      "values_digest": "3df8933a992863093e0a618b914288ac00bfc293b2ae49bfcb0098e828624713",
+      "values_digest": "46aecbf4dcbb715044d4743c7c3b9ed47c6d1b086631241e0283312c72a5d2e8",
       "rendered_digest": "90fa315a353a116877a3fa27ade2db93422edf515657fe8ab849f228ea853511",
       "ast_digest": "4862f04ad392f0a53588c93e4670d28dba36f7ee0e30adb3bb78c000e911cf3d"
     },
     "sor": {
-      "values_digest": "2767952a18fd3ebe5f28e45cefe46fbb68f0f15dcb0ffa57df30daa77cb221d0",
-      "rendered_digest": "0147152ac923fd9b54d7b4bc0ac9f7de14d94145051a5fa03c2d384f2076e913",
-      "ast_digest": "879ba842f4a39389d8843413209c48ed39b57777c9520f0e6c96578e4405ac15"
+      "values_digest": "7fe0e5bfe8a1ad01c09a99d418192113ee88ec754a2ff0487803b9e848bb4f24",
+      "rendered_digest": "a95d870b019feda1f97e79c8ce198c0663ce49190d951448d2ef16f340aecb0d",
+      "ast_digest": "90452ec83efcab9d988fc78514288edd6e4dcabf4d511318e51c951695d5ff4e"
     }
   },
   "transitions": [
@@ -294,6 +294,13 @@
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 32,
+      "generation": 30,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6",
+      "reason": "Reconcile post-finalize self-audit repairs, the strict committed-log ordering boundary, current-main sync, and the single final immutable proof packet before exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the deterministic committed authority protocol with strict current and joint quorum, opaque voter endorsements, canonical committed time, monotonic prepare/finalize log ordering, durable node-local fresh-CAS publication, exact retry, sealed continuity binding, and fail-closed legacy commands.\",\"changes\":[\"Added canonical prepare, endorsement, finalization, artifact, membership, time, and strict current/joint quorum verification for committed authority operations.\",\"Added symlink-safe locked durable result and retry publication through independent node-local checkpoint objects with restart reconciliation, rollback denial, and cache-first exact retry.\",\"Bound distinct operations to strictly increasing committed prepare/finalize log indices while permitting multiple operations under one unchanged membership cut and rejecting reordered finalization.\",\"Added sealed continuity-transfer binding validation and retired legacy direct authority commands at replicated apply.\",\"Retained one final exact ordered 47-case proof packet with strict Clippy, merge-safe validation, protected-source drift denial, and clean diff hygiene.\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_authority_protocol.rs\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201/v5/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--no-tests=fail\"],\"purpose\":\"Prove the exact nonzero 47-case authority protocol denominator including sequential same-membership operations and reordered-finalize denial.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v5/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free bounded protocol, persistence, projection, and test surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v5/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"purpose\":\"Prove exact source, command, stream, case-marker, immutable-introduction, protected-drift, and merge-topology bindings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v5/execution-proof.json\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Prove final branch diff hygiene after consolidating superseded proof packets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v5/execution-proof.json\"}]}"
     }
   ]
 }
