@@ -79,7 +79,7 @@ Assembled and locally proved WP-16's exact-digest reviewer packet across the mer
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

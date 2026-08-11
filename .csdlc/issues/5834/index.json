@@ -5,25 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2f8a9edc733d36518cfdfe54639ecbf45210e8028e1a884bf5e25a2d1d52408c",
   "phase": "implemented",
-  "generation": 53,
-  "digest": "0cb4d9419bbda02cf355ff029663a79a6d439ee440633c2bb670d00d18548c31",
+  "generation": 54,
+  "digest": "2c6592c738f5dd6cc687115037f07515cfd320ea31e7b459c4d2b58728bb7180",
   "branch": "codex/5834-birthday-review-packet",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5834-birthday-review-packet",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5834_exact_head",
-    "assigned_by": "/root/sprint4_5857",
-    "revision": "git-blake3:29d8f255b240b6995adb66e82167a6150ac6814e:2397adb663ea93497bc52a4fec83bc1c91511447030bfc8e302c06db5003e606",
-    "scope": [
-      ".csdlc/issues/5834",
-      ".csdlc/prepared/issues/5834/design.md",
-      ".csdlc/prepared/issues/5834/validate-review-packet.rb",
-      ".csdlc/evidence/5834",
-      "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
-      "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
-      "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json",
-      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1569f393ee97ba1d41f1a825e9018fa325378c4f4f08e52ba823dc519775a06f",
+      "values_digest": "01a4729794ae6333443c0a5a2759f432231262c9dcd1d7ea9369d0c419b2b34d",
       "rendered_digest": "75fcd7a9ca988fb75b97169b64a72b3a7bcdb5b033e0ae15536b2cffa73ff6c6",
       "ast_digest": "725fd3bcdf422bf6c8117264e314f2fd76083afc31e9d67608c1aa8fbdac63f6"
     },
     "stp": {
-      "values_digest": "0d2b51815b1e31769e7de8c24f0c30474230a0a1ba3fc93cf611489be251fe3b",
+      "values_digest": "26d6ba2082f8c55d6cec4f39d421b708a5a57d8e3d420d18837d0d5807549515",
       "rendered_digest": "8827b3a7cdd999e4beeb34f4a4acc83e599697915de0c15b2ff7c602e4476e88",
       "ast_digest": "7df437a7adc6cf8269fbc8198fbc546a30dbbf6372d1579e4468bd0aa104747c"
     },
     "spp": {
-      "values_digest": "0f447ca16c4b8f6c8299ed47345c162603afe414ab340a1147fa4f7b498d5010",
+      "values_digest": "c07f5d1ed39a00faae97e0a695be63ce1801bb644f482432c217694ebc7fc3b8",
       "rendered_digest": "5055eebd16e2eb6aba19b5fc9e2fda283fea82ed26154a19c142a6c03a3d13d1",
       "ast_digest": "5497b61c335c7a1337fec7c65a71fa8e4fcd2c66b37997f3745288b042ad3b0c"
     },
     "vpp": {
-      "values_digest": "1eac994710d1ff2d9a7a2070d59cb07902fc5f5cfe74871caca403f9e29b813a",
+      "values_digest": "b7b984c99a9911d87fbbdbb2d14d7224ef1c5c8371277117ce143da29796f511",
       "rendered_digest": "2dfb6d7bc24e9dac49d728129d79e336a0b9df3982aa7e17dce99c1ea1a52966",
       "ast_digest": "b49b2b680a76314daa9af47da607411f5ef2cdebd31391702f63c6328e77c29c"
     },
     "srp": {
-      "values_digest": "a4677241252db8ee41e4f6c50d6d260e91c2f187f1cb03b64c46743a768498bc",
-      "rendered_digest": "fe94c91ad16672c765fc79865eed7b196c8721002377db746b8c1cd1e0f9c283",
-      "ast_digest": "4bf3f734359a414f0708b025730b20579888171b45c27744c5f049328524e7c7"
+      "values_digest": "dca1c5c0b49eaf12a5c5031babda4864aaefd049c548e2c2f1ce951e62eacccc",
+      "rendered_digest": "683805d642506036f16f1ca4b7eb26becb33c489c340ab456c7103f39ba3b793",
+      "ast_digest": "52de401314362e5f2b46b7c5eb0ec1ee4bb558d5b39d3b87226b748db994044b"
     },
     "sor": {
-      "values_digest": "5f2b37ca3c5b40a9a05984bd799b45ed76b954195e3aef145de87063bfd3e913",
-      "rendered_digest": "d15e3e111a024b2cbcdfacf041d4ba283a8f60131e290b0e5b3227f6fe55f831",
-      "ast_digest": "9439ce84a1324dcb7dd72f349aabe1b9bba4e64d6ea752c109c4dd8943cf0d97"
+      "values_digest": "977c9161489ef1455bc048dfb9c26597ceee2e7bfead6e70ebbf790ef89fa9c8",
+      "rendered_digest": "14147802b939276ed3f840a7b451fdf8ff724a45a879190c3e6fc2f82677331d",
+      "ast_digest": "ca28fb76128d3784f74223bba727872f25ae0be510b51c4f9bb038948ea5c0b6"
     }
   },
   "transitions": [
@@ -638,6 +624,13 @@
       "actor": "/root/sprint4_5857",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 76,
+      "generation": 54,
+      "actor": "/root/sprint4_5857",
+      "reason": "Recover the stale pre-fix assignment before rebasing onto the merged #209 WP-14 authority repair and correcting the packet evidence chain.",
+      "operation": "recover_review"
     }
   ]
 }
