@@ -927,6 +927,9 @@ pub fn classify_pr_state(packet: &PrStatePacket, require_review: bool) -> &'stat
     if matches!(packet.merge_state.as_str(), "blocked" | "draft" | "unknown") {
         return "waiting";
     }
+    if packet.merge_state == "unstable" && packet.required_check_names.is_empty() {
+        return "waiting";
+    }
     for name in &packet.required_check_names {
         let Some(check) = packet.checks.iter().find(|check| &check.name == name) else {
             return "waiting";
@@ -1585,6 +1588,14 @@ mod tests {
         missing.merge_state = "unstable".into();
         missing.required_check_names.push("coverage".into());
         assert_eq!(classify_pr_state(&missing, false), "waiting");
+    }
+
+    #[test]
+    fn unstable_merge_state_requires_at_least_one_declared_required_check() {
+        let mut value = packet("success");
+        value.merge_state = "unstable".into();
+        value.required_check_names.clear();
+        assert_eq!(classify_pr_state(&value, false), "waiting");
     }
 
     #[test]
