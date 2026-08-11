@@ -54,6 +54,7 @@ const LOCAL_WRITER_LOCK_SCHEMA: &str = "adl.runtime.local_writer_lock.v1";
 
 pub struct LiveBindings {
     pub recorder: RuntimeRecorder,
+    pub canonical_ingress_capacity: usize,
     pub operation_executors: BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>,
     pub permit_keys: BTreeMap<String, ed25519_dalek::VerifyingKey>,
     pub reasoning: Arc<ReasoningServices>,
@@ -184,8 +185,11 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         let factory = InfrastructureFactory { role };
         registrations.push((Arc::new(factory), role.contract()));
     }
-    let canonical_ingress =
-        CanonicalIngress::new(64, bindings.recorder.clone(), ingress_dispatchers);
+    let canonical_ingress = CanonicalIngress::new(
+        bindings.canonical_ingress_capacity,
+        bindings.recorder.clone(),
+        ingress_dispatchers,
+    );
     registrations.push((
         Arc::new(canonical_ingress.clone()),
         ServiceContract {

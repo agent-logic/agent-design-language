@@ -15,8 +15,8 @@ v0.92.1 establishes the corporate and operational foundation for Agent Logic thr
 3. distributed multi-agent Runtime qualification.
 
 After WP-01 passes its opening gate, the lanes may execute concurrently and
-converge only at integrated review and release closeout. A delay in one lane
-does not block implementation in the others.
+converge only at the standard nine-step closeout tail. A delay in one lane does
+not block implementation in the others.
 
 Issues `#149-#190` were created prematurely during planning and are retired
 without execution. Their detailed work remains preserved in the execution

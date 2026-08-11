@@ -3,7 +3,7 @@ schema: adl.milestone.execution_specs.v1
 milestone: v0.92.1
 setup_issue: 146
 status: planning_only
-required_child_count: 42
+required_child_count: 45
 work_packages:
 - objective: Convert the reviewed planning-only WBS into a complete live issue wave without starting implementation.
   scope: Milestone and labels, four coordination umbrellas, all planned child issues, six-card generation, exact issue mapping, dependency graph, ownership, validators, readiness, review, and start authorization.
@@ -2963,28 +2963,37 @@ work_packages:
   github_url: null
   status: planned_for_wp01_creation
   creation_owner: WP-01
-- objective: Run one independent integrated review over terminal corporate, C-SDLC v3, and Runtime qualification evidence and remediate every blocker.
-  scope: Exact terminal lane revisions, proof inventories, cross-lane assumptions, release gates, findings, dispositions, residual risks, and remediation verification.
+- objective: Converge the milestone's declared demonstrations against terminal lane
+    evidence before quality and review gates begin.
+  scope: Demo inventory, exact revisions, operators, environments, inputs, expected
+    outcomes, negative paths, retained receipts, unsupported claims, and rerun instructions
+    across the corporate, C-SDLC v3, and distributed Runtime lanes.
   deliverables:
-  - Findings-first integrated review at exact lane revisions.
-  - Disposition and remediation ledger with a bounded release recommendation.
+  - Canonical milestone demo inventory with exact evidence links and owners.
+  - Reproducible convergence report covering successful, failed, skipped, and non-proving
+    demonstrations.
   acceptance_criteria:
-  - CORP-08, V3-16, and DRT-07 are terminal and exact revisions are ancestral to the review revision.
-  - Every required lane artifact and quality gate is independently recomputed or explicitly rejected.
-  - All P1/P2 findings receive verified terminal dispositions before recommendation.
-  - The review does not treat one lane's success as evidence for another lane.
+  - CORP-08, V3-16, and DRT-07 are terminal before convergence begins.
+  - Every release-relevant capability maps to a reproducible demo or an explicit non-demo
+    proof rationale.
+  - Every demo receipt identifies exact source revisions, environment, inputs, producer
+    outcomes, and cleanup state.
+  - Failed, skipped, stale, or non-proving demos remain visible and block unsupported
+    release claims.
   non_goals:
-  - Implementing undisclosed remediation
-  - Waiving blockers
-  - Publishing a release
-  validation_proof: Terminal ancestry, evidence inventory, validator rerun, finding/disposition closure, cross-lane independence, and exact-head review checks.
+  - Waiving failed demonstrations
+  - Treating screenshots or narration as producer proof
+  - Performing release qualification
+  validation_proof: exact-revision demo inventory, producer receipts, negative-path
+    outcomes, rerun proof, and non-claim ledger
   stop_conditions:
-  - A lane is nonterminal
-  - Evidence cannot be reproduced
-  - A blocking finding remains unresolved
-  - Review independence cannot be established
-  title: Run integrated independent review and remediation
+  - A source lane is nonterminal
+  - A required demo lacks a reproducible producer receipt
+  - Demo evidence is stale or environment-bound
+  - A failed demo lacks an explicit disposition
+  title: Converge milestone demos
   source_refs:
+  - docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md
   - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-01
   id: INT-01
   lane: integration
@@ -2992,12 +3001,14 @@ work_packages:
   - CORP-08
   - V3-16
   - DRT-07
-  proof_summary: findings dispositions residual risks and release recommendation
+  proof_summary: exact-revision demo inventory, producer receipts, negative-path outcomes,
+    rerun proof, and non-claim ledger
   owned_paths:
   - docs/milestones/v0.92.1/evidence/integration/int-01/**
   pvf_lanes:
   - lane: int-01-outcome-contract
-    proof_role: Recompute every acceptance criterion from issue-owned artifacts and producer-derived evidence.
+    proof_role: Recompute every acceptance criterion from issue-owned artifacts and
+      producer-derived evidence.
     deterministic: true
     resource_profile: small
     budget_seconds: 600
@@ -3005,7 +3016,8 @@ work_packages:
     argv_template:
     - ruby
     - ".csdlc/prepared/issues/{issue}/validate-outcome.rb"
-    defer_reason: The issue-delivered validator is authored with the implementation and must pass before review.
+    defer_reason: The issue-delivered validator is authored with execution and must
+      pass before review.
   - lane: int-01-diff-hygiene
     proof_role: Reject whitespace and malformed-diff defects before exact-head review.
     deterministic: true
@@ -3017,58 +3029,76 @@ work_packages:
     - diff
     - "--check"
     - origin/main...HEAD
-    defer_reason: null
+    defer_reason:
   architecture_decisions: []
   authority_boundary:
-  - Issue INT-01 owns only its declared repository paths and named external operation/evidence boundary.
-  - Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.
-  - The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.
+  - Issue INT-01 owns only its declared closeout step, repository paths, and named
+    external evidence boundary.
+  - Dependencies remain read-only inputs until terminal evidence satisfies the declared
+    gate.
+  - The issue may route findings but may not absorb another work package's remediation
+    without an explicit issue-graph revision.
   risks:
-  - A passing artifact could overstate production, legal, or release authority.
-  - Path or external-account overlap could collide with another active issue.
-  - Evidence could become stale if it is not tied to exact revisions and producer outcomes.
+  - A passing artifact could overstate release or closeout authority.
+  - Evidence could become stale if it is not tied to exact revisions and producer
+    outcomes.
+  - Skipping or combining closeout steps could hide blockers or break independent
+    review.
   review_prompts:
-  - Does the implementation satisfy every acceptance criterion through producer-derived evidence?
-  - Are all changed repository paths within the declared owned paths?
-  - Are dependency, authority, non-goal, stop, and residual-risk boundaries truthful?
+  - Does the implementation satisfy every acceptance criterion through producer-derived
+    evidence?
+  - Does this step consume terminal evidence from the immediately preceding canonical
+    closeout step?
+  - Are authority, dependency, non-goal, finding, and residual-risk boundaries truthful?
   - Can an independent reviewer reproduce the claimed result at the exact revision?
-  github_issue: null
-  github_url: null
-  status: planned_for_wp01_creation
+  github_issue:
+  github_url:
   creation_owner: WP-01
-- objective: Freeze and independently qualify the exact release candidate, then prove rollback before any release authorization.
-  scope: Artifact inventory, version and revision pinning, release checklist, company authority, change window, rollback triggers and commands, rehearsal, communications, and abort conditions.
+  status: planned_for_wp01_creation
+- objective: Evaluate the converged candidate against the milestone's complete quality,
+    security, reliability, portability, and evidence contract.
+  scope: Required PVF lanes, exact candidate revision, demo truth, security and dependency
+    findings, performance and reliability thresholds, documentation integrity, evidence
+    freshness, and release blockers.
   deliverables:
-  - Exact release-candidate manifest and signed-off checklist.
-  - Executed rollback rehearsal and operator ceremony runbook with abort evidence.
+  - Machine-readable quality-gate result for the exact candidate.
+  - Findings and blocker ledger with owners, severities, dispositions, and required
+    proof.
   acceptance_criteria:
-  - Every release artifact, source revision, schema, evidence bundle, and external dependency is pinned.
-  - Rollback is rehearsed from the candidate without data loss, dual authority, or hidden personal credentials.
-  - Named company authority, observers, timing, abort triggers, communication, and post-release verification are recorded.
-  - No release action occurs until the final operator authorization.
+  - The gate consumes terminal INT-01 demo truth at an exact candidate revision.
+  - Every mandatory quality and release criterion is evaluated from producer-derived
+    evidence or fails closed.
+  - No blocking finding is waived, hidden, or converted into an unsupported residual-risk
+    claim.
+  - The gate publishes an exact denominator of passed, failed, deferred, and not-applicable
+    criteria.
   non_goals:
-  - Publishing or tagging a release
-  - Closing milestone issues
-  - Substituting a written rollback plan for a rehearsal
-  validation_proof: Manifest digest, release checklist, authority readback, rollback execution, data/authority invariants, abort path, and independent ceremony review.
+  - Remediating findings inside the gate
+  - Approving release
+  - Replacing independent review
+  validation_proof: exact-candidate quality matrix, producer evidence readback, blocker
+    ledger, denominator reconciliation, and fail-closed negatives
   stop_conditions:
+  - Demo convergence is nonterminal
   - Candidate inputs drift
-  - Rollback fails
-  - Authority is ambiguous
-  - An unresolved blocker or external dependency appears
-  title: Qualify the release candidate and rehearse rollback
+  - A mandatory criterion lacks authoritative evidence
+  - The findings denominator cannot be reconciled
+  title: Run the milestone quality gate
   source_refs:
+  - docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md
   - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-02
   id: INT-02
   lane: integration
   depends_on:
   - INT-01
-  proof_summary: release checklist rollback rehearsal and exact artifact inventory
+  proof_summary: exact-candidate quality matrix, producer evidence readback, blocker
+    ledger, denominator reconciliation, and fail-closed negatives
   owned_paths:
   - docs/milestones/v0.92.1/evidence/integration/int-02/**
   pvf_lanes:
   - lane: int-02-outcome-contract
-    proof_role: Recompute every acceptance criterion from issue-owned artifacts and producer-derived evidence.
+    proof_role: Recompute every acceptance criterion from issue-owned artifacts and
+      producer-derived evidence.
     deterministic: true
     resource_profile: small
     budget_seconds: 600
@@ -3076,7 +3106,8 @@ work_packages:
     argv_template:
     - ruby
     - ".csdlc/prepared/issues/{issue}/validate-outcome.rb"
-    defer_reason: The issue-delivered validator is authored with the implementation and must pass before review.
+    defer_reason: The issue-delivered validator is authored with execution and must
+      pass before review.
   - lane: int-02-diff-hygiene
     proof_role: Reject whitespace and malformed-diff defects before exact-head review.
     deterministic: true
@@ -3088,57 +3119,75 @@ work_packages:
     - diff
     - "--check"
     - origin/main...HEAD
-    defer_reason: null
+    defer_reason:
   architecture_decisions: []
   authority_boundary:
-  - Issue INT-02 owns only its declared repository paths and named external operation/evidence boundary.
-  - Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.
-  - The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.
+  - Issue INT-02 owns only its declared closeout step, repository paths, and named
+    external evidence boundary.
+  - Dependencies remain read-only inputs until terminal evidence satisfies the declared
+    gate.
+  - The issue may route findings but may not absorb another work package's remediation
+    without an explicit issue-graph revision.
   risks:
-  - A passing artifact could overstate production, legal, or release authority.
-  - Path or external-account overlap could collide with another active issue.
-  - Evidence could become stale if it is not tied to exact revisions and producer outcomes.
+  - A passing artifact could overstate release or closeout authority.
+  - Evidence could become stale if it is not tied to exact revisions and producer
+    outcomes.
+  - Skipping or combining closeout steps could hide blockers or break independent
+    review.
   review_prompts:
-  - Does the implementation satisfy every acceptance criterion through producer-derived evidence?
-  - Are all changed repository paths within the declared owned paths?
-  - Are dependency, authority, non-goal, stop, and residual-risk boundaries truthful?
+  - Does the implementation satisfy every acceptance criterion through producer-derived
+    evidence?
+  - Does this step consume terminal evidence from the immediately preceding canonical
+    closeout step?
+  - Are authority, dependency, non-goal, finding, and residual-risk boundaries truthful?
   - Can an independent reviewer reproduce the claimed result at the exact revision?
-  github_issue: null
-  github_url: null
-  status: planned_for_wp01_creation
+  github_issue:
+  github_url:
   creation_owner: WP-01
-- objective: Prepare the downstream milestone package, residual-risk routing, and deferred V3-R01 eligibility contract before independent handoff review.
-  scope: Terminal v0.92.1 evidence, residual risks, deferred work, rollback-window metrics, V3-R01 eligibility, next milestone inputs, owners, dependencies, and explicit non-claims.
+  status: planned_for_wp01_creation
+- objective: Align public, operator, architecture, milestone, feature, demo, and review
+    documentation with the exact quality-gated implementation truth.
+  scope: READMEs, feature docs, ADRs, API and operator docs, milestone evidence, demo
+    claims, release notes, known limitations, residual risks, links, versions, and
+    review packets.
   deliverables:
-  - Accepted next-milestone handoff packet.
-  - V3-R01 eligibility record that remains blocked until rollback expiry and stability approval.
+  - Documentation-to-implementation alignment matrix.
+  - Review-ready packet with exact source, proof, non-claim, limitation, and residual-risk
+    references.
   acceptance_criteria:
-  - The handoff cites exact terminal release evidence and every accepted residual risk.
-  - Deferred work retains owners, dependencies, proof requirements, and routing without being presented as complete.
-  - V3-R01 remains ineligible until rollback expiry, stability metrics, historical readability, and explicit operator approval all pass.
-  - The downstream milestone can consume the packet without relying on chat or machine-local state.
+  - Every material product or release claim maps to exact quality-gated evidence.
+  - Contradictory, stale, placeholder, machine-local, or unsupported documentation
+    is corrected or explicitly quarantined.
+  - Release notes and review inputs identify limitations, non-claims, deferred work,
+    and residual risks without euphemism.
+  - The resulting review packet is portable and independently reproducible.
   non_goals:
-  - Approving the handoff
-  - Starting the downstream milestone
-  - Deleting C-SDLC v2
-  validation_proof: Terminal reference, deferred denominator, owner/dependency, V3-R01 eligibility, portability, link, placeholder, and independent handoff review.
+  - Changing implementation behavior
+  - Approving the release
+  - Suppressing quality-gate findings
+  validation_proof: claim-to-proof crosswalk, stale-text and portability scans, link
+    validation, review packet inventory, and exact-revision readback
   stop_conditions:
-  - A residual risk or deferred item lacks an owner
-  - Rollback window is still active for V3-R01
-  - The packet depends on untracked or machine-local state
-  title: Prepare the next-milestone handoff
+  - INT-02 is nonterminal
+  - A material claim lacks evidence
+  - Docs contradict runtime or lifecycle truth
+  - The review packet depends on machine-local state
+  title: Align documentation and review truth
   source_refs:
+  - docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md
   - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-03
   id: INT-03
   lane: integration
   depends_on:
   - INT-02
-  proof_summary: accepted handoff with V3-R01 eligibility gate
+  proof_summary: claim-to-proof crosswalk, stale-text and portability scans, link
+    validation, review packet inventory, and exact-revision readback
   owned_paths:
   - docs/milestones/v0.92.1/evidence/integration/int-03/**
   pvf_lanes:
   - lane: int-03-outcome-contract
-    proof_role: Recompute every acceptance criterion from issue-owned artifacts and producer-derived evidence.
+    proof_role: Recompute every acceptance criterion from issue-owned artifacts and
+      producer-derived evidence.
     deterministic: true
     resource_profile: small
     budget_seconds: 600
@@ -3146,7 +3195,8 @@ work_packages:
     argv_template:
     - ruby
     - ".csdlc/prepared/issues/{issue}/validate-outcome.rb"
-    defer_reason: The issue-delivered validator is authored with the implementation and must pass before review.
+    defer_reason: The issue-delivered validator is authored with execution and must
+      pass before review.
   - lane: int-03-diff-hygiene
     proof_role: Reject whitespace and malformed-diff defects before exact-head review.
     deterministic: true
@@ -3158,58 +3208,74 @@ work_packages:
     - diff
     - "--check"
     - origin/main...HEAD
-    defer_reason: null
+    defer_reason:
   architecture_decisions: []
   authority_boundary:
-  - Issue INT-03 owns only its declared repository paths and named external operation/evidence boundary.
-  - Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.
-  - The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.
+  - Issue INT-03 owns only its declared closeout step, repository paths, and named
+    external evidence boundary.
+  - Dependencies remain read-only inputs until terminal evidence satisfies the declared
+    gate.
+  - The issue may route findings but may not absorb another work package's remediation
+    without an explicit issue-graph revision.
   risks:
-  - A passing artifact could overstate production, legal, or release authority.
-  - Path or external-account overlap could collide with another active issue.
-  - Evidence could become stale if it is not tied to exact revisions and producer outcomes.
+  - A passing artifact could overstate release or closeout authority.
+  - Evidence could become stale if it is not tied to exact revisions and producer
+    outcomes.
+  - Skipping or combining closeout steps could hide blockers or break independent
+    review.
   review_prompts:
-  - Does the implementation satisfy every acceptance criterion through producer-derived evidence?
-  - Are all changed repository paths within the declared owned paths?
-  - Are dependency, authority, non-goal, stop, and residual-risk boundaries truthful?
+  - Does the implementation satisfy every acceptance criterion through producer-derived
+    evidence?
+  - Does this step consume terminal evidence from the immediately preceding canonical
+    closeout step?
+  - Are authority, dependency, non-goal, finding, and residual-risk boundaries truthful?
   - Can an independent reviewer reproduce the claimed result at the exact revision?
-  github_issue: null
-  github_url: null
-  status: planned_for_wp01_creation
+  github_issue:
+  github_url:
   creation_owner: WP-01
-- objective: Review the downstream milestone packet independently before it becomes accepted handoff authority.
-  scope: Source ancestry, delivered and deferred denominators, residual risks, owners, dependencies, proof obligations, non-claims, and downstream readiness.
+  status: planned_for_wp01_creation
+- objective: Conduct a findings-first internal review of the exact milestone candidate
+    and aligned evidence packet.
+  scope: Code and architecture, security, tests, documentation, operations, corporate
+    authority, C-SDLC behavior, distributed Runtime proof, demo truth, quality gates,
+    and release claims.
   deliverables:
-  - Exact-head independent handoff review.
-  - Finding disposition and accepted or rejected handoff decision.
+  - Exact-head internal review with specialist coverage and severity-ranked findings.
+  - Complete findings register routed to INT-06 with owners and proof expectations.
   acceptance_criteria:
-  - Every handoff claim maps to terminal v0.92.1 evidence or is labeled deferred or unknown.
-  - Every residual risk and deferred item has an owner, dependency, target milestone, and proof requirement.
-  - All blocking findings are remediated and re-reviewed before acceptance.
-  - The reviewer is independent from INT-03 authorship.
+  - The review is independent from the implementation authorship of the surfaces reviewed.
+  - All required specialist lanes inspect the exact candidate and source evidence
+    rather than summaries alone.
+  - Every finding has evidence, severity, owner, required remediation or explicit
+    accepted disposition, and verification method.
+  - The full findings denominator and reviewer disagreements remain visible.
   non_goals:
-  - Starting downstream execution
-  - Rewriting terminal v0.92.1 evidence
+  - Implementing remediation
   - Approving release ceremony
-  validation_proof: Exact-head review receipt, finding denominator, disposition validation, source-link checks, and accepted handoff decision.
+  - Replacing external review
+  validation_proof: exact-head specialist review receipts, coverage ledger, findings
+    denominator, ownership routing, and independence statement
   stop_conditions:
-  - INT-03 is not terminal
-  - A source or terminal receipt is stale
-  - A blocker remains unresolved
+  - INT-03 is nonterminal
   - Reviewer independence is unavailable
-  title: Independently review the next-milestone handoff
+  - A required review lane is missing
+  - The reviewed head or evidence changes during review
+  title: Conduct internal milestone review
   source_refs:
+  - docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md
   - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-04
   id: INT-04
   lane: integration
   depends_on:
   - INT-03
-  proof_summary: Exact-head review receipt, finding denominator, disposition validation, source-link checks, and accepted handoff decision.
+  proof_summary: exact-head specialist review receipts, coverage ledger, findings
+    denominator, ownership routing, and independence statement
   owned_paths:
   - docs/milestones/v0.92.1/evidence/integration/int-04/**
   pvf_lanes:
   - lane: int-04-outcome-contract
-    proof_role: Recompute every acceptance criterion from issue-owned artifacts and producer-derived evidence.
+    proof_role: Recompute every acceptance criterion from issue-owned artifacts and
+      producer-derived evidence.
     deterministic: true
     resource_profile: small
     budget_seconds: 600
@@ -3217,7 +3283,8 @@ work_packages:
     argv_template:
     - ruby
     - ".csdlc/prepared/issues/{issue}/validate-outcome.rb"
-    defer_reason: The issue-delivered validator is authored with execution and must pass before review.
+    defer_reason: The issue-delivered validator is authored with execution and must
+      pass before review.
   - lane: int-04-diff-hygiene
     proof_role: Reject whitespace and malformed-diff defects before exact-head review.
     deterministic: true
@@ -3229,59 +3296,76 @@ work_packages:
     - diff
     - "--check"
     - origin/main...HEAD
-    defer_reason: null
+    defer_reason:
   architecture_decisions: []
   authority_boundary:
-  - Issue INT-04 owns only its declared repository paths and named external operation/evidence boundary.
-  - Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.
-  - The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.
+  - Issue INT-04 owns only its declared closeout step, repository paths, and named
+    external evidence boundary.
+  - Dependencies remain read-only inputs until terminal evidence satisfies the declared
+    gate.
+  - The issue may route findings but may not absorb another work package's remediation
+    without an explicit issue-graph revision.
   risks:
   - A passing artifact could overstate release or closeout authority.
-  - Issue creation or terminal state could drift from the reviewed WBS.
-  - Evidence could become stale if it is not tied to exact revisions and producer outcomes.
+  - Evidence could become stale if it is not tied to exact revisions and producer
+    outcomes.
+  - Skipping or combining closeout steps could hide blockers or break independent
+    review.
   review_prompts:
-  - Does the implementation satisfy every acceptance criterion through producer-derived evidence?
-  - Are all changed repository paths within the declared owned paths?
-  - Are dependency, authority, non-goal, stop, and residual-risk boundaries truthful?
+  - Does the implementation satisfy every acceptance criterion through producer-derived
+    evidence?
+  - Does this step consume terminal evidence from the immediately preceding canonical
+    closeout step?
+  - Are authority, dependency, non-goal, finding, and residual-risk boundaries truthful?
   - Can an independent reviewer reproduce the claimed result at the exact revision?
-  github_issue: null
-  github_url: null
+  github_issue:
+  github_url:
   creation_owner: WP-01
   status: planned_for_wp01_creation
-- objective: Perform the bounded release ceremony only after qualification and downstream handoff acceptance.
-  scope: Final operator authorization, exact candidate, release tag and notes, publication steps, abort conditions, rollback trigger, and immediate verification.
+- objective: Obtain an independent external review of the exact candidate, claims,
+    evidence, and unresolved internal findings before remediation closes.
+  scope: Externally reviewable code, architecture, security, tests, documentation,
+    demos, operational assumptions, release claims, internal findings, non-claims,
+    and residual risks, subject to confidentiality boundaries.
   deliverables:
-  - Operator authorization and release ceremony receipt.
-  - Verified release tag, notes, artifacts, and immediate post-release checks.
+  - Exact-candidate external review packet and reviewer receipt.
+  - External findings and disagreements routed to INT-06 with complete provenance.
   acceptance_criteria:
-  - INT-02 and INT-04 are terminal and exact candidate inputs have not drifted.
-  - Explicit operator authorization is recorded before any release mutation.
-  - Tag, notes, artifacts, and publication state match the approved candidate exactly.
-  - Abort and rollback triggers remain executable throughout the ceremony.
+  - The external reviewer receives a redacted but sufficient exact-revision evidence
+    packet.
+  - The review evaluates claims independently and does not inherit internal PASS conclusions
+    as authority.
+  - Every returned finding or disagreement is recorded with severity, evidence, owner,
+    and verification requirement.
+  - Confidential, legal, credential, and personal information remains outside the
+    review packet.
   non_goals:
-  - Implicit or autonomous release
-  - Milestone closeout
-  - Changing accepted candidate contents
-  validation_proof: Authorization readback, exact candidate digest, release mutation readback, post-release verification, and abort or rollback evidence.
+  - Disclosing restricted corporate evidence
+  - Implementing remediation
+  - Granting release authority to the reviewer
+  validation_proof: external packet inventory, exact-revision receipt, redaction audit,
+    findings denominator, and routing ledger
   stop_conditions:
-  - Operator authorization is absent
-  - Candidate drift is detected
-  - A release check or handoff review is incomplete
-  - Rollback is unavailable
-  title: Execute the operator-authorized release ceremony
+  - INT-04 is nonterminal
+  - The external packet is insufficient or over-disclosing
+  - Reviewer identity or independence is unclear
+  - Returned findings cannot be retained faithfully
+  title: Conduct external milestone review
   source_refs:
+  - docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md
   - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-05
   id: INT-05
   lane: integration
   depends_on:
-  - INT-02
   - INT-04
-  proof_summary: Authorization readback, exact candidate digest, release mutation readback, post-release verification, and abort or rollback evidence.
+  proof_summary: external packet inventory, exact-revision receipt, redaction audit,
+    findings denominator, and routing ledger
   owned_paths:
   - docs/milestones/v0.92.1/evidence/integration/int-05/**
   pvf_lanes:
   - lane: int-05-outcome-contract
-    proof_role: Recompute every acceptance criterion from issue-owned artifacts and producer-derived evidence.
+    proof_role: Recompute every acceptance criterion from issue-owned artifacts and
+      producer-derived evidence.
     deterministic: true
     resource_profile: small
     budget_seconds: 600
@@ -3289,7 +3373,8 @@ work_packages:
     argv_template:
     - ruby
     - ".csdlc/prepared/issues/{issue}/validate-outcome.rb"
-    defer_reason: The issue-delivered validator is authored with execution and must pass before review.
+    defer_reason: The issue-delivered validator is authored with execution and must
+      pass before review.
   - lane: int-05-diff-hygiene
     proof_role: Reject whitespace and malformed-diff defects before exact-head review.
     deterministic: true
@@ -3301,60 +3386,77 @@ work_packages:
     - diff
     - "--check"
     - origin/main...HEAD
-    defer_reason: null
+    defer_reason:
   architecture_decisions: []
   authority_boundary:
-  - Issue INT-05 owns only its declared repository paths and named external operation/evidence boundary.
-  - Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.
-  - The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.
+  - Issue INT-05 owns only its declared closeout step, repository paths, and named
+    external evidence boundary.
+  - Dependencies remain read-only inputs until terminal evidence satisfies the declared
+    gate.
+  - The issue may route findings but may not absorb another work package's remediation
+    without an explicit issue-graph revision.
   risks:
   - A passing artifact could overstate release or closeout authority.
-  - Issue creation or terminal state could drift from the reviewed WBS.
-  - Evidence could become stale if it is not tied to exact revisions and producer outcomes.
+  - Evidence could become stale if it is not tied to exact revisions and producer
+    outcomes.
+  - Skipping or combining closeout steps could hide blockers or break independent
+    review.
   review_prompts:
-  - Does the implementation satisfy every acceptance criterion through producer-derived evidence?
-  - Are all changed repository paths within the declared owned paths?
-  - Are dependency, authority, non-goal, stop, and residual-risk boundaries truthful?
+  - Does the implementation satisfy every acceptance criterion through producer-derived
+    evidence?
+  - Does this step consume terminal evidence from the immediately preceding canonical
+    closeout step?
+  - Are authority, dependency, non-goal, finding, and residual-risk boundaries truthful?
   - Can an independent reviewer reproduce the claimed result at the exact revision?
-  github_issue: null
-  github_url: null
+  github_issue:
+  github_url:
   creation_owner: WP-01
   status: planned_for_wp01_creation
-- objective: Reconcile and close the complete v0.92.1 issue graph after the authorized release ceremony succeeds.
-  scope: Child and umbrella terminal census, C-SDLC finish receipts, milestone status, release evidence, deferred routing, worktree cleanup classification, and downstream handoff confirmation.
+- objective: Remediate all release-blocking internal and external findings and run
+    a final exact-candidate preflight with rollback proof.
+  scope: Internal and external findings, quality-gate failures, bounded remediation,
+    exact-head re-review, release-candidate manifest, required PVF lanes, rollback
+    rehearsal, abort triggers, authority checks, and go/no-go recommendation.
   deliverables:
-  - Complete terminal child and umbrella ledger.
-  - Milestone closeout report with release, handoff, deferred work, and cleanup truth.
+  - Terminal findings disposition ledger with exact remediation and re-review evidence.
+  - Frozen release-candidate manifest, successful final preflight, rollback rehearsal,
+    and go/no-go recommendation.
   acceptance_criteria:
-  - Every created child issue has one terminal disposition and every umbrella reconciles its exact child denominator.
-  - All implementation issues close through their merged PR or an explicit reviewed no-PR disposition.
-  - Deferred V3-R01 remains open or routed according to its accepted eligibility contract and is not falsely completed.
-  - The milestone closes only after release and handoff evidence are terminal.
-  - Each registered worktree receives a separate cleanup classification; dirty or drifted work is preserved.
+  - Every P1/P2 and release-blocking finding has verified remediation or an explicit
+    operator-approved non-release disposition.
+  - All changed remediation surfaces receive exact-head re-review and required focused
+    validation.
+  - The candidate manifest pins every source revision, artifact, schema, evidence
+    bundle, and external dependency.
+  - Rollback is rehearsed without data loss, dual authority, hidden personal credentials,
+    or cleanup residue.
   non_goals:
-  - Implementing unfinished work
-  - Deleting historical evidence
-  - Forcing worktree removal
-  - Treating deferral as completion
-  validation_proof: Live issue and PR census, typed finish receipts, umbrella reconciliation, milestone readback, release and handoff linkage, and cleanup classification report.
+  - Waiving blockers
+  - Publishing or tagging the release
+  - Hiding deferred work as remediation
+  validation_proof: finding-disposition census, exact-head re-reviews, final PVF receipts,
+    candidate digest, rollback rehearsal, abort-path proof, and go-no-go record
   stop_conditions:
-  - Any child lacks terminal truth
-  - A closing PR or release receipt is ambiguous
-  - Deferred work lacks routing
-  - Cleanup would discard dirty or drifted work
-  title: Close milestone issues umbrellas records and handoff
+  - A blocker remains unresolved
+  - Candidate inputs drift
+  - Required validation or re-review fails
+  - Rollback or authority is ambiguous
+  title: Remediate findings and run final preflight
   source_refs:
+  - docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md
   - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-06
   id: INT-06
   lane: integration
   depends_on:
   - INT-05
-  proof_summary: Live issue and PR census, typed finish receipts, umbrella reconciliation, milestone readback, release and handoff linkage, and cleanup classification report.
+  proof_summary: finding-disposition census, exact-head re-reviews, final PVF receipts,
+    candidate digest, rollback rehearsal, abort-path proof, and go-no-go record
   owned_paths:
   - docs/milestones/v0.92.1/evidence/integration/int-06/**
   pvf_lanes:
   - lane: int-06-outcome-contract
-    proof_role: Recompute every acceptance criterion from issue-owned artifacts and producer-derived evidence.
+    proof_role: Recompute every acceptance criterion from issue-owned artifacts and
+      producer-derived evidence.
     deterministic: true
     resource_profile: small
     budget_seconds: 600
@@ -3362,7 +3464,8 @@ work_packages:
     argv_template:
     - ruby
     - ".csdlc/prepared/issues/{issue}/validate-outcome.rb"
-    defer_reason: The issue-delivered validator is authored with execution and must pass before review.
+    defer_reason: The issue-delivered validator is authored with execution and must
+      pass before review.
   - lane: int-06-diff-hygiene
     proof_role: Reject whitespace and malformed-diff defects before exact-head review.
     deterministic: true
@@ -3374,23 +3477,304 @@ work_packages:
     - diff
     - "--check"
     - origin/main...HEAD
-    defer_reason: null
+    defer_reason:
   architecture_decisions: []
   authority_boundary:
-  - Issue INT-06 owns only its declared repository paths and named external operation/evidence boundary.
-  - Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.
-  - The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.
+  - Issue INT-06 owns only its declared closeout step, repository paths, and named
+    external evidence boundary.
+  - Dependencies remain read-only inputs until terminal evidence satisfies the declared
+    gate.
+  - The issue may route findings but may not absorb another work package's remediation
+    without an explicit issue-graph revision.
   risks:
   - A passing artifact could overstate release or closeout authority.
-  - Issue creation or terminal state could drift from the reviewed WBS.
-  - Evidence could become stale if it is not tied to exact revisions and producer outcomes.
+  - Evidence could become stale if it is not tied to exact revisions and producer
+    outcomes.
+  - Skipping or combining closeout steps could hide blockers or break independent
+    review.
   review_prompts:
-  - Does the implementation satisfy every acceptance criterion through producer-derived evidence?
-  - Are all changed repository paths within the declared owned paths?
-  - Are dependency, authority, non-goal, stop, and residual-risk boundaries truthful?
+  - Does the implementation satisfy every acceptance criterion through producer-derived
+    evidence?
+  - Does this step consume terminal evidence from the immediately preceding canonical
+    closeout step?
+  - Are authority, dependency, non-goal, finding, and residual-risk boundaries truthful?
   - Can an independent reviewer reproduce the claimed result at the exact revision?
-  github_issue: null
-  github_url: null
+  github_issue:
+  github_url:
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
+- objective: Prepare the downstream milestone package and route all deferred work
+    and residual risks before the current release ceremony.
+  scope: Terminal v0.92.1 evidence, residual risks, deferred work, rollback-window
+    metrics, V3-R01 eligibility, next-milestone goals, WBS, dependencies, owners,
+    proof requirements, non-goals, and opening and closeout sequence.
+  deliverables:
+  - Complete downstream milestone planning package.
+  - Deferred-work and V3-R01 eligibility register with owners, gates, and proof requirements.
+  acceptance_criteria:
+  - The plan cites exact terminal preflight evidence and every accepted residual risk.
+  - Deferred work retains owners, dependencies, target milestone, proof requirements,
+    and routing without being presented as complete.
+  - V3-R01 remains ineligible until rollback expiry, stability metrics, historical
+    readability, and explicit operator approval pass.
+  - The downstream milestone includes the standard opening gate and nine-step closeout
+    tail.
+  non_goals:
+  - Approving the downstream plan
+  - Starting downstream execution
+  - Deleting C-SDLC v2
+  validation_proof: source ancestry, WBS and dependency validation, deferred denominator,
+    owner and proof mapping, standard-tail conformance, and portability checks
+  stop_conditions:
+  - INT-06 is nonterminal
+  - A residual risk or deferred item lacks an owner
+  - The WBS omits standard opening or closeout gates
+  - The packet relies on chat or machine-local state
+  title: Plan the next milestone
+  source_refs:
+  - docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md
+  - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-07
+  id: INT-07
+  lane: integration
+  depends_on:
+  - INT-06
+  proof_summary: source ancestry, WBS and dependency validation, deferred denominator,
+    owner and proof mapping, standard-tail conformance, and portability checks
+  owned_paths:
+  - docs/milestones/v0.92.1/evidence/integration/int-07/**
+  pvf_lanes:
+  - lane: int-07-outcome-contract
+    proof_role: Recompute every acceptance criterion from issue-owned artifacts and
+      producer-derived evidence.
+    deterministic: true
+    resource_profile: small
+    budget_seconds: 600
+    budget_tokens: 4000
+    argv_template:
+    - ruby
+    - ".csdlc/prepared/issues/{issue}/validate-outcome.rb"
+    defer_reason: The issue-delivered validator is authored with execution and must
+      pass before review.
+  - lane: int-07-diff-hygiene
+    proof_role: Reject whitespace and malformed-diff defects before exact-head review.
+    deterministic: true
+    resource_profile: small
+    budget_seconds: 60
+    budget_tokens: 500
+    argv_template:
+    - git
+    - diff
+    - "--check"
+    - origin/main...HEAD
+    defer_reason:
+  architecture_decisions: []
+  authority_boundary:
+  - Issue INT-07 owns only its declared closeout step, repository paths, and named
+    external evidence boundary.
+  - Dependencies remain read-only inputs until terminal evidence satisfies the declared
+    gate.
+  - The issue may route findings but may not absorb another work package's remediation
+    without an explicit issue-graph revision.
+  risks:
+  - A passing artifact could overstate release or closeout authority.
+  - Evidence could become stale if it is not tied to exact revisions and producer
+    outcomes.
+  - Skipping or combining closeout steps could hide blockers or break independent
+    review.
+  review_prompts:
+  - Does the implementation satisfy every acceptance criterion through producer-derived
+    evidence?
+  - Does this step consume terminal evidence from the immediately preceding canonical
+    closeout step?
+  - Are authority, dependency, non-goal, finding, and residual-risk boundaries truthful?
+  - Can an independent reviewer reproduce the claimed result at the exact revision?
+  github_issue:
+  github_url:
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
+- objective: Independently review the downstream milestone package before it becomes
+    accepted handoff authority.
+  scope: Source ancestry, WBS completeness, opening and closeout sequence, delivered
+    and deferred denominators, residual risks, owners, dependencies, proof obligations,
+    non-claims, and execution readiness boundaries.
+  deliverables:
+  - Exact-head independent next-milestone review.
+  - Finding disposition and accepted or rejected handoff decision.
+  acceptance_criteria:
+  - Every handoff claim maps to terminal v0.92.1 evidence or is labeled deferred or
+    unknown.
+  - Every residual risk and deferred item has an owner, dependency, target milestone,
+    and proof requirement.
+  - The WBS conforms to the standard opening and nine-step closeout sequence.
+  - All blocking findings are remediated and re-reviewed by a reviewer independent
+    from INT-07 authorship.
+  non_goals:
+  - Starting downstream execution
+  - Rewriting terminal v0.92.1 evidence
+  - Approving release ceremony
+  validation_proof: exact-head review receipt, WBS conformance check, finding denominator,
+    disposition validation, source-link checks, and accepted handoff decision
+  stop_conditions:
+  - INT-07 is nonterminal
+  - A source or terminal receipt is stale
+  - A blocker remains unresolved
+  - Reviewer independence is unavailable
+  title: Independently review the next-milestone plan
+  source_refs:
+  - docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md
+  - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-08
+  id: INT-08
+  lane: integration
+  depends_on:
+  - INT-07
+  proof_summary: exact-head review receipt, WBS conformance check, finding denominator,
+    disposition validation, source-link checks, and accepted handoff decision
+  owned_paths:
+  - docs/milestones/v0.92.1/evidence/integration/int-08/**
+  pvf_lanes:
+  - lane: int-08-outcome-contract
+    proof_role: Recompute every acceptance criterion from issue-owned artifacts and
+      producer-derived evidence.
+    deterministic: true
+    resource_profile: small
+    budget_seconds: 600
+    budget_tokens: 4000
+    argv_template:
+    - ruby
+    - ".csdlc/prepared/issues/{issue}/validate-outcome.rb"
+    defer_reason: The issue-delivered validator is authored with execution and must
+      pass before review.
+  - lane: int-08-diff-hygiene
+    proof_role: Reject whitespace and malformed-diff defects before exact-head review.
+    deterministic: true
+    resource_profile: small
+    budget_seconds: 60
+    budget_tokens: 500
+    argv_template:
+    - git
+    - diff
+    - "--check"
+    - origin/main...HEAD
+    defer_reason:
+  architecture_decisions: []
+  authority_boundary:
+  - Issue INT-08 owns only its declared closeout step, repository paths, and named
+    external evidence boundary.
+  - Dependencies remain read-only inputs until terminal evidence satisfies the declared
+    gate.
+  - The issue may route findings but may not absorb another work package's remediation
+    without an explicit issue-graph revision.
+  risks:
+  - A passing artifact could overstate release or closeout authority.
+  - Evidence could become stale if it is not tied to exact revisions and producer
+    outcomes.
+  - Skipping or combining closeout steps could hide blockers or break independent
+    review.
+  review_prompts:
+  - Does the implementation satisfy every acceptance criterion through producer-derived
+    evidence?
+  - Does this step consume terminal evidence from the immediately preceding canonical
+    closeout step?
+  - Are authority, dependency, non-goal, finding, and residual-risk boundaries truthful?
+  - Can an independent reviewer reproduce the claimed result at the exact revision?
+  github_issue:
+  github_url:
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
+- objective: Perform the operator-authorized release ceremony and complete truthful
+    milestone lifecycle closeout at the approved candidate.
+  scope: Final operator authorization, exact candidate readback, release tag and notes,
+    publication, immediate verification, abort and rollback triggers, child and umbrella
+    terminal census, milestone status, accepted handoff, and separate non-destructive
+    cleanup classification.
+  deliverables:
+  - Operator-authorized release receipt with verified tag, notes, artifacts, and immediate
+    checks.
+  - Complete terminal child, umbrella, milestone, lifecycle, handoff, and cleanup
+    ledger.
+  acceptance_criteria:
+  - INT-06 and INT-08 are terminal and exact candidate inputs have not drifted.
+  - Explicit operator authorization is recorded before any release mutation.
+  - Tag, notes, artifacts, publication state, and post-release checks match the approved
+    candidate exactly.
+  - Every created child has one terminal disposition and every umbrella reconciles
+    its exact denominator.
+  - Deferred work remains truthfully routed, and dirty or drifted worktrees are preserved
+    by separate cleanup classification.
+  non_goals:
+  - Implicit or autonomous release
+  - Changing accepted candidate contents
+  - Treating deferral as completion
+  - Forcing destructive cleanup
+  validation_proof: authorization readback, candidate digest, release mutation readback,
+    post-release verification, terminal issue and umbrella census, typed finish receipts,
+    handoff linkage, and cleanup classification
+  stop_conditions:
+  - Operator authorization is absent
+  - Candidate drift or release verification failure is detected
+  - Any child or umbrella lacks terminal truth
+  - Deferred routing or safe cleanup classification is incomplete
+  title: Execute the release ceremony and close the milestone
+  source_refs:
+  - docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md
+  - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-09
+  id: INT-09
+  lane: integration
+  depends_on:
+  - INT-08
+  proof_summary: authorization readback, candidate digest, release mutation readback,
+    post-release verification, terminal issue and umbrella census, typed finish receipts,
+    handoff linkage, and cleanup classification
+  owned_paths:
+  - docs/milestones/v0.92.1/evidence/integration/int-09/**
+  pvf_lanes:
+  - lane: int-09-outcome-contract
+    proof_role: Recompute every acceptance criterion from issue-owned artifacts and
+      producer-derived evidence.
+    deterministic: true
+    resource_profile: small
+    budget_seconds: 600
+    budget_tokens: 4000
+    argv_template:
+    - ruby
+    - ".csdlc/prepared/issues/{issue}/validate-outcome.rb"
+    defer_reason: The issue-delivered validator is authored with execution and must
+      pass before review.
+  - lane: int-09-diff-hygiene
+    proof_role: Reject whitespace and malformed-diff defects before exact-head review.
+    deterministic: true
+    resource_profile: small
+    budget_seconds: 60
+    budget_tokens: 500
+    argv_template:
+    - git
+    - diff
+    - "--check"
+    - origin/main...HEAD
+    defer_reason:
+  architecture_decisions: []
+  authority_boundary:
+  - Issue INT-09 owns only its declared closeout step, repository paths, and named
+    external evidence boundary.
+  - Dependencies remain read-only inputs until terminal evidence satisfies the declared
+    gate.
+  - The issue may route findings but may not absorb another work package's remediation
+    without an explicit issue-graph revision.
+  risks:
+  - A passing artifact could overstate release or closeout authority.
+  - Evidence could become stale if it is not tied to exact revisions and producer
+    outcomes.
+  - Skipping or combining closeout steps could hide blockers or break independent
+    review.
+  review_prompts:
+  - Does the implementation satisfy every acceptance criterion through producer-derived
+    evidence?
+  - Does this step consume terminal evidence from the immediately preceding canonical
+    closeout step?
+  - Are authority, dependency, non-goal, finding, and residual-risk boundaries truthful?
+  - Can an independent reviewer reproduce the claimed result at the exact revision?
+  github_issue:
+  github_url:
   creation_owner: WP-01
   status: planned_for_wp01_creation
 opening_work_package: WP-01

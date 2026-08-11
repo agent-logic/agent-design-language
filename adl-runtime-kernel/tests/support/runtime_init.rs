@@ -14,6 +14,15 @@ pub fn write_with_certificate_for_state(
     address: std::net::SocketAddr,
     state_root: &Path,
 ) -> (PathBuf, Vec<u8>) {
+    write_with_certificate_for_state_and_ingress_capacity(directory, address, state_root, 64)
+}
+
+pub fn write_with_certificate_for_state_and_ingress_capacity(
+    directory: &Path,
+    address: std::net::SocketAddr,
+    state_root: &Path,
+    canonical_ingress_capacity: usize,
+) -> (PathBuf, Vec<u8>) {
     use rcgen::{
         date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer, IsCa, KeyPair,
     };
@@ -89,6 +98,7 @@ observability_dir = "observability"
 recorder_capacity = 32
 control_history_capacity = 64
 checkpoint_channel_capacity = 4
+canonical_ingress_capacity = {}
 component_readiness_timeout_millis = 5000
 observability_poll_millis = 50
 weather_stale_after_millis = 75
@@ -184,6 +194,7 @@ snapshot_concurrency = 4
 "#,
             toml_path(state_root),
             toml_path(&kernel),
+            canonical_ingress_capacity,
             address,
             address.port(),
             toml_path(&certificate),

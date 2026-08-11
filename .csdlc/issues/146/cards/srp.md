@@ -15,7 +15,6 @@ Status: draft
 .csdlc/issues/146
 .csdlc/prepared/issues/146
 docs/milestones/v0.92.1
-csdlc-v3/README.md
 
 ## Prompts
 
@@ -39,8 +38,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:dd67013066c1dbcd50634fdb30b24e8125eea242:87fa32c75d3b51e84287b5a931b817150089a0493a4371853aa49f09d4c936e3")
+Revision: Some("git-blake3:2ea89bd158d95893b0f66f0ef162cd98f8736e53:f78043f27b48003f7345a3ce68ee052b494f7b9d0ef829195c1040d973be5a73")
 
-Reviewer: Some("subagent:019fedce-d5f3-7132-beed-c0786c120156")
+Reviewer: Some("subagent:019fee2b-d867-7702-94df-5efbb4cdb84c")
 
 Result: pass

@@ -12,31 +12,30 @@ Status: pre_phase
 
 ## Summary
 
-Corrected the v0.92.1 milestone package to planning-only posture. The complete 42-work-package design remains preserved; after the operator creates WP-01, WP-01 exclusively owns creation and validation of the downstream live issue wave.
+Corrected the planning-only v0.92.1 WBS to use the canonical nine-step milestone closeout sequence from the tracked v0.91.6 closeout-tail authority. The package now contains 45 fully specified work packages, while future WP-01 remains the sole child-issue creation authority.
 
 ## Artifacts
 
-- docs/milestones/v0.92.1/README.md
-- docs/milestones/v0.92.1/WBS_v0.92.1.md
 - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml
 - docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml
-- docs/milestones/v0.92.1/WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml
-- docs/milestones/v0.92.1/planned-issue-packets/README.md
-- docs/milestones/v0.92.1/planned-issue-packets/manifest.json
+- docs/milestones/v0.92.1/WBS_v0.92.1.md
+- docs/milestones/v0.92.1/SPRINT_v0.92.1.md
+- docs/milestones/v0.92.1/DESIGN_v0.92.1.md
 - docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md
 - docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md
 - docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md
+- docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md
+- .csdlc/prepared/issues/146/design.md
+- .csdlc/prepared/issues/146/diagram.mmd
 - .csdlc/prepared/issues/146/validate-v0921-package.rb
-- .csdlc/prepared/issues/146/validate-v0921-links.rb
 
 ## Execution
 
-- Retired prematurely created issues #149-#190 without execution and recorded that disposition in a machine-readable retirement ledger.
-- Moved the premature child lifecycle packets, designs, diagrams, validators, and distributed proof stubs into a non-authoritative planning archive; retained every detailed work-package objective, scope, deliverable, acceptance criterion, non-goal, owned path, PVF lane, stop condition, and review requirement.
-- Added WP-01 as the sole milestone-opening and child-issue creation authority after the planning package merges.
-- Removed live issue numbers and URLs from the planned issue wave and execution specifications.
-- Expanded the integration tail to include integrated review, release qualification, next-milestone planning, independent handoff review, operator-authorized release ceremony, and terminal milestone closeout.
-- Preserved all eleven mandatory C-SDLC v3 architecture decisions and the corporate, C-SDLC v3, and distributed Runtime qualification plans.
+- Replaced the collapsed six-step integration tail with INT-01 demo convergence, INT-02 quality gate, INT-03 docs and review alignment, INT-04 internal review, INT-05 external review, INT-06 remediation and final preflight, INT-07 next-milestone planning, INT-08 next-milestone review, and INT-09 release ceremony with lifecycle closeout.
+- Made every closeout work package execution-ready with issue-specific objectives, scope, deliverables, acceptance criteria, non-goals, owned paths, PVF lanes, authority boundaries, risks, stop conditions, review prompts, and source references.
+- Aligned the WBS, sprint, design, readiness gates, checklist, release plan, feature-proof coverage, diagrams, issue wave, execution specifications, and validator to one sequence.
+- Made release ceremony the terminal lifecycle boundary instead of creating a separate post-ceremony closeout package.
+- Preserved the 721-file premature-issue planning archive byte-for-byte and created no child issues.
 
 ## Validation
 
@@ -46,7 +45,7 @@ Corrected the v0.92.1 milestone package to planning-only posture. The complete 4
       "ruby",
       ".csdlc/prepared/issues/146/validate-v0921-package.rb"
     ],
-    "purpose": "Validate planning-only posture, the preserved 42-work-package denominator, all 721 source-commit-anchored archive digests, operator bootstrap of WP-01, WP-01 downstream creation authority, retirement truth, complete lifecycle sequence, dependency graph, and exact ownership mapping for all eleven v3 decisions.",
+    "purpose": "Validate planning-only posture, the exact 45-work-package denominator, canonical nine-step closeout roles and dependencies, archive integrity, WP-01 creation authority, source links, and all prior milestone invariants.",
     "outcome": "passed",
     "evidence_ref": "PASS: v0.92.1 planning-only package and standard lifecycle WBS"
   },
@@ -55,7 +54,7 @@ Corrected the v0.92.1 milestone package to planning-only posture. The complete 4
       "ruby",
       ".csdlc/prepared/issues/146/validate-v0921-links.rb"
     ],
-    "purpose": "Validate milestone YAML, repository links, and placeholder hygiene after removing premature live issue authority.",
+    "purpose": "Validate milestone YAML, tracked source links, and placeholder hygiene.",
     "outcome": "passed",
     "evidence_ref": "PASS: v0.92.1 YAML, links, and placeholders"
   },
@@ -65,7 +64,7 @@ Corrected the v0.92.1 milestone package to planning-only posture. The complete 4
       "diff",
       "--check"
     ],
-    "purpose": "Reject malformed diff and whitespace errors in the corrected planning package.",
+    "purpose": "Reject malformed diff and whitespace errors in the planning-only correction.",
     "outcome": "passed",
     "evidence_ref": "git diff --check exited 0 on 2026-08-10"
   }

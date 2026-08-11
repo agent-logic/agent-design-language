@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/5857/diagram.mmd
 
 [
   {
-    "lane": "v092-sprint-package",
-    "proof_role": "Sprint membership, packet completeness, child authority boundaries, and review-ready coordination truth",
+    "lane": "sprint4-terminal-review",
+    "proof_role": "Validate the exact Sprint 4 child roster, qualified issue and PR closure, merge ancestry, retained exact-head reviews, lifecycle truth, review packet completeness, and public non-claims.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -35,13 +35,13 @@ Diagram: .csdlc/prepared/issues/5857/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 3000,
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
     "argv": [
       "ruby",
-      ".csdlc/prepared/issues/5817/validate-v092-package.rb"
+      ".csdlc/prepared/issues/5857/validate-sprint-review.rb"
     ],
-    "parallel_group": "v092-docs",
+    "parallel_group": "5857-review",
     "defer_reason": null
   }
 ]
@@ -58,7 +58,7 @@ Tokens: 25000
 
 ## Commands
 
-- `ruby .csdlc/prepared/issues/5817/validate-v092-package.rb`
+- `ruby .csdlc/prepared/issues/5857/validate-sprint-review.rb`
 
 ## Failure Semantics
 

@@ -10,12 +10,15 @@ start the execution wave.
 | Planning | Setup issue `#146` | Review and merge the planning-only milestone package |
 | Opening | WP-01 | Create the milestone, labels, umbrellas, child issues, cards, exact live map, readiness proof, and explicit start gate |
 | Execution | Lanes A-C | Execute only dependency-ready child packages under their coordination umbrellas |
-| Integrated review | INT-01 | Independently review all lane evidence and remediate every blocker |
-| Release qualification | INT-02 | Freeze the exact candidate, qualify it, rehearse rollback, and issue a go/no-go recommendation |
-| Next-milestone planning | INT-03 | Prepare the downstream milestone and deferred-work handoff |
-| Next-milestone review | INT-04 | Independently review and accept or reject that handoff |
-| Release ceremony | INT-05 | Release only with explicit operator authorization and exact-candidate readback |
-| Terminal closeout | INT-06 | Reconcile and close child issues, umbrellas, milestone records, handoff, and cleanup classifications |
+| Demo convergence | INT-01 | Converge every release-relevant demo at exact terminal lane revisions |
+| Quality gate | INT-02 | Evaluate the exact candidate against the complete milestone quality contract |
+| Docs and review alignment | INT-03 | Align documentation, claims, and review inputs with quality-gated truth |
+| Internal review | INT-04 | Conduct findings-first internal specialist review at the exact candidate |
+| External review | INT-05 | Obtain independent external review within the declared confidentiality boundary |
+| Remediation and final preflight | INT-06 | Remediate blockers, re-review changes, freeze the candidate, and rehearse rollback |
+| Next-milestone planning | INT-07 | Prepare the downstream milestone and deferred-work handoff |
+| Next-milestone review | INT-08 | Independently review and accept or reject that handoff |
+| Release ceremony and closeout | INT-09 | Release only with explicit operator authorization, then reconcile terminal milestone truth |
 
 WP-01 is the sole creator of the future live issue wave. Retired issues
 `#149-#190` are historical planning mistakes and must not be reopened or used as
@@ -67,12 +70,15 @@ eleven architecture decisions remain explicit gates. See the machine-readable
 
 | WP | Outcome | Depends on |
 | --- | --- | --- |
-| INT-01 | Independent integrated review and remediation | CORP-08, V3-16, DRT-07 |
-| INT-02 | Release-candidate qualification and rollback rehearsal | INT-01 |
-| INT-03 | Next-milestone planning and deferred-work handoff | INT-02 |
-| INT-04 | Independent next-milestone review and handoff acceptance | INT-03 |
-| INT-05 | Operator-authorized release ceremony | INT-02, INT-04 |
-| INT-06 | Terminal child, umbrella, milestone, lifecycle, handoff, and cleanup closeout | INT-05 |
+| INT-01 | Demo convergence | CORP-08, V3-16, DRT-07 |
+| INT-02 | Quality gate | INT-01 |
+| INT-03 | Documentation and review alignment | INT-02 |
+| INT-04 | Internal milestone review | INT-03 |
+| INT-05 | External milestone review | INT-04 |
+| INT-06 | Findings remediation and final preflight | INT-05 |
+| INT-07 | Next-milestone planning and deferred-work handoff | INT-06 |
+| INT-08 | Independent next-milestone review and handoff acceptance | INT-07 |
+| INT-09 | Operator-authorized release ceremony and lifecycle closeout | INT-08 |
 
 ## Opening And Closing Invariants
 
@@ -81,5 +87,6 @@ eleven architecture decisions remain explicit gates. See the machine-readable
 - No child starts before WP-01 is independently reviewed and explicitly authorized.
 - Implementation issues close through their merged PR or a reviewed no-PR disposition.
 - Coordination umbrellas close only after reconciling their exact child denominator.
-- Release occurs only after integrated review, release qualification, next-milestone planning, and independent handoff review.
-- Milestone closeout occurs only after release, terminal issue reconciliation, accepted deferred routing, and non-destructive cleanup classification.
+- Release occurs only after all nine closeout-tail steps reach their declared gates in order.
+- Release ceremony is the terminal lifecycle boundary: INT-09 performs release readback and milestone reconciliation without inventing a separate post-ceremony work package.
+- Milestone closeout occurs only after terminal issue reconciliation, accepted deferred routing, and non-destructive cleanup classification.

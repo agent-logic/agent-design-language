@@ -9,15 +9,18 @@
 ## Sequence
 
 1. WP-01 must have opened and validated the exact issue wave.
-2. Freeze the release-candidate revision and evidence inventory.
-3. Verify every source revision and terminal dependency is ancestral or explicitly external.
-4. Complete INT-01 independent integrated review and remediation.
-5. Complete INT-02 qualification and rehearse C-SDLC and corporate rollback.
-6. Confirm distributed cloud cleanup and absence of unintended public endpoints.
-7. Complete INT-03 next-milestone planning and INT-04 independent handoff review.
-8. Produce release notes, residual-risk register, and go/no-go recommendation.
-9. Execute INT-05 only after explicit operator authorization.
-10. Execute INT-06 terminal issue, umbrella, milestone, lifecycle, handoff, and cleanup closeout.
+2. Complete INT-01 demo convergence at exact terminal lane revisions.
+3. Complete INT-02 quality gate against the exact candidate.
+4. Complete INT-03 documentation and review alignment.
+5. Complete INT-04 internal review and INT-05 external review.
+6. Complete INT-06 findings remediation, exact-head re-review, candidate freeze,
+   final preflight, rollback rehearsal, and distributed cloud cleanup readback.
+7. Complete INT-07 next-milestone planning and deferred-work routing.
+8. Complete INT-08 independent next-milestone review.
+9. Produce final release notes, residual-risk register, and go/no-go recommendation.
+10. Execute INT-09 only after explicit operator authorization; verify the exact
+    release and reconcile child, umbrella, milestone, lifecycle, handoff, and
+    cleanup truth as the ceremony's terminal boundary.
 
 ## Rollback
 

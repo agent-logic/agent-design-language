@@ -29,7 +29,9 @@ WP-01 must prove:
 - Lane B begins with V3-01 only after WP-01 is terminal.
 - Lane C begins with DRT-01 only after WP-01 is terminal. DRT-02 follows DRT-01.
 - DRT-03 and later additionally require terminal `#142`/WP-04.16 production evidence.
-- INT-01 begins only after CORP-08, V3-16, and DRT-07 are terminal.
+- INT-01 begins only after CORP-08, V3-16, and DRT-07 are terminal. INT-02
+  through INT-09 then execute serially; each requires terminal evidence from
+  its immediately preceding closeout step.
 
 V3-R01 remains deferred and is not a release dependency. Legal execution also
 requires named corporate authority and counsel review. Hybrid Runtime proof
@@ -37,8 +39,9 @@ uses only the Agent Logic business AWS account and private endpoints.
 
 ## Standard Tail Gates
 
-INT-01 performs integrated review and remediation. INT-02 qualifies the exact
-release candidate and rehearses rollback. INT-03 plans the downstream milestone.
-INT-04 independently reviews that handoff. INT-05 performs the release ceremony
-only with explicit operator authorization. INT-06 reconciles terminal issue,
-umbrella, milestone, lifecycle, handoff, and cleanup truth.
+The standard tail is: INT-01 demo convergence; INT-02 quality gate; INT-03 docs
+and review alignment; INT-04 internal review; INT-05 external review; INT-06
+remediation and final preflight; INT-07 next-milestone planning; INT-08
+next-milestone review; and INT-09 operator-authorized release ceremony and
+lifecycle closeout. The ceremony is the terminal closeout boundary. No step may
+be skipped merely because a later artifact appears ready.

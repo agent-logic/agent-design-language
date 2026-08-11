@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 191,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
+    "slug": "secure-durable-three-voter-openraft",
+    "version": "v0.92",
+    "generation": 25
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Deliver the production three-voter consensus substrate required by #142 using mutually authenticated encrypted transport and crash-safe durable OpenRaft storage.",
+      "required_outcome": "Three real voters elect, commit, snapshot and restart only through domain-bound Quinn/rustls RPCs; storage failure, replay, corruption and one-of-three topology fail closed without live state moving ahead of durable truth.",
+      "declared_scope": [
+        "Quinn/rustls OpenRaft network adapter with exact polis, trust-domain, node and certificate binding",
+        "Crash-safe durable OpenRaft log, state-machine, vote, replay and snapshot storage",
+        "Three-voter transport/storage integration and adversarial tests",
+        "Issue-owned exact proof and independent review"
+      ],
+      "authority_boundary": [
+        "This issue transports and durably applies already-typed consensus data; it does not invent lease, membership, fencing, activation, migration or recovery authority.",
+        "Every voter has a unique non-exported transport identity and private key; signed envelopes do not substitute for encryption.",
+        "A failed durable write cannot leave accepted in-memory state ahead of recoverable disk state.",
+        "One reachable voter of three cannot commit or apply a client mutation."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Remain a serial prerequisite of #192 and #142.",
+        "Do not open the PR before independent exact-head review and resolution of all actionable findings.",
+        "Do not merge without the operator's normal reviewed-PR authority."
+      ]
+    }
+  }
+}
