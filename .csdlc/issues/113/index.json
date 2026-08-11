@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "ready",
-  "generation": 9,
-  "digest": "460b4426ac9f24f1f560ce7e20fc79357f6d38f72c2bfb610f21b215902f2795",
+  "generation": 11,
+  "digest": "84530f9015d25bc85916c1de19e9a2829bf2e0abbb56eaa70884c29a4fa9b4f5",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a5b6d0abb4d60aedd2df7df1369c8df6d37bb711bb1c07689dbf65cd8d7571c9",
+      "values_digest": "10a96872764472b1a10295f4bbb913a68feb7ce02f8e8934d568e1b6efda3c4c",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "430a9a6acc171809bc5ce535e595856b23ef3427c66fe7fceebf7de8130f9c62",
-      "rendered_digest": "18236b6b412511f7788a8b2c4b656cc6fdcde2674c78a76d2142de9a15733f94",
-      "ast_digest": "ea22dcaab0176d236b727a328341919d4b48619b797ecebad2d07effea97a6f4"
+      "values_digest": "31030f062326d05ac052e3587e556b97092f89d39f1c705eb029df40d38048cc",
+      "rendered_digest": "990b50067a8730898305c1b178b5a8b57257b8ed1098e242836763345447332c",
+      "ast_digest": "d97cfd507f399fd21c60010307bec0825c98c3ee273d70d738a70afeb4396e51"
     },
     "spp": {
-      "values_digest": "0982db7ceb4d78b4ff93e7ca811365ab652be362d56fd78deb275a99b31267c5",
+      "values_digest": "e701788e54972ab7837a5e458d7ba5eb4d133a2699f924b136176391fd2c69cb",
       "rendered_digest": "57d3ebc3af7f2d0a09f6ce10dcf0b11bd6596cd5ece2398a05ce4f6e1a555e33",
       "ast_digest": "d258616f1a37572c21368d8c50ddfaeb99b9410a3d5dd5dc3f04f4ed5f6f368b"
     },
     "vpp": {
-      "values_digest": "17abb43b7cb00dddf4628b45620ec0f4f770d27c897efbc1f8b05db4bb69ad05",
-      "rendered_digest": "c00df17df6081f6d91babe640e512c163acc454bfba60f92752687238913cc17",
-      "ast_digest": "1129abbc5c4920aa382fc1fdd35a2407817a68bcc7d897c0a2501e10d7204623"
+      "values_digest": "574b4a7ee0a1a6daed9443c0c0d3a634eecba9790a999daafb6e6e7a97835f11",
+      "rendered_digest": "a1b18b1e705b93c68b1794dc1adfa9cb6fc9fd60cb21f4dabe17994614808f28",
+      "ast_digest": "b0327ef08e3c4346c5dcd5ae64737bd2605992d867352846a3e20a5a362d88a1"
     },
     "srp": {
-      "values_digest": "b415d6b411637c07d830a8cf72799221a7b6a833e667b1b5ba3ce692514d321e",
+      "values_digest": "38632062c12c6cb56c6a85564347a32a9eb3f22c58571e084a55cf55742efdf1",
       "rendered_digest": "0f2ba31fec14441b4f6b9fdbd93f2d31fd1dc2f6d844b4e3caab76d487b207ca",
       "ast_digest": "561ca13091bdccc8b6238cc66bbe339f2a8c55a24ba5d959b9f280752b2e976a"
     },
     "sor": {
-      "values_digest": "222a01f31099fbed94ae6a557a706c23505f6204786aadb2c41730004fa90555",
+      "values_digest": "d80000b8c16b9a9cd4fdf400e582a3e45c0b755fa6421c2eec7500ec29026999",
       "rendered_digest": "17577983b71aba54172dc1d0442452db27a371c5a5f7083bb86dd5bd81a69739",
       "ast_digest": "113bf745061230af9980cb2729b7fd4efae7a939e0677d9a148c032622e1fd48"
     }
@@ -133,6 +133,20 @@
       "actor": "codex:113-roster-presence-preparation",
       "reason": "Invoke the checked-in executable Observatory contract directly so the ready-phase PVF lane is governed without expanding script ownership.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"observatory-roster-runtime-contract\",\"proof_role\":\"Use the existing exact nonzero control integration target as the ready-phase issue denominator for authenticated roster/detail routes, policy-safe serialization, WSS revision updates, pagination, presence/freshness, denial, reconnect, OpenAPI parity, and large-population bounds added during #113 execution.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"distributed-projection-input-contract\",\"proof_role\":\"Re-run the exact existing distributed_projection target to prove stable identity, deterministic topology ordering, redaction, stale-state handling, placement, and migration inputs remain compatible with the #113 projection adapter.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_projection\",\"--no-tests=fail\"],\"parallel_group\":\"runtime-input\",\"defer_reason\":null},{\"lane\":\"html-observatory-contract\",\"proof_role\":\"Run the checked-in HTML Observatory Runtime v3 contract test for feed consumption, event handling, signed-control boundary, endpoint selection, and browser-side rejection behavior; execution must add the dedicated live roster browser validator through typed VPP replan once #83/#142 outputs are available.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"adl/tools/test_html_observatory.sh\"],\"parallel_group\":\"browser-contract\",\"defer_reason\":null},{\"lane\":\"roster-focused-clippy\",\"proof_role\":\"Reject Rust type, ownership, serialization, route, and dead-code regressions across the bounded Runtime kernel library and production binary.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"static\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:113-pvf-readiness-repair",
+      "reason": "Replace false-green broad control coverage with exact issue-owned nonzero roster and browser targets that remain deferred and fail closed until implementation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"agent-roster-contract\",\"proof_role\":\"Run the exact nonzero issue-owned agent_roster integration target for deterministic paginated roster and detail projection, stable identity, every declared presence state, freshness deadlines, provenance, policy filtering and redaction, relocation fencing, capability and communication eligibility, token and cursor integrity, reconnect and restart behavior, and large-Polis resource bounds.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":\"Deferred until #113 implementation creates adl-runtime-kernel/tests/agent_roster.rs after the #83 and #142 serial gates pass; validation must fail closed if the target is absent, selects zero tests, or does not prove the exact candidate revision.\"},{\"lane\":\"observatory-roster-browser\",\"proof_role\":\"Run the exact issue-owned live Runtime-backed roster browser validator for truthful count and pagination, presence and freshness display, server-authoritative visibility and redaction, bounded capability and communication eligibility, revision-bound updates, search, filter, sort, selection, detail, status changes, keyboard operation, denial, disconnect, bounded reconnect without duplicates, bounded DOM rows, responsive layout, and a clean console.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_roster.mjs\"],\"parallel_group\":\"browser\",\"defer_reason\":\"Deferred until #113 implementation creates the dedicated validator after #83 hands off the Observatory paths and open #142 lands the required Runtime identity and topology contract; validation must fail closed if the validator is absent or does not exercise the exact live candidate.\"},{\"lane\":\"roster-focused-clippy\",\"proof_role\":\"Reject Rust type, ownership, serialization, route, and dead-code regressions across the bounded Runtime kernel library and production binary.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"static\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:113-pvf-readiness-repair",
+      "reason": "Declare the two absent issue-owned validators as deferred implementation deliverables so typed readiness can distinguish planned exact proof from false-green existing controls.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl/tools/validate_v092_html_observatory_roster.mjs\",\"Versioned paginated Runtime roster and policy-safe agent-detail projections\",\"Deterministic presence, health, availability, freshness, provenance, relocation, capability, and communication-eligibility model\",\"Opaque revision-bound pagination and bounded reconnect/event update contract\",\"Search, filter, sort, selection, and status-change Observatory UI\",\"Exact positive, negative, scale, browser, OpenAPI, reconnect, and rollback proof\"]}"
     }
   ]
 }

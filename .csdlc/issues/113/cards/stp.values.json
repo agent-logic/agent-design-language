@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
     "slug": "wp18c03-live-polis-roster-presence",
     "version": "v0.92",
-    "generation": 9
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -15,6 +15,8 @@
     "values": {
       "task_boundary": "Implement only the Runtime-owned roster/detail projection, bounded update contract, and HTML Observatory roster experience after dependencies hand off shared paths; do not implement conversation history, rooms, inbox, public deployment, or distributed Runtime authority.",
       "deliverables": [
+        "adl-runtime-kernel/tests/agent_roster.rs",
+        "adl/tools/validate_v092_html_observatory_roster.mjs",
         "Versioned paginated Runtime roster and policy-safe agent-detail projections",
         "Deterministic presence, health, availability, freshness, provenance, relocation, capability, and communication-eligibility model",
         "Opaque revision-bound pagination and bounded reconnect/event update contract",

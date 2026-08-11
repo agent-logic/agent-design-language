@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
     "slug": "wp18c03-live-polis-roster-presence",
     "version": "v0.92",
-    "generation": 9
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,8 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "observatory-roster-runtime-contract",
-          "proof_role": "Use the existing exact nonzero control integration target as the ready-phase issue denominator for authenticated roster/detail routes, policy-safe serialization, WSS revision updates, pagination, presence/freshness, denial, reconnect, OpenAPI parity, and large-population bounds added during #113 execution.",
+          "lane": "agent-roster-contract",
+          "proof_role": "Run the exact nonzero issue-owned agent_roster integration target for deterministic paginated roster and detail projection, stable identity, every declared presence state, freshness deadlines, provenance, policy filtering and redaction, relocation fencing, capability and communication eligibility, token and cursor integrity, reconnect and restart behavior, and large-Polis resource bounds.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -31,7 +31,7 @@
           "deterministic": true,
           "resource_profile": "medium",
           "budget_seconds": 1200,
-          "budget_tokens": 12000,
+          "budget_tokens": 10000,
           "argv": [
             "cargo",
             "nextest",
@@ -39,56 +39,35 @@
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
             "--test",
-            "control",
+            "agent_roster",
             "--no-tests=fail"
           ],
           "parallel_group": "runtime",
-          "defer_reason": null
+          "defer_reason": "Deferred until #113 implementation creates adl-runtime-kernel/tests/agent_roster.rs after the #83 and #142 serial gates pass; validation must fail closed if the target is absent, selects zero tests, or does not prove the exact candidate revision."
         },
         {
-          "lane": "distributed-projection-input-contract",
-          "proof_role": "Re-run the exact existing distributed_projection target to prove stable identity, deterministic topology ordering, redaction, stale-state handling, placement, and migration inputs remain compatible with the #113 projection adapter.",
+          "lane": "observatory-roster-browser",
+          "proof_role": "Run the exact issue-owned live Runtime-backed roster browser validator for truthful count and pagination, presence and freshness display, server-authoritative visibility and redaction, bounded capability and communication eligibility, revision-bound updates, search, filter, sort, selection, detail, status changes, keyboard operation, denial, disconnect, bounded reconnect without duplicates, bounded DOM rows, responsive layout, and a clean console.",
           "acceptance_ids": [
-            "AC-2",
+            "AC-1",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
           ],
           "deterministic": true,
           "resource_profile": "medium",
           "budget_seconds": 1200,
           "budget_tokens": 8000,
           "argv": [
-            "cargo",
-            "nextest",
-            "run",
-            "--manifest-path",
-            "adl-runtime/Cargo.toml",
-            "--test",
-            "distributed_projection",
-            "--no-tests=fail"
+            "node",
+            "adl/tools/validate_v092_html_observatory_roster.mjs"
           ],
-          "parallel_group": "runtime-input",
-          "defer_reason": null
-        },
-        {
-          "lane": "html-observatory-contract",
-          "proof_role": "Run the checked-in HTML Observatory Runtime v3 contract test for feed consumption, event handling, signed-control boundary, endpoint selection, and browser-side rejection behavior; execution must add the dedicated live roster browser validator through typed VPP replan once #83/#142 outputs are available.",
-          "acceptance_ids": [
-            "AC-4",
-            "AC-6",
-            "AC-8",
-            "AC-9"
-          ],
-          "deterministic": true,
-          "resource_profile": "small",
-          "budget_seconds": 300,
-          "budget_tokens": 3000,
-          "argv": [
-            "adl/tools/test_html_observatory.sh"
-          ],
-          "parallel_group": "browser-contract",
-          "defer_reason": null
+          "parallel_group": "browser",
+          "defer_reason": "Deferred until #113 implementation creates the dedicated validator after #83 hands off the Observatory paths and open #142 lands the required Runtime identity and topology contract; validation must fail closed if the validator is absent or does not exercise the exact live candidate."
         },
         {
           "lane": "roster-focused-clippy",

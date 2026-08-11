@@ -16,6 +16,8 @@ Implement only the Runtime-owned roster/detail projection, bounded update contra
 
 ## Deliverables
 
+- adl-runtime-kernel/tests/agent_roster.rs
+- adl/tools/validate_v092_html_observatory_roster.mjs
 - Versioned paginated Runtime roster and policy-safe agent-detail projections
 - Deterministic presence, health, availability, freshness, provenance, relocation, capability, and communication-eligibility model
 - Opaque revision-bound pagination and bounded reconnect/event update contract
