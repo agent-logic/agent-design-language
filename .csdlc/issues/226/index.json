@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "dcbaf44451ef941aa441bbe6c58959fd6b12d779de39e7ad51d7230887500ffc",
+  "generation": 18,
+  "digest": "428bf1eab172b872482b3b5a106cb2a484562dd926d2ed5e3865149b0356f365",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": {
-    "reviewer": "subagent:019ff205-4896-7c42-807c-3953cfa4247f",
-    "assigned_by": "codex:226-focused-runtime-validation-routing",
-    "revision": "git-blake3:202f5b9ddbbf59848add361bf40bc5c1686e311b:ee0a04e7962212add0088861a10ac5b9381aeb1beaf490c9598e6b609051272d",
-    "scope": [
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      ".csdlc/evidence/226",
-      ".csdlc/prepared/issues/226/design.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "97a040888f352669d6114d5d89eb6e2cfc98b77978bb422dd39ab86f22bbbad6",
+      "values_digest": "07ca8a7937eee1a82bd4235add9d73b570552fa08a3d0d8fe07c36cc160a473d",
       "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
       "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
     },
     "stp": {
-      "values_digest": "dc03f547df99cfa1458d7ee1c2dba31a682b592e56bfb5d3746fe5c2ac4ca0f3",
+      "values_digest": "00a6d227f9f53bfde436e0dd5b69a30516e3fc8dfc02e31d5be29daa49f6e229",
       "rendered_digest": "a6faeaeb82e223d1b0d7ad0414ad40e1b89002e5bea0b8443c885b7af71fee58",
       "ast_digest": "7624a3c03abf3bcca7cac469399714c1e1010189fa7be49366dbc24dbf8b6166"
     },
     "spp": {
-      "values_digest": "0248b876a8ed4cf423f5440c9be35a01fd2d447c4f3aeeabb012d5fdc3aa824a",
+      "values_digest": "3c8c48964be5b4343e6b5cca4e9a44ce49935ddb2cc6c3b5ed43a16272570a65",
       "rendered_digest": "b3e191c0cb5d1523edd4ed04a5ff4110124a0b16c58912723c8a0a5aabc0550f",
       "ast_digest": "a0cd926a07e9c1d7518af1efd50f744a2cc49ce7b43c7d50c920e94d0ad9b452"
     },
     "vpp": {
-      "values_digest": "e9476d694462f4c499c2f40e9926b145c5d9932066f4765d9950bfc52a5d0028",
+      "values_digest": "fa96447d82fef1009b041fe6a394e28778b51431cac65d098bff76646d14acae",
       "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "caa6de6ff732990080f800a21f4c55176bf448c6eafe431ee59439c7bdd35d35",
-      "rendered_digest": "e1ac8934aa11c005160834b5b095a8e83756cf055f48e66c1acf96eebd811a26",
-      "ast_digest": "fccdd8a8cbae10354c4926365995351d865784831b3544d45c5bf0866fd223a3"
+      "values_digest": "6a85e908240678cd26c9e9aba3efd2ebc968e18e3038767279d938aaaac24049",
+      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
+      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
     },
     "sor": {
-      "values_digest": "11bd3f8304219bc7d29f09fadfef105fb1af529caea0656ef79cf8070b40b6a0",
+      "values_digest": "465302991a06543d57967b624404278f2ebcc80eeeeb56574cc5fee3b584f981",
       "rendered_digest": "50bd38ec524e3785c2da01e6fd2426c164d084b259b4828ded63ab55a6985722",
       "ast_digest": "bec40a0c58bd803ce0e96adc993cca684734f0e46c86bdf7d2dc487df456113d"
     }
@@ -313,6 +302,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 18,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace the independent reviewer after three bounded waits produced no verdict; preserve the exact remediated product revision for archive-based review.",
+      "operation": "recover_review"
     }
   ]
 }
