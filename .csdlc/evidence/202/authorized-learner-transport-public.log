@@ -15,3 +15,6 @@ test public_zero_membership_digest_denied ... ok
 test public_zero_raft_id_denied ... ok
 
 test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/distributed_authorized_learner_transport.rs (adl-runtime/target/debug/deps/distributed_authorized_learner_transport-186318961d8205e4)
