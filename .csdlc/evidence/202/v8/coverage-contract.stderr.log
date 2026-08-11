@@ -1,0 +1,1621 @@
+Authoritative coverage compile failed for workspace: 66; partitions and report command suppressed
+coverage summary merge failed: workspace summary is missing: /var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/authoritative-coverage.QQXDn9/scratch/coverage-output/run-prebuild-failure/coverage-summary.adl.json
+Authoritative coverage profile cleanup failed for workspace: 55
+coverage summary merge failed: workspace summary is missing: /var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/authoritative-coverage.QQXDn9/scratch/coverage-output/run-combined-failure/coverage-summary.adl.json
+Authoritative coverage profile cleanup failed for adl-runtime: 55
+Authoritative coverage profile cleanup failed for workspace: 55
+coverage summary merge failed: workspace summary is missing: /var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/authoritative-coverage.QQXDn9/scratch/coverage-output/run-cleanup-failure/coverage-summary.adl.json
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:422:19
+    |
+265 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+422 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:794:19
+    |
+713 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+794 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+807 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:560:19
+    |
+422 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:643:19
+    |
+540 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+643 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: variants `RevisionDrift` and `AuthorityUnavailable` are never constructed
+  --> tests/../src/distributed/placement.rs:42:5
+   |
+32 | pub enum PlacementError {
+   |          -------------- variants in this enum
+...
+42 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+43 |     AuthorityUnavailable,
+   |     ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `PlacementError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `PlacementAuthorityRevision` is never constructed
+   --> tests/../src/distributed/placement.rs:426:12
+    |
+426 | pub struct PlacementAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `sequence` and `content_sha256` are never used
+   --> tests/../src/distributed/placement.rs:432:12
+    |
+431 | impl PlacementAuthorityRevision {
+    | ------------------------------- methods in this implementation
+432 |     pub fn sequence(&self) -> u64 {
+    |            ^^^^^^^^
+...
+436 |     pub fn content_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^^^
+
+warning: struct `RedactedPlacementRow` is never constructed
+   --> tests/../src/distributed/placement.rs:442:12
+    |
+442 | pub struct RedactedPlacementRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementFreshness` is never used
+   --> tests/../src/distributed/placement.rs:453:10
+    |
+453 | pub enum PlacementFreshness {
+    |          ^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementCapacityBand` is never used
+   --> tests/../src/distributed/placement.rs:458:10
+    |
+458 | pub enum PlacementCapacityBand {
+    |          ^^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/placement.rs:465:12
+    |
+464 | impl RedactedPlacementRow {
+    | ------------------------- methods in this implementation
+465 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+469 |     pub fn node_ref(&self) -> &str {
+    |            ^^^^^^^^
+...
+473 |     pub fn guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+477 |     pub fn capability_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+481 |     pub fn weather_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+485 |     pub fn freshness(&self) -> PlacementFreshness {
+    |            ^^^^^^^^^
+...
+489 |     pub fn capacity(&self) -> PlacementCapacityBand {
+    |            ^^^^^^^^
+
+warning: struct `RedactedPlacementSnapshot` is never constructed
+   --> tests/../src/distributed/placement.rs:495:12
+    |
+495 | pub struct RedactedPlacementSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `membership_epoch`, `committed_log_index`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/placement.rs:504:12
+    |
+503 | impl RedactedPlacementSnapshot {
+    | ------------------------------ methods in this implementation
+504 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+508 |     pub fn membership_epoch(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+512 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+516 |     pub fn revision(&self) -> PlacementAuthorityRevision {
+    |            ^^^^^^^^
+...
+520 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedPlacementRow> {
+    |            ^^^^
+
+warning: fields `decision` and `captured_at_unix_secs` are never read
+   --> tests/../src/distributed/placement.rs:527:5
+    |
+526 | struct StoredPlacementDecision {
+    |        ----------------------- fields in this struct
+527 |     decision: PlacementDecision,
+    |     ^^^^^^^^
+528 |     captured_at_unix_secs: u64,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `StoredPlacementDecision` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `remove_decision`, `authority_revision`, `redacted_snapshot_at`, and `seed_decision_for_snapshot_test` are never used
+   --> tests/../src/distributed/placement.rs:565:12
+    |
+540 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- methods in this implementation
+...
+565 |     pub fn remove_decision(&self, lineage_id: &str) -> PlacementResult<bool> {
+    |            ^^^^^^^^^^^^^^^
+...
+585 |     pub fn authority_revision(&self) -> PlacementResult<PlacementAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+596 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+643 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `placement_revision` is never used
+   --> tests/../src/distributed/placement.rs:711:4
+    |
+711 | fn placement_revision(authority: &PlacementAuthorityState) -> PlacementAuthorityRevision {
+    |    ^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/placement.rs:738:4
+    |
+738 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: method `trust_domain` is never used
+   --> tests/../src/distributed/membership.rs:255:12
+    |
+239 | impl MembershipState {
+    | -------------------- method in this implementation
+...
+255 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `CertificateAuthorityRevision` is never constructed
+   --> tests/../src/distributed/certificates.rs:124:12
+    |
+124 | pub struct CertificateAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `state_sha256` is never used
+   --> tests/../src/distributed/certificates.rs:129:12
+    |
+128 | impl CertificateAuthorityRevision {
+    | --------------------------------- method in this implementation
+129 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: enum `RedactedCertificateHealth` is never used
+   --> tests/../src/distributed/certificates.rs:135:10
+    |
+135 | pub enum RedactedCertificateHealth {
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedCertificateRow` is never constructed
+   --> tests/../src/distributed/certificates.rs:146:12
+    |
+146 | pub struct RedactedCertificateRow {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `certificate_ref`, `node_ref`, `guardian_ref`, `purpose`, `generation`, and `health` are never used
+   --> tests/../src/distributed/certificates.rs:156:12
+    |
+155 | impl RedactedCertificateRow {
+    | --------------------------- methods in this implementation
+156 |     pub fn certificate_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+160 |     pub fn node_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^
+...
+164 |     pub fn guardian_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^
+...
+168 |     pub fn purpose(&self) -> CertificatePurpose {
+    |            ^^^^^^^
+...
+172 |     pub fn generation(&self) -> u64 {
+    |            ^^^^^^^^^^
+...
+176 |     pub fn health(&self) -> RedactedCertificateHealth {
+    |            ^^^^^^
+
+warning: struct `RedactedCertificateSnapshot` is never constructed
+   --> tests/../src/distributed/certificates.rs:182:12
+    |
+182 | pub struct RedactedCertificateSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `captured_at_unix_secs`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/certificates.rs:190:12
+    |
+189 | impl RedactedCertificateSnapshot {
+    | -------------------------------- methods in this implementation
+190 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+194 |     pub fn captured_at_unix_secs(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+198 |     pub fn revision(&self) -> CertificateAuthorityRevision {
+    |            ^^^^^^^^
+...
+202 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedCertificateRow> {
+    |            ^^^^
+
+warning: variant `RevisionDrift` is never constructed
+   --> tests/../src/distributed/certificates.rs:278:5
+    |
+253 | pub enum CertificateError {
+    |          ---------------- variant in this enum
+...
+278 |     RevisionDrift,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `CertificateError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `authority_revision` and `redacted_snapshot_at` are never used
+   --> tests/../src/distributed/certificates.rs:677:12
+    |
+399 | impl DistributedCertificateStore {
+    | -------------------------------- methods in this implementation
+...
+677 |     pub fn authority_revision(&self) -> CertificateResult<CertificateAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+684 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `certificate_state_sha256` is never used
+   --> tests/../src/distributed/certificates.rs:989:4
+    |
+989 | fn certificate_state_sha256(read: &redb::ReadTransaction) -> CertificateResult<[u8; 32]> {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/certificates.rs:1011:4
+     |
+1011 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+warning: `adl-runtime` (test "distributed_placement") generated 13 warnings
+warning: `adl-runtime` (test "distributed_membership") generated 1 warning
+warning: `adl-runtime` (test "distributed_certificates") generated 11 warnings
+warning: variant `RevisionDrift` is never constructed
+   --> tests/../src/distributed/lease.rs:374:5
+    |
+345 | pub enum AuthorityError {
+    |          -------------- variant in this enum
+...
+374 |     RevisionDrift,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `AuthorityError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `LeaseAuthorityRevision` is never constructed
+   --> tests/../src/distributed/lease.rs:625:12
+    |
+625 | pub struct LeaseAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `applied_log_index` and `state_sha256` are never used
+   --> tests/../src/distributed/lease.rs:631:12
+    |
+630 | impl LeaseAuthorityRevision {
+    | --------------------------- methods in this implementation
+631 |     pub fn applied_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^
+...
+635 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: enum `RedactedLeaseHealth` is never used
+   --> tests/../src/distributed/lease.rs:641:10
+    |
+641 | pub enum RedactedLeaseHealth {
+    |          ^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedLeaseRow` is never constructed
+   --> tests/../src/distributed/lease.rs:648:12
+    |
+648 | pub struct RedactedLeaseRow {
+    |            ^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/lease.rs:659:12
+    |
+658 | impl RedactedLeaseRow {
+    | --------------------- methods in this implementation
+659 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+663 |     pub fn holder_node_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^^^^
+...
+667 |     pub fn holder_guardian_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+671 |     pub fn epoch(&self) -> u64 {
+    |            ^^^^^
+...
+675 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+679 |     pub fn certificate_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+...
+683 |     pub fn health(&self) -> RedactedLeaseHealth {
+    |            ^^^^^^
+...
+687 |     pub fn revoked(&self) -> bool {
+    |            ^^^^^^^
+
+warning: struct `RedactedLeaseSnapshot` is never constructed
+   --> tests/../src/distributed/lease.rs:693:12
+    |
+693 | pub struct RedactedLeaseSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/lease.rs:700:12
+    |
+699 | impl RedactedLeaseSnapshot {
+    | -------------------------- methods in this implementation
+700 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+704 |     pub fn revision(&self) -> LeaseAuthorityRevision {
+    |            ^^^^^^^^
+...
+708 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedLeaseRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_lease_for_snapshot_test` are never used
+   --> tests/../src/distributed/lease.rs:733:12
+    |
+713 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+733 |     pub fn authority_revision(&self) -> AuthorityResult<LeaseAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+741 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+794 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/lease.rs:1219:4
+     |
+1219 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/failure_detection.rs:43:5
+   |
+26 | pub enum FailureError {
+   |          ------------ variant in this enum
+...
+43 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `FailureError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `FailureMembershipSnapshot` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:213:12
+    |
+213 | pub struct FailureMembershipSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: associated function `from_test_rows` is never used
+   --> tests/../src/distributed/failure_detection.rs:235:19
+    |
+220 | impl FailureMembershipSnapshot {
+    | ------------------------------ associated function in this implementation
+...
+235 |     pub(crate) fn from_test_rows(
+    |                   ^^^^^^^^^^^^^^
+
+warning: struct `FailureAuthorityRevision` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:282:12
+    |
+282 | pub struct FailureAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `sequence` and `content_sha256` are never used
+   --> tests/../src/distributed/failure_detection.rs:288:12
+    |
+287 | impl FailureAuthorityRevision {
+    | ----------------------------- methods in this implementation
+288 |     pub fn sequence(&self) -> u64 {
+    |            ^^^^^^^^
+...
+292 |     pub fn content_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^^^
+
+warning: enum `FailureSnapshotReason` is never used
+   --> tests/../src/distributed/failure_detection.rs:298:10
+    |
+298 | pub enum FailureSnapshotReason {
+    |          ^^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `FailureEvidenceBand` is never used
+   --> tests/../src/distributed/failure_detection.rs:309:10
+    |
+309 | pub enum FailureEvidenceBand {
+    |          ^^^^^^^^^^^^^^^^^^^
+
+warning: enum `FailureFreshness` is never used
+   --> tests/../src/distributed/failure_detection.rs:316:10
+    |
+316 | pub enum FailureFreshness {
+    |          ^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedFailureRow` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:323:12
+    |
+323 | pub struct RedactedFailureRow {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: methods `node_ref`, `guardian_ref`, `class`, `reason`, `evidence`, and `freshness` are never used
+   --> tests/../src/distributed/failure_detection.rs:333:12
+    |
+332 | impl RedactedFailureRow {
+    | ----------------------- methods in this implementation
+333 |     pub fn node_ref(&self) -> &str {
+    |            ^^^^^^^^
+...
+337 |     pub fn guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+341 |     pub fn class(&self) -> Option<FailureClass> {
+    |            ^^^^^
+...
+345 |     pub fn reason(&self) -> FailureSnapshotReason {
+    |            ^^^^^^
+...
+349 |     pub fn evidence(&self) -> FailureEvidenceBand {
+    |            ^^^^^^^^
+...
+353 |     pub fn freshness(&self) -> FailureFreshness {
+    |            ^^^^^^^^^
+
+warning: struct `RedactedFailureSnapshot` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:359:12
+    |
+359 | pub struct RedactedFailureSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `membership_epoch`, `committed_log_index`, `captured_at_unix_secs`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/failure_detection.rs:369:12
+    |
+368 | impl RedactedFailureSnapshot {
+    | ---------------------------- methods in this implementation
+369 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+373 |     pub fn membership_epoch(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+377 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+381 |     pub fn captured_at_unix_secs(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+385 |     pub fn revision(&self) -> FailureAuthorityRevision {
+    |            ^^^^^^^^
+...
+389 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFailureRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `redacted_rows` are never used
+   --> tests/../src/distributed/failure_detection.rs:607:12
+    |
+436 | impl FailureDetector {
+    | -------------------- methods in this implementation
+...
+607 |     pub fn authority_revision(
+    |            ^^^^^^^^^^^^^^^^^^
+...
+625 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+655 |     fn redacted_rows(
+    |        ^^^^^^^^^^^^^
+
+warning: function `failure_content_sha256` is never used
+   --> tests/../src/distributed/failure_detection.rs:779:4
+    |
+779 | fn failure_content_sha256(
+    |    ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/failure_detection.rs:806:4
+    |
+806 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/fencing.rs:47:5
+   |
+26 | pub enum FencingError {
+   |          ------------ variant in this enum
+...
+47 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `FencingError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `FencingAuthorityRevision` is never constructed
+   --> tests/../src/distributed/fencing.rs:154:12
+    |
+154 | pub struct FencingAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/fencing.rs:160:12
+    |
+159 | impl FencingAuthorityRevision {
+    | ----------------------------- methods in this implementation
+160 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+164 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedFencingRow` is never constructed
+   --> tests/../src/distributed/fencing.rs:170:12
+    |
+170 | pub struct RedactedFencingRow {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: methods `lineage_ref`, `epoch`, `committed_log_index`, `voter_set_generation`, and `operation_class` are never used
+   --> tests/../src/distributed/fencing.rs:179:12
+    |
+178 | impl RedactedFencingRow {
+    | ----------------------- methods in this implementation
+179 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+183 |     pub fn epoch(&self) -> u64 {
+    |            ^^^^^
+...
+187 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+191 |     pub fn voter_set_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+195 |     pub fn operation_class(&self) -> u32 {
+    |            ^^^^^^^^^^^^^^^
+
+warning: struct `RedactedFencingSnapshot` is never constructed
+   --> tests/../src/distributed/fencing.rs:201:12
+    |
+201 | pub struct RedactedFencingSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/fencing.rs:208:12
+    |
+207 | impl RedactedFencingSnapshot {
+    | ---------------------------- methods in this implementation
+208 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+212 |     pub fn revision(&self) -> FencingAuthorityRevision {
+    |            ^^^^^^^^
+...
+216 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFencingRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_floor_for_snapshot_test` are never used
+   --> tests/../src/distributed/fencing.rs:365:12
+    |
+265 | impl FencingStore {
+    | ----------------- methods in this implementation
+...
+365 |     pub fn authority_revision(&self) -> FencingResult<FencingAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+373 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+422 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/fencing.rs:739:4
+    |
+739 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/migration.rs:56:5
+   |
+33 | pub enum MigrationError {
+   |          -------------- variant in this enum
+...
+56 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `MigrationError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `MigrationAuthorityRevision` is never constructed
+   --> tests/../src/distributed/migration.rs:258:12
+    |
+258 | pub struct MigrationAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/migration.rs:264:12
+    |
+263 | impl MigrationAuthorityRevision {
+    | ------------------------------- methods in this implementation
+264 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+268 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationRow` is never constructed
+   --> tests/../src/distributed/migration.rs:274:12
+    |
+274 | pub struct RedactedMigrationRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/migration.rs:287:12
+    |
+286 | impl RedactedMigrationRow {
+    | ------------------------- methods in this implementation
+287 |     pub fn migration_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^
+...
+291 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+295 |     pub fn source_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+299 |     pub fn source_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+303 |     pub fn target_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+307 |     pub fn target_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+311 |     pub fn phase(&self) -> MigrationPhase {
+    |            ^^^^^
+...
+315 |     pub fn source_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+319 |     pub fn target_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationSnapshot` is never constructed
+   --> tests/../src/distributed/migration.rs:325:12
+    |
+325 | pub struct RedactedMigrationSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/migration.rs:332:12
+    |
+331 | impl RedactedMigrationSnapshot {
+    | ------------------------------ methods in this implementation
+332 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+336 |     pub fn revision(&self) -> MigrationAuthorityRevision {
+    |            ^^^^^^^^
+...
+340 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedMigrationRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_record_for_snapshot_test` are never used
+   --> tests/../src/distributed/migration.rs:514:12
+    |
+422 | impl MigrationStore {
+    | ------------------- methods in this implementation
+...
+514 |     pub fn authority_revision(&self) -> MigrationResult<MigrationAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+522 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/migration.rs:1436:4
+     |
+1436 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_lease") generated 10 warnings
+warning: `adl-runtime` (test "distributed_failure_detection") generated 15 warnings
+warning: `adl-runtime` (test "distributed_fencing") generated 9 warnings
+warning: `adl-runtime` (test "distributed_migration") generated 9 warnings
+warning: struct `GuardianControlSignerCustody` is never constructed
+   --> tests/../src/distributed/identity.rs:233:19
+    |
+233 | pub(crate) struct GuardianControlSignerCustody {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `public_identity`, `verifying_key`, and `sign` are never used
+   --> tests/../src/distributed/identity.rs:249:19
+    |
+248 | impl GuardianControlSignerCustody {
+    | --------------------------------- methods in this implementation
+249 |     pub(crate) fn public_identity(&self) -> &PublicNodeGuardianIdentity {
+    |                   ^^^^^^^^^^^^^^^
+...
+253 |     pub(crate) fn verifying_key(&self) -> VerifyingKey {
+    |                   ^^^^^^^^^^^^^
+...
+257 |     pub(crate) fn sign(&self, payload: &[u8]) -> Signature {
+    |                   ^^^^
+
+warning: method `authority_signer_custody` is never used
+   --> tests/../src/distributed/identity.rs:311:19
+    |
+272 | impl LocalNodeGuardianIdentity {
+    | ------------------------------ method in this implementation
+...
+311 |     pub(crate) fn authority_signer_custody(&self) -> GuardianControlSignerCustody {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_identity") generated 3 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
+warning: method `trust_domain` is never used
+   --> tests/../src/distributed/membership.rs:255:12
+    |
+239 | impl MembershipState {
+    | -------------------- method in this implementation
+...
+255 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/migration.rs:56:5
+   |
+33 | pub enum MigrationError {
+   |          -------------- variant in this enum
+...
+56 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `MigrationError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `MigrationAuthorityRevision` is never constructed
+   --> tests/../src/distributed/migration.rs:258:12
+    |
+258 | pub struct MigrationAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/migration.rs:264:12
+    |
+263 | impl MigrationAuthorityRevision {
+    | ------------------------------- methods in this implementation
+264 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+268 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationRow` is never constructed
+   --> tests/../src/distributed/migration.rs:274:12
+    |
+274 | pub struct RedactedMigrationRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/migration.rs:287:12
+    |
+286 | impl RedactedMigrationRow {
+    | ------------------------- methods in this implementation
+287 |     pub fn migration_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^
+...
+291 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+295 |     pub fn source_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+299 |     pub fn source_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+303 |     pub fn target_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+307 |     pub fn target_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+311 |     pub fn phase(&self) -> MigrationPhase {
+    |            ^^^^^
+...
+315 |     pub fn source_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+319 |     pub fn target_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationSnapshot` is never constructed
+   --> tests/../src/distributed/migration.rs:325:12
+    |
+325 | pub struct RedactedMigrationSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/migration.rs:332:12
+    |
+331 | impl RedactedMigrationSnapshot {
+    | ------------------------------ methods in this implementation
+332 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+336 |     pub fn revision(&self) -> MigrationAuthorityRevision {
+    |            ^^^^^^^^
+...
+340 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedMigrationRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_record_for_snapshot_test` are never used
+   --> tests/../src/distributed/migration.rs:514:12
+    |
+422 | impl MigrationStore {
+    | ------------------- methods in this implementation
+...
+514 |     pub fn authority_revision(&self) -> MigrationResult<MigrationAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+522 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/migration.rs:1436:4
+     |
+1436 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: variant `RevisionDrift` is never constructed
+   --> tests/../src/distributed/lease.rs:374:5
+    |
+345 | pub enum AuthorityError {
+    |          -------------- variant in this enum
+...
+374 |     RevisionDrift,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `AuthorityError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `LeaseAuthorityRevision` is never constructed
+   --> tests/../src/distributed/lease.rs:625:12
+    |
+625 | pub struct LeaseAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `applied_log_index` and `state_sha256` are never used
+   --> tests/../src/distributed/lease.rs:631:12
+    |
+630 | impl LeaseAuthorityRevision {
+    | --------------------------- methods in this implementation
+631 |     pub fn applied_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^
+...
+635 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: enum `RedactedLeaseHealth` is never used
+   --> tests/../src/distributed/lease.rs:641:10
+    |
+641 | pub enum RedactedLeaseHealth {
+    |          ^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedLeaseRow` is never constructed
+   --> tests/../src/distributed/lease.rs:648:12
+    |
+648 | pub struct RedactedLeaseRow {
+    |            ^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/lease.rs:659:12
+    |
+658 | impl RedactedLeaseRow {
+    | --------------------- methods in this implementation
+659 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+663 |     pub fn holder_node_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^^^^
+...
+667 |     pub fn holder_guardian_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+671 |     pub fn epoch(&self) -> u64 {
+    |            ^^^^^
+...
+675 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+679 |     pub fn certificate_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+...
+683 |     pub fn health(&self) -> RedactedLeaseHealth {
+    |            ^^^^^^
+...
+687 |     pub fn revoked(&self) -> bool {
+    |            ^^^^^^^
+
+warning: struct `RedactedLeaseSnapshot` is never constructed
+   --> tests/../src/distributed/lease.rs:693:12
+    |
+693 | pub struct RedactedLeaseSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/lease.rs:700:12
+    |
+699 | impl RedactedLeaseSnapshot {
+    | -------------------------- methods in this implementation
+700 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+704 |     pub fn revision(&self) -> LeaseAuthorityRevision {
+    |            ^^^^^^^^
+...
+708 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedLeaseRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_lease_for_snapshot_test` are never used
+   --> tests/../src/distributed/lease.rs:733:12
+    |
+713 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+733 |     pub fn authority_revision(&self) -> AuthorityResult<LeaseAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+741 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+794 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/lease.rs:1219:4
+     |
+1219 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/fencing.rs:47:5
+   |
+26 | pub enum FencingError {
+   |          ------------ variant in this enum
+...
+47 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `FencingError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `FencingAuthorityRevision` is never constructed
+   --> tests/../src/distributed/fencing.rs:154:12
+    |
+154 | pub struct FencingAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/fencing.rs:160:12
+    |
+159 | impl FencingAuthorityRevision {
+    | ----------------------------- methods in this implementation
+160 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+164 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedFencingRow` is never constructed
+   --> tests/../src/distributed/fencing.rs:170:12
+    |
+170 | pub struct RedactedFencingRow {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: methods `lineage_ref`, `epoch`, `committed_log_index`, `voter_set_generation`, and `operation_class` are never used
+   --> tests/../src/distributed/fencing.rs:179:12
+    |
+178 | impl RedactedFencingRow {
+    | ----------------------- methods in this implementation
+179 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+183 |     pub fn epoch(&self) -> u64 {
+    |            ^^^^^
+...
+187 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+191 |     pub fn voter_set_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+195 |     pub fn operation_class(&self) -> u32 {
+    |            ^^^^^^^^^^^^^^^
+
+warning: struct `RedactedFencingSnapshot` is never constructed
+   --> tests/../src/distributed/fencing.rs:201:12
+    |
+201 | pub struct RedactedFencingSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/fencing.rs:208:12
+    |
+207 | impl RedactedFencingSnapshot {
+    | ---------------------------- methods in this implementation
+208 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+212 |     pub fn revision(&self) -> FencingAuthorityRevision {
+    |            ^^^^^^^^
+...
+216 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFencingRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_floor_for_snapshot_test` are never used
+   --> tests/../src/distributed/fencing.rs:365:12
+    |
+265 | impl FencingStore {
+    | ----------------- methods in this implementation
+...
+365 |     pub fn authority_revision(&self) -> FencingResult<FencingAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+373 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+422 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/fencing.rs:739:4
+    |
+739 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_membership") generated 1 warning
+warning: `adl-runtime` (test "distributed_migration") generated 9 warnings
+warning: `adl-runtime` (test "distributed_lease") generated 10 warnings
+warning: `adl-runtime` (test "distributed_fencing") generated 9 warnings
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/failure_detection.rs:43:5
+   |
+26 | pub enum FailureError {
+   |          ------------ variant in this enum
+...
+43 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `FailureError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `FailureMembershipSnapshot` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:213:12
+    |
+213 | pub struct FailureMembershipSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: associated function `from_test_rows` is never used
+   --> tests/../src/distributed/failure_detection.rs:235:19
+    |
+220 | impl FailureMembershipSnapshot {
+    | ------------------------------ associated function in this implementation
+...
+235 |     pub(crate) fn from_test_rows(
+    |                   ^^^^^^^^^^^^^^
+
+warning: struct `FailureAuthorityRevision` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:282:12
+    |
+282 | pub struct FailureAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `sequence` and `content_sha256` are never used
+   --> tests/../src/distributed/failure_detection.rs:288:12
+    |
+287 | impl FailureAuthorityRevision {
+    | ----------------------------- methods in this implementation
+288 |     pub fn sequence(&self) -> u64 {
+    |            ^^^^^^^^
+...
+292 |     pub fn content_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^^^
+
+warning: enum `FailureSnapshotReason` is never used
+   --> tests/../src/distributed/failure_detection.rs:298:10
+    |
+298 | pub enum FailureSnapshotReason {
+    |          ^^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `FailureEvidenceBand` is never used
+   --> tests/../src/distributed/failure_detection.rs:309:10
+    |
+309 | pub enum FailureEvidenceBand {
+    |          ^^^^^^^^^^^^^^^^^^^
+
+warning: enum `FailureFreshness` is never used
+   --> tests/../src/distributed/failure_detection.rs:316:10
+    |
+316 | pub enum FailureFreshness {
+    |          ^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedFailureRow` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:323:12
+    |
+323 | pub struct RedactedFailureRow {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: methods `node_ref`, `guardian_ref`, `class`, `reason`, `evidence`, and `freshness` are never used
+   --> tests/../src/distributed/failure_detection.rs:333:12
+    |
+332 | impl RedactedFailureRow {
+    | ----------------------- methods in this implementation
+333 |     pub fn node_ref(&self) -> &str {
+    |            ^^^^^^^^
+...
+337 |     pub fn guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+341 |     pub fn class(&self) -> Option<FailureClass> {
+    |            ^^^^^
+...
+345 |     pub fn reason(&self) -> FailureSnapshotReason {
+    |            ^^^^^^
+...
+349 |     pub fn evidence(&self) -> FailureEvidenceBand {
+    |            ^^^^^^^^
+...
+353 |     pub fn freshness(&self) -> FailureFreshness {
+    |            ^^^^^^^^^
+
+warning: struct `RedactedFailureSnapshot` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:359:12
+    |
+359 | pub struct RedactedFailureSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `membership_epoch`, `committed_log_index`, `captured_at_unix_secs`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/failure_detection.rs:369:12
+    |
+368 | impl RedactedFailureSnapshot {
+    | ---------------------------- methods in this implementation
+369 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+373 |     pub fn membership_epoch(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+377 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+381 |     pub fn captured_at_unix_secs(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+385 |     pub fn revision(&self) -> FailureAuthorityRevision {
+    |            ^^^^^^^^
+...
+389 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFailureRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `redacted_rows` are never used
+   --> tests/../src/distributed/failure_detection.rs:607:12
+    |
+436 | impl FailureDetector {
+    | -------------------- methods in this implementation
+...
+607 |     pub fn authority_revision(
+    |            ^^^^^^^^^^^^^^^^^^
+...
+625 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+655 |     fn redacted_rows(
+    |        ^^^^^^^^^^^^^
+
+warning: function `failure_content_sha256` is never used
+   --> tests/../src/distributed/failure_detection.rs:779:4
+    |
+779 | fn failure_content_sha256(
+    |    ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/failure_detection.rs:806:4
+    |
+806 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: struct `CertificateAuthorityRevision` is never constructed
+   --> tests/../src/distributed/certificates.rs:124:12
+    |
+124 | pub struct CertificateAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `state_sha256` is never used
+   --> tests/../src/distributed/certificates.rs:129:12
+    |
+128 | impl CertificateAuthorityRevision {
+    | --------------------------------- method in this implementation
+129 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: enum `RedactedCertificateHealth` is never used
+   --> tests/../src/distributed/certificates.rs:135:10
+    |
+135 | pub enum RedactedCertificateHealth {
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedCertificateRow` is never constructed
+   --> tests/../src/distributed/certificates.rs:146:12
+    |
+146 | pub struct RedactedCertificateRow {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `certificate_ref`, `node_ref`, `guardian_ref`, `purpose`, `generation`, and `health` are never used
+   --> tests/../src/distributed/certificates.rs:156:12
+    |
+155 | impl RedactedCertificateRow {
+    | --------------------------- methods in this implementation
+156 |     pub fn certificate_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+160 |     pub fn node_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^
+...
+164 |     pub fn guardian_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^
+...
+168 |     pub fn purpose(&self) -> CertificatePurpose {
+    |            ^^^^^^^
+...
+172 |     pub fn generation(&self) -> u64 {
+    |            ^^^^^^^^^^
+...
+176 |     pub fn health(&self) -> RedactedCertificateHealth {
+    |            ^^^^^^
+
+warning: struct `RedactedCertificateSnapshot` is never constructed
+   --> tests/../src/distributed/certificates.rs:182:12
+    |
+182 | pub struct RedactedCertificateSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `captured_at_unix_secs`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/certificates.rs:190:12
+    |
+189 | impl RedactedCertificateSnapshot {
+    | -------------------------------- methods in this implementation
+190 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+194 |     pub fn captured_at_unix_secs(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+198 |     pub fn revision(&self) -> CertificateAuthorityRevision {
+    |            ^^^^^^^^
+...
+202 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedCertificateRow> {
+    |            ^^^^
+
+warning: variant `RevisionDrift` is never constructed
+   --> tests/../src/distributed/certificates.rs:278:5
+    |
+253 | pub enum CertificateError {
+    |          ---------------- variant in this enum
+...
+278 |     RevisionDrift,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `CertificateError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `authority_revision` and `redacted_snapshot_at` are never used
+   --> tests/../src/distributed/certificates.rs:677:12
+    |
+399 | impl DistributedCertificateStore {
+    | -------------------------------- methods in this implementation
+...
+677 |     pub fn authority_revision(&self) -> CertificateResult<CertificateAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+684 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `certificate_state_sha256` is never used
+   --> tests/../src/distributed/certificates.rs:989:4
+    |
+989 | fn certificate_state_sha256(read: &redb::ReadTransaction) -> CertificateResult<[u8; 32]> {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/certificates.rs:1011:4
+     |
+1011 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: struct `GuardianControlSignerCustody` is never constructed
+   --> tests/../src/distributed/identity.rs:233:19
+    |
+233 | pub(crate) struct GuardianControlSignerCustody {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `public_identity`, `verifying_key`, and `sign` are never used
+   --> tests/../src/distributed/identity.rs:249:19
+    |
+248 | impl GuardianControlSignerCustody {
+    | --------------------------------- methods in this implementation
+249 |     pub(crate) fn public_identity(&self) -> &PublicNodeGuardianIdentity {
+    |                   ^^^^^^^^^^^^^^^
+...
+253 |     pub(crate) fn verifying_key(&self) -> VerifyingKey {
+    |                   ^^^^^^^^^^^^^
+...
+257 |     pub(crate) fn sign(&self, payload: &[u8]) -> Signature {
+    |                   ^^^^
+
+warning: method `authority_signer_custody` is never used
+   --> tests/../src/distributed/identity.rs:311:19
+    |
+272 | impl LocalNodeGuardianIdentity {
+    | ------------------------------ method in this implementation
+...
+311 |     pub(crate) fn authority_signer_custody(&self) -> GuardianControlSignerCustody {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: variants `RevisionDrift` and `AuthorityUnavailable` are never constructed
+  --> tests/../src/distributed/placement.rs:42:5
+   |
+32 | pub enum PlacementError {
+   |          -------------- variants in this enum
+...
+42 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+43 |     AuthorityUnavailable,
+   |     ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `PlacementError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `PlacementAuthorityRevision` is never constructed
+   --> tests/../src/distributed/placement.rs:426:12
+    |
+426 | pub struct PlacementAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `sequence` and `content_sha256` are never used
+   --> tests/../src/distributed/placement.rs:432:12
+    |
+431 | impl PlacementAuthorityRevision {
+    | ------------------------------- methods in this implementation
+432 |     pub fn sequence(&self) -> u64 {
+    |            ^^^^^^^^
+...
+436 |     pub fn content_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^^^
+
+warning: struct `RedactedPlacementRow` is never constructed
+   --> tests/../src/distributed/placement.rs:442:12
+    |
+442 | pub struct RedactedPlacementRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementFreshness` is never used
+   --> tests/../src/distributed/placement.rs:453:10
+    |
+453 | pub enum PlacementFreshness {
+    |          ^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementCapacityBand` is never used
+   --> tests/../src/distributed/placement.rs:458:10
+    |
+458 | pub enum PlacementCapacityBand {
+    |          ^^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/placement.rs:465:12
+    |
+464 | impl RedactedPlacementRow {
+    | ------------------------- methods in this implementation
+465 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+469 |     pub fn node_ref(&self) -> &str {
+    |            ^^^^^^^^
+...
+473 |     pub fn guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+477 |     pub fn capability_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+481 |     pub fn weather_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+485 |     pub fn freshness(&self) -> PlacementFreshness {
+    |            ^^^^^^^^^
+...
+489 |     pub fn capacity(&self) -> PlacementCapacityBand {
+    |            ^^^^^^^^
+
+warning: struct `RedactedPlacementSnapshot` is never constructed
+   --> tests/../src/distributed/placement.rs:495:12
+    |
+495 | pub struct RedactedPlacementSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `membership_epoch`, `committed_log_index`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/placement.rs:504:12
+    |
+503 | impl RedactedPlacementSnapshot {
+    | ------------------------------ methods in this implementation
+504 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+508 |     pub fn membership_epoch(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+512 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+516 |     pub fn revision(&self) -> PlacementAuthorityRevision {
+    |            ^^^^^^^^
+...
+520 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedPlacementRow> {
+    |            ^^^^
+
+warning: fields `decision` and `captured_at_unix_secs` are never read
+   --> tests/../src/distributed/placement.rs:527:5
+    |
+526 | struct StoredPlacementDecision {
+    |        ----------------------- fields in this struct
+527 |     decision: PlacementDecision,
+    |     ^^^^^^^^
+528 |     captured_at_unix_secs: u64,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `StoredPlacementDecision` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `remove_decision`, `authority_revision`, `redacted_snapshot_at`, and `seed_decision_for_snapshot_test` are never used
+   --> tests/../src/distributed/placement.rs:565:12
+    |
+540 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- methods in this implementation
+...
+565 |     pub fn remove_decision(&self, lineage_id: &str) -> PlacementResult<bool> {
+    |            ^^^^^^^^^^^^^^^
+...
+585 |     pub fn authority_revision(&self) -> PlacementResult<PlacementAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+596 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+643 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `placement_revision` is never used
+   --> tests/../src/distributed/placement.rs:711:4
+    |
+711 | fn placement_revision(authority: &PlacementAuthorityState) -> PlacementAuthorityRevision {
+    |    ^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/placement.rs:738:4
+    |
+738 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_failure_detection") generated 15 warnings
+warning: `adl-runtime` (test "distributed_certificates") generated 11 warnings
+warning: `adl-runtime` (test "distributed_identity") generated 3 warnings
+warning: `adl-runtime` (test "distributed_placement") generated 13 warnings
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:422:19
+    |
+265 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+422 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:794:19
+    |
+713 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+794 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+807 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:560:19
+    |
+422 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:643:19
+    |
+540 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+643 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
