@@ -332,6 +332,7 @@ struct ConversationSessions {
 struct ConversationSession {
     recipient_id: String,
     next_sequence: u64,
+    dispatch_lock: Arc<tokio::sync::Mutex<()>>,
     turns: BTreeMap<String, ConversationTurn>,
 }
 
@@ -348,6 +349,7 @@ struct ConversationDispatch {
     intent: ObservatoryConversationIntent,
     sequence: u64,
     cancellation: CancellationToken,
+    dispatch_lock: Arc<tokio::sync::Mutex<()>>,
     work_id: String,
 }
 
@@ -570,6 +572,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .or_insert_with(|| ConversationSession {
                 recipient_id: intent.recipient_id.clone(),
                 next_sequence: 0,
+                dispatch_lock: Arc::new(tokio::sync::Mutex::new(())),
                 turns: BTreeMap::new(),
             });
         if session.recipient_id != intent.recipient_id {
@@ -648,6 +651,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 intent: intent.clone(),
                 sequence,
                 cancellation,
+                dispatch_lock: session.dispatch_lock.clone(),
                 work_id,
             },
         }
@@ -683,46 +687,73 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 let Some(ingress) = self.canonical_ingress.as_ref() else {
                     return outcome("failed", "conversation_ingress_unavailable");
                 };
-                tokio::select! {
-                    _ = dispatch.cancellation.cancelled() => outcome("cancelled", "conversation_cancelled"),
-                    submitted = tokio::time::timeout(
-                        self.api_policy().websocket_auth_timeout,
-                        ingress.submit(
-                            DomainWork {
-                                schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
-                                work_id: dispatch.work_id.clone(),
-                                kind: "agent_runtime".to_owned(),
-                                payload,
-                            },
-                            dispatch.intent.correlation_id.clone(),
-                        ),
-                    ) => match submitted {
-                        Err(_) => outcome("timed_out", "conversation_timed_out"),
-                        Ok(Ok(result)) => {
-                            let reply = result.public_output.as_ref()
-                                .and_then(|output| output.get("message"))
-                                .and_then(serde_json::Value::as_str)
-                                .map(str::to_owned);
-                            match reply {
-                                Some(reply) => ObservatoryConversationResult {
-                                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-                                    status: "delivered",
-                                    conversation_id: dispatch.intent.conversation_id.clone(),
-                                    turn_id: dispatch.intent.turn_id.clone(),
-                                    recipient_id: dispatch.intent.recipient_id.clone(),
-                                    correlation_id: dispatch.intent.correlation_id.clone(),
-                                    reply: Some(reply),
-                                    accepted_sequence: Some(result.accepted_sequence),
-                                    turn_sequence: Some(dispatch.sequence),
-                                    error: None,
+                let deadline = self.api_policy().websocket_auth_timeout;
+                let dispatch_guard = tokio::select! {
+                    _ = dispatch.cancellation.cancelled() => None,
+                    guard = tokio::time::timeout(deadline, dispatch.dispatch_lock.lock()) => guard.ok(),
+                };
+                match dispatch_guard {
+                    None if dispatch.cancellation.is_cancelled() => {
+                        outcome("cancelled", "conversation_cancelled")
+                    }
+                    None => outcome("timed_out", "conversation_timed_out"),
+                    Some(_guard) => {
+                        let submitted = tokio::time::timeout(
+                            deadline,
+                            ingress.submit_with_cancellation(
+                                DomainWork {
+                                    schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
+                                    work_id: dispatch.work_id.clone(),
+                                    kind: "agent_runtime".to_owned(),
+                                    payload,
                                 },
-                                None => outcome("failed", "conversation_reply_unavailable"),
-                            }
+                                dispatch.intent.correlation_id.clone(),
+                                dispatch.cancellation.clone(),
+                            ),
+                        )
+                        .await;
+                        if submitted.is_err() {
+                            dispatch.cancellation.cancel();
                         }
-                        Ok(Err(IngressError::Saturated | IngressError::Closed)) => outcome("failed", "conversation_temporarily_unavailable"),
-                        Ok(Err(IngressError::UnsupportedKind)) => outcome("refused", "recipient_unavailable"),
-                        Ok(Err(IngressError::Conflict)) => outcome("refused", "conversation_conflict"),
-                        Ok(Err(_)) => outcome("failed", "conversation_failed"),
+                        match submitted {
+                            Err(_) => outcome("timed_out", "conversation_timed_out"),
+                            Ok(Err(_)) if dispatch.cancellation.is_cancelled() => {
+                                outcome("cancelled", "conversation_cancelled")
+                            }
+                            Ok(Ok(result)) => {
+                                let reply = result
+                                    .public_output
+                                    .as_ref()
+                                    .and_then(|output| output.get("message"))
+                                    .and_then(serde_json::Value::as_str)
+                                    .map(str::to_owned);
+                                match reply {
+                                    Some(reply) => ObservatoryConversationResult {
+                                        schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                                        status: "delivered",
+                                        conversation_id: dispatch.intent.conversation_id.clone(),
+                                        turn_id: dispatch.intent.turn_id.clone(),
+                                        recipient_id: dispatch.intent.recipient_id.clone(),
+                                        correlation_id: dispatch.intent.correlation_id.clone(),
+                                        reply: Some(reply),
+                                        accepted_sequence: Some(result.accepted_sequence),
+                                        turn_sequence: Some(dispatch.sequence),
+                                        error: None,
+                                    },
+                                    None => outcome("failed", "conversation_reply_unavailable"),
+                                }
+                            }
+                            Ok(Err(IngressError::Saturated | IngressError::Closed)) => {
+                                outcome("failed", "conversation_temporarily_unavailable")
+                            }
+                            Ok(Err(IngressError::UnsupportedKind)) => {
+                                outcome("refused", "recipient_unavailable")
+                            }
+                            Ok(Err(IngressError::Conflict)) => {
+                                outcome("refused", "conversation_conflict")
+                            }
+                            Ok(Err(_)) => outcome("failed", "conversation_failed"),
+                        }
                     }
                 }
             }

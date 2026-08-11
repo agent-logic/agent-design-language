@@ -930,6 +930,14 @@ function conversationReplyFromFrame(frame, pending) {
   return conversationFrameTransition(frame, pending)?.reply || null;
 }
 
+function conversationFrameProvesAcceptance(frame) {
+  return frame?.status === "accepted" ||
+    (CONVERSATION_RESULT_STATUSES.has(frame?.status) &&
+      frame.status !== "refused" &&
+      Number.isSafeInteger(frame.turn_sequence) &&
+      frame.turn_sequence > 0);
+}
+
 function conversationReconnectIntent(pending) {
   if (!pending || !pending.disconnected || pending.terminal || pending.reconnectReplayCount >= 1) {
     return null;
@@ -1785,6 +1793,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       if (frame.status === "accepted" && transition.status === "accepted") {
         renderAcceptedConversationTurn(pending);
       }
+      if (transition.terminal && !pending.operatorRendered && conversationFrameProvesAcceptance(frame)) {
+        renderAcceptedConversationTurn(pending);
+      }
       if (transition.terminal && !pending.operatorRendered) {
         appendConversationTurn(
           "runtime",
@@ -2304,6 +2315,7 @@ globalThis.AdlHtmlObservatory = {
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,
   conversationFrameTransition,
+  conversationFrameProvesAcceptance,
   conversationReconnectIntent,
   conversationReplyFromFrame,
   fetchRetainedRuntimeSnapshot,

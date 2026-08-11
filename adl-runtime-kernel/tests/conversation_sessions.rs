@@ -34,6 +34,7 @@ const TOKEN: &str = "conversation-test-token-000000000001";
 struct FakeLifecycle;
 struct ConversationExecutor {
     dispatches: Arc<AtomicUsize>,
+    completions: Arc<AtomicUsize>,
 }
 
 #[async_trait]
@@ -66,7 +67,10 @@ impl OperationExecutor for ConversationExecutor {
         };
         if work["tasks"][0]["input"] == "delay" {
             tokio::time::sleep(Duration::from_millis(250)).await;
+        } else if work["tasks"][0]["input"] == "delay ordered" {
+            tokio::time::sleep(Duration::from_millis(60)).await;
         }
+        self.completions.fetch_add(1, Ordering::SeqCst);
         serde_json::to_vec(&serde_json::json!({
             "schema": "adl.runtime.local_agent_execution.v1",
             "outputs": [{
@@ -89,6 +93,7 @@ impl OperationExecutor for ConversationExecutor {
 async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() {
     let recorder = RuntimeRecorder::new(32);
     let dispatches = Arc::new(AtomicUsize::new(0));
+    let completions = Arc::new(AtomicUsize::new(0));
     let adapter = Arc::new(
         OperationalAdapter::new(
             AdapterKind::Agent,
@@ -102,6 +107,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             },
             Arc::new(ConversationExecutor {
                 dispatches: dispatches.clone(),
+                completions: completions.clone(),
             }),
         )
         .unwrap(),
@@ -118,7 +124,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             recorder.clone(),
             FakeLifecycle,
             ControlAuthority::new(BTreeMap::new()),
-            4,
+            6,
             ["https://observatory.example.test".to_owned()],
         )
         .with_canonical_ingress(ingress.clone()),
@@ -264,6 +270,49 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert_eq!(conflict["error"], "conversation_conflict");
     assert_eq!(dispatches.load(Ordering::SeqCst), 1);
 
+    for (turn_id, correlation_id, message) in [
+        (
+            "turn-ordered-1",
+            "55555555555555555555555555555555",
+            "delay ordered",
+        ),
+        (
+            "turn-ordered-2",
+            "66666666666666666666666666666666",
+            "Hello",
+        ),
+    ] {
+        socket
+            .send(Message::Text(
+                serde_json::json!({
+                    "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                    "conversation_id": "conversation-agent-0001",
+                    "turn_id": turn_id,
+                    "recipient_id": "agent-0001",
+                    "correlation_id": correlation_id,
+                    "message": message
+                })
+                .to_string()
+                .into(),
+            ))
+            .await
+            .unwrap();
+    }
+    let first_accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let second_accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(first_accepted["turn_id"], "turn-ordered-1");
+    assert_eq!(second_accepted["turn_id"], "turn-ordered-2");
+    let first_terminal =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let second_terminal =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(first_terminal["turn_id"], "turn-ordered-1");
+    assert_eq!(first_terminal["status"], "delivered");
+    assert_eq!(second_terminal["turn_id"], "turn-ordered-2");
+    assert_eq!(second_terminal["status"], "delivered");
+
     socket
         .send(Message::Text(
             serde_json::json!({
@@ -364,7 +413,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let timed_out =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(timed_out["status"], "timed_out");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 3);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 5);
+    assert_eq!(completions.load(Ordering::SeqCst), 4);
 
     socket
         .send(Message::Text(
@@ -407,6 +457,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     ];
     assert!(statuses.contains(&"accepted"));
     assert!(statuses.contains(&"cancelled"));
+    tokio::time::sleep(Duration::from_millis(275)).await;
+    assert_eq!(completions.load(Ordering::SeqCst), 4);
 
     socket
         .send(Message::Text(

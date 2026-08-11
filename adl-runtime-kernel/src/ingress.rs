@@ -8,6 +8,7 @@ use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use tokio::sync::{oneshot, Mutex as AsyncMutex, Notify};
+use tokio_util::sync::CancellationToken;
 
 use crate::{
     channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, Component, ComponentContext,
@@ -65,6 +66,7 @@ pub enum IngressError {
 struct Envelope {
     work: DomainWork,
     correlation_id: String,
+    cancellation: CancellationToken,
     reply: oneshot::Sender<Result<DomainResult, IngressError>>,
 }
 
@@ -123,6 +125,16 @@ impl CanonicalIngress {
         work: DomainWork,
         correlation_id: String,
     ) -> Result<DomainResult, IngressError> {
+        self.submit_with_cancellation(work, correlation_id, CancellationToken::new())
+            .await
+    }
+
+    pub async fn submit_with_cancellation(
+        &self,
+        work: DomainWork,
+        correlation_id: String,
+        cancellation: CancellationToken,
+    ) -> Result<DomainResult, IngressError> {
         validate(&work)?;
         let _lease = self.begin_admission()?;
         let (reply, result) = oneshot::channel();
@@ -130,6 +142,7 @@ impl CanonicalIngress {
             .send(Envelope {
                 work,
                 correlation_id,
+                cancellation,
                 reply,
             })
             .await
@@ -200,20 +213,27 @@ impl CanonicalIngress {
         Ok(AdmissionLease(self.admission.clone(), self.drained.clone()))
     }
 
-    async fn dispatch(&self, work: &DomainWork) -> Result<DomainResult, IngressError> {
+    async fn dispatch(
+        &self,
+        work: &DomainWork,
+        cancellation: CancellationToken,
+    ) -> Result<DomainResult, IngressError> {
         let dispatcher = self
             .dispatchers
             .get(&work.kind)
             .ok_or(IngressError::UnsupportedKind)?;
         let operation = dispatcher
-            .submit(OperationRequest {
-                schema: OPERATION_REQUEST_SCHEMA.to_owned(),
-                request_id: work.work_id.clone(),
-                idempotency_key: work.work_id.clone(),
-                principal: "canonical-ingress".to_owned(),
-                payload: work.payload.clone(),
-                permit: None,
-            })
+            .submit_with_cancellation(
+                OperationRequest {
+                    schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                    request_id: work.work_id.clone(),
+                    idempotency_key: work.work_id.clone(),
+                    principal: "canonical-ingress".to_owned(),
+                    payload: work.payload.clone(),
+                    permit: None,
+                },
+                cancellation,
+            )
             .await
             .map_err(|error| match error {
                 OperationError::InvalidRequest => IngressError::Conflict,
@@ -233,7 +253,9 @@ impl Component for CanonicalIngress {
                 envelope = async { self.receiver.lock().await.recv().await } => {
                     let Some(envelope) = envelope else { return Ok(()); };
                     self.recorder.set_queue_health("canonical_ingress", &self.sender.metrics());
-                    let result = self.dispatch(&envelope.work).await;
+                    let result = self
+                        .dispatch(&envelope.work, envelope.cancellation)
+                        .await;
                     if result.is_ok() {
                         self.recorder.emit_correlated(Some(ComponentId::new("canonical_ingress")),
                             RuntimeEvent::DomainWorkCompleted, Some(&envelope.correlation_id));

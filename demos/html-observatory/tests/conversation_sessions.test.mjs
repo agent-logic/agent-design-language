@@ -38,6 +38,7 @@ const [html, app] = await Promise.all([
 ]);
 await import("../app.js");
 const {
+  conversationFrameProvesAcceptance,
   conversationFrameTransition,
   conversationReconnectIntent,
   conversationReplyFromFrame
@@ -117,6 +118,9 @@ for (const status of ["refused", "failed", "timed_out", "cancelled"]) {
   );
 }
 assert.equal(conversationReplyFromFrame(delivered, pending), "Agent response");
+assert.equal(conversationFrameProvesAcceptance({ ...delivered, turn_sequence: 1 }), true);
+assert.equal(conversationFrameProvesAcceptance({ ...delivered, status: "timed_out", reply: undefined, turn_sequence: 2 }), true);
+assert.equal(conversationFrameProvesAcceptance({ ...delivered, status: "refused", reply: undefined, turn_sequence: undefined }), false);
 assert.equal(conversationFrameTransition(delivered, null), null, "a replay has no pending turn");
 assert.equal(conversationFrameTransition({ ...delivered, conversation_id: "conversation-other" }, pending), null);
 assert.equal(conversationFrameTransition({ ...delivered, turn_id: "turn-other" }, pending), null);
