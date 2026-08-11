@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "bound",
-  "generation": 21,
-  "digest": "25d9aca0c86a1d8350ea10351d603fc76f5324a122b40bd2b360c9136620eac1",
+  "generation": 27,
+  "digest": "ecbf55a60f3f22158a45f988ce39060317be18b27b8dc13444a4065302ddb908",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "570c673f17cb17a1fa2a397350d13afa271ff5222a989e5f0e30313180a81d0a",
-      "rendered_digest": "b32c24898fb51fe7983fc9c22fc3c4a2a1301a577fbfcbc4c544a8010e8467bf",
-      "ast_digest": "ec2c4ea994baf5d6fcf4c370786b31089a9f7b5703f759da1a79963fb8a97991"
+      "values_digest": "72a899d0a762e81dcc344dc3c8132d9564592ba1625db481bbb492158f967d9b",
+      "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
+      "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "b539d3b7785acc431471a84e1864b12383fe7154ab6f2a7de814721208f264dc",
-      "rendered_digest": "0e9cf329b13bea0024aa5435646a2c6eb28e8621d186026d14b63c83ba72e8ac",
-      "ast_digest": "3d05c54af057665cbd3763007ceb67f3cdf72e09fed17d530eaa9c01795f0f84"
+      "values_digest": "0006aa9a40c63efd28ec49e6e5f30f9647f867963da6d3a52b23c63becd7e288",
+      "rendered_digest": "0dc18f10d77718299dfddef691b3d73b3eb9df04dfbd7e25d2eaec6d47c417a6",
+      "ast_digest": "b52c6837db96414aa8baab28902706e970376b68953bda041d7d402c79afe283"
     },
     "spp": {
-      "values_digest": "3b0318c3ef410faf09b578bd27f533378d3fe601a6fe047ed4c709d8184da3bb",
-      "rendered_digest": "db00812211a917314b8b44c16e9c7447769f4e13be3b22852494b130990c43ce",
-      "ast_digest": "a86c5abad22c8759a6c78dddaf6871a3fa9083cc30782d56ac67b37ab723ce7d"
+      "values_digest": "5f28469647e78bc03812049800a53846c5a14685cfd137d3b0bf458742fec68d",
+      "rendered_digest": "ebbe74966b965356e56d190e6b427645918f53481ae4820c9dafc19d04a8b5b2",
+      "ast_digest": "401cc7dd13eaa5a0fceeb3d9f94bf7d6bcabd4b607372ac37aff7dfc00110124"
     },
     "vpp": {
-      "values_digest": "d092861270f856d175beaa78931f19326cf4671007bc367418517b19c6ad1558",
+      "values_digest": "85d544b132d9f75b2580c92f2400c5f5aacab7dfb5ea532be1dbb798fc124362",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "6fd7cdcc8fbbb99e9095a381fbbee167be0cbe8749251c269fc5854d4f454b86",
+      "values_digest": "225e8af735174233be3a1f40b27cde5194cb57b0b4fdfb3c8e10b19f8403a270",
       "rendered_digest": "e37a0643a47fb863a387964ca9e69e03eea12c6cfb959ebfbc5c60f69ec98b2b",
       "ast_digest": "998b9887f80c2418e8b940fed6ddaeeeaaa92fbf2c6a08f79884820b30e5dd90"
     },
     "sor": {
-      "values_digest": "a715c312c8e60c1aa1e020547d89a540310c25bf2d961d827ed8eb519f6e3202",
+      "values_digest": "6300fe8ef4ab63702636b6d0acb607685ed974ad33ac0965e5984206a72a326d",
       "rendered_digest": "7e85772a1b45db70e43e5c774ccbd497398a8abcc4c36410055d3abbdbf7e98d",
       "ast_digest": "2b7c8a38e9f8222a78fea737458fba42a8b3696abaf3c65793811bd97261636d"
     }
@@ -232,6 +232,48 @@
       "actor": "codex:111-execution",
       "reason": "Align stop conditions with live umbrella 110 decomposition and preserve downstream scope boundaries during bound execution.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Live #110 decomposition authority is revoked or the bounded #111 selected-agent conversation scope is reassigned\",\"The implementation requires broader Layer 8 identity or policy hardening owned by downstream #112\",\"The implementation requires durable history owned by #114 or multi-agent rooms and routing owned by #115 and #116\",\"The implementation would expose provider payloads, private cognition, credentials, or browser-held signing keys\",\"A proving validator target becomes unavailable or the exact changed paths diverge materially without another typed replan\",\"Any path would require product edits on root main or mutation of #83, #110, #122, or #213\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:111-execution",
+      "reason": "Align execution dependencies with live umbrella 110 decomposition authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#110 is the live WP-18C umbrella and authorizes #111 and #113 as separate initial execution slices\",\"#92 is closed and supplies the trusted TLS baseline\",\"#83 remains asynchronous decomposition reconciliation and is not an execution gate\",\"#122 is deferred beyond v0.92 and is not a #111 execution gate\",\"#112 consumes #111 later and supplies no authority or dependency to this issue\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:111-execution",
+      "reason": "Replace superseded terminal-83 wording while preserving the bounded selected-agent conversation slice.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Implement only the canonical one-operator-to-one-visible-agent bounded conversation slice authorized by live #110: authenticated Observatory intent, Runtime recipient eligibility, canonical ingress dispatch, explicit delivery/refusal/failure outcomes, and typed public reply rendering. Exclude durable history, rooms, attention workflows, public deployment, and broader identity or policy hardening.\",\"operation\":\"replan\",\"previous_value\":\"Implement only the canonical one-operator-to-one-agent bounded conversation session layer that extends the terminal #83 vertical slice; exclude durable history, rooms, attention workflows, public deployment, and new authority semantics.\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:111-execution",
+      "reason": "Record live umbrella 110 as execution authority and retain the issue 83 no-mutation boundary without treating it as a gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Runtime is the sole authority for sessions, ordering, outcomes, recipient eligibility, and public response correlation\",\"Live #110 authorizes the bounded #111 execution slice; #83 remains asynchronous decomposition reconciliation and is not an execution gate\",\"The browser is a non-authoritative authenticated client and never signs agent work or synthesizes delivery or agent responses\",\"Provider payloads, credentials, private cognition, and private agent state remain outside public contracts\",\"Downstream #112 consumes #111 later and supplies no authority or dependency to this issue\",\"Issue #83, umbrella #110, deferred #122, and tooling issue #213 must not be mutated by this execution\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 25,
+      "actor": "codex:111-execution",
+      "reason": "Replace the superseded issue 83 ancestry step with live umbrella 110 decomposition validation while preserving the execution sequence.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"P1\",\"action\":\"Revalidate live #110 decomposition authority, inspect the existing Runtime ingress and Observatory contract, bind #111, and record any topology divergence through a typed replan.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"P2\",\"action\":\"Implement canonical conversation contracts and the Runtime-owned bounded session engine with ordering, idempotency, explicit negative outcomes, and a fail-closed unavailable boundary.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"P3\",\"action\":\"Integrate the provider-neutral adapter and authenticated Runtime ingress/egress without widening existing identity or policy authority.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"P4\",\"action\":\"Integrate the Observatory client using Runtime conversation identity and correlation while prohibiting acknowledgement, result hash, or arbitrary adapter output from appearing as an agent response.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"P5\",\"action\":\"Run the declared focused PVF lanes and fix all failures at the exact implementation revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"P6\",\"action\":\"Run bounded exact-head review, fix every actionable finding, and record truthful residual risk before publication handoff.\",\"acceptance_ids\":[\"AC-6\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 26,
+      "actor": "codex:111-execution",
+      "reason": "Replace the superseded issue 83 merge risk with current bounded conversation execution risks.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"Concurrent #113 roster work overlaps Runtime control and Observatory paths, so integration must preserve both issue-owned commits and rerun exact focused proof\",\"A public helper or browser-held key could bypass authenticated WSS authority unless the conversation entrypoint remains private and session-gated\",\"Duplicate turn identifiers, disconnects, and late adapter completion can confuse visible outcome truth unless canonical ingress remains the sole idempotency authority\",\"An adapter could return arbitrary fields or a mismatched recipient unless the public projection is strict and fail closed\",\"A browser may accidentally render an acknowledgement, result hash, stale replay, or arbitrary adapter output as conversational content\",\"Durable history, rooms, and broader identity hardening must remain routed to #114, #115/#116, and #112\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 27,
+      "actor": "codex:111-execution",
+      "reason": "Align the authority invariant with live umbrella 110 decomposition and the existing authenticated Runtime reachability boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Runtime alone owns canonical session state, sequence allocation, idempotency, recipient eligibility, and outcome truth\",\"One conversation binds exactly one authenticated operator session and one visible running agent\",\"At most one adapter dispatch and one correlated typed public response occur per accepted turn identifier\",\"Browser reconnect cannot create turns or replay dispatch, and a replayed result without a pending turn cannot render\",\"No provider-specific payload, credential, private cognition, private agent state, acknowledgement, or result hash crosses the public reply projection\",\"#111 uses the existing authenticated Runtime reachability boundary under live #110 authority; #83 is asynchronous reconciliation and downstream #112 supplies no authority or gate\"]}"
     }
   ]
 }

@@ -16,14 +16,14 @@ Under live #110 decomposition authority, implement a bounded authenticated selec
 
 ## Plan
 
-Revision 11
+Revision 14
 
 ## Steps
 
 [
   {
     "id": "P1",
-    "action": "Revalidate live dependencies, establish #83 ancestry, inspect the exact inherited ingress/Observatory contract, and update the typed plan if topology changed.",
+    "action": "Revalidate live #110 decomposition authority, inspect the existing Runtime ingress and Observatory contract, bind #111, and record any topology divergence through a typed replan.",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
@@ -32,7 +32,7 @@ Revision 11
   },
   {
     "id": "P2",
-    "action": "Implement canonical conversation contracts and the Runtime-owned bounded session engine with ordering, idempotency, reconnect, cancellation, timeout, and restart semantics.",
+    "action": "Implement canonical conversation contracts and the Runtime-owned bounded session engine with ordering, idempotency, explicit negative outcomes, and a fail-closed unavailable boundary.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -52,7 +52,7 @@ Revision 11
   },
   {
     "id": "P4",
-    "action": "Integrate the Observatory client using Runtime conversation identity and cursor while prohibiting acknowledgement or browser text from appearing as agent response.",
+    "action": "Integrate the Observatory client using Runtime conversation identity and correlation while prohibiting acknowledgement, result hash, or arbitrary adapter output from appearing as an agent response.",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
@@ -83,19 +83,21 @@ Revision 11
 
 ## Invariants
 
-- Runtime alone owns canonical session state, sequence allocation, idempotency, and outcome truth
-- One session binds exactly one authenticated operator principal and one policy-reachable agent
-- At most one provider dispatch and one correlated public response occur per accepted submission key
-- Browser reconnect cannot create turns or replay dispatch, and browser state cannot resume a lost Runtime session
-- No provider-specific payload, credential, private cognition, or private agent state crosses the public projection
-- #111 consumes only the authenticated reachability boundary inherited from #83; downstream #112 depends on #111 and supplies no authority or gate to this issue
+- Runtime alone owns canonical session state, sequence allocation, idempotency, recipient eligibility, and outcome truth
+- One conversation binds exactly one authenticated operator session and one visible running agent
+- At most one adapter dispatch and one correlated typed public response occur per accepted turn identifier
+- Browser reconnect cannot create turns or replay dispatch, and a replayed result without a pending turn cannot render
+- No provider-specific payload, credential, private cognition, private agent state, acknowledgement, or result hash crosses the public reply projection
+- #111 uses the existing authenticated Runtime reachability boundary under live #110 authority; #83 is asynchronous reconciliation and downstream #112 supplies no authority or gate
 
 ## Risks
 
-- #83 owns overlapping unmerged ingress/control/Observatory changes, so pre-terminal implementation would create stale or conflicting architecture
-- Cancellation, timeout, disconnect, and late provider completion can race unless terminal outcome commitment is atomic
-- In-memory restart semantics may be mistaken for durable continuity unless the unavailable boundary is explicit
-- A browser may accidentally render an ingress acknowledgement or result hash as conversational content
+- Concurrent #113 roster work overlaps Runtime control and Observatory paths, so integration must preserve both issue-owned commits and rerun exact focused proof
+- A public helper or browser-held key could bypass authenticated WSS authority unless the conversation entrypoint remains private and session-gated
+- Duplicate turn identifiers, disconnects, and late adapter completion can confuse visible outcome truth unless canonical ingress remains the sole idempotency authority
+- An adapter could return arbitrary fields or a mismatched recipient unless the public projection is strict and fail closed
+- A browser may accidentally render an acknowledgement, result hash, stale replay, or arbitrary adapter output as conversational content
+- Durable history, rooms, and broader identity hardening must remain routed to #114, #115/#116, and #112
 
 ## Estimates
 

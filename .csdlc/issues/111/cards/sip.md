@@ -28,11 +28,12 @@ A Layer 8 operator can start or resume a bounded one-to-one conversation with a 
 
 ## Authority
 
-- Runtime is the sole authority for sessions, ordering, outcomes, and public response correlation
-- #83 is the sole terminal ancestral dependency for #111; #111 preserves its inherited authenticated reachability boundary without widening authority, and #112 consumes #111 later
-- The browser is a non-authoritative client and never synthesizes delivery or agent responses
+- Runtime is the sole authority for sessions, ordering, outcomes, recipient eligibility, and public response correlation
+- Live #110 authorizes the bounded #111 execution slice; #83 remains asynchronous decomposition reconciliation and is not an execution gate
+- The browser is a non-authoritative authenticated client and never signs agent work or synthesizes delivery or agent responses
 - Provider payloads, credentials, private cognition, and private agent state remain outside public contracts
-- No product implementation, binding, publication, push, PR, merge, close, or #83/#110 mutation is authorized during preparation
+- Downstream #112 consumes #111 later and supplies no authority or dependency to this issue
+- Issue #83, umbrella #110, deferred #122, and tooling issue #213 must not be mutated by this execution
 
 ## Assumptions
 
