@@ -4,12 +4,110 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "implemented",
-  "generation": 44,
-  "digest": "495729f83d548af177d1ae3d3a8fd878a50ca33e079ef23b7e1c18fe8a827444",
+  "generation": 45,
+  "digest": "0e6d75fcd79fafa0c0f426752a099f7de89d7107b8465fa2c075d02dfdbfab7d",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fef96-7412-7f72-b863-3ecd4bace544",
+    "assigned_by": "codex:wp18c03-fresh-session-review",
+    "revision": "git-blake3:fcbe7609f5a346154e5967e225a3ced05385f5ac:c759650f8a7c61aab545acf17fc1f0c3ee092296f3f32637c93135699040096e",
+    "scope": [
+      "adl-runtime-kernel/build.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      ".csdlc/issues/113"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fef96-7412-7f72-b863-3ecd4bace544",
+    "scope": [
+      "adl-runtime-kernel/build.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      ".csdlc/issues/113"
+    ],
+    "reviewed_revision": "git-blake3:fcbe7609f5a346154e5967e225a3ced05385f5ac:c759650f8a7c61aab545acf17fc1f0c3ee092296f3f32637c93135699040096e",
+    "findings": [
+      {
+        "id": "fresh-review-222-p1-policy-projection",
+        "severity": "p1",
+        "summary": "Production roster policy authorizes and discloses every configured entry without a caller-specific visibility decision.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "adl-runtime-kernel/src/control.rs:1231"
+      },
+      {
+        "id": "fresh-review-222-p1-cursor-gap",
+        "severity": "p1",
+        "summary": "The roster feed and browser have no cursor gap contract and silently accept skipped revisions instead of resynchronizing.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "demos/html-observatory/app.js:105"
+      },
+      {
+        "id": "fresh-review-222-p1-pagination-cost",
+        "severity": "p1",
+        "summary": "Roster pagination allocates and sorts the whole visible population for every page, so memory and latency are not bounded by page size.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "adl-runtime-kernel/src/agent_roster.rs:185"
+      },
+      {
+        "id": "fresh-review-222-p2-retained-live-evidence",
+        "severity": "p2",
+        "summary": "Live-browser and signed-restart claims have no retained inspectable logs, screenshots, traces, or restart receipts in the issue evidence bundle.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": ".csdlc/issues/113/cards/sor.md"
+      }
+    ],
+    "residual_risks": [
+      "Distributed and non-local roster projection remains owned by issue #142.",
+      "Durable conversation history and cross-restart chat restoration remain owned by issue #114.",
+      "The fresh reviewer could not rerun the environment-dependent trusted-TLS Playwright and restart proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +122,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "edb0d50ff78413231e8799f85cd1359b3f24826f8d1a245acc72e4968a0cfff6",
+      "values_digest": "c55876b9c56fb9e0ac9a70671274dbb258c742822352d522c7e47a89761ce5e6",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "c988c26b8bd3c488688062502e5c9ff3f8ad79ae16086b5e307551f588956ed2",
+      "values_digest": "4d5a2410c3eba35a7dc98a84419fa5f0d7ed2d8ae22430761a2703079919229a",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "3cf9921d3b6a7e9783491f99f2fb39334059da2f9e2f6275f1dcef0d2c31efd6",
+      "values_digest": "4d0044ec14ad2e207d408c3aefa8cce4ff569a9b6464747bb78779e66f9014d7",
       "rendered_digest": "0a87219293ddd139966aaf0c77f56b8c6164f3213687bfda3ad8f4c32d49f1ba",
       "ast_digest": "793ed408d19b5d2ae07fdab2f8c6d13ca845ed5618969a25cc8fbb7b1f1187dc"
     },
     "vpp": {
-      "values_digest": "ee8d622d442b118f51f11ed0fb7db7f9b087badaa0fdb0bceded29a3c14cd5bf",
+      "values_digest": "0ffa6f6f7690859db1c98880ddcacf8fe01ea3dea30809a22921e13207094b8e",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "0db7e1d3decc00b02f7011a30c8a9d831c79572659cca99f5e549cb139f7f192",
-      "rendered_digest": "d9c26dbd6a36e87a985ca27ac27d1d24770837353ad4f5d42e457812b5fbc9d3",
-      "ast_digest": "9e00c4298c70492257694a1618a4adef8407c5b63b1f0e5b961f468d05b107fb"
+      "values_digest": "642885e3289fd6b71664a2aa8c721c509c7c507dfc7d25690f452550bca8c4cc",
+      "rendered_digest": "ac8eda49bf635fbd3317896b9b39e99d673361a2f491abc7ea8f183070dcefc7",
+      "ast_digest": "d3c7f7f672ec5d71c90b6c952169d297eff0d7948302af27d426a85764af6d31"
     },
     "sor": {
-      "values_digest": "5337d30ac06ff961774fda65a063f5642b9b292ba827344a5ec13b2d16daedf3",
+      "values_digest": "32cc3efd0ad7f204d953f1148f83da0d6c565918c693b6f4c87cc889c5a04843",
       "rendered_digest": "f086145212e650ef19daad9e12a0d5bf4311c506b7c7fdc27dd51df0225dec7f",
       "ast_digest": "79b63009a92df0d23387812ea80a79fa3a082ef6d04c60574e91ca691f1becde"
     }
@@ -476,6 +574,20 @@
       "actor": "codex:wp18c03-fresh-session-review",
       "reason": "Recover publication and prior inherited-session review truth so PR #222 receives a fresh independently assigned exact-head review before merge.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 44,
+      "actor": "codex:wp18c03-fresh-session-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 45,
+      "actor": "subagent:019fef96-7412-7f72-b863-3ecd4bace544",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
