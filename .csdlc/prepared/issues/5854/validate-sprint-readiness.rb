@@ -9,7 +9,7 @@ require "yaml"
 
 ROOT = Pathname.new(File.expand_path("../../../..", __dir__))
 SPRINT = 5854
-UNBOUND = [5835, 5836, 5838, 5839, 5840].freeze
+UNBOUND = [5835, 5836, 5838, 5839].freeze
 CARDS = %w[sip stp spp vpp srp sor].freeze
 EXPECTED_CODE_REPOSITORY = "agent-logic/agent-design-language"
 EXPECTED_WAVE_GATES = [
@@ -17,7 +17,6 @@ EXPECTED_WAVE_GATES = [
   "WP-18 after #5825 through #5830, canonical WP-14 #209 / PR #215, #5833, and #5834; legacy #5832 is superseded",
   "WP-18B after canonical WP-14 #209 / PR #215, #5834, and WP-18",
   "WP-19 after #5834 and WP-17 plus accepted v0.93 allocation",
-  "WP-20 after WP-18, WP-18A, WP-18B, and WP-19",
   "WP-24 final claims after WP-23"
 ].freeze
 
@@ -122,7 +121,7 @@ raise "human packet retains an ungoverned candidate parallel lane" if human.incl
 human_parallel_lanes = parse_human_parallel_lanes(human)
 
 stp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/stp.values.json").read).dig("content", "values")
-operative_closeout = "the five operative children (#5835, #5836, #5838, #5839, and #5840)"
+operative_closeout = "the four operative children (#5835, #5836, #5838, and #5839)"
 raise "STP does not name the exact operative closeout boundary" unless stp_values.fetch("acceptance_criteria").any? { |criterion| criterion.include?(operative_closeout) && criterion.include?("WP-24A #5845 cannot gate") }
 srp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/srp.values.json").read).dig("content", "values")
 raise "SRP does not review the exact operative closeout boundary" unless srp_values.fetch("review_prompts").any? { |prompt| prompt.include?(operative_closeout) && prompt.include?("WP-24A #5845 excluded") }
@@ -135,6 +134,7 @@ raise "session prompt still requires ordinary pre-bind child doctor" if session_
 raise "session prompt omits expected split-authority diagnosis" unless session_text.include?("ordinary doctor is expected to report `repository_identity_drift` until typed bind")
 raise "session prompt omits post-bind doctor" unless session_text.include?("Run ordinary doctor in the child worktree only after bind succeeds")
 raise "session prompt omits WP-19 serial gate" unless session_prompt.include?("#5839 follows #5834 and #5835 plus accepted v0.93 allocation")
+raise "session prompt does not route WP-20 to final sprint" unless session_prompt.include?("WP-20 (`#5840`) is the first child of final release-tail sprint `#5856`")
 
 bind_manifest = JSON.parse((ROOT / ".csdlc/prepared/issues/5854/split-authority-bind-requests.json").read)
 raise "split-authority manifest schema mismatch" unless bind_manifest.fetch("schema") == "adl.v092.sprint_5854_split_authority_bind_requests.v1"
@@ -276,7 +276,8 @@ source_umbrella = source.fetch("issue_results").find do |entry|
 end&.fetch("response")&.fetch("issue")
 raise "live source issue #5854 missing" unless source_umbrella
 umbrella_body = source_umbrella.fetch("body")
-raise "live source issue does not name five operative children" unless UNBOUND.all? { |issue| umbrella_body.include?("- ##{issue}") }
+raise "live source issue does not name four operative children" unless UNBOUND.all? { |issue| umbrella_body.include?("- ##{issue}") }
+raise "live source issue does not route WP-20 to final sprint" unless umbrella_body.include?("#5840") && umbrella_body.include?("#5856")
 raise "live source issue retains the obsolete all-child exit" if umbrella_body.include?("Every child is merged")
 raise "live source issue retains podcast-package exit scope" if umbrella_body.include?("podcast packages")
 raise "live source issue does not exclude WP-24A" unless umbrella_body.include?("#5845 (WP-24A) has no Sprint 5 dependency") && umbrella_body.include?("cannot block exit")

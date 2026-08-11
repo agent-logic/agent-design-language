@@ -7,14 +7,14 @@
     "title": "Quality and release-tail sprint",
     "slug": "quality-and-release-tail",
     "version": "v0.92",
-    "generation": 0
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.",
+      "plan_revision": 2,
+      "summary": "Verify the complete final-sprint child wave, begin with WP-20 only after its proof producers are terminal, preserve the strict WP-20 through WP-30 dependency chain, and synthesize one integrated release-tail review after child completion.",
       "steps": [
         {
           "id": "readiness",
@@ -70,9 +70,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5856/design.md",
-      "design_digest": "c874e9d3a3705a6ab9c92c4594ff685b9fccb1cdd5180cbd3e50da7459a0ef9b",
+      "design_digest": "ffb2155a6bd9d980c3a587e716f9643e5b08ea84980b0c04ecb885d38ad95441",
       "diagram_ref": ".csdlc/prepared/issues/5856/diagram.mmd",
-      "diagram_digest": "fa70af54fd83eac4680092e86495ef246cc57892be3e5fb1322c66982f5d4f11"
+      "diagram_digest": "c1817d53601997245eb63ec05c5b94d57d7520beaa4ab96860d3e5cf8b70a172"
     }
   }
 }

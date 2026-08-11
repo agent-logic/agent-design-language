@@ -31,6 +31,7 @@ bootstrap reservation is still active.
 
 Exact child wave:
 
+- #5840, WP-20: demo matrix, AEE proof, and proof coverage
 - #5786, WP-21: repository-wide code reduction cleanup
 - #5841, WP-21A: Rust refactoring and maintainability pass
 - #5842, WP-22: quality gate over every indexed v0.92 feature
@@ -45,6 +46,8 @@ Exact child wave:
 
 Strict order:
 
+- #5840 starts only after #5836, #5837, #5838, and #5839 are terminal
+- #5840 before #5786
 - #5786 before #5841
 - #5841 before #5842
 - #5842 before #5843

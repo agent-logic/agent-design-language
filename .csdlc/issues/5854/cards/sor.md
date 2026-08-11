@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Refreshed and hardened Sprint 5 readiness so #5835 and #5836 can bind only from reviewed, merged, ancestral dependency authority while all downstream gates remain closed.
+Reclassified WP-20 as the first child of final sprint #5856 and reduced Sprint 5 to four operative children without starting any child.
 
 ## Artifacts
 
@@ -47,6 +47,21 @@ Refreshed and hardened Sprint 5 readiness so #5835 and #5836 can bind only from 
 - .csdlc/issues/5838
 - docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
 - .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
+- docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
+- docs/milestones/v0.92/SPRINT_v0.92.md
+- .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
+- .adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md
+- .csdlc/prepared/issues/5854/sprint-execution-packet.yaml
+- .csdlc/prepared/issues/5854/sprint-execution-packet.md
+- .csdlc/prepared/issues/5854/split-authority-bind-requests.json
+- .csdlc/prepared/issues/5854/validate-sprint-readiness.rb
+- .csdlc/prepared/issues/5856/sprint-execution-packet.yaml
+- .csdlc/prepared/issues/5856/sprint-execution-packet.md
+- .csdlc/evidence/5854/live-gates.json
+- .csdlc/evidence/5854/live-gates-source.json
+- .csdlc/evidence/5854/sprint-review.md
+- .csdlc/evidence/5854/activity.jsonl
+- .csdlc/evidence/5854/v092-sprint5-readiness.log
 
 ## Execution
 
@@ -65,6 +80,10 @@ Refreshed and hardened Sprint 5 readiness so #5835 and #5836 can bind only from 
 - Updated the human packet and sprint review to classify #5835 and #5836 as ready to bind.
 - Kept #5838, #5839, and #5840 blocked behind their declared dependencies and kept WP-24A out of band.
 - Updated the validator's exact live-state expectations and first-wave classification checks.
+- Removed #5840 from Sprint 5 membership, bind requests, watcher set, serial gates, and closeout denominator.
+- Added #5840 as the first child of final sprint #5856 after #5836, #5837, #5838, and #5839 and before WP-21.
+- Updated both live sprint issue bodies through the typed GitHub issue owner and refreshed retained live evidence.
+- Preserved all WP-20 implementation scope, cards, dependencies, and artifacts; no child was bound or started.
 
 ## Validation
 

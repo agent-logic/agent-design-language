@@ -26,8 +26,10 @@ The umbrella coordinates the listed children through their typed v2 lifecycles. 
 | `#5836` | WP-18 | prepared and unbound; `#5825`-`#5830`, canonical WP-14 `agent-logic/agent-design-language#209` / PR `#215`, `#5833`, and `#5834` have reviewed ancestral merge proof; legacy `#5832` is superseded | ready to bind when Sprint 5 execution starts |
 | `#5838` | WP-18B | prepared and unbound; canonical WP-14 is complete but `#5836` remains open | preserve the provider-proof gate |
 | `#5839` | WP-19 | prepared and unbound; blocked on `#5834`, `#5835`, and accepted v0.93 allocation | preserve governance boundaries |
-| `#5840` | WP-20 | prepared and unbound; blocked on `#5836`, `#5837`, `#5838`, and `#5839` | run only after all proof producers finish |
 | `#5844` | WP-24 | product/GitHub complete; canonical issue `#10` and PR `#14` are merged; typed closeout remains asynchronous | no further product execution |
+
+WP-20 (`#5840`) is not an operative Sprint 5 child. It consumes the completed
+proof producers as the first child of the final release-tail sprint `#5856`.
 
 ### Out-Of-Band Stream
 
@@ -48,7 +50,7 @@ binding.
 2. Start `#5836` only after `#5825`-`#5830`, canonical WP-14 `#209` / PR `#215`, `#5833`, and `#5834` have reviewed ancestral merge proof.
 3. Start `#5838` after `#5836` is terminal and all of its other dependencies are satisfied.
 4. Start `#5839` after `#5835` is terminal and the v0.93 allocation is explicit.
-5. Start `#5840` only after every declared proof producer is terminal.
+5. Hand the completed proof-producer set to WP-20 under release-tail sprint `#5856`.
 6. Align final publication claims only after `#5843` and explicit operator authorization.
 
 ## Watcher Policy
@@ -72,7 +74,6 @@ binding.
 | `#5836` | child session owner | ready to bind | truthful child closeout |
 | `#5838` | child session owner | dependency gate | truthful child closeout |
 | `#5839` | child session owner | dependency gate | truthful child closeout |
-| `#5840` | child session owner | dependency gate | truthful child closeout |
 
 ## Safe Parallel Lanes
 
@@ -88,7 +89,6 @@ binding.
 | birthday prerequisites | `#5836` | WP-16's accepted manifest proves reviewed ancestral merges for `#5825`-`#5830`, canonical WP-14 `#209` / PR `#215`, and `#5833`; `#5834` is terminal |
 | provider proof | `#5838` | canonical WP-14 `#209` / PR `#215`, `#5834`, and `#5836` complete |
 | governance handoff | `#5839` | `#5834` and `#5835` terminal plus explicit v0.93 allocation |
-| proof coverage | `#5840` | `#5836`, `#5837`, `#5838`, and `#5839` terminal |
 | release truth | final public claims | `#5843` terminal plus explicit operator authorization |
 
 ## PVF / Validation-Tail Notes
@@ -119,4 +119,4 @@ binding.
 - Roll up every child issue and PR state without converting unknown or waiting states into success.
 - Record budget variance only from actual child goal data.
 - Record which parallel lanes were safe, collapsed, blocked, or not attempted.
-- Close the umbrella only after the five operative children have truthful terminal state. WP-24A is excluded and cannot block closeout.
+- Close the umbrella only after the four operative children have truthful terminal state. WP-20 belongs to release-tail sprint `#5856`; WP-24A is excluded and cannot block closeout.

@@ -52,18 +52,6 @@
         "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5839-wp19-governance-handoff",
         "code_repository": "agent-logic/agent-design-language"
       }
-    },
-    {
-      "work_package": "WP-20",
-      "source_generation": 34,
-      "source_digest": "13eaccb3237cd7e892a02040a6d1833c6c99de6d81c83bee836b1c3232765cc6",
-      "request": {
-        "issue": 5840,
-        "base_branch": "main",
-        "branch": "codex/5840-wp20-demo-proof-matrix",
-        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5840-wp20-demo-proof-matrix",
-        "code_repository": "agent-logic/agent-design-language"
-      }
     }
   ]
 }

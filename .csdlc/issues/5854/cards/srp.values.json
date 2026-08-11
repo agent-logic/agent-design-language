@@ -7,7 +7,7 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 39
+    "generation": 46
   },
   "status": "draft",
   "content": {
@@ -19,7 +19,7 @@
       "review_prompts": [
         "Does the packet preserve exact operative-child ownership and dependency truth?",
         "Are parallel lanes actually independent and are serial gates explicit?",
-        "Can the umbrella close only after the five operative children (#5835, #5836, #5838, #5839, and #5840) have truthful terminal state, with out-of-band WP-24A #5845 excluded from every Sprint 5 gate?",
+        "Can the umbrella close only after the four operative children (#5835, #5836, #5838, and #5839) have truthful terminal state, with WP-20 #5840 routed to final sprint #5856 and out-of-band WP-24A #5845 excluded from every Sprint 5 gate?",
         "Does the live-gate evidence retain sufficient source, request, response, freshness, and ancestry provenance for every claimed external fact?"
       ],
       "findings": [],
