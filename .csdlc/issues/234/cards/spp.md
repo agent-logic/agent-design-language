@@ -16,7 +16,7 @@ Inventory every workflow, make ci.yaml the sole automatic PR dispatcher, gate re
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -101,13 +101,13 @@ Revision 3
 
 .csdlc/prepared/issues/234/design.md
 
-Digest: 6191c7137608f94fe05d266d4110a5c14e2d45f458073cba051b697ad61a761d
+Digest: e874e5f9268540952661f4e8cdf524146510d0c12ef75de26a6de2af426edf6e
 
 ## Diagram
 
 .csdlc/prepared/issues/234/diagram.mmd
 
-Digest: 4613e46231466e5583900a3ff73189c76328d0bf349d5f679bf17e07b4071ef9
+Digest: a0144e610f16c3cf8a63c94767a3e46b559041c9adac174cbfac36149fd37c7e
 
 ## Stop Conditions
 

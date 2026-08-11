@@ -28,10 +28,12 @@ standalone proofs remain available for an operator-requested exact-head proof.
 
 ## Duplicate And Superseded Revisions
 
-The central workflow concurrency key is repository plus head SHA. Two pull
-request objects that refer to the same revision share one execution group, and
-a superseding revision cancels the older run. Publication should reuse an open
-pull request for the same head branch rather than creating another one.
+The central workflow concurrency key uses the target repository and workflow
+plus the source repository, source branch, and target base. Two pull request
+objects for the same effective surface share one execution group, and a new
+commit to that branch cancels its older run. Publication should reuse an open
+pull request for the same source branch and base rather than creating another
+one.
 
 ## Unknown Paths
 
@@ -65,5 +67,5 @@ merely to report that they were skipped.
    runs as an editing loop.
 
 The whole-workflow validator rejects a second automatic PR workflow, any
-scheduled heavy workflow, missing head-SHA concurrency, an ungated heavy job,
+scheduled heavy workflow, missing source-branch/base concurrency, an ungated heavy job,
 or an optional workflow that is no longer explicitly dispatchable.

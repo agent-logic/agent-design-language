@@ -7,7 +7,7 @@
     "title": "[v0.92][tooling][CI] Prevent unrelated workflow fanout and isolate expensive proof",
     "slug": "systemic-ci-cost-control",
     "version": "v0.92",
-    "generation": 12
+    "generation": 19
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "ci-runtime-contracts",
-          "proof_role": "Verify central CI job gates, required heavy-runner selection, coverage aggregation, slow-proof isolation, and post-merge suppression.",
+          "proof_role": "Verify central CI job gates, required heavy-runner selection, coverage aggregation gating, slow-proof isolation, and post-merge suppression without hosted dispatch.",
           "acceptance_ids": [
             "AC-2",
             "AC-3",
@@ -34,28 +34,6 @@
           "argv": [
             "bash",
             "adl/tools/test_ci_runtime_contracts.sh"
-          ],
-          "parallel_group": "local-policy",
-          "defer_reason": null
-        },
-        {
-          "lane": "ci-path-policy-contracts",
-          "proof_role": "Verify representative docs, ordinary Rust, runtime, mixed policy, fail-closed, schedule, and explicit-dispatch routing without allocating hosted runners.",
-          "acceptance_ids": [
-            "AC-2",
-            "AC-3",
-            "AC-5",
-            "AC-6",
-            "AC-7",
-            "AC-8"
-          ],
-          "deterministic": true,
-          "resource_profile": "small",
-          "budget_seconds": 240,
-          "budget_tokens": 4000,
-          "argv": [
-            "bash",
-            "adl/tools/test_ci_path_policy.sh"
           ],
           "parallel_group": "local-policy",
           "defer_reason": null
@@ -83,6 +61,30 @@
           "defer_reason": null
         },
         {
+          "lane": "csdlc-required-check-classifier",
+          "proof_role": "Prove unstable mergeability ignores canceled optional checks only when every declared required check and required review passes, while conflicts, draft state, missing or failed required checks, and exact-head drift fail closed in GitHub observation and finish preflight.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib"
+          ],
+          "parallel_group": "local-policy",
+          "defer_reason": null
+        },
+        {
           "lane": "issue-diff-hygiene",
           "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
           "acceptance_ids": [
@@ -105,9 +107,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on unauthorized automatic workflow triggers, required-check loss, heavy-runner bypass, duplicate-head execution, optional fanout, soak leakage, malformed workflow YAML, or unresolved exact-head findings.",
       "design_ref": ".csdlc/prepared/issues/234/design.md",
-      "design_digest": "6191c7137608f94fe05d266d4110a5c14e2d45f458073cba051b697ad61a761d",
+      "design_digest": "e874e5f9268540952661f4e8cdf524146510d0c12ef75de26a6de2af426edf6e",
       "diagram_ref": ".csdlc/prepared/issues/234/diagram.mmd",
-      "diagram_digest": "4613e46231466e5583900a3ff73189c76328d0bf349d5f679bf17e07b4071ef9"
+      "diagram_digest": "a0144e610f16c3cf8a63c94767a3e46b559041c9adac174cbfac36149fd37c7e"
     }
   }
 }

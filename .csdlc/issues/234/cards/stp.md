@@ -28,7 +28,7 @@ Audit all CI and coverage workflows, centralize automatic PR dispatch, isolate o
 1. AC-1: Only ci.yaml subscribes directly to pull_request; every standalone proof workflow requires explicit dispatch or an intentional reusable-workflow call.
 2. AC-2: Every required heavy job remains path-policy gated and uses vars.ADL_HEAVY_RUNNER with the 16-core approved default.
 3. AC-3: Optional, unrelated, soak, demo, provider, retained-proof, nightly, and release-only coverage lanes skip before acquiring a runner on ordinary PRs.
-4. AC-4: CI concurrency coalesces duplicate PR objects for the same repository and head SHA and cancels superseded revisions.
+4. AC-4: CI concurrency is keyed by target repository and workflow plus source repository, source branch, and target base, so duplicate PR objects for one effective surface share one fleet and a newer commit cancels the older branch run.
 5. AC-5: Unknown paths fail closed to a conservative required baseline without selecting the optional fleet.
 6. AC-6: Focused Runtime and Observatory changes select only their declared required checks and issue-owned coverage, with long soaks excluded.
 7. AC-7: A deterministic repository contract scans all workflows and fails on unauthorized PR triggers, heavy-runner bypass, concurrency regression, or optional fanout.

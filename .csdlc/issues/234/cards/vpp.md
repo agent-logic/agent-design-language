@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/234/diagram.mmd
 [
   {
     "lane": "ci-runtime-contracts",
-    "proof_role": "Verify central CI job gates, required heavy-runner selection, coverage aggregation, slow-proof isolation, and post-merge suppression.",
+    "proof_role": "Verify central CI job gates, required heavy-runner selection, coverage aggregation gating, slow-proof isolation, and post-merge suppression without hosted dispatch.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -42,28 +42,6 @@ Diagram: .csdlc/prepared/issues/234/diagram.mmd
     "argv": [
       "bash",
       "adl/tools/test_ci_runtime_contracts.sh"
-    ],
-    "parallel_group": "local-policy",
-    "defer_reason": null
-  },
-  {
-    "lane": "ci-path-policy-contracts",
-    "proof_role": "Verify representative docs, ordinary Rust, runtime, mixed policy, fail-closed, schedule, and explicit-dispatch routing without allocating hosted runners.",
-    "acceptance_ids": [
-      "AC-2",
-      "AC-3",
-      "AC-5",
-      "AC-6",
-      "AC-7",
-      "AC-8"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 240,
-    "budget_tokens": 4000,
-    "argv": [
-      "bash",
-      "adl/tools/test_ci_path_policy.sh"
     ],
     "parallel_group": "local-policy",
     "defer_reason": null
@@ -86,6 +64,30 @@ Diagram: .csdlc/prepared/issues/234/diagram.mmd
     "argv": [
       "ruby",
       "adl/tools/validate_ci_workflow_policy.rb"
+    ],
+    "parallel_group": "local-policy",
+    "defer_reason": null
+  },
+  {
+    "lane": "csdlc-required-check-classifier",
+    "proof_role": "Prove unstable mergeability ignores canceled optional checks only when every declared required check and required review passes, while conflicts, draft state, missing or failed required checks, and exact-head drift fail closed in GitHub observation and finish preflight.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-4",
+      "AC-7",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 180,
+    "budget_tokens": 3000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib"
     ],
     "parallel_group": "local-policy",
     "defer_reason": null
@@ -123,8 +125,8 @@ Tokens: 50000
 ## Commands
 
 - `bash adl/tools/test_ci_runtime_contracts.sh`
-- `bash adl/tools/test_ci_path_policy.sh`
 - `ruby adl/tools/validate_ci_workflow_policy.rb`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --lib`
 - `git diff --check`
 
 ## Failure Semantics

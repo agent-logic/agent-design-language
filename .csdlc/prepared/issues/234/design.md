@@ -17,10 +17,23 @@ explicit dispatch or an intentionally declared reusable-workflow call.
 3. Required heavy jobs use `vars.ADL_HEAVY_RUNNER`, whose approved value is the
    16-core GitHub-hosted runner. This issue does not downgrade required work.
 4. Optional workflows never acquire a runner for ordinary PRs.
-5. CI concurrency is keyed by repository plus head SHA so two PR objects for
-   the same revision cannot execute duplicate required fleets.
+5. CI concurrency is keyed by target repository/workflow plus source
+   repository/branch and target base, so duplicate PR objects for the same
+   effective surface share one fleet. A newer commit shares that group and
+   `cancel-in-progress: true` cancels the older in-progress branch run without
+   conflating distinct base surfaces.
 6. Unknown changed paths select the conservative required baseline only; they
    do not fan out to every optional proof workflow.
+
+## Required-Check Readiness Contract
+
+`csdlc-github-pr` and `csdlc-finish` treat the request's declared required
+check names as the complete check gate. GitHub `unstable` mergeability is
+permitted only when every declared required check is present and successful
+and any required review is approved. Canceled, unknown, or failed checks that
+are not declared required do not block readiness. `blocked`, `behind`,
+`dirty`, draft, `unknown`, missing or failed required checks, base drift, head
+drift, and missing required review continue to fail closed.
 
 ## Coverage And Soak Contract
 
@@ -37,9 +50,9 @@ explicit dispatch or an intentionally declared reusable-workflow call.
 ## Publication Procedure
 
 Publication must reuse or fail closed on an existing open PR for the same head
-branch. It must not create parallel PR objects that cause duplicate workflow
-events. A superseding revision cancels the older head through SHA-keyed
-concurrency.
+branch and base. It must not create parallel PR objects that cause duplicate
+workflow events. A superseding revision uses the same source-surface
+concurrency group, and `cancel-in-progress: true` cancels the older run.
 
 ## Proof
 
@@ -48,7 +61,8 @@ A deterministic repository contract scans every workflow and fails when:
 - a workflow other than `ci.yaml` subscribes to `pull_request`;
 - a required heavy job bypasses path-policy selection or the configured heavy
   runner;
-- CI concurrency is not keyed by head SHA;
+- CI concurrency is not keyed by source repository, branch, and target base, or
+  `cancel-in-progress: true` is absent;
 - a representative focused Runtime/Observatory change selects unrelated
   native proofs, soaks, demos, providers, or full coverage;
 - a standalone optional workflow loses explicit-dispatch availability.

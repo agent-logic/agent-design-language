@@ -5,5 +5,7 @@ flowchart LR
   CLASSIFY -->|"required light"| SMALL["standard runner"]
   CLASSIFY -->|"optional or unrelated"| SKIP["Skip before runner allocation"]
   MANUAL["Explicit operator dispatch"] --> PROOF["Native proof, soak, demo, or release coverage"]
-  PR --> KEY["Repository plus head-SHA concurrency"]
+  PR --> KEY["Target repo plus source-branch concurrency"]
+  NEWER["Newer branch revision"] --> KEY
+  KEY -->|"cancel-in-progress"| OLDER["Cancel older in-progress run"]
   KEY --> CI

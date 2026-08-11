@@ -1,8 +1,8 @@
 {
   "issue": 234,
   "card": "vpp",
-  "expected_generation": 9,
-  "expected_digest": "REPLACE_AFTER_EDIT_06",
+  "expected_generation": 14,
+  "expected_digest": "2902fb04bf496e316cdeeb968ef3560d1d60978dee46ba651629d739e477cfbc",
   "actor": "codex:234-systemic-ci-cost-control",
   "reason": "Use only bounded issue-owned CI policy and C-SDLC classifier regressions; exclude the broad path-policy harness that expands into unrelated coverage simulations.",
   "operation": {

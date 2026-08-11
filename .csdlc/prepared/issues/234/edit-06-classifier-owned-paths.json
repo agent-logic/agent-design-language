@@ -1,8 +1,8 @@
 {
   "issue": 234,
   "card": "spp",
-  "expected_generation": 8,
-  "expected_digest": "6140233ec583f7840ac7c076430f085f8d16a7bd8c3f897022ab7d7dcc58d9d7",
+  "expected_generation": 13,
+  "expected_digest": "f8050509045e72aa1b6a539cecd58cc5fd7616d86f687e197920ef611dc7af64",
   "actor": "codex:234-systemic-ci-cost-control",
   "reason": "Include the explicit csdlc-github-pr and csdlc-finish required-check classifier surfaces in the operative plan.",
   "operation": {

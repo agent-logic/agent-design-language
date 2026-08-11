@@ -576,7 +576,7 @@ EOF
   assert_has "$runtime_output" "soak_workflows_status=deferred"
   assert_has "$runtime_output" "soak_workflows_reason=explicit_dispatch_required"
   assert_has "$runtime_output" "duplicate_head_status=canceled"
-  assert_has "$runtime_output" "duplicate_head_reason=head_sha_concurrency_cancel_in_progress"
+  assert_has "$runtime_output" "duplicate_head_reason=source_branch_concurrency_cancel_in_progress"
 
   git checkout -q -b runtime-v3-csm-bridge "$base_sha"
   mkdir -p adl-runtime/src adl/src/cli adl/src/long_lived_agent \

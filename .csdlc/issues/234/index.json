@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "816b9ca1c087828e0094ad905d7b910b1ca8114299b7a4cde9177b03515e48b9",
+  "generation": 19,
+  "digest": "41c47b778f5ab90d33c4b76b0025fb63974aa22d4492746abde0a305f44c691a",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": null,
@@ -19,39 +19,39 @@
   "design_review": {
     "approved": {
       "reviewer": "operator:issue-234-authority",
-      "revision": "6191c7137608f94fe05d266d4110a5c14e2d45f458073cba051b697ad61a761d"
+      "revision": "e874e5f9268540952661f4e8cdf524146510d0c12ef75de26a6de2af426edf6e"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "5a88b3af0806998994b565673b8685eed8325036d67ee193ef13049d86b0eed1",
+      "values_digest": "73914a97258164a7fd5ba65f2d73bb2ea42416e972a06233a060babc392cb038",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "6996d662422ea708c4da8993216c51f33defec5e920b579e6e54391d464f04ed",
-      "rendered_digest": "970d886d9f575f82c3037bb787080cfd65670f5cb2e8b2a3e9a434b42232d26a",
-      "ast_digest": "01474edd9adc801a4be14abc607cb763ebe546d776637087768c01e9f7d811f3"
+      "values_digest": "161a6704f5a4701bc677dd40a0a6a12feadbb2bab5c1cbe8230720a4d8ae7d91",
+      "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
+      "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "5368426fd47577d0d5f28b671f7e63f047f94cdd5d9ad356ab5747bd0d64f338",
-      "rendered_digest": "8c8c9460e42577b47881da71e8a3003430d3f65b9a9640543bb598938f39aaf4",
-      "ast_digest": "430aa7805a2d6c9eebc293b355b2f79b10d86e32de53fe9e6a41dd966b87a5cd"
+      "values_digest": "0b4fffab2890a790e71a48c0701fbaeba10510759ecf5ef985b757e8bb4334a9",
+      "rendered_digest": "6a1fb18669325f98f58dd8f2085956140e28c706c608d47b936ab3025d2237b2",
+      "ast_digest": "7cf552a56fa5e0a823db68830877dfbbe56bff863b962bdd0abd91b95318bb1f"
     },
     "vpp": {
-      "values_digest": "31ca9ad0501f33aac20e6415f8587c70aa807a1ee973fa89d17e059a55b0c9e1",
-      "rendered_digest": "b8f76cc47ba42da22aebca51e41235ef5cd730f51c62c14d9078b52d22daa9d8",
-      "ast_digest": "16daa27a24432b198becf156534b1db75302b7bab98e0ee210cd41ac1a2bb65a"
+      "values_digest": "6c28628a1d88e6c12979f628a056fe1106c2742c7ac0d649539da5c832953cd6",
+      "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
+      "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "be83660cdc50482d146c393546abfcd68d8d8f9c104fe791d3386360e5487e0e",
+      "values_digest": "dd1b20bead6efa05c83bc040aa517db8ee07ce43bdbe60189d8858de49395b48",
       "rendered_digest": "77626bc721006bed1b02d7f8346dc821491f2814047b76157665a72a250dfa92",
       "ast_digest": "62d954a925d06397d2332035e0ca173f48f78e3547d37b092ffad20f0b4fc9f2"
     },
     "sor": {
-      "values_digest": "2ca8afd9d2ea9362b4fa244a106bf7f1eefa09c9ab44098eddcd3841bbfe8c12",
-      "rendered_digest": "c3c307b27d76b3e4009ffd9627bc29d35589386bf51b693ce26d544db47ad771",
-      "ast_digest": "7db0ea12fa541fd7d4c38008d8da8c40119eb4ba46f081e9551ddab6c86336c2"
+      "values_digest": "9a23674993f899fa40217a05487f64c8b6229383018f6e51ad163b24dea47136",
+      "rendered_digest": "9ee8412023199ab9b8fae5004cc4f1b5536980a1f79438e7124d4f6c4068b225",
+      "ast_digest": "34931754d7f6f9d256765a1d523742448af295878a65922f275e3d521bf8ede2"
     }
   },
   "transitions": [
@@ -175,6 +175,55 @@
       "actor": "codex:234-systemic-ci-cost-control",
       "reason": "The bounded CI fanout controls and all declared local proof lanes are complete; exact-head independent review is next.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "operator:issue-234-authority",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:234-systemic-ci-cost-control",
+      "reason": "Include the explicit csdlc-github-pr and csdlc-finish required-check classifier surfaces in the operative plan.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".github/workflows/ci.yaml\",\".github/workflows/aws-codefriend-build.yaml\",\".github/workflows/aws-spot-remote-validation.yaml\",\".github/workflows/nightly-coverage-ratchet.yaml\",\".github/workflows/wp04-native-distributed.yml\",\".github/workflows/wp08-native-birthday.yml\",\".github/workflows/wp09-native-birthday-identity.yml\",\".github/workflows/wp10-native-birthday-continuity.yml\",\".github/workflows/wp11-native-memory-palace.yml\",\".github/workflows/wp12-native-capability-envelope.yml\",\".github/workflows/wp13-authority-repair.yml\",\".github/workflows/wp13-native-cognitive-profile.yml\",\".github/workflows/wp13a-native-adaptive-learning.yml\",\".github/workflows/wp14-native-acip.yml\",\".github/workflows/wp14-production-acip-repair.yml\",\".github/workflows/wp14-retained-native-proof.yml\",\".github/workflows/wp15-native-birth-witness.yml\",\"adl/tools/ci_path_policy.sh\",\"adl/tools/test_ci_path_policy.sh\",\"adl/tools/test_ci_runtime_contracts.sh\",\"adl/tools/validate_ci_workflow_policy.rb\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/finish.rs\",\"docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md\",\".csdlc/evidence/234/ci-workflow-inventory.json\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:234-systemic-ci-cost-control",
+      "reason": "Use only bounded issue-owned CI policy and C-SDLC classifier regressions; exclude the broad path-policy harness that expands into unrelated coverage simulations.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"ci-runtime-contracts\",\"proof_role\":\"Verify central CI job gates, required heavy-runner selection, coverage aggregation gating, slow-proof isolation, and post-merge suppression without hosted dispatch.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"parallel_group\":\"local-policy\",\"defer_reason\":null},{\"lane\":\"whole-workflow-policy\",\"proof_role\":\"Scan every workflow and reject unauthorized automatic triggers, schedules, missing explicit dispatch, SHA-concurrency regressions, and optional runner allocation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\"adl/tools/validate_ci_workflow_policy.rb\"],\"parallel_group\":\"local-policy\",\"defer_reason\":null},{\"lane\":\"csdlc-required-check-classifier\",\"proof_role\":\"Prove unstable mergeability ignores canceled optional checks only when every declared required check and required review passes, while conflicts, draft state, missing or failed required checks, and exact-head drift fail closed in GitHub observation and finish preflight.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"parallel_group\":\"local-policy\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local-policy\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:234-systemic-ci-cost-control",
+      "reason": "Record the completed required-check classifier and finish-preflight repair alongside the CI fanout controls.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Made central ci.yaml the sole automatic PR workflow, isolated optional fanout, coalesced duplicate heads, and changed C-SDLC PR readiness and finish preflight to permit GitHub unstable only when every declared required check and required review is satisfied.\",\"changes\":[\"Removed automatic pull-request triggers from standalone native and retained proof workflows while preserving explicit dispatch.\",\"Changed central CI concurrency to repository plus head SHA and gated heavy coverage aggregation before runner allocation.\",\"Added machine-readable skipped, deferred, soak, and duplicate-head dispositions plus a whole-workflow policy validator.\",\"Made csdlc-github-pr ignore canceled or unknown optional checks when merge_state is unstable and all declared required checks succeed.\",\"Made csdlc-finish accept unstable only for an exact ready target while retaining conflicts, draft, base drift, head drift, missing checks, failed checks, and review gates.\"],\"artifacts\":[\".github/workflows/ci.yaml\",\".github/workflows/nightly-coverage-ratchet.yaml\",\".github/workflows/wp08-native-birthday.yml\",\".github/workflows/wp09-native-birthday-identity.yml\",\".github/workflows/wp10-native-birthday-continuity.yml\",\".github/workflows/wp11-native-memory-palace.yml\",\".github/workflows/wp12-native-capability-envelope.yml\",\".github/workflows/wp13-authority-repair.yml\",\".github/workflows/wp13-native-cognitive-profile.yml\",\".github/workflows/wp13a-native-adaptive-learning.yml\",\".github/workflows/wp14-native-acip.yml\",\".github/workflows/wp14-production-acip-repair.yml\",\".github/workflows/wp14-retained-native-proof.yml\",\".github/workflows/wp15-native-birth-witness.yml\",\"adl/tools/ci_path_policy.sh\",\"adl/tools/test_ci_path_policy.sh\",\"adl/tools/test_ci_runtime_contracts.sh\",\"adl/tools/validate_ci_workflow_policy.rb\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/finish.rs\",\"docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md\",\".csdlc/evidence/234/ci-workflow-inventory.json\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:234-validation",
+      "reason": "Record the bounded C-SDLC required-check classifier and finish-preflight regression proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove optional canceled checks do not gate an otherwise required-green unstable PR, while blocked, behind, dirty, draft, unknown, missing or failed required checks, review failure, and exact-target drift remain fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-csdlc-v2-lib:67-passed\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "operator:issue-234-authority",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:234-review-fix",
+      "reason": "Replace the impossible SHA-only supersession claim with the source repository and branch identity that coalesces duplicate PRs and cancels older commits.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Only ci.yaml subscribes directly to pull_request; every standalone proof workflow requires explicit dispatch or an intentional reusable-workflow call.\",\"AC-2: Every required heavy job remains path-policy gated and uses vars.ADL_HEAVY_RUNNER with the 16-core approved default.\",\"AC-3: Optional, unrelated, soak, demo, provider, retained-proof, nightly, and release-only coverage lanes skip before acquiring a runner on ordinary PRs.\",\"AC-4: CI concurrency is keyed by target repository and workflow plus source repository, source branch, and target base, so duplicate PR objects for one effective surface share one fleet and a newer commit cancels the older branch run.\",\"AC-5: Unknown paths fail closed to a conservative required baseline without selecting the optional fleet.\",\"AC-6: Focused Runtime and Observatory changes select only their declared required checks and issue-owned coverage, with long soaks excluded.\",\"AC-7: A deterministic repository contract scans all workflows and fails on unauthorized PR triggers, heavy-runner bypass, concurrency regression, or optional fanout.\",\"AC-8: The procedure records machine-readable selected, skipped, deferred, and canceled reasons without starting skipped workflows.\",\"AC-9: Local focused proof and bounded exact-head review pass before one publication push; no optional GitHub workflow is used as development feedback.\"]}"
     }
   ]
 }

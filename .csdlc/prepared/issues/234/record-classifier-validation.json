@@ -1,0 +1,17 @@
+{
+  "issue": 234,
+  "card": "sor",
+  "expected_generation": 16,
+  "expected_digest": "fa5e9e3b776764e338366ddf1c94154dbbef3681b2f952c99369ff9f108813a4",
+  "actor": "codex:234-validation",
+  "reason": "Record the bounded C-SDLC required-check classifier and finish-preflight regression proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--lib"],
+      "purpose": "Prove optional canceled checks do not gate an otherwise required-green unstable PR, while blocked, behind, dirty, draft, unknown, missing or failed required checks, review failure, and exact-target drift remain fail closed.",
+      "outcome": "passed",
+      "evidence_ref": "local:issue-234-csdlc-v2-lib:67-passed"
+    }
+  }
+}

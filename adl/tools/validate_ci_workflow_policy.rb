@@ -58,8 +58,8 @@ ci_events = top_level_events(ci)
 errors << ".github/workflows/ci.yaml: pull_request entrypoint is missing" unless ci_events.include?("pull_request")
 errors << ".github/workflows/ci.yaml: explicit full validation is missing" unless ci_events.include?("workflow_dispatch")
 
-concurrency = "group: ${{ github.repository }}-${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.sha }}"
-errors << ".github/workflows/ci.yaml: concurrency must coalesce repository/head SHA" unless ci.include?(concurrency)
+concurrency = "group: ${{ github.repository }}-${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.event.pull_request.head.ref || github.ref }}-${{ github.event.pull_request.base.ref || github.ref_name }}"
+errors << ".github/workflows/ci.yaml: concurrency must coalesce source repository/branch and target base" unless ci.include?(concurrency)
 errors << ".github/workflows/ci.yaml: superseded revisions must cancel in progress" unless ci.include?("cancel-in-progress: true")
 
 heavy_selector = "runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}"
@@ -90,7 +90,7 @@ required_outputs = {
   "optional_workflows_reason" => "explicit_dispatch_required",
   "soak_workflows_status" => "deferred",
   "duplicate_head_status" => "canceled",
-  "duplicate_head_reason" => "head_sha_concurrency_cancel_in_progress"
+  "duplicate_head_reason" => "source_branch_concurrency_cancel_in_progress"
 }
 policy = root.join("adl/tools/ci_path_policy.sh").read
 required_outputs.each do |key, value|

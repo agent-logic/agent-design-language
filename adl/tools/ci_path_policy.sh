@@ -149,7 +149,7 @@ optional_workflows_reason="explicit_dispatch_required"
 soak_workflows_status="deferred"
 soak_workflows_reason="explicit_dispatch_required"
 duplicate_head_status="canceled"
-duplicate_head_reason="head_sha_concurrency_cancel_in_progress"
+duplicate_head_reason="source_branch_concurrency_cancel_in_progress"
 
 emit() {
   local key="$1"
