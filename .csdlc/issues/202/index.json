@@ -4,12 +4,70 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
   "phase": "implemented",
-  "generation": 37,
-  "digest": "2ad24e03ffb3d0b58194de07e2dd2c99c9ca8474f6705b6aa7da30a6673173d7",
+  "generation": 38,
+  "digest": "be2fbe3212ba01251c38a88e86bf9d2a35e43e6f6e47d7751a327cd856a3598f",
   "branch": "codex/202-authorized-learner-transport-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-202-authorized-learner-transport-preparation",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/review_202_v6_final",
+    "scope": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/src/distributed/transport",
+      "adl-runtime/tests/distributed_authorized_learner_transport.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      ".csdlc/prepared/issues/202",
+      ".csdlc/evidence/202/v6"
+    ],
+    "reviewed_revision": "git-blake3:9e85ec8f855befa2f51f0d8b3bb8378294be08d4:a23da98523ea76ddf50687285f5b728c6f1f776073edaaf48951ed5c05095399",
+    "findings": [
+      {
+        "id": "P1-LEARNER-OWNED-PRODUCTION-AUTHORITY",
+        "severity": "p1",
+        "summary": "No learner-owned production factory/transport-instance path exists: factory construction rejects a local node outside the three-voter cut, learner ingress derives the voter identity from fixed self.local, and the real-four-node proof uses one voter factory and test-only boot inputs for both endpoints, so it does not prove distinct durable voter/learner instances, production custody in the handshake, or ingress after leadership moves.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "P1-EXCLUSION-RECOVERY-NOT-ENFORCED",
+        "severity": "p1",
+        "summary": "Pending exclusion does not govern recovery learner admission: recovery_learner_allowed has no production caller, factory admission checks only the trusted cut, session currentness checks only admission identity and digests, and the named recovery test invokes the helper directly rather than the factory path.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "P1-REMOVAL-RECOVERY-BINDING-INCOMPLETE",
+        "severity": "p1",
+        "summary": "Exact removal/recovery artifact binding is incomplete: removal activation validates identity and voter-cut digest only, while the authorized deadline and target-membership digest are neither checked against live inputs nor retained for enforcement; activate_pending_exclusion has no current-time or expected-target-membership input.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "P1-V6-RECEIPT-NOT-MERGE-SAFE",
+        "severity": "p1",
+        "summary": "The v6 receipt is not clean or future-main fail-closed: its protected producer hard-codes all four operator-preserved temporary directory names as cleanliness exceptions, and its validator checks only the recorded ancestor without requiring current origin/main to equal or be ancestral to the proof source.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +82,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4f8fa2721a03425c8dbfc389a0d8dadce6fd100e1a4d61dafe3e24e76d248b3c",
+      "values_digest": "c17ebcf0af1f2c56611edd863165c10b2aedaefc0ca0d3fb41edb3ee999ad510",
       "rendered_digest": "69a805a23892f34aeda5bc6c018c4b6d3425674b3472f433c95fa96c01aa8830",
       "ast_digest": "004791ead09b105cebf8ab0978301127312b0ae5a7c0c34cebf6291fa33a196d"
     },
     "stp": {
-      "values_digest": "f4be2b052a382d25b391687367e5837299d7bd6f1b55ef4a9bfddba679984ef7",
+      "values_digest": "0d717238d38c3de9400f8c409e3d5ab682df167757418f5fed0beccace438049",
       "rendered_digest": "dfddaeadcb4d739c0c3331bc30dbfd94b4b57d0d9ad9f9a74ab81174a9dcee43",
       "ast_digest": "1614c5e31e990ab93563b802b9a8d59738cb7f5b68caede9b9107241152d43fc"
     },
     "spp": {
-      "values_digest": "e12934cca436d704aab2cd6f933b92948e11b323d7bd9ca8615d8d6bdc20437a",
+      "values_digest": "10f5f8319f72772ef0612339ea7a1ecc225cbc4fd3ff30df20171554f425ae57",
       "rendered_digest": "093cc6780f5a2d975bf7b1b164fe4eba33825f122f62fb3d4f5f7c50b181d5bb",
       "ast_digest": "bdf56b18f8b8a4ad50b131b2c6d134a634c810789f2a69f6e75593fbacb827bc"
     },
     "vpp": {
-      "values_digest": "4bc92a1d94ea3fb745f73154096cd17118de452bceed507b5b89e5c1d23159ee",
+      "values_digest": "3bbffa227d54c4f511e56106bdd733a11d869c344f8e5980caf985757e428b33",
       "rendered_digest": "88819c7b9f074f934810f6a93237044a438267df95b080edaa41abb0dc64a2b8",
       "ast_digest": "7643c556cdacd81b2c6b760e7d2085791e5e5de6830db2a00d915c11b1733976"
     },
     "srp": {
-      "values_digest": "4f6fc163e2fe4e2156f3915f5f0c4212ebec85992a3ddc7fa427a617922f41fb",
-      "rendered_digest": "bf736485fa6a9bd49ec2f72b81d687f809819e372b57ab6bc15df4e11a9f6e31",
-      "ast_digest": "7b33026f81971a165f778349c1be19bf5ea81dadbfac1578be557657d0e1feb4"
+      "values_digest": "c7178fd4e5cdce652a82f3c38e67304a97faf01163eedc952a09203eadcb9cec",
+      "rendered_digest": "82389d77c7b4cc7533ad985adf9108e1d0937337f66e9a09aa816af0e7d3beb2",
+      "ast_digest": "cc1db6e996046cba328969a1a995ce93a62e8d3db48da108758cf4fdb6e088b6"
     },
     "sor": {
-      "values_digest": "cca577bbba7da59b2a2736116c294f0f80ab95c55ef33918c7a5a6ee46bc7329",
+      "values_digest": "b58529c8063dd9aaa8a6e9f4a1ad8669cae8c3ca7c8b84a8207d090401c0a6d4",
       "rendered_digest": "f4688eb49acfc349d669208d75f976d5f32fed2e3515139cca932c03d85934b7",
       "ast_digest": "831590a32c37c321f9e5a0d749160a74f49aba31447e86755dd7a000dac65533"
     }
@@ -364,6 +422,13 @@
       "actor": "codex:/root/prepare_204_parallel:review-resolution",
       "reason": "Record the passing immutable v6 receipt validator without claiming independent review or publication.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\"],\"purpose\":\"Validate immutable v6 exact-source evidence, protected-path parity, exact 36 semantic / 42 runner / 13 public / 29 assertion denominators, three integration compiles, strict Clippy, and current-main ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v6/execution-proof.json\"}}"
+    },
+    {
+      "sequence": 42,
+      "generation": 38,
+      "actor": "codex:/root/review_202_v6_final",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -12,7 +12,14 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime/src/distributed/authority_protocol.rs
+adl-runtime/src/distributed/mod.rs
+adl-runtime/src/distributed/transport.rs
+adl-runtime/src/distributed/transport
+adl-runtime/tests/distributed_authorized_learner_transport.rs
+adl-runtime/tests/distributed_runtime_transport.rs
+.csdlc/prepared/issues/202
+.csdlc/evidence/202/v6
 
 ## Prompts
 
@@ -30,7 +37,48 @@ Status: draft
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P1-LEARNER-OWNED-PRODUCTION-AUTHORITY",
+    "severity": "p1",
+    "summary": "No learner-owned production factory/transport-instance path exists: factory construction rejects a local node outside the three-voter cut, learner ingress derives the voter identity from fixed self.local, and the real-four-node proof uses one voter factory and test-only boot inputs for both endpoints, so it does not prove distinct durable voter/learner instances, production custody in the handshake, or ingress after leadership moves.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "P1-EXCLUSION-RECOVERY-NOT-ENFORCED",
+    "severity": "p1",
+    "summary": "Pending exclusion does not govern recovery learner admission: recovery_learner_allowed has no production caller, factory admission checks only the trusted cut, session currentness checks only admission identity and digests, and the named recovery test invokes the helper directly rather than the factory path.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "P1-REMOVAL-RECOVERY-BINDING-INCOMPLETE",
+    "severity": "p1",
+    "summary": "Exact removal/recovery artifact binding is incomplete: removal activation validates identity and voter-cut digest only, while the authorized deadline and target-membership digest are neither checked against live inputs nor retained for enforcement; activate_pending_exclusion has no current-time or expected-target-membership input.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "P1-V6-RECEIPT-NOT-MERGE-SAFE",
+    "severity": "p1",
+    "summary": "The v6 receipt is not clean or future-main fail-closed: its protected producer hard-codes all four operator-preserved temporary directory names as cleanliness exceptions, and its validator checks only the recorded ancestor without requiring current origin/main to equal or be ancestral to the proof source.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -42,8 +90,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9e85ec8f855befa2f51f0d8b3bb8378294be08d4:a23da98523ea76ddf50687285f5b728c6f1f776073edaaf48951ed5c05095399")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_202_v6_final")
 
-Result: pre_review
+Result: changes_required
