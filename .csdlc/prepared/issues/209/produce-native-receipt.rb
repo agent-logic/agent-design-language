@@ -63,6 +63,10 @@ def manifest(root)
   end
 end
 
+def output_environment_path(path)
+  path.expand_path.to_s
+end
+
 options = {}
 OptionParser.new do |parser|
   parser.on("--platform PLATFORM") { |value| options[:platform] = value }
@@ -81,6 +85,13 @@ if options[:self_test]
   fail!("authority source omitted") unless SOURCE_PATHS.include?("adl-runtime/src/runtime_api_auth.rs")
   fail!("pressure configuration omitted") unless SOURCE_PATHS.include?("adl-runtime-kernel/src/config.rs")
   fail!("verified Vector installer omitted") unless SOURCE_PATHS.include?("adl/tools/install_vector_component.sh")
+  semantic = root.join(".csdlc/evidence/209/native-platform/linux-semantic.json")
+  crate_working_directory = root.join("adl-runtime-kernel")
+  exported = output_environment_path(semantic)
+  exported_path = Pathname.new(exported)
+  resolved = exported_path.absolute? ? exported_path : crate_working_directory.join(exported).cleanpath
+  fail!("semantic output is not absolute") unless exported_path.absolute?
+  fail!("semantic output changes under package working directory") unless resolved == semantic
   puts JSON.generate(status: "passed", check: "wp14-native-producer")
   exit 0
 end
@@ -107,7 +118,7 @@ log = receipt.dirname.join("#{platform}-nextest.log")
 source_manifest = receipt.dirname.join("#{platform}-source-manifest.json")
 argv = ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "production_acip_wss", "--no-tests=fail", "--status-level", "all", "--message-format", "libtest-json-plus"]
 stdout, stderr, status = Open3.capture3(
-  { "ADL_ACIP_PLATFORM" => platform, "ADL_ACIP_PROOF_OUTPUT" => semantic.to_s, "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1" },
+  { "ADL_ACIP_PLATFORM" => platform, "ADL_ACIP_PROOF_OUTPUT" => output_environment_path(semantic), "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1" },
   *argv, chdir: root.to_s
 )
 log.write(normalize(stdout + stderr, root))
