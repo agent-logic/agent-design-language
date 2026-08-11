@@ -107,7 +107,7 @@ log = receipt.dirname.join("#{platform}-nextest.log")
 source_manifest = receipt.dirname.join("#{platform}-source-manifest.json")
 argv = ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "production_acip_wss", "--no-tests=fail", "--status-level", "all", "--message-format", "libtest-json-plus"]
 stdout, stderr, status = Open3.capture3(
-  { "ADL_ACIP_PLATFORM" => platform, "ADL_ACIP_PROOF_OUTPUT" => semantic.relative_path_from(root).to_s, "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1" },
+  { "ADL_ACIP_PLATFORM" => platform, "ADL_ACIP_PROOF_OUTPUT" => semantic.to_s, "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1" },
   *argv, chdir: root.to_s
 )
 log.write(normalize(stdout + stderr, root))
