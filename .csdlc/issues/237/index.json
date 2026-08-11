@@ -6,10 +6,27 @@
   "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
   "phase": "implemented",
   "generation": 15,
-  "digest": "e90d77c207e7323fe08cbc01618ef729c4ebb49a70ae96c63a932b48b5cffd4f",
+  "digest": "8cbe7dad7dbc5ff4aeca5dbecd3cd504e9303fc12218082e6a744287d422dabf",
   "branch": "codex/237-continuity-binding-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint5_5836/review_237_remediation_exact_head",
+    "assigned_by": "/root/sprint5_5836",
+    "revision": "git-blake3:dde76f206e85ac543ce653448976e07da89d5820:c4c5b4a04d547877092401049bdd48e095e8c1261f839522a4075bb80039f08a",
+    "scope": [
+      ".csdlc/issues/237",
+      ".csdlc/prepared/issues/237/design.md",
+      ".csdlc/prepared/issues/237/diagram.mmd",
+      ".csdlc/evidence/237",
+      "adl-runtime-kernel/src/birthday_continuity.rs",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "5e92538817ea1029ad69966a60af6f0bde2d8d2e49d9d44b3417095573fbfb3f"
     },
     "srp": {
-      "values_digest": "753a9c5dc55adfebe145aed3b2f32a46c9146529ab234f0d6d1c65b7c7a6bef6",
-      "rendered_digest": "73e3a45137d9fa80b09504c4438ad098af6c21af0a3b6034c95905b5c1d1efb8",
-      "ast_digest": "9826ba27c212418af607a6e63d1dd36b52533885b603103ca717ec2709e7bb82"
+      "values_digest": "8073004f091b9c91dcf930e84f55e646e4499043cfba81b8ed1376c85f2660f8",
+      "rendered_digest": "e78473ef4cc56826af432d635c11c608478c84a9f440979f1b20493af230b7fb",
+      "ast_digest": "40865c5c51659402a6676dbf2b8163b44bdd4ac49f6ef8041ffe48721d0c1615"
     },
     "sor": {
       "values_digest": "d234cc9a21958338327aebc2065ab4c6bd733be773f98e57ac4a0a331302613b",
@@ -204,6 +221,13 @@
       "actor": "codex:sprint5-5836-blocker",
       "reason": "Replace pre-remediation execution truth with exact-head evidence for the verified-only public authority boundary and all required local proof lanes.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Removed every public raw-continuity authority bypass; verified continuity now gates authoritative capability and governed-cognition APIs, with exact local proof green and publication still pending.\",\"changes\":[\"Require opaque VerifiedBirthdayContinuity on every public authoritative capability and governed-cognition build and validation route.\",\"Keep raw BirthdayContinuityRecord compatibility primitives crate-private and remove permissive either-or continuity acceptance.\",\"Prove real signed Runtime composition, self-consistent whole-record substitutions, token mismatch and replay rejection, and direct old-API compile-fail boundaries.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Run the focused public API target (1/1 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Run the Runtime library authority suite (79/79 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Run compile-fail public-boundary documentation tests (8/8 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict library Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-strict-lib-clippy.log\"}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "/root/sprint5_5836",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
