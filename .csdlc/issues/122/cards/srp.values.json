@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 122,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
+    "slug": "deferred-public-observatory-exposure",
+    "version": "post-v0.92",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #122 deferred public Route53, ACM, S3, CloudFront, approved non-EC2 Runtime ingress, exact revision and browser trust, public security policy, business-account authority, rollback, cleanup, forbidden-compute proof, and non-gating boundaries.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any public read, browser state, origin, or unsigned request gain Runtime write authority?",
+        "Do the exact deployed Observatory and Runtime gateway revisions match through DNS, cache, HTTPS, and WSS paths?",
+        "Are CORS, CSP, WSS origins, authentication, rate limits, redaction, health, and error responses fail-closed and public-safe?",
+        "Does every resource belong to the verified Agent Logic business account with bounded ownership, rollback, and cleanup?",
+        "Can any plan or tool create or operate EC2, Spot, or CodeBuild, or begin without separate operator authorization?",
+        "Does #122 remain deferred beyond v0.92 and non-gating for #83 and #111-#117?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

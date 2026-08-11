@@ -1,0 +1,49 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 122
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+After the distributed Runtime is terminal and a separate operator authorizes AWS, expose the exact Observatory and matching Runtime gateway through bounded business-account infrastructure.
+
+## Required Outcome
+
+Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress provide ordinary browser trust, exact revision parity, governed access, rollback, and ownership proof without private-state exposure.
+
+## Scope
+
+- infra/aws/public-observatory/**
+- adl/tools/validate_public_observatory_exposure.sh
+- adl/tools/validate_public_runtime_gateway.sh
+- docs/milestones/post-v0.92/features/PUBLIC_OBSERVATORY_EXPOSURE.md
+- .csdlc/issues/122/**
+- .csdlc/prepared/issues/122/**
+- .csdlc/evidence/122/**
+
+## Authority
+
+- Issue and code authority are agent-logic/agent-design-language#122
+- Issue #122 is deferred beyond v0.92 and is not a gate for #83 or #111-#117
+- Execution requires terminal distributed Runtime proof plus separate operator AWS authorization
+- AWS activity must use the approved Agent Logic business profile; no EC2, Spot, or CodeBuild
+- Public reachability never grants Runtime write authority or permits private agent-state exposure
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Do not bind, implement, or use AWS during preparation
+- Do not push, open a PR, publish, merge, close, or mutate #83, #110, or #111-#117
+- Verify the approved business profile resolves to the Agent Logic business account before any later AWS action
+- Limit later authorized AWS scope to Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress
+- Never use EC2, Spot, or CodeBuild for this issue

@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 122,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "626edb8d9857b343a455030fdf35860fe4f3fb98b8afd05c31697373049942d3",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/122/design.md",
+  "diagram_path": ".csdlc/prepared/issues/122/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:122-bounded-design-review",
+      "revision": "879b89709fc741dabfefcb2931f3ced6af18cc087eaf6bdf4e7ba0b954144652"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "06292e374a6f4e737421179152e285adf1664ad3d39bff5d2298bf8344da421f",
+      "rendered_digest": "cd12ee5641d38d3bd2e1945212425c319e086675af0ec5170898707db64d292a",
+      "ast_digest": "9b5408522cb87aed403bc16f61cdd97e784e50f5454714eeb79ae8ca857fb0ea"
+    },
+    "stp": {
+      "values_digest": "5453a3275a01e6d496563fe006789b4658e9f298a9a45a6a2cf96e7466adc88c",
+      "rendered_digest": "361ff93b0e1e61d9f92b5a14ad007a42ae0828cefcaaac058d68f27792959ca7",
+      "ast_digest": "a2808dfa07211e20ffe81ad241ffccb00062fd49bcd6aafd0461dd0519f5994c"
+    },
+    "spp": {
+      "values_digest": "188889177d3bab1a38a58c6648d5236fa67a541627197c3642deeb35c3b7b723",
+      "rendered_digest": "cdced21297dacb45fae0e5a33d01417fc34e3a37beb92c2fedf2089068131907",
+      "ast_digest": "305f66418ecff6b46a8f90f4eb244a7509f94176e773522b5d063e5b4b1184cc"
+    },
+    "vpp": {
+      "values_digest": "ef3073f4e28d975b4b6c7e42aa4b8760988e40414daaec32ebb6ba570d95c2ba",
+      "rendered_digest": "54884b946276e73ff76a987aca011bc8a01fc8f3338c8d06081d4cc634cf3acd",
+      "ast_digest": "6790beddbe97c9ce51ac664e4cdd26451c7d19554bf19e02d1857fd2295cfbb1"
+    },
+    "srp": {
+      "values_digest": "f0910101bd302fc0fd1135ec1bd29c4195a03232e36060c4499cab2a42d81922",
+      "rendered_digest": "c6c1df921371209cc16cdc36ddc8d74638777ff928e7696dfa925db98596ff1e",
+      "ast_digest": "3a18bc9350b48fbe9c203a3dc5e1f7a702a033d7bb1edf58f679fd0ce4254e09"
+    },
+    "sor": {
+      "values_digest": "509dd08b6077e2f738641e79b1dbe49b23e8ed67b8d8dc8bf3eb4ebfde86d753",
+      "rendered_digest": "7333db4e4fd7402fedef3accd96ebceae46deedce366231ca2ce1052694803e6",
+      "ast_digest": "e454b0636290bb236295d5ed19a59ab52bfb4f94f500737c07709da797b7ddbf"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:122-deferred-public-exposure-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:122-deferred-public-exposure-preparation",
+      "reason": "Declare exact deferred issue-owned product and validator targets for typed readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/public-observatory/main.tf\",\"infra/aws/public-observatory/variables.tf\",\"adl/tools/validate_public_observatory_exposure.sh\",\"adl/tools/validate_public_runtime_gateway.sh\",\"docs/milestones/post-v0.92/features/PUBLIC_OBSERVATORY_EXPOSURE.md\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:122-deferred-public-exposure-preparation",
+      "reason": "Declare exact deferred issue-owned deliverables, including both typed validator denominators.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"infra/aws/public-observatory/main.tf\",\"infra/aws/public-observatory/variables.tf\",\"adl/tools/validate_public_observatory_exposure.sh\",\"adl/tools/validate_public_runtime_gateway.sh\",\"docs/milestones/post-v0.92/features/PUBLIC_OBSERVATORY_EXPOSURE.md\"]}"
+    }
+  ]
+}

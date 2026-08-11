@@ -1,0 +1,135 @@
+{
+  "issue": 122,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:122-deferred-public-exposure-preparation",
+  "design_path": ".csdlc/prepared/issues/122/design.md",
+  "diagram_path": ".csdlc/prepared/issues/122/diagram.mmd",
+  "design_reviewer": "codex:122-bounded-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
+    "slug": "deferred-public-observatory-exposure",
+    "version": "post-v0.92",
+    "goal": "After the distributed Runtime is terminal and a separate operator authorizes AWS, expose the exact Observatory and matching Runtime gateway through bounded business-account infrastructure.",
+    "required_outcome": "Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress provide ordinary browser trust, exact revision parity, governed access, rollback, and ownership proof without private-state exposure.",
+    "declared_scope": [
+      "infra/aws/public-observatory/**",
+      "adl/tools/validate_public_observatory_exposure.sh",
+      "adl/tools/validate_public_runtime_gateway.sh",
+      "docs/milestones/post-v0.92/features/PUBLIC_OBSERVATORY_EXPOSURE.md",
+      ".csdlc/issues/122/**",
+      ".csdlc/prepared/issues/122/**",
+      ".csdlc/evidence/122/**"
+    ],
+    "authority_boundary": [
+      "Issue and code authority are agent-logic/agent-design-language#122",
+      "Issue #122 is deferred beyond v0.92 and is not a gate for #83 or #111-#117",
+      "Execution requires terminal distributed Runtime proof plus separate operator AWS authorization",
+      "AWS activity must use the approved Agent Logic business profile; no EC2, Spot, or CodeBuild",
+      "Public reachability never grants Runtime write authority or permits private agent-state exposure"
+    ],
+    "operator_constraints": [
+      "Do not bind, implement, or use AWS during preparation",
+      "Do not push, open a PR, publish, merge, close, or mutate #83, #110, or #111-#117",
+      "Verify the approved business profile resolves to the Agent Logic business account before any later AWS action",
+      "Limit later authorized AWS scope to Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress",
+      "Never use EC2, Spot, or CodeBuild for this issue"
+    ],
+    "task_boundary": "Prepare now; only after all serial gates may a separately authorized session implement bounded public Observatory and Runtime-gateway exposure.",
+    "deliverables": [
+      "Route53 records and ACM certificates for the two canonical development hostnames",
+      "S3 and CloudFront static Observatory deployment with exact revision identity",
+      "Approved non-EC2 distributed Runtime ingress with exact HTTPS, WSS, CORS, authentication, and origin policy",
+      "Bounded deployment, ownership, rollback, cleanup, and redacted public proof",
+      "Exact-head security and operations review"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Distributed Runtime integration is terminal, merged, ancestral, and independently reviewed before execution",
+      "AC-2: A separate operator authorization exists and the approved business profile resolves to the Agent Logic business account",
+      "AC-3: Both canonical hostnames resolve to issue-owned resources with valid ACM chains and ordinary platform trust",
+      "AC-4: The Observatory and Runtime gateway expose one matching exact revision with no private state or secret material",
+      "AC-5: CORS, CSP, WSS origins, authentication, signed Layer 8 writes, rate limits, redaction, and health reporting fail closed",
+      "AC-6: Deployment and rollback are bounded, idempotent, ownership-verifiable, and leave no orphaned issue-owned resources",
+      "AC-7: No EC2, Spot, or CodeBuild resource is created or operated",
+      "AC-8: Exact-head security and operations review has no unresolved actionable findings",
+      "AC-9: #122 remains non-gating for #83 and #111-#117"
+    ],
+    "dependencies": [
+      "Hard serial gate: distributed Runtime terminal through merged, ancestral, independently reviewed proof",
+      "Separate operator authorization for bounded AWS work",
+      "Approved Agent Logic business profile verified at execution time",
+      "#83 local implementation and independent validation are inputs, not work gated by #122",
+      "#110 supplies product direction; #111-#117 may supply contracts but are not gated by #122"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#83",
+      "agent-logic/agent-design-language#110",
+      "agent-logic/agent-design-language#111",
+      "agent-logic/agent-design-language#112",
+      "agent-logic/agent-design-language#113",
+      "agent-logic/agent-design-language#114",
+      "agent-logic/agent-design-language#115",
+      "agent-logic/agent-design-language#116",
+      "agent-logic/agent-design-language#117"
+    ],
+    "non_goals": [
+      "Any execution during v0.92 or any gate on #83 or #111-#117",
+      "Product implementation, AWS use, deployment, publication, push, PR, merge, or closeout during preparation",
+      "EC2, Spot, CodeBuild, birthday-specific behavior, or production marketing launch",
+      "Weakening Runtime authorization or exposing private state, secrets, raw provider payloads, or internal topology"
+    ],
+    "plan_summary": "Hold beyond v0.92; after terminal distributed Runtime proof and separate operator authorization, verify the business profile, freeze the bounded public contract, implement issue-owned non-EC2 infrastructure, prove exact public behavior and rollback, and complete exact-head review.",
+    "affected_areas": [
+      "Deferred issue-owned Route53, ACM, S3, CloudFront, and non-EC2 ingress configuration",
+      "Deferred issue-owned local and live public-exposure validators",
+      "Deferred post-v0.92 feature and operations documentation",
+      "Issue #122 lifecycle and evidence surfaces"
+    ],
+    "steps": [
+      {"id":"S1","action":"Wait for terminal distributed Runtime proof and separate operator AWS authorization; confirm #122 remains non-gating for #83 and #111-#117.","acceptance_ids":["AC-1","AC-2","AC-9"],"status":"pending"},
+      {"id":"S2","action":"Verify the approved business profile and freeze exact hostnames, resource ownership, budget, ingress, security, rollback, and cleanup contracts without EC2, Spot, or CodeBuild.","acceptance_ids":["AC-2","AC-5","AC-6","AC-7"],"status":"pending"},
+      {"id":"S3","action":"Implement only issue-owned Route53, ACM, S3, CloudFront, and approved non-EC2 Runtime ingress targets.","acceptance_ids":["AC-3","AC-4","AC-5","AC-6","AC-7"],"status":"pending"},
+      {"id":"S4","action":"Run exact local policy and authorized live browser, HTTPS, WSS, revision, ownership, rollback, cleanup, and negative forbidden-compute proof.","acceptance_ids":["AC-3","AC-4","AC-5","AC-6","AC-7"],"status":"pending"},
+      {"id":"S5","action":"Resolve exact-head security and operations review and hand off without production marketing launch unless separately authorized.","acceptance_ids":["AC-8"],"status":"pending"}
+    ],
+    "invariants": [
+      "#122 remains deferred beyond v0.92 and non-gating for #83 and #111-#117",
+      "No AWS action occurs without separate operator authorization and verified business-account authority",
+      "No EC2, Spot, or CodeBuild resource is created or operated",
+      "Public reachability never grants write authority or exposes private Runtime or agent state",
+      "Deployed Observatory and Runtime gateway revisions match exactly and rollback remains bounded"
+    ],
+    "risks": [
+      "Distributed Runtime topology or public-ingress contracts may change before the deferred gate closes",
+      "DNS, certificate, cache, and revision drift can present mixed or stale public surfaces",
+      "Permissive origin, authentication, rate-limit, or redaction policy can widen public authority or disclosure",
+      "Wrong AWS account selection or incomplete ownership tags can make resources unsafe to operate or clean",
+      "A future ingress choice may imply forbidden compute and require operator replanning"
+    ],
+    "planning_profile": "large",
+    "stop_conditions": [
+      "Distributed Runtime proof is nonterminal, unmerged, non-ancestral, or has unresolved review findings",
+      "Separate operator AWS authorization is absent, ambiguous, or expired",
+      "The approved profile does not resolve to the Agent Logic business account",
+      "The design requires EC2, Spot, CodeBuild, or an unapproved service",
+      "Exact origin, authentication, redaction, rate-limit, ownership, rollback, or cleanup behavior cannot fail closed",
+      "Any action would gate or mutate #83 or #111-#117"
+    ],
+    "validation_lanes": [
+      {"lane":"public-exposure-policy","proof_role":"Exact issue-owned local policy target for serial gates, non-gating topology, resource allowlist, forbidden compute, canonical hostnames, origin policy, revision binding, redaction, ownership, rollback, cleanup, and review prerequisites.","deterministic":true,"resource_profile":"small","parallel_group":"local","budget_seconds":600,"budget_tokens":4000,"argv":["bash","adl/tools/validate_public_observatory_exposure.sh","--local-only"],"acceptance_ids":["AC-1","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8","AC-9"],"defer_reason":"Issue-owned target is intentionally created only after the distributed Runtime is terminal and separate operator AWS authorization exists."},
+      {"lane":"public-runtime-gateway-policy","proof_role":"Exact issue-owned local gateway target for HTTPS, WSS, authentication, CORS, origin, rate-limit, redaction, health, and revision contracts.","deterministic":true,"resource_profile":"small","parallel_group":"local","budget_seconds":600,"budget_tokens":4000,"argv":["bash","adl/tools/validate_public_runtime_gateway.sh","--local-only"],"acceptance_ids":["AC-4","AC-5","AC-7"],"defer_reason":"Issue-owned target is intentionally created only after the distributed Runtime is terminal and separate operator AWS authorization exists."},
+      {"lane":"authorized-live-public-proof","proof_role":"Operator-authorized live proof of DNS, ACM, HTTPS, WSS, exact revision parity, business-account ownership, rollback, cleanup, and absence of forbidden compute.","deterministic":true,"resource_profile":"medium","parallel_group":"live","budget_seconds":1800,"budget_tokens":10000,"argv":["bash","adl/tools/validate_public_observatory_exposure.sh","--live"],"acceptance_ids":["AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"defer_reason":"Live AWS proof is prohibited until distributed Runtime terminal state and separate operator authorization; this preparation performs no AWS action."},
+      {"lane":"issue-diff-hygiene","proof_role":"Reject malformed whitespace and patch artifacts in the eventual issue implementation.","deterministic":true,"resource_profile":"small","parallel_group":"static","budget_seconds":60,"budget_tokens":500,"argv":["git","diff","--check"],"acceptance_ids":["AC-8"],"defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on an open serial gate, absent operator authorization, wrong account, forbidden compute, revision drift, invalid browser trust, permissive origin or authentication policy, unbounded traffic, disclosure, ownership ambiguity, incomplete rollback or cleanup, failed proof, or unresolved exact-head finding.",
+    "review_prompts": [
+      "Can any public read, browser state, origin, or unsigned request gain Runtime write authority?",
+      "Do the exact deployed Observatory and Runtime gateway revisions match through DNS, cache, HTTPS, and WSS paths?",
+      "Are CORS, CSP, WSS origins, authentication, rate limits, redaction, health, and error responses fail-closed and public-safe?",
+      "Does every resource belong to the verified Agent Logic business account with bounded ownership, rollback, and cleanup?",
+      "Can any plan or tool create or operate EC2, Spot, or CodeBuild, or begin without separate operator authorization?",
+      "Does #122 remain deferred beyond v0.92 and non-gating for #83 and #111-#117?"
+    ],
+    "review_scope": "Issue #122 deferred public Route53, ACM, S3, CloudFront, approved non-EC2 Runtime ingress, exact revision and browser trust, public security policy, business-account authority, rollback, cleanup, forbidden-compute proof, and non-gating boundaries."
+  }
+}
