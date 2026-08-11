@@ -1,0 +1,12 @@
+{
+  "issue": 112,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "dc9de2e79f1a197b75dd7590c63987dd0f1f6352ad6382b5b802924d285422f5",
+  "actor": "codex:wp18c02-prebind-readiness-repair",
+  "reason": "All six typed cards, approved design, shared ACIP authority boundary, and exact preparation lanes are ready for pre-bind validation; product binding remains gated on merged ancestral #83 and #111 only.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}
