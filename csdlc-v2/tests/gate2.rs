@@ -29,6 +29,42 @@ fn must_succeed(output: Output) -> String {
     String::from_utf8(output.stdout).expect("UTF-8 output")
 }
 
+fn assert_only_pending_design_review_diagnostic(repo: &Path, issue: u64) {
+    let output = command(
+        repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &[
+            "--root",
+            &repo.to_string_lossy(),
+            "issue",
+            "--issue",
+            &issue.to_string(),
+        ],
+    );
+    assert!(!output.status.success());
+    let envelope: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("validation error envelope JSON");
+    assert_eq!(envelope["code"], "card_invalid");
+    let report: serde_json::Value = serde_json::from_str(
+        envelope["message"]
+            .as_str()
+            .expect("embedded validation report"),
+    )
+    .expect("embedded validation report JSON");
+    assert_eq!(report["schema"], "csdlc.doctor.report.v1");
+    assert_eq!(report["issue"], issue);
+    assert_eq!(report["status"], "block");
+    assert_eq!(report["ready"], false);
+    assert_eq!(
+        report["findings"],
+        serde_json::json!([{
+            "code": "design_review_missing_or_stale",
+            "message": "design review does not cover the current design digest"
+        }])
+    );
+    assert_eq!(report["next_operation"], "repair_design_readiness");
+}
+
 fn git(root: &Path, args: &[&str]) -> String {
     must_succeed(command(root, "git", args))
 }
@@ -2106,6 +2142,10 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         "flowchart LR\n  Repair --> Review\n",
     )
     .expect("repair diagram");
+    let authored_design_before_initialized_stp =
+        fs::read(repo.join("design/issue-42.md")).expect("design before initialized STP");
+    let authored_diagram_before_initialized_stp =
+        fs::read(repo.join("design/issue-42.mmd")).expect("diagram before initialized STP");
     let audit_before_acceptance =
         fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("initial audit");
     let (old_design_digest, old_diagram_digest) = spp_design_digests(&initialized_cards_before);
@@ -2155,6 +2195,26 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
             &initialized_cards_after[&kind],
         );
     }
+    let mut expected_initialized_stp = match &initialized_cards_before[&CardKind::Stp].content {
+        CardContent::Stp(values) => values.clone(),
+        _ => unreachable!("STP"),
+    };
+    let SemanticOperation::ReplaceAcceptanceCriteria { values } = &initialized_operation else {
+        unreachable!("initialized STP operation")
+    };
+    expected_initialized_stp.acceptance_criteria = values.clone();
+    match &initialized_cards_after[&CardKind::Stp].content {
+        CardContent::Stp(values) => assert_eq!(values, &expected_initialized_stp),
+        _ => unreachable!("STP"),
+    }
+    assert_eq!(
+        fs::read(repo.join("design/issue-42.md")).expect("design after initialized STP"),
+        authored_design_before_initialized_stp
+    );
+    assert_eq!(
+        fs::read(repo.join("design/issue-42.mmd")).expect("diagram after initialized STP"),
+        authored_diagram_before_initialized_stp
+    );
     assert_design_bindings_match_authored(&repo, &initialized_cards_after);
     let (new_design_digest, new_diagram_digest) = spp_design_digests(&initialized_cards_after);
     assert_ne!(new_design_digest, old_design_digest);
@@ -2175,14 +2235,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
             .join(format!(".csdlc/issues/42/cards/{card}.md"))
             .is_file());
     }
-    let pending_validation = command(
-        &repo,
-        env!("CARGO_BIN_EXE_csdlc-validate"),
-        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
-    );
-    assert!(!pending_validation.status.success());
-    assert!(String::from_utf8_lossy(&pending_validation.stdout)
-        .contains("design_review_missing_or_stale"));
+    assert_only_pending_design_review_diagnostic(&repo, 42);
 
     let initialized_spp_before = record.clone();
     let initialized_spp_cards_before = store
@@ -2249,6 +2302,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         &old_diagram_digest,
         &new_diagram_digest,
     );
+    assert_only_pending_design_review_diagnostic(&repo, 42);
 
     let wrong_card_before = issue_projection_snapshot(&repo, 42);
     assert!(direct_edit(&store, &record, CardKind::Spp, exact_acceptance(), false,).is_err());
@@ -2436,6 +2490,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         &old_diagram_digest,
         &new_diagram_digest,
     );
+    assert_only_pending_design_review_diagnostic(&repo, 42);
 
     for (name, operation) in [
         (
@@ -2483,6 +2538,10 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     let ready_cards_before = store
         .load_cards(42)
         .expect("ready cards before plan repair");
+    let authored_design_before_ready_spp =
+        fs::read(repo.join("design/issue-42.md")).expect("design before ready SPP");
+    let authored_diagram_before_ready_spp =
+        fs::read(repo.join("design/issue-42.mmd")).expect("diagram before ready SPP");
     let (old_design_digest, old_diagram_digest) = spp_design_digests(&ready_cards_before);
     let ready_operation = plan(
         "exercise exact ready plan repair",
@@ -2520,6 +2579,27 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         &ready_cards_before[&CardKind::Spp],
         &ready_cards_after[&CardKind::Spp],
     );
+    let mut expected_ready_spp = match &ready_cards_before[&CardKind::Spp].content {
+        CardContent::Spp(values) => values.clone(),
+        _ => unreachable!("SPP"),
+    };
+    let SemanticOperation::ReplacePlanSteps { steps } = &ready_operation else {
+        unreachable!("ready SPP operation")
+    };
+    expected_ready_spp.plan_revision += 1;
+    expected_ready_spp.steps = steps.clone();
+    match &ready_cards_after[&CardKind::Spp].content {
+        CardContent::Spp(values) => assert_eq!(values, &expected_ready_spp),
+        _ => unreachable!("SPP"),
+    }
+    assert_eq!(
+        fs::read(repo.join("design/issue-42.md")).expect("design after ready SPP"),
+        authored_design_before_ready_spp
+    );
+    assert_eq!(
+        fs::read(repo.join("design/issue-42.mmd")).expect("diagram after ready SPP"),
+        authored_diagram_before_ready_spp
+    );
     assert_design_bindings_match_authored(&repo, &ready_cards_after);
     let (new_design_digest, new_diagram_digest) = spp_design_digests(&ready_cards_after);
     assert_last_prebind_audit_operation(
@@ -2530,14 +2610,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         &old_diagram_digest,
         &new_diagram_digest,
     );
-    let pending_validation = command(
-        &repo,
-        env!("CARGO_BIN_EXE_csdlc-validate"),
-        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
-    );
-    assert!(!pending_validation.status.success());
-    assert!(String::from_utf8_lossy(&pending_validation.stdout)
-        .contains("design_review_missing_or_stale"));
+    assert_only_pending_design_review_diagnostic(&repo, 42);
     let clean_ready = issue_projection_snapshot(&repo, 42);
     let mut ready_with_topology = record.clone();
     ready_with_topology.branch = Some("premature-ready-branch".into());
@@ -2566,6 +2639,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         injected_ready_topology
     );
     restore_issue_projection(&repo, 42, &clean_ready);
+    let audit_len_before_ready_approval = record.audit.len();
     record = csdlc_v2::store::approve_design(
         &store,
         csdlc_v2::store::ApproveDesignRequest {
@@ -2576,6 +2650,14 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         },
     )
     .expect("reapprove ready plan repair");
+    assert_eq!(record.audit.len(), audit_len_before_ready_approval + 1);
+    let ready_approval_event = record.audit.last().expect("ready approval audit event");
+    assert_eq!(ready_approval_event.actor, "independent-ready-reviewer");
+    assert_eq!(
+        ready_approval_event.reason,
+        "reapprove repaired ready issue design"
+    );
+    assert_eq!(ready_approval_event.operation, "approve_design");
     must_succeed(command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-validate"),

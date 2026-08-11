@@ -1424,7 +1424,9 @@ fn approve_design_with_hook(
         sequence: record.audit.len() as u64 + 1,
         generation: record.generation,
         actor: request.reviewer,
-        reason: if initialized_reapproval || ready_reapproval {
+        reason: if ready_reapproval {
+            "reapprove repaired ready issue design"
+        } else if initialized_reapproval {
             "reapprove stale initialized issue design"
         } else if lifecycle_reapproval {
             "reapprove changed issue design"
