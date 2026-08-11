@@ -43,7 +43,18 @@ docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P1-native-vector-dependency",
+    "severity": "p1",
+    "summary": "Fixed: both native platforms install the existing checksum-pinned Vector component before production proof, and producer/validator manifests bind the installer.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:c50bf6833d4392b5e5f502797e6c18b48ccbd58c:e71d8b54a524199a328113a389452e57fc095028d9952ebe18e750089f5de8da",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -51,12 +62,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Exact Linux and macOS native receipt execution remains deferred until reviewed publication; merge remains blocked until retained packet validation and fresh post-native review pass.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c50bf6833d4392b5e5f502797e6c18b48ccbd58c:e71d8b54a524199a328113a389452e57fc095028d9952ebe18e750089f5de8da")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_209_exact_head")
 
-Result: pre_review
+Result: pass

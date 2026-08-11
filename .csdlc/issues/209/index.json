@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
-  "phase": "implemented",
-  "generation": 21,
-  "digest": "5c2802c92bfb3d2009d12715549144681e5e1e99779d214f864c3f52fb250151",
+  "phase": "reviewed",
+  "generation": 22,
+  "digest": "198760bb75ee2ba306c20f9578ddb309974be748bd3f8d84bfd7bd91eb78307e",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
   "review_assignment": {
@@ -36,7 +36,49 @@
       "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_209_exact_head",
+    "scope": [
+      ".csdlc/issues/209",
+      ".csdlc/prepared/issues/209/design.md",
+      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      ".csdlc/evidence/209",
+      ".github/workflows/wp14-production-acip-repair.yml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl/tools/install_vector_component.sh",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:c50bf6833d4392b5e5f502797e6c18b48ccbd58c:e71d8b54a524199a328113a389452e57fc095028d9952ebe18e750089f5de8da",
+    "findings": [
+      {
+        "id": "P1-native-vector-dependency",
+        "severity": "p1",
+        "summary": "Fixed: both native platforms install the existing checksum-pinned Vector component before production proof, and producer/validator manifests bind the installer.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:c50bf6833d4392b5e5f502797e6c18b48ccbd58c:e71d8b54a524199a328113a389452e57fc095028d9952ebe18e750089f5de8da",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Exact Linux and macOS native receipt execution remains deferred until reviewed publication; merge remains blocked until retained packet validation and fresh post-native review pass."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -51,32 +93,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1e98f187aca25d8f3487a31963bb639f0b67e2f40b645a0141cbf2f8e951a095",
+      "values_digest": "07871cf304771ca48b677782a73ddda3060cc2af66f1b3f291d87b1308261061",
       "rendered_digest": "6ab414912da8b10f191cb7cd3eea7784652fb74e3078d62b0910875fce567253",
       "ast_digest": "0aee2bd815b8c6341e8aff6dc3c6cd119dfed378531100564f71b0578fe18f04"
     },
     "stp": {
-      "values_digest": "1782f3b49a12a7d456d32639ebc9d8a582d3f13ad9aba9dd8923e737becdeed3",
+      "values_digest": "167fc654c86819221f57a4b0702ad53d048fd0495fef8d571f7c4246afe86680",
       "rendered_digest": "e951f98cdd50987c53b2a86e54705081136876bf7a37371391f5666fc8d69277",
       "ast_digest": "1f3ffc61430a58bd141d682d1f46cee9cb750b4fc7484d1ffdd17668fbba9981"
     },
     "spp": {
-      "values_digest": "a998039284f96dcb8e495ff07de8b78907c1dd4e1729a9e2ab387f953c761788",
+      "values_digest": "4bd91f1252a15abcd31a43162a72f4af4e6ef48e42a3962069218f282fee10d2",
       "rendered_digest": "65126dd5e86756e71a625179916063764d0b78027945b2653a76eadcbf7b6db5",
       "ast_digest": "93b187170b51ddd77987e72bd0f5ecc30bfc162be27c358e6944fdf455a710bf"
     },
     "vpp": {
-      "values_digest": "1630bc118e2cd181f0ad51ab2093980910a1f4d8e9d66f7747d4c69f68a86d77",
+      "values_digest": "bd01ccf980653a9a5f0b120f1663b09f055a74ee3311e48a472e90b634518c63",
       "rendered_digest": "1cf5d053c982cfa3dbb1576026b45f79b6f645d14b06baacfb117fd30e39a4f2",
       "ast_digest": "6b62309165c156b026db20c16e4fa82877f6fa6aa554733e8e5144b69c2f3642"
     },
     "srp": {
-      "values_digest": "05edf61cc0283ad9cb3b4591b998618297031ce325ad031571da6e37afecadf0",
-      "rendered_digest": "583661dd1173c5e869d4c227a8735b3f35acf939ff81e3d28022129e10cd5679",
-      "ast_digest": "5d524607a874430d08750ca4b425f538255249e04417490d4ec61b30062cbfdc"
+      "values_digest": "b3f726898e2278c5645d2b40816b319e299abdf49984e2b5f6f3c102ac74cfc7",
+      "rendered_digest": "97b8f32f6501480b1b667d16bffa9187435bcf4aabbbd5a02b5f28ea224efb3c",
+      "ast_digest": "3a0bd4d8c62da8317fe918e9fddb0d03107d19dc5fb3f1dc1857d41fea5953c5"
     },
     "sor": {
-      "values_digest": "1325098696c1a3209cc62b33ec4ece1722de315080b7372c42adcf691b172fd6",
+      "values_digest": "ce4acf0ee2707cc3350cff7617e16ecde89280720bd975eb48ecdc1fe7008854",
       "rendered_digest": "cb8e672854416dce3a7b6c008234abc1c765c50551be27905d8a3da7018bbf79",
       "ast_digest": "0f776dec51f2f2a0c8bfb06acf49e5fb8f521886b6104d69d2b96619424a22df"
     }
@@ -123,6 +165,13 @@
       "to": "implemented",
       "actor": "/root/sprint4_5857",
       "reason": "Recover approved publication truth after native Linux and macOS proved the workflow omitted the verified Vector runtime dependency required by the production kernel test."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/sprint4_5857",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -321,6 +370,13 @@
       "actor": "/root/sprint4_5857",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "/root/sprint4_5857",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
