@@ -34,6 +34,8 @@ pub struct DomainResult {
     pub work_id: String,
     pub accepted_sequence: u64,
     pub result_hash: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub public_output: Option<serde_json::Value>,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
@@ -282,6 +284,7 @@ fn apply(
     work: &DomainWork,
     operation: &crate::OperationResult,
 ) -> Result<DomainResult, IngressError> {
+    let public_output = project_public_output(work, operation)?;
     let result_hash =
         blake3::hash(&serde_json::to_vec(&(work, operation)).map_err(|_| IngressError::Invalid)?)
             .to_hex()
@@ -298,9 +301,64 @@ fn apply(
         work_id: work.work_id.clone(),
         accepted_sequence: state.accepted_through,
         result_hash,
+        public_output,
     };
     state.completed.insert(work.work_id.clone(), result.clone());
     Ok(result)
+}
+
+fn project_public_output(
+    work: &DomainWork,
+    operation: &crate::OperationResult,
+) -> Result<Option<serde_json::Value>, IngressError> {
+    let Ok(command) = serde_json::from_slice::<serde_json::Value>(&work.payload) else {
+        return Ok(None);
+    };
+    let Some(tasks) = command.get("tasks").and_then(serde_json::Value::as_array) else {
+        return Ok(None);
+    };
+    if command.get("schema").and_then(serde_json::Value::as_str)
+        != Some("adl.runtime.local_agent_work.v1")
+        || tasks.len() != 1
+        || tasks[0].get("op").and_then(serde_json::Value::as_str) != Some("conversation_message")
+    {
+        return Ok(None);
+    }
+    let execution: serde_json::Value =
+        serde_json::from_slice(&operation.payload).map_err(|_| IngressError::ExecutionFailed)?;
+    if execution.get("schema").and_then(serde_json::Value::as_str)
+        != Some("adl.runtime.local_agent_execution.v1")
+    {
+        return Err(IngressError::ExecutionFailed);
+    }
+    let output = execution
+        .get("outputs")
+        .and_then(serde_json::Value::as_array)
+        .and_then(|outputs| outputs.first())
+        .and_then(|entry| entry.get("output"))
+        .ok_or(IngressError::ExecutionFailed)?;
+    let recipient_id = output
+        .get("recipient_id")
+        .and_then(serde_json::Value::as_str)
+        .filter(|value| !value.is_empty() && value.len() <= 128)
+        .ok_or(IngressError::ExecutionFailed)?;
+    let requested_recipient_id = tasks[0]
+        .get("recipient_id")
+        .and_then(serde_json::Value::as_str)
+        .ok_or(IngressError::ExecutionFailed)?;
+    if recipient_id != requested_recipient_id {
+        return Err(IngressError::ExecutionFailed);
+    }
+    let message = output
+        .get("message")
+        .and_then(serde_json::Value::as_str)
+        .filter(|value| !value.is_empty() && value.len() <= 4_096)
+        .ok_or(IngressError::ExecutionFailed)?;
+    Ok(Some(serde_json::json!({
+        "schema": "adl.runtime.conversation_reply.v1",
+        "recipient_id": recipient_id,
+        "message": message,
+    })))
 }
 
 #[cfg(test)]

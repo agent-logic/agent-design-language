@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-After #83 is terminal and ancestral, rebase onto its exact dependency head, implement Runtime-owned contracts/session ordering and provider-neutral execution, integrate authenticated Observatory ingress/egress, run focused PVF lanes, and complete exact-head review before any publication.
+Under live #110 decomposition authority, implement a bounded authenticated selected-agent conversation intent through canonical Runtime ingress, expose only a typed public reply, render it safely in the Observatory, run focused PVF lanes, and complete exact-head independent review before publication. #83 remains a separate asynchronous decomposition reconciliation and is not an execution gate.
 
 ## Plan
 
-Revision 8
+Revision 11
 
 ## Steps
 
@@ -119,12 +119,12 @@ Digest: 7a7b26563a9aa9e1466f66e846ffecca7c34ece7a60dc705a9f60c4d9e0f1410
 
 ## Stop Conditions
 
-- #83 is not terminal, independently validated, and ancestral to the candidate base
-- Exact post-#83 affected paths differ materially from this SPP without a typed replan
-- Any implementation would need to define broader Layer 8 identity or policy semantics outside the inherited #83 boundary; route that downstream scope to #112
-- Any implementation requires durable history owned by #114 or multi-agent routing owned by #115
-- A proving validator target is unavailable without an explicit initialized-phase defer and issue ownership
-- Any path would require product edits on root main or mutation of #83
+- Live #110 decomposition authority is revoked or the bounded #111 selected-agent conversation scope is reassigned
+- The implementation requires broader Layer 8 identity or policy hardening owned by downstream #112
+- The implementation requires durable history owned by #114 or multi-agent rooms and routing owned by #115 and #116
+- The implementation would expose provider payloads, private cognition, credentials, or browser-held signing keys
+- A proving validator target becomes unavailable or the exact changed paths diverge materially without another typed replan
+- Any path would require product edits on root main or mutation of #83, #110, #122, or #213
 
 ## Handoff
 

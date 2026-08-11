@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 111,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
-  "phase": "ready",
-  "generation": 18,
-  "digest": "ec2e3fbfbfd85c2c1fb58400b0c21f49addb6775d74e4e9e5c26293d88388452",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 21,
+  "digest": "25d9aca0c86a1d8350ea10351d603fc76f5324a122b40bd2b360c9136620eac1",
+  "branch": "codex/111-wp18c01-conversation-session-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "761a6eb1ea62c74cdfbdf79db3ebeb73c62c37b9c0df5dedc921b778a9f7039e",
+      "values_digest": "570c673f17cb17a1fa2a397350d13afa271ff5222a989e5f0e30313180a81d0a",
       "rendered_digest": "b32c24898fb51fe7983fc9c22fc3c4a2a1301a577fbfcbc4c544a8010e8467bf",
       "ast_digest": "ec2c4ea994baf5d6fcf4c370786b31089a9f7b5703f759da1a79963fb8a97991"
     },
     "stp": {
-      "values_digest": "2086a8b3ef76eddc73ce64265fae5d225ce025baed9eae9a7d4593e40d8d3049",
+      "values_digest": "b539d3b7785acc431471a84e1864b12383fe7154ab6f2a7de814721208f264dc",
       "rendered_digest": "0e9cf329b13bea0024aa5435646a2c6eb28e8621d186026d14b63c83ba72e8ac",
       "ast_digest": "3d05c54af057665cbd3763007ceb67f3cdf72e09fed17d530eaa9c01795f0f84"
     },
     "spp": {
-      "values_digest": "3e14def1c9fa37fffa55c3ff5ebcc61ae21a068a19149d45bddf57a2776428ae",
-      "rendered_digest": "229350ca9284624ef0331433337ff2276b44c091df0c85c668a257964483d601",
-      "ast_digest": "d275a28e20694b2d506766088a66f6c7342493abed4bf6450c4d87b1d049e798"
+      "values_digest": "3b0318c3ef410faf09b578bd27f533378d3fe601a6fe047ed4c709d8184da3bb",
+      "rendered_digest": "db00812211a917314b8b44c16e9c7447769f4e13be3b22852494b130990c43ce",
+      "ast_digest": "a86c5abad22c8759a6c78dddaf6871a3fa9083cc30782d56ac67b37ab723ce7d"
     },
     "vpp": {
-      "values_digest": "a2c7fab98f81f15708d556a0604f870347315150274106989f66e29bb2b67f87",
+      "values_digest": "d092861270f856d175beaa78931f19326cf4671007bc367418517b19c6ad1558",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "d1ca76662f1d60f1ff1e1a026c0479f7189ca88204a469198d06a9b8c375c122",
+      "values_digest": "6fd7cdcc8fbbb99e9095a381fbbee167be0cbe8749251c269fc5854d4f454b86",
       "rendered_digest": "e37a0643a47fb863a387964ca9e69e03eea12c6cfb959ebfbc5c60f69ec98b2b",
       "ast_digest": "998b9887f80c2418e8b940fed6ddaeeeaaa92fbf2c6a08f79884820b30e5dd90"
     },
     "sor": {
-      "values_digest": "5e5dcc58ed471ea485e9e553f8eaed710652aaf9d1b9a28671229ab411968d25",
+      "values_digest": "a715c312c8e60c1aa1e020547d89a540310c25bf2d961d827ed8eb519f6e3202",
       "rendered_digest": "7e85772a1b45db70e43e5c774ccbd497398a8abcc4c36410055d3abbdbf7e98d",
       "ast_digest": "2b7c8a38e9f8222a78fea737458fba42a8b3696abaf3c65793811bd97261636d"
     }
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:111-readiness-repair",
       "reason": "Advance the validated preparation packet from initialized to ready without binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -196,6 +204,34 @@
       "actor": "codex:111-final-bind-readiness",
       "reason": "Separate exact-head review authority from ordinary product and diff lanes while retaining fail-closed issue-owned proof targets.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime_conversation_contract\",\"proof_role\":\"Deterministic issue-specific proof of schemas, ordering, idempotency, failure outcomes, reconnect, and restart boundaries with a required nonzero test count.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"--no-tests=fail\"],\"parallel_group\":\"runtime_core\",\"defer_reason\":\"The sentinel target is intentionally nonzero and failing until WP-18C.01 implements the complete conversation-session denominator.\"},{\"lane\":\"observatory_wss_integration\",\"proof_role\":\"Deterministic authenticated WSS ingress, delivery/response correlation, reconnect, and negative-path proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_openapi_contract\",\"proof_role\":\"Deterministic public schema and checked-in OpenAPI parity proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_browser_conversation_behavior\",\"proof_role\":\"Run the exact issue-owned browser validator and exit nonzero unless agent ACK/hash metadata is never rendered as an agent reply and reconnect does not duplicate transcript entries.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"parallel_group\":\"client_behavior\",\"defer_reason\":\"The sentinel exits nonzero until the exact behavioral assertions are implemented.\"},{\"lane\":\"conversation_exact_head_review_receipts\",\"proof_role\":\"Validate that all required product and hygiene receipts cover the exact candidate revision and that independent SRP review resolved every actionable finding without widening scope.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"--review-only\"],\"parallel_group\":\"review\",\"defer_reason\":\"The issue-owned validator must fail closed until exact-head receipts and independent SRP review evidence exist.\"},{\"lane\":\"exact_diff_hygiene\",\"proof_role\":\"Fast exact-worktree whitespace and conflict-marker hygiene; this lane does not substitute for independent review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"client_behavior\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:111-execution",
+      "reason": "Record the exact bounded Runtime adapter, public projection, Observatory UI, style, browser proof, and OpenAPI paths used by the selected-agent conversation implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:111-execution",
+      "reason": "Replace the superseded oversized issue 83 serial gate with live umbrella 110 decomposition authority and the bounded issue 111 execution route.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Under live #110 decomposition authority, implement a bounded authenticated selected-agent conversation intent through canonical Runtime ingress, expose only a typed public reply, render it safely in the Observatory, run focused PVF lanes, and complete exact-head independent review before publication. #83 remains a separate asynchronous decomposition reconciliation and is not an execution gate.\",\"operation\":\"replan\",\"previous_value\":\"After #83 is terminal and ancestral, rebase onto its exact dependency head, implement Runtime-owned contracts/session ordering and provider-neutral execution, integrate authenticated Observatory ingress/egress, run focused PVF lanes, and complete exact-head review before any publication.\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:111-execution",
+      "reason": "Align stop conditions with live umbrella 110 decomposition and preserve downstream scope boundaries during bound execution.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Live #110 decomposition authority is revoked or the bounded #111 selected-agent conversation scope is reassigned\",\"The implementation requires broader Layer 8 identity or policy hardening owned by downstream #112\",\"The implementation requires durable history owned by #114 or multi-agent rooms and routing owned by #115 and #116\",\"The implementation would expose provider payloads, private cognition, credentials, or browser-held signing keys\",\"A proving validator target becomes unavailable or the exact changed paths diverge materially without another typed replan\",\"Any path would require product edits on root main or mutation of #83, #110, #122, or #213\"]}"
     }
   ]
 }

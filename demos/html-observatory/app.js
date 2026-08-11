@@ -851,6 +851,7 @@ function connectRuntimeV3ObservatoryWebSocket(
       if (frame.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
         onSnapshot(runtimeV3SnapshotFromFeed(frame));
       } else if (frame.schema === "adl.runtime_v3.observatory_ws_control_result.v1" ||
+                 frame.schema === "adl.runtime_v3.observatory_conversation_result.v1" ||
                  frame.schema === "adl.csm.acip_carrier.websocket_frame.v1") {
         onControlFrame(frame);
       }
@@ -880,6 +881,21 @@ function authenticateRuntimeV3ObservatorySocket(socket, token) {
     schema: RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA,
     bearer_token: writeToken
   }));
+}
+
+function conversationReplyFromFrame(frame, pending) {
+  if (!frame || !pending ||
+      frame.schema !== "adl.runtime_v3.observatory_conversation_result.v1" ||
+      frame.status !== "delivered" ||
+      frame.turn_id !== pending.turnId ||
+      frame.recipient_id !== pending.recipientId ||
+      frame.correlation_id !== pending.correlationId ||
+      typeof frame.reply !== "string" ||
+      !frame.reply.trim() ||
+      frame.reply.length > 4096) {
+    return null;
+  }
+  return frame.reply;
 }
 
 async function fetchRetainedRuntimeSnapshot(refs = {}) {
@@ -1543,6 +1559,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const signedControlCommand = document.getElementById("signed-control-command");
   const sendSignedCommand = document.getElementById("send-signed-command");
   const operatorControlResult = document.getElementById("operator-control-result");
+  const conversationRecipient = document.getElementById("agent-conversation-recipient");
+  const conversationMessage = document.getElementById("agent-conversation-message");
+  const conversationSend = document.getElementById("send-agent-conversation");
+  const conversationStatus = document.getElementById("agent-conversation-status");
+  const conversationTranscript = document.getElementById("agent-conversation-transcript");
+  const pendingConversationTurns = new Map();
+  let conversationAuthorized = false;
   let lastLiveError = null;
   let runtimeBaseActive = false;
   let liveSocket = null;
@@ -1579,6 +1602,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const setWriteAccess = (enabled, status, detail) => {
+    conversationAuthorized = enabled;
     if (operatorAuthStatus) {
       operatorAuthStatus.textContent = status;
       operatorAuthStatus.dataset.state = enabled ? "passed" : "open";
@@ -1587,14 +1611,75 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       const canPostSignedCommand = requestedRuntimeSelection() === "v3" && isRuntimeV3ApiBase(readApiBase() || getRuntimeV3Config().api_base);
       sendSignedCommand.disabled = !enabled && !canPostSignedCommand;
     }
+    if (conversationSend) {
+      conversationSend.disabled = !enabled || !conversationRecipient?.value;
+    }
     if (operatorControlResult && detail) {
       operatorControlResult.textContent = detail;
     }
   };
 
+  const updateConversationRoster = (population) => {
+    if (!conversationRecipient) return;
+    const previous = conversationRecipient.value;
+    const agents = asArray(population?.sample).filter((agent) =>
+      agent && typeof agent.id === "string" && agent.state === "running"
+    );
+    conversationRecipient.replaceChildren();
+    if (agents.length === 0) {
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = "No live agents";
+      conversationRecipient.append(option);
+      conversationRecipient.disabled = true;
+      if (conversationStatus) conversationStatus.textContent = "waiting for runtime";
+    } else {
+      agents.forEach((agent) => {
+        const option = document.createElement("option");
+        option.value = agent.id;
+        option.textContent = agent.label || agent.id;
+        conversationRecipient.append(option);
+      });
+      conversationRecipient.value = agents.some((agent) => agent.id === previous)
+        ? previous
+        : agents[0].id;
+      conversationRecipient.disabled = false;
+      if (conversationStatus) conversationStatus.textContent = conversationAuthorized ? "ready" : "login required";
+    }
+    if (conversationSend) {
+      conversationSend.disabled = !conversationAuthorized || !conversationRecipient.value;
+    }
+  };
+
+  const appendConversationTurn = (speaker, message) => {
+    if (!conversationTranscript) return;
+    conversationTranscript.querySelector(".conversation-empty")?.remove();
+    const item = document.createElement("li");
+    item.className = "conversation-turn";
+    item.dataset.speaker = speaker;
+    item.textContent = message;
+    conversationTranscript.append(item);
+    conversationTranscript.scrollTop = conversationTranscript.scrollHeight;
+  };
+
   const renderControlFrame = (frame) => {
     if (frame.status === "authenticated") {
       setWriteAccess(true, "write access enabled", JSON.stringify(frame, null, 2));
+      return;
+    }
+    if (frame.schema === "adl.runtime_v3.observatory_conversation_result.v1") {
+      const pending = pendingConversationTurns.get(frame.turn_id);
+      pendingConversationTurns.delete(frame.turn_id);
+      const reply = conversationReplyFromFrame(frame, pending);
+      if (reply) {
+        appendConversationTurn("agent", reply);
+        if (conversationStatus) conversationStatus.textContent = "delivered";
+      } else {
+        if (conversationStatus) conversationStatus.textContent = frame.error || frame.status || "refused";
+      }
+      if (conversationSend) {
+        conversationSend.disabled = !conversationAuthorized || !conversationRecipient?.value;
+      }
       return;
     }
     if (frame.error === "credential_revoked" ||
@@ -1803,6 +1888,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               ? { ...snapshot, ready: runtimeV3Readiness }
               : snapshot;
             renderPanopticon(streamSnapshot, packet);
+            updateConversationRoster(streamSnapshot.status?.agent_population);
             setText("live-status", "live secure stream");
             setText("statusbar-websocket", "connected");
             setLiveConnectionState("connected");
@@ -1941,6 +2027,39 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
     }
   });
+  conversationRecipient?.addEventListener("change", () => {
+    if (conversationSend) {
+      conversationSend.disabled = !conversationAuthorized || !conversationRecipient.value;
+    }
+  });
+  conversationSend?.addEventListener("click", () => {
+    const message = conversationMessage?.value.trim() || "";
+    const recipientId = conversationRecipient?.value || "";
+    if (!conversationAuthorized || !liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
+      if (conversationStatus) conversationStatus.textContent = "login required";
+      return;
+    }
+    if (!recipientId || !message || message.length > 4096) {
+      if (conversationStatus) conversationStatus.textContent = "message required";
+      return;
+    }
+    const randomId = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now().toString(16).padStart(32, "0")}`;
+    const turnId = `turn-${randomId}`;
+    const conversationId = `conversation-${recipientId}`;
+    pendingConversationTurns.set(turnId, { turnId, recipientId, correlationId: randomId, message });
+    liveSocket.send(JSON.stringify({
+      schema: "adl.runtime_v3.observatory_conversation_intent.v1",
+      conversation_id: conversationId,
+      turn_id: turnId,
+      recipient_id: recipientId,
+      correlation_id: randomId,
+      message
+    }));
+    appendConversationTurn("operator", message);
+    if (conversationMessage) conversationMessage.value = "";
+    if (conversationStatus) conversationStatus.textContent = "accepted";
+    conversationSend.disabled = true;
+  });
 
   const queryApiBase = getQueryApiBase();
   if (queryApiBase) {
@@ -2045,6 +2164,7 @@ globalThis.AdlHtmlObservatory = {
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,
+  conversationReplyFromFrame,
   fetchRetainedRuntimeSnapshot,
   requestedRuntimeSelection,
   getRuntimeV3Config,

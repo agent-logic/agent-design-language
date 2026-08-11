@@ -51,6 +51,10 @@ pub const OBSERVATORY_WS_PATH: &str = "/v1/observatory/ws";
 pub const OBSERVATORY_WS_AUTH_SCHEMA: &str = "adl.runtime_v3.observatory_ws_auth.v1";
 pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_ws_control_result.v1";
+pub const OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA: &str =
+    "adl.runtime_v3.observatory_conversation_intent.v1";
+pub const OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA: &str =
+    "adl.runtime_v3.observatory_conversation_result.v1";
 pub const CONTROL_MAX_BODY_BYTES: usize = 64 * 1024;
 const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
 const OBSERVATORY_OPENAPI_DOCUMENT: &str =
@@ -435,6 +439,100 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
         self.canonical_ingress = Some(ingress);
         self
+    }
+
+    async fn execute_conversation_intent(
+        &self,
+        intent: &ObservatoryConversationIntent,
+    ) -> ObservatoryConversationResult {
+        let outcome = |status, error| ObservatoryConversationResult {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status,
+            conversation_id: intent.conversation_id.clone(),
+            turn_id: intent.turn_id.clone(),
+            recipient_id: intent.recipient_id.clone(),
+            correlation_id: intent.correlation_id.clone(),
+            reply: None,
+            accepted_sequence: None,
+            error: Some(error),
+        };
+        if intent.schema != OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA
+            || !is_safe_identifier(&intent.conversation_id)
+            || !is_safe_identifier(&intent.turn_id)
+            || !is_safe_identifier(&intent.recipient_id)
+            || !is_correlation_id(&intent.correlation_id)
+            || intent.message.trim().is_empty()
+            || intent.message.len() > 4_096
+        {
+            return outcome("refused", "invalid_conversation_intent");
+        }
+        let recipient = self
+            .agent_population
+            .sample
+            .iter()
+            .find(|agent| agent.id == intent.recipient_id);
+        match recipient {
+            None => return outcome("refused", "unknown_recipient"),
+            Some(agent) if agent.state != "running" => {
+                return outcome("refused", "recipient_unavailable")
+            }
+            Some(_) => {}
+        }
+        let Some(ingress) = self.canonical_ingress.as_ref() else {
+            return outcome("failed", "conversation_ingress_unavailable");
+        };
+        let payload = serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [{
+                "op": "conversation_message",
+                "recipient_id": intent.recipient_id,
+                "input": intent.message,
+            }],
+        }));
+        let Ok(payload) = payload else {
+            return outcome("refused", "invalid_conversation_intent");
+        };
+        let submitted = ingress
+            .submit(
+                DomainWork {
+                    schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
+                    work_id: intent.turn_id.clone(),
+                    kind: "agent_runtime".to_owned(),
+                    payload,
+                },
+                intent.correlation_id.clone(),
+            )
+            .await;
+        match submitted {
+            Ok(result) => {
+                let reply = result
+                    .public_output
+                    .as_ref()
+                    .and_then(|output| output.get("message"))
+                    .and_then(serde_json::Value::as_str)
+                    .map(str::to_owned);
+                if reply.is_none() {
+                    return outcome("failed", "conversation_reply_unavailable");
+                }
+                ObservatoryConversationResult {
+                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                    status: "delivered",
+                    conversation_id: intent.conversation_id.clone(),
+                    turn_id: intent.turn_id.clone(),
+                    recipient_id: intent.recipient_id.clone(),
+                    correlation_id: intent.correlation_id.clone(),
+                    reply,
+                    accepted_sequence: Some(result.accepted_sequence),
+                    error: None,
+                }
+            }
+            Err(IngressError::Saturated | IngressError::Closed) => {
+                outcome("failed", "conversation_temporarily_unavailable")
+            }
+            Err(IngressError::UnsupportedKind) => outcome("refused", "recipient_unavailable"),
+            Err(IngressError::Conflict) => outcome("refused", "conversation_conflict"),
+            Err(_) => outcome("failed", "conversation_failed"),
+        }
     }
 
     pub fn initialize_observability(
@@ -1322,6 +1420,33 @@ struct ObservatoryWsAuth {
     bearer_token: String,
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ObservatoryConversationIntent {
+    schema: String,
+    conversation_id: String,
+    turn_id: String,
+    recipient_id: String,
+    correlation_id: String,
+    message: String,
+}
+
+#[derive(Serialize)]
+struct ObservatoryConversationResult {
+    schema: &'static str,
+    status: &'static str,
+    conversation_id: String,
+    turn_id: String,
+    recipient_id: String,
+    correlation_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    reply: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    accepted_sequence: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    error: Option<&'static str>,
+}
+
 #[derive(Serialize)]
 struct ObservatoryWsControlResult {
     schema: &'static str,
@@ -1416,6 +1541,30 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         .is_some_and(|token| !service.observatory_token_authorized(token))
                     {
                         bearer_token = None;
+                    }
+                    if let Ok(intent) = serde_json::from_str::<ObservatoryConversationIntent>(&payload) {
+                        let result = if bearer_token.is_none() {
+                            ObservatoryConversationResult {
+                                schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                                status: "refused",
+                                conversation_id: intent.conversation_id.clone(),
+                                turn_id: intent.turn_id.clone(),
+                                recipient_id: intent.recipient_id.clone(),
+                                correlation_id: intent.correlation_id.clone(),
+                                reply: None,
+                                accepted_sequence: None,
+                                error: Some("write_authentication_required"),
+                            }
+                        } else {
+                            service.execute_conversation_intent(&intent).await
+                        };
+                        let Ok(payload) = serde_json::to_string(&result) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
+                        }
+                        continue;
                     }
                     let command = serde_json::from_str::<SignedControlCommand>(&payload);
                     let (command_id, correlation_id) = command
