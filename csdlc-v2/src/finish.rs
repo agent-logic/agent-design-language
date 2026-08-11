@@ -1127,35 +1127,13 @@ fn validate_publication_head_lineage_in_repo(
     if published_head == expected_head {
         return Ok(());
     }
-    if git::run(
-        root,
-        &["merge-base", "--is-ancestor", published_head, expected_head],
-    )
-    .is_err()
-    {
+    if !matches!(
+        git::metadata_only_changed_paths(root, published_head, expected_head),
+        Ok(paths) if !paths.is_empty()
+    ) {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            "finish head is not a forward descendant of publication",
-        ));
-    }
-    let changed = git::run(
-        root,
-        &[
-            "diff",
-            "--name-only",
-            "--no-renames",
-            published_head,
-            expected_head,
-        ],
-    )?;
-    if changed
-        .stdout
-        .lines()
-        .any(|path| !path.starts_with(".csdlc/"))
-    {
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "forward publication drift contains non-C-SDLC changes",
+            "forward publication drift is not governed metadata-only change",
         ));
     }
     let review = record
@@ -1476,6 +1454,25 @@ pub fn envelope_matches_record(
                 }),
                 None => true,
             }))
+}
+
+pub fn envelope_matches_record_in_repo(
+    root: &Path,
+    envelope: &DerivedTerminalEnvelope,
+    record: &IssueRecord,
+) -> Result<bool> {
+    validate_envelope(envelope)?;
+    if !envelope_matches_record_identity(envelope, record) {
+        return Ok(false);
+    }
+    if envelope.source == "live_github_historical_reconciliation" || envelope.pull_request.is_none()
+    {
+        return Ok(true);
+    }
+    let Some(head) = envelope.head_sha.as_deref() else {
+        return Ok(false);
+    };
+    Ok(validate_publication_head_lineage_in_repo(root, record, head).is_ok())
 }
 
 fn envelope_matches_record_identity(

@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
 use crate::error::{ErrorCode, Result, V2Error};
-use crate::finish::{envelope_matches_record, load_cached_terminal, FinishDisposition};
+use crate::finish::{envelope_matches_record_in_repo, load_cached_terminal, FinishDisposition};
 use crate::git;
 use crate::model::{IssueRecord, LifecyclePhase};
 use crate::Store;
@@ -386,7 +386,7 @@ pub fn build_legacy_terminal_index(
         let derived = load_cached_terminal(root, issue)?;
         let derived_terminal_matches_projection = match derived.as_ref() {
             Some(value) => {
-                let direct = envelope_matches_record(value, &record)?;
+                let direct = envelope_matches_record_in_repo(root, value, &record)?;
                 Some(
                     direct
                         || derived_consumed_by_materialized_projection(
