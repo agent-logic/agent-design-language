@@ -14,6 +14,7 @@ Status: draft
 
 .csdlc/issues/5834
 .csdlc/prepared/issues/5834/design.md
+.csdlc/prepared/issues/5834/live-issue-body.md
 .csdlc/prepared/issues/5834/validate-review-packet.rb
 .csdlc/evidence/5834
 docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md

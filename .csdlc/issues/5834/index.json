@@ -5,17 +5,18 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2f8a9edc733d36518cfdfe54639ecbf45210e8028e1a884bf5e25a2d1d52408c",
   "phase": "implemented",
-  "generation": 60,
-  "digest": "42cc8de925429c89f2c35a9e8a51ee0577d488435f205b754cfb9273e6497687",
+  "generation": 61,
+  "digest": "ae537a1ef04a93e72fd06c7de833163fca195063a0315b817b64fcea2792e363",
   "branch": "codex/5834-birthday-review-packet",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5834-birthday-review-packet",
   "review_assignment": {
     "reviewer": "/root/sprint4_5857/review_5834_exact_head",
     "assigned_by": "/root/sprint4_5857",
-    "revision": "git-blake3:632857a8eaa51e31f2dd339705959ee49bfe455f:184fe8f7e75e104585054b0d2c1dbd684e09d55264a909dce82c70bacf3d5a79",
+    "revision": "git-blake3:d3fddd139feac88efdfe14b863a6cda374d9c307:ddcaf760d669614af0a0c5fa71223e6e35ccb0823d8f350912f9cab06b0faf0c",
     "scope": [
       ".csdlc/issues/5834",
       ".csdlc/prepared/issues/5834/design.md",
+      ".csdlc/prepared/issues/5834/live-issue-body.md",
       ".csdlc/prepared/issues/5834/validate-review-packet.rb",
       ".csdlc/evidence/5834",
       "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
@@ -39,32 +40,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d08f3bd8297d42bff3c9412550c5f568e1301d886c5b5832d0698f4b046c57d5",
+      "values_digest": "fca5f249171cc9a368916556a9d379ab0a7f14c581aa7eb5c621e72fb97dc0db",
       "rendered_digest": "75fcd7a9ca988fb75b97169b64a72b3a7bcdb5b033e0ae15536b2cffa73ff6c6",
       "ast_digest": "725fd3bcdf422bf6c8117264e314f2fd76083afc31e9d67608c1aa8fbdac63f6"
     },
     "stp": {
-      "values_digest": "298b198099f51e02ac46cc0352192636dc60240464022b1568a2658dadfcd52f",
+      "values_digest": "9518f6f85b30a19032d0e1694db86b567edf5949549731babba5d4b373006d8f",
       "rendered_digest": "bcee649d929f42d1d5ab5691865f0a72696a3dffab36316b208db045f6076d36",
       "ast_digest": "3cd53d196febe157a1b95b57d0e0daa81fa5c7c51f851dc481f0b557782392f6"
     },
     "spp": {
-      "values_digest": "59f3f20998a59c33f2c3b20e3d261186c7d13d85a99d821622f6b7ca37f02632",
+      "values_digest": "1dc66b7d023369d62d370ca308a4001104bc529593c1fd08ceca3096bd7f2133",
       "rendered_digest": "4cf5a212a0eb0bd19b03886440386906bf118daa588321bb34501c173ee22a5e",
       "ast_digest": "3c5e96249544e6f879d2ffa0215f2e8a39ab08adf4fda3064dc946c654c7a745"
     },
     "vpp": {
-      "values_digest": "9e044126ed1a5e9b2c28a3ad391ad461179b2986e0a9eea9ff67336502ec44f3",
+      "values_digest": "4898ec40a83237d7454689e085d6814aefcb692ad2b701d725ecd152e32b0a14",
       "rendered_digest": "2dfb6d7bc24e9dac49d728129d79e336a0b9df3982aa7e17dce99c1ea1a52966",
       "ast_digest": "b49b2b680a76314daa9af47da607411f5ef2cdebd31391702f63c6328e77c29c"
     },
     "srp": {
-      "values_digest": "04c5f6f93d71ddb75e3763c91d7587638af9611831073f1b16889ba9f2c16ff8",
-      "rendered_digest": "95a7b64a69e86b5633046113c87baa76c4123d4ff756654ff0d78bc27265f882",
-      "ast_digest": "a2ea4b8fd200f5234dc47f04e11681aa3c36ee11d1a9128096d1191a1ca99bfd"
+      "values_digest": "001e59a28066f3d8e56a5b84a13a1acc9e42846df47e4d4c5822bc1f99a4a147",
+      "rendered_digest": "2adce52bf83d936edfcc430095174a16355fd7bc143e8ef0fd264d440d2f3d53",
+      "ast_digest": "2c052cbe866d5ce7e8eacc745bdacc80d515934c43e4c498f97c495e070ecf59"
     },
     "sor": {
-      "values_digest": "778b849d9292131984ebb1d35332f6dc2cff7be8c1a5ebd89394e5cd40fd62ac",
+      "values_digest": "9deec65cfe0011730bb4ab0640c771e001932cc4a3b477edcba946b665491bdb",
       "rendered_digest": "c1173aec79daa174c591b6235ef7b2c3fbeed2506edc3bb7d1cc1ea4d4cca011",
       "ast_digest": "05796b5babefd8651d24d7b8deb5b6cd780eae7db4c45928eb7b0f7c17c122f8"
     }
@@ -698,6 +699,20 @@
     {
       "sequence": 84,
       "generation": 60,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 85,
+      "generation": 61,
+      "actor": "/root/sprint4_5857",
+      "reason": "Recover the undispatched assignment to include the corrected prepared live issue body in the exact review scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 86,
+      "generation": 61,
       "actor": "/root/sprint4_5857",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
