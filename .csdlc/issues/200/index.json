@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
   "phase": "bound",
-  "generation": 5,
-  "digest": "86406473920ea5a11dde9e105960c379cf50623d09531c4f5fa72aafdbace198",
+  "generation": 6,
+  "digest": "67d2546c5d13bef2cbba3f04f5c71d4d1643a8ab562a8d8075162f22f02ed77c",
   "branch": "codex/200-concrete-authority-reconciliation-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-200-concrete-authority-reconciliation-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a0d3780ef123d1e5724d4a9f58088e667ddb19a19971851584f7360edc52d638",
+      "values_digest": "c7271a898ff4df39c3d13a094da268e2f88830de1bdf4003442dd76fdafb9846",
       "rendered_digest": "2bf7b8cfacd8ddd000f15d512793721dd8a66a41495705e6eea0e4720f11b449",
       "ast_digest": "923d2e83e0be4ba4a7d60955f63d16ee37ccd6f57575b3d316923eec9d5a102c"
     },
     "stp": {
-      "values_digest": "fa23ce5f3ca6ab701519d5c532ee6ea8250222407de74c7998a9b60cb26ec3de",
+      "values_digest": "272697661cdf7853f2b5ba07d489c864374ec6f7e22caece5b11b88911b2f8a3",
       "rendered_digest": "b57d439d1570e4d0f8228d5c1801e852b4ef66b058757c8f52598b0191fdc466",
       "ast_digest": "ed3f711248a7c94c706cb3ef8eba0be4f78f4cb1890030f4e03aa319a4dc9fae"
     },
     "spp": {
-      "values_digest": "e267fd099c1da97913fb37b948dabcd1cfbff5511188d2c57c7a7955d8de9c6c",
-      "rendered_digest": "197716261a0714a0fd57f7607ce83e3f650acf53f6afecddc8fb776c286c0273",
-      "ast_digest": "889affad6a6921f814b883a23fcd4b3abbc2df7ec712c2f8a3cfa70898120e16"
+      "values_digest": "029673034040ede4768a6775e217c16d4c5104e322b54a8e7bbc3f3c12038776",
+      "rendered_digest": "508f6b091a6b45b5024dcc0f69fecc7b1973b8a9edfa9afc513bdb71b4bdff31",
+      "ast_digest": "03a1a0dcd285642ffd452540df5baf516967146a70d6c99dc4bb6e92825b3cb6"
     },
     "vpp": {
-      "values_digest": "d33ec0c669d435088bc0a540d14922a500ee58f09b9aad26554d8dc984a2c86b",
+      "values_digest": "bf46f7e2f1c9f14e782507d739bc00fcbb01d8cd1efe1927b08459bba9023952",
       "rendered_digest": "b19adcd318fa48f408a267f17c2a1f74c54cc933155eb4f1c75c9edaff1413b7",
       "ast_digest": "af01edb6ae4e6432d48e99719f6c2eec6f31c3afbd0c0ae7d0e33c079cf9e479"
     },
     "srp": {
-      "values_digest": "ec46b99095147e33074346057cf200fcf50dcc81e969afaf549d3b7dc29a63d0",
+      "values_digest": "1922476704f3cb8a1cff3e9a9d1cc15e8dc7c3733466e5a9f4e67aebfb8f60c0",
       "rendered_digest": "4d7083bad3aa26de013aca07967f97d2db2738cd1771028d035a7e8316a2f3bc",
       "ast_digest": "cd1b7f39fc02e2a9acb63111ce8f25eefa9c354685111feeec13080532aa9bd1"
     },
     "sor": {
-      "values_digest": "b486a83401883418f7169350c1886c25d9f330b2f4d9363cd8bc50fc2523cf8a",
+      "values_digest": "7208c8d85fbffa62d2481e5997c1c5e3af95b132553a178cc6c0506af86b5d47",
       "rendered_digest": "f30f60df6721af0736e5a2e444c83f79ef29191bd8d607ba8af55dd8af8b4a83",
       "ast_digest": "e4517ecca803ffa7e9bbca085fe73d80d878315c9a8fa57b69eef3269503673a"
     }
@@ -119,6 +119,13 @@
       "actor": "codex:/root/advance_200_after_201",
       "reason": "The exact 36-case lane and strict Clippy pass locally; immutable receipt production and typed finalize remain in progress.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "The portable immutable receipt binds the exact 36-case focused lane and strict Clippy to source 977213b66f131c8ff811274ed5293e8814303e02; independent review remains S4.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
     }
   ]
 }

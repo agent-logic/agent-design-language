@@ -59,7 +59,7 @@ Revision 1
       "AC-7",
       "AC-8"
     ],
-    "status": "in_progress"
+    "status": "completed"
   },
   {
     "id": "S4",
