@@ -9,12 +9,12 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/202/v6/"
+PREFIX = ".csdlc/evidence/202/v7/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_202_CASE_V1 "
 ASSERTION_MARKER = "ADL_ISSUE_202_ASSERTION_V1 "
-MAIN_ANCESTOR = "dbd060d1ea72b8c4c43ed7a33b05072190877845"
+MAIN_ANCESTOR = "1567469e395f9a6ea6c2e736366a8008f5ee1e06"
 PROTECTED = %w[
   adl-runtime/src/distributed/mod.rs
   adl-runtime/src/distributed/authority_protocol.rs
@@ -54,7 +54,9 @@ EXPECTED_ASSERTIONS = [
   %w[real_four_node_learner_replication quinn_append_snapshot_only],
   %w[real_four_node_learner_replication expiry_writer_waits_through_real_raft_effect_and_response],
   %w[exact_retry_session exclusion_exact_retry_cached],
+  %w[exact_retry_session removal_deadline_and_target_membership_bound_cache_first],
   %w[exact_retry_session admission_exact_retry_cached],
+  %w[excluded_node_recovery_learner production_factory_enforces_recovery_identity_index_and_membership],
   %w[certificate_overlap_authorized successor_private_before_flip],
   %w[certificate_overlap_authorized successor_atomic_flip],
   %w[certificate_overlap_authorized retained_old_clones_atomically_revoked],
@@ -102,17 +104,13 @@ end
 source, status = Open3.capture2("git", "rev-parse", "HEAD", chdir: ROOT.to_s)
 fail_proof("cannot resolve source") unless status.success? && source.strip.match?(/\A[0-9a-f]{40}\z/)
 source = source.strip
-fail_proof("required merged #200 ancestry absent") unless system("git", "merge-base", "--is-ancestor", MAIN_ANCESTOR, source, chdir: ROOT.to_s)
+origin_main, origin_status = Open3.capture2("git", "rev-parse", "refs/remotes/origin/main", chdir: ROOT.to_s)
+fail_proof("current origin/main unavailable") unless origin_status.success? && origin_main.strip == MAIN_ANCESTOR
+fail_proof("exact current origin/main ancestry absent") unless system("git", "merge-base", "--is-ancestor", MAIN_ANCESTOR, source, chdir: ROOT.to_s)
 dirty, status = Open3.capture2("git", "status", "--porcelain=v1", "--untracked-files=all", chdir: ROOT.to_s)
-ignored_local_test_prefixes = %w[
-  adl-runtime/.tmp65GWlk/
-  adl-runtime/.tmpUlkcyk/
-  adl-runtime/.tmpshxCvF/
-  adl-runtime/.tmpy3RCHx/
-]
 dirty = dirty.lines.reject do |line|
   relative = line[3..]
-  relative&.start_with?(PREFIX) || ignored_local_test_prefixes.any? { |prefix| relative&.start_with?(prefix) }
+  relative&.start_with?(PREFIX)
 end
 fail_proof("source worktree must be clean") unless status.success? && dirty.empty?
 PROTECTED.each do |relative|
@@ -146,6 +144,9 @@ fail_proof("transition serialization missing") unless runtime_source.include?("a
 fail_proof("exact removal target route-cut validation missing") unless transport_source.include?("exact_removal_target_matches") && runtime_source.include?("trusted_node_identities")
 fail_proof("behavioral request/exclusion race proof missing") unless private_tests.include?("actual_request_stream_fenced_against_exclusion_race")
 fail_proof("real learner effect/expiry race proof missing") unless private_tests.include?("expiry_writer_waits_through_real_raft_effect_and_response")
+fail_proof("learner-owned production factory missing") unless runtime_source.include?("pub struct SecureLearnerNetworkFactory") && runtime_source.include?("LearnerBootAttestationCustody::establish")
+fail_proof("production recovery enforcement missing") unless private_tests.include?("production_factory_enforces_recovery_identity_index_and_membership") && learner_source.include?("learner_route_allowed")
+fail_proof("removal deadline or target-membership binding missing") unless private_tests.include?("removal_deadline_and_target_membership_bound_cache_first") && learner_source.include?("expected_target_membership_sha256") && learner_source.include?("now_unix_seconds >= verified.payload.deadline_unix_seconds")
 fail_proof("durable peer restart and mismatch proof missing") unless private_tests.include?("fresh_connection_requires_durable_peer_instance_pin") && private_tests.include?("transport_instance_and_peer_pin_are_durable_and_unique")
 %w[install_learner_route request_bytes serve_authorized_learner_connection add_learner].each do |behavior|
   fail_proof("real fourth-Raft behavior missing #{behavior}") unless private_tests.include?(behavior)
@@ -179,12 +180,12 @@ fail_proof("subassertion mismatch") unless assertions.sort == EXPECTED_ASSERTION
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue202.authorized_learner_transport_proof.v6", "issue" => 202,
+  "schema" => "adl.issue202.authorized_learner_transport_proof.v7", "issue" => 202,
   "source_revision" => source, "source_tree" => tree.strip, "required_main_ancestor" => MAIN_ANCESTOR,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
-  "commands" => commands, "test_summary" => { "semantic_cases" => 36, "private_runner_selected" => 42, "private_runner_passed" => 42, "public_selected" => 13, "public_passed" => 13, "named_subassertions" => 29 },
+  "commands" => commands, "test_summary" => { "semantic_cases" => 36, "private_runner_selected" => 42, "private_runner_passed" => 42, "public_selected" => 13, "public_passed" => 13, "named_subassertions" => 31 },
   "cases" => EXPECTED_CASES.map { |name| { "case" => name, "result" => "passed", "marker_sha256" => Digest::SHA256.hexdigest("#{MARKER}#{name}=passed") } },
   "subassertions" => EXPECTED_ASSERTIONS.map { |case_name, name| { "case" => case_name, "assertion" => name, "marker_sha256" => Digest::SHA256.hexdigest("#{ASSERTION_MARKER}#{case_name} #{name}") } }
 }
 File.binwrite(PROOF, JSON.generate(proof) + "\n")
-puts "PASS: produced issue #202 exact 36 semantic / 42 runner + 13 public / 29 assertion proof at #{source}"
+puts "PASS: produced issue #202 exact 36 semantic / 42 runner + 13 public / 31 assertion v7 proof at #{source}"

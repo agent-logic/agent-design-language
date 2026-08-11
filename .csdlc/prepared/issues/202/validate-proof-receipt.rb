@@ -7,7 +7,7 @@ require "open3"
 require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/202/v6/"
+PREFIX = ".csdlc/evidence/202/v7/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/mod.rs adl-runtime/src/distributed/authority_protocol.rs
@@ -34,9 +34,10 @@ end
 proof_path = ROOT.join(PROOF_RELATIVE)
 fail_receipt("missing or unsafe proof") unless proof_path.file? && !proof_path.symlink?
 proof = JSON.parse(File.binread(proof_path))
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue202.authorized_learner_transport_proof.v6" && proof["issue"] == 202
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue202.authorized_learner_transport_proof.v7" && proof["issue"] == 202
 source = proof.fetch("source_revision")
 fail_receipt("source malformed") unless source.match?(/\A[0-9a-f]{40}\z/)
+fail_receipt("proof is not bound to exact current origin/main") unless git("rev-parse", "refs/remotes/origin/main").strip == proof.fetch("required_main_ancestor")
 fail_receipt("ancestry missing") unless system("git", "merge-base", "--is-ancestor", proof.fetch("required_main_ancestor"), source, chdir: ROOT.to_s)
 protected = proof.fetch("protected_files")
 fail_receipt("protected denominator mismatch") unless protected.map { |entry| entry["path"] } == EXPECTED_PROTECTED
@@ -45,9 +46,9 @@ protected.each do |entry|
   fail_receipt("unsafe protected path") unless path.file? && !path.symlink?
   fail_receipt("protected digest drift") unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
 end
-fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "semantic_cases" => 36, "private_runner_selected" => 42, "private_runner_passed" => 42, "public_selected" => 13, "public_passed" => 13, "named_subassertions" => 29 }
+fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "semantic_cases" => 36, "private_runner_selected" => 42, "private_runner_passed" => 42, "public_selected" => 13, "public_passed" => 13, "named_subassertions" => 31 }
 fail_receipt("runner marker denominator mismatch") unless proof.fetch("cases").length == 42 && proof.fetch("cases").map { |entry| entry["case"] }.uniq.length == 42 && proof.fetch("cases").all? { |entry| entry["result"] == "passed" }
-fail_receipt("subassertion denominator mismatch") unless proof.fetch("subassertions").length == 29 && proof.fetch("subassertions").map { |entry| [entry["case"], entry["assertion"]] }.uniq.length == 29
+fail_receipt("subassertion denominator mismatch") unless proof.fetch("subassertions").length == 31 && proof.fetch("subassertions").map { |entry| [entry["case"], entry["assertion"]] }.uniq.length == 31
 proof.fetch("commands").each_value do |command|
   fail_receipt("command failed") unless command.fetch("exit_code") == 0
   %w[stdout stderr].each do |stream|
@@ -66,4 +67,4 @@ fail_receipt("immutable proof changed") unless git("diff", "--name-only", "#{int
 %w[private_cases public_cases transport_compile discovery_compile runtime_compile clippy_lib clippy_public].each do |name|
   fail_receipt("required command missing #{name}") unless proof.fetch("commands").key?(name)
 end
-puts "PASS: issue #202 proof binds exact 36 semantic / 42 runner + 13 public / 29 assertions, three integration compiles, strict library/public Clippy, and current-main ancestry"
+puts "PASS: issue #202 v7 proof binds exact 36 semantic / 42 runner + 13 public / 31 assertions, three integration compiles, strict library/public Clippy, and exact current origin/main ancestry"
