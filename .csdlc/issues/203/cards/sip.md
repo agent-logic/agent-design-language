@@ -41,8 +41,10 @@ All authority-restoring store reads and mutations revalidate a live lineage/acti
 
 ## Operator Constraints
 
-- Do not bind or edit product source until #191, #201, #202, #199, and #200 are externally reviewed, merged, and ancestral
-- Keep #203 limited to existing certificate, lease, and fencing stores; serving eligibility is #205 and migration/recovery is #204
+- Merged fixed baseline already ancestral at origin/main 2afa820c4aaa8528ef4cd252de4ee9078b8a882a: issue #191 / PR #197, issue #201 / PR #229, issue #200 / PR #231, and issue #208 / PR #230; do not treat them as remaining scheduling gates
+- Serial stop: do not bind #203 or edit product source until issue #202 is independently reviewed, merged, and ancestral and then issue #199 is independently reviewed, merged, and ancestral
+- After #202 and #199 are both merged and ancestral, resync #203 onto the resulting exact origin/main and rerun typed csdlc-validate issue plus csdlc-doctor before any bind
+- Keep #203 limited to existing certificate, lease, and fencing stores; preserve #208 Guardian-kernel continuity effects, #205 serving eligibility, and #204 migration/recovery as separate authorities
 - Do not preserve a production raw-store escape hatch for compatibility
 - Run fresh independent exact-head review before publication
 - Open a ready PR for visibility but never merge before operator review and authorization

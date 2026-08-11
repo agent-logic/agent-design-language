@@ -12,18 +12,18 @@ Status: ready
 
 ## Summary
 
-After every dependency merges with #201's fresh independently reapproved private exact-artifact interface, bind #203, close all enumerated raw store bypasses, implement sealed deterministic adapters and node-local checkpoint/audit-only safety anchoring, mechanically migrate existing consumers without changing #204 workflow semantics, prove exactly forty-four cases and 132 generated canonical subassertion IDs, independently review, and publish a ready unmerged PR before #205/#204.
+Keep #203 preparation-only while #202 remains under review and #199 remains prepared behind it. After #202 and then #199 are independently reviewed, merged, and ancestral, resync to the resulting exact origin/main, rerun typed validation and doctor, and only then bind #203 to close all enumerated raw store bypasses using the already merged #201 artifact interface and #200 barrier while preserving #208, #205, and #204 authority boundaries.
 
 ## Plan
 
-Revision 4
+Revision 7
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "After all five dependencies merge ancestrally, bind #203 and freeze exact #201 artifact views, #200 grant semantics, store ordering, and canonical/local time boundaries.",
+    "action": "Remain preparation-only until #202 and then #199 are independently reviewed, merged, and ancestral; resync #203 to the resulting exact origin/main and rerun typed validation and doctor before any bind.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -34,12 +34,8 @@ Revision 4
   },
   {
     "id": "S2",
-    "action": "Implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths.",
+    "action": "After the serial gate passes, bind #203 and implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths without changing #208, #205, or #204 authority.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
       "AC-5",
       "AC-6",
       "AC-7"
@@ -48,22 +44,7 @@ Revision 4
   },
   {
     "id": "S3",
-    "action": "Prove exact forty-four-case behavior, every crash/retry/bounds window, strict Clippy, and merge-safe receipt truth.",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-7",
-      "AC-8"
-    ],
-    "status": "pending"
-  },
-  {
-    "id": "S4",
-    "action": "Resolve fresh exact-head review, publish a ready PR closing #203, shepherd hosted CI, and wait for operator review and merge authorization.",
+    "action": "Prove exact forty-four-case behavior, every crash/retry/bounds window, strict Clippy, and merge-safe receipt truth; resolve fresh exact-head review, publish a ready PR closing #203, shepherd hosted CI, and wait for operator review and merge authorization.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -112,11 +93,13 @@ Digest: 09e8e2b43712edb59afb5a017542f4d2b38f2aa9cd364d429d5a419236c25e06
 
 ## Stop Conditions
 
-- Any dependency is not externally reviewed, merged, and ancestral
-- Merged #201 lacks a private exact store-native artifact view or merged #200 lacks live per-use grant validation
+- Issue #202 is not independently reviewed, merged, and ancestral
+- Issue #199 is not independently reviewed, merged, and ancestral after #202
+- After both prerequisite merges, #203 has not been resynchronized onto the resulting exact origin/main and passed typed csdlc-validate issue plus csdlc-doctor
+- Merged #201 lacks the exact sealed store-native artifact view or merged #200 lacks live per-use grant validation expected by the approved #203 design
 - Closing raw bypasses requires undeclared production consumer edits that cannot be handled by store-bound validation
 - A local-clock refusal would create a durable canonical effect or result
-- Implementation expands into #205, #204, Guardian/API/WSS, models, AWS, or live qualification
+- Implementation expands into #208 Guardian-kernel continuity effects, #205 serving authority, #204 migration/recovery policy, Guardian/API/WSS, models, AWS, or live qualification
 - Any focused proof or independent review has an unresolved actionable finding
 
 ## Handoff

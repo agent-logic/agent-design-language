@@ -62,11 +62,12 @@ Implement and publish only sealed existing-store adapters, store-bound live gran
 
 ## Dependencies
 
-- Issue #191 / PR #197 externally reviewed and merged as an ancestor
-- Issue #201 committed authority protocol externally reviewed and merged as an ancestor
-- Issue #202 learner transport and exclusion externally reviewed and merged as an ancestor
-- Issue #199 governed membership transitions externally reviewed and merged as an ancestor
-- Issue #200 reconciliation barrier externally reviewed and merged as an ancestor
+- Merged fixed ancestor: issue #191 / PR #197 at 8bd475cf18eb77cc7402220f69282f64a4a1a1e5
+- Merged fixed ancestor: issue #201 / PR #229 at 3ffc4c402c57e167fb9943221c9dac24f96f8895
+- Merged fixed ancestor: issue #200 / PR #231 at 507d9a1e3a74c2c9c6cce14259b095139aa3bdfa
+- Merged fixed boundary: issue #208 / PR #230 at 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90; #203 must preserve its Guardian-kernel continuity effect and receipt ownership
+- Serial stop: issue #202 learner transport and exclusion must be independently reviewed, merged, and ancestral, followed by issue #199 governed membership being independently reviewed, merged, and ancestral; #203 may not bind or edit product source before both conditions hold
+- After #202 and #199 merge, resync #203 onto the resulting exact origin/main and rerun typed csdlc-validate issue and csdlc-doctor before bind
 - Issue #205 and #204 remain blocked until this issue merges
 
 ## Inputs

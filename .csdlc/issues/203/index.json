@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3241806f8faffb5e7ef1b57c174149814d412144759745599e303023dad9233a",
   "phase": "initialized",
-  "generation": 8,
-  "digest": "0722ab432c547617b7c30568628c504492c7316ec875617d5a319cac725babe2",
+  "generation": 16,
+  "digest": "760ff97552356a22e4950b20c8a9462e11492e11b6a93e24a2c846507ee629a7",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/203/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:/root/rereview_203_design",
+      "reviewer": "codex:/root/prepare_203_parallel",
       "revision": "829d5bcbbfd58cd46ec1302e6e38540170f3d4595df5a581cfe727b86551e0ce"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "b17f7948c0e34f37826466afb4b6b952fb20f93cfe35d93587c8447fb5c29506",
-      "rendered_digest": "bcb6041a0c024e7f0109b15678e5f7e37f600eee017f207b8850ac0d0165b69b",
-      "ast_digest": "0a6b38eb11776538bddaa87b1bf11c11f857e5c1996d1c5ef0465c6f3d5c6aeb"
+      "values_digest": "f2ffed5351bee1f0c454dea36bed6777ab06d5d3fb32e5115e06586daf31018e",
+      "rendered_digest": "ac230442cedbed077356b2750ed445382d9604ec39b8466ba178ced68b755940",
+      "ast_digest": "228f5116c25358847365848491b613ba567c91db7a17b198151fae6d9b3f6547"
     },
     "stp": {
-      "values_digest": "a8bf08eac011cbeb20ecc607d3825a53097fbdc9a3dd26a63ad85fda617962c8",
-      "rendered_digest": "5f5b6a0ef58dfd14a2549bf866814e3d51b862d646ffa13d65652c5e02a36db3",
-      "ast_digest": "3527d24f3a6a8c96e26189e0c4be781125ed7ea1458b4322270988dbafc794fc"
+      "values_digest": "86c9b07b327ad7d4e79195a9d8b8fc5019c008ee1ff4def60257b9e3a5440290",
+      "rendered_digest": "236e26f62d7142282b1c9a101766a451f33ac238b95003f151ce4ad6439962a9",
+      "ast_digest": "5264ef274751d9546718b6c0a9ae975dc478f3dbb4ddea9cbcbe90bc99d91db2"
     },
     "spp": {
-      "values_digest": "0f33970344d19c90588d849a487b0428e40e73c225b7b71c4e07e07e9187728f",
-      "rendered_digest": "6e9c4ce86e24cec22a3dcc11f74af4eaca79858a43ded1fc157805c25d67e202",
-      "ast_digest": "63e058b841c9f36508b8d10ae4a5e88c69d80c2fc228e8b3b07ffabd20c37421"
+      "values_digest": "0113c996a96e636a397cdf0535b7643cc5841b94bab7adcfefb999ba44c3e001",
+      "rendered_digest": "4ae5f4fb5c785e04de77e4af4c4f0ec13eec21df547e6637de9f9a02dfaa8d7f",
+      "ast_digest": "2c4145a4c47c5f12c0b432ed8a9b4fe63c22b0a84f38c87664d3680a10bbdf43"
     },
     "vpp": {
-      "values_digest": "a11ffebe92d43b07bbb2bb3ee6c06ca2295b430ef3b12afe93eadc48616c3307",
-      "rendered_digest": "de5bea65ee17b734c412a07d7270236b99f0b0a8ce49008ed9cd432130a4d973",
-      "ast_digest": "1147db93ca7f1a2cd0794de1d67f672e2ea0abf762d34a22e8e257db933daf6f"
+      "values_digest": "360057d497fda5f8e99ff055c47ca26d65650875943be3f481fdf892aa845b69",
+      "rendered_digest": "df436b5620e3aa728917708ad405d20b4ab6f2bb6f2eaf90b0d142a24067479f",
+      "ast_digest": "b4c96ef0a06c3e81c87ff8f90d5bad4bf461c366cf83c18761b46306ab9bc6d6"
     },
     "srp": {
-      "values_digest": "11ab10350e6ca011b0b6e54d30a3e8bdbedd0a5e12907e0dd757225966976a4f",
+      "values_digest": "10c344a512840847a1a6025ebe0a1988b84c33571ac344ffbb7ffdf34e658985",
       "rendered_digest": "0250e8f819fb56c99c4925d6246457fd69fb9fc58c69c8ab7f81c567fa898a0c",
       "ast_digest": "a411220c9602b4d73901a80c5355c8df45e17463d7c074836f2290aab8ded832"
     },
     "sor": {
-      "values_digest": "6bdfaebd757521b469a0e925ed109367f527fb71f773b72a56d81cfb746a437d",
+      "values_digest": "28e79751595605a77310c9fddf1f333289467455d10c0e75d8bbfe277b71f1ac",
       "rendered_digest": "c35e3a2370128e19cd1bf072c3c138127fc4a031eed139f0199a05eae40def89",
       "ast_digest": "f492f6064bcb9e5598b2d476d894e6441bed5f81fb09ff67ebd4934d3a4b4906"
     }
@@ -116,6 +116,62 @@
       "sequence": 9,
       "generation": 8,
       "actor": "codex:/root/rereview_203_design",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Replace stale all-dependencies gate with merged baseline truth and the explicit serial #202 then #199 stop before bind or product edits.",
+      "operation": "{\"new_values\":[\"Merged fixed baseline already ancestral at origin/main 2afa820c4aaa8528ef4cd252de4ee9078b8a882a: issue #191 / PR #197, issue #201 / PR #229, issue #200 / PR #231, and issue #208 / PR #230; do not treat them as remaining scheduling gates\",\"Serial stop: do not bind #203 or edit product source until issue #202 is independently reviewed, merged, and ancestral and then issue #199 is independently reviewed, merged, and ancestral\",\"After #202 and #199 are both merged and ancestral, resync #203 onto the resulting exact origin/main and rerun typed csdlc-validate issue plus csdlc-doctor before any bind\",\"Keep #203 limited to existing certificate, lease, and fencing stores; preserve #208 Guardian-kernel continuity effects, #205 serving eligibility, and #204 migration/recovery as separate authorities\",\"Do not preserve a production raw-store escape hatch for compatibility\",\"Run fresh independent exact-head review before publication\",\"Open a ready PR for visibility but never merge before operator review and authorization\",\"No AWS use and no lifecycle closeout\"],\"operation\":\"correct_operator_constraints_before_bind\",\"previous_values\":[\"Do not bind or edit product source until #191, #201, #202, #199, and #200 are externally reviewed, merged, and ancestral\",\"Keep #203 limited to existing certificate, lease, and fencing stores; serving eligibility is #205 and migration/recovery is #204\",\"Do not preserve a production raw-store escape hatch for compatibility\",\"Run fresh independent exact-head review before publication\",\"Open a ready PR for visibility but never merge before operator review and authorization\",\"No AWS use and no lifecycle closeout\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Record merged #201/#200/#208 ancestry and narrow the remaining serial dependency gate to reviewed, merged, ancestral #202 followed by #199.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Merged fixed ancestor: issue #191 / PR #197 at 8bd475cf18eb77cc7402220f69282f64a4a1a1e5\",\"Merged fixed ancestor: issue #201 / PR #229 at 3ffc4c402c57e167fb9943221c9dac24f96f8895\",\"Merged fixed ancestor: issue #200 / PR #231 at 507d9a1e3a74c2c9c6cce14259b095139aa3bdfa\",\"Merged fixed boundary: issue #208 / PR #230 at 5e25dcceb; #203 must preserve its Guardian-kernel continuity effect and receipt ownership\",\"Serial stop: issue #202 learner transport and exclusion must be independently reviewed, merged, and ancestral, followed by issue #199 governed membership being independently reviewed, merged, and ancestral; #203 may not bind or edit product source before both conditions hold\",\"After #202 and #199 merge, resync #203 onto the resulting exact origin/main and rerun typed csdlc-validate issue and csdlc-doctor before bind\",\"Issue #205 and #204 remain blocked until this issue merges\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Replace the stale all-dependencies summary with the exact remaining serial gate and post-merge resync requirement.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Keep #203 preparation-only while #202 remains under review and #199 remains prepared behind it. After #202 and then #199 are independently reviewed, merged, and ancestral, resync to the resulting exact origin/main, rerun typed validation and doctor, and only then bind #203 to close all enumerated raw store bypasses using the already merged #201 artifact interface and #200 barrier while preserving #208, #205, and #204 authority boundaries.\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Make the first executable plan step the exact #202 then #199 serial stop, resync, and typed revalidation gate.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/203/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/203/diagram.mmd\",\"new_design_digest\":\"829d5bcbbfd58cd46ec1302e6e38540170f3d4595df5a581cfe727b86551e0ce\",\"new_diagram_digest\":\"09e8e2b43712edb59afb5a017542f4d2b38f2aa9cd364d429d5a419236c25e06\",\"old_design_digest\":\"829d5bcbbfd58cd46ec1302e6e38540170f3d4595df5a581cfe727b86551e0ce\",\"old_diagram_digest\":\"09e8e2b43712edb59afb5a017542f4d2b38f2aa9cd364d429d5a419236c25e06\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Remain preparation-only until #202 and then #199 are independently reviewed, merged, and ancestral; resync #203 to the resulting exact origin/main and rerun typed validation and doctor before any bind.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"action\":\"After the serial gate passes, bind #203 and implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths without changing #208, #205, or #204 authority.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Prove exact forty-four-case behavior, every crash/retry/bounds window, strict Clippy, and merge-safe receipt truth; resolve fresh exact-head review, publish a ready PR closing #203, shepherd hosted CI, and wait for operator review and merge authorization.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Make the two remaining serial prerequisites, mandatory post-merge resync/revalidation, and merged #208 authority boundary fail-closed stop conditions.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Issue #202 is not independently reviewed, merged, and ancestral\",\"Issue #199 is not independently reviewed, merged, and ancestral after #202\",\"After both prerequisite merges, #203 has not been resynchronized onto the resulting exact origin/main and passed typed csdlc-validate issue plus csdlc-doctor\",\"Merged #201 lacks the exact sealed store-native artifact view or merged #200 lacks live per-use grant validation expected by the approved #203 design\",\"Closing raw bypasses requires undeclared production consumer edits that cannot be handled by store-bound validation\",\"A local-clock refusal would create a durable canonical effect or result\",\"Implementation expands into #208 Guardian-kernel continuity effects, #205 serving authority, #204 migration/recovery policy, Guardian/API/WSS, models, AWS, or live qualification\",\"Any focused proof or independent review has an unresolved actionable finding\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Replace the stale five-dependency defer condition with the exact #202 then #199 serial gate and mandatory post-merge typed resync validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"identity-lease-fencing-authority\",\"proof_role\":\"Prove exactly 44 canonical cases: certificate_enroll, certificate_rotate_overlap, certificate_successor_post_overlap, certificate_revoke, certificate_compromise_identity_fence, lease_grant, lease_renewal, lease_revoke, fence_commit, activate_after_safety, owner_commit, exact_retry_published, restart_reanchor_safe, barrier_pending_blocks_all_reads, unsigned_certificate_rejected, wrong_issuer_rejected, wrong_certificate_purpose_rejected, wrong_certificate_domain_rejected, stale_certificate_generation_rejected, token_artifact_digest_mismatch, reconstructed_endorsements_rejected, wrong_authority_membership_rejected, stale_lease_index_rejected, stale_lease_epoch_rejected, wrong_activation_possession_rejected, activate_before_safety_rejected, floor_precedes_ledger_revocation, local_clock_unsafe_no_effect, local_clock_rollback_no_effect, crash_after_certificate_effect, crash_after_fence_floor, crash_after_ledger_effect, crash_after_local_anchor, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, stale_read_permit_rejected, stale_mutation_permit_rejected, read_to_mutation_escalation_rejected, wrong_lineage_permit_rejected, coherent_rollback_rejected, corrupt_noncanonical_oversized_rejected, state_or_lock_symlink_rejected, capacity_n_plus_one_no_partial. For each case C the exact ordered machine subassertions are C::expected_outcome, C::canonical_store_state, C::publication_barrier_state; therefore the complete denominator is exactly 132 unique IDs. No extra, missing, duplicate, reordered, or differently named case/subassertion is accepted. canonical_store_state must prove canonical receipts/results exclude local safety-anchor bytes and digest; publication_barrier_state must prove local anchors exist only in node-local checkpoint/audit and partial state remains denied. The target also compiles every enumerated normal-build consumer and integration fixture against authority-bound handles, with migration/recovery changes limited to compatibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--no-tests=fail\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":\"Deferred until #202 is independently reviewed, merged, and ancestral and then #199 is independently reviewed, merged, and ancestral; after both merges #203 must resync to the resulting exact origin/main and pass typed csdlc-validate issue plus csdlc-doctor before bind. Fail closed on missing targets, zero tests, any case count other than 44, any subassertion count other than 132, any missing/extra/duplicate/reordered name/result/marker/subassertion, canonical anchor leakage, or an uncompiled enumerated consumer.\"},{\"lane\":\"identity-lease-fencing-clippy\",\"proof_role\":\"Reject warnings and API misuse across the concrete authority target plus every enumerated normal-build consumer compatibility path.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, missing source, or any raw-access compatibility escape.\"},{\"lane\":\"identity-lease-fencing-producer\",\"proof_role\":\"Produce exact Git/source/command/stream/timing/protected-digest evidence for all 44 case names and the exact generated 132 IDs C::expected_outcome, C::canonical_store_state, C::publication_barrier_state, including canonical anchor exclusion and enumerated consumer compilation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":\"Deferred until the exact producer exists; fail closed on dirty protected source, wrong case or subassertion count, missing/extra/duplicate/reordered name or result, canonical anchor leakage, consumer omission, or nonzero status.\"},{\"lane\":\"identity-lease-fencing-receipt\",\"proof_role\":\"Bind exact protected source, commands, all 44 names/results/markers, the exact 132 generated subassertion IDs, enumerated consumer paths, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":\"Deferred until validator and immutable evidence exist; fail closed until exact reviewed source, all 44 cases, all 132 generated IDs, protected consumer coverage, and canonical/local separation are bound.\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 15,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Pin the merged #208 boundary to its complete ancestral commit identity without changing the serial stop.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Merged fixed ancestor: issue #191 / PR #197 at 8bd475cf18eb77cc7402220f69282f64a4a1a1e5\",\"Merged fixed ancestor: issue #201 / PR #229 at 3ffc4c402c57e167fb9943221c9dac24f96f8895\",\"Merged fixed ancestor: issue #200 / PR #231 at 507d9a1e3a74c2c9c6cce14259b095139aa3bdfa\",\"Merged fixed boundary: issue #208 / PR #230 at 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90; #203 must preserve its Guardian-kernel continuity effect and receipt ownership\",\"Serial stop: issue #202 learner transport and exclusion must be independently reviewed, merged, and ancestral, followed by issue #199 governed membership being independently reviewed, merged, and ancestral; #203 may not bind or edit product source before both conditions hold\",\"After #202 and #199 merge, resync #203 onto the resulting exact origin/main and rerun typed csdlc-validate issue and csdlc-doctor before bind\",\"Issue #205 and #204 remain blocked until this issue merges\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 16,
+      "actor": "codex:/root/prepare_203_parallel",
       "reason": "approve completed issue design",
       "operation": "approve_design"
     }

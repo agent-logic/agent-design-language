@@ -51,7 +51,7 @@ Diagram: .csdlc/prepared/issues/203/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "203-runtime",
-    "defer_reason": "Deferred until all five dependencies merge and the exact targets exist; fail closed on missing targets, zero tests, any case count other than 44, any subassertion count other than 132, any missing/extra/duplicate/reordered name/result/marker/subassertion, canonical anchor leakage, or an uncompiled enumerated consumer."
+    "defer_reason": "Deferred until #202 is independently reviewed, merged, and ancestral and then #199 is independently reviewed, merged, and ancestral; after both merges #203 must resync to the resulting exact origin/main and pass typed csdlc-validate issue plus csdlc-doctor before bind. Fail closed on missing targets, zero tests, any case count other than 44, any subassertion count other than 132, any missing/extra/duplicate/reordered name/result/marker/subassertion, canonical anchor leakage, or an uncompiled enumerated consumer."
   },
   {
     "lane": "identity-lease-fencing-clippy",
