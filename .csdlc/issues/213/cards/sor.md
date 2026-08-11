@@ -106,11 +106,11 @@ Implemented guarded initialized and ready STP/SPP repair with atomic binding ref
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
