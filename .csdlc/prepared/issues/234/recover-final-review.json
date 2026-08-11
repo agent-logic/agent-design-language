@@ -1,7 +1,0 @@
-{
-  "issue": 234,
-  "expected_generation": 28,
-  "expected_digest": "1028f20e4455b023b0ee8c599e7342bd4cceef8c3adf6fe07261b6906c48e060",
-  "actor": "codex:234-final-review-record",
-  "reason": "Replace the superseded pre-remediation assignment with the operator-confirmed independent review of exact substantive revision ab354119ca3b9e3e372379e8a90b65d57eb1240d."
-}

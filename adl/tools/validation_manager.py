@@ -323,37 +323,9 @@ def docs_only_paths(paths: list[str]) -> bool:
     return all(path.endswith(".md") or path.startswith("docs/") for path in paths)
 
 
-def required_pr_only_workflow_disposition() -> bool:
-    validator = ROOT / "adl/tools/validate_ci_workflow_policy.rb"
-    result = subprocess.run(
-        ["ruby", str(validator), str(ROOT)],
-        cwd=ROOT,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=False,
-    )
-    if result.returncode != 0:
-        return False
-    try:
-        report = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        return False
-    return (
-        report.get("schema") == "adl.ci.workflow-policy.v2"
-        and report.get("status") == "pass"
-        and report.get("required_pr_jobs")
-        == ["adl_path_policy", "adl_ci", "adl_coverage"]
-        and report.get("ordinary_pr_heavy_runner_max") == 1
-        and report.get("optional_policy") == "explicit_dispatch_only"
-        and report.get("errors") == []
-    )
-
-
 def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
     changed = set(changed_paths)
     allowed = {
-        ".github/workflows/ci-out-of-band.yaml",
         ".github/workflows/ci.yaml",
         "adl/config/slow_proof_families.v0.91.6.json",
         "adl/config/validation_lane_selector.v0.91.6.json",
@@ -366,11 +338,9 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
         "adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md",
         "adl/tools/test_check_coverage_impact.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
-        "adl/tools/test_validate_ci_workflow_policy.rb",
         "adl/tools/test_run_pr_fast_test_lane.sh",
         "adl/tools/test_slow_proof_lane_contract.sh",
         "adl/tools/validation_manager.py",
-        "adl/tools/validate_ci_workflow_policy.rb",
         "adl/tools/test_validation_manager.sh",
     }
     if not changed or not changed <= allowed:
@@ -390,9 +360,6 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
     slow_runner = (ROOT / "adl/tools/run_slow_proof_family.sh").read_text()
     slow_contract = (ROOT / "adl/tools/test_slow_proof_lane_contract.sh").read_text()
     runtime_tests = (ROOT / "adl/src/runtime_v2/tests.rs").read_text()
-    if required_pr_only_workflow_disposition():
-        return True
-
     required_workflow_fragments = [
         "adl-slow-proof:",
         "needs: adl_path_policy",
