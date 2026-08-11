@@ -995,7 +995,7 @@ function conversationFrameProvesAcceptance(frame) {
 }
 
 function conversationReconnectIntent(pending) {
-  if (!pending || !pending.disconnected || pending.terminal || pending.reconnectReplayCount >= 1) {
+  if (!pending || !pending.disconnected || pending.terminal) {
     return null;
   }
   pending.reconnectReplayCount += 1;

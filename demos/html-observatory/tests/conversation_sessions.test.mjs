@@ -139,7 +139,14 @@ pending.disconnected = true;
 const replay = conversationReconnectIntent(pending);
 assert.strictEqual(replay, pending.intent, "reconnect must resend the exact retained intent");
 assert.equal(pending.reconnectReplayCount, 1);
-assert.equal(conversationReconnectIntent({ ...pending, disconnected: true }), null, "a pending turn may replay at most once");
+assert.equal(conversationReconnectIntent(pending), null, "one disconnect event may replay at most once");
+pending.disconnected = true;
+assert.strictEqual(
+  conversationReconnectIntent(pending),
+  pending.intent,
+  "a later disconnect may retrieve the same idempotent Runtime result"
+);
+assert.equal(pending.reconnectReplayCount, 2);
 assert.equal(conversationReconnectIntent({ ...pending, terminal: true, disconnected: true, reconnectReplayCount: 0 }), null);
 
 console.log("WP-18C.01 Observatory conversation contract: PASS");

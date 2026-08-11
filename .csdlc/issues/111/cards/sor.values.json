@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
     "slug": "wp18c01-canonical-human-agent-conversation-sessions",
     "version": "v0.92",
-    "generation": 50
+    "generation": 54
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Integrated the canonical conversation session path over WP-18C.03 live roster and presence authority at exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689.",
+      "summary": "Closed the integrated review findings by rechecking live recipient eligibility at the dispatch boundary and making pending-turn replay repeatable once per actual disconnect.",
       "actual_changes": [
         "Added Runtime-owned bounded conversation and turn state with explicit sequence-gated dispatch and exact duplicate handling.",
         "Propagated cancellation through canonical ingress and the queued operational factory into the existing adapter executor cancellation boundary.",
@@ -23,7 +23,11 @@
         "Merged the complete #113 Runtime roster, presence, navigation, OpenAPI, and signed Guardian restart surface beneath #111.",
         "Changed conversation recipient admission to use the same live Runtime-projected roster and fail-closed communication eligibility authority exposed to the Observatory.",
         "Changed the browser recipient selector to use communication_eligible instead of the obsolete literal running state.",
-        "Added integrated Shepherd admission proof while preserving ordering, idempotency, timeout, cancellation, reconnect, and bounded rendering behavior."
+        "Added integrated Shepherd admission proof while preserving ordering, idempotency, timeout, cancellation, reconnect, and bounded rendering behavior.",
+        "Refused a queued conversation turn with recipient_unavailable when its recipient loses communication eligibility before canonical dispatch.",
+        "Reused one shared live roster eligibility helper at acceptance and immediately before dispatch.",
+        "Allowed one idempotent pending-turn retrieval after each distinct disconnect while preventing duplicate replay within one connection cycle.",
+        "Added focused regressions for recipient degradation behind an ordered turn and two separate reconnect cycles."
       ],
       "artifacts": [
         "adl-runtime-kernel/src/control.rs",
@@ -37,7 +41,11 @@
         "adl-runtime-kernel/tests/conversation_sessions.rs",
         "demos/html-observatory/app.js",
         "demos/html-observatory/tests/conversation_sessions.test.mjs",
-        "exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689"
+        "exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/tests/conversation_sessions.rs",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/tests/conversation_sessions.test.mjs"
       ],
       "actual_validation": [
         {
@@ -205,6 +213,14 @@
           "purpose": "Prove all six issue cards and implemented lifecycle truth are structurally current after roster integration.",
           "outcome": "passed",
           "evidence_ref": "issue 111 generation 49: status pass, zero findings"
+        },
+        {
+          "command": [
+            "focused WP-18C.01 Runtime, browser, static, lint, format, and diff gates"
+          ],
+          "purpose": "Prove recipient eligibility is fail-closed at dispatch, reconnect replay is bounded per disconnect, and the complete integrated issue surface remains green.",
+          "outcome": "passed",
+          "evidence_ref": "conversation_sessions 1/1; agent_roster 10/10; control 24/24; openapi_contract 6/6; observatory 7/7; browser conversation PASS; HTML static PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS"
         }
       ],
       "integration_state": "worktree_only",

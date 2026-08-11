@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Integrated the canonical conversation session path over WP-18C.03 live roster and presence authority at exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689.
+Closed the integrated review findings by rechecking live recipient eligibility at the dispatch boundary and making pending-turn replay repeatable once per actual disconnect.
 
 ## Artifacts
 
@@ -28,6 +28,10 @@ Integrated the canonical conversation session path over WP-18C.03 live roster an
 - demos/html-observatory/app.js
 - demos/html-observatory/tests/conversation_sessions.test.mjs
 - exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- demos/html-observatory/app.js
+- demos/html-observatory/tests/conversation_sessions.test.mjs
 
 ## Execution
 
@@ -40,6 +44,10 @@ Integrated the canonical conversation session path over WP-18C.03 live roster an
 - Changed conversation recipient admission to use the same live Runtime-projected roster and fail-closed communication eligibility authority exposed to the Observatory.
 - Changed the browser recipient selector to use communication_eligible instead of the obsolete literal running state.
 - Added integrated Shepherd admission proof while preserving ordering, idempotency, timeout, cancellation, reconnect, and bounded rendering behavior.
+- Refused a queued conversation turn with recipient_unavailable when its recipient loses communication eligibility before canonical dispatch.
+- Reused one shared live roster eligibility helper at acceptance and immediately before dispatch.
+- Allowed one idempotent pending-turn retrieval after each distinct disconnect while preventing duplicate replay within one connection cycle.
+- Added focused regressions for recipient degradation behind an ordered turn and two separate reconnect cycles.
 
 ## Validation
 
@@ -209,6 +217,14 @@ Integrated the canonical conversation session path over WP-18C.03 live roster an
     "purpose": "Prove all six issue cards and implemented lifecycle truth are structurally current after roster integration.",
     "outcome": "passed",
     "evidence_ref": "issue 111 generation 49: status pass, zero findings"
+  },
+  {
+    "command": [
+      "focused WP-18C.01 Runtime, browser, static, lint, format, and diff gates"
+    ],
+    "purpose": "Prove recipient eligibility is fail-closed at dispatch, reconnect replay is bounded per disconnect, and the complete integrated issue surface remains green.",
+    "outcome": "passed",
+    "evidence_ref": "conversation_sessions 1/1; agent_roster 10/10; control 24/24; openapi_contract 6/6; observatory 7/7; browser conversation PASS; HTML static PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS"
   }
 ]
 

@@ -589,6 +589,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self
     }
 
+    fn conversation_recipient_eligibility(
+        &self,
+        recipient_id: &str,
+    ) -> Result<Option<bool>, ControlError> {
+        Ok(self
+            .agent_roster_page(100, None, None)?
+            .sample
+            .iter()
+            .find(|agent| agent.id == recipient_id)
+            .map(|agent| agent.communication_eligible))
+    }
+
     fn accept_conversation_intent(
         &self,
         intent: &ObservatoryConversationIntent,
@@ -619,8 +631,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 None,
             ));
         }
-        let roster = match self.agent_roster_page(100, None, None) {
-            Ok(roster) => roster,
+        let recipient = match self.conversation_recipient_eligibility(&intent.recipient_id) {
+            Ok(recipient) => recipient,
             Err(_) => {
                 return ConversationAcceptance::Response(outcome(
                     "failed",
@@ -629,10 +641,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 ))
             }
         };
-        let recipient = roster
-            .sample
-            .iter()
-            .find(|agent| agent.id == intent.recipient_id);
         match recipient {
             None => {
                 return ConversationAcceptance::Response(outcome(
@@ -641,14 +649,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     None,
                 ))
             }
-            Some(agent) if !agent.communication_eligible => {
+            Some(false) => {
                 return ConversationAcceptance::Response(outcome(
                     "refused",
                     "recipient_unavailable",
                     None,
                 ))
             }
-            Some(_) => {}
+            Some(true) => {}
         }
         let Some(ingress) = self.canonical_ingress.as_ref() else {
             return ConversationAcceptance::Response(outcome(
@@ -807,6 +815,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             } else {
                 outcome("timed_out", "conversation_timed_out")
             }
+        } else if !matches!(
+            self.conversation_recipient_eligibility(&dispatch.intent.recipient_id),
+            Ok(Some(true))
+        ) {
+            outcome("refused", "recipient_unavailable")
         } else {
             match (payload, self.canonical_ingress.as_ref()) {
                 (Err(_), _) => outcome("refused", "invalid_conversation_intent"),

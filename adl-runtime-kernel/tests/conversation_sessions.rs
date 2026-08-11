@@ -169,7 +169,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let mut registry = ComponentRegistry::new();
     registry.register(operation);
     registry.register(ingress);
-    let kernel = Kernel::new(registry.validate().unwrap(), recorder)
+    let kernel = Kernel::new(registry.validate().unwrap(), recorder.clone())
         .start()
         .await
         .unwrap();
@@ -319,6 +319,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(first_accepted["turn_id"], "turn-ordered-1");
     assert_eq!(second_accepted["turn_id"], "turn-ordered-2");
+    recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Degraded);
     let first_terminal =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     let second_terminal =
@@ -326,7 +327,14 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert_eq!(first_terminal["turn_id"], "turn-ordered-1");
     assert_eq!(first_terminal["status"], "delivered");
     assert_eq!(second_terminal["turn_id"], "turn-ordered-2");
-    assert_eq!(second_terminal["status"], "delivered");
+    assert_eq!(second_terminal["status"], "refused");
+    assert_eq!(second_terminal["error"], "recipient_unavailable");
+    recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Running);
+    let resumed_at = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    assert!(recorder.record_agent_heartbeat("shepherd", resumed_at, resumed_at + 30_000,));
 
     for (turn_id, correlation_id) in [
         ("turn-budget-1", "77777777777777777777777777777777"),
@@ -459,8 +467,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let timed_out =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(timed_out["status"], "timed_out");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 7);
-    assert_eq!(completions.load(Ordering::SeqCst), 5);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 6);
+    assert_eq!(completions.load(Ordering::SeqCst), 4);
 
     socket
         .send(Message::Text(
@@ -504,7 +512,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert!(statuses.contains(&"accepted"));
     assert!(statuses.contains(&"cancelled"));
     tokio::time::sleep(Duration::from_millis(275)).await;
-    assert_eq!(completions.load(Ordering::SeqCst), 5);
+    assert_eq!(completions.load(Ordering::SeqCst), 4);
 
     socket
         .send(Message::Text(
