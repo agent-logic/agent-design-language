@@ -1,30 +1,30 @@
 {
   "schema": "adl.validation.local_exact_revision.v1",
   "issue": 5834,
-  "validated_revision": "9fe7b921c8d5e594156670a74a02e9cefbe62ad5",
-  "validated_tree": "a68faa250976da781832682afa8fd441197b67be",
+  "validated_revision": "971607e5ef51822965b1937ff375ef66871d1778",
+  "validated_tree": "94b614d0fadf7dcb434f05ac8ad1acd053e520a7",
   "status": "passed",
   "packet_entries": 9,
-  "negative_cases": 9,
+  "negative_cases": 10,
   "validations": [
     {
       "name": "birthday-review-packet",
       "result": "passed",
       "log_ref": ".csdlc/evidence/5834/review-packet-validation.log",
-      "log_sha256": "1b5fdcc545ecd4124bb6ffbd05006a1adf6b59b9ebc95aba5a1f18cc9797e879"
+      "log_sha256": "6c7cb7acd987a2f7816d5084ee77f70219e2224bb781f5f828f9551b8c5fb375"
     },
     {
       "name": "birthday-review-packet-negative",
       "result": "passed",
       "log_ref": ".csdlc/evidence/5834/negative-validation.log",
-      "log_sha256": "8e3b295aa9b6df8511f7ef4b0e6c02c20147375bd794468114053f346f9cd49b"
+      "log_sha256": "a21409ac97075e24981094081dcba557fd216ad991b970f00b449f5851e66888"
     }
   ],
   "source_files": [
-    {"path":"docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md","sha256":"e8d58415ec6f33f51f00f7a81f9e2c15e20739818e40e0bf5fa9fe3f12d60fb9"},
-    {"path":"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json","sha256":"5365342b082d5a45bc01269055ff72505fcb241b284494b59edd751b4037373f"},
-    {"path":"docs/milestones/v0.92/review/first-birthday-review-packet.schema.json","sha256":"9cb056737c69333d56ba7c1626995efae0b4f99c843a70005e53527e487e97f1"},
-    {"path":".csdlc/prepared/issues/5834/validate-review-packet.rb","sha256":"f1fb922a3c2656b1f91bff66ad7f8223bde448e69baffa2dd04acb1525564994"}
+    {"path":"docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md","sha256":"63b39f5a2ddb42aee44cf900f437525ecef211c7aea531c45c3a7b668405f007"},
+    {"path":"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json","sha256":"57433b3f9723f12c3a0cd2689686715fee33a1b08de3bf3819fdcfa449b936e8"},
+    {"path":"docs/milestones/v0.92/review/first-birthday-review-packet.schema.json","sha256":"dbf88353b70ed2c9406a538bad8f079891e2df88dff244f6641dc36697ecabc0"},
+    {"path":".csdlc/prepared/issues/5834/validate-review-packet.rb","sha256":"741e5d5febac98edc4301724df27f2a3eea145c06703df7963664bba6a13bdda"}
   ],
   "path_hygiene": "repository_relative",
   "native_portability": "not_required_docs_schema_validator"
