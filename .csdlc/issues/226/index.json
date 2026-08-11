@@ -6,19 +6,20 @@
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
   "generation": 10,
-  "digest": "f1632e315c9e555dbb0650da52ac3202273b40d1bc1f4943980c308a31daad92",
+  "digest": "96f30da81fa055e319e69ba977689e9870994078d7e7737cf5abb8b8f443657f",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
   "review_assignment": {
-    "reviewer": "codex-exec:issue-226-independent-review-2",
+    "reviewer": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
     "assigned_by": "codex:226-focused-runtime-validation-routing",
-    "revision": "git-blake3:fa203fee316d0847ac2a3ecfc7f66712ce039bcd:bbc9691c5c3ba1b1de8c2638624eac96b3b607e3d94eb56a9084d3da6c79f1bb",
+    "revision": "git-blake3:f7959a9f7e25685261949049508dc23b28042f71:07663920ad5ae3b6aa6919749fb49d1a26731b14a39f342e669f94ceb08a6a76",
     "scope": [
       "adl/config/validation_lane_selector.v0.91.6.json",
       "adl/tools/test_select_validation_lanes.sh",
       "adl/tools/test_ci_path_policy.sh",
       ".csdlc/issues/226",
-      ".csdlc/evidence/226"
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226/design.md"
     ]
   },
   "review": null,
@@ -56,9 +57,9 @@
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "b3c4135aa2884d356e3124a37e1c16754a0fce5e0e084c2aef9df739e967dfb2",
-      "rendered_digest": "494a347629f7c0091f73fe4ec220fe24bd667122b1b208f9add0800ce2f547b3",
-      "ast_digest": "22a8c2ad2115ebe7a6893bfda86ecc7fc3419c350e51b13ab6b0881151e9bb72"
+      "values_digest": "06802c836f2fbba5f16809cd6dcbf483ffa539c581a6280dece39cf8e5054169",
+      "rendered_digest": "c1aae62fe1eac61370f35d05a9db2c069fce2b438e88a1083372dc0680ff4698",
+      "ast_digest": "3f159b5c6eed7d9686e42c0db2263616c29d0a0abbcb8fc76a3d05f154b1964e"
     },
     "sor": {
       "values_digest": "f2c89c84898095324b525e492866c5e93625aa999b578d88e75197a772cb23a1",
@@ -222,6 +223,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Align planning invariants with the new direct syntax lane and preserved integrated product proof.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Unknown paths continue to fail closed\",\"No selector maps Runtime source to docs-only proof\",\"The two Observatory tooling paths select direct syntax proof without triggering integrated proof by themselves\",\"Observatory product and demo changes continue to select the existing integrated Observatory proof\",\"No slow or coverage job is selected solely by lifecycle metadata, issue diagrams, or the two tooling paths\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

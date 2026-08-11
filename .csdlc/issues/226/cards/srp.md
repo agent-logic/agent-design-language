@@ -17,6 +17,7 @@ adl/tools/test_select_validation_lanes.sh
 adl/tools/test_ci_path_policy.sh
 .csdlc/issues/226
 .csdlc/evidence/226
+.csdlc/prepared/issues/226/design.md
 
 ## Prompts
 
