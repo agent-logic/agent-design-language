@@ -12,25 +12,20 @@ Status: ready
 
 ## Summary
 
-After #191 and #201 merge, bind and implement one crash-resumable coordinator for learner catch-up, standard OpenRaft joint/final changes, exact Runtime authority parity, pending removal exclusion, and governed rejoin; prove it, independently review it, and publish a ready unmerged PR before releasing #200.
+After #202 is reviewed, merged, ancestral, and followed by a fresh preparation resync and typed validation, bind and implement one crash-resumable coordinator for learner catch-up, standard OpenRaft joint/final changes, exact Runtime authority parity, pending removal exclusion, and governed rejoin; prove it, independently review it, and publish a ready unmerged PR while preserving already-merged #200 as an out-of-scope consumer boundary.
 
 ## Plan
 
-Revision 1
+Revision 4
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "After #191, #201, and #202 merge ancestrally, bind #199 and freeze the exact old-cut parity, stable Raft-id registry, non-voting enrollment, learner catch-up, durable joint/final observation, shared pending exclusion, reconcile-before-visible publication, and restart contracts.",
+    "action": "Do not bind #199 or edit product source until #202 is externally reviewed, merged, and ancestral; then resync this preparation onto the resulting origin/main, rerun typed csdlc-validate and csdlc-doctor, and freeze the exact old-cut parity, stable Raft-id registry, non-voting enrollment, learner catch-up, durable joint/final observation, shared pending exclusion, reconcile-before-visible publication, and restart contracts.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-7"
+      "AC-1"
     ],
     "status": "pending"
   },
@@ -38,13 +33,10 @@ Revision 1
     "id": "S2",
     "action": "Implement only MembershipTransitionCoordinator plus the narrow existing authority and PolisRuntime integration needed to consume #201 tokens and publish exact membership parity.",
     "acceptance_ids": [
-      "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-7"
+      "AC-5"
     ],
     "status": "pending"
   },
@@ -52,13 +44,8 @@ Revision 1
     "id": "S3",
     "action": "Prove add, remove, rejoin, learner catch-up, joint/final quorum, stable ids, exclusion, leader change, exact retry, phase crash windows, rollback, corruption, capacity, and path safety against real secure OpenRaft nodes.",
     "acceptance_ids": [
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
       "AC-6",
-      "AC-7",
-      "AC-8"
+      "AC-7"
     ],
     "status": "pending"
   },
@@ -111,7 +98,8 @@ Digest: a2d18fc4bae10a7a66894ffdec22ebf446147f6d7dae414215eae0c4cda1cb47
 
 ## Stop Conditions
 
-- PR #197, #201, or #202 is not externally reviewed, merged, and ancestral
+- Serial stop: #202 is not externally reviewed, merged, and ancestral to the preparation branch
+- After #202 merges, #199 has not yet been resynced onto the resulting origin/main and passed typed csdlc-validate and csdlc-doctor
 - The coordinator would reimplement OpenRaft voting or accept caller-selected voter authority
 - Stable Raft ids, exact joint/final observation, or learner catch-up cannot be established through the merged APIs
 - Pending removal cannot deny new authority before final publication without mutating #200-owned stores

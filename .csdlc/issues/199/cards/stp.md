@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Implement and publish only governed learner catch-up, OpenRaft joint/final transition orchestration, exact membership/route parity publication, pending removal exclusion, governed rejoin, and crash reconciliation between #201 and #200.
+Implement and publish only governed learner catch-up, OpenRaft joint/final transition orchestration, exact membership/route parity publication, pending removal exclusion, governed rejoin, and crash reconciliation using merged #201 authority and, after its merge, #202 transport contracts while treating merged #200 stores as out of scope.
 
 ## Deliverables
 
@@ -42,10 +42,11 @@ Implement and publish only governed learner catch-up, OpenRaft joint/final trans
 
 - Issue #191 / PR #197 externally reviewed and merged as an ancestor
 - Issue #201 quorum-committed authority protocol externally reviewed and merged as an ancestor
-- Issue #202 authority-verified learner route and shared pending-exclusion consultation externally reviewed and merged as an ancestor
+- Serial stop: issue #202 authority-verified learner route and shared pending-exclusion consultation must be externally reviewed, merged, and ancestral before #199 binds or edits product source
+- After #202 merges, resync #199 onto the resulting origin/main and rerun typed csdlc-validate and csdlc-doctor before any bind
 - Current MembershipState, AuthorityMembership, certificate identity, verified route cut, and secure OpenRaft APIs
 - Issue #199 live GitHub contract
-- Issue #200 remains blocked until this issue merges
+- Issue #200 is already merged; it is an existing concrete-authority consumer boundary, not work gated for release by #199
 
 ## Inputs
 

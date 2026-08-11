@@ -51,7 +51,7 @@ Diagram: .csdlc/prepared/issues/199/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "199-runtime",
-    "defer_reason": "Deferred until #191, #201, and #202 merge and this issue creates adl-runtime/tests/distributed_membership_transition.rs plus adl-runtime/src/distributed/membership_coordinator.rs; fail closed on missing targets, zero tests, or any result not mapping exactly once to all thirty-six canonical names and required enrollment/voter seam subassertions."
+    "defer_reason": "Serially deferred until #202 is externally reviewed, merged, ancestral, and followed by a fresh #199 resync plus typed csdlc-validate and csdlc-doctor; after binding it also remains deferred until this issue creates adl-runtime/tests/distributed_membership_transition.rs and adl-runtime/src/distributed/membership_coordinator.rs, failing closed on missing targets, zero tests, or any result not mapping exactly once to all thirty-six canonical names and required enrollment/voter seam subassertions."
   },
   {
     "lane": "governed-membership-transition-clippy",
