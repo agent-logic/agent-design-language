@@ -1171,6 +1171,24 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
 #[test]
 fn recovered_issue_can_correct_only_the_sip_required_outcome() {
     let (_temp, store, implemented) = implemented_fixture();
+    let operation = SemanticOperation::CorrectRequiredOutcomeAfterRecovery {
+        value: "a corrected four-child outcome".into(),
+    };
+    let unrecovered = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest.clone(),
+            actor: "operator".into(),
+            reason: "must recover first".into(),
+            operation: operation.clone(),
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("unrecovered required-outcome correction must fail");
+    assert_eq!(unrecovered.code, ErrorCode::InvalidTransition);
     let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
         .expect("review revision");
     let reviewed = record_review(
@@ -1207,6 +1225,29 @@ fn recovered_issue_can_correct_only_the_sip_required_outcome() {
         .load_cards(7)
         .expect("cards before outcome correction");
     let replacement = "a corrected four-child outcome".to_string();
+    for (card, value) in [
+        (CardKind::Spp, replacement.clone()),
+        (CardKind::Sip, " ".into()),
+    ] {
+        let rejected = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card,
+                expected_generation: recovered.generation,
+                expected_digest: recovered.digest.clone(),
+                actor: "operator".into(),
+                reason: "prove correction rejection".into(),
+                operation: SemanticOperation::CorrectRequiredOutcomeAfterRecovery { value },
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("wrong-card or blank correction must fail");
+        assert!(matches!(
+            rejected.code,
+            ErrorCode::InvalidTransition | ErrorCode::CardInvalid
+        ));
+    }
     let corrected = edit_issue(
         &store,
         EditRequest {
