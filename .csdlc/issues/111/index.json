@@ -4,14 +4,53 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
-  "phase": "implemented",
-  "generation": 72,
-  "digest": "dd8c9890ef30daa3eb4e086cf824665f05a3f35c107b93adffcf8fead9a5e72e",
+  "phase": "published",
+  "generation": 74,
+  "digest": "3dc4ea9588fbabcaf171b4b2f84f8016c2b6144701b9da8c7b2033021dc47fe6",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+    "assigned_by": "codex:wp18c01-fresh-review-remediation",
+    "revision": "git-blake3:078da534e9666acb443fb851ba0536fc617e0933:84105e0eeb1a0507e600532998cd980cfd84837f96f96875870bbe1221c29a0a",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ],
+    "reviewed_revision": "git-blake3:078da534e9666acb443fb851ba0536fc617e0933:84105e0eeb1a0507e600532998cd980cfd84837f96f96875870bbe1221c29a0a",
+    "findings": [],
+    "residual_risks": [
+      "Durable cross-restart conversation history remains owned by downstream issue #114.",
+      "The environment-dependent trusted public-TLS browser proof remains an out-of-band validation lane."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 111,
+    "pull_request": 223,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/223",
+    "base": "codex/113-wp18c03-roster-presence-preparation",
+    "head": "codex/111-wp18c01-conversation-session-preparation",
+    "revision": "git-blake3:078da534e9666acb443fb851ba0536fc617e0933:84105e0eeb1a0507e600532998cd980cfd84837f96f96875870bbe1221c29a0a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +64,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8edb76985e8ebfd32521ed2e3370d9ba728292a430457196e961b700b5e13f03",
+      "values_digest": "aa474fb0ef30e23bece6220ca6760bad3f95bb155db36db0151a300d93eecc18",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "03f28146637ec20c153b379e17b7663d110a9a122c4413d318490c60bcc883c0",
+      "values_digest": "1e8049b8bad76f5fc1eea121a5c7094d9a0fd189c3eac3024061deb20dbdc794",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "cc8ab9d0bcd8827e5e3e5b5398aeb8e31ccbc801c74c1398ba58c8be642f6a52",
+      "values_digest": "e22b6281697b4beeb449a4f22d7cd6128e1945872d1881698233a89f7b661423",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "f58f5955ec310e8365091b9a8b7dc9d3a4e8c95f1aa98a24eec6b130b148c68b",
+      "values_digest": "fd3c9b69b0b30b066d79f499be872c201deb4156871165ed26afdb999de95997",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "1f627859aa071cb603061d9707a975d0d6c5f73dfb6e25204c890e9f7ced5fed",
-      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
-      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
+      "values_digest": "defec0bc8038295d4cbc18bc14c4b566ff1adceb7a380002db11015a92bf0d11",
+      "rendered_digest": "099754ed59a0a505ffccd93885154fcdf357690c3b13f3b15f075fe17c056ed6",
+      "ast_digest": "44deb87e2be87ea4cf2ee98becacedf45a676149f6eb0c0b55738454fb13b700"
     },
     "sor": {
-      "values_digest": "a2bde03f5d3c701ee73738fc25054800de9ccf75093ee157cd838a1698714400",
-      "rendered_digest": "dbaf4bffb224961fb038db0d855048f598c874eda1d3b078ceba4849f9e3917b",
-      "ast_digest": "2b77ae1606377f3a286a0e752404bcc8501a85777862d319e7326938640d53ca"
+      "values_digest": "5aa6606040ac97af0e1af1368beae2021b4472b9143b05896b36cd733badbd8c",
+      "rendered_digest": "d7fb84f91a97c2b2d8a38ccf3dd24c34d60e63dfcd0d192067ccce3f97bc12fe",
+      "ast_digest": "7bb9bb7a8c606e61a6734f0bc5e3259b0803100384c28c625be91f4560863826"
     }
   },
   "transitions": [
@@ -111,6 +150,20 @@
       "to": "implemented",
       "actor": "codex:wp18c01-fresh-session-review",
       "reason": "Recover stale review and publication truth after integrating the updated stacked base; require a fresh independently assigned exact-head review before merge."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -680,6 +733,27 @@
       "actor": "codex:wp18c01-fresh-review-remediation",
       "reason": "Record complete focused proof for deterministic attachment reservation ordering.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused conversation, Observatory, control, browser, static, Clippy, format, and diff gates\"],\"purpose\":\"Prove attachment-before-ack ordering and preserve all prior conversation authorization, boundedness, and UI contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"conversation_sessions 1/1, observatory 7/7, control 25/25 PASS; browser conversation PASS; combined HTML Observatory PASS; strict lib+binary Clippy PASS; cargo fmt and git diff hygiene PASS\"}}"
+    },
+    {
+      "sequence": 82,
+      "generation": 72,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 83,
+      "generation": 73,
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 84,
+      "generation": 74,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
