@@ -1,0 +1,14 @@
+{
+  "issue": 226,
+  "card": "spp",
+  "expected_generation": 11,
+  "expected_digest": "eef88104ce5a0f733c90728b3cc0387ebcf3cbdaf182c33a43924a5edb951251",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Record the completed selector implementation truth identified by final review.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  },
+  "fail_after_backup": false
+}

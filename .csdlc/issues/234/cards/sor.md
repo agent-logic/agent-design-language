@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Remediated the exact-head review findings by coalescing identical source heads across PR bases and enforcing one exclusive ADL heavy-runner allocation per ordinary PR while retaining all selected required jobs.
+Narrowed the coverage-result fallback to the intentionally skipped producer state so missing semantic output from successful required coverage remains a hard failure.
 
 ## Artifacts
 
@@ -69,6 +69,18 @@ Remediated the exact-head review findings by coalescing identical source heads a
 - adl/tools/ci_path_policy.sh
 - adl/tools/validate_ci_workflow_policy.rb
 - adl/tools/test_ci_runtime_contracts.sh
+- .github/workflows/ci.yaml
+- adl/tools/ci_path_policy.sh
+- adl/tools/validate_ci_workflow_policy.rb
+- adl/tools/test_ci_runtime_contracts.sh
+- csdlc-v2/src/github.rs
+- .github/workflows/ci.yaml
+- adl/tools/validate_ci_workflow_policy.rb
+- adl/tools/test_ci_runtime_contracts.sh
+- .github/workflows/ci.yaml
+- adl/tools/test_ci_runtime_contracts.sh
+- .github/workflows/ci.yaml
+- adl/tools/test_ci_runtime_contracts.sh
 
 ## Execution
 
@@ -89,6 +101,19 @@ Remediated the exact-head review findings by coalescing identical source heads a
 - Removed target base from ordinary PR concurrency identity while preserving repository, workflow, source repository, and source branch isolation.
 - Added one deterministic heavy_runner_job choice; only that selected required job may acquire ADL_HEAVY_RUNNER and all other required jobs use the standard runner.
 - Strengthened workflow-policy and runtime-contract validators to reject base-split concurrency and non-exclusive heavy-runner selectors.
+- Replaced ambiguous hyphen concatenation with a colon-delimited target repository, workflow, target base, source repository ID, and source branch concurrency identity.
+- Removed the superseded one-heavy-runner selector and restored every selected required heavy job to vars.ADL_HEAVY_RUNNER.
+- Made the workflow validator reject every unauthorized event and every non-light CI job that bypasses the configured heavy runner.
+- Added negative fixtures for workflow_run fanout and heavy-runner bypass.
+- Made unstable PR classification fail closed when no required checks are declared.
+- Pull requests now force heavy_ci_backend=hosted regardless of repository variables or ci:spot labels.
+- The explicit AWS Spot workflow remains manual-only and cannot be selected by an ordinary pull request.
+- The hosted coverage aggregator now checks heavy_ci_backend=hosted in its job-level gate before acquiring the 16-core runner.
+- Workflow-policy and runtime-contract tests enforce both controls.
+- The required adl-coverage summary now falls back to the hosted producer job result when a skipped producer emits no semantic output.
+- The CI runtime contract now requires the skipped-result fallback and rejects regressions to an empty coverage result.
+- Only a skipped hosted coverage job may supply its job result when semantic route output is absent.
+- A successful required coverage job with missing semantic output continues to fail closed.
 
 ## Validation
 
@@ -193,6 +218,76 @@ Remediated the exact-head review findings by coalescing identical source heads a
     "purpose": "Prove shell and Ruby syntax, all workflow YAML parsing, and clean final patch whitespace.",
     "outcome": "passed",
     "evidence_ref": "local:issue-234-final-syntax-yaml-diff:passed"
+  },
+  {
+    "command": [
+      "ruby",
+      "adl/tools/validate_ci_workflow_policy.rb"
+    ],
+    "purpose": "Prove all 17 workflow triggers, unambiguous target/source concurrency, fail-closed event handling, heavy-runner routing, manual slow proof, and pre-allocation optional gating.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-head-2181870ee:workflow-policy:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "purpose": "Prove negative workflow_run and runner-bypass fixtures, required 16-core routing, conditional aggregation, manual-only slow proof and Codecov, and no post-merge duplicate validation.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-head-2181870ee:ci-runtime-contracts:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib"
+    ],
+    "purpose": "Prove unstable PRs require at least one declared required check and every declared check, review, conflict, and exact-target gate remains fail closed.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-head-2181870ee:csdlc-v2-lib:68-passed"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "git diff --check origin/main...HEAD && bash -n adl/tools/ci_path_policy.sh adl/tools/test_ci_path_policy.sh adl/tools/test_ci_runtime_contracts.sh && ruby -c adl/tools/validate_ci_workflow_policy.rb && ruby -ryaml -e 'Dir[\".github/workflows/*.{yml,yaml}\"].each { |path| YAML.safe_load(File.read(path), permitted_classes: [], permitted_symbols: [], aliases: true) }'"
+    ],
+    "purpose": "Prove committed-range whitespace hygiene, all touched shell syntax, validator Ruby syntax, and parsing of every workflow YAML file.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-head-2181870ee:committed-range-syntax-yaml:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "purpose": "Prove pull requests cannot select Spot/AWS work, hosted aggregation skips before allocation when hosted is unselected, and the complete workflow and runtime cost-control contracts remain green.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-head-ab410bdb9:spot-routing-remediation:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh && python3 adl/tools/verify_ci_backend_route.py --surface adl-coverage --backend hosted --event-name pull_request --same-repo-pr true --spot-opt-in false --work-required false --spot-work-required false --path-policy-result success --spot-result skipped --hosted-result coverage=skipped"
+    ],
+    "purpose": "Prove the required coverage status accepts an intentionally skipped optional coverage producer, still validates the selected backend route, and preserves the complete workflow cost-control contract.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-skipped-coverage-fallback:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh && verify_ci_backend_route accepts optional skipped coverage and rejects required skipped coverage"
+    ],
+    "purpose": "Prove the skipped fallback prevents an optional false red while required coverage with missing or skipped proof still fails closed.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-failclosed-skipped-coverage-fallback:passed"
   }
 ]
 

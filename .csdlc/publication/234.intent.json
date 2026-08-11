@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 234,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/234-systemic-ci-cost-control",
+  "title": "[v0.92][CI] Prevent optional workflow fanout and runner waste",
+  "body": "Closes #234\n\nMakes ci.yaml the sole automatic pull-request workflow and moves standalone proofs, retained proofs, nightly coverage, and soak work behind explicit dispatch. Selected required heavy lanes continue to use the configured 16-core runner, while optional and unselected lanes skip before allocation. Pull requests cannot select the AWS Spot route, and hosted coverage aggregation cannot allocate unless hosted coverage is selected.\n\nThe change also coalesces duplicate source/target validation surfaces, cancels superseded revisions, and makes C-SDLC unstable PR readiness fail closed unless at least one declared required check is green. Focused workflow-policy, CI runtime-contract, path-policy, C-SDLC library, syntax, YAML, and committed-range hygiene checks pass. Independent exact-head review passed with no blockers.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:9216af7d6bd28201fdaff27a52484523de1a9a5b:5f77e3db391e9acdfa02427a4fe35cbaa718a45387aaccacaa29e748b79f7f4c",
+  "commit_sha": "9216af7d6bd28201fdaff27a52484523de1a9a5b"
+}
