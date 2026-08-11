@@ -5,35 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e489915a11df3b89a0864fc0dc5f4f7d5e8af55bf967136e961c4946457d9a97",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "dbb80f3f2c6d939066217a9627e7ee202d31c72d6b9318c8a8df379b50214e02",
+  "generation": 8,
+  "digest": "6b50467a2d473d35e09e0cb2ed60060eb4f2e37cf9f869a23db83e08ff647584",
   "branch": "codex/5857-sprint4-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5857-sprint4-review",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5857_exact_head",
-    "assigned_by": "/root/sprint4_5857",
-    "revision": "git-blake3:833d7bffa9700da174eb34ca364e6c1bd7266fb7:7c4c9d4670297ea273b0e9076b814b9d8eb5fe27828fdbe10da409f8be821c15",
-    "scope": [
-      ".csdlc/issues/5857",
-      ".csdlc/prepared/issues/5857/sprint-execution-packet.md",
-      ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml",
-      ".csdlc/prepared/issues/5857/validate-sprint-review.rb",
-      ".csdlc/evidence/5857",
-      ".csdlc/issues/5825",
-      ".csdlc/issues/5826",
-      ".csdlc/issues/5827",
-      ".csdlc/issues/5828",
-      ".csdlc/issues/5829",
-      ".csdlc/issues/5830",
-      ".csdlc/issues/5831",
-      ".csdlc/issues/5833",
-      ".csdlc/issues/5834",
-      ".csdlc/prepared/issues/5834/validate-review-packet.rb",
-      "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
-      "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
-      "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -49,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "12542ae5173178bf46248eeead6d28b6f46c71947778850297520dca406fe492",
+      "values_digest": "f27790e3cd4df295b96b5e53ebbcab16ba9287395487bfd547ebbdf76bf72da1",
       "rendered_digest": "51ab82f4fc086b0ca966e2e3cc4ab142ec9da44bfd35f767228117e71886c9d5",
       "ast_digest": "7318c166b74bb2ab1b5fe72039fead58f3e64e287e7127115f34b2a3a13469b9"
     },
     "stp": {
-      "values_digest": "7934f7bd0136a810483413a535f2855e0bcb2c1cadf7f0f8cd4fc33a579bb469",
+      "values_digest": "15be56fbe3eeb10d815b6ec4c066088751b6272542ae710283b467c782272733",
       "rendered_digest": "f47d3a9d5f37c64d76c52c23037eee7180ae25f815c1e5d4973b76724d53ab86",
       "ast_digest": "f907e1273652d9d8b0e3e335b5c814943deedd5cf057ebc0bbf56eea458fc121"
     },
     "spp": {
-      "values_digest": "f72ede59920d75e0a41a488df188affa3fb042346538faa24a7be834a5b2a49f",
-      "rendered_digest": "7c10839a2bc186eaff6202cead9ec322e5cf898bc21af8fa6118ec6df8dd6698",
-      "ast_digest": "20f02abcc538d2dc81b6a2f8a7a63ca3ee7d0b14c3c9113a7235ef69299f08f7"
+      "values_digest": "fb3757453f81585426f6409c3e9e48f738c647d061b8c6a84e4a032bf2b8bf30",
+      "rendered_digest": "c0ecd5b7d7c408414baa31f7e613d8a76bfd2084b2c471048c139a514d0464e7",
+      "ast_digest": "faa114501aae1fdbdfcb9865eff5c1d01f56e4667774f26397edc5b7877ee624"
     },
     "vpp": {
-      "values_digest": "150fddaa070f183b5c1db6b09bb6e3a8d98dabbf74f252ef243eafdfdf7a693c",
+      "values_digest": "e9b5e65782d048157d554c080abd76e1c9ca18bdb490d28228f86e9c647ec962",
       "rendered_digest": "85a35e9c9484a5e94ea835c7f8ae7c7f4421f2b035eb3d5c87185cffed5d3859",
       "ast_digest": "d1319d9e68f30243e33080865594b440614c75bbb4b3334996226323ddb1f8a4"
     },
     "srp": {
-      "values_digest": "3b984a9a041f13f7a1b348d7c3e87463c867f85482674a991044ec76668d1801",
-      "rendered_digest": "684530e7d2f87085dbebfc812bdc422e4a9f4b3e2f6a32f49450acd9f6ad4c39",
-      "ast_digest": "d1452889f8a736efee39921f0a2f04a5b23d963bee37cbede5d8c56144eb024c"
+      "values_digest": "fc9c3be51ff7579b785acab9652e10585fafd930201be966b89fb9f818c6816f",
+      "rendered_digest": "ca74204fafaf2381dcaf0b73ed22aa416812493b3be2db9983011fe54d1d5e70",
+      "ast_digest": "ffe7e4216aa1f24820ee40cca85774d4391b67d4c3a9a575c8ff4f6ab01e4e10"
     },
     "sor": {
-      "values_digest": "b21206084bdf0fbf90dc983edb44c1ec646511009d7085aff3de25cec267fe38",
-      "rendered_digest": "3c075eb9874df9c8043fbbfac9fcb7455d069b12295b8a48b773577079b034db",
-      "ast_digest": "cdd3ac837ef2705a4539f54e3426d2587c55d206e4ed9781d72f5b5607368e23"
+      "values_digest": "98de34c49d6c1787165019a8daa8fe90ff2698af20d88f989fc4bab1a0bdb96a",
+      "rendered_digest": "944f88e959f2d0c6c15da714855a1e093759968e578eebf8964095ce8bf4f05e",
+      "ast_digest": "b2be72576dc94b27958309dbcc8046bf95e3eda3cf92a33d1911d8acb3c403c9"
     }
   },
   "transitions": [
@@ -165,6 +141,27 @@
       "actor": "/root/sprint4_5857",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "/root/sprint4_5857",
+      "reason": "Recover the non-approved assignment to bind exact PR/head/merge mappings, repair review authority, negative cases, and truthful lifecycle activity/plan state.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "/root/sprint4_5857",
+      "reason": "Record completed umbrella and child readiness verification.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"readiness\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "/root/sprint4_5857",
+      "reason": "Record completed child routing through declared serial dependency and review gates.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"coordinate\",\"status\":\"completed\"}"
     }
   ]
 }

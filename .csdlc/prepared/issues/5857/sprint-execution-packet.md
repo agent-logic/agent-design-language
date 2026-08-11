@@ -119,7 +119,8 @@ Out of scope:
 ## Sprint Activity Log
 
 - Declared path: `.csdlc/evidence/5857/activity.jsonl`
-- Record child start, bind, validation, review, PR state, terminal state, and any gate change.
+- This umbrella-local log retains only the terminal child merge and corrective-repair merge events observed during sprint synthesis.
+- Child start, bind, validation, review, PR publication, and issue-bound goal truth remain authoritative in each child's typed lifecycle record and retained evidence; the umbrella does not duplicate or reconstruct those events.
 
 ## Sprint-Level Review
 

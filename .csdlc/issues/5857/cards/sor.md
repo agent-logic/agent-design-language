@@ -48,7 +48,7 @@ Assembled and locally validated the Sprint 4 first-birthday core findings-first 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

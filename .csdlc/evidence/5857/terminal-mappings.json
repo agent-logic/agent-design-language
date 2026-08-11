@@ -1,8 +1,6 @@
 {
-  "schema": "adl.sprint_review.v1",
-  "sprint": "v0.92 Sprint 4 first-birthday core",
-  "umbrella": {"issue": 5857, "issue_repository": "danielbaustin/agent-design-language", "code_repository": "agent-logic/agent-design-language", "state": "open_pending_review"},
-  "generated_from_head": "f107ac38b3ccc9b050d562c735184351acd35fd3",
+  "schema": "adl.sprint_terminal_mappings.v1",
+  "observed_at": "2026-08-11T03:40:31Z",
   "children": [
     {"issue": 5825, "issue_repository": "danielbaustin/agent-design-language", "code_repository": "agent-logic/agent-design-language", "issue_state": "closed", "pr": 104, "pr_state": "merged", "head_sha": "e014c03c31d032399ca18a6f147b7bd275e97d8c", "merge_sha": "c2ab28e6a74bd614982c2c18f9ebea5a4e5d64ae", "reviewed_revision": "git-blake3:a3d4ba435f4ee37d93eed06912845e5166d11420:76dd13f3839fdd8153d0185dd8bd588fdf26f0065f606a6d3522dc4ef54824ac"},
     {"issue": 5826, "issue_repository": "danielbaustin/agent-design-language", "code_repository": "agent-logic/agent-design-language", "issue_state": "closed", "pr": 118, "pr_state": "merged", "head_sha": "b0b2a00cbb8434375dc84d63d8da9db4d51eb03d", "merge_sha": "755d4032c7e48306d2d5f5f1b0c19edadf19c822", "reviewed_revision": "git-blake3:fac563679bfe26182490b7cd1f732c451111bf5c:e3b7ac45f1be97839519a70219e298d73af900bf852ed605ac94fee39d7eab19"},
@@ -17,7 +15,5 @@
   "repairs": [
     {"issue": 144, "issue_repository": "agent-logic/agent-design-language", "code_repository": "agent-logic/agent-design-language", "issue_state": "closed", "pr": 147, "pr_state": "merged", "head_sha": "a981ac7774388ce15e0d00a282a233cdd41ccb86", "merge_sha": "9e16c621e02224927ac9f19ebebdf66b85abfffc", "reviewed_revision": "git-blake3:e749241965aad8359385020e02ad95aeb655aece:ce60d2db8561603088bfd8ed2df05c6f6642d6d8d2b50a8729a9b316eeeb13f3", "review_completed": true, "review_findings": [], "purpose": "Trusted cognitive-profile authority anchoring, full-chain verification, and governed rotation for WP-13."},
     {"issue": 209, "issue_repository": "agent-logic/agent-design-language", "code_repository": "agent-logic/agent-design-language", "issue_state": "closed", "pr": 215, "pr_state": "merged", "head_sha": "c640066f284a915b638add377cc4b0a2e221e6f9", "merge_sha": "a77519c3fca9f64752af41c9a2ebd396468891f7", "reviewed_revision": "git-blake3:f8ccbd4b5f245a2d82cb9dfa421e5d1441954c15:7d943700a84dfa2b9d603382d4d82b4a0ab69b8d3ce4b3803bd55f947c4a8d14", "review_completed": true, "review_findings": [], "purpose": "Production ACIP Guardian/kernel dispatch, replay isolation, pressure rollback, and public-contract repair replacing superseded WP-14 evidence."}
-  ],
-  "findings": [],
-  "non_claims": ["The sprint does not establish legal personhood or citizenship.", "The sprint does not establish consciousness.", "The sprint does not grant governance approval.", "The sprint review is not a public release authorization."]
+  ]
 }
