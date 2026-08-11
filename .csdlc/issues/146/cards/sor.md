@@ -72,11 +72,11 @@ Corrected the planning-only v0.92.1 WBS to use the canonical nine-step milestone
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
