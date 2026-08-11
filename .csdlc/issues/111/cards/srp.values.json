@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 111,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
+    "slug": "wp18c01-canonical-human-agent-conversation-sessions",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact-head correctness, security, state ownership, ordering, idempotency, cancellation and timeout races, restart truth, redaction, browser non-simulation, affected-path ownership, and validation adequacy for issue #111 only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify Runtime is the only session/order/outcome authority and the browser cannot synthesize turns, delivery, or replies.",
+        "Probe duplicate submission, sequence gaps, reconnect replay, cancellation/timeout races, late adapter output, saturation, shutdown, and restart behavior.",
+        "Verify recipient eligibility and operator authority reuse the inherited #83/#112 boundary without widening policy or leaking existence details.",
+        "Verify provider-neutral contracts and public responses cannot expose raw provider payloads, credentials, private cognition, or private agent state.",
+        "Verify every product path in the diff is issue-owned, PVF-classified, and supported by exact-revision proof."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

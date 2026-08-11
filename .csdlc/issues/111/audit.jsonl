@@ -1,0 +1,2 @@
+{"sequence":1,"generation":0,"actor":"codex-issue-111-preparation","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex-issue-111-preparation","reason":"approve completed issue design","operation":"approve_design"}
