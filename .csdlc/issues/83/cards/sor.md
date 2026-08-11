@@ -137,11 +137,11 @@ Implemented and integrated the live HTML Observatory Runtime v3 client and share
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
