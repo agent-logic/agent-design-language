@@ -166,19 +166,28 @@ name and no prose-only hidden denominator:
 `unsafe_path_denied`, `zero_residue_abort`, and `evidence_redaction`.
 
 The tracked `continuity-transfer-acceptance-map.json` is part of the proof
-contract. SHA-256
-`c6ca9f915499c03d2fbb224a8301915a0d217fa23bd1b1e5a174df7118dd2ce3`
-binds exactly eight acceptance rows, all forty-five case names, and exactly
-eighty unique named subassertions. It makes route/membership/certificate/boot
+contract. Its canonical `case_manifest` is the sole ordered case denominator:
+ordinals 1 through 45 each bind one exact case name, expected `pass` result,
+and unique `pass:CASE-<three-digit-ordinal>:<case_name>` marker. SHA-256
+`b792f8c40545542b1e9b108d053a68e4fab64bd2c83e914dc8974f9dd3a79fa2`
+binds that exact ordered result/marker table, exactly eight acceptance rows,
+all forty-five case names, and exactly eighty unique named subassertions. It
+makes route/membership/certificate/boot
 drift, framing/final/range errors, signed catalog entry/chunk/range checks,
 resource N+1 boundaries, bytes/verifier/prefix crash order, cleanup after
 expiry/cancel/restart, effect ownership, redaction, and proof sequencing
 machine-addressable rather than prose-only.
 
-Every case and subassertion binds exact result and marker digests. The focused
-test, producer, and validator independently load and hash the map and reject
-missing, extra, duplicate, renamed, reordered, wrongly mapped/marked, or
-nonpassing evidence; no case may expand its own denominator at execution time.
+Every case and subassertion binds exact result and marker digests. AC-3 lists
+`conflicting_duplicate_denied` because its prefix-conflict subassertion maps to
+that case. AC-6 includes the explicit machine assertion
+`transfer_has_no_activation_or_deletion_authority_and_cleanup_activated_stage_denied`;
+the implementation and proof must show that #210 exposes neither activation nor
+deletion authority while #208 alone performs discard effects. The focused test,
+producer, and validator independently load and hash the map and reject missing,
+extra, duplicate, renamed, reordered, wrongly mapped/marked, or nonpassing
+case-manifest or subassertion evidence; no case may expand its own denominator
+at execution time.
 
 Validation is strictly serial: focused tests, strict Clippy, exact diff hygiene,
 producer, fresh independent exact-head review, then the distinct validator. The

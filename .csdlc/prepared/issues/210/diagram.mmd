@@ -17,6 +17,8 @@ flowchart LR
     W --> K["Separate #208 TargetCleanupPermit"]
     A["Authorized transfer abort"] --> K
     K --> D["#208-owned discard plus live TargetDiscardReceipt"]
+    S --> NA["#210 has no activation or deletion authority"]
+    NA --> D
     M["#204 migration decision"] --> U["#208 source resume target activate or discard effect"]
     Q["Raft generic public or unknown message"] --> N["Rejected before transfer dispatch"]
     C --> Z["No deletion migration ownership activation serving or cloud authority"]
