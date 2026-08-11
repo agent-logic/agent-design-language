@@ -326,6 +326,7 @@ def docs_only_paths(paths: list[str]) -> bool:
 def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
     changed = set(changed_paths)
     allowed = {
+        ".github/workflows/ci-out-of-band.yaml",
         ".github/workflows/ci.yaml",
         "adl/config/slow_proof_families.v0.91.6.json",
         "adl/config/validation_lane_selector.v0.91.6.json",
@@ -338,9 +339,11 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
         "adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md",
         "adl/tools/test_check_coverage_impact.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/test_validate_ci_workflow_policy.rb",
         "adl/tools/test_run_pr_fast_test_lane.sh",
         "adl/tools/test_slow_proof_lane_contract.sh",
         "adl/tools/validation_manager.py",
+        "adl/tools/validate_ci_workflow_policy.rb",
         "adl/tools/test_validation_manager.sh",
     }
     if not changed or not changed <= allowed:
@@ -351,7 +354,10 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
         return False
 
     workflow = (ROOT / ".github/workflows/ci.yaml").read_text()
+    out_of_band_workflow = (ROOT / ".github/workflows/ci-out-of-band.yaml").read_text()
     contract = (ROOT / "adl/tools/test_ci_runtime_contracts.sh").read_text()
+    workflow_policy = (ROOT / "adl/tools/validate_ci_workflow_policy.rb").read_text()
+    workflow_policy_contract = (ROOT / "adl/tools/test_validate_ci_workflow_policy.rb").read_text()
     manager = (ROOT / "adl/tools/validation_manager.py").read_text()
     manager_contract = (ROOT / "adl/tools/test_validation_manager.sh").read_text()
     slow_config = (ROOT / "adl/config/slow_proof_families.v0.91.6.json").read_text()
@@ -360,6 +366,42 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
     slow_runner = (ROOT / "adl/tools/run_slow_proof_family.sh").read_text()
     slow_contract = (ROOT / "adl/tools/test_slow_proof_lane_contract.sh").read_text()
     runtime_tests = (ROOT / "adl/src/runtime_v2/tests.rs").read_text()
+    required_pr_only_workflow_fragments = [
+        "  adl_path_policy:",
+        "  adl_ci:",
+        "  adl_coverage:",
+        "runs-on: ${{ needs.adl_path_policy.outputs.required_runner }}",
+    ]
+    required_out_of_band_fragments = [
+        "  workflow_dispatch:",
+        "  adl-slow-proof:",
+        "Determine PR fast coverage filters",
+    ]
+    required_workflow_policy_fragments = [
+        'REQUIRED_PR_JOB_IDS = %w[adl_path_policy adl_ci adl_coverage].freeze',
+        '"ordinary_pr_heavy_runner_max" => 1',
+        '"optional_policy" => "explicit_dispatch_only"',
+    ]
+    required_workflow_policy_contract_fragments = [
+        "test_valid_minimal_required_pr_surface_passes",
+        "test_optional_job_is_rejected_even_when_job_if_is_false",
+        "test_axis_only_heavy_matrix_is_rejected",
+    ]
+    required_pr_only_disposition = (
+        all(fragment in workflow for fragment in required_pr_only_workflow_fragments)
+        and "  adl-slow-proof:" not in workflow
+        and "strategy:" not in workflow
+        and "matrix:" not in workflow
+        and all(fragment in out_of_band_workflow for fragment in required_out_of_band_fragments)
+        and all(fragment in workflow_policy for fragment in required_workflow_policy_fragments)
+        and all(
+            fragment in workflow_policy_contract
+            for fragment in required_workflow_policy_contract_fragments
+        )
+    )
+    if required_pr_only_disposition:
+        return True
+
     required_workflow_fragments = [
         "adl-slow-proof:",
         "needs: adl_path_policy",

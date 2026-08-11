@@ -214,7 +214,9 @@ import sys
 
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["selected_profile"] == "docs_diff_check_profile"
+assert profile["selected_profile"] == "docs_diff_check_profile", json.dumps(
+    profile, indent=2, sort_keys=True
+)
 assert profile["status"] == "ready_to_run"
 assert [item["lane_id"] for item in profile["run"]] == ["docs_diff_check"]
 PY
@@ -1311,7 +1313,7 @@ from pathlib import Path
 
 workflow = Path(".github/workflows/ci.yaml")
 text = workflow.read_text()
-needle = "      - name: Enforce workflow topology\n"
+needle = "      - name: Coverage run and summary (json)\n"
 if needle not in text:
     raise SystemExit("expected coverage classifier insertion point missing")
 replacement = r"""      - name: Validation profile summary (adl-coverage)
@@ -1331,7 +1333,7 @@ replacement = r"""      - name: Validation profile summary (adl-coverage)
           } >> "$GITHUB_STEP_SUMMARY"
         working-directory: .
 
-      - name: Enforce workflow topology
+      - name: Coverage run and summary (json)
 """
 workflow.write_text(text.replace(needle, replacement, 1))
 PY
