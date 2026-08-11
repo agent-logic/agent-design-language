@@ -97,16 +97,16 @@ private_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[
 public_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["public_cases"]["#{stream}_path"])) }.join
 fail_proof("private test count mismatch") unless private_text.include?("test result: ok. 36 passed; 0 failed")
 fail_proof("public test count mismatch") unless public_text.include?("test result: ok. 13 passed; 0 failed")
-observed = private_text.lines.filter_map do |line|
+observed = private_text.lines.map do |line|
   next unless line.include?(MARKER)
   name, result = line.split(MARKER, 2).fetch(1).strip.split("=", 2)
   [name, result]
-end
+end.compact
 fail_proof("case denominator mismatch") unless observed.length == 36 && observed.map(&:first).sort == EXPECTED_CASES.sort && observed.all? { |_, result| result == "passed" }
-assertions = private_text.lines.filter_map do |line|
+assertions = private_text.lines.map do |line|
   next unless line.include?(ASSERTION_MARKER)
   line.split(ASSERTION_MARKER, 2).fetch(1).strip.split(" ", 2)
-end
+end.compact
 fail_proof("subassertion mismatch") unless assertions.sort == EXPECTED_ASSERTIONS.sort
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
