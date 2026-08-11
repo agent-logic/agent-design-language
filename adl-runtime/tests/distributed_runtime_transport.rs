@@ -14,8 +14,8 @@ use std::{
 use adl_runtime::distributed::polis_runtime::{
     advance_secure_boot_generation, derive_authority_cut, new_secure_raft_node,
     serve_secure_raft_connection, ConsensusCheckpoint, ConsensusCheckpointAuthority,
-    DurableRpcResponses, PolisCommand, PolisLogStore, PolisRaft, PolisRuntimeError,
-    PolisStateMachineStore, SecurePolisNetworkFactory,
+    DurableRpcResponses, PolisCommand, PolisLogStore, PolisRaft, PolisRuntimeAuthorityBootstrap,
+    PolisRuntimeError, PolisStateMachineStore, SecurePolisNetworkFactory,
 };
 use adl_runtime::distributed::{
     certificates::{
@@ -30,9 +30,9 @@ use adl_runtime::distributed::{
     transport::{
         client_endpoint, decode_frame, encode_frame, polis_identity_signing_payload,
         server_endpoint, AuthenticatedConnection, ConnectionSecurity, EstablishedPolisSession,
-        EstablishedRuntimeAuthority, PeerBinding, PolisIdentityBinding,
-        RuntimeAuthorityInitializer, TransportAuthorization, TransportEnvelope, TransportError,
-        TransportLimits, VerifiedPolisRouteCut, TRANSPORT_SCHEMA,
+        EstablishedRuntimeAuthority, PeerBinding, PolisIdentityBinding, TransportAuthorization,
+        TransportEnvelope, TransportError, TransportLimits, VerifiedPolisRouteCut,
+        TRANSPORT_SCHEMA,
     },
 };
 use ed25519_dalek::{Signer, SigningKey, VerifyingKey};
@@ -246,6 +246,26 @@ async fn connected_pair_with(
     quinn::Endpoint,
     tempfile::TempDir,
 ) {
+    connected_pair_with_generations(
+        certificate_generation,
+        certificate_generation,
+        configured_limits,
+    )
+    .await
+}
+
+async fn connected_pair_with_generations(
+    left_certificate_generation: u64,
+    right_certificate_generation: u64,
+    configured_limits: TransportLimits,
+) -> (
+    Arc<AuthenticatedConnection>,
+    Arc<AuthenticatedConnection>,
+    TransportLimits,
+    quinn::Endpoint,
+    quinn::Endpoint,
+    tempfile::TempDir,
+) {
     let issuer = certificate_authority();
     let root = issuer.der().clone();
     let left_material = leaf(&issuer, "node-1");
@@ -256,14 +276,14 @@ async fn connected_pair_with(
         &signing_root,
         "node-1",
         left_material.subject_public_key,
-        certificate_generation,
+        left_certificate_generation,
     );
     let right_authorization = transport_authorization(
         &store,
         &signing_root,
         "node-2",
         right_material.subject_public_key,
-        certificate_generation,
+        right_certificate_generation,
     );
     let left_binding = PeerBinding::new(
         &left_material.certificate,
@@ -271,7 +291,7 @@ async fn connected_pair_with(
         "node-1",
         "guardian-1",
         1,
-        certificate_generation,
+        left_certificate_generation,
     )
     .unwrap();
     let right_binding = PeerBinding::new(
@@ -280,7 +300,7 @@ async fn connected_pair_with(
         "node-2",
         "guardian-2",
         1,
-        certificate_generation,
+        right_certificate_generation,
     )
     .unwrap();
     let left_endpoint = server_endpoint(
@@ -644,7 +664,7 @@ fn runtime_authority_initializer(
     membership: &MembershipState,
     authority: &AuthorityMembership,
 ) -> (
-    RuntimeAuthorityInitializer,
+    PolisRuntimeAuthorityBootstrap,
     BTreeMap<Vec<u8>, AuthorityCertificate>,
     tempfile::TempDir,
 ) {
@@ -691,7 +711,7 @@ fn runtime_authority_initializer(
         })
         .collect::<BTreeMap<_, _>>();
     let snapshot = membership.snapshot().unwrap();
-    let initializer = RuntimeAuthorityInitializer::restore(
+    let initializer = PolisRuntimeAuthorityBootstrap::restore_configured(
         Arc::clone(&store),
         MembershipPolicy::new(DOMAIN, 8, 16).unwrap(),
         &snapshot,
@@ -732,6 +752,49 @@ fn verified_cut(
         .map(|(node, address)| (node, BasicNode::new(address)))
         .collect();
     (cut, keys, routes)
+}
+
+fn verified_cut_after_membership_advance(
+    boot_generations: &BTreeMap<u64, u64>,
+) -> (VerifiedPolisRouteCut, BTreeMap<u64, SigningKey>) {
+    let (mut membership, authority, addresses, keys) = authority_topology();
+    let next_epoch = membership.epoch() + 1;
+    let next_index = membership.committed_log_index() + 1;
+    membership
+        .apply(&CommittedMembershipEvent::new(
+            DOMAIN,
+            [47; 32],
+            next_epoch,
+            next_index,
+            MembershipOperation::Join {
+                member: Member {
+                    node_id: "node-4".to_owned(),
+                    guardian_id: "guardian-4".to_owned(),
+                    identity_generation: 1,
+                    guardian_control_public_key: SigningKey::from_bytes(&[14; 32])
+                        .verifying_key()
+                        .to_bytes(),
+                    role: MemberRole::NonVoting,
+                },
+            },
+        ))
+        .unwrap();
+    let guardians = authority.voters.keys().cloned().collect::<BTreeSet<_>>();
+    let advanced_authority = AuthorityMembership::new(
+        DOMAIN.as_bytes().to_vec(),
+        authority.voter_set_generation,
+        next_index,
+        vec![guardians],
+        authority.voters.values().cloned().collect(),
+    )
+    .unwrap();
+    let (established, _authority_directory) =
+        establish_runtime_authority(&membership, &advanced_authority);
+    let polis = polis_identity(&advanced_authority, &established, &keys, boot_generations);
+    (
+        derive_authority_cut(&polis, &established, &addresses, 100).unwrap(),
+        keys,
+    )
 }
 
 async fn establish_mesh_sessions(
@@ -1110,7 +1173,72 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
         PolisRuntimeError::Replay
     );
 
-    let state_path = root_path.join("raft-rpc-node-1-peer-2-cert-1-boot-3.json");
+    let (rotated_left, rotated_right, _, _rotated_left_endpoint, _rotated_right_endpoint, _) =
+        connected_pair_with_generations(2, 1, limits()).await;
+    let rotated_left_pending = left_factory
+        .pending_session(2, &rotated_left)
+        .await
+        .unwrap();
+    let rotated_right_pending = right_factory
+        .pending_session(1, &rotated_right)
+        .await
+        .unwrap();
+    let (rotated_left_session, rotated_right_session) = tokio::join!(
+        rotated_left.accept_polis_session(rotated_left_pending, &keys[&1]),
+        rotated_right.initiate_polis_session(rotated_right_pending, &keys[&2]),
+    );
+    let rotated_cache = DurableRpcResponses::open(
+        root_path.as_path(),
+        1,
+        2,
+        &rotated_left_session.unwrap(),
+        8,
+        authority.clone(),
+    )
+    .unwrap();
+    assert_eq!(rotated_cache.lookup(1, &request).await.unwrap(), None);
+    drop(rotated_right_session.unwrap());
+
+    let (advanced_cut, advanced_keys) = verified_cut_after_membership_advance(&boots);
+    let advanced_left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, advanced_cut.clone()).unwrap();
+    let advanced_right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, advanced_cut).unwrap();
+    let (advanced_left, advanced_right, _, _advanced_left_endpoint, _advanced_right_endpoint, _) =
+        connected_pair().await;
+    let advanced_left_pending = advanced_left_factory
+        .pending_session(2, &advanced_left)
+        .await
+        .unwrap();
+    let advanced_right_pending = advanced_right_factory
+        .pending_session(1, &advanced_right)
+        .await
+        .unwrap();
+    let (advanced_left_session, advanced_right_session) = tokio::join!(
+        advanced_left.accept_polis_session(advanced_left_pending, &advanced_keys[&1]),
+        advanced_right.initiate_polis_session(advanced_right_pending, &advanced_keys[&2]),
+    );
+    let advanced_cache = DurableRpcResponses::open(
+        root_path.as_path(),
+        1,
+        2,
+        &advanced_left_session.unwrap(),
+        8,
+        authority.clone(),
+    )
+    .unwrap();
+    assert_eq!(advanced_cache.lookup(1, &request).await.unwrap(), None);
+    drop(advanced_right_session.unwrap());
+
+    let binding = left_session.binding();
+    let state_path = root_path.join(format!(
+        "raft-rpc-node-1-local-cert-{}-local-boot-{}-peer-2-peer-cert-{}-peer-boot-{}-membership-{}.json",
+        binding.local_certificate_generation(),
+        binding.local_boot_generation(),
+        binding.peer_certificate_generation(),
+        binding.peer_boot_generation(),
+        binding.committed_membership_index(),
+    ));
     let accepted = std::fs::read(&state_path).unwrap();
     cache
         .commit(2, &[9_u8; 32], b"new-response".to_vec())

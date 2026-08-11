@@ -292,13 +292,13 @@ pub struct EstablishedRuntimeAuthority {
 /// externally retained commitment before any signed voter lineage can be
 /// accepted. The configured certificate store owns the immutable approved
 /// issuer roots for this Runtime instance.
-pub struct RuntimeAuthorityInitializer {
+pub(crate) struct RuntimeAuthorityInitializer {
     membership: MembershipState,
     certificate_store: Arc<DistributedCertificateStore>,
 }
 
 impl RuntimeAuthorityInitializer {
-    pub fn restore(
+    pub(crate) fn restore(
         certificate_store: Arc<DistributedCertificateStore>,
         membership_policy: MembershipPolicy,
         membership_snapshot: &[u8],
@@ -316,7 +316,7 @@ impl RuntimeAuthorityInitializer {
         })
     }
 
-    pub fn accept_signed_lineage(
+    pub(crate) fn accept_signed_lineage(
         &self,
         authority: &AuthorityMembership,
         guardian_certificates: &BTreeMap<Vec<u8>, AuthorityCertificate>,

@@ -71,7 +71,7 @@ def git_output(*arguments)
   stdout
 end
 
-proof_relative = ARGV.fetch(0, ".csdlc/evidence/191/v2/execution-proof.json")
+proof_relative = ARGV.fetch(0, ".csdlc/evidence/191/v3/execution-proof.json")
 proof_path = ordinary_file(proof_relative, PREFIX)
 proof = JSON.parse(File.binread(proof_path))
 fail_receipt("schema mismatch") unless proof["schema"] == "adl.issue191.secure_raft_proof.v1"

@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
     "slug": "secure-durable-three-voter-openraft",
     "version": "v0.92",
-    "generation": 21
+    "generation": 22
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 4,
+      "plan_revision": 5,
       "summary": "Design the encrypted transport and storage transaction, implement the bounded substrate, prove adversarial transport and crash recovery, obtain independent review, and publish one reviewed PR for #191.",
       "steps": [
         {
@@ -82,7 +82,7 @@
         "Every route comes from exact MembershipState and AuthorityMembership parity; caller routing hints cannot create a voter.",
         "No OpenRaft callback makes live state visible before its own durable transaction and external checkpoint reconciliation complete.",
         "Exact retries return a durable cached response; conflicting replay is never redispatched.",
-        "No test or harness can mint application authority and no secret enters retained evidence."
+        "The trusted deployment bootstrap owns configured certificate roots and the externally retained membership commitment; untrusted transport, RPC, and routing inputs cannot mint application authority, and no secret enters retained evidence."
       ],
       "risks": [
         "OpenRaft storage callbacks can make atomic ordering easy to overstate.",

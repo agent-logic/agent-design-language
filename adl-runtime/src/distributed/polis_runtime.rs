@@ -36,10 +36,13 @@ use sha2::{Digest, Sha256};
 use tokio::sync::{watch, RwLock};
 use tokio_util::sync::CancellationToken;
 
+use crate::distributed::certificates::{AuthorityCertificate, DistributedCertificateStore};
+use crate::distributed::lease::AuthorityMembership;
+use crate::distributed::membership::MembershipPolicy;
 use crate::distributed::transport::{
     AuthenticatedConnection, EstablishedPolisSession, EstablishedRuntimeAuthority,
-    IncomingPolisRequest, PendingPolisSession, PolisIdentityBinding, TransportLimits,
-    VerifiedPolisRouteCut,
+    IncomingPolisRequest, PendingPolisSession, PolisIdentityBinding, RuntimeAuthorityInitializer,
+    TransportLimits, TransportResult, VerifiedPolisRouteCut,
 };
 
 const MAX_RPC_BYTES: usize = 16 * 1024 * 1024;
@@ -55,6 +58,44 @@ openraft::declare_raft_types!(
 );
 
 pub type PolisRaft = openraft::Raft<PolisTypeConfig>;
+
+/// Trusted deployment bootstrap for the authority accepted by one Polis Runtime.
+///
+/// The host configuration boundary owns the configured certificate store and
+/// externally retained membership commitment. Untrusted transport and RPC
+/// inputs cannot invoke the low-level authority initializer or nominate roots,
+/// membership bytes, or an authority lineage during route authorization.
+pub struct PolisRuntimeAuthorityBootstrap {
+    initializer: RuntimeAuthorityInitializer,
+}
+
+impl PolisRuntimeAuthorityBootstrap {
+    pub fn restore_configured(
+        certificate_store: Arc<DistributedCertificateStore>,
+        membership_policy: MembershipPolicy,
+        membership_snapshot: &[u8],
+        trusted_membership_commitment: [u8; 32],
+    ) -> TransportResult<Self> {
+        Ok(Self {
+            initializer: RuntimeAuthorityInitializer::restore(
+                certificate_store,
+                membership_policy,
+                membership_snapshot,
+                trusted_membership_commitment,
+            )?,
+        })
+    }
+
+    pub fn accept_signed_lineage(
+        &self,
+        authority: &AuthorityMembership,
+        guardian_certificates: &BTreeMap<Vec<u8>, AuthorityCertificate>,
+        now_unix_seconds: u64,
+    ) -> TransportResult<EstablishedRuntimeAuthority> {
+        self.initializer
+            .accept_signed_lineage(authority, guardian_certificates, now_unix_seconds)
+    }
+}
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case", tag = "operation", deny_unknown_fields)]
@@ -1472,6 +1513,8 @@ pub struct DurableRpcResponses {
     dispatch: Arc<tokio::sync::Mutex<()>>,
     local_node_id: String,
     peer_node_id: String,
+    local_certificate_generation: u64,
+    local_boot_generation: u64,
     peer_certificate_generation: u64,
     peer_boot_generation: u64,
     committed_membership_index: u64,
@@ -1494,6 +1537,8 @@ impl DurableRpcResponses {
             peer,
             binding.local_node_id().to_owned(),
             binding.peer_node_id().to_owned(),
+            binding.local_certificate_generation(),
+            binding.local_boot_generation(),
             binding.peer_certificate_generation(),
             binding.peer_boot_generation(),
             binding.committed_membership_index(),
@@ -1509,6 +1554,8 @@ impl DurableRpcResponses {
         peer: NodeId,
         local_node_id: String,
         peer_node_id: String,
+        local_certificate_generation: u64,
+        local_boot_generation: u64,
         peer_certificate_generation: u64,
         peer_boot_generation: u64,
         committed_membership_index: u64,
@@ -1520,6 +1567,8 @@ impl DurableRpcResponses {
             || local == peer
             || validate_text(&local_node_id).is_err()
             || validate_text(&peer_node_id).is_err()
+            || local_certificate_generation == 0
+            || local_boot_generation == 0
             || peer_certificate_generation == 0
             || peer_boot_generation == 0
             || committed_membership_index == 0
@@ -1528,7 +1577,7 @@ impl DurableRpcResponses {
             return Err(PolisRuntimeError::InvalidConfiguration);
         }
         let object = format!(
-            "raft-rpc-node-{local}-peer-{peer}-cert-{peer_certificate_generation}-boot-{peer_boot_generation}"
+            "raft-rpc-node-{local}-local-cert-{local_certificate_generation}-local-boot-{local_boot_generation}-peer-{peer}-peer-cert-{peer_certificate_generation}-peer-boot-{peer_boot_generation}-membership-{committed_membership_index}"
         );
         let (durable, state) = CheckpointedJson::open(
             root,
@@ -1543,6 +1592,8 @@ impl DurableRpcResponses {
             dispatch: Arc::new(tokio::sync::Mutex::new(())),
             local_node_id,
             peer_node_id,
+            local_certificate_generation,
+            local_boot_generation,
             peer_certificate_generation,
             peer_boot_generation,
             committed_membership_index,
@@ -1661,6 +1712,9 @@ pub async fn serve_secure_raft_connection(
 ) -> Result<(), PolisRuntimeError> {
     if session.binding().local_node_id() != responses.local_node_id
         || session.binding().peer_node_id() != responses.peer_node_id
+        || session.binding().local_certificate_generation()
+            != responses.local_certificate_generation
+        || session.binding().local_boot_generation() != responses.local_boot_generation
         || session.binding().peer_certificate_generation() != responses.peer_certificate_generation
         || session.binding().peer_boot_generation() != responses.peer_boot_generation
         || session.binding().committed_membership_index() != responses.committed_membership_index

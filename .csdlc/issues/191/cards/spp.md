@@ -16,7 +16,7 @@ Design the encrypted transport and storage transaction, implement the bounded su
 
 ## Plan
 
-Revision 4
+Revision 5
 
 ## Steps
 
@@ -77,7 +77,7 @@ Revision 4
 - Every route comes from exact MembershipState and AuthorityMembership parity; caller routing hints cannot create a voter.
 - No OpenRaft callback makes live state visible before its own durable transaction and external checkpoint reconciliation complete.
 - Exact retries return a durable cached response; conflicting replay is never redispatched.
-- No test or harness can mint application authority and no secret enters retained evidence.
+- The trusted deployment bootstrap owns configured certificate roots and the externally retained membership commitment; untrusted transport, RPC, and routing inputs cannot mint application authority, and no secret enters retained evidence.
 
 ## Risks
 
