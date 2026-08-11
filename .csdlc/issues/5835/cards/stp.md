@@ -18,7 +18,6 @@ Author the WP-17 continuity-transfer feature/design notes and v0.93 handoff inpu
 
 - Field-level continuity-transfer matrix
 - Cross-polis continuity design note with WP-04 boundary
-- Updated v0.93 handoff inputs
 - Copied-state, ambiguity, redaction, and forbidden-claim validation evidence
 - .csdlc/evidence/5835/validate-continuity-transfer.rb
 
@@ -26,7 +25,7 @@ Author the WP-17 continuity-transfer feature/design notes and v0.93 handoff inpu
 
 1. AC-1: The transfer matrix covers every declared birthday artifact with portability, locality, governance, transport, lineage, and redaction dispositions.
 2. AC-2: Copied, conflicting, ambiguous, and raw-private-state cases fail closed or quarantine explicitly.
-3. AC-3: The feature/design notes preserve the exact boundary against WP-04 and v0.93 authority.
+3. AC-3: Only the owned feature/design notes may change; the v0.93 handoff remains byte-identical and read-only while WP-04 and v0.93 authority stay downstream.
 4. AC-4: Every cited path resolves and forbidden production/governance claims are absent.
 5. AC-5: Exact-head review has no unresolved actionable finding.
 
