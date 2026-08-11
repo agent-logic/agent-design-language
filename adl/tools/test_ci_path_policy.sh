@@ -374,6 +374,44 @@ PY
   assert_has "$runtime_owner_observatory_output" "validation_profile_escalation_required=false"
   assert_has "$runtime_owner_observatory_output" "reason=runtime_owner_surface_runs_runtime_only_coverage"
 
+  git checkout -q -b issue-111-113-focused-routing "$base_sha"
+  mkdir -p .csdlc/issues/111 .csdlc/issues/113 \
+    adl-runtime-kernel/src adl-runtime-kernel/tests adl/tools \
+    demos/html-observatory/tests design docs/api/runtime-v3/v1
+  printf '{}\n' > .csdlc/issues/111/index.json
+  printf '{}\n' > .csdlc/issues/113/index.json
+  printf 'pub fn conversation() {}\n' > adl-runtime-kernel/src/control.rs
+  printf '#[test]\nfn conversation_session() {}\n' > adl-runtime-kernel/tests/conversation_sessions.rs
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_html_observatory.sh
+  printf 'process.exit(0);\n' > adl/tools/validate_v092_html_observatory_roster.mjs
+  printf 'console.log("conversation");\n' > demos/html-observatory/app.js
+  printf 'export const conversation = true;\n' > demos/html-observatory/tests/conversation_sessions.test.mjs
+  printf '# Issue 111\n' > design/issue-111.md
+  printf 'flowchart LR\n  A --> B\n' > design/issue-111.mmd
+  printf '{}\n' > docs/api/runtime-v3/v1/observatory.openapi.json
+  git add .csdlc adl-runtime-kernel adl/tools demos design docs/api/runtime-v3/v1
+  git commit -q -m issue-111-113-focused-routing
+  issue_111_113_head="$(git rev-parse HEAD)"
+  issue_111_113_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$issue_111_113_head" --ref "refs/pull/1/merge")"
+  assert_has "$issue_111_113_output" "fail_closed=false"
+  assert_has "$issue_111_113_output" "full_coverage_required=false"
+  assert_has "$issue_111_113_output" "slow_proof_contract_required=false"
+  assert_has "$issue_111_113_output" "coverage_lane=skip"
+  assert_has "$issue_111_113_output" "coverage_authority=not_required"
+  assert_has "$issue_111_113_output" "validation_profile_status=ready_to_run"
+  assert_has "$issue_111_113_output" "validation_profile_escalation_required=false"
+  assert_has "$issue_111_113_output" "validation_profile_run_lanes=docs_diff_check,html_observatory_roster_javascript_syntax,html_observatory_tooling_syntax,html_observatory_v0917_runtime_surface,runtime_kernel_contracts"
+
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/future_unclassified_route.sh
+  git add adl/tools/future_unclassified_route.sh
+  git commit -q -m issue-111-113-unknown-path
+  issue_111_113_unknown_head="$(git rev-parse HEAD)"
+  issue_111_113_unknown_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$issue_111_113_unknown_head" --ref "refs/pull/1/merge")"
+  assert_has "$issue_111_113_unknown_output" "fail_closed=true"
+  assert_has "$issue_111_113_unknown_output" "full_coverage_required=true"
+  assert_has "$issue_111_113_unknown_output" "coverage_authority=fail_closed"
+  assert_has "$issue_111_113_unknown_output" "validation_profile_escalation_lanes=unmapped_change_surface"
+
   git checkout -q -b runtime-v3-unmapped "$base_sha"
   mkdir -p infra/runtime-v3-extra
   printf 'unknown = true\n' > infra/runtime-v3-extra/config.toml

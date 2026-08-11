@@ -1,0 +1,23 @@
+{
+  "issue": 226,
+  "expected_generation": 25,
+  "expected_digest": "22a26059b378bfc8e083745fa526a71c168d31320c3fabf013e32b46790805ee",
+  "actor": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+  "evidence": {
+    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226/design.md"
+    ],
+    "reviewed_revision": "git-blake3:da76e0d7c8b96cc0ad54a047d7290fcb8b0d640a:cda536cbbe6cde136bc4fe2c1b01bd8c32267cb4f12969a92f1ff90970885de0",
+    "findings": [],
+    "residual_risks": [
+      "Optional hosted, coverage, soak, slow, and long jobs were intentionally not run because this is a focused routing-only repair."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

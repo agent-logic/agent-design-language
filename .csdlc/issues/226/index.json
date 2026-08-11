@@ -1,0 +1,555 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 226,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
+  "phase": "published",
+  "generation": 31,
+  "digest": "13a4c00570a4f361ca983abfebbaffa688526a65862847e10dfa39902eb0ec64",
+  "branch": "codex/226-focused-runtime-validation-routing",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
+  "review_assignment": {
+    "reviewer": "codex-exec:issue-226-corrected-publication-safe-review",
+    "assigned_by": "codex:226-focused-runtime-validation-routing",
+    "revision": "git-blake3:01a28fb8359ee417ce600d53cf97c584d8edce08:bf5f6cf843315f20598367a625783720bf4a3fe379220d4e48d4862a39d885e7",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-exec:issue-226-corrected-publication-safe-review",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226"
+    ],
+    "reviewed_revision": "git-blake3:01a28fb8359ee417ce600d53cf97c584d8edce08:bf5f6cf843315f20598367a625783720bf4a3fe379220d4e48d4862a39d885e7",
+    "findings": [],
+    "residual_risks": [
+      "Optional hosted, coverage, soak, slow, and long jobs were intentionally not run."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 226,
+    "pull_request": 233,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/233",
+    "base": "main",
+    "head": "codex/226-focused-runtime-validation-routing",
+    "revision": "git-blake3:4782a2cf982285dfbd250ff254f03f56af25e9a4:5258daab6596005863eb03d229583274c32e3b0af21b691cdccc1493b5a9a7b2",
+    "linkage_mode": "part_of",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/226/design.md",
+  "diagram_path": ".csdlc/prepared/issues/226/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:226-direct-syntax-design-review",
+      "revision": "8e7a82a12f08c297ecfea3ace63dc6a58dac473fe98462e632c81328dd9e205e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7f7c722e1e75cd745b41b5b3a99e1ce4303a40331375be8cf2af316d3b985d8a",
+      "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
+      "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
+    },
+    "stp": {
+      "values_digest": "e8d9b9eae1630db743c0d22caafff2c0640253e2da1c7a0d6f25a88879eafce2",
+      "rendered_digest": "a6faeaeb82e223d1b0d7ad0414ad40e1b89002e5bea0b8443c885b7af71fee58",
+      "ast_digest": "7624a3c03abf3bcca7cac469399714c1e1010189fa7be49366dbc24dbf8b6166"
+    },
+    "spp": {
+      "values_digest": "20da9d7cc492ccb484ac6634a9b6cbec8d1deafa6535c003b8014a1f557a6500",
+      "rendered_digest": "b3e191c0cb5d1523edd4ed04a5ff4110124a0b16c58912723c8a0a5aabc0550f",
+      "ast_digest": "a0cd926a07e9c1d7518af1efd50f744a2cc49ce7b43c7d50c920e94d0ad9b452"
+    },
+    "vpp": {
+      "values_digest": "9a78707cb0286e097cf18c82e6b49464fc7deab761f7569f5ad20a055941628e",
+      "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
+      "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
+    },
+    "srp": {
+      "values_digest": "a3d047c17699bba5974d7249da8eb7ed252f5cc224a9556f82e7e6f7a9f989eb",
+      "rendered_digest": "377c983d57cfb12d00e72bb1b7b0fe4099c90a904ec38623cb0ea0d6ec8b17b7",
+      "ast_digest": "a031f6f55af85d0bbfbfaca279dc1e9d2b0fcb8d43d12a10497bb35a5635d9f7"
+    },
+    "sor": {
+      "values_digest": "7f78f31704332fee77a23e49440d3b78901ad521f26f0133f1978b3ab1e18391",
+      "rendered_digest": "c026ad96cd2b586eba31101cd0616906ccf846edc8f7379535056d9187428f60",
+      "ast_digest": "f581484b8acd0f884e0ad15cfdca04871491b588f5698348c54e089712d37db6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:226-focused-validation-routing",
+      "reason": "All six issue-specific cards and focused validation lanes pass typed readiness validation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover stale review truth after committing the typed assignment and first exact-head review record; no product or routing behavior changed."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Independent exact-head review found that the mapped tooling paths were not executed by their selected lane; recover review truth after the direct syntax-lane remediation."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-exec:issue-226-independent-review-7",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover stale review truth after fixing the independent review finding: selected JavaScript validation now requires the file to exist, executes syntax proof, and fails closed on deletion."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover review for a publication-safe metadata-only tail; all typed review requests now remain outside tracked substantive preparation paths."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-exec:issue-226-corrected-publication-safe-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:226-focused-validation-routing",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:226-focused-validation-routing",
+      "reason": "Replace descriptive areas with exact repository-owned implementation and proving paths before readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\",\"adl/tools/test_ci_path_policy.sh\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:226-focused-validation-routing",
+      "reason": "All six issue-specific cards and focused validation lanes pass typed readiness validation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover stale review truth after committing the typed assignment and first exact-head review record; no product or routing behavior changed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Independent exact-head review found that the mapped tooling paths were not executed by their selected lane; recover review truth after the direct syntax-lane remediation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:226-direct-syntax-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Align acceptance truth with the direct syntax lane that avoids unnecessary integrated Observatory work.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The exact #111/#113 changed-path set no longer reports unmapped_change_surface\",\"AC-2: The two HTML Observatory validation tools map to a direct bounded shell and JavaScript syntax lane\",\"AC-3: design/*.mmd maps to docs diff hygiene\",\"AC-4: Focused PR routing does not select slow proof or authoritative full coverage\",\"AC-5: An unknown source or tooling path still fails closed\",\"AC-6: Exact-head independent review has no unresolved findings\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Align planning invariants with the new direct syntax lane and preserved integrated product proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Unknown paths continue to fail closed\",\"No selector maps Runtime source to docs-only proof\",\"The two Observatory tooling paths select direct syntax proof without triggering integrated proof by themselves\",\"Observatory product and demo changes continue to select the existing integrated Observatory proof\",\"No slow or coverage job is selected solely by lifecycle metadata, issue diagrams, or the two tooling paths\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover review assignment after refreshing exact remediation proof and declaring the direct syntax lane tiny.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Record the completed selector implementation truth identified by final review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Record the completed focused selector and path-policy regression truth identified by final review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace the stalled reviewer after repeated bounded waits with no verdict; preserve the exact product head for a fresh independent review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace the reviewer whose read-only sandbox could not access the FastWork worktree; preserve the exact product head for a fresh independent review with repository access.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 15,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 16,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace the reviewer whose Codex sandbox could enter but not read the FastWork repository; preserve the exact product head and review its immutable archived scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 16,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 17,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace the inaccessible codex-exec reviewer after repeated bounded waits; preserve the exact validated routing implementation for a FastWork-capable independent subagent review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 17,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 18,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace the independent reviewer after three bounded waits produced no verdict; preserve the exact remediated product revision for archive-based review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 18,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 19,
+      "actor": "codex-exec:issue-226-independent-review-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 20,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover stale review truth after fixing the independent review finding: selected JavaScript validation now requires the file to exist, executes syntax proof, and fails closed on deletion.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 20,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 21,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace the deletion-fix reviewer after three bounded waits produced no verdict and refresh focused evidence for the split fail-closed lanes.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 21,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 22,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace the stalled codex-exec reviewer after repeated bounded waits; preserve the exact focused implementation and refreshed evidence for an independent FastWork review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 22,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 23,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover review truth after making the JavaScript deletion regression unconditional on branches where the real validator already exists.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 23,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 24,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover review truth after correcting the deletion-test cleanup order so an originally present validator is restored before its temporary backup directory is removed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 24,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 25,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace the stalled codex-exec reviewer after bounded waits; a FastWork-capable independent reviewer completed the exact db28e8687 scope with no findings.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 25,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 26,
+      "actor": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 27,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover review for a publication-safe metadata-only tail; all typed review requests now remain outside tracked substantive preparation paths.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 27,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 28,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Replace stalled publication-safe codex-exec reviewer with the FastWork reviewer who already approved the unchanged exact scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 28,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 29,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Correct sequence 45: historical prepared review requests remain tracked evidence; beginning with this recovery, all new review and publication requests stay outside the repository so subsequent publication metadata remains non-substantive.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 29,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 30,
+      "actor": "codex-exec:issue-226-corrected-publication-safe-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 31,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -3,137 +3,119 @@
 
 require "json"
 require "pathname"
-require "yaml"
 
-module CiWorkflowPolicy
-  module_function
+root = Pathname.new(ARGV[0] || Pathname.new(__dir__).join("../..")).cleanpath
+workflow_dir = root.join(".github/workflows")
+workflow_paths = Dir[workflow_dir.join("*.{yml,yaml}").to_s].sort.map { |path| Pathname.new(path) }
+ci_path = workflow_dir.join("ci.yaml")
+errors = []
+inventory = []
 
-  AUTOMATIC_EVENTS = %w[pull_request push schedule workflow_run].freeze
-  OPTIONAL_JOB_IDS = %w[
-    adl_demo_proof
-    adl_spot_ci_and_coverage
-    adl-slow-proof
-    adl_coverage_runtime_hosted
-    adl_coverage_workspace_fast_hosted
-    adl_coverage_workspace_hosted
-    adl_coverage_hosted
-  ].freeze
-  REQUIRED_PR_JOB_IDS = %w[adl_path_policy adl_ci adl_coverage].freeze
+def top_level_events(text)
+  lines = text.lines
+  start = lines.index { |line| line == "on:\n" }
+  return [] unless start
 
-  def parse(source, path)
-    value = YAML.safe_load(source, permitted_classes: [], permitted_symbols: [], aliases: true)
-    raise "#{path}: workflow root must be a mapping" unless value.is_a?(Hash)
+  events = []
+  lines[(start + 1)..].each do |line|
+    next if line.strip.empty?
+    break unless line.start_with?("  ")
 
-    value
-  rescue Psych::Exception => error
-    raise "#{path}: invalid YAML: #{error.message}"
+    match = line.match(/^  ([a-zA-Z0-9_-]+):/)
+    events << match[1] if match
   end
-
-  def event_names(document)
-    value = document["on"] || document[true]
-    case value
-    when String then [value]
-    when Array then value.map(&:to_s)
-    when Hash then value.keys.map(&:to_s)
-    else []
-    end
-  end
-
-  def jobs(document)
-    value = document["jobs"]
-    value.is_a?(Hash) ? value.transform_keys(&:to_s) : {}
-  end
-
-  def validate_sources(sources)
-    errors = []
-    inventory = []
-    ci_path = ".github/workflows/ci.yaml"
-
-    sources.sort.each do |path, source|
-      document = parse(source, path)
-      events = event_names(document)
-      automatic = events & AUTOMATIC_EVENTS
-      if path == ci_path
-        errors << "#{path}: pull_request entrypoint is missing" unless events.include?("pull_request")
-        errors << "#{path}: workflow_dispatch entrypoint is missing" unless events.include?("workflow_dispatch")
-        disallowed = events - %w[pull_request workflow_dispatch]
-        errors << "#{path}: automatic event #{disallowed.join(',')} is not allowed" unless disallowed.empty?
-      else
-        errors << "#{path}: automatic event #{automatic.join(',')} is not allowed" unless automatic.empty?
-        errors << "#{path}: standalone workflow must remain explicitly dispatchable" unless events.include?("workflow_dispatch")
-        disallowed = events - %w[workflow_dispatch workflow_call]
-        errors << "#{path}: event #{disallowed.join(',')} is not allowed" unless disallowed.empty?
-      end
-      inventory << { "path" => path, "events" => events, "automatic" => automatic }
-    rescue RuntimeError => error
-      errors << error.message
-    end
-
-    ci_source = sources[ci_path]
-    unless ci_source
-      errors << "#{ci_path}: workflow is missing"
-      return [errors, inventory]
-    end
-
-    ci = parse(ci_source, ci_path)
-    ci_jobs = jobs(ci)
-    missing = REQUIRED_PR_JOB_IDS - ci_jobs.keys
-    extra = ci_jobs.keys - REQUIRED_PR_JOB_IDS
-    errors << "#{ci_path}: required PR jobs missing: #{missing.join(',')}" unless missing.empty?
-    errors << "#{ci_path}: unrelated or optional PR jobs materialize: #{extra.join(',')}" unless extra.empty?
-    present_optional = OPTIONAL_JOB_IDS & ci_jobs.keys
-    errors << "#{ci_path}: optional jobs must not materialize: #{present_optional.join(',')}" unless present_optional.empty?
-
-    concurrency = ci["concurrency"]
-    group = concurrency.is_a?(Hash) ? concurrency["group"].to_s : ""
-    errors << "#{ci_path}: concurrency must identify repository, workflow, source repository, and source head" unless
-      %w[github.repository github.workflow pull_request.head.repo.full_name pull_request.head.ref].all? { |token| group.include?(token) }
-    errors << "#{ci_path}: same-head PRs must coalesce across bases" if group.include?("pull_request.base.ref")
-    errors << "#{ci_path}: superseded runs must cancel" unless concurrency.is_a?(Hash) && concurrency["cancel-in-progress"] == true
-
-    heavy_consumers = ci_jobs.each_with_object([]) do |(job_id, job), selected|
-      runner = job.is_a?(Hash) ? job["runs-on"].to_s : ""
-      selected << job_id if runner.include?("required_runner")
-    end
-    errors << "#{ci_path}: exactly one job must consume required_runner" unless heavy_consumers == ["adl_ci"]
-    direct_heavy = ci_jobs.each_with_object([]) do |(job_id, job), selected|
-      runner = job.is_a?(Hash) ? job["runs-on"].to_s : ""
-      selected << job_id if runner.include?("ADL_HEAVY_RUNNER")
-    end
-    errors << "#{ci_path}: jobs must not bypass the sole required_runner selector: #{direct_heavy.join(',')}" unless direct_heavy.empty?
-
-    heavy_job = ci_jobs["adl_ci"]
-    heavy_strategy = heavy_job.is_a?(Hash) ? heavy_job["strategy"] : nil
-    if heavy_strategy.is_a?(Hash) && heavy_strategy.key?("matrix")
-      errors << "#{ci_path}: the sole heavy-runner job must not declare strategy.matrix"
-    end
-
-    [errors, inventory]
-  end
-
-  def validate_root(root)
-    workflow_dir = Pathname.new(root).join(".github/workflows")
-    sources = Dir[workflow_dir.join("*.{yml,yaml}").to_s].sort.to_h do |path|
-      relative = Pathname.new(path).relative_path_from(Pathname.new(root)).to_s
-      [relative, File.read(path)]
-    end
-    validate_sources(sources)
-  end
+  events
 end
 
-if $PROGRAM_NAME == __FILE__
-  root = Pathname.new(ARGV[0] || Pathname.new(__dir__).join("../..")).cleanpath
-  errors, inventory = CiWorkflowPolicy.validate_root(root)
-  result = {
-    "schema" => "adl.ci.workflow-policy.v2",
-    "status" => errors.empty? ? "pass" : "fail",
-    "automatic_pr_entrypoint" => ".github/workflows/ci.yaml",
-    "required_pr_jobs" => CiWorkflowPolicy::REQUIRED_PR_JOB_IDS,
-    "ordinary_pr_heavy_runner_max" => 1,
-    "optional_policy" => "explicit_dispatch_only",
-    "workflows" => inventory,
-    "errors" => errors
+def job_block(text, job)
+  match = text.match(/^  #{Regexp.escape(job)}:\n(?<body>.*?)(?=^  [A-Za-z0-9_-]+:\n|\z)/m)
+  match && match[0]
+end
+
+workflow_paths.each do |path|
+  text = path.read
+  events = top_level_events(text)
+  relative = path.relative_path_from(root).to_s
+  allowed_events = path == ci_path ? %w[pull_request workflow_dispatch] : %w[workflow_dispatch workflow_call]
+  disallowed_events = events - allowed_events
+  errors << "#{relative}: event #{disallowed_events.join(',')} is not allowed" unless disallowed_events.empty?
+  if path != ci_path && !events.include?("workflow_dispatch")
+    errors << "#{relative}: standalone workflow must remain explicitly dispatchable"
+  end
+
+  inventory << {
+    "path" => relative,
+    "events" => events,
+    "automatic_pr" => events.include?("pull_request"),
+    "dispatch_policy" => path == ci_path ? "automatic_classifier" : "explicit_only"
   }
-  puts JSON.pretty_generate(result)
-  exit(errors.empty? ? 0 : 1)
 end
+
+ci = ci_path.read
+ci_events = top_level_events(ci)
+errors << ".github/workflows/ci.yaml: pull_request entrypoint is missing" unless ci_events.include?("pull_request")
+errors << ".github/workflows/ci.yaml: explicit full validation is missing" unless ci_events.include?("workflow_dispatch")
+
+concurrency = "group: ${{ github.repository }}:${{ github.workflow }}:${{ github.event.pull_request.base.ref || github.ref_name }}:${{ github.event.pull_request.head.repo.id || github.repository_id }}:${{ github.event.pull_request.head.ref || github.ref }}"
+errors << ".github/workflows/ci.yaml: concurrency key must unambiguously identify workflow, target, source repository, and source branch" unless ci.include?(concurrency)
+errors << ".github/workflows/ci.yaml: superseded revisions must cancel in progress" unless ci.include?("cancel-in-progress: true")
+
+heavy_selector = "runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}"
+light_jobs = %w[adl_path_policy adl_tooling_contracts adl-ci adl-coverage]
+ci.scan(/^  ([A-Za-z0-9_-]+):\n(.*?)(?=^  [A-Za-z0-9_-]+:\n|\z)/m).each do |job, body|
+  runner_line = body.lines.find { |line| line.match?(/^    runs-on:/) }
+  next unless runner_line
+  if light_jobs.include?(job)
+    errors << "ci.yaml #{job}: light classifier/aggregator must use ubuntu-latest" unless runner_line.strip == "runs-on: ubuntu-latest"
+    next
+  end
+  errors << "ci.yaml #{job}: selected required job must use the configured heavy runner" unless body.include?(heavy_selector)
+
+  header = body.split("runs-on:", 2).first
+  errors << "ci.yaml #{job}: required heavy job must depend on adl_path_policy" unless header.include?("adl_path_policy")
+  errors << "ci.yaml #{job}: required heavy job must have a job-level selector" unless header.match?(/^    if:/)
+end
+
+slow = job_block(ci, "adl-slow-proof")
+unless slow&.include?("if: github.event_name == 'workflow_dispatch'")
+  errors << "ci.yaml adl-slow-proof: long proof must be explicit-dispatch only"
+end
+if slow&.include?("slow_proof_contract_required == 'true'") || slow&.include?("github.event_name == 'schedule'")
+  errors << "ci.yaml adl-slow-proof: PR or schedule may not allocate slow-proof runners"
+end
+
+coverage = job_block(ci, "adl_coverage_hosted")
+unless coverage&.include?("if: always() && needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.heavy_ci_backend == 'hosted'")
+  errors << "ci.yaml adl_coverage_hosted: heavy aggregation must skip before allocation when coverage is not required"
+end
+unless ci.include?('if [ "$EVENT_NAME" = pull_request ]; then') && ci.include?("backend=hosted")
+  errors << "ci.yaml: pull requests must force the hosted backend before any runner allocation"
+end
+
+required_outputs = {
+  "automatic_pr_entrypoint" => "ci",
+  "optional_workflows_status" => "deferred",
+  "optional_workflows_reason" => "explicit_dispatch_required",
+  "soak_workflows_status" => "deferred",
+  "duplicate_head_status" => "canceled",
+  "duplicate_head_reason" => "source_branch_concurrency_cancel_in_progress"
+}
+policy = root.join("adl/tools/ci_path_policy.sh").read
+required_outputs.each do |key, value|
+  errors << "ci_path_policy.sh: missing #{key}=#{value}" unless policy.include?("#{key}=\"#{value}\"")
+  errors << "ci_path_policy.sh: #{key} is not emitted" unless policy.include?("emit \"#{key}\"")
+end
+
+result = {
+  "schema" => "adl.ci.workflow-policy.v1",
+  "status" => errors.empty? ? "pass" : "fail",
+  "automatic_pr_entrypoint" => ".github/workflows/ci.yaml",
+  "required_heavy_runner" => "vars.ADL_HEAVY_RUNNER",
+  "optional_policy" => "explicit_dispatch_only",
+  "scheduled_heavy_validation" => "disabled",
+  "workflow_count" => inventory.length,
+  "workflows" => inventory,
+  "errors" => errors
+}
+puts JSON.pretty_generate(result)
+exit(errors.empty? ? 0 : 1)

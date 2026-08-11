@@ -13,10 +13,8 @@ Status: draft
 ## Scope
 
 .github/workflows/ci.yaml
-.github/workflows/ci-out-of-band.yaml
-adl/tools/validate_ci_workflow_policy.rb
-adl/tools/test_validate_ci_workflow_policy.rb
 adl/tools/test_ci_runtime_contracts.sh
+.csdlc/issues/234
 
 ## Prompts
 
@@ -40,8 +38,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:ab354119ca3b9e3e372379e8a90b65d57eb1240d:a4b139dfb7611a369fa308a04ba74773889a18b27f09ad87a21f7aaa109671cb")
+Revision: Some("git-blake3:b63314b2cd02a668f5ab07c427aa922ca9516c34:47528bcd3c8657705c5d7644b0ce0c9b1d0764e7ed302ec40e165f67e078a363")
 
-Reviewer: Some("subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c")
+Reviewer: Some("provider:gemini-3.1-pro-preview")
 
 Result: pass

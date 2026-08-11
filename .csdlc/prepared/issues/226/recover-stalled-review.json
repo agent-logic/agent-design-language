@@ -1,0 +1,7 @@
+{
+  "issue": 226,
+  "expected_generation": 20,
+  "expected_digest": "95598be832fe427b71ff554979917f88bce6c0faddd8e67131e11d612226174c",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Replace the deletion-fix reviewer after three bounded waits produced no verdict and refresh focused evidence for the split fail-closed lanes."
+}

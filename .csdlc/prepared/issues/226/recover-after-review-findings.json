@@ -1,0 +1,7 @@
+{
+  "issue": 226,
+  "expected_generation": 6,
+  "expected_digest": "acb504cef40cc5587e66f21bcfdcad48e6c573aebaa3067a9eea4e38ab188650",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Independent exact-head review found that the mapped tooling paths were not executed by their selected lane; recover review truth after the direct syntax-lane remediation."
+}

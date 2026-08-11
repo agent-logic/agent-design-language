@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 226,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
+    "slug": "focused-runtime-validation-routing",
+    "version": "v0.92",
+    "generation": 31
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/config/validation_lane_selector.v0.91.6.json\nadl/tools/test_select_validation_lanes.sh\nadl/tools/test_ci_path_policy.sh\n.csdlc/evidence/226\n.csdlc/prepared/issues/226",
+      "review_revision": "git-blake3:01a28fb8359ee417ce600d53cf97c584d8edce08:bf5f6cf843315f20598367a625783720bf4a3fe379220d4e48d4862a39d885e7",
+      "reviewer": "codex-exec:issue-226-corrected-publication-safe-review",
+      "review_prompts": [
+        "Are the new selectors narrowly bounded to existing proof ownership?",
+        "Does any unknown path become silently covered?",
+        "Can this change launch optional slow or coverage jobs?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Optional hosted, coverage, soak, slow, and long jobs were intentionally not run."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
