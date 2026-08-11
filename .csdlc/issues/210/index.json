@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dfba2bc7d217926871774238898f8f4e00907bb6a6cf8afc0db1d6b12db39cc0",
   "phase": "initialized",
-  "generation": 8,
-  "digest": "eef98443c7e0db389d758475b76ed4401ddd3f6c3733b0aed188441270a19bd3",
+  "generation": 10,
+  "digest": "f90519b97d23f46e2d94435b99e753a5a1569fe99c97d63ade5d771bae5f7086",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/210/design.md",
   "diagram_path": ".csdlc/prepared/issues/210/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root/rereview_210_intermediate",
+      "revision": "bfe137499e1fec51c6eff2c65773f51a10d9488b5ad94ea365fd381d354b0adc"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "321e605a06531e58d2edbd0446770ee42cd802c6e1e9fe6e78a1bf5b6aa86ff1",
+      "values_digest": "f1e201e713ace339a17e75a01ddfce7f7f9dfae399fadc49e105c6a526d0b86f",
       "rendered_digest": "50943f77c2dbf2f4c755012e25900017ae9cdf4dd89bc405c8bd13e5452ff70b",
       "ast_digest": "e2293e7ffb04207f4f6e8baa69cbd54b3c678e1d98dcd585c974315e46d84785"
     },
     "stp": {
-      "values_digest": "fe7e18e8113a745ef4338d91ec2a603cf453cebd0e552bf3ba9216630f3e3b58",
+      "values_digest": "e9645e51bbb15cc881b01a3fa92dbf882f5ae2e55790c6d4f8d47b7411cf87ac",
       "rendered_digest": "75119178f408a586e4446046b3e464cff598d1068840602494366bf9d0611eaf",
       "ast_digest": "86d7abe3caec2ec66566c7ac5bb41dcb4f1c044e332bcbca8550a1a1552a4cd6"
     },
     "spp": {
-      "values_digest": "b49b2a44709f4364dad382e1b854fba482160a08d509b8998f8635ad268c0bfe",
-      "rendered_digest": "adccb626cc1d2441c48c89f6331817128b659d0280f6895248232ff32f62fe95",
-      "ast_digest": "c866f4d184e1fcc6d5b42a5b68f031cce2fdd54bd60064be40c09cea0a2d487e"
+      "values_digest": "3130cf8ac36ebee32aaadcb15f7d54566d612edecbfdb8c78cdfa94fdaaea511",
+      "rendered_digest": "ff58cfd8e7c469aa6caf54fef47fb4854d317f6328e4a321950b7e23a007fd94",
+      "ast_digest": "f0b1876518123a2bd9d4d2df21c3425cfdb15ddb2861732172d34429cdf1b312"
     },
     "vpp": {
-      "values_digest": "ed7cd68d40de9aec5d34addb826f05a33940a22b5a4940a6bd2360ca19867301",
-      "rendered_digest": "6c5868d4b52b7ba597e3872982376d071309e95cbe1df571233e2619e5057853",
-      "ast_digest": "f37443da979d89796688b7dd300d5b2efd8235ca68f78330671a933bdae3add1"
+      "values_digest": "d63284632b7133ea53dc1fad6ac3619402ac98164fb8ac0f6cbf2cb35c51de45",
+      "rendered_digest": "cc95bd9e6ef41e0f3ce7a4e54a55d0bfcc8e823ccef179dd8f8b1a1edb156ec2",
+      "ast_digest": "5cb62e8bf74faed21500fba776529b7f8f7f2cc64b1b831ad408d9dea9f84207"
     },
     "srp": {
-      "values_digest": "c2d61d1f55cdf9c542cb06998b03b91cd684cbe51ba14966ed8f1fe53d1a5595",
+      "values_digest": "e804aab4c13ec926ff77f1adb26e91b4df3195ab722b07f0d2531906a52e79ad",
       "rendered_digest": "5a2a516f1955e9fe64868f88875088fa6a73d3fcb2bb40b4e7081e75ea4b1384",
       "ast_digest": "11a639e8297d8f55b4fb3f9dcdc55974dd394af9c218c09b86848ce10e209fbd"
     },
     "sor": {
-      "values_digest": "a8094b84ceca640562bf161260fca9b67b010f242837458dd203df2d7652832d",
+      "values_digest": "8a55baa4c31b3631c6899565dce5bcec28f8b0414ab6d78988e7c23a856cfa8f",
       "rendered_digest": "d506c23a8534049e1773e9e4a613070289b6163708bf41fedd90aa90ea36c465",
       "ast_digest": "f378ae262baafdb4672c0a7194033bfb996d5f4be6c321edbc028619cc2b9b23"
     }
@@ -113,6 +118,20 @@
       "actor": "codex:210-review-resolution",
       "reason": "Require exact-head review of every resolved authority, drift, framing, catalog, resource, cleanup, proof, and ownership boundary.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can any caller, wrong #201 variant/consumer, generic/Raft/public dispatch, stale route/membership/certificate/boot cut, or wrong source/target/domain/polis/lineage establish or continue a transfer?\",\"Do #210 and #208 independently verify the retained signed manifest/catalog key generation and exact entry order/schema/range/length/digest plus chunk index/range/digest/predecessor before every target write?\",\"Are zero/nonfinal, final-shape, gap, reorder, overlap, duplicate, predecessor, cross-entry, range-overflow, frame/queue/inflight/open-reader/open-stage/concurrent-transfer/journal/cache/total N+1 boundaries denied before effect?\",\"Do durable bytes, incremental verifier state, and accepted prefix advance only through one crash-reconcilable journal effect, with acknowledgment after prefix commit and exact recovery after every crash/reply-loss boundary?\",\"Can VerifiedTransferPossession appear only after complete signed entry/chunk/whole verification and contain only exact #208 TargetStageHandle plus TargetPossessionEvidence?\",\"Is TargetCleanupPermit independent of transfer expiry/cancellation, discard-only, exact-stage-bound, restart-reconcilable, and consumed only by TargetDiscardReceipt or TargetActivationReceipt, with #208 as the sole cleanup/effect owner?\",\"Does #210 request cleanup but never delete/activate/resume/fence/own/serve/decide migration, while #204 owns control decisions and #208 performs kernel/filesystem effects?\",\"Does evidence remain bounded and redacted with no raw content, identity, certificate, token, endpoint, address, path, key, signature, handle, or secret?\",\"Does the SHA-256-bound acceptance map cover all eight ACs, all forty-five cases, and exactly eighty unique subassertions with exact ordered result/marker parity?\",\"Does validation run serially tests, Clippy, recorded execution-base-to-source diff, producer, independent exact-head review, and distinct validator, rejecting protected-source, evidence, review, or squash-topology drift?\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:/root/rereview_210_intermediate",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:210-review-resolution",
+      "reason": "Bind the canonical ordered 45-case result and marker manifest, the corrected AC-3 conflict mapping, and the explicit no-activation-or-deletion authority assertion into the validation contract.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-transfer\",\"proof_role\":\"Prove byte-for-byte parity with continuity-transfer-acceptance-map.json sha256=b792f8c40545542b1e9b108d053a68e4fab64bd2c83e914dc8974f9dd3a79fa2, including the canonical ordered 45-case manifest with exact pass result and unique marker for every case, acceptance_count=8, subassertion_count=80, AC-3 conflicting_duplicate_denied membership, and the explicit machine assertion that #210 has no activation or deletion authority. The map covers every AC and all 45 cases, including live route/membership/certificate/boot drift, canonical framing/final/range bounds, signed catalog entry/chunk/range expectations, bounded queues/readers/stages/transfers/journals/caches, crash-reconcilable bytes/verifier/prefix order, cleanup after expiry/cancel/restart, #208 live zero residue, and strict proof sequencing. Reject missing, extra, duplicate, reordered, renamed, wrongly mapped, wrongly marked, nonpassing, or authority-widening case/subassertion evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_continuity_transfer\",\"--no-tests=fail\"],\"parallel_group\":\"210-serial-01-runtime\",\"defer_reason\":\"Deferred until all four dependencies merge and this issue creates the exact target; fail closed on missing target, zero tests, map digest/count/order/result/marker drift, caller-substitutable authority/expectations, or any case/subassertion mismatch.\"},{\"lane\":\"continuity-transfer-clippy\",\"proof_role\":\"Only after the focused proof passes, reject warnings and API misuse across the transfer session, sealed #201/#208 ports, signed incremental verifier, cleanup requests, and focused target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_continuity_transfer\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"210-serial-02-clippy\",\"defer_reason\":\"Deferred until the owned focused target exists and serial test proof passes; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"continuity-transfer-diff-hygiene\",\"proof_role\":\"Only after tests and Clippy, load recorded execution_base_revision and proving_source_revision, require exact Git objects and base ancestry, check whitespace and EOF over the complete base..source range, and reject dirty protected paths. Working-tree-only diff output is insufficient.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/210/verify-diff-hygiene.rb\"],\"parallel_group\":\"210-serial-03-diff\",\"defer_reason\":\"Deferred until exact execution base/source truth and the verifier exist; fail closed on absent/non-object revisions, nonancestry, any base..source whitespace/EOF diagnostic, dirty protected source, or working-tree-only evidence.\"},{\"lane\":\"continuity-transfer-producer\",\"proof_role\":\"Only after tests, Clippy, and exact-range diff pass, independently load and hash the protected acceptance map, require exact ordered 45-case result/marker manifest and 8-row/80-subassertion parity, prove the corrected AC-3 conflict mapping and absence of #210 activation/deletion authority, and produce exact Git execution-base/source, command, stream, timing, protected-digest, signed expectation, resource, cleanup, and result evidence for independent review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/210/produce-proof-receipt.rb\"],\"parallel_group\":\"210-serial-04-producer\",\"defer_reason\":\"Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty protected source, wrong map digest/count/order/result/marker, missing/extra/duplicate/nonpassing evidence, authority widening, wrong signed expectations, wrong cleanup authority, or nonzero status.\"},{\"lane\":\"continuity-transfer-receipt\",\"proof_role\":\"Only after producer completion, immutable evidence introduction, and fresh independent review of the exact proving source, independently validate execution-base-to-reviewed-source diff hygiene, protected digests, commands, the canonical ordered 45-case result/marker manifest, all 8 acceptance rows and 80 unique subassertions, corrected AC-3 membership, #210 nonactivation/nondeletion authority, strict Clippy, signed expectation and cleanup bindings, review provenance, evidence immutability, and squash-merge-safe ancestry.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/210/validate-proof-receipt.rb\"],\"parallel_group\":\"210-serial-06-validator\",\"defer_reason\":\"Deferred until producer, typed finalize, immutable evidence, and fresh exact-head review exist; it must not overlap any prior lane or review and fails on any source/base/map/case/subassertion/order/result/marker/authority/command/review/ancestry drift.\"}]}"
     }
   ]
 }

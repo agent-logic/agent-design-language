@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
 [
   {
     "lane": "continuity-transfer",
-    "proof_role": "Prove exactly forty-five ordered case name/result/marker tuples and byte-for-byte parity with continuity-transfer-acceptance-map.json sha256=c6ca9f915499c03d2fbb224a8301915a0d217fa23bd1b1e5a174df7118dd2ce3, acceptance_count=8, subassertion_count=80. The map covers every AC and all 45 cases, including live route/membership/certificate/boot drift, canonical framing/final/range bounds, signed catalog entry/chunk/range expectations, bounded queues/readers/stages/transfers/journals/caches, crash-reconcilable bytes/verifier/prefix order, cleanup after expiry/cancel/restart, #208 live zero residue, and strict proof sequencing. Reject missing, extra, duplicate, reordered, renamed, wrongly mapped, wrongly marked, or nonpassing case/subassertion evidence.",
+    "proof_role": "Prove byte-for-byte parity with continuity-transfer-acceptance-map.json sha256=b792f8c40545542b1e9b108d053a68e4fab64bd2c83e914dc8974f9dd3a79fa2, including the canonical ordered 45-case manifest with exact pass result and unique marker for every case, acceptance_count=8, subassertion_count=80, AC-3 conflicting_duplicate_denied membership, and the explicit machine assertion that #210 has no activation or deletion authority. The map covers every AC and all 45 cases, including live route/membership/certificate/boot drift, canonical framing/final/range bounds, signed catalog entry/chunk/range expectations, bounded queues/readers/stages/transfers/journals/caches, crash-reconcilable bytes/verifier/prefix order, cleanup after expiry/cancel/restart, #208 live zero residue, and strict proof sequencing. Reject missing, extra, duplicate, reordered, renamed, wrongly mapped, wrongly marked, nonpassing, or authority-widening case/subassertion evidence.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -52,7 +52,7 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "210-serial-01-runtime",
-    "defer_reason": "Deferred until all four dependencies merge and this issue creates the exact target; fail closed on missing target, zero tests, map digest/count/order drift, caller-substitutable authority/expectations, or any case/result/marker/subassertion mismatch."
+    "defer_reason": "Deferred until all four dependencies merge and this issue creates the exact target; fail closed on missing target, zero tests, map digest/count/order/result/marker drift, caller-substitutable authority/expectations, or any case/subassertion mismatch."
   },
   {
     "lane": "continuity-transfer-clippy",
@@ -98,7 +98,7 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
   },
   {
     "lane": "continuity-transfer-producer",
-    "proof_role": "Only after tests, Clippy, and exact-range diff pass, independently load and hash the protected acceptance map, require exact ordered 45-case and 8-row/80-subassertion parity, and produce exact Git execution-base/source, command, stream, timing, protected-digest, signed expectation, resource, cleanup, and result evidence for independent review.",
+    "proof_role": "Only after tests, Clippy, and exact-range diff pass, independently load and hash the protected acceptance map, require exact ordered 45-case result/marker manifest and 8-row/80-subassertion parity, prove the corrected AC-3 conflict mapping and absence of #210 activation/deletion authority, and produce exact Git execution-base/source, command, stream, timing, protected-digest, signed expectation, resource, cleanup, and result evidence for independent review.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -111,11 +111,11 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       ".csdlc/prepared/issues/210/produce-proof-receipt.rb"
     ],
     "parallel_group": "210-serial-04-producer",
-    "defer_reason": "Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty protected source, wrong map digest/count/order, missing/extra/duplicate/nonpassing evidence, wrong signed expectations, wrong cleanup authority, or nonzero status."
+    "defer_reason": "Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty protected source, wrong map digest/count/order/result/marker, missing/extra/duplicate/nonpassing evidence, authority widening, wrong signed expectations, wrong cleanup authority, or nonzero status."
   },
   {
     "lane": "continuity-transfer-receipt",
-    "proof_role": "Only after producer completion, immutable evidence introduction, and fresh independent review of the exact proving source, independently validate execution-base-to-reviewed-source diff hygiene, protected digests, commands, all 45 ordered cases, all 8 acceptance rows and 80 unique subassertions, strict Clippy, signed expectation and cleanup bindings, review provenance, evidence immutability, and squash-merge-safe ancestry.",
+    "proof_role": "Only after producer completion, immutable evidence introduction, and fresh independent review of the exact proving source, independently validate execution-base-to-reviewed-source diff hygiene, protected digests, commands, the canonical ordered 45-case result/marker manifest, all 8 acceptance rows and 80 unique subassertions, corrected AC-3 membership, #210 nonactivation/nondeletion authority, strict Clippy, signed expectation and cleanup bindings, review provenance, evidence immutability, and squash-merge-safe ancestry.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -128,7 +128,7 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       ".csdlc/prepared/issues/210/validate-proof-receipt.rb"
     ],
     "parallel_group": "210-serial-06-validator",
-    "defer_reason": "Deferred until producer, typed finalize, immutable evidence, and fresh exact-head review exist; it must not overlap any prior lane or review and fails on any source/base/map/case/subassertion/order/result/marker/command/review/ancestry drift."
+    "defer_reason": "Deferred until producer, typed finalize, immutable evidence, and fresh exact-head review exist; it must not overlap any prior lane or review and fails on any source/base/map/case/subassertion/order/result/marker/authority/command/review/ancestry drift."
   }
 ]
 
