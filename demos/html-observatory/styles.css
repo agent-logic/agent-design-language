@@ -1398,6 +1398,34 @@ textarea,
   background: rgba(113, 247, 164, 0.07);
 }
 
+.conversation-turn-content {
+  display: block;
+}
+
+.conversation-turn-status {
+  display: inline-block;
+  margin-top: 0.4rem;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.conversation-turn-cancel {
+  margin-left: 0.65rem;
+  border: 0;
+  padding: 0;
+  color: var(--cyan);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.conversation-turn-cancel:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
 .conversation-empty {
   align-self: center;
   justify-self: center;

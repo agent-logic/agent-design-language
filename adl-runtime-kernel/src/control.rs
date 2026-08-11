@@ -24,6 +24,7 @@ use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
 use lru::LruCache;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
+use tokio_util::sync::CancellationToken;
 use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
@@ -55,6 +56,8 @@ pub const OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_intent.v1";
 pub const OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_result.v1";
+pub const OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA: &str =
+    "adl.runtime_v3.observatory_conversation_cancel.v1";
 pub const CONTROL_MAX_BODY_BYTES: usize = 64 * 1024;
 const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
 const OBSERVATORY_OPENAPI_DOCUMENT: &str =
@@ -321,6 +324,33 @@ struct AcipSequenceReservation {
     previous: Option<u64>,
 }
 
+#[derive(Default)]
+struct ConversationSessions {
+    sessions: BTreeMap<String, ConversationSession>,
+}
+
+struct ConversationSession {
+    recipient_id: String,
+    next_sequence: u64,
+    turns: BTreeMap<String, ConversationTurn>,
+}
+
+struct ConversationTurn {
+    fingerprint: String,
+    correlation_id: String,
+    sequence: u64,
+    cancellation: CancellationToken,
+    completion: tokio::sync::watch::Sender<Option<ObservatoryConversationResult>>,
+    terminal: Option<ObservatoryConversationResult>,
+}
+
+struct ConversationDispatch {
+    intent: ObservatoryConversationIntent,
+    sequence: u64,
+    cancellation: CancellationToken,
+    work_id: String,
+}
+
 pub struct ControlService<C> {
     instance_id: String,
     recorder: RuntimeRecorder,
@@ -329,6 +359,7 @@ pub struct ControlService<C> {
     max_records: usize,
     idempotency: Mutex<IdempotencyState>,
     acip_replay: Mutex<AcipReplayState>,
+    conversation_sessions: Mutex<ConversationSessions>,
     weather: Mutex<Option<ObservedWeather>>,
     weather_stale_after_millis: Mutex<u64>,
     observatory_bearer_digest: Mutex<Option<blake3::Hash>>,
@@ -409,6 +440,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             acip_replay: Mutex::new(AcipReplayState {
                 sequences_by_source: LruCache::unbounded(),
             }),
+            conversation_sessions: Mutex::new(ConversationSessions::default()),
             weather: Mutex::new(None),
             weather_stale_after_millis: Mutex::new(30_000),
             observatory_bearer_digest: Mutex::new(None),
@@ -441,11 +473,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self
     }
 
-    async fn execute_conversation_intent(
+    fn accept_conversation_intent(
         &self,
         intent: &ObservatoryConversationIntent,
-    ) -> ObservatoryConversationResult {
-        let outcome = |status, error| ObservatoryConversationResult {
+    ) -> Result<(ObservatoryConversationResult, ConversationDispatch), ObservatoryConversationResult>
+    {
+        let outcome = |status, error, sequence| ObservatoryConversationResult {
             schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
             status,
             conversation_id: intent.conversation_id.clone(),
@@ -454,6 +487,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             correlation_id: intent.correlation_id.clone(),
             reply: None,
             accepted_sequence: None,
+            turn_sequence: sequence,
             error: Some(error),
         };
         if intent.schema != OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA
@@ -464,7 +498,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             || intent.message.trim().is_empty()
             || intent.message.len() > 4_096
         {
-            return outcome("refused", "invalid_conversation_intent");
+            return Err(outcome("refused", "invalid_conversation_intent", None));
         }
         let recipient = self
             .agent_population
@@ -472,66 +506,249 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .iter()
             .find(|agent| agent.id == intent.recipient_id);
         match recipient {
-            None => return outcome("refused", "unknown_recipient"),
+            None => return Err(outcome("refused", "unknown_recipient", None)),
             Some(agent) if agent.state != "running" => {
-                return outcome("refused", "recipient_unavailable")
+                return Err(outcome("refused", "recipient_unavailable", None))
             }
             Some(_) => {}
         }
         let Some(ingress) = self.canonical_ingress.as_ref() else {
-            return outcome("failed", "conversation_ingress_unavailable");
+            return Err(outcome("failed", "conversation_ingress_unavailable", None));
+        };
+        let _ = ingress;
+        let fingerprint = match serde_json::to_vec(intent) {
+            Ok(bytes) => blake3::hash(&bytes).to_hex().to_string(),
+            Err(_) => return Err(outcome("refused", "invalid_conversation_intent", None)),
+        };
+        let mut sessions = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let session = sessions
+            .sessions
+            .entry(intent.conversation_id.clone())
+            .or_insert_with(|| ConversationSession {
+                recipient_id: intent.recipient_id.clone(),
+                next_sequence: 0,
+                turns: BTreeMap::new(),
+            });
+        if session.recipient_id != intent.recipient_id {
+            return Err(outcome("refused", "conversation_recipient_conflict", None));
+        }
+        if let Some(existing) = session.turns.get(&intent.turn_id) {
+            if existing.fingerprint != fingerprint {
+                return Err(outcome(
+                    "refused",
+                    "conversation_conflict",
+                    Some(existing.sequence),
+                ));
+            }
+            return Err(existing.terminal.clone().unwrap_or_else(|| {
+                outcome(
+                    "accepted",
+                    "conversation_in_flight",
+                    Some(existing.sequence),
+                )
+            }));
+        }
+        let Some(sequence) = session.next_sequence.checked_add(1) else {
+            return Err(outcome("failed", "conversation_sequence_exhausted", None));
+        };
+        session.next_sequence = sequence;
+        let cancellation = CancellationToken::new();
+        let (completion, _) = tokio::sync::watch::channel(None);
+        session.turns.insert(
+            intent.turn_id.clone(),
+            ConversationTurn {
+                fingerprint,
+                correlation_id: intent.correlation_id.clone(),
+                sequence,
+                cancellation: cancellation.clone(),
+                completion,
+                terminal: None,
+            },
+        );
+        let accepted = ObservatoryConversationResult {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status: "accepted",
+            conversation_id: intent.conversation_id.clone(),
+            turn_id: intent.turn_id.clone(),
+            recipient_id: intent.recipient_id.clone(),
+            correlation_id: intent.correlation_id.clone(),
+            reply: None,
+            accepted_sequence: None,
+            turn_sequence: Some(sequence),
+            error: None,
+        };
+        let work_id = format!(
+            "conversation-{}",
+            &blake3::hash(format!("{}:{}", intent.conversation_id, intent.turn_id).as_bytes())
+                .to_hex()[..32]
+        );
+        Ok((
+            accepted,
+            ConversationDispatch {
+                intent: intent.clone(),
+                sequence,
+                cancellation,
+                work_id,
+            },
+        ))
+    }
+
+    async fn complete_conversation_dispatch(
+        &self,
+        dispatch: ConversationDispatch,
+    ) -> ObservatoryConversationResult {
+        let outcome = |status, error| ObservatoryConversationResult {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status,
+            conversation_id: dispatch.intent.conversation_id.clone(),
+            turn_id: dispatch.intent.turn_id.clone(),
+            recipient_id: dispatch.intent.recipient_id.clone(),
+            correlation_id: dispatch.intent.correlation_id.clone(),
+            reply: None,
+            accepted_sequence: None,
+            turn_sequence: Some(dispatch.sequence),
+            error: Some(error),
         };
         let payload = serde_json::to_vec(&serde_json::json!({
             "schema": "adl.runtime.local_agent_work.v1",
             "tasks": [{
                 "op": "conversation_message",
-                "recipient_id": intent.recipient_id,
-                "input": intent.message,
+                "recipient_id": dispatch.intent.recipient_id,
+                "input": dispatch.intent.message,
             }],
         }));
-        let Ok(payload) = payload else {
-            return outcome("refused", "invalid_conversation_intent");
+        let result = match payload {
+            Err(_) => outcome("refused", "invalid_conversation_intent"),
+            Ok(payload) => {
+                let Some(ingress) = self.canonical_ingress.as_ref() else {
+                    return outcome("failed", "conversation_ingress_unavailable");
+                };
+                tokio::select! {
+                    _ = dispatch.cancellation.cancelled() => outcome("cancelled", "conversation_cancelled"),
+                    submitted = tokio::time::timeout(
+                        self.api_policy().websocket_auth_timeout,
+                        ingress.submit(
+                            DomainWork {
+                                schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
+                                work_id: dispatch.work_id.clone(),
+                                kind: "agent_runtime".to_owned(),
+                                payload,
+                            },
+                            dispatch.intent.correlation_id.clone(),
+                        ),
+                    ) => match submitted {
+                        Err(_) => outcome("timed_out", "conversation_timed_out"),
+                        Ok(Ok(result)) => {
+                            let reply = result.public_output.as_ref()
+                                .and_then(|output| output.get("message"))
+                                .and_then(serde_json::Value::as_str)
+                                .map(str::to_owned);
+                            match reply {
+                                Some(reply) => ObservatoryConversationResult {
+                                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                                    status: "delivered",
+                                    conversation_id: dispatch.intent.conversation_id.clone(),
+                                    turn_id: dispatch.intent.turn_id.clone(),
+                                    recipient_id: dispatch.intent.recipient_id.clone(),
+                                    correlation_id: dispatch.intent.correlation_id.clone(),
+                                    reply: Some(reply),
+                                    accepted_sequence: Some(result.accepted_sequence),
+                                    turn_sequence: Some(dispatch.sequence),
+                                    error: None,
+                                },
+                                None => outcome("failed", "conversation_reply_unavailable"),
+                            }
+                        }
+                        Ok(Err(IngressError::Saturated | IngressError::Closed)) => outcome("failed", "conversation_temporarily_unavailable"),
+                        Ok(Err(IngressError::UnsupportedKind)) => outcome("refused", "recipient_unavailable"),
+                        Ok(Err(IngressError::Conflict)) => outcome("refused", "conversation_conflict"),
+                        Ok(Err(_)) => outcome("failed", "conversation_failed"),
+                    }
+                }
+            }
         };
-        let submitted = ingress
-            .submit(
-                DomainWork {
-                    schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
-                    work_id: intent.turn_id.clone(),
-                    kind: "agent_runtime".to_owned(),
-                    payload,
-                },
-                intent.correlation_id.clone(),
-            )
-            .await;
-        match submitted {
-            Ok(result) => {
-                let reply = result
-                    .public_output
-                    .as_ref()
-                    .and_then(|output| output.get("message"))
-                    .and_then(serde_json::Value::as_str)
-                    .map(str::to_owned);
-                if reply.is_none() {
-                    return outcome("failed", "conversation_reply_unavailable");
+        if let Some(turn) = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned")
+            .sessions
+            .get_mut(&dispatch.intent.conversation_id)
+            .and_then(|session| session.turns.get_mut(&dispatch.intent.turn_id))
+        {
+            turn.terminal = Some(result.clone());
+            turn.completion.send_replace(Some(result.clone()));
+        }
+        result
+    }
+
+    async fn wait_for_conversation_terminal(
+        &self,
+        conversation_id: &str,
+        turn_id: &str,
+    ) -> Option<ObservatoryConversationResult> {
+        loop {
+            let mut completion = {
+                let sessions = self
+                    .conversation_sessions
+                    .lock()
+                    .expect("conversation sessions mutex poisoned");
+                let turn = sessions.sessions.get(conversation_id)?.turns.get(turn_id)?;
+                if let Some(terminal) = &turn.terminal {
+                    return Some(terminal.clone());
                 }
-                ObservatoryConversationResult {
-                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-                    status: "delivered",
-                    conversation_id: intent.conversation_id.clone(),
-                    turn_id: intent.turn_id.clone(),
-                    recipient_id: intent.recipient_id.clone(),
-                    correlation_id: intent.correlation_id.clone(),
-                    reply,
-                    accepted_sequence: Some(result.accepted_sequence),
-                    error: None,
-                }
+                turn.completion.subscribe()
+            };
+            if completion.changed().await.is_err() {
+                return None;
             }
-            Err(IngressError::Saturated | IngressError::Closed) => {
-                outcome("failed", "conversation_temporarily_unavailable")
-            }
-            Err(IngressError::UnsupportedKind) => outcome("refused", "recipient_unavailable"),
-            Err(IngressError::Conflict) => outcome("refused", "conversation_conflict"),
-            Err(_) => outcome("failed", "conversation_failed"),
+        }
+    }
+
+    fn cancel_conversation_turn(
+        &self,
+        cancel: &ObservatoryConversationCancel,
+    ) -> ObservatoryConversationResult {
+        let mut sessions = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let Some(session) = sessions.sessions.get_mut(&cancel.conversation_id) else {
+            return ObservatoryConversationResult::refused_cancel(
+                cancel,
+                "unknown_conversation_turn",
+            );
+        };
+        let recipient_id = session.recipient_id.clone();
+        let Some(turn) = session.turns.get_mut(&cancel.turn_id) else {
+            return ObservatoryConversationResult::refused_cancel(
+                cancel,
+                "unknown_conversation_turn",
+            );
+        };
+        if turn.correlation_id != cancel.correlation_id {
+            return ObservatoryConversationResult::refused_cancel(
+                cancel,
+                "conversation_correlation_conflict",
+            );
+        }
+        if let Some(terminal) = &turn.terminal {
+            return terminal.clone();
+        }
+        turn.cancellation.cancel();
+        ObservatoryConversationResult {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status: "accepted",
+            conversation_id: cancel.conversation_id.clone(),
+            turn_id: cancel.turn_id.clone(),
+            recipient_id,
+            correlation_id: cancel.correlation_id.clone(),
+            reply: None,
+            accepted_sequence: None,
+            turn_sequence: Some(turn.sequence),
+            error: None,
         }
     }
 
@@ -1420,7 +1637,7 @@ struct ObservatoryWsAuth {
     bearer_token: String,
 }
 
-#[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct ObservatoryConversationIntent {
     schema: String,
@@ -1431,7 +1648,16 @@ struct ObservatoryConversationIntent {
     message: String,
 }
 
-#[derive(Serialize)]
+#[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ObservatoryConversationCancel {
+    schema: String,
+    conversation_id: String,
+    turn_id: String,
+    correlation_id: String,
+}
+
+#[derive(Clone, Serialize)]
 struct ObservatoryConversationResult {
     schema: &'static str,
     status: &'static str,
@@ -1444,7 +1670,26 @@ struct ObservatoryConversationResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     accepted_sequence: Option<u64>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    turn_sequence: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     error: Option<&'static str>,
+}
+
+impl ObservatoryConversationResult {
+    fn refused_cancel(cancel: &ObservatoryConversationCancel, error: &'static str) -> Self {
+        Self {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status: "refused",
+            conversation_id: cancel.conversation_id.clone(),
+            turn_id: cancel.turn_id.clone(),
+            recipient_id: String::new(),
+            correlation_id: cancel.correlation_id.clone(),
+            reply: None,
+            accepted_sequence: None,
+            turn_sequence: None,
+            error: Some(error),
+        }
+    }
 }
 
 #[derive(Serialize)]
@@ -1467,6 +1712,8 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
 ) {
     let api_policy = service.api_policy();
     let mut bearer_token: Option<String> = None;
+    let (conversation_results_tx, mut conversation_results_rx) =
+        tokio::sync::mpsc::unbounded_channel::<ObservatoryConversationResult>();
     let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
     refresh.tick().await;
     let Ok(initial_feed) = serde_json::to_string(&service.observatory_feed()) else {
@@ -1482,6 +1729,14 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
 
     loop {
         tokio::select! {
+            Some(result) = conversation_results_rx.recv() => {
+                let Ok(payload) = serde_json::to_string(&result) else {
+                    break;
+                };
+                if socket.send(Message::Text(payload.into())).await.is_err() {
+                    break;
+                }
+            }
             _ = refresh.tick() => {
                 if bearer_token.as_deref().is_some_and(|token| !service.observatory_token_authorized(token)) {
                     bearer_token = None;
@@ -1544,7 +1799,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                     }
                     if let Ok(intent) = serde_json::from_str::<ObservatoryConversationIntent>(&payload) {
                         let result = if bearer_token.is_none() {
-                            ObservatoryConversationResult {
+                            Err(ObservatoryConversationResult {
                                 schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
                                 status: "refused",
                                 conversation_id: intent.conversation_id.clone(),
@@ -1553,10 +1808,58 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 correlation_id: intent.correlation_id.clone(),
                                 reply: None,
                                 accepted_sequence: None,
+                                turn_sequence: None,
                                 error: Some("write_authentication_required"),
-                            }
+                            })
                         } else {
-                            service.execute_conversation_intent(&intent).await
+                            service.accept_conversation_intent(&intent)
+                        };
+                        let (response, dispatch) = match result {
+                            Ok((accepted, dispatch)) => (accepted, Some(dispatch)),
+                            Err(response) => (response, None),
+                        };
+                        let attach_to_in_flight = response.status == "accepted"
+                            && response.error == Some("conversation_in_flight");
+                        let conversation_id = response.conversation_id.clone();
+                        let turn_id = response.turn_id.clone();
+                        let Ok(payload) = serde_json::to_string(&response) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
+                        }
+                        if let Some(dispatch) = dispatch {
+                            let service = service.clone();
+                            let results = conversation_results_tx.clone();
+                            tokio::spawn(async move {
+                                let result = service.complete_conversation_dispatch(dispatch).await;
+                                let _ = results.send(result);
+                            });
+                        } else if attach_to_in_flight {
+                            let service = service.clone();
+                            let results = conversation_results_tx.clone();
+                            tokio::spawn(async move {
+                                if let Some(result) = service
+                                    .wait_for_conversation_terminal(&conversation_id, &turn_id)
+                                    .await
+                                {
+                                    let _ = results.send(result);
+                                }
+                            });
+                        }
+                        continue;
+                    }
+                    if let Ok(cancel) = serde_json::from_str::<ObservatoryConversationCancel>(&payload) {
+                        let result = if bearer_token.is_none() {
+                            ObservatoryConversationResult::refused_cancel(&cancel, "write_authentication_required")
+                        } else if cancel.schema != OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA
+                            || !is_safe_identifier(&cancel.conversation_id)
+                            || !is_safe_identifier(&cancel.turn_id)
+                            || !is_correlation_id(&cancel.correlation_id)
+                        {
+                            ObservatoryConversationResult::refused_cancel(&cancel, "invalid_conversation_cancel")
+                        } else {
+                            service.cancel_conversation_turn(&cancel)
                         };
                         let Ok(payload) = serde_json::to_string(&result) else {
                             break;

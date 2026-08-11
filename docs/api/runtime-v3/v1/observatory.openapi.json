@@ -73,7 +73,7 @@
         "operationId": "openObservatoryWebSocket",
         "tags": ["observatory"],
         "summary": "Open a public-read, authenticated-write Observatory WSS session",
-        "description": "Upgrades to WebSocket after origin validation and immediately emits public ObservatoryFeed frames. A client may log in at any time with an ObservatoryWsAuth text frame. Only an authenticated session may submit signed text commands or bounded ACIP Protobuf binary envelopes.",
+        "description": "Upgrades to WebSocket after origin validation and immediately emits public ObservatoryFeed frames. A client may log in at any time with an ObservatoryWsAuth text frame. Only an authenticated session may submit signed text commands, bounded conversation intents or cancellations, or bounded ACIP Protobuf binary envelopes. Conversation acceptance and terminal outcomes are Runtime-authoritative and correlated by conversation, turn, recipient, and correlation identifiers.",
         "security": [],
         "responses": {
           "101": {
@@ -106,6 +106,10 @@
             {
               "$ref": "#/components/schemas/ObservatoryConversationIntent",
               "purpose": "selected_agent_conversation"
+            },
+            {
+              "$ref": "#/components/schemas/ObservatoryConversationCancel",
+              "purpose": "cancel_in_flight_conversation_turn"
             },
             {
               "binarySchema": "adl.csm.acip_carrier.protobuf_envelope.v1",
@@ -180,7 +184,19 @@
           "correlation_id": { "type": "string" },
           "reply": { "type": "string", "maxLength": 4096 },
           "accepted_sequence": { "type": "integer", "minimum": 1 },
+          "turn_sequence": { "type": "integer", "minimum": 1 },
           "error": { "type": "string" }
+        }
+      },
+      "ObservatoryConversationCancel": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "conversation_id", "turn_id", "correlation_id"],
+        "properties": {
+          "schema": { "const": "adl.runtime_v3.observatory_conversation_cancel.v1" },
+          "conversation_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "turn_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "correlation_id": { "type": "string", "pattern": "^[0-9a-f]{32}$" }
         }
       },
       "DomainWork": {

@@ -16,23 +16,23 @@ Implement only the canonical one-operator-to-one-visible-agent bounded conversat
 
 ## Deliverables
 
-- Versioned canonical Runtime conversation/turn/delivery/response schemas
-- Runtime session engine with ordered processing, idempotency, cancellation, timeout, reconnect, and explicit restart behavior
-- Provider-neutral adapter boundary with deterministic fake proof
-- Observatory integration that renders only Runtime-authoritative outcomes and correlated responses
+- Versioned canonical Runtime conversation intent, cancellation, turn, delivery, refusal, timeout, and response schemas
+- Runtime-owned bounded conversation state with per-conversation recipient binding, per-turn sequencing, exact duplicate idempotency, timeout, cancellation, disconnect survival, and bounded reconnect retrieval
+- Provider-neutral adapter boundary with deterministic fake proof and at-most-one dispatch per accepted turn
+- Observatory integration that renders operator turns and agent replies only after fully correlated Runtime-authoritative outcomes
 - adl-runtime-kernel/tests/conversation_sessions.rs
 - demos/html-observatory/tests/conversation_sessions.test.mjs
-- Focused Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, and diff-hygiene validation evidence
+- Focused Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, strict Clippy, and diff-hygiene validation evidence
 - Exact-head review with all actionable findings resolved before publication
 
 ## Acceptance
 
-1. Conversation state is Runtime-owned, browser reconnect resumes from a Runtime cursor without duplicate turns, and Runtime restart behavior is explicit and tested.
-2. Every accepted turn has stable conversation, turn, sender, recipient, sequence, correlation, submission, and outcome identity under versioned provider-neutral schemas.
-3. Unknown, unavailable, or policy-ineligible recipients, malformed input, sequence gaps, conflicting duplicates, cancellation, timeout, saturation, shutdown, and adapter failure fail closed with deterministic typed outcomes.
-4. The Observatory submits through canonical authenticated ingress and renders only correlated Runtime delivery/response events; acknowledgement hashes and browser-generated text are never agent replies.
-5. Focused deterministic contract, session, Observatory WSS, OpenAPI, JavaScript syntax, and diff-hygiene validation passes at the implementation revision.
-6. Exact-head review resolves all actionable findings and records residual risks without claiming durable history, multi-agent routing, or broader Layer 8 authority.
+1. AC-1: Conversation identity, recipient binding, per-turn sequence, exact duplicate state, and terminal outcome are Runtime-owned; disconnect and bounded reconnect retrieve the same turn without duplicate dispatch or transcript entries
+2. AC-2: Every accepted turn has stable conversation, turn, recipient, sequence, correlation, submission, and outcome identity under versioned provider-neutral schemas
+3. AC-3: Unknown or unavailable recipients, malformed input, conflicting duplicates, cancellation, timeout, saturation, shutdown, and adapter failure fail closed with deterministic typed outcomes
+4. AC-4: The Observatory submits through canonical authenticated ingress and renders operator text or an agent reply only after a fully correlated Runtime result; acknowledgements, hashes, browser-generated acceptance, and arbitrary adapter fields are never replies
+5. AC-5: Focused deterministic conversation, Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, strict Clippy, card, and diff-hygiene validation passes at the exact implementation revision
+6. AC-6: Exact-head independent review resolves all actionable findings and records residual risks without claiming durable history, multi-agent routing, or broader Layer 8 authority
 
 ## Dependencies
 

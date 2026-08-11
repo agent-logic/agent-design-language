@@ -1,0 +1,23 @@
+{
+  "issue": 111,
+  "card": "stp",
+  "expected_generation": 32,
+  "expected_digest": "0604360ce7d05af9feb5cf1ec5422ca992950870f8664cdcb86bc9a5fff204cd",
+  "actor": "codex:111-review-remediation",
+  "reason": "Align the task deliverables with live issue 111 timeout, cancellation, disconnect, and bounded reconnect requirements without claiming Runtime restart history.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Versioned canonical Runtime conversation intent, cancellation, turn, delivery, refusal, timeout, and response schemas",
+      "Runtime-owned bounded conversation state with per-conversation recipient binding, per-turn sequencing, exact duplicate idempotency, timeout, cancellation, disconnect survival, and bounded reconnect retrieval",
+      "Provider-neutral adapter boundary with deterministic fake proof and at-most-one dispatch per accepted turn",
+      "Observatory integration that renders operator turns and agent replies only after fully correlated Runtime-authoritative outcomes",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "Focused Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, strict Clippy, and diff-hygiene validation evidence",
+      "Exact-head review with all actionable findings resolved before publication"
+    ]
+  },
+  "fail_after_backup": false
+}

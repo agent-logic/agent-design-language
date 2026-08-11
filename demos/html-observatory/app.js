@@ -883,19 +883,60 @@ function authenticateRuntimeV3ObservatorySocket(socket, token) {
   }));
 }
 
-function conversationReplyFromFrame(frame, pending) {
+const CONVERSATION_RESULT_STATUSES = new Set([
+  "accepted",
+  "delivered",
+  "refused",
+  "failed",
+  "timed_out",
+  "cancelled"
+]);
+
+function conversationFrameTransition(frame, pending) {
   if (!frame || !pending ||
       frame.schema !== "adl.runtime_v3.observatory_conversation_result.v1" ||
-      frame.status !== "delivered" ||
+      frame.conversation_id !== pending.conversationId ||
       frame.turn_id !== pending.turnId ||
-      frame.recipient_id !== pending.recipientId ||
-      frame.correlation_id !== pending.correlationId ||
-      typeof frame.reply !== "string" ||
-      !frame.reply.trim() ||
-      frame.reply.length > 4096) {
+      !CONVERSATION_RESULT_STATUSES.has(frame.status)) {
     return null;
   }
-  return frame.reply;
+  if (pending.cancelRequested &&
+      frame.status === "accepted" &&
+      frame.recipient_id === pending.recipientId &&
+      frame.correlation_id === pending.correlationId) {
+    return { status: "cancelling", terminal: false, reply: null };
+  }
+  if (frame.recipient_id !== pending.recipientId ||
+      frame.correlation_id !== pending.correlationId) {
+    return null;
+  }
+  const reply = frame.status === "delivered" &&
+    typeof frame.reply === "string" &&
+    frame.reply.trim() &&
+    frame.reply.length <= 4096
+    ? frame.reply
+    : null;
+  if (frame.status === "delivered" && !reply) {
+    return null;
+  }
+  return {
+    status: frame.status,
+    terminal: frame.status !== "accepted",
+    reply
+  };
+}
+
+function conversationReplyFromFrame(frame, pending) {
+  return conversationFrameTransition(frame, pending)?.reply || null;
+}
+
+function conversationReconnectIntent(pending) {
+  if (!pending || !pending.disconnected || pending.terminal || pending.reconnectReplayCount >= 1) {
+    return null;
+  }
+  pending.reconnectReplayCount += 1;
+  pending.disconnected = false;
+  return pending.intent;
 }
 
 async function fetchRetainedRuntimeSnapshot(refs = {}) {
@@ -1651,31 +1692,115 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   };
 
-  const appendConversationTurn = (speaker, message) => {
+  const appendConversationTurn = (speaker, message, turnId, status = "") => {
     if (!conversationTranscript) return;
     conversationTranscript.querySelector(".conversation-empty")?.remove();
     const item = document.createElement("li");
     item.className = "conversation-turn";
     item.dataset.speaker = speaker;
-    item.textContent = message;
+    if (turnId) item.dataset.turnId = turnId;
+    const content = document.createElement("span");
+    content.className = "conversation-turn-content";
+    content.textContent = message;
+    item.append(content);
+    const state = document.createElement("span");
+    state.className = "conversation-turn-status";
+    state.textContent = status;
+    item.append(state);
     conversationTranscript.append(item);
     conversationTranscript.scrollTop = conversationTranscript.scrollHeight;
+    return item;
+  };
+
+  const conversationTurnElement = (turnId) =>
+    Array.from(conversationTranscript?.querySelectorAll(".conversation-turn") || [])
+      .find((item) => item.dataset.turnId === turnId && item.dataset.speaker === "operator") || null;
+
+  const setConversationTurnStatus = (pending, status) => {
+    const item = conversationTurnElement(pending.turnId);
+    const state = item?.querySelector(".conversation-turn-status");
+    if (state) state.textContent = status;
+    if (conversationStatus) conversationStatus.textContent = status;
+  };
+
+  const sendConversationCancel = (pending) => {
+    if (!conversationAuthorized || !liveSocket || liveSocket.readyState !== WebSocket.OPEN || pending.terminal) {
+      setConversationTurnStatus(pending, "connection required");
+      return;
+    }
+    pending.cancelRequested = true;
+    liveSocket.send(JSON.stringify({
+      schema: "adl.runtime_v3.observatory_conversation_cancel.v1",
+      conversation_id: pending.conversationId,
+      turn_id: pending.turnId,
+      correlation_id: pending.correlationId
+    }));
+    pending.cancelButton?.setAttribute("disabled", "");
+    setConversationTurnStatus(pending, "cancelling");
+  };
+
+  const renderAcceptedConversationTurn = (pending) => {
+    if (pending.operatorRendered) return;
+    const item = appendConversationTurn("operator", pending.message, pending.turnId, "accepted");
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "conversation-turn-cancel";
+    cancel.title = "Cancel this turn";
+    cancel.setAttribute("aria-label", "Cancel this turn");
+    cancel.textContent = "Cancel";
+    cancel.addEventListener("click", () => sendConversationCancel(pending));
+    item?.append(cancel);
+    pending.cancelButton = cancel;
+    pending.operatorRendered = true;
+  };
+
+  const markPendingConversationsDisconnected = () => {
+    for (const pending of pendingConversationTurns.values()) {
+      if (pending.terminal) continue;
+      pending.disconnected = true;
+      setConversationTurnStatus(pending, "disconnected");
+    }
+  };
+
+  const replayPendingConversationsAfterAuthentication = () => {
+    if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) return;
+    for (const pending of pendingConversationTurns.values()) {
+      const intent = conversationReconnectIntent(pending);
+      if (!intent) continue;
+      liveSocket.send(JSON.stringify(intent));
+      setConversationTurnStatus(pending, "reconnecting");
+    }
   };
 
   const renderControlFrame = (frame) => {
     if (frame.status === "authenticated") {
       setWriteAccess(true, "write access enabled", JSON.stringify(frame, null, 2));
+      replayPendingConversationsAfterAuthentication();
       return;
     }
     if (frame.schema === "adl.runtime_v3.observatory_conversation_result.v1") {
       const pending = pendingConversationTurns.get(frame.turn_id);
-      pendingConversationTurns.delete(frame.turn_id);
-      const reply = conversationReplyFromFrame(frame, pending);
-      if (reply) {
-        appendConversationTurn("agent", reply);
-        if (conversationStatus) conversationStatus.textContent = "delivered";
-      } else {
-        if (conversationStatus) conversationStatus.textContent = frame.error || frame.status || "refused";
+      const transition = conversationFrameTransition(frame, pending);
+      if (!transition) return;
+      if (frame.status === "accepted" && transition.status === "accepted") {
+        renderAcceptedConversationTurn(pending);
+      }
+      if (transition.terminal && !pending.operatorRendered) {
+        appendConversationTurn(
+          "runtime",
+          `Turn ${transition.status}${frame.error ? `: ${frame.error}` : ""}`,
+          pending.turnId,
+          transition.status
+        );
+      }
+      setConversationTurnStatus(pending, transition.status);
+      if (transition.reply) {
+        appendConversationTurn("agent", transition.reply, pending.turnId, "delivered");
+      }
+      if (transition.terminal) {
+        pending.terminal = true;
+        pending.cancelButton?.remove();
+        pendingConversationTurns.delete(frame.turn_id);
       }
       if (conversationSend) {
         conversationSend.disabled = !conversationAuthorized || !conversationRecipient?.value;
@@ -1906,6 +2031,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               return;
             }
             if (liveSocket === socket) {
+              markPendingConversationsDisconnected();
               liveSocket = null;
               setText("statusbar-websocket", "disconnected");
               setWriteAccess(false, "public read", "The live connection closed. Public monitoring can reconnect without login.");
@@ -2046,18 +2172,31 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     const randomId = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now().toString(16).padStart(32, "0")}`;
     const turnId = `turn-${randomId}`;
     const conversationId = `conversation-${recipientId}`;
-    pendingConversationTurns.set(turnId, { turnId, recipientId, correlationId: randomId, message });
-    liveSocket.send(JSON.stringify({
+    const intent = {
       schema: "adl.runtime_v3.observatory_conversation_intent.v1",
       conversation_id: conversationId,
       turn_id: turnId,
       recipient_id: recipientId,
       correlation_id: randomId,
       message
-    }));
-    appendConversationTurn("operator", message);
+    };
+    pendingConversationTurns.set(turnId, {
+      conversationId,
+      turnId,
+      recipientId,
+      correlationId: randomId,
+      message,
+      intent,
+      operatorRendered: false,
+      disconnected: false,
+      reconnectReplayCount: 0,
+      terminal: false,
+      cancelRequested: false,
+      cancelButton: null
+    });
+    liveSocket.send(JSON.stringify(intent));
     if (conversationMessage) conversationMessage.value = "";
-    if (conversationStatus) conversationStatus.textContent = "accepted";
+    if (conversationStatus) conversationStatus.textContent = "awaiting runtime";
     conversationSend.disabled = true;
   });
 
@@ -2164,6 +2303,8 @@ globalThis.AdlHtmlObservatory = {
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,
+  conversationFrameTransition,
+  conversationReconnectIntent,
   conversationReplyFromFrame,
   fetchRetainedRuntimeSnapshot,
   requestedRuntimeSelection,

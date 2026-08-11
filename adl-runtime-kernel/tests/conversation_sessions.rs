@@ -1,4 +1,11 @@
-use std::{collections::BTreeMap, sync::Arc, time::Duration};
+use std::{
+    collections::BTreeMap,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc,
+    },
+    time::Duration,
+};
 
 use adl_runtime_kernel::{
     serve_control_listener, AdapterKind, AdapterPolicy, AuthorityMode, CanonicalIngress,
@@ -6,8 +13,8 @@ use adl_runtime_kernel::{
     FailureClass, Kernel, KernelExit, LifecycleControl, OperationExecutor, OperationRequest,
     OperationalAdapter, OperationalFactory, RuntimeRecorder, OBSERVATORY_FEED_SCHEMA,
     OBSERVATORY_WS_AUTH_SCHEMA, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
-    OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-    OBSERVATORY_WS_PATH,
+    OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA, OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+    OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA, OBSERVATORY_WS_PATH,
 };
 use async_trait::async_trait;
 use futures::{SinkExt, StreamExt};
@@ -25,7 +32,9 @@ use tls_support::TestPki;
 const TOKEN: &str = "conversation-test-token-000000000001";
 
 struct FakeLifecycle;
-struct ConversationExecutor;
+struct ConversationExecutor {
+    dispatches: Arc<AtomicUsize>,
+}
 
 #[async_trait]
 impl LifecycleControl for FakeLifecycle {
@@ -37,6 +46,7 @@ impl LifecycleControl for FakeLifecycle {
 #[async_trait]
 impl OperationExecutor for ConversationExecutor {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        self.dispatches.fetch_add(1, Ordering::SeqCst);
         let work: serde_json::Value =
             serde_json::from_slice(&request.payload).map_err(|error| ExecutorError {
                 class: FailureClass::Fatal,
@@ -54,6 +64,9 @@ impl OperationExecutor for ConversationExecutor {
         } else {
             recipient_id
         };
+        if work["tasks"][0]["input"] == "delay" {
+            tokio::time::sleep(Duration::from_millis(250)).await;
+        }
         serde_json::to_vec(&serde_json::json!({
             "schema": "adl.runtime.local_agent_execution.v1",
             "outputs": [{
@@ -75,6 +88,7 @@ impl OperationExecutor for ConversationExecutor {
 #[tokio::test]
 async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() {
     let recorder = RuntimeRecorder::new(32);
+    let dispatches = Arc::new(AtomicUsize::new(0));
     let adapter = Arc::new(
         OperationalAdapter::new(
             AdapterKind::Agent,
@@ -86,7 +100,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
                 idempotency_entries: 16,
                 authority: AuthorityMode::Internal,
             },
-            Arc::new(ConversationExecutor),
+            Arc::new(ConversationExecutor {
+                dispatches: dispatches.clone(),
+            }),
         )
         .unwrap(),
     );
@@ -143,7 +159,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             tls,
             ControlApiPolicy::new(
                 Duration::from_secs(2),
-                Duration::from_secs(5),
+                Duration::from_millis(100),
                 Duration::from_millis(20),
                 64 * 1024,
             )
@@ -196,11 +212,57 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         ))
         .await
         .unwrap();
+    let accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(accepted["status"], "accepted");
+    assert_eq!(accepted["turn_sequence"], 1);
     let delivered =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(delivered["status"], "delivered");
     assert_eq!(delivered["reply"], "agent-0001 received your message.");
     assert!(!delivered.to_string().contains("adapter_secret"));
+    assert_eq!(dispatches.load(Ordering::SeqCst), 1);
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-agent-0001",
+                "turn_id": "turn-positive",
+                "recipient_id": "agent-0001",
+                "correlation_id": "0123456789abcdef0123456789abcdef",
+                "message": "Hello"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let duplicate =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(duplicate["status"], "delivered");
+    assert_eq!(dispatches.load(Ordering::SeqCst), 1);
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-agent-0001",
+                "turn_id": "turn-positive",
+                "recipient_id": "agent-0001",
+                "correlation_id": "0123456789abcdef0123456789abcdef",
+                "message": "Changed payload"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let conflict =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(conflict["status"], "refused");
+    assert_eq!(conflict["error"], "conversation_conflict");
+    assert_eq!(dispatches.load(Ordering::SeqCst), 1);
 
     socket
         .send(Message::Text(
@@ -239,8 +301,112 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .unwrap();
     let failed =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(failed["status"], "accepted");
+    let failed =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(failed["status"], "failed");
     assert!(failed.get("reply").is_none());
+
+    let delayed_intent = serde_json::json!({
+        "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+        "conversation_id": "conversation-agent-0001",
+        "turn_id": "turn-disconnect",
+        "recipient_id": "agent-0001",
+        "correlation_id": "22222222222222222222222222222222",
+        "message": "delay"
+    });
+    socket
+        .send(Message::Text(delayed_intent.to_string().into()))
+        .await
+        .unwrap();
+    let accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(accepted["status"], "accepted");
+    socket.close(None).await.unwrap();
+    tokio::time::sleep(Duration::from_millis(150)).await;
+
+    let mut request = format!("wss://localhost:{}{OBSERVATORY_WS_PATH}", address.port())
+        .into_client_request()
+        .unwrap();
+    request.headers_mut().insert(
+        "Origin",
+        HeaderValue::from_static("https://observatory.example.test"),
+    );
+    let (mut socket, _) = connect_async_tls_with_config(
+        request,
+        None,
+        false,
+        Some(Connector::Rustls(Arc::new(
+            ClientConfig::builder()
+                .with_root_certificates(pki.roots())
+                .with_no_client_auth(),
+        ))),
+    )
+    .await
+    .unwrap();
+    let _ = next_frame_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_AUTH_SCHEMA,
+                "bearer_token": TOKEN,
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let _ = next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    socket
+        .send(Message::Text(delayed_intent.to_string().into()))
+        .await
+        .unwrap();
+    let timed_out =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(timed_out["status"], "timed_out");
+    assert_eq!(dispatches.load(Ordering::SeqCst), 3);
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-agent-0001",
+                "turn_id": "turn-cancel",
+                "recipient_id": "agent-0001",
+                "correlation_id": "33333333333333333333333333333333",
+                "message": "delay"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(accepted["status"], "accepted");
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA,
+                "conversation_id": "conversation-agent-0001",
+                "turn_id": "turn-cancel",
+                "correlation_id": "33333333333333333333333333333333"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let first =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let second =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let statuses = [
+        first["status"].as_str().unwrap(),
+        second["status"].as_str().unwrap(),
+    ];
+    assert!(statuses.contains(&"accepted"));
+    assert!(statuses.contains(&"cancelled"));
 
     socket.close(None).await.unwrap();
     server.abort();
