@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
 [
   {
     "lane": "authorized-learner-transport",
-    "proof_role": "Prove the unchanged exact thirty-six semantic learner cases through forty-two passing private runner tests, including six supplemental authority-boundary, boot-custody, durable-instance, peer-pin, and real-effect race tests, with exactly twenty-nine named subassertions.",
+    "proof_role": "Prove the unchanged exact thirty-six semantic learner cases through forty-two passing private runner tests, including distinct learner-owned production authority, production recovery enforcement, exact removal deadline and target-membership binding, cache-first retry, boot custody, durable instance and peer pins, and real-effect races, with exactly thirty-one named subassertions.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -52,7 +52,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       "--test-threads=1"
     ],
     "parallel_group": "202-runtime",
-    "defer_reason": "Fail closed unless all 42 runner tests pass, all 36 semantic cases remain represented, and the exact 29 named subassertions occur once."
+    "defer_reason": "Fail closed unless all 42 runner tests pass, all 36 semantic cases remain represented, and the exact 31 named subassertions occur once."
   },
   {
     "lane": "authorized-learner-transport-public-boundary",
@@ -131,7 +131,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
   },
   {
     "lane": "authorized-learner-runtime-integration-compile",
-    "proof_role": "Compile the full distributed runtime transport target against the factory-owned governed authority API.",
+    "proof_role": "Compile the full distributed runtime transport target against both voter-owned and learner-owned governed authority factories.",
     "acceptance_ids": [
       "AC-4",
       "AC-8"
@@ -151,7 +151,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       "--no-run"
     ],
     "parallel_group": "202-compile",
-    "defer_reason": "Fail closed if runtime integration bypasses sole factory ownership or does not compile."
+    "defer_reason": "Fail closed if runtime integration bypasses factory ownership or does not compile."
   },
   {
     "lane": "authorized-learner-transport-clippy-lib",
@@ -204,7 +204,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
   },
   {
     "lane": "authorized-learner-transport-producer",
-    "proof_role": "Produce v6 exact-source evidence binding current-main ancestry, all protected paths, 36 semantic versus 42 runner plus 13 public and 29 subassertions, three integration compiles, and strict Clippy.",
+    "proof_role": "Produce v7 exact-source evidence binding a fully clean worktree, exact current origin/main ancestry, all protected paths, 36 semantic versus 42 runner plus 13 public and 31 subassertions, three integration compiles, and strict Clippy.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -217,11 +217,11 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       ".csdlc/prepared/issues/202/produce-proof-receipt.rb"
     ],
     "parallel_group": "202-proof",
-    "defer_reason": "Fail closed on dirty protected source, stale ancestry, API-boundary guard drift, count mismatch, or any failed command."
+    "defer_reason": "Fail closed on any dirty or untracked path outside v7 output, stale origin/main, API-boundary drift, count mismatch, or failed command."
   },
   {
     "lane": "authorized-learner-transport-receipt",
-    "proof_role": "Validate immutable v6 exact-source evidence and protected-path parity for fresh independent review.",
+    "proof_role": "Validate immutable v7 exact-source evidence, protected-path parity, and exact current origin/main ancestry for fresh independent review.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -234,7 +234,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
     ],
     "parallel_group": "202-proof",
-    "defer_reason": "Fail closed until exact source, denominators, commands, immutable evidence introduction, and current-main ancestry agree."
+    "defer_reason": "Fail closed until exact source, denominators, commands, immutable evidence introduction, protected paths, and exact current origin/main agree."
   }
 ]
 

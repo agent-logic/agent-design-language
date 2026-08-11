@@ -12,170 +12,47 @@ Status: pre_phase
 
 ## Summary
 
-Resolved the fresh authority-boundary findings on exact current-main ancestry. The private governed subtree gives SecurePolisNetworkFactory sole mutation ownership; durable local instance and exact peer pins bind fresh and retained connections; runtime-owned boot custody rechecks the durable generation while signing; and one shared authority lease spans stream creation, actual Raft effect, and response. Immutable v6 proof passes 42 private runner tests representing the unchanged 36 semantic cases, separately 13 public tests and 29 named subassertions, all three standalone integration compiles, and strict library/public Clippy. The STP repo-input reference to the former polis_runtime.rs path and SPP S3 shorthand 36+13 are retained historical planning inputs: current paths are authoritative in STP deliverables/SPP affected areas, while VPP and this SOR separate 36 semantic, 42 runner, 13 public, and 29 subassertion denominators. Fresh independent exact-head review and publication remain pending.
+Resolved all four generation-38 production review findings on exact current origin/main ancestry. A distinct learner-owned factory now holds its own durable transport instance and live boot custody; pending exclusion governs recovery admission and route retention; removal binds target membership and deadline with cache-first exact retry; and immutable v7 proof requires a fully clean worktree plus exact current origin/main. The STP v6 evidence entry remains immutable historical design-time input because typed lifecycle policy forbids STP mutation after implemented; current proof authority is the v7 VPP, SOR, SRP, and evidence packet.
 
 ## Artifacts
 
-- adl-runtime/src/distributed/mod.rs
-- adl-runtime/src/distributed/authority_protocol.rs
-- adl-runtime/src/distributed/transport.rs
-- adl-runtime/src/distributed/transport/core.rs
-- adl-runtime/src/distributed/transport/root.rs
 - adl-runtime/src/distributed/transport/governed/learner_transport.rs
 - adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
 - adl-runtime/src/distributed/transport/governed/polis_runtime.rs
-- adl-runtime/tests/distributed_authorized_learner_transport.rs
-- adl-runtime/tests/distributed_transport.rs
-- adl-runtime/tests/distributed_discovery.rs
-- adl-runtime/tests/distributed_runtime_transport.rs
 - .csdlc/prepared/issues/202/produce-proof-receipt.rb
 - .csdlc/prepared/issues/202/validate-proof-receipt.rb
-- .csdlc/evidence/202/v6/execution-proof.json
+- .csdlc/evidence/202/v7/execution-proof.json
 
 ## Execution
 
-- Moved learner authority and Polis runtime integration below private transport::governed while preserving public distributed learner_transport and polis_runtime reexports and unchanged standalone targets.
-- Made the dependency-free transport core own private authority state, nonclone mutation ownership, opaque wire sessions, and opaque handshake, send, receive, pending-response, and response permits.
-- Made SecurePolisNetworkFactory the sole mutation owner and serialized admission, successor flip, expiry, exclusion, and authority-cut replacement through one transition and route-drain order.
-- Retained one shared authority lease from exact revalidation through QUIC stream creation, actual ordinary or learner Raft effect, and response send or receive without a dropped gap or nested read.
-- Persisted a separate random local transport instance id and canonical exact peer pins keyed by role, stable Raft id, node id, and Guardian id; signed handshakes bind sender and intended receiver instances.
-- Added runtime-owned nonclone boot generation custody and held its durable current-generation guard while the nonextractable Guardian signer signs each live learner binding.
-- Reconstructed exact voter-cut digest, admission, peer-pin, and exclusion view before factory exposure and revalidated them on every governed session operation.
-- Added deterministic real-effect expiry fencing, retained-session exclusion zero-STREAM, boot N to N plus 1 signing denial, durable instance restart, and fresh alternate-factory peer denial regressions.
-- Preserved the exact thirty-six semantic learner contract while expanding the private runner to forty-two tests and the named behavior inventory to twenty-nine subassertions.
-- Protected the transport shim, core, root, governed learner source and tests, governed runtime, module root, authority protocol, public target, three integration targets, and v6 proof scripts.
+- Added SecureLearnerNetworkFactory as a learner-owned production ingress path with distinct durable ProductionLearnerAuthority, TransportAuthorityOwner, transport instance, peer pins, and nonextractable LearnerBootAttestationCustody.
+- Proved the voter and learner factories complete a production handshake over Quinn and replicate snapshot plus append traffic into a real fourth PolisRaft while the learner-owned expiry writer waits through the actual Raft effect and response.
+- Made pending exclusion govern admission currentness, session currentness, voter-side route installation, learner-side ingress, and recovery of the same stable Raft id under a new node and Guardian identity with a higher committed index.
+- Bound removal activation and durable recovery state to the exact target-membership digest and live authorization deadline while serving exact retries from durable cache before re-decoding an expired result.
+- Drained learner routes denied by exclusion and retained transition serialization across ordinary and learner dispatch locks.
+- Rebased onto exact origin/main 1567469e395f9a6ea6c2e736366a8008f5ee1e06 and introduced immutable v7 evidence with no temporary-directory or machine-local cleanliness exceptions.
+- Recorded v7 as current validation and review authority while preserving the typed lifecycle's immutable implemented-phase STP history.
 
 ## Validation
 
 [
   {
     "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--lib",
-      "distributed::transport::governed::learner_transport::tests",
-      "--",
-      "--nocapture",
-      "--test-threads=1"
-    ],
-    "purpose": "Run 42 private runner tests for the unchanged 36 semantic cases and exact 29 named subassertions.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_authorized_learner_transport",
-      "--",
-      "--test-threads=1"
-    ],
-    "purpose": "Run the separate exact 13-test public artifact boundary.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_transport",
-      "--no-run"
-    ],
-    "purpose": "Compile the unchanged standalone transport target.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_discovery",
-      "--no-run"
-    ],
-    "purpose": "Compile the unchanged standalone discovery target.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_runtime_transport",
-      "--no-run"
-    ],
-    "purpose": "Compile the governed runtime integration target.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "clippy",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--lib",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "purpose": "Run strict production library Clippy.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "clippy",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_authorized_learner_transport",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "purpose": "Run strict public target Clippy.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
-  },
-  {
-    "command": [
       "ruby",
       ".csdlc/prepared/issues/202/produce-proof-receipt.rb"
     ],
-    "purpose": "Produce immutable v6 exact-source evidence.",
+    "purpose": "Produce exact clean-source v7 evidence for 36 semantic cases, 42 private runner tests, 13 public tests, 31 named behavior assertions, three integration compiles, and strict library and public Clippy.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v7/execution-proof.json"
   },
   {
     "command": [
       "ruby",
       ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
     ],
-    "purpose": "Validate immutable v6 exact-source evidence, protected-path parity, exact 36 semantic / 42 runner / 13 public / 29 assertion denominators, three integration compiles, strict Clippy, and current-main ancestry.",
+    "purpose": "Validate immutable v7 protected-source parity, exact current origin/main ancestry, proof denominators, command streams, and absence of post-proof drift.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v6/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v7/execution-proof.json"
   }
 ]
 
