@@ -6,10 +6,28 @@
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
   "phase": "implemented",
   "generation": 5,
-  "digest": "d8acea84b0474378731818ad6bf0981c578fd535e147fcff18656fa9b55d1989",
+  "digest": "dfb0b0a8ad54d795fbd52c3137f9c45cbc756ca06b09af67c757667f873314b2",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_209_exact_head",
+    "assigned_by": "/root/sprint4_5857",
+    "revision": "git-blake3:ef4e03ca84550a47dcafad996c16f0862811c0f4:67087d3514da441207cb814ba6ccec8d9d23dac9355a480243ba49a79b3679da",
+    "scope": [
+      ".csdlc/issues/209",
+      ".csdlc/prepared/issues/209/design.md",
+      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      ".csdlc/evidence/209",
+      ".github/workflows/wp14-production-acip-repair.yml",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +63,9 @@
       "ast_digest": "151d846e28b49f0ebcdbb3bbf15386246db6b4d85348b645fd0ad962b5235ccb"
     },
     "srp": {
-      "values_digest": "e14f95ba3ff8217307d2c8c72cd2f1245e972bfab347831241cd7c7aa5a18339",
-      "rendered_digest": "4509b9bb41fb9f0bc69eacba44a9fbeaa735d81555a8da778e92107c45e4ae0c",
-      "ast_digest": "8bf94a34d92f04afa1c12f9b864b31656d6405c02dd03d3dcdd9af1c2d403d07"
+      "values_digest": "d051e5904ebac90005c4c1d81748e618260c69353ba773832a5cef9541106ae4",
+      "rendered_digest": "16d0e5e4824a53f35dade85f2bca3472825d5be24b167cc529f5bb229b599ac9",
+      "ast_digest": "58beed186efe5cafb03cd3bccfe5bb3b558df72decf6a72c2b5a2406457b9258"
     },
     "sor": {
       "values_digest": "66deb80cccae12579ae1bb58728c204d4c1991366c64a96282eadb3a0c781073",
@@ -127,6 +145,13 @@
       "actor": "codex:209-acip-authority-repair",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

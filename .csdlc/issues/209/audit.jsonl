@@ -5,3 +5,4 @@
 {"sequence":5,"generation":3,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":6,"generation":4,"actor":"operator-authorized:209-current-production-contract","reason":"reapprove changed issue design","operation":"approve_design"}
 {"sequence":7,"generation":5,"actor":"codex:209-acip-authority-repair","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":8,"generation":5,"actor":"/root/sprint4_5857","reason":"assign bounded exact-revision review","operation":"assign_review"}

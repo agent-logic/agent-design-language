@@ -12,7 +12,18 @@ Status: pre_phase
 
 ## Scope
 
-Issue #209 production ACIP dispatch, pressure/typed-error behavior, scoped replay authority, OpenAPI parity, focused tests, native proof, and typed lifecycle evidence.
+.csdlc/issues/209
+.csdlc/prepared/issues/209/design.md
+.csdlc/prepared/issues/209/produce-native-receipt.rb
+.csdlc/prepared/issues/209/validate-native-receipts.rb
+.csdlc/evidence/209
+.github/workflows/wp14-production-acip-repair.yml
+adl-runtime-kernel/src/acip.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/tests/production_acip_wss.rs
+adl-runtime/src/runtime_api_auth.rs
+docs/api/runtime-v3/v1/openapi.json
+docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md
 
 ## Prompts
 
