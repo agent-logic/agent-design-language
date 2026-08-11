@@ -70,11 +70,11 @@ Implemented root-aware terminal envelope validation for governed publication met
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

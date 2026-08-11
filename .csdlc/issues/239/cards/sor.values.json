@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2] Reconcile terminal envelopes across publication metadata-only heads",
     "slug": "csdlc-v2-terminal-envelope-metadata-only-head-reconciliation",
     "version": "v0.92",
-    "generation": 12
+    "generation": 13
   },
   "status": "pre_phase",
   "content": {
@@ -63,8 +63,8 @@
           "evidence_ref": "terminal-envelope-metadata-head.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
