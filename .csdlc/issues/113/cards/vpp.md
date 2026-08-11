@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/113/diagram.mmd
 [
   {
     "lane": "agent-roster-contract",
-    "proof_role": "Run the exact nonzero issue-owned agent_roster integration target for deterministic paginated roster and detail projection, stable identity, every declared presence state, freshness deadlines, provenance, policy filtering and redaction, relocation fencing, capability and communication eligibility, token and cursor integrity, reconnect and restart behavior, and large-Polis resource bounds.",
+    "proof_role": "Prove deterministic production-admission-backed roster projection, policy filtering, pagination, stable identity, event-owned freshness, relocation, revision ordering, and bounded large-Polis behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -51,11 +51,11 @@ Diagram: .csdlc/prepared/issues/113/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "runtime",
-    "defer_reason": "The checked-in target is an explicit one-test fail-closed sentinel until #113 implementation replaces it after the #83 and #142 serial gates pass; it must never report product proof from missing or zero selected tests."
+    "defer_reason": null
   },
   {
     "lane": "observatory-control-wss-parity",
-    "proof_role": "Run the exact control integration target required by the design for authenticated roster and detail routes, WSS revision updates, policy-safe denial, reconnect behavior, and removal of sample-as-complete behavior.",
+    "proof_role": "Prove the production roster route, admission and component-state conjunction, server-authoritative policy projection, pagination, and revision behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-4",
@@ -82,7 +82,7 @@ Diagram: .csdlc/prepared/issues/113/diagram.mmd
   },
   {
     "lane": "observatory-openapi-parity",
-    "proof_role": "Run the exact OpenAPI contract target required by the design for runtime route and schema parity, policy-safe roster and detail descriptions, and absence of invented or duplicate authorities.",
+    "proof_role": "Prove the versioned roster route and schema match the production implementation without invented authorities.",
     "acceptance_ids": [
       "AC-1",
       "AC-4",
@@ -108,7 +108,7 @@ Diagram: .csdlc/prepared/issues/113/diagram.mmd
   },
   {
     "lane": "observatory-roster-browser",
-    "proof_role": "Run the exact issue-owned live Runtime-backed roster browser validator for truthful count and pagination, presence and freshness display, server-authoritative visibility and redaction, bounded capability and communication eligibility, revision-bound updates, search, filter, sort, selection, detail, status changes, keyboard operation, denial, disconnect, bounded reconnect without duplicates, bounded DOM rows, responsive layout, and a clean console.",
+    "proof_role": "Drive the exact Runtime-backed browser flow for truthful identity and presence, pagination, search, selection, revision/cursor fencing, reconnect without duplicates, responsive layout, and clean console behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
@@ -128,7 +128,7 @@ Diagram: .csdlc/prepared/issues/113/diagram.mmd
       "adl/tools/validate_v092_html_observatory_roster.mjs"
     ],
     "parallel_group": "browser",
-    "defer_reason": "The checked-in validator is an explicit fail-closed sentinel until #113 implementation replaces it after #83 hands off the Observatory paths and #142 lands the required Runtime identity and topology contract; it must never report product proof before the live candidate is exercised."
+    "defer_reason": null
   },
   {
     "lane": "roster-focused-clippy",
@@ -157,7 +157,7 @@ Diagram: .csdlc/prepared/issues/113/diagram.mmd
   },
   {
     "lane": "issue-diff-hygiene",
-    "proof_role": "Reject malformed whitespace and patch artifacts; independent exact-head review remains solely review-owned.",
+    "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
     "acceptance_ids": [
       "AC-9"
     ],
@@ -175,7 +175,7 @@ Diagram: .csdlc/prepared/issues/113/diagram.mmd
   },
   {
     "lane": "independent-exact-head-review",
-    "proof_role": "Require the independent review owner to guard the exact candidate revision and leave no unresolved actionable findings before publication; this lane alone owns AC-10 acceptance mapping.",
+    "proof_role": "Require an independent reviewer to inspect the exact clean candidate and leave no unresolved actionable findings before publication.",
     "acceptance_ids": [
       "AC-10"
     ],
@@ -190,7 +190,7 @@ Diagram: .csdlc/prepared/issues/113/diagram.mmd
       ".git/csdlc-v2/requests/113-review.json"
     ],
     "parallel_group": "pre-publication-review",
-    "defer_reason": "Runs only after the complete #113 candidate and all deterministic product lanes are current; it is independent review proof, not diff hygiene or product validation."
+    "defer_reason": "Runs after all deterministic product lanes are current; independent review remains separate from implementation-owned validation."
   }
 ]
 
