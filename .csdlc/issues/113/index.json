@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "ready",
-  "generation": 11,
-  "digest": "84530f9015d25bc85916c1de19e9a2829bf2e0abbb56eaa70884c29a4fa9b4f5",
+  "generation": 12,
+  "digest": "318d81689d98049c456215c112e0afbcdd4c612e3e19bf5602ece216cbab914f",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "10a96872764472b1a10295f4bbb913a68feb7ce02f8e8934d568e1b6efda3c4c",
+      "values_digest": "0d131ed98788703bf8f417a1dc37a94e6814598477bf7288c36da765e8073017",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "31030f062326d05ac052e3587e556b97092f89d39f1c705eb029df40d38048cc",
+      "values_digest": "0c2ddb65b58009a196b3c1b186b42574edec927d3fafef855dc50ec3adb16a5b",
       "rendered_digest": "990b50067a8730898305c1b178b5a8b57257b8ed1098e242836763345447332c",
       "ast_digest": "d97cfd507f399fd21c60010307bec0825c98c3ee273d70d738a70afeb4396e51"
     },
     "spp": {
-      "values_digest": "e701788e54972ab7837a5e458d7ba5eb4d133a2699f924b136176391fd2c69cb",
+      "values_digest": "353aeae8fa731cf821d9c3de799e4422f6582d4d35bf5852b78f58ec91515f54",
       "rendered_digest": "57d3ebc3af7f2d0a09f6ce10dcf0b11bd6596cd5ece2398a05ce4f6e1a555e33",
       "ast_digest": "d258616f1a37572c21368d8c50ddfaeb99b9410a3d5dd5dc3f04f4ed5f6f368b"
     },
     "vpp": {
-      "values_digest": "574b4a7ee0a1a6daed9443c0c0d3a634eecba9790a999daafb6e6e7a97835f11",
-      "rendered_digest": "a1b18b1e705b93c68b1794dc1adfa9cb6fc9fd60cb21f4dabe17994614808f28",
-      "ast_digest": "b0327ef08e3c4346c5dcd5ae64737bd2605992d867352846a3e20a5a362d88a1"
+      "values_digest": "3ca2da98311e6b7470300792f338aae4e946b9e4f21a6fe21aa0cd3fe022cfe1",
+      "rendered_digest": "6f4ee8aaa580cd3f0ffe5367dc2334a6580eedc04fc2381a132bb7eced320bc6",
+      "ast_digest": "2b7d4e95f41c68ea5aad2b1dc8c162cb9624b58f3e76b22bf4092c568d52b901"
     },
     "srp": {
-      "values_digest": "38632062c12c6cb56c6a85564347a32a9eb3f22c58571e084a55cf55742efdf1",
+      "values_digest": "efe54192274423d8b5efb4b1f1f89ee4f47cca56697c9851b3fa23d0961b469c",
       "rendered_digest": "0f2ba31fec14441b4f6b9fdbd93f2d31fd1dc2f6d844b4e3caab76d487b207ca",
       "ast_digest": "561ca13091bdccc8b6238cc66bbe339f2a8c55a24ba5d959b9f280752b2e976a"
     },
     "sor": {
-      "values_digest": "d80000b8c16b9a9cd4fdf400e582a3e45c0b755fa6421c2eec7500ec29026999",
+      "values_digest": "119f5a9d6475f160c1fb1648631a6532835b6013d1e502eb5603b04c787ced15",
       "rendered_digest": "17577983b71aba54172dc1d0442452db27a371c5a5f7083bb86dd5bd81a69739",
       "ast_digest": "113bf745061230af9980cb2729b7fd4efae7a939e0677d9a148c032622e1fd48"
     }
@@ -147,6 +147,13 @@
       "actor": "codex:113-pvf-readiness-repair",
       "reason": "Declare the two absent issue-owned validators as deferred implementation deliverables so typed readiness can distinguish planned exact proof from false-green existing controls.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl/tools/validate_v092_html_observatory_roster.mjs\",\"Versioned paginated Runtime roster and policy-safe agent-detail projections\",\"Deterministic presence, health, availability, freshness, provenance, relocation, capability, and communication-eligibility model\",\"Opaque revision-bound pagination and bounded reconnect/event update contract\",\"Search, filter, sort, selection, and status-change Observatory UI\",\"Exact positive, negative, scale, browser, OpenAPI, reconnect, and rollback proof\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:113-final-bind-readiness-repair",
+      "reason": "Retain explicit fail-closed issue-owned sentinels, restore the design-required exact control/WSS and OpenAPI parity lanes, and keep independent-review acceptance out of ordinary product and diff proof mappings.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"agent-roster-contract\",\"proof_role\":\"Run the exact nonzero issue-owned agent_roster integration target for deterministic paginated roster and detail projection, stable identity, every declared presence state, freshness deadlines, provenance, policy filtering and redaction, relocation fencing, capability and communication eligibility, token and cursor integrity, reconnect and restart behavior, and large-Polis resource bounds.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":\"The checked-in target is an explicit one-test fail-closed sentinel until #113 implementation replaces it after the #83 and #142 serial gates pass; it must never report product proof from missing or zero selected tests.\"},{\"lane\":\"observatory-control-wss-parity\",\"proof_role\":\"Run the exact control integration target required by the design for authenticated roster and detail routes, WSS revision updates, policy-safe denial, reconnect behavior, and removal of sample-as-complete behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"observatory-openapi-parity\",\"proof_role\":\"Run the exact OpenAPI contract target required by the design for runtime route and schema parity, policy-safe roster and detail descriptions, and absence of invented or duplicate authorities.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\",\"--no-tests=fail\"],\"parallel_group\":\"runtime-contract\",\"defer_reason\":null},{\"lane\":\"observatory-roster-browser\",\"proof_role\":\"Run the exact issue-owned live Runtime-backed roster browser validator for truthful count and pagination, presence and freshness display, server-authoritative visibility and redaction, bounded capability and communication eligibility, revision-bound updates, search, filter, sort, selection, detail, status changes, keyboard operation, denial, disconnect, bounded reconnect without duplicates, bounded DOM rows, responsive layout, and a clean console.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_roster.mjs\"],\"parallel_group\":\"browser\",\"defer_reason\":\"The checked-in validator is an explicit fail-closed sentinel until #113 implementation replaces it after #83 hands off the Observatory paths and #142 lands the required Runtime identity and topology contract; it must never report product proof before the live candidate is exercised.\"},{\"lane\":\"roster-focused-clippy\",\"proof_role\":\"Reject Rust type, ownership, serialization, route, and dead-code regressions across the bounded Runtime kernel library and production binary.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"static\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts; independent exact-head review remains solely review-owned.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"static\",\"defer_reason\":null},{\"lane\":\"independent-exact-head-review\",\"proof_role\":\"Require the independent review owner to guard the exact candidate revision and leave no unresolved actionable findings before publication; this lane alone owns AC-10 acceptance mapping.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-review\",\"guard\",\"--request\",\".git/csdlc-v2/requests/113-review.json\"],\"parallel_group\":\"pre-publication-review\",\"defer_reason\":\"Runs only after the complete #113 candidate and all deterministic product lanes are current; it is independent review proof, not diff hygiene or product validation.\"}]}"
     }
   ]
 }
