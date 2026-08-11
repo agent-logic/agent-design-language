@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 225,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2] Permit bounded card correction after review recovery",
+    "slug": "bounded-card-review-repair",
+    "version": "v0.92",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #225 design, two semantic operations, exact authorization and audit paths, focused Gate 2/Gate 5 proof, and absence of broader lifecycle authority.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can either operation mutate any field, phase, or card outside its exact contract?",
+        "Does SPP correction prove a real typed review recovery and cleared stale truth?",
+        "Does SIP correction remain pre-bind and invalidate stale design approval?",
+        "Do audit and real editor tests prove complete old/new values and atomic projections?",
+        "Are all later phases, retained-truth states, and direct-edit paths still rejected?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
