@@ -4,40 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
-  "phase": "reviewed",
-  "generation": 26,
-  "digest": "246db7b467c006919652d1d52f49762c1d7e4030c4d8ad95f674c3c2d91de4c1",
+  "phase": "implemented",
+  "generation": 27,
+  "digest": "6e47e1acc362385f8675e71739ac44bda23fa9c9732245bb7c52a9d158b8d8d4",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": {
-    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
-    "assigned_by": "codex:226-focused-runtime-validation-routing",
-    "revision": "git-blake3:da76e0d7c8b96cc0ad54a047d7290fcb8b0d640a:cda536cbbe6cde136bc4fe2c1b01bd8c32267cb4f12969a92f1ff90970885de0",
-    "scope": [
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      ".csdlc/evidence/226",
-      ".csdlc/prepared/issues/226/design.md"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
-    "scope": [
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      ".csdlc/evidence/226",
-      ".csdlc/prepared/issues/226/design.md"
-    ],
-    "reviewed_revision": "git-blake3:da76e0d7c8b96cc0ad54a047d7290fcb8b0d640a:cda536cbbe6cde136bc4fe2c1b01bd8c32267cb4f12969a92f1ff90970885de0",
-    "findings": [],
-    "residual_risks": [
-      "Optional hosted, coverage, soak, slow, and long jobs were intentionally not run because this is a focused routing-only repair."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -52,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7ad54f3c25750a066a62c90e09aa5c0e6a89903ff307a9be77c559f1f0848e6b",
+      "values_digest": "79076f95f8f20bb4a2e84468ead79643ee60ce94fab5a130d715a4f099395403",
       "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
       "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
     },
     "stp": {
-      "values_digest": "c9eaff63d874ab8f90d924247575206ce268aeea28e059f543aa310ecbd14aab",
+      "values_digest": "5f5a6c4c8ba406a55e331ece8714224766e94fa628122b776ad27f9d986292db",
       "rendered_digest": "a6faeaeb82e223d1b0d7ad0414ad40e1b89002e5bea0b8443c885b7af71fee58",
       "ast_digest": "7624a3c03abf3bcca7cac469399714c1e1010189fa7be49366dbc24dbf8b6166"
     },
     "spp": {
-      "values_digest": "b670fec15f5ddf14c2ea2210766fdf2cb0a8c278079de6143b4f9dee25e1c063",
+      "values_digest": "437e1e728329fd92f0d1686490e68297f1c21f2dfea5c76fa99c73e2a1ab25c6",
       "rendered_digest": "b3e191c0cb5d1523edd4ed04a5ff4110124a0b16c58912723c8a0a5aabc0550f",
       "ast_digest": "a0cd926a07e9c1d7518af1efd50f744a2cc49ce7b43c7d50c920e94d0ad9b452"
     },
     "vpp": {
-      "values_digest": "093f45bb815ab8acc7ee882eba2fb1c2926a33664d50a6400518a50184ab7d1b",
+      "values_digest": "225859e30c7a4b15d51686d725c8746b2c3ccdbb71b79c481afa30566f086cf6",
       "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "ca6b55c79a7b95af39782189e644a987d24eb400ed29c70ad3ee3f337f31ad30",
-      "rendered_digest": "b1ee146537e4f0ca23303b745b4cb83d7f02c29341a4043e90499a30a3efc2bf",
-      "ast_digest": "83f4c4f17b22a9273a8dbd2952435dc370412b8e7712806f74f3328d1cb60466"
+      "values_digest": "ff1da42ab4232a11d5255df41887c977fb71e75a3341233153c4837b75e9f3f5",
+      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
+      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
     },
     "sor": {
-      "values_digest": "0e733bdfe2a9e3b8d2090720f34be7f345396e6d30a2911345d89cd311155133",
+      "values_digest": "12e36ee132e98828bf3f5b4c6037053a0c175aa4d02a4dbf12fd65d4597ea589",
       "rendered_digest": "50bd38ec524e3785c2da01e6fd2426c164d084b259b4828ded63ab55a6985722",
       "ast_digest": "bec40a0c58bd803ce0e96adc993cca684734f0e46c86bdf7d2dc487df456113d"
     }
@@ -152,6 +125,13 @@
       "to": "reviewed",
       "actor": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover review for a publication-safe metadata-only tail; all typed review requests now remain outside tracked substantive preparation paths."
     }
   ],
   "audit": [
@@ -462,6 +442,13 @@
       "actor": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 27,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover review for a publication-safe metadata-only tail; all typed review requests now remain outside tracked substantive preparation paths.",
+      "operation": "recover_review"
     }
   ]
 }

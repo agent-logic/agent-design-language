@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-adl/config/validation_lane_selector.v0.91.6.json
-adl/tools/test_select_validation_lanes.sh
-adl/tools/test_ci_path_policy.sh
-.csdlc/evidence/226
-.csdlc/prepared/issues/226/design.md
+
 
 ## Prompts
 
@@ -34,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Optional hosted, coverage, soak, slow, and long jobs were intentionally not run because this is a focused routing-only repair.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:da76e0d7c8b96cc0ad54a047d7290fcb8b0d640a:cda536cbbe6cde136bc4fe2c1b01bd8c32267cb4f12969a92f1ff90970885de0")
+Revision: None
 
-Reviewer: Some("subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c")
+Reviewer: None
 
-Result: pass
+Result: pre_review
