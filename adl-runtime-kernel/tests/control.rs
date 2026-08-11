@@ -196,6 +196,53 @@ fn signed(key: &SigningKey, id: &str, action: ControlAction) -> SignedControlCom
 }
 
 #[tokio::test]
+async fn signed_restart_is_bound_to_the_current_runtime_incarnation() {
+    let key = SigningKey::from_bytes(&[91; 32]);
+    let calls = Arc::new(AtomicUsize::new(0));
+    let service = Arc::new(ControlService::new(
+        "instance-1",
+        RuntimeRecorder::new(16),
+        FakeLifecycle {
+            calls: calls.clone(),
+        },
+        authority(&key, [ControlCapability::Stop]),
+        8,
+    ));
+    let incarnation = service.observatory_feed().runtime_incarnation_id;
+    let stale = service
+        .execute(signed(
+            &key,
+            "restart-stale",
+            ControlAction::Restart {
+                expected_incarnation_id: uuid::Uuid::new_v4().to_string(),
+                grace_millis: 50,
+            },
+        ))
+        .await;
+    assert_eq!(stale, Err(ControlError::StaleRuntimeInstance));
+    assert_eq!(calls.load(Ordering::SeqCst), 0);
+
+    let response = service
+        .execute(signed(
+            &key,
+            "restart-current",
+            ControlAction::Restart {
+                expected_incarnation_id: incarnation,
+                grace_millis: 50,
+            },
+        ))
+        .await
+        .unwrap();
+    assert_eq!(
+        response.outcome,
+        ControlOutcome::Restart {
+            exit: ControlExit::Clean
+        }
+    );
+    assert_eq!(calls.load(Ordering::SeqCst), 1);
+}
+
+#[tokio::test]
 async fn signed_ingress_checkpoints_replays_and_is_observatory_visible() {
     let root = tempfile::tempdir().unwrap();
     let key = SigningKey::from_bytes(&[37; 32]);

@@ -336,6 +336,10 @@ async fn main() -> ExitCode {
                 )
                 .with_canonical_ingress(assembly.canonical_ingress.clone()),
             );
+            service.set_agent_roster_token_key(blake3::derive_key(
+                "adl.runtime_v3.agent_roster.page_token.continuity.v1",
+                &continuity_secret,
+            ));
             let api_policy = ControlApiPolicy::new(
                 api_drain_timeout,
                 std::time::Duration::from_millis(init.api.websocket_auth_timeout_millis),
@@ -658,12 +662,17 @@ async fn main() -> ExitCode {
 
                 api_shutdown.cancel();
                 let shutdown = handle.shutdown(grace).await;
+                let restart_requested = request.as_ref().is_some_and(|request| request.restart);
                 let terminal = match shutdown {
                     Ok(exit) => {
                         if let Some(request) = request.take() {
                             request.respond(Ok(exit.clone()));
                         }
-                        process_exit(exit)
+                        if restart_requested {
+                            ExitCode::from(75)
+                        } else {
+                            process_exit(exit)
+                        }
                     }
                     Err(error) => {
                         eprintln!("runtime {label} shutdown failed: {error}");

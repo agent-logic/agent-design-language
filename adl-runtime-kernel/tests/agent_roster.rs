@@ -155,6 +155,30 @@ fn page_tokens_bind_revision_policy_filter_and_page_size() {
         )
         .unwrap();
     assert_eq!(second.agents[0].id, "agent-b");
+    let rotated = AgentRoster::new(
+        9,
+        false,
+        [
+            evidence("agent-a", "Alpha", AgentPresence::Ready),
+            evidence("agent-b", "Beta", AgentPresence::Busy),
+            evidence("agent-c", "Gamma", AgentPresence::Sleeping),
+        ],
+        [6; 32],
+    )
+    .unwrap();
+    assert_eq!(
+        rotated.page(
+            &all,
+            AgentRosterQuery {
+                page_size: 1,
+                page_token: Some(token.clone()),
+                filter: None
+            },
+            1_500,
+        ),
+        Err(AgentRosterError::InvalidToken),
+        "rotating the continuity-bound MAC key invalidates outstanding page tokens",
+    );
     assert_eq!(
         roster.page(
             &all,

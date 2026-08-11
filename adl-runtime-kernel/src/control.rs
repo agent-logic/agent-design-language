@@ -121,8 +121,16 @@ pub enum ControlCapability {
 #[serde(tag = "action", rename_all = "snake_case")]
 pub enum ControlAction {
     Snapshot,
-    Submit { work: DomainWork },
-    Shutdown { grace_millis: u64 },
+    Submit {
+        work: DomainWork,
+    },
+    Shutdown {
+        grace_millis: u64,
+    },
+    Restart {
+        expected_incarnation_id: String,
+        grace_millis: u64,
+    },
 }
 
 impl ControlAction {
@@ -131,6 +139,7 @@ impl ControlAction {
             Self::Snapshot => ControlCapability::Read,
             Self::Submit { .. } => ControlCapability::Execute,
             Self::Shutdown { .. } => ControlCapability::Stop,
+            Self::Restart { .. } => ControlCapability::Stop,
         }
     }
 }
@@ -200,9 +209,19 @@ impl SignedControlCommand {
         }
         if matches!(
             self.action,
-            ControlAction::Shutdown { grace_millis } if grace_millis == 0 || grace_millis > MAX_SHUTDOWN_GRACE_MILLIS
+            ControlAction::Shutdown { grace_millis }
+                | ControlAction::Restart { grace_millis, .. }
+                if grace_millis == 0 || grace_millis > MAX_SHUTDOWN_GRACE_MILLIS
         ) {
             return Err(ControlError::InvalidBounds);
+        }
+        if let ControlAction::Restart {
+            expected_incarnation_id,
+            ..
+        } = &self.action
+        {
+            uuid::Uuid::parse_str(expected_incarnation_id)
+                .map_err(|_| ControlError::InvalidIdentifier)?;
         }
         Ok(())
     }
@@ -275,6 +294,7 @@ pub enum ControlOutcome {
     Snapshot { snapshot: Box<RuntimeSnapshot> },
     Submitted { work_result: DomainResult },
     Shutdown { exit: ControlExit },
+    Restart { exit: ControlExit },
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -288,6 +308,10 @@ pub struct ControlResponse {
 #[async_trait]
 pub trait LifecycleControl: Send + Sync {
     async fn shutdown(&self, grace: Duration) -> Result<KernelExit, ()>;
+
+    async fn restart(&self, grace: Duration) -> Result<KernelExit, ()> {
+        self.shutdown(grace).await
+    }
 }
 
 #[async_trait]
@@ -336,6 +360,7 @@ pub struct ControlService<C> {
     control_addr: Mutex<SocketAddr>,
     public_base_url: Mutex<String>,
     canonical_ingress: Option<CanonicalIngress>,
+    agent_roster_token_key: Mutex<[u8; 32]>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
 }
 
@@ -417,8 +442,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
             public_base_url: Mutex::new("https://localhost".to_owned()),
             canonical_ingress: None,
+            agent_roster_token_key: Mutex::new(blake3::derive_key(
+                "adl.runtime_v3.agent_roster.page_token.ephemeral.v1",
+                uuid::Uuid::new_v4().as_bytes(),
+            )),
             api_policy: Mutex::new(None),
         }
+    }
+
+    pub fn set_agent_roster_token_key(&self, key: [u8; 32]) {
+        *self
+            .agent_roster_token_key
+            .lock()
+            .expect("agent roster token key mutex poisoned") = key;
     }
 
     fn set_api_policy(&self, policy: ControlApiPolicy) {
@@ -705,7 +741,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let agents = self.agent_population.clone().with_runtime_snapshot_query(
             &snapshot,
             now,
-            *blake3::hash(self.instance_id.as_bytes()).as_bytes(),
+            *self
+                .agent_roster_token_key
+                .lock()
+                .expect("agent roster token key mutex poisoned"),
             AgentRosterQuery {
                 page_size: 100,
                 page_token: None,
@@ -804,7 +843,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .try_with_runtime_snapshot_query(
                 &snapshot,
                 now,
-                *blake3::hash(self.instance_id.as_bytes()).as_bytes(),
+                *self
+                    .agent_roster_token_key
+                    .lock()
+                    .expect("agent roster token key mutex poisoned"),
                 AgentRosterQuery {
                     page_size,
                     page_token,
@@ -821,6 +863,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self.authority.authorize(&command)?;
         if command.runtime_instance_id != self.instance_id {
             return Err(ControlError::StaleRuntimeInstance);
+        }
+        if let ControlAction::Restart {
+            expected_incarnation_id,
+            ..
+        } = &command.action
+        {
+            if expected_incarnation_id != &self.runtime_incarnation_id {
+                return Err(ControlError::StaleRuntimeInstance);
+            }
         }
         let fingerprint = command.fingerprint()?;
         {
@@ -845,7 +896,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 };
                 state.records.pop(&completed);
             }
-            if matches!(command.action, ControlAction::Shutdown { .. }) {
+            if matches!(
+                command.action,
+                ControlAction::Shutdown { .. } | ControlAction::Restart { .. }
+            ) {
                 if state.terminal_action.is_some() {
                     return Err(ControlError::LifecycleAlreadyRequested);
                 }
@@ -933,6 +987,25 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         })
                         .unwrap_or(ControlExit::Failed);
                     Ok(ControlOutcome::Shutdown { exit })
+                }
+                ControlAction::Restart {
+                    expected_incarnation_id,
+                    grace_millis,
+                } => {
+                    debug_assert_eq!(expected_incarnation_id, self.runtime_incarnation_id);
+                    let exit = self
+                        .lifecycle
+                        .restart(Duration::from_millis(grace_millis))
+                        .await
+                        .map(|exit| {
+                            if matches!(exit, KernelExit::Clean) {
+                                ControlExit::Clean
+                            } else {
+                                ControlExit::Failed
+                            }
+                        })
+                        .unwrap_or(ControlExit::Failed);
+                    Ok(ControlOutcome::Restart { exit })
                 }
             }
         }
