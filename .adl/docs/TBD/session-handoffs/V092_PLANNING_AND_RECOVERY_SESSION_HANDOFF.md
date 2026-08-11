@@ -29,7 +29,7 @@ Do not depend on retained conversation history as execution authority.
   handoff truth records subsequent WP-17 delivery and the active `#237` gate.
 - Legacy umbrella `#5856` is not ready to close. Its WP-20 through WP-30
   release-tail children remain nonterminal.
-- The authoritative current state for active lanes is in the three recovered
+- The authoritative current state for active lanes is in the four recovered
   handoffs indexed beside this file.
 
 ## VoceChat Evaluation

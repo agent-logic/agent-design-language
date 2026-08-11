@@ -32,8 +32,7 @@ It is not an implementation handoff and was not sent to Observatory tasks.
 
 ## Point-In-Time Corrections
 
-- The Unity handoff preserves the source task exactly. Its retained text says
-  TLS issue `#92` is an external dependency. Live GitHub state on 2026-08-11
-  shows `#92` closed after the Runtime TLS standardization work. A fresh Unity
-  task must therefore verify the current CA-issued endpoint and rerun the real
-  Play Mode lane; it must not reopen the retired self-signed trust workaround.
+- The Unity handoff incorporates the 2026-08-11 correction that TLS issue
+  `#92` is closed after the Runtime TLS standardization work. A fresh Unity
+  task must verify the current CA-issued endpoint and rerun the real Play Mode
+  lane; it must not reopen the retired self-signed trust workaround.
