@@ -32,3 +32,4 @@
 {"sequence":32,"generation":20,"actor":"codex:226-focused-runtime-validation-routing","reason":"Recover stale review truth after fixing the independent review finding: selected JavaScript validation now requires the file to exist, executes syntax proof, and fails closed on deletion.","operation":"recover_review"}
 {"sequence":33,"generation":20,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":34,"generation":21,"actor":"codex:226-focused-runtime-validation-routing","reason":"Replace the deletion-fix reviewer after three bounded waits produced no verdict and refresh focused evidence for the split fail-closed lanes.","operation":"recover_review"}
+{"sequence":35,"generation":21,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
