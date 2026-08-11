@@ -3,7 +3,7 @@ use std::fs;
 use std::path::Path;
 use std::process::{Command, Output};
 
-use csdlc_v2::cards::{CardContent, PlanStep, ResourceProfile, StepStatus, ValidationLane};
+use csdlc_v2::cards::{digest, CardContent, PlanStep, ResourceProfile, StepStatus, ValidationLane};
 use csdlc_v2::{
     bind_issue, edit_issue, BindRequest, BootstrapRequest, CardKind, EditRequest, InitialCardInput,
     LifecyclePhase, PlanningProfile, SemanticOperation, Store,
@@ -237,7 +237,10 @@ fn assert_single_generation_preserves_lifecycle_shell(
     assert_eq!(event.sequence, after.audit.len() as u64);
 }
 
-fn assert_design_bindings_agree(cards: &BTreeMap<CardKind, csdlc_v2::CardValues>) {
+fn assert_design_bindings_match_authored(
+    repo: &Path,
+    cards: &BTreeMap<CardKind, csdlc_v2::CardValues>,
+) {
     let (spp_design, spp_diagram) = match &cards[&CardKind::Spp].content {
         CardContent::Spp(values) => (&values.design_digest, &values.diagram_digest),
         _ => unreachable!("SPP"),
@@ -248,6 +251,58 @@ fn assert_design_bindings_agree(cards: &BTreeMap<CardKind, csdlc_v2::CardValues>
     };
     assert_eq!(spp_design, vpp_design);
     assert_eq!(spp_diagram, vpp_diagram);
+    assert_eq!(
+        spp_design,
+        &digest(&fs::read(repo.join("design/issue-42.md")).expect("authored design bytes"))
+    );
+    assert_eq!(
+        spp_diagram,
+        &digest(&fs::read(repo.join("design/issue-42.mmd")).expect("authored diagram bytes"))
+    );
+}
+
+fn spp_design_digests(cards: &BTreeMap<CardKind, csdlc_v2::CardValues>) -> (String, String) {
+    match &cards[&CardKind::Spp].content {
+        CardContent::Spp(values) => (values.design_digest.clone(), values.diagram_digest.clone()),
+        _ => unreachable!("SPP"),
+    }
+}
+
+fn assert_last_audit_operation(record: &csdlc_v2::IssueRecord, expected: &SemanticOperation) {
+    let actual: serde_json::Value =
+        serde_json::from_str(&record.audit.last().expect("new audit event").operation)
+            .expect("audit operation JSON");
+    assert_eq!(
+        actual,
+        serde_json::to_value(expected).expect("expected operation JSON")
+    );
+}
+
+fn assert_last_prebind_audit_operation(
+    record: &csdlc_v2::IssueRecord,
+    expected: &SemanticOperation,
+    old_design_digest: &str,
+    new_design_digest: &str,
+    old_diagram_digest: &str,
+    new_diagram_digest: &str,
+) {
+    let actual: serde_json::Value =
+        serde_json::from_str(&record.audit.last().expect("new audit event").operation)
+            .expect("pre-bind audit operation JSON");
+    assert_eq!(
+        actual,
+        serde_json::json!({
+            "operation": expected,
+            "design_binding_refresh": {
+                "design_ref": "design/issue-42.md",
+                "old_design_digest": old_design_digest,
+                "new_design_digest": new_design_digest,
+                "diagram_ref": "design/issue-42.mmd",
+                "old_diagram_digest": old_diagram_digest,
+                "new_diagram_digest": new_diagram_digest,
+            }
+        })
+    );
 }
 
 fn assert_card_semantics_unchanged(before: &csdlc_v2::CardValues, after: &csdlc_v2::CardValues) {
@@ -1994,8 +2049,16 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     .expect("repair diagram");
     let audit_before_acceptance =
         fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("initial audit");
-    record = direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false)
-        .expect("initialized acceptance repair");
+    let (old_design_digest, old_diagram_digest) = spp_design_digests(&initialized_cards_before);
+    let initialized_operation = exact_acceptance();
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Stp,
+        initialized_operation.clone(),
+        false,
+    )
+    .expect("initialized acceptance repair");
     assert_single_generation_preserves_lifecycle_shell(&initialized_before, &record);
     assert_eq!(record.phase, LifecyclePhase::Initialized);
     assert!(matches!(
@@ -2005,7 +2068,6 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     let audit_after_acceptance =
         fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("repaired audit");
     assert!(audit_after_acceptance.starts_with(&audit_before_acceptance));
-    assert!(String::from_utf8_lossy(&audit_after_acceptance).contains("design_binding_refresh"));
     let initialized_cards_after = store
         .load_cards(42)
         .expect("initialized cards after repair");
@@ -2034,16 +2096,18 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
             &initialized_cards_after[&kind],
         );
     }
-    assert_design_bindings_agree(&initialized_cards_after);
-    let old_design_digest = match &initialized_cards_before[&CardKind::Spp].content {
-        CardContent::Spp(values) => &values.design_digest,
-        _ => unreachable!("SPP"),
-    };
-    let new_design_digest = match &initialized_cards_after[&CardKind::Spp].content {
-        CardContent::Spp(values) => &values.design_digest,
-        _ => unreachable!("SPP"),
-    };
+    assert_design_bindings_match_authored(&repo, &initialized_cards_after);
+    let (new_design_digest, new_diagram_digest) = spp_design_digests(&initialized_cards_after);
     assert_ne!(new_design_digest, old_design_digest);
+    assert_ne!(new_diagram_digest, old_diagram_digest);
+    assert_last_prebind_audit_operation(
+        &record,
+        &initialized_operation,
+        &old_design_digest,
+        &new_design_digest,
+        &old_diagram_digest,
+        &new_diagram_digest,
+    );
     for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
         assert!(repo
             .join(format!(".csdlc/issues/42/cards/{card}.values.json"))
@@ -2175,11 +2239,13 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     let ready_cards_before = store
         .load_cards(42)
         .expect("ready cards before plan repair");
+    let (old_design_digest, old_diagram_digest) = spp_design_digests(&ready_cards_before);
+    let ready_operation = plan(vec!["AC-1", "AC-2"], StepStatus::Pending);
     record = direct_edit(
         &store,
         &record,
         CardKind::Spp,
-        plan(vec!["AC-1", "AC-2"], StepStatus::Pending),
+        ready_operation.clone(),
         false,
     )
     .expect("ready plan repair");
@@ -2192,12 +2258,6 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     let audit_after_plan =
         fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("audit after plan");
     assert!(audit_after_plan.starts_with(&audit_before_plan));
-    assert!(record
-        .audit
-        .last()
-        .expect("ready plan audit event")
-        .operation
-        .contains("replace_plan_steps"));
     let ready_cards_after = store.load_cards(42).expect("ready cards after plan repair");
     for kind in [
         CardKind::Sip,
@@ -2212,7 +2272,16 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         &ready_cards_before[&CardKind::Spp],
         &ready_cards_after[&CardKind::Spp],
     );
-    assert_design_bindings_agree(&ready_cards_after);
+    assert_design_bindings_match_authored(&repo, &ready_cards_after);
+    let (new_design_digest, new_diagram_digest) = spp_design_digests(&ready_cards_after);
+    assert_last_prebind_audit_operation(
+        &record,
+        &ready_operation,
+        &old_design_digest,
+        &new_design_digest,
+        &old_diagram_digest,
+        &new_diagram_digest,
+    );
     let pending_validation = command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-validate"),
@@ -2284,8 +2353,21 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
 
     let bound_stp_before = record.clone();
     let bound_stp_cards_before = store.load_cards(42).expect("bound cards before STP repair");
-    record = direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false)
-        .expect("bound STP compatibility edit");
+    let bound_acceptance = vec![
+        "AC-1: bound acceptance repair preserves topology".to_owned(),
+        "AC-2: bound acceptance repair preserves outputs".to_owned(),
+    ];
+    let bound_stp_operation = SemanticOperation::ReplaceAcceptanceCriteria {
+        values: bound_acceptance.clone(),
+    };
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Stp,
+        bound_stp_operation.clone(),
+        false,
+    )
+    .expect("bound STP compatibility edit");
     assert_single_generation_preserves_lifecycle_shell(&bound_stp_before, &record);
     assert_eq!(record.design_review, bound_stp_before.design_review);
     let bound_stp_cards_after = store.load_cards(42).expect("bound cards after STP repair");
@@ -2305,12 +2387,17 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         &bound_stp_cards_before[&CardKind::Stp],
         &bound_stp_cards_after[&CardKind::Stp],
     );
-    assert!(record
-        .audit
-        .last()
-        .expect("bound STP audit")
-        .operation
-        .contains("replace_acceptance_criteria"));
+    let mut expected_bound_stp = match &bound_stp_cards_before[&CardKind::Stp].content {
+        CardContent::Stp(values) => values.clone(),
+        _ => unreachable!("STP"),
+    };
+    expected_bound_stp.acceptance_criteria = bound_acceptance;
+    match &bound_stp_cards_after[&CardKind::Stp].content {
+        CardContent::Stp(values) => assert_eq!(values, &expected_bound_stp),
+        _ => unreachable!("STP"),
+    }
+    assert_design_bindings_match_authored(&repo, &bound_stp_cards_after);
+    assert_last_audit_operation(&record, &bound_stp_operation);
 
     let compatibility_plan = |action: &str| SemanticOperation::ReplacePlanSteps {
         steps: vec![PlanStep {
@@ -2322,11 +2409,12 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     };
     let bound_spp_before = record.clone();
     let bound_spp_cards_before = store.load_cards(42).expect("bound cards before SPP repair");
+    let bound_spp_operation = compatibility_plan("prove bound compatibility outputs");
     record = direct_edit(
         &store,
         &record,
         CardKind::Spp,
-        compatibility_plan("prove bound compatibility outputs"),
+        bound_spp_operation.clone(),
         false,
     )
     .expect("bound SPP compatibility edit");
@@ -2349,12 +2437,21 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         &bound_spp_cards_before[&CardKind::Spp],
         &bound_spp_cards_after[&CardKind::Spp],
     );
-    assert!(record
-        .audit
-        .last()
-        .expect("bound SPP audit")
-        .operation
-        .contains("replace_plan_steps"));
+    let mut expected_bound_spp = match &bound_spp_cards_before[&CardKind::Spp].content {
+        CardContent::Spp(values) => values.clone(),
+        _ => unreachable!("SPP"),
+    };
+    let SemanticOperation::ReplacePlanSteps { steps } = &bound_spp_operation else {
+        unreachable!("bound SPP operation")
+    };
+    expected_bound_spp.plan_revision += 1;
+    expected_bound_spp.steps = steps.clone();
+    match &bound_spp_cards_after[&CardKind::Spp].content {
+        CardContent::Spp(values) => assert_eq!(values, &expected_bound_spp),
+        _ => unreachable!("SPP"),
+    }
+    assert_design_bindings_match_authored(&repo, &bound_spp_cards_after);
+    assert_last_audit_operation(&record, &bound_spp_operation);
 
     record = direct_edit(
         &store,
@@ -2382,11 +2479,12 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     let implemented_cards_before = store
         .load_cards(42)
         .expect("implemented cards before SPP repair");
+    let implemented_spp_operation = compatibility_plan("prove implemented compatibility outputs");
     record = direct_edit(
         &store,
         &record,
         CardKind::Spp,
-        compatibility_plan("prove implemented compatibility outputs"),
+        implemented_spp_operation.clone(),
         false,
     )
     .expect("implemented SPP compatibility edit");
@@ -2412,12 +2510,21 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         &implemented_cards_before[&CardKind::Spp],
         &implemented_cards_after[&CardKind::Spp],
     );
-    assert!(record
-        .audit
-        .last()
-        .expect("implemented SPP audit")
-        .operation
-        .contains("replace_plan_steps"));
+    let mut expected_implemented_spp = match &implemented_cards_before[&CardKind::Spp].content {
+        CardContent::Spp(values) => values.clone(),
+        _ => unreachable!("SPP"),
+    };
+    let SemanticOperation::ReplacePlanSteps { steps } = &implemented_spp_operation else {
+        unreachable!("implemented SPP operation")
+    };
+    expected_implemented_spp.plan_revision += 1;
+    expected_implemented_spp.steps = steps.clone();
+    match &implemented_cards_after[&CardKind::Spp].content {
+        CardContent::Spp(values) => assert_eq!(values, &expected_implemented_spp),
+        _ => unreachable!("SPP"),
+    }
+    assert_design_bindings_match_authored(&repo, &implemented_cards_after);
+    assert_last_audit_operation(&record, &implemented_spp_operation);
 }
 
 #[test]
