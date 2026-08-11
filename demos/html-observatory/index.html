@@ -351,7 +351,38 @@
               </div>
               <span class="mini-badge" id="live-readiness">unknown</span>
             </div>
+            <div class="roster-controls" aria-label="Roster controls">
+              <label class="field" for="roster-search">
+                <span>Search</span>
+                <input id="roster-search" type="search" autocomplete="off" placeholder="Name, role, or ID">
+              </label>
+              <label class="field" for="roster-presence-filter">
+                <span>Presence</span>
+                <select id="roster-presence-filter">
+                  <option value="all">All visible</option>
+                  <option value="ready">Ready</option>
+                  <option value="busy">Busy</option>
+                  <option value="sleeping">Sleeping</option>
+                  <option value="degraded">Degraded</option>
+                  <option value="unreachable">Unreachable</option>
+                  <option value="migrating">Migrating</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </label>
+              <label class="field" for="roster-sort">
+                <span>Sort</span>
+                <select id="roster-sort">
+                  <option value="name">Name</option>
+                  <option value="presence">Presence</option>
+                </select>
+              </label>
+            </div>
             <div class="agent-list" id="live-agent-list"></div>
+            <div class="roster-detail" id="roster-detail" aria-live="polite">
+              <span class="row-kicker">Selection</span>
+              <strong>No visible agent selected</strong>
+              <p class="row-detail">Select a Runtime-authorized roster row to inspect current presence evidence.</p>
+            </div>
           </section>
           <section class="panopticon-column" aria-labelledby="live-signals-title">
             <div class="panel-head">

@@ -88,6 +88,14 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
 let runtimeV3Config = { ...RUNTIME_V3_DEFAULT_CONFIG };
+const rosterUiState = {
+  filter: "",
+  presence: "all",
+  sort: "name",
+  selectedId: null
+};
+let lastPanopticonSnapshot = null;
+let lastPanopticonPacket = FALLBACK_PACKET;
 
 function normalizeRuntimeV3Endpoint(value, fallback) {
   const endpoint = String(value || "").trim();
@@ -1065,7 +1073,17 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
       label: agent.label || agent.id,
       role: agent.role || "runtime agent",
       state: agent.state || primaryState,
-      detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`
+      detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`,
+      health: agent.health || "unknown",
+      availability: agent.availability || "unknown",
+      activity: agent.activity || null,
+      capabilities: asArray(agent.capabilities),
+      location: agent.location || null,
+      communicationEligible: agent.communication_eligible === true,
+      observedAtUnixMillis: Number(agent.observed_at_unix_millis || 0),
+      freshnessDeadlineUnixMillis: Number(agent.freshness_deadline_unix_millis || 0),
+      sourceRevision: agent.source_revision || "unknown",
+      provenance: agent.provenance || "unknown"
     }));
   }
 
@@ -1125,6 +1143,16 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   const statusRows = flattenStatusRows(status);
   const liveAgents = buildRuntimeAgentRows({ status, health, ready, metrics, events, packet });
   const agentTotal = Number(status.agent_population?.total_count ?? metrics.gauges?.agent_count ?? liveAgents.length);
+  const rosterNeedle = rosterUiState.filter.trim().toLocaleLowerCase();
+  const visibleAgents = liveAgents
+    .filter((agent) => rosterUiState.presence === "all" || agent.state === rosterUiState.presence)
+    .filter((agent) => !rosterNeedle || [agent.id, agent.label, agent.role].some((value) => String(value || "").toLocaleLowerCase().includes(rosterNeedle)))
+    .sort((left, right) => {
+      const primary = rosterUiState.sort === "presence"
+        ? String(left.state).localeCompare(String(right.state))
+        : String(left.label || left.id).localeCompare(String(right.label || right.id));
+      return primary || String(left.id).localeCompare(String(right.id));
+    });
 
   const signalRows = [
     {
@@ -1152,8 +1180,10 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   return {
     mode: snapshot.mode || "retained",
     fetchedAt: snapshot.fetchedAt || "",
-    agents: liveAgents,
+    agents: visibleAgents,
+    allAgents: liveAgents,
     agentTotal,
+    visibleAgentCount: visibleAgents.length,
     signals: signalRows,
     metrics: normalizeMetricRows(metrics),
     events,
@@ -1163,6 +1193,8 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
 }
 
 function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
+  lastPanopticonSnapshot = snapshot;
+  lastPanopticonPacket = packet;
   const vm = buildPanopticonViewModel(snapshot, packet);
   setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
   setText("hero-live-mode", vm.mode === "live" ? "Online" : vm.mode === "published" ? "Published" : "Retained");
@@ -1175,7 +1207,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   }
   setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
-  setText("agent-count", `${vm.agentTotal.toLocaleString()} agents`);
+  setText("agent-count", `${vm.visibleAgentCount.toLocaleString()} of ${vm.agentTotal.toLocaleString()} visible`);
   setText("hero-agent-count", `${vm.agentTotal.toLocaleString()} Agents`);
   setText("live-readiness", formatLabel(vm.readyState));
   setText("hero-ready-state", formatLabel(vm.readyState));
@@ -1220,12 +1252,33 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   `]);
 
   renderRows("live-agent-list", vm.agents.map((agent) => `
-    <article class="agent-row" data-state="${escapeHtml(stateTone(agent.state))}">
+    <button type="button" class="agent-row roster-row" data-state="${escapeHtml(stateTone(agent.state))}" data-agent-id="${escapeHtml(agent.id)}" aria-pressed="${rosterUiState.selectedId === agent.id ? "true" : "false"}">
       <span class="row-kicker">${escapeHtml(agent.id)}</span>
       <strong>${escapeHtml(agent.label || agent.id)}</strong>
-      <p class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(formatLabel(agent.role))}</p>
-    </article>
+      <span class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(formatLabel(agent.role))}</span>
+    </button>
   `));
+
+  const selected = vm.allAgents.find((agent) => agent.id === rosterUiState.selectedId);
+  const detail = document.getElementById("roster-detail");
+  if (detail) {
+    detail.innerHTML = selected ? `
+      <span class="row-kicker">${escapeHtml(selected.id)} / ${escapeHtml(formatLabel(selected.provenance))}</span>
+      <strong>${escapeHtml(selected.label || selected.id)}</strong>
+      <dl class="roster-facts">
+        <div><dt>Presence</dt><dd>${escapeHtml(formatLabel(selected.state))}</dd></div>
+        <div><dt>Health</dt><dd>${escapeHtml(formatLabel(selected.health))}</dd></div>
+        <div><dt>Availability</dt><dd>${escapeHtml(formatLabel(selected.availability))}</dd></div>
+        <div><dt>Communication</dt><dd>${selected.communicationEligible ? "Eligible" : "Unavailable"}</dd></div>
+        <div><dt>Location</dt><dd>${escapeHtml(selected.location || "Redacted")}</dd></div>
+        <div><dt>Source revision</dt><dd>${escapeHtml(selected.sourceRevision)}</dd></div>
+      </dl>
+    ` : `
+      <span class="row-kicker">Selection</span>
+      <strong>No visible agent selected</strong>
+      <p class="row-detail">Select a Runtime-authorized roster row to inspect current presence evidence.</p>
+    `;
+  }
 
   renderRows("live-signal-list", vm.signals.map((signal) => `
     <article class="signal-row" data-state="${escapeHtml(stateTone(signal.value))}">
@@ -1543,6 +1596,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const signedControlCommand = document.getElementById("signed-control-command");
   const sendSignedCommand = document.getElementById("send-signed-command");
   const operatorControlResult = document.getElementById("operator-control-result");
+  const rosterSearch = document.getElementById("roster-search");
+  const rosterPresence = document.getElementById("roster-presence-filter");
+  const rosterSort = document.getElementById("roster-sort");
+  const rosterList = document.getElementById("live-agent-list");
   let lastLiveError = null;
   let runtimeBaseActive = false;
   let liveSocket = null;
@@ -1613,6 +1670,30 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     document.querySelector(".observatory")?.setAttribute("data-live-connection", state);
   };
   mirrorApiBase(getQueryApiBase());
+
+  if (rosterSearch && !rosterSearch.dataset.rosterBound) {
+    rosterSearch.dataset.rosterBound = "true";
+    rosterSearch.addEventListener("input", () => {
+      rosterUiState.filter = rosterSearch.value;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+    });
+    rosterPresence?.addEventListener("change", () => {
+      rosterUiState.presence = rosterPresence.value;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+    });
+    rosterSort?.addEventListener("change", () => {
+      rosterUiState.sort = rosterSort.value;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+    });
+    rosterList?.addEventListener("click", (event) => {
+      const row = event.target instanceof Element
+        ? event.target.closest("[data-agent-id]")
+        : null;
+      if (!row) return;
+      rosterUiState.selectedId = row.dataset.agentId;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+    });
+  }
 
   const renderMinimalFallback = (error) => {
     renderPanopticon({

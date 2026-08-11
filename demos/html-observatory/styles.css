@@ -1205,6 +1205,72 @@ dd {
   margin-top: 1rem;
 }
 
+.roster-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(8rem, 0.7fr) minmax(7rem, 0.55fr);
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.roster-controls .field span {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.roster-row {
+  width: 100%;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.roster-row[aria-pressed="true"] {
+  border-color: var(--cyan);
+  box-shadow: inset 3px 0 0 var(--cyan);
+}
+
+.roster-row:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.roster-detail {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.85rem;
+}
+
+.roster-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.roster-facts div {
+  min-width: 0;
+}
+
+.roster-facts dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.roster-facts dd {
+  margin: 0.15rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  .roster-controls,
+  .roster-facts {
+    grid-template-columns: 1fr;
+  }
+}
+
 .agent-row,
 .signal-row,
 .metric-row {
