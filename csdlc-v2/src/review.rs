@@ -84,10 +84,10 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
 }
 
 pub fn recover_review(store: &Store, request: ReviewRecoveryRequest) -> Result<IssueRecord> {
-    if request.reason.trim().is_empty() {
+    if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "review recovery reason is required",
+            "review recovery actor and reason are required",
         ));
     }
     store.commit_review_recovery(

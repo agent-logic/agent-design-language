@@ -41,9 +41,12 @@ Exact child wave:
 - #5836, WP-18: first-birthday flagship demonstration
 - #5838, WP-18B: provider-neutral multi-agent proof
 - #5839, WP-19: birthday-to-governance handoff
-- #5840, WP-20: demo matrix, AEE proof, and proof coverage
 - #5844, WP-24: product and GitHub complete; the canonical ten-article package
   is merged while typed closeout continues asynchronously
+
+WP-20 (`#5840`) is the first child of final release-tail sprint `#5856`, not
+an operative Sprint 5 child. Sprint 5 hands its completed proof producers to
+that sprint without binding or executing WP-20 here.
 
 WP-24A `#5845` is not part of this sprint's dependency graph. It is an
 independent out-of-band stream with no Sprint 5 dependencies and cannot block
@@ -53,10 +56,9 @@ WP-24A from this session.
 Serial gates:
 
 - #5835 follows #5826, #5827, and #5834.
-- #5836 follows #5825-#5830 and #5832-#5834.
-- #5838 follows #5832, #5834, and #5836.
+- #5836 follows #5825-#5830, canonical WP-14 issue agent-logic/agent-design-language#209 and PR #215, #5833, and #5834; legacy #5832 is superseded.
+- #5838 follows canonical WP-14 issue #209 and PR #215, #5834, and #5836.
 - #5839 follows #5834 and #5835 plus accepted v0.93 allocation.
-- #5840 follows #5836, #5837, #5838, and #5839.
 - Final publication claims align with release truth only after #5843.
 
 Other demo and handoff preparation may proceed separately as dependencies
@@ -77,7 +79,7 @@ Maintain:
 - .csdlc/evidence/5854/activity.jsonl
 - .csdlc/evidence/5854/sprint-review.md
 
-Close #5854 only after the five operative children have truthful terminal
+Close #5854 only after the four operative children have truthful terminal
 outcomes and release-truth gates are satisfied. WP-24A is excluded and cannot
 block this closeout.
 ```

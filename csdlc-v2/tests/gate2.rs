@@ -2083,6 +2083,312 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
 }
 
 #[test]
+fn prebind_operator_constraints_correction_is_exact_and_fail_closed() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let repo = temp.path().join("repo");
+    focused_fixture_repo(&repo);
+    let store = Store::new(&repo);
+    let mut record = csdlc_v2::initialize_native_json(
+        &store,
+        &serde_json::to_vec(&request()).expect("serialize bootstrap"),
+    )
+    .expect("bootstrap initialized issue");
+    let initial_snapshot = issue_projection_snapshot(&repo, 42);
+    let replacement = vec!["use only current typed v2 binaries".into()];
+    let operation = SemanticOperation::CorrectOperatorConstraintsBeforeBind {
+        values: replacement.clone(),
+    };
+
+    for (actor, reason) in [("", "reason"), ("actor", " ")] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 42,
+                card: CardKind::Sip,
+                expected_generation: record.generation,
+                expected_digest: record.digest.clone(),
+                actor: actor.into(),
+                reason: reason.into(),
+                operation: operation.clone(),
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("empty actor or reason must fail");
+        assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
+        assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+    }
+
+    let wrong_card = direct_edit(&store, &record, CardKind::Stp, operation.clone(), false)
+        .expect_err("wrong card must fail");
+    assert_eq!(wrong_card.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+
+    for invalid in [Vec::<String>::new(), vec![" ".into()]] {
+        let error = direct_edit(
+            &store,
+            &record,
+            CardKind::Sip,
+            SemanticOperation::CorrectOperatorConstraintsBeforeBind { values: invalid },
+            false,
+        )
+        .expect_err("empty constraints must fail");
+        assert_eq!(error.code, csdlc_v2::ErrorCode::CardInvalid);
+        assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+    }
+    for (generation, digest, expected) in [
+        (
+            record.generation + 1,
+            record.digest.clone(),
+            csdlc_v2::ErrorCode::StaleGeneration,
+        ),
+        (
+            record.generation,
+            "0".repeat(64),
+            csdlc_v2::ErrorCode::StaleDigest,
+        ),
+    ] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 42,
+                card: CardKind::Sip,
+                expected_generation: generation,
+                expected_digest: digest,
+                actor: "operator".into(),
+                reason: "prove stale CAS rejection".into(),
+                operation: operation.clone(),
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("stale CAS must fail");
+        assert_eq!(error.code, expected);
+        assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+    }
+
+    let original_design = fs::read(repo.join("design/issue-42.md")).expect("original design");
+    fs::write(repo.join("design/issue-42.md"), "# unreviewed drift\n").expect("drift design");
+    let drift = direct_edit(&store, &record, CardKind::Sip, operation.clone(), false)
+        .expect_err("authored drift must fail");
+    assert_eq!(drift.code, csdlc_v2::ErrorCode::CardInvalid);
+    assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+    fs::write(repo.join("design/issue-42.md"), original_design).expect("restore design");
+    let original_diagram = fs::read(repo.join("design/issue-42.mmd")).expect("original diagram");
+    fs::write(
+        repo.join("design/issue-42.mmd"),
+        "flowchart LR\n  Drift --> Reject\n",
+    )
+    .expect("drift diagram");
+    let drift = direct_edit(&store, &record, CardKind::Sip, operation.clone(), false)
+        .expect_err("authored diagram drift must fail");
+    assert_eq!(drift.code, csdlc_v2::ErrorCode::CardInvalid);
+    assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+    fs::write(repo.join("design/issue-42.mmd"), original_diagram).expect("restore diagram");
+
+    let mut retained_record = record.clone();
+    let mut retained_cards = store.load_cards(42).expect("retained truth cards");
+    let CardContent::Sor(sor) = &mut retained_cards.get_mut(&CardKind::Sor).expect("SOR").content
+    else {
+        panic!("SOR")
+    };
+    sor.integration_state = csdlc_v2::cards::IntegrationState::WorktreeOnly;
+    write_consistent_card(
+        &repo,
+        &mut retained_record,
+        CardKind::Sor,
+        &retained_cards[&CardKind::Sor],
+    );
+    let retained_snapshot = issue_projection_snapshot(&repo, 42);
+    let retained = direct_edit(
+        &store,
+        &retained_record,
+        CardKind::Sip,
+        operation.clone(),
+        false,
+    )
+    .expect_err("retained SOR truth must fail");
+    assert_eq!(retained.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(issue_projection_snapshot(&repo, 42), retained_snapshot);
+    restore_issue_projection(&repo, 42, &initial_snapshot);
+
+    let clean_record = record.clone();
+    record.migration = Some(csdlc_v2::MigrationEvidence {
+        schema: "csdlc.migration.v1".into(),
+        imported_unix_seconds: 1,
+        sunset_unix_seconds: 2,
+        source_digest: "migration-source".into(),
+        authored_sources: BTreeMap::new(),
+        authored_sections: BTreeMap::new(),
+        compatibility_view: "retained".into(),
+    });
+    write_consistent_record(&repo, &mut record);
+    let migrated_snapshot = issue_projection_snapshot(&repo, 42);
+    let migration = direct_edit(&store, &record, CardKind::Sip, operation.clone(), false)
+        .expect_err("migration evidence must fail");
+    assert_eq!(migration.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(issue_projection_snapshot(&repo, 42), migrated_snapshot);
+    restore_issue_projection(&repo, 42, &initial_snapshot);
+    record = clean_record;
+
+    let before_cards = store.load_cards(42).expect("cards before correction");
+    let (design_digest, diagram_digest) = spp_design_digests(&before_cards);
+    let interrupted = direct_edit(&store, &record, CardKind::Sip, operation.clone(), true)
+        .expect_err("injected interruption must fail");
+    assert_eq!(
+        interrupted.code,
+        csdlc_v2::ErrorCode::InterruptedTransaction
+    );
+    let corrected = direct_edit(&store, &record, CardKind::Sip, operation.clone(), false)
+        .expect("correct constraints after transaction recovery");
+    assert_single_generation_preserves_lifecycle_shell(&record, &corrected);
+    assert!(matches!(
+        corrected.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    let after_cards = store.load_cards(42).expect("cards after correction");
+    let (after_design_digest, after_diagram_digest) = spp_design_digests(&after_cards);
+    assert_eq!(after_design_digest, design_digest);
+    assert_eq!(after_diagram_digest, diagram_digest);
+    for kind in [
+        CardKind::Stp,
+        CardKind::Spp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_semantics_unchanged(&before_cards[&kind], &after_cards[&kind]);
+    }
+    let CardContent::Sip(after_sip) = &after_cards[&CardKind::Sip].content else {
+        panic!("SIP")
+    };
+    assert_eq!(after_sip.operator_constraints, replacement);
+    let audit: serde_json::Value =
+        serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
+            .expect("structured correction audit");
+    assert_eq!(
+        audit,
+        serde_json::json!({
+            "operation": "correct_operator_constraints_before_bind",
+            "previous_values": ["no network"],
+            "new_values": ["use only current typed v2 binaries"],
+        })
+    );
+
+    for bind_before_correction in [false, true] {
+        let temp = tempfile::tempdir().expect("ready tempdir");
+        let repo = temp.path().join("repo");
+        focused_fixture_repo(&repo);
+        let store = Store::new(&repo);
+        let initialized = csdlc_v2::initialize_native_json(
+            &store,
+            &serde_json::to_vec(&request()).expect("serialize ready bootstrap"),
+        )
+        .expect("bootstrap ready fixture");
+        let ready = edit_issue(
+            &store,
+            EditRequest {
+                issue: 42,
+                card: CardKind::Sip,
+                expected_generation: initialized.generation,
+                expected_digest: initialized.digest,
+                actor: "operator".into(),
+                reason: "advance ready fixture".into(),
+                operation: SemanticOperation::AdvancePhase {
+                    phase: LifecyclePhase::Ready,
+                },
+                fail_after_backup: false,
+            },
+        )
+        .expect("advance ready fixture");
+        let current = if bind_before_correction {
+            git(&repo, &["switch", "-c", "issue-42"]);
+            bind_issue(
+                &store,
+                BindRequest {
+                    issue: 42,
+                    base_branch: "main".into(),
+                    branch: "issue-42".into(),
+                    worktree: ".".into(),
+                    code_repository: None,
+                },
+            )
+            .expect("bind rejection fixture");
+            store.load_record(42).expect("bound rejection record")
+        } else {
+            ready
+        };
+        let result = direct_edit(&store, &current, CardKind::Sip, operation.clone(), false);
+        if bind_before_correction {
+            assert_eq!(
+                result.expect_err("bound correction must fail").code,
+                csdlc_v2::ErrorCode::InvalidTransition
+            );
+            let executed = edit_issue(
+                &store,
+                EditRequest {
+                    issue: 42,
+                    card: CardKind::Sor,
+                    expected_generation: current.generation,
+                    expected_digest: current.digest,
+                    actor: "operator".into(),
+                    reason: "create later-phase rejection fixture".into(),
+                    operation: SemanticOperation::RecordExecution {
+                        summary: "implemented fixture".into(),
+                        changes: vec!["csdlc-v2/tests/gate2.rs".into()],
+                        artifacts: vec!["fixture".into()],
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect("record later-phase execution");
+            let implemented = edit_issue(
+                &store,
+                EditRequest {
+                    issue: 42,
+                    card: CardKind::Sor,
+                    expected_generation: executed.generation,
+                    expected_digest: executed.digest,
+                    actor: "operator".into(),
+                    reason: "advance later-phase fixture".into(),
+                    operation: SemanticOperation::AdvancePhase {
+                        phase: LifecyclePhase::Implemented,
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect("advance later-phase fixture");
+            assert_eq!(
+                direct_edit(
+                    &store,
+                    &implemented,
+                    CardKind::Sip,
+                    operation.clone(),
+                    false,
+                )
+                .expect_err("implemented correction must fail")
+                .code,
+                csdlc_v2::ErrorCode::InvalidTransition
+            );
+        } else {
+            let corrected = result.expect("ready correction must succeed");
+            let approved = csdlc_v2::store::approve_design(
+                &store,
+                csdlc_v2::store::ApproveDesignRequest {
+                    issue: 42,
+                    expected_generation: corrected.generation,
+                    expected_digest: corrected.digest,
+                    reviewer: "post-correction-reviewer".into(),
+                },
+            )
+            .expect("reapprove corrected ready design");
+            assert!(matches!(
+                approved.design_review,
+                csdlc_v2::DesignReview::Approved { .. }
+            ));
+        }
+    }
+}
+
+#[test]
 fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     let temp = tempfile::tempdir().expect("tempdir");
     let repo = temp.path().join("repo");

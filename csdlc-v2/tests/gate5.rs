@@ -1,4 +1,5 @@
-use csdlc_v2::cards::{FindingDisposition, FindingSeverity};
+use csdlc_v2::cards::{FindingDisposition, FindingSeverity, PublicationState};
+use csdlc_v2::model::TransitionEvent;
 use csdlc_v2::{
     assign_review, bind_issue, edit_issue, evaluate_publication_review,
     evaluate_publication_review_in_repo, record_review, BindRequest, BootstrapRequest, CardKind,
@@ -186,6 +187,20 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
         .expect("transition");
     }
     (temp, store, record)
+}
+
+fn write_consistent_record(root: &std::path::Path, record: &mut csdlc_v2::IssueRecord) {
+    record.digest.clear();
+    record.digest = csdlc_v2::cards::digest(
+        &serde_json::to_vec(&*record).expect("record digest serialization"),
+    );
+    let mut bytes = serde_json::to_vec_pretty(&*record).expect("record projection serialization");
+    bytes.push(b'\n');
+    std::fs::write(
+        root.join(format!(".csdlc/issues/{}/index.json", record.issue)),
+        bytes,
+    )
+    .expect("write consistent record projection");
 }
 
 #[test]
@@ -696,6 +711,461 @@ fn implemented_review_recovery_clears_truth() {
     assert_eq!(recovered_review.transitions.len(), transition_count);
     assert!(recovered_review.review_assignment.is_none());
     assert!(recovered_review.review.is_none());
+}
+
+#[test]
+fn recovered_issue_can_correct_only_the_spp_plan_summary() {
+    for recovery_phase in [
+        LifecyclePhase::Reviewed,
+        LifecyclePhase::Published,
+        LifecyclePhase::MergeReady,
+    ] {
+        let (temp, store, implemented) = implemented_fixture();
+        let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
+            .expect("review revision");
+        let mut record = record_review(
+            &store,
+            ReviewRecordRequest {
+                issue: 7,
+                expected_generation: implemented.generation,
+                expected_digest: implemented.digest,
+                actor: "reviewer".into(),
+                evidence: ReviewEvidence {
+                    reviewer: "reviewer".into(),
+                    scope: vec!["src".into()],
+                    reviewed_revision: revision,
+                    findings: vec![],
+                    residual_risks: vec![],
+                    completed: true,
+                    non_substantive_proof: None,
+                },
+            },
+        )
+        .expect("record review");
+        if matches!(
+            recovery_phase,
+            LifecyclePhase::Published | LifecyclePhase::MergeReady
+        ) {
+            record = edit_issue(
+                &store,
+                EditRequest {
+                    issue: 7,
+                    card: CardKind::Sor,
+                    expected_generation: record.generation,
+                    expected_digest: record.digest,
+                    actor: "publisher".into(),
+                    reason: "record ready publication".into(),
+                    operation: SemanticOperation::RecordPublication {
+                        state: PublicationState::Ready,
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect("record publication readiness");
+            record = edit_issue(
+                &store,
+                EditRequest {
+                    issue: 7,
+                    card: CardKind::Sor,
+                    expected_generation: record.generation,
+                    expected_digest: record.digest,
+                    actor: "publisher".into(),
+                    reason: "advance published".into(),
+                    operation: SemanticOperation::AdvancePhase {
+                        phase: LifecyclePhase::Published,
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect("advance published");
+        }
+        if recovery_phase == LifecyclePhase::MergeReady {
+            record.phase = LifecyclePhase::MergeReady;
+            record.transitions.push(TransitionEvent {
+                sequence: record.transitions.len() as u64 + 1,
+                from: LifecyclePhase::Published,
+                to: LifecyclePhase::MergeReady,
+                actor: "legacy-readiness".into(),
+                reason: "retained merge-ready compatibility state".into(),
+            });
+            write_consistent_record(temp.path(), &mut record);
+        }
+        assert_eq!(record.phase, recovery_phase);
+
+        let recovery_actor = format!("recover-{recovery_phase}");
+        let recovery_reason = format!("correct {recovery_phase} plan summary");
+        if recovery_phase == LifecyclePhase::Reviewed {
+            let before_invalid_recovery = std::fs::read(store.issue_dir(7).join("index.json"))
+                .expect("before invalid recovery");
+            let error = csdlc_v2::recover_review(
+                &store,
+                ReviewRecoveryRequest {
+                    issue: 7,
+                    expected_generation: record.generation,
+                    expected_digest: record.digest.clone(),
+                    actor: " ".into(),
+                    reason: recovery_reason.clone(),
+                },
+            )
+            .expect_err("blank recovery actor must fail");
+            assert_eq!(error.code, ErrorCode::InvalidInput);
+            assert_eq!(
+                std::fs::read(store.issue_dir(7).join("index.json"))
+                    .expect("after invalid recovery"),
+                before_invalid_recovery
+            );
+        }
+        let recovered = csdlc_v2::recover_review(
+            &store,
+            ReviewRecoveryRequest {
+                issue: 7,
+                expected_generation: record.generation,
+                expected_digest: record.digest,
+                actor: recovery_actor,
+                reason: recovery_reason,
+            },
+        )
+        .expect("recover review");
+        let before_cards = store
+            .load_cards(7)
+            .expect("cards before summary correction");
+        let replacement = format!("corrected after {recovery_phase}");
+        if recovery_phase == LifecyclePhase::Published {
+            let recovered_snapshot = recovered.clone();
+            let mut retained = recovered.clone();
+            retained.publication = Some(csdlc_v2::model::PublicationEvidence {
+                repository: "example/repo".into(),
+                issue: 7,
+                pull_request: 7,
+                url: "https://example.invalid/pr/7".into(),
+                base: "main".into(),
+                head: "issue-7".into(),
+                revision: "retained".into(),
+                linkage_mode: None,
+                draft: true,
+                observed_state: "open".into(),
+            });
+            write_consistent_record(temp.path(), &mut retained);
+            assert_eq!(
+                edit_issue(
+                    &store,
+                    EditRequest {
+                        issue: 7,
+                        card: CardKind::Spp,
+                        expected_generation: retained.generation,
+                        expected_digest: retained.digest,
+                        actor: "operator".into(),
+                        reason: "reject retained publication".into(),
+                        operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                            value: replacement.clone(),
+                        },
+                        fail_after_backup: false,
+                    },
+                )
+                .expect_err("retained publication must fail")
+                .code,
+                ErrorCode::InvalidTransition
+            );
+            let mut restored = recovered_snapshot.clone();
+            write_consistent_record(temp.path(), &mut restored);
+
+            let mut retained = recovered_snapshot.clone();
+            retained.readiness = Some(csdlc_v2::model::ReadinessEvidence {
+                pull_request: 7,
+                head_sha: "retained".into(),
+                checks: vec![],
+                review_state: csdlc_v2::readiness::RemoteReviewState::Pending,
+                conflict_state: csdlc_v2::readiness::ConflictState::Pending,
+                post_publication_findings: vec![],
+                ready: false,
+                blockers: vec!["retained".into()],
+            });
+            write_consistent_record(temp.path(), &mut retained);
+            assert_eq!(
+                edit_issue(
+                    &store,
+                    EditRequest {
+                        issue: 7,
+                        card: CardKind::Spp,
+                        expected_generation: retained.generation,
+                        expected_digest: retained.digest,
+                        actor: "operator".into(),
+                        reason: "reject retained readiness".into(),
+                        operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                            value: replacement.clone(),
+                        },
+                        fail_after_backup: false,
+                    },
+                )
+                .expect_err("retained readiness must fail")
+                .code,
+                ErrorCode::InvalidTransition
+            );
+            let mut restored = recovered_snapshot;
+            write_consistent_record(temp.path(), &mut restored);
+        }
+        if recovery_phase == LifecyclePhase::Reviewed {
+            for (card, value, generation, digest) in [
+                (
+                    CardKind::Sip,
+                    replacement.clone(),
+                    recovered.generation,
+                    recovered.digest.clone(),
+                ),
+                (
+                    CardKind::Spp,
+                    " ".into(),
+                    recovered.generation,
+                    recovered.digest.clone(),
+                ),
+                (
+                    CardKind::Spp,
+                    replacement.clone(),
+                    recovered.generation - 1,
+                    recovered.digest.clone(),
+                ),
+                (
+                    CardKind::Spp,
+                    replacement.clone(),
+                    recovered.generation,
+                    "0".repeat(64),
+                ),
+            ] {
+                let before_rejection = std::fs::read(store.issue_dir(7).join("index.json"))
+                    .expect("before correction rejection");
+                let error = edit_issue(
+                    &store,
+                    EditRequest {
+                        issue: 7,
+                        card,
+                        expected_generation: generation,
+                        expected_digest: digest,
+                        actor: "operator".into(),
+                        reason: "prove correction rejection".into(),
+                        operation: SemanticOperation::CorrectPlanSummaryAfterRecovery { value },
+                        fail_after_backup: false,
+                    },
+                )
+                .expect_err("invalid correction must fail");
+                assert!(matches!(
+                    error.code,
+                    ErrorCode::InvalidTransition
+                        | ErrorCode::CardInvalid
+                        | ErrorCode::StaleGeneration
+                        | ErrorCode::StaleDigest
+                ));
+                assert_eq!(
+                    std::fs::read(store.issue_dir(7).join("index.json"))
+                        .expect("after correction rejection"),
+                    before_rejection
+                );
+            }
+            let interrupted = edit_issue(
+                &store,
+                EditRequest {
+                    issue: 7,
+                    card: CardKind::Spp,
+                    expected_generation: recovered.generation,
+                    expected_digest: recovered.digest.clone(),
+                    actor: "operator".into(),
+                    reason: "prove interrupted correction recovery".into(),
+                    operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                        value: replacement.clone(),
+                    },
+                    fail_after_backup: true,
+                },
+            )
+            .expect_err("injected interruption must fail");
+            assert_eq!(interrupted.code, ErrorCode::InterruptedTransaction);
+        }
+        let corrected = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Spp,
+                expected_generation: recovered.generation,
+                expected_digest: recovered.digest,
+                actor: "operator".into(),
+                reason: "align recovered summary".into(),
+                operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                    value: replacement.clone(),
+                },
+                fail_after_backup: false,
+            },
+        )
+        .expect("correct recovered summary");
+        let after_cards = store.load_cards(7).expect("cards after summary correction");
+        let csdlc_v2::cards::CardContent::Spp(after_spp) = &after_cards[&CardKind::Spp].content
+        else {
+            panic!("SPP")
+        };
+        assert_eq!(after_spp.summary, replacement);
+        for kind in [
+            CardKind::Sip,
+            CardKind::Stp,
+            CardKind::Vpp,
+            CardKind::Srp,
+            CardKind::Sor,
+        ] {
+            assert_eq!(
+                after_cards[&kind].content, before_cards[&kind].content,
+                "{kind} changed during SPP-only correction"
+            );
+        }
+        let audit: serde_json::Value =
+            serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
+                .expect("structured summary audit");
+        assert_eq!(audit["operation"], "correct_plan_summary_after_recovery");
+        let csdlc_v2::cards::CardContent::Spp(before_spp) = &before_cards[&CardKind::Spp].content
+        else {
+            panic!("SPP")
+        };
+        assert_eq!(audit["previous_value"], before_spp.summary);
+        assert_eq!(audit["new_value"], replacement);
+        if recovery_phase == LifecyclePhase::Reviewed {
+            let assigned = assign_review(
+                &store,
+                ReviewAssignmentRequest {
+                    issue: 7,
+                    expected_generation: corrected.generation,
+                    expected_digest: corrected.digest,
+                    reviewer: "later-reviewer".into(),
+                    assigned_by: "operator".into(),
+                    scope: vec!["src".into()],
+                },
+            )
+            .expect("assign retained review truth");
+            let error = edit_issue(
+                &store,
+                EditRequest {
+                    issue: 7,
+                    card: CardKind::Spp,
+                    expected_generation: assigned.generation,
+                    expected_digest: assigned.digest,
+                    actor: "operator".into(),
+                    reason: "reject stale transition provenance".into(),
+                    operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                        value: "must remain blocked".into(),
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect_err("retained review truth and stale provenance must fail");
+            assert_eq!(error.code, ErrorCode::InvalidTransition);
+        }
+    }
+
+    let (temp, store, implemented) = implemented_fixture();
+    let clean_error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject clean implemented state".into(),
+            operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                value: "must not apply".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("clean implemented issue must fail");
+    assert_eq!(clean_error.code, ErrorCode::InvalidTransition);
+
+    let mut transition_only = implemented.clone();
+    transition_only.transitions.push(TransitionEvent {
+        sequence: transition_only.transitions.len() as u64 + 1,
+        from: LifecyclePhase::Implemented,
+        to: LifecyclePhase::Reviewed,
+        actor: "synthetic-review".into(),
+        reason: "prove transition-only rejection".into(),
+    });
+    transition_only.transitions.push(TransitionEvent {
+        sequence: transition_only.transitions.len() as u64 + 1,
+        from: LifecyclePhase::Reviewed,
+        to: LifecyclePhase::Implemented,
+        actor: "synthetic-recovery".into(),
+        reason: "prove transition-only rejection".into(),
+    });
+    write_consistent_record(temp.path(), &mut transition_only);
+    let transition_error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: transition_only.generation,
+            expected_digest: transition_only.digest,
+            actor: "operator".into(),
+            reason: "reject transition-only provenance".into(),
+            operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                value: "must not apply".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("transition-only provenance must fail");
+    assert_eq!(transition_error.code, ErrorCode::InvalidTransition);
+    let mut restored = implemented.clone();
+    write_consistent_record(temp.path(), &mut restored);
+    let assigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["src".into()],
+        },
+    )
+    .expect("assign review on implemented issue");
+    let audit_only = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            reason: "clear implemented review truth".into(),
+        },
+    )
+    .expect("audit-only recovery");
+    let before = std::fs::read(store.issue_dir(7).join("index.json")).expect("before rejection");
+    for (actor, reason) in [
+        (
+            "operator",
+            "audit-only recovery must not authorize correction",
+        ),
+        ("", "missing actor"),
+        ("operator", " "),
+    ] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Spp,
+                expected_generation: audit_only.generation,
+                expected_digest: audit_only.digest.clone(),
+                actor: actor.into(),
+                reason: reason.into(),
+                operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                    value: "must not apply".into(),
+                },
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("invalid provenance/input must fail");
+        assert!(matches!(
+            error.code,
+            ErrorCode::InvalidTransition | ErrorCode::InvalidInput
+        ));
+        assert_eq!(
+            std::fs::read(store.issue_dir(7).join("index.json")).expect("after rejection"),
+            before
+        );
+    }
 }
 
 #[test]

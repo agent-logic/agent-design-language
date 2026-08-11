@@ -1,11 +1,19 @@
 sprint 5854 overlap negative control: PASS
 sprint 5854 readiness: PASS
+live gate refresh: PASS (2026-08-11T06:12:32Z)
+first execution wave: PASS (#5835 and #5836 ready to bind)
+downstream serialization: PASS (#5838 and #5839 remain gated)
+release-tail handoff: PASS (#5840 is the first child of final sprint #5856)
+final sprint packet: PASS (exact membership, serial order, focused validator, retained live #5856 readback, and split-authority bind request)
+canonical WP-14 authority: PASS (agent-logic/agent-design-language#209, PR #215, merge a77519c3fca9f64752af41c9a2ebd396468891f7)
+WP-16 dependency manifest: PASS (nine reviewed, merged, ancestral entries)
+collector identity: PASS (installed owner binary digests match retained evidence)
 child 5835: expected repository_identity_drift is the only ordinary pre-bind blocker
 child 5836: expected repository_identity_drift is the only ordinary pre-bind blocker
 child 5838: expected repository_identity_drift is the only ordinary pre-bind blocker
 child 5839: expected repository_identity_drift is the only ordinary pre-bind blocker
-child 5840: expected repository_identity_drift is the only ordinary pre-bind blocker
 csdlc-v2 gate2 split-authority bind regression: PASS (1 passed, 0 failed)
 lifecycle authority: PASS (recorded /Volumes/FastWork/adl-standalone-5854 worktree, full checkout, no sparse-checkout workaround)
-membership authority: PASS (issue wave, machine packet, and live umbrella contract name exactly five operative children; completed WP-24 is non-gating)
+membership authority: PASS (issue wave, machine packet, and live umbrella contract name exactly four operative children; WP-20 is release-tail-owned and completed WP-24 is non-gating)
 parallel ownership authority: PASS (canonical issue wave and machine packet share one collision-checked #5835/#5836 lane; ungoverned human candidate lanes absent)
+final sprint pre-bind diagnosis: EXPECTED (repository_identity_drift resolves only through the retained typed bind request; no umbrella or child was bound)
