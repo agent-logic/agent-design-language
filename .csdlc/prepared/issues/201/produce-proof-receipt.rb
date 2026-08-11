@@ -41,7 +41,7 @@ EXPECTED_CASES = %w[
   continuity_projection_wrong_source_checkpoint_handle_rejected
   continuity_projection_wrong_bundle_handle_rejected
 ].freeze
-EXPECTED_RESULTS = Hash.new("rejected").merge(
+EXPECTED_RESULTS = {
   "current_three_voter_finalize" => "passed",
   "exact_retry_returns_cached_result" => "passed",
   "joint_majority_each_config" => "passed",
@@ -56,7 +56,7 @@ EXPECTED_RESULTS = Hash.new("rejected").merge(
   "node_b_cas_before_final_marker" => "reconciled",
   "node_c_local_before_cas" => "reconciled",
   "node_c_cas_before_final_marker" => "reconciled"
-).freeze
+}.freeze
 
 def fail_proof(message)
   abort("issue 201 producer: #{message}")
@@ -113,7 +113,7 @@ observed = machine_text.lines.each_with_object([]) do |line, rows|
 end
 fail_proof("case denominator mismatch") unless observed.length == 47 && observed.map(&:first).sort == EXPECTED_CASES.sort
 observed_by_name = observed.to_h { |name, result, digest| [name, [result, digest]] }
-EXPECTED_CASES.each { |name| fail_proof("wrong result for #{name}") unless observed_by_name.fetch(name).first == EXPECTED_RESULTS.fetch(name) }
+EXPECTED_CASES.each { |name| fail_proof("wrong result for #{name}") unless observed_by_name.fetch(name).first == EXPECTED_RESULTS.fetch(name, "rejected") }
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
