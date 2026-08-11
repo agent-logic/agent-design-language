@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
 [
   {
     "lane": "authorized-learner-transport",
-    "proof_role": "Prove the exact thirty-six private cases and fifteen behavior assertions, including mandatory shared authority ownership, real SecurePolisNetworkFactory-to-Quinn fourth-PolisRaft snapshot and append replication, exact TLS role/address/generation binding, automatic successor revocation, production exclusion endorsement, restart reconciliation, and denied non-replication RPCs.",
+    "proof_role": "Prove the exact thirty-six private cases and eighteen behavior assertions, including mandatory shared authority ownership, real SecurePolisNetworkFactory-to-Quinn fourth-PolisRaft snapshot and append replication, exact TLS role/address/generation binding, automatic successor revocation, production exclusion endorsement, restart reconciliation, and denied non-replication RPCs. Retained excluded ordinary sessions must deny every public request/accept route before a QUIC STREAM frame, and published-result admission plus live install must deny cross-polis or cross-cut publisher identity.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -52,7 +52,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       "--test-threads=1"
     ],
     "parallel_group": "202-runtime",
-    "defer_reason": "Fail closed on any count other than 36, any missing or duplicate case marker, any mismatch from the exact fifteen behavior assertions, or any failed real transport effect."
+    "defer_reason": "Fail closed on any count other than 36, any missing or duplicate case marker, any mismatch from the exact eighteen behavior assertions, or any failed real transport effect."
   },
   {
     "lane": "authorized-learner-transport-public-boundary",
@@ -156,7 +156,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
   },
   {
     "lane": "authorized-learner-transport-producer",
-    "proof_role": "Produce exact source, current-main ancestry, protected digests, command streams, 36+13 results, fifteen behavior assertions, runtime compile, and strict Clippy evidence.",
+    "proof_role": "Produce exact source, current-main ancestry, protected digests, command streams, 36+13 results, eighteen behavior assertions, runtime compile, and strict Clippy evidence.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -186,7 +186,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
     ],
     "parallel_group": "202-proof",
-    "defer_reason": "Fail closed until the exact source, 36+13 results, fifteen assertions, both Clippy lanes, and immutable evidence introduction agree."
+    "defer_reason": "Fail closed until the exact source, 36+13 results, eighteen assertions, both Clippy lanes, and immutable evidence introduction agree."
   }
 ]
 

@@ -9,7 +9,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/202/v2/"
+PREFIX = ".csdlc/evidence/202/v3/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_202_CASE_V1 "
@@ -50,9 +50,12 @@ EXPECTED_ASSERTIONS = [
   %w[certificate_overlap_authorized retained_old_clones_atomically_revoked],
   %w[exclusion_ordinary_session_denied published_exclusion_denies_retained_identity],
   %w[exclusion_ordinary_session_denied production_endorsement_uses_durable_exclusion],
+  %w[exclusion_ordinary_session_denied retained_excluded_session_zero_bytes_all_public_dispatch],
   %w[crash_before_exclusion_checkpoint failed_admission_and_exclusion_cas_recover_old_view],
   %w[crash_after_exclusion_checkpoint committed_admission_and_exclusion_survive_restart],
   %w[wrong_boot_generation live_stale_voter_boot_rejected],
+  %w[wrong_polis cross_polis_published_result_denied],
+  %w[wrong_polis cross_polis_live_install_denied],
   %w[wrong_address live_authorized_address_rejected],
   %w[wrong_address live_wrong_direction_rejected]
 ].freeze
@@ -95,9 +98,14 @@ end
 runtime_source = File.binread(ROOT.join("adl-runtime/src/distributed/polis_runtime.rs"))
 authority_source = File.binread(ROOT.join("adl-runtime/src/distributed/authority_protocol.rs"))
 transport_source = File.binread(ROOT.join("adl-runtime/src/distributed/transport.rs"))
+learner_source = File.binread(ROOT.join("adl-runtime/src/distributed/learner_transport.rs"))
 private_tests = File.binread(ROOT.join("adl-runtime/src/distributed/learner_transport/tests.rs"))
 fail_proof("production allow-all authority bypass remains") if [runtime_source, authority_source, transport_source].any? { |source_text| source_text.include?("AllowAll") }
 fail_proof("production factory does not require shared learner authority") unless runtime_source.scan("learner_authority: ProductionLearnerAuthority").length >= 2
+fail_proof("ordinary session exclusion policy remains public") if transport_source.include?("pub trait OrdinarySessionExclusion")
+fail_proof("authority eligibility exclusion policy remains public") if authority_source.include?("pub trait AuthorityEligibilityExclusion")
+fail_proof("published admission does not bind publisher identity to live cut") unless learner_source.include?("published_identity_matches_cut") && runtime_source.include?("published_result_matches_trusted_cut")
+fail_proof("ordinary sessions do not embed production authority") unless transport_source.include?("authority: ProductionLearnerAuthority")
 %w[install_learner_route request_bytes serve_authorized_learner_connection add_learner].each do |behavior|
   fail_proof("real fourth-Raft behavior missing #{behavior}") unless private_tests.include?(behavior)
 end
@@ -128,7 +136,7 @@ fail_proof("subassertion mismatch") unless assertions.sort == EXPECTED_ASSERTION
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue202.authorized_learner_transport_proof.v2", "issue" => 202,
+  "schema" => "adl.issue202.authorized_learner_transport_proof.v3", "issue" => 202,
   "source_revision" => source, "source_tree" => tree.strip, "required_main_ancestor" => MAIN_ANCESTOR,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
   "commands" => commands, "test_summary" => { "private_selected" => 36, "private_passed" => 36, "public_selected" => 13, "public_passed" => 13 },

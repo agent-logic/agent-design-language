@@ -29,7 +29,7 @@ use crate::distributed::{
     },
     transport::{
         client_endpoint, server_endpoint, AuthenticatedConnection, ConnectionSecurity, PeerBinding,
-        TransportAuthorization, TransportLimits, VerifiedPolisRouteCut,
+        TransportAuthorization, TransportError, TransportLimits, VerifiedPolisRouteCut,
     },
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
@@ -225,8 +225,13 @@ fn remove_token_with(
 }
 
 fn admission() -> VerifiedLearnerAdmission {
-    VerifiedLearnerAdmission::from_published_membership(&enroll_token(), &identity(), CUT, NOW)
-        .unwrap()
+    VerifiedLearnerAdmission::from_published_membership_for_test(
+        &enroll_token(),
+        &identity(),
+        CUT,
+        NOW,
+    )
+    .unwrap()
 }
 
 fn session() -> EstablishedLearnerSession {
@@ -473,6 +478,10 @@ async fn live_learner_pair(
 }
 
 fn live_voter_cut(boot_generations: [u64; 3]) -> VerifiedPolisRouteCut {
+    live_voter_cut_for("polis-a", boot_generations)
+}
+
+fn live_voter_cut_for(polis_id: &str, boot_generations: [u64; 3]) -> VerifiedPolisRouteCut {
     let routes = (1..=3)
         .map(|node| {
             (
@@ -496,16 +505,17 @@ fn live_voter_cut(boot_generations: [u64; 3]) -> VerifiedPolisRouteCut {
             )
         })
         .collect();
-    VerifiedPolisRouteCut::test_from_parts("polis-a", "runtime-prod", routes, identities)
+    VerifiedPolisRouteCut::test_from_parts(polis_id, "runtime-prod", routes, identities)
 }
 
 fn live_admission(
     mut learner_identity: LearnerIdentity,
     address: std::net::SocketAddr,
-    cut_sha256: [u8; 32],
+    cut: &VerifiedPolisRouteCut,
 ) -> (VerifiedLearnerAdmission, i64) {
     learner_identity.address = address;
     let now = i64::try_from(unix_now()).unwrap();
+    let cut_sha256 = route_cut_digest(cut).unwrap();
     let artifact = LearnerMembershipArtifact::enroll_non_voting(
         learner_identity.clone(),
         cut_sha256,
@@ -527,13 +537,8 @@ fn live_admission(
         },
     );
     (
-        VerifiedLearnerAdmission::from_published_membership(
-            &token,
-            &learner_identity,
-            cut_sha256,
-            now,
-        )
-        .unwrap(),
+        VerifiedLearnerAdmission::from_published_membership(&token, &learner_identity, cut, now)
+            .unwrap(),
         now,
     )
 }
@@ -750,8 +755,7 @@ async fn real_four_node_learner_replication() {
         live_learner_pair(leader).await;
     let learner_address = learner_endpoint.local_addr().unwrap();
     let cut = live_voter_cut([3, 3, 3]);
-    let cut_sha256 = route_cut_digest(&cut).unwrap();
-    let (admission, now) = live_admission(identity(), learner_address, cut_sha256);
+    let (admission, now) = live_admission(identity(), learner_address, &cut);
     let authority = ProductionLearnerAuthority::open(
         &raft_root.path().join("learner-authority"),
         Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
@@ -887,7 +891,8 @@ fn excluded_node_recovery_learner() {
     recovered.boot_generation += 1;
     let token = enroll_token_with(recovered.clone(), "recover-4", 43, NOW + 100, None);
     let admission =
-        VerifiedLearnerAdmission::from_published_membership(&token, &recovered, CUT, NOW).unwrap();
+        VerifiedLearnerAdmission::from_published_membership_for_test(&token, &recovered, CUT, NOW)
+            .unwrap();
     assert!(snapshot.recovery_learner_allowed(&admission));
     assert!(!snapshot.ordinary_authority_allowed(&old.node_id, &old.guardian_id));
     mark("excluded_node_recovery_learner");
@@ -941,8 +946,13 @@ fn reconnect_boot_rotation() {
         NOW + 100,
         Some(admission().operation_sha256),
     );
-    let next = VerifiedLearnerAdmission::from_published_membership(&next, &next_identity, CUT, NOW)
-        .unwrap();
+    let next = VerifiedLearnerAdmission::from_published_membership_for_test(
+        &next,
+        &next_identity,
+        CUT,
+        NOW,
+    )
+    .unwrap();
     assert_ne!(
         old.binding.identity.boot_generation,
         next.identity.boot_generation
@@ -990,9 +1000,13 @@ fn certificate_overlap_authorized() {
         NOW + 200,
         Some(admission().operation_sha256),
     );
-    let next =
-        VerifiedLearnerAdmission::from_published_membership(&token, &next_identity, CUT, NOW)
-            .unwrap();
+    let next = VerifiedLearnerAdmission::from_published_membership_for_test(
+        &token,
+        &next_identity,
+        CUT,
+        NOW,
+    )
+    .unwrap();
     assert_ne!(old.binding.operation_sha256, next.operation_sha256);
     authority.stage_successor(&next).unwrap();
     assert_eq!(
@@ -1093,7 +1107,7 @@ fn wrong_operation_kind() {
         },
     );
     assert_eq!(
-        VerifiedLearnerAdmission::from_published_membership(&token, &identity(), CUT, NOW),
+        VerifiedLearnerAdmission::from_published_membership_for_test(&token, &identity(), CUT, NOW,),
         Err(LearnerTransportError::ArtifactMismatch)
     );
     mark("wrong_operation_kind");
@@ -1107,7 +1121,9 @@ macro_rules! identity_mismatch_case {
             let mut expected = identity();
             $mutate(&mut expected);
             assert_eq!(
-                VerifiedLearnerAdmission::from_published_membership(&token, &expected, CUT, NOW),
+                VerifiedLearnerAdmission::from_published_membership_for_test(
+                    &token, &expected, CUT, NOW,
+                ),
                 Err(LearnerTransportError::InvalidBinding)
             );
             mark(stringify!($name));
@@ -1118,9 +1134,73 @@ macro_rules! identity_mismatch_case {
 identity_mismatch_case!(wrong_domain, |value: &mut LearnerIdentity| value
     .trust_domain
     .push_str("-wrong"));
-identity_mismatch_case!(wrong_polis, |value: &mut LearnerIdentity| value
-    .polis_id
-    .push_str("-wrong"));
+
+#[tokio::test]
+async fn wrong_polis() {
+    let (voter, _learner, voter_endpoint, learner_endpoint, _store) = live_learner_pair(1).await;
+    let cut = live_voter_cut([3, 3, 3]);
+    let cut_sha256 = route_cut_digest(&cut).unwrap();
+    let mut learner = identity();
+    learner.address = learner_endpoint.local_addr().unwrap();
+    let now = i64::try_from(unix_now()).unwrap();
+    let artifact = LearnerMembershipArtifact::enroll_non_voting(
+        learner.clone(),
+        cut_sha256,
+        None,
+        MEMBERSHIP,
+        Some(now + 240),
+        now + 300,
+    )
+    .unwrap();
+    let mut wrong_publisher = authority_identity();
+    wrong_publisher.polis_id = "polis-b".to_owned();
+    let cross_polis_token = test_published_reconciliation_token(
+        wrong_publisher,
+        "cross-polis-enroll-4",
+        artifact,
+        41,
+        CanonicalAuthorityTime {
+            unix_seconds: now,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    assert_eq!(
+        VerifiedLearnerAdmission::from_published_membership(
+            &cross_polis_token,
+            &learner,
+            &cut,
+            now,
+        ),
+        Err(LearnerTransportError::InvalidBinding)
+    );
+    assertion("wrong_polis", "cross_polis_published_result_denied");
+
+    let (admission, admission_now) =
+        live_admission(identity(), learner_endpoint.local_addr().unwrap(), &cut);
+    let authority_dir = portable_tempdir();
+    let authority = ProductionLearnerAuthority::open(
+        authority_dir.path(),
+        Arc::new(MemoryCheckpoint::default()),
+    )
+    .unwrap();
+    authority.activate_admission(&admission).unwrap();
+    let cross_polis_cut = live_voter_cut_for("polis-b", [3, 3, 3]);
+    let factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cross_polis_cut, authority).unwrap();
+    assert_eq!(
+        factory
+            .install_learner_route(4, Arc::clone(&voter), &admission, admission_now)
+            .await,
+        Err(PolisRuntimeError::AuthorityDenied)
+    );
+    assertion("wrong_polis", "cross_polis_live_install_denied");
+    voter.close();
+    voter_endpoint.close(0_u32.into(), b"test complete");
+    learner_endpoint.close(0_u32.into(), b"test complete");
+    mark("wrong_polis");
+}
+
 identity_mismatch_case!(wrong_learner, |value: &mut LearnerIdentity| value
     .node_id
     .push_str("-wrong"));
@@ -1136,7 +1216,7 @@ identity_mismatch_case!(
 fn expired_certificate() {
     let token = enroll_token_with(identity(), "expired", 41, NOW, None);
     assert_eq!(
-        VerifiedLearnerAdmission::from_published_membership(&token, &identity(), CUT, NOW),
+        VerifiedLearnerAdmission::from_published_membership_for_test(&token, &identity(), CUT, NOW,),
         Err(LearnerTransportError::InvalidBinding)
     );
     mark("expired_certificate");
@@ -1166,17 +1246,21 @@ async fn wrong_boot_generation() {
     let mut wrong_learner_boot = identity();
     wrong_learner_boot.boot_generation += 1;
     assert_eq!(
-        VerifiedLearnerAdmission::from_published_membership(&token, &wrong_learner_boot, CUT, NOW),
+        VerifiedLearnerAdmission::from_published_membership_for_test(
+            &token,
+            &wrong_learner_boot,
+            CUT,
+            NOW,
+        ),
         Err(LearnerTransportError::InvalidBinding)
     );
 
     let (voter, _learner, voter_endpoint, learner_endpoint, _store) = live_learner_pair(1).await;
     let current_cut = live_voter_cut([3, 3, 3]);
-    let current_digest = route_cut_digest(&current_cut).unwrap();
     let (admission, now) = live_admission(
         identity(),
         learner_endpoint.local_addr().unwrap(),
-        current_digest,
+        &current_cut,
     );
     let authority_dir = portable_tempdir();
     let authority = ProductionLearnerAuthority::open(
@@ -1205,9 +1289,7 @@ async fn wrong_boot_generation() {
 async fn wrong_address() {
     let (voter, _learner, voter_endpoint, learner_endpoint, _store) = live_learner_pair(1).await;
     let cut = live_voter_cut([3, 3, 3]);
-    let cut_digest = route_cut_digest(&cut).unwrap();
-    let (admission, now) =
-        live_admission(identity(), "127.0.0.1:9999".parse().unwrap(), cut_digest);
+    let (admission, now) = live_admission(identity(), "127.0.0.1:9999".parse().unwrap(), &cut);
     let authority_dir = portable_tempdir();
     let authority = ProductionLearnerAuthority::open(
         authority_dir.path(),
@@ -1215,18 +1297,15 @@ async fn wrong_address() {
     )
     .unwrap();
     authority.activate_admission(&admission).unwrap();
-    let factory = SecurePolisNetworkFactory::from_authority_cut(1, cut, authority).unwrap();
+    let factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), authority).unwrap();
     assert_eq!(
         factory
             .install_learner_route(4, Arc::clone(&voter), &admission, now)
             .await,
         Err(PolisRuntimeError::InvalidConfiguration)
     );
-    let (direction_admission, direction_now) = live_admission(
-        identity(),
-        learner_endpoint.local_addr().unwrap(),
-        cut_digest,
-    );
+    let (direction_admission, direction_now) =
+        live_admission(identity(), learner_endpoint.local_addr().unwrap(), &cut);
     let direction_dir = portable_tempdir();
     let direction_authority = ProductionLearnerAuthority::open(
         direction_dir.path(),
@@ -1275,8 +1354,8 @@ denied_case!(learner_renewal_denied, renewal);
 denied_case!(learner_shepherd_denied, shepherd);
 denied_case!(learner_observatory_denied, observatory);
 
-#[test]
-fn exclusion_ordinary_session_denied() {
+#[tokio::test]
+async fn exclusion_ordinary_session_denied() {
     let dir = portable_tempdir();
     let authority =
         ProductionLearnerAuthority::open(dir.path(), Arc::new(MemoryCheckpoint::default()))
@@ -1360,6 +1439,143 @@ fn exclusion_ordinary_session_denied() {
         "exclusion_ordinary_session_denied",
         "production_endorsement_uses_durable_exclusion",
     );
+
+    let (voter_connection, learner_connection, voter_endpoint, learner_endpoint, _store) =
+        live_learner_pair(1).await;
+    let routes = [
+        (4, "127.0.0.1:45404".parse().unwrap()),
+        (1, learner_endpoint.local_addr().unwrap()),
+        (3, "127.0.0.1:45303".parse().unwrap()),
+    ]
+    .into_iter()
+    .collect();
+    let identities = [
+        (
+            4,
+            (
+                "node-1".to_owned(),
+                "guardian-1".to_owned(),
+                SigningKey::from_bytes(&[1; 32]).verifying_key().to_bytes(),
+                4,
+            ),
+        ),
+        (
+            1,
+            (
+                "node-4".to_owned(),
+                "guardian-4".to_owned(),
+                SigningKey::from_bytes(&[4; 32]).verifying_key().to_bytes(),
+                4,
+            ),
+        ),
+        (
+            3,
+            (
+                "node-3".to_owned(),
+                "guardian-3".to_owned(),
+                SigningKey::from_bytes(&[3; 32]).verifying_key().to_bytes(),
+                4,
+            ),
+        ),
+    ]
+    .into_iter()
+    .collect();
+    let cut = VerifiedPolisRouteCut::test_from_parts("polis-a", "runtime-prod", routes, identities);
+    let cut_sha256 = route_cut_digest(&cut).unwrap();
+    let session_authority_dir = portable_tempdir();
+    let session_authority = ProductionLearnerAuthority::open(
+        session_authority_dir.path(),
+        Arc::new(MemoryCheckpoint::default()),
+    )
+    .unwrap();
+    let voter_factory =
+        SecurePolisNetworkFactory::from_authority_cut(4, cut.clone(), session_authority.clone())
+            .unwrap();
+    let learner_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut, session_authority.clone()).unwrap();
+    let voter_signing_key = SigningKey::from_bytes(&[1; 32]);
+    let learner_signing_key = SigningKey::from_bytes(&[4; 32]);
+    let (voter_session, learner_session) = tokio::join!(
+        voter_factory.initiate_session(1, &voter_connection, &voter_signing_key,),
+        learner_factory.accept_session(4, &learner_connection, &learner_signing_key,),
+    );
+    let voter_session = voter_session.unwrap();
+    let learner_session = learner_session.unwrap();
+    let mut excluded = identity();
+    excluded.stable_raft_id = 1;
+    excluded.certificate_generation = 4;
+    excluded.boot_generation = 4;
+    excluded.address = learner_endpoint.local_addr().unwrap();
+    let artifact = LearnerMembershipArtifact::remove_voter(
+        excluded.clone(),
+        cut_sha256,
+        MEMBERSHIP,
+        NOW + 100,
+        "exclude_retained_session",
+    )
+    .unwrap();
+    let mut publisher = authority_identity();
+    publisher.boot_generation = 4;
+    let removal = test_published_reconciliation_token(
+        publisher,
+        "exclude-retained-session",
+        artifact,
+        42,
+        CanonicalAuthorityTime {
+            unix_seconds: NOW,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    voter_factory
+        .activate_pending_exclusion(&removal, &excluded, cut_sha256)
+        .await
+        .unwrap();
+    let stream_frames_before = voter_connection.test_stream_frames_sent();
+    assert_eq!(
+        voter_connection
+            .request_polis(&voter_session, 1, "append_entries", b"denied".to_vec())
+            .await,
+        Err(TransportError::InvalidSessionBinding)
+    );
+    assert!(matches!(
+        voter_connection
+            .begin_polis_request(&voter_session, 2, "install_snapshot", b"denied".to_vec())
+            .await,
+        Err(TransportError::InvalidSessionBinding)
+    ));
+    assert!(matches!(
+        voter_factory
+            .request_on_connection(
+                1,
+                &voter_connection,
+                &voter_session,
+                3,
+                "append_entries",
+                b"denied".to_vec(),
+            )
+            .await,
+        Err(PolisRuntimeError::AuthorityDenied)
+    ));
+    assert_eq!(
+        voter_connection.test_stream_frames_sent(),
+        stream_frames_before,
+        "excluded retained session emitted a STREAM frame"
+    );
+    assert!(matches!(
+        learner_connection
+            .accept_polis_request(&learner_session)
+            .await,
+        Err(TransportError::InvalidSessionBinding)
+    ));
+    assertion(
+        "exclusion_ordinary_session_denied",
+        "retained_excluded_session_zero_bytes_all_public_dispatch",
+    );
+    voter_connection.close();
+    learner_connection.close();
+    voter_endpoint.close(0_u32.into(), b"test complete");
+    learner_endpoint.close(0_u32.into(), b"test complete");
     mark("exclusion_ordinary_session_denied");
 }
 

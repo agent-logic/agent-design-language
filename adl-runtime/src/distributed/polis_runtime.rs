@@ -38,14 +38,16 @@ use tokio::sync::{watch, RwLock};
 use tokio_util::sync::CancellationToken;
 
 use crate::distributed::authority_protocol::{
-    verify_replicated_finalization, AuthorityFinalizeProposal, AuthorityNodeIdentity,
-    AuthorityPrepareProposal, DurableAuthorityProtocol, PrepareAuthorityIntent,
+    verify_replicated_finalization, AuthorityFinalizeProposal, AuthorityIntentEndorsement,
+    AuthorityNodeIdentity, AuthorityPrepareProposal, AuthorityProtocolError,
+    CanonicalAuthorityTime, DurableAuthorityProtocol, PrepareAuthorityIntent,
     PublishedAuthorityResult,
 };
 use crate::distributed::authority_reconciliation::{
     AuthorityReconciliationBarrier, AuthorityReconciliationError, PublishedReconciliationResult,
 };
 use crate::distributed::certificates::{AuthorityCertificate, DistributedCertificateStore};
+use crate::distributed::identity::LocalNodeGuardianIdentity;
 use crate::distributed::learner_transport::{
     route_cut_digest as learner_route_cut_digest, EstablishedLearnerSession, LearnerEndpointRole,
     LearnerIdentity, LearnerRpcKind, LearnerTransportError, LearnerVoterBinding,
@@ -55,8 +57,9 @@ use crate::distributed::lease::{AuthorityMembership, VoterAuthority};
 use crate::distributed::membership::MembershipPolicy;
 use crate::distributed::transport::{
     AuthenticatedConnection, EstablishedPolisSession, EstablishedRuntimeAuthority,
-    IncomingPolisRequest, PendingPolisSession, PolisIdentityBinding, PolisSessionBinding,
-    RuntimeAuthorityInitializer, TransportLimits, TransportResult, VerifiedPolisRouteCut,
+    IncomingPolisRequest, PendingPolisResponse, PendingPolisSession, PolisIdentityBinding,
+    PolisSessionBinding, RuntimeAuthorityInitializer, TransportLimits, TransportResult,
+    VerifiedPolisRouteCut,
 };
 use crate::kernel_continuity_client::KernelContinuityClient;
 use adl_runtime_kernel::{
@@ -2103,6 +2106,8 @@ pub struct SecurePolisNetworkFactory {
     local: NodeId,
     cut: Arc<RwLock<VerifiedPolisRouteCut>>,
     trusted_polis_id: String,
+    trusted_cut_sha256: [u8; 32],
+    trusted_trust_domain: String,
     trusted_membership_epoch: u64,
     trusted_authority: AuthorityMembership,
     trusted_boot_generations: BTreeMap<Vec<u8>, u64>,
@@ -2156,9 +2161,12 @@ impl SecurePolisNetworkFactory {
         let (node_id, guardian_id, boot_generation) = cut
             .authority_node_identity(local)
             .ok_or(PolisRuntimeError::AuthorityDenied)?;
+        let trusted_cut_sha256 = learner_route_cut_digest(&cut).map_err(map_learner_error)?;
         Ok(Self {
             local,
             trusted_polis_id: cut.polis_id().to_owned(),
+            trusted_cut_sha256,
+            trusted_trust_domain: cut.trust_domain().to_owned(),
             trusted_membership_epoch: cut.membership_epoch(),
             trusted_authority: cut.authority_membership().clone(),
             trusted_boot_generations: cut.authority_boot_generations(),
@@ -2187,21 +2195,153 @@ impl SecurePolisNetworkFactory {
         }
     }
 
+    #[allow(clippy::too_many_arguments)]
+    pub fn endorse_committed_prepare(
+        &self,
+        identity: &LocalNodeGuardianIdentity,
+        certificate_generation: u64,
+        boot_generation: u64,
+        membership_log_index: u64,
+        intent: &PrepareAuthorityIntent,
+        finalization_time: &CanonicalAuthorityTime,
+        membership: &crate::distributed::membership::MembershipState,
+    ) -> Result<AuthorityIntentEndorsement, AuthorityProtocolError> {
+        let public = identity.public_identity();
+        if public.trust_domain != self.local_publication_identity.trust_domain
+            || public.node_id != self.local_publication_identity.node_id
+            || public.guardian_id != self.local_publication_identity.guardian_id
+            || boot_generation != self.local_publication_identity.boot_generation
+            || membership_log_index != self.trusted_authority.committed_log_index
+        {
+            return Err(AuthorityProtocolError::WrongVoter);
+        }
+        self.learner_authority.endorse_committed_prepare(
+            identity,
+            certificate_generation,
+            boot_generation,
+            membership_log_index,
+            &self.trusted_boot_generations,
+            intent,
+            finalization_time,
+            membership,
+            &self.trusted_authority,
+        )
+    }
+
     pub async fn pending_session(
         &self,
         target: NodeId,
         connection: &AuthenticatedConnection,
     ) -> Result<PendingPolisSession, PolisRuntimeError> {
         let _transition = self.authority_transition.lock().await;
+        self.cut
+            .read()
+            .await
+            .pending_session_with_exclusion(
+                self.local,
+                target,
+                connection,
+                self.learner_authority.clone(),
+            )
+            .map_err(|_| PolisRuntimeError::AuthorityDenied)
+    }
+
+    pub async fn initiate_session(
+        &self,
+        target: NodeId,
+        connection: &AuthenticatedConnection,
+        signing_key: &ed25519_dalek::SigningKey,
+    ) -> Result<EstablishedPolisSession, PolisRuntimeError> {
+        let pending = self.pending_session(target, connection).await?;
+        connection
+            .initiate_polis_session(pending, signing_key)
+            .await
+            .map_err(|_| PolisRuntimeError::AuthorityDenied)
+    }
+
+    pub async fn accept_session(
+        &self,
+        target: NodeId,
+        connection: &AuthenticatedConnection,
+        signing_key: &ed25519_dalek::SigningKey,
+    ) -> Result<EstablishedPolisSession, PolisRuntimeError> {
+        let pending = self.pending_session(target, connection).await?;
+        connection
+            .accept_polis_session(pending, signing_key)
+            .await
+            .map_err(|_| PolisRuntimeError::AuthorityDenied)
+    }
+
+    async fn validate_uninstalled_session(
+        &self,
+        target: NodeId,
+        connection: &AuthenticatedConnection,
+        session: &EstablishedPolisSession,
+    ) -> Result<(), PolisRuntimeError> {
         let exclusion = self
             .learner_authority
             .exclusion_snapshot()
             .map_err(map_learner_error)?;
-        self.cut
+        if self
+            .cut
             .read()
             .await
-            .pending_session_with_exclusion(self.local, target, connection, &exclusion)
-            .map_err(|_| PolisRuntimeError::AuthorityDenied)
+            .session_matches_with_exclusion(self.local, target, connection, session, &exclusion)
+        {
+            Ok(())
+        } else {
+            Err(PolisRuntimeError::AuthorityDenied)
+        }
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub async fn request_on_connection(
+        &self,
+        target: NodeId,
+        connection: &AuthenticatedConnection,
+        session: &EstablishedPolisSession,
+        sequence: u64,
+        message_kind: &str,
+        payload: Vec<u8>,
+    ) -> Result<Vec<u8>, PolisRuntimeError> {
+        self.validate_uninstalled_session(target, connection, session)
+            .await?;
+        connection
+            .request_polis(session, sequence, message_kind, payload)
+            .await
+            .map_err(|_| PolisRuntimeError::Network)
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub async fn begin_request_on_connection(
+        &self,
+        target: NodeId,
+        connection: &AuthenticatedConnection,
+        session: &EstablishedPolisSession,
+        sequence: u64,
+        message_kind: &str,
+        payload: Vec<u8>,
+    ) -> Result<PendingPolisResponse, PolisRuntimeError> {
+        self.validate_uninstalled_session(target, connection, session)
+            .await?;
+        connection
+            .begin_polis_request(session, sequence, message_kind, payload)
+            .await
+            .map_err(|_| PolisRuntimeError::Network)
+    }
+
+    pub async fn accept_request_on_connection(
+        &self,
+        target: NodeId,
+        connection: &AuthenticatedConnection,
+        session: &EstablishedPolisSession,
+    ) -> Result<IncomingPolisRequest, PolisRuntimeError> {
+        self.validate_uninstalled_session(target, connection, session)
+            .await?;
+        connection
+            .accept_polis_request(session)
+            .await
+            .map_err(|_| PolisRuntimeError::Network)
     }
 
     pub async fn install_route(
@@ -2254,6 +2394,7 @@ impl SecurePolisNetworkFactory {
         if target == 0
             || target != admission.identity().stable_raft_id
             || cut.contains(target)
+            || !admission.matches_route_cut(&cut)
             || admission.voter_cut_sha256()
                 != learner_route_cut_digest(&cut).map_err(map_learner_error)?
         {
@@ -2312,6 +2453,7 @@ impl SecurePolisNetworkFactory {
         let _transition = self.authority_transition.lock().await;
         let cut = self.cut.read().await;
         if cut.contains(admission.identity().stable_raft_id)
+            || !admission.matches_route_cut(&cut)
             || admission.voter_cut_sha256()
                 != learner_route_cut_digest(&cut).map_err(map_learner_error)?
         {
@@ -2350,6 +2492,9 @@ impl SecurePolisNetworkFactory {
         &self,
         admission: &VerifiedLearnerAdmission,
     ) -> Result<(), PolisRuntimeError> {
+        if !self.admission_matches_trusted_cut(admission) {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
         self.learner_authority
             .activate_admission(admission)
             .map(|_| ())
@@ -2360,6 +2505,9 @@ impl SecurePolisNetworkFactory {
         &self,
         successor: &VerifiedLearnerAdmission,
     ) -> Result<(), PolisRuntimeError> {
+        if !self.admission_matches_trusted_cut(successor) {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
         self.learner_authority
             .stage_successor(successor)
             .map_err(map_learner_error)
@@ -2392,6 +2540,13 @@ impl SecurePolisNetworkFactory {
         Ok(())
     }
 
+    pub fn expire_learner_admission(&self, now_unix_seconds: i64) -> Result<(), PolisRuntimeError> {
+        self.learner_authority
+            .expire_admission(now_unix_seconds)
+            .map(|_| ())
+            .map_err(map_learner_error)
+    }
+
     pub async fn activate_pending_exclusion(
         &self,
         result: &PublishedAuthorityResult,
@@ -2409,6 +2564,19 @@ impl SecurePolisNetworkFactory {
         let mut dispatch_guards = Vec::with_capacity(routes.len());
         for route in &routes {
             dispatch_guards.push(route.dispatch_lock.clone().lock_owned().await);
+        }
+        if expected_identity.trust_domain != self.trusted_trust_domain
+            || expected_identity.polis_id != self.trusted_polis_id
+            || expected_voter_cut_sha256 != self.trusted_cut_sha256
+            || !published_result_matches_trusted_cut(
+                result,
+                &self.trusted_polis_id,
+                &self.trusted_trust_domain,
+                &self.trusted_authority,
+                &self.trusted_boot_generations,
+            )
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
         }
         let snapshot = self
             .learner_authority
@@ -2433,6 +2601,18 @@ impl SecurePolisNetworkFactory {
         drop(installed);
         drop(dispatch_guards);
         Ok(())
+    }
+
+    fn admission_matches_trusted_cut(&self, admission: &VerifiedLearnerAdmission) -> bool {
+        admission.identity().trust_domain == self.trusted_trust_domain
+            && admission.identity().polis_id == self.trusted_polis_id
+            && admission.voter_cut_sha256() == self.trusted_cut_sha256
+            && admission.publication_identity_matches(
+                &self.trusted_polis_id,
+                &self.trusted_trust_domain,
+                &self.trusted_authority,
+                &self.trusted_boot_generations,
+            )
     }
 
     pub async fn replace_route(
@@ -2736,6 +2916,27 @@ fn ordinary_route_allowed(
                 exclusion.ordinary_authority_allowed(&node_id, &guardian_id)
             })
     })
+}
+
+fn published_result_matches_trusted_cut(
+    result: &PublishedAuthorityResult,
+    polis_id: &str,
+    trust_domain: &str,
+    authority: &AuthorityMembership,
+    boot_generations: &BTreeMap<Vec<u8>, u64>,
+) -> bool {
+    let identity = result.authority_identity_for_sealed_consumer();
+    authority.trust_domain_id.as_slice() == trust_domain.as_bytes()
+        && identity.polis_id == polis_id
+        && identity.trust_domain == trust_domain
+        && authority
+            .voters
+            .get(identity.guardian_id.as_bytes())
+            .is_some_and(|voter| {
+                !voter.revoked
+                    && boot_generations.get(identity.guardian_id.as_bytes())
+                        == Some(&identity.boot_generation)
+            })
 }
 
 async fn reserve_outbound(

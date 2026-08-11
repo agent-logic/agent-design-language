@@ -646,7 +646,7 @@ pub struct AuthorityIntentEndorsement {
 
 /// Opaque eligibility boundary used by the pending-exclusion authority.  The
 /// protocol owns the call site so a caller cannot self-attest eligibility.
-pub trait AuthorityEligibilityExclusion {
+pub(crate) trait AuthorityEligibilityExclusion {
     fn ordinary_authority_allowed(&self, node_id: &str, guardian_id: &[u8]) -> bool;
 }
 
@@ -663,7 +663,7 @@ struct VoterEndorsementAuthority {
 /// and the durable pending-membership exclusion view, without exposing raw
 /// signing-key material or accepting caller-supplied eligibility booleans.
 #[allow(clippy::too_many_arguments)]
-pub fn endorse_committed_authority_prepare_with_exclusion(
+pub(crate) fn endorse_committed_authority_prepare_with_exclusion(
     identity: &LocalNodeGuardianIdentity,
     certificate_generation: u64,
     boot_generation: u64,
@@ -995,6 +995,14 @@ impl PublishedAuthorityResult {
 
     pub fn operation(&self) -> &VerifiedAuthorityOperation {
         &self.operation
+    }
+
+    /// Exact publishing-node identity for sealed in-crate authority consumers.
+    ///
+    /// Downstream callers cannot substitute this identity when adapting the
+    /// retained committed artifact into a narrower runtime authority.
+    pub(crate) fn authority_identity_for_sealed_consumer(&self) -> &AuthorityNodeIdentity {
+        &self.identity
     }
 
     pub(crate) fn reconciliation_projection(

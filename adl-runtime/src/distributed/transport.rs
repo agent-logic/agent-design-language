@@ -22,7 +22,7 @@ use tokio_util::sync::CancellationToken;
 use super::lease::VoterAuthority;
 use super::{
     certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
-    learner_transport::LearnerEndpointRole,
+    learner_transport::{LearnerEndpointRole, ProductionLearnerAuthority},
     lease::{AuthorityMembership, ControlCertificatePurpose},
     membership::{MemberRole, MembershipPolicy, MembershipState},
 };
@@ -268,22 +268,41 @@ impl PolisSessionBinding {
 
 pub struct PendingPolisSession {
     binding: PolisSessionBinding,
+    authority: ProductionLearnerAuthority,
 }
 
 impl PendingPolisSession {
-    fn new(binding: PolisSessionBinding) -> Self {
-        Self { binding }
+    fn new(binding: PolisSessionBinding, authority: ProductionLearnerAuthority) -> Self {
+        Self { binding, authority }
     }
 }
 
 #[derive(Clone)]
 pub struct EstablishedPolisSession {
     binding: PolisSessionBinding,
+    authority: ProductionLearnerAuthority,
 }
 
 impl EstablishedPolisSession {
     pub fn binding(&self) -> &PolisSessionBinding {
         &self.binding
+    }
+
+    fn revalidate_ordinary_authority(&self) -> TransportResult<()> {
+        if self.authority.ordinary_session_allowed(
+            &self.binding.local_node_id,
+            &self.binding.local_guardian_id,
+            &self.binding.peer_node_id,
+            &self.binding.peer_guardian_id,
+        )? {
+            Ok(())
+        } else {
+            Err(TransportError::InvalidSessionBinding)
+        }
+    }
+
+    fn authority_for_same_runtime(&self) -> ProductionLearnerAuthority {
+        self.authority.clone()
     }
 }
 
@@ -596,7 +615,7 @@ pub struct VerifiedPolisRouteCut {
 
 /// Opaque ordinary-session exclusion boundary. Implementations are durable
 /// published snapshots; callers cannot supply node eligibility as a boolean.
-pub trait OrdinarySessionExclusion {
+pub(crate) trait OrdinarySessionExclusion {
     fn ordinary_session_allowed(&self, node_id: &str, guardian_id: &str) -> bool;
 }
 
@@ -806,12 +825,26 @@ impl VerifiedPolisRouteCut {
             .collect()
     }
 
-    pub fn pending_session_with_exclusion(
+    pub(crate) fn pending_session_with_exclusion(
+        &self,
+        local: u64,
+        peer: u64,
+        connection: &AuthenticatedConnection,
+        authority: ProductionLearnerAuthority,
+    ) -> TransportResult<PendingPolisSession> {
+        let exclusion = authority
+            .exclusion_snapshot()
+            .map_err(|_| TransportError::InvalidSessionBinding)?;
+        self.pending_session_with_snapshot(local, peer, connection, &exclusion, authority)
+    }
+
+    fn pending_session_with_snapshot(
         &self,
         local: u64,
         peer: u64,
         connection: &AuthenticatedConnection,
         exclusion: &dyn OrdinarySessionExclusion,
+        authority: ProductionLearnerAuthority,
     ) -> TransportResult<PendingPolisSession> {
         if local == peer || !connection.has_authority_connection_role(local, peer) {
             return Err(TransportError::InvalidSessionBinding);
@@ -857,10 +890,11 @@ impl VerifiedPolisRouteCut {
                 local_authority.control_public_key,
                 peer_authority.control_public_key,
             )?,
+            authority,
         ))
     }
 
-    pub fn session_matches_with_exclusion(
+    pub(crate) fn session_matches_with_exclusion(
         &self,
         local: u64,
         peer: u64,
@@ -868,8 +902,14 @@ impl VerifiedPolisRouteCut {
         established: &EstablishedPolisSession,
         exclusion: &dyn OrdinarySessionExclusion,
     ) -> bool {
-        self.pending_session_with_exclusion(local, peer, connection, exclusion)
-            .is_ok_and(|pending| pending.binding == established.binding)
+        self.pending_session_with_snapshot(
+            local,
+            peer,
+            connection,
+            exclusion,
+            established.authority_for_same_runtime(),
+        )
+        .is_ok_and(|pending| pending.binding == established.binding)
     }
 
     pub fn same_polis_and_domain(&self, other: &Self) -> bool {
@@ -1348,6 +1388,11 @@ enum ConnectionRole {
 }
 
 impl AuthenticatedConnection {
+    #[cfg(test)]
+    pub(crate) fn test_stream_frames_sent(&self) -> u64 {
+        self.connection.stats().frame_tx.stream
+    }
+
     pub async fn connect(
         endpoint: &Endpoint,
         remote: SocketAddr,
@@ -1534,6 +1579,7 @@ impl AuthenticatedConnection {
         verify_handshake(&response, &pending.binding.reverse())?;
         Ok(EstablishedPolisSession {
             binding: pending.binding,
+            authority: pending.authority,
         })
     }
 
@@ -1554,6 +1600,7 @@ impl AuthenticatedConnection {
         send.finish().map_err(|_| TransportError::Stream)?;
         Ok(EstablishedPolisSession {
             binding: pending.binding,
+            authority: pending.authority,
         })
     }
 
@@ -1577,6 +1624,7 @@ impl AuthenticatedConnection {
         message_kind: &str,
         payload: Vec<u8>,
     ) -> TransportResult<PendingPolisResponse> {
+        session.revalidate_ordinary_authority()?;
         let binding = session.binding();
         self.require_polis_binding(binding)?;
         validate_text(message_kind)?;
@@ -1618,6 +1666,7 @@ impl AuthenticatedConnection {
         &self,
         session: &EstablishedPolisSession,
     ) -> TransportResult<IncomingPolisRequest> {
+        session.revalidate_ordinary_authority()?;
         let binding = session.binding();
         self.require_polis_binding(binding)?;
         let (send, mut receive) = self.accept_bi_authorized().await?;

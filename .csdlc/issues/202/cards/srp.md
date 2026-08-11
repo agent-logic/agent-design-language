@@ -23,8 +23,10 @@ Exact learner/exclusion source and narrow existing transport/authority-protocol/
 - Does real_four_node_learner_replication exercise install_learner_route through SecurePolisNetworkFactory request dispatch and serve_authorized_learner_connection over Quinn into a real fourth PolisRaft for forced snapshot catch-up and later append replication, while vote, generic, and unknown messages reject and voters remain exactly 1,2,3?
 - Are wrong learner boot, stale voter boot, wrong authorized address, and reversed connection direction rejected by live production effects rather than marker-only assertions?
 - Do failed and committed admission plus exclusion checkpoint windows reconcile journal, state, checkpoint, and visible snapshots across restart without partial publication?
-- Does the exact 36+13 retained producer bind all fifteen behavior assertions, both strict Clippy lanes, runtime integration compile, mandatory authority ownership, current-main ancestry 2afa820c, and immutable protected source?
+- Does the exact 36+13 retained producer bind all eighteen behavior assertions, both strict Clippy lanes, runtime integration compile, mandatory authority ownership, current-main ancestry 2afa820c, and immutable protected source?
 - Are all changes bounded to #202 and free of unresolved P0-P3 findings, stale lifecycle truth, machine-local paths, dirty files, or non-current main ancestry?
+- Are AuthorityEligibilityExclusion, OrdinarySessionExclusion, raw exclusion-aware constructors, and endorsement helpers sealed from downstream production callers, with the opaque ordinary session embedding the only ProductionLearnerAuthority and every public request/accept route proving zero STREAM frames after exclusion?
+- Does PublishedAuthorityResult bind its exact publisher identity and artifact learner identity to the live polis, trust domain, route-cut digest/index, voter Guardian, and boot generation at admission, topology, route install, TLS/server acceptance, and exclusion activation, with cross-polis result and live-install denial?
 
 ## Findings
 
