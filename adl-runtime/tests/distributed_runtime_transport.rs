@@ -22,6 +22,7 @@ use adl_runtime::distributed::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
         CertificateValidity, DistributedCertificateStore,
     },
+    learner_transport::ProductionLearnerAuthority,
     lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
     membership::{
         CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
@@ -100,6 +101,12 @@ impl ConsensusCheckpointAuthority for MemoryCheckpointAuthority {
         checkpoints.insert(candidate.object.clone(), candidate.clone());
         Ok(())
     }
+}
+
+fn test_learner_authority() -> ProductionLearnerAuthority {
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    ProductionLearnerAuthority::open(root.path(), Arc::new(MemoryCheckpointAuthority::default()))
+        .unwrap()
 }
 
 struct EndpointMaterial {
@@ -877,8 +884,11 @@ async fn authenticated_quinn_binds_signed_authority_session_and_returns_bounded_
         connected_pair().await;
     let boots = [(1, 7), (2, 8), (3, 9)].into_iter().collect();
     let (cut, keys, _routes) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let left_pending = left_factory.pending_session(2, &left).await.unwrap();
     let right_pending = right_factory.pending_session(1, &right).await.unwrap();
     let (left_session, right_session) = tokio::join!(
@@ -949,8 +959,11 @@ async fn stalled_rpc_stream_is_bounded_by_the_transport_idle_deadline() {
         connected_pair_with(1, short_limits).await;
     let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
     let (cut, keys, _) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let left_pending = left_factory.pending_session(2, &left).await.unwrap();
     let right_pending = right_factory.pending_session(1, &right).await.unwrap();
     let (left_session, right_session) = tokio::join!(
@@ -984,8 +997,11 @@ async fn stalled_rpc_stream_is_bounded_by_the_transport_idle_deadline() {
         connected_pair_with(1, response_stall_limits.clone()).await;
     let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
     let (cut, keys, _) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let left_pending = left_factory.pending_session(2, &left).await.unwrap();
     let right_pending = right_factory.pending_session(1, &right).await.unwrap();
     let (left_session, right_session) = tokio::join!(
@@ -1014,8 +1030,11 @@ async fn stalled_rpc_stream_is_bounded_by_the_transport_idle_deadline() {
 async fn route_replacement_retries_exact_sequence_after_peer_restart_and_certificate_rotation() {
     let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
     let (cut, keys, _) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let (old_left, old_right, _, old_left_endpoint, old_right_endpoint, old_store) =
         connected_pair_at(1).await;
     let old_left_pending = left_factory.pending_session(2, &old_left).await.unwrap();
@@ -1120,7 +1139,7 @@ async fn route_replacement_retries_exact_sequence_after_peer_restart_and_certifi
         rotated_right.initiate_polis_session(rotated_right_pending, &restarted_keys[&2]),
     );
     left_factory
-        .replace_route(2, rotated_left, rotated_left_session.unwrap())
+        .install_route(2, rotated_left, rotated_left_session.unwrap())
         .await
         .unwrap();
     let rotated_responder = tokio::spawn(async move {
@@ -1164,8 +1183,11 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
     let authority = Arc::new(MemoryCheckpointAuthority::default());
     let boots = [(1, 1), (2, 3), (3, 1)].into_iter().collect();
     let (cut, keys, _) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let (left, right, _, _left_endpoint, _right_endpoint, _store) = connected_pair().await;
     let left_pending = left_factory.pending_session(2, &left).await.unwrap();
     let right_pending = right_factory.pending_session(1, &right).await.unwrap();
@@ -1256,10 +1278,15 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
     drop(rotated_right_session.unwrap());
 
     let (advanced_cut, advanced_keys) = verified_cut_after_membership_advance(&boots);
-    let advanced_left_factory =
-        SecurePolisNetworkFactory::from_authority_cut(1, advanced_cut.clone()).unwrap();
+    let advanced_left_factory = SecurePolisNetworkFactory::from_authority_cut(
+        1,
+        advanced_cut.clone(),
+        test_learner_authority(),
+    )
+    .unwrap();
     let advanced_right_factory =
-        SecurePolisNetworkFactory::from_authority_cut(2, advanced_cut).unwrap();
+        SecurePolisNetworkFactory::from_authority_cut(2, advanced_cut, test_learner_authority())
+            .unwrap();
     let (advanced_left, advanced_right, _, _advanced_left_endpoint, _advanced_right_endpoint, _) =
         connected_pair().await;
     let advanced_left_pending = advanced_left_factory
@@ -1287,10 +1314,15 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
     drop(advanced_right_session.unwrap());
 
     let (other_polis_cut, other_polis_keys) = verified_cut_for_polis("other-polis", &boots);
-    let other_left_factory =
-        SecurePolisNetworkFactory::from_authority_cut(1, other_polis_cut.clone()).unwrap();
+    let other_left_factory = SecurePolisNetworkFactory::from_authority_cut(
+        1,
+        other_polis_cut.clone(),
+        test_learner_authority(),
+    )
+    .unwrap();
     let other_right_factory =
-        SecurePolisNetworkFactory::from_authority_cut(2, other_polis_cut).unwrap();
+        SecurePolisNetworkFactory::from_authority_cut(2, other_polis_cut, test_learner_authority())
+            .unwrap();
     let (other_left, other_right, _, _other_left_endpoint, _other_right_endpoint, _) =
         connected_pair().await;
     let other_left_pending = other_left_factory
@@ -1452,7 +1484,9 @@ async fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_pa
         cut.routes()[&1],
         SocketAddr::from((Ipv4Addr::LOCALHOST, 4101))
     );
-    let factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
+    let factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
     let independently_configured_same_index = verified_cut_with_key_seeds([21, 22, 23], &boots);
     assert_eq!(
         factory
@@ -1606,8 +1640,11 @@ async fn polis_frames_reject_unproved_polis_and_oversized_payload_before_dispatc
         connected_pair().await;
     let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
     let (cut, keys, _routes) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let left_pending = left_factory.pending_session(2, &left).await.unwrap();
     let right_pending = right_factory.pending_session(1, &right).await.unwrap();
     let (left_session, right_session) = tokio::join!(
@@ -1735,7 +1772,12 @@ async fn three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_
         .map(|node| {
             (
                 node,
-                SecurePolisNetworkFactory::from_authority_cut(node, cut.clone()).unwrap(),
+                SecurePolisNetworkFactory::from_authority_cut(
+                    node,
+                    cut.clone(),
+                    test_learner_authority(),
+                )
+                .unwrap(),
             )
         })
         .collect::<BTreeMap<_, _>>();
@@ -1882,7 +1924,12 @@ async fn three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_
         .map(|node| {
             (
                 node,
-                SecurePolisNetworkFactory::from_authority_cut(node, restarted_cut.clone()).unwrap(),
+                SecurePolisNetworkFactory::from_authority_cut(
+                    node,
+                    restarted_cut.clone(),
+                    test_learner_authority(),
+                )
+                .unwrap(),
             )
         })
         .collect::<BTreeMap<_, _>>();

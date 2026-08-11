@@ -644,6 +644,12 @@ pub struct AuthorityIntentEndorsement {
     signature: Vec<u8>,
 }
 
+/// Opaque eligibility boundary used by the pending-exclusion authority.  The
+/// protocol owns the call site so a caller cannot self-attest eligibility.
+pub(crate) trait AuthorityEligibilityExclusion {
+    fn ordinary_authority_allowed(&self, node_id: &str, guardian_id: &[u8]) -> bool;
+}
+
 struct VoterEndorsementAuthority {
     node_id: String,
     guardian_id: Vec<u8>,
@@ -654,9 +660,10 @@ struct VoterEndorsementAuthority {
 }
 
 /// Produces one endorsement through the configured local Guardian identity
-/// without exposing or accepting raw signing-key material.
+/// and the durable pending-membership exclusion view, without exposing raw
+/// signing-key material or accepting caller-supplied eligibility booleans.
 #[allow(clippy::too_many_arguments)]
-pub fn endorse_committed_authority_prepare(
+pub(crate) fn endorse_committed_authority_prepare_with_exclusion(
     identity: &LocalNodeGuardianIdentity,
     certificate_generation: u64,
     boot_generation: u64,
@@ -666,8 +673,9 @@ pub fn endorse_committed_authority_prepare(
     finalization_time: &CanonicalAuthorityTime,
     membership: &MembershipState,
     authority: &AuthorityMembership,
+    exclusion: &dyn AuthorityEligibilityExclusion,
 ) -> AuthorityProtocolResult<AuthorityIntentEndorsement> {
-    VoterEndorsementAuthority::restore_configured(
+    let voter = VoterEndorsementAuthority::restore_configured(
         identity.authority_signer_custody(),
         certificate_generation,
         boot_generation,
@@ -675,8 +683,11 @@ pub fn endorse_committed_authority_prepare(
         authoritative_boot_generations,
         membership,
         authority,
-    )?
-    .endorse_committed_prepare(
+    )?;
+    if !exclusion.ordinary_authority_allowed(&voter.node_id, &voter.guardian_id) {
+        return Err(AuthorityProtocolError::WrongVoter);
+    }
+    voter.endorse_committed_prepare(
         intent,
         finalization_time,
         membership,
@@ -984,6 +995,14 @@ impl PublishedAuthorityResult {
 
     pub fn operation(&self) -> &VerifiedAuthorityOperation {
         &self.operation
+    }
+
+    /// Exact publishing-node identity for sealed in-crate authority consumers.
+    ///
+    /// Downstream callers cannot substitute this identity when adapting the
+    /// retained committed artifact into a narrower runtime authority.
+    pub(crate) fn authority_identity_for_sealed_consumer(&self) -> &AuthorityNodeIdentity {
+        &self.identity
     }
 
     pub(crate) fn reconciliation_projection(
