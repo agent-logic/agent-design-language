@@ -1,16 +1,6 @@
 name: wp09-native-birthday-identity
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/wp09-native-birthday-identity.yml"
-      - ".csdlc/prepared/issues/5826/produce-native-receipt.rb"
-      - ".csdlc/prepared/issues/5826/validate-native-receipts.rb"
-      - "adl-runtime-kernel/Cargo.toml"
-      - "adl-runtime-kernel/src/birthday_identity.rs"
-      - "adl-runtime-kernel/src/lib.rs"
-      - "adl-runtime-kernel/tests/fixtures/birthday_identity/**"
-      - "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md"
   workflow_dispatch:
 
 permissions:

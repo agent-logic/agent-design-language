@@ -85,7 +85,7 @@ if re.search(r"^\s{2}push:\s*$", workflow, re.MULTILINE):
 if "github.event_name == 'push' || github.event_name == 'schedule'" in workflow:
     raise SystemExit("heavy validation must not fan out from a push event")
 expected_codecov_gate = (
-    "(github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && "
+    "github.event_name == 'workflow_dispatch' && "
     "needs.adl_path_policy.outputs.full_coverage_required == 'true' && "
     "needs.adl_coverage_workspace_hosted.result == 'success'"
 )
@@ -94,7 +94,7 @@ if codecov_block_start < 0:
     raise SystemExit("missing Codecov upload step")
 codecov_block = workflow[codecov_block_start:workflow.find("\n  adl-coverage:", codecov_block_start)]
 if f"if: {expected_codecov_gate}" not in codecov_block:
-    raise SystemExit("Codecov must publish only from explicit scheduled or manual full validation")
+    raise SystemExit("Codecov must publish only from explicit manual full validation")
 
 def step_run(name: str) -> str:
     pattern = re.compile(
@@ -502,14 +502,11 @@ for step_name in (
 
 slow_proof_job = job_block("adl-slow-proof")
 if "needs: adl_path_policy" not in slow_proof_job:
-    raise SystemExit("adl-slow-proof must depend on path policy so PR slow-proof requests can trigger the slow lane")
-expected_slow_proof_if = (
-    "github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || "
-    "needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'"
-)
+    raise SystemExit("adl-slow-proof must consume the central policy context")
+expected_slow_proof_if = "github.event_name == 'workflow_dispatch'"
 slow_proof_if_match = re.search(r"^\s+if:\s+(.+)$", slow_proof_job, re.MULTILINE)
 if not slow_proof_if_match or slow_proof_if_match.group(1).strip() != expected_slow_proof_if:
-    raise SystemExit("adl-slow-proof must run on PRs when slow_proof_contract_required is true")
+    raise SystemExit("adl-slow-proof must require explicit manual dispatch before allocating runners")
 if "shard: [1, 2, 3, 4]" not in slow_proof_job:
     raise SystemExit("adl-slow-proof must keep the long slow-proof lane fanned out across four shards")
 if 'bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"' not in slow_proof_job:
@@ -671,7 +668,7 @@ for job, profile in ((runtime_job, "adl-runtime"), (workspace_job, "workspace"),
 
 aggregator_header = hosted_aggregator.split("steps:", 1)[0]
 for required_fragment in (
-    "if: always()",
+    "if: always() && needs.adl_path_policy.outputs.coverage_required == 'true'",
     "adl_coverage_runtime_hosted",
     "adl_coverage_workspace_fast_hosted",
     "adl_coverage_workspace_hosted",
@@ -944,9 +941,9 @@ for required_fragment in (
         )
 
 nightly = (workflow_root / "nightly-coverage-ratchet.yaml").read_text()
-if "schedule:" not in nightly or 'cron: "43 11 * * *"' not in nightly:
+if "workflow_dispatch:" not in nightly or "schedule:" in nightly:
     raise SystemExit(
-        "nightly-coverage-ratchet must have an actual scheduled trigger or stop calling itself nightly"
+        "nightly-coverage-ratchet must remain available only through explicit operator dispatch"
     )
 
 for step_name in (

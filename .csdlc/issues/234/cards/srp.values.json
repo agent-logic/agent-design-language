@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 234,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tooling][CI] Prevent unrelated workflow fanout and isolate expensive proof",
+    "slug": "systemic-ci-cost-control",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "All GitHub Actions workflows, central path policy, CI and coverage routing contracts, duplicate-head concurrency, optional proof isolation, and the operator procedure for cost-controlled required validation.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does any optional, unrelated, retained-proof, soak, demo, provider, nightly, or release workflow still acquire a runner automatically for an ordinary PR?",
+        "Do all required heavy lanes remain path-policy gated and routed to the configured 16-core runner?",
+        "Can two PR objects for one branch and head SHA execute duplicate required fleets?",
+        "Can an unknown or focused shared-path change fan out to optional workflows or full coverage?",
+        "Are long soaks explicitly isolated from normal tests and PR coverage?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
