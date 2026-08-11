@@ -513,6 +513,8 @@ const DASHBOARD_FOCUS = {
 
 function updateDashboardFocus(key = "runtime", extraDetail = "") {
   const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
+  const root = document.querySelector(".observatory");
+  if (root) root.dataset.dashboardSurface = key === "agents" ? "agents" : "runtime";
   setText("dashboard-focus-kicker", selected.kicker);
   setText("dashboard-focus-title", selected.title);
   setText("dashboard-focus-status", selected.status);
@@ -541,9 +543,11 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
       updateDashboardFocus(key);
       const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
       globalThis.history?.replaceState(null, "", selected.target);
-      const panel = document.getElementById("dashboard-focus-panel");
-      panel?.setAttribute("tabindex", "-1");
-      panel?.focus({ preventScroll: true });
+      const focusTarget = key === "agents"
+        ? document.getElementById("panopticon")
+        : document.getElementById("dashboard-focus-panel");
+      focusTarget?.setAttribute("tabindex", "-1");
+      focusTarget?.focus({ preventScroll: true });
       if (key === "communication") {
         document.getElementById("prepare-envelope")?.click();
       }

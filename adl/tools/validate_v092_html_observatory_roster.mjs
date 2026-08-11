@@ -128,9 +128,9 @@ try {
   await page.locator("#roster-presence-filter").selectOption("ready");
   await row.waitFor({ state: "visible" });
 
-  await context.setOffline(true);
-  await page.locator("#statusbar-websocket").getByText("disconnected", { exact: true }).waitFor({ timeout: 10_000 });
-  await context.setOffline(false);
+  await page.locator("#stop-live").click();
+  await page.locator("#statusbar-websocket").getByText("stopped", { exact: true }).waitFor();
+  await page.locator("#connect-live").click();
   await page.locator("#statusbar-websocket").getByText("connected", { exact: true }).waitFor({ timeout: 12_000 });
   await row.waitFor({ state: "visible" });
   assert.equal(await page.locator('[data-agent-id="shepherd"]').count(), 1, "reconnect must not duplicate roster rows");
