@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "implemented",
-  "generation": 70,
-  "digest": "73edb034f9c78899e135c68f36752cbbe5bc8fb6f00ef09c5139d51fd6257f82",
+  "generation": 75,
+  "digest": "22a2793e6c5fc51d53c4b0fc7b7fd3090363eadc76b0fcf404b199f057c8e3ce",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/201/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:/root/review_201_design_86",
-      "revision": "6759d30c3e279dfc29ea693a97ab7f8e7c6d78256c7205d4c75d548b5d209c87"
+      "reviewer": "codex:/root/resolve_208_final_review",
+      "revision": "9174fb2e644e70a958fadb45f99bff569fbc9c5898b8f1fa49d4f8fe500ddfa9"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "ae06ac0f8817bf21d1bc4165c551d20b4940c878a28789a93c38c41cddfb3718",
+      "values_digest": "729741c03ce7123306bc09a015993874b6275e207bb02c98e0918335c7141258",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "3eea1e7a632b95cf726ca0d0887a29ebbad18b7b8172e12d6b17469fa46f5d4e",
-      "rendered_digest": "6341c8e0aed53bd5bba9a665426e55a41728fc173b197ae55b5adff6663c7a94",
-      "ast_digest": "142e7a4dce6a2e8c63d5b778ef2e2732dcb4bf4cba36de8fcefb9b3dd0fa53a4"
+      "values_digest": "ca007c928ccba5616f13eb8945a0968b6833df133df7cf4674b8b91d2ce06da0",
+      "rendered_digest": "b950aba26dec0569a2cc4f517f94b1dd2e860aa0b69788bd18db7d5c75ed8f9a",
+      "ast_digest": "28f2dc66f6faa44a769b5b71539953640466cfcbc68461ee06252a582338ed62"
     },
     "spp": {
-      "values_digest": "88b2889a4ce876306d5e27f1f8121fc8226886f630aa8f178f061f06a6ef7c5c",
-      "rendered_digest": "8fed72c6dae8b1bac9deb01581abdebd57e25235d9ec56cf7a99d498388ad597",
-      "ast_digest": "b9ed8b10c2bfd534d7485ef3448fd480ba13eeca41a58b35b8443ae80d95bafc"
+      "values_digest": "a7f8e40728d2f80ede6e47c2801959a953400b4a86161b446b527c63e4addeee",
+      "rendered_digest": "c951e7649573a650c74cb3efd8b36d1e877fd51104867b751bc439759a1c1c7f",
+      "ast_digest": "fe62a7c14747edeed83b55718a18cf0c340065bf2b2dc052532af6f2b07aadb9"
     },
     "vpp": {
-      "values_digest": "3ee1cd77af9c04094654707c882c3ae13d58f08e4be2aa96f0a0bfafad047b0d",
+      "values_digest": "4fd8299c57f6d0b054057789ebff579bb2718498d5993ce727977170bebfca44",
       "rendered_digest": "a3c25f115351481744ed680e7ff934b696691dead6bca8d592ffbd2063ceb962",
       "ast_digest": "4a5d5c1c34a6b48c219e67cf99d91b8fe6421b309a3a053832cfc635bcc06982"
     },
     "srp": {
-      "values_digest": "ff1d2b1aac2b5408f66380ffbdde2c57f2e4db081a547ec934e335abeb51b2e9",
+      "values_digest": "6309e90307d63c2525a5810cb8ee7ed5cb19a1a8437f9e85b3ff1d6f767db60d",
       "rendered_digest": "7842a5b4a31b4c37305c2c84faee2a2d137549db60dfe0aed36c2ef7c025775e",
       "ast_digest": "27aa8d1db9277ebe055025a0461f01a1750d7d572041cda65f76fda07ac2b1a8"
     },
     "sor": {
-      "values_digest": "cb276b8b56f5671041048df23e97bd4656c5107d390ad37559c3273e01c7dab5",
+      "values_digest": "bf1a06e145dfb66b6187c2a943c50c958e90acf2fe98e221f4277b58ce641216",
       "rendered_digest": "2aa8ccdbce26be96cae82ea06dd418fa2f64bb1c283995b009b5263d4fc157d7",
       "ast_digest": "bb950e983da5fbac5c493a5e3cc1f61aedddcac03e5e53fd624a8743e507ff44"
     }
@@ -602,6 +602,41 @@
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
       "reason": "Replace stale published v7 truth with current rework and preflight validation while independent design approval remains pending.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Material stable-custody rework is implemented locally and preflight-green, but the prior a629080 v7 packet and review are superseded. Snapshot-replicated current authority is stable-only, runtime current boot custody is external, prepared operations freeze historical boot custody, and fresh independent design approval is required before final evidence or implementation review.\",\"changes\":[\"Removed restart-scoped current boot generations from snapshot-replicated current authority; retained only stable polis, epoch, membership, configuration, and voter truth.\",\"Required every Prepare to supply the exact canonical runtime-external full boot vector, froze that vector plus stable authority digest per prepared operation, and prevented Prepare from mutating current authority.\",\"Reverified historical frozen custody during finalization, publication, restore, and snapshot install; boot-rotated reopen can build and install a snapshot before any new Prepare.\",\"Extended the valid snapshot regression to prove stale-cut no-mutation rejection, current-cut success, frozen old prepared/finalized custody, and duplicate, reordered, zero, and non-JCS wire denial.\"],\"artifacts\":[\"adl-runtime/src/distributed/polis_runtime.rs\",\".csdlc/prepared/issues/201/design.md\",\".csdlc/prepared/issues/201/diagram.mmd\",\".csdlc/issues/201/cards/spp.md\",\".csdlc/issues/201/cards/vpp.md\",\".csdlc/issues/201/cards/srp.md\",\".csdlc/issues/201/cards/sor.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::authority_protocol::contract_tests::\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Preflight the retained exact authority protocol semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:stable-custody-preapproval:47-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::polis_runtime::authority_consensus_tests::snapshot_\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Preflight the corrected stable-current and frozen-historical custody snapshot boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:stable-custody-preapproval:36-passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Preflight the production real three-voter OpenRaft route.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:stable-custody-preapproval:1-passed\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--no-tests=fail\"],\"purpose\":\"Record the truthful expanded full-runtime denominator before final proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:stable-custody-preapproval:230-passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\"],\"purpose\":\"Replace stale v7 evidence only after approved design and final clean source.\",\"outcome\":\"deferred\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 73,
+      "generation": 71,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 74,
+      "generation": 72,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+      "reason": "Clarify AC-6 after independent approval of the stable replicated authority and runtime-external boot-cut design.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Prepare and finalize entries bind polis, trust domain, exact membership epoch/index and voter-set digest, operation kind, checkpoint, payload digest, quorum-attested time, and operation id.\",\"AC-2: Finalization requires opaque local signer custody and strict distinct current-voter quorum over the committed intent; raw keys and caller endorsements are unavailable.\",\"AC-3: Replicated apply is deterministic and uses actual committed OpenRaft IDs; local clocks may gate endorsement but never applied result.\",\"AC-4: Valid finalize apply returns pending with no token; only runtime-held local identity, root, and checkpoint authority may publish after exact reconciliation.\",\"AC-5: Exact retries return retained canonical results; conflicting reuse, relabeling, stale custody, rollback, corruption, and capacity violations fail before publication.\",\"AC-6: Snapshot-replicated current authority contains only stable polis, epoch, membership, configuration, and voter truth; the exact current boot vector remains runtime-external, while every prepared operation freezes its complete historical canonical boot vector plus stable-authority digest for finalization, publication, restore, and install revalidation. After boot rotation, reopen must build and install a snapshot before any new Prepare; a stale cut must reject byte-for-byte without state mutation and the exact current cut must succeed, while duplicate, reordered, zero, missing, extra, or non-JCS boot vectors fail closed.\",\"AC-7: Successful publication yields only opaque operation tokens and sealed operation-specific views; #201 performs no downstream side effect.\",\"AC-8: The exact ordered 86 names are current_three_voter_finalize, exact_retry_returns_cached_result, signer_rotation_current_generation, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, missing_quorum, duplicate_signer, wrong_voter, signer_unavailable, expired_signer_cert, stale_membership, config_digest_mismatch, joint_old_only, joint_new_only, joint_union_majority_only, joint_duplicate_guardian_reuse, declared_finalize_time_after_deadline, finalize_before_prepare_time, replay_with_regressed_finalize_time, local_clock_skew_apply_parity, checkpoint_object_collision, node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker, checkpoint_result_retry_digest_mismatch, coherent_rollback_rejected, corrupt_journal_rejected, corrupt_retry_cache_rejected, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected, legacy_fence_voter_rejected, legacy_activate_owner_rejected, legacy_activate_shepherd_rejected, legacy_acquire_observatory_rejected, legacy_demote_voter_rejected, exact_store_artifact_bytes_retained, artifact_bytes_digest_substitution_rejected, sealed_continuity_transfer_projection, continuity_projection_consumer_confusion_rejected, continuity_projection_wrong_lineage_rejected, continuity_projection_wrong_source_checkpoint_handle_rejected, continuity_projection_wrong_bundle_handle_rejected, snapshot_valid_multi_prepared_finalized_restart, snapshot_current_polis_mismatch, snapshot_current_epoch_mismatch, snapshot_current_membership_mismatch, snapshot_current_boot_mismatch, snapshot_prepared_polis_mismatch, snapshot_prepared_epoch_mismatch, snapshot_prepared_membership_mismatch, snapshot_prepared_boot_mismatch, snapshot_later_prepared_custody_mismatch, snapshot_legacy_owner_injection, snapshot_legacy_shepherd_injection, snapshot_legacy_observatory_injection, snapshot_legacy_fence_injection, snapshot_legacy_demotion_injection, snapshot_finalized_missing_proposal, snapshot_finalized_missing_endorsements, snapshot_finalized_wrong_operation, snapshot_finalized_insufficient_quorum, snapshot_finalized_duplicate_quorum, snapshot_finalized_bad_signature, snapshot_finalized_stale_certificate, snapshot_finalized_wrong_boot, snapshot_finalized_invalid_time, snapshot_finalized_wrong_prepare_index, snapshot_finalized_wrong_finalize_index, snapshot_custody_omitted, snapshot_custody_reencoded, snapshot_custody_injected, snapshot_custody_substituted, snapshot_custody_byte_digest_mismatch, snapshot_evidence_omitted, snapshot_evidence_reencoded, snapshot_evidence_injected, snapshot_evidence_substituted, snapshot_evidence_byte_digest_mismatch, validator_available_divergent_rejected, validator_available_ancestral_passed, validator_unavailable_protected_fallback_passed. ADL_ISSUE_201_CASE_V2 result passed is required exactly for current_three_voter_finalize, exact_retry_returns_cached_result, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, local_clock_skew_apply_parity, exact_store_artifact_bytes_retained, sealed_continuity_transfer_projection, snapshot_valid_multi_prepared_finalized_restart, validator_available_ancestral_passed, validator_unavailable_protected_fallback_passed. Result reconciled is required exactly for node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker. Every other named case defaults to rejected, yielding exactly passed=11, reconciled=6, rejected=69, selected=86; all required gates must pass before publication.\"]}"
+    },
+    {
+      "sequence": 75,
+      "generation": 73,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+      "reason": "Record preserved production OpenRaft and publication boundaries after focused passing preflight.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 76,
+      "generation": 74,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+      "reason": "Record the implemented stable-current, runtime-external current boot cut, and frozen historical prepared custody split after design approval.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 77,
+      "generation": 75,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+      "reason": "Record the approved-design regression and proof step as active until final immutable evidence is regenerated.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
     }
   ]
 }
