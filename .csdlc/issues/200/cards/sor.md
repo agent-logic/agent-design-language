@@ -12,21 +12,20 @@ Status: pre_phase
 
 ## Summary
 
-Resolved the hosted Runtime coverage failure caused by issue-200 tests creating fixtures beneath the macOS-only /private/tmp path. Both unit and production-integration fixtures now use a canonical repository-local current-directory anchor compatible with the runtime storage symlink policy. The unchanged exact 36-case denominator and all 13 subassertions pass, strict Clippy passes, the full Runtime library passes 264/264, and the immutable v4 receipt binds the portable-path guard and protected digests at source bb400c8c832e29c93c0ca45b486d313acb01c83e. Different fresh review is pending; the existing PR is stale and nothing is merged or closed.
+Rebased issue #200 onto exact merged-main 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90 after issue #208 changed the shared protected path adl-runtime/src/distributed/polis_runtime.rs. Git reconciled the histories cleanly; the current #200 delta on that file remains the bounded 24-line sealed reconciliation bridge atop #208's continuity work. The immutable v5 receipt at source 3c827d4f6abd909e4ab3b4225cf8e9c8827e8ef6 binds 36/36 cases, 13/13 subassertions, strict Clippy, portable fixture policy, and the exact post-#208 protected digests. Full Runtime remains 264/264. Fresh independent exact-head review is pending; PR #231 is stale and nothing is merged or closed.
 
 ## Artifacts
 
-- adl-runtime/src/distributed/authority_reconciliation/tests.rs
-- adl-runtime/tests/distributed_authority_reconciliation.rs
+- adl-runtime/src/distributed/polis_runtime.rs
 - .csdlc/prepared/issues/200/produce-proof-receipt.rb
 - .csdlc/prepared/issues/200/validate-proof-receipt.rb
-- .csdlc/evidence/200/v4/execution-proof.json
+- .csdlc/evidence/200/v5/execution-proof.json
 
 ## Execution
 
-- Replaced both hard-coded /private/tmp fixture roots with temporary directories beneath the canonical current checkout, preserving the absolute and symlink-free storage-root contract on macOS and Linux.
-- Added producer and validator guards that fail if /private/tmp is reintroduced into either issue-200 test layer.
-- Advanced immutable proof evidence from v3 to v4 without changing the approved 36-case or 13-subassertion denominators.
+- Synchronized the complete #200 history onto exact main 5e25dcceb after #208 merged.
+- Reconciled the shared polis_runtime.rs path without conflict, preserving #208 continuity behavior and the bounded #200 sealed reconciliation bridge.
+- Advanced immutable proof evidence from v4 to v5 so protected digests bind the exact post-#208 main ancestry.
 
 ## Validation
 
@@ -46,9 +45,9 @@ Resolved the hosted Runtime coverage failure caused by issue-200 tests creating 
       "-E",
       "test(/authority_reconciliation/)"
     ],
-    "purpose": "Prove the unchanged exact unit-plus-integration denominator on portable fixture roots: 36 tests run and 36 passed.",
+    "purpose": "Prove the exact post-#208 unit-plus-integration denominator: 36 tests run and 36 passed.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/200/v5/execution-proof.json"
   },
   {
     "command": [
@@ -65,9 +64,9 @@ Resolved the hosted Runtime coverage failure caused by issue-200 tests creating 
       "--nocapture",
       "--test-threads=1"
     ],
-    "purpose": "Emit and bind exactly 36 case markers plus the exact 13 required subassertion markers.",
+    "purpose": "Bind exactly 36 case markers and 13 required subassertion markers after main synchronization.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/200/v5/execution-proof.json"
   },
   {
     "command": [
@@ -83,9 +82,9 @@ Resolved the hosted Runtime coverage failure caused by issue-200 tests creating 
       "-D",
       "warnings"
     ],
-    "purpose": "Prove the owned production and test target remains warning-free.",
+    "purpose": "Prove the reconciled production and test target remains warning-free.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/200/v5/execution-proof.json"
   },
   {
     "command": [
@@ -98,30 +97,18 @@ Resolved the hosted Runtime coverage failure caused by issue-200 tests creating 
       "--lib",
       "--no-tests=fail"
     ],
-    "purpose": "Run the coverage-equivalent full Runtime library denominator: 264 tests run and 264 passed.",
+    "purpose": "Prove the full post-#208 Runtime library: 264 tests run and 264 passed.",
     "outcome": "passed",
-    "evidence_ref": "adl-runtime/src/distributed/authority_reconciliation/tests.rs"
+    "evidence_ref": "adl-runtime/src/distributed/polis_runtime.rs"
   },
   {
     "command": [
       "ruby",
       ".csdlc/prepared/issues/200/validate-proof-receipt.rb"
     ],
-    "purpose": "Prove exact cases, exact subassertions, portable fixture policy, source/proof immutability, protected digests, and merge-safe ancestry.",
+    "purpose": "Prove exact cases, subassertions, portability, immutable v5 proof, protected digests, and current-main ancestry.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "fmt",
-      "--check",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml"
-    ],
-    "purpose": "Prove Rust formatting hygiene.",
-    "outcome": "passed",
-    "evidence_ref": "adl-runtime/tests/distributed_authority_reconciliation.rs"
+    "evidence_ref": ".csdlc/evidence/200/v5/execution-proof.json"
   }
 ]
 
