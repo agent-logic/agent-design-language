@@ -1,0 +1,20 @@
+
+running 13 tests
+test canonical_digest_round_trip_is_stable ... ok
+test identifier_collisions_fail_closed_while_exact_duplicates_canonicalize ... ok
+test authority_escalation_conflict_and_missing_denials_fail_closed ... ok
+test invalid_birthday_identity_and_cross_binding_fail_closed ... ok
+test canonical_envelope_is_deterministic_and_emits_native_semantics ... ok
+test stale_unknown_missing_and_duplicate_evidence_fail_closed ... ok
+test unsupported_claim_omission_and_missing_provenance_fail_closed ... ok
+test omitted_zero_and_escalated_resource_limits_fail_closed ... ok
+test unknown_fields_fail_during_deserialization_at_every_layer ... ok
+test policy_itself_fails_closed_on_missing_roots_and_collisions ... ok
+test unsupported_provider_model_tool_and_skill_fail_closed ... ok
+test exported_validator_rejects_rehashed_field_and_policy_forgery ... ok
+test secrets_private_paths_and_host_paths_fail_closed ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/capability_envelope.rs (adl-runtime-kernel/target/debug/deps/capability_envelope-51e212549104e015)
