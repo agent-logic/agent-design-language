@@ -7,7 +7,7 @@
     "title": "[v0.92][tooling][CI] Prevent unrelated workflow fanout and isolate expensive proof",
     "slug": "systemic-ci-cost-control",
     "version": "v0.92",
-    "generation": 32
+    "generation": 34
   },
   "status": "ready",
   "content": {

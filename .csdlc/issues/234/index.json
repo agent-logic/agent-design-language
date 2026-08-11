@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
-  "generation": 32,
-  "digest": "0331f37f7d96e904e4ecbf5e9d0c2106d1c4330fff686b1ead3b4e9f2c5f9e2f",
+  "generation": 34,
+  "digest": "cddf028e4cb77cd0c7209190eb2d9324ee3547db1104d3c7b595bf6de1a411ca",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": {
@@ -41,34 +41,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4547fdae938e8a998c118cbcc5c869e3a61ff00af2dd9b89d8b9c854158d9d69",
+      "values_digest": "bab5fd1b0878592d9d708318d24d9e0de27d402df83276aa9000c536b3a43981",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "418568e11dcbabe503be9cfe529303b96f1f8b0c998bfa44e2d2a273e6f595ca",
+      "values_digest": "3b6fd337323c0b6d0e7cf99cb0ddc1677f4fed8bcc28de2ad7c89f23ea21a6cd",
       "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
       "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "5ffd7cfe38d4ec6e4df6097209b13a87ac35ef05641e1aa91a17915d5d7737a7",
+      "values_digest": "3fa59a9cfd95eaf040ed4e6ab12722583b17b644da29b7dd66998d7eb9804328",
       "rendered_digest": "4aefac7b866c381e05080459460429c537d4ef79b16a3d8d1207c2d93aa5c2f8",
       "ast_digest": "4275040bf85db61f054c1978dcb59027ff4817fc3e9cad80287eaea38385c582"
     },
     "vpp": {
-      "values_digest": "c02a77eeefe4b9669dc2bf2edb343cc5b6339d87c2844f6cde79089ae7cab044",
+      "values_digest": "019a1e9de89dea785a1c582bfb243e391dfaa6f42f4a29bd4531ae96512cda82",
       "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "0b924f3a16ab9d4d8d1eb6142b9f9358b68b3ff19121b8fd03aacd1ce73963a9",
+      "values_digest": "77542eb5393874225b5d3bb90ad7322a14d3e420bc29b64e3126a48602c9414e",
       "rendered_digest": "611e29a645c86a1f8f8fbb40a3f705e698ecde387a219e1f092d3dc1089d7637",
       "ast_digest": "0afcd59a88d04e134ac384b1170120a4b07ce18252ab7d1535b8ba781a3a1a4b"
     },
     "sor": {
-      "values_digest": "2a023d91cb162572d81acae8c4e59e8d106035dc8ec6a05f06bcb22a5780315d",
-      "rendered_digest": "ac2be6997a3914a717129a896cfd8218f9a3c296b86ba53d3e5aafa4cf5a10e8",
-      "ast_digest": "de312c2e5730a2f092dd6efc0fd81dfc708802924e35638fe49916d58b103700"
+      "values_digest": "3db0cbf823468c4970401df0147d2b6be31804a2aee69fe700221d6df7f8fd75",
+      "rendered_digest": "0f08d7176293d4938d59aeb496de728c5450ef9b7a728ab418219f497870bc17",
+      "ast_digest": "f3dcb5b22172f22417ad381d26a1ac0832b4f1e8f75d4ac5d2f694849c589073"
     }
   },
   "transitions": [
@@ -353,6 +353,20 @@
       "actor": "codex:234-final-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 33,
+      "actor": "codex:234-final-remediation",
+      "reason": "Record remediation of the exact-head Spot routing and hosted aggregation findings.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved final review findings by forcing every pull request onto hosted routing before allocation and preventing hosted coverage aggregation from starting unless hosted coverage is the selected backend.\",\"changes\":[\"Pull requests now force heavy_ci_backend=hosted regardless of repository variables or ci:spot labels.\",\"The explicit AWS Spot workflow remains manual-only and cannot be selected by an ordinary pull request.\",\"The hosted coverage aggregator now checks heavy_ci_backend=hosted in its job-level gate before acquiring the 16-core runner.\",\"Workflow-policy and runtime-contract tests enforce both controls.\"],\"artifacts\":[\".github/workflows/ci.yaml\",\"adl/tools/validate_ci_workflow_policy.rb\",\"adl/tools/test_ci_runtime_contracts.sh\"]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 34,
+      "actor": "codex:234-final-validation",
+      "reason": "Record focused validation of the final review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-lc\",\"ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Prove pull requests cannot select Spot/AWS work, hosted aggregation skips before allocation when hosted is unselected, and the complete workflow and runtime cost-control contracts remain green.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-head-ab410bdb9:spot-routing-remediation:passed\"}}"
     }
   ]
 }

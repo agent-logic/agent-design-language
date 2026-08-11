@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Final policy supersedes earlier head-SHA and single-heavy-runner entries: optional work is blocked before allocation, while every selected required heavy lane retains the configured 16-core runner.
+Resolved final review findings by forcing every pull request onto hosted routing before allocation and preventing hosted coverage aggregation from starting unless hosted coverage is the selected backend.
 
 ## Artifacts
 
@@ -74,6 +74,9 @@ Final policy supersedes earlier head-SHA and single-heavy-runner entries: option
 - adl/tools/validate_ci_workflow_policy.rb
 - adl/tools/test_ci_runtime_contracts.sh
 - csdlc-v2/src/github.rs
+- .github/workflows/ci.yaml
+- adl/tools/validate_ci_workflow_policy.rb
+- adl/tools/test_ci_runtime_contracts.sh
 
 ## Execution
 
@@ -99,6 +102,10 @@ Final policy supersedes earlier head-SHA and single-heavy-runner entries: option
 - Made the workflow validator reject every unauthorized event and every non-light CI job that bypasses the configured heavy runner.
 - Added negative fixtures for workflow_run fanout and heavy-runner bypass.
 - Made unstable PR classification fail closed when no required checks are declared.
+- Pull requests now force heavy_ci_backend=hosted regardless of repository variables or ci:spot labels.
+- The explicit AWS Spot workflow remains manual-only and cannot be selected by an ordinary pull request.
+- The hosted coverage aggregator now checks heavy_ci_backend=hosted in its job-level gate before acquiring the 16-core runner.
+- Workflow-policy and runtime-contract tests enforce both controls.
 
 ## Validation
 
@@ -243,6 +250,16 @@ Final policy supersedes earlier head-SHA and single-heavy-runner entries: option
     "purpose": "Prove committed-range whitespace hygiene, all touched shell syntax, validator Ruby syntax, and parsing of every workflow YAML file.",
     "outcome": "passed",
     "evidence_ref": "local:issue-234-head-2181870ee:committed-range-syntax-yaml:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "purpose": "Prove pull requests cannot select Spot/AWS work, hosted aggregation skips before allocation when hosted is unselected, and the complete workflow and runtime cost-control contracts remain green.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-head-ab410bdb9:spot-routing-remediation:passed"
   }
 ]
 
