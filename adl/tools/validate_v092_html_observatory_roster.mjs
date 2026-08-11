@@ -204,6 +204,12 @@ try {
     await uiPage.locator("#refresh-live").click();
     await uiPage.locator('[data-agent-id="shepherd"]').getByText(new RegExp(transition.state, "i")).waitFor();
   }
+  const resyncState = await uiPage.evaluate(() => globalThis.AdlHtmlObservatory.runtimeRosterCursorState());
+  assert.equal(resyncState.revision, 25);
+  assert.equal(resyncState.lastResyncReason, "revision_gap", "a skipped roster revision must be classified as a full-snapshot resynchronization");
+  assert(resyncState.resyncCount >= 1);
+  assert.equal(await uiPage.locator("html").getAttribute("data-agent-roster-revision"), "25");
+  assert.equal(await uiPage.locator("html").getAttribute("data-agent-roster-resync-reason"), "revision_gap");
   uiRevision = 24;
   uiState = "degraded";
   await uiPage.locator("#refresh-live").click();

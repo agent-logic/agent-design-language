@@ -221,7 +221,9 @@ const cursorSnapshot = (runtimeId, incarnationId, revision) => ({
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 7)), true);
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 7)), false, "duplicate revision rejected");
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 6)), false, "out-of-order revision rejected");
-assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 9)), true, "newer status revision accepted");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 9)), true, "revision gap triggers full-snapshot resynchronization");
+assert.equal(api.runtimeRosterCursorState().lastResyncReason, "revision_gap");
+assert.equal(api.runtimeRosterCursorState().revision, 9);
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-b", 1)), true, "new Runtime incarnation resets a lower roster revision under the stable instance");
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-b", 4)), true, "a full authoritative snapshot closes a roster revision gap");
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-b", 3)), false, "an older snapshot after a gap remains fenced");

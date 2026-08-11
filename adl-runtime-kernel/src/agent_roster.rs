@@ -7,6 +7,7 @@ pub const AGENT_ROSTER_PAGE_SCHEMA: &str = "adl.runtime_v3.agent_roster_page.v1"
 pub const AGENT_ROSTER_ENTRY_SCHEMA: &str = "adl.runtime_v3.agent_roster_entry.v1";
 const MAX_PAGE_SIZE: usize = 100;
 const MAX_FILTER_BYTES: usize = 64;
+const MAX_ROSTER_ENTRIES: usize = 10_000;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -140,6 +141,9 @@ impl AgentRoster {
         }
         let mut by_id = BTreeMap::new();
         for item in evidence {
+            if by_id.len() == MAX_ROSTER_ENTRIES {
+                return Err(AgentRosterError::InvalidBounds);
+            }
             validate_evidence(&item)?;
             if by_id.insert(item.agent_id.clone(), item).is_some() {
                 return Err(AgentRosterError::InvalidBounds);
@@ -182,31 +186,28 @@ impl AgentRoster {
             None => 0,
         };
 
-        let mut visible = self
-            .evidence
-            .values()
-            .filter(|item| policy.visible_agent_ids.contains(&item.agent_id))
-            .filter(|item| {
-                filter.as_ref().is_none_or(|needle| {
+        let matches = |item: &&AgentRuntimeEvidence| {
+            policy.visible_agent_ids.contains(&item.agent_id)
+                && filter.as_ref().is_none_or(|needle| {
                     item.agent_id.to_ascii_lowercase().contains(needle)
                         || item.display_name.to_ascii_lowercase().contains(needle)
                         || item.public_role.to_ascii_lowercase().contains(needle)
                 })
-            })
-            .map(|item| project_entry(item, policy, now_unix_millis))
-            .collect::<Vec<_>>();
-        visible.sort_by(|left, right| {
-            left.label
-                .to_ascii_lowercase()
-                .cmp(&right.label.to_ascii_lowercase())
-                .then_with(|| left.id.cmp(&right.id))
-        });
-        if offset > visible.len() {
+        };
+        let visible_count = self.evidence.values().filter(matches).count();
+        if offset > visible_count {
             return Err(AgentRosterError::TokenContextMismatch);
         }
-        let end = offset.saturating_add(query.page_size).min(visible.len());
-        let agents = visible[offset..end].to_vec();
-        let has_more = end < visible.len();
+        let agents = self
+            .evidence
+            .values()
+            .filter(matches)
+            .skip(offset)
+            .take(query.page_size)
+            .map(|item| project_entry(item, policy, now_unix_millis))
+            .collect::<Vec<_>>();
+        let end = offset.saturating_add(agents.len());
+        let has_more = end < visible_count;
         let next_page_token = has_more
             .then(|| {
                 self.encode_token(&PageToken {
@@ -222,7 +223,7 @@ impl AgentRoster {
             schema: AGENT_ROSTER_PAGE_SCHEMA.to_owned(),
             revision: self.revision,
             scope: "local_runtime".to_owned(),
-            visible_count: visible.len() as u64,
+            visible_count: visible_count as u64,
             page_count: agents.len() as u64,
             has_more,
             next_page_token,

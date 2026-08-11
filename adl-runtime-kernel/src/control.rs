@@ -1169,6 +1169,8 @@ pub struct AgentPopulationFeed {
     pub next_page_token: Option<String>,
     pub population_complete: bool,
     pub sample: Vec<AgentSample>,
+    #[serde(skip)]
+    pub public_policy: Option<AgentRosterPolicy>,
 }
 
 impl AgentPopulationFeed {
@@ -1183,6 +1185,7 @@ impl AgentPopulationFeed {
             next_page_token: None,
             population_complete: false,
             sample: Vec::new(),
+            public_policy: None,
         }
     }
 
@@ -1205,8 +1208,19 @@ impl AgentPopulationFeed {
                 source_revision: "unobserved".to_owned(),
                 provenance: "runtime_component_state".to_owned(),
             }],
+            public_policy: Some(AgentRosterPolicy {
+                policy_subject: "public-observatory".to_owned(),
+                visible_agent_ids: BTreeSet::from(["shepherd".to_owned()]),
+                reveal_capabilities: true,
+                reveal_location: true,
+            }),
             ..Self::empty()
         }
+    }
+
+    pub fn with_public_policy(mut self, policy: AgentRosterPolicy) -> Self {
+        self.public_policy = Some(policy);
+        self
     }
 
     fn with_runtime_snapshot_query(
@@ -1298,24 +1312,14 @@ impl AgentPopulationFeed {
                 .iter()
                 .map(AgentRuntimeEvidence::from)
                 .collect::<Vec<_>>();
-            let visible = evidence
-                .iter()
-                .map(|item| item.agent_id.clone())
-                .collect::<BTreeSet<_>>();
+            let Some(public_policy) = self.public_policy.as_ref() else {
+                return Ok(Self::empty());
+            };
             let Ok(roster) = AgentRoster::new(snapshot.revision.max(1), false, evidence, token_key)
             else {
                 return Ok(Self::empty());
             };
-            let page = roster.page(
-                &AgentRosterPolicy {
-                    policy_subject: "public-observatory".to_owned(),
-                    visible_agent_ids: visible,
-                    reveal_capabilities: true,
-                    reveal_location: true,
-                },
-                query,
-                now_unix_millis,
-            )?;
+            let page = roster.page(public_policy, query, now_unix_millis)?;
             self.revision = page.revision;
             self.total_count = page.visible_count;
             self.rendered_sample_count = page.page_count;

@@ -97,8 +97,18 @@ const rosterUiState = {
   selectedId: null,
   runtimeInstanceId: null,
   runtimeIncarnationId: null,
-  revision: 0
+  revision: 0,
+  resyncCount: 0,
+  lastResyncReason: null
 };
+
+function publishRosterCursorState() {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  root.dataset.agentRosterRevision = String(rosterUiState.revision);
+  root.dataset.agentRosterResyncCount = String(rosterUiState.resyncCount);
+  root.dataset.agentRosterResyncReason = rosterUiState.lastResyncReason || "none";
+}
 let lastPanopticonSnapshot = null;
 let lastPanopticonPacket = FALLBACK_PACKET;
 
@@ -115,12 +125,26 @@ function acceptRuntimeRosterSnapshot(snapshot) {
     rosterUiState.runtimeIncarnationId = runtimeIncarnationId;
     rosterUiState.revision = revision;
     rosterUiState.selectedId = null;
+    rosterUiState.lastResyncReason = "runtime_incarnation_changed";
+    rosterUiState.resyncCount += 1;
+    publishRosterCursorState();
     return true;
   }
   if (revision <= rosterUiState.revision) return false;
+  if (revision !== rosterUiState.revision + 1) {
+    rosterUiState.lastResyncReason = "revision_gap";
+    rosterUiState.resyncCount += 1;
+  } else {
+    rosterUiState.lastResyncReason = null;
+  }
   rosterUiState.revision = revision;
   rosterUiState.selectedId = null;
+  publishRosterCursorState();
   return true;
+}
+
+function runtimeRosterCursorState() {
+  return { ...rosterUiState };
 }
 
 function normalizeRuntimeV3Endpoint(value, fallback) {
@@ -2224,6 +2248,7 @@ globalThis.AdlHtmlObservatory = {
   normalizeTrustedRuntimeV3ApiBase,
   buildRuntimeAgentRows,
   acceptRuntimeRosterSnapshot,
+  runtimeRosterCursorState,
   buildViewModel,
   buildIntegrationViewModel,
   buildPanopticonViewModel,
