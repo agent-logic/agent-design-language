@@ -34,7 +34,7 @@ fn fallback() -> StaticEstimate {
 }
 
 fn fixture_root(name: &str) -> PathBuf {
-    let target = PathBuf::from(env!("CARGO_TARGET_TMPDIR"));
+    let target = PathBuf::from(std::env::var("CARGO_TARGET_DIR").expect("Cargo target"));
     let root = target.join("estimation-contract-fixtures").join(name);
     let _ = fs::remove_dir_all(&root);
     fs::create_dir_all(&root).unwrap();

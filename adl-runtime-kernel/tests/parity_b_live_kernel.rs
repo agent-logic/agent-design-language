@@ -21,26 +21,6 @@ mod runtime_init;
 extern crate self as adl_resilience;
 
 #[cfg(unix)]
-mod distributed {
-    pub mod polis_runtime {
-        use tokio_util::sync::CancellationToken;
-
-        pub struct ProductionPolisRuntime;
-
-        impl ProductionPolisRuntime {
-            pub(crate) async fn establish_continuity(
-                &self,
-                _attempt: u32,
-                _deadline_unix_millis: u64,
-                _cancellation: &CancellationToken,
-            ) -> Result<(), adl_runtime_kernel::ContinuityControlError> {
-                Ok(())
-            }
-        }
-    }
-}
-
-#[cfg(unix)]
 pub fn capped_exponential_backoff(base_ms: u64, cap_ms: u64, failures: u32) -> Duration {
     const MAX_BACKOFF_EXPONENT: u32 = 20;
     let exponent = failures.saturating_sub(1).min(MAX_BACKOFF_EXPONENT);
