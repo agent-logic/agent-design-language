@@ -12,7 +12,33 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/208
+.csdlc/prepared/issues/208
+.csdlc/evidence/208
+adl/.config/nextest.toml
+adl-runtime-kernel/Cargo.toml
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/src/continuity_control.rs
+adl-runtime-kernel/src/governance.rs
+adl-runtime-kernel/src/ingress.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/src/operations.rs
+adl-runtime-kernel/src/reasoning.rs
+adl-runtime-kernel/tests/configuration.rs
+adl-runtime-kernel/tests/kernel_continuity_control.rs
+adl-runtime-kernel/tests/production_acip_wss.rs
+adl-runtime-kernel/tests/support/runtime_init.rs
+adl-runtime/src/bin/adl-runtime-guardian.rs
+adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
+adl-runtime/src/distributed/polis_runtime.rs
+adl-runtime/src/guardian.rs
+adl-runtime/src/kernel_continuity_client.rs
+adl-runtime/src/lib.rs
+adl-runtime/tests/guardian_cli.rs
+adl-runtime/tests/kernel_continuity_client.rs
+infra/runtime-v3/runtime-init.toml
 
 ## Prompts
 
@@ -37,12 +63,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted replacement CI and live merge state remain pending until the exact reviewed head is republished.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:428ba2c23328f4b36266e5a057445d391f656502:841198f1b02d1c8cbefbafb5f4ad881cacbd07c97e1b2cba20d902f887dd1fea")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_208_guardian_cli_final")
 
-Result: pre_review
+Result: pass
