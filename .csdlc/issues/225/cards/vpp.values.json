@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC v2] Permit bounded card correction after review recovery",
     "slug": "bounded-card-review-repair",
     "version": "v0.92",
-    "generation": 4
+    "generation": 6
   },
   "status": "ready",
   "content": {
@@ -43,7 +43,7 @@
         },
         {
           "lane": "recovered-spp-correction",
-          "proof_role": "The complete Gate 5 binary proves exact recover_review audit provenance, rejects stale or transition-only provenance, and proves empty actor/reason zero-mutation behavior.",
+          "proof_role": "The complete Gate 5 binary proves reviewed, published, and merge-ready recovery; exact recover_review audit plus qualifying transition correspondence; rejection of stale, transition-only, and audit-only provenance; and empty actor/reason zero-mutation behavior.",
           "acceptance_ids": [
             "AC-1",
             "AC-3",
@@ -139,7 +139,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on wrong phase/card/topology/recovery state, retained lifecycle truth, stale CAS, empty values, incomplete audit, projection drift, or validation/review failure.",
       "design_ref": ".csdlc/prepared/issues/225/design.md",
-      "design_digest": "0705683746755d039a15e5abb37922b7477040c830be19d4b9c25df086fc7ad8",
+      "design_digest": "a80c5320b725b320199840ac97071c113a66856de8ebbb740f4772db558d4a11",
       "diagram_ref": ".csdlc/prepared/issues/225/diagram.mmd",
       "diagram_digest": "92cdb7af07ad5966b68f4a331c8e26c2bcba95b142f3a5f515d26d1912f05070"
     }

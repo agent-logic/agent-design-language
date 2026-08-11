@@ -51,7 +51,7 @@ Diagram: .csdlc/prepared/issues/225/diagram.mmd
   },
   {
     "lane": "recovered-spp-correction",
-    "proof_role": "The complete Gate 5 binary proves exact recover_review audit provenance, rejects stale or transition-only provenance, and proves empty actor/reason zero-mutation behavior.",
+    "proof_role": "The complete Gate 5 binary proves reviewed, published, and merge-ready recovery; exact recover_review audit plus qualifying transition correspondence; rejection of stale, transition-only, and audit-only provenance; and empty actor/reason zero-mutation behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",

@@ -49,12 +49,13 @@ migration rejection, authored design/diagram drift rejection, empty values,
 empty actor/reason rejection with zero mutation, atomic regeneration, and audit
 old/new truth.
 
-Focused Gate 5 proof exercises reviewed and published recovery followed by SPP
-summary correction, exact `recover_review` provenance, stale or transition-only
-provenance rejection, clean implemented and unrecovered rejection, retained
-review/publication/readiness rejection, wrong card, empty value, empty
-actor/reason rejection with zero mutation, stale CAS, atomic regeneration, and
-audit old/new truth.
+Focused Gate 5 proof exercises reviewed, published, and merge-ready recovery
+followed by SPP summary correction; exact `recover_review` provenance; stale or
+transition-only provenance rejection; and audit-only recovery from implemented
+without a qualifying transition rejection. It also covers clean implemented and
+unrecovered rejection, retained review/publication/readiness rejection, wrong
+card, empty value, empty actor/reason rejection with zero mutation, stale CAS,
+atomic regeneration, and audit old/new truth.
 
 Formatting, strict library/editor Clippy, typed issue validation, diff hygiene,
 and independent exact-head review complete the issue.
