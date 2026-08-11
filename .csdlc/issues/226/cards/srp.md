@@ -34,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Optional hosted, coverage, soak, slow, and long jobs were intentionally not run because this is a focused routing-only repair.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:da76e0d7c8b96cc0ad54a047d7290fcb8b0d640a:cda536cbbe6cde136bc4fe2c1b01bd8c32267cb4f12969a92f1ff90970885de0")
 
-Reviewer: None
+Reviewer: Some("subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c")
 
-Result: pre_review
+Result: pass
