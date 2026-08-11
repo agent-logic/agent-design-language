@@ -2,23 +2,25 @@
 
 ## Status
 
-Status: **Proposed**
+Status: **Deferred**
 
 ## Context
 
-Agent communication must be versioned and inspectable without treating JSON,
-WebSocket, or transport metadata as execution authority.
+The ACIP implementation and focused tests are present, but the retained
+issue-owned native receipt is empty and #5832 records no machine-readable
+validation outcomes.
 
 ## Decision
 
-ACIP uses versioned protobuf schemas and a public schema catalog. Deterministic
-JSON projection is an inspection boundary. Negotiation, correlation, replay,
-authority, and semantic bindings fail closed before governed Runtime handling.
+Defer this decision until ACIP validation is rerun at an exact revision and a
+non-empty machine-readable receipt proves the versioned schema catalog,
+deterministic projection, negotiation, replay, authority, and semantic-binding
+contracts. Source and tests alone are insufficient publication authority.
 
 ## Consequences
 
-Clients can negotiate and inspect ACIP while the Guardian and Runtime retain
-admission authority.
+The implementation remains bounded evidence, but this ADR packet does not
+promote its unretained execution outcome into a durable architecture claim.
 
 ## Alternatives Considered
 
@@ -47,4 +49,5 @@ authority source.
 
 ## Approval Boundary
 
-Human review must separately promote this candidate into `docs/adr/`.
+Issue #5832 needs truthful revision-bound validation evidence and human review
+before this record can become Proposed.

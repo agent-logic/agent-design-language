@@ -11,7 +11,7 @@ authority remains in `docs/adr/`; none of these records is Accepted.
 | ADR 0062 | Proposed | Witness and birthday receipt authority | `.csdlc/evidence/5833/local-validation-manifest.json` |
 | ADR 0063 | Proposed | ACP cognitive-profile authority | `.csdlc/evidence/144/local-validation-manifest.json` |
 | ADR 0064 | Proposed | Adaptive-learning DAG governance | `.csdlc/evidence/5831/native-validation-manifest.json` |
-| ADR 0065 | Proposed | ACIP schema and governed projection | `adl-runtime-kernel/tests/production_acip_wss.rs` |
+| ADR 0065 | Deferred | ACIP schema and governed projection | `.csdlc/evidence/5832/acip-native-receipts.json` |
 | ADR 0066 | Deferred | Operational distributed Guardian authority and fencing | `adl-runtime/tests/distributed_guardian.rs` |
 | ADR 0067 | Proposed | Runtime transport and TLS stack | `adl-runtime/tests/distributed_transport.rs` |
 | ADR 0068 | Deferred | Birthday-to-governance handoff | `docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md` |

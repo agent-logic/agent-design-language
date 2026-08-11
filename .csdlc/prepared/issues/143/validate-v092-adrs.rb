@@ -89,6 +89,7 @@ files.each do |id, path|
 
   outcomes = candidate.fetch("validation_outcomes")
   abort("validation outcome denominator mismatch for ADR #{id}") unless outcomes.length == validation_paths.length
+  outcome_receipts = candidate.fetch("outcome_receipts")
   claim_coverage = candidate.fetch("claim_coverage")
   abort("ADR #{id} needs explicit claim coverage") unless claim_coverage.length >= 2
   normalized_text = text.downcase.gsub(/\s+/, " ")
@@ -97,12 +98,19 @@ files.each do |id, path|
     abort("ADR #{id} manifest claim is not represented in candidate text: #{claim}") unless normalized_text.include?(normalized_claim)
   end
 
+  artifact_paths = source_paths + validation_paths + outcome_receipts
   revisions = candidate.fetch("evidence_revisions")
   abort("ADR #{id} needs at least one evidence revision") if revisions.empty?
   revisions.each do |revision|
     abort("ADR #{id} has malformed evidence revision") unless revision.match?(/\A[0-9a-f]{40}\z/)
     abort("ADR #{id} evidence revision is not ancestral to baseline") unless git_success.call("merge-base", "--is-ancestor", revision, baseline)
   end
+  proving_revisions = artifact_paths.map do |target|
+    revision = git_output.call("log", "-1", "--format=%H", baseline, "--", target)
+    abort("ADR #{id} evidence path has no proving revision: #{target}") if revision.empty?
+    revision
+  end.uniq.sort
+  abort("ADR #{id} evidence revisions are not exactly artifact-bound") unless revisions.sort == proving_revisions
 
   proof_class = candidate.fetch("proof_class")
   blocker = candidate["blocker"]
@@ -111,12 +119,21 @@ files.each do |id, path|
     abort("ADR #{id} Proposed status must not retain a blocker") unless blocker.nil?
     allowed_outcome = proof_class == "planning_contract" ? %w[passed passed_as_planning_boundary_only] : ["passed"]
     abort("ADR #{id} Proposed status has non-passing proof outcome") unless outcomes.all? { |outcome| allowed_outcome.include?(outcome) }
+    if %w[structural_executable executable].include?(proof_class)
+      abort("ADR #{id} executable proof requires a machine-readable outcome receipt") if outcome_receipts.empty?
+      outcome_receipts.each do |receipt|
+        receipt_json = JSON.parse(root.join(receipt).read)
+        actual_validation = receipt_json.dig("content", "values", "actual_validation")
+        abort("ADR #{id} outcome receipt has no validation results: #{receipt}") unless actual_validation.is_a?(Array) && !actual_validation.empty?
+        abort("ADR #{id} outcome receipt contains a non-passing result: #{receipt}") unless actual_validation.all? { |result| result["outcome"] == "passed" }
+      end
+    end
   else
     abort("ADR #{id} Deferred status needs a concrete blocker") if blocker.to_s.strip.empty?
     abort("ADR #{id} Deferred status may not claim executable completion") if proof_class == "executable" || outcomes.all? { |outcome| outcome == "passed" }
   end
 
-  (source_paths + validation_paths).each do |target|
+  artifact_paths.each do |target|
     abort("placeholder evidence reference #{target} in #{path.relative_path_from(root)}") if target.match?(/[<*>]/)
     target_path = root.join(target.split("#", 2).first)
     abort("missing evidence reference #{target} in #{path.relative_path_from(root)}") unless target_path.exist?
@@ -126,8 +143,8 @@ files.each do |id, path|
   end
 end
 
-abort("expected nine Proposed ADRs") unless statuses.values.count("Proposed") == 9
-abort("expected four Deferred ADRs") unless statuses.values.count("Deferred") == 4
+abort("expected eight Proposed ADRs") unless statuses.values.count("Proposed") == 8
+abort("expected five Deferred ADRs") unless statuses.values.count("Deferred") == 5
 
 index = index_path.read
 ids.each do |id|

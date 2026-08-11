@@ -48,7 +48,7 @@ casually.
 | ADR 0062 | Witness And Birthday Receipt Authority Boundary | Proposed | Exact-candidate signed witnesses and redacted receipts use opaque runtime trust policy. | WP-15 |
 | ADR 0063 | ACP Cognitive Profile Evidence Boundary | Proposed | Cognitive profiles are runtime-authority-bound projections, not identity or rights authority. | WP-13 |
 | ADR 0064 | Adaptive Learning DAG Governance Boundary | Proposed | Adaptive graph mutations are authority-bound, bounded, replayable, and fail closed. | WP-13A |
-| ADR 0065 | ACIP Schema Catalog And Governed Projection Boundary | Proposed | ACIP uses versioned schemas, deterministic projection, and governed transport semantics. | WP-14 |
+| ADR 0065 | ACIP Schema Catalog And Governed Projection Boundary | Deferred | Implementation exists, but retained #5832 validation outcomes are empty and must be reproven. | WP-14 |
 | ADR 0066 | Distributed Guardian Membership, Authority, And Fencing Boundary | Deferred | Library contracts are landed, but operational Guardian/kernel and polis proof remains open #142. | WP-04 |
 | ADR 0067 | Runtime Transport And TLS Stack Boundary | Proposed | Runtime transport uses one Rustls-backed trust model with explicit production certificate input. | WP-03, WP-04, WP-14 |
 | ADR 0068 | Birthday-To-Governance Handoff Boundary | Deferred | v0.92 evidence does not complete v0.93 governance. | WP-18, WP-19 |
