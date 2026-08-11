@@ -1,0 +1,19 @@
+{
+  "issue": 201,
+  "card": "srp",
+  "expected_generation": 67,
+  "expected_digest": "1354342ae257e9765fd92facfe5369cdbf20bcf5674a23f6902aa42eb3fcfb54",
+  "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+  "reason": "Replace stale passed review prompts after typed recovery with the material stable-custody design and implementation questions.",
+  "operation": {
+    "operation": "correct_review_prompts_after_recovery",
+    "values": [
+      "Does snapshot-replicated current authority contain only stable polis, epoch, membership, configuration, and voter truth, with no restart-scoped current boot map?",
+      "Does runtime-external trusted boot custody require exact canonical full-vector equality on every new Prepare, rejecting stale, duplicate, reordered, zero, non-JCS, missing, or extra voter cuts before any state mutation?",
+      "Does each prepared operation freeze its complete historical canonical boot vector plus a digest bound to its stable authority, and do finalization, publication, restore, and snapshot install reverify that historical custody rather than the runtime's later current cut?",
+      "Can a boot-rotated reopen immediately build and install a snapshot before any new Prepare, while the current cut succeeds and the stale cut rejects byte-for-byte without state mutation?",
+      "Do the exact 86 semantic cases, truthful full 230-test runtime lane, strict production Clippy, real three-voter OpenRaft path, and squash/shallow-safe proof all bind the same final source revision?",
+      "Does lifecycle truth supersede the stale a629080 v7 result and remain pre-review and unpublished until independent design approval, final evidence, and fresh exact-head implementation review?"
+    ]
+  }
+}

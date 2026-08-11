@@ -1,0 +1,13 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 80,
+  "expected_digest": "8767b8fb65cc4714cd3641ad72323ebe0147b935e6c1fc2ab84f4a04f31ac543",
+  "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+  "reason": "Record final proof, coverage-impact repair, and rereview as active while fresh independent review and republication remain pending.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "in_progress"
+  }
+}

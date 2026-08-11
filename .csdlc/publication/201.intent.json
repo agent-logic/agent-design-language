@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 201,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/201-authority-protocol-preparation",
+  "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
+  "body": "Closes #201\n\n## Summary\n- commit PrepareAuthority and FinalizeAuthority through production OpenRaft using actual applied log IDs and stable replicated polis and membership authority\n- keep the current boot cut runtime-external, require exact canonical equality for every Prepare, and freeze each prepared operation's historical boot custody and digest\n- retain opaque voter signer custody and runtime-owned per-node journal/CAS publication so apply returns pending until durable local reconciliation\n- build and install snapshots immediately after boot rotation before a new Prepare, reject stale cuts without mutation, and reverify frozen historical finalization and publication evidence\n- classify the cfg(test)-only authority contract source explicitly and route every changed production authority file through one governed adl-runtime coverage lane\n- retain merge-safe v7 proof with the exact 86-case semantic contract and complete 230-test Runtime library denominator\n\n## Coverage repair\n- the original hosted failure at c5ce49147 was retained in SOR\n- repeated clean 443-test runs pass the unchanged 80-percent production-file threshold\n- observed minimums are authority_protocol 94.08%, identity 89.59%, polis_runtime 84.36%, and transport 92.39%\n- llvm-cov scheduling varies the exact polis_runtime line count; v2 evidence retains individual run hashes and rows but explicitly makes no exact-summary reproducibility claim\n\n## Validation\n- exact authority and snapshot suite: 83/83 Rust cases\n- semantic denominator: 86 selected = 11 passed, 6 reconciled, 69 rejected\n- production snapshot matrix: 36/36\n- full Runtime library: 230/230, zero skipped\n- real three-voter OpenRaft prepare/finalize: 1/1\n- legacy public-shape denial: 1/1\n- strict production Clippy with warnings denied\n- full-history, depth-one source-unavailable, and available-divergent validator modes\n- typed validation and doctor PASS\n- fresh independent exact-head review by codex:/root/review_201_coverage_truth_final: PASS, no findings\n\nNo merge is authorized until the republished exact-head checks are green.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:3e9ec123f39e59c25ddc030a096ef8dcfe776c1e:1971b6d8b118d886c801023bc6382de283056a3b2f52efd6ec281a9911e0bccf",
+  "commit_sha": "3e9ec123f39e59c25ddc030a096ef8dcfe776c1e"
+}
