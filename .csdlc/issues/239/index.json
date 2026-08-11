@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "74ac66d5503a454f1b2eb18cd92f8fa7b6c1c4dbaf3046edc3b044a6e0f44993",
-  "phase": "bound",
-  "generation": 6,
-  "digest": "4ed297bceea50ab63abf6557a3a1813fca3ead3024bf722ebafe06829f579cb5",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "283c7c4b4f91d2463c39a70b694e90347dc3574d28f971d70d0a4dd411df462b",
   "branch": "codex/239-terminal-envelope-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-239-terminal-envelope-reconciliation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1c653becbe0cce67f3e8c71b980dc1adadfe701eeaf75f7555ad106f5b914e79",
+      "values_digest": "44c039afa43c655bc945841e1296a84ef48221288ba2fec893b01189aa247024",
       "rendered_digest": "9d74c8560ecdcda1980e90b7424b807d02b045f61cb14979c9f02a10dcd95416",
       "ast_digest": "92b029c86686bf2c67512129288dc7fd23f0a4d4594cdd1a3fc5d5a8c326abec"
     },
     "stp": {
-      "values_digest": "a4b36253e6062a6950009a3874704da91c0e0fb66beea17be3230c4a02f3660c",
+      "values_digest": "dbcd06adccd5d46a318c3d997430a4176d75f68f40e1dc6e8ccb8ce283034297",
       "rendered_digest": "32fb959c852e7f690dd835deb13d567fbdc8bd10da0657f3cfc78f20c9fbde6f",
       "ast_digest": "7572881f9306365e6f9a5d91678de8e9ad2e6c79402ec85b408766c24e827e44"
     },
     "spp": {
-      "values_digest": "5360fb8b8db1acef91bfabcbb6ba2c72fb92a8f560f52fde3cff301bf185053f",
-      "rendered_digest": "57d9ef7ea6bbdc4fd029a30de8190b237f4f0f665fe872451a8acb2a268989e1",
-      "ast_digest": "50343c63c049a9bea4e443df3a8c3c69e97fe90c2c7f9d2e7a5e3729f494c259"
+      "values_digest": "ef92fa6141b7fe8e3852e48f7caa57c1163f284e1aa031bf03ae06c943d6f65c",
+      "rendered_digest": "902b0c579940cbf44fe004f8d710ecc51ccbb53962125f5e2bce4185cf9d9910",
+      "ast_digest": "6fafddae8b3ad12f8737e35abbedc0270f2ebc516e4d45d3807744f45af4f797"
     },
     "vpp": {
-      "values_digest": "c0664a9dd93bf7ac58e52581581c237adb5714f12ac8fc43ff72e3fceb705193",
+      "values_digest": "fa2e431b3c65a5d153c217c745a65eafd093748f8e8b4b5f999f5972385c89e9",
       "rendered_digest": "7f2c552b51e157f5b12080c3fd4260bbfdcdd35973b03864c8f47de193f3670a",
       "ast_digest": "e92b2d8fbfc390c866a34ad23c997be354bb3f0f603ec3afb8c3b6ee9f9d38a9"
     },
     "srp": {
-      "values_digest": "0c9d3f1c88877f6d73eb2f633cbae9e290945b1f7de0a6e129400acf0b13a61e",
+      "values_digest": "8aa460d877bd00a4f5f0dcfcd4c834a7963d065c555f11e517f5c0d7ef87608f",
       "rendered_digest": "940cb1b661630f8d9d0d1b79218323d4a3d4feede74406a1a8766bd89c7a6133",
       "ast_digest": "e1f3d23e9a9c574d45764d29442791a2472e2e1edef13e3b1ddafd7f622f5f29"
     },
     "sor": {
-      "values_digest": "c59dda777d85f4c074b9250b3bd32ada42585ee2f90372966e5d0ee28fa4b93e",
-      "rendered_digest": "5d149bc4bca453b6ffa668435b6db2a0e440e0292b203a6efb61e0ae06a06515",
-      "ast_digest": "adefa9ad0ade20e54919773a9d41d05424b72256c848f735953282a1bd2652c0"
+      "values_digest": "82630e79d8470c72adacab9a8c2c408b57394de0e83209e87cb47b3b9a88a935",
+      "rendered_digest": "7377f26a71cd987e5e7652bcf9a97b756578006385f758287259ad7f99f0390f",
+      "ast_digest": "1c6c1b0d05783bd790f927f8c93180e35037398e33f0f3b43d92465d1080885d"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "/root/sprint5_5835",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -127,6 +134,41 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "/root/sprint5_5835",
+      "reason": "Record the bounded root-aware terminal envelope implementation and focused proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented repository-grounded derived-terminal reconciliation for governed publication metadata-only heads without weakening exact identity or substantive drift rejection.\",\"changes\":[\"Added a root-aware envelope matcher while retaining exact-only compatibility behavior.\",\"Routed cached csdlc-finish validation and cleanup compatibility through the root-aware matcher.\",\"Reused git::metadata_only_changed_paths in publication lineage validation, preserving forward ancestry, safe path, per-commit, and typed card projection checks.\",\"Expanded the PR #238-shaped regression to cover positive metadata-only reconciliation plus rename drift, substantive drift, malformed publication revision, non-ancestor metadata, and missing commit rejection.\"],\"artifacts\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/cleanup.rs\",\"csdlc-v2/tests/gate_finish.rs\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "/root/sprint5_5835",
+      "reason": "The PR #238 mismatch is reproduced and isolated.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "/root/sprint5_5835",
+      "reason": "Root-aware reconciliation now reuses the governed metadata-only policy.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "/root/sprint5_5835",
+      "reason": "Focused PR #238-shaped positive and all declared fail-closed regressions pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "/root/sprint5_5835",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
