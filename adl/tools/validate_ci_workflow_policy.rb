@@ -44,19 +44,6 @@ module CiWorkflowPolicy
     value.is_a?(Hash) ? value.transform_keys(&:to_s) : {}
   end
 
-  def matrix_cardinality(job)
-    strategy = job.is_a?(Hash) ? job["strategy"] : nil
-    matrix = strategy.is_a?(Hash) ? strategy["matrix"] : nil
-    return 1 unless matrix.is_a?(Hash)
-
-    axes = matrix.reject { |key, _| %w[include exclude].include?(key.to_s) }
-    product = axes.values.reduce(1) do |count, values|
-      count * (values.is_a?(Array) ? values.length : 1)
-    end
-    include_count = matrix["include"].is_a?(Array) ? matrix["include"].length : 0
-    [product, include_count].max
-  end
-
   def validate_sources(sources)
     errors = []
     inventory = []
@@ -115,8 +102,11 @@ module CiWorkflowPolicy
     end
     errors << "#{ci_path}: jobs must not bypass the sole required_runner selector: #{direct_heavy.join(',')}" unless direct_heavy.empty?
 
-    heavy_expansions = heavy_consumers.sum { |job_id| matrix_cardinality(ci_jobs.fetch(job_id)) }
-    errors << "#{ci_path}: heavy-runner matrix expansion count must be exactly one, got #{heavy_expansions}" unless heavy_expansions == 1
+    heavy_job = ci_jobs["adl_ci"]
+    heavy_strategy = heavy_job.is_a?(Hash) ? heavy_job["strategy"] : nil
+    if heavy_strategy.is_a?(Hash) && heavy_strategy.key?("matrix")
+      errors << "#{ci_path}: the sole heavy-runner job must not declare strategy.matrix"
+    end
 
     [errors, inventory]
   end

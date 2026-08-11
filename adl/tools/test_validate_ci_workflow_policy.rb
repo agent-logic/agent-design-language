@@ -45,12 +45,28 @@ class ValidateCiWorkflowPolicyTest < Minitest::Test
     assert(errors_for(ci: fixture).any? { |error| error.include?("optional jobs must not materialize") })
   end
 
-  def test_two_shard_heavy_matrix_is_rejected
-    fixture = valid_ci.sub(
+  def with_heavy_matrix(matrix_yaml)
+    valid_ci.sub(
       "    runs-on: ${{ needs.adl_path_policy.outputs.required_runner }}\n",
-      "    runs-on: ${{ needs.adl_path_policy.outputs.required_runner }}\n    strategy:\n      matrix:\n        shard: [1, 2]\n"
+      "    runs-on: ${{ needs.adl_path_policy.outputs.required_runner }}\n    strategy:\n      matrix:\n#{matrix_yaml}"
     )
-    assert(errors_for(ci: fixture).any? { |error| error.include?("matrix expansion count must be exactly one") })
+  end
+
+  def assert_heavy_matrix_rejected(matrix_yaml)
+    errors = errors_for(ci: with_heavy_matrix(matrix_yaml))
+    assert(errors.any? { |error| error.include?("must not declare strategy.matrix") }, errors.inspect)
+  end
+
+  def test_axis_only_heavy_matrix_is_rejected
+    assert_heavy_matrix_rejected("        shard: [1, 2]\n")
+  end
+
+  def test_include_only_heavy_matrix_is_rejected
+    assert_heavy_matrix_rejected("        include:\n          - shard: 1\n")
+  end
+
+  def test_axis_plus_include_heavy_matrix_is_rejected
+    assert_heavy_matrix_rejected("        shard: [1, 2]\n        include:\n          - shard: 3\n")
   end
 
   def test_quoted_pull_request_key_in_standalone_workflow_is_rejected

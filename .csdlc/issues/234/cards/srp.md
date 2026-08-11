@@ -29,7 +29,18 @@ csdlc-v2
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P1-heavy-matrix-cardinality",
+    "severity": "p1",
+    "summary": "The sole heavy-runner job could declare a strategy matrix whose axis plus include expansion was undercounted, violating the one-heavy-runner allocation invariant.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": "Remediate exact 810c0b934 by prohibiting strategy.matrix on adl_ci and adding axis-only, include-only, and combined negative regressions."
+  }
+]
 
 ## Dispositions
 

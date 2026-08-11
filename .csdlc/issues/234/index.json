@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "37478c3114075c81102ef73834952e49343ba37b2bdd9f4c63ae9b1fee61a47a",
+  "generation": 28,
+  "digest": "1028f20e4455b023b0ee8c599e7342bd4cceef8c3adf6fe07261b6906c48e060",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": {
@@ -36,32 +36,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "038ccc683c57ee63854d78c5d571b80d663686edb78ded597ed126781d59e95f",
+      "values_digest": "643e244bcd1ca6d5186701dce57510ecfd4d2c538d4cb142678cac0dd96c1709",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "93e212d7d0943037ee0303b3c6ed514ccd4eb157f291578d81e98494f126a540",
+      "values_digest": "ac553c621fb1852e7d73510909fc7c2888fe5d9151d4e578993700e2932d34b1",
       "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
       "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "97e94c53b113ead0e413584b62e6770099cb76c77bc8e85a36fb70abadb8b54a",
+      "values_digest": "f4f913d484c077b1647cfb1bdeaec6c5708c3aa317aa7a52ccec422777407038",
       "rendered_digest": "4aefac7b866c381e05080459460429c537d4ef79b16a3d8d1207c2d93aa5c2f8",
       "ast_digest": "4275040bf85db61f054c1978dcb59027ff4817fc3e9cad80287eaea38385c582"
     },
     "vpp": {
-      "values_digest": "9975f4fe49d7d8930974c34d2879b5461add03c19cf6a277b047c407f47e3b5a",
+      "values_digest": "92b2d2e10356882cbb44fb13b958fcd10ba94c272a4e1336b17f984a7bba79c9",
       "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "7b5b5204d77b2def0885da1898653f0e847d0dc5bf91ac2e79a33e03be0f08e4",
-      "rendered_digest": "0eeafc2ec52fc108a85d659a970295e8083c465c8e6e1d4569b5b355b82cc3a7",
-      "ast_digest": "c3e80579cb5abc6c7da556066a1a54e25ac2cf32ac6f0fda170e12a30dce9678"
+      "values_digest": "7d5a46e512035c8d2594b323628f1ebab147a4481640a404cd585f02afc58b11",
+      "rendered_digest": "e7a6bb16da6cab76e4bbf2532fcc8b6dde72cd4eb82fb1ef3713e5114b085176",
+      "ast_digest": "3ff4d3a8fea73fae00cfcaa76ff0f85d11b20bef2fc85c8399258c1060b29aea"
     },
     "sor": {
-      "values_digest": "4dc066e0b991cb5e654af1c7636d99773154205379c6ab48f87e57952da3f0e4",
+      "values_digest": "7d81ca43e2f01fab26f2484289d950d54bbba90032da7866a25373ed1f9ac069",
       "rendered_digest": "8dd6d35674d7072d751578d0f97fca496b2c7df201623cb5727854b225c324b3",
       "ast_digest": "ee045f6e7aa547cc8b4b61f4364e31618375e91ffcb3dcaf295cf0791e90e9b0"
     }
@@ -306,6 +306,13 @@
       "actor": "operator",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 28,
+      "actor": "codex:234-final-remediation",
+      "reason": "Record the exact-head P1 that matrix cardinality undercounted combined axes and include entries.",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"P1-heavy-matrix-cardinality\",\"severity\":\"p1\",\"summary\":\"The sole heavy-runner job could declare a strategy matrix whose axis plus include expansion was undercounted, violating the one-heavy-runner allocation invariant.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":\"Remediate exact 810c0b934 by prohibiting strategy.matrix on adl_ci and adding axis-only, include-only, and combined negative regressions.\"}}"
     }
   ]
 }
