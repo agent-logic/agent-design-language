@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 200,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/200-concrete-authority-reconciliation-preparation",
+  "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
+  "body": "Closes #200\n\n## Summary\n- add a sealed concrete authority reconciliation barrier that accepts only the opaque locally published #201 authority result\n- persist bounded Pending, Reconciling, Checkpointed, and Published phases with exact retry caching, external checkpoint CAS, marker/view publication, and fail-closed permits\n- bind node, lineage, adapter, operation, membership, committed time, receipts, result, and generation while keeping the deterministic adapter test-only\n- route Polis runtime reconciliation through the sealed barrier without exposing caller-created production authority\n- keep unit and integration fixtures portable across macOS and Linux using canonical checkout-local roots compatible with the storage symlink policy\n\n## Validation\n- exact focused reconciliation lane: 36/36 passed\n- machine-bound semantic subassertions: 13/13 observed with exact digests\n- strict focused Clippy with warnings denied: passed\n- full Runtime library: 264/264 passed, zero skipped\n- immutable v4 source/proof receipt, portable-path guard, and merge-safe validator: passed\n- typed issue validation and doctor: passed\n\n## Review\n- independent exact-head review by `codex:/root/review_200_publish_hygiene_final`: PASS, no findings\n- reviewed substantive commit: `1e7ab4b1b561554ec270c5ea53da0547e703ee15`\n- publication head adds typed review metadata only; the C-SDLC review guard verifies the substantive revision is unchanged\n\nNo claim is made here for #202, #203, or #204 scope.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:420809d85f7a2d7a05874c4f5ebd7da45cd568d8:bf23c6a30ad34e2175f78d14cf85f8f733bbcdbba9ad124dab4498a96e78a2b4",
+  "commit_sha": "420809d85f7a2d7a05874c4f5ebd7da45cd568d8"
+}
