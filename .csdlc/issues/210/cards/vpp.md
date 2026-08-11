@@ -52,7 +52,7 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "210-serial-01-runtime",
-    "defer_reason": "Deferred until all four dependencies merge and this issue creates the exact target; fail closed on missing target, zero tests, map digest/count/order/result/marker drift, caller-substitutable authority/expectations, or any case/subassertion mismatch."
+    "defer_reason": "Deferred until #202, then #199, then #203 are independently reviewed, merged, and ancestral; after all three merges #210 must resync to the resulting exact origin/main and pass typed csdlc-validate issue plus csdlc-doctor before bind. Fail closed on missing target, zero tests, map digest/count/order/result/marker drift, caller-substitutable authority/expectations, any case/subassertion mismatch, #208 effect-ownership widening, or #204 decision-ownership widening."
   },
   {
     "lane": "continuity-transfer-clippy",
@@ -77,7 +77,7 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       "warnings"
     ],
     "parallel_group": "210-serial-02-clippy",
-    "defer_reason": "Deferred until the owned focused target exists and serial test proof passes; fail closed on warnings, missing target, or missing source."
+    "defer_reason": "Deferred until the exact serial prerequisite and post-merge resync gate passes, the owned focused target exists, and serial test proof passes; fail closed on warnings, missing target, missing source, or authority-boundary drift."
   },
   {
     "lane": "continuity-transfer-diff-hygiene",
@@ -94,7 +94,7 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       ".csdlc/prepared/issues/210/verify-diff-hygiene.rb"
     ],
     "parallel_group": "210-serial-03-diff",
-    "defer_reason": "Deferred until exact execution base/source truth and the verifier exist; fail closed on absent/non-object revisions, nonancestry, any base..source whitespace/EOF diagnostic, dirty protected source, or working-tree-only evidence."
+    "defer_reason": "Deferred until the serial prerequisite/resync gate passes and exact execution base/source truth plus the verifier exist; fail closed on absent/non-object revisions, nonancestry, any base..source whitespace/EOF diagnostic, dirty protected source, working-tree-only evidence, or uncoordinated #205/#210 distributed/mod.rs landing overlap."
   },
   {
     "lane": "continuity-transfer-producer",
@@ -111,7 +111,7 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       ".csdlc/prepared/issues/210/produce-proof-receipt.rb"
     ],
     "parallel_group": "210-serial-04-producer",
-    "defer_reason": "Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty protected source, wrong map digest/count/order/result/marker, missing/extra/duplicate/nonpassing evidence, authority widening, wrong signed expectations, wrong cleanup authority, or nonzero status."
+    "defer_reason": "Deferred until the serial prerequisite/resync gate and all prior serial lanes pass and the exact producer exists; fail closed on dirty protected source, wrong map digest/count/order/result/marker, missing/extra/duplicate/nonpassing evidence, authority widening, wrong signed expectations, wrong cleanup authority, or nonzero status."
   },
   {
     "lane": "continuity-transfer-receipt",
@@ -128,7 +128,7 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       ".csdlc/prepared/issues/210/validate-proof-receipt.rb"
     ],
     "parallel_group": "210-serial-06-validator",
-    "defer_reason": "Deferred until producer, typed finalize, immutable evidence, and fresh exact-head review exist; it must not overlap any prior lane or review and fails on any source/base/map/case/subassertion/order/result/marker/authority/command/review/ancestry drift."
+    "defer_reason": "Deferred until the serial prerequisite/resync gate, producer, typed finalize, immutable evidence, fresh exact-head review, and any required post-#205 shared-mod resync exist; it must not overlap any prior lane or review and fails on any source/base/map/case/subassertion/order/result/marker/authority/command/review/ancestry drift."
   }
 ]
 

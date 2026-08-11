@@ -7,31 +7,27 @@
     "title": "[v0.92][WP-04.16b3.1d] Stream authenticated continuity bundles between voters",
     "slug": "authenticated-continuity-bundle-transfer",
     "version": "v0.92",
-    "generation": 15
+    "generation": 24
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 5,
-      "summary": "After #191/#201/#203/#208 merge ancestrally, bind #210; implement the sealed transfer session, signed expected entry/chunk/range verification, crash-reconcilable bytes/verifier/prefix advancement, bounded resources, VerifiedTransferPossession, and #208-owned cleanup requests; prove exactly 45 cases plus the SHA-256-bound 8-acceptance/84-subassertion map serially through tests, Clippy, recorded-base-to-source diff hygiene, producer, fresh independent exact-head review, and distinct validator; then publish a ready unmerged PR before #204. The map must directly associate every case with at least one subassertion.",
+      "plan_revision": 10,
+      "summary": "Keep #210 preparation-only while #202, then #199, then #203 complete independent review, merge, and ancestry. Resync onto the resulting exact origin/main and pass typed validation/doctor before bind; then implement only authenticated continuity transport over #201 authority and #208 sealed ports, with #208 retaining every kernel/filesystem effect and cleanup and future #204 alone consuming transfer outcomes for migration/control decisions. Preserve the exact 45-case, 8-acceptance, 84-subassertion proof. #205 and #210 may prepare graph-parallel, but because both touch adl-runtime/src/distributed/mod.rs their implementation PRs land serially and the second branch resyncs/revalidates after the first merge.",
       "steps": [
         {
           "id": "S1",
-          "action": "After dependencies merge ancestrally, bind #210 and freeze exact token, route, bundle-handle, frame, prefix, verifier and cleanup interfaces.",
+          "action": "Remain preparation-only until #202, then #199, then #203 are each independently reviewed, merged, and ancestral; resync #210 to the resulting exact origin/main and rerun typed csdlc-validate issue plus csdlc-doctor before bind.",
           "acceptance_ids": [
-            "AC-1",
-            "AC-2",
-            "AC-3",
-            "AC-4"
+            "AC-1"
           ],
           "status": "pending"
         },
         {
           "id": "S2",
-          "action": "Implement the typed session, bounded stream, durable prefix/retry, incremental verification, #208 handle integration and exact abort cleanup.",
+          "action": "After the serial gate passes, bind #210 and implement the typed session, bounded stream, durable prefix/retry, incremental verification, and sealed #208 handle integration; #208 alone performs kernel/filesystem effects and cleanup, while #210 returns only verified transport outcomes for future #204 consumption.",
           "acceptance_ids": [
-            "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
@@ -43,22 +39,7 @@
         },
         {
           "id": "S3",
-          "action": "Prove forty-five exact cases, crash/restart/reply-loss/bounds/cleanup/redaction, strict Clippy and merge-safe receipt truth.",
-          "acceptance_ids": [
-            "AC-1",
-            "AC-2",
-            "AC-3",
-            "AC-4",
-            "AC-5",
-            "AC-6",
-            "AC-7",
-            "AC-8"
-          ],
-          "status": "pending"
-        },
-        {
-          "id": "S4",
-          "action": "Resolve fresh exact-head review through a subagent, publish a ready PR closing #210, shepherd hosted CI, and wait for operator review and merge authorization.",
+          "action": "Prove the unchanged exact 45-case, 8-acceptance, 84-subassertion contract, strict Clippy, exact-range diff and immutable receipt truth; obtain fresh exact-head review, publish a ready PR closing #210, shepherd hosted CI, and wait for operator merge authorization. When landing is authorized, coordinate serial landing with graph-parallel #205 because both touch distributed/mod.rs, resyncing and revalidating whichever branch lands second.",
           "acceptance_ids": [
             "AC-8"
           ],
@@ -88,8 +69,9 @@
         "Exact duplicate frames and results are cache-first; conflict, gap, reorder, overlap, final-frame mismatch, range overflow, rollback, corruption, or ambiguous recovery never advances state",
         "VerifiedTransferPossession exists only after full signed catalog, every entry/chunk, total length, and whole digest verify, and contains only exact #208 TargetStageHandle plus TargetPossessionEvidence",
         "TargetCleanupPermit is separate from transfer authority, remains valid after transfer expiry/cancellation/restart, permits only #208-owned exact-stage discard, and terminates only with TargetDiscardReceipt or TargetActivationReceipt",
-        "#210 never deletes, activates, resumes a source, fences, owns, serves, or decides migration; #208 owns effects and cleanup while #204 owns migration/control decisions",
-        "No caller path, mock, synthetic snapshot, retained boolean, local absence claim, transfer receipt, possession evidence, or redacted proof creates ownership or serving authority"
+        "#210 never deletes, activates, resumes a source, fences, owns, serves, or decides migration; #208 exclusively owns kernel/filesystem effects and cleanup, and future #204 consumes only verified #210 possession/cleanup outcomes to make migration/control decisions",
+        "No caller path, mock, synthetic snapshot, retained boolean, local absence claim, transfer receipt, possession evidence, or redacted proof creates ownership or serving authority",
+        "#205 and #210 may be prepared graph-parallel, but their shared adl-runtime/src/distributed/mod.rs write requires serial landing and an exact-main resync plus typed revalidation for the branch landing second"
       ],
       "risks": [
         "Generic transport dispatch could bypass typed session authority",
@@ -104,11 +86,16 @@
         "validation_seconds": 7200
       },
       "stop_conditions": [
-        "Any dependency is not externally reviewed, merged, and ancestral",
+        "Issue #202 is not independently reviewed, merged, and ancestral",
+        "Issue #199 is not independently reviewed, merged, and ancestral after #202",
+        "Issue #203 is not independently reviewed, merged, and ancestral after #199",
+        "After all three serial prerequisite merges, #210 has not been resynchronized onto the resulting exact origin/main and passed typed csdlc-validate issue plus csdlc-doctor",
         "Merged #191 cannot host a closed typed non-Raft service without reopening generic message authority",
-        "Merged #208 does not expose opaque bounded bundle reader and isolated-stage writer handles",
+        "Merged #208 does not expose opaque bounded bundle reader and isolated-stage writer handles while retaining exclusive kernel/filesystem effect and cleanup ownership",
         "Incremental verification cannot bind the exact signed catalog without weakening snapshot authority",
-        "Implementation expands into #204 policy, models, AWS, or live qualification",
+        "Implementation gives #210 any #208-owned delete/activate/resume/fence/filesystem effect or any #204-owned migration/control decision",
+        "#205 and #210 cannot land serially with a fresh resync/revalidation of the branch landing second after their shared adl-runtime/src/distributed/mod.rs change",
+        "Implementation expands into models, AWS, live qualification, or other undeclared authority",
         "Any focused proof or independent review has an unresolved actionable finding"
       ],
       "replan_triggers": [],
