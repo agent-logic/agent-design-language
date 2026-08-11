@@ -250,6 +250,140 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
     assert_eq!(authenticated["status"], "authenticated");
 
+    let same_token_reauth = serde_json::json!({
+        "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+        "conversation_id": "conversation-same-token-reauth",
+        "turn_id": "turn-same-token-reauth",
+        "recipient_id": "shepherd",
+        "correlation_id": "21212121212121212121212121212121",
+        "message": "delay revoke"
+    });
+    socket
+        .send(Message::Text(same_token_reauth.to_string().into()))
+        .await
+        .unwrap();
+    let accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(accepted["status"], "accepted", "{accepted}");
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_AUTH_SCHEMA,
+                "bearer_token": TOKEN,
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let authenticated =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(authenticated["status"], "authenticated");
+    assert!(
+        tokio::time::timeout(
+            Duration::from_millis(80),
+            next_conversation_result_for_turn(&mut socket, "turn-same-token-reauth")
+        )
+        .await
+        .is_err(),
+        "the prior authentication generation received an in-flight result"
+    );
+    socket
+        .send(Message::Text(same_token_reauth.to_string().into()))
+        .await
+        .unwrap();
+    let completed =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(completed["status"], "delivered", "{completed}");
+
+    let bounded_duplicate = serde_json::json!({
+        "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+        "conversation_id": "conversation-bounded-duplicate",
+        "turn_id": "turn-bounded-duplicate",
+        "recipient_id": "shepherd",
+        "correlation_id": "23232323232323232323232323232323",
+        "message": "delay ordered"
+    });
+    socket
+        .send(Message::Text(bounded_duplicate.to_string().into()))
+        .await
+        .unwrap();
+    let accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(accepted["status"], "accepted", "{accepted}");
+    for _ in 0..64 {
+        socket
+            .send(Message::Text(bounded_duplicate.to_string().into()))
+            .await
+            .unwrap();
+    }
+    for _ in 0..64 {
+        let duplicate =
+            next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+        assert_eq!(duplicate["error"], "conversation_in_flight", "{duplicate}");
+    }
+    let delivered = next_conversation_result_for_turn(&mut socket, "turn-bounded-duplicate").await;
+    assert_eq!(delivered["status"], "delivered", "{delivered}");
+    assert!(
+        tokio::time::timeout(
+            Duration::from_millis(80),
+            next_conversation_result_for_turn(&mut socket, "turn-bounded-duplicate")
+        )
+        .await
+        .is_err(),
+        "duplicate terminal conversation frame was emitted"
+    );
+
+    let rotate_back = serde_json::json!({
+        "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+        "conversation_id": "conversation-rotate-back",
+        "turn_id": "turn-rotate-back",
+        "recipient_id": "shepherd",
+        "correlation_id": "24242424242424242424242424242424",
+        "message": "delay ordered"
+    });
+    socket
+        .send(Message::Text(rotate_back.to_string().into()))
+        .await
+        .unwrap();
+    let accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(accepted["status"], "accepted", "{accepted}");
+    service.set_observatory_bearer_token(ROTATED_TOKEN).unwrap();
+    let revoked = next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(revoked["error"], "credential_revoked", "{revoked}");
+    service.set_observatory_bearer_token(TOKEN).unwrap();
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_AUTH_SCHEMA,
+                "bearer_token": TOKEN,
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let authenticated =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(authenticated["status"], "authenticated");
+    assert!(
+        tokio::time::timeout(
+            Duration::from_millis(100),
+            next_conversation_result_for_turn(&mut socket, "turn-rotate-back")
+        )
+        .await
+        .is_err(),
+        "restoring old token bytes revived an earlier authentication generation"
+    );
+    socket
+        .send(Message::Text(rotate_back.to_string().into()))
+        .await
+        .unwrap();
+    let completed =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(completed["status"], "delivered", "{completed}");
+
     socket
         .send(Message::Text(
             serde_json::json!({
@@ -274,7 +408,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert_eq!(delivered["status"], "delivered");
     assert_eq!(delivered["reply"], "shepherd received your message.");
     assert!(!delivered.to_string().contains("adapter_secret"));
-    assert_eq!(dispatches.load(Ordering::SeqCst), 1);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 4);
 
     socket
         .send(Message::Text(
@@ -298,7 +432,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(delivered["status"], "delivered", "{delivered}");
     assert_eq!(delivered["recipient_id"], "agent-0100");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 2);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 5);
 
     socket
         .send(Message::Text(
@@ -356,7 +490,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let duplicate =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(duplicate["status"], "delivered");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 3);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 6);
 
     socket
         .send(Message::Text(
@@ -377,7 +511,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(conflict["status"], "refused");
     assert_eq!(conflict["error"], "conversation_conflict");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 3);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 6);
 
     for (turn_id, correlation_id, message) in [
         (
@@ -561,8 +695,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let timed_out =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(timed_out["status"], "timed_out");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 8);
-    assert_eq!(completions.load(Ordering::SeqCst), 6);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 11);
+    assert_eq!(completions.load(Ordering::SeqCst), 9);
 
     socket
         .send(Message::Text(
@@ -606,7 +740,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert!(statuses.contains(&"accepted"));
     assert!(statuses.contains(&"cancelled"));
     tokio::time::sleep(Duration::from_millis(275)).await;
-    assert_eq!(completions.load(Ordering::SeqCst), 6);
+    assert_eq!(completions.load(Ordering::SeqCst), 9);
 
     socket
         .send(Message::Text(
@@ -644,6 +778,21 @@ where
         let frame = socket.next().await.unwrap().unwrap();
         let value: serde_json::Value = serde_json::from_str(frame.to_text().unwrap()).unwrap();
         if value["schema"] == schema {
+            return value;
+        }
+    }
+}
+
+async fn next_conversation_result_for_turn<S>(
+    socket: &mut tokio_tungstenite::WebSocketStream<S>,
+    turn_id: &str,
+) -> serde_json::Value
+where
+    S: tokio::io::AsyncRead + tokio::io::AsyncWrite + Unpin,
+{
+    loop {
+        let value = next_frame_with_schema(socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+        if value["turn_id"] == turn_id {
             return value;
         }
     }

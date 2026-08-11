@@ -1,5 +1,5 @@
 use std::{
-    collections::{BTreeMap, BTreeSet},
+    collections::{BTreeMap, BTreeSet, HashSet},
     future::Future,
     io::Write,
     net::SocketAddr,
@@ -61,6 +61,7 @@ pub const OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_cancel.v1";
 pub const CONTROL_MAX_BODY_BYTES: usize = 64 * 1024;
 const ACIP_MAX_SEQUENCE_ADVANCE: u64 = 1_000_000;
+const OBSERVATORY_CONVERSATION_RESULT_QUEUE_CAPACITY: usize = 32;
 const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
 const OBSERVATORY_OPENAPI_DOCUMENT: &str =
     include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
@@ -2339,8 +2340,12 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
 ) {
     let api_policy = service.api_policy();
     let mut bearer_token: Option<String> = None;
+    let mut authentication_generation = 0_u64;
+    let mut conversation_attachments = HashSet::<(u64, String, String)>::new();
     let (conversation_results_tx, mut conversation_results_rx) =
-        tokio::sync::mpsc::unbounded_channel::<([u8; 32], ObservatoryConversationResult)>();
+        tokio::sync::mpsc::channel::<(u64, [u8; 32], ObservatoryConversationResult)>(
+            OBSERVATORY_CONVERSATION_RESULT_QUEUE_CAPACITY,
+        );
     let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
     refresh.tick().await;
     let Ok(initial_feed) = serde_json::to_string(&service.observatory_feed()) else {
@@ -2356,7 +2361,15 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
 
     loop {
         tokio::select! {
-            Some((authorized_token_digest, result)) = conversation_results_rx.recv() => {
+            Some((authorized_generation, authorized_token_digest, result)) = conversation_results_rx.recv() => {
+                conversation_attachments.remove(&(
+                    authorized_generation,
+                    result.conversation_id.clone(),
+                    result.turn_id.clone(),
+                ));
+                if authorized_generation != authentication_generation {
+                    continue;
+                }
                 if bearer_token.as_deref().map(|token| *blake3::hash(token.as_bytes()).as_bytes())
                     != Some(authorized_token_digest)
                 {
@@ -2393,6 +2406,11 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
             _ = refresh.tick() => {
                 if bearer_token.as_deref().is_some_and(|token| !service.observatory_token_authorized(token)) {
                     bearer_token = None;
+                    let Some(next_generation) = authentication_generation.checked_add(1) else {
+                        break;
+                    };
+                    authentication_generation = next_generation;
+                    conversation_attachments.clear();
                     let revoked = ObservatoryWsControlResult {
                         schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
                         status: "rejected",
@@ -2425,6 +2443,11 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                 Some(Ok(Message::Close(_))) | None => break,
                 Some(Ok(Message::Text(payload))) => {
                     if let Ok(auth) = serde_json::from_str::<ObservatoryWsAuth>(&payload) {
+                        let Some(next_generation) = authentication_generation.checked_add(1) else {
+                            break;
+                        };
+                        authentication_generation = next_generation;
+                        conversation_attachments.clear();
                         let authorized = auth.schema == OBSERVATORY_WS_AUTH_SCHEMA
                             && service.observatory_token_authorized(&auth.bearer_token);
                         bearer_token = authorized.then_some(auth.bearer_token);
@@ -2449,6 +2472,11 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         .is_some_and(|token| !service.observatory_token_authorized(token))
                     {
                         bearer_token = None;
+                        let Some(next_generation) = authentication_generation.checked_add(1) else {
+                            break;
+                        };
+                        authentication_generation = next_generation;
+                        conversation_attachments.clear();
                     }
                     if let Ok(intent) = serde_json::from_str::<ObservatoryConversationIntent>(&payload) {
                         let result = if bearer_token.is_none() {
@@ -2484,19 +2512,35 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                             break;
                         }
                         if let Some(dispatch) = dispatch {
+                            conversation_attachments.insert((
+                                authentication_generation,
+                                conversation_id.clone(),
+                                turn_id.clone(),
+                            ));
                             let service = service.clone();
                             let results = conversation_results_tx.clone();
+                            let authorized_generation = authentication_generation;
                             let authorized_token_digest = bearer_token
                                 .as_deref()
                                 .map(|token| *blake3::hash(token.as_bytes()).as_bytes())
                                 .expect("authenticated conversation dispatch has a bearer token");
                             tokio::spawn(async move {
                                 let result = service.complete_conversation_dispatch(dispatch).await;
-                                let _ = results.send((authorized_token_digest, result));
+                                let _ = results
+                                    .send((authorized_generation, authorized_token_digest, result))
+                                    .await;
                             });
-                        } else if attach_to_in_flight {
+                        } else if attach_to_in_flight
+                            && conversation_attachments
+                                .insert((
+                                    authentication_generation,
+                                    conversation_id.clone(),
+                                    turn_id.clone(),
+                                ))
+                        {
                             let service = service.clone();
                             let results = conversation_results_tx.clone();
+                            let authorized_generation = authentication_generation;
                             let authorized_token_digest = bearer_token
                                 .as_deref()
                                 .map(|token| *blake3::hash(token.as_bytes()).as_bytes())
@@ -2506,7 +2550,9 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                     .wait_for_conversation_terminal(&conversation_id, &turn_id)
                                     .await
                                 {
-                                    let _ = results.send((authorized_token_digest, result));
+                                    let _ = results
+                                        .send((authorized_generation, authorized_token_digest, result))
+                                        .await;
                                 }
                             });
                         }
