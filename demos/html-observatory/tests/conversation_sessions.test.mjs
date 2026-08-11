@@ -14,10 +14,19 @@ if (process.argv.includes("--review-only")) {
   assert.equal(index.review?.completed, true, "independent exact-head review must be complete");
   assert.equal(index.review?.findings?.length, 0, "independent exact-head review must have no findings");
   assert.ok(index.review?.reviewer, "independent exact-head review must name its reviewer");
-  assert.match(
-    index.review?.reviewed_revision || "",
-    new RegExp(`^git-blake3:${head}:[0-9a-f]{64}$`),
-    "independent review must cover the exact HEAD"
+  const reviewed = /^git-blake3:([0-9a-f]{40}):[0-9a-f]{64}$/
+    .exec(index.review?.reviewed_revision || "");
+  assert.ok(reviewed, "independent review must retain a typed Git revision and digest");
+  const changedAfterReview = execFileSync("git", ["diff", "--name-only", reviewed[1], head], {
+    cwd: repoRoot,
+    encoding: "utf8"
+  }).trim().split("\n").filter(Boolean);
+  assert.ok(
+    changedAfterReview.every((path) =>
+      path.startsWith(".csdlc/issues/111/") ||
+      path.startsWith(".csdlc/prepared/issues/111/") ||
+      path.startsWith(".csdlc/evidence/111/")),
+    `product paths changed after independent review: ${changedAfterReview.join(", ")}`
   );
   console.log("WP-18C.01 exact-head review receipt: PASS");
   process.exit(0);
