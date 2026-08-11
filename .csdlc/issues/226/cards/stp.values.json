@@ -7,7 +7,7 @@
     "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
     "slug": "focused-runtime-validation-routing",
     "version": "v0.92",
-    "generation": 7
+    "generation": 10
   },
   "status": "ready",
   "content": {
@@ -21,10 +21,10 @@
       ],
       "acceptance_criteria": [
         "AC-1: The exact #111/#113 changed-path set no longer reports unmapped_change_surface",
-        "AC-2: The two HTML Observatory validation tools map to the existing Observatory proving lane",
+        "AC-2: The two HTML Observatory validation tools map to a direct bounded shell and JavaScript syntax lane",
         "AC-3: design/*.mmd maps to docs diff hygiene",
         "AC-4: Focused PR routing does not select slow proof or authoritative full coverage",
-        "AC-5: An unknown source/tooling path still fails closed",
+        "AC-5: An unknown source or tooling path still fails closed",
         "AC-6: Exact-head independent review has no unresolved findings"
       ],
       "dependencies": [

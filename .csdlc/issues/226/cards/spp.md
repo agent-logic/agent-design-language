@@ -16,7 +16,7 @@ Add three narrow path selectors, prove exact focused routing, retain unknown-pat
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -61,8 +61,9 @@ Revision 2
 
 - Unknown paths continue to fail closed
 - No selector maps Runtime source to docs-only proof
-- No slow or coverage job is selected solely by lifecycle metadata or issue diagrams
-- Existing lane commands and proof semantics remain unchanged
+- The two Observatory tooling paths select direct syntax proof without triggering integrated proof by themselves
+- Observatory product and demo changes continue to select the existing integrated Observatory proof
+- No slow or coverage job is selected solely by lifecycle metadata, issue diagrams, or the two tooling paths
 
 ## Risks
 
@@ -81,7 +82,7 @@ Revision 2
 
 .csdlc/prepared/issues/226/design.md
 
-Digest: b53a4f2164b857afb5267dc031684d166b53ae735222244b23e9580703177f50
+Digest: 8e7a82a12f08c297ecfea3ace63dc6a58dac473fe98462e632c81328dd9e205e
 
 ## Diagram
 

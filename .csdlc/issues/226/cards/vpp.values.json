@@ -7,7 +7,7 @@
     "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
     "slug": "focused-runtime-validation-routing",
     "version": "v0.92",
-    "generation": 7
+    "generation": 10
   },
   "status": "ready",
   "content": {
@@ -60,7 +60,7 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on any unmapped path or unexpected slow/full-coverage selection.",
       "design_ref": ".csdlc/prepared/issues/226/design.md",
-      "design_digest": "b53a4f2164b857afb5267dc031684d166b53ae735222244b23e9580703177f50",
+      "design_digest": "8e7a82a12f08c297ecfea3ace63dc6a58dac473fe98462e632c81328dd9e205e",
       "diagram_ref": ".csdlc/prepared/issues/226/diagram.mmd",
       "diagram_digest": "8c56bd5b5995ff707eb45e3fc1afc455d18137f95ac93d1b4aef9c0d5a5457ab"
     }

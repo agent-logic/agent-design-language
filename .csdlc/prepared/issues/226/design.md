@@ -2,13 +2,13 @@
 
 ## Decision
 
-Extend the existing validation-lane manifest so the two tracked HTML Observatory validation tools map to the existing HTML Observatory runtime surface lane and issue design diagrams map to the existing docs diff lane.
+Extend the validation-lane manifest so the two tracked HTML Observatory validation tools map to a direct shell/JavaScript syntax lane and issue design diagrams map to the existing docs diff lane.
 
 ## Invariants
 
 - Runtime source changes continue to select the focused Runtime kernel lane.
 - Lifecycle metadata and design diagrams do not create an unmapped-surface escalation.
-- Observatory validators select their existing bounded browser/static contract lane.
+- Observatory tooling selects a tiny direct syntax lane; product/demo changes continue to select the existing integrated Observatory contract lane independently.
 - Slow proof and authoritative full coverage remain opt-in only when their own declared selectors require them.
 - Unknown source or tooling paths still fail closed as unmapped.
 

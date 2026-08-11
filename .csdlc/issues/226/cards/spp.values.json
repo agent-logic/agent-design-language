@@ -7,13 +7,13 @@
     "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
     "slug": "focused-runtime-validation-routing",
     "version": "v0.92",
-    "generation": 7
+    "generation": 10
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Add three narrow path selectors, prove exact focused routing, retain unknown-path fail-closed behavior, review, and publish the small tooling repair.",
       "steps": [
         {
@@ -59,8 +59,9 @@
       "invariants": [
         "Unknown paths continue to fail closed",
         "No selector maps Runtime source to docs-only proof",
-        "No slow or coverage job is selected solely by lifecycle metadata or issue diagrams",
-        "Existing lane commands and proof semantics remain unchanged"
+        "The two Observatory tooling paths select direct syntax proof without triggering integrated proof by themselves",
+        "Observatory product and demo changes continue to select the existing integrated Observatory proof",
+        "No slow or coverage job is selected solely by lifecycle metadata, issue diagrams, or the two tooling paths"
       ],
       "risks": [
         "An overbroad selector could hide a real tooling change",
@@ -78,7 +79,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/226/design.md",
-      "design_digest": "b53a4f2164b857afb5267dc031684d166b53ae735222244b23e9580703177f50",
+      "design_digest": "8e7a82a12f08c297ecfea3ace63dc6a58dac473fe98462e632c81328dd9e205e",
       "diagram_ref": ".csdlc/prepared/issues/226/diagram.mmd",
       "diagram_digest": "8c56bd5b5995ff707eb45e3fc1afc455d18137f95ac93d1b4aef9c0d5a5457ab"
     }

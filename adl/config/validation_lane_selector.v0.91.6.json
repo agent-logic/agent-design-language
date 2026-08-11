@@ -539,6 +539,7 @@
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
       "owner": "review",
+      "resource_class": "tiny",
       "proof_role": "tooling_contract",
       "requirement_ids": [
         "html_observatory_tooling_syntax"

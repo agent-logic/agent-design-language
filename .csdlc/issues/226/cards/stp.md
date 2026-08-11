@@ -23,10 +23,10 @@ Map the three observed unmapped paths to their existing proving lanes and add fo
 ## Acceptance
 
 1. AC-1: The exact #111/#113 changed-path set no longer reports unmapped_change_surface
-2. AC-2: The two HTML Observatory validation tools map to the existing Observatory proving lane
+2. AC-2: The two HTML Observatory validation tools map to a direct bounded shell and JavaScript syntax lane
 3. AC-3: design/*.mmd maps to docs diff hygiene
 4. AC-4: Focused PR routing does not select slow proof or authoritative full coverage
-5. AC-5: An unknown source/tooling path still fails closed
+5. AC-5: An unknown source or tooling path still fails closed
 6. AC-6: Exact-head independent review has no unresolved findings
 
 ## Dependencies
