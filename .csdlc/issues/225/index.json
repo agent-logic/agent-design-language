@@ -3,9 +3,9 @@
   "issue": 225,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c2539d70d91f701387359b5176d8f0797988aec3b5745e78e295d6bcf53e1c4",
-  "phase": "initialized",
-  "generation": 6,
-  "digest": "577886d28a153b6d87e94e8f5f5ee9283934e0af31b5e5585c3800dfcd88b985",
+  "phase": "ready",
+  "generation": 8,
+  "digest": "989e8eb6503caa2c01778b90fbba62e370d6d89a38f9fb54781d7ff8aeee8fc2",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,40 +16,53 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/225/design.md",
   "diagram_path": ".csdlc/prepared/issues/225/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:lorentz-019fefab",
+      "revision": "a80c5320b725b320199840ac97071c113a66856de8ebbb740f4772db558d4a11"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "1891f1552ca72964e519223124164b25b6ee26b1017b46ce468cd39954011429",
+      "values_digest": "b0959587ac9dd20b9463a21e31f7a2baa79bd46a7bcefc69c0b446de3e3c541e",
       "rendered_digest": "9f38b68f225883c5296d0930f90a0bd45b5d3fdfbc79b9e2eb784c83f1be0027",
       "ast_digest": "80936f9bc8d37273b594570a048d63acc5befe735e1ed02d3e188eec4b50430f"
     },
     "stp": {
-      "values_digest": "dcc1eadf0f2f5bebc8103756862b8a078b39d14d3cac547900f604b13966a5cc",
+      "values_digest": "847fdff0978995909ae9b23ab036c57a17352d00479349319141d6ad21de933d",
       "rendered_digest": "4b480f8134f03a8df280641a44c7466ac2427aaacdcad4f4bb09a40f9dfd65dc",
       "ast_digest": "98229242cbbc08bd4320f8997bf7a53d4c41945051bf846790c8b8e750b4e697"
     },
     "spp": {
-      "values_digest": "e31667508c635ae88cf9b09d0c57c1a8d7f3a4ac146c0fdef2a276bab490aaa3",
+      "values_digest": "e9c2e92e893b530db212c912fae12732fcfa444fd5501d47878c8d781d412f77",
       "rendered_digest": "7c234547e385ba822ab7b2d82863448bd1b1f38d3ef631ac80be18e37ca3cd1a",
       "ast_digest": "9df3a2f2eee8e0f382d435a47d0f8c7713620fcd8519e2505ed13aab3f9bc002"
     },
     "vpp": {
-      "values_digest": "e7081a4c5d273ae313648786bf8b3a7abf72b46c0c978af7e72182a4ac0f5325",
+      "values_digest": "1d5eb3e54ee1c70ccd43a70996aac9bd51c0218c47a4aa2a25e28e7def0192e1",
       "rendered_digest": "b11d0c53253aa8d670c14bdb6c2c21cad2f0a63147079d96a1e1d3b5888ca1b4",
       "ast_digest": "c6630cd1b261473cb656a38b6b5a47350843e9ee08ef5ada14e48a97043f2d12"
     },
     "srp": {
-      "values_digest": "6ea8e1ba2f3e56a2477fa348e9f6d3059fe026ee6c2aee7c7cef4df8dffbf0cf",
+      "values_digest": "13110b3497c543f47bbc653744040ec46286b1d782e45bde2d090f0602898d4a",
       "rendered_digest": "cc2eaa4e9e9f1935e1846fbbed3634f3dec9f4d33edb2e23a63b87705eedcba7",
       "ast_digest": "94db6738b2be4771ce8b282bba064fb03464b2755a7dcfd6757054c8d3d6c388"
     },
     "sor": {
-      "values_digest": "4a8a97890ccbcb08df06c9fd8f3893be7cffcd989d484a7703bee9fb0cf86c56",
+      "values_digest": "d74cb460abc0f77d6aa0115831dd8d7b4606af80ce8471de2c10c4d876fa9bd4",
       "rendered_digest": "443c62c1ca205fcf8158badf7f586e7c3e202a1eebc6e43c8277d069cf9122b2",
       "ast_digest": "a50dd0361a949552917723843af62c2d1cf72d10f846a737d308f57110092df5"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "The independently reviewed design and complete typed planning packet are ready for binding."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -99,6 +112,20 @@
       "actor": "codex:225-bounded-card-review-repair",
       "reason": "Complete Gate 5 coverage for every accepted and rejected recovery-provenance combination.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-sip-correction\",\"proof_role\":\"The complete Gate 2 binary proves initialized/ready unbound SIP correction, including migration and authored-drift rejection plus empty actor/reason zero-mutation proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"225-serial-01\",\"defer_reason\":null},{\"lane\":\"recovered-spp-correction\",\"proof_role\":\"The complete Gate 5 binary proves reviewed, published, and merge-ready recovery; exact recover_review audit plus qualifying transition correspondence; rejection of stale, transition-only, and audit-only provenance; and empty actor/reason zero-mutation behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"parallel_group\":\"225-serial-02\",\"defer_reason\":null},{\"lane\":\"focused-clippy\",\"proof_role\":\"Reject type, exhaustiveness, and editor owner regressions.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--bin\",\"csdlc-edit\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"225-serial-03\",\"defer_reason\":null},{\"lane\":\"format\",\"proof_role\":\"Require canonical Rust formatting.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"225-serial-04\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and patch defects across the committed branch range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"225-serial-05\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "subagent:lorentz-019fefab",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "The independently reviewed design and complete typed planning packet are ready for binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }
