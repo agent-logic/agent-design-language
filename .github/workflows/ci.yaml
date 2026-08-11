@@ -1476,6 +1476,10 @@ jobs:
           SPOT_WORK_REQUIRED: ${{ needs.adl_path_policy.outputs.coverage_required == 'true' }}
         run: |
           set -euo pipefail
+          hosted_coverage_result="${{ needs.adl_coverage_hosted.outputs.route_result }}"
+          if [ -z "$hosted_coverage_result" ]; then
+            hosted_coverage_result="${{ needs.adl_coverage_hosted.result }}"
+          fi
           python3 adl/tools/verify_ci_backend_route.py \
             --surface adl-coverage \
             --backend "$BACKEND" \
@@ -1486,7 +1490,7 @@ jobs:
             --spot-work-required "$SPOT_WORK_REQUIRED" \
             --path-policy-result "${{ needs.adl_path_policy.result }}" \
             --spot-result "${{ needs.adl_spot_ci_and_coverage.result }}" \
-            --hosted-result "coverage=${{ needs.adl_coverage_hosted.outputs.route_result }}"
+            --hosted-result "coverage=$hosted_coverage_result"
           failed=""
           for lane in \
             "adl_path_policy:${{ needs.adl_path_policy.result }}" \

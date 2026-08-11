@@ -3,38 +3,13 @@
   "issue": 234,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
-  "phase": "reviewed",
-  "generation": 35,
-  "digest": "cb5a63686de5215c3964fc0d45e01a7ca1edf8c1c953c8833601373f4b6395d5",
+  "phase": "implemented",
+  "generation": 39,
+  "digest": "7e29e2f6bfaa41a65a753581df83546a482d5ade77c9670c39a9a73e7a124b42",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
-  "review_assignment": {
-    "reviewer": "subagent:019ff295-bb90-7dd2-b121-266e74fd384a",
-    "assigned_by": "codex:234-final-remediation",
-    "revision": "git-blake3:2aecc985c6d67c3d6f6d57a816181e91644e7ca0:c9568578e22e9fcfd620d7a0c827f171b52a2758bb44bce498ef66c4b6fce77d",
-    "scope": [
-      ".github/workflows/ci.yaml",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/validate_ci_workflow_policy.rb",
-      ".csdlc/issues/234"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019ff295-bb90-7dd2-b121-266e74fd384a",
-    "scope": [
-      ".github/workflows/ci.yaml",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/validate_ci_workflow_policy.rb",
-      ".csdlc/issues/234"
-    ],
-    "reviewed_revision": "git-blake3:2aecc985c6d67c3d6f6d57a816181e91644e7ca0:c9568578e22e9fcfd620d7a0c827f171b52a2758bb44bce498ef66c4b6fce77d",
-    "findings": [],
-    "residual_risks": [
-      "Manual workflow_dispatch remains operator-authorized and may intentionally select non-PR proof routes; ordinary pull requests cannot select Spot/AWS."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -49,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ee35a9a91acb9862c1cc4ac5ff0024da2fb30d6db94c19a1d5abf6bcd08236f3",
+      "values_digest": "55608754a1c36bea244241fe7258bbb253e55c876ddce283c6cc0f614f5ad9a5",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "9e446f9e48ef00b8e956069a9445da5dd113cdc1c659ddf0b7b0872192536773",
+      "values_digest": "7f6a76a572f06812b798c845117f5371db85d9d85ead4b22558a57bc220d5b0a",
       "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
       "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "377d58157df2f3eef5ebfd633ddb83ad589863d93b7d1f1cf7e6d3307680d288",
+      "values_digest": "4d3215a8b5518b82eb1883f1f7607d45ea7af434937df3414e2f2ccf1a748bc6",
       "rendered_digest": "4aefac7b866c381e05080459460429c537d4ef79b16a3d8d1207c2d93aa5c2f8",
       "ast_digest": "4275040bf85db61f054c1978dcb59027ff4817fc3e9cad80287eaea38385c582"
     },
     "vpp": {
-      "values_digest": "6b89e9061f7cb25fdd3ed467fa8aa3ff7560efce0887ec1c65d9e7772715c8fd",
+      "values_digest": "42505115c4091aeb64acdde61d3f00eff655f13304741de3b93ec263ec06f553",
       "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "ce514c69c66d1ca9afd7cb9b4d6cdb6098f173b642822deb297da350c810477f",
-      "rendered_digest": "3fb4cd1209b716d5158a9e23feb7b7f50cbc9439d9aaff32e56c73e4cfc464a0",
-      "ast_digest": "cf7cce7d2fcde8528ac8dca4e5b96629e3b7eb788d0f6a100558f6e7c71772a5"
+      "values_digest": "b47a147393d18cefefce871210d56b1a1c7bd728db60b677f521358cdfdf87d7",
+      "rendered_digest": "0deb0eae92632525b1c688b787f5625b1555d1a310c524b702c492206e09f02c",
+      "ast_digest": "961c5712207fdfe2b219a6d535f661b735d61801283883e1110378b894467056"
     },
     "sor": {
-      "values_digest": "118d81a560e02bd16e506af6e4b7d26140f24605c821cf4e9ee4ad9d7e944fb7",
-      "rendered_digest": "0f08d7176293d4938d59aeb496de728c5450ef9b7a728ab418219f497870bc17",
-      "ast_digest": "f3dcb5b22172f22417ad381d26a1ac0832b4f1e8f75d4ac5d2f694849c589073"
+      "values_digest": "c1fd06e39409b7d478e01344db04be04b486a0295c9d11913668458cdfd247f8",
+      "rendered_digest": "9117701e545ceb0cb57f58cf9f6a5985abf9052b18e87c74f25cab67514fc3bb",
+      "ast_digest": "730db665c1e9a626c1c71468173d39eff5e7f1767dbc1fa4c404587ba412b79c"
     }
   },
   "transitions": [
@@ -107,6 +82,20 @@
       "to": "reviewed",
       "actor": "subagent:019ff295-bb90-7dd2-b121-266e74fd384a",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:234-publication",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:234-ci-remediation",
+      "reason": "The first published-head run exposed a narrow false failure when an intentionally skipped hosted coverage producer emitted no route output; recover to implemented for correction and fresh exact-head review."
     }
   ],
   "audit": [
@@ -396,6 +385,34 @@
       "actor": "subagent:019ff295-bb90-7dd2-b121-266e74fd384a",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 36,
+      "actor": "codex:234-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 43,
+      "generation": 37,
+      "actor": "codex:234-ci-remediation",
+      "reason": "The first published-head run exposed a narrow false failure when an intentionally skipped hosted coverage producer emitted no route output; recover to implemented for correction and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 38,
+      "actor": "codex:234-ci-remediation",
+      "reason": "Record the narrow remediation for the first published-head CI false failure.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired the required coverage summary so an intentionally skipped optional coverage producer remains green without weakening required coverage failures.\",\"changes\":[\"The required adl-coverage summary now falls back to the hosted producer job result when a skipped producer emits no semantic output.\",\"The CI runtime contract now requires the skipped-result fallback and rejects regressions to an empty coverage result.\"],\"artifacts\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\"]}"
+    },
+    {
+      "sequence": 45,
+      "generation": 39,
+      "actor": "codex:234-ci-remediation",
+      "reason": "Record focused local proof of the skipped coverage fallback before fresh exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-lc\",\"ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh && python3 adl/tools/verify_ci_backend_route.py --surface adl-coverage --backend hosted --event-name pull_request --same-repo-pr true --spot-opt-in false --work-required false --spot-work-required false --path-policy-result success --spot-result skipped --hosted-result coverage=skipped\"],\"purpose\":\"Prove the required coverage status accepts an intentionally skipped optional coverage producer, still validates the selected backend route, and preserves the complete workflow cost-control contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-skipped-coverage-fallback:passed\"}}"
     }
   ]
 }

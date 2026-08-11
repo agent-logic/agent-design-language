@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved final review findings by forcing every pull request onto hosted routing before allocation and preventing hosted coverage aggregation from starting unless hosted coverage is the selected backend.
+Repaired the required coverage summary so an intentionally skipped optional coverage producer remains green without weakening required coverage failures.
 
 ## Artifacts
 
@@ -77,6 +77,8 @@ Resolved final review findings by forcing every pull request onto hosted routing
 - .github/workflows/ci.yaml
 - adl/tools/validate_ci_workflow_policy.rb
 - adl/tools/test_ci_runtime_contracts.sh
+- .github/workflows/ci.yaml
+- adl/tools/test_ci_runtime_contracts.sh
 
 ## Execution
 
@@ -106,6 +108,8 @@ Resolved final review findings by forcing every pull request onto hosted routing
 - The explicit AWS Spot workflow remains manual-only and cannot be selected by an ordinary pull request.
 - The hosted coverage aggregator now checks heavy_ci_backend=hosted in its job-level gate before acquiring the 16-core runner.
 - Workflow-policy and runtime-contract tests enforce both controls.
+- The required adl-coverage summary now falls back to the hosted producer job result when a skipped producer emits no semantic output.
+- The CI runtime contract now requires the skipped-result fallback and rejects regressions to an empty coverage result.
 
 ## Validation
 
@@ -260,12 +264,22 @@ Resolved final review findings by forcing every pull request onto hosted routing
     "purpose": "Prove pull requests cannot select Spot/AWS work, hosted aggregation skips before allocation when hosted is unselected, and the complete workflow and runtime cost-control contracts remain green.",
     "outcome": "passed",
     "evidence_ref": "local:issue-234-head-ab410bdb9:spot-routing-remediation:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh && python3 adl/tools/verify_ci_backend_route.py --surface adl-coverage --backend hosted --event-name pull_request --same-repo-pr true --spot-opt-in false --work-required false --spot-work-required false --path-policy-result success --spot-result skipped --hosted-result coverage=skipped"
+    ],
+    "purpose": "Prove the required coverage status accepts an intentionally skipped optional coverage producer, still validates the selected backend route, and preserves the complete workflow cost-control contract.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-skipped-coverage-fallback:passed"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -744,8 +744,16 @@ subprocess.run(["bash", str(producer_result_test)], cwd=repo_root, check=True)
 required_status_names = re.findall(r"^    name:\s+adl-coverage\s*$", workflow, re.MULTILINE)
 if len(required_status_names) != 1 or "name: adl-coverage" not in required_status_job:
     raise SystemExit("CI must expose exactly one stable required adl-coverage status")
-if '--hosted-result "coverage=${{ needs.adl_coverage_hosted.outputs.route_result }}"' not in required_status_job:
-    raise SystemExit("stable adl-coverage status must verify the aggregator's semantic hosted/Spot route result")
+for required_fragment in (
+    'hosted_coverage_result="${{ needs.adl_coverage_hosted.outputs.route_result }}"',
+    'hosted_coverage_result="${{ needs.adl_coverage_hosted.result }}"',
+    '--hosted-result "coverage=$hosted_coverage_result"',
+):
+    if required_fragment not in required_status_job:
+        raise SystemExit(
+            "stable adl-coverage status must preserve the skipped producer result when "
+            f"semantic output is absent; missing fragment: {required_fragment}"
+        )
 if not runner_test.exists():
     raise SystemExit(
         "authoritative coverage runner contract test must exist"
