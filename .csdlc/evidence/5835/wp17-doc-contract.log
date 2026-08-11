@@ -1,0 +1,9 @@
+{
+  "schema": "adl.v092.wp17_continuity_transfer_validation.v1",
+  "result": "passed",
+  "matrix_rows": 11,
+  "landed_schemas": 11,
+  "dependencies": [5826, 5827, 5834],
+  "trusted_authorities": [209],
+  "rollback_cases": 6
+}

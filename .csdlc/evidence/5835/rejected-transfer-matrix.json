@@ -1,0 +1,11 @@
+{
+  "schema": "adl.v092.wp17_rejected_transfer_matrix.v1",
+  "cases": [
+    {"id":"attacker-corpus","input":"caller-selected repository, revision, authority context, and redaction policy form a self-consistent corpus","disposition":"reject","reason":"trusted_source_or_policy_anchor_mismatch"},
+    {"id":"copied-state","input":"byte-identical checkpoint or mutable state appears in a second location","disposition":"reject","reason":"copy_has_no_authorized_predecessor_transition"},
+    {"id":"competing-heads","input":"two evidence-backed continuity heads have no authority-approved successor relation","disposition":"quarantine","reason":"ambiguous_lineage"},
+    {"id":"raw-private-memory","input":"proposal includes raw private memory or an unredacted payload","disposition":"reject","reason":"private_state_not_a_movement_unit"},
+    {"id":"superseded-acip","input":"proposal cites #5832 or PR 76 without replacement issue #209 and PR 215 authority","disposition":"reject","reason":"superseded_acip_authority"},
+    {"id":"missing-governance","input":"candidate reference requests standing, citizenship, rights, or imported learning effects without v0.93 authority","disposition":"defer","reason":"governance_authority_missing"}
+  ]
+}

@@ -281,7 +281,7 @@ candidate_filter_for_path() {
     adl-runtime/src/bin/adl-runtime-guardian.rs)
       printf 'runtime_v3_guardian'
       ;;
-    adl-runtime/src/distributed/transport.rs)
+    adl-runtime/src/distributed/transport.rs|adl-runtime/src/distributed/transport/*.rs)
       if grep -Fx "adl-runtime/src/distributed/authority_protocol.rs" \
         <<<"$changed_source_paths" >/dev/null; then
         printf 'runtime_v3_authority_protocol'

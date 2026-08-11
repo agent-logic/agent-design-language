@@ -15,5 +15,5 @@ serial_gates:
 review_path: .csdlc/evidence/5856/sprint-review.md
 activity_log_path: .csdlc/evidence/5856/activity.jsonl
 split_authority_bind_request_path: .csdlc/prepared/issues/5856/split-authority-bind-request.json
-child_goal_rule: After WP-01 releases its publication claim, each child session registers its worktree, reacquires the exact issue-local claim, binds, and creates an issue-bound goal before implementation.
+child_goal_rule: Each child session uses typed C-SDLC v2 binding for its exact issue branch and FastWork worktree, then creates an issue-bound goal before implementation.
 closeout_rule: No release-tail advancement occurs without the preceding child's truthful terminal state.

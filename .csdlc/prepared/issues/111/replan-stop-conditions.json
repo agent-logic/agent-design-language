@@ -1,0 +1,21 @@
+{
+  "issue": 111,
+  "card": "spp",
+  "expected_generation": 20,
+  "expected_digest": "02a66f9c9f8d31ea387b44c788a8eb372d4b2f1965b4c519660e1746987eafa3",
+  "actor": "codex:111-execution",
+  "reason": "Align stop conditions with live umbrella 110 decomposition and preserve downstream scope boundaries during bound execution.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Live #110 decomposition authority is revoked or the bounded #111 selected-agent conversation scope is reassigned",
+      "The implementation requires broader Layer 8 identity or policy hardening owned by downstream #112",
+      "The implementation requires durable history owned by #114 or multi-agent rooms and routing owned by #115 and #116",
+      "The implementation would expose provider payloads, private cognition, credentials, or browser-held signing keys",
+      "A proving validator target becomes unavailable or the exact changed paths diverge materially without another typed replan",
+      "Any path would require product edits on root main or mutation of #83, #110, #122, or #213"
+    ]
+  },
+  "fail_after_backup": false
+}

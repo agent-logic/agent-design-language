@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 113,
+  "expected_generation": 42,
+  "expected_digest": "3f20d14ebda331fa1db33f219c1a635efd01296b0fc60344dbd74d58bbca2d7b",
+  "actor": "codex:wp18c03-execution",
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/113-wp18c03-roster-presence-preparation",
+  "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
+  "body": "Closes #113\n\n## Summary\n- expose the authoritative Runtime v3 agent roster and presence model in the Observatory\n- preserve selection and bounded roster state across pagination, relocation, reconnect, and Runtime incarnation changes\n- route Runtime restart through signed Guardian control with asynchronous acceptance and observed incarnation replacement\n- keep roster pagination tokens authenticated with private continuity authority\n\n## Validation\n- agent roster tests: 10/10 PASS\n- control tests: 24/24 PASS\n- OpenAPI tests: 6/6 PASS\n- production-library Clippy with warnings denied: PASS\n- formatting and diff hygiene: PASS\n- static Observatory contract: PASS\n- managed Chrome exact-head proof: PASS\n- signed Guardian restart proof: PASS; new Runtime incarnation and restored Shepherd readiness observed\n\n## Review\n- independent exact-head review by subagent 019fef34-1897-7353-96e7-49320ae0043a: APPROVED with no findings\n- retained typed review digest: 3f20d14ebda331fa1db33f219c1a635efd01296b0fc60344dbd74d58bbca2d7b\n\n## Boundaries\n- distributed and non-local roster behavior remains tracked by #142\n- durable conversation history remains tracked by #114",
+  "draft": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}

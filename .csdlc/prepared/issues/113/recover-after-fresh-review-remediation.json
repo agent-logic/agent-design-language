@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 113,
+  "expected_generation": 47,
+  "expected_digest": "88140b7c228152033a3df7d0a5d0c76cf61d67017326d0ddb70ffd23d76f02ad",
+  "actor": "codex:wp18c03-execution",
+  "reason": "Recover review readiness after remediating all fresh-session findings, retaining exact-head trusted-TLS browser evidence, and validating the hardened roster projection."
+}

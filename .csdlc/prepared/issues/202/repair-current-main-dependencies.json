@@ -1,0 +1,20 @@
+{
+  "issue": 202,
+  "card": "stp",
+  "expected_generation": 5,
+  "expected_digest": "b2c54deff26946cd4a7f958f7cb6f5adb7f35baea955e4eec8e65cf664b521a4",
+  "actor": "codex:/root/advance_202_after_201:review-resolution",
+  "reason": "Record current merged #191/#201 ancestry and the mandatory unmerged #200 serial dependency without binding #202.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "Issue #191 / PR #197 is externally reviewed and merged as ancestor 8bd475cf18eb77cc7402220f69282f64a4a1a1e5",
+      "Issue #201 / PR #229 is externally reviewed and merged as ancestor 3ffc4c402c57e167fb9943221c9dac24f96f8895",
+      "Issue #200 must finish and merge before #202 binds or edits product source; #202 must then synchronize to the exact merged #200 ancestry and revalidate because both issues own authority_protocol.rs, polis_runtime.rs, and distributed/mod.rs",
+      "Current secure transport, certificate, MembershipState, AuthorityMembership, coarse #201 Membership operation, sealed exact-artifact accessor, and PolisRuntime APIs",
+      "Issue #202 live GitHub contract",
+      "Issue #199 remains blocked until this issue merges"
+    ]
+  }
+}

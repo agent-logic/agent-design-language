@@ -559,7 +559,8 @@ impl InProcessOperationExecutor {
             kind,
             state: Arc::new(LocalRuntimeState::new_in(
                 state_dir.into(),
-                Arc::new(RecorderTrustedTime::new(recorder)),
+                Arc::new(RecorderTrustedTime::new(recorder.clone())),
+                recorder,
             )?),
         })
     }
@@ -578,6 +579,7 @@ struct LocalRuntimeState {
     writer_pid: u32,
     writer_lock_path: PathBuf,
     trusted_time: Arc<dyn TrustedTime>,
+    recorder: RuntimeRecorder,
 }
 
 #[derive(Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -588,7 +590,11 @@ struct WriterLockOwner {
 }
 
 impl LocalRuntimeState {
-    fn new_in(state_dir: PathBuf, trusted_time: Arc<dyn TrustedTime>) -> std::io::Result<Self> {
+    fn new_in(
+        state_dir: PathBuf,
+        trusted_time: Arc<dyn TrustedTime>,
+        recorder: RuntimeRecorder,
+    ) -> std::io::Result<Self> {
         if state_dir.as_os_str().is_empty() || !state_dir.is_absolute() {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -616,6 +622,7 @@ impl LocalRuntimeState {
             writer_pid,
             writer_lock_path: lock_path,
             trusted_time,
+            recorder,
         })
     }
 
@@ -807,7 +814,8 @@ pub fn build_production_operation_executors_with_recorder(
 ) -> io::Result<BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>> {
     let state = Arc::new(LocalRuntimeState::new_in(
         state_dir.into(),
-        Arc::new(RecorderTrustedTime::new(recorder)),
+        Arc::new(RecorderTrustedTime::new(recorder.clone())),
+        recorder,
     )?);
     Ok(REQUIRED_OPERATIONAL_ADAPTERS
         .into_iter()
@@ -903,16 +911,18 @@ impl InProcessOperationExecutor {
                 .as_str()
                 .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_work_malformed"))?;
             let output = match op {
-                "blake3" => blake3::hash(
-                    task["input"]
-                        .as_str()
-                        .ok_or_else(|| {
-                            adapter_error(FailureClass::Fatal, "agent_blake3_malformed")
-                        })?
-                        .as_bytes(),
-                )
-                .to_hex()
-                .to_string(),
+                "blake3" => serde_json::Value::String(
+                    blake3::hash(
+                        task["input"]
+                            .as_str()
+                            .ok_or_else(|| {
+                                adapter_error(FailureClass::Fatal, "agent_blake3_malformed")
+                            })?
+                            .as_bytes(),
+                    )
+                    .to_hex()
+                    .to_string(),
+                ),
                 "sleep_millis" => {
                     let millis = task["millis"].as_u64().ok_or_else(|| {
                         adapter_error(FailureClass::Fatal, "agent_sleep_malformed")
@@ -922,8 +932,27 @@ impl InProcessOperationExecutor {
                     }
                     tokio::select! {
                         _ = cancellation.cancelled() => return Err(adapter_error(FailureClass::Fatal, "operation cancelled")),
-                        _ = tokio::time::sleep(std::time::Duration::from_millis(millis)) => "slept".to_owned(),
+                        _ = tokio::time::sleep(std::time::Duration::from_millis(millis)) => serde_json::Value::String("slept".to_owned()),
                     }
+                }
+                "conversation_message" => {
+                    let input = task["input"].as_str().ok_or_else(|| {
+                        adapter_error(FailureClass::Fatal, "agent_conversation_malformed")
+                    })?;
+                    let recipient_id = task["recipient_id"].as_str().ok_or_else(|| {
+                        adapter_error(FailureClass::Fatal, "agent_conversation_malformed")
+                    })?;
+                    if input.trim().is_empty()
+                        || input.len() > 4_096
+                        || recipient_id.is_empty()
+                        || recipient_id.len() > 128
+                    {
+                        return Err(adapter_error(
+                            FailureClass::Fatal,
+                            "agent_conversation_bound",
+                        ));
+                    }
+                    return_output(recipient_id)
                 }
                 _ => return Err(adapter_error(FailureClass::Fatal, "agent_work_unknown")),
             };
@@ -974,7 +1003,29 @@ impl InProcessOperationExecutor {
             .admitted
             .lock()
             .expect("local shepherd state poisoned")
-            .insert(request.idempotency_key.clone());
+            .insert("shepherd".to_owned());
+        let admitted_at = self.state.trusted_time.now_unix_millis();
+        let freshness_deadline = admitted_at
+            .checked_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS)
+            .unwrap_or(0);
+        if admitted
+            && !self.state.recorder.record_agent_admission(
+                "shepherd",
+                admitted_at,
+                freshness_deadline,
+                env!("ADL_RUNTIME_SOURCE_REVISION"),
+            )
+        {
+            self.state
+                .admitted
+                .lock()
+                .expect("local shepherd state poisoned")
+                .remove("shepherd");
+            return Err(adapter_error(
+                FailureClass::Retryable,
+                "shepherd admission evidence unavailable",
+            ));
+        }
         let mut value = self.result(request, if admitted { "admitted" } else { "duplicate" });
         value["admitted"] = admitted.into();
         Ok(value)
@@ -1127,6 +1178,13 @@ impl InProcessOperationExecutor {
             )
             .map_err(|error| local_io("lifelog_unavailable", error))
     }
+}
+
+fn return_output(recipient_id: &str) -> serde_json::Value {
+    serde_json::json!({
+        "recipient_id": recipient_id,
+        "message": format!("{recipient_id} received your message."),
+    })
 }
 
 fn adapter_error(class: FailureClass, message: impl Into<String>) -> ExecutorError {

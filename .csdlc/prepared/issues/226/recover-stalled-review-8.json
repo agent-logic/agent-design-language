@@ -1,0 +1,7 @@
+{
+  "issue": 226,
+  "expected_generation": 21,
+  "expected_digest": "584661f5d661d3ad8ed8e28c921fdd0af6e7d590fec9ab2b80f3c3b458dac5f4",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Replace the stalled codex-exec reviewer after repeated bounded waits; preserve the exact focused implementation and refreshed evidence for an independent FastWork review."
+}

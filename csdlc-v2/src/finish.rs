@@ -823,7 +823,7 @@ fn validate_remote_merge(
     if packet.repository != pr_repository
         || Some(packet.pull_request) != request.pull_request
         || packet.draft
-        || packet.merge_state != "clean"
+        || !matches!(packet.merge_state.as_str(), "clean" | "unstable")
         || packet.base_ref.as_deref() != request.base.as_deref()
         || Some(packet.head_sha.as_str()) != request.expected_head_sha.as_deref()
         || packet.classification != "ready"
@@ -1845,5 +1845,36 @@ mod tests {
                 .unwrap()
                 .is_none()
         );
+    }
+
+    #[test]
+    fn finish_accepts_unstable_when_declared_required_checks_are_green() {
+        let mut packet = packet();
+        packet.state = "open".into();
+        packet.merged = false;
+        packet.merge_commit_sha = None;
+        packet.merge_state = "unstable".into();
+        packet.classification = "ready".into();
+        validate_remote_merge(&packet, &request(), "owner/repo").expect("ready target");
+    }
+
+    #[test]
+    fn finish_rejects_conflicts_and_exact_target_drift() {
+        let mut conflicted = packet();
+        conflicted.merge_state = "dirty".into();
+        conflicted.classification = "conflicted".into();
+        assert!(validate_remote_merge(&conflicted, &request(), "owner/repo").is_err());
+
+        let mut draft = packet();
+        draft.draft = true;
+        draft.merge_state = "unstable".into();
+        draft.classification = "waiting".into();
+        assert!(validate_remote_merge(&draft, &request(), "owner/repo").is_err());
+
+        let mut drifted = packet();
+        drifted.head_sha = "different".into();
+        drifted.merge_state = "unstable".into();
+        drifted.classification = "ready".into();
+        assert!(validate_remote_merge(&drifted, &request(), "owner/repo").is_err());
     }
 }

@@ -1,0 +1,13 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 35,
+  "expected_digest": "ffd8a81acbcad3bdc912e91681f3f73c7a8fdf0d82505e7b060424e08ad523b9",
+  "actor": "codex:111-review-remediation",
+  "reason": "Focused product, contract, browser, cancellation, ordering, timeout, typed-card, lint, and diff validation is complete at the independently approved implementation revision.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "fail_after_backup": false
+}

@@ -125,6 +125,14 @@ operative_closeout = "the four operative children (#5835, #5836, #5838, and #583
 raise "STP does not name the exact operative closeout boundary" unless stp_values.fetch("acceptance_criteria").any? { |criterion| criterion.include?(operative_closeout) && criterion.include?("WP-24A #5845 cannot gate") }
 srp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/srp.values.json").read).dig("content", "values")
 raise "SRP does not review the exact operative closeout boundary" unless srp_values.fetch("review_prompts").any? { |prompt| prompt.include?(operative_closeout) && prompt.include?("WP-24A #5845 excluded") }
+expected_card_children = UNBOUND.sort
+{
+  "SIP required outcome" => JSON.parse((ROOT / ".csdlc/issues/5854/cards/sip.values.json").read).dig("content", "values", "required_outcome"),
+  "SPP summary" => JSON.parse((ROOT / ".csdlc/issues/5854/cards/spp.values.json").read).dig("content", "values", "summary")
+}.each do |surface, text|
+  observed_children = text.scan(/#(\d+)/).flatten.map(&:to_i).uniq.sort
+  raise "#{surface} child denominator mismatch: #{observed_children.inspect}" unless observed_children == expected_card_children
+end
 
 session_prompt = (ROOT / ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md").read
 session_text = session_prompt.split.join(" ")
@@ -246,14 +254,18 @@ raise "typed PR collector identity missing" unless collector.fetch("pull_request
 %w[issue_binary_sha256 pull_request_binary_sha256].each do |field|
   raise "invalid collector binary digest #{field}" unless collector.fetch(field).match?(/\A[0-9a-f]{64}\z/)
 end
-collector_bin_dir = Pathname.new(ENV.fetch("CSDLC_V2_BIN_DIR", ROOT.join(".adl/bin/csdlc-v2").to_s))
-{
-  "issue_binary_sha256" => "csdlc-github-issue",
-  "pull_request_binary_sha256" => "csdlc-github-pr"
-}.each do |field, binary_name|
-  binary_path = collector_bin_dir / binary_name
-  raise "installed collector binary missing: #{binary_name}" unless binary_path.file?
-  raise "collector binary digest mismatch: #{binary_name}" unless Digest::SHA256.file(binary_path).hexdigest == collector.fetch(field)
+collector_bin_dir_value = ENV.fetch("CSDLC_V2_BIN_DIR", "").strip
+unless collector_bin_dir_value.empty?
+  collector_bin_dir = Pathname.new(collector_bin_dir_value)
+  collector_bin_dir = ROOT / collector_bin_dir unless collector_bin_dir.absolute?
+  {
+    "issue_binary_sha256" => "csdlc-github-issue",
+    "pull_request_binary_sha256" => "csdlc-github-pr"
+  }.each do |field, binary_name|
+    binary_path = collector_bin_dir / binary_name
+    raise "installed collector binary missing: #{binary_name}" unless binary_path.file?
+    raise "collector binary digest mismatch: #{binary_name}" unless Digest::SHA256.file(binary_path).hexdigest == collector.fetch(field)
+  end
 end
 raise "collector contract mismatch" unless collector.fetch("contract") == provenance.fetch("collector_contract")
 raise "collector identity missing" if provenance.fetch("collector_identity").strip.empty?

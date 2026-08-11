@@ -1,0 +1,12 @@
+{
+  "issue": 5854,
+  "card": "spp",
+  "expected_generation": 56,
+  "expected_digest": "ca02142fa50ceae5466cefe66c3665f6b0608134bb61ed91e1543292ae2c97b6",
+  "actor": "codex:5854-pr224-review-remediation",
+  "reason": "Reconcile the operative Sprint 5 SPP with the approved four-child wave after moving WP-20 to final sprint #5856.",
+  "operation": {
+    "operation": "correct_plan_summary_after_recovery",
+    "value": "Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, and #5839 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated Sprint 5 review after the four operative children complete."
+  }
+}

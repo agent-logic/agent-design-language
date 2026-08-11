@@ -1,0 +1,7 @@
+{
+  "issue": 226,
+  "expected_generation": 23,
+  "expected_digest": "473ed8c65aaad05b144811a618ef1c0ee1ad063ef1741ea9f9d32e6d4542bb3e",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Recover review truth after correcting the deletion-test cleanup order so an originally present validator is restored before its temporary backup directory is removed."
+}

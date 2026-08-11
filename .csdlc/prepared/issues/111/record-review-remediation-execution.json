@@ -1,0 +1,29 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 34,
+  "expected_digest": "14cc227d32822b79897a1a08ece84ebcb42688dc0d0d346719264d9412480e05",
+  "actor": "codex:111-review-remediation",
+  "reason": "Record the bounded implementation and focused proof before entering exact-revision review.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented the bounded selected-agent Observatory conversation path with Runtime-owned conversation identity, recipient binding, deterministic turn sequencing, authenticated WSS intent and cancellation, canonical ingress dispatch, propagated executor cancellation, one absolute timeout budget, bounded reconnect retrieval, and Runtime-authoritative browser rendering.",
+    "changes": [
+      "Added Runtime-owned bounded conversation and turn state with explicit sequence-gated dispatch and exact duplicate handling.",
+      "Propagated cancellation through canonical ingress and the queued operational factory into the existing adapter executor cancellation boundary.",
+      "Added correlated accepted, delivered, refused, failed, timed_out, and cancelled WSS outcomes plus OpenAPI contracts.",
+      "Updated the Observatory to render only fully correlated Runtime-authoritative turns and to recover exact pending intents once after reconnect.",
+      "Added focused ordering, timeout, cancellation, reconnect, capacity, forgery, OpenAPI, and browser regressions."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json"
+    ]
+  },
+  "fail_after_backup": false
+}

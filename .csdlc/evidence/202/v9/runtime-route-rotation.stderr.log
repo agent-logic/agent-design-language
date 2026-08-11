@@ -1,0 +1,3 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/distributed_runtime_transport.rs (adl-runtime/target/debug/deps/distributed_runtime_transport-c0a5fa12fc893a09)
+ADL_ISSUE_191_CASE exact_retry_after_boot_and_cert_rotation=passed

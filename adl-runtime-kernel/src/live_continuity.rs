@@ -359,12 +359,15 @@ impl CheckpointingControl {
 
 pub struct CheckpointShutdownRequest {
     pub grace: Duration,
-    response: tokio::sync::oneshot::Sender<Result<KernelExit, ()>>,
+    pub restart: bool,
+    response: Option<tokio::sync::oneshot::Sender<Result<KernelExit, ()>>>,
 }
 
 impl CheckpointShutdownRequest {
     pub fn respond(self, result: Result<KernelExit, ()>) {
-        let _ = self.response.send(result);
+        if let Some(response) = self.response {
+            let _ = response.send(result);
+        }
     }
 }
 
@@ -373,10 +376,26 @@ impl LifecycleControl for CheckpointingControl {
     async fn shutdown(&self, grace: Duration) -> Result<KernelExit, ()> {
         let (response, result) = tokio::sync::oneshot::channel();
         self.requests
-            .send(CheckpointShutdownRequest { grace, response })
+            .send(CheckpointShutdownRequest {
+                grace,
+                restart: false,
+                response: Some(response),
+            })
             .await
             .map_err(|_| ())?;
         result.await.map_err(|_| ())?
+    }
+
+    async fn restart(&self, grace: Duration) -> Result<(), ()> {
+        self.requests
+            .send(CheckpointShutdownRequest {
+                grace,
+                restart: true,
+                response: None,
+            })
+            .await
+            .map_err(|_| ())?;
+        Ok(())
     }
 }
 

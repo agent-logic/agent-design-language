@@ -1690,6 +1690,7 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if matches!(
         request.operation,
         SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
+            | SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
     ) {
         let latest_review_operation = record.audit.iter().rev().find(|event| {
             matches!(
@@ -1701,7 +1702,7 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
             return Err(V2Error::new(
                 ErrorCode::InvalidInput,
-                "post-recovery SPP summary correction requires actor and reason",
+                "post-recovery text correction requires actor and reason",
             ));
         }
         let current_recovery = latest_review_operation.is_some_and(|event| {
@@ -1728,7 +1729,7 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         {
             return Err(V2Error::new(
                 ErrorCode::InvalidTransition,
-                "post-recovery SPP summary correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+                "post-recovery text correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
             ));
         }
     }
@@ -1770,6 +1771,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         match &cards[&CardKind::Spp].content {
             CardContent::Spp(value) => Some(value.summary.clone()),
             _ => unreachable!("SPP"),
+        }
+    } else {
+        None
+    };
+    let required_outcome_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Sip].content {
+            CardContent::Sip(value) => Some(value.required_outcome.clone()),
+            _ => unreachable!("SIP"),
         }
     } else {
         None
@@ -1821,6 +1833,15 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             "new_value": value,
         })
         .to_string(),
+        (SemanticOperation::CorrectRequiredOutcomeAfterRecovery { value }, _) => {
+            serde_json::json!({
+                "operation": "correct_required_outcome_after_recovery",
+                "previous_value": required_outcome_before
+                    .expect("SIP required-outcome correction snapshot"),
+                "new_value": value,
+            })
+            .to_string()
+        }
         (SemanticOperation::CorrectOperatorConstraintsBeforeBind { values }, _) => {
             serde_json::json!({
                 "operation": "correct_operator_constraints_before_bind",
@@ -2593,6 +2614,10 @@ fn authorize_card_operation(
             LifecyclePhase::Implemented,
             CardKind::Spp,
             SemanticOperation::CorrectPlanSummaryAfterRecovery { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Sip,
+            SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. },
         ) | (
             LifecyclePhase::Initialized | LifecyclePhase::Ready,
             CardKind::Sip,
