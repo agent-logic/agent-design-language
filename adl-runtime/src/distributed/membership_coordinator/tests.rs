@@ -59,7 +59,7 @@ fn authority_identity() -> AuthorityNodeIdentity {
     }
 }
 
-fn promotion() -> VerifiedPromoteVoter {
+fn promotion_named(operation_id: &str) -> VerifiedPromoteVoter {
     let artifact = PromoteVoterArtifact::committed(
         identity(),
         [1; 32],
@@ -73,7 +73,7 @@ fn promotion() -> VerifiedPromoteVoter {
     .unwrap();
     let published = test_published_reconciliation_token(
         authority_identity(),
-        "promote-4",
+        operation_id,
         artifact,
         50,
         CanonicalAuthorityTime {
@@ -84,6 +84,10 @@ fn promotion() -> VerifiedPromoteVoter {
     );
     VerifiedPromoteVoter::from_published(&published, &identity(), [1; 32], [3; 32], [4; 32], NOW)
         .unwrap()
+}
+
+fn promotion() -> VerifiedPromoteVoter {
+    promotion_named("promote-4")
 }
 
 #[test]
@@ -161,24 +165,38 @@ fn durable_saga_requires_exact_current_receipt_and_order() {
         coordinator.record_learner_caught_up(promotion.operation_sha256()),
         Err(MembershipCoordinatorError::StateRegression)
     );
+    drop(coordinator);
+    let mut coordinator = MembershipCoordinator::open(root.path(), checkpoint.clone()).unwrap();
     coordinator
         .observe_external_authority(&promotion, &receipt)
         .unwrap();
+    drop(coordinator);
+    let mut coordinator = MembershipCoordinator::open(root.path(), checkpoint.clone()).unwrap();
     coordinator
         .record_learner_caught_up(promotion.operation_sha256())
         .unwrap();
+    drop(coordinator);
+    let mut coordinator = MembershipCoordinator::open(root.path(), checkpoint.clone()).unwrap();
     coordinator
         .record_joint_membership(promotion.operation_sha256(), [9; 32])
         .unwrap();
+    drop(coordinator);
+    let mut coordinator = MembershipCoordinator::open(root.path(), checkpoint.clone()).unwrap();
     coordinator
         .record_final_membership(promotion.operation_sha256(), [10; 32])
         .unwrap();
+    drop(coordinator);
+    let mut coordinator = MembershipCoordinator::open(root.path(), checkpoint.clone()).unwrap();
     coordinator
         .reconcile_authority_parity(promotion.operation_sha256(), &receipt, [11; 32], [12; 32])
         .unwrap();
+    drop(coordinator);
+    let mut coordinator = MembershipCoordinator::open(root.path(), checkpoint.clone()).unwrap();
     coordinator
         .checkpoint(promotion.operation_sha256())
         .unwrap();
+    drop(coordinator);
+    let mut coordinator = MembershipCoordinator::open(root.path(), checkpoint.clone()).unwrap();
     let result = coordinator.publish(promotion.operation_sha256()).unwrap();
     assert_ne!(result, [0; 32]);
     assert_eq!(coordinator.published_generation(), 1);
@@ -191,4 +209,25 @@ fn durable_saga_requires_exact_current_receipt_and_order() {
     );
     assert_eq!(restored.published_generation(), 1);
     println!("ADL_ISSUE_199_ASSERTION_V1 case=crash_every_phase assertion=durable_saga_restart_exact_retry_no_duplicate_publication");
+}
+
+#[test]
+fn conflicting_transition_and_receipt_fail_closed() {
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let checkpoint = Arc::new(MemoryCheckpoint::default());
+    let promotion = promotion();
+    let conflicting = promotion_named("promote-other");
+    let mut coordinator = MembershipCoordinator::open(root.path(), checkpoint).unwrap();
+    coordinator.begin_promotion(&promotion).unwrap();
+    assert_eq!(
+        coordinator.begin_promotion(&conflicting),
+        Err(MembershipCoordinatorError::StateRegression)
+    );
+    let wrong_operation =
+        GovernedMembershipAuthorityReceipt::for_membership_coordinator_test([0x77; 32], 7, [8; 32]);
+    assert_eq!(
+        coordinator.observe_external_authority(&promotion, &wrong_operation),
+        Err(MembershipCoordinatorError::ReceiptMismatch)
+    );
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=conflicting_retry assertion=conflicting_operation_and_receipt_denied_before_effect");
 }
