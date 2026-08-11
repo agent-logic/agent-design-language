@@ -575,7 +575,7 @@ async fn actual_production_capability_init(root: &Path) {
     restarted
         .activate_target_204(
             "production-activate",
-            verified,
+            verified.clone(),
             decision,
             deadline,
             &cancellation,
@@ -583,6 +583,112 @@ async fn actual_production_capability_init(root: &Path) {
         .await
         .unwrap();
     assert!(continuity.state_dir.join("active-target.json").is_file());
+    shutdown.cancel();
+    listener_task.await.unwrap();
+
+    // A completed operation must validate its exact command and accepted
+    // prefix before returning the cached response.  The listener is already
+    // stopped, so successful exact retry and fail-closed conflicts here prove
+    // that neither path contacts the kernel.
+    restarted
+        .source_checkpoint_210(
+            "production-source-checkpoint",
+            1,
+            None,
+            17,
+            "aa".repeat(32),
+            "bb".repeat(32),
+            5_000,
+            deadline,
+            &cancellation,
+        )
+        .await
+        .unwrap();
+    assert!(matches!(
+        restarted
+            .source_checkpoint_210(
+                "production-source-checkpoint",
+                1,
+                None,
+                18,
+                "aa".repeat(32),
+                "bb".repeat(32),
+                5_000,
+                deadline,
+                &cancellation,
+            )
+            .await,
+        Err(ContinuityControlError::ConflictingRetry)
+    ));
+    let first_entry = catalog.entries.first().unwrap();
+    assert!(matches!(
+        restarted
+            .transfer_210()
+            .read_signed_range(
+                &format!("production-read-{}", first_entry.ordinal),
+                checkpoint.clone(),
+                first_entry.ordinal,
+                0,
+                0,
+                deadline,
+                &cancellation,
+            )
+            .await,
+        Err(ContinuityControlError::ConflictingRetry)
+    ));
+    assert!(matches!(
+        restarted
+            .transfer_210()
+            .create_target_stage(
+                "production-stage",
+                "stage-conflict".into(),
+                continuity.channel_epoch,
+                catalog.clone(),
+                deadline,
+                &cancellation,
+            )
+            .await,
+        Err(ContinuityControlError::ConflictingRetry)
+    ));
+    assert!(matches!(
+        restarted
+            .transfer_210()
+            .write_target_chunk(
+                &format!("production-write-{}", first_entry.ordinal),
+                stage.clone(),
+                first_entry.ordinal,
+                0,
+                0,
+                None,
+                b"completed-cache-conflict",
+                deadline,
+                &cancellation,
+            )
+            .await,
+        Err(ContinuityControlError::ConflictingRetry)
+    ));
+    assert!(matches!(
+        restarted
+            .transfer_210()
+            .verify_target(
+                "production-verify",
+                stage.clone(),
+                1,
+                None,
+                18,
+                "aa".repeat(32),
+                "bb".repeat(32),
+                catalog
+                    .entries
+                    .iter()
+                    .map(|entry| (entry.service.clone(), entry.schema.clone()))
+                    .collect(),
+                deadline,
+                &cancellation,
+            )
+            .await,
+        Err(ContinuityControlError::ConflictingRetry)
+    ));
     drop(restarted);
     let terminal_journal = std::fs::read(&journal_path).unwrap();
     let mut revived_terminal_custody: serde_json::Value =
@@ -602,8 +708,6 @@ async fn actual_production_capability_init(root: &Path) {
         .await
         .is_err());
     std::fs::write(&journal_path, terminal_journal).unwrap();
-    shutdown.cancel();
-    listener_task.await.unwrap();
 }
 
 fn private_key(bytes: &[u8]) -> PrivateKeyDer<'static> {
@@ -1204,6 +1308,11 @@ fn run_case(name: &str) {
                 journal.begin(&cfg, &retry, &exporter, 0).unwrap(),
                 BeginOperation::Reconcile { .. }
             ));
+            // Release and reacquire the only case-owned OS resource before
+            // receipt emission. This proves the succession retry does not
+            // retain the exclusive journal descriptor into process teardown.
+            drop(journal);
+            drop(DurableContinuityJournal::open(&cfg).unwrap());
             proved_markers.extend(
                 [
                     "proved:case:certificate_succession_retry",

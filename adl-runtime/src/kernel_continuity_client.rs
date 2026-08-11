@@ -599,25 +599,23 @@ impl KernelContinuityClient {
         if current_unix_millis()? > deadline_unix_millis {
             return Err(ContinuityControlError::Deadline);
         }
-        if let Some(response) = self
-            .journal
-            .lock()
-            .map_err(|_| ContinuityControlError::CorruptJournal)?
-            .cached(operation_id)
-        {
-            return Ok(response.result);
-        }
-        let operation = self
-            .journal
-            .lock()
-            .map_err(|_| ContinuityControlError::CorruptJournal)?
-            .reserve(
+        let operation = {
+            let mut journal = self
+                .journal
+                .lock()
+                .map_err(|_| ContinuityControlError::CorruptJournal)?;
+            let operation = journal.reserve(
                 &self.config,
                 operation_id,
                 &command,
                 accepted_prefix,
                 deadline_unix_millis,
             )?;
+            if let Some(response) = journal.cached(operation_id) {
+                return Ok(response.result);
+            }
+            operation
+        };
         let (certificate_generation, leaf_spki_sha256, tls) = self.active_leaf(operation.sequence);
         let address = self.config.socket_addr()?;
         let tcp = tokio::net::TcpStream::connect(address).await?;

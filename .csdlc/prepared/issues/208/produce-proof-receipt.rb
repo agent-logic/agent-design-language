@@ -54,6 +54,19 @@ def run_command(name, argv, env = {})
   }
 end
 
+def run_concurrent_nextest_wave(commands, suffix = "")
+  runtime_name = "runtime-nextest#{suffix}"
+  kernel_name = "kernel-nextest#{suffix}"
+  runtime = Thread.new do
+    run_command(runtime_name, %w[cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test kernel_continuity_client --no-tests=fail])
+  end
+  kernel = Thread.new do
+    run_command(kernel_name, %w[cargo nextest run --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control --no-tests=fail])
+  end
+  commands[runtime_name.tr("-", "_")] = runtime.value
+  commands[kernel_name.tr("-", "_")] = kernel.value
+end
+
 map_path = ROOT.join(MAP_RELATIVE)
 fail_proof("map digest drift") unless Digest::SHA256.file(map_path).hexdigest == MAP_SHA256
 map = JSON.parse(File.binread(map_path))
@@ -85,8 +98,8 @@ end
 FileUtils.mkdir_p(OUTPUT, mode: 0o700)
 
 commands = {}
-commands["runtime_nextest"] = run_command("runtime-nextest", %w[cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test kernel_continuity_client --no-tests=fail])
-commands["kernel_nextest"] = run_command("kernel-nextest", %w[cargo nextest run --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control --no-tests=fail])
+run_concurrent_nextest_wave(commands)
+run_concurrent_nextest_wave(commands, "-repeat")
 commands["runtime_clippy"] = run_command("runtime-clippy", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib --bin adl-runtime-guardian --test kernel_continuity_client -- -D warnings])
 commands["kernel_clippy"] = run_command("kernel-clippy", %w[cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib --bin adl-runtime-kernel --test kernel_continuity_control -- -D warnings])
 commands["diff_hygiene"] = run_command("diff-hygiene", %w[ruby .csdlc/prepared/issues/208/verify-diff-hygiene.rb], {"ISSUE_208_EXECUTION_BASE" => BASE, "ISSUE_208_PROVING_SOURCE" => source})
@@ -94,8 +107,14 @@ commands["runtime_markers"] = run_command("runtime-markers", %w[cargo test --loc
 commands["kernel_markers"] = run_command("kernel-markers", %w[cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control -- --nocapture --test-threads=1])
 failed = commands.select { |_name, command| command["exit_code"] != 0 }.keys
 fail_proof("commands failed: #{failed.join(', ')}") unless failed.empty?
-nextest_text = %w[runtime_nextest kernel_nextest].flat_map { |name| %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])) } }.join
-fail_proof("nextest denominator mismatch") unless nextest_text.include?("21 tests run: 21 passed") && nextest_text.include?("35 tests run: 35 passed")
+nextest_names = %w[runtime_nextest kernel_nextest runtime_nextest_repeat kernel_nextest_repeat]
+nextest_text = nextest_names.flat_map { |name| %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])) } }.join
+fail_proof("nextest denominator mismatch") unless %w[runtime_nextest runtime_nextest_repeat].all? { |name|
+  %w[stdout stderr].any? { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])).include?("21 tests run: 21 passed") }
+} && %w[kernel_nextest kernel_nextest_repeat].all? { |name|
+  %w[stdout stderr].any? { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])).include?("35 tests run: 35 passed") }
+}
+fail_proof("concurrent nextest process leak") if nextest_text.include?("LEAK")
 marker_text = %w[runtime_markers kernel_markers].flat_map { |name| %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])) } }.join
 fail_proof("behavior evidence leaked a forbidden LEAK sentinel") if marker_text.include?("LEAK")
 receipts = marker_text.lines.map do |line|

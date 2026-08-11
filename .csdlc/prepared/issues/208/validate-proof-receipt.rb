@@ -64,7 +64,7 @@ proof.fetch("protected_files").each do |entry|
     fail_receipt("source object drift: #{entry['path']}") unless Digest::SHA256.hexdigest(committed) == entry.fetch("sha256")
   end
 end
-expected_commands = %w[diff_hygiene kernel_clippy kernel_markers kernel_nextest runtime_clippy runtime_markers runtime_nextest]
+expected_commands = %w[diff_hygiene kernel_clippy kernel_markers kernel_nextest kernel_nextest_repeat runtime_clippy runtime_markers runtime_nextest runtime_nextest_repeat]
 commands = proof.fetch("commands")
 fail_receipt("command denominator mismatch") unless commands.keys.sort == expected_commands
 commands.each do |name, command|
@@ -77,6 +77,15 @@ commands.each do |name, command|
 end
 markers_text = %w[runtime_markers kernel_markers].flat_map { |name| %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])) } }.join
 fail_receipt("forbidden LEAK sentinel in retained behavior evidence") if markers_text.include?("LEAK")
+nextest_text = %w[runtime_nextest kernel_nextest runtime_nextest_repeat kernel_nextest_repeat].flat_map { |name|
+  %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])) }
+}.join
+fail_receipt("forbidden LEAK sentinel in repeated concurrent nextest evidence") if nextest_text.include?("LEAK")
+fail_receipt("repeated concurrent nextest denominator mismatch") unless %w[runtime_nextest runtime_nextest_repeat].all? { |name|
+  %w[stdout stderr].any? { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])).include?("21 tests run: 21 passed") }
+} && %w[kernel_nextest kernel_nextest_repeat].all? { |name|
+  %w[stdout stderr].any? { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])).include?("35 tests run: 35 passed") }
+}
 receipts = proof.fetch("behavior_receipts")
 fail_receipt("behavior receipt denominator mismatch") unless receipts.length == 56 && receipts.map { |receipt| receipt["case"] }.uniq.length == 56
 retained_receipts = markers_text.lines.map do |line|
