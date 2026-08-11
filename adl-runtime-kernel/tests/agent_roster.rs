@@ -1,9 +1,19 @@
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 
 use adl_runtime_kernel::{
     AgentPresence, AgentRoster, AgentRosterError, AgentRosterPolicy, AgentRosterQuery,
-    AgentRuntimeEvidence,
+    AgentRuntimeEvidence, ComponentId, ControlAuthority, ControlService, KernelExit,
+    LifecycleControl, RunningState, RuntimeRecorder,
 };
+
+struct NoopLifecycle;
+
+#[async_trait::async_trait]
+impl LifecycleControl for NoopLifecycle {
+    async fn shutdown(&self, _grace: std::time::Duration) -> Result<KernelExit, ()> {
+        Ok(KernelExit::Clean)
+    }
+}
 
 fn evidence(id: &str, label: &str, presence: AgentPresence) -> AgentRuntimeEvidence {
     AgentRuntimeEvidence {
@@ -258,4 +268,38 @@ fn large_local_roster_remains_page_bounded_and_deterministic() {
     assert_eq!(page.agents.last().unwrap().id, "agent-00099");
     assert!(page.has_more);
     assert!(serde_json::to_vec(&page).unwrap().len() < 80_000);
+}
+
+#[test]
+fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
+    let recorder = RuntimeRecorder::new(16);
+    let service = ControlService::new_with_observatory_config_and_agents(
+        "runtime-instance",
+        recorder.clone(),
+        NoopLifecycle,
+        ControlAuthority::new(BTreeMap::new()),
+        8,
+        std::iter::empty(),
+        adl_runtime_kernel::AgentPopulationFeed::resident_shepherd(),
+    );
+
+    let absent = service.observatory_feed();
+    assert_eq!(absent.agents.total_count, 0);
+    assert!(absent.agents.sample.is_empty());
+    assert!(!absent.agents.population_complete);
+
+    recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Running);
+    let running = service.observatory_feed();
+    assert_eq!(running.agents.total_count, 1);
+    assert_eq!(running.agents.sample[0].id, "shepherd");
+    assert_eq!(running.agents.sample[0].state, "ready");
+    assert_eq!(running.agents.sample[0].health, "healthy");
+    assert!(running.agents.sample[0].communication_eligible);
+    let stable_id = running.agents.sample[0].id.clone();
+
+    recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Restarting);
+    let restarting = service.observatory_feed();
+    assert_eq!(restarting.agents.sample[0].id, stable_id);
+    assert_eq!(restarting.agents.sample[0].state, "migrating");
+    assert!(!restarting.agents.sample[0].communication_eligible);
 }

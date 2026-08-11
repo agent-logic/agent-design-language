@@ -1111,8 +1111,9 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     assert!(response.contains("\"accepted_through\":99"));
     assert!(response.contains("\"cloudwatch_route\":\"vector.runtime_v3_cloudwatch_emf\""));
     assert!(response.contains("\"runtime_v2_decommission_authorized\":false"));
-    assert!(response.contains("\"total_count\":1"));
-    assert!(response.contains("\"id\":\"agent-0001\""));
+    assert!(response.contains("\"total_count\":0"));
+    assert!(response.contains("\"population_complete\":false"));
+    assert!(!response.contains("\"id\":\"agent-0001\""));
     assert!(response.contains("\"stale\":false"));
 
     service.set_weather_report_at(weather, 0);
@@ -1160,6 +1161,16 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                     role: "runtime agent".to_owned(),
                     state: "running".to_owned(),
                     detail: "sample 1 of 10000".to_owned(),
+                    health: "healthy".to_owned(),
+                    availability: "available".to_owned(),
+                    activity: None,
+                    capabilities: Vec::new(),
+                    location: None,
+                    communication_eligible: true,
+                    observed_at_unix_millis: 1,
+                    freshness_deadline_unix_millis: u64::MAX,
+                    source_revision: "test".to_owned(),
+                    provenance: "test_fixture".to_owned(),
                 },
                 adl_runtime_kernel::AgentSample {
                     id: "agent-00002".to_owned(),
@@ -1167,8 +1178,19 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                     role: "runtime agent".to_owned(),
                     state: "running".to_owned(),
                     detail: "sample 2 of 10000".to_owned(),
+                    health: "healthy".to_owned(),
+                    availability: "available".to_owned(),
+                    activity: None,
+                    capabilities: Vec::new(),
+                    location: None,
+                    communication_eligible: true,
+                    observed_at_unix_millis: 1,
+                    freshness_deadline_unix_millis: u64::MAX,
+                    source_revision: "test".to_owned(),
+                    provenance: "test_fixture".to_owned(),
                 },
             ],
+            ..adl_runtime_kernel::AgentPopulationFeed::empty()
         },
     ));
     let feed = service.observatory_feed();

@@ -28,10 +28,10 @@ use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::{
-    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, DomainResult,
-    DomainWork, IngressError, KernelControl, KernelExit, LifecycleState, LiveContinuity,
-    ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
-    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
+    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, ComponentId,
+    DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LifecycleState,
+    LiveContinuity, ObservabilityHealth, RunningState, RuntimeRecorder, RuntimeSnapshot,
+    RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA, AGENT_ROSTER_PAGE_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -352,7 +352,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             authority,
             max_records,
             std::iter::empty(),
-            AgentPopulationFeed::single(),
+            AgentPopulationFeed::empty(),
         )
     }
 
@@ -371,7 +371,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             authority,
             max_records,
             observatory_allowed_origins,
-            AgentPopulationFeed::single(),
+            AgentPopulationFeed::empty(),
         )
     }
 
@@ -699,6 +699,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 stale: age_millis > stale_after_millis,
             }
         });
+        let agents = self
+            .agent_population
+            .clone()
+            .with_runtime_snapshot(&snapshot, now);
         ObservatoryFeed {
             schema: OBSERVATORY_FEED_SCHEMA.to_owned(),
             runtime_instance_id: self.instance_id.clone(),
@@ -740,7 +744,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .as_ref()
                 .map(CanonicalIngress::snapshot)
                 .unwrap_or_default(),
-            agents: self.agent_population.clone(),
+            agents,
             proof: ObservatoryProofFeed {
                 default_runtime_switch_authorized: false,
                 runtime_v2_decommission_authorized: false,
@@ -977,24 +981,118 @@ pub struct ObservatoryContinuityFeed {
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct AgentPopulationFeed {
+    pub schema: String,
+    pub revision: u64,
+    pub scope: String,
     pub total_count: u64,
     pub rendered_sample_count: u64,
+    pub has_more: bool,
+    pub population_complete: bool,
     pub sample: Vec<AgentSample>,
 }
 
 impl AgentPopulationFeed {
-    pub fn single() -> Self {
+    pub fn empty() -> Self {
         Self {
-            total_count: 1,
-            rendered_sample_count: 1,
-            sample: vec![AgentSample {
-                id: "agent-0001".to_owned(),
-                label: "Runtime agent 1".to_owned(),
-                role: "runtime agent".to_owned(),
-                state: "running".to_owned(),
-                detail: "sample 1 of 1".to_owned(),
-            }],
+            schema: AGENT_ROSTER_PAGE_SCHEMA.to_owned(),
+            revision: 0,
+            scope: "local_runtime".to_owned(),
+            total_count: 0,
+            rendered_sample_count: 0,
+            has_more: false,
+            population_complete: false,
+            sample: Vec::new(),
         }
+    }
+
+    pub fn resident_shepherd() -> Self {
+        Self {
+            sample: vec![AgentSample {
+                id: "shepherd".to_owned(),
+                label: "Shepherd".to_owned(),
+                role: "resident shepherd".to_owned(),
+                state: "unknown".to_owned(),
+                detail: "Awaiting production Runtime admission".to_owned(),
+                health: "unknown".to_owned(),
+                availability: "unknown".to_owned(),
+                activity: None,
+                capabilities: vec!["conversation".to_owned()],
+                location: Some("local_runtime".to_owned()),
+                communication_eligible: false,
+                observed_at_unix_millis: 0,
+                freshness_deadline_unix_millis: 0,
+                source_revision: "unobserved".to_owned(),
+                provenance: "runtime_component_state".to_owned(),
+            }],
+            ..Self::empty()
+        }
+    }
+
+    fn with_runtime_snapshot(mut self, snapshot: &RuntimeSnapshot, now_unix_millis: u64) -> Self {
+        self.revision = snapshot.revision;
+        let has_runtime_projection = self
+            .sample
+            .iter()
+            .any(|agent| agent.provenance == "runtime_component_state");
+        self.sample.retain_mut(|agent| {
+            if agent.provenance != "runtime_component_state" {
+                return true;
+            }
+            let Some(state) = snapshot.components.get(&ComponentId::new(&agent.id)) else {
+                return false;
+            };
+            let (presence, health, availability, eligible, detail) = match state {
+                RunningState::Running => (
+                    "ready",
+                    "healthy",
+                    "available",
+                    true,
+                    "Production Runtime component is running",
+                ),
+                RunningState::Starting | RunningState::Ready => (
+                    "unknown",
+                    "starting",
+                    "unavailable",
+                    false,
+                    "Production Runtime component is starting",
+                ),
+                RunningState::Restarting => (
+                    "migrating",
+                    "recovering",
+                    "unavailable",
+                    false,
+                    "Production Runtime component is restarting",
+                ),
+                RunningState::Degraded => (
+                    "degraded",
+                    "degraded",
+                    "unavailable",
+                    false,
+                    "Production Runtime component is degraded",
+                ),
+                RunningState::Stopping | RunningState::Stopped | RunningState::Failed => (
+                    "unreachable",
+                    "unhealthy",
+                    "unavailable",
+                    false,
+                    "Production Runtime component is not running",
+                ),
+            };
+            agent.state = presence.to_owned();
+            agent.health = health.to_owned();
+            agent.availability = availability.to_owned();
+            agent.communication_eligible = eligible;
+            agent.detail = detail.to_owned();
+            agent.observed_at_unix_millis = now_unix_millis;
+            agent.freshness_deadline_unix_millis = now_unix_millis.saturating_add(5_000);
+            agent.source_revision = snapshot.revision.to_string();
+            true
+        });
+        if has_runtime_projection {
+            self.total_count = self.sample.len() as u64;
+            self.rendered_sample_count = self.sample.len() as u64;
+        }
+        self
     }
 }
 
@@ -1005,6 +1103,16 @@ pub struct AgentSample {
     pub role: String,
     pub state: String,
     pub detail: String,
+    pub health: String,
+    pub availability: String,
+    pub activity: Option<String>,
+    pub capabilities: Vec<String>,
+    pub location: Option<String>,
+    pub communication_eligible: bool,
+    pub observed_at_unix_millis: u64,
+    pub freshness_deadline_unix_millis: u64,
+    pub source_revision: String,
+    pub provenance: String,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

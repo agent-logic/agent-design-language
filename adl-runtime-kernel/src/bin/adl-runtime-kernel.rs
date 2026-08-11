@@ -325,7 +325,7 @@ async fn main() -> ExitCode {
                     authority,
                     init.kernel.control_history_capacity,
                     init.observatory_allowed_origins(),
-                    AgentPopulationFeed::single(),
+                    AgentPopulationFeed::resident_shepherd(),
                 )
                 .with_canonical_ingress(assembly.canonical_ingress.clone()),
             );
