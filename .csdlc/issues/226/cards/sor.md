@@ -50,11 +50,11 @@ Map the issue 111 and 113 Observatory and diagram paths to existing focused lane
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
