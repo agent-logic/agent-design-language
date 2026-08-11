@@ -224,7 +224,7 @@ Tokens: 50000
 
 ## Failure Semantics
 
-Fail closed on unresolved serial gates, ownership overlap, stale revisions, implicit or widened recipients, authorization ambiguity, unattributed responses, nondeterministic partial delivery, replay conflict, event gaps, restart uncertainty, unbounded resources, forbidden data, failed exact proof, or unresolved exact-head findings.
+Fail closed on unresolved serial gates, ownership overlap, stale revisions, implicit or widened recipients, authorization ambiguity, unattributed responses, nondeterministic partial delivery, replay conflict, event gaps, restart uncertainty, unbounded resources, forbidden data, failed exact proof, or unresolved exact-head findings. Run only the declared focused issue proofs locally. Permit at most one required big-runner job for issue #115 after publication; do not launch optional, soak, slow, duplicate, hosted coverage, or unrelated workflows.
 
 ## Handoff
 

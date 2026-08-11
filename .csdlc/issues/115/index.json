@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "beca033b74ae0be21a8bba20b68fdbbd3f45f89ca85ba1ac70835f508e570481",
   "phase": "ready",
-  "generation": 6,
-  "digest": "8bc97a4b20d94159485e392ad87c00ce2c460676468a72faa8b6a1d12dbc1815",
+  "generation": 7,
+  "digest": "99e2720e784d29f2a29a135dbfd4abe31e34f94f31151591ca04d1bef749a893",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9a789492339b7a27889a330cbee3923f2dea338d4ea6d3581eae62f7c7f8bcf0",
+      "values_digest": "249f1c7bf196f162c73fe671d3a791a8bc94576c707d22420f73eaf2f6335498",
       "rendered_digest": "04125a44a3dadb884b01bd1fddfd25d949ff28c26d37601a1a2c2f6eeb03f743",
       "ast_digest": "0425ebc1872d448b6fca471860899827f08c9cbb7f335be25ae759b80bc535f1"
     },
     "stp": {
-      "values_digest": "51b7519a67d1f0839e3ee688ecb9fe69da898f4883c3f09416ba48160ee01293",
+      "values_digest": "7ed8a3ba08a95cd7c3029c3328021ece9b2953cb9e88d48d06990b583d9a60c7",
       "rendered_digest": "aa388845351aaf5d7649babbd33a657875bafb6b54bcfb7f4adc7ce3adf572a7",
       "ast_digest": "5ed7752ce7608581ec606b4137824ace53e5ffe545801aab4d3b542d0b0d3f1f"
     },
     "spp": {
-      "values_digest": "aa84239d9f65edfd0fa7941b983c8d003c5ef283c3a5469351c8ac5d2c6c199a",
+      "values_digest": "233e2e84cfc89d71f447be90bbc7b2f4def9a70ba4a3236b10c8b1d59e684170",
       "rendered_digest": "28f475614c6ba3ca004ed4c8f8b1d5bb3990b3b2b5c4e75fc6e5146c573f00fc",
       "ast_digest": "94d03bbe02c08eaff6711d56fc25058da58cb1a85ef62eddbf91557b475bb2ed"
     },
     "vpp": {
-      "values_digest": "8f116fd5d584a3df6fcd80925ad40d9e7351f83b7945cd195f44795219eca44c",
-      "rendered_digest": "4e2b986e55adabb88ffc56c687f6bb7df48473b8d346e1da8654af2f6b78b870",
-      "ast_digest": "bffde499a3d07a1aebf0a4a682661496deae92f77f4156cc217e2b04fff7bf91"
+      "values_digest": "d71dfe2ab2eb8b4286d4b524eaa340a26598e155254937d3fa6039a7121a3f01",
+      "rendered_digest": "5d896ca124a2db2a69a442622fad9875c241bd35373075b0b929351d09ccb9bd",
+      "ast_digest": "8e01df199a4aa7b6a4a52a0b41b57c1675e4b71991d70259b8e7b3648a271575"
     },
     "srp": {
-      "values_digest": "b9ba2d57e74e010da69e27b8e4045d638e0ac5937d86060c464fe39e51699b0b",
+      "values_digest": "0b1a084b820a745af3bdb1e6cd0b73ad20b88840629cbe98dac8e4f58c3ff752",
       "rendered_digest": "210e5a9c0c6be0b9840a6cad6b5fc5aafe87b563fb539d5ef9c1574d6c29d75f",
       "ast_digest": "1c58131305d972330c0bab8cbfb17b727ec3340b52113128516ccd656cb60ccc"
     },
     "sor": {
-      "values_digest": "98630e6d348b1352dec906a085076051805001ca11100cd91031d708a96af5b5",
+      "values_digest": "0a7c72ff7a563b83e73375cfabc949c1b652f4aa1fac05f7eb9132d702c27d3a",
       "rendered_digest": "7587244bc1c460b49c7285ad2a916b774b1f214af59a2ccaf1f1d1572f4338cf",
       "ast_digest": "6cb1283bf14a1253d1e69e2a0efe032b44178efd7adcda83ca26d5d7b0bb4698"
     }
@@ -112,6 +112,13 @@
       "actor": "codex:115-bind-readiness-repair",
       "reason": "Make the dedicated AC-10 exact-head review receipt lane executable from checked-in v2 sources while retaining typed csdlc-review and SRP as sole review authority.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"conversation-rooms-runtime-contract\",\"proof_role\":\"Run the exact issue-owned conversation_rooms Rust integration target with a nonzero-test requirement to prove bounded room membership revisions, exact frozen recipient sets, whole-set authorization before dispatch, deterministic fan-out and aggregate outcomes, attributed responses, replay and reorder rejection, revocation, timeout, cancellation, reconnect, and restart behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_rooms\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":\"Deferred and fail closed during preparation: the checked-in target selects one failing sentinel test until #111, #112, and #113 are terminal, merged, ancestral, and handed off; issue #115 execution must replace the sentinel with nonzero proving tests.\"},{\"lane\":\"acip-routing-input-contract\",\"proof_role\":\"Re-run the exact existing protocol_adapters target to prove bounded authenticated ACIP-compatible routing, replay rejection, timeout, cancellation, retry, response bounds, and shutdown inputs remain compatible with the #115 fan-out adapter.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"protocol_adapters\",\"--no-tests=fail\"],\"parallel_group\":\"runtime-input\",\"defer_reason\":null},{\"lane\":\"observatory-room-openapi\",\"proof_role\":\"Use the existing exact OpenAPI contract target for checked-in room, participant, recipient, delivery, response, replay, and refusal schema parity after #115 integration.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"rooms-browser-validator\",\"proof_role\":\"Run the dedicated issue-owned rooms browser validator against live Runtime truth and require nonzero room assertions for authenticated room transport, exact room and participant lists, frozen recipients, transcript and attributed responses, composer behavior, delivery and partial-delivery states, refusal and failure states, disconnect, reconnect, and accessible UI projection.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_rooms.mjs\"],\"parallel_group\":\"browser-contract\",\"defer_reason\":\"Deferred and fail closed during preparation: the checked-in validator selects one failing sentinel test until #111, #112, and #113 are terminal, merged, ancestral, and handed off; issue #115 execution must replace the sentinel with nonzero live room assertions.\"},{\"lane\":\"rooms-focused-clippy\",\"proof_role\":\"Reject warning-bearing Rust across the bounded Runtime kernel library and production binary after room integration.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"static\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review without claiming review acceptance.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"static\",\"defer_reason\":null},{\"lane\":\"exact-head-review-receipt\",\"proof_role\":\"Record the independent security and correctness review for the exact candidate revision through typed csdlc-review; only a current passing SRP receipt with no unresolved actionable findings satisfies AC-10.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"run\",\"--quiet\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-review\",\"--\",\"--root\",\".\",\"record\",\"--request\",\".git/csdlc-v2/requests/115.json\"],\"parallel_group\":\"pre-publication-review\",\"defer_reason\":\"Runs only after implementation and all product validation lanes pass at one candidate revision; the typed review record and SRP remain the sole acceptance authority.\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:115-gated-execution-owner",
+      "reason": "Record the operator's execution budget before binding: preserve required focused local proof while allowing at most one required big-runner job and prohibiting optional, soak, slow, duplicate, or unrelated workflows.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"failure_policy\",\"value\":\"Fail closed on unresolved serial gates, ownership overlap, stale revisions, implicit or widened recipients, authorization ambiguity, unattributed responses, nondeterministic partial delivery, replay conflict, event gaps, restart uncertainty, unbounded resources, forbidden data, failed exact proof, or unresolved exact-head findings. Run only the declared focused issue proofs locally. Permit at most one required big-runner job for issue #115 after publication; do not launch optional, soak, slow, duplicate, hosted coverage, or unrelated workflows.\"}"
     }
   ]
 }

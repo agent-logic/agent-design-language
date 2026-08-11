@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
     "slug": "wp18c05-governed-multi-agent-rooms-routing",
     "version": "v0.92",
-    "generation": 6
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -195,7 +195,7 @@
       ],
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
-      "failure_policy": "Fail closed on unresolved serial gates, ownership overlap, stale revisions, implicit or widened recipients, authorization ambiguity, unattributed responses, nondeterministic partial delivery, replay conflict, event gaps, restart uncertainty, unbounded resources, forbidden data, failed exact proof, or unresolved exact-head findings.",
+      "failure_policy": "Fail closed on unresolved serial gates, ownership overlap, stale revisions, implicit or widened recipients, authorization ambiguity, unattributed responses, nondeterministic partial delivery, replay conflict, event gaps, restart uncertainty, unbounded resources, forbidden data, failed exact proof, or unresolved exact-head findings. Run only the declared focused issue proofs locally. Permit at most one required big-runner job for issue #115 after publication; do not launch optional, soak, slow, duplicate, hosted coverage, or unrelated workflows.",
       "design_ref": ".csdlc/prepared/issues/115/design.md",
       "design_digest": "a702863a1f8c2e7525820552fd74a68f7a7729942a890ba772ae914379b012a8",
       "diagram_ref": ".csdlc/prepared/issues/115/diagram.mmd",
