@@ -3,11 +3,11 @@
   "issue": 225,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c2539d70d91f701387359b5176d8f0797988aec3b5745e78e295d6bcf53e1c4",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 8,
-  "digest": "989e8eb6503caa2c01778b90fbba62e370d6d89a38f9fb54781d7ff8aeee8fc2",
-  "branch": null,
-  "worktree": null,
+  "digest": "98d552589e8f30469f57c5e885de4c912e59cb440fdb0924133eae5cd92d24e1",
+  "branch": "codex/225-bounded-card-review-repair",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-225-bounded-card-review-repair",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "codex:225-bounded-card-review-repair",
       "reason": "The independently reviewed design and complete typed planning packet are ready for binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -126,6 +133,13 @@
       "actor": "codex:225-bounded-card-review-repair",
       "reason": "The independently reviewed design and complete typed planning packet are ready for binding.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
