@@ -3,9 +3,9 @@
   "issue": 83,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
-  "phase": "implemented",
-  "generation": 73,
-  "digest": "91de7369811d580bacfc5d9aa1cdd28ade54a23013cf3fb39274f303818529cb",
+  "phase": "reviewed",
+  "generation": 74,
+  "digest": "c9160eaf5fe8f03509c749959d368e1bc62f22dd63e3c0090785bc38b56e7499",
   "branch": "codex/83-html-observatory-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-83-html-observatory-readiness",
   "review_assignment": {
@@ -34,7 +34,37 @@
       "docs/api/runtime-v3/v1/observatory.openapi.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "Arendt:019fedd2-cff2-70a2-89f0-64cd4217177c",
+    "scope": [
+      ".csdlc/issues/83/audit.jsonl",
+      ".csdlc/issues/83/cards/sip.values.json",
+      ".csdlc/issues/83/cards/sor.md",
+      ".csdlc/issues/83/cards/sor.values.json",
+      ".csdlc/issues/83/cards/spp.values.json",
+      ".csdlc/issues/83/cards/srp.md",
+      ".csdlc/issues/83/cards/srp.values.json",
+      ".csdlc/issues/83/cards/stp.values.json",
+      ".csdlc/issues/83/cards/vpp.values.json",
+      ".csdlc/issues/83/index.json",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/tests/durable_state.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "demos/html-observatory/app.js",
+      "adl/tools/validate_v092_html_observatory_live.mjs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json"
+    ],
+    "reviewed_revision": "git-blake3:e1e27ef32d2eb992e69a27dbf5ce3137b4be04a2:a41c95264222d3121449424326e0cb137932793b13400a2a97603c63f0df9066",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration confirmation after the refreshed branch is pushed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -49,32 +79,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d7478f45b0e550b56e2a84869027cf22da349ebb1054444716428ff6ccb94c8a",
+      "values_digest": "22cd429308a92c718c95d2e449496ebd016cadfb0357c87886725beda544a75a",
       "rendered_digest": "f9c586eb466927cafcd847b9bc0b6559e9b3909b47de4ab815bdcd1c2f5cf376",
       "ast_digest": "29bb89cab62c6b8a3486eb78c3f597eb829a97a573cd843e688997ace03f127d"
     },
     "stp": {
-      "values_digest": "ef289d37b2f4ff526e2685a8eadbabfec6cab3b4dcf130a954c7f17ef7dc3fc4",
+      "values_digest": "70b20f5d0a371cd80e366c1a858234db71c67a87218d3e6e9c22c6b903b9e594",
       "rendered_digest": "951b0f87e95b3eb451b87e830be166854b6dfb542d50625565d1909d6e61b553",
       "ast_digest": "3facab5e9cf31c18bb13c2832d865598f1272205a26a27c5467db88cfeb07d40"
     },
     "spp": {
-      "values_digest": "32a886f3cc03f2fd3e1176fffbbd24da27d54ddff6f6235c29afa0cd17d8a0e6",
+      "values_digest": "b67af922fcab1572ce6453f80c4494e5022fee60ab25bb37d8af961149631755",
       "rendered_digest": "b11212f1960a96c98315d3d40af79ecd2389e79185d705b3382f6a8afb273bcc",
       "ast_digest": "7df752a3f8c1088a1d6cd9342deafbe5c0e5ebab5a6768e16ed0d26a3aba1a94"
     },
     "vpp": {
-      "values_digest": "47532f45b703f4ab025c563ac494e23efb95024f317502d15a0180a50b29ff15",
+      "values_digest": "e254f73f07a9cc3f24d06231caee589d1bd0d6c4e6a23a72dd58226b560ca9d0",
       "rendered_digest": "268c6f20f949add3437aebce971bc5b22dd9d8eae1e63caec533dc625d2036e5",
       "ast_digest": "91556df1f10a0a193528c9949758d2853288a12956dd60a51378955fe2f3bea6"
     },
     "srp": {
-      "values_digest": "ab993dc7cfc06bb27835b6bd8043095e2e0c515ba04068c3891e4a51534466cf",
-      "rendered_digest": "844a7f712ecc33fb7191fe82edf32463d41bce0f48957e83fd3ad0b530124371",
-      "ast_digest": "3d5f15d32f0e8087ecb14d808c5f86e479dd1f50ef068c009fd4014fcc8476a0"
+      "values_digest": "cb9ef32166eb319c2f7449c593045edb9dc4c705fcba8f4ce1d423c04554028d",
+      "rendered_digest": "2cb9ada839784ade7f34f90e7c033e256814ee4d39813db928f529e0996f4cc1",
+      "ast_digest": "bdaabcf4b269abf4351f0b7a6a70c5acda4a894486d1b4ab79384fe71ff09801"
     },
     "sor": {
-      "values_digest": "b17d9683ccf1be33584ea93746a69d53db88c96a05652165fe6ce8523f8e6f6e",
+      "values_digest": "57776c52bed661b46e3d6e2f4af33733928ca6da3d7b6f60d3268b023232dee7",
       "rendered_digest": "64ebdef884c324385dcf17cecd789ee6898a20e3db02cf208b254b3487cd9cf8",
       "ast_digest": "d9bb0aaf1af465da0ce8889e9e1434ced1ed56b876f9df298037809106037ec8"
     }
@@ -121,6 +151,13 @@
       "to": "implemented",
       "actor": "codex:83-merge-reconciliation",
       "reason": "Current main was merged after publication; recover stale pre-merge review truth so the conflict resolution and exact merged head can be independently reviewed and recorded."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "Arendt:019fedd2-cff2-70a2-89f0-64cd4217177c",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -662,6 +699,13 @@
       "actor": "codex:83-merge-reconciliation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 78,
+      "generation": 74,
+      "actor": "Arendt:019fedd2-cff2-70a2-89f0-64cd4217177c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

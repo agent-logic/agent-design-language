@@ -49,12 +49,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the final integration confirmation after the refreshed branch is pushed.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e1e27ef32d2eb992e69a27dbf5ce3137b4be04a2:a41c95264222d3121449424326e0cb137932793b13400a2a97603c63f0df9066")
 
-Reviewer: None
+Reviewer: Some("Arendt:019fedd2-cff2-70a2-89f0-64cd4217177c")
 
-Result: pre_review
+Result: pass
