@@ -284,16 +284,22 @@ def validate_retained(root, denominator_path)
   validation_payload = validation_packet.fetch("payload")
   fail!("validation manifest schema mismatch") unless validation_packet["schema"] == "adl.native_validation_manifest.v2"
   fail!("validation manifest payload mismatch") unless validation_packet["payload_sha256"] == Digest::SHA256.hexdigest(canonical_json(validation_payload))
+  fail!("validation manifest issue mismatch") unless validation_payload["issue"] == ISSUE
   fail!("validation manifest source mismatch") unless validation_payload["source_sha"] == source_sha && validation_payload["status"] == "passed" && validation_payload["workflow"] == WORKFLOW
+  fail!("validation manifest run mismatch") unless validation_payload["run_id"] == payloads.first.dig("runner", "run_id")
+  fail!("validation manifest attempt mismatch") unless validation_payload["run_attempt"] == payloads.first.dig("runner", "run_attempt")
   expected_receipts = receipt_paths.sort.map { |relative| { "path" => relative, "sha256" => sha(root.join(relative)) } }
   fail!("validation manifest receipts mismatch") unless validation_payload["receipts"] == expected_receipts
   fail!("validation manifest proof mismatch") unless validation_payload["proof_manifest"] == payloads.first.fetch("proof_manifest")
   validation_log = root.join("#{EVIDENCE_ROOT}/native-receipts-validation.log").read
   fail!("validation log machine-local") if unsafe_log?(validation_log, root)
+  validation_log_payload = JSON.parse(validation_log)
+  fail!("validation log mismatch") unless validation_log_payload == { "status" => "passed", "source_sha" => source_sha, "platforms" => %w[linux macos] }
   retained = JSON.parse(root.join(RETAINED_MANIFEST).read)
   entries = retained.fetch("entries")
+  _, proof_contract, allowlist = contract(root)
+  fail!("retained manifest identity mismatch") unless retained["schema"] == allowlist.fetch("retained_surface_manifest_schema") && retained["issue"] == ISSUE && retained["producer_head"] == source_sha
   fail!("retained manifest count mismatch") unless retained["expected_entry_count"] == 19 && entries.length == 19 && entries.map { |entry| entry["path"] }.uniq.length == 19
-  _, proof_contract, = contract(root)
   expected_retained_paths = [DENOMINATOR] + TEN_PATHS + proof_contract.fetch("paths")
   fail!("retained manifest exact path set mismatch") unless entries.map { |entry| entry.fetch("path") } == expected_retained_paths
   entries.each do |entry|
@@ -302,7 +308,6 @@ def validate_retained(root, denominator_path)
     fail!("retained path missing: #{entry.fetch('path')}") unless path.file?
     fail!("retained path digest mismatch: #{entry.fetch('path')}") unless sha(path) == entry.fetch("sha256")
   end
-  _, _, allowlist = contract(root)
   h = retained.fetch("producer_head")
   evidence_paths = files.map { |entry| entry.fetch("path") }
   receipt_path = root.join(REVIEW_RECEIPT)
@@ -438,6 +443,20 @@ def build_retained_fixture(repo, root)
   [h, h2]
 end
 
+def rewrite_fixture_outer_bindings(root)
+  denominator = JSON.parse(root.join(DENOMINATOR).read)
+  denominator.fetch("files").each { |entry| entry["sha256"] = sha(root.join(entry.fetch("path"))) }
+  root.join(DENOMINATOR).write(JSON.pretty_generate(denominator) + "\n")
+  retained = JSON.parse(root.join(RETAINED_MANIFEST).read)
+  retained.fetch("entries").each { |entry| entry["sha256"] = sha(root.join(entry.fetch("path"))) }
+  root.join(RETAINED_MANIFEST).write(JSON.pretty_generate(retained) + "\n")
+  review = JSON.parse(root.join(REVIEW_RECEIPT).read)
+  review["payload"]["retained_surface_manifest_sha256"] = sha(root.join(RETAINED_MANIFEST))
+  review["payload"]["evidence_denominator_sha256"] = sha(root.join(DENOMINATOR))
+  review["payload_sha256"] = Digest::SHA256.hexdigest(canonical_json(review.fetch("payload")))
+  root.join(REVIEW_RECEIPT).write(JSON.pretty_generate(review) + "\n")
+end
+
 def self_test(repo)
   source, proof, allowlist = contract(repo)
   workflow_paths = repo.join(WORKFLOW).read.split("permissions:", 2).first
@@ -524,6 +543,44 @@ def self_test(repo)
     git(root, "clone", "-q", "--depth", "1", "file://#{root}", shallow.to_s)
     validate_retained(shallow, DENOMINATOR)
     receipt_paths = ["#{PLATFORM_ROOT}/macos.json", "#{PLATFORM_ROOT}/linux.json"]
+
+    aggregate_paths = [
+      DENOMINATOR, RETAINED_MANIFEST, REVIEW_RECEIPT,
+      "#{EVIDENCE_ROOT}/native-validation-manifest.json",
+      "#{EVIDENCE_ROOT}/native-receipts-validation.log"
+    ]
+    aggregate_bytes = aggregate_paths.to_h { |relative| [relative, shallow.join(relative).read] }
+    aggregate_tampers = [
+      ["issue", 999, "validation manifest issue mismatch"],
+      ["run_id", "101", "validation manifest run mismatch"],
+      ["run_attempt", "2", "validation manifest attempt mismatch"]
+    ]
+    aggregate_tampers.each do |field, value, failure|
+      aggregate_bytes.each { |relative, bytes| shallow.join(relative).write(bytes) }
+      path = shallow.join("#{EVIDENCE_ROOT}/native-validation-manifest.json")
+      packet = JSON.parse(path.read)
+      packet["payload"][field] = value
+      packet["payload_sha256"] = Digest::SHA256.hexdigest(canonical_json(packet.fetch("payload")))
+      path.write(JSON.pretty_generate(packet) + "\n")
+      rewrite_fixture_outer_bindings(shallow)
+      expect_failure(failure) { validate_retained(shallow, DENOMINATOR) }
+    end
+    aggregate_bytes.each { |relative, bytes| shallow.join(relative).write(bytes) }
+    log_path = shallow.join("#{EVIDENCE_ROOT}/native-receipts-validation.log")
+    log_path.write(JSON.generate(status: "failed", source_sha: "0" * 40, platforms: %w[linux macos]) + "\n")
+    rewrite_fixture_outer_bindings(shallow)
+    expect_failure("validation log mismatch") { validate_retained(shallow, DENOMINATOR) }
+    aggregate_bytes.each { |relative, bytes| shallow.join(relative).write(bytes) }
+    { "schema" => "wrong.schema", "issue" => 999, "producer_head" => "0" * 40 }.each do |field, value|
+      aggregate_bytes.each { |relative, bytes| shallow.join(relative).write(bytes) }
+      retained_path = shallow.join(RETAINED_MANIFEST)
+      retained = JSON.parse(retained_path.read)
+      retained[field] = value
+      retained_path.write(JSON.pretty_generate(retained) + "\n")
+      rewrite_fixture_outer_bindings(shallow)
+      expect_failure("retained manifest identity mismatch") { validate_retained(shallow, DENOMINATOR) }
+    end
+    aggregate_bytes.each { |relative, bytes| shallow.join(relative).write(bytes) }
 
     source_path = JSON.parse(shallow.join(SOURCE_DENOMINATOR).read).fetch("paths").first
     source_bytes = shallow.join(source_path).read
