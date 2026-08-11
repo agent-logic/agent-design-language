@@ -12,16 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/201
-.csdlc/prepared/issues/201
-.csdlc/evidence/201/v7
-adl-runtime/src/distributed/authority_protocol.rs
-adl-runtime/src/distributed/authority_protocol_contract_tests.rs
-adl-runtime/src/distributed/identity.rs
-adl-runtime/src/distributed/mod.rs
-adl-runtime/src/distributed/polis_runtime.rs
-adl-runtime/src/distributed/transport.rs
-adl-runtime/tests/distributed_authority_protocol.rs
+
 
 ## Prompts
 
@@ -42,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Hosted CI and live GitHub merge state remain pending until publication of the exact reviewed implementation.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:53a7ce592cd85fb132ed40314dfe47d312eb7659:4b82414e2e97ce632a55814068f2f4c36bf9f18ecd5e95253a8c0851fff33c9d")
+Revision: None
 
-Reviewer: Some("codex:/root/review_201_stable_custody_final")
+Reviewer: None
 
-Result: pass
+Result: pre_review

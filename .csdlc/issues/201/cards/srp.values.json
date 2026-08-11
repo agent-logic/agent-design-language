@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
     "slug": "quorum-committed-authority-protocol",
     "version": "v0.92",
-    "generation": 79
+    "generation": 83
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/201\n.csdlc/prepared/issues/201\n.csdlc/evidence/201/v7\nadl-runtime/src/distributed/authority_protocol.rs\nadl-runtime/src/distributed/authority_protocol_contract_tests.rs\nadl-runtime/src/distributed/identity.rs\nadl-runtime/src/distributed/mod.rs\nadl-runtime/src/distributed/polis_runtime.rs\nadl-runtime/src/distributed/transport.rs\nadl-runtime/tests/distributed_authority_protocol.rs",
-      "review_revision": "git-blake3:53a7ce592cd85fb132ed40314dfe47d312eb7659:4b82414e2e97ce632a55814068f2f4c36bf9f18ecd5e95253a8c0851fff33c9d",
-      "reviewer": "codex:/root/review_201_stable_custody_final",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does snapshot-replicated current authority contain only stable polis, epoch, membership, configuration, and voter truth, with no restart-scoped current boot map?",
         "Does runtime-external trusted boot custody require exact canonical full-vector equality on every new Prepare, rejecting stale, duplicate, reordered, zero, non-JCS, missing, or extra voter cuts before any state mutation?",
@@ -25,10 +25,8 @@
         "Does lifecycle truth supersede the stale a629080 v7 result and remain pre-review and unpublished until independent design approval, final evidence, and fresh exact-head implementation review?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Hosted CI and live GitHub merge state remain pending until publication of the exact reviewed implementation."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

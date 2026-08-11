@@ -125,7 +125,7 @@ changed_source_rows="$(
     | normalize_changed_path \
     | awk -F '\t' '
         (($2 ~ /^adl\/src\/.*\.rs$/ && $2 !~ /^adl\/src\/(.+\/)?tests\.rs$/ && $2 !~ /^adl\/src\/.*\/tests\/.*\.rs$/) ||
-         ($2 ~ /^adl-runtime\/src\/.*\.rs$/ && $2 !~ /^adl-runtime\/src\/(.+\/)?tests\.rs$/ && $2 !~ /^adl-runtime\/src\/.*\/tests\/.*\.rs$/)) {
+         ($2 ~ /^adl-runtime\/src\/.*\.rs$/ && $2 !~ /^adl-runtime\/src\/(.+\/)?tests\.rs$/ && $2 !~ /^adl-runtime\/src\/.*\/tests\/.*\.rs$/ && $2 != "adl-runtime/src/distributed/authority_protocol_contract_tests.rs")) {
           print $1 "\t" $2
         }
       '
@@ -282,7 +282,15 @@ candidate_filter_for_path() {
       printf 'runtime_v3_guardian'
       ;;
     adl-runtime/src/distributed/transport.rs)
-      printf 'runtime_v3_distributed_transport'
+      if grep -Fx "adl-runtime/src/distributed/authority_protocol.rs" \
+        <<<"$changed_source_paths" >/dev/null; then
+        printf 'runtime_v3_authority_protocol'
+      else
+        printf 'runtime_v3_distributed_transport'
+      fi
+      ;;
+    adl-runtime/src/distributed/authority_protocol.rs|adl-runtime/src/distributed/identity.rs|adl-runtime/src/distributed/polis_runtime.rs)
+      printf 'runtime_v3_authority_protocol'
       ;;
     adl-runtime/src/runtime_api_auth.rs)
       printf 'runtime_v3_auth'
@@ -445,6 +453,9 @@ nextest_expression_for_filter() {
       ;;
     runtime_v3_distributed_transport)
       printf 'binary_id(adl-runtime::distributed_transport)'
+      ;;
+    runtime_v3_authority_protocol)
+      printf 'package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))'
       ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'

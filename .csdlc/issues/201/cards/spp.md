@@ -16,7 +16,7 @@ After WP-04.16a merges, bind and implement the bounded committed authority proto
 
 ## Plan
 
-Revision 19
+Revision 20
 
 ## Steps
 
@@ -58,7 +58,7 @@ Revision 19
     "acceptance_ids": [
       "AC-8"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 

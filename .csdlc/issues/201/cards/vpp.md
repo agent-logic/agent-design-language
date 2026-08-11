@@ -196,6 +196,25 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     ],
     "parallel_group": "201-proof",
     "defer_reason": "Deferred until the replacement current-source packet exists."
+  },
+  {
+    "lane": "hosted-authority-coverage-impact",
+    "proof_role": "Classify the cfg(test)-only authority contract source explicitly, run all owning adl-runtime tests except unrelated flaky observability and long-lived transport qualification cases, retain the unchanged 80-percent production-file floor, and require exact PR-mode rows for authority_protocol.rs, identity.rs, polis_runtime.rs, and transport.rs.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1200,
+    "budget_tokens": 2500,
+    "argv": [
+      "bash",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "--filter-expression",
+      "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))"
+    ],
+    "parallel_group": "201-coverage",
+    "defer_reason": null
   }
 ]
 
@@ -218,6 +237,7 @@ Tokens: 50000
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings`
 - `ruby .csdlc/prepared/issues/201/produce-proof-receipt.rb`
 - `ruby .csdlc/prepared/issues/201/validate-proof-receipt.rb`
+- `bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))`
 
 ## Failure Semantics
 

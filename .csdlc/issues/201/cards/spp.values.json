@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
     "slug": "quorum-committed-authority-protocol",
     "version": "v0.92",
-    "generation": 79
+    "generation": 83
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 19,
+      "plan_revision": 20,
       "summary": "After WP-04.16a merges, bind and implement the bounded committed authority protocol, retain a private byte-identical operation-specific store-native signed artifact view in each opaque finalized token for sealed #199/#200/#203 consumers, and expose to sealed #210 only a read-only ContinuityTransferGrantProjection bound to the exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; prove deterministic endorsement/time/retry/checkpoint/artifact, projection-confusion, wrong-lineage, wrong-checkpoint-handle, wrong-bundle-handle, and legacy-closure behavior, retain merge-safe evidence, resolve exact-head review, and publish a ready unmerged PR before releasing downstream integrations.",
       "steps": [
         {
@@ -53,7 +53,7 @@
           "acceptance_ids": [
             "AC-8"
           ],
-          "status": "pending"
+          "status": "in_progress"
         }
       ],
       "affected_areas": [
@@ -63,6 +63,10 @@
         "adl-runtime/src/distributed/polis_runtime.rs",
         "adl-runtime/src/distributed/transport.rs",
         "adl-runtime/tests/distributed_authority_protocol.rs",
+        "adl/tools/check_coverage_impact.sh",
+        "adl/tools/run_pr_fast_coverage_lane.sh",
+        "adl/tools/test_check_coverage_impact.sh",
+        "adl/tools/test_run_pr_fast_coverage_lane.sh",
         ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
         ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
         ".csdlc/evidence/201",
