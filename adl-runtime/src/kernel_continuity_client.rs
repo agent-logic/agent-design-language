@@ -41,7 +41,6 @@ struct ClientJournalState {
     channel_epoch: u64,
     next_sequence: u64,
     accepted: BTreeMap<String, ClientAcceptedOperation>,
-    #[serde(default)]
     cleanup_permits: BTreeMap<String, TargetCleanupPermit>,
 }
 

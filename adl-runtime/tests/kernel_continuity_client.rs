@@ -500,6 +500,21 @@ async fn actual_production_capability_init(root: &Path) {
     );
     let journal_path = continuity.guardian_state_dir.join("journal.json");
     let journal_bytes = std::fs::read(&journal_path).unwrap();
+    let mut missing_cleanup_custody: serde_json::Value =
+        serde_json::from_slice(&journal_bytes).unwrap();
+    missing_cleanup_custody
+        .as_object_mut()
+        .unwrap()
+        .remove("cleanup_permits");
+    std::fs::write(
+        &journal_path,
+        serde_jcs::to_vec(&missing_cleanup_custody).unwrap(),
+    )
+    .unwrap();
+    assert!(ProductionPolisRuntime::from_runtime_init(&init)
+        .await
+        .is_err());
+    std::fs::write(&journal_path, &journal_bytes).unwrap();
     let mut corrupt: serde_json::Value = serde_json::from_slice(&journal_bytes).unwrap();
     corrupt["cleanup_permits"][stage.id()]["channel_epoch"] =
         serde_json::json!(continuity.channel_epoch + 1);
