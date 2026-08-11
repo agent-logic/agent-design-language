@@ -535,6 +535,46 @@
       "reason": "v0917_html_observatory_surface_requires_integrated_runtime_demo_proof"
     },
     {
+      "id": "html_observatory_tooling_syntax",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "resource_class": "tiny",
+      "proof_role": "tooling_contract",
+      "requirement_ids": [
+        "html_observatory_tooling_syntax"
+      ],
+      "path_selectors": [
+        "adl/tools/test_html_observatory.sh"
+      ],
+      "path_hints": [
+        "adl/tools/test_html_observatory.sh"
+      ],
+      "command": "bash -n adl/tools/test_html_observatory.sh",
+      "run_command": "bash -n adl/tools/test_html_observatory.sh",
+      "reason": "html_observatory_shell_tooling_changes_require_direct_syntax_proof"
+    },
+    {
+      "id": "html_observatory_roster_javascript_syntax",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "resource_class": "tiny",
+      "proof_role": "tooling_contract",
+      "requirement_ids": [
+        "html_observatory_roster_javascript_syntax"
+      ],
+      "path_selectors": [
+        "adl/tools/validate_v092_html_observatory_roster.mjs"
+      ],
+      "path_hints": [
+        "adl/tools/validate_v092_html_observatory_roster.mjs"
+      ],
+      "command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
+      "run_command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
+      "reason": "html_observatory_roster_javascript_changes_require_direct_syntax_proof"
+    },
+    {
       "id": "csdlc_owner_lane",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
@@ -1396,6 +1436,7 @@
       ],
       "path_selectors": [
         "docs/**",
+        "design/*.mmd",
         "*.md",
         ".csdlc/**",
         "adl/tools/test_opus_review_runbook.sh",
@@ -1403,6 +1444,7 @@
       ],
       "path_hints": [
         "docs/**",
+        "design/*.mmd",
         "*.md",
         ".csdlc/**",
         "adl/tools/validate_v0917_*_status.sh"
