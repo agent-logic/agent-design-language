@@ -3,13 +3,34 @@
   "issue": 201,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
-  "phase": "implemented",
-  "generation": 63,
-  "digest": "431b92a78d7750e04aa9bfd5a0d115626bf84b17655af3e039eacbff49e823da",
+  "phase": "reviewed",
+  "generation": 64,
+  "digest": "ca79ab7ca60422236cf9f5da20fb0ca26ae8d53f9f0c801c15e3a052b5a3945d",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/review_201_8fa_final",
+    "scope": [
+      ".csdlc/issues/201",
+      ".csdlc/prepared/issues/201",
+      ".csdlc/evidence/201",
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_authority_protocol.rs"
+    ],
+    "reviewed_revision": "git-blake3:8faacbd865ff3152062a765f3bb75bd98f922195:3f38f899caa1523bb9d529ad06ce0f4fb4a88101b92777cb57d4d8d441fd48be",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI and live GitHub merge state remain pending until publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "000a15ba5aa8d99a0f9553935dc0e7368d0b35f497660373f15e281adeaa530f",
+      "values_digest": "9608806646f540314ec35320e6fcd47cea07a77f6e50a65010fa3ef15a248b4c",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "d931bca3260077bf7e95041d953230a4eb8fa4e1c7321beeb4c81d405f01b2fd",
+      "values_digest": "6cd1e8c3a1ac9d9e5e74bbac7f37670b6a8bd14e03086bf3e072d143932ace29",
       "rendered_digest": "6341c8e0aed53bd5bba9a665426e55a41728fc173b197ae55b5adff6663c7a94",
       "ast_digest": "142e7a4dce6a2e8c63d5b778ef2e2732dcb4bf4cba36de8fcefb9b3dd0fa53a4"
     },
     "spp": {
-      "values_digest": "799aeb860d2a019b9fa6ef0766656bdac4a358b6d641bacd2de918eca3a87cff",
+      "values_digest": "3f2dca9f1b46decb9358c124bee0bed155384a7199803614eb5b1da512f8d160",
       "rendered_digest": "0628ef91ce34cf5b1d414ca808438a376cec91aeef8e1b4ee5d6d5ef8a586f4b",
       "ast_digest": "9afd9163cbb2ed146981d69389d45b004330075b6082cfa5c8f72937bc8a6310"
     },
     "vpp": {
-      "values_digest": "48b3f0224f9b209c9be30b274cb82592aba7f7ecbb5793cf63dc43f955a52244",
+      "values_digest": "a2ad254d826251799b677ac2c9df1e8944d423db3e27de589db240e238eb59a9",
       "rendered_digest": "2ff969e26fdcb13858895053715ff6d191eb2574b9e78c619cc699d9457a4e40",
       "ast_digest": "4316ca1db7d88bf682a8b461b429fb5288cde1411d6a3b8a771af8c883f02313"
     },
     "srp": {
-      "values_digest": "0c429c4614a19261228b15c171907b2d3760eb5d1a8dbfa6627e5dc2747723b7",
-      "rendered_digest": "82e933dda35aae8d5e8e1675ed8b0b4dc209761d0d1371e375b6c6a777bedee3",
-      "ast_digest": "c5dbbf872cfef09f8693c8caf9b57068ba67b1a20aa16df92a5c1e760790e54f"
+      "values_digest": "16f6ac1b6af71589f5eeb8069c6166178595262e93c8ab356aef8ee85cfccff9",
+      "rendered_digest": "c6739ec4b364ec43005468899e2aad92976a26eee38e846bad9268c69581d982",
+      "ast_digest": "2eda1ea25ef6a97653738f2f16ee0d6eb7f4c7bc31decbedbf0160fea5a48c9e"
     },
     "sor": {
-      "values_digest": "1120d23036e3c6618991328871087b1d96b0a480abb9e7ad8a502016f37066a1",
+      "values_digest": "42ef377f1698c65c56a4815f624b31a81daff6ac68a15c09394da13a2b15d4d9",
       "rendered_digest": "7792500f117fbf5d38193cc61fd2d81aeb5988c29b7f64c75f0b86868ed41792",
       "ast_digest": "b4b4cdd572bba52c141e1b54517b5d800247924d36660a3689893d6e74b46ea6"
     }
@@ -75,6 +96,13 @@
       "to": "implemented",
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -532,6 +560,13 @@
       "actor": "codex:/root/resolve_201_review_129ea",
       "reason": "Record exact v7 implementation and proof truth while leaving final independent review pending.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the approved snapshot trust boundary and retained one v7 receipt at source a629080ce6d4f80812ec0773cd12f212f1483c70: exact selected=86, runner passed=86, semantic results passed=11/reconciled=6/rejected=69, strict production Clippy, real three-voter OpenRaft, legacy denial, full ancestry validation, unavailable depth-one fallback, and available-divergent rejection all pass. Final independent implementation review remains pending and nothing is published or merged.\",\"changes\":[\"Retained trusted route custody outside snapshot-replaceable state and require exact configured current and every prepared custody plus empty legacy authority fields during install and restart.\",\"Persisted complete FinalizeAuthorityProposal endorsement evidence and rerun the live quorum, signature, certificate, boot, time, operation, prepare-index, and finalize-index verifier before restored finalization can publish.\",\"Added 36 exact production snapshot cases: legitimate multi-prepared/finalized restart plus every named custody, evidence, quorum, encoding, and legacy injection rejection.\",\"Replaced v6 with independent v7 constants and canonical V2 marker hashes; source-object availability now requires ancestry and never falls back on divergence.\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_protocol_contract_tests.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201/v7/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"-E\",\"test(/^distributed::authority_protocol::contract_tests::/) or test(/^distributed::polis_runtime::authority_consensus_tests::snapshot_/)\",\"--no-tests=fail\"],\"purpose\":\"Prove 83 Rust cases contributing to exact v7 denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\"--self-test\"],\"purpose\":\"Prove three validator mode cases and exact V2 markers.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove real production three-voter OpenRaft flow.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove production code is warning-free without test bypasses.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\"],\"purpose\":\"Prove legacy public authority shapes fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/tests/distributed_authority_protocol.rs\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"purpose\":\"Prove full ancestry, unavailable depth-one fallback, and available-divergent rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"201\"],\"purpose\":\"Prove typed cards and approved design bindings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/201/index.json\"},{\"command\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"201\"],\"purpose\":\"Prove implemented rework record health with final review pending.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/201/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Prove branch diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 64,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

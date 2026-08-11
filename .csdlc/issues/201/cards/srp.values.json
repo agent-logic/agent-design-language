@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
     "slug": "quorum-committed-authority-protocol",
     "version": "v0.92",
-    "generation": 63
+    "generation": 64
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact core authority-protocol source, legacy PolisCommand closure, focused three-voter tests, issue-owned proof/evidence, typed issue truth, and absence of downstream side effects.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/201\n.csdlc/prepared/issues/201\n.csdlc/evidence/201\nadl-runtime/src/distributed/authority_protocol.rs\nadl-runtime/src/distributed/authority_protocol_contract_tests.rs\nadl-runtime/src/distributed/identity.rs\nadl-runtime/src/distributed/mod.rs\nadl-runtime/src/distributed/polis_runtime.rs\nadl-runtime/src/distributed/transport.rs\nadl-runtime/tests/distributed_authority_protocol.rs",
+      "review_revision": "git-blake3:8faacbd865ff3152062a765f3bb75bd98f922195:3f38f899caa1523bb9d529ad06ce0f4fb4a88101b92777cb57d4d8d441fd48be",
+      "reviewer": "codex:/root/review_201_8fa_final",
       "review_prompts": [
         "Does runtime-external custody govern snapshot install with exact current and every prepared custody, empty legacy fields, and complete finalized evidence reverified before publication?",
         "Are the retained ordered 47 names exact: current_three_voter_finalize, exact_retry_returns_cached_result, signer_rotation_current_generation, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, missing_quorum, duplicate_signer, wrong_voter, signer_unavailable, expired_signer_cert, stale_membership, config_digest_mismatch, joint_old_only, joint_new_only, joint_union_majority_only, joint_duplicate_guardian_reuse, declared_finalize_time_after_deadline, finalize_before_prepare_time, replay_with_regressed_finalize_time, local_clock_skew_apply_parity, checkpoint_object_collision, node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker, checkpoint_result_retry_digest_mismatch, coherent_rollback_rejected, corrupt_journal_rejected, corrupt_retry_cache_rejected, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected, legacy_fence_voter_rejected, legacy_activate_owner_rejected, legacy_activate_shepherd_rejected, legacy_acquire_observatory_rejected, legacy_demote_voter_rejected, exact_store_artifact_bytes_retained, artifact_bytes_digest_substitution_rejected, sealed_continuity_transfer_projection, continuity_projection_consumer_confusion_rejected, continuity_projection_wrong_lineage_rejected, continuity_projection_wrong_source_checkpoint_handle_rejected, continuity_projection_wrong_bundle_handle_rejected?",
@@ -25,8 +25,10 @@
         "Does lifecycle truth keep v6 superseded, all SPP steps pending, and no current PASS, approval, or publication claim before v7 proof and fresh review?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI and live GitHub merge state remain pending until publication."
+      ],
+      "review_result": "pass"
     }
   }
 }

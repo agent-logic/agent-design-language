@@ -12,7 +12,16 @@ Status: pre_phase
 
 ## Scope
 
-Exact core authority-protocol source, legacy PolisCommand closure, focused three-voter tests, issue-owned proof/evidence, typed issue truth, and absence of downstream side effects.
+.csdlc/issues/201
+.csdlc/prepared/issues/201
+.csdlc/evidence/201
+adl-runtime/src/distributed/authority_protocol.rs
+adl-runtime/src/distributed/authority_protocol_contract_tests.rs
+adl-runtime/src/distributed/identity.rs
+adl-runtime/src/distributed/mod.rs
+adl-runtime/src/distributed/polis_runtime.rs
+adl-runtime/src/distributed/transport.rs
+adl-runtime/tests/distributed_authority_protocol.rs
 
 ## Prompts
 
@@ -33,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI and live GitHub merge state remain pending until publication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:8faacbd865ff3152062a765f3bb75bd98f922195:3f38f899caa1523bb9d529ad06ce0f4fb4a88101b92777cb57d4d8d441fd48be")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_201_8fa_final")
 
-Result: pre_review
+Result: pass
