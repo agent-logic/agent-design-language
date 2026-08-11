@@ -109,6 +109,15 @@ try {
   await page.locator('[data-dashboard-link="agents"]').first().click();
   const row = page.locator('[data-agent-id="shepherd"]');
   await row.waitFor({ state: "visible" });
+
+  const agentsRuntimeLink = page.locator('#panopticon [data-dashboard-link="runtime"]');
+  await agentsRuntimeLink.focus();
+  await page.keyboard.press("Enter");
+  await page.locator('.observatory[data-dashboard-surface="runtime"] > .hero').waitFor({ state: "visible" });
+  await page.locator('[data-dashboard-link="agents"]').first().focus();
+  await page.keyboard.press("Enter");
+  await page.locator('.observatory[data-dashboard-surface="agents"] > #panopticon').waitFor({ state: "visible" });
+  await row.waitFor({ state: "visible" });
   assert.equal(await page.locator("#agent-count").textContent(), "1 of 1 visible");
   assert.equal(await row.getAttribute("aria-pressed"), "false");
   await row.focus();
@@ -206,7 +215,9 @@ try {
     headers: { "content-type": "application/json", origin: observatory.origin },
     body: JSON.stringify(signedRestart(feed))
   });
-  assert.equal(restartResponse.status, 200, `signed incarnation-bound restart failed: ${await restartResponse.text()}`);
+  const restartBody = await restartResponse.json();
+  assert.equal(restartResponse.status, 200, `signed incarnation-bound restart was not accepted: ${JSON.stringify(restartBody)}`);
+  assert.deepEqual(restartBody.outcome, { result: "restart", accepted: true });
 
   let restartedFeed = null;
   const restartDeadline = Date.now() + 15_000;
@@ -224,6 +235,7 @@ try {
   }
   assert(restartedFeed, "Guardian must restore Runtime with a new incarnation");
   assert.equal(restartedFeed.agents.sample[0].source_revision, sourceRevision);
+  assert.equal(restartedFeed.agents.sample[0].state, "ready");
   await page.locator("#statusbar-websocket").getByText("connected", { exact: true }).waitFor({ timeout: 12_000 });
   await row.waitFor({ state: "visible" });
   assert.equal(await page.locator('[data-agent-id="shepherd"]').count(), 1, "Runtime reincarnation must reset cursor without duplicate rows");

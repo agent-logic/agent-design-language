@@ -1090,6 +1090,42 @@ dd {
   display: block;
 }
 
+.surface-nav {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: -1rem -1rem 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.surface-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.7rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.surface-nav a:hover,
+.surface-nav a:focus-visible,
+.surface-nav a[aria-current="page"] {
+  color: var(--text);
+  background: var(--panel-strong);
+  outline-offset: 2px;
+}
+
+.surface-nav svg {
+  width: 1rem;
+  height: 1rem;
+}
+
 .live-control-strip {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
