@@ -1,41 +1,41 @@
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
 ────────────
- Nextest run ID 1b754a5a-ce33-4509-8c8e-be584c8a82e5 with nextest profile: default
+ Nextest run ID 45df4b2b-ff1d-472d-bcc2-cf86449aa324 with nextest profile: default
     Starting 35 tests across 1 binary
-        PASS [   0.753s] ( 1/35) adl-runtime-kernel::kernel_continuity_control dual_open
-        PASS [   1.739s] ( 2/35) adl-runtime-kernel::kernel_continuity_control export_exact_retry
-        PASS [   1.961s] ( 3/35) adl-runtime-kernel::kernel_continuity_control export_bounds
-        PASS [   1.268s] ( 4/35) adl-runtime-kernel::kernel_continuity_control oversized_bundle
-        PASS [   2.153s] ( 5/35) adl-runtime-kernel::kernel_continuity_control isolated_stage
-        PASS [   2.161s] ( 6/35) adl-runtime-kernel::kernel_continuity_control caller_path_rejected
-        PASS [   2.488s] ( 7/35) adl-runtime-kernel::kernel_continuity_control crash_after_bundle_commit
-        PASS [   2.814s] ( 8/35) adl-runtime-kernel::kernel_continuity_control corrupt_content
-        PASS [   2.867s] ( 9/35) adl-runtime-kernel::kernel_continuity_control evidence_redaction
-        PASS [   2.891s] (10/35) adl-runtime-kernel::kernel_continuity_control isolated_import_validate
-        PASS [   2.927s] (11/35) adl-runtime-kernel::kernel_continuity_control opened_handle_replacement
-        PASS [   2.932s] (12/35) adl-runtime-kernel::kernel_continuity_control cancellation_no_partial
-        PASS [   2.942s] (13/35) adl-runtime-kernel::kernel_continuity_control discard_exact_retry
-        PASS [   3.108s] (14/35) adl-runtime-kernel::kernel_continuity_control guardian_initialization_live
-        PASS [   1.375s] (15/35) adl-runtime-kernel::kernel_continuity_control participant_registry_complete
-        PASS [   3.366s] (16/35) adl-runtime-kernel::kernel_continuity_control deadline_before_effect
-        PASS [   1.837s] (17/35) adl-runtime-kernel::kernel_continuity_control partial_quiesce_rollback
-        PASS [   2.256s] (18/35) adl-runtime-kernel::kernel_continuity_control real_quiesce_checkpoint
-        PASS [   2.037s] (19/35) adl-runtime-kernel::kernel_continuity_control signed_bundle_export
-        PASS [   2.330s] (20/35) adl-runtime-kernel::kernel_continuity_control source_resume
-        PASS [   3.317s] (21/35) adl-runtime-kernel::kernel_continuity_control public_surface_absent
-        PASS [   2.032s] (22/35) adl-runtime-kernel::kernel_continuity_control wrong_manifest_signature
-        PASS [   3.569s] (23/35) adl-runtime-kernel::kernel_continuity_control restart_after_accept
-        PASS [   2.890s] (24/35) adl-runtime-kernel::kernel_continuity_control symlink_path_rejected
-        PASS [   2.888s] (25/35) adl-runtime-kernel::kernel_continuity_control wrong_accepted_prefix
-        PASS [   2.838s] (26/35) adl-runtime-kernel::kernel_continuity_control wrong_config
-        PASS [   2.707s] (27/35) adl-runtime-kernel::kernel_continuity_control wrong_generation
-        PASS [   3.116s] (28/35) adl-runtime-kernel::kernel_continuity_control validated_target_discard
-        PASS [   3.120s] (29/35) adl-runtime-kernel::kernel_continuity_control target_discard
-        PASS [   3.274s] (30/35) adl-runtime-kernel::kernel_continuity_control source_resume_exact_retry
-        PASS [   2.582s] (31/35) adl-runtime-kernel::kernel_continuity_control wrong_predecessor
-        PASS [   2.063s] (32/35) adl-runtime-kernel::kernel_continuity_control wrong_service_schema
-        PASS [   2.002s] (33/35) adl-runtime-kernel::kernel_continuity_control wrong_service_set
-        PASS [   1.475s] (34/35) adl-runtime-kernel::kernel_continuity_control wrong_topology
-        PASS [   1.384s] (35/35) adl-runtime-kernel::kernel_continuity_control zero_residue
+        PASS [   0.806s] ( 1/35) adl-runtime-kernel::kernel_continuity_control dual_open
+        PASS [   1.220s] ( 2/35) adl-runtime-kernel::kernel_continuity_control oversized_bundle
+        PASS [   2.219s] ( 3/35) adl-runtime-kernel::kernel_continuity_control export_bounds
+        PASS [   2.245s] ( 4/35) adl-runtime-kernel::kernel_continuity_control export_exact_retry
+        PASS [   2.361s] ( 5/35) adl-runtime-kernel::kernel_continuity_control isolated_stage
+        PASS [   2.424s] ( 6/35) adl-runtime-kernel::kernel_continuity_control caller_path_rejected
+        PASS [   2.933s] ( 7/35) adl-runtime-kernel::kernel_continuity_control crash_after_bundle_commit
+        PASS [   2.997s] ( 8/35) adl-runtime-kernel::kernel_continuity_control evidence_redaction
+        PASS [   3.123s] ( 9/35) adl-runtime-kernel::kernel_continuity_control discard_exact_retry
+        PASS [   3.151s] (10/35) adl-runtime-kernel::kernel_continuity_control corrupt_content
+        PASS [   3.249s] (11/35) adl-runtime-kernel::kernel_continuity_control opened_handle_replacement
+        PASS [   3.326s] (12/35) adl-runtime-kernel::kernel_continuity_control isolated_import_validate
+        PASS [   3.381s] (13/35) adl-runtime-kernel::kernel_continuity_control guardian_initialization_live
+        PASS [   3.474s] (14/35) adl-runtime-kernel::kernel_continuity_control cancellation_no_partial
+        PASS [   3.485s] (15/35) adl-runtime-kernel::kernel_continuity_control deadline_before_effect
+        PASS [   1.432s] (16/35) adl-runtime-kernel::kernel_continuity_control participant_registry_complete
+        PASS [   1.712s] (17/35) adl-runtime-kernel::kernel_continuity_control partial_quiesce_rollback
+        PASS [   2.071s] (18/35) adl-runtime-kernel::kernel_continuity_control real_quiesce_checkpoint
+        PASS [   2.129s] (19/35) adl-runtime-kernel::kernel_continuity_control signed_bundle_export
+        PASS [   3.215s] (20/35) adl-runtime-kernel::kernel_continuity_control public_surface_absent
+        PASS [   2.515s] (21/35) adl-runtime-kernel::kernel_continuity_control source_resume
+        PASS [   2.281s] (22/35) adl-runtime-kernel::kernel_continuity_control wrong_manifest_signature
+        PASS [   3.656s] (23/35) adl-runtime-kernel::kernel_continuity_control restart_after_accept
+        PASS [   2.953s] (24/35) adl-runtime-kernel::kernel_continuity_control symlink_path_rejected
+        PASS [   2.962s] (25/35) adl-runtime-kernel::kernel_continuity_control wrong_accepted_prefix
+        PASS [   3.147s] (26/35) adl-runtime-kernel::kernel_continuity_control target_discard
+        PASS [   2.926s] (27/35) adl-runtime-kernel::kernel_continuity_control wrong_config
+        PASS [   2.922s] (28/35) adl-runtime-kernel::kernel_continuity_control wrong_generation
+        PASS [   3.114s] (29/35) adl-runtime-kernel::kernel_continuity_control validated_target_discard
+        PASS [   2.712s] (30/35) adl-runtime-kernel::kernel_continuity_control wrong_predecessor
+        PASS [   3.475s] (31/35) adl-runtime-kernel::kernel_continuity_control source_resume_exact_retry
+        PASS [   2.302s] (32/35) adl-runtime-kernel::kernel_continuity_control wrong_service_schema
+        PASS [   1.925s] (33/35) adl-runtime-kernel::kernel_continuity_control wrong_service_set
+        PASS [   1.589s] (34/35) adl-runtime-kernel::kernel_continuity_control wrong_topology
+        PASS [   1.652s] (35/35) adl-runtime-kernel::kernel_continuity_control zero_residue
 ────────────
-     Summary [   6.723s] 35 tests run: 35 passed, 0 skipped
+     Summary [   7.164s] 35 tests run: 35 passed, 0 skipped

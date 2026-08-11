@@ -7,37 +7,24 @@
     "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
     "slug": "authenticated-guardian-kernel-continuity-bridge",
     "version": "v0.92",
-    "generation": 47
+    "generation": 49
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Resolved the remaining deterministic zero-LEAK finding from the independent review of #208 at ce606701. Systematic audit showed the moving nextest label occurred on resource-free synchronous cases and therefore did not originate in the production client, journals, TLS listeners, Tokio tasks, locks, or temporary roots. The shared Runtime harness now fails every case if any live or unreaped child process remains after explicit fixture closure, while a target-local 500 ms leak-as-failure window accounts for loaded-runner EOF observation latency without suppressing genuine inherited-handle leaks. Fresh v4 evidence at b0252da2a0e3f160ddddfa1815fcfea72ac75e8f retains two isolated and two concurrent full waves for both packages: Runtime 21/21 four times and kernel 35/35 four times, all zero-LEAK, plus both strict Clippy lanes, exact 56/64/12 parity, current-main ancestry, and clean exact-range diff. Distinct exact-head rereview remains pending; publication and merge remain untouched.",
+      "summary": "Classified and repaired both #208 regressions exposed by PR #230 hosted CI. The shared production runtime fixture now supplies the mandatory private continuity listener, isolated custody roots, exact five-participant bound, separate server/client EKU certificates, trust roots, and SPKI pins; readiness failures retain the child exit status and stderr. The tracked nextest policy now binds the exact 56 issue cases rather than absent binary-name selectors, is explicitly loaded by every standalone proof lane, and keeps a five-second result=fail pipe-closure bound justified by repeated loaded-host false classifications on resource-free cases. Fresh v4 evidence at 24543caa6fc43a5bfb47a12a7884cf3d6a4efda9 retains Runtime 21/21 and kernel 35/35 in two concurrent plus two isolated waves with zero LEAK, production ACIP 2/2, both strict Clippy lanes, exact 56/64/12 behavior parity, current-main ancestry, and clean diff hygiene. Typed recovery cleared stale review/publication truth; distinct exact-head rereview remains required before republishing PR #230.",
       "actual_changes": [
-        "Audited shared Runtime harness and production client/journal teardown across descriptors, locks, TLS connections, listener tasks, current-thread runtimes, temporary roots, Drop ordering, and subprocess creation; the moving label reached cases that create none of those resources.",
-        "Added one shared bounded waitpid(WNOHANG) teardown assertion after explicit temporary-root closure so every Runtime case fails on any live or unreaped direct child instead of relying on nextest timing.",
-        "Added target-local 500 ms leak-as-failure overrides only for the two issue #208 test binaries, retaining detection of any genuine inherited stdout/stderr handle while removing the repo's below-default 100 ms loaded-runner classification race.",
-        "Expanded the exact producer and validator to retain two isolated and two concurrent complete nextest waves for each package, require every exact 21/21 and 35/35 denominator, and reject any LEAK or LEAK-FAIL sentinel."
+        "Extended the shared production runtime-init fixture with an isolated loopback continuity listener, exact five-participant bound, private state/staging roots, dedicated ServerAuth and ClientAuth certificates, trust roots, and certificate SPKI pins; production readiness disconnects now report the child status and stderr.",
+        "Replaced nextest binary-name overrides with one exact ordered 56-case test filter so workspace and slow-proof selections that lack #208 binaries no longer fail configuration parsing.",
+        "Bound all standalone #208 proof lanes explicitly to the tracked nextest config and retained fail-on-leak semantics with a five-second loaded-host pipe-closure observation window plus the existing shared no-child teardown assertion.",
+        "Expanded the issue-owned producer and validator with the production ACIP 2-test lane and an exact workspace/slow-proof selector contract while retaining repeated isolated and concurrent zero-LEAK denominators."
       ],
       "artifacts": [
         "adl/.config/nextest.toml",
-        "adl-runtime-kernel/src/assembly.rs",
-        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-        "adl-runtime-kernel/src/config.rs",
-        "adl-runtime-kernel/src/continuity_control.rs",
-        "adl-runtime-kernel/src/operations.rs",
-        "adl-runtime-kernel/src/reasoning.rs",
-        "adl-runtime-kernel/tests/configuration.rs",
-        "adl-runtime-kernel/tests/kernel_continuity_control.rs",
+        "adl-runtime-kernel/tests/production_acip_wss.rs",
         "adl-runtime-kernel/tests/support/runtime_init.rs",
-        "adl-runtime/src/bin/adl-runtime-guardian.rs",
-        "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-        "adl-runtime/src/distributed/polis_runtime.rs",
-        "adl-runtime/src/guardian.rs",
-        "adl-runtime/src/kernel_continuity_client.rs",
-        "adl-runtime/tests/kernel_continuity_client.rs",
-        "infra/runtime-v3/runtime-init.toml",
+        ".csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb",
         ".csdlc/prepared/issues/208/produce-proof-receipt.rb",
         ".csdlc/prepared/issues/208/validate-proof-receipt.rb",
         ".csdlc/evidence/208/v4/execution-proof.json"
@@ -48,6 +35,8 @@
             "cargo",
             "nextest",
             "run",
+            "--config-file",
+            "adl/.config/nextest.toml",
             "--locked",
             "--manifest-path",
             "adl-runtime/Cargo.toml",
@@ -55,15 +44,17 @@
             "kernel_continuity_client",
             "--no-tests=fail"
           ],
-          "purpose": "Prove all 21 Runtime cases, shared child-process teardown assertion, and target-local fail-closed leak classification in two isolated and two concurrent retained waves.",
+          "purpose": "Prove the exact 21-case Runtime target, shared no-child teardown, and fail-closed classifier policy in two concurrent and two isolated retained waves.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/208/v4/runtime-nextest*.stderr.log: 21 passed in all four waves, zero LEAK"
+          "evidence_ref": ".csdlc/evidence/208/v4/runtime-nextest*.stderr.log: 21/21 in all four waves, zero LEAK"
         },
         {
           "command": [
             "cargo",
             "nextest",
             "run",
+            "--config-file",
+            "adl/.config/nextest.toml",
             "--locked",
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
@@ -71,9 +62,36 @@
             "kernel_continuity_control",
             "--no-tests=fail"
           ],
-          "purpose": "Prove all 35 kernel cases and target-local fail-closed leak classification in two isolated and two concurrent retained waves.",
+          "purpose": "Prove the exact 35-case kernel target in two concurrent and two isolated retained waves.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/208/v4/kernel-nextest*.stderr.log: 35 passed in all four waves, zero LEAK"
+          "evidence_ref": ".csdlc/evidence/208/v4/kernel-nextest*.stderr.log: 35/35 in all four waves, zero LEAK"
+        },
+        {
+          "command": [
+            "cargo",
+            "nextest",
+            "run",
+            "--config-file",
+            "adl/.config/nextest.toml",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "production_acip_wss",
+            "--no-tests=fail"
+          ],
+          "purpose": "Reproduce the hosted production ACIP lane with the mandatory private continuity fixture.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/208/v4/production-acip-nextest.stderr.log: 2/2 passed"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb"
+          ],
+          "purpose": "Reject absent binary-name selectors and require the exact ordered 56-case fail-closed policy plus explicit standalone proof binding.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/208/v4/nextest-workspace-contract.stdout.log"
         },
         {
           "command": [
@@ -91,7 +109,7 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Reject warnings across the production Runtime, Guardian, completed-cache validation, and shared teardown assertion.",
+          "purpose": "Reject warnings across the production Runtime, Guardian, exact client tests, and teardown assertion.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/runtime-clippy.stderr.log"
         },
@@ -107,11 +125,13 @@
             "adl-runtime-kernel",
             "--test",
             "kernel_continuity_control",
+            "--test",
+            "production_acip_wss",
             "--",
             "-D",
             "warnings"
           ],
-          "purpose": "Reject warnings across kernel effects, persistence, private server, and behavior tests.",
+          "purpose": "Reject warnings across kernel effects, persistence, private server, production fixture, and behavior tests.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/kernel-clippy.stderr.log"
         },
@@ -120,7 +140,7 @@
             "ruby",
             ".csdlc/prepared/issues/208/verify-diff-hygiene.rb"
           ],
-          "purpose": "Verify exact execution-base-to-source diff hygiene and current-main ancestry.",
+          "purpose": "Verify the exact execution-base-to-source diff and current-main ancestry.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/diff-hygiene.stdout.log"
         },
@@ -129,13 +149,13 @@
             "ruby",
             ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
           ],
-          "purpose": "Produce exact canonical 56/64/12 behavior evidence and eight retained isolated/concurrent zero-LEAK full lanes.",
+          "purpose": "Produce the canonical exact 56-case, 64-boundary, 12-lifecycle proof with all hosted-equivalent regressions and zero-LEAK lanes.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/execution-proof.json"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
