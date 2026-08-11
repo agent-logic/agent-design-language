@@ -60,10 +60,10 @@ def run_concurrent_nextest_wave(commands, suffix = "")
   runtime_name = "runtime-nextest#{suffix}"
   kernel_name = "kernel-nextest#{suffix}"
   runtime = Thread.new do
-    run_command(runtime_name, %w[cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test kernel_continuity_client --no-tests=fail])
+    run_command(runtime_name, %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime/Cargo.toml --test kernel_continuity_client --no-tests=fail])
   end
   kernel = Thread.new do
-    run_command(kernel_name, %w[cargo nextest run --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control --no-tests=fail])
+    run_command(kernel_name, %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control --no-tests=fail])
   end
   commands[runtime_name.tr("-", "_")] = runtime.value
   commands[kernel_name.tr("-", "_")] = kernel.value
@@ -102,11 +102,11 @@ FileUtils.mkdir_p(OUTPUT, mode: 0o700)
 commands = {}
 run_concurrent_nextest_wave(commands)
 run_concurrent_nextest_wave(commands, "-repeat")
-commands["runtime_nextest_isolated"] = run_command("runtime-nextest-isolated", %w[cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test kernel_continuity_client --no-tests=fail])
-commands["kernel_nextest_isolated"] = run_command("kernel-nextest-isolated", %w[cargo nextest run --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control --no-tests=fail])
-commands["runtime_nextest_isolated_repeat"] = run_command("runtime-nextest-isolated-repeat", %w[cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test kernel_continuity_client --no-tests=fail])
-commands["kernel_nextest_isolated_repeat"] = run_command("kernel-nextest-isolated-repeat", %w[cargo nextest run --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control --no-tests=fail])
-commands["production_acip_nextest"] = run_command("production-acip-nextest", %w[cargo nextest run --locked --manifest-path adl-runtime-kernel/Cargo.toml --test production_acip_wss --no-tests=fail])
+commands["runtime_nextest_isolated"] = run_command("runtime-nextest-isolated", %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime/Cargo.toml --test kernel_continuity_client --no-tests=fail])
+commands["kernel_nextest_isolated"] = run_command("kernel-nextest-isolated", %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control --no-tests=fail])
+commands["runtime_nextest_isolated_repeat"] = run_command("runtime-nextest-isolated-repeat", %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime/Cargo.toml --test kernel_continuity_client --no-tests=fail])
+commands["kernel_nextest_isolated_repeat"] = run_command("kernel-nextest-isolated-repeat", %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control --no-tests=fail])
+commands["production_acip_nextest"] = run_command("production-acip-nextest", %w[cargo nextest run --config-file adl/.config/nextest.toml --locked --manifest-path adl-runtime-kernel/Cargo.toml --test production_acip_wss --no-tests=fail])
 commands["nextest_workspace_contract"] = run_command("nextest-workspace-contract", %w[ruby .csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb])
 commands["runtime_clippy"] = run_command("runtime-clippy", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib --bin adl-runtime-guardian --test kernel_continuity_client -- -D warnings])
 commands["kernel_clippy"] = run_command("kernel-clippy", %w[cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib --bin adl-runtime-kernel --test kernel_continuity_control --test production_acip_wss -- -D warnings])
