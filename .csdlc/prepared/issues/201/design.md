@@ -205,7 +205,7 @@ protocol atomicity, not a transaction over downstream authority stores.
   strict Clippy, marker parity, protected-source drift, immutable evidence
   introduction, and eventual squash-merge topology.
 
-The denominator is exactly forty-four cases, with exact name/result/marker parity:
+The denominator is exactly forty-seven cases, with exact name/result/marker parity:
 `current_three_voter_finalize`, `exact_retry_returns_cached_result`,
 `signer_rotation_current_generation`, `joint_majority_each_config`,
 `finalize_at_deadline`, `three_node_checkpoint_restart_reconcile`,
@@ -227,7 +227,10 @@ The denominator is exactly forty-four cases, with exact name/result/marker parit
 `exact_store_artifact_bytes_retained`,
 `artifact_bytes_digest_substitution_rejected`,
 `sealed_continuity_transfer_projection`, and
-`continuity_projection_consumer_confusion_rejected`.
+`continuity_projection_consumer_confusion_rejected`,
+`continuity_projection_wrong_lineage_rejected`,
+`continuity_projection_wrong_source_checkpoint_handle_rejected`, and
+`continuity_projection_wrong_bundle_handle_rejected`.
 
 ## Non-goals
 

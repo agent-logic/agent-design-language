@@ -33,7 +33,7 @@ Implement and publish only the committed quorum authority protocol, its private 
 4. AC-4: A symlink-safe, exclusively locked, bounded canonical journal and external ConsensusCheckpointAuthority reconcile initialization, intent, finalized result, and exact retry state across crash without claiming a transaction across independent downstream stores.
 5. AC-5: Exact retries return the retained canonical result; conflicting reuse, reordered finalize, cross-polis/domain, stale membership, wrong signer, duplicate signer, expired intent, rollback, corruption, and capacity violations fail before new protocol publication.
 6. AC-6: Legacy direct PolisCommand authority variants cannot mint membership, lease, fence, owner, Shepherd, Observatory, migration, or recovery authority; retained log/snapshot replay is versioned or fails closed explicitly.
-7. AC-7: Successful finalization produces an opaque quorum-approved operation token for #199/#200 and does not itself execute OpenRaft membership change or concrete authority-store side effects.
+7. AC-7: Successful finalization produces opaque quorum-approved operation tokens for #199/#200 and, only for the exact continuity-transfer variant, a sealed #210 projection binding the exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; wrong lineage or either wrong handle fails before source access, and #201 executes no OpenRaft membership change, transfer, or concrete authority-store side effect.
 8. AC-8: Exact nonzero focused tests, strict Clippy, merge-safe receipt validation, diff hygiene, and fresh independent exact-head review pass before a ready unmerged PR opens.
 
 ## Dependencies

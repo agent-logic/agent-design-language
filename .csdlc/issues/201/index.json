@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "initialized",
-  "generation": 19,
-  "digest": "976726edae40245204abe1af9c0cdb77b43e91d8234c8553c68e1e755b942488",
+  "generation": 24,
+  "digest": "49256b746650ca9dd90e75761ec9a4413e63504082f51fd9f773a95ef38ceebe",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,40 +16,35 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/201/design.md",
   "diagram_path": ".csdlc/prepared/issues/201/diagram.mmd",
-  "design_review": {
-    "approved": {
-      "reviewer": "codex:/root/rereview_203_design",
-      "revision": "a5a0fd9d0f672d98f9675af40f4dec4b14a1c90b0d5cdef79976235f9193b4c7"
-    }
-  },
+  "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "e149363042c12fa5f04615f1bff01be88e59c1036bafdb9ac583bcc93dd8d78b",
+      "values_digest": "081fd9a5ee727ee33f83088019d65bf84584dbc939a6989878f8bef1e6c14a1f",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "45e761a784b1c320c12ea71e8626bfc2fdfff285fbd9e2135a74b31651433a9d",
-      "rendered_digest": "d3e34b8dcbfac46114e66cff41bf781db80839ee67d486a0612cb4e44e7dd321",
-      "ast_digest": "e617a4f64e7ae1762257ddde4fb67887b5984d501215f784011ca7b52d1d25c0"
+      "values_digest": "41675b2ca4006099bd15358483bd9c9d271bf30f2464f35c29787a8510680a08",
+      "rendered_digest": "b9dc9472b5cb780e06096f27d1ea410affd2ef1dbe6879575b904767dd8e5a96",
+      "ast_digest": "933b98acdd836328d3647ded0d86e0a2aed1320befac8f59ce373d1c34fb1041"
     },
     "spp": {
-      "values_digest": "fa48df2b14822e72d39f7f33d8aed1afca72152ad47a21eb619ce380ca56c550",
-      "rendered_digest": "dbeee27ce3e50ab4c836ced582f37132cdb22bc398abb18f3415eee02e53b342",
-      "ast_digest": "ab713fb85e59a6c4527481a96526d74c75494517727ab385657177fc06195230"
+      "values_digest": "4adf3e26ffe47a839147b872b753da371f61ff4b67d72e2e2fd111ca95f2598e",
+      "rendered_digest": "8afb5ff31965bb959d1fb207be56b1b0bcd31180c50738cfec4c8cec16ec995a",
+      "ast_digest": "23c8c15351794ab7ef20b0c505af51ee872f9a38ecd1d83bfbfedcfe6bab8963"
     },
     "vpp": {
-      "values_digest": "d0fbdd5866e9ebef32507368c0bd9845afaea5f426e2ae94fea253de02871d5b",
-      "rendered_digest": "6aa23fa4a94d098fb10b7e5f2b900ad031b4b65a076d247b4ac66882719397cf",
-      "ast_digest": "b3c3be447377b75fec1a474af99ecc3f845a212fa9cb2536d3f2e3b290757a14"
+      "values_digest": "b69bab7b5e0c7fc826c5f20289dd8b76cab14abad0688b1956c61ace1ece2040",
+      "rendered_digest": "db671aa0607a480b4a925142fa568d4d22bdee057b9bd0c60ffdbc2d5364620b",
+      "ast_digest": "184c02956b7ba54244773345a62706068bdfb7cf226e9844c4c37d8b3ebb3f6e"
     },
     "srp": {
-      "values_digest": "0cfaa0b0aea373390a24303f86940b23007e1629eb021f4044ed3e73ffac5930",
-      "rendered_digest": "719fda29904612175a0263a704c7ae9e97650c842ebe1690d7d3fb96567561a9",
-      "ast_digest": "e0daf7ed341a6cdd579976e8a561182d07376bb27cf686954d66185309722bd6"
+      "values_digest": "fed3af3777b77aeac66c8c659ecd04a7a74b708a65f5be2c55e5f1c7dba5287b",
+      "rendered_digest": "5197c199f2c3842e18c5f5b058d801820495c62565f436a38852ae03226c1f4f",
+      "ast_digest": "b6fa249704f2af1736864df305397d2b2560d4da9d841307c941162ccb217910"
     },
     "sor": {
-      "values_digest": "9f0c1620d4c13c3dbc8068c716217678819f73c6d262b5985e58d533a8d6c7cc",
+      "values_digest": "1355da118fbf4524c633c659d555031b30f866a46ec395b5e614a5038e930c9d",
       "rendered_digest": "dd074b4fa9e4431fe2d9bec84b129f0ae6f0187e7df563f658756033aa354313",
       "ast_digest": "39cc131d0e4042080ae44500a2d66d4a67ce65a724fd47e2836886ae741db8b7"
     }
@@ -195,6 +190,41 @@
       "actor": "codex:/root/resolve_201_208_findings",
       "reason": "Resolve independent review by binding exact transfer lineage and source checkpoint and bundle handle identities in operative invariants.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No uncommitted proposal, single voter, leader, caller, harness, Shepherd, model, local history, or local clock can mint a verified authority-operation token\",\"Every finalized token binds exact polis, domain, membership cut, committed index, operation, bounded store-native signed artifact bytes and digest, time token, and distinct quorum endorsements\",\"The existing private artifact view returns byte-identical retained committed bytes only to sealed #199/#200/#203 consumers; it cannot accept replacement bytes or reconstruct authority from a digest\",\"The separate #210 projection is constructible only by #201 from an exact finalized continuity-transfer variant and exposes a borrowed read-only bounded transfer grant; every other operation variant and consumer identity is rejected\",\"The #210 projection binds the exact lineage, SourceCheckpointHandle identity, byte-identical bundle-handle identity, signed bundle/catalog bytes and digests, source, target, route, membership, certificate, boot, entry, chunk, range, bounds, deadline, and cleanup identity without granting transport, filesystem, migration, fence, activation, serving, or store-effect authority\",\"Wrong lineage, wrong SourceCheckpointHandle, or wrong bundle-handle identity is rejected before #208 source access or #210 transfer-session establishment\",\"No token, artifact view, projection, or canonical response is published before protocol result, retry record, and external checkpoint reconcile\",\"Legacy direct authority commands cannot mint or restore authority\",\"One-of-three always halts new authority token finalization\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 20,
+      "actor": "codex:/root/resolve_201_208_findings",
+      "reason": "Resolve independent review by making the sealed #210 lineage and exact source checkpoint and bundle handle projection part of AC-7.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/201/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/201/diagram.mmd\",\"new_design_digest\":\"c6133f10d453353fbfb499eb98fd9e62514c4bb34840542fdd43d14577ad4dc0\",\"new_diagram_digest\":\"40f6332420e6f7a4301b821cf802ecc3f4bee646a0a9c4c8d6f5da86447dfbf8\",\"old_design_digest\":\"a5a0fd9d0f672d98f9675af40f4dec4b14a1c90b0d5cdef79976235f9193b4c7\",\"old_diagram_digest\":\"23eb9deb823fa225863be77a5c76dd91fb0ba84e478504368219be98b45be3f6\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Prepare and finalize entries bind polis, trust domain, exact current membership epoch/index and voter-set digest, operation kind, expected prior protocol checkpoint, payload digest, canonical quorum-attested time token, and a unique bounded operation id.\",\"AC-2: Finalization requires an opaque local VoterEndorsementAuthority and a strict quorum of distinct current voter endorsements over the exact committed intent; raw signing keys and caller-produced endorsements are rejected.\",\"AC-3: Replicated apply is deterministic: every voter consumes identical committed logical/time evidence, while replica-local clocks may gate endorsement but cannot change the applied result.\",\"AC-4: A symlink-safe, exclusively locked, bounded canonical journal and external ConsensusCheckpointAuthority reconcile initialization, intent, finalized result, and exact retry state across crash without claiming a transaction across independent downstream stores.\",\"AC-5: Exact retries return the retained canonical result; conflicting reuse, reordered finalize, cross-polis/domain, stale membership, wrong signer, duplicate signer, expired intent, rollback, corruption, and capacity violations fail before new protocol publication.\",\"AC-6: Legacy direct PolisCommand authority variants cannot mint membership, lease, fence, owner, Shepherd, Observatory, migration, or recovery authority; retained log/snapshot replay is versioned or fails closed explicitly.\",\"AC-7: Successful finalization produces opaque quorum-approved operation tokens for #199/#200 and, only for the exact continuity-transfer variant, a sealed #210 projection binding the exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; wrong lineage or either wrong handle fails before source access, and #201 executes no OpenRaft membership change, transfer, or concrete authority-store side effect.\",\"AC-8: Exact nonzero focused tests, strict Clippy, merge-safe receipt validation, diff hygiene, and fresh independent exact-head review pass before a ready unmerged PR opens.\"]}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 21,
+      "actor": "codex:/root/resolve_201_208_findings",
+      "reason": "Resolve independent review with fresh-CAS plan steps for the sealed continuity-transfer lineage and exact source checkpoint and bundle handle boundary.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/201/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/201/diagram.mmd\",\"new_design_digest\":\"c6133f10d453353fbfb499eb98fd9e62514c4bb34840542fdd43d14577ad4dc0\",\"new_diagram_digest\":\"40f6332420e6f7a4301b821cf802ecc3f4bee646a0a9c4c8d6f5da86447dfbf8\",\"old_design_digest\":\"c6133f10d453353fbfb499eb98fd9e62514c4bb34840542fdd43d14577ad4dc0\",\"old_diagram_digest\":\"40f6332420e6f7a4301b821cf802ecc3f4bee646a0a9c4c8d6f5da86447dfbf8\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"After PR #197 merges ancestrally, bind #201 and freeze canonical committed intent, quorum-attested time, opaque local endorsement, durable result-cache, checkpoint, private exact-artifact, sealed continuity-transfer lineage, SourceCheckpointHandle, bundle-handle, and legacy-log compatibility contracts.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"action\":\"Implement only the core authority protocol, private exact-artifact views, and the sealed #210 continuity-transfer projection bound to exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; retire or fail-close legacy direct authority command application without executing downstream effects.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"action\":\"Prove quorum endorsement, deterministic time boundaries, exact retry/conflict behavior, init and checkpoint crash windows, rollback, corruption, capacity, path safety, legacy-command rejection, opaque-token construction, byte-identical artifacts, sealed projection, and rejection of wrong consumer, lineage, SourceCheckpointHandle, and bundle-handle identities with exact forty-seven-case proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Resolve fresh exact-head review, publish a ready PR closing #201, shepherd hosted CI, and wait for operator review and merge authorization.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 22,
+      "actor": "codex:/root/resolve_201_208_findings",
+      "reason": "Resolve independent review with fresh-CAS plan steps for the sealed continuity-transfer lineage and exact source checkpoint and bundle handle boundary.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/201/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/201/diagram.mmd\",\"new_design_digest\":\"673631c5387f72f4d5da4b11b2a467360a565ee306efd9229fa0fa36f409c5bf\",\"new_diagram_digest\":\"40f6332420e6f7a4301b821cf802ecc3f4bee646a0a9c4c8d6f5da86447dfbf8\",\"old_design_digest\":\"c6133f10d453353fbfb499eb98fd9e62514c4bb34840542fdd43d14577ad4dc0\",\"old_diagram_digest\":\"40f6332420e6f7a4301b821cf802ecc3f4bee646a0a9c4c8d6f5da86447dfbf8\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"After PR #197 merges ancestrally, bind #201 and freeze canonical committed intent, quorum-attested time, opaque local endorsement, durable result-cache, checkpoint, private exact-artifact, sealed continuity-transfer lineage, SourceCheckpointHandle, bundle-handle, and legacy-log compatibility contracts.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"action\":\"Implement only the core authority protocol, private exact-artifact views, and the sealed #210 continuity-transfer projection bound to exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; retire or fail-close legacy direct authority command application without executing downstream effects.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"action\":\"Prove quorum endorsement, deterministic time boundaries, exact retry/conflict behavior, init and checkpoint crash windows, rollback, corruption, capacity, path safety, legacy-command rejection, opaque-token construction, byte-identical artifacts, sealed projection, and rejection of wrong consumer, lineage, SourceCheckpointHandle, and bundle-handle identities with exact forty-seven-case proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Resolve fresh exact-head review, publish a ready PR closing #201, shepherd hosted CI, and wait for operator review and merge authorization.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 23,
+      "actor": "codex:/root/resolve_201_208_findings",
+      "reason": "Resolve independent review with the exact forty-seven-case proof denominator including wrong lineage and exact source checkpoint and bundle handle rejection.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"committed-authority-protocol\",\"proof_role\":\"Prove exact forty-seven-case denominator: current_three_voter_finalize, exact_retry_returns_cached_result, signer_rotation_current_generation, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, missing_quorum, duplicate_signer, wrong_voter, signer_unavailable, expired_signer_cert, stale_membership, config_digest_mismatch, joint_old_only, joint_new_only, joint_union_majority_only, joint_duplicate_guardian_reuse, declared_finalize_time_after_deadline, finalize_before_prepare_time, replay_with_regressed_finalize_time, local_clock_skew_apply_parity, checkpoint_object_collision, node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker, checkpoint_result_retry_digest_mismatch, coherent_rollback_rejected, corrupt_journal_rejected, corrupt_retry_cache_rejected, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected, legacy_fence_voter_rejected, legacy_activate_owner_rejected, legacy_activate_shepherd_rejected, legacy_acquire_observatory_rejected, legacy_demote_voter_rejected, exact_store_artifact_bytes_retained, artifact_bytes_digest_substitution_rejected, sealed_continuity_transfer_projection, continuity_projection_consumer_confusion_rejected, continuity_projection_wrong_lineage_rejected, continuity_projection_wrong_source_checkpoint_handle_rejected, continuity_projection_wrong_bundle_handle_rejected.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--no-tests=fail\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":\"Deferred until PR #197 is merged and this issue creates the focused target; fail closed on a missing target/source, zero tests, any result not mapping exactly once to all forty-seven canonical names, any artifact/projection byte, digest, operation, lineage, source, target, SourceCheckpointHandle, bundle-handle, signed catalog, bound, deadline, or cleanup-identity mismatch, any wrong-variant/wrong-consumer projection success, or any public/caller-substitutable view.\"},{\"lane\":\"committed-authority-protocol-clippy\",\"proof_role\":\"Reject warnings and API misuse across the bounded core protocol, private exact artifact view, and sealed #210 projection surface.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"committed-authority-protocol-producer\",\"proof_role\":\"Produce exact Git/source/command/stream/timing/protected-digest evidence and private artifact/projection parity for all forty-seven declared cases.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":\"Deferred until the exact producer exists; fail closed on dirty protected source, a case count other than forty-seven, missing/extra/duplicate/reordered names, artifact or projection lineage/handle binding mismatch, nonpassing result, or nonzero status.\"},{\"lane\":\"committed-authority-protocol-receipt\",\"proof_role\":\"Bind exact protected source, commands, the exact forty-seven-case name/result/marker denominator including retained artifact bytes and the sealed #210 projection with exact lineage and handle identities, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":\"Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, all forty-seven names/results/markers, exact artifact/projection parity, wrong-lineage and wrong-handle denial, and consumer-confusion denial are bound.\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 24,
+      "actor": "codex:/root/resolve_201_208_findings",
+      "reason": "Keep independent review truth aligned with the exact forty-seven-case lineage and source checkpoint and bundle handle proof denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?\",\"Does the existing private artifact view retain byte-identical committed signed bytes only for sealed #199/#200/#203 consumers without replacement or digest-only reconstruction?\",\"Can only an exact finalized continuity-transfer variant produce the separate sealed #210 ContinuityTransferGrantProjection, with wrong consumer and wrong variant denied?\",\"Does the #210 projection bind exact lineage, SourceCheckpointHandle identity, byte-identical bundle-handle identity, source, target, route/membership/certificate/boot cuts, exact signed bundle/catalog bytes and digests, entry/chunk/range bounds, deadline, and cleanup identity while rejecting wrong lineage or either wrong handle before source access and exposing no constructor, generic conversion, signing, transport, filesystem, migration, fence, activation, serving, or store-effect authority?\",\"Does replicated apply consume only committed deterministic time, membership, and artifact evidence, including skew and uncertainty boundaries?\",\"Do initialization, exact retry, artifact retention, projection retention, result-cache, and external-checkpoint crash windows reconcile without false publication, substitution, or rollback acceptance?\",\"Are all legacy direct authority commands retired or explicitly versioned fail-closed across apply, log replay, and snapshot restore?\",\"Does exact proof bind all forty-seven machine cases, protected-source drift, immutable evidence, strict Clippy, and merge topology?\"]}"
     }
   ]
 }

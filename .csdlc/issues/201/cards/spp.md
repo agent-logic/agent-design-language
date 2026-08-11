@@ -16,32 +16,25 @@ After WP-04.16a merges, bind and implement the bounded committed authority proto
 
 ## Plan
 
-Revision 6
+Revision 8
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "After PR #197 merges ancestrally, bind #201 and freeze canonical committed intent, quorum-attested time, opaque local endorsement, durable result-cache, checkpoint, and legacy-log compatibility contracts.",
+    "action": "After PR #197 merges ancestrally, bind #201 and freeze canonical committed intent, quorum-attested time, opaque local endorsement, durable result-cache, checkpoint, private exact-artifact, sealed continuity-transfer lineage, SourceCheckpointHandle, bundle-handle, and legacy-log compatibility contracts.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-6"
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement only the core authority protocol and retire or fail-close legacy direct authority command application; emit opaque verified operation tokens for #199 and #200 without executing their side effects.",
+    "action": "Implement only the core authority protocol, private exact-artifact views, and the sealed #210 continuity-transfer projection bound to exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; retire or fail-close legacy direct authority command application without executing downstream effects.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
       "AC-6",
       "AC-7"
     ],
@@ -49,15 +42,10 @@ Revision 6
   },
   {
     "id": "S3",
-    "action": "Prove quorum endorsement, deterministic time boundaries, exact retry/conflict behavior, init and checkpoint crash windows, rollback, corruption, capacity, path safety, legacy-command rejection, and opaque-token construction.",
+    "action": "Prove quorum endorsement, deterministic time boundaries, exact retry/conflict behavior, init and checkpoint crash windows, rollback, corruption, capacity, path safety, legacy-command rejection, opaque-token construction, byte-identical artifacts, sealed projection, and rejection of wrong consumer, lineage, SourceCheckpointHandle, and bundle-handle identities with exact forty-seven-case proof.",
     "acceptance_ids": [
-      "AC-2",
-      "AC-3",
       "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-7",
-      "AC-8"
+      "AC-5"
     ],
     "status": "pending"
   },
@@ -104,13 +92,13 @@ Revision 6
 
 .csdlc/prepared/issues/201/design.md
 
-Digest: a5a0fd9d0f672d98f9675af40f4dec4b14a1c90b0d5cdef79976235f9193b4c7
+Digest: 673631c5387f72f4d5da4b11b2a467360a565ee306efd9229fa0fa36f409c5bf
 
 ## Diagram
 
 .csdlc/prepared/issues/201/diagram.mmd
 
-Digest: 23eb9deb823fa225863be77a5c76dd91fb0ba84e478504368219be98b45be3f6
+Digest: 40f6332420e6f7a4301b821cf802ecc3f4bee646a0a9c4c8d6f5da86447dfbf8
 
 ## Stop Conditions
 
