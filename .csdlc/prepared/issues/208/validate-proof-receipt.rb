@@ -67,7 +67,8 @@ end
 expected_commands = %w[
   diff_hygiene kernel_clippy kernel_markers kernel_nextest kernel_nextest_repeat
   kernel_nextest_isolated kernel_nextest_isolated_repeat runtime_clippy runtime_markers
-  runtime_nextest runtime_nextest_repeat runtime_nextest_isolated runtime_nextest_isolated_repeat
+  nextest_workspace_contract production_acip_nextest runtime_nextest runtime_nextest_repeat
+  runtime_nextest_isolated runtime_nextest_isolated_repeat
 ]
 commands = proof.fetch("commands")
 fail_receipt("command denominator mismatch") unless commands.keys.sort == expected_commands.sort
@@ -99,6 +100,13 @@ fail_receipt("repeated isolated/concurrent nextest denominator mismatch") unless
 ].all? { |name|
   %w[stdout stderr].any? { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])).include?("35 tests run: 35 passed") }
 }
+fail_receipt("production ACIP denominator mismatch") unless %w[stdout stderr].any? { |stream|
+  File.binread(ROOT.join(commands["production_acip_nextest"]["#{stream}_path"])).include?("2 tests run: 2 passed")
+}
+config_contract_text = %w[stdout stderr].map { |stream|
+  File.binread(ROOT.join(commands["nextest_workspace_contract"]["#{stream}_path"]))
+}.join
+fail_receipt("nextest workspace/slow-shard contract missing") unless config_contract_text.include?("PASS: nextest workspace and slow-proof selections remain loadable")
 receipts = proof.fetch("behavior_receipts")
 fail_receipt("behavior receipt denominator mismatch") unless receipts.length == 56 && receipts.map { |receipt| receipt["case"] }.uniq.length == 56
 retained_receipts = markers_text.lines.map do |line|

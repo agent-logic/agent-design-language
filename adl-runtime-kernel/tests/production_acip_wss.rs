@@ -235,9 +235,20 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
         }
         output
     });
-    let instance_id = ready_rx
-        .recv_timeout(Duration::from_secs(10))
-        .expect("production kernel did not report control readiness");
+    let instance_id = match ready_rx.recv_timeout(Duration::from_secs(10)) {
+        Ok(instance_id) => instance_id,
+        Err(error) => {
+            let mut process = child.0.take().unwrap();
+            if matches!(process.try_wait(), Ok(None)) {
+                let _ = process.kill();
+            }
+            let status = process.wait().unwrap();
+            let stderr = stderr_reader.join().unwrap();
+            panic!(
+                "production kernel did not report control readiness ({error}; {status}): {stderr}"
+            );
+        }
+    };
 
     let mut assertions = Vec::new();
     assertions.push(serde_json::json!({

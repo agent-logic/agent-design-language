@@ -24,7 +24,8 @@ pub fn write_with_certificate_for_state_and_ingress_capacity(
     canonical_ingress_capacity: usize,
 ) -> (PathBuf, Vec<u8>) {
     use rcgen::{
-        date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer, IsCa, KeyPair,
+        date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer,
+        ExtendedKeyUsagePurpose, IsCa, KeyPair,
     };
 
     let mut ca_params = CertificateParams::new(["adl-runtime-v3-test-ca".to_owned()]).unwrap();
@@ -51,6 +52,77 @@ pub fn write_with_certificate_for_state_and_ingress_capacity(
     std::fs::write(&certificate, format!("{}{}", leaf.pem(), ca.pem())).unwrap();
     std::fs::write(&private_key, leaf_key.serialize_pem()).unwrap();
     std::fs::write(&trust_roots, ca.pem()).unwrap();
+    let continuity_server_key = KeyPair::generate().unwrap();
+    let mut continuity_server_params = CertificateParams::new(["localhost".to_owned()]).unwrap();
+    continuity_server_params.extended_key_usages = vec![ExtendedKeyUsagePurpose::ServerAuth];
+    continuity_server_params.not_before = date_time_ymd(2026, 1, 1);
+    continuity_server_params.not_after = date_time_ymd(2036, 1, 1);
+    let continuity_server = continuity_server_params
+        .signed_by(&continuity_server_key, &ca)
+        .unwrap();
+    let continuity_guardian_key = KeyPair::generate().unwrap();
+    let mut continuity_guardian_params =
+        CertificateParams::new(["guardian-logical".to_owned()]).unwrap();
+    continuity_guardian_params.extended_key_usages = vec![ExtendedKeyUsagePurpose::ClientAuth];
+    continuity_guardian_params.not_before = date_time_ymd(2026, 1, 1);
+    continuity_guardian_params.not_after = date_time_ymd(2036, 1, 1);
+    let continuity_guardian = continuity_guardian_params
+        .signed_by(&continuity_guardian_key, &ca)
+        .unwrap();
+    let continuity_server_certificate = tls_root.join("continuity-server.pem");
+    let continuity_server_private_key = tls_root.join("continuity-server.key");
+    let continuity_server_roots = tls_root.join("continuity-server-ca.pem");
+    let continuity_guardian_certificate = tls_root.join("continuity-guardian.pem");
+    let continuity_guardian_private_key = tls_root.join("continuity-guardian.key");
+    let continuity_guardian_roots = tls_root.join("continuity-guardian-ca.pem");
+    std::fs::write(
+        &continuity_server_certificate,
+        format!("{}{}", continuity_server.pem(), ca.pem()),
+    )
+    .unwrap();
+    std::fs::write(
+        &continuity_server_private_key,
+        continuity_server_key.serialize_pem(),
+    )
+    .unwrap();
+    std::fs::write(&continuity_server_roots, ca.pem()).unwrap();
+    std::fs::write(
+        &continuity_guardian_certificate,
+        format!("{}{}", continuity_guardian.pem(), ca.pem()),
+    )
+    .unwrap();
+    std::fs::write(
+        &continuity_guardian_private_key,
+        continuity_guardian_key.serialize_pem(),
+    )
+    .unwrap();
+    std::fs::write(&continuity_guardian_roots, ca.pem()).unwrap();
+    let (_, continuity_server_x509) =
+        x509_parser::parse_x509_certificate(continuity_server.der().as_ref()).unwrap();
+    let continuity_server_spki_sha256 =
+        adl_runtime_kernel::sha256(continuity_server_x509.public_key().raw);
+    let (_, continuity_guardian_x509) =
+        x509_parser::parse_x509_certificate(continuity_guardian.der().as_ref()).unwrap();
+    let continuity_guardian_spki_sha256 =
+        adl_runtime_kernel::sha256(continuity_guardian_x509.public_key().raw);
+    let continuity_address = loop {
+        let probe = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+        let candidate = probe.local_addr().unwrap();
+        drop(probe);
+        if candidate != address {
+            break candidate;
+        }
+    };
+    let continuity_guardian_state = state_root.join("guardian-continuity");
+    let continuity_state = state_root.join("kernel-continuity-control");
+    let continuity_staging = state_root.join("continuity-staging");
+    for path in [
+        &continuity_guardian_state,
+        &continuity_state,
+        &continuity_staging,
+    ] {
+        std::fs::create_dir_all(path).unwrap();
+    }
     let credentials_root = state_root.join("credentials");
     std::fs::create_dir_all(&credentials_root).unwrap();
     let control_public_key = credentials_root.join("control-public-key.hex");
@@ -132,6 +204,36 @@ certificate_chain_path = "{}"
 private_key_path = "{}"
 trust_roots_path = "{}"
 server_name = "localhost"
+[continuity_control]
+address = "{}"
+guardian_state_dir = "{}"
+state_dir = "{}"
+staging_dir = "{}"
+trust_domain = "agent-logic.test"
+polis = "polis-a"
+source_node = "node-source"
+target_node = "node-target"
+guardian_id = "guardian-logical"
+kernel_control_id = "kernel-control"
+channel_epoch = 1
+[continuity_control.tls]
+server_certificate_chain_path = "{}"
+server_private_key_path = "{}"
+server_trust_roots_path = "{}"
+server_name = "localhost"
+guardian_certificate_chain_path = "{}"
+guardian_private_key_path = "{}"
+guardian_trust_roots_path = "{}"
+guardian_spki_sha256 = "{}"
+server_spki_sha256 = "{}"
+certificate_generation = 1
+[continuity_control.bounds]
+max_frame_bytes = 65536
+max_blob_bytes = 65536
+max_total_bytes = 524288
+max_services = 5
+max_journal_entries = 64
+max_open_handles = 8
 [credentials]
 control_public_key_path = "{}"
 control_key_id = "operator"
@@ -213,6 +315,18 @@ snapshot_concurrency = 4
             toml_path(&certificate),
             toml_path(&private_key),
             toml_path(&trust_roots),
+            continuity_address,
+            toml_path(&continuity_guardian_state),
+            toml_path(&continuity_state),
+            toml_path(&continuity_staging),
+            toml_path(&continuity_server_certificate),
+            toml_path(&continuity_server_private_key),
+            toml_path(&continuity_server_roots),
+            toml_path(&continuity_guardian_certificate),
+            toml_path(&continuity_guardian_private_key),
+            toml_path(&continuity_guardian_roots),
+            continuity_guardian_spki_sha256,
+            continuity_server_spki_sha256,
             toml_path(&control_public_key),
             toml_path(&operation_public_key),
             toml_path(&migration_decision_public_key),
