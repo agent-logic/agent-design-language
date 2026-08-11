@@ -233,12 +233,7 @@ async fn signed_restart_is_bound_to_the_current_runtime_incarnation() {
         ))
         .await
         .unwrap();
-    assert_eq!(
-        response.outcome,
-        ControlOutcome::Restart {
-            exit: ControlExit::Clean
-        }
-    );
+    assert_eq!(response.outcome, ControlOutcome::Restart { accepted: true });
     assert_eq!(calls.load(Ordering::SeqCst), 1);
 }
 

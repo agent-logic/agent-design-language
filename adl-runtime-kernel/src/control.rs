@@ -294,7 +294,7 @@ pub enum ControlOutcome {
     Snapshot { snapshot: Box<RuntimeSnapshot> },
     Submitted { work_result: DomainResult },
     Shutdown { exit: ControlExit },
-    Restart { exit: ControlExit },
+    Restart { accepted: bool },
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -309,8 +309,8 @@ pub struct ControlResponse {
 pub trait LifecycleControl: Send + Sync {
     async fn shutdown(&self, grace: Duration) -> Result<KernelExit, ()>;
 
-    async fn restart(&self, grace: Duration) -> Result<KernelExit, ()> {
-        self.shutdown(grace).await
+    async fn restart(&self, grace: Duration) -> Result<(), ()> {
+        self.shutdown(grace).await.map(|_| ())
     }
 }
 
@@ -993,19 +993,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     grace_millis,
                 } => {
                     debug_assert_eq!(expected_incarnation_id, self.runtime_incarnation_id);
-                    let exit = self
-                        .lifecycle
+                    self.lifecycle
                         .restart(Duration::from_millis(grace_millis))
                         .await
-                        .map(|exit| {
-                            if matches!(exit, KernelExit::Clean) {
-                                ControlExit::Clean
-                            } else {
-                                ControlExit::Failed
-                            }
-                        })
-                        .unwrap_or(ControlExit::Failed);
-                    Ok(ControlOutcome::Restart { exit })
+                        .map_err(|_| ControlError::Internal)?;
+                    Ok(ControlOutcome::Restart { accepted: true })
                 }
             }
         }

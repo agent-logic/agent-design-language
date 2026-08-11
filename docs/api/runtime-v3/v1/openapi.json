@@ -883,10 +883,10 @@
       "ControlOutcomeRestart": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["result", "exit"],
+        "required": ["result", "accepted"],
         "properties": {
           "result": { "const": "restart" },
-          "exit": { "enum": ["clean", "failed"] }
+          "accepted": { "const": true }
         }
       },
       "DomainResult": {
