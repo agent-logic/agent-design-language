@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
-  "generation": 62,
-  "digest": "dedcf3e2ab394b162e3fd7f857cbe80d1cf1d185bbfbb46abb9dd983af83709a",
+  "generation": 64,
+  "digest": "09513904016ba5aa034e1f6e47b54584572533e63b91de85169bcc6c2dbd1358",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
   "review_assignment": {
@@ -94,34 +94,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7219c284dbc8b2a4f4e5d6d5ca0c1504bdc5fce4e195b17d3f2964a1962398a2",
+      "values_digest": "2f544fdb334f25e4aa515694f396fdd216c581f93b67708679fd7f60702e94d4",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "7b3c6249267b42ff78d490d2c14491b1013382b948d2911dcdcc4bb80a61dd48",
+      "values_digest": "57cff4e842e1f955bbc38a56edd14a77f711070fe51acc022a28bc7f38855bcc",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "4e2b129c90d5bc5186304d05918316968474579aef2e125611362e46a7bf0cb3",
+      "values_digest": "25f566c928d1af304fe32bb1ac729b341513864878a282fe6410db76fde8c651",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "d9c1cf3bb52598aef8bcdfb16710eec17523f85756dfb15298ec1b67eb12a769",
+      "values_digest": "18729d791f629cd88801dd32e607260fa562da8c6d2ae36ef6772d9508f9f396",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "a1e8c9fcbc3f1acb5ccf0c5f065792e014c91a728a6c69c1b784f52407f2ff6e",
+      "values_digest": "220664701cf196803eb14dc5939a46ce97e76487d12df831da686c10e4d92b87",
       "rendered_digest": "201f5c0edf4fbccc30cb682e264ac177f82b1b1d51addad0f8d6e6365d88be24",
       "ast_digest": "48768d04ffd61b9f333507da04d2bad9bbdfb3cf78d358e2e5586e488428ccb4"
     },
     "sor": {
-      "values_digest": "9ac592643d0c963a9472a919168381f8cc4de01957322ba6fbcb5bf42b506f98",
-      "rendered_digest": "a8aff07ca78643042e05d806878a5c0ce47343f339ea383e3d1ab3638f130803",
-      "ast_digest": "3c85ae68fb16bc32fedef9cb28e4abc3627e50cbcadb9d0db204f132aae8d787"
+      "values_digest": "1942f00c7828c4953f2ea306a722b10def362122a853cb532867fb261d6152d3",
+      "rendered_digest": "4947fa95af7210ea1e0ba6d4395d4e8ee80f5f1b246d9fc1dd32c5ceb9390993",
+      "ast_digest": "f6c735e8273b495515663c7c86d18b1760a88af681e00ebdc4f85a5dec3def61"
     }
   },
   "transitions": [
@@ -665,6 +665,20 @@
       "actor": "subagent:019fef9d-f81f-7d52-860a-86b07b79ec9c",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 70,
+      "generation": 63,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record the complete remediation of the assigned fresh-session findings and final roster-stack integration.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the authentication-generation and duplicate-waiter findings, then integrated the final policy-safe WP-18C.03 roster authority at exact product revision 17044db84.\",\"changes\":[\"Bound every asynchronous conversation result to a monotonically increasing authentication generation as well as credential digest, preventing same-token reauthentication and rotate-away/rotate-back from reviving an earlier session.\",\"Replaced the unbounded result channel with a bounded 32-frame channel and retained at most one terminal attachment per authentication generation, conversation, and turn.\",\"Made stale completion cleanup generation-aware so an old result cannot remove a newer attachment.\",\"Integrated the final Runtime-authenticated roster cursor and exact detail contract; conversation eligibility now resolves the exact policy-visible recipient rather than reconstructing or bypassing paginated public state.\",\"Added focused production-WSS regressions for same-token reauthentication, credential rotation back to old bytes, a 64-request duplicate flood, and a visible recipient beyond the first roster page.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"demos/html-observatory/app.js\",\"17044db84\"]}"
+    },
+    {
+      "sequence": 71,
+      "generation": 64,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record focused exact-head validation and issue-owned coverage after final roster-stack integration.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused WP-18C.01 Runtime, WSS, browser, OpenAPI, lint, format, diff, and issue-owned coverage gates\"],\"purpose\":\"Prove generation-bound result authorization, bounded duplicate handling, exact policy-visible recipient resolution, and preservation of the integrated conversation and roster contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:17044db84; conversation_sessions 1/1, control 25/25, observatory 7/7, openapi_contract 6/6 PASS; conversation browser contract PASS; combined HTML Observatory contract PASS; strict lib+binary Clippy PASS; cargo fmt and diff hygiene PASS; exact conversation_sessions llvm-cov PASS with control.rs 42.94%, ingress.rs 76.66%, operations.rs 48.44%, telemetry.rs 65.06%. Long-running validation remains out of band under #226.\"}}"
     }
   ]
 }

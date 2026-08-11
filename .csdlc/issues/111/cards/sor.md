@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Closed both fresh-session review findings at exact product revision fb4003c15a1eefd9daf780bf5c397dd887185b75.
+Closed the authentication-generation and duplicate-waiter findings, then integrated the final policy-safe WP-18C.03 roster authority at exact product revision 17044db84.
 
 ## Artifacts
 
@@ -35,6 +35,10 @@ Closed both fresh-session review findings at exact product revision fb4003c15a1e
 - adl-runtime-kernel/src/control.rs
 - adl-runtime-kernel/tests/conversation_sessions.rs
 - fb4003c15a1eefd9daf780bf5c397dd887185b75
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- demos/html-observatory/app.js
+- 17044db84
 
 ## Execution
 
@@ -54,6 +58,11 @@ Closed both fresh-session review findings at exact product revision fb4003c15a1e
 - Bound every asynchronous conversation terminal result to the digest of the exact Observatory credential that accepted it, revalidated current authorization immediately before delivery, and discarded results when the session credential changed.
 - Traversed the Runtime roster through revision-bound continuation pages with a finite population-derived bound so eligible recipients beyond the first 100 entries are resolved without bypassing policy projection.
 - Added authenticated production-WSS regressions for in-flight credential rotation across reauthentication and successful conversation delivery to agent-0100 on the second roster page.
+- Bound every asynchronous conversation result to a monotonically increasing authentication generation as well as credential digest, preventing same-token reauthentication and rotate-away/rotate-back from reviving an earlier session.
+- Replaced the unbounded result channel with a bounded 32-frame channel and retained at most one terminal attachment per authentication generation, conversation, and turn.
+- Made stale completion cleanup generation-aware so an old result cannot remove a newer attachment.
+- Integrated the final Runtime-authenticated roster cursor and exact detail contract; conversation eligibility now resolves the exact policy-visible recipient rather than reconstructing or bypassing paginated public state.
+- Added focused production-WSS regressions for same-token reauthentication, credential rotation back to old bytes, a 64-request duplicate flood, and a visible recipient beyond the first roster page.
 
 ## Validation
 
@@ -239,6 +248,14 @@ Closed both fresh-session review findings at exact product revision fb4003c15a1e
     "purpose": "Prove exact-credential terminal-result binding, immediate pre-send revocation enforcement, bounded continuation-page recipient resolution, and preservation of the complete conversation and roster contract.",
     "outcome": "passed",
     "evidence_ref": "git:fb4003c15a1eefd9daf780bf5c397dd887185b75; conversation_sessions 1/1; agent_roster 10/10; control 24/24; observatory 7/7; openapi_contract 6/6; browser conversation PASS; HTML Observatory PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS"
+  },
+  {
+    "command": [
+      "focused WP-18C.01 Runtime, WSS, browser, OpenAPI, lint, format, diff, and issue-owned coverage gates"
+    ],
+    "purpose": "Prove generation-bound result authorization, bounded duplicate handling, exact policy-visible recipient resolution, and preservation of the integrated conversation and roster contracts.",
+    "outcome": "passed",
+    "evidence_ref": "git:17044db84; conversation_sessions 1/1, control 25/25, observatory 7/7, openapi_contract 6/6 PASS; conversation browser contract PASS; combined HTML Observatory contract PASS; strict lib+binary Clippy PASS; cargo fmt and diff hygiene PASS; exact conversation_sessions llvm-cov PASS with control.rs 42.94%, ingress.rs 76.66%, operations.rs 48.44%, telemetry.rs 65.06%. Long-running validation remains out of band under #226."
   }
 ]
 
