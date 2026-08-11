@@ -4,21 +4,27 @@
 
 use std::{
     collections::{BTreeMap, BTreeSet},
+    fs,
     sync::{Arc, Mutex},
 };
 
 use adl_runtime::distributed::{
     authority_protocol::{
-        verify_finalization, AuthorityNodeIdentity, AuthorityOperationKind, AuthorityProtocolError,
-        CanonicalAuthorityTime, CommittedAuthorityArtifact, DurableAuthorityProtocol,
-        FinalizeAuthorityIntent, PrepareAuthorityIntent, VoterEndorsementAuthority,
+        validate_continuity_transfer_binding, verify_finalization, AuthorityNodeIdentity,
+        AuthorityOperationKind, AuthorityProtocolError, CanonicalAuthorityTime,
+        CommittedAuthorityArtifact, ContinuityTransferChunk, ContinuityTransferEntry,
+        ContinuityTransferGrantArtifact, DurableAuthorityProtocol, FinalizeAuthorityIntent,
+        PrepareAuthorityIntent, VoterEndorsementAuthority, CONTINUITY_TRANSFER_ADAPTER_210,
     },
     lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
     membership::{
         CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
         MembershipState,
     },
-    polis_runtime::{ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisRuntimeError},
+    polis_runtime::{
+        validate_authority_command_boundary, ConsensusCheckpoint, ConsensusCheckpointAuthority,
+        PolisCommand, PolisRuntimeError,
+    },
 };
 use ed25519_dalek::SigningKey;
 use sha2::{Digest, Sha256};
@@ -50,6 +56,43 @@ impl ConsensusCheckpointAuthority for MemoryCheckpointAuthority {
             return Err(PolisRuntimeError::StateRegression);
         }
         values.insert(candidate.object.clone(), candidate.clone());
+        Ok(())
+    }
+}
+
+#[derive(Default)]
+struct FaultCheckpointAuthority {
+    inner: MemoryCheckpointAuthority,
+    mode: Mutex<u8>,
+}
+
+impl FaultCheckpointAuthority {
+    fn arm_before_cas(&self) {
+        *self.mode.lock().unwrap() = 1;
+    }
+    fn arm_after_cas(&self) {
+        *self.mode.lock().unwrap() = 2;
+    }
+}
+
+impl ConsensusCheckpointAuthority for FaultCheckpointAuthority {
+    fn load(&self, object: &str) -> Result<Option<ConsensusCheckpoint>, PolisRuntimeError> {
+        self.inner.load(object)
+    }
+
+    fn compare_and_swap(
+        &self,
+        expected: Option<&ConsensusCheckpoint>,
+        candidate: &ConsensusCheckpoint,
+    ) -> Result<(), PolisRuntimeError> {
+        let mode = std::mem::take(&mut *self.mode.lock().unwrap());
+        if mode == 1 {
+            return Err(PolisRuntimeError::Storage);
+        }
+        self.inner.compare_and_swap(expected, candidate)?;
+        if mode == 2 {
+            return Err(PolisRuntimeError::Storage);
+        }
         Ok(())
     }
 }
@@ -501,4 +544,569 @@ fn exact_store_artifact_bytes_retained() {
     assert_eq!(result.operation().intent_sha256(), intent.digest().unwrap());
     assert_eq!(intent.artifact.sha256.as_slice(), expected.as_slice());
     marker("exact_store_artifact_bytes_retained", "passed");
+}
+
+#[test]
+fn signer_rotation_current_generation() {
+    let fixture = Fixture::new();
+    let store = fixture.store();
+    let intent = fixture.intent(&store, "rotation");
+    let time = CanonicalAuthorityTime {
+        unix_seconds: FINALIZE_SECONDS,
+        nanos: 0,
+        uncertainty_millis: 2,
+    };
+    let endorsement = fixture.signers[0]
+        .endorse(&intent, &time, &fixture.membership, &fixture.authority)
+        .unwrap();
+    let mut rotated = fixture.authority.clone();
+    rotated
+        .voters
+        .get_mut(b"guardian-1".as_slice())
+        .unwrap()
+        .certificate_generation = 8;
+    let finalize = FinalizeAuthorityIntent::new(&intent, time, vec![endorsement]).unwrap();
+    assert_eq!(
+        verify_finalization(&intent, &finalize, &fixture.membership, &rotated),
+        Err(AuthorityProtocolError::StaleVoter)
+    );
+    marker("signer_rotation_current_generation", "rejected");
+}
+
+#[test]
+fn joint_majority_each_config() {
+    let fixture = Fixture::with_configs(vec![vec![0, 1, 2], vec![1, 2, 3]]);
+    let store = fixture.store();
+    let intent = fixture.intent(&store, "joint-pass");
+    let time = CanonicalAuthorityTime {
+        unix_seconds: FINALIZE_SECONDS,
+        nanos: 0,
+        uncertainty_millis: 2,
+    };
+    let finalize = fixture.finalize_with(&intent, &[1, 2], time);
+    assert!(
+        verify_finalization(&intent, &finalize, &fixture.membership, &fixture.authority).is_ok()
+    );
+    marker("joint_majority_each_config", "passed");
+}
+
+fn assert_joint_rejected(name: &str, indexes: &[usize]) {
+    let fixture = Fixture::with_configs(vec![vec![0, 1, 2], vec![3, 4, 5]]);
+    let store = fixture.store();
+    let intent = fixture.intent(&store, name);
+    let finalize = fixture.finalize_with(
+        &intent,
+        indexes,
+        CanonicalAuthorityTime {
+            unix_seconds: FINALIZE_SECONDS,
+            nanos: 0,
+            uncertainty_millis: 2,
+        },
+    );
+    assert_eq!(
+        verify_finalization(&intent, &finalize, &fixture.membership, &fixture.authority),
+        Err(AuthorityProtocolError::MissingQuorum)
+    );
+    marker(name, "rejected");
+}
+
+#[test]
+fn joint_old_only() {
+    assert_joint_rejected("joint_old_only", &[0, 1, 2]);
+}
+
+#[test]
+fn joint_new_only() {
+    assert_joint_rejected("joint_new_only", &[3, 4, 5]);
+}
+
+#[test]
+fn joint_union_majority_only() {
+    assert_joint_rejected("joint_union_majority_only", &[0, 3, 4, 5]);
+}
+
+#[test]
+fn joint_duplicate_guardian_reuse() {
+    let fixture = Fixture::with_configs(vec![vec![0, 1, 2], vec![1, 2, 3]]);
+    let store = fixture.store();
+    let intent = fixture.intent(&store, "joint-duplicate");
+    let time = CanonicalAuthorityTime {
+        unix_seconds: FINALIZE_SECONDS,
+        nanos: 0,
+        uncertainty_millis: 2,
+    };
+    let endorsement = fixture.signers[1]
+        .endorse(&intent, &time, &fixture.membership, &fixture.authority)
+        .unwrap();
+    let finalize =
+        FinalizeAuthorityIntent::new(&intent, time, vec![endorsement.clone(), endorsement])
+            .unwrap();
+    assert_eq!(
+        verify_finalization(&intent, &finalize, &fixture.membership, &fixture.authority),
+        Err(AuthorityProtocolError::DuplicateVoter)
+    );
+    marker("joint_duplicate_guardian_reuse", "rejected");
+}
+
+#[test]
+fn signer_unavailable() {
+    assert_joint_rejected("signer_unavailable", &[0, 1, 3]);
+}
+
+#[test]
+fn expired_signer_cert() {
+    let mut fixture = Fixture::new();
+    fixture
+        .authority
+        .voters
+        .get_mut(b"guardian-1".as_slice())
+        .unwrap()
+        .not_after_unix_seconds = FINALIZE_SECONDS - 1;
+    let store = fixture.store();
+    let intent = fixture.intent(&store, "expired");
+    let time = CanonicalAuthorityTime {
+        unix_seconds: FINALIZE_SECONDS,
+        nanos: 0,
+        uncertainty_millis: 2,
+    };
+    assert_eq!(
+        fixture.signers[0].endorse(&intent, &time, &fixture.membership, &fixture.authority),
+        Err(AuthorityProtocolError::StaleVoter)
+    );
+    marker("expired_signer_cert", "rejected");
+}
+
+#[test]
+fn wrong_voter() {
+    let fixture = Fixture::new();
+    let store = fixture.store();
+    let intent = fixture.intent(&store, "wrong-voter");
+    let time = CanonicalAuthorityTime {
+        unix_seconds: FINALIZE_SECONDS,
+        nanos: 0,
+        uncertainty_millis: 2,
+    };
+    let endorsement = fixture.signers[0]
+        .endorse(&intent, &time, &fixture.membership, &fixture.authority)
+        .unwrap();
+    let mut value = serde_json::to_value(endorsement).unwrap();
+    value["guardian_id"] = serde_json::json!([103, 104, 111, 115, 116]);
+    let wrong = serde_json::from_value(value).unwrap();
+    let finalize = FinalizeAuthorityIntent::new(&intent, time, vec![wrong]).unwrap();
+    assert_eq!(
+        verify_finalization(&intent, &finalize, &fixture.membership, &fixture.authority),
+        Err(AuthorityProtocolError::WrongVoter)
+    );
+    marker("wrong_voter", "rejected");
+}
+
+#[test]
+fn replay_with_regressed_finalize_time() {
+    let fixture = Fixture::new();
+    let mut store = fixture.store();
+    let intent = fixture.intent(&store, "regressed-time");
+    store.publish(&intent, fixture.verified(&intent)).unwrap();
+    let earlier = CanonicalAuthorityTime {
+        unix_seconds: FINALIZE_SECONDS - 1,
+        nanos: 0,
+        uncertainty_millis: 2,
+    };
+    let finalize = fixture.finalize_with(&intent, &[0, 1], earlier);
+    let verified =
+        verify_finalization(&intent, &finalize, &fixture.membership, &fixture.authority).unwrap();
+    assert_eq!(
+        store.publish(&intent, verified),
+        Err(AuthorityProtocolError::RetryConflict)
+    );
+    marker("replay_with_regressed_finalize_time", "rejected");
+}
+
+fn assert_legacy_rejected(case: &str, command: PolisCommand) {
+    assert_eq!(
+        validate_authority_command_boundary(&command),
+        Err(PolisRuntimeError::AuthorityDenied)
+    );
+    marker(case, "rejected");
+}
+
+#[test]
+fn legacy_fence_voter_rejected() {
+    assert_legacy_rejected(
+        "legacy_fence_voter_rejected",
+        PolisCommand::FenceVoter {
+            voter_id: "voter-a".into(),
+            epoch: 2,
+        },
+    );
+}
+
+#[test]
+fn legacy_activate_owner_rejected() {
+    assert_legacy_rejected(
+        "legacy_activate_owner_rejected",
+        PolisCommand::ActivateOwner {
+            owner_id: "owner-a".into(),
+            epoch: 2,
+        },
+    );
+}
+
+#[test]
+fn legacy_activate_shepherd_rejected() {
+    assert_legacy_rejected(
+        "legacy_activate_shepherd_rejected",
+        PolisCommand::ActivateShepherd {
+            shepherd_identity_ref: "shepherd-a".into(),
+            epoch: 2,
+        },
+    );
+}
+
+#[test]
+fn legacy_acquire_observatory_rejected() {
+    assert_legacy_rejected(
+        "legacy_acquire_observatory_rejected",
+        PolisCommand::AcquireObservatory {
+            owner_id: "owner-a".into(),
+            epoch: 2,
+            expires_unix_millis: 10,
+        },
+    );
+}
+
+#[test]
+fn legacy_demote_voter_rejected() {
+    assert_legacy_rejected(
+        "legacy_demote_voter_rejected",
+        PolisCommand::DemoteVoter {
+            voter_id: "voter-a".into(),
+            epoch: 2,
+        },
+    );
+}
+
+fn crash_identity(node: &str) -> AuthorityNodeIdentity {
+    AuthorityNodeIdentity {
+        trust_domain: DOMAIN.into(),
+        polis_id: POLIS.into(),
+        node_id: node.into(),
+        guardian_id: node.replacen("node", "guardian", 1),
+        boot_generation: 11,
+    }
+}
+
+fn prove_local_before_cas(case: &str, node: &str) {
+    let fixture = Fixture::new();
+    let checkpoint = Arc::new(FaultCheckpointAuthority::default());
+    let identity = crash_identity(node);
+    let mut store =
+        DurableAuthorityProtocol::open(fixture.root.path(), identity.clone(), checkpoint.clone())
+            .unwrap();
+    let intent = fixture.intent(&store, case);
+    checkpoint.arm_before_cas();
+    assert_eq!(
+        store.publish(&intent, fixture.verified(&intent)),
+        Err(AuthorityProtocolError::Storage)
+    );
+    drop(store);
+    let mut reopened =
+        DurableAuthorityProtocol::open(fixture.root.path(), identity, checkpoint).unwrap();
+    assert!(reopened.published(case).is_none());
+    assert!(reopened.publish(&intent, fixture.verified(&intent)).is_ok());
+    marker(case, "reconciled");
+}
+
+fn prove_cas_before_final_marker(case: &str, node: &str) {
+    let fixture = Fixture::new();
+    let checkpoint = Arc::new(FaultCheckpointAuthority::default());
+    let identity = crash_identity(node);
+    let mut store =
+        DurableAuthorityProtocol::open(fixture.root.path(), identity.clone(), checkpoint.clone())
+            .unwrap();
+    let intent = fixture.intent(&store, case);
+    checkpoint.arm_after_cas();
+    assert_eq!(
+        store.publish(&intent, fixture.verified(&intent)),
+        Err(AuthorityProtocolError::Storage)
+    );
+    drop(store);
+    let reopened =
+        DurableAuthorityProtocol::open(fixture.root.path(), identity, checkpoint).unwrap();
+    assert!(reopened.published(case).is_some());
+    marker(case, "reconciled");
+}
+
+#[test]
+fn node_a_local_before_cas() {
+    prove_local_before_cas("node_a_local_before_cas", "node-1");
+}
+#[test]
+fn node_a_cas_before_final_marker() {
+    prove_cas_before_final_marker("node_a_cas_before_final_marker", "node-1");
+}
+#[test]
+fn node_b_local_before_cas() {
+    prove_local_before_cas("node_b_local_before_cas", "node-2");
+}
+#[test]
+fn node_b_cas_before_final_marker() {
+    prove_cas_before_final_marker("node_b_cas_before_final_marker", "node-2");
+}
+#[test]
+fn node_c_local_before_cas() {
+    prove_local_before_cas("node_c_local_before_cas", "node-3");
+}
+#[test]
+fn node_c_cas_before_final_marker() {
+    prove_cas_before_final_marker("node_c_cas_before_final_marker", "node-3");
+}
+
+#[test]
+fn coherent_rollback_rejected() {
+    let fixture = Fixture::new();
+    let mut store = fixture.store();
+    let intent = fixture.intent(&store, "rollback");
+    store.publish(&intent, fixture.verified(&intent)).unwrap();
+    drop(store);
+    fixture.checkpoint.0.lock().unwrap().clear();
+    assert_eq!(
+        DurableAuthorityProtocol::open(
+            fixture.root.path(),
+            crash_identity("node-1"),
+            fixture.checkpoint.clone()
+        )
+        .err(),
+        Some(AuthorityProtocolError::StateRegression)
+    );
+    marker("coherent_rollback_rejected", "rejected");
+}
+
+fn tamper_state(fixture: &Fixture, field: &str) {
+    let path = fixture.root.path().join("authority-protocol.json");
+    let mut value: serde_json::Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    value["payload"]["published"]["tamper"][field][0] = serde_json::json!(99);
+    fs::write(path, serde_jcs::to_vec(&value).unwrap()).unwrap();
+}
+
+#[test]
+fn checkpoint_result_retry_digest_mismatch() {
+    let fixture = Fixture::new();
+    let mut store = fixture.store();
+    let intent = fixture.intent(&store, "tamper");
+    store.publish(&intent, fixture.verified(&intent)).unwrap();
+    drop(store);
+    tamper_state(&fixture, "result_sha256");
+    assert!(DurableAuthorityProtocol::open(
+        fixture.root.path(),
+        crash_identity("node-1"),
+        fixture.checkpoint.clone()
+    )
+    .is_err());
+    marker("checkpoint_result_retry_digest_mismatch", "rejected");
+}
+
+#[test]
+fn corrupt_retry_cache_rejected() {
+    let fixture = Fixture::new();
+    let mut store = fixture.store();
+    let intent = fixture.intent(&store, "tamper");
+    store.publish(&intent, fixture.verified(&intent)).unwrap();
+    drop(store);
+    tamper_state(&fixture, "retry_sha256");
+    assert!(DurableAuthorityProtocol::open(
+        fixture.root.path(),
+        crash_identity("node-1"),
+        fixture.checkpoint.clone()
+    )
+    .is_err());
+    marker("corrupt_retry_cache_rejected", "rejected");
+}
+
+#[test]
+fn corrupt_journal_rejected() {
+    let fixture = Fixture::new();
+    let store = fixture.store();
+    drop(store);
+    fs::write(
+        fixture.root.path().join(".authority-protocol.json.journal"),
+        b"{}",
+    )
+    .unwrap();
+    assert!(DurableAuthorityProtocol::open(
+        fixture.root.path(),
+        crash_identity("node-1"),
+        fixture.checkpoint.clone()
+    )
+    .is_err());
+    marker("corrupt_journal_rejected", "rejected");
+}
+
+#[cfg(unix)]
+#[test]
+fn state_symlink_rejected() {
+    use std::os::unix::fs::symlink;
+    let fixture = Fixture::new();
+    symlink(
+        "missing-target",
+        fixture.root.path().join("authority-protocol.json"),
+    )
+    .unwrap();
+    assert!(DurableAuthorityProtocol::open(
+        fixture.root.path(),
+        crash_identity("node-1"),
+        fixture.checkpoint.clone()
+    )
+    .is_err());
+    marker("state_symlink_rejected", "rejected");
+}
+
+#[cfg(unix)]
+#[test]
+fn lock_symlink_rejected() {
+    use std::os::unix::fs::symlink;
+    let fixture = Fixture::new();
+    symlink(
+        "missing-target",
+        fixture.root.path().join(".authority-protocol.json.lock"),
+    )
+    .unwrap();
+    assert!(DurableAuthorityProtocol::open(
+        fixture.root.path(),
+        crash_identity("node-1"),
+        fixture.checkpoint.clone()
+    )
+    .is_err());
+    marker("lock_symlink_rejected", "rejected");
+}
+
+fn continuity_artifact() -> CommittedAuthorityArtifact {
+    let manifest = b"signed-manifest".to_vec();
+    let catalog = b"signed-catalog".to_vec();
+    CommittedAuthorityArtifact::continuity_transfer(&ContinuityTransferGrantArtifact {
+        source_guardian_id: "guardian-a".into(),
+        target_guardian_id: "guardian-b".into(),
+        route_id: "route-a".into(),
+        membership_epoch: 7,
+        membership_log_index: 19,
+        source_certificate_generation: 3,
+        target_certificate_generation: 4,
+        source_boot_generation: 5,
+        target_boot_generation: 6,
+        transfer_id: "transfer-a".into(),
+        lineage_id: b"lineage-a".to_vec(),
+        source_checkpoint_handle_identity: b"source-handle-a".to_vec(),
+        bundle_handle_identity: b"bundle-handle-a".to_vec(),
+        signed_manifest_sha256: Sha256::digest(&manifest).into(),
+        signed_manifest_bytes: manifest,
+        signed_catalog_sha256: Sha256::digest(&catalog).into(),
+        signed_catalog_bytes: catalog,
+        trusted_key_generation: 8,
+        entries: vec![ContinuityTransferEntry {
+            schema: "kernel.page.v1".into(),
+            absolute_start: 0,
+            length: 4,
+            sha256: [9; 32],
+        }],
+        chunks: vec![ContinuityTransferChunk {
+            index: 0,
+            absolute_start: 0,
+            length: 4,
+            sha256: [10; 32],
+            predecessor_sha256: None,
+        }],
+        total_bytes: 4,
+        inclusive_deadline: CanonicalAuthorityTime {
+            unix_seconds: FINALIZE_SECONDS,
+            nanos: 0,
+            uncertainty_millis: 2,
+        },
+        cleanup_identity: "cleanup-a".into(),
+    })
+    .unwrap()
+}
+
+fn continuity_check(
+    consumer: &str,
+    lineage: &[u8],
+    source: &[u8],
+    bundle: &[u8],
+) -> Result<(), AuthorityProtocolError> {
+    validate_continuity_transfer_binding(&continuity_artifact(), consumer, lineage, source, bundle)
+}
+
+#[test]
+fn sealed_continuity_transfer_projection() {
+    assert!(continuity_check(
+        CONTINUITY_TRANSFER_ADAPTER_210,
+        b"lineage-a",
+        b"source-handle-a",
+        b"bundle-handle-a"
+    )
+    .is_ok());
+    marker("sealed_continuity_transfer_projection", "passed");
+}
+
+#[test]
+fn continuity_projection_consumer_confusion_rejected() {
+    assert_eq!(
+        continuity_check(
+            "other-consumer",
+            b"lineage-a",
+            b"source-handle-a",
+            b"bundle-handle-a"
+        ),
+        Err(AuthorityProtocolError::WrongVoterPurpose)
+    );
+    marker(
+        "continuity_projection_consumer_confusion_rejected",
+        "rejected",
+    );
+}
+
+#[test]
+fn continuity_projection_wrong_lineage_rejected() {
+    assert_eq!(
+        continuity_check(
+            CONTINUITY_TRANSFER_ADAPTER_210,
+            b"wrong-lineage",
+            b"source-handle-a",
+            b"bundle-handle-a"
+        ),
+        Err(AuthorityProtocolError::ArtifactMismatch)
+    );
+    marker("continuity_projection_wrong_lineage_rejected", "rejected");
+}
+
+#[test]
+fn continuity_projection_wrong_source_checkpoint_handle_rejected() {
+    assert_eq!(
+        continuity_check(
+            CONTINUITY_TRANSFER_ADAPTER_210,
+            b"lineage-a",
+            b"wrong-source",
+            b"bundle-handle-a"
+        ),
+        Err(AuthorityProtocolError::ArtifactMismatch)
+    );
+    marker(
+        "continuity_projection_wrong_source_checkpoint_handle_rejected",
+        "rejected",
+    );
+}
+
+#[test]
+fn continuity_projection_wrong_bundle_handle_rejected() {
+    assert_eq!(
+        continuity_check(
+            CONTINUITY_TRANSFER_ADAPTER_210,
+            b"lineage-a",
+            b"source-handle-a",
+            b"wrong-bundle"
+        ),
+        Err(AuthorityProtocolError::ArtifactMismatch)
+    );
+    marker(
+        "continuity_projection_wrong_bundle_handle_rejected",
+        "rejected",
+    );
 }

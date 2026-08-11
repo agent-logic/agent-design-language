@@ -30,6 +30,7 @@ const MAX_IDENTITY_BYTES: usize = 128;
 const MAX_ARTIFACT_BYTES: usize = 1024 * 1024;
 const MAX_PUBLISHED_OPERATIONS: usize = 4096;
 const PROTOCOL_INSTANCE_VERSION: &str = "adl.committed-authority-protocol.v1";
+pub const CONTINUITY_TRANSFER_ADAPTER_210: &str = "adl.runtime.continuity-transfer.adapter.210.v1";
 
 pub type AuthorityProtocolResult<T> = Result<T, AuthorityProtocolError>;
 
@@ -115,6 +116,18 @@ impl AuthorityOperationKind {
             Self::ContinuityTransfer => "adl.authority-artifact.continuity-transfer.v1",
         }
     }
+
+    fn from_artifact_domain(domain: &str) -> AuthorityProtocolResult<Self> {
+        [
+            Self::Membership,
+            Self::Reconciliation,
+            Self::ExistingStore,
+            Self::ContinuityTransfer,
+        ]
+        .into_iter()
+        .find(|kind| kind.artifact_domain() == domain)
+        .ok_or(AuthorityProtocolError::ArtifactMismatch)
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -167,6 +180,200 @@ impl CommittedAuthorityArtifact {
             return Err(AuthorityProtocolError::ArtifactMismatch);
         }
         Ok(())
+    }
+
+    pub fn continuity_transfer(
+        grant: &ContinuityTransferGrantArtifact,
+    ) -> AuthorityProtocolResult<Self> {
+        grant.validate()?;
+        Self::new(
+            AuthorityOperationKind::ContinuityTransfer,
+            serde_jcs::to_vec(grant).map_err(|_| AuthorityProtocolError::Serialization)?,
+        )
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ContinuityTransferEntry {
+    pub schema: String,
+    pub absolute_start: u64,
+    pub length: u64,
+    pub sha256: [u8; 32],
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ContinuityTransferChunk {
+    pub index: u64,
+    pub absolute_start: u64,
+    pub length: u64,
+    pub sha256: [u8; 32],
+    pub predecessor_sha256: Option<[u8; 32]>,
+}
+
+/// Store-native, signed continuity authorization bytes retained by the
+/// committed artifact. This is data, not a transfer or source-access handle.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ContinuityTransferGrantArtifact {
+    pub source_guardian_id: String,
+    pub target_guardian_id: String,
+    pub route_id: String,
+    pub membership_epoch: u64,
+    pub membership_log_index: u64,
+    pub source_certificate_generation: u64,
+    pub target_certificate_generation: u64,
+    pub source_boot_generation: u64,
+    pub target_boot_generation: u64,
+    pub transfer_id: String,
+    pub lineage_id: Vec<u8>,
+    pub source_checkpoint_handle_identity: Vec<u8>,
+    pub bundle_handle_identity: Vec<u8>,
+    pub signed_manifest_bytes: Vec<u8>,
+    pub signed_manifest_sha256: [u8; 32],
+    pub signed_catalog_bytes: Vec<u8>,
+    pub signed_catalog_sha256: [u8; 32],
+    pub trusted_key_generation: u64,
+    pub entries: Vec<ContinuityTransferEntry>,
+    pub chunks: Vec<ContinuityTransferChunk>,
+    pub total_bytes: u64,
+    pub inclusive_deadline: CanonicalAuthorityTime,
+    pub cleanup_identity: String,
+}
+
+impl ContinuityTransferGrantArtifact {
+    fn validate(&self) -> AuthorityProtocolResult<()> {
+        for value in [
+            &self.source_guardian_id,
+            &self.target_guardian_id,
+            &self.route_id,
+            &self.transfer_id,
+            &self.cleanup_identity,
+        ] {
+            validate_identifier(value)?;
+        }
+        self.inclusive_deadline.validate()?;
+        if self.source_guardian_id == self.target_guardian_id
+            || self.membership_epoch == 0
+            || self.membership_log_index == 0
+            || self.source_certificate_generation == 0
+            || self.target_certificate_generation == 0
+            || self.source_boot_generation == 0
+            || self.target_boot_generation == 0
+            || self.trusted_key_generation == 0
+            || self.lineage_id.is_empty()
+            || self.source_checkpoint_handle_identity.is_empty()
+            || self.bundle_handle_identity.is_empty()
+            || self.signed_manifest_bytes.is_empty()
+            || self.signed_catalog_bytes.is_empty()
+            || self.total_bytes == 0
+            || self.entries.is_empty()
+            || self.chunks.is_empty()
+            || self.signed_manifest_sha256
+                != <[u8; 32]>::from(Sha256::digest(&self.signed_manifest_bytes))
+            || self.signed_catalog_sha256
+                != <[u8; 32]>::from(Sha256::digest(&self.signed_catalog_bytes))
+        {
+            return Err(AuthorityProtocolError::ArtifactMismatch);
+        }
+        let mut next = 0_u64;
+        for (index, entry) in self.entries.iter().enumerate() {
+            validate_identifier(&entry.schema)?;
+            if entry.length == 0
+                || entry.sha256 == [0; 32]
+                || entry.absolute_start != next
+                || (index > 0 && entry.absolute_start == 0)
+            {
+                return Err(AuthorityProtocolError::ArtifactMismatch);
+            }
+            next = next
+                .checked_add(entry.length)
+                .ok_or(AuthorityProtocolError::ArtifactMismatch)?;
+        }
+        if next != self.total_bytes {
+            return Err(AuthorityProtocolError::ArtifactMismatch);
+        }
+        let mut chunk_next = 0_u64;
+        let mut predecessor = None;
+        for (index, chunk) in self.chunks.iter().enumerate() {
+            if chunk.index != index as u64
+                || chunk.absolute_start != chunk_next
+                || chunk.length == 0
+                || chunk.sha256 == [0; 32]
+                || chunk.predecessor_sha256 != predecessor
+            {
+                return Err(AuthorityProtocolError::ArtifactMismatch);
+            }
+            chunk_next = chunk_next
+                .checked_add(chunk.length)
+                .ok_or(AuthorityProtocolError::ArtifactMismatch)?;
+            predecessor = Some(chunk.sha256);
+        }
+        if chunk_next != self.total_bytes {
+            return Err(AuthorityProtocolError::ArtifactMismatch);
+        }
+        Ok(())
+    }
+}
+
+#[allow(dead_code)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum ContinuityProjectionConsumer {
+    TransferAdapter210,
+    #[cfg(test)]
+    Other,
+}
+
+#[allow(dead_code)]
+#[derive(Clone, Copy, Debug)]
+struct ContinuityProjectionExpectation<'a> {
+    consumer: ContinuityProjectionConsumer,
+    lineage_id: &'a [u8],
+    source_checkpoint_handle_identity: &'a [u8],
+    bundle_handle_identity: &'a [u8],
+}
+
+#[allow(dead_code)]
+#[derive(Clone, Copy, Debug)]
+struct ContinuityTransferGrantProjection<'a> {
+    artifact: &'a CommittedAuthorityArtifact,
+}
+
+/// Checks an exact committed continuity binding but returns no authority,
+/// source handle, bytes, or transfer capability to the caller.
+pub fn validate_continuity_transfer_binding(
+    artifact: &CommittedAuthorityArtifact,
+    consumer_id: &str,
+    lineage_id: &[u8],
+    source_checkpoint_handle_identity: &[u8],
+    bundle_handle_identity: &[u8],
+) -> AuthorityProtocolResult<()> {
+    if consumer_id != CONTINUITY_TRANSFER_ADAPTER_210
+        || artifact.domain != AuthorityOperationKind::ContinuityTransfer.artifact_domain()
+    {
+        return Err(AuthorityProtocolError::WrongVoterPurpose);
+    }
+    artifact.validate(AuthorityOperationKind::ContinuityTransfer)?;
+    let grant: ContinuityTransferGrantArtifact = serde_json::from_slice(&artifact.bytes)
+        .map_err(|_| AuthorityProtocolError::ArtifactMismatch)?;
+    grant.validate()?;
+    if serde_jcs::to_vec(&grant).map_err(|_| AuthorityProtocolError::Serialization)?
+        != artifact.bytes
+        || grant.lineage_id != lineage_id
+        || grant.source_checkpoint_handle_identity != source_checkpoint_handle_identity
+        || grant.bundle_handle_identity != bundle_handle_identity
+    {
+        return Err(AuthorityProtocolError::ArtifactMismatch);
+    }
+    Ok(())
+}
+
+impl ContinuityTransferGrantProjection<'_> {
+    #[allow(dead_code)]
+    fn decode(&self) -> AuthorityProtocolResult<ContinuityTransferGrantArtifact> {
+        serde_json::from_slice(&self.artifact.bytes)
+            .map_err(|_| AuthorityProtocolError::ArtifactMismatch)
     }
 }
 
@@ -304,6 +511,7 @@ pub struct VoterEndorsementAuthority {
 }
 
 impl VoterEndorsementAuthority {
+    #[allow(clippy::too_many_arguments)]
     pub fn restore_configured(
         node_id: impl Into<String>,
         guardian_id: Vec<u8>,
@@ -368,6 +576,8 @@ impl VoterEndorsementAuthority {
             || voter.purpose != ControlCertificatePurpose::AuthorityEndorsement
             || voter.certificate_generation != self.certificate_generation
             || authority.committed_log_index != self.membership_log_index
+            || finalization_time.unix_seconds < voter.not_before_unix_seconds
+            || finalization_time.unix_seconds > voter.not_after_unix_seconds
             || membership
                 .member(&self.node_id)
                 .is_none_or(|member| member.guardian_id.as_bytes() != self.guardian_id)
@@ -552,6 +762,7 @@ impl DurableAuthorityProtocol {
             AuthorityProtocolState::default(),
             authority,
         )?;
+        validate_protocol_state(envelope.payload())?;
         Ok(Self {
             store,
             envelope,
@@ -630,6 +841,34 @@ impl DurableAuthorityProtocol {
     }
 }
 
+fn validate_protocol_state(state: &AuthorityProtocolState) -> AuthorityProtocolResult<()> {
+    if state.published.len() > MAX_PUBLISHED_OPERATIONS {
+        return Err(AuthorityProtocolError::CapacityExceeded);
+    }
+    for (operation_id, durable) in &state.published {
+        if operation_id != &durable.operation_id
+            || durable.operation_id.is_empty()
+            || durable.intent_sha256 == [0; 32]
+            || durable.committed_log_index == 0
+            || durable.committed_log_index > state.committed_log_index
+        {
+            return Err(AuthorityProtocolError::StateRegression);
+        }
+        durable
+            .artifact
+            .validate(AuthorityOperationKind::from_artifact_domain(
+                &durable.artifact.domain,
+            )?)?;
+        let public = durable.public_result();
+        if durable.result_sha256 != result_digest(&public.operation, durable.committed_log_index)?
+            || durable.retry_sha256 != retry_digest(durable)?
+        {
+            return Err(AuthorityProtocolError::StateRegression);
+        }
+    }
+    Ok(())
+}
+
 impl VerifiedAuthorityOperation {
     pub fn operation_id(&self) -> &str {
         &self.operation_id
@@ -649,6 +888,26 @@ impl VerifiedAuthorityOperation {
     #[allow(dead_code)]
     pub(crate) fn artifact_for_sealed_consumer(&self) -> &CommittedAuthorityArtifact {
         &self.artifact
+    }
+
+    #[allow(dead_code)]
+    fn continuity_projection<'a>(
+        &'a self,
+        expected: ContinuityProjectionExpectation<'_>,
+    ) -> AuthorityProtocolResult<ContinuityTransferGrantProjection<'a>> {
+        if expected.consumer != ContinuityProjectionConsumer::TransferAdapter210 {
+            return Err(AuthorityProtocolError::WrongVoterPurpose);
+        }
+        validate_continuity_transfer_binding(
+            &self.artifact,
+            CONTINUITY_TRANSFER_ADAPTER_210,
+            expected.lineage_id,
+            expected.source_checkpoint_handle_identity,
+            expected.bundle_handle_identity,
+        )?;
+        Ok(ContinuityTransferGrantProjection {
+            artifact: &self.artifact,
+        })
     }
 }
 
@@ -856,4 +1115,167 @@ fn validate_identifier(value: &str) -> AuthorityProtocolResult<()> {
         return Err(AuthorityProtocolError::InvalidIntent);
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn marker(case: &str, result: &str) {
+        println!("ADL_ISSUE_201_CASE_V1 {case} {result}");
+    }
+
+    fn grant() -> ContinuityTransferGrantArtifact {
+        let manifest = b"signed-manifest".to_vec();
+        let catalog = b"signed-catalog".to_vec();
+        ContinuityTransferGrantArtifact {
+            source_guardian_id: "guardian-a".into(),
+            target_guardian_id: "guardian-b".into(),
+            route_id: "route-a".into(),
+            membership_epoch: 7,
+            membership_log_index: 19,
+            source_certificate_generation: 3,
+            target_certificate_generation: 4,
+            source_boot_generation: 5,
+            target_boot_generation: 6,
+            transfer_id: "transfer-a".into(),
+            lineage_id: b"lineage-a".to_vec(),
+            source_checkpoint_handle_identity: b"source-handle-a".to_vec(),
+            bundle_handle_identity: b"bundle-handle-a".to_vec(),
+            signed_manifest_sha256: Sha256::digest(&manifest).into(),
+            signed_manifest_bytes: manifest,
+            signed_catalog_sha256: Sha256::digest(&catalog).into(),
+            signed_catalog_bytes: catalog,
+            trusted_key_generation: 8,
+            entries: vec![ContinuityTransferEntry {
+                schema: "kernel.page.v1".into(),
+                absolute_start: 0,
+                length: 4,
+                sha256: [9; 32],
+            }],
+            chunks: vec![ContinuityTransferChunk {
+                index: 0,
+                absolute_start: 0,
+                length: 4,
+                sha256: [10; 32],
+                predecessor_sha256: None,
+            }],
+            total_bytes: 4,
+            inclusive_deadline: CanonicalAuthorityTime {
+                unix_seconds: 1_800_000_000,
+                nanos: 0,
+                uncertainty_millis: 2,
+            },
+            cleanup_identity: "cleanup-a".into(),
+        }
+    }
+
+    fn operation() -> VerifiedAuthorityOperation {
+        VerifiedAuthorityOperation {
+            operation_id: "continuity-a".into(),
+            intent_sha256: [7; 32],
+            finalization_time: CanonicalAuthorityTime {
+                unix_seconds: 1_799_999_999,
+                nanos: 0,
+                uncertainty_millis: 2,
+            },
+            artifact: CommittedAuthorityArtifact::continuity_transfer(&grant()).unwrap(),
+            signer_guardian_ids: [b"guardian-a".to_vec(), b"guardian-b".to_vec()]
+                .into_iter()
+                .collect(),
+        }
+    }
+
+    fn expectation<'a>(
+        lineage: &'a [u8],
+        source: &'a [u8],
+        bundle: &'a [u8],
+    ) -> ContinuityProjectionExpectation<'a> {
+        ContinuityProjectionExpectation {
+            consumer: ContinuityProjectionConsumer::TransferAdapter210,
+            lineage_id: lineage,
+            source_checkpoint_handle_identity: source,
+            bundle_handle_identity: bundle,
+        }
+    }
+
+    #[test]
+    fn sealed_continuity_transfer_projection() {
+        let operation = operation();
+        let projection = operation
+            .continuity_projection(expectation(
+                b"lineage-a",
+                b"source-handle-a",
+                b"bundle-handle-a",
+            ))
+            .unwrap();
+        assert_eq!(projection.decode().unwrap(), grant());
+        marker("sealed_continuity_transfer_projection", "passed");
+    }
+
+    #[test]
+    fn continuity_projection_consumer_confusion_rejected() {
+        let operation = operation();
+        let mut expected = expectation(b"lineage-a", b"source-handle-a", b"bundle-handle-a");
+        expected.consumer = ContinuityProjectionConsumer::Other;
+        assert_eq!(
+            operation.continuity_projection(expected).err(),
+            Some(AuthorityProtocolError::WrongVoterPurpose)
+        );
+        marker(
+            "continuity_projection_consumer_confusion_rejected",
+            "rejected",
+        );
+    }
+
+    #[test]
+    fn continuity_projection_wrong_lineage_rejected() {
+        assert_eq!(
+            operation()
+                .continuity_projection(expectation(
+                    b"wrong-lineage",
+                    b"source-handle-a",
+                    b"bundle-handle-a"
+                ))
+                .err(),
+            Some(AuthorityProtocolError::ArtifactMismatch)
+        );
+        marker("continuity_projection_wrong_lineage_rejected", "rejected");
+    }
+
+    #[test]
+    fn continuity_projection_wrong_source_checkpoint_handle_rejected() {
+        assert_eq!(
+            operation()
+                .continuity_projection(expectation(
+                    b"lineage-a",
+                    b"wrong-source",
+                    b"bundle-handle-a"
+                ))
+                .err(),
+            Some(AuthorityProtocolError::ArtifactMismatch)
+        );
+        marker(
+            "continuity_projection_wrong_source_checkpoint_handle_rejected",
+            "rejected",
+        );
+    }
+
+    #[test]
+    fn continuity_projection_wrong_bundle_handle_rejected() {
+        assert_eq!(
+            operation()
+                .continuity_projection(expectation(
+                    b"lineage-a",
+                    b"source-handle-a",
+                    b"wrong-bundle"
+                ))
+                .err(),
+            Some(AuthorityProtocolError::ArtifactMismatch)
+        );
+        marker(
+            "continuity_projection_wrong_bundle_handle_rejected",
+            "rejected",
+        );
+    }
 }

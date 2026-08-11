@@ -160,6 +160,7 @@ impl PolisApplicationState {
         if index <= self.committed_index {
             return Err(PolisRuntimeError::StateRegression);
         }
+        validate_authority_command_boundary(command)?;
         let mut accepted = true;
         match command {
             PolisCommand::GovernedMutation {
@@ -192,6 +193,20 @@ impl PolisApplicationState {
     pub fn digest(&self) -> Result<String, PolisRuntimeError> {
         let bytes = serde_jcs::to_vec(self).map_err(|_| PolisRuntimeError::Serialization)?;
         Ok(hex::encode(Sha256::digest(bytes)))
+    }
+}
+
+/// Rejects the retired caller-field authority commands before replicated apply.
+pub fn validate_authority_command_boundary(
+    command: &PolisCommand,
+) -> Result<(), PolisRuntimeError> {
+    match command {
+        PolisCommand::GovernedMutation { .. } | PolisCommand::SnapshotBoundary { .. } => Ok(()),
+        PolisCommand::FenceVoter { .. }
+        | PolisCommand::ActivateOwner { .. }
+        | PolisCommand::ActivateShepherd { .. }
+        | PolisCommand::AcquireObservatory { .. }
+        | PolisCommand::DemoteVoter { .. } => Err(PolisRuntimeError::AuthorityDenied),
     }
 }
 
