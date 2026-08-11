@@ -69,6 +69,8 @@ impl OperationExecutor for ConversationExecutor {
             tokio::time::sleep(Duration::from_millis(250)).await;
         } else if work["tasks"][0]["input"] == "delay ordered" {
             tokio::time::sleep(Duration::from_millis(60)).await;
+        } else if work["tasks"][0]["input"] == "delay budget" {
+            tokio::time::sleep(Duration::from_millis(70)).await;
         }
         self.completions.fetch_add(1, Ordering::SeqCst);
         serde_json::to_vec(&serde_json::json!({
@@ -124,7 +126,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             recorder.clone(),
             FakeLifecycle,
             ControlAuthority::new(BTreeMap::new()),
-            6,
+            8,
             ["https://observatory.example.test".to_owned()],
         )
         .with_canonical_ingress(ingress.clone()),
@@ -313,6 +315,37 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert_eq!(second_terminal["turn_id"], "turn-ordered-2");
     assert_eq!(second_terminal["status"], "delivered");
 
+    for (turn_id, correlation_id) in [
+        ("turn-budget-1", "77777777777777777777777777777777"),
+        ("turn-budget-2", "88888888888888888888888888888888"),
+    ] {
+        socket
+            .send(Message::Text(
+                serde_json::json!({
+                    "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                    "conversation_id": "conversation-agent-0001",
+                    "turn_id": turn_id,
+                    "recipient_id": "agent-0001",
+                    "correlation_id": correlation_id,
+                    "message": "delay budget"
+                })
+                .to_string()
+                .into(),
+            ))
+            .await
+            .unwrap();
+    }
+    let _ = next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let _ = next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let budget_first =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let budget_second =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(budget_first["turn_id"], "turn-budget-1");
+    assert_eq!(budget_first["status"], "delivered");
+    assert_eq!(budget_second["turn_id"], "turn-budget-2");
+    assert_eq!(budget_second["status"], "timed_out");
+
     socket
         .send(Message::Text(
             serde_json::json!({
@@ -413,8 +446,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let timed_out =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(timed_out["status"], "timed_out");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 5);
-    assert_eq!(completions.load(Ordering::SeqCst), 4);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 7);
+    assert_eq!(completions.load(Ordering::SeqCst), 5);
 
     socket
         .send(Message::Text(
@@ -458,7 +491,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert!(statuses.contains(&"accepted"));
     assert!(statuses.contains(&"cancelled"));
     tokio::time::sleep(Duration::from_millis(275)).await;
-    assert_eq!(completions.load(Ordering::SeqCst), 4);
+    assert_eq!(completions.load(Ordering::SeqCst), 5);
 
     socket
         .send(Message::Text(

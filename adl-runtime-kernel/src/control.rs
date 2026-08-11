@@ -332,8 +332,75 @@ struct ConversationSessions {
 struct ConversationSession {
     recipient_id: String,
     next_sequence: u64,
-    dispatch_lock: Arc<tokio::sync::Mutex<()>>,
+    dispatch_gate: Arc<ConversationDispatchGate>,
     turns: BTreeMap<String, ConversationTurn>,
+}
+
+struct ConversationDispatchGate {
+    state: Mutex<ConversationDispatchGateState>,
+    changed: tokio::sync::Notify,
+}
+
+struct ConversationDispatchGateState {
+    next_sequence: u64,
+    completed: BTreeSet<u64>,
+}
+
+impl ConversationDispatchGate {
+    fn new() -> Self {
+        Self {
+            state: Mutex::new(ConversationDispatchGateState {
+                next_sequence: 1,
+                completed: BTreeSet::new(),
+            }),
+            changed: tokio::sync::Notify::new(),
+        }
+    }
+
+    fn ready(&self, sequence: u64) -> bool {
+        self.state
+            .lock()
+            .expect("conversation dispatch gate poisoned")
+            .next_sequence
+            == sequence
+    }
+
+    async fn wait_turn(
+        &self,
+        sequence: u64,
+        deadline: tokio::time::Instant,
+        cancellation: &CancellationToken,
+    ) -> bool {
+        loop {
+            let changed = self.changed.notified();
+            if self.ready(sequence) {
+                return true;
+            }
+            let notified = tokio::select! {
+                _ = cancellation.cancelled() => return false,
+                result = tokio::time::timeout_at(deadline, changed) => result,
+            };
+            if notified.is_err() {
+                return false;
+            }
+        }
+    }
+
+    fn complete(&self, sequence: u64) {
+        let mut state = self
+            .state
+            .lock()
+            .expect("conversation dispatch gate poisoned");
+        state.completed.insert(sequence);
+        while {
+            let next_sequence = state.next_sequence;
+            state.completed.remove(&next_sequence)
+        } {
+            state.next_sequence = state.next_sequence.saturating_add(1);
+        }
+        drop(state);
+        self.changed.notify_waiters();
+    }
 }
 
 struct ConversationTurn {
@@ -349,7 +416,7 @@ struct ConversationDispatch {
     intent: ObservatoryConversationIntent,
     sequence: u64,
     cancellation: CancellationToken,
-    dispatch_lock: Arc<tokio::sync::Mutex<()>>,
+    dispatch_gate: Arc<ConversationDispatchGate>,
     work_id: String,
 }
 
@@ -572,7 +639,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .or_insert_with(|| ConversationSession {
                 recipient_id: intent.recipient_id.clone(),
                 next_sequence: 0,
-                dispatch_lock: Arc::new(tokio::sync::Mutex::new(())),
+                dispatch_gate: Arc::new(ConversationDispatchGate::new()),
                 turns: BTreeMap::new(),
             });
         if session.recipient_id != intent.recipient_id {
@@ -651,7 +718,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 intent: intent.clone(),
                 sequence,
                 cancellation,
-                dispatch_lock: session.dispatch_lock.clone(),
+                dispatch_gate: session.dispatch_gate.clone(),
                 work_id,
             },
         }
@@ -681,83 +748,82 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "input": dispatch.intent.message,
             }],
         }));
-        let result = match payload {
-            Err(_) => outcome("refused", "invalid_conversation_intent"),
-            Ok(payload) => {
-                let Some(ingress) = self.canonical_ingress.as_ref() else {
-                    return outcome("failed", "conversation_ingress_unavailable");
-                };
-                let deadline = self.api_policy().websocket_auth_timeout;
-                let dispatch_guard = tokio::select! {
-                    _ = dispatch.cancellation.cancelled() => None,
-                    guard = tokio::time::timeout(deadline, dispatch.dispatch_lock.lock()) => guard.ok(),
-                };
-                match dispatch_guard {
-                    None if dispatch.cancellation.is_cancelled() => {
-                        outcome("cancelled", "conversation_cancelled")
+        let deadline = tokio::time::Instant::now() + self.api_policy().websocket_auth_timeout;
+        let turn_ready = dispatch
+            .dispatch_gate
+            .wait_turn(dispatch.sequence, deadline, &dispatch.cancellation)
+            .await;
+        let result = if !turn_ready {
+            if dispatch.cancellation.is_cancelled() {
+                outcome("cancelled", "conversation_cancelled")
+            } else {
+                outcome("timed_out", "conversation_timed_out")
+            }
+        } else {
+            match (payload, self.canonical_ingress.as_ref()) {
+                (Err(_), _) => outcome("refused", "invalid_conversation_intent"),
+                (_, None) => outcome("failed", "conversation_ingress_unavailable"),
+                (Ok(payload), Some(ingress)) => {
+                    let submitted = tokio::time::timeout_at(
+                        deadline,
+                        ingress.submit_with_cancellation(
+                            DomainWork {
+                                schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
+                                work_id: dispatch.work_id.clone(),
+                                kind: "agent_runtime".to_owned(),
+                                payload,
+                            },
+                            dispatch.intent.correlation_id.clone(),
+                            dispatch.cancellation.clone(),
+                        ),
+                    )
+                    .await;
+                    if submitted.is_err() {
+                        dispatch.cancellation.cancel();
                     }
-                    None => outcome("timed_out", "conversation_timed_out"),
-                    Some(_guard) => {
-                        let submitted = tokio::time::timeout(
-                            deadline,
-                            ingress.submit_with_cancellation(
-                                DomainWork {
-                                    schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
-                                    work_id: dispatch.work_id.clone(),
-                                    kind: "agent_runtime".to_owned(),
-                                    payload,
+                    match submitted {
+                        Err(_) => outcome("timed_out", "conversation_timed_out"),
+                        Ok(Err(_)) if dispatch.cancellation.is_cancelled() => {
+                            outcome("cancelled", "conversation_cancelled")
+                        }
+                        Ok(Ok(result)) => {
+                            let reply = result
+                                .public_output
+                                .as_ref()
+                                .and_then(|output| output.get("message"))
+                                .and_then(serde_json::Value::as_str)
+                                .map(str::to_owned);
+                            match reply {
+                                Some(reply) => ObservatoryConversationResult {
+                                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                                    status: "delivered",
+                                    conversation_id: dispatch.intent.conversation_id.clone(),
+                                    turn_id: dispatch.intent.turn_id.clone(),
+                                    recipient_id: dispatch.intent.recipient_id.clone(),
+                                    correlation_id: dispatch.intent.correlation_id.clone(),
+                                    reply: Some(reply),
+                                    accepted_sequence: Some(result.accepted_sequence),
+                                    turn_sequence: Some(dispatch.sequence),
+                                    error: None,
                                 },
-                                dispatch.intent.correlation_id.clone(),
-                                dispatch.cancellation.clone(),
-                            ),
-                        )
-                        .await;
-                        if submitted.is_err() {
-                            dispatch.cancellation.cancel();
+                                None => outcome("failed", "conversation_reply_unavailable"),
+                            }
                         }
-                        match submitted {
-                            Err(_) => outcome("timed_out", "conversation_timed_out"),
-                            Ok(Err(_)) if dispatch.cancellation.is_cancelled() => {
-                                outcome("cancelled", "conversation_cancelled")
-                            }
-                            Ok(Ok(result)) => {
-                                let reply = result
-                                    .public_output
-                                    .as_ref()
-                                    .and_then(|output| output.get("message"))
-                                    .and_then(serde_json::Value::as_str)
-                                    .map(str::to_owned);
-                                match reply {
-                                    Some(reply) => ObservatoryConversationResult {
-                                        schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-                                        status: "delivered",
-                                        conversation_id: dispatch.intent.conversation_id.clone(),
-                                        turn_id: dispatch.intent.turn_id.clone(),
-                                        recipient_id: dispatch.intent.recipient_id.clone(),
-                                        correlation_id: dispatch.intent.correlation_id.clone(),
-                                        reply: Some(reply),
-                                        accepted_sequence: Some(result.accepted_sequence),
-                                        turn_sequence: Some(dispatch.sequence),
-                                        error: None,
-                                    },
-                                    None => outcome("failed", "conversation_reply_unavailable"),
-                                }
-                            }
-                            Ok(Err(IngressError::Saturated | IngressError::Closed)) => {
-                                outcome("failed", "conversation_temporarily_unavailable")
-                            }
-                            Ok(Err(IngressError::UnsupportedKind)) => {
-                                outcome("refused", "recipient_unavailable")
-                            }
-                            Ok(Err(IngressError::Conflict)) => {
-                                outcome("refused", "conversation_conflict")
-                            }
-                            Ok(Err(_)) => outcome("failed", "conversation_failed"),
+                        Ok(Err(IngressError::Saturated | IngressError::Closed)) => {
+                            outcome("failed", "conversation_temporarily_unavailable")
                         }
+                        Ok(Err(IngressError::UnsupportedKind)) => {
+                            outcome("refused", "recipient_unavailable")
+                        }
+                        Ok(Err(IngressError::Conflict)) => {
+                            outcome("refused", "conversation_conflict")
+                        }
+                        Ok(Err(_)) => outcome("failed", "conversation_failed"),
                     }
                 }
             }
         };
+        dispatch.dispatch_gate.complete(dispatch.sequence);
         if let Some(turn) = self
             .conversation_sessions
             .lock()
@@ -2323,4 +2389,33 @@ pub enum ControlApiError {
     Tls(String),
     #[error("control API server failed: {0}")]
     Serve(String),
+}
+
+#[cfg(test)]
+mod conversation_dispatch_gate_tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn later_turn_cannot_overtake_an_unfinished_earlier_sequence() {
+        let gate = Arc::new(ConversationDispatchGate::new());
+        let cancellation = CancellationToken::new();
+        let later_gate = gate.clone();
+        let later_cancellation = cancellation.clone();
+        let mut later = tokio::spawn(async move {
+            later_gate
+                .wait_turn(
+                    2,
+                    tokio::time::Instant::now() + Duration::from_secs(1),
+                    &later_cancellation,
+                )
+                .await
+        });
+
+        assert!(tokio::time::timeout(Duration::from_millis(20), &mut later)
+            .await
+            .is_err());
+        assert!(gate.ready(1));
+        gate.complete(1);
+        assert!(later.await.unwrap());
+    }
 }
