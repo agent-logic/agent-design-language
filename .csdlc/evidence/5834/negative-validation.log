@@ -1,0 +1,4 @@
+command=ruby .csdlc/prepared/issues/5834/validate-review-packet.rb --negative-fixtures .csdlc/evidence/5834/negative-fixtures/
+source_revision=431d86a991db1e84110253b5f8e4f9af9cca9c39
+source_tree=d4ae7f7e1573eb6bc4e7b27ed683a6cad7eb66ef
+{"schema":"adl.v092.birthday-review-negative-proof.v1","cases":["stale-digest","missing-roster","private-path","contradictory-status","forbidden-public-claim","publication-ready-overclaim"],"outcome":"passed"}
