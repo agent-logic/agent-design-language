@@ -1,7 +1,7 @@
 {
   "schema": "csdlc.issue-validation-summary.v1",
   "issue": 225,
-  "implementation_revision": "a479fdd1e",
+  "implementation_revision": "354abe7670db2e4695fbfd0d59ad7505de782a37",
   "results": [
     {
       "command": "cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate2",
