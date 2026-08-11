@@ -174,61 +174,15 @@ impl PolisApplicationState {
                 validate_sha256(snapshot_sha256)?;
                 self.snapshot_sha256 = Some(snapshot_sha256.clone());
             }
-            PolisCommand::FenceVoter { voter_id, epoch } => {
-                validate_text(voter_id)?;
-                if *epoch <= self.epoch {
-                    accepted = false;
-                } else {
-                    self.epoch = *epoch;
-                    self.fenced_voters.insert(voter_id.clone(), *epoch);
-                    if self.observatory_owner.as_deref() == Some(voter_id) {
-                        self.observatory_owner = None;
-                        self.observatory_expires_unix_millis = None;
-                    }
-                }
-            }
-            PolisCommand::ActivateOwner { owner_id, epoch } => {
-                validate_text(owner_id)?;
-                if *epoch != self.epoch || self.fenced_voters.get(owner_id) == Some(epoch) {
-                    accepted = false;
-                } else {
-                    self.active_owner = Some(owner_id.clone());
-                }
-            }
-            PolisCommand::ActivateShepherd {
-                shepherd_identity_ref,
-                epoch,
-            } => {
-                validate_text(shepherd_identity_ref)?;
-                if *epoch != self.epoch || self.active_owner.is_none() {
-                    accepted = false;
-                } else {
-                    self.active_shepherd = Some(shepherd_identity_ref.clone());
-                }
-            }
-            PolisCommand::AcquireObservatory {
-                owner_id,
-                epoch,
-                expires_unix_millis,
-            } => {
-                validate_text(owner_id)?;
-                if *epoch != self.epoch
-                    || self.active_owner.as_deref() != Some(owner_id)
-                    || *expires_unix_millis == 0
-                {
-                    accepted = false;
-                } else {
-                    self.observatory_owner = Some(owner_id.clone());
-                    self.observatory_expires_unix_millis = Some(*expires_unix_millis);
-                }
-            }
-            PolisCommand::DemoteVoter { voter_id, epoch } => {
-                validate_text(voter_id)?;
-                if *epoch != self.epoch || self.fenced_voters.get(voter_id) != Some(epoch) {
-                    accepted = false;
-                } else {
-                    self.demoted_voters.insert(voter_id.clone(), *epoch);
-                }
+            PolisCommand::FenceVoter { .. }
+            | PolisCommand::ActivateOwner { .. }
+            | PolisCommand::ActivateShepherd { .. }
+            | PolisCommand::AcquireObservatory { .. }
+            | PolisCommand::DemoteVoter { .. } => {
+                // These pre-authority-protocol commands could mint authority
+                // from caller-controlled fields. Retained logs fail closed;
+                // governed effects are applied only by their sealed adapters.
+                return Err(PolisRuntimeError::AuthorityDenied);
             }
         }
         self.committed_index = index;
@@ -287,7 +241,7 @@ pub trait ConsensusCheckpointAuthority: Send + Sync {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-struct DurableEnvelope<T> {
+pub(super) struct DurableEnvelope<T> {
     schema: String,
     generation: u64,
     payload_sha256: String,
@@ -303,18 +257,18 @@ struct DurableJournal<T> {
 }
 
 #[derive(Clone, Debug, Default)]
-struct CheckpointMetadata {
-    committed_log_index: Option<u64>,
-    state_sha256: Option<String>,
-    snapshot_log_index: Option<u64>,
-    snapshot_sha256: Option<String>,
+pub(super) struct CheckpointMetadata {
+    pub(super) committed_log_index: Option<u64>,
+    pub(super) state_sha256: Option<String>,
+    pub(super) snapshot_log_index: Option<u64>,
+    pub(super) snapshot_sha256: Option<String>,
 }
 
-trait CheckpointMetadataSource {
+pub(super) trait CheckpointMetadataSource {
     fn checkpoint_metadata(&self) -> Result<CheckpointMetadata, PolisRuntimeError>;
 }
 
-struct CheckpointedJson<T> {
+pub(super) struct CheckpointedJson<T> {
     object: String,
     path: PathBuf,
     journal_path: PathBuf,
@@ -327,7 +281,7 @@ impl<T> CheckpointedJson<T>
 where
     T: Clone + Serialize + DeserializeOwned + CheckpointMetadataSource,
 {
-    fn open(
+    pub(super) fn open(
         root: &Path,
         object: &str,
         file_name: &str,
@@ -442,7 +396,7 @@ where
         Ok(())
     }
 
-    fn commit(
+    pub(super) fn commit(
         &self,
         current: &DurableEnvelope<T>,
         payload: T,
@@ -472,6 +426,20 @@ where
             .compare_and_swap(Some(&expected), &candidate_checkpoint)?;
         remove_file_and_sync(&self.journal_path)?;
         Ok(candidate)
+    }
+}
+
+impl<T> DurableEnvelope<T> {
+    pub(super) fn generation(&self) -> u64 {
+        self.generation
+    }
+
+    pub(super) fn payload_sha256(&self) -> &str {
+        &self.payload_sha256
+    }
+
+    pub(super) fn payload(&self) -> &T {
+        &self.payload
     }
 }
 
