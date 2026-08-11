@@ -62,20 +62,17 @@ UnityTLS refused the self-signed WSS certificate. Supplying the exact
 certificate through process-scoped `SSL_CERT_FILE` plus product pinning did not
 resolve the UnityTLS handshake.
 
-## External Dependency
+## TLS Dependency Refresh
 
-Tooling issue `agent-logic/agent-design-language#92` owns the governed fix:
+Tooling issue `agent-logic/agent-design-language#92` owned the upstream Runtime
+TLS standardization:
 
 `[v0.92][runtime-v3][tooling] Support governed trust install for managed-external localhost certificates`
 
-Issue #92 contains both the original `trust-install` policy refusal and the
-later real Play Mode `SSL_CERT_FILE` failure. Resume the live lane only after
-one of these is true:
-
-1. #92 provides an explicit-consent, receipt-backed trust install/verify/remove
-   path for the exact managed-external localhost certificate; or
-2. the operator explicitly authorizes installation of that exact certificate
-   into the selected login keychain and the trust is independently verified.
+Live GitHub state on 2026-08-11 shows #92 closed after replacing the rejected
+self-signed trust-install direction with standardized externally provisioned,
+CA-issued Runtime TLS. The remaining #84 obligation is to verify the current
+certificate-valid Axum WSS endpoint and rerun the real Unity Play Mode lane.
 
 Do not silently mutate keychain trust, disable TLS verification, use `curl -k`
 as proof, launch a proxy, substitute a fixture, or claim WSS success from HTTPS
@@ -104,13 +101,53 @@ and must be fixed before publication:
 6. Make the product client and shell share one origin-only endpoint validator;
    reject credentials, paths, queries, and fragments before auto-attachment.
 
-The certificate blocker does not excuse these code findings. They can be fixed
-and contract-tested while #92 is in progress.
+The historical certificate blocker does not excuse these code findings. Fix and
+contract-test them before rerunning the current CA-issued live endpoint proof.
+
+## Dirty And Uncommitted Paths
+
+Preserve this exact worktree state before resuming. Reconcile live `git status`
+against this inventory as the first recovery action; do not reset, clean, or
+overwrite any listed path.
+
+Tracked modifications:
+
+```text
+.csdlc/issues/84/audit.jsonl
+.csdlc/issues/84/cards/sip.values.json
+.csdlc/issues/84/cards/sor.values.json
+.csdlc/issues/84/cards/spp.md
+.csdlc/issues/84/cards/spp.values.json
+.csdlc/issues/84/cards/srp.values.json
+.csdlc/issues/84/cards/stp.md
+.csdlc/issues/84/cards/stp.values.json
+.csdlc/issues/84/cards/vpp.md
+.csdlc/issues/84/cards/vpp.values.json
+.csdlc/issues/84/index.json
+.csdlc/prepared/issues/84/design.md
+demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs
+demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs
+demos/v0.91.6/unity-observatory/Packages/packages-lock.json
+```
+
+Untracked paths:
+
+```text
+.csdlc/prepared/issues/84/live-issue-body-v2.md
+adl/tools/validate_v092_unity_observatory_live.sh
+demos/v0.91.6/unity-observatory/Assets/Resources/runtime-v3-contract.json
+demos/v0.91.6/unity-observatory/Assets/Resources/runtime-v3-contract.json.meta
+demos/v0.91.6/unity-observatory/Assets/Scripts/RuntimeV3Client.cs
+demos/v0.91.6/unity-observatory/Assets/Scripts/RuntimeV3Client.cs.meta
+demos/v0.91.6/unity-observatory/Assets/Tests.meta
+demos/v0.91.6/unity-observatory/Assets/Tests/
+```
 
 ## Safe Resumption Sequence
 
-1. Confirm the primary checkout is clean on `main`; perform all edits in the
-   bound worktree above.
+1. Confirm the primary checkout is clean on `main`, then verify the bound
+   worktree's live status matches the inventory above; perform all edits only
+   in that bound worktree.
 2. Read the live issue and all six cards, then run `csdlc-validate` for issue
    84 using the installed v2 owner binary.
 3. Recheck #92 through `csdlc-github-issue`; do not use raw `gh` or the GitHub
