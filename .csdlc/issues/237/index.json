@@ -6,10 +6,24 @@
   "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
   "phase": "implemented",
   "generation": 9,
-  "digest": "139892729330b044ef7671c4a74e46a9ddb309b553e70df888b6d6d5da30ccc2",
+  "digest": "a5af7fc8681c2aa670db737a775917d2b5b61374246d3d823f5e363e93cf85ee",
   "branch": "codex/237-continuity-binding-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/review_237_exact_head",
+    "assigned_by": "/root/sprint5_5836",
+    "revision": "git-blake3:22e5e697c0998f6f8f6598190cce8dcdfb0f6593:dea98fb7c87d3910db353d2716c897e8d6fa7a2857e8330be72938fa25c268f4",
+    "scope": [
+      ".csdlc/issues/237",
+      ".csdlc/prepared/issues/237/design.md",
+      ".csdlc/prepared/issues/237/diagram.mmd",
+      ".csdlc/evidence/237",
+      "adl-runtime-kernel/src/birthday_continuity.rs",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "56c3a382c9ac8f716a7d5707810ee036340ff647da1cafb83e081eadb8bfa593"
     },
     "srp": {
-      "values_digest": "a6ae74eb125372177b0e081f1093a7edc5ba28c34639c58acfd61236a6cbcd5e",
-      "rendered_digest": "4340d086b4d31ff2b76b8f68eecb140c3a5050d592f5a5c88175f31e549f445e",
-      "ast_digest": "19cc69689f68bc2986045a9343b708c9097827fd95ca78abb132734b0a68b639"
+      "values_digest": "f14e5276805444adec6c8de07e945ba1d2e7546ae4baa7018f9a4165818ffcda",
+      "rendered_digest": "89b8c2a651249697cefaffc60d463c1f35a922cf6d62e104faec4273978f1394",
+      "ast_digest": "06d07a51396829f2acb214491f8fe8ca63f10a2df5ed9085b854e8fd3bdcbb90"
     },
     "sor": {
       "values_digest": "e80d21ab7adb838794599befc458af8b461acb679cfd4cdc494712b79c4d6a62",
@@ -155,6 +169,13 @@
       "actor": "codex:sprint5-5836-blocker",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "/root/sprint5_5836",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
