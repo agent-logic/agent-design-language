@@ -1,25 +1,26 @@
 flowchart LR
-  V["Exact unchanged #191 voter route cut"] --> T["VerifiedPolisLearnerTopology"]
-  M["Published coarse #201 Membership operation plus sealed exact artifact"] --> SA["Crate-private #202 adapter validates domain bytes and issue-local discriminator"]
-  SA --> O["Canonical EnrollNonVoting artifact bound to exclusion generation"]
-  O --> A["Private VerifiedLearnerAdmission for one certificate generation"]
-  A --> T
-  T --> H["Private EstablishedLearnerSession over signed mTLS polis handshake"]
-  H --> R["Typed AppendEntries and InstallSnapshot surface only"]
-  H -. "Vote generic send unknown kind client endorsement renewal Shepherd Observatory" .-> D["Reject before bytes or dispatch"]
-  M --> X0["Canonical RemoveVoter artifact binds old exclusion generation"]
-  X0 --> X1["#201 caches exact finalized membership operation"]
-  X1 --> J["Pending exclusion journal"]
-  J --> S["Private durable state and result cache"]
-  S --> C["External node-local checkpoint plus local marker"]
-  C --> P["Atomic published exclusion generation"]
-  P --> E["#201 new eligibility and ordinary sessions deny target"]
-  P --> G["Remaining voters may authorize new-identity recovery token"]
+  M["Published #201 Membership operation plus sealed exact artifact"] --> A["Governed adapter validates exact EnrollNonVoting or RemoveVoter"]
+  V["Exact unchanged voter cut"] --> F["SecurePolisNetworkFactory sole mutation owner"]
+  A --> F
+  I["Durable random local instance id plus canonical exact peer pins"] --> F
+  B["Durable boot generation custody plus nonextractable Guardian signer"] --> F
+  F --> C["Private dependency-free transport core"]
+  C --> H["Opaque signed ordinary or learner handshake permit"]
+  H --> S["Opaque session bound to instance peer pin cut admission and exclusion"]
+  S --> R["AppendEntries and InstallSnapshot only"]
+  S -. "vote raw send mutation endorsement renewal serving" .-> D["Deny before governed data stream or effect"]
+  R --> E["One shared lease spans stream OpenRaft effect and response"]
+  X["Flip expiry exclusion or cut replacement"] --> W["Transition lock then route locks then exclusive fence"]
+  W --> P["Current view plus durable commit"]
+  P --> Q["Close and remove mismatching routes"]
+  E -. "writer waits" .-> W
+  P -. "retained session" .-> D
+  B -. "advance N to N plus 1" .-> D
+  I -. "alternate root or changed peer" .-> D
+  P --> J["Crash exact retry and restart reconstruction"]
+  J -. "rollback corruption ambiguity" .-> D
+  G["Private transport governed subtree"] --> F
   G --> A
-  ROT["Successor token for rotated certificate generation"] --> RS["Private staged successor in same admission lineage"]
-  RS --> RF["Atomic successor-generation published flip"]
-  RF --> A
-  RF --> RC["Close and reject retained old-generation sessions"]
-  B200["#200 active or unmerged"] -. "serial stop" .-> STOP["Do not bind or edit #202 product source"]
-  B200M["Exact merged #200 ancestry"] --> SYNC["Sync and revalidate #202 before bind"]
-  J -. "crash rollback conflict deadline or ambiguity" .-> Z["No visible change; reconcile exact operation or fail closed"]
+  G --> R
+  U["Public distributed learner_transport and polis_runtime reexports"] --> G
+  T["42 runner tests equals 36 semantic cases plus 13 public plus 29 assertions"] --> E

@@ -83,8 +83,28 @@ authorizing it.
 
 ## Session and RPC boundary
 
-The existing signed polis handshake gains a role-bound session variant. A
-private-field `EstablishedLearnerSession` can be constructed only from a
+The dependency-free transport core is rooted at
+`distributed/transport/core.rs`. Production learner authority, factory, and
+runtime integration live below its private `transport::governed` subtree while
+the historical public `distributed::{learner_transport, polis_runtime}` paths
+remain source-compatible reexports. Raw QUIC send, receive, handshake, and
+authority mutation are private ancestor operations. The factory privately owns
+the sole non-clone transport mutation owner; governed descendants receive only
+opaque wire sessions, handshake permits, request/response permits, and shared
+dispatch leases. No crate sibling can mint an allow-all authority, arbitrary
+permit, or exclusion transition.
+
+Every durable authority root generates and checkpoints one nonzero random
+transport instance id in a separate canonical object, without changing the
+existing admission schema. Reopen preserves that id. Exact peer pins use a
+versioned canonical JCS tuple of endpoint role, stable Raft id, node id, and
+Guardian id. Both ordinary and learner signed handshakes bind sender and
+intended receiver instance ids. A retained or fresh connection from an
+alternate authority root is denied, while a legitimate restart with the same
+durable root remains accepted.
+
+The signed polis handshake has a role-bound learner variant. A private-field
+`EstablishedLearnerSession` can be constructed only from a
 `VerifiedPolisLearnerTopology`; generic polis request APIs reject learner
 bindings. A typed learner network surface exposes only AppendEntries and
 InstallSnapshot sends. OpenRaft's required learner-side `vote` implementation
@@ -139,6 +159,25 @@ An already-open ordinary connection is revalidated against the published
 exclusion generation before every request and is closed before dispatch once
 its target is excluded.
 
+Exclusion, successor flip, admission expiry, and authority-cut replacement all
+serialize through the same factory transition mutex, stable route-lock order,
+exclusive transport fence, current-view update, durable commit, and route
+drain. Dispatch takes the route lock and one shared transport lease, revalidates
+the exact authority instance, voter-cut digest, admission generation, peer pin,
+and exclusion view, then retains that same lease through QUIC stream creation,
+the actual OpenRaft effect, and the response send/receive. There is no dropped
+lease or nested read acquisition between authorization, effect application, and
+response. After a committed transition every retained public entry point fails
+before a new governed data stream.
+
+Learner boot attestation is runtime-owned opaque custody. Advancing the durable
+boot authority returns a non-clone generation custody bound to the node and
+shared authoritative store. Attestation establishment binds that custody to an
+exact `LocalNodeGuardianIdentity` and current admission. The custody rereads and
+holds the durable generation guard while the nonextractable Guardian signer
+signs each live handshake; advancing to generation N+1 makes retained N custody
+unable to attest or sign.
+
 ## Crash and publication boundary
 
 Admission and exclusion initialization, durable state, external checkpoint,
@@ -183,14 +222,14 @@ does not choose when the learner is caught up or promoted; #199 does.
 
 ## Serial integration order
 
-#200 and #202 both own `authority_protocol.rs`, `polis_runtime.rs`, and
-`distributed/mod.rs`. #202 must not bind or edit product source while #200 is
-active or unmerged. After #200 merges, #202 must first synchronize to the exact
-merged #200 ancestry and revalidate this design and all six cards. Only then may
-#202 bind and implement its crate-private membership-artifact adapter and
-learner/exclusion transport. This serial gate prevents parallel ownership from
-silently selecting incompatible sealed-consumer or PolisRuntime integration
-shapes.
+#200 and #202 both own authority and runtime integration surfaces. The original
+serial gate was satisfied before #202 product work: #200 merged, #202
+synchronized to the merged ancestry, and the implementation was later rebased
+again onto exact current `origin/main` `dbd060d1e`. The current governed subtree
+keeps #202's sole-owner mutation boundary separate from #199 membership
+coordination. Any future main change touching the protected runtime or typed
+card paths requires another exact-main synchronization and proof regeneration
+before publication.
 
 ## Proof
 
@@ -216,6 +255,17 @@ shapes.
 - Machine evidence binds exact source, commands, the typed named denominator,
   strict Clippy, protected-source drift, immutable introduction, review, and
   squash-merge-safe validation.
+- The semantic contract remains exactly thirty-six named learner behaviors.
+  The implementation runner contains forty-two passing tests because six
+  deterministic infrastructure/race checks supplement those semantic cases.
+  Machine proof also requires exactly thirteen public-boundary tests and
+  twenty-nine named behavior subassertions.
+- Standalone `distributed_transport`, `distributed_discovery`, and
+  `distributed_runtime_transport` targets compile unchanged. Deterministic
+  races prove the exclusion and expiry writers wait across real request/effect
+  and response boundaries, retained sessions emit no post-transition governed
+  data stream, boot N cannot sign after N+1, and a fresh alternate-root peer is
+  rejected while the persisted same-root peer remains accepted after restart.
 
 ## Non-goals
 
