@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 114,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04] Add durable conversation history, continuity, and receipts",
+    "slug": "v0-92-wp-18c-04-durable-conversation-history",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #114 changed paths, merged #111/#112 contract boundaries, storage/migration/recovery invariants, all PVF evidence, public projections, and no #83 or sibling mutation.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify every history read and lifecycle action is reauthorized through current #112 truth and no cache, cursor, search index, or export bypass exists.",
+        "Verify storage transactions, idempotency, ordering, outcome monotonicity, receipt chains, migration publication, and restart recovery cannot claim false continuity.",
+        "Verify retention, tombstone deletion, compaction, export, search, and browser cache handling expose no forbidden or unauthorized data.",
+        "Verify exact path ownership, serial gates, forty-two-case denominator, nonzero PVF selection, and no #83 mutation."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

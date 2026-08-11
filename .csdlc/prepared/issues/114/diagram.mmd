@@ -1,0 +1,19 @@
+flowchart TD
+    O["Observatory history request"] --> A["Fresh #112 Layer 8 authorization"]
+    A -->|"denied revoked expired"| R["Public-safe refusal and cache clear"]
+    A -->|"allowed exact scope"| API["Canonical Runtime history API"]
+    S["Merged #111 ordered turn and outcome"] --> W["Atomic append and receipt transaction"]
+    API --> Q["Bounded page search export or deletion operation"]
+    W --> DB["Versioned conversation history redb"]
+    DB --> Q
+    Q --> C["Opaque principal policy and snapshot-bound cursor"]
+    C --> P["Authorized public-safe transcript projection"]
+    P --> O
+    D["Retention or authorized deletion"] --> T["Durable tombstone and deletion receipt"]
+    T --> DB
+    M["Exclusive copy-validate-publish migration"] --> G["Published store generation and migration receipt"]
+    G --> DB
+    X["Restart partial write reply loss or index drift"] --> V["Validate generation watermarks records and receipt chain"]
+    V -->|"coherent"| DB
+    V -->|"ambiguous or corrupt"| Z["Quarantine and explicit unavailable state"]
+    DB -. "never" .-> N["Agent execution restore authority or private cognition"]
