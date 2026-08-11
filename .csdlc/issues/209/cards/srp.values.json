@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
     "slug": "wp14-production-acip-authority-repair",
     "version": "v0.92",
-    "generation": 20
+    "generation": 21
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/209\n.csdlc/prepared/issues/209/design.md\n.csdlc/prepared/issues/209/produce-native-receipt.rb\n.csdlc/prepared/issues/209/validate-native-receipts.rb\n.csdlc/evidence/209\n.github/workflows/wp14-production-acip-repair.yml\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/acip.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/governed_operations.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/production_acip_wss.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\nadl-runtime/src/runtime_api_auth.rs\nadl/tools/install_vector_component.sh\ndocs/api/runtime-v3/v1/openapi.json\ndocs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
