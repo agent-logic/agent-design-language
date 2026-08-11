@@ -5,13 +5,13 @@
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
   "generation": 27,
-  "digest": "496e926e4fb47a6fb485538359a98dab7fbecdb9245e4d0e94fff314d347b017",
+  "digest": "37478c3114075c81102ef73834952e49343ba37b2bdd9f4c63ae9b1fee61a47a",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": {
     "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
     "assigned_by": "operator",
-    "revision": "git-blake3:d4ef71f1fbb649b2f2a32b168f449d1c092325c4:28266f4ea5fc00af643932878e1dd519b3b27408b2a6f062181194396b590bce",
+    "revision": "git-blake3:3d6a3b58426e88e7f76f73cd87bc3c281a70e1c4:48e053dcbed74ecc6136b3ffc1aaa97ed7d257ddc38ae328f49daf63f98dfb59",
     "scope": [
       ".github/workflows",
       "adl/tools",
@@ -299,6 +299,13 @@
       "actor": "codex:234-gibbs-remediation",
       "reason": "Record remediation of both exact-head Gibbs P1 findings before re-review.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Remediated the exact-head review findings by coalescing identical source heads across PR bases and enforcing one exclusive ADL heavy-runner allocation per ordinary PR while retaining all selected required jobs.\",\"changes\":[\"Removed target base from ordinary PR concurrency identity while preserving repository, workflow, source repository, and source branch isolation.\",\"Added one deterministic heavy_runner_job choice; only that selected required job may acquire ADL_HEAVY_RUNNER and all other required jobs use the standard runner.\",\"Strengthened workflow-policy and runtime-contract validators to reject base-split concurrency and non-exclusive heavy-runner selectors.\"],\"artifacts\":[\".github/workflows/ci.yaml\",\"adl/tools/ci_path_policy.sh\",\"adl/tools/validate_ci_workflow_policy.rb\",\"adl/tools/test_ci_runtime_contracts.sh\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 27,
+      "actor": "operator",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
