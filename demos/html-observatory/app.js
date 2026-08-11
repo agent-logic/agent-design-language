@@ -1783,7 +1783,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (!conversationRecipient) return;
     const previous = conversationRecipient.value;
     const agents = asArray(population?.sample).filter((agent) =>
-      agent && typeof agent.id === "string" && agent.state === "running"
+      agent && typeof agent.id === "string" && agent.communication_eligible === true
     );
     conversationRecipient.replaceChildren();
     if (agents.length === 0) {

@@ -58,7 +58,7 @@ assert.match(app, /adl\.runtime_v3\.observatory_conversation_intent\.v1/);
 assert.match(app, /adl\.runtime_v3\.observatory_conversation_result\.v1/);
 assert.match(app, /adl\.runtime_v3\.observatory_conversation_cancel\.v1/);
 assert.match(app, /conversationSend\.disabled = !conversationAuthorized/);
-assert.match(app, /agent\.state === "running"/);
+assert.match(app, /agent\.communication_eligible === true/);
 assert.match(app, /item\.dataset\.turnId = turnId/);
 assert.match(app, /pending\.cancelButton\?\.remove\(\)/);
 assert.match(app, /pendingConversationTurns\.delete\(frame\.turn_id\)/);
