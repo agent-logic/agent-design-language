@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/225/diagram.mmd
 [
   {
     "lane": "prebind-sip-correction",
-    "proof_role": "The complete Gate 2 binary proves initialized/ready unbound card repair and will contain the focused SIP operator-constraint regression.",
+    "proof_role": "The complete Gate 2 binary proves initialized/ready unbound SIP correction, including migration and authored-drift rejection plus empty actor/reason zero-mutation proof.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -51,7 +51,7 @@ Diagram: .csdlc/prepared/issues/225/diagram.mmd
   },
   {
     "lane": "recovered-spp-correction",
-    "proof_role": "The complete Gate 5 binary proves review recovery and will contain the focused recovered SPP summary regression.",
+    "proof_role": "The complete Gate 5 binary proves exact recover_review audit provenance, rejects stale or transition-only provenance, and proves empty actor/reason zero-mutation behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",

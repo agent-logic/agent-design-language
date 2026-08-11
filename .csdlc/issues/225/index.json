@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c2539d70d91f701387359b5176d8f0797988aec3b5745e78e295d6bcf53e1c4",
   "phase": "initialized",
-  "generation": 2,
-  "digest": "0bf7bd6390844489a5ac66ae04bfff655dac1b34d9d8cf390a1b21299a181970",
+  "generation": 4,
+  "digest": "03e38a1ec375612ffbd3940ab4f2f47b30f54dca80d99803d392c6f609ea7d3d",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "6a8b88cf342080563b8b1c72c34472f5010ef374a9fc94df8c27e154edde2752",
+      "values_digest": "2b047fcb571491dc0375a758d36f989c27f2310374105cf3040d9d737036df07",
       "rendered_digest": "9f38b68f225883c5296d0930f90a0bd45b5d3fdfbc79b9e2eb784c83f1be0027",
       "ast_digest": "80936f9bc8d37273b594570a048d63acc5befe735e1ed02d3e188eec4b50430f"
     },
     "stp": {
-      "values_digest": "a9ec49320da98ac9ecce909ea534ac7135c022dbdf06260e803333b6b0b61b88",
-      "rendered_digest": "dc51e13938ec263f15e20b21b0baaf50ebac5e2f7d552d67dfe926699d107f0a",
-      "ast_digest": "2f29702a0ad48541d88d367a575e37a2414ca52902ffcecef7f39fa467a3be91"
+      "values_digest": "a66b08edd86fb6c96edb3013c47e86587dfc3c61fb79b05320a43735b691cd18",
+      "rendered_digest": "4b480f8134f03a8df280641a44c7466ac2427aaacdcad4f4bb09a40f9dfd65dc",
+      "ast_digest": "98229242cbbc08bd4320f8997bf7a53d4c41945051bf846790c8b8e750b4e697"
     },
     "spp": {
-      "values_digest": "43a7eca93a942d4734bb66e6780165df464c44b36c0496afdfc5505b24761fa9",
-      "rendered_digest": "9e5d737f6d452dde5d4f660d84a903a957ef234b9dd29938c2b63177d56ffc51",
-      "ast_digest": "ea34d2086d8118e1aeb79f372db32343c5dae2f33948e2c42a8844c5f4941841"
+      "values_digest": "4b2471ee2b55aabf6591121ebe1877908f28f88ca2a298ef3680a24e0c6afdf6",
+      "rendered_digest": "4bcfac6b3ce92b5d0e1d958cabd3b2d96dd2b2a615d8898b5bb6fae6af2e0096",
+      "ast_digest": "47a89e8941a55d57e32f6c6b4c922d18ad5db01bd24baec9d257db21cf181479"
     },
     "vpp": {
-      "values_digest": "cef9203356a9698261a842ad9b680cab4a267efdb736e8ca54777a763f59e368",
-      "rendered_digest": "5352a284b35d21ef336aad0b4025b08110e0af2449352ea9380c2963a58a8ff5",
-      "ast_digest": "4e61434f436a29fc010f27770a8b9b4dc8ed1f80afabd799a8b7a9b9a393ab1a"
+      "values_digest": "11cb23e81d8fd5b61895ea119c7d15afa371a0f5d7e2f32bcf2cd005b83af221",
+      "rendered_digest": "ef7f9dc26cc415c6553103dc662ba4f08b9056bdea61fbcf037c4e57e44f789d",
+      "ast_digest": "847478d39e1adec55e199916230bc1acc40abf2b2af97fbed7c3cb835be8c925"
     },
     "srp": {
-      "values_digest": "a27adc387595f55619e1e9a8142cac63307cca7c83407e1475cffba1a93379f8",
+      "values_digest": "a32a50678f28fdad6ec0c1dc5d1853dfe11a00db3d102fc78930cb8c9ebd07b7",
       "rendered_digest": "cc2eaa4e9e9f1935e1846fbbed3634f3dec9f4d33edb2e23a63b87705eedcba7",
       "ast_digest": "94db6738b2be4771ce8b282bba064fb03464b2755a7dcfd6757054c8d3d6c388"
     },
     "sor": {
-      "values_digest": "6f951a3dc1d89e1c5bea963c3c45c664a6c3ab0ed005eab65d15a2ccaec39c9e",
+      "values_digest": "e0f83861c9cb8150d62e4176e7c21f0911b24b5c9f576dd437c3e1f9e2c9186f",
       "rendered_digest": "443c62c1ca205fcf8158badf7f586e7c3e202a1eebc6e43c8277d069cf9122b2",
       "ast_digest": "a50dd0361a949552917723843af62c2d1cf72d10f846a737d308f57110092df5"
     }
@@ -71,6 +71,20 @@
       "actor": "codex:225-bounded-card-review-repair",
       "reason": "Use existing Gate 2 and Gate 5 binaries as truthful pre-implementation proof denominators.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-sip-correction\",\"proof_role\":\"The complete Gate 2 binary proves initialized/ready unbound card repair and will contain the focused SIP operator-constraint regression.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"225-serial-01\",\"defer_reason\":null},{\"lane\":\"recovered-spp-correction\",\"proof_role\":\"The complete Gate 5 binary proves review recovery and will contain the focused recovered SPP summary regression.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"parallel_group\":\"225-serial-02\",\"defer_reason\":null},{\"lane\":\"focused-clippy\",\"proof_role\":\"Reject type, exhaustiveness, and editor owner regressions.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--bin\",\"csdlc-edit\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"225-serial-03\",\"defer_reason\":null},{\"lane\":\"format\",\"proof_role\":\"Require canonical Rust formatting.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"225-serial-04\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and patch defects across the committed branch range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"225-serial-05\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Resolve independent design-review findings by tightening provenance, drift, migration, and input guards.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/225/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/225/diagram.mmd\",\"new_design_digest\":\"0705683746755d039a15e5abb37922b7477040c830be19d4b9c25df086fc7ad8\",\"new_diagram_digest\":\"92cdb7af07ad5966b68f4a331c8e26c2bcba95b142f3a5f515d26d1912f05070\",\"old_design_digest\":\"c6e2eb19dc80c076d34116fba976730dea4aeb23d87ae58c4a3fecb53afac72e\",\"old_diagram_digest\":\"c827e554a7aa14540af5a4a0885a041b8d86a4750b0a653fae4da2e1768dd0ae\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Recovered implemented SPP plan_summary correction succeeds only after the latest relevant review audit event is exactly recover_review with stale lifecycle truth cleared\",\"AC-2: Initialized/ready unbound SIP operator_constraints correction succeeds only without migration or authored design/diagram drift and without granting bind or execution authority\",\"AC-3: Both operations enforce nonempty values, actor, and reason plus card ownership, lifecycle phase, topology, CAS, provenance, migration, drift, and retained-truth guards\",\"AC-4: Audit truth retains complete previous and replacement values plus validated actor and reason\",\"AC-5: Values, Markdown, AST, cross-card identity, generation, digest, and design-review truth remain coherent and atomic\",\"AC-6: Wrong phase/card, stale or transition-only recovery, stale CAS, empty input/actor/reason, migration, authored drift, retained truth, and partial-write cases fail without mutation\",\"AC-7: Focused tests, strict Clippy, formatting, typed validation, diff hygiene, and independent exact-head review pass\"]}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Make the focused proof matrix explicitly cover every reviewed authorization guard.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-sip-correction\",\"proof_role\":\"The complete Gate 2 binary proves initialized/ready unbound SIP correction, including migration and authored-drift rejection plus empty actor/reason zero-mutation proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"225-serial-01\",\"defer_reason\":null},{\"lane\":\"recovered-spp-correction\",\"proof_role\":\"The complete Gate 5 binary proves exact recover_review audit provenance, rejects stale or transition-only provenance, and proves empty actor/reason zero-mutation behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"parallel_group\":\"225-serial-02\",\"defer_reason\":null},{\"lane\":\"focused-clippy\",\"proof_role\":\"Reject type, exhaustiveness, and editor owner regressions.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--bin\",\"csdlc-edit\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"225-serial-03\",\"defer_reason\":null},{\"lane\":\"format\",\"proof_role\":\"Require canonical Rust formatting.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"225-serial-04\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and patch defects across the committed branch range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"225-serial-05\",\"defer_reason\":null}]}"
     }
   ]
 }

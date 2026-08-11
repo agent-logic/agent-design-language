@@ -23,12 +23,12 @@ Add two exact semantic corrections and focused fail-closed proof; do not redesig
 
 ## Acceptance
 
-1. AC-1: Recovered implemented SPP plan_summary correction succeeds only after typed review recovery with stale truth cleared
-2. AC-2: Initialized/ready unbound SIP operator_constraints correction succeeds without granting bind or execution authority
-3. AC-3: Both operations enforce nonempty values, card ownership, lifecycle phase, topology, CAS, and retained-truth guards
-4. AC-4: Audit truth retains complete previous and replacement values plus actor and reason
+1. AC-1: Recovered implemented SPP plan_summary correction succeeds only after the latest relevant review audit event is exactly recover_review with stale lifecycle truth cleared
+2. AC-2: Initialized/ready unbound SIP operator_constraints correction succeeds only without migration or authored design/diagram drift and without granting bind or execution authority
+3. AC-3: Both operations enforce nonempty values, actor, and reason plus card ownership, lifecycle phase, topology, CAS, provenance, migration, drift, and retained-truth guards
+4. AC-4: Audit truth retains complete previous and replacement values plus validated actor and reason
 5. AC-5: Values, Markdown, AST, cross-card identity, generation, digest, and design-review truth remain coherent and atomic
-6. AC-6: Wrong phase/card, stale CAS, empty input, retained truth, and partial-write cases fail without mutation
+6. AC-6: Wrong phase/card, stale or transition-only recovery, stale CAS, empty input/actor/reason, migration, authored drift, retained truth, and partial-write cases fail without mutation
 7. AC-7: Focused tests, strict Clippy, formatting, typed validation, diff hygiene, and independent exact-head review pass
 
 ## Dependencies

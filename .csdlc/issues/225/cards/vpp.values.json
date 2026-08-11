@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC v2] Permit bounded card correction after review recovery",
     "slug": "bounded-card-review-repair",
     "version": "v0.92",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "prebind-sip-correction",
-          "proof_role": "The complete Gate 2 binary proves initialized/ready unbound card repair and will contain the focused SIP operator-constraint regression.",
+          "proof_role": "The complete Gate 2 binary proves initialized/ready unbound SIP correction, including migration and authored-drift rejection plus empty actor/reason zero-mutation proof.",
           "acceptance_ids": [
             "AC-2",
             "AC-3",
@@ -43,7 +43,7 @@
         },
         {
           "lane": "recovered-spp-correction",
-          "proof_role": "The complete Gate 5 binary proves review recovery and will contain the focused recovered SPP summary regression.",
+          "proof_role": "The complete Gate 5 binary proves exact recover_review audit provenance, rejects stale or transition-only provenance, and proves empty actor/reason zero-mutation behavior.",
           "acceptance_ids": [
             "AC-1",
             "AC-3",
@@ -139,9 +139,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on wrong phase/card/topology/recovery state, retained lifecycle truth, stale CAS, empty values, incomplete audit, projection drift, or validation/review failure.",
       "design_ref": ".csdlc/prepared/issues/225/design.md",
-      "design_digest": "c6e2eb19dc80c076d34116fba976730dea4aeb23d87ae58c4a3fecb53afac72e",
+      "design_digest": "0705683746755d039a15e5abb37922b7477040c830be19d4b9c25df086fc7ad8",
       "diagram_ref": ".csdlc/prepared/issues/225/diagram.mmd",
-      "diagram_digest": "c827e554a7aa14540af5a4a0885a041b8d86a4750b0a653fae4da2e1768dd0ae"
+      "diagram_digest": "92cdb7af07ad5966b68f4a331c8e26c2bcba95b142f3a5f515d26d1912f05070"
     }
   }
 }

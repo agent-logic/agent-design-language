@@ -1,48 +1,13 @@
 {
   "issue": 225,
-  "card": "stp",
-  "expected_generation": 2,
-  "expected_digest": "0bf7bd6390844489a5ac66ae04bfff655dac1b34d9d8cf390a1b21299a181970",
+  "card": "vpp",
+  "expected_generation": 3,
+  "expected_digest": "30cdff0e5e952d3a5a2f3f529ee461df924a389028c67c6fab0bf8b5686d2226",
   "actor": "codex:225-bounded-card-review-repair",
-  "reason": "Resolve independent design-review findings by tightening provenance, drift, migration, and input guards.",
+  "reason": "Make the focused proof matrix explicitly cover every reviewed authorization guard.",
   "operation": {
-    "operation": "replace_acceptance_plan",
-    "acceptance_criteria": [
-      "AC-1: Recovered implemented SPP plan_summary correction succeeds only after the latest relevant review audit event is exactly recover_review with stale lifecycle truth cleared",
-      "AC-2: Initialized/ready unbound SIP operator_constraints correction succeeds only without migration or authored design/diagram drift and without granting bind or execution authority",
-      "AC-3: Both operations enforce nonempty values, actor, and reason plus card ownership, lifecycle phase, topology, CAS, provenance, migration, drift, and retained-truth guards",
-      "AC-4: Audit truth retains complete previous and replacement values plus validated actor and reason",
-      "AC-5: Values, Markdown, AST, cross-card identity, generation, digest, and design-review truth remain coherent and atomic",
-      "AC-6: Wrong phase/card, stale or transition-only recovery, stale CAS, empty input/actor/reason, migration, authored drift, retained truth, and partial-write cases fail without mutation",
-      "AC-7: Focused tests, strict Clippy, formatting, typed validation, diff hygiene, and independent exact-head review pass"
-    ],
-    "steps": [
-      {
-        "id": "S1",
-        "action": "Review and approve exact operation, phase, card, topology, provenance, migration, drift, input, and audit contracts, then bind #225.",
-        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
-        "status": "pending"
-      },
-      {
-        "id": "S2",
-        "action": "Implement both semantic operations through the existing store transaction and renderer.",
-        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
-        "status": "pending"
-      },
-      {
-        "id": "S3",
-        "action": "Add focused Gate 2 and Gate 5 accepted and fail-closed regression sequences for every declared guard.",
-        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
-        "status": "pending"
-      },
-      {
-        "id": "S4",
-        "action": "Run focused validation, resolve independent exact-head review, and publish a ready PR closing #225.",
-        "acceptance_ids": ["AC-7"],
-        "status": "pending"
-      }
-    ],
-    "validation_lanes": [
+    "operation": "replace_validation_lanes",
+    "lanes": [
       {
         "lane": "prebind-sip-correction",
         "proof_role": "The complete Gate 2 binary proves initialized/ready unbound SIP correction, including migration and authored-drift rejection plus empty actor/reason zero-mutation proof.",
