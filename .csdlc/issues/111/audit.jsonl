@@ -93,3 +93,4 @@
 {"sequence":93,"generation":80,"actor":"codex:issue-111-conflict-reconciliation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":94,"generation":81,"actor":"subagent:019ff1cf-1716-7183-979c-0ffb35f8b6e4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":95,"generation":82,"actor":"codex:issue-111-conflict-reconciliation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":96,"generation":83,"actor":"codex:issue-111-focused-routing-repair","reason":"Recover published lifecycle truth after reviewed focused validation routing repair at fd77ccd5c520568694972d169ad3975d3d3a1cdc.","operation":"recover_review"}

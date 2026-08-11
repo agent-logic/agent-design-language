@@ -4,66 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
-  "phase": "published",
-  "generation": 82,
-  "digest": "3f9e0444269247a8c64383ee1217f6b5f6f2795d5f2a24651218d48dc1938938",
+  "phase": "implemented",
+  "generation": 83,
+  "digest": "6ed4053f112402dea672c0d2ce668fb67930aeb2ebb0741f0d1ddcdf977554bc",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": {
-    "reviewer": "subagent:019ff1cf-1716-7183-979c-0ffb35f8b6e4",
-    "assigned_by": "codex:issue-111-conflict-reconciliation",
-    "revision": "git-blake3:0252b5d27ed352e37762d730ff0bccfceeee72d9:8a82475146b186d7ed08829fab77b49657d0afd93a9149a1732ea32e9b29df3e",
-    "scope": [
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/operations.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/conversation_sessions.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs",
-      ".csdlc/issues/111"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019ff1cf-1716-7183-979c-0ffb35f8b6e4",
-    "scope": [
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/operations.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/conversation_sessions.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs",
-      ".csdlc/issues/111"
-    ],
-    "reviewed_revision": "git-blake3:0252b5d27ed352e37762d730ff0bccfceeee72d9:8a82475146b186d7ed08829fab77b49657d0afd93a9149a1732ea32e9b29df3e",
-    "findings": [],
-    "residual_risks": [
-      "Required GitHub checks must be re-observed after the final lifecycle-only push; optional out-of-band workflows are intentionally canceled."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 111,
-    "pull_request": 228,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/228",
-    "base": "main",
-    "head": "codex/111-wp18c01-conversation-session-preparation",
-    "revision": "git-blake3:6320e467fa8b46a6173c2708931b5fce0088e9e3:450ea7ba5e14f5f78684ef4e7be6d5da88b69e161bb9d57ab3285b93b6526308",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -77,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "213c827c7589b13b33a3e6d6615b20d8109cba513d6ab8971d43c0b9c67e4759",
+      "values_digest": "93a5756cf31e8b72ee13ac31f019672cdc718f46eabb71f8570fd7698bd517d5",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "74f16ce880d7043d6bfc5701839f460812695020d7102a6ffff97c7982e0d557",
+      "values_digest": "1133b174679c73dafc4f7b6e8a0499593ffc85bd9187d3321858d5df2bad5977",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "656821bb51330c58dc9c34e3a9b9b1a7c09baa271e6f102e8e5a2f069fb23e94",
+      "values_digest": "6f1ad2e1213a0c269ccf90a087da970de94eaa62fda9cd3be9e0e815d888b6fc",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "6c26b16507d7f5267b5110a7baf9ea1e38e3967d8c7a39acc92ae66aecf2e7ee",
+      "values_digest": "6b8ec9098f680a5f6092ef447d39660b7190cdfcd4dfc88d148538e0ad5cb689",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "b8b5a9d48f7d4239b23ece727e7473fe4f547cee5104558998e52cb3eade39a5",
-      "rendered_digest": "d02ee5986274ea3f08ff72c0fd5d10abf2ceb4f2fea8b4b8043132415de33717",
-      "ast_digest": "f10cd91e1ec8a2423a82f0d111b6b21819007e00a70453795a56055323b03b6d"
+      "values_digest": "70beeaddb9f227e3fc342645e669bd39a181c5216a72bbe5136405e38bc015e9",
+      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
+      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
     },
     "sor": {
-      "values_digest": "edbca8d4dc6c0b16fda7b7cd78673bd6af626963bf0c434a10e6ffcb54c187a9",
-      "rendered_digest": "d7fb84f91a97c2b2d8a38ccf3dd24c34d60e63dfcd0d192067ccce3f97bc12fe",
-      "ast_digest": "7bb9bb7a8c606e61a6734f0bc5e3259b0803100384c28c625be91f4560863826"
+      "values_digest": "5966952f39ea4572f97f8c25f6ae33434b7b5fde31c89b6249970e229329faf0",
+      "rendered_digest": "dbaf4bffb224961fb038db0d855048f598c874eda1d3b078ceba4849f9e3917b",
+      "ast_digest": "2b77ae1606377f3a286a0e752404bcc8501a85777862d319e7326938640d53ca"
     }
   },
   "transitions": [
@@ -219,6 +167,13 @@
       "to": "published",
       "actor": "codex:issue-111-conflict-reconciliation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 17,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-111-focused-routing-repair",
+      "reason": "Recover published lifecycle truth after reviewed focused validation routing repair at fd77ccd5c520568694972d169ad3975d3d3a1cdc."
     }
   ],
   "audit": [
@@ -886,6 +841,13 @@
       "actor": "codex:issue-111-conflict-reconciliation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 96,
+      "generation": 83,
+      "actor": "codex:issue-111-focused-routing-repair",
+      "reason": "Recover published lifecycle truth after reviewed focused validation routing repair at fd77ccd5c520568694972d169ad3975d3d3a1cdc.",
+      "operation": "recover_review"
     }
   ]
 }

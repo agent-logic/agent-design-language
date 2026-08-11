@@ -291,11 +291,11 @@ Closed the attachment-before-release ordering finding in the production WSS path
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
