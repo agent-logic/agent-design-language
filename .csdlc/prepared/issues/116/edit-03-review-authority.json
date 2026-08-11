@@ -1,0 +1,50 @@
+{
+  "issue": 116,
+  "card": "vpp",
+  "expected_generation": 2,
+  "expected_digest": "9b975f2baf07c11d36ffe7e542d50f8bcced29fb729de9bf33ef7cc387160d1b",
+  "actor": "codex:116-final-readiness-repair",
+  "reason": "Keep product and hygiene lanes within their proving scope and require a dedicated exact-head receipt validator for the composite review acceptance criterion.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "attention-exact-child-tests",
+        "proof_role": "Exact nonzero issue-owned target proves lifecycle, schema, authorization, queue bounds, deduplication, expiry, overload, spoofing, restart, reconnect, recovery, projection, and operator outcome invariants; it does not substitute for independent review.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1200,
+        "budget_tokens": 12000,
+        "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "operator_attention", "--no-tests=fail"],
+        "parallel_group": "attention-runtime",
+        "defer_reason": "The issue-owned temporary #[path = \"../src/operator_attention.rs\"] harness in adl-runtime/tests/operator_attention.rs will route adl-runtime/src/operator_attention.rs until integration registration; --no-tests=fail preserves the nonzero requirement."
+      },
+      {
+        "lane": "attention-api-browser-validator",
+        "proof_role": "Run the dedicated issue-owned API/browser validator against live Runtime truth and require nonzero attention-inbox assertions for authorized listing, unread projection, filters, deep links, acknowledge, reply, defer, resolve, refuse, notification preferences, refusal and degradation, restart, reconnect, stale cache, and duplicate suppression; it does not substitute for independent review.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1200,
+        "budget_tokens": 12000,
+        "argv": ["bash", "adl/tools/test_v092_operator_attention_inbox.sh"],
+        "parallel_group": "attention-api-browser",
+        "defer_reason": "Deferred and fail closed during preparation: #111, #112, and #114 must be terminal, merged, ancestral, and handed off before issue #116 implements this exact validator target; a missing validator, unavailable live Runtime API/browser surface, skipped proof, or zero attention-inbox assertions must fail."
+      },
+      {
+        "lane": "attention-exact-head-review-receipts",
+        "proof_role": "Validate that every required Runtime, schema, authorization, overload, durability, browser, and hygiene lane passed at the exact candidate revision and that the independent SRP review covers that same revision with no unresolved actionable findings.",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["bash", "adl/tools/test_v092_operator_attention_inbox.sh", "--review-only"],
+        "parallel_group": "attention-review",
+        "defer_reason": "The issue-owned validator must fail closed until exact-head product receipts and independent SRP review evidence exist; ordinary tests and diff hygiene cannot satisfy review truth."
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

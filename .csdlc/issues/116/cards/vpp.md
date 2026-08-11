@@ -25,15 +25,14 @@ Diagram: .csdlc/prepared/issues/116/diagram.mmd
 [
   {
     "lane": "attention-exact-child-tests",
-    "proof_role": "Exact nonzero issue-owned target proves lifecycle, schema, authorization, queue bounds, deduplication, expiry, overload, spoofing, restart, reconnect, recovery, projection, and operator outcome invariants.",
+    "proof_role": "Exact nonzero issue-owned target proves lifecycle, schema, authorization, queue bounds, deduplication, expiry, overload, spoofing, restart, reconnect, recovery, projection, and operator outcome invariants; it does not substitute for independent review.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6",
-      "AC-7"
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "medium",
@@ -54,13 +53,12 @@ Diagram: .csdlc/prepared/issues/116/diagram.mmd
   },
   {
     "lane": "attention-api-browser-validator",
-    "proof_role": "Run the dedicated issue-owned API/browser validator against live Runtime truth and require nonzero attention-inbox assertions for authorized listing, unread projection, filters, deep links, acknowledge, reply, defer, resolve, refuse, notification preferences, refusal and degradation, restart, reconnect, stale cache, and duplicate suppression.",
+    "proof_role": "Run the dedicated issue-owned API/browser validator against live Runtime truth and require nonzero attention-inbox assertions for authorized listing, unread projection, filters, deep links, acknowledge, reply, defer, resolve, refuse, notification preferences, refusal and degradation, restart, reconnect, stale cache, and duplicate suppression; it does not substitute for independent review.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6",
-      "AC-7"
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "medium",
@@ -74,22 +72,22 @@ Diagram: .csdlc/prepared/issues/116/diagram.mmd
     "defer_reason": "Deferred and fail closed during preparation: #111, #112, and #114 must be terminal, merged, ancestral, and handed off before issue #116 implements this exact validator target; a missing validator, unavailable live Runtime API/browser surface, skipped proof, or zero attention-inbox assertions must fail."
   },
   {
-    "lane": "attention-diff-hygiene",
-    "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+    "lane": "attention-exact-head-review-receipts",
+    "proof_role": "Validate that every required Runtime, schema, authorization, overload, durability, browser, and hygiene lane passed at the exact candidate revision and that the independent SRP review covers that same revision with no unresolved actionable findings.",
     "acceptance_ids": [
       "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 60,
-    "budget_tokens": 500,
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "bash",
+      "adl/tools/test_v092_operator_attention_inbox.sh",
+      "--review-only"
     ],
-    "parallel_group": "attention-static",
-    "defer_reason": null
+    "parallel_group": "attention-review",
+    "defer_reason": "The issue-owned validator must fail closed until exact-head product receipts and independent SRP review evidence exist; ordinary tests and diff hygiene cannot satisfy review truth."
   }
 ]
 
@@ -107,7 +105,7 @@ Tokens: 50000
 
 - `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test operator_attention --no-tests=fail`
 - `bash adl/tools/test_v092_operator_attention_inbox.sh`
-- `git diff --check`
+- `bash adl/tools/test_v092_operator_attention_inbox.sh --review-only`
 
 ## Failure Semantics
 
