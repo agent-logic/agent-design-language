@@ -22,8 +22,8 @@ The umbrella coordinates the listed children through their typed v2 lifecycles. 
 
 | Issue | Role | Current truth | Next action |
 |---|---|---|---|
-| `#5835` | WP-17 | prepared and unbound; blocked on `#5826`, `#5827`, and `#5834` | bind only after every dependency is terminal |
-| `#5836` | WP-18 | prepared and unbound; blocked on `#5825`-`#5830`, `#5833`, and `#5834`; `#5832` is complete | bind only after every dependency is terminal |
+| `#5835` | WP-17 | prepared and unbound; `#5826`, `#5827`, and `#5834` are terminal | ready to bind when Sprint 5 execution starts |
+| `#5836` | WP-18 | prepared and unbound; `#5825`-`#5830` and `#5832`-`#5834` are terminal | ready to bind when Sprint 5 execution starts |
 | `#5838` | WP-18B | prepared and unbound; blocked on `#5832`, `#5834`, and `#5836` | preserve the provider-proof gate |
 | `#5839` | WP-19 | prepared and unbound; blocked on `#5834`, `#5835`, and accepted v0.93 allocation | preserve governance boundaries |
 | `#5840` | WP-20 | prepared and unbound; blocked on `#5836`, `#5837`, `#5838`, and `#5839` | run only after all proof producers finish |
@@ -68,8 +68,8 @@ binding.
 
 | Issue | Watcher | Current focus | Next terminal state |
 |---|---|---|---|
-| `#5835` | child session owner | dependency gate | truthful child closeout |
-| `#5836` | child session owner | dependency gate | truthful child closeout |
+| `#5835` | child session owner | ready to bind | truthful child closeout |
+| `#5836` | child session owner | ready to bind | truthful child closeout |
 | `#5838` | child session owner | dependency gate | truthful child closeout |
 | `#5839` | child session owner | dependency gate | truthful child closeout |
 | `#5840` | child session owner | dependency gate | truthful child closeout |

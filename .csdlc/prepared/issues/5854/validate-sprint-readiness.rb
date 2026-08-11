@@ -280,15 +280,15 @@ raise "typed tooling issue #74 observation missing" unless tooling_74
 raise "tooling issue #74 is not closed" unless tooling_74.fetch("state") == "closed" && tooling_74.fetch("closed_at") == "2026-08-10T00:11:18Z"
 expected_states = {
   5819 => "closed",
-  5825 => "open",
-  5826 => "open",
-  5827 => "open",
-  5828 => "open",
-  5829 => "open",
-  5830 => "open",
+  5825 => "closed",
+  5826 => "closed",
+  5827 => "closed",
+  5828 => "closed",
+  5829 => "closed",
+  5830 => "closed",
   5832 => "closed",
-  5833 => "open",
-  5834 => "open",
+  5833 => "closed",
+  5834 => "closed",
   5835 => "open",
   5836 => "open",
   5837 => "open",
@@ -306,6 +306,8 @@ end
 
 raise "WP-17 dependency set is incomplete" unless human.include?("`#5826`, `#5827`, and `#5834`")
 raise "WP-18 dependency set is incomplete" unless human.include?("`#5825`-`#5830` and `#5832`-`#5834`")
+raise "WP-17 is not classified as ready to bind" unless human.include?("| `#5835` | WP-17 | prepared and unbound; `#5826`, `#5827`, and `#5834` are terminal | ready to bind")
+raise "WP-18 is not classified as ready to bind" unless human.include?("| `#5836` | WP-18 | prepared and unbound; `#5825`-`#5830` and `#5832`-`#5834` are terminal | ready to bind")
 
 pr14 = gates.fetch("pull_requests").find { |row| row.fetch("pull_request") == 14 }
 source_pr14 = source.fetch("pull_request_results").first.fetch("response")

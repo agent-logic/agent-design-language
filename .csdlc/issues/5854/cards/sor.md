@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved all five actionable findings from the independent review of PR #103 without starting Sprint 5 or binding any child.
+Refreshed Sprint 5 live dependency evidence and established that #5835 and #5836 are ready to bind while preserving all downstream serial gates.
 
 ## Artifacts
 
@@ -27,6 +27,13 @@ Resolved all five actionable findings from the independent review of PR #103 wit
 - .csdlc/evidence/5854/sprint-review.md
 - .csdlc/evidence/5854/v092-sprint5-readiness.log
 - .csdlc/evidence/5854/diff-hygiene.log
+- .csdlc/prepared/issues/5854/sprint-execution-packet.md
+- .csdlc/prepared/issues/5854/validate-sprint-readiness.rb
+- .csdlc/evidence/5854/live-gates.json
+- .csdlc/evidence/5854/live-gates-source.json
+- .csdlc/evidence/5854/sprint-review.md
+- .csdlc/evidence/5854/activity.jsonl
+- .csdlc/evidence/5854/v092-sprint5-readiness.log
 
 ## Execution
 
@@ -34,6 +41,10 @@ Resolved all five actionable findings from the independent review of PR #103 wit
 - Reconciled the milestone issue wave and live legacy #5854 body to one five-child execution denominator, completed WP-24 product truth, and non-gating out-of-band WP-24A.
 - Added the complete WP-19 gate and fail-closed pairwise path-overlap validation for every declared parallel lane.
 - Refreshed typed live evidence to prove tooling issue #74 is closed and removed the obsolete sparse-checkout workaround.
+- Refreshed all retained issue and PR observations through the typed GitHub owner binaries.
+- Updated the human packet and sprint review to classify #5835 and #5836 as ready to bind.
+- Kept #5838, #5839, and #5840 blocked behind their declared dependencies and kept WP-24A out of band.
+- Updated the validator's exact live-state expectations and first-wave classification checks.
 
 ## Validation
 
@@ -101,11 +112,11 @@ Resolved all five actionable findings from the independent review of PR #103 wit
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

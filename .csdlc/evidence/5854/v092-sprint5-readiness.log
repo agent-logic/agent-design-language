@@ -1,5 +1,8 @@
 sprint 5854 overlap negative control: PASS
 sprint 5854 readiness: PASS
+live gate refresh: PASS (2026-08-11T05:31:45Z)
+first execution wave: PASS (#5835 and #5836 ready to bind)
+downstream serialization: PASS (#5838, #5839, and #5840 remain gated)
 child 5835: expected repository_identity_drift is the only ordinary pre-bind blocker
 child 5836: expected repository_identity_drift is the only ordinary pre-bind blocker
 child 5838: expected repository_identity_drift is the only ordinary pre-bind blocker

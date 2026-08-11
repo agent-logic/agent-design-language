@@ -1,11 +1,11 @@
 {
   "schema": "adl.v092.sprint_5854_live_gates.v1",
-  "observed_at": "2026-08-10T01:34:29Z",
+  "observed_at": "2026-08-11T05:31:45Z",
   "issue_repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "provenance": {
     "source_evidence": ".csdlc/evidence/5854/live-gates-source.json",
-    "source_evidence_sha256": "88bd72af86335ddf079cf5b2d32ccd29dd2468f5fc4faf66481f1929ee18a720",
+    "source_evidence_sha256": "3c672629a61da8397f9d2b86f63e8daa74ecaaf8d7fae49512eded95717627a7",
     "request_manifest_sha256": "39d9699eedc988d57c82b75beedc9512f379dd428a3977133e1f14386680162e",
     "collector_contract": "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
     "collector_identity": "typed csdlc-github-issue and csdlc-github-pr installed owner binaries"
@@ -19,32 +19,32 @@
     {
       "repository": "danielbaustin/agent-design-language",
       "issue": 5825,
-      "state": "open"
+      "state": "closed"
     },
     {
       "repository": "danielbaustin/agent-design-language",
       "issue": 5826,
-      "state": "open"
+      "state": "closed"
     },
     {
       "repository": "danielbaustin/agent-design-language",
       "issue": 5827,
-      "state": "open"
+      "state": "closed"
     },
     {
       "repository": "danielbaustin/agent-design-language",
       "issue": 5828,
-      "state": "open"
+      "state": "closed"
     },
     {
       "repository": "danielbaustin/agent-design-language",
       "issue": 5829,
-      "state": "open"
+      "state": "closed"
     },
     {
       "repository": "danielbaustin/agent-design-language",
       "issue": 5830,
-      "state": "open"
+      "state": "closed"
     },
     {
       "repository": "danielbaustin/agent-design-language",
@@ -54,12 +54,12 @@
     {
       "repository": "danielbaustin/agent-design-language",
       "issue": 5833,
-      "state": "open"
+      "state": "closed"
     },
     {
       "repository": "danielbaustin/agent-design-language",
       "issue": 5834,
-      "state": "open"
+      "state": "closed"
     },
     {
       "repository": "danielbaustin/agent-design-language",

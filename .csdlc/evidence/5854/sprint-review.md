@@ -2,14 +2,15 @@
 
 ## Decision
 
-The Sprint 5 coordination packet is ready for independent pre-PR review. This is not sprint completion, child proof, deployment authority, or public publication authority.
+The Sprint 5 coordination packet is current and ready to start its first execution wave. This is not sprint completion, child proof, deployment authority, or public publication authority.
 
 ## Current Classification
 
-- Prepared and unbound: `#5835`, `#5836`, `#5838`, `#5839`, `#5840`; none may bind until its complete STP dependency set is terminal.
+- Ready and unbound: `#5835` and `#5836`; every dependency in each child STP is terminal.
+- Prepared and blocked: `#5838` waits for `#5836`; `#5839` waits for `#5835` and an accepted v0.93 allocation/owner; `#5840` waits for `#5836`, `#5837`, `#5838`, and `#5839`.
 - Product/GitHub complete and excluded from execution: legacy `#5844`, represented canonically by merged issue `#10` and PR `#14`; typed closeout remains asynchronous.
 - Independent out-of-band stream: `#5845`; it has no Sprint 5 dependency and cannot gate readiness, execution, review, or closeout.
-- Open serial gates: `#5834`, `#5837`, and `#5843`, plus downstream child dependencies recorded in the packet.
+- Open serial gates: `#5837`, `#5835`, `#5836`, `#5838`, `#5839`, and `#5843`, as consumed by the downstream children and final publication boundary recorded in the packet.
 
 ## Proof Boundary
 
@@ -29,7 +30,6 @@ Tooling issue `agent-logic/agent-design-language#74` closed on `2026-08-10T00:11
 
 ## Remaining Work
 
-- Complete independent exact-head review and resolve every actionable finding.
-- Publish the readiness PR without merging it.
-- After the readiness change lands, create each eligible child in its own FastWork worktree and typed split-repository bind context.
-- Keep blocked children idle until their exact serial gates open.
+- When Sprint 5 execution is authorized, bind `#5835` and `#5836` from their retained split-authority requests into separate FastWork worktrees.
+- Keep `#5838`, `#5839`, and `#5840` idle until their exact serial gates open.
+- Refresh live gate evidence before a bind when the retained snapshot is older than 24 hours.
