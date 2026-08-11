@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-After every dependency merges, bind #203, close raw store bypasses, implement sealed deterministic adapters and local safety anchoring, prove all forty-four cases, independently review, and publish a ready unmerged PR before #205/#204.
+After every dependency merges with #201's fresh independently reapproved private exact-artifact interface, bind #203, close all enumerated raw store bypasses, implement sealed deterministic adapters and node-local checkpoint/audit-only safety anchoring, mechanically migrate existing consumers without changing #204 workflow semantics, prove exactly forty-four cases and 132 generated canonical subassertion IDs, independently review, and publish a ready unmerged PR before #205/#204.
 
 ## Plan
 
-Revision 1
+Revision 4
 
 ## Steps
 
@@ -75,9 +75,12 @@ Revision 1
 
 - No normal-build raw store constructor, mutation, authorization, grant, receipt, or local history creates authority
 - Every store use observes the live #200 barrier and a newer Pending generation invalidates retained grants
-- Exact signed artifacts and store-native verification remain the sole concrete authority inputs
-- Canonical replicated results never depend on a replica-local wall or monotonic clock
+- Exact private #201 signed artifact bytes and store-native verification remain the sole concrete authority inputs
+- Canonical replicated store state, step receipts, results, result digests, and published receipt views contain no node-local wall time, monotonic time, boot-local safety-anchor bytes, or safety-anchor digest
+- Each local safety anchor is bound only by a node-local checkpoint and audit record; local NotReady or Unsafe cannot create canonical progress
+- AuthorityStoreAdapterRegistry exposes #205 only a read-only opaque PublishedStoreAuthorityReceiptView for an exactly Published OwnerCommit or Fence result and exposes no raw handle or serving decision
 - Partial multi-store progress remains denied and is never described as atomic
+- Migration and recovery source edits in #203 are signature/handle compatibility only; #204 retains workflow, failure-policy, and execution ownership
 
 ## Risks
 

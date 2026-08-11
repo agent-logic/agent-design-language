@@ -75,10 +75,12 @@ contain replica-local elapsed timestamps.
 
 Each node separately checkpoints a bounded `LeaseSafetyAnchor` containing its
 boot generation, local observation generation, monotonic start/deadline, and
-the digest of the canonical lease state it protects. This anchor is never part
-of the replicated state or canonical result digest. Before an operation that
-depends on elapsed safety, a trusted local gate returns one of `Ready`,
-`NotReady`, or `Unsafe`:
+the digest of the canonical lease state it protects. The anchor and its digest
+exist only in a node-local checkpoint plus node-local audit record. Neither the
+anchor bytes nor anchor digest may appear in replicated state, a concrete step
+receipt, canonical failure, canonical result, result digest, published store
+receipt view, or retry identity. Before an operation that depends on elapsed
+safety, a trusted local gate returns one of `Ready`, `NotReady`, or `Unsafe`:
 
 - `Ready` allows the sealed adapter step to begin;
 - `NotReady` and `Unsafe` perform no external effect and write no step receipt,
@@ -127,10 +129,12 @@ ordered steps are fixed by adapter kind and version.
 
 ## Crash and retry boundary
 
-Every concrete step emits an opaque receipt binding adapter version, lineage,
-operation, token/artifact digest, exact before/after store digest, canonical
-time digest, membership/log coordinates, and local anchor digest when relevant.
-The receipt is verified and fsynced by #200 before the next step.
+Every concrete step emits an opaque canonical receipt binding adapter version,
+lineage, operation, token/artifact digest, exact before/after store digest,
+canonical time digest, and membership/log coordinates. It never binds a local
+safety-anchor byte or digest. #200 verifies and fsyncs that receipt before the
+next step; a separate node-local checkpoint/audit binds the anchor to the
+canonical state digest without entering the canonical receipt or result.
 
 An exact retry is cache-first only in the #200 sense: it does not reauthorize a
 token or repeat an already-proved effect, but it must reconcile every expected
@@ -145,13 +149,41 @@ result cache, external checkpoint CAS, final marker, and published-view flip
 are independently crash-tested. Files are exclusively locked, canonical,
 size-bounded through an opened handle, symlink-safe, and rollback checked.
 
-## Compatibility and downstream boundaries
+## Exact normal-build compatibility surface
 
-Existing store-specific path-included tests may use `cfg(test)` raw helpers to
-prove the low-level store invariants. The production library exposes only the
-authority-bound handles and sealed plan registration. A compile-time proof
-checks that normal consumers cannot construct raw grants or open an ungated
-store.
+The raw-access closure is not allowed to rely on an undeclared downstream
+ripple. #203 owns the mechanical signature/handle migration of these exact
+normal-build consumers: `transport.rs`, `capability_advertisement.rs`,
+`placement.rs`, `projection.rs`, `resource_weather.rs`, `snapshot_catalog.rs`,
+`migration.rs`, and `recovery.rs`, all beneath `adl-runtime/src/distributed/`.
+The migration and recovery edits replace raw certificate/ledger/fencing
+references with authority-bound handles only; #204 retains their workflow,
+failure-policy, orchestration, and execution semantics.
+
+The exact integration-fixture migration surface is:
+`distributed_authority_snapshots.rs`,
+`distributed_capability_advertisement.rs`, `distributed_certificates.rs`,
+`distributed_discovery.rs`, `distributed_fencing.rs`,
+`distributed_guardian.rs`, `distributed_lease.rs`,
+`distributed_migration.rs`, `distributed_placement.rs`,
+`distributed_projection.rs`, `distributed_recovery.rs`,
+`distributed_resource_weather.rs`, `distributed_snapshot_catalog.rs`, and
+`distributed_transport.rs` beneath `adl-runtime/tests/`, plus the new focused
+`distributed_identity_lease_authority.rs`. Store-specific low-level cases that
+must reach raw primitives move into `#[cfg(test)]` modules inside
+`certificates.rs`, `lease.rs`, or `fencing.rs`; the normal library and every
+integration-test crate use only authority-bound handles. A compile-time proof
+rejects raw constructors, grants, authorization, and mutation in a normal build.
+
+## Published receipt projection boundary
+
+`AuthorityStoreAdapterRegistry` exposes a read-only opaque
+`PublishedStoreAuthorityReceiptView` only for an exactly Published OwnerCommit
+or Fence result. The view contains lineage, action class, adapter version,
+published generation, and canonical result/receipt digests. It exposes no raw
+store handle, token/artifact bytes, local safety anchor, or serving decision.
+#205 consumes this projection from its separate `serving_authority.rs`; it does
+not modify or register concrete effects in `authority_store_adapters.rs`.
 
 #205 adds durable Shepherd and Observatory serving eligibility from published
 OwnerCommit/fence truth. #204 runs external migration and recovery workflows.
@@ -183,6 +215,16 @@ declared subassertion parity:
 `read_to_mutation_escalation_rejected`, `wrong_lineage_permit_rejected`,
 `coherent_rollback_rejected`, `corrupt_noncanonical_oversized_rejected`,
 `state_or_lock_symlink_rejected`, and `capacity_n_plus_one_no_partial`.
+
+For every canonical case name `C`, the machine denominator contains exactly
+three ordered unique subassertion ids: `C::expected_outcome`,
+`C::canonical_store_state`, and `C::publication_barrier_state`. The complete
+denominator is therefore exactly 132 ids (44 cases times 3), generated only from
+the ordered case list above. Missing, extra, duplicate, reordered, or differently
+named ids fail proof production and validation. `canonical_store_state` proves
+that canonical receipts/results exclude local anchor bytes and digest;
+`publication_barrier_state` proves that any anchor is node-local
+checkpoint/audit-only and that partial state remains denied.
 
 The crash cases mechanically enumerate before/after effect and receipt writes,
 old/new checkpoint outcomes, marker/view publication, exact restart, dual-open

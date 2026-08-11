@@ -4,14 +4,15 @@ flowchart TD
   R --> C["Certificate effect and exact receipt"]
   R --> F["Fencing floor effect and exact receipt"]
   R --> L["Canonical lease effect and exact receipt"]
-  R --> A["Node-local safety anchor"]
+  R --> A["Node-local safety anchor checkpoint and audit only"]
   C --> X["Reconcile exact ordered receipt set"]
   F --> X
   L --> X
-  A --> X
+  A -. "never enters canonical receipt or result digest" .-> D
   X --> Q["#200 result cache and node-local checkpoint CAS"]
   Q --> V["Atomic published generation"]
   V --> G["Live action-scoped read or mutation grant"]
+  V --> Y["Opaque PublishedStoreAuthorityReceiptView for #205"]
   G --> B["Authority-bound store handle revalidates every use"]
   N["Newer Pending generation"] -->|"invalidates prior grants"| B
   B -->|"current exact grant"| O["Authorized certificate, lease, or fencing result"]

@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/203/diagram.mmd
 [
   {
     "lane": "identity-lease-fencing-authority",
-    "proof_role": "Prove exact forty-four-case denominator: certificate_enroll, certificate_rotate_overlap, certificate_successor_post_overlap, certificate_revoke, certificate_compromise_identity_fence, lease_grant, lease_renewal, lease_revoke, fence_commit, activate_after_safety, owner_commit, exact_retry_published, restart_reanchor_safe, barrier_pending_blocks_all_reads, unsigned_certificate_rejected, wrong_issuer_rejected, wrong_certificate_purpose_rejected, wrong_certificate_domain_rejected, stale_certificate_generation_rejected, token_artifact_digest_mismatch, reconstructed_endorsements_rejected, wrong_authority_membership_rejected, stale_lease_index_rejected, stale_lease_epoch_rejected, wrong_activation_possession_rejected, activate_before_safety_rejected, floor_precedes_ledger_revocation, local_clock_unsafe_no_effect, local_clock_rollback_no_effect, crash_after_certificate_effect, crash_after_fence_floor, crash_after_ledger_effect, crash_after_local_anchor, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, stale_read_permit_rejected, stale_mutation_permit_rejected, read_to_mutation_escalation_rejected, wrong_lineage_permit_rejected, coherent_rollback_rejected, corrupt_noncanonical_oversized_rejected, state_or_lock_symlink_rejected, capacity_n_plus_one_no_partial. Crash/bounds cases mechanically enumerate init CAS, dual open, before/after each effect and receipt, anchor, result, checkpoint, marker/view flip, opened-handle growth/inode replacement, and exact restart without partial authority.",
+    "proof_role": "Prove exactly 44 canonical cases: certificate_enroll, certificate_rotate_overlap, certificate_successor_post_overlap, certificate_revoke, certificate_compromise_identity_fence, lease_grant, lease_renewal, lease_revoke, fence_commit, activate_after_safety, owner_commit, exact_retry_published, restart_reanchor_safe, barrier_pending_blocks_all_reads, unsigned_certificate_rejected, wrong_issuer_rejected, wrong_certificate_purpose_rejected, wrong_certificate_domain_rejected, stale_certificate_generation_rejected, token_artifact_digest_mismatch, reconstructed_endorsements_rejected, wrong_authority_membership_rejected, stale_lease_index_rejected, stale_lease_epoch_rejected, wrong_activation_possession_rejected, activate_before_safety_rejected, floor_precedes_ledger_revocation, local_clock_unsafe_no_effect, local_clock_rollback_no_effect, crash_after_certificate_effect, crash_after_fence_floor, crash_after_ledger_effect, crash_after_local_anchor, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, stale_read_permit_rejected, stale_mutation_permit_rejected, read_to_mutation_escalation_rejected, wrong_lineage_permit_rejected, coherent_rollback_rejected, corrupt_noncanonical_oversized_rejected, state_or_lock_symlink_rejected, capacity_n_plus_one_no_partial. For each case C the exact ordered machine subassertions are C::expected_outcome, C::canonical_store_state, C::publication_barrier_state; therefore the complete denominator is exactly 132 unique IDs. No extra, missing, duplicate, reordered, or differently named case/subassertion is accepted. canonical_store_state must prove canonical receipts/results exclude local safety-anchor bytes and digest; publication_barrier_state must prove local anchors exist only in node-local checkpoint/audit and partial state remains denied. The target also compiles every enumerated normal-build consumer and integration fixture against authority-bound handles, with migration/recovery changes limited to compatibility.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -51,11 +51,11 @@ Diagram: .csdlc/prepared/issues/203/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "203-runtime",
-    "defer_reason": "Deferred until all five dependencies merge and this issue creates the exact adapter and focused test targets; fail closed on missing targets, zero tests, or any missing/extra/duplicate name, result, marker, or declared subassertion."
+    "defer_reason": "Deferred until all five dependencies merge and the exact targets exist; fail closed on missing targets, zero tests, any case count other than 44, any subassertion count other than 132, any missing/extra/duplicate/reordered name/result/marker/subassertion, canonical anchor leakage, or an uncompiled enumerated consumer."
   },
   {
     "lane": "identity-lease-fencing-clippy",
-    "proof_role": "Reject warnings and API misuse across the exact concrete authority target.",
+    "proof_role": "Reject warnings and API misuse across the concrete authority target plus every enumerated normal-build consumer compatibility path.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -76,11 +76,11 @@ Diagram: .csdlc/prepared/issues/203/diagram.mmd
       "warnings"
     ],
     "parallel_group": "203-runtime",
-    "defer_reason": "Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source."
+    "defer_reason": "Deferred until the owned focused target exists; fail closed on warnings, missing target, missing source, or any raw-access compatibility escape."
   },
   {
     "lane": "identity-lease-fencing-producer",
-    "proof_role": "Produce exact Git/source/command/stream/timing/protected-digest and forty-four-case evidence.",
+    "proof_role": "Produce exact Git/source/command/stream/timing/protected-digest evidence for all 44 case names and the exact generated 132 IDs C::expected_outcome, C::canonical_store_state, C::publication_barrier_state, including canonical anchor exclusion and enumerated consumer compilation.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -93,11 +93,11 @@ Diagram: .csdlc/prepared/issues/203/diagram.mmd
       ".csdlc/prepared/issues/203/produce-proof-receipt.rb"
     ],
     "parallel_group": "203-proof",
-    "defer_reason": "Deferred until the exact producer exists; fail closed on dirty protected source, wrong case count, missing/extra/duplicate name or subassertion, nonpassing result, or nonzero status."
+    "defer_reason": "Deferred until the exact producer exists; fail closed on dirty protected source, wrong case or subassertion count, missing/extra/duplicate/reordered name or result, canonical anchor leakage, consumer omission, or nonzero status."
   },
   {
     "lane": "identity-lease-fencing-receipt",
-    "proof_role": "Bind exact protected source, commands, forty-four cases/subassertions, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.",
+    "proof_role": "Bind exact protected source, commands, all 44 names/results/markers, the exact 132 generated subassertion IDs, enumerated consumer paths, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -110,7 +110,7 @@ Diagram: .csdlc/prepared/issues/203/diagram.mmd
       ".csdlc/prepared/issues/203/validate-proof-receipt.rb"
     ],
     "parallel_group": "203-proof",
-    "defer_reason": "Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source and all cases/subassertions are bound."
+    "defer_reason": "Deferred until validator and immutable evidence exist; fail closed until exact reviewed source, all 44 cases, all 132 generated IDs, protected consumer coverage, and canonical/local separation are bound."
   }
 ]
 

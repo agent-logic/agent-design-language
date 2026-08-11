@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Implement and publish only sealed existing-store adapters, store-bound live grant enforcement, deterministic canonical lease-time state, conservative local safety anchors, and focused proof surfaces.
+Implement and publish only sealed existing-store adapters, store-bound live grant enforcement, deterministic canonical lease-time state whose receipts/results exclude every node-local safety-anchor byte and digest, node-local checkpoint/audit-only conservative safety anchors, read-only PublishedStoreAuthorityReceiptView projection for #205, exact compatibility migration of all enumerated normal-build certificate/lease/fencing consumers and integration fixtures off raw access, and focused proof surfaces; migration/recovery workflow semantics remain #204.
 
 ## Deliverables
 
@@ -21,7 +21,29 @@ Implement and publish only sealed existing-store adapters, store-bound live gran
 - adl-runtime/src/distributed/lease.rs
 - adl-runtime/src/distributed/fencing.rs
 - adl-runtime/src/distributed/mod.rs
+- adl-runtime/src/distributed/transport.rs
+- adl-runtime/src/distributed/capability_advertisement.rs
+- adl-runtime/src/distributed/placement.rs
+- adl-runtime/src/distributed/projection.rs
+- adl-runtime/src/distributed/resource_weather.rs
+- adl-runtime/src/distributed/snapshot_catalog.rs
+- adl-runtime/src/distributed/migration.rs
+- adl-runtime/src/distributed/recovery.rs
 - adl-runtime/tests/distributed_identity_lease_authority.rs
+- adl-runtime/tests/distributed_authority_snapshots.rs
+- adl-runtime/tests/distributed_capability_advertisement.rs
+- adl-runtime/tests/distributed_certificates.rs
+- adl-runtime/tests/distributed_discovery.rs
+- adl-runtime/tests/distributed_fencing.rs
+- adl-runtime/tests/distributed_guardian.rs
+- adl-runtime/tests/distributed_lease.rs
+- adl-runtime/tests/distributed_migration.rs
+- adl-runtime/tests/distributed_placement.rs
+- adl-runtime/tests/distributed_projection.rs
+- adl-runtime/tests/distributed_recovery.rs
+- adl-runtime/tests/distributed_resource_weather.rs
+- adl-runtime/tests/distributed_snapshot_catalog.rs
+- adl-runtime/tests/distributed_transport.rs
 - .csdlc/prepared/issues/203/produce-proof-receipt.rb
 - .csdlc/prepared/issues/203/validate-proof-receipt.rb
 - .csdlc/evidence/203

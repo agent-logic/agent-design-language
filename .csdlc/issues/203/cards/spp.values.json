@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-04.16b3.1a] Apply committed identity, lease, and fencing authority",
     "slug": "committed-identity-lease-fencing-authority",
     "version": "v0.92",
-    "generation": 0
+    "generation": 7
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "After every dependency merges, bind #203, close raw store bypasses, implement sealed deterministic adapters and local safety anchoring, prove all forty-four cases, independently review, and publish a ready unmerged PR before #205/#204.",
+      "plan_revision": 4,
+      "summary": "After every dependency merges with #201's fresh independently reapproved private exact-artifact interface, bind #203, close all enumerated raw store bypasses, implement sealed deterministic adapters and node-local checkpoint/audit-only safety anchoring, mechanically migrate existing consumers without changing #204 workflow semantics, prove exactly forty-four cases and 132 generated canonical subassertion IDs, independently review, and publish a ready unmerged PR before #205/#204.",
       "steps": [
         {
           "id": "S1",
@@ -71,7 +71,29 @@
         "adl-runtime/src/distributed/lease.rs",
         "adl-runtime/src/distributed/fencing.rs",
         "adl-runtime/src/distributed/mod.rs",
+        "adl-runtime/src/distributed/transport.rs",
+        "adl-runtime/src/distributed/capability_advertisement.rs",
+        "adl-runtime/src/distributed/placement.rs",
+        "adl-runtime/src/distributed/projection.rs",
+        "adl-runtime/src/distributed/resource_weather.rs",
+        "adl-runtime/src/distributed/snapshot_catalog.rs",
+        "adl-runtime/src/distributed/migration.rs",
+        "adl-runtime/src/distributed/recovery.rs",
         "adl-runtime/tests/distributed_identity_lease_authority.rs",
+        "adl-runtime/tests/distributed_authority_snapshots.rs",
+        "adl-runtime/tests/distributed_capability_advertisement.rs",
+        "adl-runtime/tests/distributed_certificates.rs",
+        "adl-runtime/tests/distributed_discovery.rs",
+        "adl-runtime/tests/distributed_fencing.rs",
+        "adl-runtime/tests/distributed_guardian.rs",
+        "adl-runtime/tests/distributed_lease.rs",
+        "adl-runtime/tests/distributed_migration.rs",
+        "adl-runtime/tests/distributed_placement.rs",
+        "adl-runtime/tests/distributed_projection.rs",
+        "adl-runtime/tests/distributed_recovery.rs",
+        "adl-runtime/tests/distributed_resource_weather.rs",
+        "adl-runtime/tests/distributed_snapshot_catalog.rs",
+        "adl-runtime/tests/distributed_transport.rs",
         ".csdlc/prepared/issues/203/produce-proof-receipt.rb",
         ".csdlc/prepared/issues/203/validate-proof-receipt.rb",
         ".csdlc/evidence/203",
@@ -80,9 +102,12 @@
       "invariants": [
         "No normal-build raw store constructor, mutation, authorization, grant, receipt, or local history creates authority",
         "Every store use observes the live #200 barrier and a newer Pending generation invalidates retained grants",
-        "Exact signed artifacts and store-native verification remain the sole concrete authority inputs",
-        "Canonical replicated results never depend on a replica-local wall or monotonic clock",
-        "Partial multi-store progress remains denied and is never described as atomic"
+        "Exact private #201 signed artifact bytes and store-native verification remain the sole concrete authority inputs",
+        "Canonical replicated store state, step receipts, results, result digests, and published receipt views contain no node-local wall time, monotonic time, boot-local safety-anchor bytes, or safety-anchor digest",
+        "Each local safety anchor is bound only by a node-local checkpoint and audit record; local NotReady or Unsafe cannot create canonical progress",
+        "AuthorityStoreAdapterRegistry exposes #205 only a read-only opaque PublishedStoreAuthorityReceiptView for an exactly Published OwnerCommit or Fence result and exposes no raw handle or serving decision",
+        "Partial multi-store progress remains denied and is never described as atomic",
+        "Migration and recovery source edits in #203 are signature/handle compatibility only; #204 retains workflow, failure-policy, and execution ownership"
       ],
       "risks": [
         "Compatibility code could retain a same-crate raw authority bypass",

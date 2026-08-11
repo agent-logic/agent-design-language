@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3241806f8faffb5e7ef1b57c174149814d412144759745599e303023dad9233a",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "703906b307e0d3b4cd4e1416ae1c6c59598faf9903b984feeed41dd410e07799",
+  "generation": 7,
+  "digest": "9033b1ca44b6f527851ad963036032582c770a9d6b745be89078ed1f5d9b2279",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "f5e1ad15e7ebbd784df56da67f14aad27b0b9e9e2fc16206c4fe95e4b856ff19",
-      "rendered_digest": "cd63b7786c3b834c2864f3f33495aedfcda04d4b416e6f835470d8fe88080601",
-      "ast_digest": "38c69a144d50a3de0ae553de13cb481f5652709b85e86f96883b66a2ffa7d220"
+      "values_digest": "7b26133930da8d25d9d58b92639ba05d49eabd52e22cbd805e659eaeac542352",
+      "rendered_digest": "bcb6041a0c024e7f0109b15678e5f7e37f600eee017f207b8850ac0d0165b69b",
+      "ast_digest": "0a6b38eb11776538bddaa87b1bf11c11f857e5c1996d1c5ef0465c6f3d5c6aeb"
     },
     "stp": {
-      "values_digest": "46a056298b4b76d3349ae41f479fc84810a4a2a2f7ec52fd0fd4da3cdf6d7087",
-      "rendered_digest": "484c2bbaec54114191135401509e15a845df73a6e82b7481fb5f15cdccab4f6a",
-      "ast_digest": "4d0a4df62523da27d05076b143f3f13432b76ab94012c6ff3c6f420a76726e7c"
+      "values_digest": "36f5a5be93e31f1efaf43a8915352ee11fdb67aed8637a92280e4cd564461707",
+      "rendered_digest": "5f5b6a0ef58dfd14a2549bf866814e3d51b862d646ffa13d65652c5e02a36db3",
+      "ast_digest": "3527d24f3a6a8c96e26189e0c4be781125ed7ea1458b4322270988dbafc794fc"
     },
     "spp": {
-      "values_digest": "5db926247b47d072648d17397bf229404d2afdcc6af7d52d0dc81d3cb0022014",
-      "rendered_digest": "b71e64a2a9551bf57c27268eaaa47fa68359b3e917fadab0102c5543fc4ee582",
-      "ast_digest": "766265e2e8d4d532631f027f581870a98d9d54269d06b8ae981dc1561a33b37d"
+      "values_digest": "ebd31379ca425dd0bb8ae4bab44b9470396f273d3b7616ad3221c29762092cb0",
+      "rendered_digest": "7649fbc37c201b42248d567304a1633c033d370c8292c4c21d3d82aafc619835",
+      "ast_digest": "164bdbc54a182fa97c904034559759b60b5a9181828ea556483be3bae18f1aa4"
     },
     "vpp": {
-      "values_digest": "5507f514909ba9f99d93612ef8d83b73efba0e668cca583b32c00135d200f4c2",
-      "rendered_digest": "8bb13da582a9b31f7ba31ad5be7e6c9328bbc0fcafb2dad3cfc0bc316e50d610",
-      "ast_digest": "5233d9eb3bc56f0477ed5978d8c3e40728edf20dda373feafa3677fe3fe8d60d"
+      "values_digest": "1039c7037b41481b74ea668efbec5d87e556e50ed66d882ea0b7aa409703173c",
+      "rendered_digest": "de5bea65ee17b734c412a07d7270236b99f0b0a8ce49008ed9cd432130a4d973",
+      "ast_digest": "1147db93ca7f1a2cd0794de1d67f672e2ea0abf762d34a22e8e257db933daf6f"
     },
     "srp": {
-      "values_digest": "a0bb9c44708c164e45b007d76950a230a24aa5a08c9982f53190619ff90e311b",
+      "values_digest": "0603ef8ae6cde7b676a87f5cc8f90714f76c7a36b7e771802dfcc7a3484c427a",
       "rendered_digest": "0250e8f819fb56c99c4925d6246457fd69fb9fc58c69c8ab7f81c567fa898a0c",
       "ast_digest": "a411220c9602b4d73901a80c5355c8df45e17463d7c074836f2290aab8ded832"
     },
     "sor": {
-      "values_digest": "cdd0e57e755690f9c71784274316337cb55a8d612f6f65715e9bd9099ef0ffd9",
+      "values_digest": "2cb682419c2d8724abf2f1062b651b5f9ebb1b3702f7272702efe2dc735b2ced",
       "rendered_digest": "c35e3a2370128e19cd1bf072c3c138127fc4a031eed139f0199a05eae40def89",
       "ast_digest": "f492f6064bcb9e5598b2d476d894e6441bed5f81fb09ff67ebd4934d3a4b4906"
     }
@@ -57,6 +57,55 @@
       "actor": "codex:203-authority-store-adapters-preparation",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:203-review-resolution",
+      "reason": "Remove node-local safety-anchor identity from canonical authority results and make the exact consumer-migration boundary explicit.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"required_outcome\",\"value\":\"All authority-restoring store reads and mutations revalidate a live lineage/action/generation-scoped #200 grant; sealed adapters consume the exact private #201 store-native signed artifact view; canonical lease state, step receipts, results, and result digests contain no node-local safety-anchor bytes or digest; the anchor is bound only by a node-local checkpoint/audit record; every enumerated normal-build source consumer and integration fixture migrates off raw store access; and partial progress remains fail-safe until publication.\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:203-review-resolution",
+      "reason": "Pin canonical/local anchor separation and compatibility-only migration of every existing raw-store consumer.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Implement and publish only sealed existing-store adapters, store-bound live grant enforcement, deterministic canonical lease-time state whose receipts/results exclude every node-local safety-anchor byte and digest, node-local checkpoint/audit-only conservative safety anchors, read-only PublishedStoreAuthorityReceiptView projection for #205, exact compatibility migration of all enumerated normal-build certificate/lease/fencing consumers and integration fixtures off raw access, and focused proof surfaces; migration/recovery workflow semantics remain #204.\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:203-review-resolution",
+      "reason": "Enumerate every normal-build store consumer and integration fixture that must migrate to close the raw certificate/lease/fencing bypass without taking over #204 workflow semantics.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/authority_store_adapters.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/capability_advertisement.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/projection.rs\",\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/src/distributed/snapshot_catalog.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/tests/distributed_identity_lease_authority.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\",\"adl-runtime/tests/distributed_capability_advertisement.rs\",\"adl-runtime/tests/distributed_certificates.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_fencing.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl-runtime/tests/distributed_lease.rs\",\"adl-runtime/tests/distributed_migration.rs\",\"adl-runtime/tests/distributed_placement.rs\",\"adl-runtime/tests/distributed_projection.rs\",\"adl-runtime/tests/distributed_recovery.rs\",\"adl-runtime/tests/distributed_resource_weather.rs\",\"adl-runtime/tests/distributed_snapshot_catalog.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\",\".csdlc/evidence/203\",\".csdlc/issues/203\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:203-review-resolution",
+      "reason": "Align the operative plan with prerequisite artifact truth, canonical/local separation, and exact consumer compatibility migration.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"After every dependency merges with #201's fresh independently reapproved private exact-artifact interface, bind #203, close all enumerated raw store bypasses, implement sealed deterministic adapters and node-local checkpoint/audit-only safety anchoring, mechanically migrate existing consumers without changing #204 workflow semantics, prove exactly forty-four cases and 132 generated canonical subassertion IDs, independently review, and publish a ready unmerged PR before #205/#204.\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:203-review-resolution",
+      "reason": "Make the exact normal-build and integration-test compatibility surface executable rather than relying on an undeclared ripple assumption.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/authority_store_adapters.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/capability_advertisement.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/projection.rs\",\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/src/distributed/snapshot_catalog.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/tests/distributed_identity_lease_authority.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\",\"adl-runtime/tests/distributed_capability_advertisement.rs\",\"adl-runtime/tests/distributed_certificates.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_fencing.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl-runtime/tests/distributed_lease.rs\",\"adl-runtime/tests/distributed_migration.rs\",\"adl-runtime/tests/distributed_placement.rs\",\"adl-runtime/tests/distributed_projection.rs\",\"adl-runtime/tests/distributed_recovery.rs\",\"adl-runtime/tests/distributed_resource_weather.rs\",\"adl-runtime/tests/distributed_snapshot_catalog.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\",\".csdlc/evidence/203\",\".csdlc/issues/203\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:203-review-resolution",
+      "reason": "Exclude node-local anchor identity from canonical results and pin the #203/#205 receipt-projection boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No normal-build raw store constructor, mutation, authorization, grant, receipt, or local history creates authority\",\"Every store use observes the live #200 barrier and a newer Pending generation invalidates retained grants\",\"Exact private #201 signed artifact bytes and store-native verification remain the sole concrete authority inputs\",\"Canonical replicated store state, step receipts, results, result digests, and published receipt views contain no node-local wall time, monotonic time, boot-local safety-anchor bytes, or safety-anchor digest\",\"Each local safety anchor is bound only by a node-local checkpoint and audit record; local NotReady or Unsafe cannot create canonical progress\",\"AuthorityStoreAdapterRegistry exposes #205 only a read-only opaque PublishedStoreAuthorityReceiptView for an exactly Published OwnerCommit or Fence result and exposes no raw handle or serving decision\",\"Partial multi-store progress remains denied and is never described as atomic\",\"Migration and recovery source edits in #203 are signature/handle compatibility only; #204 retains workflow, failure-policy, and execution ownership\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:203-review-resolution",
+      "reason": "Declare a complete exact machine-derived 132-subassertion denominator and bind canonical/local safety separation plus consumer migration proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"identity-lease-fencing-authority\",\"proof_role\":\"Prove exactly 44 canonical cases: certificate_enroll, certificate_rotate_overlap, certificate_successor_post_overlap, certificate_revoke, certificate_compromise_identity_fence, lease_grant, lease_renewal, lease_revoke, fence_commit, activate_after_safety, owner_commit, exact_retry_published, restart_reanchor_safe, barrier_pending_blocks_all_reads, unsigned_certificate_rejected, wrong_issuer_rejected, wrong_certificate_purpose_rejected, wrong_certificate_domain_rejected, stale_certificate_generation_rejected, token_artifact_digest_mismatch, reconstructed_endorsements_rejected, wrong_authority_membership_rejected, stale_lease_index_rejected, stale_lease_epoch_rejected, wrong_activation_possession_rejected, activate_before_safety_rejected, floor_precedes_ledger_revocation, local_clock_unsafe_no_effect, local_clock_rollback_no_effect, crash_after_certificate_effect, crash_after_fence_floor, crash_after_ledger_effect, crash_after_local_anchor, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, stale_read_permit_rejected, stale_mutation_permit_rejected, read_to_mutation_escalation_rejected, wrong_lineage_permit_rejected, coherent_rollback_rejected, corrupt_noncanonical_oversized_rejected, state_or_lock_symlink_rejected, capacity_n_plus_one_no_partial. For each case C the exact ordered machine subassertions are C::expected_outcome, C::canonical_store_state, C::publication_barrier_state; therefore the complete denominator is exactly 132 unique IDs. No extra, missing, duplicate, reordered, or differently named case/subassertion is accepted. canonical_store_state must prove canonical receipts/results exclude local safety-anchor bytes and digest; publication_barrier_state must prove local anchors exist only in node-local checkpoint/audit and partial state remains denied. The target also compiles every enumerated normal-build consumer and integration fixture against authority-bound handles, with migration/recovery changes limited to compatibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--no-tests=fail\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":\"Deferred until all five dependencies merge and the exact targets exist; fail closed on missing targets, zero tests, any case count other than 44, any subassertion count other than 132, any missing/extra/duplicate/reordered name/result/marker/subassertion, canonical anchor leakage, or an uncompiled enumerated consumer.\"},{\"lane\":\"identity-lease-fencing-clippy\",\"proof_role\":\"Reject warnings and API misuse across the concrete authority target plus every enumerated normal-build consumer compatibility path.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, missing source, or any raw-access compatibility escape.\"},{\"lane\":\"identity-lease-fencing-producer\",\"proof_role\":\"Produce exact Git/source/command/stream/timing/protected-digest evidence for all 44 case names and the exact generated 132 IDs C::expected_outcome, C::canonical_store_state, C::publication_barrier_state, including canonical anchor exclusion and enumerated consumer compilation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":\"Deferred until the exact producer exists; fail closed on dirty protected source, wrong case or subassertion count, missing/extra/duplicate/reordered name or result, canonical anchor leakage, consumer omission, or nonzero status.\"},{\"lane\":\"identity-lease-fencing-receipt\",\"proof_role\":\"Bind exact protected source, commands, all 44 names/results/markers, the exact 132 generated subassertion IDs, enumerated consumer paths, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":\"Deferred until validator and immutable evidence exist; fail closed until exact reviewed source, all 44 cases, all 132 generated IDs, protected consumer coverage, and canonical/local separation are bound.\"}]}"
     }
   ]
 }
