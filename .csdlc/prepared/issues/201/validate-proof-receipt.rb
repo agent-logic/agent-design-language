@@ -159,8 +159,13 @@ end
 case_error = case_contract_error(cases, observed)
 fail_receipt(case_error) if case_error
 introductions = git("log", "--format=%H", "--diff-filter=A", "--", PROOF_RELATIVE).lines.map(&:strip).reject(&:empty?)
-fail_receipt("proof requires exactly one immutable introduction") unless introductions.length == 1
+fail_receipt("proof requires an immutable introduction") if introductions.empty?
+# Historical superseded packets may exist before an explicit deletion. The
+# newest addition is the sole live generation and must introduce the path from
+# absence; immutability is enforced from that commit to HEAD below.
 introduction = introductions.fetch(0)
+parent_has_proof = system("git", "cat-file", "-e", "#{introduction}^:#{PROOF_RELATIVE}", chdir: ROOT.to_s, out: File::NULL, err: File::NULL)
+fail_receipt("live proof was not introduced from absence") if parent_has_proof
 source_available = system("git", "cat-file", "-e", "#{source}^{commit}", chdir: ROOT.to_s, out: File::NULL, err: File::NULL)
 source_is_ancestor = source_available && system("git", "merge-base", "--is-ancestor", source, introduction, chdir: ROOT.to_s, out: File::NULL, err: File::NULL)
 if source_is_ancestor
