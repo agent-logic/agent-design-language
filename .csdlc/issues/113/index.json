@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "bound",
-  "generation": 17,
-  "digest": "d51327e93b3a7f978892df0f8a0884e8d2d6f3153ce5acf1dd9516e1c64d9588",
+  "generation": 20,
+  "digest": "cec41497fce0c13cf07c218e03ff03226d7f38615224008d2644732de212a12c",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "07435bcb8235750be0bb367d5f7c83a5f03deb4ce12e5e2a1b955782eb382644",
+      "values_digest": "ed2bc507471e9407fb43f157dc8393756fbc0d5e7813f0c5f9a6484b85860660",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "b1285d1796abdac939e3e07bc5c71d1a08286cb029079218e2ee0bff47770c37",
+      "values_digest": "80c303505e6b2fbbe7aa22c52a0decf5899c3629e267f4de97e60f12a5e07ec0",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "94fe6ac77fa8de427d33fb2507b9f085070f4271409121314700dd7a0ae9ebc8",
-      "rendered_digest": "62268dc6c61c509a641564010aa3a652b1a65aa28afcd74582c317234d227201",
-      "ast_digest": "1866b225118bd666078e04a2e924a7b7b1bcb7ec8ca08a7c8f5370b1dd3565d4"
+      "values_digest": "eb8bb38afa1d8f4ca79d55ae84d55d8a9fbac4ad4ed3b5dda236c02709deb23d",
+      "rendered_digest": "bbc8c68402e6c7bebe20cfbccab6c443fdac45ec7b81d3305f8c5f9787ded685",
+      "ast_digest": "97094137f95d17762e2cfe43b51c77f70f3700a2d186f4687794f29bf1e0a078"
     },
     "vpp": {
-      "values_digest": "ceea18c98a25b5fbd50d6383e3ff7c45e45c66112761db9968ff39d843818cef",
+      "values_digest": "2688c4639b0b3b7f40708cbfe2f66ae4b33e3f38d51630b3ce1b362a35ca436f",
       "rendered_digest": "6f4ee8aaa580cd3f0ffe5367dc2334a6580eedc04fc2381a132bb7eced320bc6",
       "ast_digest": "2b7d4e95f41c68ea5aad2b1dc8c162cb9624b58f3e76b22bf4092c568d52b901"
     },
     "srp": {
-      "values_digest": "e8230943ede731700731f3bac97bdfc7284d91eb5b5f9f108bf979a9cb615897",
+      "values_digest": "9f826770c9a0145f154293f02f4eefbd56a64bcb4c5dfcd6fa17251ce212eb61",
       "rendered_digest": "0f2ba31fec14441b4f6b9fdbd93f2d31fd1dc2f6d844b4e3caab76d487b207ca",
       "ast_digest": "561ca13091bdccc8b6238cc66bbe339f2a8c55a24ba5d959b9f280752b2e976a"
     },
     "sor": {
-      "values_digest": "c09fe420fa703007910553b2d4b6350f42a5e24fdd5e048bc12fed607f19c75e",
+      "values_digest": "b9e44f65e42b329c9bc9bcff7a90e2a930b87822a55b4a96cfdde1a07049e127",
       "rendered_digest": "17577983b71aba54172dc1d0442452db27a371c5a5f7083bb86dd5bd81a69739",
       "ast_digest": "113bf745061230af9980cb2729b7fd4efae7a939e0677d9a148c032622e1fd48"
     }
@@ -203,6 +203,27 @@
       "actor": "codex:113-local-roster-execution",
       "reason": "Begin the issue-owned local roster model and exact proof implementation.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:113-local-roster-execution",
+      "reason": "The issue-owned Runtime roster model, policy filtering, stable identity, freshness, deterministic pagination, and exact focused tests are implemented.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:113-local-roster-execution",
+      "reason": "Production Runtime Shepherd projection and the Observatory selection surface are integrated in isolated shared-path commits without claiming distributed projection.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:113-local-roster-execution",
+      "reason": "Begin exact-candidate focused validation for the local roster product and browser selection surface.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
     }
   ]
 }
