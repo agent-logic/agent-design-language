@@ -12,6 +12,7 @@ pub const RUNTIME_SNAPSHOT_SCHEMA: &str = "adl.runtime.control_snapshot.v1";
 pub const RUNTIME_MASTER_LOG_RECORD_SCHEMA: &str = "adl.runtime.master_log_record.v1";
 pub const RUNTIME_MASTER_LOG_AUDIT_SCHEMA: &str = "adl.runtime.master_log_audit.v1";
 pub const RUNTIME_OBSERVABILITY_PIPELINE_SCHEMA: &str = "adl.runtime_v3.observability.pipeline.v1";
+pub const AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS: u64 = 5_000;
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "status", rename_all = "snake_case")]
@@ -139,6 +140,7 @@ pub struct RuntimeSnapshot {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct AgentAdmissionEvidence {
     pub observed_at_unix_millis: u64,
+    pub freshness_deadline_unix_millis: u64,
     pub source_revision: String,
 }
 
@@ -338,9 +340,11 @@ impl RuntimeRecorder {
         &self,
         agent_id: impl Into<String>,
         observed_at_unix_millis: u64,
+        freshness_deadline_unix_millis: u64,
         source_revision: impl Into<String>,
     ) -> bool {
-        if observed_at_unix_millis == 0 {
+        if observed_at_unix_millis == 0 || freshness_deadline_unix_millis <= observed_at_unix_millis
+        {
             return false;
         }
         let agent_id = safe_field(&agent_id.into());
@@ -359,9 +363,34 @@ impl RuntimeRecorder {
             agent_id,
             AgentAdmissionEvidence {
                 observed_at_unix_millis,
+                freshness_deadline_unix_millis,
                 source_revision,
             },
         );
+        state.revision += 1;
+        true
+    }
+
+    pub fn record_agent_heartbeat(
+        &self,
+        agent_id: &str,
+        observed_at_unix_millis: u64,
+        freshness_deadline_unix_millis: u64,
+    ) -> bool {
+        if observed_at_unix_millis == 0 || freshness_deadline_unix_millis <= observed_at_unix_millis
+        {
+            return false;
+        }
+        let agent_id = safe_field(agent_id);
+        let mut state = self.state.lock().expect("recorder state mutex poisoned");
+        let Some(admission) = state.agent_admissions.get_mut(&agent_id) else {
+            return false;
+        };
+        if observed_at_unix_millis <= admission.observed_at_unix_millis {
+            return false;
+        }
+        admission.observed_at_unix_millis = observed_at_unix_millis;
+        admission.freshness_deadline_unix_millis = freshness_deadline_unix_millis;
         state.revision += 1;
         true
     }

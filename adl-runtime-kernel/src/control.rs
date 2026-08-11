@@ -320,6 +320,7 @@ struct AcipSequenceReservation {
 
 pub struct ControlService<C> {
     instance_id: String,
+    runtime_incarnation_id: String,
     recorder: RuntimeRecorder,
     lifecycle: C,
     authority: ControlAuthority,
@@ -394,6 +395,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let observatory_allowed_origins = observatory_allowed_origins.into_iter().collect();
         Self {
             instance_id,
+            runtime_incarnation_id: uuid::Uuid::new_v4().to_string(),
             recorder,
             lifecycle,
             authority,
@@ -713,6 +715,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         ObservatoryFeed {
             schema: OBSERVATORY_FEED_SCHEMA.to_owned(),
             runtime_instance_id: self.instance_id.clone(),
+            runtime_incarnation_id: self.runtime_incarnation_id.clone(),
             runtime_process_id: std::process::id(),
             default_runtime_changed: false,
             runtime_selection: "runtime_v3_explicit_opt_in".to_owned(),
@@ -781,6 +784,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             lifecycle: feed.health.snapshot.lifecycle,
             observability_ready: feed.health.observability_ready,
             runtime_instance_id: feed.runtime_instance_id,
+            runtime_incarnation_id: feed.runtime_incarnation_id,
             runtime_process_id: feed.runtime_process_id,
             weather_freshness,
             degraded_reasons,
@@ -999,6 +1003,7 @@ pub struct RuntimeReadinessReport {
     pub lifecycle: LifecycleState,
     pub observability_ready: bool,
     pub runtime_instance_id: String,
+    pub runtime_incarnation_id: String,
     pub runtime_process_id: u32,
     pub weather_freshness: Option<ObservatoryWeatherFreshness>,
     pub degraded_reasons: Vec<String>,
@@ -1139,7 +1144,7 @@ impl AgentPopulationFeed {
             agent.communication_eligible = eligible;
             agent.detail = detail.to_owned();
             agent.observed_at_unix_millis = admission.observed_at_unix_millis;
-            agent.freshness_deadline_unix_millis = u64::MAX;
+            agent.freshness_deadline_unix_millis = admission.freshness_deadline_unix_millis;
             agent.source_revision = admission.source_revision.clone();
             true
         });
@@ -1264,6 +1269,7 @@ pub struct ObservatoryProofFeed {
 pub struct ObservatoryFeed {
     pub schema: String,
     pub runtime_instance_id: String,
+    pub runtime_incarnation_id: String,
     pub runtime_process_id: u32,
     pub default_runtime_changed: bool,
     pub runtime_selection: String,

@@ -96,6 +96,7 @@ const rosterUiState = {
   sort: "name",
   selectedId: null,
   runtimeInstanceId: null,
+  runtimeIncarnationId: null,
   revision: 0
 };
 let lastPanopticonSnapshot = null;
@@ -103,10 +104,15 @@ let lastPanopticonPacket = FALLBACK_PACKET;
 
 function acceptRuntimeRosterSnapshot(snapshot) {
   const runtimeInstanceId = snapshot?.status?.runtime_id || null;
+  const runtimeIncarnationId = snapshot?.status?.runtime_incarnation_id || null;
   const revision = Number(snapshot?.status?.agent_population?.revision || 0);
-  if (!runtimeInstanceId || !Number.isSafeInteger(revision) || revision < 0) return false;
-  if (rosterUiState.runtimeInstanceId !== runtimeInstanceId) {
+  if (!runtimeInstanceId || !runtimeIncarnationId || !Number.isSafeInteger(revision) || revision < 0) return false;
+  if (
+    rosterUiState.runtimeInstanceId !== runtimeInstanceId
+    || rosterUiState.runtimeIncarnationId !== runtimeIncarnationId
+  ) {
     rosterUiState.runtimeInstanceId = runtimeInstanceId;
+    rosterUiState.runtimeIncarnationId = runtimeIncarnationId;
     rosterUiState.revision = revision;
     rosterUiState.selectedId = null;
     return true;
@@ -820,6 +826,7 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null) {
       schema: feed.schema,
       runtime_owner: "runtime-v3",
       runtime_id: feed.runtime_instance_id,
+      runtime_incarnation_id: feed.runtime_incarnation_id,
       agent_instance_id: feed.runtime_instance_id,
       agent_population: feed.agents,
       status: snapshot.lifecycle || "unknown",

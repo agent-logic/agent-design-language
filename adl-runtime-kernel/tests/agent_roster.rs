@@ -324,6 +324,8 @@ fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
     );
 
     let absent = service.observatory_feed();
+    let first_incarnation = absent.runtime_incarnation_id.clone();
+    assert!(!first_incarnation.is_empty());
     assert_eq!(absent.agents.total_count, 0);
     assert!(absent.agents.sample.is_empty());
     assert!(!absent.agents.population_complete);
@@ -333,12 +335,27 @@ fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
     assert_eq!(merely_running.agents.total_count, 0);
     assert!(merely_running.agents.sample.is_empty());
 
-    let admitted_at = std::time::SystemTime::now()
+    let now = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .unwrap()
         .as_millis() as u64;
+    let admitted_at = now - 10_000;
+    let initial_deadline = now - 5_000;
     let source_revision = "0123456789abcdef0123456789abcdef01234567";
-    assert!(recorder.record_agent_admission("shepherd", admitted_at, source_revision));
+    assert!(recorder.record_agent_admission(
+        "shepherd",
+        admitted_at,
+        initial_deadline,
+        source_revision
+    ));
+    let stale = service.observatory_feed();
+    assert_eq!(stale.agents.sample[0].state, "unknown");
+    assert_eq!(stale.agents.sample[0].health, "stale");
+    assert!(!stale.agents.sample[0].communication_eligible);
+
+    let heartbeat_at = now + 1;
+    let heartbeat_deadline = heartbeat_at + 5_000;
+    assert!(recorder.record_agent_heartbeat("shepherd", heartbeat_at, heartbeat_deadline));
     let running = service.observatory_feed();
     assert_eq!(running.agents.total_count, 1);
     assert_eq!(running.agents.sample[0].id, "shepherd");
@@ -347,20 +364,24 @@ fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
     assert!(running.agents.sample[0].communication_eligible);
     assert_eq!(
         running.agents.sample[0].observed_at_unix_millis,
-        admitted_at
+        heartbeat_at
+    );
+    assert_eq!(
+        running.agents.sample[0].freshness_deadline_unix_millis,
+        heartbeat_deadline
     );
     assert_eq!(running.agents.sample[0].source_revision, source_revision);
     let stable_id = running.agents.sample[0].id.clone();
 
     let polled_again = service.observatory_feed();
+    assert_eq!(polled_again.runtime_incarnation_id, first_incarnation);
     assert_eq!(
-        polled_again.agents.sample[0].observed_at_unix_millis, admitted_at,
+        polled_again.agents.sample[0].observed_at_unix_millis, heartbeat_at,
         "polling must not renew admission freshness"
     );
     assert_eq!(
-        polled_again.agents.sample[0].freshness_deadline_unix_millis,
-        u64::MAX,
-        "supervisor-owned presence remains current until an explicit state transition"
+        polled_again.agents.sample[0].freshness_deadline_unix_millis, heartbeat_deadline,
+        "polling must not extend the bounded heartbeat deadline"
     );
 
     recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Restarting);
@@ -368,6 +389,33 @@ fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
     assert_eq!(restarting.agents.sample[0].id, stable_id);
     assert_eq!(restarting.agents.sample[0].state, "migrating");
     assert!(!restarting.agents.sample[0].communication_eligible);
+
+    recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Degraded);
+    let degraded = service.observatory_feed();
+    assert_eq!(degraded.agents.sample[0].id, stable_id);
+    assert_eq!(degraded.agents.sample[0].state, "degraded");
+    assert!(!degraded.agents.sample[0].communication_eligible);
+
+    recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Failed);
+    let unreachable = service.observatory_feed();
+    assert_eq!(unreachable.agents.sample[0].id, stable_id);
+    assert_eq!(unreachable.agents.sample[0].state, "unreachable");
+    assert!(!unreachable.agents.sample[0].communication_eligible);
+
+    let restarted_service = ControlService::new_with_observatory_config_and_agents(
+        "runtime-instance",
+        recorder,
+        NoopLifecycle,
+        ControlAuthority::new(BTreeMap::new()),
+        8,
+        std::iter::empty(),
+        adl_runtime_kernel::AgentPopulationFeed::resident_shepherd(),
+    );
+    assert_ne!(
+        restarted_service.observatory_feed().runtime_incarnation_id,
+        first_incarnation,
+        "a new process incarnation must be distinguishable even when stable instance identity is reused"
+    );
 }
 
 #[tokio::test]

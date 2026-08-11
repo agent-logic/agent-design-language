@@ -17,9 +17,10 @@ use adl_runtime_kernel::{
     validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
     AgentPopulationFeed, CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy,
     ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit, LiveBindings,
-    LiveContinuity, LiveKernelSnapshot, OperationRequest, RsntpTimeSampleSource, RuntimeInitConfig,
-    RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource,
-    TrustedControlKey, OPERATION_REQUEST_SCHEMA,
+    LiveContinuity, LiveKernelSnapshot, OperationRequest, RecorderTrustedTime,
+    RsntpTimeSampleSource, RunningState, RuntimeInitConfig, RuntimeRecorder,
+    SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
+    TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -139,6 +140,7 @@ async fn main() -> ExitCode {
             };
             let instance_id = generate_runtime_instance_id();
             let recorder = RuntimeRecorder::new(init.kernel.recorder_capacity);
+            let roster_trusted_time = RecorderTrustedTime::new(recorder.clone());
             let reasoning = match bootstrap_reasoning_services(recorder.clone()) {
                 Ok(reasoning) => reasoning,
                 Err(error) => {
@@ -495,6 +497,9 @@ async fn main() -> ExitCode {
             let mut pressure_retry_at = None;
             let mut observability_tick = tokio::time::interval(observability_poll);
             observability_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+            let mut shepherd_heartbeat =
+                tokio::time::interval(std::time::Duration::from_millis(1_000));
+            shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let serve_result = 'serve: loop {
                 if let Err(error) = observability.poll_health() {
                     recorder.set_observability_pipeline(observability.snapshot());
@@ -528,6 +533,24 @@ async fn main() -> ExitCode {
                             eprintln!("runtime observability pipeline failed: {error}");
                         }
                         recorder.set_observability_pipeline(observability.snapshot());
+                    },
+                    _ = shepherd_heartbeat.tick() => {
+                        let snapshot = recorder.snapshot();
+                        if snapshot.components.get(&adl_runtime_kernel::ComponentId::new("shepherd"))
+                            == Some(&RunningState::Running)
+                        {
+                            let observed_at = roster_trusted_time.now_unix_millis();
+                            if let Some(deadline) = observed_at
+                                .checked_add(AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS)
+                                .filter(|_| observed_at > 0)
+                            {
+                                let _ = recorder.record_agent_heartbeat(
+                                    "shepherd",
+                                    observed_at,
+                                    deadline,
+                                );
+                            }
+                        }
                     },
                     signal = shutdown_signal.recv() => {
                         if let Err(error) = signal {

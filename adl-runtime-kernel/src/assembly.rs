@@ -931,10 +931,15 @@ impl InProcessOperationExecutor {
             .lock()
             .expect("local shepherd state poisoned")
             .insert("shepherd".to_owned());
+        let admitted_at = self.state.trusted_time.now_unix_millis();
+        let freshness_deadline = admitted_at
+            .checked_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS)
+            .unwrap_or(0);
         if admitted
             && !self.state.recorder.record_agent_admission(
                 "shepherd",
-                self.state.trusted_time.now_unix_millis(),
+                admitted_at,
+                freshness_deadline,
                 env!("ADL_RUNTIME_SOURCE_REVISION"),
             )
         {
