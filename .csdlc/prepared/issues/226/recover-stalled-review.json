@@ -1,7 +1,7 @@
 {
   "issue": 226,
-  "expected_generation": 14,
-  "expected_digest": "34f8dda9c2a5e2b74a5d1fba3e804d83a3b70e8489947781bd5949037b98971e",
+  "expected_generation": 15,
+  "expected_digest": "e1dd1334459c63275ac092ae9ad21aebe987bb0930c13112c329102ed9ca2947",
   "actor": "codex:226-focused-runtime-validation-routing",
-  "reason": "Replace the reviewer whose read-only sandbox could not access the FastWork worktree; preserve the exact product head for a fresh independent review with repository access."
+  "reason": "Replace the reviewer whose Codex sandbox could enter but not read the FastWork repository; preserve the exact product head and review its immutable archived scope."
 }
