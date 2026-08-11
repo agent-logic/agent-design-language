@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 217,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-14 follow-up] Retain native proof and make post-merge validation squash-safe",
+    "slug": "wp14-retained-native-proof-merge-safe",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #217 design, six preparation cards, exact #209 evidence inventory, retained-validator contract, merge/squash authority boundary, typed proof-command plan, and publication non-claims.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design authenticate all ten retained files and every receipt/manifest provenance field rather than only source manifests?",
+        "Can squash/rebase-equivalent protected bytes pass without requiring the source commit to remain ancestral or locally available?",
+        "Does ancestry mode still reject every protected-source change after the proving revision?",
+        "Do fixtures prove missing, tampered, drifted, unrelated, and semantic-mismatch failures without machine-local assumptions?",
+        "Are #209, PR #215, and blocker #142 linked truthfully with no production behavior claim?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

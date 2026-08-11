@@ -1,0 +1,13 @@
+flowchart LR
+    O["Historical c640 run"] --> HD["Exact ten-path historical denominator"]
+    HD --> HC["Detached c640 validator with evidence overlay"]
+    HC --> HP["Provenance only"]
+
+    N["Fresh #217 Linux and macOS run"] --> ND["Exact ten-path current denominator"]
+    ND --> DV["Digest and provenance validation"]
+    DV --> SM["Complete protected source manifest"]
+    SM --> REL{"Source relation"}
+    REL -->|"ancestor"| EQ["Current protected-byte equality"]
+    REL -->|"tree digest equivalent"| EQ
+    EQ -->|"all equal"| PASS["Current retained proof passes"]
+    EQ -->|"drift or omission"| FAIL["Fail closed"]
