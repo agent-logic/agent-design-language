@@ -74,7 +74,12 @@ pub enum IngressError {
 struct Envelope {
     work: DomainWork,
     correlation_id: String,
-    reply: oneshot::Sender<Result<DomainResult, IngressError>>,
+    reply: oneshot::Sender<DispatchOutcome>,
+}
+
+enum DispatchOutcome {
+    NotDispatched(IngressError),
+    Dispatched(Result<DomainResult, IngressError>),
 }
 
 #[derive(Clone)]
@@ -237,17 +242,29 @@ impl CanonicalIngress {
                 // Once dispatch succeeded, a dropped reply is ambiguous: the work may have
                 // executed before the process or worker disappeared. Retain the replay
                 // reservation so a restart cannot execute the signed message twice.
+                if let Some((sender_id, sequence, _)) = communication_reservation {
+                    self.persist_communication_sequence(sender_id, sequence);
+                }
                 return Err(IngressError::Closed);
             }
         };
         match outcome {
-            Ok(result) => {
+            DispatchOutcome::Dispatched(Ok(result)) => {
                 if let Some((sender_id, sequence, _)) = communication_reservation {
                     self.persist_communication_sequence(sender_id, sequence);
                 }
                 Ok(result)
             }
-            Err(error) => {
+            DispatchOutcome::Dispatched(Err(error)) => {
+                // The adapter returned or may already have performed side effects. Retain the
+                // durable replay watermark even when result projection or acknowledgement
+                // verification fails.
+                if let Some((sender_id, sequence, _)) = communication_reservation {
+                    self.persist_communication_sequence(sender_id, sequence);
+                }
+                Err(error)
+            }
+            DispatchOutcome::NotDispatched(error) => {
                 self.rollback_communication_sequence(communication_reservation);
                 Err(error)
             }
@@ -410,12 +427,11 @@ impl CanonicalIngress {
         Ok(AdmissionLease(self.admission.clone(), self.drained.clone()))
     }
 
-    async fn dispatch(&self, work: &DomainWork) -> Result<DomainResult, IngressError> {
-        let dispatcher = self
-            .dispatchers
-            .get(&work.kind)
-            .ok_or(IngressError::UnsupportedKind)?;
-        let operation = dispatcher
+    async fn dispatch(&self, work: &DomainWork) -> DispatchOutcome {
+        let Some(dispatcher) = self.dispatchers.get(&work.kind) else {
+            return DispatchOutcome::NotDispatched(IngressError::UnsupportedKind);
+        };
+        let operation = match dispatcher
             .submit(OperationRequest {
                 schema: OPERATION_REQUEST_SCHEMA.to_owned(),
                 request_id: work.work_id.clone(),
@@ -425,26 +441,46 @@ impl CanonicalIngress {
                 permit: None,
             })
             .await
-            .map_err(|error| {
+        {
+            Ok(operation) => operation,
+            Err(error) => {
+                let definitely_not_dispatched =
+                    operation_error_is_definitely_not_dispatched(&error);
                 tracing::warn!(
                     work_id = %work.work_id,
                     work_kind = %work.kind,
                     error = %error,
                     "canonical ingress operation dispatch failed"
                 );
-                match error {
+                let ingress_error = match error {
                     OperationError::InvalidRequest => IngressError::Conflict,
                     _ => IngressError::ExecutionFailed,
-                }
-            })?;
-        apply(
+                };
+                return if definitely_not_dispatched {
+                    DispatchOutcome::NotDispatched(ingress_error)
+                } else {
+                    DispatchOutcome::Dispatched(Err(ingress_error))
+                };
+            }
+        };
+        DispatchOutcome::Dispatched(apply(
             &self.state,
             work,
             &operation,
             &self.communication_keys,
             self.recorder.qualified_time_now_unix_millis(),
-        )
+        ))
     }
+}
+
+fn operation_error_is_definitely_not_dispatched(error: &OperationError) -> bool {
+    matches!(
+        error,
+        OperationError::InvalidPolicy
+            | OperationError::InvalidRequest
+            | OperationError::MissingAuthority
+            | OperationError::Saturated
+    )
 }
 
 pub fn verify_signed_identity_message(
@@ -576,7 +612,7 @@ impl Component for CanonicalIngress {
                     let Some(envelope) = envelope else { return Ok(()); };
                     self.recorder.set_queue_health("canonical_ingress", &self.sender.metrics());
                     let result = self.dispatch(&envelope.work).await;
-                    if result.is_ok() {
+                    if matches!(&result, DispatchOutcome::Dispatched(Ok(_))) {
                         self.recorder.emit_correlated(Some(ComponentId::new("canonical_ingress")),
                             RuntimeEvent::DomainWorkCompleted, Some(&envelope.correlation_id));
                     }
@@ -829,6 +865,37 @@ mod tests {
         )])
     }
 
+    fn signed_request_work(signing_key: &SigningKey, sequence: u64) -> DomainWork {
+        let now = now_unix_millis();
+        let mut request = SignedIdentityMessage {
+            schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+            message_kind: "request".to_owned(),
+            sender_id: "layer8-operator".to_owned(),
+            recipient_id: "agent-0001".to_owned(),
+            correlation_id: "durable-dispatch-correlation".to_owned(),
+            causation_id: "durable-dispatch-causation".to_owned(),
+            monotonic_sequence: sequence,
+            issued_at_unix_millis: now,
+            expires_at_unix_millis: now.saturating_add(60_000),
+            nonce: "durable-dispatch-nonce".to_owned(),
+            content: "execute once".to_owned(),
+            signing_algorithm: "ed25519".to_owned(),
+            signing_key_id: "operator-key".to_owned(),
+            signature: String::new(),
+        };
+        resign(&mut request, signing_key);
+        DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "durable-dispatch-work".to_owned(),
+            kind: "agent".to_owned(),
+            payload: serde_json::to_vec(&serde_json::json!({
+                "schema": LOCAL_AGENT_WORK_SCHEMA,
+                "tasks": [{"op": LAYER8_MESSAGE_TASK_OP, "message": request}]
+            }))
+            .unwrap(),
+        }
+    }
+
     fn operation_with_output(output: serde_json::Value) -> crate::OperationResult {
         crate::OperationResult {
             schema: crate::OPERATION_RESULT_SCHEMA.to_owned(),
@@ -950,6 +1017,176 @@ mod tests {
             verify_signed_identity_message(&message, &communication_keys(&signing_key), 10),
             Err(IngressError::Invalid)
         );
+    }
+
+    #[tokio::test]
+    async fn post_dispatch_projection_failure_retains_durable_replay_watermark() {
+        let root = tempfile::tempdir().unwrap();
+        let store = Arc::new(KernelDurableState::open(root.path()).unwrap());
+        let signing_key = SigningKey::from_bytes(&[95; 32]);
+        let now = now_unix_millis();
+        let recorder = RuntimeRecorder::new(4);
+        recorder.set_clock_authority(crate::ClockAuthority::Authoritative {
+            source: "test-qualified-clock".to_owned(),
+            unix_millis: now,
+        });
+        let ingress = CanonicalIngress::new_with_communication_keys(
+            1,
+            recorder,
+            BTreeMap::new(),
+            BTreeMap::from([(
+                "layer8-operator".to_owned(),
+                CommunicationVerifyingIdentity {
+                    signing_key_id: "operator-key".to_owned(),
+                    verifying_key: signing_key.verifying_key(),
+                },
+            )]),
+        )
+        .with_communication_replay_store(store.clone())
+        .unwrap();
+
+        let receiver = ingress.receiver.clone();
+        let worker = tokio::spawn(async move {
+            let envelope = receiver.lock().await.recv().await.unwrap();
+            envelope
+                .reply
+                .send(DispatchOutcome::Dispatched(Err(
+                    IngressError::ExecutionFailed,
+                )))
+                .ok();
+        });
+        let work = signed_request_work(&signing_key, 1);
+        assert_eq!(
+            ingress
+                .submit(work.clone(), "durable-dispatch-correlation".to_owned())
+                .await,
+            Err(IngressError::ExecutionFailed)
+        );
+        worker.await.unwrap();
+        assert_eq!(
+            store
+                .communication_inbound_sequences()
+                .unwrap()
+                .get("layer8-operator"),
+            Some(&1)
+        );
+
+        drop(ingress);
+        drop(store);
+        let reopened_store = Arc::new(KernelDurableState::open(root.path()).unwrap());
+        let recorder = RuntimeRecorder::new(4);
+        recorder.set_clock_authority(crate::ClockAuthority::Authoritative {
+            source: "test-qualified-clock".to_owned(),
+            unix_millis: now,
+        });
+        let restarted = CanonicalIngress::new_with_communication_keys(
+            1,
+            recorder,
+            BTreeMap::new(),
+            BTreeMap::from([(
+                "layer8-operator".to_owned(),
+                CommunicationVerifyingIdentity {
+                    signing_key_id: "operator-key".to_owned(),
+                    verifying_key: signing_key.verifying_key(),
+                },
+            )]),
+        )
+        .with_communication_replay_store(reopened_store)
+        .unwrap();
+        assert_eq!(
+            restarted
+                .submit(work, "durable-dispatch-replay".to_owned())
+                .await,
+            Err(IngressError::Conflict)
+        );
+    }
+
+    #[tokio::test]
+    async fn definitely_not_dispatched_failure_rolls_back_durable_reservation() {
+        let root = tempfile::tempdir().unwrap();
+        let store = Arc::new(KernelDurableState::open(root.path()).unwrap());
+        let signing_key = SigningKey::from_bytes(&[96; 32]);
+        let now = now_unix_millis();
+        let recorder = RuntimeRecorder::new(4);
+        recorder.set_clock_authority(crate::ClockAuthority::Authoritative {
+            source: "test-qualified-clock".to_owned(),
+            unix_millis: now,
+        });
+        let ingress = CanonicalIngress::new_with_communication_keys(
+            1,
+            recorder,
+            BTreeMap::new(),
+            BTreeMap::from([(
+                "layer8-operator".to_owned(),
+                CommunicationVerifyingIdentity {
+                    signing_key_id: "operator-key".to_owned(),
+                    verifying_key: signing_key.verifying_key(),
+                },
+            )]),
+        )
+        .with_communication_replay_store(store.clone())
+        .unwrap();
+        let work = signed_request_work(&signing_key, 1);
+
+        let receiver = ingress.receiver.clone();
+        let worker = tokio::spawn(async move {
+            let envelope = receiver.lock().await.recv().await.unwrap();
+            envelope
+                .reply
+                .send(DispatchOutcome::NotDispatched(IngressError::Saturated))
+                .ok();
+        });
+        assert_eq!(
+            ingress
+                .submit(work.clone(), "pre-dispatch-correlation".to_owned())
+                .await,
+            Err(IngressError::Saturated)
+        );
+        worker.await.unwrap();
+        assert!(store
+            .communication_inbound_sequences()
+            .unwrap()
+            .get("layer8-operator")
+            .is_none());
+
+        let receiver = ingress.receiver.clone();
+        let worker = tokio::spawn(async move {
+            let envelope = receiver.lock().await.recv().await.unwrap();
+            envelope
+                .reply
+                .send(DispatchOutcome::Dispatched(Err(
+                    IngressError::ExecutionFailed,
+                )))
+                .ok();
+        });
+        assert_eq!(
+            ingress.submit(work, "retry-correlation".to_owned()).await,
+            Err(IngressError::ExecutionFailed)
+        );
+        worker.await.unwrap();
+        assert_eq!(
+            store
+                .communication_inbound_sequences()
+                .unwrap()
+                .get("layer8-operator"),
+            Some(&1)
+        );
+    }
+
+    #[test]
+    fn only_unambiguous_pre_dispatch_operation_errors_authorize_rollback() {
+        assert!(operation_error_is_definitely_not_dispatched(
+            &OperationError::Saturated
+        ));
+        assert!(operation_error_is_definitely_not_dispatched(
+            &OperationError::InvalidRequest
+        ));
+        assert!(!operation_error_is_definitely_not_dispatched(
+            &OperationError::AdmissionClosed
+        ));
+        assert!(!operation_error_is_definitely_not_dispatched(
+            &OperationError::Fatal("reply lost after execution began".to_owned())
+        ));
     }
 
     #[test]

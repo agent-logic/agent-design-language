@@ -47,6 +47,23 @@ fn runtime_and_observatory_openapi_contracts_are_valid_and_disjoint() {
             "{shared_schema} must not drift between the Core and Observatory contracts"
         );
     }
+    assert_eq!(
+        runtime["components"]["schemas"]["SignedIdentityMessage"],
+        observatory["components"]["schemas"]["SignedIdentityMessage"],
+        "signed ACIP acknowledgement schema must not drift between contracts"
+    );
+    assert_eq!(
+        runtime["components"]["schemas"]["AcipDispatchResult"]["properties"]["signed_ack"]["oneOf"]
+            [0]["$ref"],
+        "#/components/schemas/SignedIdentityMessage"
+    );
+    for document in [&runtime, &observatory] {
+        assert_eq!(
+            document["components"]["schemas"]["DomainResult"]["properties"]["public_output"]
+                ["oneOf"][0]["$ref"],
+            "#/components/schemas/SignedIdentityMessage"
+        );
+    }
 
     let runtime_routes = documented_routes(&runtime);
     let observatory_routes = documented_routes(&observatory);

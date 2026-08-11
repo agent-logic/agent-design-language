@@ -643,7 +643,39 @@
           },
           "sequence_reserved": {
             "type": "boolean"
+          },
+          "signed_ack": {
+            "oneOf": [
+              { "$ref": "#/components/schemas/SignedIdentityMessage" },
+              { "type": "null" }
+            ]
           }
+        }
+      },
+      "SignedIdentityMessage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema", "message_kind", "sender_id", "recipient_id",
+          "correlation_id", "causation_id", "monotonic_sequence",
+          "issued_at_unix_millis", "expires_at_unix_millis", "nonce",
+          "content", "signing_algorithm", "signing_key_id", "signature"
+        ],
+        "properties": {
+          "schema": { "const": "adl.acip.identity_message.v1" },
+          "message_kind": { "enum": ["request", "ack"] },
+          "sender_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "recipient_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "correlation_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "causation_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "monotonic_sequence": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+          "issued_at_unix_millis": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+          "expires_at_unix_millis": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+          "nonce": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "content": { "type": "string", "minLength": 1, "maxLength": 4000 },
+          "signing_algorithm": { "const": "ed25519" },
+          "signing_key_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "signature": { "type": "string", "pattern": "^[0-9a-f]{128}$" }
         }
       },
       "SignedControlCommand": {
@@ -924,6 +956,12 @@
           },
           "result_hash": {
             "type": "string"
+          },
+          "public_output": {
+            "oneOf": [
+              { "$ref": "#/components/schemas/SignedIdentityMessage" },
+              { "type": "null" }
+            ]
           }
         }
       },
