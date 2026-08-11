@@ -1,0 +1,12 @@
+{
+  "issue": 116,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "17b220e436d66b91c4be56bb09e2d751957969acdb6d2ba1bfee0f23a4f74475",
+  "actor": "codex:wp18c-readiness-wave",
+  "reason": "The approved packet now has exact fail-closed issue-owned validator sentinels; advance to structural readiness while #111, #112, and #114 remain hard terminal execution gates.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

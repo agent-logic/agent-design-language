@@ -3,9 +3,9 @@
   "issue": 116,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "774ca04350cdf785cc8bd0364c3ebcea1d0eba5053e52e9d29b361b12fcb5305",
-  "phase": "initialized",
-  "generation": 3,
-  "digest": "17b220e436d66b91c4be56bb09e2d751957969acdb6d2ba1bfee0f23a4f74475",
+  "phase": "ready",
+  "generation": 4,
+  "digest": "de298a6548ac600388a68560145f190a6e77314e20c39500e7c166873ec3b497",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3e2fd5caff5428573253e37552dc2ea3c94044e75c5e47409bbb7cc7e4b9c452",
+      "values_digest": "4f2a72596729f3f0e7293e0e65aa804a8c724c1ba9de1cc54c7e0b6fc5f9314d",
       "rendered_digest": "a60e051ab76b7e2c14b312d41b49f0ca1126b95c135ab29a8c4be905a85297e4",
       "ast_digest": "4063d55bddde1674f2f8428041b237a3945a27ba55bdbfbe7fd37a480644d974"
     },
     "stp": {
-      "values_digest": "f1f13e0db9357826f668cae93b037f74a07509fc154ca7a28408b684b871d411",
+      "values_digest": "28a25c0845afe59a60b71deaa1b0b1beaa9a30f513e814262903336bdc8a977d",
       "rendered_digest": "643c89c51df13de7bca9675ee929655c57d89f76c96f14f3505819f9306d2411",
       "ast_digest": "675edc77ac19ccaecd4f6cea59332ca9be73fb6b88194eb6dafdf8a7ae713028"
     },
     "spp": {
-      "values_digest": "20a1d04aac5694b3e614d0b5b67c7a9480ed1784208647da24a5347207774dac",
+      "values_digest": "2b79ed79e521c5c94f90b1875dc467884ab218bed8b166eb788249e55531d50f",
       "rendered_digest": "b438ea924d970b45bb992f7c4e97c34879d0c4c69bb528d99142be1752a6f650",
       "ast_digest": "a1cb963b86313df959241200d5193df2e8a06d093e84606eac5d84c2cfe4354e"
     },
     "vpp": {
-      "values_digest": "3f631c629f0982135efe8c6a8c19e7bf9b22a9cd2f85872591010750498a8475",
+      "values_digest": "3d3c347f978928672f765cb02209cb2ba9389d11191d4caaede41d8af8b7d38e",
       "rendered_digest": "480e8ec70ec2f747b02b193d5769295a61aaca2e1715bee75dfa06e359954b00",
       "ast_digest": "128abc2ce803e76c193d5e8844fbe61499af169650e036720fa8e42e4eb4e359"
     },
     "srp": {
-      "values_digest": "6e9d3de2a54510af5dd0c2741dcba0a1297f3081fb2efe1de00cd978f4edbbaf",
+      "values_digest": "75730f4072ec0d35a823aee881f961d74fdaf791f73517c47bdfbeabf650532d",
       "rendered_digest": "3ebf382ba5b3471dc14cefc26110c52ad055ee603ae3a930e2f6af2a555dd243",
       "ast_digest": "767b96e556d6cba818e2ea71184d4f43dcd126d5c7ce08c981ed14df2555db10"
     },
     "sor": {
-      "values_digest": "1388aad2f017fa88453ab6023dc39b7ee1f94e3b6b503778eabcb8ef48d56edf",
+      "values_digest": "e7a72b0f3b602bd73b1376c0dd02e77685e0d46d899b68ad78eeeff5b2f42462",
       "rendered_digest": "3b76e487b5000da5c68d56af5001f9a23b07fdcabd02c09af8a7698089a234a7",
       "ast_digest": "57731f65564bf158d2cc7dfa5ff39d3eb2fa70d1b090a7ffcfe897c308d46695"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:wp18c-readiness-wave",
+      "reason": "The approved packet now has exact fail-closed issue-owned validator sentinels; advance to structural readiness while #111, #112, and #114 remain hard terminal execution gates."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -83,6 +91,13 @@
       "actor": "codex:116-final-readiness-repair",
       "reason": "Keep product and hygiene lanes within their proving scope and require a dedicated exact-head receipt validator for the composite review acceptance criterion.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"attention-exact-child-tests\",\"proof_role\":\"Exact nonzero issue-owned target proves lifecycle, schema, authorization, queue bounds, deduplication, expiry, overload, spoofing, restart, reconnect, recovery, projection, and operator outcome invariants; it does not substitute for independent review.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"operator_attention\",\"--no-tests=fail\"],\"parallel_group\":\"attention-runtime\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/operator_attention.rs\\\"] harness in adl-runtime/tests/operator_attention.rs will route adl-runtime/src/operator_attention.rs until integration registration; --no-tests=fail preserves the nonzero requirement.\"},{\"lane\":\"attention-api-browser-validator\",\"proof_role\":\"Run the dedicated issue-owned API/browser validator against live Runtime truth and require nonzero attention-inbox assertions for authorized listing, unread projection, filters, deep links, acknowledge, reply, defer, resolve, refuse, notification preferences, refusal and degradation, restart, reconnect, stale cache, and duplicate suppression; it does not substitute for independent review.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"bash\",\"adl/tools/test_v092_operator_attention_inbox.sh\"],\"parallel_group\":\"attention-api-browser\",\"defer_reason\":\"Deferred and fail closed during preparation: #111, #112, and #114 must be terminal, merged, ancestral, and handed off before issue #116 implements this exact validator target; a missing validator, unavailable live Runtime API/browser surface, skipped proof, or zero attention-inbox assertions must fail.\"},{\"lane\":\"attention-exact-head-review-receipts\",\"proof_role\":\"Validate that every required Runtime, schema, authorization, overload, durability, browser, and hygiene lane passed at the exact candidate revision and that the independent SRP review covers that same revision with no unresolved actionable findings.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_v092_operator_attention_inbox.sh\",\"--review-only\"],\"parallel_group\":\"attention-review\",\"defer_reason\":\"The issue-owned validator must fail closed until exact-head product receipts and independent SRP review evidence exist; ordinary tests and diff hygiene cannot satisfy review truth.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:wp18c-readiness-wave",
+      "reason": "The approved packet now has exact fail-closed issue-owned validator sentinels; advance to structural readiness while #111, #112, and #114 remain hard terminal execution gates.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }
