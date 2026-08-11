@@ -8,30 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl-runtime-kernel/build.rs
-adl-runtime-kernel/src/agent_roster.rs
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/telemetry.rs
-adl-runtime-kernel/src/live_continuity.rs
-adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-adl-runtime-kernel/tests/agent_roster.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-docs/api/runtime-v3/v1/openapi.json
-docs/api/runtime-v3/v1/observatory.openapi.json
-demos/html-observatory/app.js
-demos/html-observatory/index.html
-demos/html-observatory/styles.css
-adl/tools/test_html_observatory.sh
-adl/tools/validate_v092_html_observatory_roster.mjs
-.csdlc/issues/113
-.csdlc/prepared/issues/113
+
 
 ## Prompts
 
@@ -52,13 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.
-- Durable conversation history and cross-restart chat restoration remain outside #113 and are owned by issue #114.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:8794bb1bbcbf500f3522d6b70d77cb5900785f37:66056eca183cafbfd012926c5e8acf6bee8dc2ba86997dbbfd393aee7ccaa58d")
+Revision: None
 
-Reviewer: Some("subagent:019fef34-1897-7353-96e7-49320ae0043a")
+Reviewer: None
 
-Result: pass
+Result: pre_review

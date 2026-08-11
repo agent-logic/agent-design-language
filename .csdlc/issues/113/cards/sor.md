@@ -132,7 +132,7 @@ Implemented a Runtime-owned, policy-filtered, bounded local agent roster with tr
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
