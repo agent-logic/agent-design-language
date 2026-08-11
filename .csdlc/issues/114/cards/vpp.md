@@ -24,11 +24,12 @@ Diagram: .csdlc/prepared/issues/114/diagram.mmd
 
 [
   {
-    "lane": "conversation-history-store",
-    "proof_role": "Prove ordered atomic persistence, restart, idempotency, outcomes, cursors, retention, deletion, migration, corruption quarantine, redaction, and the exact forty-two-case denominator with nonzero selection.",
+    "lane": "conversation-history-exact-denominator",
+    "proof_role": "After #111 and #112 are terminal and ancestral, require issue #114 product execution to produce one machine-readable receipt from the exact owned Runtime store test, Runtime API test, strict clippy target, real Runtime-backed browser validator, and diff-hygiene checks. The issue-owned validator must then prove exactly the canonical 42 named cases from history-proof-cases.json appear once, in order, with no hidden subdenominator and every status passed; nonzero test selection alone is never sufficient.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
+      "AC-3",
       "AC-4",
       "AC-5",
       "AC-6",
@@ -38,115 +39,18 @@ Diagram: .csdlc/prepared/issues/114/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 1800,
-    "budget_tokens": 24000,
+    "budget_seconds": 21600,
+    "budget_tokens": 100000,
     "argv": [
-      "cargo",
-      "nextest",
-      "run",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "conversation_history",
-      "--no-tests=fail"
+      "ruby",
+      ".csdlc/prepared/issues/114/validate-history-proof.rb",
+      "--manifest",
+      ".csdlc/prepared/issues/114/history-proof-cases.json",
+      "--results",
+      ".csdlc/evidence/114/conversation-history-case-results.json"
     ],
-    "parallel_group": "114-runtime",
-    "defer_reason": "Deferred until #111 and #112 are terminal and ancestral and the exact owned test target exists; fail closed on zero tests or denominator drift."
-  },
-  {
-    "lane": "conversation-history-runtime-api",
-    "proof_role": "Prove fresh authorization before every read or lifecycle action, bounded projections, stable cursor behavior, denial, export, deletion, and no private-field exposure.",
-    "acceptance_ids": [
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-9"
-    ],
-    "deterministic": true,
-    "resource_profile": "large",
-    "budget_seconds": 1200,
-    "budget_tokens": 16000,
-    "argv": [
-      "cargo",
-      "nextest",
-      "run",
-      "--locked",
-      "--manifest-path",
-      "adl/Cargo.toml",
-      "--test",
-      "conversation_history_runtime_api",
-      "--no-tests=fail"
-    ],
-    "parallel_group": "114-api",
-    "defer_reason": "Deferred until the merged dependency APIs and exact owned integration target exist; fail closed on unauthorized projection or zero tests."
-  },
-  {
-    "lane": "conversation-history-clippy",
-    "proof_role": "Reject warnings and API misuse in the exact history store test target.",
-    "acceptance_ids": [
-      "AC-9"
-    ],
-    "deterministic": true,
-    "resource_profile": "large",
-    "budget_seconds": 900,
-    "budget_tokens": 10000,
-    "argv": [
-      "cargo",
-      "clippy",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "conversation_history",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "parallel_group": "114-runtime",
-    "defer_reason": "Deferred until the exact owned source and target exist; fail closed on any warning."
-  },
-  {
-    "lane": "conversation-history-browser",
-    "proof_role": "Prove real Runtime-backed paging, search, receipts, reconnect, revocation cache clearing, deletion, migration unavailable, and corruption quarantine states in the Observatory.",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-8",
-      "AC-9"
-    ],
-    "deterministic": true,
-    "resource_profile": "large",
-    "budget_seconds": 1800,
-    "budget_tokens": 18000,
-    "argv": [
-      "node",
-      "adl/tools/validate_v092_html_observatory_history.mjs"
-    ],
-    "parallel_group": "114-browser",
-    "defer_reason": "Deferred until the exact browser validator and merged Runtime history API exist; fixture-only or simulated responses do not pass."
-  },
-  {
-    "lane": "conversation-history-diff-hygiene",
-    "proof_role": "Reject malformed patches and out-of-scope whitespace damage before review.",
-    "acceptance_ids": [
-      "AC-9"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 60,
-    "budget_tokens": 1000,
-    "argv": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "parallel_group": "114-hygiene",
-    "defer_reason": "Run against the eventual implementation candidate after dependency gates clear; preparation readiness is validated separately by typed C-SDLC validation."
+    "parallel_group": "114-history-proof",
+    "defer_reason": "Deferred until #111 and #112 are terminal through merged PRs ancestral to the selected #114 execution base and the issue-owned product targets and result receipt exist. The validator currently fails closed on the absent receipt; preparation records no product implementation, product validation pass, dependency completion, or #83 mutation claim."
   }
 ]
 
@@ -162,11 +66,7 @@ Tokens: 100000
 
 ## Commands
 
-- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test conversation_history --no-tests=fail`
-- `cargo nextest run --locked --manifest-path adl/Cargo.toml --test conversation_history_runtime_api --no-tests=fail`
-- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test conversation_history -- -D warnings`
-- `node adl/tools/validate_v092_html_observatory_history.mjs`
-- `git diff --check`
+- `ruby .csdlc/prepared/issues/114/validate-history-proof.rb --manifest .csdlc/prepared/issues/114/history-proof-cases.json --results .csdlc/evidence/114/conversation-history-case-results.json`
 
 ## Failure Semantics
 

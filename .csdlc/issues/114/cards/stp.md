@@ -16,12 +16,14 @@ After direct dependency gates clear, implement only the declared durable history
 
 ## Deliverables
 
-- adl-runtime/src/conversation_history.rs
-- adl-runtime/tests/conversation_history.rs
-- adl/tests/conversation_history_runtime_api.rs
-- adl/tools/validate_v092_html_observatory_history.mjs
-- docs/milestones/v0.92/features/DURABLE_CONVERSATION_HISTORY.md
-- Narrow module, Runtime API, OpenAPI, and demos/html-observatory/app.js integration
+- Runtime-owned durable conversation history module and narrow module export
+- Focused conversation history store test target
+- Authorized Runtime API integration test target
+- Real Runtime-backed Observatory history validator
+- Durable conversation history feature contract
+- .csdlc/prepared/issues/114/history-proof-cases.json
+- .csdlc/prepared/issues/114/validate-history-proof.rb
+- Narrow Runtime API, OpenAPI, and demos/html-observatory/app.js integration
 - Exact forty-two-case product proof and fresh exact-head independent review
 
 ## Acceptance

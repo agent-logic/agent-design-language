@@ -3,9 +3,9 @@
   "issue": 114,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
-  "phase": "initialized",
-  "generation": 1,
-  "digest": "03719fc55ca8061dec46e6b84978bcb70719d0385517a33ebf295622355fb2a0",
+  "phase": "ready",
+  "generation": 7,
+  "digest": "8ce98898ed7b69291ec7372f7f0faa208add7829fa8ad74e8c89aa08b404331a",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3285c0801aa8b7825587dadafc336ded901c83e227b0d08dcf2120a316366e1f",
+      "values_digest": "443b6f82c3e2f7773bfad85dc22038757f708f9959bd1f9c28a6ae73c152f066",
       "rendered_digest": "8b8eaae46acbafc0683cfe82c71d1c009b23dfa44fbe80af9647c04fe94925db",
       "ast_digest": "0a2848b22bc8771b4fe994f9691e4d78f56b7b08912981f6db9fc3e7c49bcbed"
     },
     "stp": {
-      "values_digest": "140d8797a64ab255b89463a4b8dd843b4b741bc6cff43a322d785a03bce15639",
-      "rendered_digest": "d6b5ae79385a0d238aacc8b641f11bb0da0b7fd2a5e20c765e2fcb688708d47b",
-      "ast_digest": "b5a396766bb4001d26806500dfacce6151283fc93ce37420f9119ea307346d1f"
+      "values_digest": "6a8c05b953c862e552bc39e4eed90d9054926bd433d7c87d3f1b4c571299aae6",
+      "rendered_digest": "89cbeaf87a8b741804c4ed4f57d7a36d20bc16043c88248e76f472c30b1d1709",
+      "ast_digest": "ad51ebc22f13f41109a8f2b24e5bb1e3c9faef9999dbe3a715b9ad4ab712edf0"
     },
     "spp": {
-      "values_digest": "468eb887b711004fca08017cdc63942ad06c968db647dda96c0cb6918cd7e3f0",
-      "rendered_digest": "3219f1547dd5035e6778a78c67dd526404bbeb0727010997220c8469775a3f8a",
-      "ast_digest": "375796266857351b94b5caa0f500ba952a86f713edbd2a941448b7409eabeeb8"
+      "values_digest": "b81bf4242133627740230886d835e0f6c5081051df715e4f355e48b1f9faac11",
+      "rendered_digest": "6d6e3271df1ca6752bdfd801b3dd971ffd643f14396f3eed3deb3313f72fe8e6",
+      "ast_digest": "ffb4ad94c109b05afcfd5dbd5d7a4f2a04f179336c3f1b368faa246090a04cd4"
     },
     "vpp": {
-      "values_digest": "f536543dabe9ec9e388b650b902f9a92ed0fa53a8de6ad59403dba124d1ed37c",
-      "rendered_digest": "5b653d2f8c234fb0f2925cca2d05e8c045cfd4da8a52f4c9afe4060fb703e358",
-      "ast_digest": "6a89ac0df3adae43e793b576743bb8d1441df4d43106d15b19961e19692a2bc5"
+      "values_digest": "0b8a021f63b6f87b6e8fb65703a43cfff6417cf44d9ebc84afb4e992a940ce0e",
+      "rendered_digest": "4482be7b18014beaa0ee693048984b94029001eeb05756975b0b5d0be0f1baf3",
+      "ast_digest": "e175337ec822bbbae45f0c6ce90dfead949188ecd735e29bb777c5db6cf61870"
     },
     "srp": {
-      "values_digest": "51e9c4d471711bb8fd6d3340c7bc51185e30b7774558a1ad07638a709a2dbe98",
+      "values_digest": "db606592ea231e43905ae91306d95ea445c0fc3d77b72e3c87f2281752710510",
       "rendered_digest": "cd75e51fc7f81a82723616370addd28c53f0bba7d945238bfde4a26d1d326263",
       "ast_digest": "e31c3cfd5cf288a957f28db764c46b581678cf11cf2ff522f5314800c3078e58"
     },
     "sor": {
-      "values_digest": "138def888ec26b832e74c3a16437cefe57a13044bc42825da58ef1e9cc2383c0",
+      "values_digest": "d6ef0b9bf5e8383b4d1e090850811cd5d70d6298f266792a34b62f6c5bc04df4",
       "rendered_digest": "138ad7d74de650d36b2b6ed9228b23724284f31f4f080cf8103270164bca97ed",
       "ast_digest": "256a4c79e33435e99293355c8c0b394ad075de4076e9343c697b9ddadc5b1544"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:114-readiness-audit-repair",
+      "reason": "advance the validated preparation packet from initialized to ready without binding or implementation"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -69,6 +77,48 @@
       "actor": "codex:114-preparation-design-review",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:114-readiness-audit-repair",
+      "reason": "require an exact named 42-case all-pass history proof denominator while preserving deferred dependency gates",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"conversation-history-store\",\"proof_role\":\"Prove ordered atomic persistence, restart, idempotency, outcomes, cursors, retention, deletion, migration, corruption quarantine, and redaction; test selection alone is not denominator proof and must be paired with the exact-denominator validator lane.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"conversation_history\",\"--no-tests=fail\"],\"parallel_group\":\"114-runtime\",\"defer_reason\":\"Deferred until #111 and #112 are terminal and ancestral and the exact owned test target exists; this lane cannot pass AC-9 by itself because --no-tests=fail proves only nonzero selection, not the required exact 42-case denominator.\"},{\"lane\":\"conversation-history-exact-denominator\",\"proof_role\":\"Run the issue-owned Observatory history validator in exact-denominator mode over the Runtime/browser proof receipt. Require exactly these 42 cases in this order, with no missing, extra, duplicate, renamed, reordered, or nonpassing entry: append_first_turn, append_ordered_turn, outcome_monotonic, restart_continuity, browser_reconnect_page, exact_duplicate_cached, conflicting_duplicate_denied, sequence_gap_denied, reorder_denied, terminal_rewrite_denied, unauthorized_read_denied, revoked_read_denied, expired_identity_denied, policy_epoch_drift_denied, cross_polis_denied, cross_principal_cursor_denied, tampered_cursor_denied, stale_cursor_denied, stable_snapshot_paging, bounded_search, search_private_state_absent, bounded_export, export_reauthorization_denied, retention_expiry, deletion_tombstone, deletion_exact_retry, deletion_residue_absent, partial_write_recovery, reply_loss_cached, disk_full_no_false_success, read_only_no_effect, lock_contention_bounded, corrupt_record_quarantined, receipt_chain_break_quarantined, watermark_drift_quarantined, unknown_newer_schema_denied, unsupported_older_schema_denied, migration_resume_before_publish, migration_reopen_after_publish, lossy_migration_denied, rollback_after_new_write_denied, forbidden_field_redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_history.mjs\",\"--mode\",\"exact-denominator\",\"--receipt\",\".csdlc/evidence/114/conversation-history-proof.json\",\"--require-all-pass\",\"--expected-case\",\"append_first_turn\",\"--expected-case\",\"append_ordered_turn\",\"--expected-case\",\"outcome_monotonic\",\"--expected-case\",\"restart_continuity\",\"--expected-case\",\"browser_reconnect_page\",\"--expected-case\",\"exact_duplicate_cached\",\"--expected-case\",\"conflicting_duplicate_denied\",\"--expected-case\",\"sequence_gap_denied\",\"--expected-case\",\"reorder_denied\",\"--expected-case\",\"terminal_rewrite_denied\",\"--expected-case\",\"unauthorized_read_denied\",\"--expected-case\",\"revoked_read_denied\",\"--expected-case\",\"expired_identity_denied\",\"--expected-case\",\"policy_epoch_drift_denied\",\"--expected-case\",\"cross_polis_denied\",\"--expected-case\",\"cross_principal_cursor_denied\",\"--expected-case\",\"tampered_cursor_denied\",\"--expected-case\",\"stale_cursor_denied\",\"--expected-case\",\"stable_snapshot_paging\",\"--expected-case\",\"bounded_search\",\"--expected-case\",\"search_private_state_absent\",\"--expected-case\",\"bounded_export\",\"--expected-case\",\"export_reauthorization_denied\",\"--expected-case\",\"retention_expiry\",\"--expected-case\",\"deletion_tombstone\",\"--expected-case\",\"deletion_exact_retry\",\"--expected-case\",\"deletion_residue_absent\",\"--expected-case\",\"partial_write_recovery\",\"--expected-case\",\"reply_loss_cached\",\"--expected-case\",\"disk_full_no_false_success\",\"--expected-case\",\"read_only_no_effect\",\"--expected-case\",\"lock_contention_bounded\",\"--expected-case\",\"corrupt_record_quarantined\",\"--expected-case\",\"receipt_chain_break_quarantined\",\"--expected-case\",\"watermark_drift_quarantined\",\"--expected-case\",\"unknown_newer_schema_denied\",\"--expected-case\",\"unsupported_older_schema_denied\",\"--expected-case\",\"migration_resume_before_publish\",\"--expected-case\",\"migration_reopen_after_publish\",\"--expected-case\",\"lossy_migration_denied\",\"--expected-case\",\"rollback_after_new_write_denied\",\"--expected-case\",\"forbidden_field_redaction\"],\"parallel_group\":\"114-denominator\",\"defer_reason\":\"Deferred until #111 and #112 are terminal and ancestral and issue #114 implements both the owned receipt producer and this owned validator mode. Missing validator or receipt, any count other than 42, any name/order mismatch, any duplicate, or any outcome other than passed fails closed; this preparation records no product or validation pass claim.\"},{\"lane\":\"conversation-history-runtime-api\",\"proof_role\":\"Prove fresh authorization before every read or lifecycle action, bounded projections, stable cursor behavior, denial, export, deletion, and no private-field exposure.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"conversation_history_runtime_api\",\"--no-tests=fail\"],\"parallel_group\":\"114-api\",\"defer_reason\":\"Deferred until the merged dependency APIs and exact owned integration target exist; fail closed on unauthorized projection or zero tests.\"},{\"lane\":\"conversation-history-clippy\",\"proof_role\":\"Reject warnings and API misuse in the exact history store test target.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"conversation_history\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"114-runtime\",\"defer_reason\":\"Deferred until the exact owned source and target exist; fail closed on any warning.\"},{\"lane\":\"conversation-history-browser\",\"proof_role\":\"Prove real Runtime-backed paging, search, receipts, reconnect, revocation cache clearing, deletion, migration unavailable, and corruption quarantine states in the Observatory.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":18000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_history.mjs\"],\"parallel_group\":\"114-browser\",\"defer_reason\":\"Deferred until the exact browser validator and merged Runtime history API exist; fixture-only or simulated responses do not pass.\"},{\"lane\":\"conversation-history-diff-hygiene\",\"proof_role\":\"Reject malformed patches and out-of-scope whitespace damage before review.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"114-hygiene\",\"defer_reason\":\"Run against the eventual implementation candidate after dependency gates clear; preparation readiness is validated separately by typed C-SDLC validation.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:114-readiness-audit-repair",
+      "reason": "advance the validated preparation packet from initialized to ready without binding or implementation",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:114-readiness-audit-repair",
+      "reason": "declare the preparation-owned exact history denominator manifest and validator as issue-owned targets",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/conversation_history.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/conversation_history.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/conversation_history_runtime_api.rs\",\"adl/tools/validate_v092_html_observatory_history.mjs\",\"docs/api/runtime-v3/v1/openapi.json\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"docs/milestones/v0.92/features/DURABLE_CONVERSATION_HISTORY.md\",\".csdlc/issues/114\",\".csdlc/prepared/issues/114\",\".csdlc/prepared/issues/114/history-proof-cases.json\",\".csdlc/prepared/issues/114/validate-history-proof.rb\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:114-readiness-audit-repair",
+      "reason": "declare the preparation-owned exact history denominator manifest and validator as readiness deliverables",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/conversation_history.rs\",\"adl-runtime/tests/conversation_history.rs\",\"adl/tests/conversation_history_runtime_api.rs\",\"adl/tools/validate_v092_html_observatory_history.mjs\",\"docs/milestones/v0.92/features/DURABLE_CONVERSATION_HISTORY.md\",\".csdlc/prepared/issues/114/history-proof-cases.json\",\".csdlc/prepared/issues/114/validate-history-proof.rb\",\"Narrow module, Runtime API, OpenAPI, and demos/html-observatory/app.js integration\",\"Exact forty-two-case product proof and fresh exact-head independent review\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:114-readiness-audit-repair",
+      "reason": "route deferred product proof through the existing issue-owned exact 42-case all-pass validator",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"conversation-history-exact-denominator\",\"proof_role\":\"After #111 and #112 are terminal and ancestral, require issue #114 product execution to produce one machine-readable receipt from the exact owned Runtime store test, Runtime API test, strict clippy target, real Runtime-backed browser validator, and diff-hygiene checks. The issue-owned validator must then prove exactly the canonical 42 named cases from history-proof-cases.json appear once, in order, with no hidden subdenominator and every status passed; nonzero test selection alone is never sufficient.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":21600,\"budget_tokens\":100000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/114/validate-history-proof.rb\",\"--manifest\",\".csdlc/prepared/issues/114/history-proof-cases.json\",\"--results\",\".csdlc/evidence/114/conversation-history-case-results.json\"],\"parallel_group\":\"114-history-proof\",\"defer_reason\":\"Deferred until #111 and #112 are terminal through merged PRs ancestral to the selected #114 execution base and the issue-owned product targets and result receipt exist. The validator currently fails closed on the absent receipt; preparation records no product implementation, product validation pass, dependency completion, or #83 mutation claim.\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:114-readiness-audit-repair",
+      "reason": "state future product outputs as deferred deliverables while retaining only existing preparation files as current validator targets",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Runtime-owned durable conversation history module and narrow module export\",\"Focused conversation history store test target\",\"Authorized Runtime API integration test target\",\"Real Runtime-backed Observatory history validator\",\"Durable conversation history feature contract\",\".csdlc/prepared/issues/114/history-proof-cases.json\",\".csdlc/prepared/issues/114/validate-history-proof.rb\",\"Narrow Runtime API, OpenAPI, and demos/html-observatory/app.js integration\",\"Exact forty-two-case product proof and fresh exact-head independent review\"]}"
     }
   ]
 }
