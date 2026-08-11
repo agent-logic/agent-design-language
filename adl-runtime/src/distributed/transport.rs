@@ -1,4 +1,5 @@
 use std::{
+    collections::{BTreeMap, BTreeSet},
     fmt,
     io::Cursor,
     net::SocketAddr,
@@ -6,6 +7,7 @@ use std::{
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
+use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
 use prost::Message;
 use quinn::{
     crypto::rustls::{QuicClientConfig, QuicServerConfig},
@@ -16,7 +18,11 @@ use sha2::{Digest, Sha256};
 use tokio::time::Instant;
 use tokio_util::sync::CancellationToken;
 
-use super::certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore};
+use super::{
+    certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
+    lease::{AuthorityMembership, ControlCertificatePurpose},
+    membership::{MemberRole, MembershipPolicy, MembershipState},
+};
 use adl_runtime_kernel::tls::{
     build_mutual_tls_client_config, build_mutual_tls_server_config, trust_roots_from_der,
     TlsIdentity,
@@ -28,6 +34,10 @@ const CLOSE_CODE: u32 = 0x100;
 const MAX_TEXT_LEN: usize = 128;
 const LENGTH_PREFIX_SLACK: usize = 10;
 const REPLAY_WINDOW_BITS: u64 = 64;
+const POLIS_HANDSHAKE_SCHEMA: &str = "adl.distributed.polis_handshake.v1";
+
+pub const POLIS_TRANSPORT_SCHEMA: &str = "adl.distributed.polis_transport.v1";
+pub const POLIS_TRANSPORT_RESPONSE_SCHEMA: &str = "adl.distributed.polis_transport_response.v1";
 
 #[derive(Clone, PartialEq, Message)]
 pub struct TransportEnvelope {
@@ -47,6 +57,781 @@ pub struct TransportEnvelope {
     pub sequence: u64,
     #[prost(bytes = "vec", tag = "8")]
     pub payload: Vec<u8>,
+}
+
+#[derive(Clone, PartialEq, Message)]
+struct PolisTransportEnvelope {
+    #[prost(string, tag = "1")]
+    schema: String,
+    #[prost(string, tag = "2")]
+    polis_id: String,
+    #[prost(string, tag = "3")]
+    trust_domain: String,
+    #[prost(string, tag = "4")]
+    sender_node_id: String,
+    #[prost(string, tag = "5")]
+    receiver_node_id: String,
+    #[prost(uint64, tag = "6")]
+    certificate_generation: u64,
+    #[prost(uint64, tag = "7")]
+    boot_generation: u64,
+    #[prost(uint64, tag = "8")]
+    committed_membership_index: u64,
+    #[prost(uint64, tag = "9")]
+    sequence: u64,
+    #[prost(string, tag = "10")]
+    message_kind: String,
+    #[prost(bytes = "vec", tag = "11")]
+    payload_sha256: Vec<u8>,
+    #[prost(bytes = "vec", tag = "12")]
+    payload: Vec<u8>,
+}
+
+#[derive(Clone, PartialEq, Message)]
+struct PolisTransportResponse {
+    #[prost(string, tag = "1")]
+    schema: String,
+    #[prost(uint64, tag = "2")]
+    sequence: u64,
+    #[prost(bytes = "vec", tag = "3")]
+    request_sha256: Vec<u8>,
+    #[prost(bytes = "vec", tag = "4")]
+    payload_sha256: Vec<u8>,
+    #[prost(bytes = "vec", tag = "5")]
+    payload: Vec<u8>,
+}
+
+#[derive(Clone, PartialEq, Message)]
+struct PolisHandshake {
+    #[prost(string, tag = "1")]
+    schema: String,
+    #[prost(string, tag = "2")]
+    polis_id: String,
+    #[prost(string, tag = "3")]
+    trust_domain: String,
+    #[prost(string, tag = "4")]
+    sender_node_id: String,
+    #[prost(string, tag = "5")]
+    receiver_node_id: String,
+    #[prost(uint64, tag = "6")]
+    sender_certificate_generation: u64,
+    #[prost(uint64, tag = "7")]
+    receiver_certificate_generation: u64,
+    #[prost(uint64, tag = "8")]
+    sender_boot_generation: u64,
+    #[prost(uint64, tag = "9")]
+    receiver_boot_generation: u64,
+    #[prost(uint64, tag = "10")]
+    committed_membership_index: u64,
+    #[prost(bytes = "vec", tag = "11")]
+    signature: Vec<u8>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct PolisSessionBinding {
+    polis_id: String,
+    trust_domain: String,
+    local_node_id: String,
+    peer_node_id: String,
+    local_guardian_id: String,
+    peer_guardian_id: String,
+    local_certificate_generation: u64,
+    peer_certificate_generation: u64,
+    local_boot_generation: u64,
+    peer_boot_generation: u64,
+    committed_membership_index: u64,
+    local_control_public_key: [u8; 32],
+    peer_control_public_key: [u8; 32],
+}
+
+impl PolisSessionBinding {
+    fn validate(&self) -> TransportResult<()> {
+        validate_text(&self.polis_id)?;
+        validate_text(&self.trust_domain)?;
+        validate_text(&self.local_node_id)?;
+        validate_text(&self.peer_node_id)?;
+        validate_text(&self.local_guardian_id)?;
+        validate_text(&self.peer_guardian_id)?;
+        if self.local_node_id == self.peer_node_id
+            || self.local_certificate_generation == 0
+            || self.peer_certificate_generation == 0
+            || self.local_boot_generation == 0
+            || self.peer_boot_generation == 0
+            || self.committed_membership_index == 0
+            || self.local_control_public_key == [0; 32]
+            || self.peer_control_public_key == [0; 32]
+            || VerifyingKey::from_bytes(&self.local_control_public_key).is_err()
+            || VerifyingKey::from_bytes(&self.peer_control_public_key).is_err()
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        Ok(())
+    }
+
+    fn reverse(&self) -> Self {
+        Self {
+            polis_id: self.polis_id.clone(),
+            trust_domain: self.trust_domain.clone(),
+            local_node_id: self.peer_node_id.clone(),
+            peer_node_id: self.local_node_id.clone(),
+            local_guardian_id: self.peer_guardian_id.clone(),
+            peer_guardian_id: self.local_guardian_id.clone(),
+            local_certificate_generation: self.peer_certificate_generation,
+            peer_certificate_generation: self.local_certificate_generation,
+            local_boot_generation: self.peer_boot_generation,
+            peer_boot_generation: self.local_boot_generation,
+            committed_membership_index: self.committed_membership_index,
+            local_control_public_key: self.peer_control_public_key,
+            peer_control_public_key: self.local_control_public_key,
+        }
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn from_authority(
+        polis_id: String,
+        trust_domain: String,
+        local_node_id: String,
+        peer_node_id: String,
+        local_guardian_id: String,
+        peer_guardian_id: String,
+        local_certificate_generation: u64,
+        peer_certificate_generation: u64,
+        local_boot_generation: u64,
+        peer_boot_generation: u64,
+        committed_membership_index: u64,
+        local_control_public_key: [u8; 32],
+        peer_control_public_key: [u8; 32],
+    ) -> TransportResult<Self> {
+        let binding = Self {
+            polis_id,
+            trust_domain,
+            local_node_id,
+            peer_node_id,
+            local_guardian_id,
+            peer_guardian_id,
+            local_certificate_generation,
+            peer_certificate_generation,
+            local_boot_generation,
+            peer_boot_generation,
+            committed_membership_index,
+            local_control_public_key,
+            peer_control_public_key,
+        };
+        binding.validate()?;
+        Ok(binding)
+    }
+
+    pub(crate) fn polis_id(&self) -> &str {
+        &self.polis_id
+    }
+    pub(crate) fn trust_domain(&self) -> &str {
+        &self.trust_domain
+    }
+    pub fn local_node_id(&self) -> &str {
+        &self.local_node_id
+    }
+    pub(crate) fn local_guardian_id(&self) -> &str {
+        &self.local_guardian_id
+    }
+    pub(crate) fn local_control_public_key(&self) -> [u8; 32] {
+        self.local_control_public_key
+    }
+    pub fn local_certificate_generation(&self) -> u64 {
+        self.local_certificate_generation
+    }
+    pub fn local_boot_generation(&self) -> u64 {
+        self.local_boot_generation
+    }
+    pub fn peer_node_id(&self) -> &str {
+        &self.peer_node_id
+    }
+    pub(crate) fn peer_guardian_id(&self) -> &str {
+        &self.peer_guardian_id
+    }
+    pub(crate) fn peer_control_public_key(&self) -> [u8; 32] {
+        self.peer_control_public_key
+    }
+    pub fn peer_certificate_generation(&self) -> u64 {
+        self.peer_certificate_generation
+    }
+    pub fn peer_boot_generation(&self) -> u64 {
+        self.peer_boot_generation
+    }
+    pub fn committed_membership_index(&self) -> u64 {
+        self.committed_membership_index
+    }
+}
+
+pub struct PendingPolisSession {
+    binding: PolisSessionBinding,
+}
+
+impl PendingPolisSession {
+    fn new(binding: PolisSessionBinding) -> Self {
+        Self { binding }
+    }
+}
+
+#[derive(Clone)]
+pub struct EstablishedPolisSession {
+    binding: PolisSessionBinding,
+}
+
+impl EstablishedPolisSession {
+    pub fn binding(&self) -> &PolisSessionBinding {
+        &self.binding
+    }
+}
+
+#[derive(Clone, Debug)]
+struct VerifiedRouteAuthority {
+    node_id: String,
+    guardian_id: String,
+    control_public_key: [u8; 32],
+    boot_generation: u64,
+}
+
+/// Opaque authority accepted by the configured Runtime trust roots.
+///
+/// Route and polis verification consume this handle rather than accepting a
+/// caller-nominated `AuthorityMembership` at the authorization boundary.
+#[derive(Clone)]
+pub struct EstablishedRuntimeAuthority {
+    membership: MembershipState,
+    authority: AuthorityMembership,
+    certificate_store: Arc<DistributedCertificateStore>,
+    guardian_certificates: BTreeMap<Vec<u8>, String>,
+    authorization_deadline_unix_seconds: u64,
+}
+
+/// Production bootstrap owner for one configured Runtime authority lineage.
+///
+/// The membership is restored from canonical durable bytes against an
+/// externally retained commitment before any signed voter lineage can be
+/// accepted. The configured certificate store owns the immutable approved
+/// issuer roots for this Runtime instance.
+pub(crate) struct RuntimeAuthorityInitializer {
+    membership: MembershipState,
+    certificate_store: Arc<DistributedCertificateStore>,
+}
+
+impl RuntimeAuthorityInitializer {
+    pub(crate) fn restore(
+        certificate_store: Arc<DistributedCertificateStore>,
+        membership_policy: MembershipPolicy,
+        membership_snapshot: &[u8],
+        trusted_membership_commitment: [u8; 32],
+    ) -> TransportResult<Self> {
+        let membership = MembershipState::restore(
+            membership_policy,
+            membership_snapshot,
+            trusted_membership_commitment,
+        )
+        .map_err(|_| TransportError::InvalidSessionBinding)?;
+        Ok(Self {
+            membership,
+            certificate_store,
+        })
+    }
+
+    pub(crate) fn accept_signed_lineage(
+        &self,
+        authority: &AuthorityMembership,
+        guardian_certificates: &BTreeMap<Vec<u8>, AuthorityCertificate>,
+        now_unix_seconds: u64,
+    ) -> TransportResult<EstablishedRuntimeAuthority> {
+        EstablishedRuntimeAuthority::accept(
+            &self.membership,
+            authority,
+            Arc::clone(&self.certificate_store),
+            guardian_certificates,
+            now_unix_seconds,
+        )
+    }
+}
+
+impl EstablishedRuntimeAuthority {
+    fn accept(
+        membership: &MembershipState,
+        authority: &AuthorityMembership,
+        certificate_store: Arc<DistributedCertificateStore>,
+        guardian_certificates: &BTreeMap<Vec<u8>, AuthorityCertificate>,
+        now_unix_seconds: u64,
+    ) -> TransportResult<Self> {
+        if now_unix_seconds == 0
+            || authority.trust_domain_id.as_slice() != membership.trust_domain().as_bytes()
+            || authority.committed_log_index != membership.committed_log_index()
+            || authority.voters.len() != 3
+            || guardian_certificates.len() != authority.voters.len()
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        let members = membership
+            .members()
+            .filter(|member| member.role == MemberRole::Voter)
+            .collect::<Vec<_>>();
+        let configured = authority
+            .raft_membership
+            .get_joint_config()
+            .iter()
+            .flatten()
+            .copied()
+            .collect::<BTreeSet<_>>();
+        if members.len() != 3 || configured.len() != 3 {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        let mut authorization_deadline = u64::MAX;
+        let mut seen = BTreeSet::new();
+        for member in members {
+            let guardian = member.guardian_id.as_bytes().to_vec();
+            let voter = authority
+                .voters
+                .get(&guardian)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            let raft_id = authority
+                .raft_ids
+                .get(&guardian)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            let certificate = guardian_certificates
+                .get(&guardian)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            let body = &certificate.body;
+            if !configured.contains(raft_id)
+                || voter.revoked
+                || voter.purpose != ControlCertificatePurpose::AuthorityEndorsement
+                || voter.control_public_key != member.guardian_control_public_key
+                || voter.certificate_generation != member.identity_generation
+                || body.trust_domain != membership.trust_domain()
+                || body.holder_id != member.guardian_id
+                || body.purpose != CertificatePurpose::GuardianControl
+                || body.generation != member.identity_generation
+                || body.subject_public_key != member.guardian_control_public_key
+            {
+                return Err(TransportError::InvalidSessionBinding);
+            }
+            let verified = certificate_store
+                .authorize(
+                    &member.guardian_id,
+                    CertificatePurpose::GuardianControl,
+                    member.identity_generation,
+                    now_unix_seconds,
+                )
+                .map_err(|_| TransportError::InvalidSessionBinding)?;
+            if verified.certificate_id
+                != certificate
+                    .certificate_id()
+                    .map_err(|_| TransportError::InvalidSessionBinding)?
+            {
+                return Err(TransportError::InvalidSessionBinding);
+            }
+            authorization_deadline =
+                authorization_deadline.min(verified.authorization_deadline_unix_secs);
+            seen.insert(guardian);
+        }
+        if seen != authority.voters.keys().cloned().collect() {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        Ok(Self {
+            membership: membership.clone(),
+            authority: authority.clone(),
+            certificate_store,
+            guardian_certificates: guardian_certificates
+                .iter()
+                .map(|(guardian, certificate)| {
+                    certificate
+                        .certificate_id()
+                        .map(|id| (guardian.clone(), id))
+                        .map_err(|_| TransportError::InvalidSessionBinding)
+                })
+                .collect::<TransportResult<_>>()?,
+            authorization_deadline_unix_seconds: authorization_deadline,
+        })
+    }
+
+    fn revalidate(&self, now_unix_seconds: u64) -> TransportResult<()> {
+        if now_unix_seconds == 0 || now_unix_seconds >= self.authorization_deadline_unix_seconds {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        for (guardian, voter) in &self.authority.voters {
+            let holder =
+                std::str::from_utf8(guardian).map_err(|_| TransportError::InvalidSessionBinding)?;
+            let verified = self
+                .certificate_store
+                .authorize(
+                    holder,
+                    CertificatePurpose::GuardianControl,
+                    voter.certificate_generation,
+                    now_unix_seconds,
+                )
+                .map_err(|_| TransportError::InvalidSessionBinding)?;
+            if self.guardian_certificates.get(guardian) != Some(&verified.certificate_id) {
+                return Err(TransportError::InvalidSessionBinding);
+            }
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct PolisIdentityBinding {
+    polis_id: String,
+    trust_domain: String,
+    committed_membership_index: u64,
+    boot_generations: BTreeMap<u64, u64>,
+}
+
+impl PolisIdentityBinding {
+    pub fn verify(
+        polis_id: &str,
+        trust_domain: &str,
+        committed_membership_index: u64,
+        boot_generations: &BTreeMap<u64, u64>,
+        endorsements: &BTreeMap<Vec<u8>, Vec<u8>>,
+        established: &EstablishedRuntimeAuthority,
+    ) -> TransportResult<Self> {
+        let authority = &established.authority;
+        let configured = authority
+            .raft_membership
+            .get_joint_config()
+            .iter()
+            .flatten()
+            .copied()
+            .collect::<BTreeSet<_>>();
+        if boot_generations.keys().copied().collect::<BTreeSet<_>>() != configured
+            || boot_generations.values().any(|generation| *generation == 0)
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        let payload = polis_identity_signing_payload(
+            polis_id,
+            trust_domain,
+            committed_membership_index,
+            boot_generations,
+        )?;
+        if authority.trust_domain_id.as_slice() != trust_domain.as_bytes()
+            || authority.committed_log_index != committed_membership_index
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        let mut verified = BTreeSet::new();
+        for (guardian, signature) in endorsements {
+            let voter = authority
+                .voters
+                .get(guardian)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            if voter.revoked || voter.purpose != ControlCertificatePurpose::AuthorityEndorsement {
+                return Err(TransportError::InvalidSessionBinding);
+            }
+            let signature = Signature::from_slice(signature)
+                .map_err(|_| TransportError::InvalidSessionBinding)?;
+            VerifyingKey::from_bytes(&voter.control_public_key)
+                .map_err(|_| TransportError::InvalidSessionBinding)?
+                .verify(&payload, &signature)
+                .map_err(|_| TransportError::InvalidSessionBinding)?;
+            verified.insert(
+                *authority
+                    .raft_ids
+                    .get(guardian)
+                    .ok_or(TransportError::InvalidSessionBinding)?,
+            );
+        }
+        if authority
+            .raft_membership
+            .get_joint_config()
+            .iter()
+            .any(|config| {
+                config.iter().filter(|node| verified.contains(node)).count() <= config.len() / 2
+            })
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        Ok(Self {
+            polis_id: polis_id.to_owned(),
+            trust_domain: trust_domain.to_owned(),
+            committed_membership_index,
+            boot_generations: boot_generations.clone(),
+        })
+    }
+}
+
+pub fn polis_identity_signing_payload(
+    polis_id: &str,
+    trust_domain: &str,
+    committed_membership_index: u64,
+    boot_generations: &BTreeMap<u64, u64>,
+) -> TransportResult<Vec<u8>> {
+    validate_text(polis_id)?;
+    validate_text(trust_domain)?;
+    if committed_membership_index == 0 {
+        return Err(TransportError::InvalidSessionBinding);
+    }
+    if boot_generations.is_empty() || boot_generations.values().any(|generation| *generation == 0) {
+        return Err(TransportError::InvalidSessionBinding);
+    }
+    let boots = boot_generations
+        .iter()
+        .map(|(node, generation)| format!("{node}:{generation}"))
+        .collect::<Vec<_>>()
+        .join(",");
+    Ok(format!(
+        "adl.distributed.polis_identity.v1\0{polis_id}\0{trust_domain}\0{committed_membership_index}\0{boots}"
+    )
+    .into_bytes())
+}
+
+#[derive(Clone, Debug)]
+pub struct VerifiedPolisRouteCut {
+    polis_id: String,
+    trust_domain: String,
+    committed_membership_index: u64,
+    routes: BTreeMap<u64, SocketAddr>,
+    authorities: BTreeMap<u64, VerifiedRouteAuthority>,
+}
+
+impl VerifiedPolisRouteCut {
+    pub fn verify(
+        polis: &PolisIdentityBinding,
+        established: &EstablishedRuntimeAuthority,
+        addresses: &BTreeMap<String, SocketAddr>,
+        now_unix_seconds: i64,
+    ) -> TransportResult<Self> {
+        let membership = &established.membership;
+        let authority = &established.authority;
+        established.revalidate(
+            u64::try_from(now_unix_seconds).map_err(|_| TransportError::InvalidSessionBinding)?,
+        )?;
+        if polis.trust_domain != membership.trust_domain()
+            || polis.committed_membership_index != membership.committed_log_index()
+            || authority.trust_domain_id.as_slice() != membership.trust_domain().as_bytes()
+            || authority.committed_log_index != membership.committed_log_index()
+            || now_unix_seconds <= 0
+            || u64::try_from(now_unix_seconds)
+                .ok()
+                .is_none_or(|now| now >= established.authorization_deadline_unix_seconds)
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        let members = membership
+            .members()
+            .filter(|member| member.role == MemberRole::Voter)
+            .collect::<Vec<_>>();
+        let configured = authority
+            .raft_membership
+            .get_joint_config()
+            .iter()
+            .flatten()
+            .copied()
+            .collect::<BTreeSet<_>>();
+        if members.len() != 3
+            || authority.voters.len() != 3
+            || addresses.len() != 3
+            || polis.boot_generations.len() != 3
+            || configured.len() != 3
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        let mut routes = BTreeMap::new();
+        let mut authorities = BTreeMap::new();
+        for member in members {
+            let guardian = member.guardian_id.as_bytes().to_vec();
+            let voter = authority
+                .voters
+                .get(&guardian)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            let raft_id = *authority
+                .raft_ids
+                .get(&guardian)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            let address = *addresses
+                .get(&member.node_id)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            let boot_generation = *polis
+                .boot_generations
+                .get(&raft_id)
+                .ok_or(TransportError::InvalidSessionBinding)?;
+            if !configured.contains(&raft_id)
+                || voter.purpose != ControlCertificatePurpose::AuthorityEndorsement
+                || voter.revoked
+                || voter.certificate_generation != member.identity_generation
+                || voter.control_public_key != member.guardian_control_public_key
+                || voter.not_before_unix_seconds > now_unix_seconds
+                || voter.not_after_unix_seconds <= now_unix_seconds
+                || boot_generation == 0
+            {
+                return Err(TransportError::InvalidSessionBinding);
+            }
+            routes.insert(raft_id, address);
+            authorities.insert(
+                raft_id,
+                VerifiedRouteAuthority {
+                    node_id: member.node_id.clone(),
+                    guardian_id: member.guardian_id.clone(),
+                    control_public_key: voter.control_public_key,
+                    boot_generation,
+                },
+            );
+        }
+        if routes.len() != 3 || authorities.len() != 3 {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        Ok(Self {
+            polis_id: polis.polis_id.clone(),
+            trust_domain: membership.trust_domain().to_owned(),
+            committed_membership_index: membership.committed_log_index(),
+            routes,
+            authorities,
+        })
+    }
+
+    pub fn routes(&self) -> BTreeMap<u64, SocketAddr> {
+        self.routes.clone()
+    }
+    pub fn contains(&self, node: u64) -> bool {
+        self.authorities.contains_key(&node)
+    }
+    pub fn len(&self) -> usize {
+        self.authorities.len()
+    }
+    pub fn is_empty(&self) -> bool {
+        self.authorities.is_empty()
+    }
+    pub fn committed_membership_index(&self) -> u64 {
+        self.committed_membership_index
+    }
+
+    pub fn pending_session(
+        &self,
+        local: u64,
+        peer: u64,
+        connection: &AuthenticatedConnection,
+    ) -> TransportResult<PendingPolisSession> {
+        if local == peer || !connection.has_authority_connection_role(local, peer) {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        let local_authority = self
+            .authorities
+            .get(&local)
+            .ok_or(TransportError::InvalidSessionBinding)?;
+        let peer_authority = self
+            .authorities
+            .get(&peer)
+            .ok_or(TransportError::InvalidSessionBinding)?;
+        let (local_tls, peer_tls) = connection.local_peer_route();
+        if local_tls.trust_domain != self.trust_domain
+            || peer_tls.trust_domain != self.trust_domain
+            || local_tls.node_id != local_authority.node_id
+            || peer_tls.node_id != peer_authority.node_id
+            || local_tls.guardian_id != local_authority.guardian_id
+            || peer_tls.guardian_id != peer_authority.guardian_id
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        Ok(PendingPolisSession::new(
+            PolisSessionBinding::from_authority(
+                self.polis_id.clone(),
+                self.trust_domain.clone(),
+                local_authority.node_id.clone(),
+                peer_authority.node_id.clone(),
+                local_authority.guardian_id.clone(),
+                peer_authority.guardian_id.clone(),
+                local_tls.certificate_generation,
+                peer_tls.certificate_generation,
+                local_authority.boot_generation,
+                peer_authority.boot_generation,
+                self.committed_membership_index,
+                local_authority.control_public_key,
+                peer_authority.control_public_key,
+            )?,
+        ))
+    }
+
+    pub fn session_matches(
+        &self,
+        local: u64,
+        peer: u64,
+        connection: &AuthenticatedConnection,
+        established: &EstablishedPolisSession,
+    ) -> bool {
+        self.pending_session(local, peer, connection)
+            .is_ok_and(|pending| pending.binding == established.binding)
+    }
+
+    pub fn same_polis_and_domain(&self, other: &Self) -> bool {
+        self.polis_id == other.polis_id && self.trust_domain == other.trust_domain
+    }
+
+    pub(crate) fn same_authority_lineage(&self, other: &Self) -> bool {
+        self.authorities.len() == other.authorities.len()
+            && self.authorities.iter().all(|(node, authority)| {
+                other.authorities.get(node).is_some_and(|candidate| {
+                    candidate.node_id == authority.node_id
+                        && candidate.guardian_id == authority.guardian_id
+                        && candidate.control_public_key == authority.control_public_key
+                })
+            })
+    }
+
+    pub fn boot_generation(&self, node: u64) -> Option<u64> {
+        self.authorities
+            .get(&node)
+            .map(|value| value.boot_generation)
+    }
+}
+
+pub struct IncomingPolisRequest {
+    pub sequence: u64,
+    pub message_kind: String,
+    pub request_sha256: [u8; 32],
+    pub payload: Vec<u8>,
+    send: quinn::SendStream,
+    connection: Connection,
+    cancellation: CancellationToken,
+    authorization_deadline: Instant,
+}
+
+pub struct PendingPolisResponse {
+    receive: quinn::RecvStream,
+    connection: Connection,
+    limits: TransportLimits,
+    cancellation: CancellationToken,
+    authorization_deadline: Instant,
+    sequence: u64,
+    request_sha256: [u8; 32],
+}
+
+impl PendingPolisResponse {
+    pub async fn receive(mut self) -> TransportResult<Vec<u8>> {
+        let limit = frame_read_limit(&self.limits)?;
+        let idle_deadline = Instant::now() + self.limits.idle_timeout;
+        let response_bytes = tokio::select! {
+            _ = self.cancellation.cancelled() => {
+                self.connection.close(CLOSE_CODE.into(), b"cancelled");
+                return Err(TransportError::Cancelled);
+            }
+            _ = tokio::time::sleep_until(self.authorization_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"authorization expired");
+                return Err(TransportError::AuthorizationExpired);
+            }
+            _ = tokio::time::sleep_until(idle_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"idle timeout");
+                return Err(TransportError::IdleTimeout);
+            }
+            result = self.receive.read_to_end(limit) => result.map_err(|error| match error {
+                quinn::ReadToEndError::TooLong => TransportError::FrameTooLarge,
+                quinn::ReadToEndError::Read(_) => TransportError::Stream,
+            })?,
+        };
+        let response: PolisTransportResponse = decode_prost_frame(&response_bytes, &self.limits)?;
+        let response_digest: [u8; 32] = Sha256::digest(&response.payload).into();
+        if response.schema != POLIS_TRANSPORT_RESPONSE_SCHEMA
+            || response.sequence != self.sequence
+            || response.request_sha256.as_slice() != self.request_sha256
+            || response.payload_sha256.as_slice() != response_digest
+        {
+            return Err(TransportError::ResponseMismatch);
+        }
+        Ok(response.payload)
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -293,7 +1078,11 @@ pub enum TransportError {
     ReplayDetected,
     Cancelled,
     AuthorizationExpired,
+    IdleTimeout,
     Stream,
+    InvalidSessionBinding,
+    PayloadDigestMismatch,
+    ResponseMismatch,
 }
 
 impl TransportError {
@@ -315,7 +1104,11 @@ impl TransportError {
             Self::ReplayDetected => "replay_detected",
             Self::Cancelled => "cancelled",
             Self::AuthorizationExpired => "authorization_expired",
+            Self::IdleTimeout => "idle_timeout",
             Self::Stream => "stream_error",
+            Self::InvalidSessionBinding => "invalid_session_binding",
+            Self::PayloadDigestMismatch => "payload_digest_mismatch",
+            Self::ResponseMismatch => "response_mismatch",
         }
     }
 }
@@ -405,7 +1198,7 @@ fn ed25519_subject_public_key(certificate: &CertificateDer<'_>) -> TransportResu
 fn transport_config(limits: &TransportLimits) -> TransportResult<Arc<quinn::TransportConfig>> {
     let mut config = quinn::TransportConfig::default();
     config.max_concurrent_uni_streams(limits.max_concurrent_uni_streams.into());
-    config.max_concurrent_bidi_streams(0_u8.into());
+    config.max_concurrent_bidi_streams(limits.max_concurrent_uni_streams.into());
     config
         .max_idle_timeout(Some(
             limits
@@ -427,6 +1220,13 @@ pub struct AuthenticatedConnection {
     authorization_deadline: Instant,
     cancellation: CancellationToken,
     replay_window: Mutex<ReplayWindow>,
+    role: ConnectionRole,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum ConnectionRole {
+    Dialer,
+    Acceptor,
 }
 
 impl AuthenticatedConnection {
@@ -445,7 +1245,7 @@ impl AuthenticatedConnection {
             _ = cancellation.cancelled() => return Err(TransportError::Cancelled),
             result = connecting => result.map_err(|_| TransportError::Connection)?,
         };
-        Self::from_connection(connection, security)
+        Self::from_connection(connection, security, ConnectionRole::Dialer)
     }
 
     pub async fn accept(
@@ -461,12 +1261,13 @@ impl AuthenticatedConnection {
             _ = cancellation.cancelled() => return Err(TransportError::Cancelled),
             result = incoming => result.map_err(|_| TransportError::Connection)?,
         };
-        Self::from_connection(connection, security)
+        Self::from_connection(connection, security, ConnectionRole::Acceptor)
     }
 
     fn from_connection(
         connection: Connection,
         security: ConnectionSecurity,
+        role: ConnectionRole,
     ) -> TransportResult<Self> {
         let ConnectionSecurity {
             local,
@@ -495,6 +1296,7 @@ impl AuthenticatedConnection {
             authorization_deadline,
             cancellation,
             replay_window: Mutex::new(ReplayWindow::default()),
+            role,
         })
     }
 
@@ -504,36 +1306,15 @@ impl AuthenticatedConnection {
             return Err(TransportError::SequenceInvalid);
         }
         let frame = encode_frame(self.local.envelope(sequence, payload), &self.limits)?;
-        let mut stream = tokio::select! {
-            _ = self.cancellation.cancelled() => return self.cancel(),
-            _ = tokio::time::sleep_until(self.authorization_deadline) => return self.expire(),
-            result = self.connection.open_uni() => result.map_err(|_| TransportError::Stream)?,
-        };
-        tokio::select! {
-            _ = self.cancellation.cancelled() => return self.cancel(),
-            _ = tokio::time::sleep_until(self.authorization_deadline) => return self.expire(),
-            result = stream.write_all(&frame) => result.map_err(|_| TransportError::Stream)?,
-        }
+        let mut stream = self.open_uni_authorized().await?;
+        self.write_authorized(&mut stream, &frame).await?;
         stream.finish().map_err(|_| TransportError::Stream)
     }
 
     pub async fn receive(&self) -> TransportResult<TransportEnvelope> {
         self.require_authority()?;
-        let mut stream = tokio::select! {
-            _ = self.cancellation.cancelled() => return self.cancel(),
-            _ = tokio::time::sleep_until(self.authorization_deadline) => return self.expire(),
-            result = self.connection.accept_uni() => result.map_err(|_| TransportError::Stream)?,
-        };
-        let limit = self
-            .limits
-            .max_frame_bytes
-            .checked_add(LENGTH_PREFIX_SLACK)
-            .ok_or(TransportError::InvalidLimits)?;
-        let bytes = tokio::select! {
-            _ = self.cancellation.cancelled() => return self.cancel(),
-            _ = tokio::time::sleep_until(self.authorization_deadline) => return self.expire(),
-            result = stream.read_to_end(limit) => result.map_err(|_| TransportError::FrameTooLarge)?,
-        };
+        let mut stream = self.accept_uni_authorized().await?;
+        let bytes = self.read_authorized(&mut stream).await?;
         let envelope = decode_frame(&bytes, &self.limits)?;
         verify_envelope(&envelope, &self.expected_peer)?;
         self.replay_window
@@ -541,6 +1322,236 @@ impl AuthenticatedConnection {
             .map_err(|_| TransportError::CertificateAuthorization)?
             .observe(envelope.sequence)?;
         Ok(envelope)
+    }
+
+    fn local_peer_route(&self) -> (&PeerBinding, &PeerBinding) {
+        (&self.local, &self.expected_peer)
+    }
+
+    fn has_authority_connection_role(&self, local: u64, peer: u64) -> bool {
+        matches!(
+            (local < peer, self.role),
+            (true, ConnectionRole::Acceptor) | (false, ConnectionRole::Dialer)
+        )
+    }
+
+    pub async fn initiate_polis_session(
+        &self,
+        pending: PendingPolisSession,
+        signing_key: &SigningKey,
+    ) -> TransportResult<EstablishedPolisSession> {
+        self.require_polis_binding(&pending.binding)?;
+        validate_local_control_key(&pending.binding, signing_key)?;
+        let request = signed_handshake(&pending.binding, signing_key)?;
+        let request_bytes = encode_prost_frame(&request, &self.limits)?;
+        let (mut send, mut receive) = self.open_bi_authorized().await?;
+        self.write_authorized(&mut send, &request_bytes).await?;
+        send.finish().map_err(|_| TransportError::Stream)?;
+        let response = self.read_authorized(&mut receive).await?;
+        let response: PolisHandshake = decode_prost_frame(&response, &self.limits)?;
+        verify_handshake(&response, &pending.binding.reverse())?;
+        Ok(EstablishedPolisSession {
+            binding: pending.binding,
+        })
+    }
+
+    pub async fn accept_polis_session(
+        &self,
+        pending: PendingPolisSession,
+        signing_key: &SigningKey,
+    ) -> TransportResult<EstablishedPolisSession> {
+        self.require_polis_binding(&pending.binding)?;
+        validate_local_control_key(&pending.binding, signing_key)?;
+        let (mut send, mut receive) = self.accept_bi_authorized().await?;
+        let request = self.read_authorized(&mut receive).await?;
+        let request: PolisHandshake = decode_prost_frame(&request, &self.limits)?;
+        verify_handshake(&request, &pending.binding.reverse())?;
+        let response = signed_handshake(&pending.binding, signing_key)?;
+        let response = encode_prost_frame(&response, &self.limits)?;
+        self.write_authorized(&mut send, &response).await?;
+        send.finish().map_err(|_| TransportError::Stream)?;
+        Ok(EstablishedPolisSession {
+            binding: pending.binding,
+        })
+    }
+
+    pub async fn request_polis(
+        &self,
+        session: &EstablishedPolisSession,
+        sequence: u64,
+        message_kind: &str,
+        payload: Vec<u8>,
+    ) -> TransportResult<Vec<u8>> {
+        self.begin_polis_request(session, sequence, message_kind, payload)
+            .await?
+            .receive()
+            .await
+    }
+
+    pub async fn begin_polis_request(
+        &self,
+        session: &EstablishedPolisSession,
+        sequence: u64,
+        message_kind: &str,
+        payload: Vec<u8>,
+    ) -> TransportResult<PendingPolisResponse> {
+        let binding = session.binding();
+        self.require_polis_binding(binding)?;
+        validate_text(message_kind)?;
+        if sequence == 0 || payload.len() > self.limits.max_frame_bytes {
+            return Err(TransportError::FrameTooLarge);
+        }
+        let payload_sha256: [u8; 32] = Sha256::digest(&payload).into();
+        let envelope = PolisTransportEnvelope {
+            schema: POLIS_TRANSPORT_SCHEMA.to_owned(),
+            polis_id: binding.polis_id.clone(),
+            trust_domain: binding.trust_domain.clone(),
+            sender_node_id: binding.local_node_id.clone(),
+            receiver_node_id: binding.peer_node_id.clone(),
+            certificate_generation: binding.local_certificate_generation,
+            boot_generation: binding.local_boot_generation,
+            committed_membership_index: binding.committed_membership_index,
+            sequence,
+            message_kind: message_kind.to_owned(),
+            payload_sha256: payload_sha256.to_vec(),
+            payload,
+        };
+        let request_bytes = encode_prost_frame(&envelope, &self.limits)?;
+        let request_sha256: [u8; 32] = Sha256::digest(&request_bytes).into();
+        let (mut send, receive) = self.open_bi_authorized().await?;
+        self.write_authorized(&mut send, &request_bytes).await?;
+        send.finish().map_err(|_| TransportError::Stream)?;
+        Ok(PendingPolisResponse {
+            receive,
+            connection: self.connection.clone(),
+            limits: self.limits.clone(),
+            cancellation: self.cancellation.clone(),
+            authorization_deadline: self.authorization_deadline,
+            sequence,
+            request_sha256,
+        })
+    }
+
+    pub async fn accept_polis_request(
+        &self,
+        session: &EstablishedPolisSession,
+    ) -> TransportResult<IncomingPolisRequest> {
+        let binding = session.binding();
+        self.require_polis_binding(binding)?;
+        let (send, mut receive) = self.accept_bi_authorized().await?;
+        let bytes = self.read_authorized(&mut receive).await?;
+        let envelope: PolisTransportEnvelope = decode_prost_frame(&bytes, &self.limits)?;
+        let payload_digest: [u8; 32] = Sha256::digest(&envelope.payload).into();
+        if envelope.schema != POLIS_TRANSPORT_SCHEMA
+            || envelope.polis_id != binding.polis_id
+            || envelope.trust_domain != binding.trust_domain
+            || envelope.sender_node_id != binding.peer_node_id
+            || envelope.receiver_node_id != binding.local_node_id
+            || envelope.certificate_generation != binding.peer_certificate_generation
+            || envelope.boot_generation != binding.peer_boot_generation
+            || envelope.committed_membership_index != binding.committed_membership_index
+            || envelope.sequence == 0
+            || envelope.payload_sha256.as_slice() != payload_digest
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        validate_text(&envelope.message_kind)?;
+        Ok(IncomingPolisRequest {
+            sequence: envelope.sequence,
+            message_kind: envelope.message_kind,
+            request_sha256: Sha256::digest(&bytes).into(),
+            payload: envelope.payload,
+            send,
+            connection: self.connection.clone(),
+            cancellation: self.cancellation.clone(),
+            authorization_deadline: self.authorization_deadline,
+        })
+    }
+
+    fn require_polis_binding(&self, binding: &PolisSessionBinding) -> TransportResult<()> {
+        self.require_authority()?;
+        binding.validate()?;
+        if binding.trust_domain != self.local.trust_domain
+            || binding.local_node_id != self.local.node_id
+            || binding.peer_node_id != self.expected_peer.node_id
+            || binding.local_guardian_id != self.local.guardian_id
+            || binding.peer_guardian_id != self.expected_peer.guardian_id
+            || binding.local_certificate_generation != self.local.certificate_generation
+            || binding.peer_certificate_generation != self.expected_peer.certificate_generation
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
+        Ok(())
+    }
+
+    async fn open_bi_authorized(&self) -> TransportResult<(quinn::SendStream, quinn::RecvStream)> {
+        let idle_deadline = Instant::now() + self.limits.idle_timeout;
+        tokio::select! {
+            _ = self.cancellation.cancelled() => self.cancel(),
+            _ = tokio::time::sleep_until(self.authorization_deadline) => self.expire(),
+            _ = tokio::time::sleep_until(idle_deadline) => self.timeout(),
+            result = self.connection.open_bi() => result.map_err(|_| TransportError::Stream),
+        }
+    }
+
+    async fn accept_bi_authorized(
+        &self,
+    ) -> TransportResult<(quinn::SendStream, quinn::RecvStream)> {
+        let idle_deadline = Instant::now() + self.limits.idle_timeout;
+        tokio::select! {
+            _ = self.cancellation.cancelled() => self.cancel(),
+            _ = tokio::time::sleep_until(self.authorization_deadline) => self.expire(),
+            _ = tokio::time::sleep_until(idle_deadline) => self.timeout(),
+            result = self.connection.accept_bi() => result.map_err(|_| TransportError::Stream),
+        }
+    }
+
+    async fn open_uni_authorized(&self) -> TransportResult<quinn::SendStream> {
+        let idle_deadline = Instant::now() + self.limits.idle_timeout;
+        tokio::select! {
+            _ = self.cancellation.cancelled() => self.cancel(),
+            _ = tokio::time::sleep_until(self.authorization_deadline) => self.expire(),
+            _ = tokio::time::sleep_until(idle_deadline) => self.timeout(),
+            result = self.connection.open_uni() => result.map_err(|_| TransportError::Stream),
+        }
+    }
+
+    async fn accept_uni_authorized(&self) -> TransportResult<quinn::RecvStream> {
+        let idle_deadline = Instant::now() + self.limits.idle_timeout;
+        tokio::select! {
+            _ = self.cancellation.cancelled() => self.cancel(),
+            _ = tokio::time::sleep_until(self.authorization_deadline) => self.expire(),
+            _ = tokio::time::sleep_until(idle_deadline) => self.timeout(),
+            result = self.connection.accept_uni() => result.map_err(|_| TransportError::Stream),
+        }
+    }
+
+    async fn write_authorized(
+        &self,
+        send: &mut quinn::SendStream,
+        bytes: &[u8],
+    ) -> TransportResult<()> {
+        let idle_deadline = Instant::now() + self.limits.idle_timeout;
+        tokio::select! {
+            _ = self.cancellation.cancelled() => self.cancel(),
+            _ = tokio::time::sleep_until(self.authorization_deadline) => self.expire(),
+            _ = tokio::time::sleep_until(idle_deadline) => self.timeout(),
+            result = send.write_all(bytes) => result.map_err(|_| TransportError::Stream),
+        }
+    }
+
+    async fn read_authorized(&self, receive: &mut quinn::RecvStream) -> TransportResult<Vec<u8>> {
+        let limit = frame_read_limit(&self.limits)?;
+        let idle_deadline = Instant::now() + self.limits.idle_timeout;
+        tokio::select! {
+            _ = self.cancellation.cancelled() => self.cancel(),
+            _ = tokio::time::sleep_until(self.authorization_deadline) => self.expire(),
+            _ = tokio::time::sleep_until(idle_deadline) => self.timeout(),
+            result = receive.read_to_end(limit) => result.map_err(|error| match error {
+                quinn::ReadToEndError::TooLong => TransportError::FrameTooLarge,
+                quinn::ReadToEndError::Read(_) => TransportError::Stream,
+            }),
+        }
     }
 
     pub fn close(&self) {
@@ -585,6 +1596,175 @@ impl AuthenticatedConnection {
             .close(CLOSE_CODE.into(), b"authorization expired");
         Err(TransportError::AuthorizationExpired)
     }
+
+    fn timeout<T>(&self) -> TransportResult<T> {
+        self.connection.close(CLOSE_CODE.into(), b"idle timeout");
+        Err(TransportError::IdleTimeout)
+    }
+}
+
+impl IncomingPolisRequest {
+    pub async fn respond(
+        mut self,
+        payload: Vec<u8>,
+        limits: &TransportLimits,
+    ) -> TransportResult<()> {
+        if payload.len() > limits.max_frame_bytes {
+            return Err(TransportError::FrameTooLarge);
+        }
+        let response = PolisTransportResponse {
+            schema: POLIS_TRANSPORT_RESPONSE_SCHEMA.to_owned(),
+            sequence: self.sequence,
+            request_sha256: self.request_sha256.to_vec(),
+            payload_sha256: Sha256::digest(&payload).to_vec(),
+            payload,
+        };
+        let bytes = encode_prost_frame(&response, limits)?;
+        let write_idle_deadline = Instant::now() + limits.idle_timeout;
+        tokio::select! {
+            _ = self.cancellation.cancelled() => {
+                self.connection.close(CLOSE_CODE.into(), b"cancelled");
+                return Err(TransportError::Cancelled);
+            }
+            _ = tokio::time::sleep_until(self.authorization_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"authorization expired");
+                return Err(TransportError::AuthorizationExpired);
+            }
+            _ = tokio::time::sleep_until(write_idle_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"idle timeout");
+                return Err(TransportError::IdleTimeout);
+            }
+            result = self.send.write_all(&bytes) => result.map_err(|_| TransportError::Stream)?,
+        }
+        self.send.finish().map_err(|_| TransportError::Stream)?;
+        let idle_deadline = Instant::now() + limits.idle_timeout;
+        tokio::select! {
+            _ = self.cancellation.cancelled() => {
+                self.connection.close(CLOSE_CODE.into(), b"cancelled");
+                Err(TransportError::Cancelled)
+            },
+            _ = tokio::time::sleep_until(self.authorization_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"authorization expired");
+                Err(TransportError::AuthorizationExpired)
+            },
+            _ = tokio::time::sleep_until(idle_deadline) => {
+                self.connection.close(CLOSE_CODE.into(), b"idle timeout");
+                Err(TransportError::IdleTimeout)
+            },
+            result = self.send.stopped() => match result {
+                Ok(None) => Ok(()),
+                _ => Err(TransportError::Stream),
+            },
+        }
+    }
+}
+
+fn frame_read_limit(limits: &TransportLimits) -> TransportResult<usize> {
+    limits
+        .max_frame_bytes
+        .checked_add(LENGTH_PREFIX_SLACK)
+        .ok_or(TransportError::InvalidLimits)
+}
+
+fn validate_local_control_key(
+    binding: &PolisSessionBinding,
+    signing_key: &SigningKey,
+) -> TransportResult<()> {
+    if signing_key.verifying_key().to_bytes() != binding.local_control_public_key {
+        return Err(TransportError::InvalidSessionBinding);
+    }
+    Ok(())
+}
+
+fn signed_handshake(
+    binding: &PolisSessionBinding,
+    signing_key: &SigningKey,
+) -> TransportResult<PolisHandshake> {
+    let mut handshake = PolisHandshake {
+        schema: POLIS_HANDSHAKE_SCHEMA.to_owned(),
+        polis_id: binding.polis_id.clone(),
+        trust_domain: binding.trust_domain.clone(),
+        sender_node_id: binding.local_node_id.clone(),
+        receiver_node_id: binding.peer_node_id.clone(),
+        sender_certificate_generation: binding.local_certificate_generation,
+        receiver_certificate_generation: binding.peer_certificate_generation,
+        sender_boot_generation: binding.local_boot_generation,
+        receiver_boot_generation: binding.peer_boot_generation,
+        committed_membership_index: binding.committed_membership_index,
+        signature: Vec::new(),
+    };
+    handshake.signature = signing_key
+        .sign(&handshake_signing_bytes(&handshake)?)
+        .to_bytes()
+        .to_vec();
+    Ok(handshake)
+}
+
+fn verify_handshake(
+    handshake: &PolisHandshake,
+    expected: &PolisSessionBinding,
+) -> TransportResult<()> {
+    if handshake.schema != POLIS_HANDSHAKE_SCHEMA
+        || handshake.polis_id != expected.polis_id
+        || handshake.trust_domain != expected.trust_domain
+        || handshake.sender_node_id != expected.local_node_id
+        || handshake.receiver_node_id != expected.peer_node_id
+        || handshake.sender_certificate_generation != expected.local_certificate_generation
+        || handshake.receiver_certificate_generation != expected.peer_certificate_generation
+        || handshake.sender_boot_generation != expected.local_boot_generation
+        || handshake.receiver_boot_generation != expected.peer_boot_generation
+        || handshake.committed_membership_index != expected.committed_membership_index
+    {
+        return Err(TransportError::InvalidSessionBinding);
+    }
+    let signature = Signature::from_slice(&handshake.signature)
+        .map_err(|_| TransportError::InvalidSessionBinding)?;
+    VerifyingKey::from_bytes(&expected.local_control_public_key)
+        .map_err(|_| TransportError::InvalidSessionBinding)?
+        .verify(&handshake_signing_bytes(handshake)?, &signature)
+        .map_err(|_| TransportError::InvalidSessionBinding)
+}
+
+fn handshake_signing_bytes(handshake: &PolisHandshake) -> TransportResult<Vec<u8>> {
+    let mut unsigned = handshake.clone();
+    unsigned.signature.clear();
+    let mut bytes = Vec::with_capacity(unsigned.encoded_len());
+    unsigned
+        .encode(&mut bytes)
+        .map_err(|_| TransportError::MalformedFrame)?;
+    Ok(bytes)
+}
+
+fn encode_prost_frame<T: Message>(
+    message: &T,
+    limits: &TransportLimits,
+) -> TransportResult<Vec<u8>> {
+    if message.encoded_len() > limits.max_frame_bytes {
+        return Err(TransportError::FrameTooLarge);
+    }
+    let mut bytes = Vec::with_capacity(message.encoded_len() + LENGTH_PREFIX_SLACK);
+    message
+        .encode_length_delimited(&mut bytes)
+        .map_err(|_| TransportError::MalformedFrame)?;
+    if bytes.len() > frame_read_limit(limits)? {
+        return Err(TransportError::FrameTooLarge);
+    }
+    Ok(bytes)
+}
+
+fn decode_prost_frame<T: Message + Default>(
+    bytes: &[u8],
+    limits: &TransportLimits,
+) -> TransportResult<T> {
+    if bytes.len() > frame_read_limit(limits)? {
+        return Err(TransportError::FrameTooLarge);
+    }
+    let message = T::decode_length_delimited(bytes).map_err(|_| TransportError::MalformedFrame)?;
+    let canonical = encode_prost_frame(&message, limits)?;
+    if canonical != bytes {
+        return Err(TransportError::MalformedFrame);
+    }
+    Ok(message)
 }
 
 fn verify_peer_certificate(connection: &Connection, expected: &PeerBinding) -> TransportResult<()> {
@@ -634,6 +1814,9 @@ pub fn decode_frame(bytes: &[u8], limits: &TransportLimits) -> TransportResult<T
         return Err(TransportError::MalformedFrame);
     }
     validate_envelope_shape(&envelope, limits)?;
+    if encode_frame(envelope.clone(), limits)? != bytes {
+        return Err(TransportError::MalformedFrame);
+    }
     Ok(envelope)
 }
 
