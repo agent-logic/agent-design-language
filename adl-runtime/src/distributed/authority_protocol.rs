@@ -1196,9 +1196,10 @@ impl VerifiedAuthorityOperation {
         &'a self,
         expected: ContinuityProjectionExpectation<'_>,
     ) -> AuthorityProtocolResult<ContinuityTransferGrantProjection<'a>> {
-        if self.source != AuthorityVerificationSource::ReplicatedApply
-            || expected.consumer != ContinuityProjectionConsumer::TransferAdapter210
-        {
+        if self.source != AuthorityVerificationSource::ReplicatedApply {
+            return Err(AuthorityProtocolError::InvalidIntent);
+        }
+        if expected.consumer != ContinuityProjectionConsumer::TransferAdapter210 {
             return Err(AuthorityProtocolError::WrongVoterPurpose);
         }
         validate_continuity_transfer_binding(
