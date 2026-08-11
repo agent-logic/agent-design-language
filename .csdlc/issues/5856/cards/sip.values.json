@@ -7,14 +7,14 @@
     "title": "Quality and release-tail sprint",
     "slug": "quality-and-release-tail",
     "version": "v0.92",
-    "generation": 0
+    "generation": 9
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Coordinate cleanup, refactoring, quality gates, reviews, remediation, planning, and release ceremony in strict dependency order.",
-      "required_outcome": "A reviewable sprint coordination lane can route #5786, #5841, #5842, #5843, #5846, #5847, #5848, #5849, #5850, #5851, #5852 through their own typed lifecycles without scope collision or false completion.",
+      "required_outcome": "A reviewable final-sprint coordination lane routes #5840, #5786, #5841, #5842, #5843, #5846, #5847, #5848, #5849, #5850, #5851, and #5852 through their own typed lifecycles in strict dependency order without scope collision or false completion.",
       "declared_scope": [
         ".csdlc/issues/5856",
         ".csdlc/prepared/issues/5856",

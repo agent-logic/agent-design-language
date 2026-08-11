@@ -1,19 +1,19 @@
 {
   "schema": "adl.v092.sprint_5854_live_gate_source.v1",
-  "collected_at": "2026-08-10T01:34:29Z",
+  "collected_at": "2026-08-11T06:12:32Z",
   "collector": {
     "issue_binary": "csdlc-github-issue",
-    "issue_binary_sha256": "bb97b712e4e08c193607e21ecbb8e784355bb408b2fe3dd4a3cc17fa7f9d9fea",
+    "issue_binary_sha256": "437e91976fb00153801b18d7b228e53a14f867aaa43ee05f7970200fd9d606c1",
     "pull_request_binary": "csdlc-github-pr",
-    "pull_request_binary_sha256": "54e2f229e0e13ae2b38000dde5f8a2abb888fe3f79fe27f4910596d879f2d9ce",
+    "pull_request_binary_sha256": "b02e25388db83010dc88448fd19dd218848eb84efc67a84867eb963fcd79bd7d",
     "contract": "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
-    "credential_source": "operator-approved default token resolver; secret contents not retained"
+    "credential_source": "operator-approved explicit token resolver; secret contents not retained"
   },
   "source_operations": [
     "GitHub REST issue read through typed csdlc-github-issue issue_read",
     "GitHub REST pull request/check/linkage read through typed csdlc-github-pr state"
   ],
-  "request_manifest_sha256": "39d9699eedc988d57c82b75beedc9512f379dd428a3977133e1f14386680162e",
+  "request_manifest_sha256": "9401c124bccff29057e16ae3077d8cff31068a0e51ed624bdd41c80fee5e5fd1",
   "issue_results": [
     {
       "request": {
@@ -104,7 +104,7 @@
 
           ],
           "body": "## Summary\n\nExecute **WP-08** for v0.92 within this issue's approved design and ownership boundary.\n\nDeliver the WP-08 birthday-decision contract, complete negative fixture matrix, validator, and retained exact-revision report.\n\n## Required Outcome\n\nbirth contract, disqualifying cases, and negative fixtures\n\n## Deliverables\n\n- Versioned birthday contract and deterministic validator\n- One structurally complete valid fixture\n- Disqualifying fixtures for lifecycle lookalikes and every required-evidence omission\n- Retained focused, negative, and claim-boundary validation report\n\n## Dependencies\n\n- WP-01 / issue #5817 terminal proof\n- WP-02A / issue #5801 terminal proof\n\n## Owned Paths\n\n- `adl-runtime-kernel/src/birthday.rs`\n- `adl-runtime-kernel/src/lib.rs`\n- `adl-runtime-kernel/tests/birthday.rs`\n- `adl-runtime-kernel/tests/fixtures/birthday`\n- `docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md`\n- `.csdlc/prepared/issues/5825/validate-native-receipts.rb`\n- `.csdlc/prepared/issues/5825/produce-native-receipt.rb`\n- `.csdlc/evidence/5825`\n\n## Read-Only Inputs\n\n- Every repository path cited outside `## Owned Paths` is read-only unless it is repeated exactly in that section.\n- Dependency records, sibling issue outputs, historical evidence, and external systems remain read-only inputs.\n\n## Serialization Gates\n\n```json\n[\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-birthday-kernel-registration-v1\",\n    \"paths\": [\n      \"adl-runtime-kernel/src/lib.rs\"\n    ],\n    \"issues\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ],\n    \"order\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-5825-birthday-doc-to-final-truth-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\"\n    ],\n    \"issues\": [\n      5825,\n      5843\n    ],\n    \"order\": [\n      5825,\n      5843\n    ]\n  }\n]\n```\n\n## Validation And Proof\n\n- Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\n- Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD.\n\n## Acceptance Criteria\n\n- The WP-08 birth-decision contract accepts one structurally complete candidate and emits stable rejection reasons for every declared lifecycle lookalike or missing evidence surface.\n- Terminal proof for WP-01/#5817 and WP-02A/#5801 is verified before implementation begins.\n- Implementation is confined to adl-runtime-kernel/src/birthday.rs, lib.rs module registration, tests/birthday.rs, tests/fixtures/birthday/, the WP-08 feature contract, and .csdlc/evidence/5825/; Runtime v2 is excluded.\n- Focused and negative validation is deterministic, reproducible, retained under .csdlc/evidence/5825/, and bound to the exact reviewed revision.\n- Missing or contradictory evidence, private or absolute paths, and personhood, consciousness, citizenship, governance, migration, or public-launch overclaims fail closed.\n- One bounded exact-head SRP review records no unresolved actionable findings.\n- The implementation PR targets the intended base and includes Closes #5825 without claiming completion of downstream Birthday work.\n- The exact birthday nextest target runs a positive test count on native GitHub Actions macOS and Linux at exact candidate HEAD; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence.\n\n## Non-Goals\n\n- Implementing identity, continuity, Memory Palace, capability, ACP, witnesses, or the integrated review packet\n- Legal personhood, consciousness, production citizenship, constitutional governance, migration, or public launch claims\n- Rewriting retained v0.91.x evidence or treating planning prose as birth proof\n\n## Rollback\n\nRemove only the WP-08 birthday module, its registration, integration test, and\nfixtures, then restore the owned feature-document revision. Preserve all\nhistorical birth-decision evidence and failed native receipts; rollback must\nnot alter predecessor records or convert a rejected candidate into a birth.\n\n## Execution Boundary\n\nThis issue is design-ready, not implemented. Execution must reverify terminal dependencies, create or reuse the issue's dedicated branch and worktree through the current `csdlc-bind` Git-topology route, retain the declared positive and negative proof, complete exact-head review, and use `Closes #5825` in its implementation PR. No claim, lease, protected-path reservation, preparation generation, or SHA-pinned preparation receipt is required.\n\n<!-- csdlc-github-operation:v092-execution-ready-body-5825-20260805 -->\n",
-          "closed_at": null,
+          "closed_at": "2026-08-10T02:35:29Z",
           "created_at": "2026-08-05T06:31:11Z",
           "labels": [
             "track:roadmap",
@@ -117,7 +117,7 @@
           "number": 5825,
           "repository": "danielbaustin/agent-design-language",
           "schema": "csdlc.github_issue.v1",
-          "state": "open",
+          "state": "closed",
           "title": "[v0.92][WP-08] Birthday contract and negative cases"
         },
         "operation_key": null,
@@ -160,7 +160,7 @@
 
           ],
           "body": "## Summary\n\nExecute **WP-09** for v0.92 within this issue's approved design and ownership boundary.\n\nDeliver only the WP-09 stable-name and identity-root contract, validation fixtures, and exact-revision evidence.\n\n## Required Outcome\n\nstable-name and identity-root contract\n\n## Deliverables\n\n- Versioned identity-record schema and deterministic root derivation\n- Canonical valid and alias/provenance fixtures\n- Negative fixtures for empty roots, collisions, substituted continuity, and disclosure\n- Retained focused, privacy, and portability report\n\n## Dependencies\n\n- WP-08 / issue #5825 terminal proof\n- Current Runtime v3 identity_memory.rs and private_state.rs authority\n\n## Owned Paths\n\n- `adl-runtime-kernel/src/birthday_identity.rs`\n- `adl-runtime-kernel/src/lib.rs`\n- `adl-runtime-kernel/tests/birthday_identity.rs`\n- `adl-runtime-kernel/tests/fixtures/birthday_identity`\n- `docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md`\n- `.csdlc/prepared/issues/5826/validate-native-receipts.rb`\n- `.csdlc/prepared/issues/5826/produce-native-receipt.rb`\n- `.csdlc/evidence/5826`\n\n## Read-Only Inputs\n\n- Every repository path cited outside `## Owned Paths` is read-only unless it is repeated exactly in that section.\n- Dependency records, sibling issue outputs, historical evidence, and external systems remain read-only inputs.\n\n## Serialization Gates\n\n```json\n[\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-birthday-kernel-registration-v1\",\n    \"paths\": [\n      \"adl-runtime-kernel/src/lib.rs\"\n    ],\n    \"issues\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ],\n    \"order\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-identity-feature-doc-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\"\n    ],\n    \"issues\": [\n      5826,\n      5827\n    ],\n    \"order\": [\n      5826,\n      5827\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-5826-identity-doc-to-final-truth-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\"\n    ],\n    \"issues\": [\n      5826,\n      5843\n    ],\n    \"order\": [\n      5826,\n      5843\n    ]\n  }\n]\n```\n\n## Validation And Proof\n\n- Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\n- Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD.\n\n## Acceptance Criteria\n\n- The WP-09 record deterministically binds stable name, identity root, aliases, origin evidence, continuity head, provenance, and redaction policy while rejecting ambiguous or substituted identity.\n- WP-08/#5825 terminal proof and current lineage authority are verified before implementation begins.\n- Implementation is confined to adl-runtime-kernel/src/birthday_identity.rs, lib.rs module registration, tests/birthday_identity.rs, tests/fixtures/birthday_identity/, the identity feature contract, and .csdlc/evidence/5826/.\n- Canonical serialization, root derivation, and alias ordering replay identically and are retained at the exact reviewed revision.\n- Empty roots, alias collision, provenance mismatch, substituted continuity, raw private state, and absolute or path-unsafe references fail closed.\n- One bounded exact-head SRP review records no unresolved actionable findings.\n- The implementation PR targets the intended base and includes Closes #5826 without claiming completion of downstream Birthday work.\n- The exact birthday_identity nextest target runs a positive test count on native GitHub Actions macOS and Linux at exact candidate HEAD; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence.\n\n## Non-Goals\n\n- Multi-cycle continuity, migration, citizenship, reputation, legal personhood, or birthday approval\n- Using display name, boot admission, wake, snapshot, or copied state as identity proof\n- Exposing raw private state or rewriting prior lineage evidence\n\n## Rollback\n\nRemove only the WP-09 identity record module, registration, integration test,\nfixtures, and owned feature-document edits. Preserve prior lineage primitives,\nWP-08 outputs, rejected identity records, and native receipt evidence; rollback\nmust not rename an identity root or rewrite continuity history.\n\n## Execution Boundary\n\nThis issue is design-ready, not implemented. Execution must reverify terminal dependencies, create or reuse the issue's dedicated branch and worktree through the current `csdlc-bind` Git-topology route, retain the declared positive and negative proof, complete exact-head review, and use `Closes #5826` in its implementation PR. No claim, lease, protected-path reservation, preparation generation, or SHA-pinned preparation receipt is required.\n\n<!-- csdlc-github-operation:v092-execution-ready-body-5826-20260805 -->\n",
-          "closed_at": null,
+          "closed_at": "2026-08-10T07:52:36Z",
           "created_at": "2026-08-05T06:31:13Z",
           "labels": [
             "track:roadmap",
@@ -173,7 +173,7 @@
           "number": 5826,
           "repository": "danielbaustin/agent-design-language",
           "schema": "csdlc.github_issue.v1",
-          "state": "open",
+          "state": "closed",
           "title": "[v0.92][WP-09] Stable name and identity architecture"
         },
         "operation_key": null,
@@ -216,7 +216,7 @@
 
           ],
           "body": "## Summary\n\nExecute **WP-10** for v0.92 within this issue's approved design and ownership boundary.\n\nDeliver only the WP-10 multi-cycle continuity chain, fixtures, validator, and retained replay/negative evidence.\n\n## Required Outcome\n\ncontinuity records and bounded-cycle proof\n\n## Deliverables\n\n- Versioned continuity-chain schema and canonical head derivation\n- Two-or-more-cycle valid fixtures and deterministic replay proof\n- Negative fixtures for substitution, discontinuity, duplicates, reorder, and copied state\n- Retained focused, negative, and portability report\n\n## Dependencies\n\n- WP-09 / issue #5826 terminal proof\n- Current Runtime v3 continuity.rs and live_continuity.rs authority\n\n## Owned Paths\n\n- `adl-runtime-kernel/src/birthday_continuity.rs`\n- `adl-runtime-kernel/src/lib.rs`\n- `adl-runtime-kernel/tests/birthday_continuity.rs`\n- `adl-runtime-kernel/tests/fixtures/birthday_continuity`\n- `docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md`\n- `.csdlc/prepared/issues/5827/validate-native-receipts.rb`\n- `.csdlc/prepared/issues/5827/produce-native-receipt.rb`\n- `.csdlc/evidence/5827`\n\n## Read-Only Inputs\n\n- Every repository path cited outside `## Owned Paths` is read-only unless it is repeated exactly in that section.\n- Dependency records, sibling issue outputs, historical evidence, and external systems remain read-only inputs.\n\n## Serialization Gates\n\n```json\n[\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-birthday-kernel-registration-v1\",\n    \"paths\": [\n      \"adl-runtime-kernel/src/lib.rs\"\n    ],\n    \"issues\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ],\n    \"order\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-identity-feature-doc-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\"\n    ],\n    \"issues\": [\n      5826,\n      5827\n    ],\n    \"order\": [\n      5826,\n      5827\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-5827-continuity-doc-to-final-truth-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md\"\n    ],\n    \"issues\": [\n      5827,\n      5843\n    ],\n    \"order\": [\n      5827,\n      5843\n    ]\n  }\n]\n```\n\n## Validation And Proof\n\n- Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\n- Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD.\n\n## Acceptance Criteria\n\n- The WP-10 record links at least two bounded cycles to the same identity root and deterministically derives a continuity head or stable rejection reason.\n- WP-09/#5826 terminal proof and current lineage/wake evidence are verified before implementation begins.\n- Implementation is confined to adl-runtime-kernel/src/birthday_continuity.rs, lib.rs module registration, tests/birthday_continuity.rs, tests/fixtures/birthday_continuity/, the identity feature contract, and .csdlc/evidence/5827/.\n- Identical predecessor and cycle evidence replay to byte-equivalent semantic continuity output retained at exact revision.\n- Missing predecessor, root substitution, discontinuous or reordered cycles, duplicate cycles, forged witness, copied state, private paths, and host paths fail closed.\n- One bounded exact-head SRP review records no unresolved actionable findings.\n- The implementation PR targets the intended base and includes Closes #5827 without claiming completion of downstream Birthday work.\n- The exact birthday_continuity nextest target runs a positive test count on native GitHub Actions macOS and Linux at exact candidate HEAD; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence.\n\n## Non-Goals\n\n- Memory Palace retrieval, capability profiles, migration, citizenship, or birthday approval\n- Metaphysical sameness or narrative-only continuity claims\n- Rewriting predecessor lineage or wake evidence\n\n## Rollback\n\nRemove only the WP-10 continuity module, registration, integration test,\nfixtures, and owned feature-document edits. Retain predecessor identity and\nbirth evidence plus every rejected chain and native receipt; rollback must not\nrewrite a continuity head or manufacture an uninterrupted history.\n\n## Execution Boundary\n\nThis issue is design-ready, not implemented. Execution must reverify terminal dependencies, create or reuse the issue's dedicated branch and worktree through the current `csdlc-bind` Git-topology route, retain the declared positive and negative proof, complete exact-head review, and use `Closes #5827` in its implementation PR. No claim, lease, protected-path reservation, preparation generation, or SHA-pinned preparation receipt is required.\n\n<!-- csdlc-github-operation:v092-execution-ready-body-5827-20260805 -->\n",
-          "closed_at": null,
+          "closed_at": "2026-08-10T10:48:48Z",
           "created_at": "2026-08-05T06:31:14Z",
           "labels": [
             "track:roadmap",
@@ -229,7 +229,7 @@
           "number": 5827,
           "repository": "danielbaustin/agent-design-language",
           "schema": "csdlc.github_issue.v1",
-          "state": "open",
+          "state": "closed",
           "title": "[v0.92][WP-10] Continuity across bounded cycles"
         },
         "operation_key": null,
@@ -272,7 +272,7 @@
 
           ],
           "body": "## Summary\n\nExecute **WP-11** for v0.92 within this issue's approved design and ownership boundary.\n\nExtend only the existing Memory Palace and long-lived-agent slice, fixtures, tests, feature contract, and retained evidence named by WP-11.\n\n## Required Outcome\n\nworking Memory Palace context topology, bounded working-set materialization, and redaction-safe continuity proof\n\n## Deliverables\n\n- Identity/continuity-bound context-topology integration\n- Bounded deterministic working-set and overflow behavior\n- Stale, hash, continuity, redaction, and unauthorized-access fixtures\n- Retained replay and platform-portability report\n\n## Dependencies\n\n- WP-09 / issue #5826 terminal proof\n- WP-10 / issue #5827 terminal proof\n- Current ObsMem and trace baseline\n\n## Owned Paths\n\n- `adl-runtime-kernel/src/memory_palace.rs`\n- `adl-runtime-kernel/src/lib.rs`\n- `adl-runtime-kernel/tests/memory_palace.rs`\n- `adl-runtime-kernel/tests/fixtures/memory_palace`\n- `docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md`\n- `.csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb`\n- `.csdlc/prepared/issues/5828/validate-native-receipts.rb`\n- `.csdlc/prepared/issues/5828/produce-native-receipt.rb`\n- `.csdlc/evidence/5828`\n\n## Read-Only Inputs\n\n- Every repository path cited outside `## Owned Paths` is read-only unless it is repeated exactly in that section.\n- Dependency records, sibling issue outputs, historical evidence, and external systems remain read-only inputs.\n\n## Serialization Gates\n\n```json\n[\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-birthday-kernel-registration-v1\",\n    \"paths\": [\n      \"adl-runtime-kernel/src/lib.rs\"\n    ],\n    \"issues\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ],\n    \"order\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-5828-memory-palace-doc-to-final-truth-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\"\n    ],\n    \"issues\": [\n      5828,\n      5843\n    ],\n    \"order\": [\n      5828,\n      5843\n    ]\n  }\n]\n```\n\n## Validation And Proof\n\n- Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\n- Recompute the exact ObsMem, Runtime v3 observability/proof, fixture, output, source-SHA, argv, runner, trace, and citation bindings in the integration receipt.\n- Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD.\n\n## Acceptance Criteria\n\n- The WP-11 slice produces a canonical bounded working set and overflow record whose memory/citation hashes bind current identity, continuity, provenance, temporal anchors, and redaction policy.\n- WP-09/#5826, WP-10/#5827, and the current ObsMem/trace baseline are verified before implementation begins.\n- Runtime v3 implementation is confined to adl-runtime-kernel/src/memory_palace.rs, lib.rs module registration, tests/memory_palace.rs, tests/fixtures/memory_palace/, the feature contract, and .csdlc/evidence/5828/; retained adl/src/memory_palace.rs is not the implementation target.\n- Same inputs and observation time produce byte-equivalent semantic output retained at the exact reviewed revision.\n- Missing refs, hash mismatch, stale context, continuity mismatch, private or absolute paths, unauthorized private-state access, nondeterministic ordering, and budget overflow fail closed or record bounded overflow.\n- One bounded exact-head SRP review records no unresolved actionable findings.\n- The implementation PR targets the intended base and includes Closes #5828 without claiming completion of downstream Birthday work.\n- The retained obsmem-trace-integration-receipt.json recomputes and binds exact digests for adl/src/obsmem_contract/models.rs, Runtime v3 observability/proof authorities, fixture inputs, trace ID, citation IDs, and Runtime v3 output.\n- The exact memory_palace nextest target runs a positive test count on native GitHub Actions macOS and Linux at exact candidate HEAD; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence.\n\n## Non-Goals\n\n- Distributed or unbounded Memory Palace, semantic search, or raw private-memory browsing\n- Replacing ObsMem or changing packet schemas without explicit versioning\n- Birthday approval or downstream capability/profile/witness work\n\n## Rollback\n\nRemove only the WP-11 Runtime v3 Memory Palace module, registration,\nintegration test, fixtures, and owned feature-document edits. Preserve the\nObsMem authority inputs, integration receipts, rejected traces, and emitted\nhistorical packets; rollback must not erase or reinterpret memory evidence.\n\n## Execution Boundary\n\nThis issue is design-ready, not implemented. Execution must reverify terminal dependencies, create or reuse the issue's dedicated branch and worktree through the current `csdlc-bind` Git-topology route, retain the declared positive and negative proof, complete exact-head review, and use `Closes #5828` in its implementation PR. No claim, lease, protected-path reservation, preparation generation, or SHA-pinned preparation receipt is required.\n\n<!-- csdlc-github-operation:v092-execution-ready-body-5828-20260805 -->\n",
-          "closed_at": null,
+          "closed_at": "2026-08-10T12:26:04Z",
           "created_at": "2026-08-05T06:31:16Z",
           "labels": [
             "track:roadmap",
@@ -285,7 +285,7 @@
           "number": 5828,
           "repository": "danielbaustin/agent-design-language",
           "schema": "csdlc.github_issue.v1",
-          "state": "open",
+          "state": "closed",
           "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice"
         },
         "operation_key": null,
@@ -328,7 +328,7 @@
 
           ],
           "body": "## Summary\n\nExecute **WP-12** for v0.92 within this issue's approved design and ownership boundary.\n\nDeliver only the WP-12 capability envelope contract, validation fixtures, and exact-revision evidence while preserving #4761.\n\n## Required Outcome\n\nprovider, model, tool, skill, authority, and limit envelope\n\n## Deliverables\n\n- Versioned capability-envelope schema and deterministic canonicalization\n- Complete provider/model/tool/skill/grant/deny/limit fixture\n- Negative fixtures for stale provenance, escalation, omitted limits, secrets, and host paths\n- Retained focused, security, and portability report\n\n## Dependencies\n\n- WP-08 / issue #5825 terminal proof\n- WP-09 / issue #5826 terminal proof\n- Retained issue #4761 capability-envelope evidence\n\n## Owned Paths\n\n- `adl-runtime-kernel/src/capability_envelope.rs`\n- `adl-runtime-kernel/src/lib.rs`\n- `adl-runtime-kernel/tests/capability_envelope.rs`\n- `adl-runtime-kernel/tests/fixtures/capability_envelope`\n- `docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`\n- `.csdlc/prepared/issues/5829/validate-native-receipts.rb`\n- `.csdlc/prepared/issues/5829/produce-native-receipt.rb`\n- `.csdlc/evidence/5829`\n\n## Read-Only Inputs\n\n- Every repository path cited outside `## Owned Paths` is read-only unless it is repeated exactly in that section.\n- Dependency records, sibling issue outputs, historical evidence, and external systems remain read-only inputs.\n\n## Serialization Gates\n\n```json\n[\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-birthday-kernel-registration-v1\",\n    \"paths\": [\n      \"adl-runtime-kernel/src/lib.rs\"\n    ],\n    \"issues\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ],\n    \"order\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-memory-capability-witness-feature-doc-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"\n    ],\n    \"issues\": [\n      5829,\n      5833\n    ],\n    \"order\": [\n      5829,\n      5833\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-5829-grounding-doc-to-final-truth-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"\n    ],\n    \"issues\": [\n      5829,\n      5843\n    ],\n    \"order\": [\n      5829,\n      5843\n    ]\n  }\n]\n```\n\n## Validation And Proof\n\n- Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\n- Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD.\n\n## Acceptance Criteria\n\n- The WP-12 envelope deterministically binds identity and evidence revision to explicit provider/model identifiers, tools, skills, grants, denials, resource limits, provenance, and unsupported claims.\n- WP-08/#5825, WP-09/#5826, and retained #4761 evidence are verified before implementation begins.\n- Implementation is confined to adl-runtime-kernel/src/capability_envelope.rs, lib.rs module registration, tests/capability_envelope.rs, tests/fixtures/capability_envelope/, the feature contract, and .csdlc/evidence/5829/.\n- Equivalent capability inputs serialize canonically and produce reproducible exact-revision validation evidence.\n- Unknown or stale provider/model evidence, undeclared tools/skills, authority escalation, omitted limits, secret-like content, private paths, and host paths fail closed.\n- One bounded exact-head SRP review records no unresolved actionable findings.\n- The implementation PR targets the intended base and includes Closes #5829 without claiming completion of downstream Birthday work.\n- WP-08/#5825 and WP-09/#5826 are terminal before execution, and the serialized adl-runtime-kernel/src/lib.rs registration waits for WP-11/#5828 to land and release that path.\n- The exact capability_envelope nextest target runs a positive test count on native GitHub Actions macOS and Linux at exact candidate HEAD; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence.\n\n## Non-Goals\n\n- Provider execution, credential setup, remote deployment, or unlimited-capacity claims\n- Granting authority, proving invocation, identity creation, Memory Palace, or birthday approval\n- Mutating or silently copying retained #4761 evidence\n\n## Rollback\n\nRemove only the WP-12 capability-envelope module, registration, integration\ntest, fixtures, and owned feature-document edits. Preserve retained #4761\nevidence, rejected envelopes, and native receipts; rollback must not grant a\ncapability, relax a denial or limit, or expose credential material.\n\n## Execution Boundary\n\nThis issue is design-ready, not implemented. Execution must reverify terminal dependencies, create or reuse the issue's dedicated branch and worktree through the current `csdlc-bind` Git-topology route, retain the declared positive and negative proof, complete exact-head review, and use `Closes #5829` in its implementation PR. No claim, lease, protected-path reservation, preparation generation, or SHA-pinned preparation receipt is required.\n\n<!-- csdlc-github-operation:v092-execution-ready-body-5829-20260805 -->\n",
-          "closed_at": null,
+          "closed_at": "2026-08-10T13:59:34Z",
           "created_at": "2026-08-05T06:31:17Z",
           "labels": [
             "track:roadmap",
@@ -341,7 +341,7 @@
           "number": 5829,
           "repository": "danielbaustin/agent-design-language",
           "schema": "csdlc.github_issue.v1",
-          "state": "open",
+          "state": "closed",
           "title": "[v0.92][WP-12] Capability envelope"
         },
         "operation_key": null,
@@ -384,7 +384,7 @@
 
           ],
           "body": "## Summary\n\nExecute **WP-13** for v0.92 within this issue's approved design and ownership boundary.\n\nDeliver only the WP-13 ACP schema, update semantics, fixtures, validator, privacy/negative proof, and retained exact-revision report.\n\n## Required Outcome\n\nevidence-grounded cognitive-profile contract\n\n## Deliverables\n\n- Versioned ACP schema and deterministic update/revision contract\n- Canonical internal and public projection fixtures\n- Negative fixtures for stale/forbidden evidence, root mismatch, leakage, and unsupported labels\n- Retained focused, privacy, and non-reputation report\n\n## Dependencies\n\n- WP-10 / issue #5827 terminal proof\n- WP-11 / issue #5828 terminal proof\n- WP-12 / issue #5829 terminal proof\n- Current v0.91.1 Theory-of-Mind, intelligence, and governed-learning evidence\n\n## Owned Paths\n\n- `adl-runtime-kernel/src/cognitive_profile.rs`\n- `adl-runtime-kernel/src/lib.rs`\n- `adl-runtime-kernel/tests/cognitive_profile.rs`\n- `adl-runtime-kernel/tests/fixtures/cognitive_profile`\n- `docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md`\n- `.csdlc/prepared/issues/5830/validate-native-receipts.rb`\n- `.csdlc/prepared/issues/5830/produce-native-receipt.rb`\n- `.csdlc/evidence/5830`\n\n## Read-Only Inputs\n\n- Every repository path cited outside `## Owned Paths` is read-only unless it is repeated exactly in that section.\n- Dependency records, sibling issue outputs, historical evidence, and external systems remain read-only inputs.\n\n## Serialization Gates\n\n```json\n[\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-birthday-kernel-registration-v1\",\n    \"paths\": [\n      \"adl-runtime-kernel/src/lib.rs\"\n    ],\n    \"issues\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ],\n    \"order\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-5830-acp-doc-to-final-truth-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md\"\n    ],\n    \"issues\": [\n      5830,\n      5843\n    ],\n    \"order\": [\n      5830,\n      5843\n    ]\n  }\n]\n```\n\n## Validation And Proof\n\n- Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\n- Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD.\n\n## Acceptance Criteria\n\n- The WP-13 profile deterministically binds identity and continuity to allowed evidence digests, update actor/reason, revision linkage, privacy policy, bounded projections, and explicit non-claims.\n- WP-10/#5827, WP-11/#5828, WP-12/#5829, and current ToM/intelligence/governed-learning evidence are verified before implementation.\n- Implementation is confined to adl-runtime-kernel/src/cognitive_profile.rs, lib.rs module registration, tests/cognitive_profile.rs, tests/fixtures/cognitive_profile/, the ACP feature contract, and .csdlc/evidence/5830/; Runtime v2 is read-only evidence.\n- Canonical profile creation and revision updates replay identically and retain exact-revision internal and public projection proof.\n- Stale or forbidden evidence, identity mismatch, unexplained mutation, private-state leakage, unsupported labels, reputation, standing, rights, diagnosis, personhood, and consciousness inferences fail closed.\n- One bounded exact-head SRP review records no unresolved actionable findings.\n- The implementation PR targets the intended base and includes Closes #5830 without claiming completion of downstream Birthday work.\n- The exact cognitive_profile nextest target runs a positive test count on native GitHub Actions macOS and Linux at exact candidate HEAD; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence.\n\n## Non-Goals\n\n- Diagnosis, scalar moral verdicts, reputation, public standing, rights, citizenship, personhood, or consciousness\n- Raw private-state access or public projection of internal evidence\n- Autonomous or unexplained profile mutation\n\n## Rollback\n\nRemove only the WP-13 cognitive-profile module, registration, integration\ntest, fixtures, and owned feature-document edits. Preserve all source evidence,\nrejected profile records, and native receipts; rollback must not infer or alter\nreputation, standing, identity, or authority.\n\n## Execution Boundary\n\nThis issue is design-ready, not implemented. Execution must reverify terminal dependencies, create or reuse the issue's dedicated branch and worktree through the current `csdlc-bind` Git-topology route, retain the declared positive and negative proof, complete exact-head review, and use `Closes #5830` in its implementation PR. No claim, lease, protected-path reservation, preparation generation, or SHA-pinned preparation receipt is required.\n\n<!-- csdlc-github-operation:v092-execution-ready-body-5830-20260805 -->\n",
-          "closed_at": null,
+          "closed_at": "2026-08-10T15:44:01Z",
           "created_at": "2026-08-05T06:31:18Z",
           "labels": [
             "track:roadmap",
@@ -397,7 +397,7 @@
           "number": 5830,
           "repository": "danielbaustin/agent-design-language",
           "schema": "csdlc.github_issue.v1",
-          "state": "open",
+          "state": "closed",
           "title": "[v0.92][WP-13] ACP / cognitive profiles"
         },
         "operation_key": null,
@@ -496,7 +496,7 @@
 
           ],
           "body": "## Summary\n\nExecute **WP-15** for v0.92 within this issue's approved design and ownership boundary.\n\nDeliver only WP-15 witness and receipt schemas, validators, fixtures, security/privacy negatives, and retained exact-revision evidence.\n\n## Required Outcome\n\nwitness set and citizen-facing receipt contract\n\n## Deliverables\n\n- Versioned witness-set schema and validator\n- Deterministic accepted/rejected citizen receipt contract\n- Equivocation, duplicate, stale, forged, mismatch, authority, and redaction fixtures\n- Retained focused, security, privacy, and premature-claim evidence\n\n## Dependencies\n\n- WP-09 / issue #5826 terminal proof\n- WP-10 / issue #5827 terminal proof\n- WP-11 / issue #5828 terminal proof\n- WP-12 / issue #5829 terminal proof\n- WP-13 / issue #5830 terminal proof\n- Retained issue #4762 witness handoff\n\n## Owned Paths\n\n- `adl-runtime-kernel/src/birth_witness.rs`\n- `adl-runtime-kernel/src/lib.rs`\n- `adl-runtime-kernel/tests/birth_witness.rs`\n- `adl-runtime-kernel/tests/fixtures/birth_witness`\n- `docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`\n- `.csdlc/prepared/issues/5833/validate-native-receipts.rb`\n- `.csdlc/prepared/issues/5833/produce-native-receipt.rb`\n- `.csdlc/evidence/5833`\n\n## Read-Only Inputs\n\n- Every repository path cited outside `## Owned Paths` is read-only unless it is repeated exactly in that section.\n- Dependency records, sibling issue outputs, historical evidence, and external systems remain read-only inputs.\n\n## Serialization Gates\n\n```json\n[\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-birthday-kernel-registration-v1\",\n    \"paths\": [\n      \"adl-runtime-kernel/src/lib.rs\"\n    ],\n    \"issues\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ],\n    \"order\": [\n      5825,\n      5826,\n      5827,\n      5828,\n      5829,\n      5830,\n      5831,\n      5833\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-memory-capability-witness-feature-doc-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"\n    ],\n    \"issues\": [\n      5829,\n      5833\n    ],\n    \"order\": [\n      5829,\n      5833\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-5833-witness-doc-to-final-truth-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"\n    ],\n    \"issues\": [\n      5833,\n      5843\n    ],\n    \"order\": [\n      5833,\n      5843\n    ]\n  }\n]\n```\n\n## Validation And Proof\n\n- Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\n- Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\n- Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD.\n\n## Acceptance Criteria\n\n- The WP-15 validator accepts only policy-complete distinct witnesses bound to the exact candidate/evidence digest and derives a deterministic caveated receipt from the validated decision.\n- WP-09/#5826 through WP-13/#5830 and retained #4762 evidence are verified before implementation.\n- Implementation is confined to adl-runtime-kernel/src/birth_witness.rs, lib.rs module registration, tests/birth_witness.rs, tests/fixtures/birth_witness/, the feature contract, and .csdlc/evidence/5833/.\n- Equivalent witness sets and decisions produce canonical exact-revision validation and receipt output.\n- Missing, duplicate, stale, forged, equivocal, unauthorized, candidate-mismatched, redaction-leaking witnesses and premature birth claims fail closed.\n- One bounded exact-head SRP review records no unresolved actionable findings.\n- The implementation PR targets the intended base and includes Closes #5833 without claiming completion of downstream Birthday work.\n- WP-09/#5826 through WP-13/#5830 are terminal before execution, including the declared shared-path serialization gates.\n- The exact birth_witness nextest target runs a positive test count on native GitHub Actions macOS and Linux at exact candidate HEAD; issue-local producers retain hashed source manifests, complete command logs, and canonical semantic outputs, and independent validation recomputes every digest and requires semantic equivalence.\n\n## Non-Goals\n\n- Birthday decision ownership, public launch, legal attestation, citizenship, or governance authority\n- Raw private-state disclosure or treating a receipt as authority\n- Rewriting #4762 or prior witness evidence\n\n## Rollback\n\nRemove only the WP-15 witness module, registration, integration test, fixtures,\nand owned feature-document edits. Preserve retained #4762 evidence, all emitted\naudit receipts, rejected witness sets, and native CI receipts; rollback must\nnot erase equivocation evidence or authorize a premature birth.\n\n## Execution Boundary\n\nThis issue is design-ready, not implemented. Execution must reverify terminal dependencies, create or reuse the issue's dedicated branch and worktree through the current `csdlc-bind` Git-topology route, retain the declared positive and negative proof, complete exact-head review, and use `Closes #5833` in its implementation PR. No claim, lease, protected-path reservation, preparation generation, or SHA-pinned preparation receipt is required.\n\n<!-- csdlc-github-operation:v092-execution-ready-body-5833-20260805 -->\n",
-          "closed_at": null,
+          "closed_at": "2026-08-10T23:16:49Z",
           "created_at": "2026-08-05T06:31:23Z",
           "labels": [
             "track:roadmap",
@@ -509,7 +509,7 @@
           "number": 5833,
           "repository": "danielbaustin/agent-design-language",
           "schema": "csdlc.github_issue.v1",
-          "state": "open",
+          "state": "closed",
           "title": "[v0.92][WP-15] Birth witnesses and receipts"
         },
         "operation_key": null,
@@ -551,8 +551,8 @@
           "assignees": [
 
           ],
-          "body": "## Summary\n\nExecute **WP-16** for v0.92 within this issue's approved design and ownership boundary.\n\nDeliver only the WP-16 integrated reviewer packet, schema/link/digest validator, owned index links, negative fixtures, and retained exact-revision evidence.\n\n## Required Outcome\n\nreviewer-facing birthday evidence packet\n\n## Deliverables\n\n- Reviewer packet schema and exact revision/digest inventory\n- WP-08 through WP-15 proof links, caveats, questions, and redacted projections\n- Validator and negative fixtures for missing, stale, contradictory, private, and overclaiming inputs\n- Retained completeness, digest/link, and claim-boundary report\n\n## Dependencies\n\n- WP-08 / issue #5825 terminal proof\n- WP-09 / issue #5826 terminal proof\n- WP-10 / issue #5827 terminal proof\n- WP-11 / issue #5828 terminal proof\n- WP-12 / issue #5829 terminal proof\n- WP-13 / issue #5830 terminal proof\n- WP-13A / issue #5831 terminal proof\n- WP-14 / issue #5832 terminal proof\n- WP-15 / issue #5833 terminal proof\n- Birthday sprint gate 4 exact-head evidence\n\n## Owned Paths\n\n- `docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md`\n- `docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json`\n- `docs/milestones/v0.92/review/first-birthday-review-packet.schema.json`\n- `docs/milestones/v0.92/DEMO_MATRIX_v0.92.md`\n- `.csdlc/prepared/issues/5834/validate-review-packet.rb`\n- `.csdlc/evidence/5834`\n\n## Read-Only Inputs\n\n- Every repository path cited outside `## Owned Paths` is read-only unless it is repeated exactly in that section.\n- Dependency records, sibling issue outputs, historical evidence, and external systems remain read-only inputs.\n\n## Serialization Gates\n\n```json\n[\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-birthday-demo-matrix-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\"\n    ],\n    \"issues\": [\n      5834,\n      5836,\n      5840\n    ],\n    \"order\": [\n      5834,\n      5836,\n      5840\n    ]\n  },\n  {\n    \"schema\": \"csdlc.serialization_gate.v1\",\n    \"id\": \"v092-5834-demo-matrix-to-final-truth-v1\",\n    \"paths\": [\n      \"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\"\n    ],\n    \"issues\": [\n      5834,\n      5843\n    ],\n    \"order\": [\n      5834,\n      5843\n    ]\n  }\n]\n```\n\n## Validation And Proof\n\n- Parse the packet manifest/schema, recompute referenced digests, resolve links, and require the exact WP-08 through WP-15 roster including WP-13A and WP-14.\n- Run one-at-a-time negative fixtures for stale digests, missing roster entries, private paths, contradictory status, and forbidden public claims.\n\n## Acceptance Criteria\n\n- The WP-16 packet inventories one canonical exact revision/digest for every required WP-08 through WP-15 proof, negative report, caveat, reviewer question, redacted projection, and public non-claim.\n- All issues #5825 through #5833, including #5831 and #5832, satisfy sprint gate 4 terminal and exact-head evidence requirements before assembly.\n- Implementation is confined to the named WP-16 review packet Markdown, evidence JSON, schema, issue-local validator, WP-16 demo-matrix row, and .csdlc/evidence/5834/.\n- Schema, link, digest, uniqueness, and completeness validation is reproducible and retained at the exact reviewed revision.\n- Missing, stale, contradictory, nonterminal, unreviewed, duplicate-digest, private-path, personhood, citizenship, consciousness, governance, or publication-ready inputs produce named blocked failure.\n- One bounded exact-head SRP review records no unresolved actionable findings.\n- The implementation PR targets the intended base and includes Closes #5834 without claiming completion of downstream Birthday work.\n- WP-08/#5825 through WP-15/#5833, including WP-13A/#5831 and WP-14/#5832, are terminal with exact-head evidence before packet assembly.\n\n## Non-Goals\n\n- Implementing any child work package or manufacturing absent proof\n- Running the flagship demo, public publication, release approval, or external review\n- Editing shared milestone, release, launch, sprint, or v0.93 governance authority\n\n## Rollback\n\nRemove only the assembled review packet, evidence index, schema, and validator,\nthen restore the WP-16-owned demo-matrix link. Preserve all rejected packet\nfixtures and validation findings under issue evidence; never modify child\nproof, rewrite terminal state, or promote a blocked dependency during rollback.\n\n## Execution Boundary\n\nThis issue is design-ready, not implemented. Execution must reverify terminal dependencies, create or reuse the issue's dedicated branch and worktree through the current `csdlc-bind` Git-topology route, retain the declared positive and negative proof, complete exact-head review, and use `Closes #5834` in its implementation PR. No claim, lease, protected-path reservation, preparation generation, or SHA-pinned preparation receipt is required.\n\n<!-- csdlc-github-operation:v092-execution-ready-body-5834-20260805 -->\n",
-          "closed_at": null,
+          "body": "## Summary\n\nExecute **WP-16** for v0.92 within this issue's approved design and ownership boundary.\n\nDeliver only the WP-16 integrated reviewer packet, schema/link/digest validator, owned index links, negative fixtures, and retained exact-revision evidence.\n\n## Required Outcome\n\nreviewer-facing birthday evidence packet\n\n## Deliverables\n\n- Reviewer packet schema and exact revision/digest inventory\n- WP-08 through WP-15 proof links, caveats, questions, and redacted projections\n- Validator and negative fixtures for missing, stale, contradictory, private, wrong-repository, unreviewed, and overclaiming inputs\n- Retained completeness, repository identity, typed review authority, digest/link, and claim-boundary report\n\n## Dependencies\n\n- WP-08 / issue danielbaustin/agent-design-language#5825 terminal proof\n- WP-09 / issue danielbaustin/agent-design-language#5826 terminal proof\n- WP-10 / issue danielbaustin/agent-design-language#5827 terminal proof\n- WP-11 / issue danielbaustin/agent-design-language#5828 terminal proof\n- WP-12 / issue danielbaustin/agent-design-language#5829 terminal proof\n- WP-13 / issue danielbaustin/agent-design-language#5830 terminal proof\n- WP-13A / issue danielbaustin/agent-design-language#5831 terminal proof\n- WP-14 / replacement issue agent-logic/agent-design-language#209 and PR 215 terminal reviewed proof; #5832/PR 76 is historical superseded listener evidence only\n- WP-15 / issue danielbaustin/agent-design-language#5833 terminal proof\n- Birthday sprint gate 4 exact-head evidence\n\n## Owned Paths\n\n- `docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md`\n- `docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json`\n- `docs/milestones/v0.92/review/first-birthday-review-packet.schema.json`\n- `docs/milestones/v0.92/DEMO_MATRIX_v0.92.md`\n- `.csdlc/prepared/issues/5834/validate-review-packet.rb`\n- `.csdlc/evidence/5834`\n\n## Read-Only Inputs\n\n- Every repository path cited outside `## Owned Paths` is read-only unless it is repeated exactly in that section.\n- Dependency records, sibling issue outputs, historical evidence, and external systems remain read-only inputs.\n\n## Serialization Gates\n\n```json\n[\n  {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-birthday-demo-matrix-v1\",\"paths\":[\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\"],\"issues\":[5834,5836,5840],\"order\":[5834,5836,5840]},\n  {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5834-demo-matrix-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\"],\"issues\":[5834,5843],\"order\":[5834,5843]}\n]\n```\n\n## Validation And Proof\n\n- Parse the packet manifest/schema, recompute referenced digests, resolve links, and require the exact WP-08 through WP-15 roster including WP-13A and replacement WP-14 authority.\n- Bind issue and code repository identity per manifest/closure entry and require each retained typed exact-head review from the corresponding merge tree.\n- Run one-at-a-time negative fixtures for stale digests, missing roster entries, private paths, contradictory status, unreviewed authority, unknown fields, and forbidden public claims/projections.\n\n## Acceptance Criteria\n\n- The WP-16 packet inventories one canonical exact revision/digest for every required WP-08 through WP-15 proof, negative report, caveat, reviewer question, redacted projection, and public non-claim.\n- Issues #5825 through #5831 and #5833 in danielbaustin/agent-design-language, plus WP-14 repair issue agent-logic/agent-design-language#209, satisfy terminal and retained exact-head review requirements before assembly; superseded #5832/PR 76 is not accepted as production authority.\n- Implementation is confined to the named WP-16 review packet Markdown, evidence JSON, schema, issue-local validator, WP-16 demo-matrix row, and `.csdlc/evidence/5834/`.\n- Schema, link, digest, repository identity, uniqueness, completeness, typed review authority, and merge ancestry validation is reproducible and retained at the exact reviewed revision.\n- Missing, stale, contradictory, nonterminal, unreviewed, wrong-repository, duplicate-digest, private-path, personhood, citizenship, consciousness, governance, or publication-ready inputs produce named blocked failure.\n- One bounded exact-head SRP review records no unresolved actionable findings.\n- The implementation PR targets the intended base and includes `Closes #5834` without claiming completion of downstream Birthday work.\n- WP-08/#5825 through WP-13A/#5831, replacement WP-14/agent-logic/agent-design-language#209, and WP-15/#5833 are terminal with retained exact-head review evidence before packet assembly.\n\n## Non-Goals\n\n- Implementing any child work package or manufacturing absent proof\n- Running the flagship demo, public publication, release approval, or external review\n- Editing shared milestone, release, launch, sprint, or v0.93 governance authority\n\n## Rollback\n\nRemove only the assembled review packet, evidence index, schema, and validator, then restore the WP-16-owned demo-matrix link. Preserve all rejected packet fixtures and validation findings under issue evidence; never modify child proof, rewrite terminal state, or promote a blocked dependency during rollback.\n\n## Execution Boundary\n\nThis issue is in bounded implementation. Execution must retain declared positive and negative proof, complete exact-head review, and use `Closes #5834` in its implementation PR.\n\n<!-- csdlc-github-operation:v092-wp16-wp14-replacement-20260811 -->\n",
+          "closed_at": "2026-08-11T03:40:31Z",
           "created_at": "2026-08-05T06:31:24Z",
           "labels": [
             "track:roadmap",
@@ -565,7 +565,7 @@
           "number": 5834,
           "repository": "danielbaustin/agent-design-language",
           "schema": "csdlc.github_issue.v1",
-          "state": "open",
+          "state": "closed",
           "title": "[v0.92][WP-16] Birthday review packet"
         },
         "operation_key": null,
@@ -1055,7 +1055,7 @@
           "assignees": [
 
           ],
-          "body": "## Goal\nProduce real demonstrations, consumer proofs, governance handoff, and complete launch media.\n\n## Operative Child Issues\n- #5835 (WP-17)\n- #5836 (WP-18)\n- #5838 (WP-18B)\n- #5839 (WP-19)\n- #5840 (WP-20)\n\n## Completed Product Stream\n- #5844 (WP-24) is product/GitHub complete; its typed closeout continues asynchronously and does not add an execution child to this sprint.\n\n## Independent Out-of-Band Stream\n- #5845 (WP-24A) has no Sprint 5 dependency, is not part of this sprint's execution denominator, and cannot gate readiness, execution, review, or closeout.\n\n## Execution Mode\nHybrid. WP-17 follows #5826, #5827, and #5834. WP-18 follows #5825-#5830 and #5832-#5834. WP-18B follows #5832, #5834, and WP-18. WP-19 follows #5834 and WP-17 plus accepted v0.93 allocation. WP-20 follows WP-18, #5837, WP-18B, and WP-19. Public claims finalize only after #5843 release truth.\n\n## Boundary\nThis umbrella coordinates migration semantics, birthday demos, provider-neutral proof, governance handoff, and proof coverage. It does not publish externally, coordinate WP-24A, or replace child C-SDLC authority.\n\n## Exit Criteria\nThe five operative children #5835, #5836, #5838, #5839, and #5840 have truthful terminal outcomes, every claimed demo uses real paths, release-truth gates are satisfied, and one sprint review passes. WP-24A #5845 is excluded and cannot block exit.\n<!-- csdlc-github-operation:v092-sprint-5854-five-child-authority-v2 -->\n",
+          "body": "## Goal\nProduce real demonstrations, consumer proofs, governance handoff, and complete launch media.\n\n## Operative Child Issues\n- #5835 (WP-17)\n- #5836 (WP-18)\n- #5838 (WP-18B)\n- #5839 (WP-19)\n\n## Release-Tail Handoff\n- #5840 (WP-20) consumes the completed proof producers as the first child of final sprint #5856. It is not bound, executed, reviewed, or awaited by this sprint.\n\n## Completed Product Stream\n- #5844 (WP-24) is product/GitHub complete; its typed closeout continues asynchronously and does not add an execution child to this sprint.\n\n## Independent Out-of-Band Stream\n- #5845 (WP-24A) has no Sprint 5 dependency, is not part of this sprint's execution denominator, and cannot gate readiness, execution, review, or closeout.\n\n## Execution Mode\nHybrid. WP-17 follows #5826, #5827, and #5834. WP-18 follows #5825-#5830, canonical WP-14 issue agent-logic/agent-design-language#209 and PR #215, #5833, and #5834; legacy #5832 is superseded. WP-18B follows canonical WP-14 #209 / PR #215, #5834, and WP-18. WP-19 follows #5834 and WP-17 plus accepted v0.93 allocation. Public claims finalize only after #5843 release truth.\n\n## Boundary\nThis umbrella coordinates migration semantics, birthday demos, provider-neutral proof, and governance handoff. It does not execute WP-20, publish externally, coordinate WP-24A, or replace child C-SDLC authority.\n\n## Exit Criteria\nThe four operative children #5835, #5836, #5838, and #5839 have truthful terminal outcomes, every claimed demo uses real paths, release-truth gates are satisfied, and one sprint review passes. WP-20 belongs to #5856; WP-24A #5845 is excluded and cannot block exit.\n<!-- csdlc-github-operation:v092-sprint-5854-four-child-wp20-release-tail-v1 -->\n",
           "closed_at": null,
           "created_at": "2026-08-05T08:20:21Z",
           "labels": [
@@ -1129,6 +1129,118 @@
         "pr_state": null,
         "reconciled": true,
         "repository": "agent-logic/agent-design-language",
+        "schema": "csdlc.github_action_result.v1"
+      }
+    },
+    {
+      "request": {
+        "repository": "agent-logic/agent-design-language",
+        "action": "issue_read",
+        "operation_key": null,
+        "token_file": null,
+        "issue": 209,
+        "pull_request": null,
+        "title": null,
+        "body": null,
+        "labels": [
+
+        ],
+        "assignees": [
+
+        ],
+        "milestone": null,
+        "state": null,
+        "comment_body": null,
+        "required_checks": [
+
+        ],
+        "require_review": false,
+        "linked_issue": null
+      },
+      "response": {
+        "action": "issue_read",
+        "comment_id": null,
+        "issue": {
+          "assignees": [
+
+          ],
+          "body": "Blocks danielbaustin/agent-design-language#5834. Follow-up to merged danielbaustin/agent-design-language#5832 / PR #76 after fresh retrospective exact-head review of `23df2bab4373434c9020f0c40f772f71aef2917c`.\n\n## Outcome\nClose the three unresolved WP-14 acceptance defects so the Birthday reviewer packet can cite independently reviewed production communication evidence rather than the narrower embedded-listener proof.\n\n## Findings to repair\n1. Production proof currently launches only `RuntimeApiService`, echoes an ACK, and treats oversized-frame rejection as backpressure; it does not establish Guardian/kernel operation dispatch, bounded pressure, or typed error responses.\n2. One admitted `u64::MAX` sequence poisons the policy-wide replay high-water mark across later principals/sessions until service reconstruction.\n3. Public OpenAPI permits a missing/null `control_signature` although runtime admission always rejects it.\n\n## Scope\n- production Guardian/kernel ACIP dispatch proof through the real runtime boundary\n- bounded queue/backpressure behavior and typed error response contract\n- replay state namespaced by authenticated principal and protocol replay domain/session, with bounded progression and expiry/reset semantics\n- OpenAPI/runtime signature parity\n- focused positive and adversarial tests, exact native proof where platform behavior matters, retained evidence, and independent exact-head review\n\n## Acceptance\n- A real production Guardian/kernel operation is dispatched end to end and returns the declared typed success/error contract.\n- Backpressure proof exercises bounded queue pressure rather than only frame-size rejection.\n- `u64::MAX`, reconnect, cross-principal, cross-session, stale, duplicate, and eviction cases cannot poison unrelated traffic or bypass replay denial.\n- Public OpenAPI and runtime admission agree on the required non-null control signature.\n- Exact focused proof and fresh independent exact-head review pass before publication; qualified closing PR and required CI are green before merge.\n- #5834 remains blocked until this repair is merged and ancestral, then refreshes its WP-14 evidence/review binding.\n\n## Non-goals\nReopening or rewriting merged PR #76, modifying #5834 product scope, public birthday publication, broader transport redesign, cloud provisioning, or unrelated Sprint 3 work.\n\n<!-- csdlc-github-operation:v092-wp14-retrospective-authority-repair-v1 -->\n",
+          "closed_at": "2026-08-11T03:02:30Z",
+          "created_at": "2026-08-11T00:55:32Z",
+          "labels": [
+            "track:roadmap",
+            "version:v0.92",
+            "type:bug",
+            "area:runtime"
+          ],
+          "marker_present": false,
+          "milestone": null,
+          "number": 209,
+          "repository": "agent-logic/agent-design-language",
+          "schema": "csdlc.github_issue.v1",
+          "state": "closed",
+          "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract"
+        },
+        "operation_key": null,
+        "pr_state": null,
+        "reconciled": true,
+        "repository": "agent-logic/agent-design-language",
+        "schema": "csdlc.github_action_result.v1"
+      }
+    },
+    {
+      "request": {
+        "repository": "danielbaustin/agent-design-language",
+        "action": "issue_read",
+        "operation_key": null,
+        "token_file": null,
+        "issue": 5856,
+        "pull_request": null,
+        "title": null,
+        "body": null,
+        "labels": [
+
+        ],
+        "assignees": [
+
+        ],
+        "milestone": null,
+        "state": null,
+        "comment_body": null,
+        "required_checks": [
+
+        ],
+        "require_review": false,
+        "linked_issue": null
+      },
+      "response": {
+        "action": "issue_read",
+        "comment_id": null,
+        "issue": {
+          "assignees": [
+
+          ],
+          "body": "## Goal\nComplete the exact-revision demo and proof index, then reduce and refactor safely, enforce the quality gate, complete reviews, remediate findings, and close the milestone.\n\n## Child Issues\n- #5840 (WP-20)\n- #5786 (WP-21)\n- #5841 (WP-21A)\n- #5842 (WP-22)\n- #5843 (WP-23)\n- #5846 through #5852 (WP-25 through WP-30)\n\n## Execution Mode\nSequential. WP-20 starts only after #5836, #5837, #5838, and #5839 are terminal. WP-20 precedes WP-21, WP-21 precedes WP-21A, WP-21A precedes WP-22, and WP-22 through WP-30 follow their declared dependency order.\n\n## Boundary\nThis umbrella owns coordination and sprint-end truth for the demo matrix, AEE index, proof coverage, reduction, Rust refactoring, quality, documentation, reviews, remediation, next-milestone planning, and ceremony. It does not implement child code or replace child C-SDLC authority.\n\n## Exit Criteria\nEvery child is merged and terminally truthful, review findings are resolved or explicitly routed, release evidence is consistent, and the milestone ceremony completes.\n<!-- csdlc-github-operation:v092-sprint-5856-add-wp20-first-v1 -->\n",
+          "closed_at": null,
+          "created_at": "2026-08-05T08:20:21Z",
+          "labels": [
+            "track:roadmap",
+            "type:task",
+            "area:review",
+            "version:v0.92"
+          ],
+          "marker_present": false,
+          "milestone": null,
+          "number": 5856,
+          "repository": "danielbaustin/agent-design-language",
+          "schema": "csdlc.github_issue.v1",
+          "state": "open",
+          "title": "[v0.92][sprint] Quality and release tail"
+        },
+        "operation_key": null,
+        "pr_state": null,
+        "reconciled": true,
+        "repository": "danielbaustin/agent-design-language",
         "schema": "csdlc.github_action_result.v1"
       }
     }
@@ -1265,6 +1377,163 @@
         "schema": "csdlc.github_pr_state.v1",
         "state": "closed",
         "url": "https://github.com/agent-logic/agent-design-language/pull/14"
+      }
+    },
+    {
+      "request": {
+        "repository": "agent-logic/agent-design-language",
+        "pull_request": 215,
+        "required_checks": [
+
+        ],
+        "require_review": false,
+        "token_file": null,
+        "linked_issue": 209,
+        "linked_issue_repository": "agent-logic/agent-design-language"
+      },
+      "response": {
+        "base_ref": "main",
+        "body": "Closes #209\n\n## Summary\n- route admitted ACIP requests through the production kernel and prove typed WebSocket pressure rejection, rollback, and corrected retry\n- isolate replay sequencing by authenticated principal and structured runtime/source domain with bounded progression, exact pending rollback, and rotation cleanup\n- align the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression\n- add exact Linux/macOS native receipts with platform-neutral semantic comparison and expanded authority-source provenance\n\n## Validation\n- production ACIP WSS: 2/2 passed, including repeated pressure stability\n- replay authority: 4/4 passed\n- OpenAPI contract: 6/6 passed\n- retained legacy signed admission: 1/1 passed\n- strict Clippy, formatting, native producer/validator self-tests, YAML/JSON, and diff hygiene: passed\n- fresh independent exact-head review: APPROVED with no actionable findings\n- exact native Linux/macOS/aggregate proof remains required after publication before final review and merge\n\n## Non-claims\nThis PR does not modify #5834 product work, PR197, PR191, Sprint 3, or global CI.",
+        "checks": [
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93664440871",
+            "name": "adl-ci",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663061678",
+            "name": "adl-coverage",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013618",
+            "name": "adl-coverage-hosted",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013858",
+            "name": "adl-coverage-runtime-hosted",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663014048",
+            "name": "adl-coverage-workspace-fast-hosted",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013694",
+            "name": "adl-coverage-workspace-hosted (${{ matrix.shard }}/2)",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013946",
+            "name": "adl-demo-proof",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93662968667",
+            "name": "adl-path-policy",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663014011",
+            "name": "adl-runtime-v3-fast",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013952",
+            "name": "adl-rust-fmt-clippy",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013275",
+            "name": "adl-rust-tests",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663014019",
+            "name": "adl-slow-proof",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013813",
+            "name": "adl-spot-ci-and-coverage",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013266",
+            "name": "adl-tooling-contracts",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013630",
+            "name": "adl-v2-standalone",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013797",
+            "name": "csdlc-v2-standalone",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634265/job/93662882752",
+            "name": "production-acip-linux",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453636709/job/93662892252",
+            "name": "wp14-repair-native-linux",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453636709/job/93662892169",
+            "name": "wp14-repair-native-macos",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453636709/job/93663352429",
+            "name": "wp14-repair-native-receipts-validated",
+            "required": false
+          }
+        ],
+        "classification": "waiting",
+        "draft": false,
+        "head_ref": "codex/209-acip-authority-repair",
+        "head_sha": "c640066f284a915b638add377cc4b0a2e221e6f9",
+        "linkage_source": "github_closing_issues_references",
+        "linked_issue": 209,
+        "merge_commit_sha": "a77519c3fca9f64752af41c9a2ebd396468891f7",
+        "merge_state": "unknown",
+        "merged": true,
+        "pull_request": 215,
+        "repository": "agent-logic/agent-design-language",
+        "required_check_names": [
+
+        ],
+        "review_decision": "pending",
+        "schema": "csdlc.github_pr_state.v1",
+        "state": "closed",
+        "url": "https://github.com/agent-logic/agent-design-language/pull/215"
       }
     }
   ]

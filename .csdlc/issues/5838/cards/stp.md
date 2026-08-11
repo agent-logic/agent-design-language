@@ -33,7 +33,7 @@ Implement only the WP-18B provider-neutral harness, validator, proof matrix, tra
 
 ## Dependencies
 
-- #5832 / WP-14 complete
+- agent-logic/agent-design-language#209 and PR #215 provide accepted WP-14 authority; legacy #5832 is superseded
 - #5834 / WP-16 complete
 - #5836 / WP-18 complete
 - Two approved real-provider credential sources available at execution time
