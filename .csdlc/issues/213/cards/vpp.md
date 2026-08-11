@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/213/diagram.mmd
 [
   {
     "lane": "csdlc-gate2",
-    "proof_role": "The complete Gate 2 integration target proves initialized/ready acceptance and plan-step repair, fail-closed ownership/CAS/coverage/atomicity, regenerated projections, audit preservation, doctor blocking, and exact reapproval while retaining existing lifecycle behavior.",
+    "proof_role": "The complete Gate 2 integration target reproduces the literal #205 prior-planning-edit plus design-change sequence and proves guarded initialized/ready ordinal-acceptance and pending-step repair, atomic current binding refresh, exact before/after bytes, path/identity/CAS/coverage failure, regenerated projections, audit preservation, doctor blocking, exact reapproval, and explicit bound/implemented compatibility.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -97,8 +97,8 @@ Diagram: .csdlc/prepared/issues/213/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "diff-hygiene",
-    "proof_role": "Diff hygiene rejects whitespace and patch defects before review and publication.",
+    "lane": "base-to-source-diff-hygiene",
+    "proof_role": "The committed origin/main...HEAD range rejects whitespace, blank-line-at-EOF, and patch defects across the complete preparation and implementation source rather than only uncommitted work.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -109,7 +109,8 @@ Diagram: .csdlc/prepared/issues/213/diagram.mmd
     "argv": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main...HEAD"
     ],
     "parallel_group": "213-serial-04-diff",
     "defer_reason": null
@@ -131,7 +132,7 @@ Tokens: 25000
 - `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate2`
 - `cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings`
 - `cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check`
-- `git diff --check`
+- `git diff --check origin/main...HEAD`
 
 ## Failure Semantics
 

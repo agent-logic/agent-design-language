@@ -13,14 +13,15 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #213 exact design, authorize_card_operation change, design-review invalidation, Gate 2 regression proof, lifecycle records, and absence of #205 or broader authority changes.",
+      "review_scope": "Issue #213 exact literal-#205 design, guarded phase authorization, atomic current design/diagram binding refresh, ordinal/pending semantics, review invalidation, before/after bytes, path/identity drift, bound/implemented compatibility, complete Gate 2 proof, committed base-to-source diff lane, lifecycle records, and absence of #205 or broader authority changes.",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
-        "Are only initialized/ready STP replace_acceptance_criteria and SPP replace_plan_steps newly authorized?",
-        "Does either successful repair invalidate design approval without changing phase or granting topology/execution authority?",
-        "Do cross-card coverage, semantic validation, CAS, atomic rendering, generation, and append-only audit remain fail closed?",
-        "Do focused tests prove both phases, both operations, all rejection boundaries, doctor blocking, and reapproval?",
+        "Are only guarded initialized/ready STP replace_acceptance_criteria and SPP replace_plan_steps newly authorized, with ordinal AC IDs and pending-only pre-bind steps?",
+        "Does the literal #205 sequence atomically refresh both current canonical design/diagram bindings while rejecting exact path/reference/card-identity drift?",
+        "Does either successful repair set review pending without changing phase/topology, including the narrower ready-phase no-later-evidence and fresh-CAS guard?",
+        "Do before/after byte snapshots prove cross-card coverage, CAS, atomic rendering, generation, audit prefix, rollback, and untouched state preservation?",
+        "Do explicit fixtures preserve existing bound STP/SPP and implemented SPP behavior, and does the committed base-to-source diff lane cover EOF hygiene?",
         "Did the change leave #205 and every publication/merge/terminal boundary untouched?"
       ],
       "findings": [],

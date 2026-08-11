@@ -16,19 +16,20 @@ Allow an existing unbound initialized or ready issue to repair STP acceptance cr
 
 ## Required Outcome
 
-The typed card owner supports exact initialized/ready acceptance and plan-step replacement, invalidates stale design approval, preserves lifecycle identity and audit truth, and proves the behavior with focused fail-closed regression tests.
+The typed card owner supports exact initialized/ready acceptance and plan-step replacement, atomically refreshes current canonical design/diagram bindings, invalidates stale design approval, preserves lifecycle identity/topology/audit truth, and proves the behavior with before/after byte snapshots plus focused fail-closed regression tests.
 
 ## Scope
 
 - Initialized/ready semantic operation authorization
-- Design-review invalidation after acceptance or plan-step repair
-- Focused Gate 2 regression proof
+- Atomic current design/diagram binding refresh and design-review invalidation
+- Ordinal acceptance and pending pre-bind plan semantics
+- Focused Gate 2 byte-preservation and compatibility proof
 
 ## Authority
 
 - Only csdlc-edit apply owns semantic card mutation
-- Only STP replace_acceptance_criteria and SPP replace_plan_steps gain initialized/ready authorization
-- The existing store transaction, CAS, cross-card validator, renderer, and audit remain authoritative
+- Only STP replace_acceptance_criteria and SPP replace_plan_steps gain narrowly guarded initialized/ready authorization
+- The existing safe authored-path reader, store transaction, CAS, cross-card validator, renderer, and audit remain authoritative
 - Binding, execution, review, publication, merge, and terminal authority are unchanged
 
 ## Assumptions

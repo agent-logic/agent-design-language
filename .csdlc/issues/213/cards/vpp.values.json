@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "csdlc-gate2",
-          "proof_role": "The complete Gate 2 integration target proves initialized/ready acceptance and plan-step repair, fail-closed ownership/CAS/coverage/atomicity, regenerated projections, audit preservation, doctor blocking, and exact reapproval while retaining existing lifecycle behavior.",
+          "proof_role": "The complete Gate 2 integration target reproduces the literal #205 prior-planning-edit plus design-change sequence and proves guarded initialized/ready ordinal-acceptance and pending-step repair, atomic current binding refresh, exact before/after bytes, path/identity/CAS/coverage failure, regenerated projections, audit preservation, doctor blocking, exact reapproval, and explicit bound/implemented compatibility.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -89,8 +89,8 @@
           "defer_reason": null
         },
         {
-          "lane": "diff-hygiene",
-          "proof_role": "Diff hygiene rejects whitespace and patch defects before review and publication.",
+          "lane": "base-to-source-diff-hygiene",
+          "proof_role": "The committed origin/main...HEAD range rejects whitespace, blank-line-at-EOF, and patch defects across the complete preparation and implementation source rather than only uncommitted work.",
           "acceptance_ids": [
             "AC-8"
           ],
@@ -101,7 +101,8 @@
           "argv": [
             "git",
             "diff",
-            "--check"
+            "--check",
+            "origin/main...HEAD"
           ],
           "parallel_group": "213-serial-04-diff",
           "defer_reason": null
@@ -111,9 +112,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on any phase widening beyond the exact operations, stale CAS, invalid card ownership, broken acceptance coverage, partial generation/audit/projection mutation, stale design approval, or validation/review failure.",
       "design_ref": ".csdlc/prepared/issues/213/design.md",
-      "design_digest": "a9c23ba8d0ffc3691fba075c3954432ce12958feba5da930a36e77d2ed35ae2d",
+      "design_digest": "c671ce98f9fc1a009612418d64fa66c91d33540f34af1feea3d34cb454d21b83",
       "diagram_ref": ".csdlc/prepared/issues/213/diagram.mmd",
-      "diagram_digest": "11e572a8c38c16b1fece68da808eab9e3a5008a25812fb04e70ee6fc85487824"
+      "diagram_digest": "6f7477e6a62cdf7e7c74a0bf86281e14a238c2918fa6a9d0117c3ce48981f751"
     }
   }
 }

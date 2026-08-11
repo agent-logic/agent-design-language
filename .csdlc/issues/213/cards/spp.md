@@ -23,7 +23,7 @@ Revision 1
 [
   {
     "id": "S1",
-    "action": "Independently review and approve the exact initialized/ready operation, preservation, invalidation, and non-authority design, then bind #213.",
+    "action": "Independently review and approve the exact initialized/ready operation, atomic binding-refresh, ordinal/pending semantics, preservation, compatibility, and non-authority design, then bind #213.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -35,7 +35,7 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Extend only authorize_card_operation for the exact STP/SPP combinations and invalidate design review after either successful initialized/ready repair.",
+    "action": "Extend only the exact guarded STP/SPP combinations, atomically refresh current safe design/diagram bindings, enforce ordinal ACs and pending pre-bind steps, and invalidate design review after success.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -47,7 +47,7 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Add focused Gate 2 sequences and rejection fixtures proving both phases, both operations, CAS, ownership, cross-card coverage, atomic regeneration, append-only audit, doctor blocking, and reapproval.",
+    "action": "Add focused Gate 2 sequences and rejection fixtures proving literal #205 reachability, both phases/operations, before/after bytes, CAS, path/identity drift, ownership, cross-card coverage, compatibility, atomic regeneration, append-only audit, doctor blocking, and reapproval.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -58,7 +58,7 @@ Revision 1
   },
   {
     "id": "S4",
-    "action": "Run formatting, complete Gate 2, strict all-target Clippy, diff hygiene, and truthful typed final validation.",
+    "action": "Run formatting, complete Gate 2, strict all-target Clippy, committed origin/main...HEAD diff hygiene, and truthful typed final validation.",
     "acceptance_ids": [
       "AC-7",
       "AC-8"
@@ -78,17 +78,20 @@ Revision 1
 ## Invariants
 
 - Pre-bind edits grant no execution or Git topology authority
-- Only the two declared card/operation combinations are widened
-- CAS, card ownership, cross-card coverage, rendering, audit, and transaction atomicity remain fail closed
+- Only the two declared guarded card/operation combinations are widened
+- Current bindings come only from the exact canonical issue-owned design and diagram regular files
+- Pre-bind criteria retain ordinal AC-1 through AC-N and pre-bind replacement steps are pending
+- CAS, path and card identity, ownership, cross-card coverage, rendering, audit, and transaction atomicity remain fail closed
 - A substantive acceptance or plan-step repair requires fresh design approval
 - #205 remains unchanged until #213 is reviewed and merged ancestrally
 
 ## Risks
 
 - Over-broad phase authorization could permit execution-like mutation before bind
+- Binding refresh could admit path or identity drift
 - Review invalidation could be omitted and leave stale approval green
-- Cross-card acceptance coverage could be weakened instead of preserved
-- A regression test could prove only one phase or one operation
+- Cross-card ordinal acceptance coverage or pending-only planning truth could be weakened
+- A regression test could omit literal #205 reachability, a phase, an operation, or compatibility
 
 ## Estimates
 
@@ -102,19 +105,20 @@ Revision 1
 
 .csdlc/prepared/issues/213/design.md
 
-Digest: a9c23ba8d0ffc3691fba075c3954432ce12958feba5da930a36e77d2ed35ae2d
+Digest: c671ce98f9fc1a009612418d64fa66c91d33540f34af1feea3d34cb454d21b83
 
 ## Diagram
 
 .csdlc/prepared/issues/213/diagram.mmd
 
-Digest: 11e572a8c38c16b1fece68da808eab9e3a5008a25812fb04e70ee6fc85487824
+Digest: 6f7477e6a62cdf7e7c74a0bf86281e14a238c2918fa6a9d0117c3ce48981f751
 
 ## Stop Conditions
 
 - The repair requires a raw card/state mutation path
 - The exact operations cannot remain limited to initialized/ready STP/SPP ownership
-- Atomic regeneration or audit preservation would be weakened
+- Atomic binding refresh, byte preservation, or audit preservation would be weakened
+- The literal prior-planning-edit plus design-change sequence cannot be proven
 - An actionable independent review finding remains unresolved
 
 ## Handoff
