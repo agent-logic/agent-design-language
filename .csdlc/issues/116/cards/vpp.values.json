@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
     "slug": "wp-18c-06-operator-attention-inbox",
     "version": "v0.92",
-    "generation": 3
+    "generation": 0
   },
   "status": "ready",
   "content": {
@@ -16,34 +16,11 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "attention-runtime-contract",
-          "proof_role": "Run the exact nonzero issue-owned Runtime target for lifecycle, schema, queue ordering, deduplication, expiry, authorization, overload, restart, and recovery.",
+          "lane": "attention-exact-child-tests",
+          "proof_role": "Exact nonzero issue-owned target proves lifecycle, schema, authorization, queue bounds, deduplication, expiry, overload, spoofing, restart, reconnect, recovery, projection, and operator outcome invariants.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
-            "AC-3",
-            "AC-4",
-            "AC-5"
-          ],
-          "deterministic": true,
-          "resource_profile": "medium",
-          "budget_seconds": 600,
-          "budget_tokens": 7000,
-          "argv": [
-            "cargo",
-            "test",
-            "--manifest-path",
-            "adl-runtime/Cargo.toml",
-            "--test",
-            "operator_attention"
-          ],
-          "parallel_group": "attention-runtime",
-          "defer_reason": "The issue-owned adl-runtime/tests/operator_attention.rs target is created only after #111, #112, and #114 are terminal and #116 is bound; execution must fail closed if absent or zero-test."
-        },
-        {
-          "lane": "attention-observatory-browser",
-          "proof_role": "Run the issue-owned live Runtime-backed browser proof for inbox accessibility, unread/filter/deep-link behavior, authorization, overload, degradation, reconnect, and duplicate-notification prevention.",
-          "acceptance_ids": [
             "AC-3",
             "AC-4",
             "AC-5",
@@ -52,21 +29,29 @@
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 600,
-          "budget_tokens": 7000,
+          "budget_seconds": 1200,
+          "budget_tokens": 12000,
           "argv": [
-            "adl/tools/test_v092_operator_attention_inbox.sh"
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "operator_attention",
+            "--no-tests=fail"
           ],
-          "parallel_group": "attention-browser",
-          "defer_reason": "The issue-owned browser validator is created with #116 implementation after serial gates pass; execution must fail closed if absent or non-executable."
+          "parallel_group": "attention-runtime",
+          "defer_reason": "The issue-owned temporary #[path = \"../src/operator_attention.rs\"] harness in adl-runtime/tests/operator_attention.rs will route adl-runtime/src/operator_attention.rs until integration registration; --no-tests=fail preserves the nonzero requirement."
         },
         {
           "lane": "html-observatory-existing-contract",
-          "proof_role": "Preserve the checked-in HTML Observatory Runtime v3 feed, event, signed-control, endpoint-selection, and browser rejection contract during later integration.",
+          "proof_role": "Preserve the checked-in HTML Observatory Runtime v3 feed, event, signed-control, endpoint-selection, and browser rejection baseline before the dedicated #116 browser validator is added through typed VPP replan after bind.",
           "acceptance_ids": [
             "AC-3",
             "AC-4",
-            "AC-6"
+            "AC-6",
+            "AC-7"
           ],
           "deterministic": true,
           "resource_profile": "small",

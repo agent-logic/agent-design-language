@@ -16,11 +16,11 @@ Preparation now; later implementation only after serial gates. Own the attention
 
 ## Deliverables
 
-- Typed attention request, lifecycle, projection, policy decision, and receipt schemas.
-- Runtime attention queue and bounded policy implementation over predecessor-owned exported contracts.
-- Observatory inbox integration with accessible operator outcomes and explicit failure states.
-- Focused deterministic positive, adversarial, restart/reconnect, recovery, and browser proof.
-- Issue-local contract documentation and exact-head review handoff.
+- adl-runtime/src/operator_attention.rs
+- adl-runtime/tests/operator_attention.rs
+- Typed attention request, lifecycle, projection, policy decision, and receipt schemas
+- Observatory inbox integration with accessible operator outcomes and explicit failure states
+- Focused deterministic positive, adversarial, restart, reconnect, recovery, browser, and exact-head review proof
 
 ## Acceptance
 

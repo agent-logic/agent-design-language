@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
     "slug": "wp-18c-06-operator-attention-inbox",
     "version": "v0.92",
-    "generation": 3
+    "generation": 0
   },
   "status": "ready",
   "content": {
@@ -15,11 +15,11 @@
     "values": {
       "task_boundary": "Preparation now; later implementation only after serial gates. Own the attention-specific domain, projection, and proof while consuming #111/#112/#114 exports and leaving #83 untouched.",
       "deliverables": [
-        "Typed attention request, lifecycle, projection, policy decision, and receipt schemas.",
-        "Runtime attention queue and bounded policy implementation over predecessor-owned exported contracts.",
-        "Observatory inbox integration with accessible operator outcomes and explicit failure states.",
-        "Focused deterministic positive, adversarial, restart/reconnect, recovery, and browser proof.",
-        "Issue-local contract documentation and exact-head review handoff."
+        "adl-runtime/src/operator_attention.rs",
+        "adl-runtime/tests/operator_attention.rs",
+        "Typed attention request, lifecycle, projection, policy decision, and receipt schemas",
+        "Observatory inbox integration with accessible operator outcomes and explicit failure states",
+        "Focused deterministic positive, adversarial, restart, reconnect, recovery, browser, and exact-head review proof"
       ],
       "acceptance_criteria": [
         "AC-1: Every attention request has Runtime-verified source identity, reason class, correlation, policy-derived priority, expiry, stable lifecycle identity, and durable transition receipts.",

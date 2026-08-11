@@ -16,7 +16,7 @@ After #111/#112/#114 are terminal and ancestral, inspect their exported contract
 
 ## Plan
 
-Revision 2
+Revision 1
 
 ## Steps
 

@@ -17,15 +17,22 @@
       "AC-7: Focused exact-head Runtime, schema, authorization, overload, durability, browser, and review proof passes with no unresolved actionable findings."
     ],
     "affected_areas": [
-      "OWNED NEW: adl-runtime/src/operator_attention.rs",
-      "OWNED NEW: adl-runtime/schemas/operator-attention/v1/",
-      "OWNED NEW: adl-runtime/tests/operator_attention.rs",
-      "OWNED NEW: demos/html-observatory/operator-attention.js",
-      "OWNED NEW: adl/tools/test_v092_operator_attention_inbox.sh",
-      "OWNED NEW: docs/milestones/v0.92/features/OPERATOR_ATTENTION_INBOX_v0.92.md",
-      "NARROW INTEGRATION: adl-runtime/src/lib.rs and adl-runtime/src/runtime_api.rs",
-      "NARROW INTEGRATION: demos/html-observatory/index.html, styles.css, app.js, and runtime-v3.config.json",
-      "NO OWNERSHIP: #111 conversation internals, #112 identity/authority/audit internals, #114 conversation-history internals, or #83 lifecycle state"
+      "adl-runtime/src/operator_attention.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/schemas/operator-attention/v1/catalog.json",
+      "adl-runtime/schemas/operator-attention/v1/attention-request.schema.json",
+      "adl-runtime/schemas/operator-attention/v1/attention-transition.schema.json",
+      "adl-runtime/schemas/operator-attention/v1/attention-projection.schema.json",
+      "adl-runtime/schemas/operator-attention/v1/attention-receipt.schema.json",
+      "adl-runtime/tests/operator_attention.rs",
+      "demos/html-observatory/operator-attention.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "adl/tools/test_v092_operator_attention_inbox.sh",
+      "docs/milestones/v0.92/features/OPERATOR_ATTENTION_INBOX_v0.92.md"
     ],
     "authority_boundary": [
       "Runtime owns identity verification, authorization, priority, ordering, expiry, lifecycle, retention, and receipts; browser state is projection only.",
@@ -40,11 +47,11 @@
       "Prove overload, spoofing, stale request, restart, reconnect, partial-write, corruption, expiry, and recovery behavior."
     ],
     "deliverables": [
-      "Typed attention request, lifecycle, projection, policy decision, and receipt schemas.",
-      "Runtime attention queue and bounded policy implementation over predecessor-owned exported contracts.",
-      "Observatory inbox integration with accessible operator outcomes and explicit failure states.",
-      "Focused deterministic positive, adversarial, restart/reconnect, recovery, and browser proof.",
-      "Issue-local contract documentation and exact-head review handoff."
+      "adl-runtime/src/operator_attention.rs",
+      "adl-runtime/tests/operator_attention.rs",
+      "Typed attention request, lifecycle, projection, policy decision, and receipt schemas",
+      "Observatory inbox integration with accessible operator outcomes and explicit failure states",
+      "Focused deterministic positive, adversarial, restart, reconnect, recovery, browser, and exact-head review proof"
     ],
     "dependencies": [
       "SERIAL BLOCKER: #111 canonical conversation sessions must be terminal and ancestral before bind.",
@@ -122,11 +129,9 @@
     "task_boundary": "Preparation now; later implementation only after serial gates. Own the attention-specific domain, projection, and proof while consuming #111/#112/#114 exports and leaving #83 untouched.",
     "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
     "validation_lanes": [
-      {"lane":"pvf-attention-unit-schema","argv":["cargo","test","--manifest-path","adl-runtime/Cargo.toml","--lib","operator_attention::tests"],"budget_seconds":300,"budget_tokens":4000,"deterministic":true,"parallel_group":"attention-core","proof_role":"Prove typed lifecycle, ordering, deduplication, expiry, limits, schemas, and transition invariants.","resource_profile":"small","acceptance_ids":["AC-1","AC-2","AC-4"]},
-      {"lane":"pvf-attention-api-auth-negative","argv":["cargo","test","--manifest-path","adl-runtime/Cargo.toml","--test","operator_attention","authorization_and_spoofing"],"budget_seconds":420,"budget_tokens":5000,"deterministic":true,"parallel_group":"attention-adversarial","proof_role":"Prove source substitution, urgency/authority fabrication, replay, revocation, cross-Polis denial, and reauthorization.","resource_profile":"small","acceptance_ids":["AC-3","AC-4"]},
-      {"lane":"pvf-attention-overload-recovery","argv":["cargo","test","--manifest-path","adl-runtime/Cargo.toml","--test","operator_attention","overload_restart_and_recovery"],"budget_seconds":600,"budget_tokens":7000,"deterministic":true,"parallel_group":"attention-adversarial","proof_role":"Prove bounded queue/rates/retention plus restart, reconnect, partial-write, corruption, expiry, and duplicate-notification recovery.","resource_profile":"medium","acceptance_ids":["AC-2","AC-5"]},
-      {"lane":"pvf-attention-observatory-browser","argv":["bash","adl/tools/test_v092_operator_attention_inbox.sh"],"budget_seconds":600,"budget_tokens":7000,"deterministic":true,"parallel_group":"attention-browser","proof_role":"Prove accessible responsive inbox behavior, unread/filter/deep-link actions, projection redaction, refusal, degradation, and reconnect.","resource_profile":"medium","acceptance_ids":["AC-6","AC-7"]},
-      {"lane":"pvf-exact-head-review","argv":["git","diff","--check","main...HEAD"],"budget_seconds":60,"budget_tokens":1000,"deterministic":true,"parallel_group":"attention-review","proof_role":"Preflight changed-head hygiene before independent exact-head review; this lane does not substitute review authority.","resource_profile":"small","acceptance_ids":["AC-7"]}
+      {"lane":"attention-exact-child-tests","argv":["cargo","nextest","run","--manifest-path","adl-runtime/Cargo.toml","--test","operator_attention","--no-tests=fail"],"budget_seconds":1200,"budget_tokens":12000,"deterministic":true,"parallel_group":"attention-runtime","proof_role":"Exact nonzero issue-owned target proves lifecycle, schema, authorization, queue bounds, deduplication, expiry, overload, spoofing, restart, reconnect, recovery, projection, and operator outcome invariants.","resource_profile":"medium","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"defer_reason":"The issue-owned temporary #[path = \"../src/operator_attention.rs\"] harness in adl-runtime/tests/operator_attention.rs will route adl-runtime/src/operator_attention.rs until integration registration; --no-tests=fail preserves the nonzero requirement."},
+      {"lane":"html-observatory-existing-contract","argv":["adl/tools/test_html_observatory.sh"],"budget_seconds":300,"budget_tokens":3000,"deterministic":true,"parallel_group":"attention-browser-contract","proof_role":"Preserve the checked-in HTML Observatory Runtime v3 feed, event, signed-control, endpoint-selection, and browser rejection baseline before the dedicated #116 browser validator is added through typed VPP replan after bind.","resource_profile":"small","acceptance_ids":["AC-3","AC-4","AC-6","AC-7"],"defer_reason":null},
+      {"lane":"attention-diff-hygiene","argv":["git","diff","--check"],"budget_seconds":60,"budget_tokens":500,"deterministic":true,"parallel_group":"attention-static","proof_role":"Reject malformed whitespace and patch artifacts before exact-head review.","resource_profile":"small","acceptance_ids":["AC-7"],"defer_reason":null}
     ],
     "version": "v0.92"
   }

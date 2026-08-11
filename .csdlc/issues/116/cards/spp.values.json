@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
     "slug": "wp-18c-06-operator-attention-inbox",
     "version": "v0.92",
-    "generation": 3
+    "generation": 0
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 1,
       "summary": "After #111/#112/#114 are terminal and ancestral, inspect their exported contracts, replan typed cards if paths drift, implement the isolated attention domain and schema, compose authorization/durability/conversation adapters, add the Observatory inbox, run focused PVF lanes and adversarial recovery proof, then hand off for exact-head review.",
       "steps": [
         {
