@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dfba2bc7d217926871774238898f8f4e00907bb6a6cf8afc0db1d6b12db39cc0",
   "phase": "initialized",
-  "generation": 24,
-  "digest": "d5b4a318946983c4eaf04aea70db4ba956cb1eb132918fe9a1fc85975352aaa3",
+  "generation": 25,
+  "digest": "6c3af720034787b7f99448cf0302c69c1942eb3fe8710bc5666d4235ad8497ce",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/210/design.md",
   "diagram_path": ".csdlc/prepared/issues/210/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root/prepare_203_parallel",
+      "revision": "8ce674c0e9f6e1ab36da4d10763ba80cb56353ce75496946d5c3098504db6f35"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "5e418638275c2cf74322fd48e95dfbe0859593c6f7d96edef77f9fd8f41a276d",
+      "values_digest": "56be235c0579ac8d8b56e22db35dee64a4b7aa2dddd1be06496c5b0eaa242eea",
       "rendered_digest": "aaa175185df657cdebf2f15c677e3a1c052952278a5ddb470ed993e54f8b39ba",
       "ast_digest": "ba2482c5a445c744a229516d10c88b404bbb841f61d0f0f1c9950462e9e8bbe8"
     },
     "stp": {
-      "values_digest": "1c140993ff75496aa685494608ca9d2d93a193c3290a82cd2f9dba337abf2746",
+      "values_digest": "b05113d244ae2c1f63e41c0b7a0db0db1bfc8043dfe69618022d9b3e654d8ab8",
       "rendered_digest": "8b7aee823b924c1428796012ef88e4b66b6d5424a4ae21a696b44dce80ceeb85",
       "ast_digest": "21afcf5eacbd88e405e23016a1234c32a09dab50eb27d653ba18a657eb6e2d8c"
     },
     "spp": {
-      "values_digest": "ae8f75126b92e07b4fee5e7cc05c8e61c0dece58d37aa178655fb5bc666e8e40",
+      "values_digest": "d75ec1353063b049433b2a2d6cfa3bde07b41220877a6aa6deff0dda4e1782cc",
       "rendered_digest": "2a93cac0a7c0d26b0b20bec5e0f644bf11504289941b053a3d7a595551a3d7bf",
       "ast_digest": "5394d817c2d3d5c725f0d231ef1aa43402563e603669b71ba4b717b054ecad70"
     },
     "vpp": {
-      "values_digest": "379c788becc1358a560af6dae3646a3b4a164c09b0b58df9c7e40026372d3754",
+      "values_digest": "a82364b654f8296911cf3906a329b9e1549f01fdf4c5e41667e0c1959ff7d7fe",
       "rendered_digest": "03963fd742e09b9148b09303fb2bff81e0155889e05dc7d5d42798cc52542348",
       "ast_digest": "92e8ba86f24b71437dd48fcb82ffda3e3374ac16a0e93d45eae1e8436e402c2e"
     },
     "srp": {
-      "values_digest": "c09e05b14cb208386d0c40617c97fbf1cf4b889495247cc023e4b29f2d834e81",
+      "values_digest": "8ef2ea318e9673ca5adf8365ce4d8c5b2b0345fa95074f998370653cc11291c4",
       "rendered_digest": "c432f11b266ce918924c9acbe68c6ad414e6ef1097132ffdef4303528dee32d4",
       "ast_digest": "9773e53b77d4e312cc4ec4407004f3bfa503b3eaa054c10ee8ca5b7860fea075"
     },
     "sor": {
-      "values_digest": "a496a1b224cff823a6b5ee4de7e7ddf79669bbc7d3e2dbdd99ce3b9aa8e93d5d",
+      "values_digest": "0f79c334cca700f9eacb5a623d2c58fc73d5dd6a8094b98a09ba745930b55125",
       "rendered_digest": "d506c23a8534049e1773e9e4a613070289b6163708bf41fedd90aa90ea36c465",
       "ast_digest": "f378ae262baafdb4672c0a7194033bfb996d5f4be6c321edbc028619cc2b9b23"
     }
@@ -225,6 +230,13 @@
       "actor": "codex:/root/resolve_208_final_review",
       "reason": "Retain #210 future review, ready-PR, hosted-CI, and operator merge-authorization boundaries while preserving shared-mod serial landing",
       "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/210/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/210/diagram.mmd\",\"new_design_digest\":\"8ce674c0e9f6e1ab36da4d10763ba80cb56353ce75496946d5c3098504db6f35\",\"new_diagram_digest\":\"fca1602e1956dbdc13cf1a9dd1bda620246bd281ff007e8aab503165ddaa1923\",\"old_design_digest\":\"8ce674c0e9f6e1ab36da4d10763ba80cb56353ce75496946d5c3098504db6f35\",\"old_diagram_digest\":\"fca1602e1956dbdc13cf1a9dd1bda620246bd281ff007e8aab503165ddaa1923\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Remain preparation-only until #202, then #199, then #203 are each independently reviewed, merged, and ancestral; resync #210 to the resulting exact origin/main and rerun typed csdlc-validate issue plus csdlc-doctor before bind.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"action\":\"After the serial gate passes, bind #210 and implement the typed session, bounded stream, durable prefix/retry, incremental verification, and sealed #208 handle integration; #208 alone performs kernel/filesystem effects and cleanup, while #210 returns only verified transport outcomes for future #204 consumption.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Prove the unchanged exact 45-case, 8-acceptance, 84-subassertion contract, strict Clippy, exact-range diff and immutable receipt truth; obtain fresh exact-head review, publish a ready PR closing #210, shepherd hosted CI, and wait for operator merge authorization. When landing is authorized, coordinate serial landing with graph-parallel #205 because both touch distributed/mod.rs, resyncing and revalidating whichever branch lands second.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 25,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
     }
   ]
 }
