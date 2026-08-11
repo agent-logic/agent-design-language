@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/83/audit.jsonl\n.csdlc/issues/83/cards/sip.values.json\n.csdlc/issues/83/cards/sor.md\n.csdlc/issues/83/cards/sor.values.json\n.csdlc/issues/83/cards/spp.values.json\n.csdlc/issues/83/cards/srp.md\n.csdlc/issues/83/cards/srp.values.json\n.csdlc/issues/83/cards/stp.values.json\n.csdlc/issues/83/cards/vpp.values.json\n.csdlc/issues/83/index.json\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/durable_state.rs\nadl-runtime-kernel/tests/durable_state.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/production_acip_wss.rs\ndemos/html-observatory/app.js\nadl/tools/validate_v092_html_observatory_live.mjs\ndocs/api/runtime-v3/v1/observatory.openapi.json",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

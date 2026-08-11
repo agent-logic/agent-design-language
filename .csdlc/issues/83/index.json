@@ -5,10 +5,35 @@
   "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
   "phase": "implemented",
   "generation": 73,
-  "digest": "48f181397e5df524dad15ac1430c2608f73308db7e3298fb1f7d50b60887b637",
+  "digest": "91de7369811d580bacfc5d9aa1cdd28ade54a23013cf3fb39274f303818529cb",
   "branch": "codex/83-html-observatory-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-83-html-observatory-readiness",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "Arendt:019fedd2-cff2-70a2-89f0-64cd4217177c",
+    "assigned_by": "codex:83-merge-reconciliation",
+    "revision": "git-blake3:e1e27ef32d2eb992e69a27dbf5ce3137b4be04a2:a41c95264222d3121449424326e0cb137932793b13400a2a97603c63f0df9066",
+    "scope": [
+      ".csdlc/issues/83/audit.jsonl",
+      ".csdlc/issues/83/cards/sip.values.json",
+      ".csdlc/issues/83/cards/sor.md",
+      ".csdlc/issues/83/cards/sor.values.json",
+      ".csdlc/issues/83/cards/spp.values.json",
+      ".csdlc/issues/83/cards/srp.md",
+      ".csdlc/issues/83/cards/srp.values.json",
+      ".csdlc/issues/83/cards/stp.values.json",
+      ".csdlc/issues/83/cards/vpp.values.json",
+      ".csdlc/issues/83/index.json",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/tests/durable_state.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "demos/html-observatory/app.js",
+      "adl/tools/validate_v092_html_observatory_live.mjs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +69,9 @@
       "ast_digest": "91556df1f10a0a193528c9949758d2853288a12956dd60a51378955fe2f3bea6"
     },
     "srp": {
-      "values_digest": "d4d3cefad43179321767c91fbbb998a901c12ab429ca0a190ca224376a0bf6f2",
-      "rendered_digest": "39d239be958390824b3d7e0a3cd9f8f3c6b7e3c4033a7837992a00a64690cef5",
-      "ast_digest": "cd464898c3fa175e1757ef84b3f019ee4ac11bb26e6e9906b543ca3f0473e73d"
+      "values_digest": "ab993dc7cfc06bb27835b6bd8043095e2e0c515ba04068c3891e4a51534466cf",
+      "rendered_digest": "844a7f712ecc33fb7191fe82edf32463d41bce0f48957e83fd3ad0b530124371",
+      "ast_digest": "3d5f15d32f0e8087ecb14d808c5f86e479dd1f50ef068c009fd4014fcc8476a0"
     },
     "sor": {
       "values_digest": "b17d9683ccf1be33584ea93746a69d53db88c96a05652165fe6ce8523f8e6f6e",
@@ -630,6 +655,13 @@
       "actor": "codex:83-merge-reconciliation",
       "reason": "Record focused and live validation at the exact current-main merge head before renewed independent review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and integrated the live HTML Observatory Runtime v3 client and shared signed ACIP identity-message path for Layer 8 and agent communication, including durable replay continuity, browser keylessness, recipient-signed acknowledgements, qualified-time freshness, attempt-local cross-carrier reservation truth, and conflict-free integration with current main.\",\"changes\":[\"Integrated the HTML Observatory with the live Runtime roster, qualified capture time, authenticated Layer 8 chat, recipient signature verification, reconnect, and fail-closed states.\",\"Implemented one JCS-canonical signed identity-message contract for Layer 8 and agent-to-agent communication with durable sender and acknowledgement replay watermarks.\",\"Provisioned distinct external Runtime communication identities without browser or repository private-key material.\",\"Returned attempt-local canonical-ingress reservation disposition so concurrent carriers cannot claim another submission's replay watermark.\",\"Corrected the VPP continuity lane to run the implemented exact restart test and removed the false #5836 publication gate.\",\"Merged current main while preserving both issue #83 communication-sequence persistence tests and main's atomic governed-state compare-and-set coverage.\"],\"artifacts\":[\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"demos/html-observatory/app.js\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"/Volumes/FastWork/adl-issue-83-6d9b4ea17-v2/evidence/observatory-layer8-chat-6d9b4ea171e3-4ae936e1-a440-4ddc-ac24-02cf7f19a1f8-report.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_state\"],\"purpose\":\"Prove the merged durable-state overlap retains communication persistence and atomic governed-state behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head local output: 7 passed at 6d9b4ea171e37af3ef04373af7a45746ed76dffd\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\"],\"purpose\":\"Run the full runtime-kernel unit denominator including the deterministic cross-carrier reservation regression.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head local output: 75 passed at 6d9b4ea171e37af3ef04373af7a45746ed76dffd\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\",\"communication_replay_and_ack_sequences_survive_process_cycles_without_snapshot_restore\",\"--\",\"--exact\"],\"purpose\":\"Run the corrected exact acknowledgement restart-continuity lane.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head local output: 1 passed at 6d9b4ea171e37af3ef04373af7a45746ed76dffd\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\"],\"purpose\":\"Prove the production binary ACIP WebSocket path after merging current main.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head local output: 1 passed at 6d9b4ea171e37af3ef04373af7a45746ed76dffd\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings in the merged Runtime library and binary surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head local output at 6d9b4ea171e37af3ef04373af7a45746ed76dffd\"},{\"command\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\"],\"purpose\":\"Run the exact merged Runtime and Observatory through trusted public TLS in managed Chrome, including restart and replay continuity.\",\"outcome\":\"passed\",\"evidence_ref\":\"/Volumes/FastWork/adl-issue-83-6d9b4ea17-v2/evidence/observatory-layer8-chat-6d9b4ea171e3-4ae936e1-a440-4ddc-ac24-02cf7f19a1f8-report.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed merge output.\",\"outcome\":\"passed\",\"evidence_ref\":\"clean exact-head merge diff\"}]}"
+    },
+    {
+      "sequence": 77,
+      "generation": 73,
+      "actor": "codex:83-merge-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
