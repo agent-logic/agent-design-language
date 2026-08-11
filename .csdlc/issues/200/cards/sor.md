@@ -12,21 +12,21 @@ Status: pre_phase
 
 ## Summary
 
-Resolved all four findings from the fresh review of 20fd144ba1633c21c69a72fbd3a6b1ebb9ba84ee. The fixed 36-case denominator now injects restart faults after marker and after view, rejects conflicting and corrupt published views on exact retry, denies retained mutation permits after N+1 Pending plus wrong lineage/action use, and emits an independently enumerated 13-subassertion marker set. The immutable v3 receipt at source 22f481bf85f8a6775eef4ed9450204ad77dffe9b binds 36/36 cases, 13/13 subassertions, strict Clippy, and protected digests. Full runtime remains 264/264. Different fresh review is pending; nothing is published, merged, or closed.
+Resolved the hosted Runtime coverage failure caused by issue-200 tests creating fixtures beneath the macOS-only /private/tmp path. Both unit and production-integration fixtures now use a canonical repository-local current-directory anchor compatible with the runtime storage symlink policy. The unchanged exact 36-case denominator and all 13 subassertions pass, strict Clippy passes, the full Runtime library passes 264/264, and the immutable v4 receipt binds the portable-path guard and protected digests at source bb400c8c832e29c93c0ca45b486d313acb01c83e. Different fresh review is pending; the existing PR is stale and nothing is merged or closed.
 
 ## Artifacts
 
 - adl-runtime/src/distributed/authority_reconciliation/tests.rs
+- adl-runtime/tests/distributed_authority_reconciliation.rs
 - .csdlc/prepared/issues/200/produce-proof-receipt.rb
 - .csdlc/prepared/issues/200/validate-proof-receipt.rb
-- .csdlc/evidence/200/v3/execution-proof.json
+- .csdlc/evidence/200/v4/execution-proof.json
 
 ## Execution
 
-- Expanded crash_after_checkpoint within the approved denominator to inject and recover after checkpoint, after marker, and after published view.
-- Expanded exact_retry_cached_result to prove no adapter re-execution and fail-closed conflicting and corrupt published views.
-- Expanded published_permit_current to prove current read/mutation validity, read escalation denial, wrong-lineage and wrong-mutation-action denial, and retained read plus mutation denial after generation N+1 becomes Pending.
-- Upgraded the proof producer and validator to v2 schema/v3 evidence with an exact 13-item required subassertion set and per-marker digests in addition to the unchanged 36-case denominator.
+- Replaced both hard-coded /private/tmp fixture roots with temporary directories beneath the canonical current checkout, preserving the absolute and symlink-free storage-root contract on macOS and Linux.
+- Added producer and validator guards that fail if /private/tmp is reintroduced into either issue-200 test layer.
+- Advanced immutable proof evidence from v3 to v4 without changing the approved 36-case or 13-subassertion denominators.
 
 ## Validation
 
@@ -46,9 +46,9 @@ Resolved all four findings from the fresh review of 20fd144ba1633c21c69a72fbd3a6
       "-E",
       "test(/authority_reconciliation/)"
     ],
-    "purpose": "Prove the unchanged exact 36-case denominator with all review-resolution assertions.",
+    "purpose": "Prove the unchanged exact unit-plus-integration denominator on portable fixture roots: 36 tests run and 36 passed.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/200/v3/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
   },
   {
     "command": [
@@ -67,7 +67,7 @@ Resolved all four findings from the fresh review of 20fd144ba1633c21c69a72fbd3a6
     ],
     "purpose": "Emit and bind exactly 36 case markers plus the exact 13 required subassertion markers.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/200/v3/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
   },
   {
     "command": [
@@ -85,7 +85,7 @@ Resolved all four findings from the fresh review of 20fd144ba1633c21c69a72fbd3a6
     ],
     "purpose": "Prove the owned production and test target remains warning-free.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/200/v3/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
   },
   {
     "command": [
@@ -98,7 +98,7 @@ Resolved all four findings from the fresh review of 20fd144ba1633c21c69a72fbd3a6
       "--lib",
       "--no-tests=fail"
     ],
-    "purpose": "Prove the full runtime library: 264 tests run and 264 passed.",
+    "purpose": "Run the coverage-equivalent full Runtime library denominator: 264 tests run and 264 passed.",
     "outcome": "passed",
     "evidence_ref": "adl-runtime/src/distributed/authority_reconciliation/tests.rs"
   },
@@ -107,9 +107,9 @@ Resolved all four findings from the fresh review of 20fd144ba1633c21c69a72fbd3a6
       "ruby",
       ".csdlc/prepared/issues/200/validate-proof-receipt.rb"
     ],
-    "purpose": "Prove exact cases, exact subassertions, source/proof immutability, protected digests, and merge-safe ancestry.",
+    "purpose": "Prove exact cases, exact subassertions, portable fixture policy, source/proof immutability, protected digests, and merge-safe ancestry.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/200/v3/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/200/v4/execution-proof.json"
   },
   {
     "command": [
@@ -121,7 +121,7 @@ Resolved all four findings from the fresh review of 20fd144ba1633c21c69a72fbd3a6
     ],
     "purpose": "Prove Rust formatting hygiene.",
     "outcome": "passed",
-    "evidence_ref": "adl-runtime/src/distributed/authority_reconciliation/tests.rs"
+    "evidence_ref": "adl-runtime/tests/distributed_authority_reconciliation.rs"
   }
 ]
 
