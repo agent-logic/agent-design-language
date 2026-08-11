@@ -70,10 +70,10 @@ commands.each do |name, command|
 end
 machine = commands.fetch("machine_cases")
 text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(machine.fetch("#{stream}_path"))) }.join
-observed = text.lines.filter_map do |line|
+observed = text.lines.each_with_object([]) do |line, rows|
   next unless line.include?("ADL_ISSUE_201_CASE_V1 ")
   name, result = line.split("ADL_ISSUE_201_CASE_V1 ", 2).fetch(1).strip.split(" ", 2)
-  [name, result, Digest::SHA256.hexdigest(line.chomp)]
+  rows << [name, result, Digest::SHA256.hexdigest(line.chomp)]
 end
 fail_receipt("marker denominator mismatch") unless observed.length == 47
 observed_by_name = observed.to_h { |name, result, digest| [name, [result, digest]] }

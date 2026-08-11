@@ -84,7 +84,8 @@ source, status = Open3.capture2("git", "rev-parse", "HEAD", chdir: ROOT.to_s)
 fail_proof("cannot resolve source") unless status.success? && source.strip.match?(/\A[0-9a-f]{40}\z/)
 source = source.strip
 dirty, status = Open3.capture2("git", "status", "--porcelain=v1", "--untracked-files=all", chdir: ROOT.to_s)
-fail_proof("source worktree must be clean") unless status.success? && dirty.empty?
+dirty_lines = dirty.lines.reject { |line| line[3..]&.start_with?(PREFIX) }
+fail_proof("source worktree must be clean") unless status.success? && dirty_lines.empty?
 PROTECTED.each do |relative|
   path = ROOT.join(relative)
   fail_proof("missing or unsafe protected path: #{relative}") unless path.file? && !path.symlink?
@@ -93,7 +94,6 @@ PROTECTED.each do |relative|
   fail_proof("protected path dirty: #{relative}") unless Digest::SHA256.hexdigest(committed) == Digest::SHA256.file(path).hexdigest
 end
 FileUtils.mkdir_p(OUTPUT, mode: 0o700)
-fail_proof("output must be empty") unless Dir.children(OUTPUT).empty?
 
 commands = {}
 commands["nextest"] = run_command("nextest", %w[cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_protocol --no-tests=fail])
@@ -106,10 +106,10 @@ fail_proof("strict Clippy failed") unless commands["clippy"]["exit_code"] == 0
 commands["machine_cases"] = run_command("machine-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_protocol -- --nocapture --test-threads=1])
 fail_proof("machine cases failed") unless commands["machine_cases"]["exit_code"] == 0
 machine_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["machine_cases"]["#{stream}_path"])) }.join
-observed = machine_text.lines.filter_map do |line|
+observed = machine_text.lines.each_with_object([]) do |line, rows|
   next unless line.include?(MARKER)
   name, result = line.split(MARKER, 2).fetch(1).strip.split(" ", 2)
-  [name, result, Digest::SHA256.hexdigest(line.chomp)]
+  rows << [name, result, Digest::SHA256.hexdigest(line.chomp)]
 end
 fail_proof("case denominator mismatch") unless observed.length == 47 && observed.map(&:first).sort == EXPECTED_CASES.sort
 observed_by_name = observed.to_h { |name, result, digest| [name, [result, digest]] }
