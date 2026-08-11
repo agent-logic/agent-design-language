@@ -10,6 +10,9 @@ Current tracked candidate file:
 
 - `CANDIDATE_ADRS.md`
 
+The v0.92 candidate packet is indexed by `V092_ADR_INDEX_143.md`. ADR 0059
+through ADR 0071 remain Proposed or Deferred and are not accepted authority.
+
 Retained v0.91.6 release-tail candidate ADR drafts:
 
 - `0035-local-polis-ssm-operations-boundary.md`

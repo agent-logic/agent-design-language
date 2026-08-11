@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 159,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-07] Move Terraform CI deployment and runbook authority",
+    "slug": "corp-07-move-terraform-ci-deployment-and-runbook-authority",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Move Terraform state, CI/CD, deployment identity, rollback, and operational runbook authority to company-controlled systems.",
+      "required_outcome": "company-identity plan deployment rollback and operations proof is produced at an exact revision and independently reproducible.",
+      "declared_scope": [
+        "Remote state and locks, OIDC and deployment roles, GitHub environments, secrets by name, workflow permissions, release and rollback commands, monitoring escalation, and operator runbooks."
+      ],
+      "authority_boundary": [
+        "Issue CORP-07 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main",
+        "Bind only after typed doctor reports ready",
+        "Do not cross dependency or stop gates",
+        "Keep evidence producer-derived and exact-revision bound"
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+flowchart LR
+  C["Qualification contract"] --> T["Topology manifest"]
+  T --> V["3 distinct voters"]
+  T --> A["3 governed agents"]
+  T --> S["1 non-voting Shepherd"]
+  T --> O["1 quorum-leased Observatory"]
+  C --> Q["Scenario denominator"]
+  Q --> F["Fault, timeout, and cleanup contracts"]
+  V & A & S & O & F --> R["Digest-bound receipt schemas"]
+  R --> X["Issue-specific validator"]

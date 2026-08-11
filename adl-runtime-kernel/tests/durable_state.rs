@@ -179,3 +179,50 @@ fn communication_inbound_reservations_survive_restart_and_roll_back_definite_fai
         7
     );
 }
+
+#[test]
+fn governed_state_compare_and_set_has_one_atomic_winner_and_exact_successor() {
+    let root = TempDir::new().unwrap();
+    let state = Arc::new(KernelDurableState::open(root.path()).unwrap());
+    let mut handles = Vec::new();
+    for index in 0..16 {
+        let state = state.clone();
+        handles.push(std::thread::spawn(move || {
+            let replacement = format!("reservation-{index}");
+            (
+                replacement.clone(),
+                state
+                    .compare_and_set_governed_state(
+                        "adaptive-reservation",
+                        None,
+                        replacement.as_bytes(),
+                    )
+                    .unwrap(),
+            )
+        }));
+    }
+    let winners: Vec<_> = handles
+        .into_iter()
+        .map(|handle| handle.join().unwrap())
+        .filter(|(_, applied)| *applied)
+        .collect();
+    assert_eq!(winners.len(), 1);
+    let winner = &winners[0].0;
+    assert_eq!(
+        state
+            .load_governed_state("adaptive-reservation")
+            .unwrap()
+            .unwrap(),
+        winner.as_bytes()
+    );
+    assert!(!state
+        .compare_and_set_governed_state("adaptive-reservation", Some(b"wrong"), b"not-applied",)
+        .unwrap());
+    assert!(state
+        .compare_and_set_governed_state(
+            "adaptive-reservation",
+            Some(winner.as_bytes()),
+            b"committed",
+        )
+        .unwrap());
+}

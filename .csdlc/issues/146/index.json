@@ -1,0 +1,507 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 146,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "3a49b58d5ed74ad42ce9c9f58a4d3174e5c90ecc75d9efb944e061612e120434",
+  "phase": "published",
+  "generation": 39,
+  "digest": "c8769321e6833ca61093dcfe6478ec7e4e0fcecd5a8f80cc4ee56779a9f7fd14",
+  "branch": "codex/146-v0921-milestone-planning",
+  "worktree": "/Volumes/FastWork/adl-issue-146-v0921-milestone",
+  "review_assignment": {
+    "reviewer": "subagent:019fee2b-d867-7702-94df-5efbb4cdb84c",
+    "assigned_by": "codex:146-closeout-sequence-reconciliation",
+    "revision": "git-blake3:2ea89bd158d95893b0f66f0ef162cd98f8736e53:f78043f27b48003f7345a3ce68ee052b494f7b9d0ef829195c1040d973be5a73",
+    "scope": [
+      ".csdlc/issues/146",
+      ".csdlc/prepared/issues/146",
+      "docs/milestones/v0.92.1"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fee2b-d867-7702-94df-5efbb4cdb84c",
+    "scope": [
+      ".csdlc/issues/146",
+      ".csdlc/prepared/issues/146",
+      "docs/milestones/v0.92.1"
+    ],
+    "reviewed_revision": "git-blake3:2ea89bd158d95893b0f66f0ef162cd98f8736e53:f78043f27b48003f7345a3ce68ee052b494f7b9d0ef829195c1040d973be5a73",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 146,
+    "pull_request": 206,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/206",
+    "base": "main",
+    "head": "codex/146-v0921-milestone-planning",
+    "revision": "git-blake3:3e83d9abe7e59ff1a1063d69d76d71b1f970d393:a1a671aa1afca6417d6133a671a2f762c050f02990d4feb7c43c3ddae4affb2e",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/146/design.md",
+  "diagram_path": ".csdlc/prepared/issues/146/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:146-closeout-sequence-reconciliation",
+      "revision": "3ba7394e3178f4de033d1bdffc16a9df948026065fcd7881bee84cb91060429f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3105f8fcacfbe30924f48b9059e9564b855feae54cdd611468ec5fa22a582f46",
+      "rendered_digest": "68927ffb54723f56ff825c5269ece58bed93af405d9e4bd314052a228df967ce",
+      "ast_digest": "c1f7e80d671dd1f6b49c81d35f828b550fd775eadd6b6c6c18c152c0648622fe"
+    },
+    "stp": {
+      "values_digest": "0e710429fac19da8b23d3c73a78587f4c620822c9d90ec22d54e38f093358c82",
+      "rendered_digest": "a13d3199e0b206fcac2f97d24a55c3c976be0b803a3a92f78be085684cbfc957",
+      "ast_digest": "cb391b19a99e1d45219ae0d892cf4219811981e69f6c5ce19b658d72abdc6063"
+    },
+    "spp": {
+      "values_digest": "883cf5b004ffb0e1732b0939d11bc780106be622bdbc09bc67d6d09bc602204d",
+      "rendered_digest": "3733046d5f23faaf2eea9948c7ba6334507d1e54c682423c5a7f2dddb75d1c51",
+      "ast_digest": "5834f2d506a067bd3530cc5af735270b8db7ff26bebc00c526629e46698ecb39"
+    },
+    "vpp": {
+      "values_digest": "e2ecb0ffc7e38423200dd819c85bc78967f19bc3661ed23b2fc65e6da889352f",
+      "rendered_digest": "34728eb02d9143c195faf51b091c9265a65ccbc3b3459c328fe9aba13498a4f8",
+      "ast_digest": "723cfddbbabcc61dd4bde9ba142e12d117417303557377d075e8eeacd66db595"
+    },
+    "srp": {
+      "values_digest": "cd094493fda2aed3dd3e142e7cfc7509ffee01dc60b2639f7b3458d9e8b7b97d",
+      "rendered_digest": "5003852de55770a024f06b718094edf91dac97e63f79ff3d3fc3dd05f1f79428",
+      "ast_digest": "ffa6e508c712900477a33e2e4546f8b358e3e3b12feb75aae2b6d99d5b773eca"
+    },
+    "sor": {
+      "values_digest": "4d4a4380a6cbd58313a0703a844937322697193df556d4c9c7946cca12687102",
+      "rendered_digest": "0f79b7055a59830c9ebcfe6c48d718330566831e84dff3a1bb94d3fce14e0103",
+      "ast_digest": "851c95d14d5532d8be9587d816768f40a88f16ebaca5e17e697ab51224c4f3f7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-v0921-planner",
+      "reason": "Bounded planning implementation and focused deterministic validation are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-v0921-planner",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-v0921-planner",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:146-v0921-review-remediation",
+      "reason": "Recover the published review state after exact-head review required complete live child packets, full decision preservation, and execution-readiness remediation."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:146-v0921-execution-ready-wave",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:146-planning-only-reconciliation",
+      "reason": "Recover the published review state after the operator corrected premature child issue creation and required a planning-only WP-01 opening gate plus the standard milestone closeout sequence."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fedce-d5f3-7132-beed-c0786c120156",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:146-planning-only-reconciliation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:146-closeout-sequence-reconciliation",
+      "reason": "Recover the published review state because the operator required v0.92.1 to use the canonical nine-step closeout sequence from earlier milestones instead of the collapsed six-step tail."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fee2b-d867-7702-94df-5efbb4cdb84c",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:146-closeout-sequence-reconciliation",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:v0921-milestone-planner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:019fed05-4b85-79a1-beb7-32ab95bafed7",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:v0921-milestone-planner",
+      "reason": "Make planning validation cover the complete publication delta, pinned source authority, and bounded independent review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"milestone-package-contract\",\"proof_role\":\"Verify required v0.92.1 planning and feature surfaces, issue identifiers, source routing, accepted v3 source revision, terminal Runtime source authority, and planning posture.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"parallel_group\":\"focused-docs\",\"defer_reason\":null},{\"lane\":\"yaml-link-and-complete-delta-contract\",\"proof_role\":\"Verify issue-wave YAML, local links, placeholders, and every intended tracked or untracked publication path before commit.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"parallel_group\":\"focused-docs\",\"defer_reason\":null},{\"lane\":\"committed-diff-hygiene\",\"proof_role\":\"Reject malformed changes across the complete committed publication delta against the exact base revision.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"focused-docs\",\"defer_reason\":null},{\"lane\":\"bounded-independent-review\",\"proof_role\":\"Obtain an independent source-grounded review of milestone completeness, dependency truth, source pins, and proof quality before publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"csdlc-review\",\"--root\",\".\",\"--request\",\".csdlc/prepared/issues/146/review-request.json\"],\"parallel_group\":\"pre-publication-review\",\"defer_reason\":\"Runs after the milestone package and focused deterministic validation are complete at an exact review revision.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "subagent:019fed05-4b85-79a1-beb7-32ab95bafed7",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:v0921-milestone-planner",
+      "reason": "Issue #146 is v0.92 planning work that creates the v0.92.1 milestone.",
+      "operation": "{\"operation\":\"update_identity_version\",\"version\":\"v0.92.0\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:v0921-milestone-planner",
+      "reason": "Make planning validation cover the complete publication delta, pinned source authority, and bounded independent review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"milestone-package-contract\",\"proof_role\":\"Verify required v0.92.1 planning and feature surfaces, issue identifiers, source routing, accepted v3 source revision, terminal Runtime source authority, and planning posture.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"parallel_group\":\"focused-docs\",\"defer_reason\":null},{\"lane\":\"yaml-link-and-complete-delta-contract\",\"proof_role\":\"Verify issue-wave YAML, local links, placeholders, and every intended tracked or untracked publication path before commit.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"parallel_group\":\"focused-docs\",\"defer_reason\":null},{\"lane\":\"committed-diff-hygiene\",\"proof_role\":\"Reject malformed changes across the complete committed publication delta against the exact base revision.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"focused-docs\",\"defer_reason\":null},{\"lane\":\"bounded-independent-review\",\"proof_role\":\"Obtain an independent source-grounded review of milestone completeness, dependency truth, source pins, and proof quality before publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-review\",\"--root\",\".\",\"--request\",\".csdlc/prepared/issues/146/review-request.json\"],\"parallel_group\":\"pre-publication-review\",\"defer_reason\":\"Runs after the milestone package and focused deterministic validation are complete at an exact review revision.\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:v0921-milestone-planner",
+      "reason": "Project issue #146 ownership into the exact repository paths used by readiness and validation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/146\",\".csdlc/prepared/issues/146\",\".csdlc/prepared/issues/146/design.md\",\".csdlc/prepared/issues/146/diagram.mmd\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\",\".csdlc/prepared/issues/146/review-request.json\",\".adl/docs/TBD/V0.92.5_CORPORATE_MIGRATION.md\",\"docs/milestones/v0.92.1\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "subagent:019fed19-77c2-7f70-82c0-10b69a4555fc",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex-v0921-planner",
+      "reason": "Reconcile SPP ownership with the final tracked publication surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/146\",\".csdlc/prepared/issues/146\",\"docs/milestones/v0.92.1\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex-v0921-planner",
+      "reason": "Reconciliation is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex-v0921-planner",
+      "reason": "Canonical milestone and feature package is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex-v0921-planner",
+      "reason": "Issue graph, sprint topology, proof matrix, and release gates are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex-v0921-planner",
+      "reason": "Focused validation and independent review passed; publication remains.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex-v0921-planner",
+      "reason": "Record the completed bounded planning implementation before exact-revision review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Authored the complete v0.92.1 planning package with independent corporate/IP, C-SDLC v3, and distributed Runtime qualification lanes; retained source routing, machine-readable issue graph, proof gates, focused validators, and consultation dispositions.\",\"changes\":[\"Created the canonical v0.92.1 milestone and feature-document package.\",\"Defined a 38-package dependency graph with four coordination umbrellas and three final integration packages.\",\"Preserved the accepted C-SDLC v3 architecture and Decision 11/V3-R01 gates.\",\"Defined test-only distributed Runtime qualification hard-gated on terminal #142 exact proof.\",\"Promoted corporate infrastructure requirements into a tracked v0.92.1 source and added counsel-bounded IP transfer work.\",\"Added focused package, dependency, ancestry, tracked-link, placeholder, and diff validation.\"],\"artifacts\":[\"docs/milestones/v0.92.1/README.md\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md\",\"docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md\",\"docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md\",\"docs/milestones/v0.92.1/features/\",\"docs/milestones/v0.92.1/sources/CORPORATE_INFRASTRUCTURE_CONSOLIDATION_SOURCE.md\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex-v0921-planner",
+      "reason": "Record focused package validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"purpose\":\"Validate exact package inventory, dependency closure, cycle freedom, lane independence, source ancestry, critical gates, legal coverage, and distributed proof contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/146/validate-v0921-package.rb: PASS observed 2026-08-10\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex-v0921-planner",
+      "reason": "Record focused tracked-link validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"purpose\":\"Validate YAML parsing, tracked local link targets, and absence of unresolved placeholders.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/146/validate-v0921-links.rb: PASS observed 2026-08-10\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex-v0921-planner",
+      "reason": "Bounded planning implementation and focused deterministic validation are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex-v0921-planner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex-v0921-planner",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex-v0921-planner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:146-v0921-review-remediation",
+      "reason": "Recover the published review state after exact-head review required complete live child packets, full decision preservation, and execution-readiness remediation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:146-typed-readiness-remediation",
+      "reason": "Own the documentation-only C-SDLC v3 package boundary required for portable child-path readiness in fresh checkouts.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/146\",\".csdlc/prepared/issues/146\",\"docs/milestones/v0.92.1\",\"csdlc-v3/README.md\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex:146-v0921-execution-ready-wave",
+      "reason": "Reconcile parent execution truth with the complete live issue wave and focused readiness evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the execution-ready v0.92.1 planning wave: four sprint umbrellas and 38 child issues are live with issue-specific cards, approved designs, owned paths, acceptance criteria, PVF lanes, stop conditions, validators, diagrams, dependency gates, and source-grounded milestone contracts.\",\"changes\":[\"Created four live sprint umbrellas (#149-#152) and 38 live child issues (#153-#190) under the v0.92.1 milestone contract.\",\"Authored and independently reviewed all 42 six-card issue packets, designs, diagrams, issue-owned outcome validators, and exact ownership declarations.\",\"Preserved all eleven mandatory C-SDLC v3 architecture decisions and mapped each decision to an owning work package and proof gate.\",\"Defined the corporate/IP, C-SDLC v3, distributed Runtime qualification, and final integration waves with explicit dependencies and independent sprint operation.\",\"Corrected terminal #142 language to a future gate and bound DRT-06 to the repository's actual HTML Observatory package.\",\"Added seven fail-closed distributed qualification entrypoints that require real issue-owned runners and recompute producer-derived evidence without asserted pass flags.\"],\"artifacts\":[\"docs/milestones/v0.92.1/README.md\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_LIVE_ISSUE_MAP_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md\",\"docs/milestones/v0.92.1/DECISIONS_v0.92.1.md\",\".csdlc/issues/149/ through .csdlc/issues/190/\",\".csdlc/prepared/issues/149/ through .csdlc/prepared/issues/190/\",\"adl/tools/v0921/drt-01/ through adl/tools/v0921/drt-07/\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"validation\":[{\"command\":[\"sh\",\"-c\",\"for n in $(seq 149 190); do csdlc-validate issue --issue $n; done\"],\"purpose\":\"Validate all 42 issue-specific cards, designs, ownership paths, and selected validation targets through the native typed validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"42/42 native typed validations passed on 2026-08-10\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"purpose\":\"Validate the exact issue denominator, execution specifications, dependency graph, eleven decisions, source ancestry, and proof gates.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 package contract observed 2026-08-10\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"purpose\":\"Validate YAML, tracked links, live issue mappings, and placeholder hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 YAML, links, and placeholders observed 2026-08-10\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors in the planning package.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check exited 0 on 2026-08-10\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex:146-v0921-execution-ready-wave",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:146-v0921-execution-ready-wave",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex:146-planning-only-reconciliation",
+      "reason": "Recover the published review state after the operator corrected premature child issue creation and required a planning-only WP-01 opening gate plus the standard milestone closeout sequence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "codex:146-planning-only-design-reconciliation",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 31,
+      "generation": 27,
+      "actor": "codex:146-planning-only-reconciliation",
+      "reason": "Replace stale execution-ready child-wave claims with the operator-required planning-only package truth while preserving all detailed work specifications for WP-01.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected the v0.92.1 milestone package to planning-only posture. The complete 42-work-package design remains preserved, while future WP-01 now exclusively owns creation and validation of a fresh live issue wave.\",\"changes\":[\"Retired prematurely created issues #149-#190 without execution and recorded that disposition in a machine-readable retirement ledger.\",\"Removed only the premature child lifecycle records and distributed proof stubs; retained every detailed work-package objective, scope, deliverable, acceptance criterion, non-goal, owned path, PVF lane, stop condition, and review requirement.\",\"Added WP-01 as the sole milestone-opening and child-issue creation authority after the planning package merges.\",\"Removed live issue numbers and URLs from the planned issue wave and execution specifications.\",\"Expanded the integration tail to include integrated review, release qualification, next-milestone planning, independent handoff review, operator-authorized release ceremony, and terminal milestone closeout.\",\"Preserved all eleven mandatory C-SDLC v3 architecture decisions and the corporate, C-SDLC v3, and distributed Runtime qualification plans.\"],\"artifacts\":[\"docs/milestones/v0.92.1/README.md\",\"docs/milestones/v0.92.1/WBS_v0.92.1.md\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md\",\"docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md\",\"docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"purpose\":\"Validate planning-only posture, the preserved 42-work-package denominator, WP-01 creation authority, retirement truth, complete lifecycle sequence, dependency graph, and all eleven v3 decisions.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 planning-only package and standard lifecycle WBS\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"purpose\":\"Validate milestone YAML, repository links, and placeholder hygiene after removing premature live issue authority.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 YAML, links, and placeholders\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors in the corrected planning package.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check exited 0 on 2026-08-10\"}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 28,
+      "actor": "codex:146-planning-only-readiness",
+      "reason": "Declare the exact issue-owned validators used by the corrected planning-only proof package.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/146\",\".csdlc/prepared/issues/146\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\",\"docs/milestones/v0.92.1\",\"csdlc-v3/README.md\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 29,
+      "actor": "codex:146-planning-only-readiness",
+      "reason": "Keep executable proof commands in VPP and leave independent exact-head judgment to the SRP review stage.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"milestone-package-contract\",\"proof_role\":\"Verify planning-only posture, the preserved work-package denominator, WP-01 creation authority, retirement truth, lifecycle sequence, dependency graph, and all eleven C-SDLC v3 decisions.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"parallel_group\":\"focused-docs\",\"defer_reason\":null},{\"lane\":\"yaml-link-and-complete-delta-contract\",\"proof_role\":\"Verify milestone YAML, repository links, and placeholder hygiene across the corrected publication delta.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"parallel_group\":\"focused-docs\",\"defer_reason\":null},{\"lane\":\"committed-diff-hygiene\",\"proof_role\":\"Reject malformed changes across the complete committed publication delta against the exact base revision.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"focused-docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 30,
+      "actor": "codex:146-planning-only-reconciliation",
+      "reason": "Replace stale execution-ready child-wave claims with the operator-required planning-only package truth while preserving all detailed work specifications for WP-01.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected the v0.92.1 milestone package to planning-only posture. The complete 42-work-package design remains preserved, while future WP-01 now exclusively owns creation and validation of a fresh live issue wave.\",\"changes\":[\"Retired prematurely created issues #149-#190 without execution and recorded that disposition in a machine-readable retirement ledger.\",\"Moved the premature child lifecycle packets, designs, diagrams, validators, and distributed proof stubs into a non-authoritative planning archive; retained every detailed work-package objective, scope, deliverable, acceptance criterion, non-goal, owned path, PVF lane, stop condition, and review requirement.\",\"Added WP-01 as the sole milestone-opening and child-issue creation authority after the planning package merges.\",\"Removed live issue numbers and URLs from the planned issue wave and execution specifications.\",\"Expanded the integration tail to include integrated review, release qualification, next-milestone planning, independent handoff review, operator-authorized release ceremony, and terminal milestone closeout.\",\"Preserved all eleven mandatory C-SDLC v3 architecture decisions and the corporate, C-SDLC v3, and distributed Runtime qualification plans.\"],\"artifacts\":[\"docs/milestones/v0.92.1/README.md\",\"docs/milestones/v0.92.1/WBS_v0.92.1.md\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml\",\"docs/milestones/v0.92.1/planned-issue-packets/README.md\",\"docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md\",\"docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md\",\"docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"purpose\":\"Validate planning-only posture, the preserved 42-work-package denominator, WP-01 creation authority, retirement truth, complete lifecycle sequence, dependency graph, and all eleven v3 decisions.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 planning-only package and standard lifecycle WBS\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"purpose\":\"Validate milestone YAML, repository links, and placeholder hygiene after removing premature live issue authority.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 YAML, links, and placeholders\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors in the corrected planning package.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check exited 0 on 2026-08-10\"}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 31,
+      "actor": "codex:146-planning-only-reconciliation",
+      "reason": "Replace stale execution-ready child-wave claims with the operator-required planning-only package truth while preserving all detailed work specifications for WP-01.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected the v0.92.1 milestone package to planning-only posture. The complete 42-work-package design remains preserved, while future WP-01 now exclusively owns creation and validation of a fresh live issue wave.\",\"changes\":[\"Retired prematurely created issues #149-#190 without execution and recorded that disposition in a machine-readable retirement ledger.\",\"Moved the premature child lifecycle packets, designs, diagrams, validators, and distributed proof stubs into a non-authoritative planning archive; retained every detailed work-package objective, scope, deliverable, acceptance criterion, non-goal, owned path, PVF lane, stop condition, and review requirement.\",\"Added WP-01 as the sole milestone-opening and child-issue creation authority after the planning package merges.\",\"Removed live issue numbers and URLs from the planned issue wave and execution specifications.\",\"Expanded the integration tail to include integrated review, release qualification, next-milestone planning, independent handoff review, operator-authorized release ceremony, and terminal milestone closeout.\",\"Preserved all eleven mandatory C-SDLC v3 architecture decisions and the corporate, C-SDLC v3, and distributed Runtime qualification plans.\"],\"artifacts\":[\"docs/milestones/v0.92.1/README.md\",\"docs/milestones/v0.92.1/WBS_v0.92.1.md\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml\",\"docs/milestones/v0.92.1/planned-issue-packets/README.md\",\"docs/milestones/v0.92.1/planned-issue-packets/manifest.json\",\"docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md\",\"docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md\",\"docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"purpose\":\"Validate planning-only posture, the preserved 42-work-package denominator, all 721 archived file digests, WP-01 creation authority, retirement truth, complete lifecycle sequence, dependency graph, and exact ownership mapping for all eleven v3 decisions.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 planning-only package and standard lifecycle WBS\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"purpose\":\"Validate milestone YAML, repository links, and placeholder hygiene after removing premature live issue authority.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 YAML, links, and placeholders\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors in the corrected planning package.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check exited 0 on 2026-08-10\"}]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 32,
+      "actor": "codex:146-planning-only-reconciliation",
+      "reason": "Replace stale execution-ready child-wave claims with the operator-required planning-only package truth while preserving all detailed work specifications for WP-01.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected the v0.92.1 milestone package to planning-only posture. The complete 42-work-package design remains preserved; after the operator creates WP-01, WP-01 exclusively owns creation and validation of the downstream live issue wave.\",\"changes\":[\"Retired prematurely created issues #149-#190 without execution and recorded that disposition in a machine-readable retirement ledger.\",\"Moved the premature child lifecycle packets, designs, diagrams, validators, and distributed proof stubs into a non-authoritative planning archive; retained every detailed work-package objective, scope, deliverable, acceptance criterion, non-goal, owned path, PVF lane, stop condition, and review requirement.\",\"Added WP-01 as the sole milestone-opening and child-issue creation authority after the planning package merges.\",\"Removed live issue numbers and URLs from the planned issue wave and execution specifications.\",\"Expanded the integration tail to include integrated review, release qualification, next-milestone planning, independent handoff review, operator-authorized release ceremony, and terminal milestone closeout.\",\"Preserved all eleven mandatory C-SDLC v3 architecture decisions and the corporate, C-SDLC v3, and distributed Runtime qualification plans.\"],\"artifacts\":[\"docs/milestones/v0.92.1/README.md\",\"docs/milestones/v0.92.1/WBS_v0.92.1.md\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml\",\"docs/milestones/v0.92.1/planned-issue-packets/README.md\",\"docs/milestones/v0.92.1/planned-issue-packets/manifest.json\",\"docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md\",\"docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md\",\"docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"purpose\":\"Validate planning-only posture, the preserved 42-work-package denominator, all 721 source-commit-anchored archive digests, operator bootstrap of WP-01, WP-01 downstream creation authority, retirement truth, complete lifecycle sequence, dependency graph, and exact ownership mapping for all eleven v3 decisions.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 planning-only package and standard lifecycle WBS\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"purpose\":\"Validate milestone YAML, repository links, and placeholder hygiene after removing premature live issue authority.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 YAML, links, and placeholders\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors in the corrected planning package.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check exited 0 on 2026-08-10\"}]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 32,
+      "actor": "codex:146-planning-only-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 33,
+      "actor": "subagent:019fedce-d5f3-7132-beed-c0786c120156",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 34,
+      "actor": "codex:146-planning-only-reconciliation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 40,
+      "generation": 35,
+      "actor": "codex:146-closeout-sequence-reconciliation",
+      "reason": "Recover the published review state because the operator required v0.92.1 to use the canonical nine-step closeout sequence from earlier milestones instead of the collapsed six-step tail.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 36,
+      "actor": "codex:146-closeout-sequence-reconciliation",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 42,
+      "generation": 37,
+      "actor": "codex:146-closeout-sequence-reconciliation",
+      "reason": "Record the operator-required canonical nine-step milestone closeout sequence and focused planning-package proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Corrected the planning-only v0.92.1 WBS to use the canonical nine-step milestone closeout sequence from the tracked v0.91.6 closeout-tail authority. The package now contains 45 fully specified work packages, while future WP-01 remains the sole child-issue creation authority.\",\"changes\":[\"Replaced the collapsed six-step integration tail with INT-01 demo convergence, INT-02 quality gate, INT-03 docs and review alignment, INT-04 internal review, INT-05 external review, INT-06 remediation and final preflight, INT-07 next-milestone planning, INT-08 next-milestone review, and INT-09 release ceremony with lifecycle closeout.\",\"Made every closeout work package execution-ready with issue-specific objectives, scope, deliverables, acceptance criteria, non-goals, owned paths, PVF lanes, authority boundaries, risks, stop conditions, review prompts, and source references.\",\"Aligned the WBS, sprint, design, readiness gates, checklist, release plan, feature-proof coverage, diagrams, issue wave, execution specifications, and validator to one sequence.\",\"Made release ceremony the terminal lifecycle boundary instead of creating a separate post-ceremony closeout package.\",\"Preserved the 721-file premature-issue planning archive byte-for-byte and created no child issues.\"],\"artifacts\":[\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WBS_v0.92.1.md\",\"docs/milestones/v0.92.1/SPRINT_v0.92.1.md\",\"docs/milestones/v0.92.1/DESIGN_v0.92.1.md\",\"docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md\",\"docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md\",\"docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md\",\"docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md\",\".csdlc/prepared/issues/146/design.md\",\".csdlc/prepared/issues/146/diagram.mmd\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-package.rb\"],\"purpose\":\"Validate planning-only posture, the exact 45-work-package denominator, canonical nine-step closeout roles and dependencies, archive integrity, WP-01 creation authority, source links, and all prior milestone invariants.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 planning-only package and standard lifecycle WBS\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/146/validate-v0921-links.rb\"],\"purpose\":\"Validate milestone YAML, tracked source links, and placeholder hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92.1 YAML, links, and placeholders\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors in the planning-only correction.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check exited 0 on 2026-08-10\"}]}"
+    },
+    {
+      "sequence": 43,
+      "generation": 37,
+      "actor": "codex:146-closeout-sequence-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 38,
+      "actor": "subagent:019fee2b-d867-7702-94df-5efbb4cdb84c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 39,
+      "actor": "codex:146-closeout-sequence-reconciliation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

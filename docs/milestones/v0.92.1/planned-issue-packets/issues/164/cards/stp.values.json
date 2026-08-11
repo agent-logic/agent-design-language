@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 164,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-03] Build The Single-Binary Foundation",
+    "slug": "v3-03-build-the-single-binary-foundation",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-03 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "One crate, one binary target, one library target, complete placeholder command graph, versioned output envelope and selected in-process filter/template engines, generated help/docs, completion artifacts, production configuration for the V3-01-pinned `cargo-deny`, and reproducible release metadata."
+      ],
+      "acceptance_criteria": [
+        "Every approved command is discoverable from `csdlc --help`.",
+        "Cargo package `csdlc-v3` builds and installs exactly one binary named `csdlc`; generated docs, completions, provenance, and installer checks bind both immutable identities.",
+        "Constructor and parser tests invoke no repository, network, or process adapter.",
+        "Human and JSON output never mix machine payloads with diagnostics.",
+        "JSON carries the V3-01 schema discriminant; `--jq` and `--template` parse, conflict, and operate only through the V3-01/V3-02 approved in-process path.",
+        "`--jq` implements exactly the approved subset manifest, has golden compatibility tests for every supported form, and returns a typed usage error for unsupported jq syntax.",
+        "Every command that supports structured `--input` rejects combining it with any direct field flag at the Clap parser boundary; positive and conflict parser tests are required for each such command.",
+        "Dependency-policy CI rejects unapproved licenses, advisories, bans, and duplicate dependency families from this issue onward.",
+        "The release build emits one provenance-bound executable."
+      ],
+      "dependencies": [
+        "V3-02: issue #162"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-03",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Repository discovery, lifecycle semantics, GitHub access, state mutation, validation execution, or v2 installation changes."
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "issue": 141,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "9eb1ae71bde8efaf2f5781e9e96ed5b0f356cc6926470e9608295c7929a98516",
+  "actor": "codex:141-pr120-review-repair",
+  "reason": "Name the exact issue-owned validator targets required by readiness validation.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+      ".csdlc/prepared/issues/141/test-strict-clippy-proof.rb",
+      ".csdlc/prepared/issues/141/validate-terminal-records.rb",
+      ".csdlc/issues/141",
+      ".csdlc/issues/5909"
+    ]
+  }
+}

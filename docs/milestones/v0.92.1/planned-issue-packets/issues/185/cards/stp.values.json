@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 185,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-05] Qualify identity authority TLS capabilities and provider failure",
+    "slug": "drt-05-qualify-identity-authority-tls-capabilities-and-provider-failure",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only DRT-05 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Producer-derived security and failure matrix with exact envelope and authority inputs.",
+        "Independent verifier for every positive and negative outcome without hard-coded counts."
+      ],
+      "acceptance_criteria": [
+        "Voting, agent, Shepherd, operator, and Observatory identities use separated keys and roles; Shepherd cannot vote.",
+        "Production TLS chains to an approved trust anchor and no self-signed certificate appears on a production path.",
+        "Forged, stale, wrong-domain, missing-capability, cross-polis, malformed, and pre-auth disclosure attempts are denied with typed receipts.",
+        "Provider timeout, stall, malformed output, and partial failure preserve state and authority invariants."
+      ],
+      "dependencies": [
+        "DRT-03: issue #183",
+        "DRT-04: issue #184"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#drt-05",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Writing custom TLS primitives",
+        "Treating transport encryption as authorization",
+        "Generating outcome totals independently of producer results"
+      ]
+    }
+  }
+}

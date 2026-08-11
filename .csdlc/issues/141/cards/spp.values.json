@@ -1,0 +1,86 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 141,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.07][defect] Reconcile PR #120 terminal truth and strict Clippy proof",
+    "slug": "pr120-terminal-strict-clippy-proof-repair",
+    "version": "v0.92",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 5,
+      "summary": "Strengthen the receipt contract and regression first, then derive and commit #5909 terminal truth, validate, review, and publish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Require exact structured strict-Clippy command proof and add focused regressions.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Reconcile #5909 records with merged PR #120 and closed issue truth.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run focused validation, independent review, and publish.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/store.rs",
+        ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+        ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+        ".csdlc/prepared/issues/141/test-strict-clippy-proof.rb",
+        ".csdlc/prepared/issues/141/validate-terminal-records.rb",
+        ".csdlc/evidence/141/strict-clippy/validation-manifest.json",
+        ".csdlc/evidence/141/strict-clippy/runner.txt",
+        ".csdlc/evidence/141/strict-clippy/clippy.log",
+        ".csdlc/issues/141",
+        ".csdlc/issues/5909"
+      ],
+      "invariants": [
+        "Opaque artifacts never imply command success",
+        "Terminal truth comes from live GitHub state",
+        "No Runtime product paths change"
+      ],
+      "risks": [
+        "Legacy receipt compatibility",
+        "Stale lifecycle projection",
+        "Overbroad proof acceptance"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Runtime product changes become necessary",
+        "The validator would need to weaken existing receipt checks",
+        "Live GitHub terminal state is ambiguous"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/141/design.md",
+      "design_digest": "b7605425cc7ba607d04228ff87b30dc51caa82d9bc71db7ce0d850b0ec30ce29",
+      "diagram_ref": ".csdlc/prepared/issues/141/diagram.mmd",
+      "diagram_digest": "a7370ff66e7b198a86345ce4516f241919cdbe5068294885201410b4fa226790"
+    }
+  }
+}

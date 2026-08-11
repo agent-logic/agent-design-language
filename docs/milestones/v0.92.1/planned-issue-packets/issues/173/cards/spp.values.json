@@ -1,0 +1,126 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 173,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-11A] Implement PVF Planning Domain",
+    "slug": "v3-11a-implement-pvf-planning-domain",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Implement a pure PVF planning domain that validates lane classification, proof role, resource/gate posture, command allowance, evidence destinations, dependency DAGs, and complete acceptance ownership before any execution begins.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Define versioned validation manifest, lane/result/resource/gate types, exhaustive classifications, and typed planning errors.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement acceptance-to-lane ownership and reject missing, duplicate, or hidden acceptance coverage.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement DAG validation for missing dependencies, cycles, duplicate ownership, and undeclared routing policy.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Implement command-allowance and evidence-destination validation from declared inputs only, with no ambient I/O.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Exercise representative serial/parallel/deferred/blocked/failed/skipped plans and every malformed-plan rejection.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "Retain normalized plans and stop before execution if any classification or route depends on ambient state.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S7",
+          "action": "Discard invalid-plan scratch output, retain normalized fixtures, and verify planning created no process, network, clock, filesystem, or hidden routing side effect.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v3/src/pvf/plan/**",
+        "csdlc-v3/tests/pvf/plan/**",
+        ".csdlc/issues/173/**",
+        ".csdlc/prepared/issues/173/**",
+        ".csdlc/evidence/173/**",
+        ".csdlc/prepared/issues/173/validate-outcome.rb"
+      ],
+      "invariants": [
+        "Issue V3-11A owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.",
+        "No unsupported completion, legal, production, or release claim",
+        "No mutation outside exact owned paths"
+      ],
+      "risks": [
+        "A passing artifact could overstate production, legal, or release authority.",
+        "Path or external-account overlap could collide with another active issue.",
+        "Evidence could become stale if it is not tied to exact revisions and producer outcomes."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Ordinary test code acquires routing policy, classification depends on ambient state, or a malformed plan can reach execution.",
+        "Typed doctor is not ready",
+        "A required dependency is nonterminal",
+        "An owned-path collision is discovered"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/173/design.md",
+      "design_digest": "58d4bef05173cb389ae74bfc360053d31497719971a74e0a2286ee4e3dce090f",
+      "diagram_ref": ".csdlc/prepared/issues/173/diagram.mmd",
+      "diagram_digest": "79e22d2db385982b29e32121809bd1c53fd5c5830f119e56281d9bcfce4234bc"
+    }
+  }
+}

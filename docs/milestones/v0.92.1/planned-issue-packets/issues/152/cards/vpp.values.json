@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 152,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][INT-U] Integrated review and release",
+    "slug": "int-u-integrated-review-and-release",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "int-u-coordination",
+          "proof_role": "Validate exact child denominator, readiness, dependency, terminal, and no-product-ownership truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/152/validate-outcome.rb"
+          ],
+          "parallel_group": "int-u-coordination",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
+      "design_ref": ".csdlc/prepared/issues/152/design.md",
+      "design_digest": "2a9b03e60dfd150de8fd7b4ad8a7ddb906a3f443d587d3f843bb3447b9103f43",
+      "diagram_ref": ".csdlc/prepared/issues/152/diagram.mmd",
+      "diagram_digest": "437c752b8ff80c3fcdfc37236dd6dee3ba2e6e7c8ae0e8620fef37461d7199ba"
+    }
+  }
+}

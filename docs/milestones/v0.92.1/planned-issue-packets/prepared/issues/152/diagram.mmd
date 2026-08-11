@@ -1,0 +1,10 @@
+flowchart TD
+  CORP["Terminal CORP-08"] --> REVIEW["INT-01 integrated independent review"]
+  V3["Terminal V3-16"] --> REVIEW
+  DRT["Terminal DRT-07"] --> REVIEW
+  REVIEW --> FINDINGS["Route findings to owning lanes"]
+  FINDINGS --> DISPOSITION["Verify fixes and residual risks at exact revisions"]
+  DISPOSITION --> CANDIDATE["INT-02 release candidate and rollback rehearsal"]
+  CANDIDATE --> EVIDENCE["INT-03 final evidence and bounded recommendation"]
+  EVIDENCE --> LEDGER["Three-child terminal ledger and artifact digests"]
+  LEDGER --> FINAL["Independent exact-head umbrella review"]

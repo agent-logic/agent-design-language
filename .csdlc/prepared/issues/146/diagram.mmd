@@ -1,0 +1,38 @@
+flowchart TD
+  S["#146 v0.92.1 milestone setup"] --> A["Lane A: corporate and IP transfer"]
+  S --> B["Lane B: C-SDLC v3"]
+  S --> C["Lane C: distributed Runtime proof"]
+
+  A --> A1["Asset and authority inventory"]
+  A1 --> A2["Counsel-reviewed transfer instruments"]
+  A1 --> A3["Accounts, domains, cloud, and SaaS control"]
+  A2 --> A4["Corporate acceptance and diligence evidence"]
+  A3 --> A4
+
+  B --> B1["Contract freeze and Rust spike"]
+  B1 --> BD["Decision register, including D11 commit matrix"]
+  B1 --> B2["Single binary and read-only core"]
+  B2 --> B3["State, lifecycle, transactions, and PVF"]
+  BD --> B3
+  B3 --> B4["GitHub, review, publication, finish, and cleanup"]
+  B4 --> B5["Parity, canary, writer-fenced cutover"]
+  B5 -. "rollback window" .-> BR["Deferred v2 retirement"]
+
+  C --> C1["Topology and proof-contract preparation"]
+  T142["#142 terminal production proof and WP-04.16 contract"] --> C2
+  C1 --> C2["Three-voter Wuji and Wuji/AWS multi-agent proof"]
+  C2 --> C3["Partition, failure, restart, and authority-negative proof"]
+  C3 --> C4["Replay, observability, and bounded soak"]
+  C4 --> C5["Independent proof synthesis"]
+
+  A4 --> D["INT-01 demo convergence"]
+  B5 --> D
+  C5 --> D
+  D --> Q["INT-02 quality gate"]
+  Q --> L["INT-03 docs and review alignment"]
+  L --> I["INT-04 internal review"]
+  I --> E["INT-05 external review"]
+  E --> F["INT-06 remediation and final preflight"]
+  F --> N["INT-07 next-milestone planning"]
+  N --> H["INT-08 next-milestone review"]
+  H --> X["INT-09 release ceremony and lifecycle closeout"]

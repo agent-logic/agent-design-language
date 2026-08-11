@@ -1,0 +1,106 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 151
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Coordinate the seven distributed Runtime qualification packages through deterministic contract proof, the external #142 production gate, Wuji and hybrid topologies, security/Observatory checks, and terminal soak cleanup. Fail closed on missing terminal, producer, ancestry, dependency, cleanup, or path-ownership proof.
+
+## Plan
+
+Revision 3
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Freeze DRT-01 through DRT-07 readiness, exact topology and resource contracts, child ownership, and the external requirement that issue #142 be terminal before DRT-03 can start.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Run DRT-01 then DRT-02; hold at #142; after terminal production evidence run DRT-03, then DRT-04, then DRT-05 and DRT-06 in parallel, and release DRT-07 only after both are terminal.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Recompute exact revisions, card/index digests, topology manifests, producer receipts, fault outcomes, lease/quorum transitions, replay digests, and per-phase resource cleanup; halt immediately on stale authority or leaked resources.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Synthesize the seven-child qualification ledger only after DRT-07 terminal proof, verify no umbrella product edits and no claimed production result without producer evidence, then obtain exact-head review and publish.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- The umbrella may coordinate and synthesize but cannot modify child-owned product paths.
+- Children retain exclusive implementation and review ownership.
+- No unsupported completion, legal, production, or release claim
+- No mutation outside exact owned paths
+
+## Risks
+
+- Umbrella scope could absorb child work
+- A stale status could start a child early
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/151/design.md
+
+Digest: a2aff6c8bde9acd4202183957099f09721bec4b49e3490d6ab0a5a67d42e7277
+
+## Diagram
+
+.csdlc/prepared/issues/151/diagram.mmd
+
+Digest: c9ac6407bf9b1e9aa8f65d66d9282381e17b90a1ffd14930c6d345e0703d367d
+
+## Stop Conditions
+
+- A child lacks complete readiness
+- A dependency or serialization gate is ambiguous
+- Coordination would require a product-path edit
+- Typed doctor is not ready
+- A required dependency is nonterminal
+- An owned-path collision is discovered
+
+## Handoff
+
+Proceed only after doctor readiness.

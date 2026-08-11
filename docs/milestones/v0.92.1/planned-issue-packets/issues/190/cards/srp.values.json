@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 190,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][INT-03] Publish next-milestone and deferred retirement handoff",
+    "slug": "int-03-publish-next-milestone-and-deferred-retirement-handoff",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #190 INT-03 implementation, exact owned paths, declared PVF evidence, and authority/non-claim boundary.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the implementation satisfy every acceptance criterion through producer-derived evidence?",
+        "Are all changed repository paths within the declared owned paths?",
+        "Are dependency, authority, non-goal, stop, and residual-risk boundaries truthful?",
+        "Can an independent reviewer reproduce the claimed result at the exact revision?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

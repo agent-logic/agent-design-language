@@ -1,0 +1,13 @@
+{
+  "issue": 143,
+  "card": "spp",
+  "expected_generation": 13,
+  "expected_digest": "a2e8f4e1483f8fdf472e4288a7d1fd1b7f8f974fe9f2af7d1105a9d0466413b1",
+  "actor": "codex:143-v092-adr-authoring",
+  "reason": "Begin publication of the reviewed documentation-only ADR candidate packet.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S5",
+    "status": "in_progress"
+  }
+}

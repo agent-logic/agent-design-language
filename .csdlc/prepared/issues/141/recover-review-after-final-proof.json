@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 141,
+  "expected_generation": 10,
+  "expected_digest": "8eb390af219be088f9c89f4faf500eea19c855689de62f536d69d8bd1c4989dd",
+  "actor": "codex:141-pr120-review-repair",
+  "reason": "Refresh the exact review assignment after adding the final empty-log rejection proof."
+}

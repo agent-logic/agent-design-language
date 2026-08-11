@@ -1,7 +1,9 @@
 //! Independent, additive runtime-kernel proof for ADL issue #5170.
 
 pub mod acip;
+pub mod adaptive_learning;
 pub mod assembly;
+pub mod birth_witness;
 pub mod birthday;
 pub mod birthday_continuity;
 pub mod birthday_identity;
@@ -36,7 +38,9 @@ pub mod topology;
 pub mod weather;
 
 pub use acip::*;
+pub use adaptive_learning::*;
 pub use assembly::*;
+pub use birth_witness::*;
 pub use birthday::*;
 pub use birthday_continuity::*;
 pub use birthday_identity::*;

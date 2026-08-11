@@ -1,0 +1,28 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 149,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-U] Corporate and IP transfer",
+    "slug": "corp-u-corporate-and-ip-transfer",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #149 CORP-U implementation, exact owned paths, declared PVF evidence, and authority/non-claim boundary.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the umbrella preserve child ownership?",
+        "Are all child and dependency states live and exact?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

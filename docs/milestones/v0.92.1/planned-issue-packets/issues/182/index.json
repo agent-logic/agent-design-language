@@ -1,0 +1,102 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 182,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "19bb8624eb17865613ae2b05ef77acd3a93f488fe57062642c1b7a318d70dc00",
+  "phase": "initialized",
+  "generation": 5,
+  "digest": "c9ec6dda1b87d9fcc44941b6b2fd301b518e305a98e196f911152ccf522434c7",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/182/design.md",
+  "diagram_path": ".csdlc/prepared/issues/182/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "revision": "55239ffadec60fcac4f8100954b7a69326b7ffafae8544a5c0ce4a4951d0ec12"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4f18b41d960368a8f852371bb8c16bec840122865ea2d6fa2c46f89bac24e720",
+      "rendered_digest": "4d2576e607ce14b7c4661339091cf6939d624549a55e13c6442b92a0ad986169",
+      "ast_digest": "37d1286e60b4873e079cbb2f721ff95495521b795a4cd5672edaa70e61954f16"
+    },
+    "stp": {
+      "values_digest": "12bc08c68d236d2c80e189be6a5fd10c2df3f20e85a311154f484536139198de",
+      "rendered_digest": "95e7ea4bd6a8da931db3e22f150d3e00297409b92cc2b4eeb20f4bc1474312de",
+      "ast_digest": "dfac52c047cdbef6a966cdba3822ec8af37b751555d2bc658cb4ac315f5f90b2"
+    },
+    "spp": {
+      "values_digest": "a2c54e53dd892c561249cdbb23edf36691bc84d032fe61db916590b0d8e2dbfd",
+      "rendered_digest": "68325207fa77c6b36007acd0d59a4b1928dcba62c709ec2eba6e26b49486ddca",
+      "ast_digest": "0dad6e803abd2c4673af60e37b48346f37944c33f5ce03a6b6b837aa1a2c2816"
+    },
+    "vpp": {
+      "values_digest": "3d08ae3700e9b9c328234e90bd9d69cf2689a5abb39407e601f41b66a47cc93b",
+      "rendered_digest": "737c9187b48340ce3170ea3a04cdc10e769c769881f814789af19aa9e5c6176c",
+      "ast_digest": "abbe849f7d80026168618e2ba34299cb8c9a5d08eec35edec7a92de466dd7551"
+    },
+    "srp": {
+      "values_digest": "2b859c11a4c92358e973a9278cb829b278b360313f074237f2df043e4ef11fdf",
+      "rendered_digest": "0cde312722d823f245b94dd91b5f8c6f022fc144dff2e4d6ab928868bf85284d",
+      "ast_digest": "3663b6f08d4f4507d8210014517b1cd3d7306f977d57944c83ca53e3e260610d"
+    },
+    "sor": {
+      "values_digest": "998230e22f5fea5767a35bd81a02cd94747b5198f0571bd8a5954e6303473d74",
+      "rendered_digest": "d14f3e0cd64c335f24ed1e1c766524b32d6c574956d25df838d121b862e23522",
+      "ast_digest": "e095a52c18c55b6fdbccd0fa82a8e20b56c2ed391d5d0a732dd777859e39a500"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:146-runtime-integration-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:146-typed-readiness-remediation",
+      "reason": "Declare the executable issue validator as an exact owned target required by the typed issue-specific denominator gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/tests/v0921_acip_conformance.rs\",\"adl/tools/v0921/drt-02/**\",\".csdlc/issues/182/**\",\".csdlc/prepared/issues/182/**\",\".csdlc/evidence/182/**\",\".csdlc/prepared/issues/182/validate-outcome.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:146-typed-readiness-remediation",
+      "reason": "Declare the deferred Runtime proof runner as an exact issue-owned target required by typed readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/tests/v0921_acip_conformance.rs\",\"adl/tools/v0921/drt-02/**\",\".csdlc/issues/182/**\",\".csdlc/prepared/issues/182/**\",\".csdlc/evidence/182/**\",\".csdlc/prepared/issues/182/validate-outcome.rb\",\"adl/tools/v0921/drt-02/validate.sh\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

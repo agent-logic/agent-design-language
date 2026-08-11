@@ -1,0 +1,33 @@
+{
+  "schema": "adl.wp04.issue_validation_manifest.v1",
+  "issue": 141,
+  "source_revision": "5edab930a45e191b507247c4d9903e2d1bf45d81",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_lease",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-10T10:55:50Z",
+      "finished_at": "2026-08-10T10:56:19Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "141-pr120-strict-clippy-repair",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"
+      },
+      "runner_identity_path": ".csdlc/evidence/141/strict-clippy/runner.txt",
+      "combined_log_path": ".csdlc/evidence/141/strict-clippy/clippy.log",
+      "combined_log_sha256": "1546b3d781100037d673caf52742a20b8df51d0db2f3deaac1d6f0352ca9810f"
+    }
+  ]
+}

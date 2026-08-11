@@ -1,0 +1,7 @@
+{
+  "issue": 141,
+  "branch": "codex/141-pr120-terminal-proof-repair",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-141-pr120-terminal-proof-repair",
+  "base_branch": "main",
+  "code_repository": "agent-logic/agent-design-language"
+}

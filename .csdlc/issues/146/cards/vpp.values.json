@@ -1,0 +1,88 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 146,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][planning] Create corporate transfer, C-SDLC v3, and distributed Runtime milestone",
+    "slug": "v0921-corporate-csdlc-v3-runtime-proof",
+    "version": "v0.92.0",
+    "generation": 39
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "milestone-package-contract",
+          "proof_role": "Verify planning-only posture, the preserved work-package denominator, WP-01 creation authority, retirement truth, lifecycle sequence, dependency graph, and all eleven C-SDLC v3 decisions.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/146/validate-v0921-package.rb"
+          ],
+          "parallel_group": "focused-docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "yaml-link-and-complete-delta-contract",
+          "proof_role": "Verify milestone YAML, repository links, and placeholder hygiene across the corrected publication delta.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/146/validate-v0921-links.rb"
+          ],
+          "parallel_group": "focused-docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "committed-diff-hygiene",
+          "proof_role": "Reject malformed changes across the complete committed publication delta against the exact base revision.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check",
+            "origin/main...HEAD"
+          ],
+          "parallel_group": "focused-docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing scope, contradictory dependencies, unsupported proof claims, invalid YAML or links, stale source routing, or unresolved independent-review findings.",
+      "design_ref": ".csdlc/prepared/issues/146/design.md",
+      "design_digest": "3ba7394e3178f4de033d1bdffc16a9df948026065fcd7881bee84cb91060429f",
+      "diagram_ref": ".csdlc/prepared/issues/146/diagram.mmd",
+      "diagram_digest": "fb565622bffab6bb219e9fe5c6b20767164aa2d5fd49056f25f7f1a36c6d0bf2"
+    }
+  }
+}

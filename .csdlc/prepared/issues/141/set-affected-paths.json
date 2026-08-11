@@ -1,0 +1,19 @@
+{
+  "issue": 141,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "05249dc7f27cbd508941b79d96ad8b42a0fd44b73dc86c3f8a0c5271b5257158",
+  "actor": "codex:141-pr120-review-repair",
+  "reason": "Project the exact repository-owned implementation and lifecycle surfaces into SPP readiness truth.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+      ".csdlc/prepared/issues/141",
+      ".csdlc/issues/141",
+      ".csdlc/issues/5909"
+    ]
+  }
+}

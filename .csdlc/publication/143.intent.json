@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 143,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/143-v092-adr-authoring",
+  "title": "[v0.92][ADR] Author the milestone architecture decision record set",
+  "body": "Closes #143\n\n## Outcome\n\nAuthors the complete v0.92 ADR 0059-0071 candidate packet without accepting any ADR. The reviewed disposition denominator is **8 Proposed / 5 Deferred**.\n\n## Evidence corrections\n\n- ADR 0059 is limited to deterministic structural candidate validation; trusted witness and freshness authority remain separate in ADR 0062.\n- ADR 0061 binds Memory Palace and capability-envelope claims to exact typed #5828 and #5829 validation receipts.\n- ADRs 0062, 0063, and 0064 are Proposed from ancestral WP-15, #144 authority repair, and WP-13A proof.\n- ADR 0065 is Deferred because #5832 retains an empty native receipt and no machine-readable SOR validation outcomes.\n- ADR 0066 is Deferred behind open #142 production Guardian/kernel and live-polis proof.\n- ADRs 0068, 0069, and 0071 remain Deferred behind their named executable proof gaps.\n\n## Validation and review\n\n- Focused ADR packet validator: PASS.\n- Every Proposed executable validation path is bound to a declared typed SOR and an exact passing evidence reference.\n- Every evidence artifact is bound to its last-touch revision, ancestral to the retained baseline.\n- Diff hygiene: PASS.\n- Fresh independent exact-head substantive review at `aa22f78c3bfc0ece577fedf6aa7e6bb43fcca94d`: PASS with no P0-P3 findings.\n- The subsequent `df8f4aa9a` commit contains typed review metadata only.\n\n## Boundaries\n\n- No ADR is Accepted by this PR.\n- No file under `docs/adr/` is created or changed.\n- Deferred candidates remain explicitly blocked and make no operational completion claim.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:df8f4aa9a35d361d82e103d3bfe60edd66f144f2:f2d53caee210236f97e1470722b65e295b94da498fcf2130c1d626dbf9e1b8d5",
+  "commit_sha": "df8f4aa9a35d361d82e103d3bfe60edd66f144f2"
+}

@@ -1,0 +1,8 @@
+flowchart LR
+  M["ACIP message families"] --> C["Canonical positive vectors"]
+  C --> E["Encode / decode / re-encode"]
+  E --> B["Byte-stable digest comparison"]
+  M --> U["Bound-field mutations"]
+  U --> N["Typed negative outcomes"]
+  B & N --> P["Independent replay process"]
+  P --> D["Committed outcome and receipt digest parity"]

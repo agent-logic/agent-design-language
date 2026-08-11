@@ -21,12 +21,17 @@ Durable evaluation, adaptation delta, graph-change proposal, policy decision, ac
 ## Scope
 
 - adl-runtime-kernel/src/adaptive_learning.rs
+- adl-runtime-kernel/src/durable_state.rs
+- adl-runtime-kernel/src/reasoning.rs
 - adl-runtime-kernel/src/lib.rs
 - adl-runtime-kernel/tests/adaptive_learning.rs
+- adl-runtime-kernel/tests/durable_state.rs
 - adl-runtime-kernel/tests/fixtures/adaptive_learning/
 - docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md
+- .csdlc/prepared/issues/5831/produce-native-receipt.rb
 - .csdlc/prepared/issues/5831/validate-native-receipts.rb
 - .csdlc/evidence/5831/
+- .github/workflows/wp13a-native-adaptive-learning.yml
 
 ## Authority
 

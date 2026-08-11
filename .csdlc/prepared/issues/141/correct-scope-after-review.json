@@ -1,0 +1,20 @@
+{
+  "issue": 141,
+  "card": "sip",
+  "expected_generation": 5,
+  "expected_digest": "fc6bb460699ffbbf6973ca687b462d79136f3167bff03583bf8aa1ba8638a3b7",
+  "actor": "codex:141-pr120-review-repair",
+  "reason": "Include the terminal owner repair and fresh strict-Clippy evidence found necessary during independent review.",
+  "operation": {
+    "operation": "correct_declared_scope_before_publication",
+    "values": [
+      "csdlc-v2/src/store.rs",
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/5909/validate-proof-receipt.rb",
+      ".csdlc/prepared/issues/141",
+      ".csdlc/evidence/141",
+      ".csdlc/issues/141",
+      ".csdlc/issues/5909"
+    ]
+  }
+}

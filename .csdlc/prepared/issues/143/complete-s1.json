@@ -1,0 +1,9 @@
+{
+  "issue": 143,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "10723501b06ba44c85734ef6d8621eb2405b8a460ecf14b0c61491f6d1cfbdd1",
+  "actor": "codex:143-v092-adr-authoring",
+  "reason": "Record completed binding and evidence inventory after review found stale plan state.",
+  "operation": {"operation":"update_plan_step","step_id":"S1","status":"completed"}
+}

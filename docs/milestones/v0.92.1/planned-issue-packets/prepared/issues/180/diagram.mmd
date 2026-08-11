@@ -1,0 +1,10 @@
+flowchart TD
+  WINDOW["rollback window expired"] --> ELIGIBLE["retirement eligibility"]
+  TERMINAL["all retained records terminal"] --> ELIGIBLE
+  APPROVAL["explicit operator approval"] --> ELIGIBLE
+  ELIGIBLE --> CLASSIFY["classify every v2 target"]
+  CLASSIFY --> PRESERVE["preserve historical evidence"]
+  CLASSIFY --> DELETE["reviewed operational deletion"]
+  DELETE --> INVENTORY["no v2 authority inventory"]
+  INVENTORY --> FRESH["fresh v3-only lifecycle journey"]
+  FRESH --> AUDIT["final authority audit"]

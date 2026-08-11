@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-15] Birth witnesses and receipts",
     "slug": "v0-92-wp-15-birth-witnesses-and-receipts",
     "version": "v0.92",
-    "generation": 54
+    "generation": 76
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 21,
+      "plan_revision": 22,
       "summary": "Implement and prove WP-15 exact-candidate witness consensus and deterministic redacted receipts with anti-equivocation, authority, and premature-claim protections.",
       "steps": [
         {
@@ -68,6 +68,7 @@
         "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
         ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
+        ".github/workflows/wp15-native-birth-witness.yml",
         ".csdlc/evidence/5833"
       ],
       "invariants": [
@@ -99,7 +100,7 @@
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5833-witness-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"],\"issues\":[5833,5843],\"order\":[5833,5843]}"
       ],
       "design_ref": ".csdlc/prepared/issues/5833/design.md",
-      "design_digest": "6a5dc4d38599413dadd357fc88b2c29a6e07212a719660cf9fcb8ccb7c1bff70",
+      "design_digest": "7521c94e9bb9fde6a8e59345d2eb620514add091448de3db7f449e32c52666b1",
       "diagram_ref": ".csdlc/prepared/issues/5833/diagram.mmd",
       "diagram_digest": "0255242ebe93f2857c2a9dc5f2d0c1a083fa373b340935cbfe34749941f0d599"
     }

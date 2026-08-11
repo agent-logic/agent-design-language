@@ -1,0 +1,53 @@
+{
+  "schema": "adl.native_validation_manifest.v1",
+  "issue": 5833,
+  "repository": "agent-logic/agent-design-language",
+  "pull_request": 198,
+  "validated_revision": "33dad75ef4150eb06410805e0775afadc62635d2",
+  "workflow": ".github/workflows/wp15-native-birth-witness.yml",
+  "workflow_run_id": "31438894269",
+  "workflow_run_attempt": "1",
+  "jobs": {
+    "linux": {
+      "job_id": "93619159171",
+      "status": "success",
+      "os": "Linux",
+      "architecture": "x86_64",
+      "tests_passed": 13,
+      "receipt_sha256": "cef86f58ab93745bdd2af2a350cb6c7de46a0592f1a145064335dd48e03e2c71",
+      "command_output_sha256": "f2ed9c8870166855d62d21148d497e436d3712da6f0cb7ee5f477909e761ca59"
+    },
+    "macos": {
+      "job_id": "93619159127",
+      "status": "success",
+      "os": "Darwin",
+      "architecture": "arm64",
+      "tests_passed": 13,
+      "receipt_sha256": "65de814ebf8cc95264c14da0735943fa4bad325dfa5e9398649d63c0425518f3",
+      "command_output_sha256": "71726777f49d9eb0c41f8bbbabac8ee4f181d22208d3b7057c675fa8e3399e99"
+    },
+    "aggregate": {
+      "job_id": "93620830740",
+      "status": "success"
+    }
+  },
+  "artifact": {
+    "id": "9082272975",
+    "name": "wp15-native-birth-witness-validated-31438894269-1",
+    "archive_sha256": "6ddf454f91b5316ef3aa78161dba2c46aefcc2b9b9dfa2d97d24e122f823f79d"
+  },
+  "source_manifest_sha256": "8c2b20eaaaf9a498bce7a6ddfb25840f0a22819f1cdf00e22aae38b8ddf879c4",
+  "semantic_output_sha256": "4f9d9427f845d57f9c86c54e7a5e72e5aacbb15cd027be3c24df0e83541f801f",
+  "independent_validation": {
+    "status": "passed",
+    "detached_exact_head": "33dad75ef4150eb06410805e0775afadc62635d2",
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
+      ".csdlc/evidence/5833/native-platform/linux.json",
+      ".csdlc/evidence/5833/native-platform/macos.json"
+    ],
+    "output_ref": ".csdlc/evidence/5833/native-platform/independent-validator.log",
+    "output_sha256": "7c9a91e18bab195041af6e04e062c4f18e09b66d00436c2a42f8dbad2c38d612"
+  }
+}

@@ -1,0 +1,12 @@
+flowchart LR
+  MANIFEST["versioned PVF manifest"] --> CLASSIFY["exhaustive lane classification"]
+  MANIFEST --> COVER["acceptance ownership"]
+  MANIFEST --> DAG["dependency DAG validator"]
+  MANIFEST --> ALLOW["command allowance"]
+  MANIFEST --> DEST["evidence destinations"]
+  CLASSIFY --> PLAN["pure approved plan"]
+  COVER --> PLAN
+  DAG --> PLAN
+  ALLOW --> PLAN
+  DEST --> PLAN
+  PLAN --> EXEC["V3-11B handoff"]
