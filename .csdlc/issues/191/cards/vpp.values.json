@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
     "slug": "secure-durable-three-voter-openraft",
     "version": "v0.92",
-    "generation": 22
+    "generation": 23
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "focused-secure-raft-runtime",
-          "proof_role": "Run the registered production three-voter encrypted transport, configured-root authority lineage, exact outstanding-request retry, durable dispatch cache, rollback, fault, and restart denominator.",
+          "proof_role": "Run the registered production three-voter encrypted transport, configured-root authority lineage, exact outstanding-request retry, durable dispatch cache, rollback, fault, and restart denominator serially.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -40,7 +40,8 @@
             "adl-runtime/Cargo.toml",
             "--test",
             "distributed_runtime_transport",
-            "--no-tests=fail"
+            "--no-tests=fail",
+            "--test-threads=1"
           ],
           "parallel_group": "serial-runtime",
           "defer_reason": null

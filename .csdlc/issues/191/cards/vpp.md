@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/191/diagram.mmd
 [
   {
     "lane": "focused-secure-raft-runtime",
-    "proof_role": "Run the registered production three-voter encrypted transport, configured-root authority lineage, exact outstanding-request retry, durable dispatch cache, rollback, fault, and restart denominator.",
+    "proof_role": "Run the registered production three-voter encrypted transport, configured-root authority lineage, exact outstanding-request retry, durable dispatch cache, rollback, fault, and restart denominator serially.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -48,7 +48,8 @@ Diagram: .csdlc/prepared/issues/191/diagram.mmd
       "adl-runtime/Cargo.toml",
       "--test",
       "distributed_runtime_transport",
-      "--no-tests=fail"
+      "--no-tests=fail",
+      "--test-threads=1"
     ],
     "parallel_group": "serial-runtime",
     "defer_reason": null
@@ -133,7 +134,7 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport --no-tests=fail`
+- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport --no-tests=fail --test-threads=1`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --workspace --no-run`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport -- -D warnings`
 - `ruby .csdlc/prepared/issues/191/validate-proof-receipt.rb`

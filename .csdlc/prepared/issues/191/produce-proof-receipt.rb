@@ -131,7 +131,7 @@ fail_proof("output directory must be empty") unless Dir.children(output).empty?
 
 nextest = run_command("nextest", [
   "cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml",
-  "--test", "distributed_runtime_transport", "--no-tests=fail"
+  "--test", "distributed_runtime_transport", "--no-tests=fail", "--test-threads=1"
 ], output)
 fail_proof("focused nextest failed") unless nextest["exit_code"] == 0
 nextest_text = File.binread(ROOT.join(nextest["stdout_path"])) + File.binread(ROOT.join(nextest["stderr_path"]))
