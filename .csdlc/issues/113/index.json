@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "implemented",
-  "generation": 37,
-  "digest": "b6e8ab32916052455361c4db140c835fb39562eddb3ebef4672daf58112d11f7",
+  "generation": 38,
+  "digest": "5b9091654457c2cfcbe7226f468a01363a400d7717bd4a77df68126f7d0d3014",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
   "review_assignment": {
@@ -18,7 +18,40 @@
       ".csdlc/prepared/issues/113/recover-publication-intent-review.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+    "scope": [
+      ".csdlc/issues/113",
+      ".csdlc/prepared/issues/113/publish-reviewable.json",
+      ".csdlc/prepared/issues/113/recover-publication-intent-review.json"
+    ],
+    "reviewed_revision": "git-blake3:b98cbe71c0ea66a5af6f93a8a61ba01d0464d7fe:fdc68d562472c4a7eaa8f73b4d850f3f83ad45047103a546a7a3028a0bb700ae",
+    "findings": [
+      {
+        "id": "publication-request-stale-generation",
+        "severity": "p1",
+        "summary": "The publication request retained the pre-recovery generation and digest and was therefore non-executable.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "publication-body-stale-review-digest",
+        "severity": "p2",
+        "summary": "The publication body described the superseded issue digest as current retained review truth.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -33,32 +66,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3b1037544877268a5e8cb22981744dcafeb3eb751838d0391635cb00a60db203",
+      "values_digest": "67c638156b92969ccb7f989dc300d03779cc09a4a7431ee7b3f277cfcfe02820",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "3eee38a8e53bc0d4b34a6b88e40ecfe437af9962a79cc7d52865428430bad2f2",
+      "values_digest": "7abef136006816936dfe8040c59d3acb375fe948f5cc62b4d01b55f709e18f68",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "9bc4e4202355f9dff420405884ec15760758e1d18eae818dc910b9bb7ae23e0c",
+      "values_digest": "607aacc428d25f540a8a9d9bdc02bda88c229869aac6570761a46888d51c0b57",
       "rendered_digest": "0a87219293ddd139966aaf0c77f56b8c6164f3213687bfda3ad8f4c32d49f1ba",
       "ast_digest": "793ed408d19b5d2ae07fdab2f8c6d13ca845ed5618969a25cc8fbb7b1f1187dc"
     },
     "vpp": {
-      "values_digest": "efbfa1add8aca35288e50685f6be9d334f237ee8165aa08969d8ad704cbf8a79",
+      "values_digest": "8b25267cded2a2daab95428fdbb2cdbe7061937abd57770f6f850d845af2255b",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "3b6690a343e73a782fe439c54061ffb66ff391108815781dc664367887ef76dc",
-      "rendered_digest": "8b0bf17039a4e8b5a59ab45e5f7bb74bc735c29ee90f5d1dabdf493341262c51",
-      "ast_digest": "c74234c9be68153b2cf5f9b00f8516403c3db873e3a117ba3ad7e43d7691a53e"
+      "values_digest": "43c61fbaef76b4ac3c05b5901078d5fed898cb676006bb781cf91fe29e7f79fa",
+      "rendered_digest": "d9c9495d2683d04e60cdc91573a5031542df3e681a10d7f3d067f97423dd070d",
+      "ast_digest": "dbe081f1a3b65012b81ba657d2984ccc78bc14dd935dd45f783af55d3119d514"
     },
     "sor": {
-      "values_digest": "36002e1865d62d2889dc3fd33e39bdcc5b8395efb0f931f824f6c96557693905",
+      "values_digest": "36ab14860a93a55118ecfe4d28b391e593964c0f9098bf02981cbf32d3304d06",
       "rendered_digest": "f086145212e650ef19daad9e12a0d5bf4311c506b7c7fdc27dd51df0225dec7f",
       "ast_digest": "79b63009a92df0d23387812ea80a79fa3a082ef6d04c60574e91ca691f1becde"
     }
@@ -387,6 +420,13 @@
       "actor": "codex:wp18c03-execution",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 38,
+      "actor": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

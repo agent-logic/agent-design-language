@@ -27,7 +27,28 @@ Status: draft
 
 ## Findings
 
-[]
+[
+  {
+    "id": "publication-request-stale-generation",
+    "severity": "p1",
+    "summary": "The publication request retained the pre-recovery generation and digest and was therefore non-executable.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "publication-body-stale-review-digest",
+    "severity": "p2",
+    "summary": "The publication body described the superseded issue digest as current retained review truth.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -39,8 +60,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b98cbe71c0ea66a5af6f93a8a61ba01d0464d7fe:fdc68d562472c4a7eaa8f73b4d850f3f83ad45047103a546a7a3028a0bb700ae")
 
-Reviewer: None
+Reviewer: Some("subagent:019fef34-1897-7353-96e7-49320ae0043a")
 
-Result: pre_review
+Result: changes_required

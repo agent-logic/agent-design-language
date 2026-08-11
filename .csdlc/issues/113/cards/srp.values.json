@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
     "slug": "wp18c03-live-polis-roster-presence",
     "version": "v0.92",
-    "generation": 37
+    "generation": 38
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/113\n.csdlc/prepared/issues/113/publish-reviewable.json\n.csdlc/prepared/issues/113/recover-publication-intent-review.json",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:b98cbe71c0ea66a5af6f93a8a61ba01d0464d7fe:fdc68d562472c4a7eaa8f73b4d850f3f83ad45047103a546a7a3028a0bb700ae",
+      "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
       "review_prompts": [
         "Can any unauthorized agent or private field reach serialized JSON, WSS, logs, browser state, or retained evidence?",
         "Can pagination, policy changes, reconnect, restart, event gaps, duplicate updates, or equal sort keys silently omit, duplicate, reorder, or falsely complete the roster?",
@@ -24,9 +24,30 @@
         "Are page size, response bytes, memory, latency, event queues, retries, replay, and browser DOM growth all bounded and proven at large-Polis scale?",
         "Does the implementation remain within #113 ownership after #83/#142 handoff and avoid every sibling WP-18C capability?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "publication-request-stale-generation",
+          "severity": "p1",
+          "summary": "The publication request retained the pre-recovery generation and digest and was therefore non-executable.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "publication-body-stale-review-digest",
+          "severity": "p2",
+          "summary": "The publication body described the superseded issue digest as current retained review truth.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }
