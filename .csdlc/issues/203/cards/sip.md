@@ -1,0 +1,49 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 203
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Apply opaque quorum-approved #201 tokens through the #200 barrier to existing certificate, lease, and fencing stores without leaving a raw authority bypass.
+
+## Required Outcome
+
+All authority-restoring store reads and mutations revalidate a live lineage/action/generation-scoped #200 grant; sealed adapters consume exact store-native signed artifacts, canonical lease state is replica-deterministic, and partial progress remains fail-safe until publication.
+
+## Scope
+
+- Sealed certificate enroll, rotate, revoke, and compromise adapters
+- Sealed LeaseGrant, Renewal, Revoke, Fence, Activate, and OwnerCommit adapters
+- Fencing floor and active-lease reconciliation with exact ordering
+- Store-bound live #200 grant validation closing former raw bypasses
+- Canonical committed lease time separated from node-local monotonic safety anchors
+- Exact retry, crash, restart, rollback, corruption, capacity, and path-safety proof
+
+## Authority
+
+- Only opaque finalized #201 tokens and the private #200 sealed registry can select a concrete plan
+- The exact issuer-signed or quorum-endorsed store-native artifact is byte-bound and verified; #203 never signs or reconstructs authority
+- Every normal-build store authorization and mutation boundary revalidates the current #200 published view
+- Local NotReady or Unsafe clock results perform no effect, receipt, canonical failure, result, or phase advance
+- No Shepherd, Observatory, migration, recovery, Guardian, API, WSS, model, or cloud authority is created
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Do not bind or edit product source until #191, #201, #202, #199, and #200 are externally reviewed, merged, and ancestral
+- Keep #203 limited to existing certificate, lease, and fencing stores; serving eligibility is #205 and migration/recovery is #204
+- Do not preserve a production raw-store escape hatch for compatibility
+- Run fresh independent exact-head review before publication
+- Open a ready PR for visibility but never merge before operator review and authorization
+- No AWS use and no lifecycle closeout

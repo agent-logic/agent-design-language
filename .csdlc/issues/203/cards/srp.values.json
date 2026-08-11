@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 203,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1a] Apply committed identity, lease, and fencing authority",
+    "slug": "committed-identity-lease-fencing-authority",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact existing-store adapter and gate integration, certificate/lease/fencing low-level changes, deterministic/local time split, focused proof/evidence, typed issue truth, and absence of serving/migration/operational scope.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any normal-build caller open an ungated store or reach a raw certificate, ledger, or fencing authorization/mutation path?",
+        "Does every concrete operation consume and store-verify the exact signed artifact bound by the private #201 token without synthesizing authority?",
+        "Are canonical lease state and receipts replica-deterministic while local safety anchors only delay restoration?",
+        "Do Fence/Revoke, Activate, and OwnerCommit preserve exact floor, ledger, safety, possession, and barrier ordering across every crash window?",
+        "Do retained handles, permits, receipts, retries, rollback, bounds, or unsafe paths ever expose partial authority?",
+        "Does the exact proof bind all forty-four cases without claiming #205/#204 or operational serving?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
