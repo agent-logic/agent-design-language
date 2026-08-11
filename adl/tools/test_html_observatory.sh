@@ -341,8 +341,13 @@ const replayAgent = {
   signing_key_id: "agent-replay-key",
   signing_public_key: replayPublicKey
 };
-const signAck = async (sequence, correlationId, requestNonce) => {
-  const now = Date.now();
+const signAck = async (
+  sequence,
+  correlationId,
+  requestNonce,
+  issuedAtUnixMillis = Date.now(),
+  expiresAtUnixMillis = issuedAtUnixMillis + 60_000
+) => {
   const message = {
     schema: "adl.acip.identity_message.v1",
     message_kind: "ack",
@@ -351,8 +356,8 @@ const signAck = async (sequence, correlationId, requestNonce) => {
     correlation_id: correlationId,
     causation_id: requestNonce,
     monotonic_sequence: sequence,
-    issued_at_unix_millis: now,
-    expires_at_unix_millis: now + 60_000,
+    issued_at_unix_millis: issuedAtUnixMillis,
+    expires_at_unix_millis: expiresAtUnixMillis,
     nonce: `ack-replay-test-${sequence}`,
     content: "verified response",
     signing_algorithm: "ed25519",
@@ -370,11 +375,14 @@ const signAck = async (sequence, correlationId, requestNonce) => {
   return message;
 };
 const newestAck = await signAck(9, "replay-correlation-9", "replay-request-9");
+const qualifiedNow = newestAck.issued_at_unix_millis;
 await api.verifySignedIdentityMessage(
   newestAck,
   replayAgent,
   newestAck.correlation_id,
-  newestAck.causation_id
+  newestAck.causation_id,
+  "runtime-replay-a",
+  qualifiedNow
 );
 const preRestartReplay = await signAck(8, "replay-correlation-8", "replay-request-8");
 await assert.rejects(
@@ -382,9 +390,70 @@ await assert.rejects(
     preRestartReplay,
     replayAgent,
     preRestartReplay.correlation_id,
-    preRestartReplay.causation_id
+    preRestartReplay.causation_id,
+    "runtime-replay-a",
+    qualifiedNow
   ),
   /replayed or arrived behind/
+);
+await api.verifySignedIdentityMessage(
+  preRestartReplay,
+  replayAgent,
+  preRestartReplay.correlation_id,
+  preRestartReplay.causation_id,
+  "runtime-replay-b",
+  qualifiedNow
+);
+const futureAck = await signAck(
+  10,
+  "future-correlation",
+  "future-request",
+  qualifiedNow + 5_001,
+  qualifiedNow + 60_000
+);
+await assert.rejects(
+  () => api.verifySignedIdentityMessage(
+    futureAck,
+    replayAgent,
+    futureAck.correlation_id,
+    futureAck.causation_id,
+    "runtime-future",
+    qualifiedNow
+  ),
+  /untrusted or misrouted/
+);
+const expiredAck = await signAck(
+  11,
+  "expired-correlation",
+  "expired-request",
+  qualifiedNow - 10_000,
+  qualifiedNow - 1
+);
+await assert.rejects(
+  () => api.verifySignedIdentityMessage(
+    expiredAck,
+    replayAgent,
+    expiredAck.correlation_id,
+    expiredAck.causation_id,
+    "runtime-expired",
+    qualifiedNow
+  ),
+  /untrusted or misrouted/
+);
+const delayedAck = await signAck(
+  12,
+  "delayed-correlation",
+  "delayed-request",
+  qualifiedNow + 10_000,
+  qualifiedNow + 70_000
+);
+await api.verifySignedIdentityMessage(
+  delayedAck,
+  replayAgent,
+  delayedAck.correlation_id,
+  delayedAck.causation_id,
+  "runtime-delayed",
+  qualifiedNow + 10_000
 );
 await assert.rejects(
   () => api.verifySignedIdentityMessage(
@@ -410,7 +479,10 @@ await assert.rejects(
       signing_key_id: "agent-key",
       signing_public_key: "00".repeat(32)
     },
-    "correlation-0001"
+    "correlation-0001",
+    "causation-0001",
+    "runtime-replay-a",
+    qualifiedNow
   ),
   /untrusted or misrouted/
 );

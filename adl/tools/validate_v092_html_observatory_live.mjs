@@ -429,7 +429,9 @@ try {
         acknowledgement,
         agent,
         acknowledgement.correlation_id,
-        acknowledgement.causation_id
+        acknowledgement.causation_id,
+        feed.runtime_instance_id,
+        feed.captured_at_unix_millis
       );
     } catch (error) {
       replayError = error instanceof Error ? error.message : String(error);

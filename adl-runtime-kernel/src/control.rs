@@ -5,7 +5,7 @@ use std::{
     net::SocketAddr,
     sync::{
         atomic::{AtomicU64, Ordering},
-        Arc, Mutex,
+        Arc, Mutex, Weak,
     },
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
@@ -340,6 +340,7 @@ pub struct ControlService<C> {
     max_records: usize,
     idempotency: Mutex<IdempotencyState>,
     acip_replay: Mutex<AcipReplayState>,
+    acip_source_locks: Mutex<BTreeMap<String, Weak<tokio::sync::Mutex<()>>>>,
     weather: Mutex<Option<ObservedWeather>>,
     weather_stale_after_millis: Mutex<u64>,
     observatory_bearer_digest: Mutex<Option<blake3::Hash>>,
@@ -424,6 +425,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             acip_replay: Mutex::new(AcipReplayState {
                 sequences_by_source: LruCache::unbounded(),
             }),
+            acip_source_locks: Mutex::new(BTreeMap::new()),
             weather: Mutex::new(None),
             weather_stale_after_millis: Mutex::new(30_000),
             observatory_bearer_digest: Mutex::new(None),
@@ -772,6 +774,20 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         }
     }
 
+    fn acip_source_lock(&self, source: &str) -> Arc<tokio::sync::Mutex<()>> {
+        let mut locks = self
+            .acip_source_locks
+            .lock()
+            .expect("ACIP source lock registry poisoned");
+        locks.retain(|_, lock| lock.strong_count() > 0);
+        if let Some(lock) = locks.get(source).and_then(Weak::upgrade) {
+            return lock;
+        }
+        let lock = Arc::new(tokio::sync::Mutex::new(()));
+        locks.insert(source.to_owned(), Arc::downgrade(&lock));
+        lock
+    }
+
     async fn dispatch_acip_payload(&self, payload: &[u8]) -> serde_json::Value {
         let envelope = match decode_acip_envelope(payload) {
             Ok(envelope) => envelope,
@@ -894,6 +910,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         } else {
             None
         };
+        let source_lock = self.acip_source_lock(&envelope.source);
+        let _source_dispatch = source_lock.lock().await;
         let Some(reservation) =
             self.reserve_acip_sequence(&envelope.source, envelope.monotonic_sequence)
         else {
@@ -919,6 +937,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             kind: envelope.route.clone(),
             payload: work_payload,
         };
+        let communication_sequence_before = if secure_route {
+            ingress
+                .snapshot()
+                .communication_sequences
+                .get(&envelope.source)
+                .copied()
+        } else {
+            None
+        };
         match ingress.submit(work, envelope.correlation_id.clone()).await {
             Ok(result) => serde_json::json!({
                 "schema": ACIP_WEBSOCKET_SCHEMA,
@@ -930,7 +957,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "sequence_reserved": true
             }),
             Err(error) => {
-                self.rollback_acip_sequence(reservation);
+                let communication_sequence_after = ingress
+                    .snapshot()
+                    .communication_sequences
+                    .get(&envelope.source)
+                    .copied();
+                let sequence_reserved = secure_route
+                    && communication_sequence_before
+                        .is_none_or(|sequence| sequence < envelope.monotonic_sequence)
+                    && communication_sequence_after
+                        .is_some_and(|sequence| sequence >= envelope.monotonic_sequence);
+                if !sequence_reserved {
+                    self.rollback_acip_sequence(reservation);
+                }
                 let reason = if secure_route && error == IngressError::Conflict {
                     "monotonic_sequence_must_advance".to_owned()
                 } else {
@@ -941,7 +980,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     "status": "rejected",
                     "message_id": envelope.message_id,
                     "reason": reason,
-                    "sequence_reserved": false
+                    "sequence_reserved": sequence_reserved
                 })
             }
         }
@@ -2378,7 +2417,13 @@ pub enum ControlApiError {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::IngressSnapshot;
+    use crate::{
+        AcipEnvelope, AdapterKind, AdapterPolicy, AuthorityMode, CommunicationVerifyingIdentity,
+        ExecutorError, FailureClass, IngressSnapshot, OperationExecutor, OperationRequest,
+        OperationalAdapter, OperationalFactory, ACIP_PROTOBUF_SCHEMA, ACIP_PROTOCOL_FAMILY,
+        ACIP_VERSION_MAJOR, ACIP_VERSION_MINOR,
+    };
+    use prost::Message as _;
 
     struct NoopLifecycle;
 
@@ -2386,6 +2431,18 @@ mod tests {
     impl LifecycleControl for NoopLifecycle {
         async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
             Ok(KernelExit::Clean)
+        }
+    }
+
+    struct FatalExecutor;
+
+    #[async_trait]
+    impl OperationExecutor for FatalExecutor {
+        async fn execute(&self, _request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+            Err(ExecutorError {
+                class: FailureClass::Fatal,
+                message: "injected post-dispatch failure".to_owned(),
+            })
         }
     }
 
@@ -2413,5 +2470,134 @@ mod tests {
     #[test]
     fn layer8_sequence_exhaustion_fails_closed_without_reuse() {
         assert_eq!(next_layer8_sequence(MAX_INTEROPERABLE_SEQUENCE, 1), None);
+    }
+
+    #[tokio::test]
+    async fn ambiguous_secure_dispatch_reports_retained_then_rejects_replay() {
+        let signing_key = SigningKey::from_bytes(&[93; 32]);
+        let now = now_unix_millis();
+        let recorder = RuntimeRecorder::new(4);
+        recorder.set_clock_authority(ClockAuthority::Authoritative {
+            source: "test-qualified-clock".to_owned(),
+            unix_millis: now,
+        });
+        recorder.set_component_state(ComponentId::new("agent_runtime"), RunningState::Running);
+        let adapter = Arc::new(
+            OperationalAdapter::new(
+                AdapterKind::Agent,
+                AdapterPolicy {
+                    capacity: 1,
+                    max_in_flight: 1,
+                    shutdown_grace_millis: 1_000,
+                    max_attempts: 1,
+                    idempotency_entries: 4,
+                    authority: AuthorityMode::Internal,
+                },
+                Arc::new(FatalExecutor),
+            )
+            .unwrap(),
+        );
+        let operation = OperationalFactory::new(adapter, Vec::new());
+        let ingress = CanonicalIngress::new_with_communication_keys(
+            1,
+            recorder.clone(),
+            BTreeMap::from([("agent".to_owned(), operation.clone())]),
+            BTreeMap::from([(
+                "agent-0001".to_owned(),
+                CommunicationVerifyingIdentity {
+                    signing_key_id: "agent-0001-key".to_owned(),
+                    verifying_key: signing_key.verifying_key(),
+                },
+            )]),
+        );
+        let population = AgentPopulationFeed {
+            total_count: 2,
+            rendered_sample_count: 2,
+            sample: ["agent-0001", "agent-0002"]
+                .into_iter()
+                .map(|id| AgentSample {
+                    id: id.to_owned(),
+                    label: id.to_owned(),
+                    role: "agent".to_owned(),
+                    state: "running".to_owned(),
+                    detail: "Runtime component state: running".to_owned(),
+                    signing_algorithm: "ed25519".to_owned(),
+                    signing_key_id: format!("{id}-key"),
+                    signing_public_key: hex::encode(signing_key.verifying_key().as_bytes()),
+                })
+                .collect(),
+        };
+        let service = ControlService::new_with_observatory_config_and_agents(
+            "runtime-ambiguous-test",
+            recorder,
+            NoopLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            4,
+            std::iter::empty(),
+            population,
+        )
+        .with_canonical_ingress(ingress.clone());
+        let mut registry = crate::ComponentRegistry::new();
+        registry.register(operation);
+        registry.register(ingress);
+        let _kernel = crate::Kernel::new(registry.validate().unwrap(), RuntimeRecorder::new(4))
+            .start()
+            .await
+            .unwrap();
+        let mut message = SignedIdentityMessage {
+            schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+            message_kind: "request".to_owned(),
+            sender_id: "agent-0001".to_owned(),
+            recipient_id: "agent-0002".to_owned(),
+            correlation_id: "ambiguous-correlation-000000001".to_owned(),
+            causation_id: "ambiguous-causation-0000000001".to_owned(),
+            monotonic_sequence: 1,
+            issued_at_unix_millis: now,
+            expires_at_unix_millis: now + 60_000,
+            nonce: "ambiguous-message-0000000000001".to_owned(),
+            content: "test ambiguous dispatch retention".to_owned(),
+            signing_algorithm: "ed25519".to_owned(),
+            signing_key_id: "agent-0001-key".to_owned(),
+            signature: String::new(),
+        };
+        message.signature = hex::encode(
+            signing_key
+                .sign(&message.signing_bytes().unwrap())
+                .to_bytes(),
+        );
+        let route = "agent";
+        let payload = AcipEnvelope {
+            schema: ACIP_PROTOBUF_SCHEMA.to_owned(),
+            message_id: message.nonce.clone(),
+            source: message.sender_id.clone(),
+            target: message.recipient_id.clone(),
+            route: route.to_owned(),
+            payload_json: serde_jcs::to_string(&message).unwrap(),
+            monotonic_sequence: message.monotonic_sequence,
+            protocol_family: ACIP_PROTOCOL_FAMILY.to_owned(),
+            version_major: ACIP_VERSION_MAJOR,
+            version_minor: ACIP_VERSION_MINOR,
+            runtime_id: "runtime-ambiguous-test".to_owned(),
+            correlation_id: message.correlation_id.clone(),
+            causation_id: message.causation_id.clone(),
+            trace_id: message.correlation_id.clone(),
+            replay_id: "agent-0001:1".to_owned(),
+            capability: route.to_owned(),
+            authority: "signed-communication-identity".to_owned(),
+            payload_type: "application/json".to_owned(),
+            acknowledgement_requested: true,
+            error_code: None,
+            required_features: Vec::new(),
+        }
+        .encode_to_vec();
+
+        let failed = service.dispatch_acip_payload(&payload).await;
+        assert_eq!(failed["status"], "rejected", "{failed}");
+        assert_eq!(failed["sequence_reserved"], true, "{failed}");
+
+        let replay = service.dispatch_acip_payload(&payload).await;
+        assert_eq!(replay["status"], "rejected", "{replay}");
+        assert_eq!(replay["reason"], "monotonic_sequence_must_advance");
+        assert_eq!(replay["sequence_reserved"], false, "{replay}");
     }
 }

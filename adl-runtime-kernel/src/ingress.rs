@@ -1,6 +1,6 @@
 use std::{
     collections::BTreeMap,
-    sync::{Arc, Mutex},
+    sync::{Arc, Mutex, Weak},
     time::Duration,
 };
 
@@ -93,6 +93,7 @@ pub struct CanonicalIngress {
     dispatchers: Arc<BTreeMap<String, OperationalFactory>>,
     communication_keys: Arc<BTreeMap<String, CommunicationVerifyingIdentity>>,
     communication_sequences: Arc<Mutex<BTreeMap<String, u64>>>,
+    communication_source_locks: Arc<Mutex<BTreeMap<String, Weak<AsyncMutex<()>>>>>,
     communication_replay_store: Option<Arc<KernelDurableState>>,
 }
 
@@ -178,6 +179,7 @@ impl CanonicalIngress {
             dispatchers: Arc::new(dispatchers),
             communication_keys: Arc::new(communication_keys),
             communication_sequences: Arc::new(Mutex::new(BTreeMap::new())),
+            communication_source_locks: Arc::new(Mutex::new(BTreeMap::new())),
             communication_replay_store: None,
         }
     }
@@ -208,12 +210,19 @@ impl CanonicalIngress {
     ) -> Result<DomainResult, IngressError> {
         validate(&work)?;
         let _lease = self.begin_admission()?;
-        let communication_reservation = if let Some((sender_id, sequence)) =
-            validate_signed_identity_work(
-                &work,
-                &self.communication_keys,
-                self.recorder.qualified_time_now_unix_millis(),
-            )? {
+        let signed_identity = validate_signed_identity_work(
+            &work,
+            &self.communication_keys,
+            self.recorder.qualified_time_now_unix_millis(),
+        )?;
+        let communication_source_lock = signed_identity
+            .as_ref()
+            .map(|(sender_id, _)| self.communication_source_lock(sender_id));
+        let _communication_source_guard = match &communication_source_lock {
+            Some(lock) => Some(lock.lock().await),
+            None => None,
+        };
+        let communication_reservation = if let Some((sender_id, sequence)) = signed_identity {
             Some(self.reserve_communication_sequence(sender_id, sequence)?)
         } else {
             None
@@ -284,6 +293,20 @@ impl CanonicalIngress {
         now_unix_millis: u64,
     ) -> Result<(), IngressError> {
         verify_signed_identity_message(message, &self.communication_keys, now_unix_millis)
+    }
+
+    fn communication_source_lock(&self, sender_id: &str) -> Arc<AsyncMutex<()>> {
+        let mut locks = self
+            .communication_source_locks
+            .lock()
+            .expect("communication source lock registry poisoned");
+        locks.retain(|_, lock| lock.strong_count() > 0);
+        if let Some(lock) = locks.get(sender_id).and_then(Weak::upgrade) {
+            return lock;
+        }
+        let lock = Arc::new(AsyncMutex::new(()));
+        locks.insert(sender_id.to_owned(), Arc::downgrade(&lock));
+        lock
     }
 
     pub fn restore(&self, snapshot: IngressSnapshot) {
@@ -1238,6 +1261,82 @@ mod tests {
             Err(IngressError::ExecutionFailed)
         );
         worker.await.unwrap();
+        assert_eq!(
+            store
+                .communication_inbound_sequences()
+                .unwrap()
+                .get("layer8-operator"),
+            Some(&1)
+        );
+    }
+
+    #[tokio::test]
+    async fn concurrent_pre_dispatch_failures_serialize_per_sender_without_stranding_sequence() {
+        let root = tempfile::tempdir().unwrap();
+        let store = Arc::new(KernelDurableState::open(root.path()).unwrap());
+        let signing_key = SigningKey::from_bytes(&[99; 32]);
+        let recorder = RuntimeRecorder::new(4);
+        recorder.set_clock_authority(crate::ClockAuthority::Authoritative {
+            source: "test-qualified-clock".to_owned(),
+            unix_millis: now_unix_millis(),
+        });
+        let ingress = CanonicalIngress::new_with_communication_keys(
+            2,
+            recorder,
+            BTreeMap::new(),
+            operator_communication_keys(&signing_key),
+        )
+        .with_communication_replay_store(store.clone())
+        .unwrap();
+        let receiver = ingress.receiver.clone();
+
+        let first = {
+            let ingress = ingress.clone();
+            let work = signed_request_work(&signing_key, 1);
+            tokio::spawn(async move { ingress.submit(work, "concurrent-first".to_owned()).await })
+        };
+        let first_envelope = receiver.lock().await.recv().await.unwrap();
+        let second = {
+            let ingress = ingress.clone();
+            let work = signed_request_work(&signing_key, 2);
+            tokio::spawn(async move { ingress.submit(work, "concurrent-second".to_owned()).await })
+        };
+        assert!(tokio::time::timeout(Duration::from_millis(100), async {
+            receiver.lock().await.recv().await
+        })
+        .await
+        .is_err());
+        first_envelope
+            .reply
+            .send(DispatchOutcome::NotDispatched(IngressError::Saturated))
+            .ok();
+        assert_eq!(first.await.unwrap(), Err(IngressError::Saturated));
+
+        let second_envelope = receiver.lock().await.recv().await.unwrap();
+        second_envelope
+            .reply
+            .send(DispatchOutcome::NotDispatched(IngressError::Saturated))
+            .ok();
+        assert_eq!(second.await.unwrap(), Err(IngressError::Saturated));
+        assert!(store
+            .communication_inbound_sequences()
+            .unwrap()
+            .get("layer8-operator")
+            .is_none());
+
+        let retry = {
+            let ingress = ingress.clone();
+            let work = signed_request_work(&signing_key, 1);
+            tokio::spawn(async move { ingress.submit(work, "concurrent-retry".to_owned()).await })
+        };
+        let retry_envelope = receiver.lock().await.recv().await.unwrap();
+        retry_envelope
+            .reply
+            .send(DispatchOutcome::Dispatched(Err(
+                IngressError::ExecutionFailed,
+            )))
+            .ok();
+        assert_eq!(retry.await.unwrap(), Err(IngressError::ExecutionFailed));
         assert_eq!(
             store
                 .communication_inbound_sequences()

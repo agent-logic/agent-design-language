@@ -49,6 +49,12 @@ struct DelayedExecutor {
     release: Arc<tokio::sync::Notify>,
 }
 
+struct ControlledFailTwiceExecutor {
+    attempts: AtomicUsize,
+    started: tokio::sync::mpsc::UnboundedSender<usize>,
+    release: Arc<tokio::sync::Semaphore>,
+}
+
 #[async_trait]
 impl LifecycleControl for FakeLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -81,6 +87,22 @@ impl OperationExecutor for DelayedExecutor {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
         self.started.notify_one();
         self.release.notified().await;
+        Ok(request.payload.clone())
+    }
+}
+
+#[async_trait]
+impl OperationExecutor for ControlledFailTwiceExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        let attempt = self.attempts.fetch_add(1, Ordering::SeqCst) + 1;
+        if attempt <= 2 {
+            self.started.send(attempt).unwrap();
+            self.release.acquire().await.unwrap().forget();
+            return Err(ExecutorError {
+                class: FailureClass::Fatal,
+                message: format!("injected concurrent dispatch failure {attempt}"),
+            });
+        }
         Ok(request.payload.clone())
     }
 }
@@ -610,6 +632,78 @@ async fn failed_acip_dispatch_releases_sequence_for_retry() {
     assert_eq!(retried["status"], "completed");
     assert_eq!(retried["message_id"], "acip-retry-2");
     assert_eq!(retried["sequence_reserved"], true);
+    server.abort();
+}
+
+#[tokio::test]
+async fn concurrent_failed_acip_dispatches_serialize_per_sender_and_restore_retry() {
+    let token = "test-observatory-websocket-token-0010";
+    let (started_tx, mut started_rx) = tokio::sync::mpsc::unbounded_channel();
+    let release = Arc::new(tokio::sync::Semaphore::new(0));
+    let service = service_with_executor(
+        token,
+        Arc::new(ControlledFailTwiceExecutor {
+            attempts: AtomicUsize::new(0),
+            started: started_tx,
+            release: release.clone(),
+        }),
+    );
+    let (address, connector, server) = websocket_server(service).await;
+    let mut socket = connect_acip(address, connector).await;
+
+    for sequence in [1, 2] {
+        socket
+            .send(Message::Binary(
+                encode_acip_envelope(
+                    &format!("acip-concurrent-{sequence}"),
+                    "agent-source-concurrent",
+                    "runtime-target",
+                    "acip",
+                    &serde_json::json!({"message": format!("attempt {sequence}")}),
+                    sequence,
+                )
+                .unwrap()
+                .into(),
+            ))
+            .await
+            .unwrap();
+    }
+    assert_eq!(started_rx.recv().await, Some(1));
+    assert!(
+        tokio::time::timeout(Duration::from_millis(100), started_rx.recv())
+            .await
+            .is_err()
+    );
+
+    release.add_permits(1);
+    let first = next_acip_status(&mut socket).await;
+    assert_eq!(first["message_id"], "acip-concurrent-1");
+    assert_eq!(first["sequence_reserved"], false);
+    assert_eq!(started_rx.recv().await, Some(2));
+    release.add_permits(1);
+    let second = next_acip_status(&mut socket).await;
+    assert_eq!(second["message_id"], "acip-concurrent-2");
+    assert_eq!(second["sequence_reserved"], false);
+
+    socket
+        .send(Message::Binary(
+            encode_acip_envelope(
+                "acip-concurrent-retry",
+                "agent-source-concurrent",
+                "runtime-target",
+                "acip",
+                &serde_json::json!({"message": "retry sequence one"}),
+                1,
+            )
+            .unwrap()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let retry = next_acip_status(&mut socket).await;
+    assert_eq!(retry["status"], "completed");
+    assert_eq!(retry["message_id"], "acip-concurrent-retry");
+    assert_eq!(retry["sequence_reserved"], true);
     server.abort();
 }
 

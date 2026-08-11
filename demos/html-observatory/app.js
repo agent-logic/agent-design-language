@@ -95,6 +95,7 @@ const RUNTIME_V3_EVENT_LIMIT = 4096;
 let runtimeV3Config = { ...RUNTIME_V3_DEFAULT_CONFIG };
 const runtimeV3ChatState = {
   runtimeInstanceId: null,
+  capturedAtUnixMillis: null,
   agents: [],
   live: false
 };
@@ -134,6 +135,11 @@ function updateRuntimeV3ChatSnapshot(snapshot, agents, live = false) {
   );
   runtimeV3ChatState.runtimeInstanceId = runtimeV3ChatState.live
     ? snapshot?.status?.runtime_id || null
+    : null;
+  runtimeV3ChatState.capturedAtUnixMillis = runtimeV3ChatState.live &&
+    Number.isSafeInteger(snapshot?.capturedAtUnixMillis) &&
+    snapshot.capturedAtUnixMillis > 0
+    ? snapshot.capturedAtUnixMillis
     : null;
   runtimeV3ChatState.agents = runtimeV3ChatState.live
     ? asArray(agents).filter((agent) => agent?.id && agent.state === "running")
@@ -1024,9 +1030,19 @@ function canonicalJson(value) {
 
 const agentResponseSequenceWatermarks = new Map();
 
-async function verifySignedIdentityMessage(message, agent, expectedCorrelationId, expectedRequestNonce) {
-  const now = Date.now();
+async function verifySignedIdentityMessage(
+  message,
+  agent,
+  expectedCorrelationId,
+  expectedRequestNonce,
+  runtimeInstanceId,
+  qualifiedNowUnixMillis
+) {
   if (!globalThis.crypto?.subtle ||
+      typeof runtimeInstanceId !== "string" ||
+      !runtimeInstanceId ||
+      !Number.isSafeInteger(qualifiedNowUnixMillis) ||
+      qualifiedNowUnixMillis <= 0 ||
       message?.schema !== "adl.acip.identity_message.v1" ||
       message?.message_kind !== "ack" ||
       message?.sender_id !== agent?.id ||
@@ -1038,8 +1054,8 @@ async function verifySignedIdentityMessage(message, agent, expectedCorrelationId
       !Number.isSafeInteger(message?.issued_at_unix_millis) ||
       !Number.isSafeInteger(message?.expires_at_unix_millis) ||
       message.expires_at_unix_millis <= message.issued_at_unix_millis ||
-      message.issued_at_unix_millis > now + 5_000 ||
-      message.expires_at_unix_millis < now ||
+      message.issued_at_unix_millis > qualifiedNowUnixMillis + 5_000 ||
+      message.expires_at_unix_millis < qualifiedNowUnixMillis ||
       message.expires_at_unix_millis - message.issued_at_unix_millis > 60_000 ||
       !message?.nonce ||
       !message?.content ||
@@ -1083,11 +1099,12 @@ async function verifySignedIdentityMessage(message, agent, expectedCorrelationId
     signedBytes
   );
   if (!verified) throw new Error("Agent response signature verification failed.");
-  const previousSequence = agentResponseSequenceWatermarks.get(message.sender_id) || 0;
+  const watermarkKey = `${runtimeInstanceId}\0${message.sender_id}\0${message.signing_key_id}`;
+  const previousSequence = agentResponseSequenceWatermarks.get(watermarkKey) || 0;
   if (message.monotonic_sequence <= previousSequence) {
     throw new Error("Agent response replayed or arrived behind the verified sender sequence.");
   }
-  agentResponseSequenceWatermarks.set(message.sender_id, message.monotonic_sequence);
+  agentResponseSequenceWatermarks.set(watermarkKey, message.monotonic_sequence);
   return message;
 }
 
@@ -2079,12 +2096,17 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         pending.reject(new Error(frame.error || "Runtime refused the agent message."));
       } else {
         try {
+          if (runtimeV3ChatState.runtimeInstanceId !== pending.runtimeInstanceId) {
+            throw new Error("Runtime instance changed before the agent response arrived.");
+          }
           const output = frame.response?.outcome?.work_result?.public_output;
           pending.resolve(await verifySignedIdentityMessage(
             output,
             pending.agent,
             frame.correlation_id,
-            pending.requestNonce
+            pending.requestNonce,
+            pending.runtimeInstanceId,
+            runtimeV3ChatState.capturedAtUnixMillis
           ));
         } catch (error) {
           pending.reject(error);
@@ -2551,6 +2573,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         pendingAgentMessages.set(correlationId, {
           agent,
           requestNonce: correlationId,
+          runtimeInstanceId: runtimeV3ChatState.runtimeInstanceId,
           resolve: (value) => { clearTimeout(timeout); resolve(value); },
           reject: (error) => { clearTimeout(timeout); reject(error); }
         });
