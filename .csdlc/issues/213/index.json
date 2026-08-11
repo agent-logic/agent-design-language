@@ -3,11 +3,11 @@
   "issue": 213,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d4d23337d701ae03975e437c748d19c827b416bfab581134071172ac1dff340e",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 2,
-  "digest": "69d354b1fc51c532183e17146e4c53e48081778c9d5187048b5a9afd94878549",
-  "branch": null,
-  "worktree": null,
+  "digest": "5ac8981f8f291b91b8698100b136238a7474a1b8c917f02ef6bdb04d2c211285",
+  "branch": "codex/213-initialized-card-repair-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-213-initialized-card-repair-preparation",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "codex:/root",
       "reason": "Independent exact-head design review passed and typed validation reports the tooling repair package ready for bounded implementation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -84,6 +91,13 @@
       "actor": "codex:/root",
       "reason": "Independent exact-head design review passed and typed validation reports the tooling repair package ready for bounded implementation.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
