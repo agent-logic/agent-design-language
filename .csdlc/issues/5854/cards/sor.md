@@ -110,11 +110,11 @@ Prepared Sprint 5 as a four-child execution wave and moved WP-20 to the first de
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
