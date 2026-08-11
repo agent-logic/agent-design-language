@@ -227,11 +227,21 @@ impl Fixture {
     }
 
     fn intent(&self, store: &DurableAuthorityProtocol, id: &str) -> PrepareAuthorityIntent {
+        self.intent_at(store, id, self.membership.committed_log_index() + 1)
+    }
+
+    fn intent_at(
+        &self,
+        store: &DurableAuthorityProtocol,
+        id: &str,
+        prepare_log_index: u64,
+    ) -> PrepareAuthorityIntent {
         PrepareAuthorityIntent::new(
             POLIS,
             &self.membership,
             &self.authority,
             AuthorityOperationKind::Membership,
+            prepare_log_index,
             store.checkpoint_sha256().unwrap(),
             CanonicalAuthorityTime {
                 unix_seconds: FINALIZE_SECONDS - 10,
@@ -263,11 +273,18 @@ impl Fixture {
             .iter()
             .map(|index| {
                 self.signers[*index]
-                    .endorse(intent, &time, &self.membership, &self.authority)
+                    .endorse(
+                        intent,
+                        intent.prepare_log_index + 1,
+                        &time,
+                        &self.membership,
+                        &self.authority,
+                    )
                     .unwrap()
             })
             .collect();
-        FinalizeAuthorityIntent::new(intent, time, endorsements).unwrap()
+        FinalizeAuthorityIntent::new(intent, intent.prepare_log_index + 1, time, endorsements)
+            .unwrap()
     }
 
     fn verified(
@@ -352,11 +369,21 @@ fn duplicate_signer() {
         uncertainty_millis: 2,
     };
     let endorsement = fixture.signers[0]
-        .endorse(&intent, &time, &fixture.membership, &fixture.authority)
+        .endorse(
+            &intent,
+            intent.prepare_log_index + 1,
+            &time,
+            &fixture.membership,
+            &fixture.authority,
+        )
         .unwrap();
-    let finalize =
-        FinalizeAuthorityIntent::new(&intent, time, vec![endorsement.clone(), endorsement])
-            .unwrap();
+    let finalize = FinalizeAuthorityIntent::new(
+        &intent,
+        intent.prepare_log_index + 1,
+        time,
+        vec![endorsement.clone(), endorsement],
+    )
+    .unwrap();
     assert_eq!(
         verify_finalization(&intent, &finalize, &fixture.membership, &fixture.authority),
         Err(AuthorityProtocolError::DuplicateVoter)
@@ -398,6 +425,7 @@ fn declared_finalize_time_after_deadline() {
     assert_eq!(
         FinalizeAuthorityIntent::new(
             &intent,
+            intent.prepare_log_index + 1,
             CanonicalAuthorityTime {
                 unix_seconds: FINALIZE_SECONDS + 1,
                 nanos: 0,
@@ -418,6 +446,7 @@ fn finalize_before_prepare_time() {
     assert_eq!(
         FinalizeAuthorityIntent::new(
             &intent,
+            intent.prepare_log_index + 1,
             CanonicalAuthorityTime {
                 unix_seconds: FINALIZE_SECONDS - 11,
                 nanos: 0,
@@ -523,13 +552,31 @@ fn three_node_checkpoint_restart_reconcile() {
         let intent = fixture.intent(&store, &format!("node-{node}-result"));
         store.publish(&intent, fixture.verified(&intent)).unwrap();
         drop(store);
-        let reopened = DurableAuthorityProtocol::open(
+        let mut reopened = DurableAuthorityProtocol::open(
             fixture.root.path(),
             identity,
             fixture.checkpoint.clone(),
         )
         .unwrap();
         assert!(reopened.published(&format!("node-{node}-result")).is_some());
+        if node == 1 {
+            let second = fixture.intent_at(
+                &reopened,
+                "node-1-second-under-same-membership",
+                fixture.membership.committed_log_index() + 3,
+            );
+            reopened
+                .publish(&second, fixture.verified(&second))
+                .unwrap();
+            assert_eq!(reopened.generation(), 2);
+            assert_eq!(
+                reopened
+                    .published("node-1-second-under-same-membership")
+                    .unwrap()
+                    .committed_log_index(),
+                fixture.membership.committed_log_index() + 4
+            );
+        }
     }
     marker("three_node_checkpoint_restart_reconcile", "passed");
 }
@@ -557,7 +604,13 @@ fn signer_rotation_current_generation() {
         uncertainty_millis: 2,
     };
     let endorsement = fixture.signers[0]
-        .endorse(&intent, &time, &fixture.membership, &fixture.authority)
+        .endorse(
+            &intent,
+            intent.prepare_log_index + 1,
+            &time,
+            &fixture.membership,
+            &fixture.authority,
+        )
         .unwrap();
     let mut rotated = fixture.authority.clone();
     rotated
@@ -565,7 +618,13 @@ fn signer_rotation_current_generation() {
         .get_mut(b"guardian-1".as_slice())
         .unwrap()
         .certificate_generation = 8;
-    let finalize = FinalizeAuthorityIntent::new(&intent, time, vec![endorsement]).unwrap();
+    let finalize = FinalizeAuthorityIntent::new(
+        &intent,
+        intent.prepare_log_index + 1,
+        time,
+        vec![endorsement],
+    )
+    .unwrap();
     assert_eq!(
         verify_finalization(&intent, &finalize, &fixture.membership, &rotated),
         Err(AuthorityProtocolError::StaleVoter)
@@ -636,11 +695,21 @@ fn joint_duplicate_guardian_reuse() {
         uncertainty_millis: 2,
     };
     let endorsement = fixture.signers[1]
-        .endorse(&intent, &time, &fixture.membership, &fixture.authority)
+        .endorse(
+            &intent,
+            intent.prepare_log_index + 1,
+            &time,
+            &fixture.membership,
+            &fixture.authority,
+        )
         .unwrap();
-    let finalize =
-        FinalizeAuthorityIntent::new(&intent, time, vec![endorsement.clone(), endorsement])
-            .unwrap();
+    let finalize = FinalizeAuthorityIntent::new(
+        &intent,
+        intent.prepare_log_index + 1,
+        time,
+        vec![endorsement.clone(), endorsement],
+    )
+    .unwrap();
     assert_eq!(
         verify_finalization(&intent, &finalize, &fixture.membership, &fixture.authority),
         Err(AuthorityProtocolError::DuplicateVoter)
@@ -670,7 +739,13 @@ fn expired_signer_cert() {
         uncertainty_millis: 2,
     };
     assert_eq!(
-        fixture.signers[0].endorse(&intent, &time, &fixture.membership, &fixture.authority),
+        fixture.signers[0].endorse(
+            &intent,
+            intent.prepare_log_index + 1,
+            &time,
+            &fixture.membership,
+            &fixture.authority
+        ),
         Err(AuthorityProtocolError::StaleVoter)
     );
     marker("expired_signer_cert", "rejected");
@@ -687,12 +762,20 @@ fn wrong_voter() {
         uncertainty_millis: 2,
     };
     let endorsement = fixture.signers[0]
-        .endorse(&intent, &time, &fixture.membership, &fixture.authority)
+        .endorse(
+            &intent,
+            intent.prepare_log_index + 1,
+            &time,
+            &fixture.membership,
+            &fixture.authority,
+        )
         .unwrap();
     let mut value = serde_json::to_value(endorsement).unwrap();
     value["guardian_id"] = serde_json::json!([103, 104, 111, 115, 116]);
     let wrong = serde_json::from_value(value).unwrap();
-    let finalize = FinalizeAuthorityIntent::new(&intent, time, vec![wrong]).unwrap();
+    let finalize =
+        FinalizeAuthorityIntent::new(&intent, intent.prepare_log_index + 1, time, vec![wrong])
+            .unwrap();
     assert_eq!(
         verify_finalization(&intent, &finalize, &fixture.membership, &fixture.authority),
         Err(AuthorityProtocolError::WrongVoter)

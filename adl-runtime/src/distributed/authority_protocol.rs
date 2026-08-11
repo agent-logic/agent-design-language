@@ -384,6 +384,7 @@ pub struct PrepareAuthorityIntent {
     pub trust_domain: String,
     pub membership_epoch: u64,
     pub membership_log_index: u64,
+    pub prepare_log_index: u64,
     pub voter_set_generation: u64,
     pub configuration_sha256: [u8; 32],
     pub operation_kind: AuthorityOperationKind,
@@ -402,6 +403,7 @@ impl PrepareAuthorityIntent {
         membership: &MembershipState,
         authority: &AuthorityMembership,
         operation_kind: AuthorityOperationKind,
+        prepare_log_index: u64,
         expected_protocol_checkpoint_sha256: [u8; 32],
         prepare_time: CanonicalAuthorityTime,
         inclusive_deadline: CanonicalAuthorityTime,
@@ -414,6 +416,7 @@ impl PrepareAuthorityIntent {
             trust_domain: membership.trust_domain().to_owned(),
             membership_epoch: membership.epoch(),
             membership_log_index: membership.committed_log_index(),
+            prepare_log_index,
             voter_set_generation: authority.voter_set_generation,
             configuration_sha256: configuration_digest(authority)?,
             operation_kind,
@@ -444,6 +447,7 @@ impl PrepareAuthorityIntent {
             || self.membership_epoch != membership.epoch()
             || self.membership_log_index != membership.committed_log_index()
             || self.membership_log_index != authority.committed_log_index
+            || self.prepare_log_index <= self.membership_log_index
             || self.voter_set_generation != authority.voter_set_generation
             || self.configuration_sha256 != configuration_digest(authority)?
             || self.prepare_time.order_key() > self.inclusive_deadline.order_key()
@@ -466,6 +470,7 @@ impl PrepareAuthorityIntent {
 pub struct FinalizeAuthorityIntent {
     pub operation_id: String,
     pub intent_sha256: [u8; 32],
+    pub finalize_log_index: u64,
     pub finalization_time: CanonicalAuthorityTime,
     pub endorsements: Vec<AuthorityIntentEndorsement>,
 }
@@ -473,18 +478,21 @@ pub struct FinalizeAuthorityIntent {
 impl FinalizeAuthorityIntent {
     pub fn new(
         intent: &PrepareAuthorityIntent,
+        finalize_log_index: u64,
         finalization_time: CanonicalAuthorityTime,
         endorsements: Vec<AuthorityIntentEndorsement>,
     ) -> AuthorityProtocolResult<Self> {
         finalization_time.validate()?;
         if finalization_time.order_key() < intent.prepare_time.order_key()
             || finalization_time.order_key() > intent.inclusive_deadline.order_key()
+            || finalize_log_index <= intent.prepare_log_index
         {
             return Err(AuthorityProtocolError::TimeOutsideIntent);
         }
         Ok(Self {
             operation_id: intent.operation_id.clone(),
             intent_sha256: intent.digest()?,
+            finalize_log_index,
             finalization_time,
             endorsements,
         })
@@ -557,6 +565,7 @@ impl VoterEndorsementAuthority {
     pub fn endorse(
         &self,
         intent: &PrepareAuthorityIntent,
+        finalize_log_index: u64,
         finalization_time: &CanonicalAuthorityTime,
         membership: &MembershipState,
         authority: &AuthorityMembership,
@@ -565,6 +574,7 @@ impl VoterEndorsementAuthority {
         finalization_time.validate()?;
         if finalization_time.order_key() < intent.prepare_time.order_key()
             || finalization_time.order_key() > intent.inclusive_deadline.order_key()
+            || finalize_log_index <= intent.prepare_log_index
         {
             return Err(AuthorityProtocolError::TimeOutsideIntent);
         }
@@ -584,7 +594,7 @@ impl VoterEndorsementAuthority {
         {
             return Err(AuthorityProtocolError::StaleVoter);
         }
-        let payload = endorsement_payload(intent.digest()?, finalization_time)?;
+        let payload = endorsement_payload(intent.digest()?, finalize_log_index, finalization_time)?;
         Ok(AuthorityIntentEndorsement {
             guardian_id: self.guardian_id.clone(),
             certificate_generation: self.certificate_generation,
@@ -599,6 +609,7 @@ impl VoterEndorsementAuthority {
 pub struct VerifiedAuthorityOperation {
     operation_id: String,
     intent_sha256: [u8; 32],
+    committed_log_index: u64,
     finalization_time: CanonicalAuthorityTime,
     artifact: CommittedAuthorityArtifact,
     signer_guardian_ids: BTreeSet<Vec<u8>>,
@@ -671,6 +682,7 @@ impl DurablePublishedAuthorityResult {
             operation: VerifiedAuthorityOperation {
                 operation_id: self.operation_id.clone(),
                 intent_sha256: self.intent_sha256,
+                committed_log_index: self.committed_log_index,
                 finalization_time: self.finalization_time.clone(),
                 artifact: self.artifact.clone(),
                 signer_guardian_ids: self.signer_guardian_ids.clone(),
@@ -807,7 +819,7 @@ impl DurableAuthorityProtocol {
                 && existing.result_sha256
                     == result_digest(
                         &existing.public_result().operation,
-                        intent.membership_log_index,
+                        existing.committed_log_index,
                     )?
             {
                 return Ok(existing.public_result());
@@ -820,20 +832,20 @@ impl DurableAuthorityProtocol {
         if self.envelope.payload().published.len() >= self.capacity {
             return Err(AuthorityProtocolError::CapacityExceeded);
         }
-        let result_sha256 = result_digest(&verified, intent.membership_log_index)?;
+        let result_sha256 = result_digest(&verified, verified.committed_log_index)?;
         let mut result = DurablePublishedAuthorityResult {
             operation_id: intent.operation_id.clone(),
             intent_sha256: verified.intent_sha256,
             result_sha256,
             retry_sha256: [0; 32],
-            committed_log_index: intent.membership_log_index,
+            committed_log_index: verified.committed_log_index,
             finalization_time: verified.finalization_time.clone(),
             artifact: verified.artifact.clone(),
             signer_guardian_ids: verified.signer_guardian_ids.clone(),
         };
         result.retry_sha256 = retry_digest(&result)?;
         let mut next = self.envelope.payload().clone();
-        next.committed_log_index = next.committed_log_index.max(intent.membership_log_index);
+        next.committed_log_index = next.committed_log_index.max(verified.committed_log_index);
         next.published
             .insert(intent.operation_id.clone(), result.clone());
         self.envelope = self.store.commit(&self.envelope, next)?;
@@ -882,6 +894,10 @@ impl VerifiedAuthorityOperation {
         &self.finalization_time
     }
 
+    pub fn committed_log_index(&self) -> u64 {
+        self.committed_log_index
+    }
+
     // The sealed downstream adapters land in their owning issues. Keep this
     // crate-private accessor non-public without weakening the issue-local
     // warning gate while those consumers remain absent.
@@ -922,12 +938,17 @@ pub fn verify_finalization(
     let intent_sha256 = intent.digest()?;
     if finalize.operation_id != intent.operation_id
         || finalize.intent_sha256 != intent_sha256
+        || finalize.finalize_log_index <= intent.prepare_log_index
         || finalize.finalization_time.order_key() < intent.prepare_time.order_key()
         || finalize.finalization_time.order_key() > intent.inclusive_deadline.order_key()
     {
         return Err(AuthorityProtocolError::InvalidIntent);
     }
-    let payload = endorsement_payload(intent_sha256, &finalize.finalization_time)?;
+    let payload = endorsement_payload(
+        intent_sha256,
+        finalize.finalize_log_index,
+        &finalize.finalization_time,
+    )?;
     let mut signers = BTreeSet::new();
     for endorsement in &finalize.endorsements {
         if !signers.insert(endorsement.guardian_id.clone()) {
@@ -961,6 +982,7 @@ pub fn verify_finalization(
     Ok(VerifiedAuthorityOperation {
         operation_id: intent.operation_id.clone(),
         intent_sha256,
+        committed_log_index: finalize.finalize_log_index,
         finalization_time: finalize.finalization_time.clone(),
         artifact: intent.artifact.clone(),
         signer_guardian_ids: signers,
@@ -1045,9 +1067,10 @@ fn has_joint_quorum(authority: &AuthorityMembership, signers: &BTreeSet<Vec<u8>>
 
 fn endorsement_payload(
     intent_sha256: [u8; 32],
+    finalize_log_index: u64,
     finalization_time: &CanonicalAuthorityTime,
 ) -> AuthorityProtocolResult<Vec<u8>> {
-    let body = serde_jcs::to_vec(&(intent_sha256, finalization_time))
+    let body = serde_jcs::to_vec(&(intent_sha256, finalize_log_index, finalization_time))
         .map_err(|_| AuthorityProtocolError::Serialization)?;
     let mut payload = Vec::with_capacity(ENDORSEMENT_DOMAIN.len() + body.len());
     payload.extend_from_slice(ENDORSEMENT_DOMAIN);
@@ -1076,6 +1099,7 @@ fn result_digest(
             committed_log_index,
             &operation.operation_id,
             operation.intent_sha256,
+            operation.committed_log_index,
             &operation.finalization_time,
             &operation.artifact,
             &operation.signer_guardian_ids,
@@ -1174,6 +1198,7 @@ mod tests {
         VerifiedAuthorityOperation {
             operation_id: "continuity-a".into(),
             intent_sha256: [7; 32],
+            committed_log_index: 21,
             finalization_time: CanonicalAuthorityTime {
                 unix_seconds: 1_799_999_999,
                 nanos: 0,
