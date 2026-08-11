@@ -29,14 +29,14 @@ Implement and publish only governed learner catch-up, OpenRaft joint/final trans
 
 ## Acceptance
 
-1. AC-1: A transition starts only from an opaque #201 membership-operation token and exact current MembershipState, AuthorityMembership, verified route cut, and durable OpenRaft membership parity.
-2. AC-2: Add, promote, and rejoin enroll the authorized candidate only as a learner and prove exact committed-log or canonical-snapshot catch-up before any voting transition.
-3. AC-3: The coordinator invokes the standard OpenRaft membership API and durably observes both the exact joint configuration and the exact final uniform target configuration before authority publication.
-4. AC-4: Final publication makes MembershipState, AuthorityMembership, verified routes, Raft ids, voter identities, keys, certificate generations, configurations, and final committed index agree exactly; authorization remains fail closed until parity is complete.
-5. AC-5: The shared durable pending-exclusion authority from #202 immediately excludes the target from ordinary endorsement, voter route, renewal, mutation, Shepherd, and Observatory authority while permitting only an explicitly governed replication-only learner-recovery session; #199 emits a pending-exclusion receipt for #200 and does not claim that it mutated FencingStore.
-6. AC-6: A removed or restarted node cannot self-promote from local state; governed rejoin requires a new current token and certificate, learner catch-up, joint/final commitment, and parity publication.
-7. AC-7: An exclusive bounded canonical journal, exact retry cache, and node-local external checkpoint reconcile leader change, initialization, every transition phase, rollback, corruption, capacity, and unsafe path failures without duplicate side effects.
-8. AC-8: Exact focused real-node tests, strict Clippy, merge-safe receipt validation, diff hygiene, and fresh independent exact-head review pass before a ready unmerged PR opens.
+1. AC-1: A transition starts only from a durably published #201 coarse AuthorityOperationKind::Membership token whose sealed canonical artifact validates the exact issue-local EnrollNonVoting, PromoteVoter, or RemoveVoter discriminator, plus exact current MembershipState, AuthorityMembership, verified route cut, and durable OpenRaft membership parity.
+2. AC-2: Add, promote, and rejoin enroll the authorized candidate only as a learner; #199 invokes only merged #202 governed factory ports, journals their exact durable operation and generation receipts, and proves committed-log or canonical-snapshot catch-up before voting transition.
+3. AC-3: The coordinator invokes the standard OpenRaft membership API and durably observes both the exact joint configuration and exact final uniform target before local authority publication.
+4. AC-4: Final local publication occurs only after exact current #202 admission or exclusion generation observation and makes MembershipState, AuthorityMembership, Raft ids, voter identities, keys, certificate generations, configurations, and final committed index agree; #199 never stages or mutates #202 private state.
+5. AC-5: The shared durable pending-exclusion authority from #202 immediately excludes the target from ordinary endorsement, voter route, renewal, mutation, Shepherd, and Observatory authority while permitting only the exact governed recovery learner; #199 records the external exclusion receipt and emits a pending-exclusion receipt for #200 without claiming atomic cross-authority publication or FencingStore mutation.
+6. AC-6: A removed or restarted node cannot self-promote from local state; governed rejoin requires new coarse Membership operations with exact sealed enrollment and promotion discriminators, current identity and certificate, learner catch-up, joint/final commitment, and parity publication.
+7. AC-7: An exclusive bounded canonical journal, exact retry cache, and node-local external checkpoint reconcile leader change, before/after #202 calls and generation observations, every local transition phase, rollback, corruption, capacity, and unsafe paths without duplicate effects.
+8. AC-8: Exact focused real-node tests split wrong coarse operation kind from wrong issue-local discriminator, prove the external-generation saga and crash windows, and pass strict Clippy, merge-safe receipt validation, diff hygiene, and fresh independent exact-head review before publication.
 
 ## Dependencies
 

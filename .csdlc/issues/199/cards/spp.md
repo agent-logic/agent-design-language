@@ -16,14 +16,14 @@ After #202 is reviewed, merged, ancestral, and followed by a fresh preparation r
 
 ## Plan
 
-Revision 4
+Revision 6
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Do not bind #199 or edit product source until #202 is externally reviewed, merged, and ancestral; then resync this preparation onto the resulting origin/main, rerun typed csdlc-validate and csdlc-doctor, and freeze the exact old-cut parity, stable Raft-id registry, non-voting enrollment, learner catch-up, durable joint/final observation, shared pending exclusion, reconcile-before-visible publication, and restart contracts.",
+    "action": "Verify merged #202 exact ancestry, current governed factory APIs, coarse Membership plus sealed discriminator contracts, and clean typed readiness; freeze the local and external generation saga before product edits.",
     "acceptance_ids": [
       "AC-1"
     ],
@@ -31,7 +31,7 @@ Revision 4
   },
   {
     "id": "S2",
-    "action": "Implement only MembershipTransitionCoordinator plus the narrow existing authority and PolisRuntime integration needed to consume #201 tokens and publish exact membership parity.",
+    "action": "Implement MembershipTransitionCoordinator and narrow authority, membership, and governed Polis integration; invoke only #202 governed ports, persist exact external operation and generation receipts, drive standard OpenRaft learner, joint, and final changes, and publish local parity only after re-observation.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -42,7 +42,7 @@ Revision 4
   },
   {
     "id": "S3",
-    "action": "Prove add, remove, rejoin, learner catch-up, joint/final quorum, stable ids, exclusion, leader change, exact retry, phase crash windows, rollback, corruption, capacity, and path safety against real secure OpenRaft nodes.",
+    "action": "Prove add, remove, rejoin, coarse-kind and discriminator denial, learner catch-up, joint and final quorum, stable ids, exclusion, leader change, exact retry, before and after #202 call and observation crash windows, rollback, corruption, capacity, and path safety against real secure OpenRaft nodes.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
@@ -51,7 +51,7 @@ Revision 4
   },
   {
     "id": "S4",
-    "action": "Resolve fresh exact-head review, publish a ready PR closing #199, shepherd hosted CI, and wait for operator review and merge authorization.",
+    "action": "Resolve fresh exact-head review, publish a ready PR closing #199, shepherd only required hosted CI, and typed-finish the exact green head.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -88,13 +88,13 @@ Revision 4
 
 .csdlc/prepared/issues/199/design.md
 
-Digest: f29aa160c2543e6c30e147c1e5bd95617794ed2c97c0eb38dd7cb4ce058b9542
+Digest: 22b4bdc22d7beb54c06fffb5a1858ea50499154dd6574f82dc6ae61f4e3c5188
 
 ## Diagram
 
 .csdlc/prepared/issues/199/diagram.mmd
 
-Digest: a2d18fc4bae10a7a66894ffdec22ebf446147f6d7dae414215eae0c4cda1cb47
+Digest: 439a2c067bf1bb366e850b0d409a0bfb10abd472a7ef112cc7ccb2a4328e628d
 
 ## Stop Conditions
 

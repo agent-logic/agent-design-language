@@ -27,7 +27,7 @@ not launch Guardian/kernel processes or run Wuji/AWS demos.
 ## Authoritative input and stable identities
 
 - A private-field #201 token binds polis, trust domain, operation id, committed
-  index, operation kind, exact old configuration digest, canonical payload
+  index, the coarse `AuthorityOperationKind::Membership`, exact old configuration digest, canonical payload
   digest, and result/checkpoint identity. For membership operations, the
   digest-bound canonical payload contains the candidate identity and role,
   expected certificate generation, exact authorized candidate Raft id, and the
@@ -46,7 +46,10 @@ not launch Guardian/kernel processes or run Wuji/AWS demos.
 
 ## Operation model
 
-Membership change is expressed through three exact token kinds:
+Every transition uses the one coarse #201 `Membership` operation kind. The
+sealed canonical artifact carries one issue-local discriminator; it is never
+represented as a new `AuthorityOperationKind` variant or inferred from caller
+input:
 
 1. `EnrollNonVoting` inserts a new or previously removed candidate into
    `MembershipState` as `NonVoting`, records its stable Raft id in the
@@ -64,36 +67,51 @@ followed by a separate `PromoteVoter` token. Retained local membership, logs,
 snapshots, ids, roles, tokens, or certificates cannot combine those operations
 or restore voting authority.
 
+`EnrollNonVoting` and `RemoveVoter` reuse the exact sealed artifact contracts
+merged with #202. `PromoteVoter` is a #199-owned sealed artifact discriminator
+under the same coarse `Membership` kind. The coordinator consumes artifacts
+only through the crate-private sealed accessor and validates exact canonical
+domain, bytes, digest, old/target cut, operation id, and committed index.
+
 ## Non-voting enrollment state machine
 
 `EnrollNonVoting` has its own bounded durable protocol rather than borrowing the
 voter-transition phases:
 
-1. `EnrollmentAuthorized` journals the exact #201 token, old and target
+1. `EnrollmentAuthorized` journals the exact #201 token and sealed
+   `EnrollNonVoting` artifact, old and target
    non-voting published-view digests, old and target stable-id registry digests,
    exact #202 learner-admission digest, expected checkpoint, result digest, and
    three distinct indices: the #201 authority-protocol committed index, the
    next Runtime membership-event index, and the unchanged current OpenRaft
    membership log id. These indices are never inferred equal.
-2. `EnrollmentReconciled` idempotently stages private objects in a declared
-   order: apply the exact `MembershipState` Join-as-NonVoting event, add the
-   collision-checked stable-id registry entry, then construct the exact #202
-   learner admission. After each step, the journal records its canonical old
-   and new object digests before the next step. None is a public authority view.
-3. `EnrollmentCheckpointed` writes the canonical result and exact retry entry,
+2. `LearnerAdmissionRequested` invokes only the merged #202 governed factory
+   port with the verified admission and exact current time. The coordinator
+   does not stage, mutate, or transact over #202 private state. It journals the
+   requested operation digest and the returned durable #202 admission
+   generation/result identity before proceeding.
+3. `EnrollmentReconciled` observes that exact #202 operation/generation through
+   the governed port, then idempotently prepares the local
+   `MembershipState` Join-as-NonVoting event and collision-checked stable-id
+   registry entry. Their canonical old/new digests are recorded separately.
+   A missing, different, expired, or superseded #202 generation fails closed.
+4. `EnrollmentCheckpointed` writes the canonical result and exact retry entry,
    advances the external node-local checkpoint, and reconciles either side of
    every local-write/CAS/result-marker crash window.
-4. `EnrollmentPublished` atomically flips one durable enrollment-view
-   generation containing the three reconciled digests. Only this view makes the
-   non-voting candidate and learner admission visible. `PromoteVoter` must bind
-   and consume that exact published enrollment generation.
+5. `EnrollmentPublished` atomically flips one durable local enrollment-view
+   generation containing the reconciled local digests and the observed #202
+   generation/result identity. Only this view makes the local non-voting
+   candidate visible. `PromoteVoter` must bind both that exact local generation
+   and the still-current externally owned #202 admission generation.
 
-Restart compares the enrollment journal, each staged private object, result
-cache, checkpoint, and published generation. An absent step is retried only for
-the same token; an exact later step repairs a missing marker; any conflicting
-member, stable id, learner admission, index, digest, token, result, checkpoint,
-or generation fails closed. A crash after any one staging step therefore cannot
-create an ambiguous promotion prerequisite.
+Restart compares the enrollment journal, local prepared objects, result cache,
+checkpoint, published generation, and the #202 governed observation. An absent
+external call is retried only with the exact operation identity; an exact
+already-published #202 generation is observed and recorded; a later local step
+repairs only its missing marker. Any conflicting member, stable id, external
+generation/result, index, digest, token, checkpoint, or local generation fails
+closed. This is an idempotent saga across an owned external authority, not one
+atomic transaction or private #202 staging protocol.
 
 ## Voter transition state machine
 
@@ -101,7 +119,9 @@ Promotion and removal use one durable transition record and only these phases:
 
 1. `AuthorizedOld`: persist the exact token, stable maps, old/target cuts,
    expected checkpoint, and operation digest before an OpenRaft side effect.
-   Removal atomically activates the shared #202 pending-exclusion authority.
+   Removal invokes the governed #202 exclusion activation port and journals its
+   exact durable operation/generation receipt. It does not mutate #202 private
+   state directly or claim that local and external publication are atomic.
    From this phase the target cannot create ordinary voter sessions, endorse
    #201 operations, renew, mutate, become Shepherd, or acquire/serve the polis
    Observatory. The only permitted exception is the exact governed #202
@@ -116,10 +136,12 @@ Promotion and removal use one durable transition record and only these phases:
 4. `FinalCommitted`: verify a later durable membership-history entry containing
    the exact uniform target configuration and final log id. A successful leader
    response without those durable observations is insufficient.
-5. `AuthorityParityReconciled`: persist a publication intent, idempotently
-   reconcile the exact `MembershipState`, stable-map `AuthorityMembership`, and
-   #202 route/exclusion state, and verify their digests against final OpenRaft
-   membership. Intermediate objects remain private and non-authoritative.
+5. `AuthorityParityReconciled`: persist a publication intent, observe the exact
+   current #202 admission/exclusion operation and generation receipts, then
+   idempotently reconcile local `MembershipState` and stable-map
+   `AuthorityMembership`. Verify all observed external and local digests against
+   final OpenRaft membership. The coordinator never rewrites #202 route or
+   exclusion objects.
 6. `AuthorityParityPublished`: after the exact external checkpoint and result
    cache are durable, atomically flip one durable published-view generation.
    All coordinator, route, and later #200 accessors consume only that view.
@@ -166,10 +188,12 @@ objects, published view, and exact retry cache:
 - if any cut, map, log id, token, checkpoint, route, object, view, or result
   conflicts or regresses, fail closed and require operator recovery.
 
-No public membership/route/authority view or downstream receipt changes until
-all private reconciliation, checkpoint, and result steps complete and the
-single published-view generation flips. This is coordinated fail-closed
-publication, not a transaction over #200 stores.
+No local public membership/authority view or downstream receipt changes until
+all external generation observations, local reconciliation, checkpoint, and
+result steps complete and the local published-view generation flips. #202 may
+already expose its own durable admission or exclusion generation; until exact
+parity is observed, #199 remains fail closed and publishes no local parity.
+This is a crash-resumable idempotent saga, not a transaction over #202 or #200.
 
 ## Concurrency and authority changes
 
@@ -197,12 +221,16 @@ Raft ids.
   route, catch-up, joint/final commitment, and publication are all required.
 - Stable-id proof adds/removes lexically earlier identities without changing any
   old id and rejects duplicate, zero, missing, remapped, or colliding ids.
-- Crash proof injects before/after the enrollment journal, private
-  MembershipState stage, stable-map stage, #202 learner-admission stage,
-  enrollment checkpoint/result, enrollment view flip, exclusion, learner call,
+- Crash proof injects before/after the enrollment journal, before/after the
+  governed #202 admission call and generation observation, local
+  MembershipState preparation, stable-map preparation,
+  enrollment checkpoint/result, enrollment view flip, before/after governed
+  exclusion activation and generation observation, learner call,
   joint history write, final history write, each voter reconcile, voter
   checkpoint/result, and voter visible-view flip.
-- The exact typed 36-case denominator additionally covers stale cuts, wrong
+- The exact typed 36-case denominator additionally splits coarse
+  `Membership`-kind rejection from wrong issue-local artifact-discriminator
+  rejection and covers stale cuts, wrong
   keys/certificates/domain, learner lag/divergence, missing snapshots, old-only
   and new-only joint progress, concurrency, retry conflict, rollback,
   corruption, capacity, and unsafe paths.

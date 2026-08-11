@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
     "slug": "governed-voter-membership-transitions",
     "version": "v0.92",
-    "generation": 9
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "governed-membership-transition",
-          "proof_role": "Prove exact thirty-six-case denominator: add_learner_joint_final_publish, remove_voter_pending_exclusion, governed_rejoin_from_stale_state, exact_retry_cached_result, learner_snapshot_catchup, leader_change_resume, missing_201_token, wrong_operation_kind, old_cut_mismatch, route_cut_mismatch, wrong_domain, wrong_certificate_generation, wrong_control_key, expired_certificate, revoked_certificate, unauthorized_overlap, unstable_raft_id_mapping, learner_lag, learner_divergent_snapshot, missing_snapshot, joint_old_only, joint_new_only, joint_union_only, final_cut_mismatch, concurrent_transition, conflicting_retry, removed_voter_endorsement, removed_voter_route, stale_rejoin_self_promotion, crash_every_phase, coherent_rollback_rejected, corrupt_journal_rejected, checkpoint_object_collision, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected. The positive add case must use a real authenticated #202 fourth-node learner and prove same-batch joint history; leader_change_resume must start from a durably committed joint cut; unstable_raft_id_mapping must preserve every old id and reject collision; governed_rejoin_from_stale_state must prove separate NonVoting enrollment and promotion tokens and promotion consumption of the exact published enrollment generation; crash_every_phase must mechanically enumerate enrollment journal, private MembershipState staging, stable-map staging, #202 learner-admission staging, enrollment checkpoint and result-cache boundaries, enrollment published-view flip, every voter-transition concrete reconcile, voter checkpoint/result boundaries, and final voter-view flip.",
+          "proof_role": "Prove exact thirty-six-case denominator: add_learner_joint_final_publish, remove_voter_pending_exclusion, governed_rejoin_from_stale_state, exact_retry_cached_result, learner_snapshot_catchup, leader_change_resume, missing_201_token, wrong_coarse_operation_kind, old_cut_mismatch, route_cut_mismatch, wrong_domain, wrong_certificate_generation, wrong_control_key, expired_certificate, revoked_certificate, unauthorized_overlap, unstable_raft_id_mapping, learner_lag, learner_divergent_snapshot, missing_snapshot, joint_old_only, joint_new_only, joint_union_only, final_cut_mismatch, concurrent_transition, conflicting_retry, removed_voter_endorsement, removed_voter_route, stale_rejoin_self_promotion, crash_every_phase, coherent_rollback_rejected, corrupt_journal_rejected, checkpoint_object_collision, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected. The positive add case must use a real authenticated #202 fourth-node learner and prove same-batch joint history; leader_change_resume must start from a durably committed joint cut; unstable_raft_id_mapping must preserve every old id and reject collision; governed_rejoin_from_stale_state must prove separate coarse Membership enrollment and promotion operations, exact sealed discriminators, and promotion consumption of both the local published enrollment generation and the still-current #202 admission generation; crash_every_phase must mechanically enumerate enrollment journal, local MembershipState preparation, stable-map preparation, before and after governed #202 admission calls and exact generation observations, enrollment checkpoint and result-cache boundaries, enrollment published-view flip, every voter-transition concrete reconcile, voter checkpoint/result boundaries, and final voter-view flip. The wrong_coarse_operation_kind case must emit a separate exact wrong_artifact_discriminator subassertion. Removal proof must bind before and after governed #202 exclusion calls and exact generation observations; no proof may claim private #202 staging or atomic cross-authority publication.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -109,9 +109,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on missing or invalid #201 token, authority-cut drift, learner lag/divergence, joint/final mismatch, stale or removed voter authority, unstable Raft ids, incomplete parity, checkpoint ambiguity, rollback, retry conflict, corruption, unsafe paths, zero-test proof, source drift, or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/199/design.md",
-      "design_digest": "f29aa160c2543e6c30e147c1e5bd95617794ed2c97c0eb38dd7cb4ce058b9542",
+      "design_digest": "22b4bdc22d7beb54c06fffb5a1858ea50499154dd6574f82dc6ae61f4e3c5188",
       "diagram_ref": ".csdlc/prepared/issues/199/diagram.mmd",
-      "diagram_digest": "a2d18fc4bae10a7a66894ffdec22ebf446147f6d7dae414215eae0c4cda1cb47"
+      "diagram_digest": "439a2c067bf1bb366e850b0d409a0bfb10abd472a7ef112cc7ccb2a4328e628d"
     }
   }
 }
