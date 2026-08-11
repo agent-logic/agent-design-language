@@ -4,13 +4,52 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c6bff3ddb5fc2ec7db27d16aafe6cbee8212cb3b96e2588e39aae4e37a653208",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "91c054b54fadca7824c2f3cfcb6605e5f3bef1e37d42c823760858aab4c5cc96",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "771c5954d5bbef0d16eb83fe9a21697ae7bf39e29dfe32dfac03b07686ca56eb",
   "branch": "codex/191-secure-durable-openraft",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-191-secure-raft",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/prepare_5875_release/review_191_v5_final",
+    "assigned_by": "codex:pr197-review-remediation",
+    "revision": "git-blake3:ba341ffeb2fee4c461b6b5741fb59e0a41cdcdfe:4beaadced31f252cf7f95617d0d99468d04bd76b46a9c3141834a932c8bf3aba",
+    "scope": [
+      ".csdlc/issues/191",
+      ".csdlc/prepared/issues/191",
+      ".csdlc/evidence/191",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/tests/distributed_discovery.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/prepare_5875_release/review_191_v5_final",
+    "scope": [
+      ".csdlc/issues/191",
+      ".csdlc/prepared/issues/191",
+      ".csdlc/evidence/191",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/tests/distributed_discovery.rs"
+    ],
+    "reviewed_revision": "git-blake3:ba341ffeb2fee4c461b6b5741fb59e0a41cdcdfe:4beaadced31f252cf7f95617d0d99468d04bd76b46a9c3141834a932c8bf3aba",
+    "findings": [],
+    "residual_risks": [
+      "PR #197 remains intentionally unmerged pending operator and external review after same-PR update."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "34ec2c6ea980a633ed770d6fc1a5a178f017b08bcc5590189865ccd11d2dfd7e",
+      "values_digest": "cf137197e149b96c16220b8a469aeeb03c022979bafc9ae75fe437bcd0687c46",
       "rendered_digest": "f7e3f002e85eb0c155766d4587bb7b76a27bb0dc56cb15b4622bb6aea51ddda9",
       "ast_digest": "11427429647037945ad5e43fbf88664d0f1be67699ae4b14bcdd586f6faf7646"
     },
     "stp": {
-      "values_digest": "abef4d1d168803fd1bc690bb04571f4a4c7c3dddf1fa3226744b4e5bcd6dcbef",
+      "values_digest": "823a6ecedd1655f2bc03ab90414f32c418b17c8cfb9f86a7a7dcaad754f76c26",
       "rendered_digest": "611e24b0551aadb72bfa4d8ecd48dc9d090d07996ed3f4b83ffbcda0c8e1d479",
       "ast_digest": "11cdbf2cdec78e56d1a3d515e135122249e61460a752121ab6b806817608b5ab"
     },
     "spp": {
-      "values_digest": "17753e3142344ef48482b0d11cfd599c648a500fe635696edcd5215faeb5f7f4",
+      "values_digest": "5612c48d1ec599d6c1682c197a663f90b0f2d8bc5cbda3f9733e528ae337ba34",
       "rendered_digest": "18e5cc88b610b97eb8cd45cdf35de247ba8b84ca46b0603129979e47f7339372",
       "ast_digest": "83763c14c9e53a3ca65b3055efc5c7a8838eca1a93a19b280d5a505424a35bf1"
     },
     "vpp": {
-      "values_digest": "9e7b6ab066d379d504684cd963909772b22f8fcfe52c95ecd75655939348122d",
+      "values_digest": "c88c19dcfc36e08270ba86bf3bb69017ec8e1b82e01accc9a478369e95f167ea",
       "rendered_digest": "081a80ba5150fcc467d2af96e0008b0f58af778cf4c36a0da37254feafe0af84",
       "ast_digest": "7133febe164c9c424aebafd8e8b114e4f236144dfd9908212eb3e8e638935f39"
     },
     "srp": {
-      "values_digest": "c175b573db978cfecadbcefeedf7a8c852cad5b8ca886d287d284a999e70de26",
-      "rendered_digest": "c3cf8cce7b636fa006db1dd51dd75588b4ad2cbf62bd9c4a543866b3d18028b9",
-      "ast_digest": "840d1f85cb7122357cfa41f5ebdd6e88b46f4696a32fa7bc162feead2d88f834"
+      "values_digest": "605f8cfa405a893a8663679cf416fc17dc421e8d118b390a266c76e50723a437",
+      "rendered_digest": "747fb88d809fbdea285947a807b8b07f00eafe1d115ab9c5da6110bf0204e644",
+      "ast_digest": "9894ae7c0d994133cba324607fb825fcb554d0d7d859c7800c7b8fa787b068a2"
     },
     "sor": {
-      "values_digest": "431a95c620941f09935cfed8d3715b02abb9c583e7c3d9f16d00f6b0ed9e01d8",
+      "values_digest": "bd8f903980973ae65a80a1d222e51350b13c5d5c2c202a035edf1e2ad2fb5e18",
       "rendered_digest": "aa1b7f93a1dd66a1831cefd9137cf68b88b00cd50ae62341b76fad48a056ca45",
       "ast_digest": "bc478224ae71dfb84c4a3be9df9117b168f465edd426fafe2e16dc3e83811380"
     }
@@ -118,6 +157,13 @@
       "to": "implemented",
       "actor": "codex:pr197-review-remediation",
       "reason": "External exact-head review requested six substantive corrections; recover published review truth before bounded remediation and fresh proof."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:pr197-review-remediation-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -302,6 +348,20 @@
       "actor": "codex:pr197-review-remediation",
       "reason": "Serialize the focused network test denominator so concurrent election-heavy cases cannot interfere with the real three-voter restart proof.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-secure-raft-runtime\",\"proof_role\":\"Run the registered production three-voter encrypted transport, configured-root authority lineage, exact outstanding-request retry, durable dispatch cache, rollback, fault, and restart denominator serially.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":15000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-tests=fail\",\"--test-threads=1\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":null},{\"lane\":\"full-workspace-compatibility-compile\",\"proof_role\":\"Compile every adl-runtime workspace target so production module registration and the transport/discovery compatibility harnesses cannot drift independently.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--workspace\",\"--no-run\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":null},{\"lane\":\"strict-secure-raft-clippy\",\"proof_role\":\"Reject warnings and API misuse through the normal registered crate surface and focused integration target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":null},{\"lane\":\"exact-proof-and-review\",\"proof_role\":\"Bind the registered source, compatibility harnesses, nonzero tests, configured-root topology, retry/dispatch ordering, rollback, strict Clippy, workspace compile, secret/path hygiene, and independent exact-head review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"parallel_group\":\"serial-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:pr197-review-remediation-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
