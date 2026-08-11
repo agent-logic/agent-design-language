@@ -3,13 +3,48 @@
   "issue": 202,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
-  "phase": "implemented",
-  "generation": 52,
-  "digest": "0969c88e509b1a9e169d58b86d800acb1e2cda23004f37179dc254f47112cbd0",
+  "phase": "reviewed",
+  "generation": 53,
+  "digest": "a505d029c3ddefa4d4c09e635ef483ab624b8875c5d7a708047c1b6a58113caf",
   "branch": "codex/202-authorized-learner-transport-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-202-authorized-learner-transport-preparation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_202_v8_ci_final",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:77f0e52e36fc0f4a12b223d31754b96071402eda:0f9147103fb6d12ac09cecf89c26008158781a4e7b727d8a8ded91a617a16e5b",
+    "scope": [
+      "adl-runtime/src/distributed",
+      "adl-runtime/tests/distributed_authorized_learner_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      ".csdlc/prepared/issues/202",
+      ".csdlc/evidence/202/v9"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/review_202_v8_ci_final",
+    "scope": [
+      "adl-runtime/src/distributed",
+      "adl-runtime/tests/distributed_authorized_learner_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      ".csdlc/prepared/issues/202",
+      ".csdlc/evidence/202/v9"
+    ],
+    "reviewed_revision": "git-blake3:77f0e52e36fc0f4a12b223d31754b96071402eda:0f9147103fb6d12ac09cecf89c26008158781a4e7b727d8a8ded91a617a16e5b",
+    "findings": [],
+    "residual_risks": [
+      "GitHub required checks must rerun on the republished exact head; optional jobs remain intentionally disabled."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "82c3686946ccd24da1df6c55d9b990e449f620dc8d625506b75e3f6509bbcb58",
+      "values_digest": "895e1cf51ea5538f7b058e790277613bbd2ac0a9e31d3e464a14f074e53c2dbb",
       "rendered_digest": "69a805a23892f34aeda5bc6c018c4b6d3425674b3472f433c95fa96c01aa8830",
       "ast_digest": "004791ead09b105cebf8ab0978301127312b0ae5a7c0c34cebf6291fa33a196d"
     },
     "stp": {
-      "values_digest": "1471e3518fae9ea0392b99228150e05b8484affae12ed28171a4a7b57eb6f817",
+      "values_digest": "8358c4b0093991966800a93bbf904f405b0beac7d07f63d5fff6835d92b69cce",
       "rendered_digest": "dfddaeadcb4d739c0c3331bc30dbfd94b4b57d0d9ad9f9a74ab81174a9dcee43",
       "ast_digest": "1614c5e31e990ab93563b802b9a8d59738cb7f5b68caede9b9107241152d43fc"
     },
     "spp": {
-      "values_digest": "5075f0a8c35aac4020fee5a2bbb81b293057212051be7dcfc93de51dfb1e66e1",
+      "values_digest": "2ff8cb33db15eb754971aa3817ca78f16d59eda7277ba20dffba5c294312e6ff",
       "rendered_digest": "093cc6780f5a2d975bf7b1b164fe4eba33825f122f62fb3d4f5f7c50b181d5bb",
       "ast_digest": "bdf56b18f8b8a4ad50b131b2c6d134a634c810789f2a69f6e75593fbacb827bc"
     },
     "vpp": {
-      "values_digest": "0e9ff561e7ffe8a81affb3a3cc0a14f52ffed2becc3486a172299b54b21542df",
+      "values_digest": "87da3e22bb4555ca754a44840a17f1e3b7e1200350ffb6f06d435804c94e7469",
       "rendered_digest": "b0e6ad04d279e0fef9dfe4678fb8c6036f2d9df398d6c1fc84eeea58f7259bbb",
       "ast_digest": "33d0bbf643df4548bf4c7171364c1819e7f264f31e845e1b8fa29bd2e57d137c"
     },
     "srp": {
-      "values_digest": "e87654180b60fb048e099c59b579239e0d3d79cfc4647dde5615fc33df9ec520",
-      "rendered_digest": "dba4febc7b5c003b8ad14ffb85d3b3269ea899952b75fa7eb9679f0fb84d60d8",
-      "ast_digest": "50122364aaea02383de41041443dcdaf4a31ca44ba3f9469af37191e35637e77"
+      "values_digest": "3308fe476bda03d80db8d91996ee34cd109a7b988d84a98d22378e8730bfbbea",
+      "rendered_digest": "dd2906bcdea2e8a33068c9f4403da4911bc201c560e470ce3c4d34206ad6c340",
+      "ast_digest": "8185608a4961f12856885feb01c83121bc05ff2dd9fa96826cb89e82b59e8dbe"
     },
     "sor": {
-      "values_digest": "db0085d43df82a80af38799e77af05fc4a990e1d5fb25119a1f4d9fc3eb26f14",
+      "values_digest": "8cb8ba7f64d102a1bbd0d47af8c455b1dc26e8e7b496ddd6df2c40b2bd65de73",
       "rendered_digest": "40d6f850af7dbd44b66e0a7eb3de1fd3353ba0d82eb8728295ee1732025fa7f3",
       "ast_digest": "b94d31659944d2e59a7874260a4c8c2c70c444be894a1ff1a0e4157f43de1ce4"
     }
@@ -96,6 +131,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover published review truth before applying the bounded coverage-impact mapping repair required by exact-head CI after the transport module split."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -490,6 +532,20 @@
       "actor": "codex:/root",
       "reason": "Record v9 as current immutable proof after closing exact-argv and coverage-fixture review findings.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved all four generation-38 production review findings on exact current origin/main ancestry. A distinct learner-owned factory now holds its own durable transport instance and live boot custody; pending exclusion governs recovery admission and route retention; removal binds target membership and deadline with cache-first exact retry; and immutable v9 proof requires a fully clean worktree plus exact current origin/main. The STP v6 evidence entry remains immutable historical design-time input because typed lifecycle policy forbids STP mutation after implemented; current proof authority is the v9 VPP, SOR, SRP, and evidence packet. The hosted CI repair maps executable transport subtree paths to the correct coverage candidate and reinstalls a rotated route after the intentional authority-cut drain.\",\"changes\":[\"Added SecureLearnerNetworkFactory as a learner-owned production ingress path with distinct durable ProductionLearnerAuthority, TransportAuthorityOwner, transport instance, peer pins, and nonextractable LearnerBootAttestationCustody.\",\"Proved the voter and learner factories complete a production handshake over Quinn and replicate snapshot plus append traffic into a real fourth PolisRaft while the learner-owned expiry writer waits through the actual Raft effect and response.\",\"Made pending exclusion govern admission currentness, session currentness, voter-side route installation, learner-side ingress, and recovery of the same stable Raft id under a new node and Guardian identity with a higher committed index.\",\"Bound removal activation and durable recovery state to the exact target-membership digest and live authorization deadline while serving exact retries from durable cache before re-decoding an expired result.\",\"Drained learner routes denied by exclusion and retained transition serialization across ordinary and learner dispatch locks.\",\"Rebased onto exact origin/main 1567469e395f9a6ea6c2e736366a8008f5ee1e06 and introduced immutable v9 evidence with no temporary-directory or machine-local cleanliness exceptions.\",\"Recorded v9 as current validation and review authority while preserving the typed lifecycle's immutable implemented-phase STP history.\",\"Mapped executable distributed transport subtree files to the runtime transport coverage candidate while retaining the dependency-free shim classification.\",\"Updated the rotation regression to install the peer as a fresh route after replace_authority_cut intentionally drains stale boot and certificate bindings.\",\"Hardened the receipt validator to require the exact command-key set and byte-exact argv for every retained validation lane.\",\"Expanded the focused coverage contract to prove nested governed transport mapping and zero risk filter for the dependency-free shim.\"],\"artifacts\":[\".csdlc/evidence/202/v9/execution-proof.json\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\",\"adl-runtime/src/distributed/transport/governed/learner_transport.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\",\"adl-runtime/src/distributed/transport/governed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\"],\"purpose\":\"Produce exact clean-source v9 evidence for 36 semantic cases, 42 private runner tests, 13 public tests, 31 named behavior assertions, three integration compiles, and strict library and public Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v9/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\"],\"purpose\":\"Validate immutable v9 protected-source parity, exact current origin/main ancestry, proof denominators, command streams, and absence of post-proof drift.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v9/execution-proof.json\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove executable transport subtree coverage mapping and policy routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v9/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"route_replacement_retries_exact_sequence_after_peer_restart_and_certificate_rotation\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove fresh route installation after intentional authority-cut drain.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v9/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 57,
+      "generation": 52,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 53,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -12,7 +12,15 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime/src/distributed
+adl-runtime/tests/distributed_authorized_learner_transport.rs
+adl-runtime/tests/distributed_transport.rs
+adl-runtime/tests/distributed_discovery.rs
+adl-runtime/tests/distributed_runtime_transport.rs
+adl/tools/check_coverage_impact.sh
+adl/tools/test_check_coverage_impact.sh
+.csdlc/prepared/issues/202
+.csdlc/evidence/202/v9
 
 ## Prompts
 
@@ -39,12 +47,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- GitHub required checks must rerun on the republished exact head; optional jobs remain intentionally disabled.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:77f0e52e36fc0f4a12b223d31754b96071402eda:0f9147103fb6d12ac09cecf89c26008158781a4e7b727d8a8ded91a617a16e5b")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_202_v8_ci_final")
 
-Result: pre_review
+Result: pass
