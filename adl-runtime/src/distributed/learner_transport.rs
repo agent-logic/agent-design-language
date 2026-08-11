@@ -11,6 +11,8 @@ use std::{
     sync::{Arc, Mutex},
 };
 
+use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
+use rand::{rngs::OsRng, RngCore};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -28,7 +30,9 @@ use super::{
         CheckpointMetadata, CheckpointMetadataSource, CheckpointedJson,
         ConsensusCheckpointAuthority, DurableEnvelope, PolisRuntimeError,
     },
-    transport::{AuthenticatedConnection, OrdinarySessionExclusion, VerifiedPolisRouteCut},
+    transport::{
+        AuthenticatedConnection, OrdinarySessionExclusion, TransportError, VerifiedPolisRouteCut,
+    },
 };
 
 const MEMBERSHIP_ARTIFACT_SCHEMA: &str = "adl.distributed.learner_membership.v1";
@@ -38,6 +42,7 @@ const EXCLUSION_FILE: &str = "pending-membership-exclusion.json";
 const ADMISSION_OBJECT: &str = "learner-admission-v1";
 const ADMISSION_FILE: &str = "learner-admission.json";
 const ROLE: &str = "replication_only_learner";
+const LIVE_BINDING_SCHEMA: &str = "adl.distributed.learner_live_binding.v1";
 pub const MAX_LEARNER_RPC_BYTES: usize = 8 * 1024 * 1024;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -544,6 +549,7 @@ pub(crate) struct LearnerVoterBinding {
     pub(crate) guardian_id: String,
     pub(crate) certificate_generation: u64,
     pub(crate) boot_generation: u64,
+    pub(crate) control_public_key: [u8; 32],
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -559,6 +565,125 @@ pub struct EstablishedLearnerSession {
     authority: ProductionLearnerAuthority,
     highest_sequence: u64,
     closed: bool,
+    live_binding_sha256: Option<[u8; 32]>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct LearnerLiveBinding {
+    schema: String,
+    phase: String,
+    binding_sha256: [u8; 32],
+    challenge: [u8; 32],
+    node_id: String,
+    guardian_id: String,
+    boot_generation: u64,
+    signature: Vec<u8>,
+}
+
+#[derive(Serialize)]
+struct LearnerLiveBindingPayload<'a> {
+    schema: &'a str,
+    phase: &'a str,
+    binding_sha256: [u8; 32],
+    challenge: [u8; 32],
+    node_id: &'a str,
+    guardian_id: &'a str,
+    boot_generation: u64,
+}
+
+fn learner_binding_sha256(
+    binding: &LearnerSessionBinding,
+) -> Result<[u8; 32], LearnerTransportError> {
+    let bytes = serde_jcs::to_vec(&(
+        &binding.identity,
+        binding.voter.stable_raft_id,
+        &binding.voter.node_id,
+        &binding.voter.guardian_id,
+        binding.voter.certificate_generation,
+        binding.voter.boot_generation,
+        binding.voter.control_public_key,
+        binding.voter_cut_sha256,
+        binding.operation_sha256,
+        &binding.operation_id,
+        binding.committed_log_index,
+        binding.deadline_unix_seconds,
+        binding.overlap_end_unix_seconds,
+        binding.role,
+        binding.protocol_version,
+    ))
+    .map_err(|_| LearnerTransportError::InvalidBinding)?;
+    Ok(Sha256::digest(bytes).into())
+}
+
+fn signed_live_binding(
+    phase: &str,
+    binding_sha256: [u8; 32],
+    challenge: [u8; 32],
+    node_id: &str,
+    guardian_id: &str,
+    boot_generation: u64,
+    signing_key: &SigningKey,
+) -> Result<LearnerLiveBinding, LearnerTransportError> {
+    let bytes = serde_jcs::to_vec(&LearnerLiveBindingPayload {
+        schema: LIVE_BINDING_SCHEMA,
+        phase,
+        binding_sha256,
+        challenge,
+        node_id,
+        guardian_id,
+        boot_generation,
+    })
+    .map_err(|_| LearnerTransportError::InvalidBinding)?;
+    Ok(LearnerLiveBinding {
+        schema: LIVE_BINDING_SCHEMA.to_owned(),
+        phase: phase.to_owned(),
+        binding_sha256,
+        challenge,
+        node_id: node_id.to_owned(),
+        guardian_id: guardian_id.to_owned(),
+        boot_generation,
+        signature: signing_key.sign(&bytes).to_bytes().to_vec(),
+    })
+}
+
+#[allow(clippy::too_many_arguments)]
+fn verify_live_binding(
+    value: &LearnerLiveBinding,
+    phase: &str,
+    binding_sha256: [u8; 32],
+    challenge: [u8; 32],
+    node_id: &str,
+    guardian_id: &str,
+    boot_generation: u64,
+    control_public_key: [u8; 32],
+) -> Result<(), LearnerTransportError> {
+    if value.schema != LIVE_BINDING_SCHEMA
+        || value.phase != phase
+        || value.binding_sha256 != binding_sha256
+        || value.challenge != challenge
+        || value.node_id != node_id
+        || value.guardian_id != guardian_id
+        || value.boot_generation != boot_generation
+    {
+        return Err(LearnerTransportError::InvalidBinding);
+    }
+    let bytes = serde_jcs::to_vec(&LearnerLiveBindingPayload {
+        schema: LIVE_BINDING_SCHEMA,
+        phase,
+        binding_sha256,
+        challenge,
+        node_id,
+        guardian_id,
+        boot_generation,
+    })
+    .map_err(|_| LearnerTransportError::InvalidBinding)?;
+    let key = VerifyingKey::from_bytes(&control_public_key)
+        .map_err(|_| LearnerTransportError::InvalidBinding)?;
+    let signature = Signature::from_slice(&value.signature)
+        .map_err(|_| LearnerTransportError::InvalidBinding)?;
+    key.verify(&bytes, &signature)
+        .map_err(|_| LearnerTransportError::AuthorityDenied)
 }
 
 #[derive(Serialize)]
@@ -604,13 +729,42 @@ impl EstablishedLearnerSession {
         {
             return Err(LearnerTransportError::AuthorityDenied);
         }
-        Ok(Self {
+        let session = Self {
             binding: LearnerSessionBinding::from_admission(admission, voter_cut_sha256, voter),
             endpoint_role,
             authority,
             highest_sequence: 0,
             closed: false,
-        })
+            live_binding_sha256: None,
+        };
+        #[cfg(test)]
+        {
+            let mut session = session;
+            session.establish_live_binding_for_test();
+            Ok(session)
+        }
+        #[cfg(not(test))]
+        {
+            Ok(session)
+        }
+    }
+
+    fn establish_live_binding(
+        &mut self,
+        binding_sha256: [u8; 32],
+    ) -> Result<(), LearnerTransportError> {
+        if learner_binding_sha256(&self.binding)? != binding_sha256 {
+            return Err(LearnerTransportError::InvalidBinding);
+        }
+        self.live_binding_sha256 = Some(binding_sha256);
+        Ok(())
+    }
+
+    #[cfg(test)]
+    fn establish_live_binding_for_test(&mut self) {
+        let digest = learner_binding_sha256(&self.binding).expect("test learner binding digest");
+        self.establish_live_binding(digest)
+            .expect("test learner live binding");
     }
 
     pub fn authorize(
@@ -620,7 +774,7 @@ impl EstablishedLearnerSession {
         payload: &[u8],
         now_unix_seconds: i64,
     ) -> Result<[u8; 32], LearnerTransportError> {
-        if self.closed {
+        if self.closed || self.live_binding_sha256 != learner_binding_sha256(&self.binding).ok() {
             return Err(LearnerTransportError::AuthorityDenied);
         }
         if !self.authority.binding_is_current(&self.binding)? {
@@ -732,6 +886,122 @@ impl EstablishedLearnerSession {
     }
 }
 
+pub(crate) async fn establish_voter_learner_sessions(
+    connection: &AuthenticatedConnection,
+    outbound: &mut EstablishedLearnerSession,
+    responses: &mut EstablishedLearnerSession,
+    signing_key: &SigningKey,
+) -> Result<(), LearnerTransportError> {
+    if outbound.binding != responses.binding
+        || signing_key.verifying_key().to_bytes() != outbound.binding.voter.control_public_key
+    {
+        return Err(LearnerTransportError::InvalidBinding);
+    }
+    outbound.require_connection(connection)?;
+    responses.require_connection(connection)?;
+    if !outbound.authority.binding_is_current(&outbound.binding)? {
+        return Err(LearnerTransportError::AuthorityDenied);
+    }
+    let binding_sha256 = learner_binding_sha256(&outbound.binding)?;
+    let mut challenge = [0_u8; 32];
+    OsRng.fill_bytes(&mut challenge);
+    let request = signed_live_binding(
+        "voter_request",
+        binding_sha256,
+        challenge,
+        &outbound.binding.voter.node_id,
+        &outbound.binding.voter.guardian_id,
+        outbound.binding.voter.boot_generation,
+        signing_key,
+    )?;
+    let request = serde_jcs::to_vec(&request).map_err(|_| LearnerTransportError::InvalidBinding)?;
+    let response_bytes = connection
+        .initiate_learner_binding(&outbound.authority, request)
+        .await
+        .map_err(|_| LearnerTransportError::AuthorityDenied)?;
+    let response: LearnerLiveBinding = serde_json::from_slice(&response_bytes)
+        .map_err(|_| LearnerTransportError::InvalidBinding)?;
+    if serde_jcs::to_vec(&response).map_err(|_| LearnerTransportError::InvalidBinding)?
+        != response_bytes
+    {
+        return Err(LearnerTransportError::InvalidBinding);
+    }
+    verify_live_binding(
+        &response,
+        "learner_response",
+        binding_sha256,
+        challenge,
+        &outbound.binding.identity.node_id,
+        &outbound.binding.identity.guardian_id,
+        outbound.binding.identity.boot_generation,
+        outbound.binding.identity.guardian_control_public_key,
+    )?;
+    outbound.establish_live_binding(binding_sha256)?;
+    responses.establish_live_binding(binding_sha256)
+}
+
+pub(crate) async fn establish_learner_voter_sessions(
+    connection: &AuthenticatedConnection,
+    inbound: &mut EstablishedLearnerSession,
+    outbound: &mut EstablishedLearnerSession,
+    live_learner_boot_generation: u64,
+    signing_key: &SigningKey,
+) -> Result<(), LearnerTransportError> {
+    if live_learner_boot_generation != inbound.binding.identity.boot_generation {
+        return Err(LearnerTransportError::AuthorityDenied);
+    }
+    if inbound.binding != outbound.binding
+        || signing_key.verifying_key().to_bytes()
+            != inbound.binding.identity.guardian_control_public_key
+    {
+        return Err(LearnerTransportError::InvalidBinding);
+    }
+    inbound.require_connection(connection)?;
+    outbound.require_connection(connection)?;
+    if !inbound.authority.binding_is_current(&inbound.binding)? {
+        return Err(LearnerTransportError::AuthorityDenied);
+    }
+    let binding_sha256 = learner_binding_sha256(&inbound.binding)?;
+    let binding = inbound.binding.clone();
+    connection
+        .accept_learner_binding(&inbound.authority, |request| {
+            let request_bytes = request;
+            let request: LearnerLiveBinding = serde_json::from_slice(request_bytes)
+                .map_err(|_| TransportError::InvalidSessionBinding)?;
+            if serde_jcs::to_vec(&request).map_err(|_| TransportError::InvalidSessionBinding)?
+                != request_bytes
+            {
+                return Err(TransportError::InvalidSessionBinding);
+            }
+            verify_live_binding(
+                &request,
+                "voter_request",
+                binding_sha256,
+                request.challenge,
+                &binding.voter.node_id,
+                &binding.voter.guardian_id,
+                binding.voter.boot_generation,
+                binding.voter.control_public_key,
+            )
+            .map_err(|_| TransportError::InvalidSessionBinding)?;
+            let response = signed_live_binding(
+                "learner_response",
+                binding_sha256,
+                request.challenge,
+                &binding.identity.node_id,
+                &binding.identity.guardian_id,
+                binding.identity.boot_generation,
+                signing_key,
+            )
+            .map_err(|_| TransportError::InvalidSessionBinding)?;
+            serde_jcs::to_vec(&response).map_err(|_| TransportError::InvalidSessionBinding)
+        })
+        .await
+        .map_err(|_| LearnerTransportError::AuthorityDenied)?;
+    inbound.establish_live_binding(binding_sha256)?;
+    outbound.establish_live_binding(binding_sha256)
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct LearnerReplicationFrame {
@@ -778,6 +1048,7 @@ impl EstablishedLearnerSession {
         payload: Vec<u8>,
         now_unix_seconds: i64,
     ) -> Result<[u8; 32], LearnerTransportError> {
+        let _dispatch = self.authority.dispatch_guard().await;
         self.require_connection(connection)?;
         let authorization_sha256 = self.authorize(kind, sequence, &payload, now_unix_seconds)?;
         let frame = LearnerReplicationFrame {
@@ -835,6 +1106,7 @@ impl EstablishedLearnerSession {
         connection: &AuthenticatedConnection,
         now_unix_seconds: i64,
     ) -> Result<LearnerReplicationFrame, LearnerTransportError> {
+        let _dispatch = self.authority.dispatch_guard().await;
         self.require_connection(connection)?;
         let envelope = connection
             .receive()
@@ -870,6 +1142,7 @@ impl EstablishedLearnerSession {
         payload: Vec<u8>,
         now_unix_seconds: i64,
     ) -> Result<(), LearnerTransportError> {
+        let _dispatch = self.authority.dispatch_guard().await;
         self.require_connection(connection)?;
         let kind = match request.message_kind.as_str() {
             "append_entries" => LearnerRpcKind::AppendEntries,
@@ -902,6 +1175,7 @@ impl EstablishedLearnerSession {
         request_authorization_sha256: [u8; 32],
         now_unix_seconds: i64,
     ) -> Result<Vec<u8>, LearnerTransportError> {
+        let _dispatch = self.authority.dispatch_guard().await;
         self.require_connection(connection)?;
         let envelope = connection
             .receive()
@@ -1272,6 +1546,21 @@ impl PendingMembershipExclusionAuthority {
 pub struct ProductionLearnerAuthority {
     admissions: Arc<Mutex<LearnerAdmissionAuthority>>,
     exclusions: Arc<Mutex<PendingMembershipExclusionAuthority>>,
+    /// One Runtime-wide fence makes exclusion publication atomic with every
+    /// production dispatch. Dispatchers take a shared guard before authority
+    /// revalidation and retain it through QUIC stream creation; exclusion
+    /// activation takes the exclusive guard before changing durable truth.
+    dispatch_fence: Arc<tokio::sync::RwLock<()>>,
+    #[cfg(test)]
+    dispatch_test_hook: Arc<Mutex<Option<DispatchFenceTestHook>>>,
+}
+
+#[cfg(test)]
+#[derive(Clone)]
+pub(crate) struct DispatchFenceTestHook {
+    phase: &'static str,
+    pub(crate) reached: Arc<tokio::sync::Notify>,
+    pub(crate) release: Arc<tokio::sync::Notify>,
 }
 
 impl std::fmt::Debug for ProductionLearnerAuthority {
@@ -1294,7 +1583,48 @@ impl ProductionLearnerAuthority {
         Ok(Self {
             admissions: Arc::new(Mutex::new(admissions)),
             exclusions: Arc::new(Mutex::new(exclusions)),
+            dispatch_fence: Arc::new(tokio::sync::RwLock::new(())),
+            #[cfg(test)]
+            dispatch_test_hook: Arc::new(Mutex::new(None)),
         })
+    }
+
+    pub(crate) async fn dispatch_guard(&self) -> tokio::sync::OwnedRwLockReadGuard<()> {
+        Arc::clone(&self.dispatch_fence).read_owned().await
+    }
+
+    pub(crate) async fn exclusion_guard(&self) -> tokio::sync::OwnedRwLockWriteGuard<()> {
+        Arc::clone(&self.dispatch_fence).write_owned().await
+    }
+
+    #[cfg(test)]
+    pub(crate) fn install_dispatch_pause_for_test(
+        &self,
+        phase: &'static str,
+    ) -> DispatchFenceTestHook {
+        let hook = DispatchFenceTestHook {
+            phase,
+            reached: Arc::new(tokio::sync::Notify::new()),
+            release: Arc::new(tokio::sync::Notify::new()),
+        };
+        *self.dispatch_test_hook.lock().expect("dispatch test hook") = Some(hook.clone());
+        hook
+    }
+
+    #[cfg(test)]
+    pub(crate) async fn pause_after_revalidation_for_test(&self, phase: &'static str) {
+        let hook = {
+            let mut installed = self.dispatch_test_hook.lock().expect("dispatch test hook");
+            if installed.as_ref().is_some_and(|hook| hook.phase == phase) {
+                installed.take()
+            } else {
+                None
+            }
+        };
+        if let Some(hook) = hook {
+            hook.reached.notify_one();
+            hook.release.notified().await;
+        }
     }
 
     pub(crate) fn activate_admission(
@@ -1432,6 +1762,13 @@ impl ProductionLearnerAuthority {
                 && current.identity == binding.identity
                 && current.voter_cut_sha256 == binding.voter_cut_sha256
         }))
+    }
+
+    pub(crate) fn session_is_current(
+        &self,
+        session: &EstablishedLearnerSession,
+    ) -> Result<bool, LearnerTransportError> {
+        self.binding_is_current(&session.binding)
     }
 }
 

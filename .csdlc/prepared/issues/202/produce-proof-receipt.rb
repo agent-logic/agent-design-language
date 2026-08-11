@@ -9,7 +9,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/202/v4/"
+PREFIX = ".csdlc/evidence/202/v5/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_202_CASE_V1 "
@@ -38,6 +38,8 @@ EXPECTED_CASES = %w[
   exclusion_wrong_recovery_token stale_admission replay_conflict oversized_frame truncated_frame
   capacity_n_plus_one_no_partial crash_before_exclusion_checkpoint crash_after_exclusion_checkpoint
   state_or_lock_symlink_rejected
+  stale_live_learner_boot_handshake_denied exclusion_exact_publisher_and_target_required
+  exclusion_waits_for_inflight_dispatch_fence
 ].freeze
 EXPECTED_ASSERTIONS = [
   %w[real_four_node_learner_replication raft_add_learner_replicated],
@@ -51,6 +53,11 @@ EXPECTED_ASSERTIONS = [
   %w[exclusion_ordinary_session_denied published_exclusion_denies_retained_identity],
   %w[exclusion_ordinary_session_denied production_endorsement_uses_durable_exclusion],
   %w[exclusion_ordinary_session_denied retained_excluded_session_zero_bytes_all_public_dispatch],
+  %w[exclusion_ordinary_session_denied actual_request_stream_fenced_against_exclusion_race],
+  %w[exclusion_exact_publisher_and_target_required wrong_publisher_node_denied],
+  %w[exclusion_exact_publisher_and_target_required wrong_target_certificate_and_boot_denied],
+  %w[exclusion_waits_for_inflight_dispatch_fence exclusive_exclusion_waits_for_shared_dispatch],
+  %w[stale_live_learner_boot_handshake_denied live_boot_generation_must_match_signed_admission_binding],
   %w[crash_before_exclusion_checkpoint failed_admission_and_exclusion_cas_recover_old_view],
   %w[crash_after_exclusion_checkpoint committed_admission_and_exclusion_survive_restart],
   %w[wrong_boot_generation live_stale_voter_boot_rejected],
@@ -106,6 +113,12 @@ fail_proof("ordinary session exclusion policy remains public") if transport_sour
 fail_proof("authority eligibility exclusion policy remains public") if authority_source.include?("pub trait AuthorityEligibilityExclusion")
 fail_proof("published admission does not bind publisher identity to live cut") unless learner_source.include?("published_identity_matches_cut") && runtime_source.include?("published_result_matches_trusted_cut")
 fail_proof("ordinary sessions do not embed production authority") unless transport_source.include?("authority: ProductionLearnerAuthority")
+fail_proof("raw authenticated send remains public") if transport_source.include?("pub async fn send(&self, sequence:")
+fail_proof("raw authenticated receive remains public") if transport_source.include?("pub async fn receive(&self) -> TransportResult<TransportEnvelope>")
+fail_proof("shared dispatch/exclusion fence missing") unless learner_source.include?("dispatch_fence: Arc<tokio::sync::RwLock<()>>") && learner_source.include?("exclusion_guard")
+fail_proof("live learner boot handshake missing") unless learner_source.include?("LIVE_BINDING_SCHEMA") && learner_source.include?("live_learner_boot_generation")
+fail_proof("exact removal target route-cut validation missing") unless transport_source.include?("exact_removal_target_matches") && runtime_source.include?("trusted_node_identities")
+fail_proof("behavioral request/exclusion race proof missing") unless private_tests.include?("actual_request_stream_fenced_against_exclusion_race")
 %w[install_learner_route request_bytes serve_authorized_learner_connection add_learner].each do |behavior|
   fail_proof("real fourth-Raft behavior missing #{behavior}") unless private_tests.include?(behavior)
 end
@@ -120,14 +133,14 @@ commands["clippy_public"] = run_command("clippy-public", %w[cargo clippy --locke
 fail_proof("command failed") unless commands.values.all? { |command| command["exit_code"] == 0 }
 private_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["private_cases"]["#{stream}_path"])) }.join
 public_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["public_cases"]["#{stream}_path"])) }.join
-fail_proof("private test count mismatch") unless private_text.include?("test result: ok. 36 passed; 0 failed")
+fail_proof("private test count mismatch") unless private_text.include?("test result: ok. 39 passed; 0 failed")
 fail_proof("public test count mismatch") unless public_text.include?("test result: ok. 13 passed; 0 failed")
 observed = private_text.lines.map do |line|
   next unless line.include?(MARKER)
   name, result = line.split(MARKER, 2).fetch(1).strip.split("=", 2)
   [name, result]
 end.compact
-fail_proof("case denominator mismatch") unless observed.length == 36 && observed.map(&:first).sort == EXPECTED_CASES.sort && observed.all? { |_, result| result == "passed" }
+fail_proof("case denominator mismatch") unless observed.length == 39 && observed.map(&:first).sort == EXPECTED_CASES.sort && observed.all? { |_, result| result == "passed" }
 assertions = private_text.lines.map do |line|
   next unless line.include?(ASSERTION_MARKER)
   line.split(ASSERTION_MARKER, 2).fetch(1).strip.split(" ", 2)
@@ -136,12 +149,12 @@ fail_proof("subassertion mismatch") unless assertions.sort == EXPECTED_ASSERTION
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue202.authorized_learner_transport_proof.v4", "issue" => 202,
+  "schema" => "adl.issue202.authorized_learner_transport_proof.v5", "issue" => 202,
   "source_revision" => source, "source_tree" => tree.strip, "required_main_ancestor" => MAIN_ANCESTOR,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
-  "commands" => commands, "test_summary" => { "private_selected" => 36, "private_passed" => 36, "public_selected" => 13, "public_passed" => 13 },
+  "commands" => commands, "test_summary" => { "private_selected" => 39, "private_passed" => 39, "public_selected" => 13, "public_passed" => 13 },
   "cases" => EXPECTED_CASES.map { |name| { "case" => name, "result" => "passed", "marker_sha256" => Digest::SHA256.hexdigest("#{MARKER}#{name}=passed") } },
   "subassertions" => EXPECTED_ASSERTIONS.map { |case_name, name| { "case" => case_name, "assertion" => name, "marker_sha256" => Digest::SHA256.hexdigest("#{ASSERTION_MARKER}#{case_name} #{name}") } }
 }
 File.binwrite(PROOF, JSON.generate(proof) + "\n")
-puts "PASS: produced issue #202 exact 36+13 proof at #{source}"
+puts "PASS: produced issue #202 exact 39+13 proof at #{source}"

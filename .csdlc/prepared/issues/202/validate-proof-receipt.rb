@@ -7,7 +7,7 @@ require "open3"
 require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/202/v4/"
+PREFIX = ".csdlc/evidence/202/v5/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/mod.rs adl-runtime/src/distributed/authority_protocol.rs
@@ -30,7 +30,7 @@ end
 proof_path = ROOT.join(PROOF_RELATIVE)
 fail_receipt("missing or unsafe proof") unless proof_path.file? && !proof_path.symlink?
 proof = JSON.parse(File.binread(proof_path))
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue202.authorized_learner_transport_proof.v4" && proof["issue"] == 202
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue202.authorized_learner_transport_proof.v5" && proof["issue"] == 202
 source = proof.fetch("source_revision")
 fail_receipt("source malformed") unless source.match?(/\A[0-9a-f]{40}\z/)
 fail_receipt("ancestry missing") unless system("git", "merge-base", "--is-ancestor", proof.fetch("required_main_ancestor"), source, chdir: ROOT.to_s)
@@ -41,9 +41,9 @@ protected.each do |entry|
   fail_receipt("unsafe protected path") unless path.file? && !path.symlink?
   fail_receipt("protected digest drift") unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
 end
-fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "private_selected" => 36, "private_passed" => 36, "public_selected" => 13, "public_passed" => 13 }
-fail_receipt("case denominator mismatch") unless proof.fetch("cases").length == 36 && proof.fetch("cases").map { |entry| entry["case"] }.uniq.length == 36 && proof.fetch("cases").all? { |entry| entry["result"] == "passed" }
-fail_receipt("subassertion denominator mismatch") unless proof.fetch("subassertions").length == 18 && proof.fetch("subassertions").map { |entry| [entry["case"], entry["assertion"]] }.uniq.length == 18
+fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "private_selected" => 39, "private_passed" => 39, "public_selected" => 13, "public_passed" => 13 }
+fail_receipt("case denominator mismatch") unless proof.fetch("cases").length == 39 && proof.fetch("cases").map { |entry| entry["case"] }.uniq.length == 39 && proof.fetch("cases").all? { |entry| entry["result"] == "passed" }
+fail_receipt("subassertion denominator mismatch") unless proof.fetch("subassertions").length == 23 && proof.fetch("subassertions").map { |entry| [entry["case"], entry["assertion"]] }.uniq.length == 23
 proof.fetch("commands").each_value do |command|
   fail_receipt("command failed") unless command.fetch("exit_code") == 0
   %w[stdout stderr].each do |stream|
@@ -59,4 +59,4 @@ fail_receipt("source not ancestral") unless system("git", "merge-base", "--is-an
 fail_receipt("source tree mismatch") unless git("rev-parse", "#{source}^{tree}").strip == proof.fetch("source_tree")
 fail_receipt("protected source changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED).empty?
 fail_receipt("immutable proof changed") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PREFIX).empty?
-puts "PASS: issue #202 proof binds exact 36+13, eighteen subassertions, strict library/public Clippy, and current-main ancestry"
+puts "PASS: issue #202 proof binds exact 39+13, twenty-three subassertions, strict library/public Clippy, and current-main ancestry"

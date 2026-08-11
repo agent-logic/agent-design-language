@@ -932,6 +932,35 @@ impl VerifiedPolisRouteCut {
             .get(&node)
             .map(|value| value.boot_generation)
     }
+
+    pub(crate) fn exact_removal_target_matches(
+        &self,
+        target: &super::learner_transport::LearnerIdentity,
+    ) -> bool {
+        let Some(route) = self.routes.get(&target.stable_raft_id) else {
+            return false;
+        };
+        let Some(authority) = self.authorities.get(&target.stable_raft_id) else {
+            return false;
+        };
+        let Some(voter) = self
+            .authority_membership
+            .voters
+            .get(authority.guardian_id.as_bytes())
+        else {
+            return false;
+        };
+        target.trust_domain == self.trust_domain
+            && target.polis_id == self.polis_id
+            && target.node_id == authority.node_id
+            && target.guardian_id == authority.guardian_id
+            && target.guardian_control_public_key == authority.control_public_key
+            && target.guardian_control_public_key == voter.control_public_key
+            && target.certificate_generation == voter.certificate_generation
+            && target.boot_generation == authority.boot_generation
+            && target.address == *route
+            && !voter.revoked
+    }
 }
 
 pub struct IncomingPolisRequest {
@@ -943,6 +972,8 @@ pub struct IncomingPolisRequest {
     connection: Connection,
     cancellation: CancellationToken,
     authorization_deadline: Instant,
+    authority: ProductionLearnerAuthority,
+    binding: PolisSessionBinding,
 }
 
 pub struct PendingPolisResponse {
@@ -1478,7 +1509,7 @@ impl AuthenticatedConnection {
         })
     }
 
-    pub async fn send(&self, sequence: u64, payload: Vec<u8>) -> TransportResult<()> {
+    pub(crate) async fn send(&self, sequence: u64, payload: Vec<u8>) -> TransportResult<()> {
         self.require_authority()?;
         if sequence == 0 {
             return Err(TransportError::SequenceInvalid);
@@ -1489,7 +1520,7 @@ impl AuthenticatedConnection {
         stream.finish().map_err(|_| TransportError::Stream)
     }
 
-    pub async fn receive(&self) -> TransportResult<TransportEnvelope> {
+    pub(crate) async fn receive(&self) -> TransportResult<TransportEnvelope> {
         self.require_authority()?;
         let mut stream = self.accept_uni_authorized().await?;
         let bytes = self.read_authorized(&mut stream).await?;
@@ -1555,6 +1586,34 @@ impl AuthenticatedConnection {
         self.expected_peer.certificate_generation
     }
 
+    pub(crate) async fn initiate_learner_binding(
+        &self,
+        authority: &ProductionLearnerAuthority,
+        request: Vec<u8>,
+    ) -> TransportResult<Vec<u8>> {
+        let _dispatch = authority.dispatch_guard().await;
+        let (mut send, mut receive) = self.open_bi_authorized().await?;
+        self.write_authorized(&mut send, &request).await?;
+        send.finish().map_err(|_| TransportError::Stream)?;
+        self.read_authorized(&mut receive).await
+    }
+
+    pub(crate) async fn accept_learner_binding<F>(
+        &self,
+        authority: &ProductionLearnerAuthority,
+        responder: F,
+    ) -> TransportResult<()>
+    where
+        F: FnOnce(&[u8]) -> TransportResult<Vec<u8>>,
+    {
+        let _dispatch = authority.dispatch_guard().await;
+        let (mut send, mut receive) = self.accept_bi_authorized().await?;
+        let request = self.read_authorized(&mut receive).await?;
+        let response = responder(&request)?;
+        self.write_authorized(&mut send, &response).await?;
+        send.finish().map_err(|_| TransportError::Stream)
+    }
+
     fn has_authority_connection_role(&self, local: u64, peer: u64) -> bool {
         matches!(
             (local < peer, self.role),
@@ -1567,6 +1626,15 @@ impl AuthenticatedConnection {
         pending: PendingPolisSession,
         signing_key: &SigningKey,
     ) -> TransportResult<EstablishedPolisSession> {
+        let _dispatch = pending.authority.dispatch_guard().await;
+        if !pending.authority.ordinary_session_allowed(
+            &pending.binding.local_node_id,
+            &pending.binding.local_guardian_id,
+            &pending.binding.peer_node_id,
+            &pending.binding.peer_guardian_id,
+        )? {
+            return Err(TransportError::InvalidSessionBinding);
+        }
         self.require_polis_binding(&pending.binding)?;
         validate_local_control_key(&pending.binding, signing_key)?;
         let request = signed_handshake(&pending.binding, signing_key)?;
@@ -1588,6 +1656,15 @@ impl AuthenticatedConnection {
         pending: PendingPolisSession,
         signing_key: &SigningKey,
     ) -> TransportResult<EstablishedPolisSession> {
+        let _dispatch = pending.authority.dispatch_guard().await;
+        if !pending.authority.ordinary_session_allowed(
+            &pending.binding.local_node_id,
+            &pending.binding.local_guardian_id,
+            &pending.binding.peer_node_id,
+            &pending.binding.peer_guardian_id,
+        )? {
+            return Err(TransportError::InvalidSessionBinding);
+        }
         self.require_polis_binding(&pending.binding)?;
         validate_local_control_key(&pending.binding, signing_key)?;
         let (mut send, mut receive) = self.accept_bi_authorized().await?;
@@ -1624,6 +1701,7 @@ impl AuthenticatedConnection {
         message_kind: &str,
         payload: Vec<u8>,
     ) -> TransportResult<PendingPolisResponse> {
+        let _dispatch = session.authority.dispatch_guard().await;
         session.revalidate_ordinary_authority()?;
         let binding = session.binding();
         self.require_polis_binding(binding)?;
@@ -1648,6 +1726,11 @@ impl AuthenticatedConnection {
         };
         let request_bytes = encode_prost_frame(&envelope, &self.limits)?;
         let request_sha256: [u8; 32] = Sha256::digest(&request_bytes).into();
+        #[cfg(test)]
+        session
+            .authority
+            .pause_after_revalidation_for_test("begin_polis_request")
+            .await;
         let (mut send, receive) = self.open_bi_authorized().await?;
         self.write_authorized(&mut send, &request_bytes).await?;
         send.finish().map_err(|_| TransportError::Stream)?;
@@ -1666,6 +1749,7 @@ impl AuthenticatedConnection {
         &self,
         session: &EstablishedPolisSession,
     ) -> TransportResult<IncomingPolisRequest> {
+        let _dispatch = session.authority.dispatch_guard().await;
         session.revalidate_ordinary_authority()?;
         let binding = session.binding();
         self.require_polis_binding(binding)?;
@@ -1696,6 +1780,8 @@ impl AuthenticatedConnection {
             connection: self.connection.clone(),
             cancellation: self.cancellation.clone(),
             authorization_deadline: self.authorization_deadline,
+            authority: session.authority.clone(),
+            binding: session.binding.clone(),
         })
     }
 
@@ -1840,6 +1926,15 @@ impl IncomingPolisRequest {
         payload: Vec<u8>,
         limits: &TransportLimits,
     ) -> TransportResult<()> {
+        let _dispatch = self.authority.dispatch_guard().await;
+        if !self.authority.ordinary_session_allowed(
+            &self.binding.local_node_id,
+            &self.binding.local_guardian_id,
+            &self.binding.peer_node_id,
+            &self.binding.peer_guardian_id,
+        )? {
+            return Err(TransportError::InvalidSessionBinding);
+        }
         if payload.len() > limits.max_frame_bytes {
             return Err(TransportError::FrameTooLarge);
         }
