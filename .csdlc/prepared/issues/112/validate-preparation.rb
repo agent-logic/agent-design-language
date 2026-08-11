@@ -38,12 +38,19 @@ stp = JSON.parse(File.read(File.join(ISSUE_ROOT, "cards/stp.values.json")))
 dependencies = stp.dig("content", "values", "dependencies") || []
 fail!("serial gates differ from exact #83/#111 contract") unless dependencies == EXPECTED_DEPENDENCIES
 
-ready_transitions = index.fetch("transitions").select { |transition| transition.fetch("to") == "ready" }
+transitions = index.fetch("transitions")
+fail!("missing lifecycle transition") if transitions.empty?
+transitions.each_cons(2) do |left, right|
+  fail!("discontinuous lifecycle transition chain") unless left.fetch("to") == right.fetch("from")
+end
+fail!("final transition disagrees with recorded phase") unless transitions.last.fetch("to") == index.fetch("phase")
+fail!("lifecycle transition adds undeclared #113 gate") if transitions.any? { |transition| transition.fetch("reason").include?("#113") }
+
+ready_transitions = transitions.select { |transition| transition.fetch("to") == "ready" }
 fail!("expected exactly one readiness transition") unless ready_transitions.length == 1
 ready_reason = ready_transitions.first.fetch("reason")
 fail!("readiness reason omits #83") unless ready_reason.include?("#83")
 fail!("readiness reason omits #111") unless ready_reason.include?("#111")
-fail!("readiness reason adds undeclared #113 gate") if ready_reason.include?("#113")
 
 vpp = JSON.parse(File.read(File.join(ISSUE_ROOT, "cards/vpp.values.json")))
 lanes = vpp.dig("content", "values", "lanes") || []
