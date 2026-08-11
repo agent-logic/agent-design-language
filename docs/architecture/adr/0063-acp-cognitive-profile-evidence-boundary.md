@@ -35,7 +35,7 @@ authority anchor, or projecting private evidence publicly was rejected.
 
 - `adl-runtime-kernel/tests/cognitive_profile.rs`
 - `adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs`
-- `.csdlc/evidence/144/cognitive-profile-authority.log`
+- `.csdlc/evidence/144/cognitive-profile-authority-v1.log`
 - `.csdlc/evidence/144/cognitive-profile-public-integration.log`
 - `.csdlc/evidence/144/cognitive-profile-compile-fail.log`
 - `.csdlc/evidence/144/local-validation-manifest.json`

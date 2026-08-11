@@ -35,7 +35,6 @@ was rejected because it destroys provenance and least authority.
 
 ## Validation Evidence
 
-- `adl-runtime-kernel/tests/identity_memory.rs`
 - `adl-runtime-kernel/tests/memory_palace.rs`
 - `adl-runtime-kernel/tests/capability_envelope.rs`
 - `.csdlc/evidence/5828/memory_palace-runtime-v3.log`

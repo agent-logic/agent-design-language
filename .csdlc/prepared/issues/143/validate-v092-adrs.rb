@@ -121,11 +121,21 @@ files.each do |id, path|
     abort("ADR #{id} Proposed status has non-passing proof outcome") unless outcomes.all? { |outcome| allowed_outcome.include?(outcome) }
     if %w[structural_executable executable].include?(proof_class)
       abort("ADR #{id} executable proof requires a machine-readable outcome receipt") if outcome_receipts.empty?
-      outcome_receipts.each do |receipt|
+      receipt_results = outcome_receipts.to_h do |receipt|
         receipt_json = JSON.parse(root.join(receipt).read)
         actual_validation = receipt_json.dig("content", "values", "actual_validation")
         abort("ADR #{id} outcome receipt has no validation results: #{receipt}") unless actual_validation.is_a?(Array) && !actual_validation.empty?
         abort("ADR #{id} outcome receipt contains a non-passing result: #{receipt}") unless actual_validation.all? { |result| result["outcome"] == "passed" }
+        [receipt, actual_validation]
+      end
+      bindings = candidate.fetch("validation_bindings")
+      abort("ADR #{id} validation binding denominator mismatch") unless bindings.map { |binding| binding.fetch("path") } == validation_paths
+      bindings.each do |binding|
+        receipt = binding.fetch("receipt")
+        evidence_ref = binding.fetch("evidence_ref")
+        abort("ADR #{id} validation binding uses undeclared receipt: #{receipt}") unless outcome_receipts.include?(receipt)
+        matching_results = receipt_results.fetch(receipt).select { |result| result["evidence_ref"] == evidence_ref }
+        abort("ADR #{id} validation path lacks an exact passing receipt result: #{binding.fetch('path')}") if matching_results.empty?
       end
     end
   else

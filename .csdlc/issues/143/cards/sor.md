@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Authored and focused-validated the complete v0.92 ADR 0059-0071 candidate packet as eight Proposed and five Deferred records without accepting any ADR; semantic review remains pending.
+Authored and focused-validated the complete v0.92 ADR 0059-0071 candidate packet as eight Proposed and five Deferred records without accepting any ADR; exact-head semantic review remains pending.
 
 ## Artifacts
 
@@ -38,12 +38,12 @@ Authored and focused-validated the complete v0.92 ADR 0059-0071 candidate packet
 ## Execution
 
 - Narrowed ADR 0059 to structural candidate validation and separated trusted witness authority into ADR 0062.
-- Completed ADR 0061 capability-envelope evidence with implementation, focused tests, retained #5829 native proof, and machine-readable SOR outcomes.
+- Completed ADR 0061 capability-envelope and Memory Palace evidence using exact typed #5828 and #5829 validation receipts; removed the unreceipted identity-memory test claim.
 - Advanced ADRs 0062, 0063, and 0064 to Proposed from ancestral WP-15, #144 authority-repair, and WP-13A proof.
+- Corrected ADR 0063 to cite the retained cognitive-profile-authority-v1 receipt exactly.
 - Deferred ADR 0065 because its retained #5832 native receipt is empty and its SOR records no validation outcomes.
 - Deferred ADR 0066 pending open issue #142 production Guardian/kernel and live-polis operational proof.
-- Added a revision-bound evidence manifest that binds every source, validation artifact, and outcome receipt to its actual last-touch ancestral revision.
-- Strengthened the validator to derive executable proof outcomes from non-empty typed SOR receipts and enforce exact artifact/revision, semantic-claim, disposition, index, and plan parity.
+- Bound every Proposed validation path to one declared typed SOR and an exact passing evidence_ref, in addition to binding every artifact to its last-touch ancestral revision.
 - Preserved all candidates as Proposed or Deferred and left docs/adr unchanged.
 
 ## Validation
@@ -54,7 +54,7 @@ Authored and focused-validated the complete v0.92 ADR 0059-0071 candidate packet
       "ruby",
       ".csdlc/prepared/issues/143/validate-v092-adrs.rb"
     ],
-    "purpose": "Validate exact candidate and disposition denominator, non-empty semantics, manifest parity, artifact-bound ancestral proof revisions, receipt-derived outcomes, explicit blockers, accepted-file non-mutation, and bounded non-claims.",
+    "purpose": "Validate the exact candidate denominator, artifact-bound ancestral revisions, and per-path exact passing typed receipt bindings for every executable Proposed ADR.",
     "outcome": "passed",
     "evidence_ref": "PASS: v0.92 ADR 0059-0071 packet contract"
   },

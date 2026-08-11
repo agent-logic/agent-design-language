@@ -12,6 +12,10 @@
       "validation_paths": ["adl-runtime-kernel/tests/birthday.rs", ".csdlc/evidence/5825/birthday-runtime-v3.log"],
       "validation_outcomes": ["passed", "passed"],
       "outcome_receipts": [".csdlc/issues/5825/cards/sor.values.json"],
+      "validation_bindings": [
+        {"path": "adl-runtime-kernel/tests/birthday.rs", "receipt": ".csdlc/issues/5825/cards/sor.values.json", "evidence_ref": "birthday-runtime-v3.log"},
+        {"path": ".csdlc/evidence/5825/birthday-runtime-v3.log", "receipt": ".csdlc/issues/5825/cards/sor.values.json", "evidence_ref": "birthday-runtime-v3.log"}
+      ],
       "claim_coverage": ["deterministic structural decision", "packet integrity", "does not authenticate referenced artifacts"],
       "blocker": null
     },
@@ -24,6 +28,11 @@
       "validation_paths": ["adl-runtime-kernel/tests/birthday.rs", ".csdlc/evidence/5826/birthday_identity-runtime-v3.log", ".csdlc/evidence/5827/birthday-continuity-tests.log"],
       "validation_outcomes": ["passed", "passed", "passed"],
       "outcome_receipts": [".csdlc/issues/5826/cards/sor.values.json", ".csdlc/issues/5827/cards/sor.values.json"],
+      "validation_bindings": [
+        {"path": "adl-runtime-kernel/tests/birthday.rs", "receipt": ".csdlc/issues/5826/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5826/birthday_identity-runtime-v3.log"},
+        {"path": ".csdlc/evidence/5826/birthday_identity-runtime-v3.log", "receipt": ".csdlc/issues/5826/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5826/birthday_identity-runtime-v3.log"},
+        {"path": ".csdlc/evidence/5827/birthday-continuity-tests.log", "receipt": ".csdlc/issues/5827/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5827/local-validation-manifest.json"}
+      ],
       "claim_coverage": ["canonical identity record and digest", "bounded continuity", "display name is descriptive"],
       "blocker": null
     },
@@ -33,9 +42,16 @@
       "proof_class": "executable",
       "evidence_revisions": ["2010bd36c41e59558066120627ea6a2121d13103", "a995c185255b041c4215d163630eee7374225983", "aac0c689c657132e8b8324c8f1e23e979bc3e1a8", "ed657e4494e08d4ce3de1b554d097632111a83a9"],
       "source_paths": ["docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md", "adl-runtime-kernel/src/identity_memory.rs", "adl-runtime-kernel/src/memory_palace.rs", "adl-runtime-kernel/src/capability_envelope.rs"],
-      "validation_paths": ["adl-runtime-kernel/tests/identity_memory.rs", "adl-runtime-kernel/tests/memory_palace.rs", "adl-runtime-kernel/tests/capability_envelope.rs", ".csdlc/evidence/5828/memory_palace-runtime-v3.log", ".csdlc/evidence/5829/capability_envelope-runtime-v3.log", ".csdlc/evidence/5829/native-validation-manifest.json"],
-      "validation_outcomes": ["passed", "passed", "passed", "passed", "passed", "passed"],
-      "outcome_receipts": [".csdlc/issues/5829/cards/sor.values.json"],
+      "validation_paths": ["adl-runtime-kernel/tests/memory_palace.rs", "adl-runtime-kernel/tests/capability_envelope.rs", ".csdlc/evidence/5828/memory_palace-runtime-v3.log", ".csdlc/evidence/5829/capability_envelope-runtime-v3.log", ".csdlc/evidence/5829/native-validation-manifest.json"],
+      "validation_outcomes": ["passed", "passed", "passed", "passed", "passed"],
+      "outcome_receipts": [".csdlc/issues/5828/cards/sor.values.json", ".csdlc/issues/5829/cards/sor.values.json"],
+      "validation_bindings": [
+        {"path": "adl-runtime-kernel/tests/memory_palace.rs", "receipt": ".csdlc/issues/5828/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5828/memory_palace-runtime-v3.log"},
+        {"path": "adl-runtime-kernel/tests/capability_envelope.rs", "receipt": ".csdlc/issues/5829/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5829/capability_envelope-runtime-v3.log"},
+        {"path": ".csdlc/evidence/5828/memory_palace-runtime-v3.log", "receipt": ".csdlc/issues/5828/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5828/memory_palace-runtime-v3.log"},
+        {"path": ".csdlc/evidence/5829/capability_envelope-runtime-v3.log", "receipt": ".csdlc/issues/5829/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5829/capability_envelope-runtime-v3.log"},
+        {"path": ".csdlc/evidence/5829/native-validation-manifest.json", "receipt": ".csdlc/issues/5829/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5829/native-validation-manifest.json"}
+      ],
       "claim_coverage": ["canonical, cited, continuity-bound references", "capability envelope is a versioned record", "unauthorized inputs fail closed"],
       "blocker": null
     },
@@ -48,6 +64,14 @@
       "validation_paths": ["adl-runtime-kernel/tests/fixtures/birth_witness/authority_tests.rs", "adl-runtime-kernel/tests/birth_witness.rs", ".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log", ".csdlc/evidence/5833/birth-witness-public-boundary.log", ".csdlc/evidence/5833/birth-witness-compile-fail.log", ".csdlc/evidence/5833/local-validation-manifest.json"],
       "validation_outcomes": ["passed", "passed", "passed", "passed", "passed", "passed"],
       "outcome_receipts": [".csdlc/issues/5833/cards/sor.values.json"],
+      "validation_bindings": [
+        {"path": "adl-runtime-kernel/tests/fixtures/birth_witness/authority_tests.rs", "receipt": ".csdlc/issues/5833/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log"},
+        {"path": "adl-runtime-kernel/tests/birth_witness.rs", "receipt": ".csdlc/issues/5833/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5833/birth-witness-public-boundary.log"},
+        {"path": ".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log", "receipt": ".csdlc/issues/5833/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log"},
+        {"path": ".csdlc/evidence/5833/birth-witness-public-boundary.log", "receipt": ".csdlc/issues/5833/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5833/birth-witness-public-boundary.log"},
+        {"path": ".csdlc/evidence/5833/birth-witness-compile-fail.log", "receipt": ".csdlc/issues/5833/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5833/birth-witness-compile-fail.log"},
+        {"path": ".csdlc/evidence/5833/local-validation-manifest.json", "receipt": ".csdlc/issues/5833/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log"}
+      ],
       "claim_coverage": ["opaque runtime policy", "exact candidate and evidence-set digests", "not_claimed"],
       "blocker": null
     },
@@ -57,9 +81,17 @@
       "proof_class": "executable",
       "evidence_revisions": ["4bd63e5b878274a0092c82517c317d99d5ef04b4", "a981ac7774388ce15e0d00a282a233cdd41ccb86", "abe5607ec4825e33a9a99851fbd3e40afb8f8454", "e5792227a46021ca07fa06f8b2e6215ee6268867"],
       "source_paths": ["docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md", "adl-runtime-kernel/src/cognitive_profile.rs"],
-      "validation_paths": ["adl-runtime-kernel/tests/cognitive_profile.rs", "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs", ".csdlc/evidence/144/cognitive-profile-authority.log", ".csdlc/evidence/144/cognitive-profile-public-integration.log", ".csdlc/evidence/144/cognitive-profile-compile-fail.log", ".csdlc/evidence/144/local-validation-manifest.json"],
+      "validation_paths": ["adl-runtime-kernel/tests/cognitive_profile.rs", "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs", ".csdlc/evidence/144/cognitive-profile-authority-v1.log", ".csdlc/evidence/144/cognitive-profile-public-integration.log", ".csdlc/evidence/144/cognitive-profile-compile-fail.log", ".csdlc/evidence/144/local-validation-manifest.json"],
       "validation_outcomes": ["passed", "passed", "passed", "passed", "passed", "passed"],
       "outcome_receipts": [".csdlc/issues/144/cards/sor.values.json"],
+      "validation_bindings": [
+        {"path": "adl-runtime-kernel/tests/cognitive_profile.rs", "receipt": ".csdlc/issues/144/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/144/cognitive-profile-public-integration.log"},
+        {"path": "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs", "receipt": ".csdlc/issues/144/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/144/cognitive-profile-authority-v1.log"},
+        {"path": ".csdlc/evidence/144/cognitive-profile-authority-v1.log", "receipt": ".csdlc/issues/144/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/144/cognitive-profile-authority-v1.log"},
+        {"path": ".csdlc/evidence/144/cognitive-profile-public-integration.log", "receipt": ".csdlc/issues/144/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/144/cognitive-profile-public-integration.log"},
+        {"path": ".csdlc/evidence/144/cognitive-profile-compile-fail.log", "receipt": ".csdlc/issues/144/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/144/cognitive-profile-compile-fail.log"},
+        {"path": ".csdlc/evidence/144/local-validation-manifest.json", "receipt": ".csdlc/issues/144/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/144/cognitive-profile-native-scripts.log"}
+      ],
       "claim_coverage": ["runtime-owned identity", "predecessor evidence", "public projection is strictly narrower"],
       "blocker": null
     },
@@ -72,6 +104,12 @@
       "validation_paths": ["adl-runtime-kernel/tests/adaptive_learning.rs", "adl-runtime-kernel/tests/durable_state.rs", ".csdlc/evidence/5831/local-validation-manifest.json", ".csdlc/evidence/5831/native-validation-manifest.json"],
       "validation_outcomes": ["passed", "passed", "passed", "passed"],
       "outcome_receipts": [".csdlc/issues/5831/cards/sor.values.json"],
+      "validation_bindings": [
+        {"path": "adl-runtime-kernel/tests/adaptive_learning.rs", "receipt": ".csdlc/issues/5831/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5831/local-validation-manifest.json"},
+        {"path": "adl-runtime-kernel/tests/durable_state.rs", "receipt": ".csdlc/issues/5831/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5831/local-validation-manifest.json"},
+        {"path": ".csdlc/evidence/5831/local-validation-manifest.json", "receipt": ".csdlc/issues/5831/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5831/local-validation-manifest.json"},
+        {"path": ".csdlc/evidence/5831/native-validation-manifest.json", "receipt": ".csdlc/issues/5831/cards/sor.values.json", "evidence_ref": ".csdlc/evidence/5831/native-validation-manifest.json"}
+      ],
       "claim_coverage": ["governed deterministic DAG transition", "accepted mutations append canonical history", "transitions fail closed"],
       "blocker": null
     },
@@ -108,6 +146,11 @@
       "validation_paths": ["adl-runtime/tests/distributed_transport.rs", "adl-runtime/tests/distributed_certificates.rs", ".csdlc/evidence/5800/local-tls-contract.log"],
       "validation_outcomes": ["passed", "passed", "passed"],
       "outcome_receipts": [".csdlc/issues/5800/cards/sor.values.json"],
+      "validation_bindings": [
+        {"path": "adl-runtime/tests/distributed_transport.rs", "receipt": ".csdlc/issues/5800/cards/sor.values.json", "evidence_ref": "local-tls-contract.log"},
+        {"path": "adl-runtime/tests/distributed_certificates.rs", "receipt": ".csdlc/issues/5800/cards/sor.values.json", "evidence_ref": "local-tls-contract.log"},
+        {"path": ".csdlc/evidence/5800/local-tls-contract.log", "receipt": ".csdlc/issues/5800/cards/sor.values.json", "evidence_ref": "local-tls-contract.log"}
+      ],
       "claim_coverage": ["Rustls ecosystem for TLS and mTLS", "explicit trust roots", "never runtime-generated self-signed credentials"],
       "blocker": null
     },
