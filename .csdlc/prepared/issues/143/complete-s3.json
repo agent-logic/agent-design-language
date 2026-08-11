@@ -1,0 +1,6 @@
+{
+  "issue":143,"card":"spp","expected_generation":7,
+  "expected_digest":"ee2209cfe2747901b93a858d166706b362acf0f3247fe1308228019be944ff9d",
+  "actor":"codex:143-v092-adr-authoring","reason":"Record completed index and focused validator after review found stale plan state.",
+  "operation":{"operation":"update_plan_step","step_id":"S3","status":"completed"}
+}

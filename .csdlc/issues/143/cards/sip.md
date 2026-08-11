@@ -1,0 +1,48 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 143
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Author the complete source-grounded v0.92 proposed ADR packet without claiming acceptance or architectural behavior beyond landed proof.
+
+## Required Outcome
+
+ADR 0059 through ADR 0071 are drafted as Proposed or explicitly deferred with evidence-grounded reasons, indexed against current accepted ADR truth, and independently reviewed at an exact revision.
+
+## Scope
+
+- .csdlc/issues/143
+- .csdlc/prepared/issues/143
+- docs/milestones/v0.92/ADR_PLAN_v0.92.md
+- docs/architecture/adr/README.md
+- docs/architecture/adr/V092_ADR_INDEX_143.md
+- docs/architecture/adr/0059-0071 proposed ADR candidates
+
+## Authority
+
+- Every new ADR remains Proposed or Deferred; only explicit human approval can promote it to docs/adr or Accepted status
+- Accepted ADR 0001 through 0058 remain read-only source authority
+- ADR 0070 records a planning and non-claim boundary only; v0.92 does not implement or prove production cross-polis transfer
+- ADR 0069 and ADR 0071 must be deferred if their named executable WP-18A or WP-18B proof is not landed
+- No Runtime, provider, TLS, migration, identity, or governance behavior is implemented by this documentation issue
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Use typed C-SDLC v2 lifecycle routes and a bound FastWork worktree
+- Do not edit or commit on main
+- Do not mark any candidate Accepted or move it into docs/adr
+- Do not invent test, review, implementation, or approval evidence
+- Use focused documentation validation only; no broad Rust test suite

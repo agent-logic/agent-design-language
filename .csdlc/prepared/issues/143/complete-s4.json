@@ -1,0 +1,13 @@
+{
+  "issue": 143,
+  "card": "spp",
+  "expected_generation": 12,
+  "expected_digest": "ac28a990490ae0a38c953c310d54c1c3429731c814bf6b129e4e459aaf0ab359",
+  "actor": "codex:143-v092-adr-authoring",
+  "reason": "Record completed focused validation and exact-head independent review with no remaining findings.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "completed"
+  }
+}

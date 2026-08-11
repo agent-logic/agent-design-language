@@ -1,0 +1,52 @@
+{
+  "schema":"csdlc.finalize_request.v1",
+  "issue":143,
+  "expected_generation":11,
+  "expected_digest":"43ef6d89864fd1fdf7c717648cfbde269b7eecb27468b0152d3e2c84e6e08e27",
+  "actor":"codex:143-v092-adr-authoring",
+  "summary":"Authored and focused-validated the complete v0.92 ADR 0059-0071 Proposed/Deferred candidate packet without accepting any ADR.",
+  "changes":[
+    "Corrected the accepted baseline through ADR 0058 and authored the thirteen candidate records.",
+    "Grounded seven Proposed dispositions in landed proof and deferred six boundaries with missing or corrective proof.",
+    "Added an exact index, approval boundaries, non-claims, and a focused packet validator."
+  ],
+  "artifacts":[
+    "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+    "docs/architecture/adr/V092_ADR_INDEX_143.md",
+    "docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md",
+    "docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md",
+    ".csdlc/prepared/issues/143/validate-v092-adrs.rb"
+  ],
+  "execution":{
+    "manifest":{
+      "schema":"csdlc.pvf.manifest.v1",
+      "lanes":[
+        {
+          "id":"v092-adr-packet-contract",
+          "proof_role":"Mechanically validate candidate numbering, status, sections, index parity, evidence paths, accepted-file non-mutation, deferrals, and standardized non-claims.",
+          "purpose":"Run the focused issue-owned documentation validator.",
+          "determinism":"deterministic",
+          "resources":{"cpu_units":1,"memory_mib":128,"tokens":500},
+          "credentials":[],"network":"denied","dependencies":[],"parallel_group":"adr-docs","release_gate":"required","execution":"local","timeout_seconds":60,
+          "executable":"/usr/bin/ruby","argv":[".csdlc/prepared/issues/143/validate-v092-adrs.rb"],
+          "evidence":{"max_log_bytes":65536,"redact_values":[],"require_relative_paths":true}
+        },
+        {
+          "id":"v092-adr-diff-hygiene",
+          "proof_role":"Reject malformed documentation changes across the exact issue revision.",
+          "purpose":"Run exact issue diff hygiene.",
+          "determinism":"deterministic",
+          "resources":{"cpu_units":1,"memory_mib":64,"tokens":100},
+          "credentials":[],"network":"denied","dependencies":["v092-adr-packet-contract"],"parallel_group":"adr-docs","release_gate":"required","execution":"local","timeout_seconds":30,
+          "executable":"/usr/bin/git","argv":["diff","--check","origin/main...HEAD"],
+          "evidence":{"max_log_bytes":32768,"redact_values":[],"require_relative_paths":true}
+        }
+      ]
+    },
+    "selection":{"requested_lanes":["v092-adr-packet-contract","v092-adr-diff-hygiene"],"allow_network":false,"available_credentials":[]},
+    "budget":{"max_parallel":1,"cpu_units":1,"memory_mib":256,"tokens":1000},
+    "root":".",
+    "evidence_dir":"./.csdlc/evidence/143",
+    "cancellation_file":null
+  }
+}

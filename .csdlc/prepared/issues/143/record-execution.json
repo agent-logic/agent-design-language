@@ -1,0 +1,38 @@
+{
+  "issue": 143,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "d28f613c2f37b0b5615317c2fa8c727646d2d190be8959cd4138ace0f73ebac4",
+  "actor": "codex:143-v092-adr-authoring",
+  "reason": "Record the bounded v0.92 ADR candidate authoring outcome without claiming acceptance.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Corrected the accepted ADR baseline through 0058 and authored the complete ADR 0059-0071 candidate packet with seven Proposed and six Deferred evidence-grounded dispositions.",
+    "changes": [
+      "Corrected the stale v0.92 ADR plan and replaced obsolete 0029-0033 reservations with the final 0059-0071 catalog.",
+      "Authored thirteen candidate records with consistent sections, evidence references, supersession boundaries, non-claims, and approval gates.",
+      "Deferred witness receipts, ACP authority, adaptive learning, governance handoff, Observatory consumer integration, and provider-neutral proof where terminal evidence is missing.",
+      "Recorded cross-polis continuity as a planning-only Proposed boundary that rejects copying and defers operational migration.",
+      "Added an exact reviewer index and focused fail-closed packet validator while leaving docs/adr unchanged."
+    ],
+    "artifacts": [
+      "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+      "docs/architecture/adr/README.md",
+      "docs/architecture/adr/V092_ADR_INDEX_143.md",
+      "docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md",
+      "docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md",
+      "docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md",
+      "docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md",
+      "docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md",
+      "docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md",
+      "docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md",
+      "docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md",
+      "docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md",
+      "docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md",
+      "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+      "docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md",
+      "docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md",
+      ".csdlc/prepared/issues/143/validate-v092-adrs.rb"
+    ]
+  }
+}

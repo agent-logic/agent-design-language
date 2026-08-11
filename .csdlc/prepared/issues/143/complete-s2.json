@@ -1,0 +1,6 @@
+{
+  "issue":143,"card":"spp","expected_generation":6,
+  "expected_digest":"9bedb1a1a908329944dccf3a4ca35f502c4ddae53c1476a30a9a48c2c8457888",
+  "actor":"codex:143-v092-adr-authoring","reason":"Record completed plan correction and ADR authoring after review found stale plan state.",
+  "operation":{"operation":"update_plan_step","step_id":"S2","status":"completed"}
+}
