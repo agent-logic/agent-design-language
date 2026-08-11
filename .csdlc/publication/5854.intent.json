@@ -9,6 +9,6 @@
   "body": "Part of danielbaustin/agent-design-language#5854\n\n## Summary\n\n- narrows Sprint 5 to the exact four-child denominator: #5835, #5836, #5838, and #5839\n- keeps WP-20 #5840 exclusively in final release-tail sprint #5856\n- removes obsolete claim and reacquire instructions from the final-sprint execution surfaces\n- adds exact fail-closed membership validation and a typed recovered SIP outcome correction\n\n## Validation\n\n- Sprint #5854 readiness validation passed, including blank binary-directory portability\n- Sprint #5854 negative overlap control passed\n- Sprint #5856 readiness validation passed\n- Gate 5 lifecycle suite passed 19/19\n- strict C-SDLC v2 Clippy passed\n- typed C-SDLC v2 validation for #5854 passed\n- diff hygiene passed\n\n## Review\n\nIndependent exact-head review passed with no actionable findings. This PR is a non-closing sprint correction; it does not bind or start children, merge itself, or close the umbrella issue.\n",
   "linkage_mode": "part_of",
   "draft": false,
-  "revision": "git-blake3:26b9e6ce976dfbb7afccdbad35617697bd929410:0fb26ac7841b39d409a8a3d90fee7950ce6de2596e4747ef5e83590939f8e0db",
-  "commit_sha": "26b9e6ce976dfbb7afccdbad35617697bd929410"
+  "revision": "git-blake3:6f44a2784f2d2438374b3fd59a5fc262af14e8e3:4d0ce0707aa18c6f851906f547a55a93fecf9cd699a4404a0ecb1caaef9d477c",
+  "commit_sha": "6f44a2784f2d2438374b3fd59a5fc262af14e8e3"
 }
