@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 113,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
+    "slug": "wp18c03-live-polis-roster-presence",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #113 Runtime roster/detail projection, stable identity, policy filtering, presence/health/freshness/provenance, pagination and event semantics, production API/WSS/OpenAPI integration, HTML Observatory navigation and accessibility, large-Polis bounds, failure behavior, rollback, dependency ancestry, and no-widening constraints.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any unauthorized agent or private field reach serialized JSON, WSS, logs, browser state, or retained evidence?",
+        "Can pagination, policy changes, reconnect, restart, event gaps, duplicate updates, or equal sort keys silently omit, duplicate, reorder, or falsely complete the roster?",
+        "Does stable identity survive relocation while stale owners, duplicate identities, and split authority fail closed?",
+        "Are ready, busy, sleeping, degraded, unreachable, migrating, and unknown derived from explicit fresh Runtime evidence rather than UI heuristics?",
+        "Are page size, response bytes, memory, latency, event queues, retries, replay, and browser DOM growth all bounded and proven at large-Polis scale?",
+        "Does the implementation remain within #113 ownership after #83/#142 handoff and avoid every sibling WP-18C capability?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

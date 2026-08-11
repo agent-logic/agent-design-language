@@ -1,0 +1,12 @@
+flowchart LR
+  I["Stable agent identity"] --> P["Runtime policy projection"]
+  T["Distributed topology and migration"] --> P
+  H["Health, presence, and freshness evidence"] --> P
+  C["Capability and communication authority"] --> P
+  P --> R["Versioned paginated roster"]
+  P --> D["Policy-safe agent detail"]
+  R --> E["Bounded revisioned event stream"]
+  R --> O["HTML Observatory roster"]
+  D --> O
+  E --> O
+  P -->|"unauthorized, stale, contradictory, or tampered"| X["Omit, redact, degrade, or fail closed"]

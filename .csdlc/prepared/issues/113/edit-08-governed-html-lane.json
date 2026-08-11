@@ -1,0 +1,73 @@
+{
+  "issue": 113,
+  "card": "vpp",
+  "expected_generation": 8,
+  "expected_digest": "477e1c3632296ebaccb93eb32199c70cf7f5298758fac4dd4e970077bd09eed6",
+  "actor": "codex:113-roster-presence-preparation",
+  "reason": "Invoke the checked-in executable Observatory contract directly so the ready-phase PVF lane is governed without expanding script ownership.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "observatory-roster-runtime-contract",
+        "proof_role": "Use the existing exact nonzero control integration target as the ready-phase issue denominator for authenticated roster/detail routes, policy-safe serialization, WSS revision updates, pagination, presence/freshness, denial, reconnect, OpenAPI parity, and large-population bounds added during #113 execution.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-9"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1200,
+        "budget_tokens": 12000,
+        "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "control", "--no-tests=fail"],
+        "parallel_group": "runtime",
+        "defer_reason": null
+      },
+      {
+        "lane": "distributed-projection-input-contract",
+        "proof_role": "Re-run the exact existing distributed_projection target to prove stable identity, deterministic topology ordering, redaction, stale-state handling, placement, and migration inputs remain compatible with the #113 projection adapter.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1200,
+        "budget_tokens": 8000,
+        "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_projection", "--no-tests=fail"],
+        "parallel_group": "runtime-input",
+        "defer_reason": null
+      },
+      {
+        "lane": "html-observatory-contract",
+        "proof_role": "Run the checked-in HTML Observatory Runtime v3 contract test for feed consumption, event handling, signed-control boundary, endpoint selection, and browser-side rejection behavior; execution must add the dedicated live roster browser validator through typed VPP replan once #83/#142 outputs are available.",
+        "acceptance_ids": ["AC-4", "AC-6", "AC-8", "AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["adl/tools/test_html_observatory.sh"],
+        "parallel_group": "browser-contract",
+        "defer_reason": null
+      },
+      {
+        "lane": "roster-focused-clippy",
+        "proof_role": "Reject Rust type, ownership, serialization, route, and dead-code regressions across the bounded Runtime kernel library and production binary.",
+        "acceptance_ids": ["AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": ["cargo", "clippy", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "--bin", "adl-runtime-kernel", "--", "-D", "warnings"],
+        "parallel_group": "static",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue-diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+        "acceptance_ids": ["AC-9", "AC-10"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "static",
+        "defer_reason": null
+      }
+    ]
+  }
+}

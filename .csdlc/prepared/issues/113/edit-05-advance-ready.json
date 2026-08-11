@@ -1,0 +1,12 @@
+{
+  "issue": 113,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "560dec9c6a6fa76211637a82ccdaa3e16ab799b6f992926a76016e5d96442679",
+  "actor": "codex:113-roster-presence-preparation",
+  "reason": "All six issue-specific design-time cards and declared PVF lanes pass typed validation; advance to design-ready while leaving dependency-gated binding unperformed.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}
