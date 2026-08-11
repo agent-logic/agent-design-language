@@ -95,11 +95,11 @@ fail_proof("strict Clippy failed") unless commands["clippy"]["exit_code"] == 0
 commands["machine_cases"] = run_command("machine-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib --test distributed_authority_reconciliation authority_reconciliation -- --nocapture --test-threads=1])
 fail_proof("machine cases failed") unless commands["machine_cases"]["exit_code"] == 0
 machine_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["machine_cases"]["#{stream}_path"])) }.join
-observed = machine_text.lines.filter_map do |line|
+observed = machine_text.lines.map do |line|
   next unless line.include?(MARKER)
   name, result = line.split(MARKER, 2).fetch(1).strip.split(" ", 2)
   [name, result, Digest::SHA256.hexdigest("#{MARKER}#{name} #{result}")]
-end
+end.compact
 fail_proof("case denominator mismatch") unless observed.length == 36 && observed.map(&:first).sort == EXPECTED_CASES.sort
 observed_by_name = observed.to_h { |name, result, digest| [name, [result, digest]] }
 EXPECTED_CASES.each do |name|
