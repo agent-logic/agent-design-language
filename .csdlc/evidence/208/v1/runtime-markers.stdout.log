@@ -1,0 +1,86 @@
+
+running 21 tests
+test agent_control_identity_denied ... proved:case:agent_control_identity_denied
+denied:identity:agent_identity_denied
+denied:identity:voter_identity_denied
+denied:identity:shepherd_identity_denied
+denied:identity:authority_identity_denied
+denied:identity:public_control_identity_denied
+ok
+test bearer_only_denied ... proved:case:bearer_only_denied
+ok
+test certificate_succession_retry ... proved:case:certificate_succession_retry
+accepted:generation:successor_leaf_retry_accepted
+accepted:generation:predecessor_leaf_retry_only
+ok
+test conflicting_duplicate_rejected ... proved:case:conflicting_duplicate_rejected
+ok
+test durable_channel_restart_retry ... proved:case:durable_channel_restart_retry
+accepted:generation:durable_epoch_restart_preserved
+accepted:generation:guardian_restart_generation_preserved
+accepted:generation:kernel_restart_generation_preserved
+ok
+test guardian_identity_distinct ... proved:case:guardian_identity_distinct
+accepted:identity:logical_guardian_accepted
+ok
+test guardian_mtls_authorized ... proved:case:guardian_mtls_authorized
+accepted:tls:tls13_mutual_auth_accepted
+denied:tls:older_protocol_denied
+denied:tls:server_eku_denied
+denied:tls:tls_exporter_mismatch_denied
+accepted:domain:canonical_rfc8785_accepted
+denied:domain:duplicate_keys_denied
+denied:domain:noncanonical_encoding_denied
+denied:domain:unknown_fields_denied
+denied:domain:nan_infinity_denied
+denied:domain:trailing_bytes_denied
+denied:domain:decode_reencode_mismatch_denied
+denied:domain:unknown_operation_kind_denied
+ok
+test internal_listener_config_valid ... proved:case:internal_listener_config_valid
+accepted:config:ipv4_loopback_accepted
+accepted:config:ipv6_loopback_accepted
+denied:config:duplicate_endpoint_denied
+denied:config:missing_bound_denied
+ok
+test invalid_client_eku_denied ... proved:case:invalid_client_eku_denied
+denied:tls:client_eku_denied
+ok
+test nonloopback_bind_rejected ... proved:case:nonloopback_bind_rejected
+denied:config:zero_port_denied
+denied:config:wildcard_bind_denied
+ok
+test reordered_request_rejected ... proved:case:reordered_request_rejected
+ok
+test replay_rejected ... proved:case:replay_rejected
+ok
+test stale_certificate_denied ... proved:case:stale_certificate_denied
+denied:tls:stale_leaf_denied
+denied:generation:predecessor_leaf_new_operation_denied
+ok
+test stale_channel_epoch_denied ... proved:case:stale_channel_epoch_denied
+denied:generation:stale_epoch_denied
+denied:generation:future_epoch_denied
+ok
+test unknown_client_certificate_denied ... proved:case:unknown_client_certificate_denied
+denied:tls:unknown_client_ca_denied
+denied:tls:client_spki_mismatch_denied
+ok
+test unsafe_root_config_rejected ... proved:case:unsafe_root_config_rejected
+denied:config:overlapping_roots_denied
+denied:config:symlinked_root_denied
+ok
+test wrong_guardian_denied ... proved:case:wrong_guardian_denied
+denied:identity:wrong_guardian_denied
+ok
+test wrong_kernel_instance_denied ... proved:case:wrong_kernel_instance_denied
+denied:identity:wrong_kernel_denied
+ok
+test wrong_node_denied ... proved:case:wrong_node_denied
+ok
+test wrong_polis_denied ... proved:case:wrong_polis_denied
+ok
+test wrong_trust_domain_denied ... proved:case:wrong_trust_domain_denied
+ok
+
+test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.43s
