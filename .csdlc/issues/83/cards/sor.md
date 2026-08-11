@@ -12,18 +12,20 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and integrated the live HTML Observatory Runtime v3 client and shared signed ACIP identity-message path for Layer 8 and agent communication, including durable replay continuity, browser keylessness, recipient-signed acknowledgements, qualified-time freshness, and attempt-local cross-carrier reservation truth.
+Implemented and integrated the live HTML Observatory Runtime v3 client and shared signed ACIP identity-message path for Layer 8 and agent communication, including durable replay continuity, browser keylessness, recipient-signed acknowledgements, qualified-time freshness, attempt-local cross-carrier reservation truth, and conflict-free integration with current main.
 
 ## Artifacts
 
 - adl-runtime-kernel/src/ingress.rs
 - adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/durable_state.rs
+- adl-runtime-kernel/tests/durable_state.rs
 - adl-runtime-kernel/tests/assembly.rs
 - adl-runtime-kernel/tests/production_acip_wss.rs
 - demos/html-observatory/app.js
 - adl/tools/validate_v092_html_observatory_live.mjs
 - docs/api/runtime-v3/v1/observatory.openapi.json
-- /Volumes/FastWork/adl-issue-83-826e378f2-v2/evidence/observatory-layer8-chat-826e378f270e-22a51f53-1964-4ebf-b7af-21b1b9e61ae3-report.json
+- /Volumes/FastWork/adl-issue-83-6d9b4ea17-v2/evidence/observatory-layer8-chat-6d9b4ea171e3-4ae936e1-a440-4ddc-ac24-02cf7f19a1f8-report.json
 
 ## Execution
 
@@ -32,6 +34,7 @@ Implemented and integrated the live HTML Observatory Runtime v3 client and share
 - Provisioned distinct external Runtime communication identities without browser or repository private-key material.
 - Returned attempt-local canonical-ingress reservation disposition so concurrent carriers cannot claim another submission's replay watermark.
 - Corrected the VPP continuity lane to run the implemented exact restart test and removed the false #5836 publication gate.
+- Merged current main while preserving both issue #83 communication-sequence persistence tests and main's atomic governed-state compare-and-set coverage.
 
 ## Validation
 
@@ -40,18 +43,34 @@ Implemented and integrated the live HTML Observatory Runtime v3 client and share
     "command": [
       "cargo",
       "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "durable_state"
+    ],
+    "purpose": "Prove the merged durable-state overlap retains communication persistence and atomic governed-state behavior.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head local output: 7 passed at 6d9b4ea171e37af3ef04373af7a45746ed76dffd"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--lib"
     ],
     "purpose": "Run the full runtime-kernel unit denominator including the deterministic cross-carrier reservation regression.",
     "outcome": "passed",
-    "evidence_ref": "exact-head local output: 47 passed at 826e378f270ea36edef4183430baea7c9ec5eb7e"
+    "evidence_ref": "exact-head local output: 75 passed at 6d9b4ea171e37af3ef04373af7a45746ed76dffd"
   },
   {
     "command": [
       "cargo",
       "test",
+      "--locked",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
@@ -62,28 +81,27 @@ Implemented and integrated the live HTML Observatory Runtime v3 client and share
     ],
     "purpose": "Run the corrected exact acknowledgement restart-continuity lane.",
     "outcome": "passed",
-    "evidence_ref": "exact-head local output: 1 passed at 826e378f270ea36edef4183430baea7c9ec5eb7e"
+    "evidence_ref": "exact-head local output: 1 passed at 6d9b4ea171e37af3ef04373af7a45746ed76dffd"
   },
   {
     "command": [
       "cargo",
       "test",
+      "--locked",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "production_acip_wss",
-      "production_binary_acip_wss_produces_observed_receipt",
-      "--",
-      "--exact"
+      "production_acip_wss"
     ],
-    "purpose": "Prove the production binary ACIP WebSocket path after reservation-disposition remediation.",
+    "purpose": "Prove the production binary ACIP WebSocket path after merging current main.",
     "outcome": "passed",
-    "evidence_ref": "exact-head local output: 1 passed at 826e378f270ea36edef4183430baea7c9ec5eb7e"
+    "evidence_ref": "exact-head local output: 1 passed at 6d9b4ea171e37af3ef04373af7a45746ed76dffd"
   },
   {
     "command": [
       "cargo",
       "clippy",
+      "--locked",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--lib",
@@ -92,31 +110,18 @@ Implemented and integrated the live HTML Observatory Runtime v3 client and share
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings in the changed Runtime library and binary surfaces.",
+    "purpose": "Reject warnings in the merged Runtime library and binary surfaces.",
     "outcome": "passed",
-    "evidence_ref": "exact-head local output at 826e378f270ea36edef4183430baea7c9ec5eb7e"
+    "evidence_ref": "exact-head local output at 6d9b4ea171e37af3ef04373af7a45746ed76dffd"
   },
   {
     "command": [
       "node",
       "adl/tools/validate_v092_html_observatory_live.mjs"
     ],
-    "purpose": "Run the exact committed Runtime and Observatory through trusted public TLS in managed Chrome, including restart and replay continuity.",
+    "purpose": "Run the exact merged Runtime and Observatory through trusted public TLS in managed Chrome, including restart and replay continuity.",
     "outcome": "passed",
-    "evidence_ref": "/Volumes/FastWork/adl-issue-83-826e378f2-v2/evidence/observatory-layer8-chat-826e378f270e-22a51f53-1964-4ebf-b7af-21b1b9e61ae3-report.json"
-  },
-  {
-    "command": [
-      "csdlc-validate",
-      "--root",
-      ".",
-      "issue",
-      "--issue",
-      "83"
-    ],
-    "purpose": "Validate typed issue structure and card projections.",
-    "outcome": "passed",
-    "evidence_ref": "csdlc.doctor.report.v1 generation 66"
+    "evidence_ref": "/Volumes/FastWork/adl-issue-83-6d9b4ea17-v2/evidence/observatory-layer8-chat-6d9b4ea171e3-4ae936e1-a440-4ddc-ac24-02cf7f19a1f8-report.json"
   },
   {
     "command": [
@@ -124,19 +129,19 @@ Implemented and integrated the live HTML Observatory Runtime v3 client and share
       "diff",
       "--check"
     ],
-    "purpose": "Reject malformed diff output.",
+    "purpose": "Reject malformed merge output.",
     "outcome": "passed",
-    "evidence_ref": "clean exact-head remediation diff"
+    "evidence_ref": "clean exact-head merge diff"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
