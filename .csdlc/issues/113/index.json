@@ -4,110 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "implemented",
-  "generation": 47,
-  "digest": "88140b7c228152033a3df7d0a5d0c76cf61d67017326d0ddb70ffd23d76f02ad",
+  "generation": 48,
+  "digest": "e989a6a62f88c6f76a401a0ba46f360a1cd54d9bfaf471d5f4f30e1562c4fe7a",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
-  "review_assignment": {
-    "reviewer": "subagent:019fef96-7412-7f72-b863-3ecd4bace544",
-    "assigned_by": "codex:wp18c03-fresh-session-review",
-    "revision": "git-blake3:fcbe7609f5a346154e5967e225a3ced05385f5ac:c759650f8a7c61aab545acf17fc1f0c3ee092296f3f32637c93135699040096e",
-    "scope": [
-      "adl-runtime-kernel/build.rs",
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/openapi.json",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/test_html_observatory.sh",
-      "adl/tools/validate_v092_html_observatory_roster.mjs",
-      ".csdlc/issues/113"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fef96-7412-7f72-b863-3ecd4bace544",
-    "scope": [
-      "adl-runtime-kernel/build.rs",
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/openapi.json",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/test_html_observatory.sh",
-      "adl/tools/validate_v092_html_observatory_roster.mjs",
-      ".csdlc/issues/113"
-    ],
-    "reviewed_revision": "git-blake3:fcbe7609f5a346154e5967e225a3ced05385f5ac:c759650f8a7c61aab545acf17fc1f0c3ee092296f3f32637c93135699040096e",
-    "findings": [
-      {
-        "id": "fresh-review-222-p1-policy-projection",
-        "severity": "p1",
-        "summary": "Production roster policy authorizes and discloses every configured entry without a caller-specific visibility decision.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "adl-runtime-kernel/src/control.rs:1231"
-      },
-      {
-        "id": "fresh-review-222-p1-cursor-gap",
-        "severity": "p1",
-        "summary": "The roster feed and browser have no cursor gap contract and silently accept skipped revisions instead of resynchronizing.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "demos/html-observatory/app.js:105"
-      },
-      {
-        "id": "fresh-review-222-p1-pagination-cost",
-        "severity": "p1",
-        "summary": "Roster pagination allocates and sorts the whole visible population for every page, so memory and latency are not bounded by page size.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "adl-runtime-kernel/src/agent_roster.rs:185"
-      },
-      {
-        "id": "fresh-review-222-p2-retained-live-evidence",
-        "severity": "p2",
-        "summary": "Live-browser and signed-restart claims have no retained inspectable logs, screenshots, traces, or restart receipts in the issue evidence bundle.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": ".csdlc/issues/113/cards/sor.md"
-      }
-    ],
-    "residual_risks": [
-      "Distributed and non-local roster projection remains owned by issue #142.",
-      "Durable conversation history and cross-restart chat restoration remain owned by issue #114.",
-      "The fresh reviewer could not rerun the environment-dependent trusted-TLS Playwright and restart proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -122,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8168786d03603593a1e68584ac8de150fd2f7493b8317bf23939651832c42b13",
+      "values_digest": "e1fc5b6617417a41e53cb79948c71b51117fce8d8f2d5994bdce8a1b37a8cd27",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "4a9e5a3bc105ab55a26e0e3a842629aceb692d6e57a6d0d29b02ed2e6fa0783e",
+      "values_digest": "d7c585a6dcf7db7e08c0e44eefe08dcbcbcda011d82c025d2055816a7fb4bca3",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "49cb4d2552c9e81eeb5bf8854db3754e08acedf1a5270ce4554eb784b9246545",
+      "values_digest": "b896d9ca6b4fca200c5293bbd3717a3b6cd4490dcaef0c915ac6eb23e59f14df",
       "rendered_digest": "0a87219293ddd139966aaf0c77f56b8c6164f3213687bfda3ad8f4c32d49f1ba",
       "ast_digest": "793ed408d19b5d2ae07fdab2f8c6d13ca845ed5618969a25cc8fbb7b1f1187dc"
     },
     "vpp": {
-      "values_digest": "8bb53ef5a03b6bb7833d5c3d0af4550784aaf18604ab87f01852acb99fe1d002",
+      "values_digest": "cb834090a03a796cb0687d04aa6826d60b5a72867d1933395b34b600952b3f3d",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "9f60922806bdeccf24e78796c18de8395ac2cfa36ac663c198c16e7691aa6d3f",
-      "rendered_digest": "ac8eda49bf635fbd3317896b9b39e99d673361a2f491abc7ea8f183070dcefc7",
-      "ast_digest": "d3c7f7f672ec5d71c90b6c952169d297eff0d7948302af27d426a85764af6d31"
+      "values_digest": "40138d4d55ce19b52cd40263b4be586f7fafe3ff8775d19a6f3c9ccdb50672a1",
+      "rendered_digest": "d9c26dbd6a36e87a985ca27ac27d1d24770837353ad4f5d42e457812b5fbc9d3",
+      "ast_digest": "9e00c4298c70492257694a1618a4adef8407c5b63b1f0e5b961f468d05b107fb"
     },
     "sor": {
-      "values_digest": "1298bb1bfd909fdb380d01790fc23187aa9f12a3730a11c9e8bbf8e0eb402541",
+      "values_digest": "c2ed6ded9bb0f68fd5665ade67964c663ab3f3c55d9ed7735ad345943f51ed83",
       "rendered_digest": "b84feeb156041f1c54318e4ec5b5f254283a7eadc56ec5bd279a739ba1c7f7b1",
       "ast_digest": "3eca7aa582a96ea28e39f413f68d32f399019baec89b455a2931012176727d08"
     }
@@ -602,6 +504,13 @@
       "actor": "codex:wp18c03-fresh-review-remediation",
       "reason": "Record exact focused and retained live proof for all fresh-session review fixes.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused issue-113 Runtime, roster, control, OpenAPI, browser, managed-Chrome live restart, lint, format, and diff gates\"],\"purpose\":\"Prove explicit public authorization and redaction, bounded pagination, revision-gap resynchronization, stable Runtime identity, recovered readiness, and retained exact-head evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:2118c05b3fe503a0f7c902dcc766a90b9cd9c246; agent_roster 13/13; control 25/25; openapi_contract 6/6; HTML Observatory PASS; strict lib+binary Clippy PASS; fmt PASS; diff PASS; managed Chrome public-TLS live proof 22/22 with stable runtime_instance_id, changed incarnation, ready recovery, desktop/mobile screenshots, and digest manifest at .csdlc/evidence/113/roster-live-proof-2118c05b3\"}}"
+    },
+    {
+      "sequence": 55,
+      "generation": 48,
+      "actor": "codex:wp18c03-execution",
+      "reason": "Recover review readiness after remediating all fresh-session findings, retaining exact-head trusted-TLS browser evidence, and validating the hardened roster projection.",
+      "operation": "recover_review"
     }
   ]
 }
