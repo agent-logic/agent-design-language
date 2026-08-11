@@ -12,6 +12,7 @@ pub mod discovery;
 pub mod failure_detection;
 pub mod fencing;
 pub mod identity;
+pub mod learner_transport;
 pub mod lease;
 pub mod membership;
 pub mod migration;

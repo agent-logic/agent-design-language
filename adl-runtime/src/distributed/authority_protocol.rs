@@ -644,6 +644,20 @@ pub struct AuthorityIntentEndorsement {
     signature: Vec<u8>,
 }
 
+/// Opaque eligibility boundary used by the pending-exclusion authority.  The
+/// protocol owns the call site so a caller cannot self-attest eligibility.
+pub trait AuthorityEligibilityExclusion {
+    fn ordinary_authority_allowed(&self, node_id: &str, guardian_id: &[u8]) -> bool;
+}
+
+struct AllowAllAuthorityEligibility;
+
+impl AuthorityEligibilityExclusion for AllowAllAuthorityEligibility {
+    fn ordinary_authority_allowed(&self, _node_id: &str, _guardian_id: &[u8]) -> bool {
+        true
+    }
+}
+
 struct VoterEndorsementAuthority {
     node_id: String,
     guardian_id: Vec<u8>,
@@ -667,7 +681,34 @@ pub fn endorse_committed_authority_prepare(
     membership: &MembershipState,
     authority: &AuthorityMembership,
 ) -> AuthorityProtocolResult<AuthorityIntentEndorsement> {
-    VoterEndorsementAuthority::restore_configured(
+    endorse_committed_authority_prepare_with_exclusion(
+        identity,
+        certificate_generation,
+        boot_generation,
+        membership_log_index,
+        authoritative_boot_generations,
+        intent,
+        finalization_time,
+        membership,
+        authority,
+        &AllowAllAuthorityEligibility,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn endorse_committed_authority_prepare_with_exclusion(
+    identity: &LocalNodeGuardianIdentity,
+    certificate_generation: u64,
+    boot_generation: u64,
+    membership_log_index: u64,
+    authoritative_boot_generations: &BTreeMap<Vec<u8>, u64>,
+    intent: &PrepareAuthorityIntent,
+    finalization_time: &CanonicalAuthorityTime,
+    membership: &MembershipState,
+    authority: &AuthorityMembership,
+    exclusion: &dyn AuthorityEligibilityExclusion,
+) -> AuthorityProtocolResult<AuthorityIntentEndorsement> {
+    let voter = VoterEndorsementAuthority::restore_configured(
         identity.authority_signer_custody(),
         certificate_generation,
         boot_generation,
@@ -675,8 +716,11 @@ pub fn endorse_committed_authority_prepare(
         authoritative_boot_generations,
         membership,
         authority,
-    )?
-    .endorse_committed_prepare(
+    )?;
+    if !exclusion.ordinary_authority_allowed(&voter.node_id, &voter.guardian_id) {
+        return Err(AuthorityProtocolError::WrongVoter);
+    }
+    voter.endorse_committed_prepare(
         intent,
         finalization_time,
         membership,

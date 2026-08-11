@@ -591,6 +591,20 @@ pub struct VerifiedPolisRouteCut {
     authority_membership: AuthorityMembership,
 }
 
+/// Opaque ordinary-session exclusion boundary. Implementations are durable
+/// published snapshots; callers cannot supply node eligibility as a boolean.
+pub trait OrdinarySessionExclusion {
+    fn ordinary_session_allowed(&self, node_id: &str, guardian_id: &str) -> bool;
+}
+
+struct AllowAllSessions;
+
+impl OrdinarySessionExclusion for AllowAllSessions {
+    fn ordinary_session_allowed(&self, _node_id: &str, _guardian_id: &str) -> bool {
+        true
+    }
+}
+
 impl VerifiedPolisRouteCut {
     pub fn verify(
         polis: &PolisIdentityBinding,
@@ -747,6 +761,16 @@ impl VerifiedPolisRouteCut {
         peer: u64,
         connection: &AuthenticatedConnection,
     ) -> TransportResult<PendingPolisSession> {
+        self.pending_session_with_exclusion(local, peer, connection, &AllowAllSessions)
+    }
+
+    pub fn pending_session_with_exclusion(
+        &self,
+        local: u64,
+        peer: u64,
+        connection: &AuthenticatedConnection,
+        exclusion: &dyn OrdinarySessionExclusion,
+    ) -> TransportResult<PendingPolisSession> {
         if local == peer || !connection.has_authority_connection_role(local, peer) {
             return Err(TransportError::InvalidSessionBinding);
         }
@@ -758,6 +782,13 @@ impl VerifiedPolisRouteCut {
             .authorities
             .get(&peer)
             .ok_or(TransportError::InvalidSessionBinding)?;
+        if !exclusion
+            .ordinary_session_allowed(&local_authority.node_id, &local_authority.guardian_id)
+            || !exclusion
+                .ordinary_session_allowed(&peer_authority.node_id, &peer_authority.guardian_id)
+        {
+            return Err(TransportError::InvalidSessionBinding);
+        }
         let (local_tls, peer_tls) = connection.local_peer_route();
         if local_tls.trust_domain != self.trust_domain
             || peer_tls.trust_domain != self.trust_domain
@@ -795,6 +826,18 @@ impl VerifiedPolisRouteCut {
         established: &EstablishedPolisSession,
     ) -> bool {
         self.pending_session(local, peer, connection)
+            .is_ok_and(|pending| pending.binding == established.binding)
+    }
+
+    pub fn session_matches_with_exclusion(
+        &self,
+        local: u64,
+        peer: u64,
+        connection: &AuthenticatedConnection,
+        established: &EstablishedPolisSession,
+        exclusion: &dyn OrdinarySessionExclusion,
+    ) -> bool {
+        self.pending_session_with_exclusion(local, peer, connection, exclusion)
             .is_ok_and(|pending| pending.binding == established.binding)
     }
 
@@ -1368,6 +1411,23 @@ impl AuthenticatedConnection {
 
     fn local_peer_route(&self) -> (&PeerBinding, &PeerBinding) {
         (&self.local, &self.expected_peer)
+    }
+
+    pub(crate) fn matches_learner_endpoint(
+        &self,
+        trust_domain: &str,
+        node_id: &str,
+        guardian_id: &str,
+        certificate_generation: u64,
+    ) -> bool {
+        [&self.local, &self.expected_peer]
+            .into_iter()
+            .any(|binding| {
+                binding.trust_domain == trust_domain
+                    && binding.node_id == node_id
+                    && binding.guardian_id.as_bytes() == guardian_id.as_bytes()
+                    && binding.certificate_generation == certificate_generation
+            })
     }
 
     fn has_authority_connection_role(&self, local: u64, peer: u64) -> bool {

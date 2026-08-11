@@ -46,6 +46,9 @@ use crate::distributed::authority_reconciliation::{
     AuthorityReconciliationBarrier, AuthorityReconciliationError, PublishedReconciliationResult,
 };
 use crate::distributed::certificates::{AuthorityCertificate, DistributedCertificateStore};
+use crate::distributed::learner_transport::{
+    EstablishedLearnerSession, LearnerRpcKind, LearnerTransportError,
+};
 use crate::distributed::lease::{AuthorityMembership, VoterAuthority};
 use crate::distributed::membership::MembershipPolicy;
 use crate::distributed::transport::{
@@ -2103,6 +2106,7 @@ pub struct SecurePolisNetworkFactory {
     trusted_boot_generations: BTreeMap<Vec<u8>, u64>,
     local_publication_identity: AuthorityNodeIdentity,
     connections: Arc<RwLock<BTreeMap<NodeId, SecurePeerRoute>>>,
+    learner_connections: Arc<RwLock<BTreeMap<NodeId, SecureLearnerRoute>>>,
 }
 
 #[derive(Clone)]
@@ -2112,6 +2116,15 @@ struct SecurePeerRoute {
     dispatch_lock: Arc<tokio::sync::Mutex<()>>,
     sequence: Arc<tokio::sync::Mutex<OutboundSequenceState>>,
     replacement: watch::Sender<u64>,
+}
+
+#[derive(Clone)]
+struct SecureLearnerRoute {
+    connection: Arc<AuthenticatedConnection>,
+    outbound: Arc<tokio::sync::Mutex<EstablishedLearnerSession>>,
+    responses: Arc<tokio::sync::Mutex<EstablishedLearnerSession>>,
+    dispatch_lock: Arc<tokio::sync::Mutex<()>>,
+    sequence: Arc<AtomicU64>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -2153,6 +2166,7 @@ impl SecurePolisNetworkFactory {
             },
             cut: Arc::new(RwLock::new(cut)),
             connections: Arc::new(RwLock::new(BTreeMap::new())),
+            learner_connections: Arc::new(RwLock::new(BTreeMap::new())),
         })
     }
 
@@ -2205,6 +2219,37 @@ impl SecurePolisNetworkFactory {
                 dispatch_lock: Arc::new(tokio::sync::Mutex::new(())),
                 sequence: Arc::new(tokio::sync::Mutex::new(OutboundSequenceState::default())),
                 replacement,
+            },
+        );
+        Ok(())
+    }
+
+    pub async fn install_learner_route(
+        &self,
+        target: NodeId,
+        connection: Arc<AuthenticatedConnection>,
+        outbound: EstablishedLearnerSession,
+        responses: EstablishedLearnerSession,
+    ) -> Result<(), PolisRuntimeError> {
+        if target == 0
+            || target != outbound.learner_id()
+            || target != responses.learner_id()
+            || self.cut.read().await.contains(target)
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        let mut routes = self.learner_connections.write().await;
+        if routes.contains_key(&target) {
+            return Err(PolisRuntimeError::InvalidConfiguration);
+        }
+        routes.insert(
+            target,
+            SecureLearnerRoute {
+                connection,
+                outbound: Arc::new(tokio::sync::Mutex::new(outbound)),
+                responses: Arc::new(tokio::sync::Mutex::new(responses)),
+                dispatch_lock: Arc::new(tokio::sync::Mutex::new(())),
+                sequence: Arc::new(AtomicU64::new(0)),
             },
         );
         Ok(())
@@ -2294,13 +2339,12 @@ impl SecurePolisNetworkFactory {
         if payload.len() > MAX_RPC_BYTES {
             return Err(PolisRuntimeError::FrameTooLarge);
         }
-        let route = self
-            .connections
-            .read()
-            .await
-            .get(&target)
-            .cloned()
-            .ok_or(PolisRuntimeError::Network)?;
+        let route = self.connections.read().await.get(&target).cloned();
+        let Some(route) = route else {
+            return self
+                .request_learner_bytes(target, message_kind, payload)
+                .await;
+        };
         let _dispatch = route.dispatch_lock.lock().await;
         {
             let cut = self.cut.read().await;
@@ -2354,6 +2398,67 @@ impl SecurePolisNetworkFactory {
                 Ok(response)
             }
         }
+    }
+
+    async fn request_learner_bytes(
+        &self,
+        target: NodeId,
+        message_kind: &'static str,
+        payload: Vec<u8>,
+    ) -> Result<Vec<u8>, PolisRuntimeError> {
+        let kind = match message_kind {
+            "append_entries" => LearnerRpcKind::AppendEntries,
+            "install_snapshot" => LearnerRpcKind::InstallSnapshot,
+            _ => return Err(PolisRuntimeError::AuthorityDenied),
+        };
+        let route = self
+            .learner_connections
+            .read()
+            .await
+            .get(&target)
+            .cloned()
+            .ok_or(PolisRuntimeError::Network)?;
+        let _dispatch = route.dispatch_lock.lock().await;
+        let sequence = route
+            .sequence
+            .fetch_add(1, Ordering::SeqCst)
+            .checked_add(1)
+            .ok_or(PolisRuntimeError::Replay)?;
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map_err(|_| PolisRuntimeError::StateRegression)?
+            .as_secs();
+        let now = i64::try_from(now).map_err(|_| PolisRuntimeError::StateRegression)?;
+        let request_authorization = {
+            let mut outbound = route.outbound.lock().await;
+            match kind {
+                LearnerRpcKind::AppendEntries => {
+                    outbound
+                        .send_append_entries(&route.connection, sequence, payload, now)
+                        .await
+                }
+                LearnerRpcKind::InstallSnapshot => {
+                    outbound
+                        .send_install_snapshot(&route.connection, sequence, payload, now)
+                        .await
+                }
+            }
+            .map_err(map_learner_error)?
+        };
+        let response = route
+            .responses
+            .lock()
+            .await
+            .receive_response(
+                &route.connection,
+                kind,
+                sequence,
+                request_authorization,
+                now,
+            )
+            .await
+            .map_err(map_learner_error);
+        response
     }
 
     async fn validate_ready(&self) -> Result<(), PolisRuntimeError> {
@@ -2445,6 +2550,20 @@ async fn acknowledge_outbound(
     state.acknowledged = sequence;
     state.outstanding = None;
     Ok(())
+}
+
+fn map_learner_error(error: LearnerTransportError) -> PolisRuntimeError {
+    match error {
+        LearnerTransportError::FrameTooLarge => PolisRuntimeError::FrameTooLarge,
+        LearnerTransportError::Replay => PolisRuntimeError::Replay,
+        LearnerTransportError::Storage => PolisRuntimeError::Storage,
+        LearnerTransportError::InvalidBinding | LearnerTransportError::ArtifactMismatch => {
+            PolisRuntimeError::InvalidConfiguration
+        }
+        LearnerTransportError::AuthorityDenied
+        | LearnerTransportError::Expired
+        | LearnerTransportError::CapacityExceeded => PolisRuntimeError::AuthorityDenied,
+    }
 }
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -2908,6 +3027,43 @@ pub async fn serve_secure_raft_connection(
                 // The connection-level authority and OpenRaft retry path own recovery.
             }
         });
+    }
+}
+
+pub async fn serve_authorized_learner_connection(
+    raft: PolisRaft,
+    connection: Arc<AuthenticatedConnection>,
+    mut inbound: EstablishedLearnerSession,
+    mut outbound: EstablishedLearnerSession,
+    cancellation: CancellationToken,
+) -> Result<(), PolisRuntimeError> {
+    loop {
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map_err(|_| PolisRuntimeError::StateRegression)?
+            .as_secs();
+        let now = i64::try_from(now).map_err(|_| PolisRuntimeError::StateRegression)?;
+        let request = tokio::select! {
+            _ = cancellation.cancelled() => return Ok(()),
+            result = inbound.receive_replication(&connection, now) => result.map_err(map_learner_error)?,
+        };
+        let response = match request.message_kind() {
+            "append_entries" => {
+                let value: AppendEntriesRequest<PolisTypeConfig> =
+                    decode_bounded_json(request.payload())?;
+                encode_bounded_json(&raft.append_entries(value).await)?
+            }
+            "install_snapshot" => {
+                let value: InstallSnapshotRequest<PolisTypeConfig> =
+                    decode_bounded_json(request.payload())?;
+                encode_bounded_json(&raft.install_snapshot(value).await)?
+            }
+            _ => return Err(PolisRuntimeError::AuthorityDenied),
+        };
+        outbound
+            .send_response(&connection, &request, response, now)
+            .await
+            .map_err(map_learner_error)?;
     }
 }
 

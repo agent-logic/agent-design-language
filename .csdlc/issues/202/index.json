@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
   "phase": "bound",
-  "generation": 13,
-  "digest": "294f31ad3c3be7e60dbe0632fc804bcba3fd26eeb07a583b06f9f6c0d1065a05",
+  "generation": 14,
+  "digest": "e896e2a7e4d23060eb4b034fbbb32d675f28828f73ccef055846d7f148ce37fb",
   "branch": "codex/202-authorized-learner-transport-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-202-authorized-learner-transport-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f35c28be0fc881e43d7155f3e0e2e5813982b2ceb8a15a21beaaf3a017cad5ee",
+      "values_digest": "3b52582fa900bdfc99af616652024c6ea6fb18904b45eb257f5013ccfce59b0c",
       "rendered_digest": "69a805a23892f34aeda5bc6c018c4b6d3425674b3472f433c95fa96c01aa8830",
       "ast_digest": "004791ead09b105cebf8ab0978301127312b0ae5a7c0c34cebf6291fa33a196d"
     },
     "stp": {
-      "values_digest": "f1aa93412b46e0cbe5a5b03286704a73c19b62056e48dae8accd33eac06f50f3",
+      "values_digest": "ef19549171bd8bf20950657def36603ec90b9326207a00d7f18a363d62524e2d",
       "rendered_digest": "2e0d25119d5140d31572bf29204efd86f9c8ce39fa5b2b346f49c6821881c0c2",
       "ast_digest": "a8e12db2b706c0ce51c8ea8fe5d2a3b29ae9407cfa39701453aee43b119b5c33"
     },
     "spp": {
-      "values_digest": "b2dc1fe959458701d7409cfcbddb20d47c133af02d7e41ca126903e530daf362",
+      "values_digest": "d8c9c598535c48a5c8cb2c0c50fe49e46f0992a1469e36bedc24493e36cd5f0f",
       "rendered_digest": "b108a249834dbe2957b3f94a78db20a62b49de817b17f4b44fe219e68f31d9de",
       "ast_digest": "0b4b26fc2f2b56e88cbc41ee4767d0dc9cc73f1efd1cb18882cd53a6deaca009"
     },
     "vpp": {
-      "values_digest": "f15593ccbffb91c9bb548f78c1ecf3d3773339fc83eee5262891a1781d156ac6",
-      "rendered_digest": "7bd7caff2c53e191c4ec765546771f25229470f8596cfbc3cae6d6f23a32e0ff",
-      "ast_digest": "4267030a54b3bb492d97b63fae8a5b4400dda3dd4cbb7edb549ea3b1de1585a6"
+      "values_digest": "aac27365b6a1aa33053d18dfd20baad035478b70c5852ec4818d025377867c0f",
+      "rendered_digest": "be04733ddf6b418fb9274da3702b4f4d86707978f39c9d681643aa4c08f711de",
+      "ast_digest": "39f0ebd33a6748e791743e48a5270795e32071ce662d2471ac0eae7c92f44833"
     },
     "srp": {
-      "values_digest": "f5216d8453408d9faaa29aa8337161b80402a8cf1db41a67d956ddcd809d653b",
+      "values_digest": "e34b238e852355387b77ad1fca027e30cdda33cecf329bba4bdfdf9e69b5eace",
       "rendered_digest": "4abdbaa3cb30a0ab67ea198531a9da2b317c81dcac84c72fea7416d4f7ee14e6",
       "ast_digest": "f4d0e05fbd95fb7b53118d32adfb4109954c20c74314f5860dfef62e4b81b7e1"
     },
     "sor": {
-      "values_digest": "9ba446808a63b07b5a980b2ffcfe0453e7aa314620fe88b1abbb89dbbda92357",
+      "values_digest": "af682e1daed8fb3b468238453090e2a991cc23550952cbc29424dec476268b04",
       "rendered_digest": "0bb71a8fd20d97cd498a69f9b60412cf0c9e7a4055843cc865151941c07887d7",
       "ast_digest": "6e4b1d84fcc54c2d4a2682998e7102ef3cc3e229da4fb56f030b18043c6d703d"
     }
@@ -175,6 +175,13 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:202-implementation",
+      "reason": "Split the crate-private exact thirty-six-case sealed-adapter denominator from the thirteen-case public integration boundary without weakening either proof surface.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"authorized-learner-transport\",\"proof_role\":\"Prove exact thirty-six-case denominator: real_four_node_learner_replication, current_voter_cut_unchanged, excluded_node_recovery_learner, learner_promotion_route_handoff, exact_retry_session, reconnect_boot_rotation, certificate_overlap_authorized, missing_201_token, public_caller_denied, wrong_operation_kind, wrong_domain, wrong_polis, wrong_learner, wrong_guardian, wrong_certificate_generation, expired_certificate, revoked_certificate, wrong_boot_generation, wrong_address, learner_vote_rpc_denied, learner_endorsement_denied, learner_finalize_denied, learner_mutation_denied, learner_renewal_denied, learner_shepherd_denied, learner_observatory_denied, exclusion_ordinary_session_denied, exclusion_wrong_recovery_token, stale_admission, replay_conflict, oversized_frame, truncated_frame, capacity_n_plus_one_no_partial, crash_before_exclusion_checkpoint, crash_after_exclusion_checkpoint, state_or_lock_symlink_rejected. real_four_node_learner_replication must prove the private typed AppendEntries/InstallSnapshot surface plus vote, generic-send, and unknown-kind rejection with zero bytes dispatched. current_voter_cut_unchanged must cover exact cut digest/index and stable-Raft-id mismatch. exact_retry_session must prove cache-first token/result retrieval before and after exclusion activation without reauthorization. certificate_overlap_authorized must prove old-during-overlap, private staging of an exact successor generation/token, crash recovery before and after the atomic successor-generation flip, observation of exactly one current generation, retained-old-session closure with zero later request dispatch, cross-generation mismatch, and old denial at the earliest of token deadline, authority overlap end, or successor flip. exclusion_ordinary_session_denied must cover retained open-session revalidation. excluded_node_recovery_learner must prove remaining nonexcluded voters authorize the new-identity recovery token before admission exists. capacity_n_plus_one_no_partial must cover serialized admission and exclusion bounds. The two crash cases must mechanically enumerate every admission and exclusion journal, state, result-cache, checkpoint CAS before/after, marker, published-view flip including the successor-generation flip, route install/remove, expiry, and restart-reconciliation window, including opened-handle MAX+1 and replacement races.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"learner_transport::tests\",\"--no-tests=fail\"],\"parallel_group\":\"202-runtime\",\"defer_reason\":\"Fail closed on a missing crate-private source target, a count other than thirty-six, or any result not mapping exactly once to all thirty-six names and every required subassertion.\"},{\"lane\":\"authorized-learner-transport-public-boundary\",\"proof_role\":\"Prove the exact thirteen-case public integration boundary for canonical coarse Membership artifacts, deterministic enrollment/removal bytes, and rejection of invalid domain, polis, node, Guardian, stable Raft id, certificate generation, boot generation, voter-cut digest, membership digest, and deadline inputs without exposing the sealed adapter.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authorized_learner_transport\",\"--no-tests=fail\"],\"parallel_group\":\"202-runtime\",\"defer_reason\":\"Fail closed on a missing public integration target, a count other than thirteen, any failure, or any public path that can bypass the sealed adapter.\"},{\"lane\":\"authorized-learner-transport-clippy\",\"proof_role\":\"Reject warnings and API misuse across the exact learner/exclusion target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authorized_learner_transport\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"202-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"authorized-learner-transport-producer\",\"proof_role\":\"Produce exact source, command, stream, timing, Git, protected-digest, and thirty-six-case name/result/marker evidence.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\"],\"parallel_group\":\"202-proof\",\"defer_reason\":\"Deferred until exact producer exists; fail closed on dirty protected source, wrong case count, missing/extra/duplicate name or subassertion, nonpassing result, or nonzero status.\"},{\"lane\":\"authorized-learner-transport-receipt\",\"proof_role\":\"Bind exact protected source, commands, thirty-six cases and required subassertions, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\"],\"parallel_group\":\"202-proof\",\"defer_reason\":\"Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, all thirty-six cases, and every required subassertion are bound.\"}]}"
     }
   ]
 }
