@@ -22,13 +22,15 @@ is locked by
 | WP-12 | #5829 / PR 135 | `.csdlc/evidence/5829/native-validation-manifest.json` |
 | WP-13 | #5830 / PR 139 | `.csdlc/evidence/5830/native-validation-manifest.json` |
 | WP-13A | #5831 / PR 195 | `.csdlc/evidence/5831/native-validation-manifest.json` |
-| WP-14 | #5832 / PR 76 | `.csdlc/evidence/5832/acip-native-receipts.json` |
+| WP-14 | #209 / PR 215 | `.csdlc/evidence/209/local-validation-manifest.json` |
 | WP-15 | #5833 / PR 198 | `.csdlc/evidence/5833/native-validation-manifest.json` |
 
 Live issue and pull-request closure was observed and retained in
 `.csdlc/evidence/5834/dependency-closure.json`. The validator also checks every
 declared merge commit is ancestral and recomputes every evidence digest from
-the file as committed by that merge.
+the file as committed by that merge. WP-14 uses the reviewed follow-up repair
+#209 rather than the superseded PR 76 listener proof; its retained typed review
+authority and production-kernel evidence close the retrospective gap.
 
 ## Reviewable Claim
 

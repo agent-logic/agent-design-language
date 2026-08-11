@@ -9,7 +9,7 @@ require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").realpath
 EXPECTED_WPS = %w[WP-08 WP-09 WP-10 WP-11 WP-12 WP-13 WP-13A WP-14 WP-15].freeze
-EXPECTED_ISSUES = [5825, 5826, 5827, 5828, 5829, 5830, 5831, 5832, 5833].freeze
+EXPECTED_ISSUES = [5825, 5826, 5827, 5828, 5829, 5830, 5831, 209, 5833].freeze
 FORBIDDEN_PUBLIC_CLAIMS = /\b(personhood|consciousness|production citizenship|legal citizenship|governance authority|public(?:ation)? (?:is )?(?:approved|authorized|ready)|ready for public release)\b/i
 PRIVATE_PATH = %r{(?:\A|/)(?:Users|home|private|tmp|var/folders)(?:/|\z)|(?:\A|/)(?:secrets?|credentials?|tokens?)(?:/|\z)|[A-Za-z]:[\\/]|\\\\|(?:password|api[_-]?key|bearer|gho_|sk-)}i
 
@@ -117,6 +117,10 @@ def validate_packet_data!(packet, manifest, schema)
     git!("merge-base", "--is-ancestor", entry["merge_commit"], "HEAD")
     committed = git!("show", "#{entry['merge_commit']}:#{entry['path']}")
     reject!("#{label} merge-tree evidence digest mismatch") unless Digest::SHA256.hexdigest(committed) == entry["digest"]
+    issue_index = JSON.parse(git!("show", "#{entry['merge_commit']}:.csdlc/issues/#{entry['issue']}/index.json"))
+    retained_review = issue_index["review"]
+    reject!("#{label} lacks retained typed review authority") unless retained_review.is_a?(Hash) && retained_review["completed"] == true
+    reject!("#{label} reviewed revision contradicts retained authority") unless retained_review["reviewed_revision"] == entry["reviewed_revision"]
     reject!("packet omits #{label} evidence path") unless packet.include?(entry["path"])
     reject!("packet omits #{label} PR") unless packet.include?("PR #{entry['pull_request']}")
   end

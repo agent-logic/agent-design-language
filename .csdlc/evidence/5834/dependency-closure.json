@@ -1,6 +1,6 @@
 {
   "schema": "adl.v092.birthday-dependency-closure.v1",
-  "observed_at": "2026-08-11T00:33:57Z",
+  "observed_at": "2026-08-11T03:06:47Z",
   "issue_repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "entries": [
@@ -11,7 +11,7 @@
     {"issue": 5829, "issue_state": "closed", "pull_request": 135, "pr_state": "merged", "head_revision": "468e80826a0a7ee40f5d2741adc87284c7662df4", "merge_commit": "2010bd36c41e59558066120627ea6a2121d13103"},
     {"issue": 5830, "issue_state": "closed", "pull_request": 139, "pr_state": "merged", "head_revision": "06ad9ef491812b490802dc52a0949939939cd295", "merge_commit": "ead2527f1b386342fe684e109df4d6105716a007"},
     {"issue": 5831, "issue_state": "closed", "pull_request": 195, "pr_state": "merged", "head_revision": "946feae5003dc02947158a15c55c265f1fc5f97f", "merge_commit": "1e72393363da347f86545985347203b7f2ea52d0"},
-    {"issue": 5832, "issue_state": "closed", "pull_request": 76, "pr_state": "merged", "head_revision": "23df2bab4373434c9020f0c40f772f71aef2917c", "merge_commit": "a5021ab7e9bff220021e3600fa51b4f0848f5524"},
+    {"issue": 209, "issue_state": "closed", "pull_request": 215, "pr_state": "merged", "head_revision": "c640066f284a915b638add377cc4b0a2e221e6f9", "merge_commit": "a77519c3fca9f64752af41c9a2ebd396468891f7"},
     {"issue": 5833, "issue_state": "closed", "pull_request": 198, "pr_state": "merged", "head_revision": "6c8b1112e99a5ead4f326f863f020f5dbf744fbf", "merge_commit": "ed657e4494e08d4ce3de1b554d097632111a83a9"}
   ]
 }
