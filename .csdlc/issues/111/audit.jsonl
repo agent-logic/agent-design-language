@@ -92,3 +92,4 @@
 {"sequence":92,"generation":80,"actor":"codex:issue-111-conflict-reconciliation","reason":"Record fresh independent exact-head review after reconciling current main into the issue branch.","operation":"recover_review"}
 {"sequence":93,"generation":80,"actor":"codex:issue-111-conflict-reconciliation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":94,"generation":81,"actor":"subagent:019ff1cf-1716-7183-979c-0ffb35f8b6e4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":95,"generation":82,"actor":"codex:issue-111-conflict-reconciliation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
