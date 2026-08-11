@@ -5,12 +5,82 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
-  "generation": 57,
-  "digest": "d1017e44977ed9a7f5142e59adf2ffe586332827804783423591bb844e8c3089",
+  "generation": 58,
+  "digest": "a5364238475bfb142fc96735d7b5bc062cc76e1c5e8a8680ef8d694a07248f08",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fef8b-4eb1-71e1-80ff-3b34f9b94dc5",
+    "assigned_by": "codex:wp18c01-fresh-session-review",
+    "revision": "git-blake3:b05f9e8bbe25c14487dba05e7ff69c69ed40382e:d2de6f42fe2c856fa63d57a918ac97c87b0c32251f43fd24def640be034d69f6",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fef8b-4eb1-71e1-80ff-3b34f9b94dc5",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ],
+    "reviewed_revision": "git-blake3:b05f9e8bbe25c14487dba05e7ff69c69ed40382e:d2de6f42fe2c856fa63d57a918ac97c87b0c32251f43fd24def640be034d69f6",
+    "findings": [
+      {
+        "id": "fresh-review-223-p1-revoked-inflight-reply",
+        "severity": "p1",
+        "summary": "Revoked Observatory credentials can still receive an in-flight conversation reply because authorization is not revalidated immediately before asynchronous result delivery.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "adl-runtime-kernel/src/control.rs:2343"
+      },
+      {
+        "id": "fresh-review-223-p2-roster-page-two-recipient",
+        "severity": "p2",
+        "summary": "Conversation recipient validation searches only the first 100-agent roster page and incorrectly refuses eligible recipients on later pages.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "adl-runtime-kernel/src/control.rs:667"
+      }
+    ],
+    "residual_risks": [
+      "Durable cross-restart conversation history remains owned by downstream issue #114.",
+      "Broader multi-agent room and routing semantics remain owned by downstream issues #115 and #116.",
+      "The fresh reviewer did not independently exercise restart-across-process behavior or a hostile adapter that ignores cancellation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +95,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "61c5639562e8557cad114a4b22a12c19f5600d5db1280f2d9c990b83ea842818",
+      "values_digest": "f0b9e3da37e7f67794a7d1d0788decece2fbd46510bff7b4048381e3d9310c00",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "6ad869daea82ff5d950cac9268e5bd05d8d13a92a50895258e9bdec9726c1ca8",
+      "values_digest": "2aa59616daed83f07ed2e1e4d27a92c1c32c07f1b0218e7bcefab04ac83b984d",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "74ca09b1910e86668067b8edb639f29de0233b02508a29bffa24eb8133d2a3b8",
+      "values_digest": "08b9c4eafcc808d681dcbed586e3ea77bd3d07ea84820a159546d40a60b64cbf",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "6e20b98451de9ec2ab73cc7f361d023b64e2bec1e6e55a0eda5bde078135d699",
+      "values_digest": "173385a8c89bf128de8b2110515e1312e09374893b5450daa86d2ede3074202c",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "67e71670365e6a68ae9b901ba14023e4cf68a3322d33e6830d4b11096256a06d",
-      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
-      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
+      "values_digest": "d1dfeecaf91e9f0e8a3622d979028912c001b3535dd8f14ddd02de6899012d82",
+      "rendered_digest": "219aba6319e042d18f3f66ceca7b10cbbc796856f8a4b69c2ea5d08a7997ef54",
+      "ast_digest": "c1f75dbd4c9438833c436bb3257823cc34be81c9980fadddc9c467881f12d3b5"
     },
     "sor": {
-      "values_digest": "33b37aeccaa9a2034d56aab6ea652e36d9a37ad0b3a8774c56ab65fec233cc3c",
+      "values_digest": "e8db1f374cf070480e97a0892bdff5fdb68b1740d04b31818a08200c7332e0a0",
       "rendered_digest": "e30d70451629ff34e8685558009aa7ce2fc7db1ec46bf3db26ac7b7e6199d997",
       "ast_digest": "d2a804b287ed2e9662cb2f46003536623cb13c7afced54b92dadb83f5bc9da5c"
     }
@@ -547,6 +617,20 @@
       "actor": "codex:wp18c01-fresh-session-review",
       "reason": "Recover stale review and publication truth after integrating the updated stacked base; require a fresh independently assigned exact-head review before merge.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 57,
+      "actor": "codex:wp18c01-fresh-session-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 58,
+      "actor": "subagent:019fef8b-4eb1-71e1-80ff-3b34f9b94dc5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
