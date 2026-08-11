@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
-  "generation": 39,
-  "digest": "7e29e2f6bfaa41a65a753581df83546a482d5ade77c9670c39a9a73e7a124b42",
+  "generation": 41,
+  "digest": "b7fee1c241991bbac96b141b2b9934a58b67393599c386b2fd2908f425ac0317",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "55608754a1c36bea244241fe7258bbb253e55c876ddce283c6cc0f614f5ad9a5",
+      "values_digest": "e289dd30484beaac24e9d9915d8151e506ba6d504328701890398518f862895f",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "7f6a76a572f06812b798c845117f5371db85d9d85ead4b22558a57bc220d5b0a",
+      "values_digest": "1c65cb46c3acb2d830b8e3fbd5147830286404a68838ce2ee9dc99158e7a9643",
       "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
       "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "4d3215a8b5518b82eb1883f1f7607d45ea7af434937df3414e2f2ccf1a748bc6",
+      "values_digest": "71647cef16d9e923f7ba594cd667ee3212ce58ea6e0fb62f06c3e5b31d243dd1",
       "rendered_digest": "4aefac7b866c381e05080459460429c537d4ef79b16a3d8d1207c2d93aa5c2f8",
       "ast_digest": "4275040bf85db61f054c1978dcb59027ff4817fc3e9cad80287eaea38385c582"
     },
     "vpp": {
-      "values_digest": "42505115c4091aeb64acdde61d3f00eff655f13304741de3b93ec263ec06f553",
+      "values_digest": "f32965d8e836248825feef73727ecb54b20e54b4b217f69f965075788bc54b02",
       "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "b47a147393d18cefefce871210d56b1a1c7bd728db60b677f521358cdfdf87d7",
+      "values_digest": "5cd9e0f287915429c18131a230c5b6aae68a41f1c1b152f3b408557ab92b24df",
       "rendered_digest": "0deb0eae92632525b1c688b787f5625b1555d1a310c524b702c492206e09f02c",
       "ast_digest": "961c5712207fdfe2b219a6d535f661b735d61801283883e1110378b894467056"
     },
     "sor": {
-      "values_digest": "c1fd06e39409b7d478e01344db04be04b486a0295c9d11913668458cdfd247f8",
-      "rendered_digest": "9117701e545ceb0cb57f58cf9f6a5985abf9052b18e87c74f25cab67514fc3bb",
-      "ast_digest": "730db665c1e9a626c1c71468173d39eff5e7f1767dbc1fa4c404587ba412b79c"
+      "values_digest": "7790585069bb91cf7a8d330d086ecaa00b1cc6e99b6579a631e9861d265aa119",
+      "rendered_digest": "663ba15d4a7835d850b0db01947c9d5227751ae06d01a16fc858e9238a8c6f45",
+      "ast_digest": "bc6400d3adac866a650de8a96d7bbeb813a0187ad912fd815d3c28f66f488d12"
     }
   },
   "transitions": [
@@ -413,6 +413,20 @@
       "actor": "codex:234-ci-remediation",
       "reason": "Record focused local proof of the skipped coverage fallback before fresh exact-head review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-lc\",\"ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh && python3 adl/tools/verify_ci_backend_route.py --surface adl-coverage --backend hosted --event-name pull_request --same-repo-pr true --spot-opt-in false --work-required false --spot-work-required false --path-policy-result success --spot-result skipped --hosted-result coverage=skipped\"],\"purpose\":\"Prove the required coverage status accepts an intentionally skipped optional coverage producer, still validates the selected backend route, and preserves the complete workflow cost-control contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-skipped-coverage-fallback:passed\"}}"
+    },
+    {
+      "sequence": 46,
+      "generation": 40,
+      "actor": "codex:234-ci-remediation",
+      "reason": "Resolve the independent review residual risk without widening the remediation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Narrowed the coverage-result fallback to the intentionally skipped producer state so missing semantic output from successful required coverage remains a hard failure.\",\"changes\":[\"Only a skipped hosted coverage job may supply its job result when semantic route output is absent.\",\"A successful required coverage job with missing semantic output continues to fail closed.\"],\"artifacts\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\"]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 41,
+      "actor": "codex:234-ci-remediation",
+      "reason": "Record focused proof of the independently reviewed fallback hardening.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-lc\",\"ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh && verify_ci_backend_route accepts optional skipped coverage and rejects required skipped coverage\"],\"purpose\":\"Prove the skipped fallback prevents an optional false red while required coverage with missing or skipped proof still fails closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-failclosed-skipped-coverage-fallback:passed\"}}"
     }
   ]
 }

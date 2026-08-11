@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired the required coverage summary so an intentionally skipped optional coverage producer remains green without weakening required coverage failures.
+Narrowed the coverage-result fallback to the intentionally skipped producer state so missing semantic output from successful required coverage remains a hard failure.
 
 ## Artifacts
 
@@ -79,6 +79,8 @@ Repaired the required coverage summary so an intentionally skipped optional cove
 - adl/tools/test_ci_runtime_contracts.sh
 - .github/workflows/ci.yaml
 - adl/tools/test_ci_runtime_contracts.sh
+- .github/workflows/ci.yaml
+- adl/tools/test_ci_runtime_contracts.sh
 
 ## Execution
 
@@ -110,6 +112,8 @@ Repaired the required coverage summary so an intentionally skipped optional cove
 - Workflow-policy and runtime-contract tests enforce both controls.
 - The required adl-coverage summary now falls back to the hosted producer job result when a skipped producer emits no semantic output.
 - The CI runtime contract now requires the skipped-result fallback and rejects regressions to an empty coverage result.
+- Only a skipped hosted coverage job may supply its job result when semantic route output is absent.
+- A successful required coverage job with missing semantic output continues to fail closed.
 
 ## Validation
 
@@ -274,6 +278,16 @@ Repaired the required coverage summary so an intentionally skipped optional cove
     "purpose": "Prove the required coverage status accepts an intentionally skipped optional coverage producer, still validates the selected backend route, and preserves the complete workflow cost-control contract.",
     "outcome": "passed",
     "evidence_ref": "local:issue-234-skipped-coverage-fallback:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "ruby adl/tools/validate_ci_workflow_policy.rb && bash adl/tools/test_ci_runtime_contracts.sh && verify_ci_backend_route accepts optional skipped coverage and rejects required skipped coverage"
+    ],
+    "purpose": "Prove the skipped fallback prevents an optional false red while required coverage with missing or skipped proof still fails closed.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-failclosed-skipped-coverage-fallback:passed"
   }
 ]
 

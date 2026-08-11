@@ -746,7 +746,9 @@ if len(required_status_names) != 1 or "name: adl-coverage" not in required_statu
     raise SystemExit("CI must expose exactly one stable required adl-coverage status")
 for required_fragment in (
     'hosted_coverage_result="${{ needs.adl_coverage_hosted.outputs.route_result }}"',
-    'hosted_coverage_result="${{ needs.adl_coverage_hosted.result }}"',
+    'hosted_coverage_job_result="${{ needs.adl_coverage_hosted.result }}"',
+    'if [ -z "$hosted_coverage_result" ] && [ "$hosted_coverage_job_result" = "skipped" ]; then',
+    'hosted_coverage_result="$hosted_coverage_job_result"',
     '--hosted-result "coverage=$hosted_coverage_result"',
 ):
     if required_fragment not in required_status_job:
