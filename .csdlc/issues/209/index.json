@@ -6,10 +6,35 @@
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
   "phase": "implemented",
   "generation": 16,
-  "digest": "5631e5e825ca3d050cfccf91a5272ee90ca6e58e77db1ab218d6ab17cb0f9964",
+  "digest": "4961956d9dbf627d42ae6315514ff27e9b7902a35b05686819c7614d41694213",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_209_exact_head",
+    "assigned_by": "/root/sprint4_5857",
+    "revision": "git-blake3:d05fe7f841f057888c763feaa3a41f9bfe2fa684:25521fe67893fdc5b9bc20d7a9a68103b87604219dfb8f4e6f0f70feae885f28",
+    "scope": [
+      ".csdlc/issues/209",
+      ".csdlc/prepared/issues/209/design.md",
+      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      ".csdlc/evidence/209",
+      ".github/workflows/wp14-production-acip-repair.yml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +70,9 @@
       "ast_digest": "6b62309165c156b026db20c16e4fa82877f6fa6aa554733e8e5144b69c2f3642"
     },
     "srp": {
-      "values_digest": "4d4b76e6b40662f72958a7ecaa6ef3045420541e350b14cd935094f1337b01d4",
-      "rendered_digest": "ce0e746ee279504a5a62dd63f853913c5fc594bcd05290dedec4c543cb420c71",
-      "ast_digest": "769084b712424270abe146c3a27e4efba8647fda8b7ac75d03f9bbadaa01542e"
+      "values_digest": "b225f69376db1a607e2f476419f491ff3a12ae402ef503e6e323e61244078be2",
+      "rendered_digest": "1e8b5f79492b79970bd98b3b635bf7ada599df2fbe7df62fa065d654bc34a09a",
+      "ast_digest": "6040297f8d86acf531ae6f21bf53674b6f6e7eac4bb5d489066c32bccd30a4e6"
     },
     "sor": {
       "values_digest": "27fc12c24a7734209bd1353b5d1172123bdbdf147e8511109dd80f7f2c8db690",
@@ -218,6 +243,13 @@
       "actor": "/root/sprint4_5857",
       "reason": "Refresh exact repaired production ACIP authority proof after closing the excessive-advance capacity mutation finding.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired production ACIP replay authority, transactional pressure rollback, platform-neutral native semantics, and canonical public OpenAPI parity without publishing.\",\"changes\":[\"Replaced delimiter-ambiguous global replay state with structured runtime/source domains partitioned by authenticated principal and exact pending rollback.\",\"Added production WebSocket saturation rejection, non-reserving typed response, exact retry recovery, and concurrency regressions.\",\"Normalized native semantic comparison independently of platform and expanded exact authority source provenance.\",\"Aligned the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"docs/api/runtime-v3/v1/openapi.json\",\".csdlc/prepared/issues/209/produce-native-receipt.rb\",\".csdlc/prepared/issues/209/validate-native-receipts.rb\",\".github/workflows/wp14-production-acip-repair.yml\",\".csdlc/evidence/209/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\"],\"purpose\":\"Prove production dispatch plus WebSocket-observed saturation rollback and corrected retry; repeated five times for stability.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/production-acip-wss.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"control::acip_replay_tests\"],\"purpose\":\"Prove structured replay-domain collision resistance, per-principal capacity, rejected-advance non-mutation, and concurrent rollback non-resurrection.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/acip-replay-authority.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"purpose\":\"Prove canonical public bearer-authenticated binary OpenAPI parity.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/openapi-contract.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay\",\"--lib\",\"--\",\"--exact\"],\"purpose\":\"Prove the retained non-public legacy admission path still rejects unsigned control and terminal replay poisoning.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/legacy-signed-replay.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--test\",\"production_acip_wss\",\"--test\",\"openapi_contract\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free production source and focused integration surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/production-acip-clippy.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/209/produce-native-receipt.rb\",\"--self-test\"],\"purpose\":\"Prove native producer authority-source and platform-neutral projection behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/native-contract-selftests.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/209/validate-native-receipts.rb\",\"--self-test\"],\"purpose\":\"Prove native validator semantic-equivalence, exact provenance, and path-hygiene gates.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/native-contract-selftests.log\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
