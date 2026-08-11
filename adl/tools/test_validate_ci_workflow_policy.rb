@@ -45,6 +45,15 @@ class ValidateCiWorkflowPolicyTest < Minitest::Test
     assert(errors_for(ci: fixture).any? { |error| error.include?("optional jobs must not materialize") })
   end
 
+  def test_required_job_names_in_comments_do_not_hide_an_extra_job
+    fixture = valid_ci.sub(
+      "jobs:\n",
+      "# adl_path_policy adl_ci adl_coverage\njobs:\n  undeclared_job:\n    runs-on: ubuntu-latest\n"
+    )
+    errors = errors_for(ci: fixture)
+    assert(errors.any? { |error| error.include?("unrelated or optional PR jobs materialize") }, errors.inspect)
+  end
+
   def with_heavy_matrix(matrix_yaml)
     valid_ci.sub(
       "    runs-on: ${{ needs.adl_path_policy.outputs.required_runner }}\n",
