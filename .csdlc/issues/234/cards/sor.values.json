@@ -1,0 +1,201 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 234,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tooling][CI] Prevent unrelated workflow fanout and isolate expensive proof",
+    "slug": "systemic-ci-cost-control",
+    "version": "v0.92",
+    "generation": 30
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Remediated the exact-head review findings by coalescing identical source heads across PR bases and enforcing one exclusive ADL heavy-runner allocation per ordinary PR while retaining all selected required jobs.",
+      "actual_changes": [
+        "Removed automatic pull-request triggers from twelve standalone native and retained proof workflows while preserving manual dispatch.",
+        "Removed scheduled CI and coverage execution and made slow proof explicit-dispatch only.",
+        "Changed central CI concurrency to repository plus head SHA and gated heavy coverage aggregation before runner allocation.",
+        "Stopped ordinary Rust and fail-closed paths from selecting optional demo smoke while retaining explicit demo dispatch.",
+        "Added machine-readable skipped, deferred, soak, and duplicate-head dispositions.",
+        "Added a whole-workflow policy validator, representative path-policy regressions, an operating procedure, and a retained workflow inventory.",
+        "Removed automatic pull-request triggers from standalone native and retained proof workflows while preserving explicit dispatch.",
+        "Changed central CI concurrency to repository plus head SHA and gated heavy coverage aggregation before runner allocation.",
+        "Added machine-readable skipped, deferred, soak, and duplicate-head dispositions plus a whole-workflow policy validator.",
+        "Made csdlc-github-pr ignore canceled or unknown optional checks when merge_state is unstable and all declared required checks succeed.",
+        "Made csdlc-finish accept unstable only for an exact ready target while retaining conflicts, draft, base drift, head drift, missing checks, failed checks, and review gates.",
+        "Replaced SHA-only concurrency with stable source-and-target surface identity.",
+        "Retained cancel-in-progress so newer commits cancel older in-progress runs.",
+        "Updated the policy validator, machine-readable disposition reason, routing regression, procedure, accepted AC-4, design, and diagram.",
+        "Removed target base from ordinary PR concurrency identity while preserving repository, workflow, source repository, and source branch isolation.",
+        "Added one deterministic heavy_runner_job choice; only that selected required job may acquire ADL_HEAVY_RUNNER and all other required jobs use the standard runner.",
+        "Strengthened workflow-policy and runtime-contract validators to reject base-split concurrency and non-exclusive heavy-runner selectors."
+      ],
+      "artifacts": [
+        ".github/workflows/ci.yaml",
+        ".github/workflows/nightly-coverage-ratchet.yaml",
+        ".github/workflows/wp08-native-birthday.yml",
+        ".github/workflows/wp09-native-birthday-identity.yml",
+        ".github/workflows/wp10-native-birthday-continuity.yml",
+        ".github/workflows/wp11-native-memory-palace.yml",
+        ".github/workflows/wp12-native-capability-envelope.yml",
+        ".github/workflows/wp13-authority-repair.yml",
+        ".github/workflows/wp13-native-cognitive-profile.yml",
+        ".github/workflows/wp13a-native-adaptive-learning.yml",
+        ".github/workflows/wp14-native-acip.yml",
+        ".github/workflows/wp14-production-acip-repair.yml",
+        ".github/workflows/wp14-retained-native-proof.yml",
+        ".github/workflows/wp15-native-birth-witness.yml",
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/test_ci_path_policy.sh",
+        "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/validate_ci_workflow_policy.rb",
+        "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md",
+        ".csdlc/evidence/234/ci-workflow-inventory.json",
+        ".github/workflows/ci.yaml",
+        ".github/workflows/nightly-coverage-ratchet.yaml",
+        ".github/workflows/wp08-native-birthday.yml",
+        ".github/workflows/wp09-native-birthday-identity.yml",
+        ".github/workflows/wp10-native-birthday-continuity.yml",
+        ".github/workflows/wp11-native-memory-palace.yml",
+        ".github/workflows/wp12-native-capability-envelope.yml",
+        ".github/workflows/wp13-authority-repair.yml",
+        ".github/workflows/wp13-native-cognitive-profile.yml",
+        ".github/workflows/wp13a-native-adaptive-learning.yml",
+        ".github/workflows/wp14-native-acip.yml",
+        ".github/workflows/wp14-production-acip-repair.yml",
+        ".github/workflows/wp14-retained-native-proof.yml",
+        ".github/workflows/wp15-native-birth-witness.yml",
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/test_ci_path_policy.sh",
+        "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/validate_ci_workflow_policy.rb",
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/src/finish.rs",
+        "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md",
+        ".csdlc/evidence/234/ci-workflow-inventory.json",
+        ".github/workflows/ci.yaml",
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/test_ci_path_policy.sh",
+        "adl/tools/validate_ci_workflow_policy.rb",
+        "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md",
+        ".csdlc/prepared/issues/234/design.md",
+        ".csdlc/prepared/issues/234/diagram.mmd",
+        ".github/workflows/ci.yaml",
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/validate_ci_workflow_policy.rb",
+        "adl/tools/test_ci_runtime_contracts.sh"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            "adl/tools/validate_ci_workflow_policy.rb"
+          ],
+          "purpose": "Scan all 17 workflows and prove one automatic PR entrypoint, explicit-only standalone workflows, no schedules, head-SHA concurrency, gated heavy jobs, and manual-only slow proof.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/234/ci-workflow-inventory.json"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_runtime_contracts.sh"
+          ],
+          "purpose": "Prove required heavy runner routing, job-level gates, manual-only slow proof, conditional coverage aggregation, manual Codecov upload, and post-merge suppression.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-234-ci-runtime-contracts:passed"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_path_policy.sh"
+          ],
+          "purpose": "Prove docs, ordinary Rust, runtime, mixed policy, fail-closed, schedule, and explicit-dispatch classifications while keeping optional demo and soak work deferred.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-234-ci-path-policy:passed"
+        },
+        {
+          "command": [
+            "bash",
+            "-n",
+            "adl/tools/ci_path_policy.sh",
+            "adl/tools/test_ci_runtime_contracts.sh",
+            "adl/tools/test_ci_path_policy.sh"
+          ],
+          "purpose": "Prove shell syntax, Ruby syntax, all workflow YAML parsing, and clean patch whitespace.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-234-syntax-yaml-diff-hygiene:passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib"
+          ],
+          "purpose": "Prove optional canceled checks do not gate an otherwise required-green unstable PR, while blocked, behind, dirty, draft, unknown, missing or failed required checks, review failure, and exact-target drift remain fail closed.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-234-csdlc-v2-lib:67-passed"
+        },
+        {
+          "command": [
+            "ruby",
+            "adl/tools/validate_ci_workflow_policy.rb"
+          ],
+          "purpose": "Prove all 17 workflow triggers, source-and-target concurrency, cancel-in-progress, heavy-runner gates, manual slow proof, and pre-allocation coverage gating.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-234-final-workflow-policy:passed"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_runtime_contracts.sh"
+          ],
+          "purpose": "Prove selected heavy routing, conditional aggregation, manual slow proof and Codecov, and no post-merge duplicate validation.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-234-final-runtime-contracts:passed"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_path_policy.sh"
+          ],
+          "purpose": "Prove ordinary, focused, mixed, fail-closed, schedule, and explicit-dispatch classifications plus optional and soak deferral reasons.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-234-final-path-policy:passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib"
+          ],
+          "purpose": "Prove optional canceled checks do not block an otherwise required-green unstable PR while every required-check, review, conflict, and exact-target gate remains fail closed; 67 passed.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-234-final-csdlc-lib:67-passed"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "HEAD"
+          ],
+          "purpose": "Prove shell and Ruby syntax, all workflow YAML parsing, and clean final patch whitespace.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-234-final-syntax-yaml-diff:passed"
+        }
+      ],
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

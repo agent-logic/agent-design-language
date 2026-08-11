@@ -1,0 +1,17 @@
+{
+  "issue": 234,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "3aef7ef277c095206cc7e87688fe266522ff4b15676a30cc5a32206dfa3cc70a",
+  "actor": "codex:234-validation",
+  "reason": "Record the deterministic all-workflow trigger and runner-allocation policy proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["ruby", "adl/tools/validate_ci_workflow_policy.rb"],
+      "purpose": "Scan all 17 workflows and prove one automatic PR entrypoint, explicit-only standalone workflows, no schedules, head-SHA concurrency, gated heavy jobs, and manual-only slow proof.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/234/ci-workflow-inventory.json"
+    }
+  }
+}

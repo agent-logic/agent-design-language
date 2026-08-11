@@ -141,6 +141,16 @@ adl_v2_standalone_required="$bool_false"
 large_file_lines="${COVERAGE_IMPACT_LARGE_FILE_LINES:-200}"
 large_file_delta="${COVERAGE_IMPACT_LARGE_FILE_DELTA:-80}"
 pvf_slow_proof_policy_change=false
+automatic_pr_entrypoint="ci"
+unselected_required_lanes_status="skipped"
+unselected_required_lanes_reason="path_policy_not_selected"
+optional_workflows_status="deferred"
+optional_workflows_reason="explicit_dispatch_required"
+soak_workflows_status="deferred"
+soak_workflows_reason="explicit_dispatch_required"
+duplicate_head_status="canceled"
+duplicate_head_reason="source_branch_concurrency_cancel_in_progress"
+heavy_runner_job="none"
 
 emit() {
   local key="$1"
@@ -155,7 +165,7 @@ require_full_validation() {
   rust_required=true
   coverage_required=true
   full_coverage_required=true
-  demo_smoke_required=true
+  demo_smoke_required=false
   ci_contracts_required=true
 }
 
@@ -173,7 +183,7 @@ mark_pr_fast_rust_validation() {
   rust_required=true
   coverage_required=false
   full_coverage_required=false
-  demo_smoke_required=true
+  demo_smoke_required=false
   ci_contracts_required=true
   coverage_lane="deferred_pr_fast"
   coverage_authority="focused_nextest_pr_fast"
@@ -185,7 +195,7 @@ mark_runtime_v3_csm_focused_validation() {
   rust_required=true
   coverage_required=true
   full_coverage_required=false
-  demo_smoke_required=true
+  demo_smoke_required=false
   ci_contracts_required=true
   coverage_lane="pr_fast_coverage"
   coverage_authority="focused_runtime_v3_csm"
@@ -202,7 +212,7 @@ mark_runtime_owner_focused_coverage() {
   rust_required=true
   coverage_required=true
   full_coverage_required=false
-  demo_smoke_required=true
+  demo_smoke_required=false
   ci_contracts_required=true
   coverage_lane="runtime_owner_focused"
   coverage_authority="focused_runtime_owner"
@@ -1604,6 +1614,9 @@ if [ "$event_name" != "pull_request" ]; then
     reason="push_main_skips_duplicate_post_merge_validation"
   else
     mark_authoritative_full_coverage "non_pr_event" "non_pull_request_event_runs_full_validation"
+    if [ "$event_name" = "workflow_dispatch" ]; then
+      demo_smoke_required=true
+    fi
   fi
 elif [ -z "$base_sha" ] || [ -z "$head_sha" ]; then
   fail_closed=true
@@ -1873,6 +1886,28 @@ select_coverage_producers() {
 
 select_coverage_producers
 
+# Exactly one ordinary-PR job may acquire the configured ADL heavy runner.
+# Other selected required jobs remain valid, but execute on the standard runner.
+if [ "$event_name" = "pull_request" ]; then
+  if [ "$csdlc_v2_standalone_required" = true ]; then
+    heavy_runner_job="csdlc_v2_standalone"
+  elif [ "$adl_v2_standalone_required" = true ]; then
+    heavy_runner_job="adl_v2_standalone"
+  elif [ "$runtime_v3_fast_required" = true ]; then
+    heavy_runner_job="adl_runtime_v3_fast"
+  elif [ "$runtime_coverage_required" = true ]; then
+    heavy_runner_job="adl_coverage_runtime_hosted"
+  elif [ "$workspace_fast_coverage_required" = true ]; then
+    heavy_runner_job="adl_coverage_workspace_fast_hosted"
+  elif [ "$workspace_full_coverage_required" = true ]; then
+    heavy_runner_job="adl_coverage_workspace_hosted"
+  elif [ "$rust_required" = true ] || [ "$ci_path_policy_contracts_required" = true ]; then
+    heavy_runner_job="adl_rust_tests"
+  elif [ "$demo_smoke_required" = true ] || [ "$v0913_proof_required" = true ]; then
+    heavy_runner_job="adl_demo_proof"
+  fi
+fi
+
 classify_changed_path() {
   local path="$1"
   case "$path" in
@@ -1987,6 +2022,16 @@ emit "validation_profile_primary_reason" "$validation_profile_primary_reason"
 emit "validation_profile_escalation_lanes" "$validation_profile_escalation_lanes"
 emit "validation_profile_error" "$validation_profile_error"
 emit "validation_profile_report" "$validation_profile_report"
+emit "automatic_pr_entrypoint" "$automatic_pr_entrypoint"
+emit "unselected_required_lanes_status" "$unselected_required_lanes_status"
+emit "unselected_required_lanes_reason" "$unselected_required_lanes_reason"
+emit "optional_workflows_status" "$optional_workflows_status"
+emit "optional_workflows_reason" "$optional_workflows_reason"
+emit "soak_workflows_status" "$soak_workflows_status"
+emit "soak_workflows_reason" "$soak_workflows_reason"
+emit "duplicate_head_status" "$duplicate_head_status"
+emit "duplicate_head_reason" "$duplicate_head_reason"
+emit "heavy_runner_job" "$heavy_runner_job"
 
 printf '\nChanged path policy: %s\n' "$reason"
 printf '  change_class=%s\n' "$change_class"
@@ -2004,6 +2049,11 @@ printf '  release_version_only=%s\n' "$release_version_only"
 printf '  ci_contracts_required=%s\n' "$ci_contracts_required"
 printf '  validation_profile_contract_lanes_selected=%s\n' "$validation_profile_contract_lanes_selected"
 printf '  validation_profile_report=%s\n' "$validation_profile_report"
+printf '  automatic_pr_entrypoint=%s\n' "$automatic_pr_entrypoint"
+printf '  optional_workflows_status=%s\n' "$optional_workflows_status"
+printf '  optional_workflows_reason=%s\n' "$optional_workflows_reason"
+printf '  soak_workflows_status=%s\n' "$soak_workflows_status"
+printf '  duplicate_head_status=%s\n' "$duplicate_head_status"
 printf '  fail_closed=%s\n' "$fail_closed"
 printf '  coverage_lane=%s\n' "$coverage_lane"
 printf '  coverage_authority=%s\n' "$coverage_authority"
