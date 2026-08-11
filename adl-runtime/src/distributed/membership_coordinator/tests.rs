@@ -190,4 +190,5 @@ fn durable_saga_requires_exact_current_receipt_and_order() {
         result
     );
     assert_eq!(restored.published_generation(), 1);
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=crash_every_phase assertion=durable_saga_restart_exact_retry_no_duplicate_publication");
 }

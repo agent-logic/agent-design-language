@@ -5763,6 +5763,7 @@ mod authority_consensus_tests {
 
         let reopened = PolisStateMachineStore::open(root.path(), 1, checkpoint).unwrap();
         assert_eq!(reopened.applied_membership_history().await, expected);
+        println!("ADL_ISSUE_199_ASSERTION_V1 case=add_learner_joint_final_publish assertion=same_batch_joint_and_uniform_history_survives_restart");
     }
 
     #[test]

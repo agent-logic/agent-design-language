@@ -498,6 +498,9 @@ impl PromoteVoterArtifact {
         target_membership_sha256: [u8; 32],
         deadline_unix_seconds: i64,
     ) -> MembershipCoordinatorResult<CommittedAuthorityArtifact> {
+        identity
+            .validate()
+            .map_err(|_| MembershipCoordinatorError::WrongIdentity)?;
         if identity.stable_raft_id == 0
             || voter_cut_sha256 == [0; 32]
             || enrollment_operation_sha256 == [0; 32]
@@ -571,6 +574,12 @@ impl VerifiedPromoteVoter {
         if &payload.identity != expected_identity {
             return Err(MembershipCoordinatorError::WrongIdentity);
         }
+        let publication_identity = result.authority_identity_for_sealed_consumer();
+        if publication_identity.trust_domain != payload.identity.trust_domain
+            || publication_identity.polis_id != payload.identity.polis_id
+        {
+            return Err(MembershipCoordinatorError::WrongIdentity);
+        }
         if payload.voter_cut_sha256 != expected_voter_cut_sha256
             || payload.old_stable_map_sha256 != expected_old_stable_map_sha256
             || payload.target_stable_map_sha256 != expected_target_stable_map_sha256
@@ -582,7 +591,7 @@ impl VerifiedPromoteVoter {
         }
         Ok(Self {
             identity: payload.identity,
-            publication_identity: result.authority_identity_for_sealed_consumer().clone(),
+            publication_identity: publication_identity.clone(),
             operation_sha256: result.result_sha256(),
             committed_log_index: result.committed_log_index(),
             enrollment_operation_sha256: payload.enrollment_operation_sha256,

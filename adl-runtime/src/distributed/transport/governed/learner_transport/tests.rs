@@ -1113,6 +1113,7 @@ async fn real_four_node_learner_replication() {
             .unwrap(),
         None
     );
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=add_learner_joint_final_publish assertion=factory_admission_receipt_exact_current_and_mismatch_denied");
     let learner_authority = ProductionLearnerAuthority::open(
         &raft_root.path().join("learner-owned-authority"),
         Arc::new(MemoryCheckpoint::default()) as Arc<dyn ConsensusCheckpointAuthority>,
@@ -1339,6 +1340,7 @@ async fn excluded_node_recovery_learner() {
             .unwrap(),
         None
     );
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=remove_voter_pending_exclusion assertion=factory_exclusion_receipt_exact_current_and_mismatch_denied");
     let snapshot = authority.exclusion_snapshot().unwrap();
     let mut recovered = old.clone();
     recovered.node_id = "node-3-recovered".to_owned();

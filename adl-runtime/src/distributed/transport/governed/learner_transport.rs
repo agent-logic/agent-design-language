@@ -115,7 +115,7 @@ pub struct LearnerIdentity {
 }
 
 impl LearnerIdentity {
-    fn validate(&self) -> Result<(), LearnerTransportError> {
+    pub(crate) fn validate(&self) -> Result<(), LearnerTransportError> {
         if [
             self.trust_domain.as_str(),
             self.polis_id.as_str(),
