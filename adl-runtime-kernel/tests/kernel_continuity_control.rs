@@ -393,11 +393,8 @@ fn collect_durable_witness(root: &Path, path: &Path, output: &mut Vec<String>) {
     }
 }
 
-async fn run_case(name: &str) {
-    let temp = TempDir::new().unwrap();
-    let root = temp.path().canonicalize().unwrap();
-    let fixture = fixture(&root);
-    let mut proved_markers = Vec::<String>::new();
+async fn execute_case(name: &str, root: &Path, proved_markers: &mut Vec<String>) {
+    let fixture = fixture(root);
     match name {
         "real_quiesce_checkpoint" | "signed_bundle_export" => {
             let (receipt, handle, catalog) = export(&fixture, 1).await;
@@ -520,6 +517,24 @@ async fn run_case(name: &str) {
         }
         "source_resume" => {
             let (_, handle, _) = export(&fixture, 1).await;
+            let cancelled = CancellationToken::new();
+            cancelled.cancel();
+            assert!(matches!(
+                fixture
+                    .source
+                    .resume_source_bounded(&handle, u64::MAX, &cancelled)
+                    .await,
+                Err(ContinuityControlError::Cancelled)
+            ));
+            assert!(!fixture.ingress.admission_is_open());
+            assert!(matches!(
+                fixture
+                    .source
+                    .resume_source_bounded(&handle, 1, &CancellationToken::new())
+                    .await,
+                Err(ContinuityControlError::Deadline)
+            ));
+            assert!(!fixture.ingress.admission_is_open());
             let first = fixture.source.resume_source(&handle).await.unwrap();
             let second = fixture.source.resume_source(&handle).await.unwrap();
             assert_eq!(first, second);
@@ -563,6 +578,20 @@ async fn run_case(name: &str) {
             assert!(restart_ingress.admission_is_open());
             assert_eq!(first, reopened.resume_source(&handle).await.unwrap());
             drop(reopened);
+            let authority =
+                CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
+            let (conflict_registry, _) =
+                registry_with_ingress(&root.join("conflict-resume-operations"), 5).unwrap();
+            assert!(matches!(
+                SourceContinuityEffectPort::open(
+                    root.join("export"),
+                    conflict_registry,
+                    authority,
+                    fixture.config.bounds.clone(),
+                    10,
+                ),
+                Err(ContinuityControlError::ConflictingRetry)
+            ));
             let state_path = root.join("export/source-state.json");
             let mut state: serde_json::Value =
                 serde_json::from_slice(&std::fs::read(&state_path).unwrap()).unwrap();
@@ -1367,6 +1396,13 @@ async fn run_case(name: &str) {
         }
         _ => panic!("unknown contract case {name}"),
     }
+}
+
+async fn run_case(name: &str) {
+    let temp = TempDir::new().unwrap();
+    let root = temp.path().canonicalize().unwrap();
+    let mut proved_markers = Vec::<String>::new();
+    execute_case(name, &root, &mut proved_markers).await;
     emit_case(name, &root, proved_markers);
 }
 

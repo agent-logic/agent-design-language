@@ -15,8 +15,8 @@ use adl_runtime_kernel::{
     build_mutual_tls_client_config, decode_canonical, load_identity, load_trust_roots, sha256,
     verify_spki_generation, ContinuityCommand, ContinuityControlError, ContinuityControlInitConfig,
     ContinuityEnvelope, ContinuityOperation, ContinuityReply, ContinuityResultState,
-    ContinuityWireReply, RuntimeInitConfig, TlsIdentityPaths, CONTROL_REQUEST_SCHEMA,
-    EXPORTER_LABEL, PRIVATE_ALPN,
+    ContinuityWireReply, RuntimeInitConfig, TargetCleanupPermit, TlsIdentityPaths,
+    CONTROL_REQUEST_SCHEMA, EXPORTER_LABEL, PRIVATE_ALPN,
 };
 use fs2::FileExt;
 use rustls::pki_types::ServerName;
@@ -24,7 +24,7 @@ use serde::{Deserialize, Serialize};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio_util::sync::CancellationToken;
 
-const CLIENT_JOURNAL_SCHEMA: &str = "adl.runtime.kernel_continuity.client_journal.v1";
+const CLIENT_JOURNAL_SCHEMA: &str = "adl.runtime.kernel_continuity.client_journal.v2";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -41,6 +41,8 @@ struct ClientJournalState {
     channel_epoch: u64,
     next_sequence: u64,
     accepted: BTreeMap<String, ClientAcceptedOperation>,
+    #[serde(default)]
+    cleanup_permits: BTreeMap<String, TargetCleanupPermit>,
 }
 
 struct ClientJournal {
@@ -115,6 +117,7 @@ impl ClientJournal {
                 channel_epoch: config.channel_epoch,
                 next_sequence: 1,
                 accepted: BTreeMap::new(),
+                cleanup_permits: BTreeMap::new(),
             };
             #[cfg(unix)]
             write_state_at(&root_handle, "journal.json", &value)?;
@@ -200,8 +203,10 @@ impl ClientJournal {
     fn complete(
         &mut self,
         operation_id: &str,
+        command: &ContinuityCommand,
         response: adl_runtime_kernel::ContinuityResponse,
     ) -> Result<(), ContinuityControlError> {
+        let previous = self.state.clone();
         let entry = self
             .state
             .accepted
@@ -217,7 +222,68 @@ impl ClientJournal {
             return Ok(());
         }
         entry.response = Some(response);
-        self.persist()
+        match (command, &entry.response.as_ref().expect("assigned").result) {
+            (
+                ContinuityCommand::StageTarget {
+                    stage_id,
+                    root_generation,
+                    catalog,
+                },
+                ContinuityReply::StageCreated { handle, cleanup },
+            ) => {
+                if handle.id() != stage_id
+                    || handle.root_generation() != *root_generation
+                    || handle.catalog_digest() != catalog.digest()?
+                    || !cleanup.matches_stage(handle, self.state.channel_epoch)
+                {
+                    self.state = previous;
+                    return Err(ContinuityControlError::CleanupAuthority);
+                }
+                if self
+                    .state
+                    .cleanup_permits
+                    .insert(stage_id.clone(), cleanup.clone())
+                    .is_some_and(|existing| existing != *cleanup)
+                {
+                    self.state = previous;
+                    return Err(ContinuityControlError::ConflictingRetry);
+                }
+            }
+            (
+                ContinuityCommand::ActivateTarget {
+                    handle, cleanup, ..
+                },
+                ContinuityReply::TargetActivated { .. },
+            )
+            | (
+                ContinuityCommand::DiscardTarget { handle, cleanup },
+                ContinuityReply::TargetDiscarded { .. },
+            ) => {
+                if self.state.cleanup_permits.get(handle.id()) != Some(cleanup) {
+                    self.state = previous;
+                    return Err(ContinuityControlError::CleanupAuthority);
+                }
+                self.state.cleanup_permits.remove(handle.id());
+            }
+            _ => {}
+        }
+        if let Err(error) = self.persist() {
+            self.state = previous;
+            return Err(error);
+        }
+        Ok(())
+    }
+
+    fn cleanup_permits(
+        &self,
+    ) -> Result<BTreeMap<String, TargetCleanupPermit>, ContinuityControlError> {
+        for (stage_id, permit) in &self.state.cleanup_permits {
+            if stage_id != permit.stage_id() || !permit.is_self_consistent(self.state.channel_epoch)
+            {
+                return Err(ContinuityControlError::CorruptJournal);
+            }
+        }
+        Ok(self.state.cleanup_permits.clone())
     }
 
     fn persist(&self) -> Result<(), ContinuityControlError> {
@@ -373,6 +439,15 @@ impl KernelContinuityClient {
         }
     }
 
+    pub(crate) fn cleanup_permits(
+        &self,
+    ) -> Result<BTreeMap<String, TargetCleanupPermit>, ContinuityControlError> {
+        self.journal
+            .lock()
+            .map_err(|_| ContinuityControlError::CorruptJournal)?
+            .cleanup_permits()
+    }
+
     pub(crate) async fn run_role_command(
         &self,
         operation_id: &str,
@@ -455,6 +530,7 @@ impl KernelContinuityClient {
                 .map_err(|_| ContinuityControlError::ExporterBinding)?;
             exporter
         };
+        let journal_command = command.clone();
         let envelope = ContinuityEnvelope {
             exporter_sha256: sha256(&exporter),
             certificate_generation,
@@ -495,7 +571,7 @@ impl KernelContinuityClient {
         self.journal
             .lock()
             .map_err(|_| ContinuityControlError::CorruptJournal)?
-            .complete(operation_id, response)?;
+            .complete(operation_id, &journal_command, response)?;
         Ok(result)
     }
 

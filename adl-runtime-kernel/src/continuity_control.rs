@@ -896,10 +896,11 @@ struct SourceOperationState {
 #[serde(deny_unknown_fields)]
 struct DurableSourceState {
     schema: String,
+    root_generation: u64,
     operations: BTreeMap<u64, SourceOperationState>,
 }
 
-const SOURCE_STATE_SCHEMA: &str = "adl.runtime.kernel_continuity.source_state.v3";
+const SOURCE_STATE_SCHEMA: &str = "adl.runtime.kernel_continuity.source_state.v4";
 
 impl LiveContinuityRegistry {
     pub fn from_production_handles(
@@ -1020,11 +1021,13 @@ impl LiveContinuityRegistry {
     async fn resume_started(
         &self,
         started: &BTreeSet<String>,
+        guard: Option<&EffectGuard<'_>>,
     ) -> Result<(), ContinuityControlError> {
         for participant in REQUIRED_PARTICIPANTS.iter().rev() {
             if !started.contains(*participant) {
                 continue;
             }
+            check_optional_guard(guard)?;
             match *participant {
                 "operation_state" => self.operation_continuity.resume_all().await,
                 "governance" => self.operation_continuity.resume_governance().await,
@@ -1035,7 +1038,9 @@ impl LiveContinuityRegistry {
                 "accepted_prefix" | "admission" => {}
                 _ => return Err(ContinuityControlError::ParticipantRegistry),
             }
+            check_optional_guard(guard)?;
         }
+        check_optional_guard(guard)?;
         self.ingress.reopen();
         Ok(())
     }
@@ -1226,6 +1231,7 @@ impl SourceContinuityEffectPort {
         } else {
             DurableSourceState {
                 schema: SOURCE_STATE_SCHEMA.to_owned(),
+                root_generation,
                 operations: BTreeMap::new(),
             }
         };
@@ -1233,6 +1239,9 @@ impl SourceContinuityEffectPort {
             || source_state.operations.len() > bounds.max_journal_entries
         {
             return Err(ContinuityControlError::CorruptJournal);
+        }
+        if source_state.root_generation != root_generation {
+            return Err(ContinuityControlError::ConflictingRetry);
         }
         for operation in source_state.operations.values_mut() {
             if let Some(catalog) = retained.get(&operation.generation) {
@@ -1651,6 +1660,28 @@ impl SourceContinuityEffectPort {
         &self,
         handle: &SourceCheckpointHandle,
     ) -> Result<SourceResumeReceipt, ContinuityControlError> {
+        self.resume_source_inner(handle, None).await
+    }
+
+    pub async fn resume_source_bounded(
+        &self,
+        handle: &SourceCheckpointHandle,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<SourceResumeReceipt, ContinuityControlError> {
+        let guard = EffectGuard {
+            deadline_unix_millis,
+            cancellation,
+        };
+        self.resume_source_inner(handle, Some(&guard)).await
+    }
+
+    async fn resume_source_inner(
+        &self,
+        handle: &SourceCheckpointHandle,
+        guard: Option<&EffectGuard<'_>>,
+    ) -> Result<SourceResumeReceipt, ContinuityControlError> {
+        check_optional_guard(guard)?;
         if handle.root_generation != self.root_generation
             || !self
                 .retained
@@ -1699,12 +1730,13 @@ impl SourceContinuityEffectPort {
             self.persist_source_state(&state)?;
             (started, bindings)
         };
-        if self.registry.resume_started(&started).await.is_err() {
+        if self.registry.resume_started(&started, guard).await.is_err() {
             return self.mark_source_recovery_required(
                 handle.generation,
                 ContinuityControlError::RecoveryRequired,
             );
         }
+        check_optional_guard(guard)?;
         let mut state = self
             .source_state
             .lock()
@@ -1797,7 +1829,7 @@ impl SourceContinuityEffectPort {
                 .map_err(|_| ContinuityControlError::RecoveryRequired)?;
             result
         };
-        if self.registry.resume_started(&started).await.is_err() {
+        if self.registry.resume_started(&started, None).await.is_err() {
             return self.mark_source_recovery_required(
                 generation,
                 ContinuityControlError::RecoveryRequired,
@@ -2092,6 +2124,9 @@ impl TargetStageHandle {
     pub fn catalog_digest(&self) -> &str {
         &self.catalog_sha256
     }
+    pub fn root_generation(&self) -> u64 {
+        self.root_generation
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -2107,6 +2142,33 @@ pub struct TargetCleanupPermit {
 impl TargetCleanupPermit {
     pub fn stage_id(&self) -> &str {
         &self.stage_id
+    }
+
+    pub fn root_generation(&self) -> u64 {
+        self.root_generation
+    }
+
+    pub fn channel_epoch(&self) -> u64 {
+        self.channel_epoch
+    }
+
+    pub fn catalog_digest(&self) -> &str {
+        &self.catalog_sha256
+    }
+
+    pub fn matches_stage(&self, handle: &TargetStageHandle, channel_epoch: u64) -> bool {
+        self.stage_id == handle.stage_id
+            && self.root_generation == handle.root_generation
+            && self.catalog_sha256 == handle.catalog_sha256
+            && self.is_self_consistent(channel_epoch)
+    }
+
+    pub fn is_self_consistent(&self, channel_epoch: u64) -> bool {
+        self.root_generation != 0
+            && self.channel_epoch == channel_epoch
+            && hex::decode(&self.catalog_sha256).is_ok_and(|bytes| bytes.len() == 32)
+            && self.cleanup_id
+                == sha256(format!("cleanup:{}:{}", self.stage_id, self.root_generation).as_bytes())
     }
 
     pub fn digest(&self) -> Result<String, ContinuityControlError> {
@@ -3701,7 +3763,9 @@ impl ContinuityControlService {
             ContinuityCommand::ResumeSource { handle } => ContinuityReply::SourceResumed {
                 receipt: {
                     check_effect_window(effect_deadline, cancellation)?;
-                    self.source.resume_source(&handle).await?
+                    self.source
+                        .resume_source_bounded(&handle, effect_deadline, cancellation)
+                        .await?
                 },
             },
             ContinuityCommand::ReadBundleRange {

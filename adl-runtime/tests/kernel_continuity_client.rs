@@ -1,19 +1,28 @@
 use std::{
+    collections::BTreeMap,
     path::Path,
     time::{SystemTime, UNIX_EPOCH},
 };
 
 use adl_runtime::distributed::polis_runtime::ProductionPolisRuntime;
 use adl_runtime_kernel::{
-    decode_canonical, sha256, BeginOperation, CertificateSuccession, ContinuityCommand,
-    ContinuityControlBounds, ContinuityControlError, ContinuityControlInitConfig,
-    ContinuityControlTlsConfig, ContinuityEnvelope, ContinuityOperation, ContinuityOperationKind,
-    ContinuityReply, ContinuityResponse, ContinuityResultState, DurableContinuityJournal,
-    RuntimeInitConfig, CONTROL_REQUEST_SCHEMA,
+    bootstrap_reasoning_services, build_mutual_tls_server_config,
+    build_production_operation_executors_with_recorder, decode_canonical, load_identity,
+    load_trust_roots, serve_private_continuity_listener, sha256, AdapterPolicy, AuthorityMode,
+    BeginOperation, CanonicalIngress, CatalogSigningAuthority, CertificateSuccession,
+    ContinuityCommand, ContinuityControlBounds, ContinuityControlError,
+    ContinuityControlInitConfig, ContinuityControlService, ContinuityControlTlsConfig,
+    ContinuityEnvelope, ContinuityOperation, ContinuityOperationKind, ContinuityReply,
+    ContinuityResponse, ContinuityResultState, DurableContinuityJournal, IngressSnapshot,
+    LiveContinuityRegistry, LiveOperationContinuity, MigrationDecisionCertificate,
+    OperationalAdapter, OperationalFactory, RuntimeInitConfig, RuntimeRecorder,
+    SignedBundleCatalog, TargetCleanupPermit, TargetContinuityCoordinator, TlsIdentityPaths,
+    CONTROL_REQUEST_SCHEMA, PRIVATE_ALPN, REQUIRED_OPERATIONAL_ADAPTERS,
 };
 use base64::{engine::general_purpose::STANDARD as BASE64, Engine as _};
 use tempfile::TempDir;
 
+use ed25519_dalek::{Signer, SigningKey};
 use rcgen::{
     BasicConstraints, CertificateParams, CertifiedIssuer, ExtendedKeyUsagePurpose, IsCa, KeyPair,
     KeyUsagePurpose, PKCS_ED25519,
@@ -193,8 +202,70 @@ fn pem(label: &str, der: &[u8]) -> String {
     )
 }
 
+fn live_registry(root: &Path) -> LiveContinuityRegistry {
+    let recorder = RuntimeRecorder::new(16);
+    std::fs::create_dir_all(root).unwrap();
+    let reasoning = bootstrap_reasoning_services(recorder.clone()).unwrap();
+    let ingress = CanonicalIngress::new(8, recorder.clone(), BTreeMap::new());
+    ingress.restore(IngressSnapshot {
+        accepted_through: 17,
+        completed: BTreeMap::new(),
+    });
+    let executors =
+        build_production_operation_executors_with_recorder(root, recorder.clone()).unwrap();
+    let permit = SigningKey::from_bytes(&[31; 32]).verifying_key();
+    let factories = REQUIRED_OPERATIONAL_ADAPTERS
+        .into_iter()
+        .map(|kind| {
+            let authority = if matches!(
+                kind,
+                adl_runtime_kernel::AdapterKind::Provider
+                    | adl_runtime_kernel::AdapterKind::CloudBridge
+            ) {
+                AuthorityMode::Governed
+            } else {
+                AuthorityMode::Internal
+            };
+            let adapter = Arc::new(
+                OperationalAdapter::with_permit_keys(
+                    kind,
+                    AdapterPolicy {
+                        capacity: 8,
+                        max_in_flight: 2,
+                        shutdown_grace_millis: 100,
+                        max_attempts: 1,
+                        idempotency_entries: 16,
+                        authority,
+                    },
+                    executors[&kind].clone(),
+                    BTreeMap::from([("permit".to_owned(), permit)]),
+                )
+                .unwrap(),
+            );
+            (
+                kind.service_name().to_owned(),
+                OperationalFactory::new(adapter, Vec::new()),
+            )
+        })
+        .collect();
+    LiveContinuityRegistry::from_production_handles(
+        ingress,
+        recorder,
+        reasoning,
+        root.to_path_buf(),
+        LiveOperationContinuity::from_factories(factories).unwrap(),
+        5,
+    )
+    .unwrap()
+}
+
 async fn actual_production_capability_init(root: &Path) {
     let authority = tls_ca();
+    let server = tls_leaf(
+        &authority,
+        "kernel-control",
+        ExtendedKeyUsagePurpose::ServerAuth,
+    );
     let guardian = tls_leaf(
         &authority,
         "guardian-logical",
@@ -204,19 +275,37 @@ async fn actual_production_capability_init(root: &Path) {
     std::fs::create_dir_all(&tls_root).unwrap();
     let guardian_cert = tls_root.join("guardian.pem");
     let guardian_key = tls_root.join("guardian.key");
-    let roots = tls_root.join("roots.pem");
+    let server_cert = tls_root.join("server.pem");
+    let server_key = tls_root.join("server.key");
+    let server_roots = tls_root.join("server-roots.pem");
+    let guardian_roots = tls_root.join("guardian-roots.pem");
     std::fs::write(
         &guardian_cert,
         pem("CERTIFICATE", guardian.certificate.as_ref()),
     )
     .unwrap();
     std::fs::write(&guardian_key, pem("PRIVATE KEY", &guardian.private_key)).unwrap();
-    std::fs::write(&roots, pem("CERTIFICATE", authority.der().as_ref())).unwrap();
+    std::fs::write(
+        &server_cert,
+        pem("CERTIFICATE", server.certificate.as_ref()),
+    )
+    .unwrap();
+    std::fs::write(&server_key, pem("PRIVATE KEY", &server.private_key)).unwrap();
+    std::fs::write(&server_roots, pem("CERTIFICATE", authority.der().as_ref())).unwrap();
+    std::fs::write(
+        &guardian_roots,
+        pem("CERTIFICATE", authority.der().as_ref()),
+    )
+    .unwrap();
+
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let address = listener.local_addr().unwrap();
 
     let mut init: RuntimeInitConfig =
         toml::from_str(include_str!("../../infra/runtime-v3/runtime-init.toml")).unwrap();
     init.state_root = root.to_path_buf();
     let mut continuity = config(root);
+    continuity.address = address.to_string();
     for directory in [
         &continuity.guardian_state_dir,
         &continuity.state_dir,
@@ -226,15 +315,236 @@ async fn actual_production_capability_init(root: &Path) {
     }
     continuity.tls.guardian_certificate_chain_path = guardian_cert;
     continuity.tls.guardian_private_key_path = guardian_key;
-    continuity.tls.guardian_trust_roots_path = roots;
+    continuity.tls.guardian_trust_roots_path = guardian_roots;
     continuity.tls.guardian_spki_sha256 = guardian.spki_sha256;
+    continuity.tls.server_certificate_chain_path = server_cert.clone();
+    continuity.tls.server_private_key_path = server_key.clone();
+    continuity.tls.server_trust_roots_path = server_roots.clone();
+    continuity.tls.server_spki_sha256 = server.spki_sha256;
     continuity.tls.successor = None;
-    init.continuity_control = Some(continuity);
+    init.continuity_control = Some(continuity.clone());
+
+    let source_root = root.join("private-exports");
+    let catalog_authority =
+        CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
+    let catalog_key = catalog_authority.verifying_key();
+    let decision_signer = SigningKey::from_bytes(&[29; 32]);
+    let source = Arc::new(
+        adl_runtime_kernel::SourceContinuityEffectPort::open(
+            source_root.clone(),
+            live_registry(&root.join("operations")),
+            catalog_authority,
+            continuity.bounds.clone(),
+            continuity.channel_epoch,
+        )
+        .unwrap(),
+    );
+    let target = Arc::new(
+        TargetContinuityCoordinator::open(
+            continuity.clone(),
+            BTreeMap::from([(("continuity-key".to_owned(), 1), catalog_key)]),
+            BTreeMap::from([(
+                ("migration-decision-key".to_owned(), 1),
+                decision_signer.verifying_key(),
+            )]),
+        )
+        .unwrap(),
+    );
+    let service = Arc::new(ContinuityControlService::new(
+        continuity.clone(),
+        DurableContinuityJournal::open(&continuity).unwrap(),
+        source,
+        target,
+    ));
+    let server_identity = load_identity(&TlsIdentityPaths {
+        certificate_chain_path: server_cert,
+        private_key_path: server_key,
+    })
+    .await
+    .unwrap();
+    let server_tls = build_mutual_tls_server_config(
+        server_identity,
+        load_trust_roots(&server_roots).await.unwrap(),
+        PRIVATE_ALPN,
+    )
+    .unwrap();
+    let shutdown = tokio_util::sync::CancellationToken::new();
+    let listener_shutdown = shutdown.clone();
+    let listener_task = tokio::spawn(async move {
+        serve_private_continuity_listener(listener, server_tls, service, listener_shutdown)
+            .await
+            .unwrap();
+    });
+
     let runtime = ProductionPolisRuntime::from_runtime_init(&init)
         .await
         .unwrap();
-    let _transfer = runtime.transfer_210();
-    let _migration = runtime.migration_204();
+    let cancellation = tokio_util::sync::CancellationToken::new();
+    let deadline = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64
+        + 30_000;
+    let (_, checkpoint) = runtime
+        .source_checkpoint_210(
+            "production-source-checkpoint",
+            1,
+            None,
+            17,
+            "aa".repeat(32),
+            "bb".repeat(32),
+            5_000,
+            deadline,
+            &cancellation,
+        )
+        .await
+        .unwrap();
+    let catalog: SignedBundleCatalog = serde_json::from_slice(
+        &std::fs::read(source_root.join("generation-1/catalog.json")).unwrap(),
+    )
+    .unwrap();
+    let stage = runtime
+        .transfer_210()
+        .create_target_stage(
+            "production-stage",
+            "stage-production".into(),
+            continuity.channel_epoch,
+            catalog.clone(),
+            deadline,
+            &cancellation,
+        )
+        .await
+        .unwrap();
+    for entry in &catalog.entries {
+        let bytes = runtime
+            .transfer_210()
+            .read_signed_range(
+                &format!("production-read-{}", entry.ordinal),
+                checkpoint.clone(),
+                entry.ordinal,
+                0,
+                entry.bytes,
+                deadline,
+                &cancellation,
+            )
+            .await
+            .unwrap();
+        runtime
+            .transfer_210()
+            .write_target_chunk(
+                &format!("production-write-{}", entry.ordinal),
+                stage.clone(),
+                entry.ordinal,
+                0,
+                0,
+                None,
+                &bytes,
+                deadline,
+                &cancellation,
+            )
+            .await
+            .unwrap();
+    }
+    let verified = runtime
+        .transfer_210()
+        .verify_target(
+            "production-verify",
+            stage.clone(),
+            1,
+            None,
+            17,
+            "aa".repeat(32),
+            "bb".repeat(32),
+            catalog
+                .entries
+                .iter()
+                .map(|entry| (entry.service.clone(), entry.schema.clone()))
+                .collect(),
+            deadline,
+            &cancellation,
+        )
+        .await
+        .unwrap();
+    let stage_json: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(continuity.staging_dir.join("stage-production/stage.json")).unwrap(),
+    )
+    .unwrap();
+    let cleanup: TargetCleanupPermit =
+        serde_json::from_value(stage_json["cleanup"].clone()).unwrap();
+    drop(runtime);
+
+    let mut decision = MigrationDecisionCertificate {
+        decision_id: "production-decision".into(),
+        stage_id: stage.id().into(),
+        root_generation: stage.root_generation(),
+        catalog_sha256: stage.catalog_digest().into(),
+        cleanup_permit_sha256: cleanup.digest().unwrap(),
+        possession_sha256: verified.possession().digest().into(),
+        trust_domain: continuity.trust_domain.clone(),
+        polis: continuity.polis.clone(),
+        target_node: continuity.target_node.clone(),
+        channel_epoch: continuity.channel_epoch,
+        route_cut_sha256: "01".repeat(32),
+        membership_cut_sha256: "02".repeat(32),
+        certificate_cut_sha256: "03".repeat(32),
+        boot_cut_sha256: "04".repeat(32),
+        lineage_sha256: "05".repeat(32),
+        authority_key_id: "migration-decision-key".into(),
+        authority_key_generation: 1,
+        signature: String::new(),
+    };
+    decision.signature = hex::encode(
+        decision_signer
+            .sign(&decision.unsigned_bytes().unwrap())
+            .to_bytes(),
+    );
+    let journal_path = continuity.guardian_state_dir.join("journal.json");
+    let journal_bytes = std::fs::read(&journal_path).unwrap();
+    let mut corrupt: serde_json::Value = serde_json::from_slice(&journal_bytes).unwrap();
+    corrupt["cleanup_permits"][stage.id()]["channel_epoch"] =
+        serde_json::json!(continuity.channel_epoch + 1);
+    std::fs::write(&journal_path, serde_jcs::to_vec(&corrupt).unwrap()).unwrap();
+    assert!(ProductionPolisRuntime::from_runtime_init(&init)
+        .await
+        .is_err());
+    std::fs::write(&journal_path, &journal_bytes).unwrap();
+    let mut conflict: serde_json::Value = serde_json::from_slice(&journal_bytes).unwrap();
+    conflict["cleanup_permits"]["stage-alias"] = conflict["cleanup_permits"][stage.id()].clone();
+    std::fs::write(&journal_path, serde_jcs::to_vec(&conflict).unwrap()).unwrap();
+    assert!(ProductionPolisRuntime::from_runtime_init(&init)
+        .await
+        .is_err());
+    std::fs::write(&journal_path, &journal_bytes).unwrap();
+
+    let restarted = ProductionPolisRuntime::from_runtime_init(&init)
+        .await
+        .unwrap();
+    let mut rejected_decision = decision.clone();
+    rejected_decision.signature = "00".repeat(64);
+    assert!(restarted
+        .activate_target_204(
+            "production-activate-rejected",
+            verified.clone(),
+            rejected_decision,
+            deadline,
+            &cancellation,
+        )
+        .await
+        .is_err());
+    restarted
+        .activate_target_204(
+            "production-activate",
+            verified,
+            decision,
+            deadline,
+            &cancellation,
+        )
+        .await
+        .unwrap();
+    assert!(continuity.state_dir.join("active-target.json").is_file());
+    drop(restarted);
+    shutdown.cancel();
+    listener_task.await.unwrap();
 }
 
 fn private_key(bytes: &[u8]) -> PrivateKeyDer<'static> {

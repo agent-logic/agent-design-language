@@ -170,7 +170,7 @@ impl PolisRuntimeContinuityCapability {
     /// views; neither view exposes the generic control protocol.
     async fn from_runtime_init(init: &RuntimeInitConfig) -> Result<Self, ContinuityControlError> {
         let client = Arc::new(KernelContinuityClient::from_runtime_init(init).await?);
-        let cleanup_permits = Arc::new(std::sync::Mutex::new(BTreeMap::new()));
+        let cleanup_permits = Arc::new(std::sync::Mutex::new(client.cleanup_permits()?));
         Ok(Self {
             transfer_210: TransferContinuityPort {
                 client: Arc::clone(&client),
