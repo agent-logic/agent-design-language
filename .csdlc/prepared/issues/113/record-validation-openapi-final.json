@@ -1,0 +1,17 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 28,
+  "expected_digest": "11b31575fcc4239512886feb4f14f18fb6a0e72c8c6ae163b7d1ce538629a0b6",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Record exact OpenAPI contract proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--test", "openapi_contract"],
+      "purpose": "Prove versioned roster and asynchronous restart contracts match production routes.",
+      "outcome": "passed",
+      "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: openapi_contract passed 6/6."
+    }
+  }
+}

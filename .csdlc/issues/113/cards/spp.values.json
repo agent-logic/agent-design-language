@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
     "slug": "wp18c03-live-polis-roster-presence",
     "version": "v0.92",
-    "generation": 23
+    "generation": 35
   },
   "status": "ready",
   "content": {
@@ -67,7 +67,7 @@
             "AC-8",
             "AC-9"
           ],
-          "status": "in_progress"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -75,7 +75,7 @@
           "acceptance_ids": [
             "AC-10"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
