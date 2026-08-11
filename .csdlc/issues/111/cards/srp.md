@@ -12,19 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/ingress.rs
-adl-runtime-kernel/src/operations.rs
-adl-runtime-kernel/tests/conversation_sessions.rs
-adl-runtime-kernel/tests/observatory.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-docs/api/runtime-v3/v1/observatory.openapi.json
-demos/html-observatory/app.js
-demos/html-observatory/index.html
-demos/html-observatory/styles.css
-demos/html-observatory/tests/conversation_sessions.test.mjs
-.csdlc/issues/111
+
 
 ## Prompts
 
@@ -44,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Durable cross-restart conversation history remains owned by downstream issue #114.
-- Broader multi-agent room and routing semantics remain owned by downstream issues #115 and #116.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:a101b23ec21a674e3cb3d7165061d8c83b0aa142:b45d622e263c4cf33ef0ffe68fbb78b707cbe11de791c1ad53508a60c06233af")
+Revision: None
 
-Reviewer: Some("subagent:019fef4f-e98a-7a13-a0dd-e401692cee98")
+Reviewer: None
 
-Result: pass
+Result: pre_review

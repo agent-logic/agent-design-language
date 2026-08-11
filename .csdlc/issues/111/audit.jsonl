@@ -59,3 +59,4 @@
 {"sequence":59,"generation":54,"actor":"codex:wp18c01-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":60,"generation":55,"actor":"subagent:019fef4f-e98a-7a13-a0dd-e401692cee98","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":61,"generation":56,"actor":"codex:wp18c01-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":62,"generation":57,"actor":"codex:wp18c01-fresh-session-review","reason":"Recover stale review and publication truth after integrating the updated stacked base; require a fresh independently assigned exact-head review before merge.","operation":"recover_review"}
