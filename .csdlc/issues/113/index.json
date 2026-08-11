@@ -5,10 +5,36 @@
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "implemented",
   "generation": 35,
-  "digest": "e0568fa6f4868898f68b1fb7e7be72d499f9982834d77ce714d7449089f39fe4",
+  "digest": "09f6960d8b964ffe4a351138e4ff2ee4d7e402e18dbac59be8ee79ea1248230b",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+    "assigned_by": "codex:113-execution",
+    "revision": "git-blake3:8794bb1bbcbf500f3522d6b70d77cb5900785f37:66056eca183cafbfd012926c5e8acf6bee8dc2ba86997dbbfd393aee7ccaa58d",
+    "scope": [
+      "adl-runtime-kernel/build.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      ".csdlc/issues/113",
+      ".csdlc/prepared/issues/113"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +70,9 @@
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "a309f46d3bf853be050e968946d88850192567f452027128b6af0c5523f0d3d2",
-      "rendered_digest": "0f2ba31fec14441b4f6b9fdbd93f2d31fd1dc2f6d844b4e3caab76d487b207ca",
-      "ast_digest": "561ca13091bdccc8b6238cc66bbe339f2a8c55a24ba5d959b9f280752b2e976a"
+      "values_digest": "6021052cc3e07fd9c15dcafce0c24f2992a31637c0d920892213135401b44872",
+      "rendered_digest": "c22e301cd26284da5aa833d9876c7d56b9794281869f4e58f7a403198850584c",
+      "ast_digest": "e5c80a227723238c2bc5f493c19747277c2226bedde2d45a91f47d230493f1cc"
     },
     "sor": {
       "values_digest": "842f875e12e8e7a20ad9c41609138444de67d5d9d897682b53fc4eea122b02b2",
@@ -336,6 +362,13 @@
       "actor": "codex:113-roster-presence-execution",
       "reason": "Bounded #113 implementation and exact-head validation are complete; enter implemented phase for separately assigned final review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 38,
+      "generation": 35,
+      "actor": "codex:113-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

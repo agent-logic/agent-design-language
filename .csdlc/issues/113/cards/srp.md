@@ -12,7 +12,26 @@ Status: pre_phase
 
 ## Scope
 
-Issue #113 Runtime roster/detail projection, stable identity, policy filtering, presence/health/freshness/provenance, pagination and event semantics, production API/WSS/OpenAPI integration, HTML Observatory navigation and accessibility, large-Polis bounds, failure behavior, rollback, dependency ancestry, and no-widening constraints.
+adl-runtime-kernel/build.rs
+adl-runtime-kernel/src/agent_roster.rs
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/telemetry.rs
+adl-runtime-kernel/src/live_continuity.rs
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/tests/agent_roster.rs
+adl-runtime-kernel/tests/control.rs
+adl-runtime-kernel/tests/openapi_contract.rs
+docs/api/runtime-v3/v1/openapi.json
+docs/api/runtime-v3/v1/observatory.openapi.json
+demos/html-observatory/app.js
+demos/html-observatory/index.html
+demos/html-observatory/styles.css
+adl/tools/test_html_observatory.sh
+adl/tools/validate_v092_html_observatory_roster.mjs
+.csdlc/issues/113
+.csdlc/prepared/issues/113
 
 ## Prompts
 
