@@ -1364,11 +1364,24 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
                 }
                 _ => unreachable!("design-bearing card"),
             });
+    let ready_reapproval = record.phase == LifecyclePhase::Ready
+        && matches!(
+            record.design_review,
+            DesignReview::Pending | DesignReview::ChangesRequired { .. }
+        )
+        && record.branch.is_none()
+        && record.worktree.is_none()
+        && record.review_assignment.is_none()
+        && record.review.is_none()
+        && record.publication.is_none()
+        && record.readiness.is_none()
+        && record.migration.is_none()
+        && record.terminal.is_none();
     let lifecycle_reapproval = matches!(
         record.phase,
         LifecyclePhase::Bound | LifecyclePhase::Implemented
     );
-    if !initial_approval && !initialized_reapproval && !lifecycle_reapproval {
+    if !initial_approval && !initialized_reapproval && !ready_reapproval && !lifecycle_reapproval {
         return Err(V2Error::new(
             ErrorCode::InvalidTransition,
             "design approval requires pending initialized review, stale initialized approved inputs, or bound/implemented reapproval",
@@ -1399,7 +1412,7 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
         sequence: record.audit.len() as u64 + 1,
         generation: record.generation,
         actor: request.reviewer,
-        reason: if initialized_reapproval {
+        reason: if initialized_reapproval || ready_reapproval {
             "reapprove stale initialized issue design"
         } else if lifecycle_reapproval {
             "reapprove changed issue design"
@@ -1522,7 +1535,12 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         ));
     }
     let mut cards = store.load_cards(request.issue)?;
-    verify_cards(store, &record, &cards)?;
+    let prebind_contract_repair = is_prebind_contract_repair(&record, &request);
+    if prebind_contract_repair {
+        verify_prebind_contract_repair_inputs(store, &record, &cards)?;
+    } else {
+        verify_cards(store, &record, &cards)?;
+    }
     if matches!(
         record.phase,
         LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
@@ -1556,6 +1574,9 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         }
     } else {
         authorize_card_operation(record.phase, request.card, &request.operation)?;
+    }
+    if prebind_contract_repair {
+        validate_prebind_contract_repair(&cards, &request)?;
     }
     if matches!(
         request.operation,
@@ -1663,6 +1684,11 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    let binding_refresh = if prebind_contract_repair {
+        Some(refresh_prebind_design_bindings(store, &record, &mut cards)?)
+    } else {
+        None
+    };
     let audit_operation = match (&request.operation, replan_before) {
         (SemanticOperation::Replan { field, value }, Some(previous)) => serde_json::json!({
             "operation": "replan",
@@ -1685,6 +1711,21 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "previous_values": stp_deliverables_before
                     .expect("STP deliverable correction snapshot"),
                 "new_values": values,
+            })
+            .to_string()
+        }
+        _ if binding_refresh.is_some() => {
+            let refresh = binding_refresh.as_ref().expect("pre-bind refresh");
+            serde_json::json!({
+                "operation": request.operation,
+                "design_binding_refresh": {
+                    "design_ref": record.design_path,
+                    "old_design_digest": refresh.old_design_digest,
+                    "new_design_digest": refresh.new_design_digest,
+                    "diagram_ref": record.diagram_path,
+                    "old_diagram_digest": refresh.old_diagram_digest,
+                    "new_diagram_digest": refresh.new_diagram_digest,
+                }
             })
             .to_string()
         }
@@ -1715,8 +1756,11 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             record.advance(next, request.actor.clone(), request.reason.clone())?;
         }
     }
-    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    if prebind_contract_repair {
+        record.design_review = DesignReview::Pending;
+    }
+    let design_digest = authored_digest(store, &record.design_path)?;
+    let diagram_digest = authored_digest(store, &record.diagram_path)?;
     validate_cross_card(
         &cards,
         &record.design_path,
@@ -1739,6 +1783,164 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     record.digest = record_digest(&record)?;
     store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
     Ok(record)
+}
+
+#[derive(Debug)]
+struct DesignBindingRefresh {
+    old_design_digest: String,
+    new_design_digest: String,
+    old_diagram_digest: String,
+    new_diagram_digest: String,
+}
+
+fn is_prebind_contract_repair(record: &IssueRecord, request: &EditRequest) -> bool {
+    matches!(
+        record.phase,
+        LifecyclePhase::Initialized | LifecyclePhase::Ready
+    ) && matches!(
+        (request.card, &request.operation),
+        (
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria { .. }
+        ) | (CardKind::Spp, SemanticOperation::ReplacePlanSteps { .. })
+    )
+}
+
+fn validate_prebind_contract_repair(
+    cards: &BTreeMap<CardKind, CardValues>,
+    request: &EditRequest,
+) -> Result<()> {
+    let current_count = match &cards[&CardKind::Stp].content {
+        CardContent::Stp(values) => values.acceptance_criteria.len(),
+        _ => unreachable!("STP"),
+    };
+    match &request.operation {
+        SemanticOperation::ReplaceAcceptanceCriteria { values } => {
+            if values.len() != current_count
+                || values
+                    .iter()
+                    .enumerate()
+                    .any(|(index, value)| !value.starts_with(&format!("AC-{}:", index + 1)))
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "pre-bind acceptance repair must preserve the exact ordered AC-1 through AC-N denominator",
+                ));
+            }
+        }
+        SemanticOperation::ReplacePlanSteps { steps } => {
+            let expected: std::collections::BTreeSet<_> =
+                (1..=current_count).map(|n| format!("AC-{n}")).collect();
+            let actual: std::collections::BTreeSet<_> = steps
+                .iter()
+                .flat_map(|step| step.acceptance_ids.iter().cloned())
+                .collect();
+            if actual != expected || steps.iter().any(|step| step.status != StepStatus::Pending) {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "pre-bind plan repair must remain pending and cover exactly the STP denominator",
+                ));
+            }
+        }
+        _ => unreachable!("pre-bind contract repair operation"),
+    }
+    Ok(())
+}
+
+fn verify_prebind_contract_repair_inputs(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+) -> Result<()> {
+    if record.branch.is_some()
+        || record.worktree.is_some()
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.migration.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "pre-bind contract repair requires unbound topology and no later lifecycle evidence",
+        ));
+    }
+    verify_card_projections(store, record, cards)?;
+    let mut expected_audit = Vec::new();
+    for event in &record.audit {
+        serde_json::to_writer(&mut expected_audit, event)?;
+        expected_audit.push(b'\n');
+    }
+    if fs::read(store.issue_dir(record.issue).join("audit.jsonl"))? != expected_audit {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "audit projection drift",
+        ));
+    }
+    let (spp, vpp) = match (
+        &cards[&CardKind::Spp].content,
+        &cards[&CardKind::Vpp].content,
+    ) {
+        (CardContent::Spp(spp), CardContent::Vpp(vpp)) => (spp, vpp),
+        _ => unreachable!("design-bearing cards"),
+    };
+    if spp.design_ref != record.design_path
+        || vpp.design_ref != record.design_path
+        || spp.diagram_ref != record.diagram_path
+        || vpp.diagram_ref != record.diagram_path
+        || spp.design_digest != vpp.design_digest
+        || spp.diagram_digest != vpp.diagram_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "pre-bind repair design/diagram references disagree with issue authority",
+        ));
+    }
+    Ok(())
+}
+
+fn refresh_prebind_design_bindings(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &mut BTreeMap<CardKind, CardValues>,
+) -> Result<DesignBindingRefresh> {
+    let new_design_digest = authored_digest(store, &record.design_path)?;
+    let new_diagram_digest = authored_digest(store, &record.diagram_path)?;
+    let (old_design_digest, old_diagram_digest) = match &cards[&CardKind::Spp].content {
+        CardContent::Spp(values) => (values.design_digest.clone(), values.diagram_digest.clone()),
+        _ => unreachable!("SPP"),
+    };
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        match &mut cards.get_mut(&kind).expect("design-bearing card").content {
+            CardContent::Spp(values) => {
+                values.design_digest = new_design_digest.clone();
+                values.diagram_digest = new_diagram_digest.clone();
+            }
+            CardContent::Vpp(values) => {
+                values.design_digest = new_design_digest.clone();
+                values.diagram_digest = new_diagram_digest.clone();
+            }
+            _ => unreachable!("design-bearing card"),
+        }
+    }
+    Ok(DesignBindingRefresh {
+        old_design_digest,
+        new_design_digest,
+        old_diagram_digest,
+        new_diagram_digest,
+    })
+}
+
+fn authored_digest(store: &Store, relative: &str) -> Result<String> {
+    let bytes =
+        read_regular_authored_artifact(store.root(), Path::new(relative))?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("authored design artifact is absent: {relative}"),
+            )
+        })?;
+    Ok(digest(&bytes))
 }
 
 fn current_text_value(values: &CardValues, field: crate::cards::TextField) -> Result<String> {
@@ -2124,6 +2326,14 @@ fn authorize_card_operation(
     let allowed = matches!(
         (phase, card, operation),
         (
+            LifecyclePhase::Initialized | LifecyclePhase::Ready,
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria { .. },
+        ) | (
+            LifecyclePhase::Initialized | LifecyclePhase::Ready,
+            CardKind::Spp,
+            SemanticOperation::ReplacePlanSteps { .. },
+        ) | (
             LifecyclePhase::Initialized | LifecyclePhase::Ready,
             CardKind::Sip | CardKind::Stp | CardKind::Spp | CardKind::Vpp,
             SemanticOperation::SetField { .. }

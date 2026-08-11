@@ -1281,6 +1281,47 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     );
     assert!(!stale_edit.status.success());
 
+    let before_invalid_contract = fs::read(repo.join(".csdlc/issues/42/index.json"))
+        .expect("index before invalid pre-bind contract repair");
+    let invalid_contract_path = temp
+        .path()
+        .join("invalid-initialized-acceptance-repair.json");
+    let index = current_index();
+    fs::write(
+        &invalid_contract_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "card": "stp",
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": "reject changed pre-bind denominator",
+            "operation": {
+                "operation": "replace_acceptance_criteria",
+                "values": ["AC-1: denominator shrink must fail"]
+            }
+        }))
+        .expect("serialize invalid pre-bind contract repair"),
+    )
+    .expect("invalid pre-bind contract repair");
+    let invalid_contract = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &invalid_contract_path.to_string_lossy(),
+        ],
+    );
+    assert!(!invalid_contract.status.success());
+    assert_eq!(
+        fs::read(repo.join(".csdlc/issues/42/index.json"))
+            .expect("index after invalid pre-bind contract repair"),
+        before_invalid_contract
+    );
+
     let non_planning_path = temp.path().join("initialized-non-planning-edit.json");
     let index = current_index();
     fs::write(
@@ -1305,7 +1346,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         .expect("serialize non-planning edit"),
     )
     .expect("non-planning edit");
-    let non_planning = command(
+    must_succeed(command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-edit"),
         &[
@@ -1315,8 +1356,31 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             "--request",
             &non_planning_path.to_string_lossy(),
         ],
-    );
-    assert!(!non_planning.status.success());
+    ));
+    let approve_initialized_path = temp.path().join("approve-initialized-plan-repair.json");
+    let index = current_index();
+    fs::write(
+        &approve_initialized_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "reviewer": "independent-prebind-reviewer"
+        }))
+        .expect("serialize initialized reapproval"),
+    )
+    .expect("initialized reapproval");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "approve-design",
+            "--request",
+            &approve_initialized_path.to_string_lossy(),
+        ],
+    ));
 
     let ready_path = temp.path().join("advance-ready.json");
     let index = current_index();
@@ -1377,6 +1441,77 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             &ready_edit_path.to_string_lossy(),
         ],
     ));
+    fs::write(
+        repo.join("design/issue-42.md"),
+        "# Repaired approved design\n",
+    )
+    .expect("change design before ready AC repair");
+    fs::write(
+        repo.join("design/issue-42.mmd"),
+        "flowchart LR\n  Repair --> Reapprove\n",
+    )
+    .expect("change diagram before ready AC repair");
+    let ready_acceptance_path = temp.path().join("ready-acceptance-repair.json");
+    let index = current_index();
+    fs::write(
+        &ready_acceptance_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "card": "stp",
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": "repair exact ready acceptance contract",
+            "operation": {
+                "operation": "replace_acceptance_criteria",
+                "values": [
+                    "AC-1: issue creation is claim-free",
+                    "AC-2: binding is atomic and idempotent"
+                ]
+            }
+        }))
+        .expect("serialize ready acceptance repair"),
+    )
+    .expect("ready acceptance repair");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &ready_acceptance_path.to_string_lossy(),
+        ],
+    ));
+    let repaired = current_index();
+    assert_eq!(repaired["phase"], "ready");
+    assert_eq!(repaired["design_review"], "pending");
+    assert!(repaired["branch"].is_null());
+    assert!(repaired["worktree"].is_null());
+    let approve_ready_path = temp.path().join("approve-ready-contract-repair.json");
+    fs::write(
+        &approve_ready_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "expected_generation": repaired["generation"],
+            "expected_digest": repaired["digest"],
+            "reviewer": "independent-ready-reviewer"
+        }))
+        .expect("serialize ready reapproval"),
+    )
+    .expect("ready reapproval");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "approve-design",
+            "--request",
+            &approve_ready_path.to_string_lossy(),
+        ],
+    ));
     let ready_diagnosis = must_succeed(command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-doctor"),
@@ -1403,6 +1538,75 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     assert!(!duplicate_result.status.success());
     assert!(!repo.join("generated/duplicate-design.md").exists());
     assert!(!repo.join("generated/duplicate-diagram.mmd").exists());
+    fs::write(repo.join("design/issue-42.md"), "# Approved design\n")
+        .expect("restore committed design after duplicate-create rollback proof");
+    fs::write(
+        repo.join("design/issue-42.mmd"),
+        "flowchart LR\n  Create --> Bind\n",
+    )
+    .expect("restore committed diagram after duplicate-create rollback proof");
+    let restore_binding_path = temp.path().join("restore-ready-design-binding.json");
+    let index = current_index();
+    fs::write(
+        &restore_binding_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "card": "stp",
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": "restore reviewed committed design binding",
+            "operation": {
+                "operation": "replace_acceptance_criteria",
+                "values": [
+                    "AC-1: issue creation is claim-free",
+                    "AC-2: binding is atomic and idempotent"
+                ]
+            }
+        }))
+        .expect("serialize restored binding repair"),
+    )
+    .expect("restored binding repair");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &restore_binding_path.to_string_lossy(),
+        ],
+    ));
+    let restore_approval_path = temp.path().join("approve-restored-ready-binding.json");
+    let index = current_index();
+    fs::write(
+        &restore_approval_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "reviewer": "independent-restored-binding-reviewer"
+        }))
+        .expect("serialize restored binding approval"),
+    )
+    .expect("restored binding approval");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "approve-design",
+            "--request",
+            &restore_approval_path.to_string_lossy(),
+        ],
+    ));
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-doctor"),
+        &["--repo", &repo_text, "--issue", "42"],
+    ));
 
     let bind_request = temp.path().join("bind.json");
     let bind = serde_json::json!({
