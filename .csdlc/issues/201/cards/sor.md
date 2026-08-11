@@ -12,24 +12,28 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the deterministic committed authority protocol with strict current and joint quorum, opaque voter endorsements, canonical committed time, monotonic prepare/finalize log ordering, durable node-local fresh-CAS publication, exact retry, sealed continuity binding, and fail-closed legacy commands.
+Resolved the authority-protocol review by making actual OpenRaft apply indices and an already-approved route-cut authority the only commit authority, keeping signer custody opaque and runtime-local, binding every voter custody generation cryptographically, withholding publication until each node-local fresh CAS reconciles, and retaining one exact v6 proof that validates with or without the feature source object.
 
 ## Artifacts
 
 - adl-runtime/src/distributed/authority_protocol.rs
+- adl-runtime/src/distributed/authority_protocol_contract_tests.rs
+- adl-runtime/src/distributed/identity.rs
 - adl-runtime/src/distributed/polis_runtime.rs
+- adl-runtime/src/distributed/transport.rs
 - adl-runtime/tests/distributed_authority_protocol.rs
 - .csdlc/prepared/issues/201/produce-proof-receipt.rb
 - .csdlc/prepared/issues/201/validate-proof-receipt.rb
-- .csdlc/evidence/201/v5/execution-proof.json
+- .csdlc/evidence/201/v6/execution-proof.json
 
 ## Execution
 
-- Added canonical prepare, endorsement, finalization, artifact, membership, time, and strict current/joint quorum verification for committed authority operations.
-- Added symlink-safe locked durable result and retry publication through independent node-local checkpoint objects with restart reconciliation, rollback denial, and cache-first exact retry.
-- Bound distinct operations to strictly increasing committed prepare/finalize log indices while permitting multiple operations under one unchanged membership cut and rejecting reordered finalization.
-- Added sealed continuity-transfer binding validation and retired legacy direct authority commands at replicated apply.
-- Retained one final exact ordered 47-case proof packet with strict Clippy, merge-safe validation, protected-source drift denial, and clean diff hygiene.
+- Added production PrepareAuthority and FinalizeAuthority commands whose deterministic state-machine application derives prepare and finalize authority from the actual committed OpenRaft log IDs and state-held trusted authority cut.
+- Added opaque crate-private Guardian signer custody and a high-level committed-prepare endorsement operation; raw signing keys, direct legacy verification, test feature bypasses, and non-replicated sealed artifact access are unavailable in production.
+- Bound guardian identity, certificate generation, boot generation, membership index, intent digest, committed prepare index, and finalization time to each endorsement, with exclusive voter-certificate not_after and inclusive intent deadline boundaries.
+- Stored committed finalize as pending replicated truth and required per-node journal, retry, result, and external checkpoint reconciliation before returning PublishedAuthorityResult.
+- Moved the exact 47-case direct fault contract under cfg(test), retained a public command-shape fail-closed integration regression, and added a separate real three-voter OpenRaft production-path proof including wrong self-consistent authority-cut denial.
+- Changed receipt validation to choose source ancestry or exact protected-tree equivalence before requiring a source object, proving full-history and depth-one squash-like validation.
 
 ## Validation
 
@@ -42,13 +46,31 @@ Implemented the deterministic committed authority protocol with strict current a
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_authority_protocol",
+      "--lib",
+      "-E",
+      "test(/^distributed::authority_protocol::contract_tests::/)",
       "--no-tests=fail"
     ],
-    "purpose": "Prove the exact nonzero 47-case authority protocol denominator including sequential same-membership operations and reordered-finalize denial.",
+    "purpose": "Prove the exact selected 47-case contract denominator.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v5/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "purpose": "Prove one real three-voter production OpenRaft prepare, finalize, pending response, per-node reconcile/restart, and wrong-cut denial path.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
   },
   {
     "command": [
@@ -57,24 +79,50 @@ Implemented the deterministic committed authority protocol with strict current a
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_authority_protocol",
+      "--lib",
       "--",
       "-D",
       "warnings"
     ],
-    "purpose": "Prove warning-free bounded protocol, persistence, projection, and test surfaces.",
+    "purpose": "Prove the production library is warning-free without cfg(test)-only helpers.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v5/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_authority_protocol"
+    ],
+    "purpose": "Prove legacy caller-indexed authority command shapes fail closed through the public production type.",
+    "outcome": "passed",
+    "evidence_ref": "adl-runtime/tests/distributed_authority_protocol.rs"
   },
   {
     "command": [
       "ruby",
       ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
     ],
-    "purpose": "Prove exact source, command, stream, case-marker, immutable-introduction, protected-drift, and merge-topology bindings.",
+    "purpose": "Prove the immutable packet in full history and separately in a depth-one clone where the feature source object is absent.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v5/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      ".",
+      "issue",
+      "--issue",
+      "201"
+    ],
+    "purpose": "Prove typed card projections and lifecycle record consistency after the review repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/201/index.json"
   },
   {
     "command": [
@@ -83,9 +131,9 @@ Implemented the deterministic committed authority protocol with strict current a
       "--check",
       "origin/main...HEAD"
     ],
-    "purpose": "Prove final branch diff hygiene after consolidating superseded proof packets.",
+    "purpose": "Prove final branch diff hygiene.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v5/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
   }
 ]
 
