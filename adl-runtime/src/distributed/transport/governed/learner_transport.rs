@@ -1648,6 +1648,31 @@ impl LearnerAdmissionSnapshot {
     pub fn current(&self) -> Option<&VerifiedLearnerAdmission> {
         self.current.as_ref()
     }
+
+    pub(in crate::distributed::transport) fn membership_receipt_parts(
+        &self,
+    ) -> Result<Option<([u8; 32], u64, [u8; 32])>, LearnerTransportError> {
+        self.current
+            .as_ref()
+            .map(|current| {
+                let published_state_sha256 = <[u8; 32]>::from(Sha256::digest(
+                    serde_jcs::to_vec(&(
+                        "adl.governed-membership-authority.admission.v1",
+                        self.generation,
+                        current.operation_sha256,
+                        current.target_membership_sha256,
+                        current.committed_log_index,
+                    ))
+                    .map_err(|_| LearnerTransportError::Storage)?,
+                ));
+                Ok((
+                    current.operation_sha256,
+                    self.generation,
+                    published_state_sha256,
+                ))
+            })
+            .transpose()
+    }
 }
 
 /// Durable single-lineage admission publication and successor flip.
@@ -1808,6 +1833,31 @@ pub struct PendingExclusionSnapshot {
 impl PendingExclusionSnapshot {
     pub fn generation(&self) -> u64 {
         self.generation
+    }
+
+    pub(in crate::distributed::transport) fn membership_receipt_parts(
+        &self,
+    ) -> Result<Option<([u8; 32], u64, [u8; 32])>, LearnerTransportError> {
+        self.published
+            .as_ref()
+            .map(|published| {
+                let published_state_sha256 = <[u8; 32]>::from(Sha256::digest(
+                    serde_jcs::to_vec(&(
+                        "adl.governed-membership-authority.exclusion.v1",
+                        self.generation,
+                        published.operation_sha256,
+                        published.target_membership_sha256,
+                        published.committed_log_index,
+                    ))
+                    .map_err(|_| LearnerTransportError::Storage)?,
+                ));
+                Ok((
+                    published.operation_sha256,
+                    self.generation,
+                    published_state_sha256,
+                ))
+            })
+            .transpose()
     }
     pub(crate) fn transport_identity(&self) -> Option<(String, String)> {
         self.published.as_ref().map(|published| {

@@ -2122,6 +2122,37 @@ pub struct SecurePolisNetworkFactory {
     authority_transition: Arc<tokio::sync::Mutex<()>>,
 }
 
+/// Opaque durable observation returned by the governed membership authority.
+/// Callers may journal this projection, but only the factory can construct it.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct GovernedMembershipAuthorityReceipt {
+    operation_sha256: [u8; 32],
+    generation: u64,
+    published_state_sha256: [u8; 32],
+}
+
+impl GovernedMembershipAuthorityReceipt {
+    fn from_parts(parts: ([u8; 32], u64, [u8; 32])) -> Self {
+        Self {
+            operation_sha256: parts.0,
+            generation: parts.1,
+            published_state_sha256: parts.2,
+        }
+    }
+
+    pub fn operation_sha256(&self) -> [u8; 32] {
+        self.operation_sha256
+    }
+
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+
+    pub fn published_state_sha256(&self) -> [u8; 32] {
+        self.published_state_sha256
+    }
+}
+
 #[derive(Clone)]
 struct SecurePeerRoute {
     connection: Arc<RwLock<Arc<AuthenticatedConnection>>>,
@@ -2863,7 +2894,7 @@ impl SecurePolisNetworkFactory {
         &self,
         admission: &VerifiedLearnerAdmission,
         now_unix_seconds: i64,
-    ) -> Result<(), PolisRuntimeError> {
+    ) -> Result<GovernedMembershipAuthorityReceipt, PolisRuntimeError> {
         let _transition = self.authority_transition.lock().await;
         if !admission.is_live_at(now_unix_seconds)
             || !self.admission_matches_trusted_cut(admission).await
@@ -2872,10 +2903,32 @@ impl SecurePolisNetworkFactory {
         }
         let owner = self.transport_owner.lock().await;
         let mut lease = owner.write_lease().await;
-        self.learner_authority
+        let snapshot = self
+            .learner_authority
             .governed_activate_admission(&mut lease, admission)
-            .map(|_| ())
+            .map_err(map_learner_error)?;
+        snapshot
+            .membership_receipt_parts()
+            .map_err(map_learner_error)?
+            .filter(|parts| parts.0 == admission.operation_sha256())
+            .map(GovernedMembershipAuthorityReceipt::from_parts)
+            .ok_or(PolisRuntimeError::AuthorityDenied)
+    }
+
+    pub async fn observe_learner_admission_receipt(
+        &self,
+        operation_sha256: [u8; 32],
+    ) -> Result<Option<GovernedMembershipAuthorityReceipt>, PolisRuntimeError> {
+        self.learner_authority
+            .admission_snapshot()
+            .map_err(map_learner_error)?
+            .membership_receipt_parts()
             .map_err(map_learner_error)
+            .map(|parts| {
+                parts
+                    .filter(|parts| parts.0 == operation_sha256)
+                    .map(GovernedMembershipAuthorityReceipt::from_parts)
+            })
     }
 
     pub async fn stage_learner_successor(
@@ -2958,7 +3011,7 @@ impl SecurePolisNetworkFactory {
         expected_voter_cut_sha256: [u8; 32],
         expected_target_membership_sha256: [u8; 32],
         now_unix_seconds: i64,
-    ) -> Result<(), PolisRuntimeError> {
+    ) -> Result<GovernedMembershipAuthorityReceipt, PolisRuntimeError> {
         let _transition = self.authority_transition.lock().await;
         let routes = self
             .connections
@@ -3063,7 +3116,28 @@ impl SecurePolisNetworkFactory {
         drop(learners);
         drop(dispatch_guards);
         drop(learner_dispatch_guards);
-        Ok(())
+        snapshot
+            .membership_receipt_parts()
+            .map_err(map_learner_error)?
+            .filter(|parts| parts.0 == result.result_sha256())
+            .map(GovernedMembershipAuthorityReceipt::from_parts)
+            .ok_or(PolisRuntimeError::AuthorityDenied)
+    }
+
+    pub async fn observe_pending_exclusion_receipt(
+        &self,
+        operation_sha256: [u8; 32],
+    ) -> Result<Option<GovernedMembershipAuthorityReceipt>, PolisRuntimeError> {
+        self.learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?
+            .membership_receipt_parts()
+            .map_err(map_learner_error)
+            .map(|parts| {
+                parts
+                    .filter(|parts| parts.0 == operation_sha256)
+                    .map(GovernedMembershipAuthorityReceipt::from_parts)
+            })
     }
 
     async fn admission_matches_trusted_cut(&self, admission: &VerifiedLearnerAdmission) -> bool {

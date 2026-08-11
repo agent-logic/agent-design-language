@@ -221,6 +221,65 @@ impl AuthorityMembership {
             .enumerate()
             .map(|(index, id)| (id.clone(), index as u64 + 1))
             .collect::<BTreeMap<_, _>>();
+        Self::new_with_stable_ids(
+            trust_domain_id,
+            voter_set_generation,
+            committed_log_index,
+            configs,
+            voters.into_values().collect(),
+            raft_ids,
+        )
+    }
+
+    pub fn new_with_stable_ids(
+        trust_domain_id: Vec<u8>,
+        voter_set_generation: u64,
+        committed_log_index: u64,
+        configs: Vec<BTreeSet<Vec<u8>>>,
+        voters: Vec<VoterAuthority>,
+        raft_ids: BTreeMap<Vec<u8>, u64>,
+    ) -> AuthorityResult<Self> {
+        if !valid_identity(&trust_domain_id)
+            || voter_set_generation == 0
+            || committed_log_index == 0
+            || configs.is_empty()
+            || configs.len() > 2
+            || configs
+                .iter()
+                .any(|config| config.len() < 3 || config.len() > MAX_VOTERS)
+        {
+            return Err(AuthorityError::InvalidMembership);
+        }
+        let voters = voters
+            .into_iter()
+            .map(|voter| (voter.guardian_id.clone(), voter))
+            .collect::<BTreeMap<_, _>>();
+        let all_ids = configs.iter().flatten().cloned().collect::<BTreeSet<_>>();
+        if voters.len() != all_ids.len()
+            || voters.keys().any(|id| !all_ids.contains(id))
+            || raft_ids.len() != all_ids.len()
+            || raft_ids.keys().any(|id| !all_ids.contains(id))
+            || raft_ids.values().any(|id| *id == 0)
+            || raft_ids.values().copied().collect::<BTreeSet<_>>().len() != raft_ids.len()
+            || voters.values().any(|voter| {
+                !valid_identity(&voter.guardian_id)
+                    || voter.trust_domain_id != trust_domain_id
+                    || voter.certificate_generation == 0
+                    || voter.not_before_unix_seconds <= 0
+                    || voter.not_after_unix_seconds <= voter.not_before_unix_seconds
+                    || voter.control_public_key == [0; 32]
+                    || VerifyingKey::from_bytes(&voter.control_public_key).is_err()
+            })
+        {
+            return Err(AuthorityError::InvalidMembership);
+        }
+        let unique_keys = voters
+            .values()
+            .map(|voter| voter.control_public_key)
+            .collect::<BTreeSet<_>>();
+        if unique_keys.len() != voters.len() {
+            return Err(AuthorityError::DuplicateControlKey);
+        }
         let raft_configs = configs
             .iter()
             .map(|config| {

@@ -1090,10 +1090,29 @@ async fn real_four_node_learner_replication() {
     let factory =
         SecurePolisNetworkFactory::from_authority_cut(leader, cut.clone(), voter_authority.clone())
             .unwrap();
-    factory
+    let admission_receipt = factory
         .activate_learner_admission(&admission, now)
         .await
         .unwrap();
+    assert_eq!(
+        admission_receipt.operation_sha256(),
+        admission.operation_sha256()
+    );
+    assert_ne!(admission_receipt.published_state_sha256(), [0; 32]);
+    assert_eq!(
+        factory
+            .observe_learner_admission_receipt(admission.operation_sha256())
+            .await
+            .unwrap(),
+        Some(admission_receipt)
+    );
+    assert_eq!(
+        factory
+            .observe_learner_admission_receipt([0x51; 32])
+            .await
+            .unwrap(),
+        None
+    );
     let learner_authority = ProductionLearnerAuthority::open(
         &raft_root.path().join("learner-owned-authority"),
         Arc::new(MemoryCheckpoint::default()) as Arc<dyn ConsensusCheckpointAuthority>,
@@ -1297,10 +1316,29 @@ async fn excluded_node_recovery_learner() {
     .unwrap();
     let factory =
         SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), authority.clone()).unwrap();
-    factory
+    let exclusion_receipt = factory
         .activate_pending_exclusion(&removal, &old, cut_sha256, MEMBERSHIP, NOW)
         .await
         .unwrap();
+    assert_eq!(
+        exclusion_receipt.operation_sha256(),
+        removal.result_sha256()
+    );
+    assert_ne!(exclusion_receipt.published_state_sha256(), [0; 32]);
+    assert_eq!(
+        factory
+            .observe_pending_exclusion_receipt(removal.result_sha256())
+            .await
+            .unwrap(),
+        Some(exclusion_receipt)
+    );
+    assert_eq!(
+        factory
+            .observe_pending_exclusion_receipt([0x52; 32])
+            .await
+            .unwrap(),
+        None
+    );
     let snapshot = authority.exclusion_snapshot().unwrap();
     let mut recovered = old.clone();
     recovered.node_id = "node-3-recovered".to_owned();
@@ -2327,13 +2365,11 @@ async fn exclusion_waits_for_inflight_dispatch_fence() {
         "exclusion committed while a dispatch guard was retained"
     );
     drop(in_flight);
-    assert_eq!(
-        tokio::time::timeout(Duration::from_secs(2), task)
-            .await
-            .expect("exclusive fence made progress")
-            .expect("exclusion task joined"),
-        Ok(())
-    );
+    assert!(tokio::time::timeout(Duration::from_secs(2), task)
+        .await
+        .expect("exclusive fence made progress")
+        .expect("exclusion task joined")
+        .is_ok());
     assertion(
         "exclusion_waits_for_inflight_dispatch_fence",
         "exclusive_exclusion_waits_for_shared_dispatch",
