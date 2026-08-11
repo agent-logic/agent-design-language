@@ -4,54 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "implemented",
-  "generation": 38,
-  "digest": "5b9091654457c2cfcbe7226f468a01363a400d7717bd4a77df68126f7d0d3014",
+  "generation": 39,
+  "digest": "a2f4ad6fc3b1551aedf3c2c654d04969c8cd029e1135e135d0192555acb099ae",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
-  "review_assignment": {
-    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
-    "assigned_by": "codex:wp18c03-execution",
-    "revision": "git-blake3:b98cbe71c0ea66a5af6f93a8a61ba01d0464d7fe:fdc68d562472c4a7eaa8f73b4d850f3f83ad45047103a546a7a3028a0bb700ae",
-    "scope": [
-      ".csdlc/issues/113",
-      ".csdlc/prepared/issues/113/publish-reviewable.json",
-      ".csdlc/prepared/issues/113/recover-publication-intent-review.json"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
-    "scope": [
-      ".csdlc/issues/113",
-      ".csdlc/prepared/issues/113/publish-reviewable.json",
-      ".csdlc/prepared/issues/113/recover-publication-intent-review.json"
-    ],
-    "reviewed_revision": "git-blake3:b98cbe71c0ea66a5af6f93a8a61ba01d0464d7fe:fdc68d562472c4a7eaa8f73b4d850f3f83ad45047103a546a7a3028a0bb700ae",
-    "findings": [
-      {
-        "id": "publication-request-stale-generation",
-        "severity": "p1",
-        "summary": "The publication request retained the pre-recovery generation and digest and was therefore non-executable.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "publication-body-stale-review-digest",
-        "severity": "p2",
-        "summary": "The publication body described the superseded issue digest as current retained review truth.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -66,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "67c638156b92969ccb7f989dc300d03779cc09a4a7431ee7b3f277cfcfe02820",
+      "values_digest": "6483f7b85907f5bbdc491f6c2acc39b7db459d3eb328e88253243146419da48d",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "7abef136006816936dfe8040c59d3acb375fe948f5cc62b4d01b55f709e18f68",
+      "values_digest": "f8095624fe682ff7c2ac57a0d5aa8c08aac9b959f73e32ca1ef7cb4b4cbe614b",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "607aacc428d25f540a8a9d9bdc02bda88c229869aac6570761a46888d51c0b57",
+      "values_digest": "2a2f657ce8ad7d93368b3eacb2a828cd5af9f336da5db7848697bba831c18ab7",
       "rendered_digest": "0a87219293ddd139966aaf0c77f56b8c6164f3213687bfda3ad8f4c32d49f1ba",
       "ast_digest": "793ed408d19b5d2ae07fdab2f8c6d13ca845ed5618969a25cc8fbb7b1f1187dc"
     },
     "vpp": {
-      "values_digest": "8b25267cded2a2daab95428fdbb2cdbe7061937abd57770f6f850d845af2255b",
+      "values_digest": "c7ff899293979a86e9c5902f19777ed7adbbf26ab7e3b06974aa5ba51663eeba",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "43c61fbaef76b4ac3c05b5901078d5fed898cb676006bb781cf91fe29e7f79fa",
-      "rendered_digest": "d9c9495d2683d04e60cdc91573a5031542df3e681a10d7f3d067f97423dd070d",
-      "ast_digest": "dbe081f1a3b65012b81ba657d2984ccc78bc14dd935dd45f783af55d3119d514"
+      "values_digest": "cba6b9a1b157d13313aa6adf99ab11eee5f5bfd7203671ea19f39785bf550f5a",
+      "rendered_digest": "d9c26dbd6a36e87a985ca27ac27d1d24770837353ad4f5d42e457812b5fbc9d3",
+      "ast_digest": "9e00c4298c70492257694a1618a4adef8407c5b63b1f0e5b961f468d05b107fb"
     },
     "sor": {
-      "values_digest": "36ab14860a93a55118ecfe4d28b391e593964c0f9098bf02981cbf32d3304d06",
+      "values_digest": "4ca1082e676f35ce0a113a2e795c00e5fa9d93191fd2473b202eec3be0d1658b",
       "rendered_digest": "f086145212e650ef19daad9e12a0d5bf4311c506b7c7fdc27dd51df0225dec7f",
       "ast_digest": "79b63009a92df0d23387812ea80a79fa3a082ef6d04c60574e91ca691f1becde"
     }
@@ -427,6 +385,13 @@
       "actor": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 39,
+      "actor": "codex:wp18c03-execution",
+      "reason": "Resolve the publication-intent findings by excluding mutable operational request JSON from substantive review scope and regenerating its CAS fields only after current review truth exists.",
+      "operation": "recover_review"
     }
   ]
 }
