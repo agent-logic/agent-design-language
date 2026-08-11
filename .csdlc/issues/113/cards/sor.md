@@ -208,11 +208,11 @@ Closed the exact-ID detail, browser cursor authentication, and population-policy
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

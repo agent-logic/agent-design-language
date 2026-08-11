@@ -3,15 +3,15 @@
   "issue": 113,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
-  "phase": "reviewed",
-  "generation": 58,
-  "digest": "ce20237554443771df9ec75948f0d8f6281a56cc515561449e0315b2e2fe9b1e",
+  "phase": "published",
+  "generation": 61,
+  "digest": "97dc18e9fac2563b37fcd30aa885cd673a2633fb2b7c74114f3334f0faf17a95",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
   "review_assignment": {
     "reviewer": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
     "assigned_by": "codex:wp18c03-execution",
-    "revision": "git-blake3:ba4b4bb5cdae10be896a33b21e53a05cd5763138:bd12f7e87a54b35d0a9d2574c5f064d5068068b8937ee1490e7664abf7cd0ebb",
+    "revision": "git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2",
     "scope": [
       "adl-runtime-kernel/src/agent_roster.rs",
       "adl-runtime-kernel/src/control.rs",
@@ -39,16 +39,27 @@
       ".csdlc/evidence/113/roster-live-proof-2118c05b3",
       ".csdlc/issues/113"
     ],
-    "reviewed_revision": "git-blake3:ba4b4bb5cdae10be896a33b21e53a05cd5763138:bd12f7e87a54b35d0a9d2574c5f064d5068068b8937ee1490e7664abf7cd0ebb",
+    "reviewed_revision": "git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2",
     "findings": [],
     "residual_risks": [
-      "Distributed and non-local roster projection remains outside #113 under #142.",
-      "Long-running distributed and soak-style validation is out of band under #226 and is not a focused #113 gate."
+      "Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.",
+      "Long-running Runtime and soak-style validation routing is tracked separately by issue #226 and is non-gating for this focused product issue."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 113,
+    "pull_request": 222,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/222",
+    "base": "main",
+    "head": "codex/113-wp18c03-roster-presence-preparation",
+    "revision": "git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3f9e69b11925e972fbb055228ab6bba48e7fbfe290954592915e1ac84fd5682b",
+      "values_digest": "4528210db2a7557bb92dc2f88dbb21b53658fc168850c5045fbaa5aab9edfcfb",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "442bdc3f22d8d9e4ed7e517e791b8d6d164ea1539b9c4616e296ac2d1e286aa6",
+      "values_digest": "e3140695b442f95fdfcc97ba62c97b902e6e93975f46d801d6a436c4ded8a439",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "bf3a11315dd3525934dbeb3f19012113d78eb87f8c0138b9daa0fc8800bda3ed",
+      "values_digest": "9437006b66ac9727e2b770f3600bcac4dcfcc6bdc0bad3c9af390431b0d81265",
       "rendered_digest": "0a87219293ddd139966aaf0c77f56b8c6164f3213687bfda3ad8f4c32d49f1ba",
       "ast_digest": "793ed408d19b5d2ae07fdab2f8c6d13ca845ed5618969a25cc8fbb7b1f1187dc"
     },
     "vpp": {
-      "values_digest": "433bc1f6f71eee8d412d34ce57579fd412b4d50c2821a735324fb38700392af2",
+      "values_digest": "035ca0251dc8627ab0c0b7b0109e5204ad9ba22a9ba5bd4ee8fc4d669a670944",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "f69b99e03f9a9f85551ba95445c76d697fc097ad830134d82a5b02832e50a596",
-      "rendered_digest": "a244cfd89ffceff966a6193850a45b6d1f50760ff1c2df1e771b8e0b2b63ce71",
-      "ast_digest": "f99d3109a8bcec8ac6539eeb0a89a57ae6168591743f74ae430fc207ff658d20"
+      "values_digest": "1f94a7232e5d7a6a94680f69dc2d3b41acc2ab2d789f177052b9622a5e54dd45",
+      "rendered_digest": "d18431fb9d5bb66cc6085aca23309ba1d273ce053113fc5697c2c8ebe3c4f21a",
+      "ast_digest": "3e55b9e366dab983040ec633981ab2dbbc71b26dc242d0fd84247d738086f11e"
     },
     "sor": {
-      "values_digest": "96215ef5cd7f4dc5d7dbb9045775c07b99d31f935eebab00a0f1b61e44519fa1",
-      "rendered_digest": "4268a62342b4a0f53b3b79dc8dc829cbe59c59eed7dd4e4a5f22a3579d0bec5d",
-      "ast_digest": "fcc156ebfe5a1153f9d57149e4668d6b434c78c7f783b789cd14c8b72a97108a"
+      "values_digest": "54a3e6a04fef6f5edcd60eff675ff848dc10847773b677a5179b123960042e5b",
+      "rendered_digest": "c4fd9c6ac7b269ed709637bbe0186da3be9748b22820e3a56f22b1aa5e07c9e8",
+      "ast_digest": "79b79a71a92b831d0974563ac338a440cde61cf8bb956de5661c36caf660865e"
     }
   },
   "transitions": [
@@ -169,6 +180,27 @@
       "to": "reviewed",
       "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:wp18c03-execution",
+      "reason": "Atomically refresh review against the committed lifecycle head, then publish without creating another stale review commit."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp18c03-execution",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -647,6 +679,34 @@
       "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 69,
+      "generation": 59,
+      "actor": "codex:wp18c03-execution",
+      "reason": "Atomically refresh review against the committed lifecycle head, then publish without creating another stale review commit.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 70,
+      "generation": 59,
+      "actor": "codex:wp18c03-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 71,
+      "generation": 60,
+      "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 72,
+      "generation": 61,
+      "actor": "codex:wp18c03-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

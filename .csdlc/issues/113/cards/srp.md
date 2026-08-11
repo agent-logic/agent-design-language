@@ -42,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Distributed and non-local roster projection remains outside #113 under #142.
-- Long-running distributed and soak-style validation is out of band under #226 and is not a focused #113 gate.
+- Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.
+- Long-running Runtime and soak-style validation routing is tracked separately by issue #226 and is non-gating for this focused product issue.
 
 ## Review Result
 
-Revision: Some("git-blake3:ba4b4bb5cdae10be896a33b21e53a05cd5763138:bd12f7e87a54b35d0a9d2574c5f064d5068068b8937ee1490e7664abf7cd0ebb")
+Revision: Some("git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2")
 
 Reviewer: Some("subagent:019fefbc-1619-7a21-b27c-8edb01692b23")
 
