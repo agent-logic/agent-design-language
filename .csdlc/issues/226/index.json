@@ -6,10 +6,21 @@
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
   "generation": 28,
-  "digest": "771d95d06407ce6412e26e46243e056563667ec95b28f14c9942204181dc587d",
+  "digest": "670a66f6d7e9352eb5fca6252eb955020bcfa31dab938c930de4730008584a7e",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+    "assigned_by": "codex:226-focused-runtime-validation-routing",
+    "revision": "git-blake3:e83eeade07b3988d05676f49bae0b375c33b7d05:459e0102cc19bcbce5a088f7ccabff9eef4ca2afc635132ce99eacfa338d6125",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226/design.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "d14319f2e9feef57da8774bcd6d0aedc09615f924f77c5855c9e6235d813e0a7",
-      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
-      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
+      "values_digest": "f573f3d4cb44d5b19ea66491873104e9cb1e0c15d10e1df81999624470ded9b4",
+      "rendered_digest": "e1ac8934aa11c005160834b5b095a8e83756cf055f48e66c1acf96eebd811a26",
+      "ast_digest": "fccdd8a8cbae10354c4926365995351d865784831b3544d45c5bf0866fd223a3"
     },
     "sor": {
       "values_digest": "f6c0946ac1f3b71e0d82ac15ed33e875fea69f3d7af3e23cc97f9cc594dd426f",
@@ -463,6 +474,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Replace stalled publication-safe codex-exec reviewer with the FastWork reviewer who already approved the unchanged exact scope.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 28,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
