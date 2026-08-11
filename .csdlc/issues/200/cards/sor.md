@@ -114,11 +114,11 @@ Rebased issue #200 onto exact merged-main 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
