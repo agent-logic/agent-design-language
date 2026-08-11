@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
     "slug": "authenticated-governed-learner-transport",
     "version": "v0.92",
-    "generation": 28
+    "generation": 29
   },
   "status": "ready",
   "content": {
@@ -185,9 +185,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on missing/invalid token, voter-cut drift, learner role escalation, wrong identity/cert/boot/address, exclusion bypass, stale connection, replay conflict, checkpoint ambiguity, rollback, corruption, capacity, unsafe paths, zero-test proof, source drift, or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/202/design.md",
-      "design_digest": "a4f1eca81d053d4224f06c7892338ca22a3310220cd45c1c35bef5e7d4165f80",
+      "design_digest": "441b8e1f3609fa5fa83afc75957899ddd7ff03f7c2b7702e0f700d278912c9b8",
       "diagram_ref": ".csdlc/prepared/issues/202/diagram.mmd",
-      "diagram_digest": "56ffd80dc1e1299e1aa8106f6bd3cf7f3db4142871b58395c95668f5692fb453"
+      "diagram_digest": "b898eb002b14f73c299af373c1e2847cbf20ee7fd648229b6dbc8209d0c5deba"
     }
   }
 }
