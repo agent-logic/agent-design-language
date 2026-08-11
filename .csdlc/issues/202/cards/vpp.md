@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
 [
   {
     "lane": "authorized-learner-transport",
-    "proof_role": "Prove exact thirty-six-case denominator: real_four_node_learner_replication, current_voter_cut_unchanged, excluded_node_recovery_learner, learner_promotion_route_handoff, exact_retry_session, reconnect_boot_rotation, certificate_overlap_authorized, missing_201_token, public_caller_denied, wrong_operation_kind, wrong_domain, wrong_polis, wrong_learner, wrong_guardian, wrong_certificate_generation, expired_certificate, revoked_certificate, wrong_boot_generation, wrong_address, learner_vote_rpc_denied, learner_endorsement_denied, learner_finalize_denied, learner_mutation_denied, learner_renewal_denied, learner_shepherd_denied, learner_observatory_denied, exclusion_ordinary_session_denied, exclusion_wrong_recovery_token, stale_admission, replay_conflict, oversized_frame, truncated_frame, capacity_n_plus_one_no_partial, crash_before_exclusion_checkpoint, crash_after_exclusion_checkpoint, state_or_lock_symlink_rejected. real_four_node_learner_replication must prove the private typed AppendEntries/InstallSnapshot surface plus vote, generic-send, and unknown-kind rejection with zero bytes dispatched. current_voter_cut_unchanged must cover exact cut digest/index and stable-Raft-id mismatch. exact_retry_session must prove cache-first token/result retrieval before and after exclusion activation without reauthorization. certificate_overlap_authorized must prove old-during-overlap, private staging of an exact successor generation/token, crash recovery before and after the atomic successor-generation flip, observation of exactly one current generation, retained-old-session closure with zero later request dispatch, cross-generation mismatch, and old denial at the earliest of token deadline, authority overlap end, or successor flip. exclusion_ordinary_session_denied must cover retained open-session revalidation. excluded_node_recovery_learner must prove remaining nonexcluded voters authorize the new-identity recovery token before admission exists. capacity_n_plus_one_no_partial must cover serialized admission and exclusion bounds. The two crash cases must mechanically enumerate every admission and exclusion journal, state, result-cache, checkpoint CAS before/after, marker, published-view flip including the successor-generation flip, route install/remove, expiry, and restart-reconciliation window, including opened-handle MAX+1 and replacement races.",
+    "proof_role": "Prove the exact thirty-six private cases and fifteen behavior assertions, including mandatory shared authority ownership, real SecurePolisNetworkFactory-to-Quinn fourth-PolisRaft snapshot and append replication, exact TLS role/address/generation binding, automatic successor revocation, production exclusion endorsement, restart reconciliation, and denied non-replication RPCs.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -37,25 +37,26 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 1800,
-    "budget_tokens": 24000,
+    "budget_seconds": 1500,
+    "budget_tokens": 18000,
     "argv": [
       "cargo",
-      "nextest",
-      "run",
+      "test",
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
       "--lib",
       "learner_transport::tests",
-      "--no-tests=fail"
+      "--",
+      "--nocapture",
+      "--test-threads=1"
     ],
     "parallel_group": "202-runtime",
-    "defer_reason": "Fail closed on a missing crate-private source target, a count other than thirty-six, or any result not mapping exactly once to all thirty-six names and every required subassertion."
+    "defer_reason": "Fail closed on any count other than 36, any missing or duplicate case marker, any mismatch from the exact fifteen behavior assertions, or any failed real transport effect."
   },
   {
     "lane": "authorized-learner-transport-public-boundary",
-    "proof_role": "Prove the exact thirteen-case public integration boundary for canonical coarse Membership artifacts, deterministic enrollment/removal bytes, and rejection of invalid domain, polis, node, Guardian, stable Raft id, certificate generation, boot generation, voter-cut digest, membership digest, and deadline inputs without exposing the sealed adapter.",
+    "proof_role": "Prove the exact thirteen-case public canonical Membership artifact boundary without exposing the sealed adapter.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
@@ -64,32 +65,80 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 600,
+    "budget_seconds": 300,
     "budget_tokens": 1000,
     "argv": [
       "cargo",
-      "nextest",
-      "run",
+      "test",
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
       "--test",
       "distributed_authorized_learner_transport",
-      "--no-tests=fail"
+      "--",
+      "--test-threads=1"
     ],
     "parallel_group": "202-runtime",
-    "defer_reason": "Fail closed on a missing public integration target, a count other than thirteen, any failure, or any public path that can bypass the sealed adapter."
+    "defer_reason": "Fail closed on a count other than 13, any failure, or any public route around the sealed adapter."
   },
   {
-    "lane": "authorized-learner-transport-clippy",
-    "proof_role": "Reject warnings and API misuse across the exact learner/exclusion target.",
+    "lane": "authorized-learner-runtime-integration-compile",
+    "proof_role": "Compile the full distributed runtime transport integration target against the mandatory three-argument factory constructor and shared authority API.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_runtime_transport",
+      "--no-run"
+    ],
+    "parallel_group": "202-runtime",
+    "defer_reason": "Fail closed if any ordinary production factory construction omits the shared authority or the runtime integration target fails to compile."
+  },
+  {
+    "lane": "authorized-learner-transport-clippy-lib",
+    "proof_role": "Reject warnings and API misuse across the production library boundary.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 900,
-    "budget_tokens": 10000,
+    "budget_seconds": 600,
+    "budget_tokens": 7000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "202-lint",
+    "defer_reason": "Fail closed on any library warning or missing production source."
+  },
+  {
+    "lane": "authorized-learner-transport-clippy-public",
+    "proof_role": "Reject warnings and API misuse across the exact public learner artifact target.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 600,
+    "budget_tokens": 5000,
     "argv": [
       "cargo",
       "clippy",
@@ -102,42 +151,42 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       "-D",
       "warnings"
     ],
-    "parallel_group": "202-runtime",
-    "defer_reason": "Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source."
+    "parallel_group": "202-lint",
+    "defer_reason": "Fail closed on any public-target warning or missing target."
   },
   {
     "lane": "authorized-learner-transport-producer",
-    "proof_role": "Produce exact source, command, stream, timing, Git, protected-digest, and thirty-six-case name/result/marker evidence.",
+    "proof_role": "Produce exact source, current-main ancestry, protected digests, command streams, 36+13 results, fifteen behavior assertions, runtime compile, and strict Clippy evidence.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 1800,
+    "budget_seconds": 2400,
     "budget_tokens": 10000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/202/produce-proof-receipt.rb"
     ],
     "parallel_group": "202-proof",
-    "defer_reason": "Deferred until exact producer exists; fail closed on dirty protected source, wrong case count, missing/extra/duplicate name or subassertion, nonpassing result, or nonzero status."
+    "defer_reason": "Fail closed on dirty protected source, wrong ancestry, production allow-all bypass, omitted shared-authority constructor, missing real fourth-Raft behavior, wrong denominator, or any failed command."
   },
   {
     "lane": "authorized-learner-transport-receipt",
-    "proof_role": "Bind exact protected source, commands, thirty-six cases and required subassertions, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.",
+    "proof_role": "Validate immutable exact-source evidence and squash-merge-safe current-main ancestry for fresh independent review.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "medium",
     "budget_seconds": 300,
-    "budget_tokens": 5000,
+    "budget_tokens": 3000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
     ],
     "parallel_group": "202-proof",
-    "defer_reason": "Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, all thirty-six cases, and every required subassertion are bound."
+    "defer_reason": "Fail closed until the exact source, 36+13 results, fifteen assertions, both Clippy lanes, and immutable evidence introduction agree."
   }
 ]
 
@@ -153,8 +202,10 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --lib learner_transport::tests --no-tests=fail`
-- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport --no-tests=fail`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib learner_transport::tests -- --nocapture --test-threads=1`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport -- --test-threads=1`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport --no-run`
+- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport -- -D warnings`
 - `ruby .csdlc/prepared/issues/202/produce-proof-receipt.rb`
 - `ruby .csdlc/prepared/issues/202/validate-proof-receipt.rb`

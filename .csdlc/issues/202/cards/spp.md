@@ -16,46 +16,46 @@ Remain unbound while #200 is active or unmerged; after #200 merges, synchronize 
 
 ## Plan
 
-Revision 5
+Revision 6
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Do not bind or edit #202 product source while #200 is active or unmerged; after #200 merges, synchronize to its exact ancestry, revalidate all issue truth, and freeze the crate-private adapter that requires coarse #201 AuthorityOperationKind::Membership plus exact sealed canonical artifact domain, bytes, digest, and issue-local EnrollNonVoting or RemoveVoter discriminator.",
+    "action": "Synchronize to exact current merged main ancestry and preserve the crate-private adapter that requires coarse #201 AuthorityOperationKind::Membership plus exact sealed canonical artifact domain, bytes, digest, and issue-local EnrollNonVoting or RemoveVoter discriminator.",
     "acceptance_ids": [
       "AC-1"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Implement only the learner topology/session, shared pending-exclusion authority, and narrow existing transport/authority-protocol/PolisRuntime integration through the validated crate-private adapter, without exposing a public accessor, generic conversion, or new #201 enum variant.",
+    "action": "Integrate the learner topology/session and mandatory shared admission plus pending-exclusion authority into production endorsement, ordinary SecurePolisNetworkFactory construction, install, revalidation, successor flip, and restart reconstruction without an allow-all production bypass.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Prove the exact learner binding and RPC allowlist plus real fourth-node replication, denied authority, exclusion, governed recovery, reconnect, rotation, exact retry, crash, rollback, corruption, capacity, and path safety.",
+    "action": "Prove exact TLS direction, identity, address, certificate and boot generations, operation predecessor, voter cut, automatic old-session revocation, actual factory-to-Quinn fourth-PolisRaft append and snapshot replication, denied RPCs, exclusion, retry, crash recovery, capacity, and path safety through the exact 36+13 contract.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
-    "action": "Resolve fresh exact-head review, publish a ready PR closing #202, shepherd hosted CI, and wait for operator review and merge authorization.",
+    "action": "Obtain a different fresh exact-head review, resolve every actionable finding, then publish a ready PR closing #202 and shepherd hosted CI under operator merge authority.",
     "acceptance_ids": [
       "AC-8"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 

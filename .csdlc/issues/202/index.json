@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "8eadea1b86000c6768f148afb85ff68f5435e66020353632a700767d5f90ae7a",
+  "generation": 22,
+  "digest": "5d7d60a48049d23000dbf228dc53ea99af3ee9f68c8f08efe224c509f06c2353",
   "branch": "codex/202-authorized-learner-transport-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-202-authorized-learner-transport-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce3ad94f7d740e71c0ab295cb27206f5c0048584b635cef3a9bd09811794e20c",
+      "values_digest": "4cfbf6ebf381df7ad9d301bc2afa1d3e082d04d42e1f586c30180dffe5a6b416",
       "rendered_digest": "69a805a23892f34aeda5bc6c018c4b6d3425674b3472f433c95fa96c01aa8830",
       "ast_digest": "004791ead09b105cebf8ab0978301127312b0ae5a7c0c34cebf6291fa33a196d"
     },
     "stp": {
-      "values_digest": "32c21da387e23df76f221a175a3e5ed384aee43ef24b375bcac1b1c593fff1d9",
+      "values_digest": "25cd179bb6781046cb4d99d54f33eeb108ca62e0d40a519463f11ed5e878cd75",
       "rendered_digest": "2e0d25119d5140d31572bf29204efd86f9c8ce39fa5b2b346f49c6821881c0c2",
       "ast_digest": "a8e12db2b706c0ce51c8ea8fe5d2a3b29ae9407cfa39701453aee43b119b5c33"
     },
     "spp": {
-      "values_digest": "4d6f749251b8c1a54dd39d9717795eab8ea122fdfaebd9107b604ebb4eda2bab",
-      "rendered_digest": "b108a249834dbe2957b3f94a78db20a62b49de817b17f4b44fe219e68f31d9de",
-      "ast_digest": "0b4b26fc2f2b56e88cbc41ee4767d0dc9cc73f1efd1cb18882cd53a6deaca009"
+      "values_digest": "be3256c3b712eceecf18a330d3ecc91844f41ed40962a9928b837b02b55ab004",
+      "rendered_digest": "dacf8dfe23bdd664e0150a3bc8d7e90bc101701114f3aaa581276cc42dc086b8",
+      "ast_digest": "60158ba3f3c6710b076dbaf38ad8aac1bfb1484148e2f4ee32bf257c288c3f86"
     },
     "vpp": {
-      "values_digest": "cc700f8adae7df876b63a8d9bbb96b925bdbf3ad8a79fa7d5a6047b97479f161",
-      "rendered_digest": "be04733ddf6b418fb9274da3702b4f4d86707978f39c9d681643aa4c08f711de",
-      "ast_digest": "39f0ebd33a6748e791743e48a5270795e32071ce662d2471ac0eae7c92f44833"
+      "values_digest": "355f58c93869779083173e8fa763d5883d42fe673ccd8293c4dde70cd9086eec",
+      "rendered_digest": "c61871f38f7d981a53451ad21d945e866c741db02a59318e07b1e72c082d2fee",
+      "ast_digest": "3d2e6fc12cdda9e1385944ec471c1eab856d51e3981f4c8417ef2f84f48c45de"
     },
     "srp": {
-      "values_digest": "f96ab430e17003dbd08adf544beb83c8883173d53d88fbad42d9ae9581e050b9",
-      "rendered_digest": "4abdbaa3cb30a0ab67ea198531a9da2b317c81dcac84c72fea7416d4f7ee14e6",
-      "ast_digest": "f4d0e05fbd95fb7b53118d32adfb4109954c20c74314f5860dfef62e4b81b7e1"
+      "values_digest": "62c41163b72a88fc3abf14c4199144e17fd01fa8f68bafa67dd0cb0ca2e03fb6",
+      "rendered_digest": "436d9aaf15910c771409bcfccc665e95643de817f6dc5344a304657bae88e9f9",
+      "ast_digest": "e6a17a83d9eda1bbd8eb6cd8a3482d0c0ae88cccf59e51f77d347a9e15f502da"
     },
     "sor": {
-      "values_digest": "875a88613c0209b0a62526b4be1832a2159c0222111c0560c1bedf339d073678",
+      "values_digest": "9750294f8e5328aa39a894c64bc534951e167be1ee90f1f49e3563f058d5ae41",
       "rendered_digest": "d82696a131ec23e04dc9a4692f2169ec1793c0c83eb47d9640b786cfe52bef58",
       "ast_digest": "599f8a23685e00a7e8a2093c381f3020e84e4dada6dd85aabfa6777ed73ab1b7"
     }
@@ -196,6 +196,55 @@
       "actor": "codex:/root/advance_200_after_201",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:/root/resolve_208_final_review:review-resolution",
+      "reason": "Record the completed current-main synchronization, production learner authority integration, and exact behavior proof while leaving independent review and publication pending.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Synchronize to exact current merged main ancestry and preserve the crate-private adapter that requires coarse #201 AuthorityOperationKind::Membership plus exact sealed canonical artifact domain, bytes, digest, and issue-local EnrollNonVoting or RemoveVoter discriminator.\",\"acceptance_ids\":[\"AC-1\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Integrate the learner topology/session and mandatory shared admission plus pending-exclusion authority into production endorsement, ordinary SecurePolisNetworkFactory construction, install, revalidation, successor flip, and restart reconstruction without an allow-all production bypass.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Prove exact TLS direction, identity, address, certificate and boot generations, operation predecessor, voter cut, automatic old-session revocation, actual factory-to-Quinn fourth-PolisRaft append and snapshot replication, denied RPCs, exclusion, retry, crash recovery, capacity, and path safety through the exact 36+13 contract.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Obtain a different fresh exact-head review, resolve every actionable finding, then publish a ready PR closing #202 and shepherd hosted CI under operator merge authority.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:/root/resolve_208_final_review:review-resolution",
+      "reason": "Record completion of current-main synchronization and the sealed #201 adapter boundary.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:/root/resolve_208_final_review:review-resolution",
+      "reason": "Record completion of the mandatory production admission, exclusion, session, and successor integration.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:/root/resolve_208_final_review:review-resolution",
+      "reason": "Record completion of the exact behavior-bound 36+13 implementation proof surface.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:/root/resolve_208_final_review:review-resolution",
+      "reason": "Record that fresh independent exact-head review is the active remaining plan step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:/root/resolve_208_final_review:review-resolution",
+      "reason": "Align the retained validation plan with the production authority repair, fifteen behavior assertions, both strict Clippy boundaries, and current-main ancestry.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"authorized-learner-transport\",\"proof_role\":\"Prove the exact thirty-six private cases and fifteen behavior assertions, including mandatory shared authority ownership, real SecurePolisNetworkFactory-to-Quinn fourth-PolisRaft snapshot and append replication, exact TLS role/address/generation binding, automatic successor revocation, production exclusion endorsement, restart reconciliation, and denied non-replication RPCs.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1500,\"budget_tokens\":18000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"learner_transport::tests\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"parallel_group\":\"202-runtime\",\"defer_reason\":\"Fail closed on any count other than 36, any missing or duplicate case marker, any mismatch from the exact fifteen behavior assertions, or any failed real transport effect.\"},{\"lane\":\"authorized-learner-transport-public-boundary\",\"proof_role\":\"Prove the exact thirteen-case public canonical Membership artifact boundary without exposing the sealed adapter.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authorized_learner_transport\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"202-runtime\",\"defer_reason\":\"Fail closed on a count other than 13, any failure, or any public route around the sealed adapter.\"},{\"lane\":\"authorized-learner-runtime-integration-compile\",\"proof_role\":\"Compile the full distributed runtime transport integration target against the mandatory three-argument factory constructor and shared authority API.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-run\"],\"parallel_group\":\"202-runtime\",\"defer_reason\":\"Fail closed if any ordinary production factory construction omits the shared authority or the runtime integration target fails to compile.\"},{\"lane\":\"authorized-learner-transport-clippy-lib\",\"proof_role\":\"Reject warnings and API misuse across the production library boundary.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"202-lint\",\"defer_reason\":\"Fail closed on any library warning or missing production source.\"},{\"lane\":\"authorized-learner-transport-clippy-public\",\"proof_role\":\"Reject warnings and API misuse across the exact public learner artifact target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authorized_learner_transport\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"202-lint\",\"defer_reason\":\"Fail closed on any public-target warning or missing target.\"},{\"lane\":\"authorized-learner-transport-producer\",\"proof_role\":\"Produce exact source, current-main ancestry, protected digests, command streams, 36+13 results, fifteen behavior assertions, runtime compile, and strict Clippy evidence.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":2400,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\"],\"parallel_group\":\"202-proof\",\"defer_reason\":\"Fail closed on dirty protected source, wrong ancestry, production allow-all bypass, omitted shared-authority constructor, missing real fourth-Raft behavior, wrong denominator, or any failed command.\"},{\"lane\":\"authorized-learner-transport-receipt\",\"proof_role\":\"Validate immutable exact-source evidence and squash-merge-safe current-main ancestry for fresh independent review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\"],\"parallel_group\":\"202-proof\",\"defer_reason\":\"Fail closed until the exact source, 36+13 results, fifteen assertions, both Clippy lanes, and immutable evidence introduction agree.\"}]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:/root/resolve_208_final_review:review-resolution",
+      "reason": "Prepare the fresh exact-head review prompt for the resolved production authority and real transport findings without inventing a review result.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does every production SecurePolisNetworkFactory constructor require the shared ProductionLearnerAuthority, with no allow-all endorsement, ordinary-session, install, or revalidation bypass?\",\"Does ProductionLearnerAuthority reconstruct both admission and pending-exclusion durable state before exposure, and does production endorsement consult the same exclusion snapshot as ordinary session admission and every request revalidation?\",\"Does each learner session bind trust domain, polis, exact endpoint direction, stable voter and learner Raft/node/Guardian identities, certificate and boot generations, operation and predecessor digests, voter cut including authority generations, authorized address, role, deadline, sequence, message kind, and payload digest?\",\"Does successor staging require the exact predecessor and does the atomic flip fence dispatch, remove routes, and make every retained old EstablishedLearnerSession clone fail without manual close or cross-generation reuse?\",\"Does real_four_node_learner_replication exercise install_learner_route through SecurePolisNetworkFactory request dispatch and serve_authorized_learner_connection over Quinn into a real fourth PolisRaft for forced snapshot catch-up and later append replication, while vote, generic, and unknown messages reject and voters remain exactly 1,2,3?\",\"Are wrong learner boot, stale voter boot, wrong authorized address, and reversed connection direction rejected by live production effects rather than marker-only assertions?\",\"Do failed and committed admission plus exclusion checkpoint windows reconcile journal, state, checkpoint, and visible snapshots across restart without partial publication?\",\"Does the exact 36+13 retained producer bind all fifteen behavior assertions, both strict Clippy lanes, runtime integration compile, mandatory authority ownership, current-main ancestry 2afa820c, and immutable protected source?\",\"Are all changes bounded to #202 and free of unresolved P0-P3 findings, stale lifecycle truth, machine-local paths, dirty files, or non-current main ancestry?\"]}"
     }
   ]
 }

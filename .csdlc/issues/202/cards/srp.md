@@ -16,15 +16,15 @@ Exact learner/exclusion source and narrow existing transport/authority-protocol/
 
 ## Prompts
 
-- Does #202 truthfully treat EnrollNonVoting and RemoveVoter only as canonical issue-local discriminators within exact artifacts for coarse #201 AuthorityOperationKind::Membership operations, never as #201 enum variants or operation_kind field values?
-- Does only a crate-private #202 adapter call the sealed #201 artifact accessor and validate exact operation class, canonical domain, retained bytes, digest, and discriminator before decoding, with no public accessor or generic conversion?
-- Is #202 still unbound with no product edit while #200 is active or unmerged, and does the plan require exact merged #200 synchronization and revalidation before binding the three overlapping source paths?
-- Can any caller, config, address, certificate, stale state, or public constructor add a learner or exclusion?
-- Does learner admission leave the exact voter cut and quorum unchanged while allowing only AppendEntries and InstallSnapshot?
-- Do #201 eligibility and ordinary sessions consult one durable exclusion authority, including retained connections and retries?
-- Can recovery grant replication only without clearing exclusion or restoring voting/authority surfaces?
-- Do crash, reconnect, rotation, expiry, bounds, replay, rollback, and path faults remain fail closed?
-- Does exact proof bind all thirty-six cases over real Quinn/OpenRaft plus merge-safe immutable evidence?
+- Does every production SecurePolisNetworkFactory constructor require the shared ProductionLearnerAuthority, with no allow-all endorsement, ordinary-session, install, or revalidation bypass?
+- Does ProductionLearnerAuthority reconstruct both admission and pending-exclusion durable state before exposure, and does production endorsement consult the same exclusion snapshot as ordinary session admission and every request revalidation?
+- Does each learner session bind trust domain, polis, exact endpoint direction, stable voter and learner Raft/node/Guardian identities, certificate and boot generations, operation and predecessor digests, voter cut including authority generations, authorized address, role, deadline, sequence, message kind, and payload digest?
+- Does successor staging require the exact predecessor and does the atomic flip fence dispatch, remove routes, and make every retained old EstablishedLearnerSession clone fail without manual close or cross-generation reuse?
+- Does real_four_node_learner_replication exercise install_learner_route through SecurePolisNetworkFactory request dispatch and serve_authorized_learner_connection over Quinn into a real fourth PolisRaft for forced snapshot catch-up and later append replication, while vote, generic, and unknown messages reject and voters remain exactly 1,2,3?
+- Are wrong learner boot, stale voter boot, wrong authorized address, and reversed connection direction rejected by live production effects rather than marker-only assertions?
+- Do failed and committed admission plus exclusion checkpoint windows reconcile journal, state, checkpoint, and visible snapshots across restart without partial publication?
+- Does the exact 36+13 retained producer bind all fifteen behavior assertions, both strict Clippy lanes, runtime integration compile, mandatory authority ownership, current-main ancestry 2afa820c, and immutable protected source?
+- Are all changes bounded to #202 and free of unresolved P0-P3 findings, stale lifecycle truth, machine-local paths, dirty files, or non-current main ancestry?
 
 ## Findings
 
