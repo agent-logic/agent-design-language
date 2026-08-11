@@ -42,7 +42,18 @@ docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P1-rejected-advance-domain-capacity",
+    "severity": "p1",
+    "summary": "Fixed: excessive first advances validate against high-water zero before domain insertion, and repeated rejected domains cannot consume capacity.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:d05fe7f841f057888c763feaa3a41f9bfe2fa684:25521fe67893fdc5b9bc20d7a9a68103b87604219dfb8f4e6f0f70feae885f28",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -50,12 +61,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Exact Linux and macOS native receipt execution remains deferred until reviewed publication; merge remains blocked until retained packet validation and fresh post-native review pass.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:d05fe7f841f057888c763feaa3a41f9bfe2fa684:25521fe67893fdc5b9bc20d7a9a68103b87604219dfb8f4e6f0f70feae885f28")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_209_exact_head")
 
-Result: pre_review
+Result: pass

@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "4961956d9dbf627d42ae6315514ff27e9b7902a35b05686819c7614d41694213",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "02c3fcef63837ce040c9d6ebc2c5496ec873a24ea4a8357ee163f25a554b0200",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
   "review_assignment": {
@@ -35,7 +35,48 @@
       "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_209_exact_head",
+    "scope": [
+      ".csdlc/issues/209",
+      ".csdlc/prepared/issues/209/design.md",
+      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      ".csdlc/evidence/209",
+      ".github/workflows/wp14-production-acip-repair.yml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:d05fe7f841f057888c763feaa3a41f9bfe2fa684:25521fe67893fdc5b9bc20d7a9a68103b87604219dfb8f4e6f0f70feae885f28",
+    "findings": [
+      {
+        "id": "P1-rejected-advance-domain-capacity",
+        "severity": "p1",
+        "summary": "Fixed: excessive first advances validate against high-water zero before domain insertion, and repeated rejected domains cannot consume capacity.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d05fe7f841f057888c763feaa3a41f9bfe2fa684:25521fe67893fdc5b9bc20d7a9a68103b87604219dfb8f4e6f0f70feae885f28",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Exact Linux and macOS native receipt execution remains deferred until reviewed publication; merge remains blocked until retained packet validation and fresh post-native review pass."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -50,32 +91,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bfd6c356bb6a14bde88b07bb849ffa927102cc6408410b81ae6b33046ee007b3",
+      "values_digest": "55cd1819965f7dc6f4d9e04975729bbf69077eeed432d563d59f81ef6a1b9fb2",
       "rendered_digest": "6ab414912da8b10f191cb7cd3eea7784652fb74e3078d62b0910875fce567253",
       "ast_digest": "0aee2bd815b8c6341e8aff6dc3c6cd119dfed378531100564f71b0578fe18f04"
     },
     "stp": {
-      "values_digest": "28328b23bb8cf79288ab5ad52fe02509a159f97552459b733e3e6271058722ee",
+      "values_digest": "40cb67f822a4cb33270441f483dc83b900ef28685f0165476c2d68b223f60581",
       "rendered_digest": "e951f98cdd50987c53b2a86e54705081136876bf7a37371391f5666fc8d69277",
       "ast_digest": "1f3ffc61430a58bd141d682d1f46cee9cb750b4fc7484d1ffdd17668fbba9981"
     },
     "spp": {
-      "values_digest": "2bb3a6f4d2461d08b22814a4c908fba794b9dc92b913c127f2c5fddc38037bce",
+      "values_digest": "8fa18133d5d0aee72f6bb0651460501e1595e64baf546852e783000276363ba9",
       "rendered_digest": "65126dd5e86756e71a625179916063764d0b78027945b2653a76eadcbf7b6db5",
       "ast_digest": "93b187170b51ddd77987e72bd0f5ecc30bfc162be27c358e6944fdf455a710bf"
     },
     "vpp": {
-      "values_digest": "2dd46ba67612008a9581c728cf3f1e7f3bef5f0c40b767d3107d87112da76b1f",
+      "values_digest": "c2dae7321cb3ebdacfea67fdb50d471f487ef7f2eceac36218df01d45ab4aaf8",
       "rendered_digest": "1cf5d053c982cfa3dbb1576026b45f79b6f645d14b06baacfb117fd30e39a4f2",
       "ast_digest": "6b62309165c156b026db20c16e4fa82877f6fa6aa554733e8e5144b69c2f3642"
     },
     "srp": {
-      "values_digest": "b225f69376db1a607e2f476419f491ff3a12ae402ef503e6e323e61244078be2",
-      "rendered_digest": "1e8b5f79492b79970bd98b3b635bf7ada599df2fbe7df62fa065d654bc34a09a",
-      "ast_digest": "6040297f8d86acf531ae6f21bf53674b6f6e7eac4bb5d489066c32bccd30a4e6"
+      "values_digest": "2a4471763721daf42b3accf061b0d0298208c4540d5e30b35ce8b01be0652c92",
+      "rendered_digest": "33d28814783010cb472f1e54080f57e2f369f80ea3d2106af42c7a469637be90",
+      "ast_digest": "392faf57a627c1d97a3ba77148a9e01fa0a926d748cb3a7cee1afd3998cfb68e"
     },
     "sor": {
-      "values_digest": "27fc12c24a7734209bd1353b5d1172123bdbdf147e8511109dd80f7f2c8db690",
+      "values_digest": "4f04e80bbb79e89bc1be842aeed762754820bbc984c892bb9e7fcf618b01af2a",
       "rendered_digest": "01dfd84c2356fb4981930fdc5dd834398164b19b41114d5ef8522e3e9ec0d914",
       "ast_digest": "c6aa74eca2db2a9865378cdc11f8817baa23e69693b3d7607e2fa8c09f071ebf"
     }
@@ -101,6 +142,13 @@
       "to": "implemented",
       "actor": "codex:209-acip-authority-repair",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/sprint4_5857",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -250,6 +298,13 @@
       "actor": "/root/sprint4_5857",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "/root/sprint4_5857",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
