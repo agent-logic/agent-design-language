@@ -1,0 +1,55 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 117
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Prove the complete HTML Observatory remains usable, truthful, secure, accessible, bounded, and recoverable against a real Runtime under realistic scale and failure.
+
+## Required Outcome
+
+At one exact revision, roster, one-to-one chat, durable history, governed rooms, and the attention inbox work together against the real Runtime with responsive accessible interaction, bounded resources, explicit degradation, deterministic recovery, adversarial security proof, and retained end-to-end evidence.
+
+## Scope
+
+- adl-runtime-kernel/tests/observatory.rs
+- adl-runtime-kernel/tests/openapi_contract.rs
+- docs/api/runtime-v3/v1/observatory.openapi.json
+- demos/html-observatory/app.js
+- demos/html-observatory/index.html
+- demos/html-observatory/styles.css
+- adl/tools/test_html_observatory.sh
+- adl/tools/validate_v092_html_observatory_hardening.mjs
+- docs/milestones/v0.92/features/OBSERVATORY_PRODUCT_HARDENING.md
+- docs/milestones/v0.92/runbooks/OBSERVATORY_OPERATOR_RUNBOOK.md
+- .csdlc/issues/117
+- .csdlc/prepared/issues/117
+- .csdlc/evidence/117
+
+## Authority
+
+- Issue and code authority are agent-logic/agent-design-language#117
+- Runtime and handed-off #83 and #111-#116 contracts remain sole authority for identity, policy, roster, conversation, history, rooms, routing, attention, replay, and intervention
+- The browser may project truth and submit governed commands but never grants authority from UI state, caches, storage, stale events, deep links, selections, or optimistic state
+- Issue #83, umbrella #110, dependencies #111-#116, deferred #122, and every other issue remain read-only during preparation
+- Issue #122 is explicitly deferred public exposure and is not a #117 gate, input, deliverable, or execution surface
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Do not bind or implement until #83 and #111, #112, #113, #114, #115, and #116 are terminal, merged where applicable, ancestral to the execution base, and ownership-compatible
+- Use only C-SDLC v2 owner binaries and typed card editors in the dedicated FastWork context
+- Do not publish, push, open a PR, merge, close, or mutate #83, #110, #111-#116, #117, or #122 during preparation
+- No AWS, cloud provisioning, public exposure, Unity implementation, fixture substitution, new Runtime authority, governance widening, or private cognition exposure
+- Every browser viewport, focus transition, announcement, retry, timeout, event buffer, reconnect queue, response size, DOM list, retained artifact, and resource budget must be explicit and proven

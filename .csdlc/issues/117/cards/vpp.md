@@ -1,0 +1,174 @@
+# Validation Planning Prompt
+
+Template: 1.0.0
+
+Issue: 117
+
+Repository: agent-logic/agent-design-language
+
+Card: vpp
+
+Status: ready
+
+## Summary
+
+Execute the smallest proving validation DAG.
+
+## Lane Inputs
+
+Design: .csdlc/prepared/issues/117/design.md
+
+Diagram: .csdlc/prepared/issues/117/diagram.mmd
+
+## Selected Lanes
+
+[
+  {
+    "lane": "integrated-observatory-runtime",
+    "proof_role": "Use the existing exact nonzero Observatory integration target as the preparation-time denominator for real-Runtime roster, chat, history, rooms, inbox, refusal, degradation, reconnect, restart, and duplicate-action behavior added during #117 execution.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 2400,
+    "budget_tokens": 16000,
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "observatory",
+      "--no-tests=fail"
+    ],
+    "parallel_group": "runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "observatory-openapi-contract",
+    "proof_role": "Use the existing exact OpenAPI contract target for every integrated Observatory route, stream, refusal, degradation, version, recovery, and bounded-input schema after #117 integration.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-4",
+      "AC-6",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "openapi_contract",
+      "--no-tests=fail"
+    ],
+    "parallel_group": "runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "html-observatory-contract",
+    "proof_role": "Run the checked-in executable HTML Observatory contract as the preparation-time browser denominator; execution must add the deferred issue-owned live Runtime browser hardening validator through typed VPP replanning for accessibility, responsive screenshots, adversarial security, resilience, scale, resources, redaction, artifacts, and clean-console proof.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 3000,
+    "argv": [
+      "adl/tools/test_html_observatory.sh"
+    ],
+    "parallel_group": "browser-contract",
+    "defer_reason": null
+  },
+  {
+    "lane": "observatory-focused-clippy",
+    "proof_role": "Reject warning-bearing Rust across the bounded Runtime kernel library and production binary after integrated Observatory hardening.",
+    "acceptance_ids": [
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 900,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "--bin",
+      "adl-runtime-kernel",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "static",
+    "defer_reason": null
+  },
+  {
+    "lane": "issue-diff-hygiene",
+    "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+    "acceptance_ids": [
+      "AC-9",
+      "AC-10"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "parallel_group": "static",
+    "defer_reason": null
+  }
+]
+
+## Parallelization
+
+Only declared parallel groups may overlap.
+
+## Budgets
+
+Seconds: 7200
+
+Tokens: 50000
+
+## Commands
+
+- `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test observatory --no-tests=fail`
+- `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract --no-tests=fail`
+- `adl/tools/test_html_observatory.sh`
+- `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib --bin adl-runtime-kernel -- -D warnings`
+- `git diff --check`
+
+## Failure Semantics
+
+Fail closed on unresolved terminal gates, ownership overlap, fixture substitution, browser-owned authority, unsafe rendering, origin or token ambiguity, replay or confused-deputy exposure, inaccessible core workflow, hidden degradation, duplicate action, stale-state confusion, unbounded resources, forbidden data, missing real-browser evidence, failed exact proof, or unresolved exact-head findings.
+
+## Handoff
+
+Retain typed evidence before convergence.

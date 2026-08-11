@@ -1,0 +1,12 @@
+{
+  "issue": 117,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "d3d3bb721703be6cd0cb473fc055ba9efb6ea85a5ba6ffdef9086bbc674d2262",
+  "actor": "codex:117-observatory-hardening-preparation",
+  "reason": "All six issue-specific design-time cards and existing nonzero preparation PVF lanes are declared; advance to ready while leaving #83 and #111-#116 terminal-gated binding and all product execution unperformed, with #122 excluded.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

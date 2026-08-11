@@ -1,0 +1,17 @@
+flowchart LR
+    O["Authenticated Layer 8 operator"] --> B["Accessible responsive HTML Observatory"]
+    B --> C["Canonical Runtime commands and streams"]
+    C --> R["Real Runtime authority"]
+    R --> P["Policy-filtered roster and presence"]
+    R --> T["Conversation, history, rooms, and attention truth"]
+    P --> B
+    T --> B
+    B --> S["Safe rendering, redaction, and bounded browser state"]
+    S --> A["Keyboard, focus, semantics, contrast, and screen-reader proof"]
+    S --> X["Desktop, mobile, scale, latency, memory, and DOM proof"]
+    N["Loss, restart, backpressure, offline, or version mismatch"] --> D["Explicit degraded or stale state"]
+    D --> Q["Fresh authoritative snapshot and cursor recovery"]
+    Q --> B
+    G["#83 and #111-#116 terminal gates"] --> E["Exact integrated candidate revision"]
+    E --> V["Real Runtime browser, adversarial, resilience, and review proof"]
+    Z["#122 deferred public exposure"] -. "not a gate" .-> E

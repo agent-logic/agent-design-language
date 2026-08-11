@@ -1,0 +1,24 @@
+{
+  "issue": 117,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "9631064ab47b36c83e31d3c099dd859ed9649aa10604729f97934b6e9e2c5c1b",
+  "actor": "codex:117-observatory-hardening-preparation",
+  "reason": "Express affected-area ownership as exact safe repository paths for typed readiness validation while preserving terminal dependency handoff boundaries.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_hardening.mjs",
+      "docs/milestones/v0.92/features/OBSERVATORY_PRODUCT_HARDENING.md",
+      "docs/milestones/v0.92/runbooks/OBSERVATORY_OPERATOR_RUNBOOK.md"
+    ]
+  }
+}

@@ -1,0 +1,137 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 117
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Revalidate the exact terminal and ancestry state of #83 and #111-#116 while excluding #122; freeze integrated browser authority, security, accessibility, resilience, scale, budget, recovery, and evidence contracts; integrate only after shared-path handoff; run all exact real-Runtime and browser lanes at one revision; resolve independent exact-head reviews; then hand off truthfully without publication unless separately authorized.
+
+## Plan
+
+Revision 2
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Re-read #117 and reconciled #110; require #83 and #111-#116 terminal merged ancestry and no active shared-path owner; explicitly ignore #122 as a gate; bind only after every actual gate passes.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-9",
+      "AC-10"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Freeze exact integrated authority, safe-rendering, privacy, accessibility, responsive, resilience, recovery, resource-budget, screenshot, artifact, and rollback contracts from handed-off dependency truth.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Apply only bounded product hardening and shared-path integration needed for the complete real-Runtime Observatory, preserving dependency authority and explicit degraded states.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Run exact Runtime, OpenAPI, real-browser, accessibility, responsive, adversarial, resilience, scale, resource, screenshot, console, runbook, strict-Clippy, diff, and rollback proof at one candidate revision.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8",
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Resolve independent exact-head product, architecture, and security review and produce a truthful execution handoff without publication unless separately authorized.",
+    "acceptance_ids": [
+      "AC-10"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Browser state, caches, storage, stale events, deep links, selections, display text, and optimistic UI never create Runtime, identity, recipient, replay, or intervention authority
+- All dynamic content and retained evidence are public-safe, redacted, bounded, and incapable of becoming executable browser authority
+- Every core workflow remains keyboard and assistive-technology operable and preserves complete policy, identity, delivery, refusal, unread, and recovery truth at desktop and mobile sizes
+- Recovery starts from fresh authoritative Runtime snapshots and cursors and never duplicates actions or fabricates continuity
+- Every list, transcript, queue, stream, buffer, retry, timeout, response, DOM surface, screenshot, trace, log, and artifact has an explicit enforced bound
+- All product and review claims bind to one exact real-Runtime candidate revision; #122 remains outside the issue gate and scope
+
+## Risks
+
+- Terminal dependency contracts may change shared paths, identifiers, schemas, or browser behavior and require typed replanning before binding
+- Integrated optimistic state can conceal stale authority, duplicate actions, or contradictory delivery and unread truth across reconnect or restart
+- Untrusted Runtime or provider-derived content can become an XSS, URL, origin, log, screenshot, or artifact disclosure vector
+- Accessibility can regress when dynamic lists, route changes, overlays, announcements, responsive layouts, and virtualized content interact
+- Large rosters, transcripts, rooms, inboxes, reconnect queues, event streams, screenshots, traces, or diagnostics can exhaust Runtime or browser resources
+- Fixture-backed or screenshot-only evidence can look product-complete while bypassing real Runtime transport, recovery, authority, and failure behavior
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/prepared/issues/117/design.md
+
+Digest: 2bcafef988517a62f7042cbdc6807e74f3096bb4dd4ea7c7e3b2cbb66d9e1f03
+
+## Diagram
+
+.csdlc/prepared/issues/117/diagram.mmd
+
+Digest: eceb56e4f821cb457c596c576b10e80cf39704988bff3755d3f56699de818da7
+
+## Stop Conditions
+
+- #83 or any of #111-#116 is open, unmerged where applicable, nonterminal, non-ancestral, or lacks a compatible concrete handoff
+- An active issue owns or modifies an intended shared Runtime, OpenAPI, Observatory, test, or runbook path
+- Integrated behavior requires new Runtime or governance authority beyond the terminal dependency contracts
+- Real Runtime browser proof cannot replace fixture substitution for every claimed integrated capability
+- Security, accessibility, recovery, stale-state, duplicate-action, resource-bound, redaction, or rollback behavior cannot be made explicit and deterministic
+- Any exact PVF lane is missing, selects zero tests, fails, times out, leaks forbidden data, or leaves an unresolved exact-head finding
+
+## Handoff
+
+Proceed only after doctor readiness.

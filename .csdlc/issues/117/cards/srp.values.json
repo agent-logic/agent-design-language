@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 117,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07] Harden and prove the Observatory as a production Polis interface",
+    "slug": "wp18c07-observatory-product-hardening-proof",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #117 integrated real-Runtime HTML Observatory behavior across roster, one-to-one chat, durable history, governed rooms, attention inbox, authority preservation, safe rendering, origin and token security, privacy and redaction, accessibility, responsive desktop/mobile behavior, reconnect and restart resilience, backpressure and offline degradation, version mismatch, resource bounds, operator runbook, artifact truth, rollback, terminal dependency ancestry, affected-area ownership, and exact-head product, architecture, and security review.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can browser state, stale events, caches, storage, URLs, display data, optimistic updates, or reconnect buffers create identity, recipient, replay, intervention, or policy authority?",
+        "Can any Runtime, provider-derived, operator, message, room, history, inbox, refusal, diagnostic, or URL content become executable markup or leak through logs, screenshots, traces, or retained artifacts?",
+        "Are roster, chat, history, rooms, inbox, refusal, recovery, and error workflows fully keyboard operable and meaningfully exposed to assistive technology across desktop, mobile, zoom, reflow, contrast, and reduced motion?",
+        "Can loss, gaps, restart, backpressure, offline mode, version mismatch, reload, or partial degradation fabricate continuity, hide stale state, or duplicate commands, messages, receipts, unread counts, or acknowledgements?",
+        "Are every latency, memory, DOM, list, transcript, queue, stream, buffer, retry, timeout, response, screenshot, trace, and artifact bound explicit, enforced, and proven under realistic scale?",
+        "Does every claim bind to one exact real-Runtime revision after #83 and #111-#116 terminal handoff, with #122 excluded and no unresolved product, architecture, or security finding?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

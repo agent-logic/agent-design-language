@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 117,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b3b4de2760e1e2a6e93ec53a97a58c5544109005b4a13a8ea307dd8b0d737239",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "0710ba695749117ab39c5f248695ad0996032980ddf3ea1f84d66bf52226f13a",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/117/design.md",
+  "diagram_path": ".csdlc/prepared/issues/117/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:117-bounded-design-review",
+      "revision": "2bcafef988517a62f7042cbdc6807e74f3096bb4dd4ea7c7e3b2cbb66d9e1f03"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "146a3dd627b5e1845da61507df9b898fe616cf7aab4fd5904f2d0c34ad397daa",
+      "rendered_digest": "30c371fec59a519068d84427aa0846339f4ee27a829611388880c8b4eba1b15c",
+      "ast_digest": "0406ae40dc42723fd50f210837fb7981a0f8eba4c08e40cdfd41b86bd4cc58d8"
+    },
+    "stp": {
+      "values_digest": "2461e9d9d94f0e000fec57c5408b67b597e396887797509bff521558e42872b8",
+      "rendered_digest": "97b42e5231351012c1690d169e3db22d72d1aa445dd4876fc78b96cee608c850",
+      "ast_digest": "63f730cb7dbc74c93dcf553736d2a8625aedfacec990f395e6014d096e8e6486"
+    },
+    "spp": {
+      "values_digest": "f438e44587c0df5086e71d94a8590ab52f23fce6158b86821c5efb8a19389d8c",
+      "rendered_digest": "d084b33f4468af81a667eb65042ca79a114d1c9a0f524198bc9cc8a9c85c392f",
+      "ast_digest": "f67762b3e621fdddb957c50ff10fca32a285ba168220acea475749e99432c223"
+    },
+    "vpp": {
+      "values_digest": "68f23c3ae54161116f05d85b1a403578da881e64c473653aa21f2690687ad067",
+      "rendered_digest": "979c6bd9f58946118bb14601ba99a2c69b44e6fcc2d62dd0a57796cb577c2f02",
+      "ast_digest": "1dc115b333dce347836d99975ab09c414b6a2f6565962bc3f52126d4791001aa"
+    },
+    "srp": {
+      "values_digest": "32e6def4f3ff3de16ed37e654487c7e08fd38ca285661f0eec56479b0d0259cb",
+      "rendered_digest": "9f5369e840623720a5fdfb86b5207f5b26bb8c211b76134a4f03d17d84c3ae83",
+      "ast_digest": "81b44778a2f731175364edc6f88ce7a1ad0be4f1994312bbcccaff45c77bbc17"
+    },
+    "sor": {
+      "values_digest": "cd0cf3b53a37b524eb90ac5c57b891f30aaebe2aa59fb02c10f7496bc10e2fd4",
+      "rendered_digest": "29f5e1443a60c14e60c554ee251d6eec5f38f11cc01d7c8a48ea390bcdd5d3f1",
+      "ast_digest": "19201c88d34caaf188bba5451de06326b3f3de535841c23a9dc4d3fc443e6220"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:117-observatory-hardening-preparation",
+      "reason": "All six issue-specific design-time cards and existing nonzero preparation PVF lanes are declared; advance to ready while leaving #83 and #111-#116 terminal-gated binding and all product execution unperformed, with #122 excluded."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:117-observatory-hardening-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:117-observatory-hardening-preparation",
+      "reason": "Express affected-area ownership as exact safe repository paths for typed readiness validation while preserving terminal dependency handoff boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_html_observatory_hardening.mjs\",\"docs/milestones/v0.92/features/OBSERVATORY_PRODUCT_HARDENING.md\",\"docs/milestones/v0.92/runbooks/OBSERVATORY_OPERATOR_RUNBOOK.md\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:117-observatory-hardening-preparation",
+      "reason": "Select existing exact nonzero preparation-time PVF targets while requiring typed execution replanning for the deferred issue-owned real-browser hardening and artifact validators after #83 and #111-#116 hand off.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"integrated-observatory-runtime\",\"proof_role\":\"Use the existing exact nonzero Observatory integration target as the preparation-time denominator for real-Runtime roster, chat, history, rooms, inbox, refusal, degradation, reconnect, restart, and duplicate-action behavior added during #117 execution.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":2400,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"observatory-openapi-contract\",\"proof_role\":\"Use the existing exact OpenAPI contract target for every integrated Observatory route, stream, refusal, degradation, version, recovery, and bounded-input schema after #117 integration.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"html-observatory-contract\",\"proof_role\":\"Run the checked-in executable HTML Observatory contract as the preparation-time browser denominator; execution must add the deferred issue-owned live Runtime browser hardening validator through typed VPP replanning for accessibility, responsive screenshots, adversarial security, resilience, scale, resources, redaction, artifacts, and clean-console proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"adl/tools/test_html_observatory.sh\"],\"parallel_group\":\"browser-contract\",\"defer_reason\":null},{\"lane\":\"observatory-focused-clippy\",\"proof_role\":\"Reject warning-bearing Rust across the bounded Runtime kernel library and production binary after integrated Observatory hardening.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"static\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:117-observatory-hardening-preparation",
+      "reason": "All six issue-specific design-time cards and existing nonzero preparation PVF lanes are declared; advance to ready while leaving #83 and #111-#116 terminal-gated binding and all product execution unperformed, with #122 excluded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
