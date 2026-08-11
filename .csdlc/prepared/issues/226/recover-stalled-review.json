@@ -1,7 +1,7 @@
 {
   "issue": 226,
-  "expected_generation": 15,
-  "expected_digest": "e1dd1334459c63275ac092ae9ad21aebe987bb0930c13112c329102ed9ca2947",
+  "expected_generation": 16,
+  "expected_digest": "54fb1b29b4bb3fb325d3075268bf5732af164c7056a363f51ee096915cbfb9de",
   "actor": "codex:226-focused-runtime-validation-routing",
-  "reason": "Replace the reviewer whose Codex sandbox could enter but not read the FastWork repository; preserve the exact product head and review its immutable archived scope."
+  "reason": "Independent exact-head review required direct execution proof and complete single-path lane exclusion; recover review truth for the bounded test remediation."
 }

@@ -30,6 +30,30 @@ assert_not_has() {
   fi
 }
 
+assert_observatory_tooling_run() {
+  local report="$1"
+  local expected_path="$2"
+  python3 - <<'PY' "$report" "$expected_path"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+expected_path = sys.argv[2]
+selected = sorted(
+    lane_id
+    for lane_id, lane in plan["lanes"].items()
+    if lane["status"] == "selected"
+)
+lane = plan["lanes"]["html_observatory_tooling_syntax"]
+assert plan["run_status"] == "passed", json.dumps(plan, indent=2, sort_keys=True)
+assert selected == ["html_observatory_tooling_syntax"], selected
+assert lane["matched_paths"] == [expected_path], lane["matched_paths"]
+assert lane["resource_class"] == "tiny", lane["resource_class"]
+assert lane["run_status"] == "passed", lane
+assert lane["run_reason"] == "command_succeeded", lane
+PY
+}
+
 docs_only="$TMP/docs-only.txt"
 printf 'M\tdocs/milestones/v0.91.6/README.md\n' >"$docs_only"
 bash "$SCRIPT" --changed-files "$docs_only" >"$TMP/docs.out"
@@ -157,6 +181,12 @@ bash "$SCRIPT" --changed-files "$shell_tool" >"$TMP/html-observatory-shell-tool.
 assert_has "$TMP/html-observatory-shell-tool.out" "html_observatory_tooling_syntax status=selected"
 assert_has "$TMP/html-observatory-shell-tool.out" "bash -n adl/tools/test_html_observatory.sh"
 assert_not_has "$TMP/html-observatory-shell-tool.out" "html_observatory_v0917_runtime_surface status=selected"
+bash "$SCRIPT" --changed-files "$shell_tool" --run \
+  --report-out "$TMP/html-observatory-shell-tool-run.json" \
+  >"$TMP/html-observatory-shell-tool-run.out"
+assert_observatory_tooling_run \
+  "$TMP/html-observatory-shell-tool-run.json" \
+  "adl/tools/test_html_observatory.sh"
 
 javascript_tool="$TMP/html-observatory-javascript-tool.txt"
 printf 'M\tadl/tools/validate_v092_html_observatory_roster.mjs\n' >"$javascript_tool"
@@ -164,6 +194,12 @@ bash "$SCRIPT" --changed-files "$javascript_tool" >"$TMP/html-observatory-javasc
 assert_has "$TMP/html-observatory-javascript-tool.out" "html_observatory_tooling_syntax status=selected"
 assert_has "$TMP/html-observatory-javascript-tool.out" "node --check adl/tools/validate_v092_html_observatory_roster.mjs"
 assert_not_has "$TMP/html-observatory-javascript-tool.out" "html_observatory_v0917_runtime_surface status=selected"
+bash "$SCRIPT" --changed-files "$javascript_tool" --run \
+  --report-out "$TMP/html-observatory-javascript-tool-run.json" \
+  >"$TMP/html-observatory-javascript-tool-run.out"
+assert_observatory_tooling_run \
+  "$TMP/html-observatory-javascript-tool-run.json" \
+  "adl/tools/validate_v092_html_observatory_roster.mjs"
 
 printf 'if then\n' >"$TMP/invalid-observatory-tool.sh"
 if bash -n "$TMP/invalid-observatory-tool.sh" >/dev/null 2>&1; then
