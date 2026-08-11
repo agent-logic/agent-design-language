@@ -9,7 +9,7 @@ require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 PREFIX = ".csdlc/evidence/201/"
-PROOF_PREFIX = "#{PREFIX}v4/"
+PROOF_PREFIX = "#{PREFIX}v5/"
 PROOF_RELATIVE = "#{PROOF_PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = [
   "adl-runtime/Cargo.toml", "adl-runtime/Cargo.lock",
@@ -62,6 +62,7 @@ commands = proof.fetch("commands")
 fail_receipt("command denominator mismatch") unless commands.keys.sort == %w[clippy machine_cases nextest]
 commands.each do |name, command|
   fail_receipt("#{name} failed") unless command.fetch("exit_code") == 0
+  fail_receipt("#{name} stream normalization mismatch") unless command.fetch("stream_normalization") == "trailing_blank_lines_removed"
   fail_receipt("#{name} time inverted") if Time.iso8601(command.fetch("finished_at")) < Time.iso8601(command.fetch("started_at"))
   %w[stdout stderr].each do |stream|
     relative = command.fetch("#{stream}_path")

@@ -10,7 +10,7 @@ require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 PREFIX = ".csdlc/evidence/201/"
-OUTPUT = ROOT.join(PREFIX, "v4")
+OUTPUT = ROOT.join(PREFIX, "v5")
 MARKER = "ADL_ISSUE_201_CASE_V1 "
 PROTECTED = [
   "adl-runtime/Cargo.toml", "adl-runtime/Cargo.lock",
@@ -66,6 +66,8 @@ def run_command(name, argv)
   started = Time.now.utc.iso8601(6)
   stdout, stderr, status = Open3.capture3({ "NEXTEST_TEST_THREADS" => "1" }, *argv, chdir: ROOT.to_s)
   finished = Time.now.utc.iso8601(6)
+  stdout = stdout.rstrip + (stdout.empty? ? "" : "\n")
+  stderr = stderr.rstrip + (stderr.empty? ? "" : "\n")
   stdout_path = OUTPUT.join("#{name}.stdout.log")
   stderr_path = OUTPUT.join("#{name}.stderr.log")
   File.binwrite(stdout_path, stdout)
@@ -73,6 +75,7 @@ def run_command(name, argv)
   {
     "argv" => argv, "exit_code" => status.exitstatus, "started_at" => started,
     "finished_at" => finished,
+    "stream_normalization" => "trailing_blank_lines_removed",
     "stdout_path" => stdout_path.relative_path_from(ROOT).to_s,
     "stdout_sha256" => Digest::SHA256.hexdigest(stdout),
     "stderr_path" => stderr_path.relative_path_from(ROOT).to_s,
