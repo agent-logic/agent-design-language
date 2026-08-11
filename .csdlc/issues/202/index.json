@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
   "phase": "implemented",
-  "generation": 29,
-  "digest": "90b2bb81b8031439e5a62b4748f048d86148cd4f37d392978f079d4adf7298a0",
+  "generation": 32,
+  "digest": "9d916ea23a9cd02ad888cbe489e02d6f482afaaaa294bca3d5615493f594b563",
   "branch": "codex/202-authorized-learner-transport-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-202-authorized-learner-transport-preparation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "df7202329ac9d3e6c45a9f79944bf2ba32f80da1b1152e304185e028c29f65f3",
+      "values_digest": "7fba377414537f259ac61d9e4de4fc7c800da08b8fda99e325d8cf756aa3e32b",
       "rendered_digest": "69a805a23892f34aeda5bc6c018c4b6d3425674b3472f433c95fa96c01aa8830",
       "ast_digest": "004791ead09b105cebf8ab0978301127312b0ae5a7c0c34cebf6291fa33a196d"
     },
     "stp": {
-      "values_digest": "fd60e16b2365e5c5544d492db4d26b6d630a71a0b792541f501904d55ad6059e",
-      "rendered_digest": "2e0d25119d5140d31572bf29204efd86f9c8ce39fa5b2b346f49c6821881c0c2",
-      "ast_digest": "a8e12db2b706c0ce51c8ea8fe5d2a3b29ae9407cfa39701453aee43b119b5c33"
+      "values_digest": "705e971da9eb72112118ac563cb34f7b4a9eb6f683c78d7c5049c9efde38df3b",
+      "rendered_digest": "dfddaeadcb4d739c0c3331bc30dbfd94b4b57d0d9ad9f9a74ab81174a9dcee43",
+      "ast_digest": "1614c5e31e990ab93563b802b9a8d59738cb7f5b68caede9b9107241152d43fc"
     },
     "spp": {
-      "values_digest": "f99c0f48e927f9db6ea9ee66853eb8641f4ba9f3ef41f8777594bba4316bd852",
-      "rendered_digest": "b4a5a7edaa505cc355615136e41cef7cd76550cc2df227e57eb027a1e554965e",
-      "ast_digest": "26580d217c1ebe4fbec91c9c1498d457af9a89dcc6dcdf782b00096972323d32"
+      "values_digest": "591334807598280ad3cce44375f0a736c15f9aa3b7af40ced6f6e4520346b059",
+      "rendered_digest": "093cc6780f5a2d975bf7b1b164fe4eba33825f122f62fb3d4f5f7c50b181d5bb",
+      "ast_digest": "bdf56b18f8b8a4ad50b131b2c6d134a634c810789f2a69f6e75593fbacb827bc"
     },
     "vpp": {
-      "values_digest": "92f7b4eb329530fe39fd949fabe1df269031ddbe748305ace30d7f141a5a0e89",
+      "values_digest": "212011df74cc7387a0d462116fa1de67b680b2b0441829e4bf05b2efb10eb3b9",
       "rendered_digest": "76d2647e9f8896b77843dc0aa3b1f3a9ebb025f9d6981282fe802f79745aee08",
       "ast_digest": "ca7ca4a900d6ec7fd089d3a85b477c8a26c4be6aca98c8b647319c3f08f47157"
     },
     "srp": {
-      "values_digest": "fc13c278887fb4ff5302595d5d43557edc51248f2ab5835e1366f5333e235be1",
-      "rendered_digest": "414d0b953764840349c5baf2564447201930538d3076f9542f0ab7d1d01643b8",
-      "ast_digest": "d747dc81a6f71655b296a6eb2fa20d4915aad588aa43e2bca61f55e597bfc401"
+      "values_digest": "af7887c695cc55ad5e817a8c6a98e57a3069bc470573235badc91e053a5720ef",
+      "rendered_digest": "d3b260e57f05f2eeb4aa3081eee2d1dc8abdcc3bcee776a6af7ebb4715245ece",
+      "ast_digest": "6785d18198526e634f9b34fff8911270179003c0a89d3ae581cd8ea6df98e227"
     },
     "sor": {
-      "values_digest": "80ec5508a76940e38137abdac2c853b5789c03c732a0b17cf90d7ff5b55a8ccd",
-      "rendered_digest": "a55943d587f4dbcfc2e5438b20b106a5116c5065b028f95a8e726e36c83bf572",
-      "ast_digest": "1a6f04ee93f79d57e7f515eb7c4d56ea38fd201e538e152dca247c705be5eb60"
+      "values_digest": "5dce353bfcc8f17d07ad3c91fc3ba07c8c54041c9c714d81c82f3bcae38b86d8",
+      "rendered_digest": "6976b76851f7f116ddab91edc1438c1142c65eb69e7dc2810b014279f4f77e49",
+      "ast_digest": "ab806f71c5e77f79d57c204e292265934fba1caa38794d956c4430f0eb77819a"
     }
   },
   "transitions": [
@@ -294,6 +294,34 @@
       "actor": "codex:/root/review_202_governed_design",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 32,
+      "generation": 29,
+      "actor": "codex:/root/prepare_204_parallel:review-resolution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 30,
+      "actor": "codex:/root/prepare_204_parallel:review-resolution",
+      "reason": "Recover implemented issue truth so typed cards can reflect the approved governed transport path move and final exact proof denominators before fresh final review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 31,
+      "actor": "codex:/root/prepare_204_parallel:review-resolution",
+      "reason": "Bind the approved governed transport subtree, preserved standalone integration targets, and v6 proof paths into the exact task write set.",
+      "operation": "{\"new_values\":[\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/transport/core.rs\",\"adl-runtime/src/distributed/transport/root.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\",\"adl-runtime/src/distributed/transport/governed/polis_runtime.rs\",\"adl-runtime/tests/distributed_authorized_learner_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\".csdlc/prepared/issues/202/design.md\",\".csdlc/prepared/issues/202/diagram.mmd\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\",\".csdlc/evidence/202/v6\",\".csdlc/issues/202\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime/src/distributed/learner_transport.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/tests/distributed_authorized_learner_transport.rs\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\",\".csdlc/evidence/202\",\".csdlc/issues/202\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 32,
+      "actor": "codex:/root/prepare_204_parallel:review-resolution",
+      "reason": "Align the implementation plan with the approved governed subtree and exact preserved integration targets.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/transport/core.rs\",\"adl-runtime/src/distributed/transport/root.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\",\"adl-runtime/src/distributed/transport/governed/polis_runtime.rs\",\"adl-runtime/tests/distributed_authorized_learner_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\",\".csdlc/evidence/202/v6\",\".csdlc/issues/202\"]}"
     }
   ]
 }

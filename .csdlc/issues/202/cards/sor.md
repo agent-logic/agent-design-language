@@ -148,7 +148,7 @@ Resolved all four fresh P1 findings on exact current-main ancestry: public raw s
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

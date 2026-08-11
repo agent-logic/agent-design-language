@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
     "slug": "authenticated-governed-learner-transport",
     "version": "v0.92",
-    "generation": 29
+    "generation": 32
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact learner/exclusion source and narrow existing transport/authority-protocol/PolisRuntime integration, real Quinn/OpenRaft test, issue proof/evidence, typed issue truth, and absence of #199/#200/operational side effects.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

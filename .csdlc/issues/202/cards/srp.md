@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact learner/exclusion source and narrow existing transport/authority-protocol/PolisRuntime integration, real Quinn/OpenRaft test, issue proof/evidence, typed issue truth, and absence of #199/#200/operational side effects.
+
 
 ## Prompts
 

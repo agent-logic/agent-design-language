@@ -16,15 +16,23 @@ Implement and publish only the authority-verified one-learner transport topology
 
 ## Deliverables
 
-- adl-runtime/src/distributed/learner_transport.rs
-- adl-runtime/src/distributed/transport.rs
-- adl-runtime/src/distributed/authority_protocol.rs
-- adl-runtime/src/distributed/polis_runtime.rs
 - adl-runtime/src/distributed/mod.rs
+- adl-runtime/src/distributed/authority_protocol.rs
+- adl-runtime/src/distributed/transport.rs
+- adl-runtime/src/distributed/transport/core.rs
+- adl-runtime/src/distributed/transport/root.rs
+- adl-runtime/src/distributed/transport/governed/learner_transport.rs
+- adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
+- adl-runtime/src/distributed/transport/governed/polis_runtime.rs
 - adl-runtime/tests/distributed_authorized_learner_transport.rs
+- adl-runtime/tests/distributed_transport.rs
+- adl-runtime/tests/distributed_discovery.rs
+- adl-runtime/tests/distributed_runtime_transport.rs
+- .csdlc/prepared/issues/202/design.md
+- .csdlc/prepared/issues/202/diagram.mmd
 - .csdlc/prepared/issues/202/produce-proof-receipt.rb
 - .csdlc/prepared/issues/202/validate-proof-receipt.rb
-- .csdlc/evidence/202
+- .csdlc/evidence/202/v6
 - .csdlc/issues/202
 
 ## Acceptance
