@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3241806f8faffb5e7ef1b57c174149814d412144759745599e303023dad9233a",
   "phase": "initialized",
-  "generation": 25,
-  "digest": "a4addc259ce73a77353c1107052f06fe82edac3739b928dda629b207e147cbd9",
+  "generation": 26,
+  "digest": "4f9f8e370ecc7d5940892db89ce526e88562d79af4638626cc02a5d5c8be4440",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/203/design.md",
   "diagram_path": ".csdlc/prepared/issues/203/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root/review_202_impl_final",
+      "revision": "821593327fcf90839f9ed455ae467af9a234eba05f58564de36b029c73349b49"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "5c1efed2ea546a869f3d682a5eff688d67149eb850903481f7beea1b603a8441",
+      "values_digest": "4c8dc46cf52856db0358e2d77bb7bb78e5f95787ff2eccbbba4b61e7da29cd68",
       "rendered_digest": "079525186b170b21283c458c8076934c1c4e48b2aac29dfd6d6cfddcfba68e30",
       "ast_digest": "77fd95a3eb427c7a9b47e353b46456107d8167bd7cbdfa07114fb419d1fc99fa"
     },
     "stp": {
-      "values_digest": "71a53478cb969de4c6572b87bfa2d2c862a8587470ba70a8024e2d99a0fd57e7",
+      "values_digest": "b9a5f4ed04dfad65a0798001cb2f65104219befb635b6255734192617ed20487",
       "rendered_digest": "95ed4d8f973edf87afd24417b1d6eddcb9ce964cf8d5c7e5a71613587d1ff916",
       "ast_digest": "90af51e55128247a385506b2b74374675dc25fb2952916eb1a174f89d0916aa3"
     },
     "spp": {
-      "values_digest": "ee7f678320dbb8f11afdd320b5ab0e7988db4f6556a611a624125815327be75e",
+      "values_digest": "99c070c93e71ec98874cde7fe315f224723a39bf26a1befe5cd30f7b388ef72b",
       "rendered_digest": "4a57458a8e009975e1de765d6a24a2b0a3a4b1960fec65c2ffe62b123b6b88bb",
       "ast_digest": "2dd29753ae6ce2aac52559348c1ba342aa504e48deead982db9aef91ae2524f8"
     },
     "vpp": {
-      "values_digest": "dac4002139862d65488fd3808fefeba9d4d09689527dd468e171c63d26e09b95",
+      "values_digest": "900320311dcbe11792fb993722eca6a9a006720894bc2cb749770b5bbbcb00f3",
       "rendered_digest": "7c8230e6c1c972122bf66c76e04b6440d9eaca0761eb71c6de988d3e3294e0a4",
       "ast_digest": "fd4c3afb4c301fe3eb3db27c2bb2fee085a122061fbf60fa02dbb1d42027e819"
     },
     "srp": {
-      "values_digest": "01a79b45237d24785443edcfa6294ac0c8491d9fd7ff1b31d5bfc840377fdf96",
+      "values_digest": "91de76bbff00f8c23d2fb9bf2f115331c4e5c1ef29fc7497aeb2cd53a3825e0d",
       "rendered_digest": "aa8709b6e97218c6101301df2ffa099271806f83e261178acb4a3e2d3cf32d7e",
       "ast_digest": "3e13d49403a66b9c4e76fdc51bdf271435b14ee76cc11f55b83c9513f21da8ed"
     },
     "sor": {
-      "values_digest": "a4b0c3be7c67100cec78b6aa8cc1ea8d52d3c4c7771f0d54fb06ce04cc814034",
+      "values_digest": "e33e506239b5d7e9b259cf4407ad99ab1ebcc3dce1ab0c264da3d2fc5f0ddafd",
       "rendered_digest": "c35e3a2370128e19cd1bf072c3c138127fc4a031eed139f0199a05eae40def89",
       "ast_digest": "f492f6064bcb9e5598b2d476d894e6441bed5f81fb09ff67ebd4934d3a4b4906"
     }
@@ -232,6 +237,13 @@
       "actor": "codex:/root/resolve_208_final_review",
       "reason": "Finalize the exact #203 compatibility action and refresh the corrected fail-closed diagram binding while retaining the serial gate",
       "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/203/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/203/diagram.mmd\",\"new_design_digest\":\"821593327fcf90839f9ed455ae467af9a234eba05f58564de36b029c73349b49\",\"new_diagram_digest\":\"dc93d5b1073997215f11c82fa195a1207ac78d6aae8378a5f09dddd163389ebc\",\"old_design_digest\":\"821593327fcf90839f9ed455ae467af9a234eba05f58564de36b029c73349b49\",\"old_diagram_digest\":\"5123132ebb8df7d455bd8e26404568a32994573fa54107ff7b22956916e0b76e\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Remain preparation-only until #202 and then #199 are independently reviewed, merged, and ancestral; resync #203 to the resulting exact origin/main and rerun typed validation and doctor before any bind.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"action\":\"After the serial gate passes, bind #203 and implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths; explicitly migrate adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs off raw Arc<DistributedCertificateStore> ownership without changing #208, #205, or #204 authority.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Prove exact forty-four-case behavior, every crash/retry/bounds window, strict Clippy, and merge-safe receipt truth; resolve fresh exact-head review, publish a ready PR closing #203, shepherd hosted CI, and wait for operator review and merge authorization.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 27,
+      "generation": 26,
+      "actor": "codex:/root/review_202_impl_final",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
     }
   ]
 }
