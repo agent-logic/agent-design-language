@@ -12,25 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/build.rs
-adl-runtime-kernel/src/agent_roster.rs
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/telemetry.rs
-adl-runtime-kernel/src/live_continuity.rs
-adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-adl-runtime-kernel/tests/agent_roster.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-docs/api/runtime-v3/v1/openapi.json
-docs/api/runtime-v3/v1/observatory.openapi.json
-demos/html-observatory/app.js
-demos/html-observatory/index.html
-demos/html-observatory/styles.css
-adl/tools/test_html_observatory.sh
-adl/tools/validate_v092_html_observatory_roster.mjs
-.csdlc/issues/113
+
 
 ## Prompts
 
@@ -51,13 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.
-- Durable conversation history and cross-restart chat restoration remain outside #113 and is owned by issue #114.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:52179dc4f49255c4ab3a29726afe7c1e95a22097:504659dac81c77b4a589e859151c81ccda3d9707ff465f8074202fe5d4406357")
+Revision: None
 
-Reviewer: Some("subagent:019fef34-1897-7353-96e7-49320ae0043a")
+Reviewer: None
 
-Result: pass
+Result: pre_review

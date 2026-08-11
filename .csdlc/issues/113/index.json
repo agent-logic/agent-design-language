@@ -3,81 +3,14 @@
   "issue": 113,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
-  "phase": "published",
-  "generation": 43,
-  "digest": "1f6906461fc81034c0f0130d59e7ec41c8ff245150a6f67a82ef892a052a87fe",
+  "phase": "implemented",
+  "generation": 44,
+  "digest": "495729f83d548af177d1ae3d3a8fd878a50ca33e079ef23b7e1c18fe8a827444",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
-  "review_assignment": {
-    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
-    "assigned_by": "codex:wp18c03-execution",
-    "revision": "git-blake3:52179dc4f49255c4ab3a29726afe7c1e95a22097:504659dac81c77b4a589e859151c81ccda3d9707ff465f8074202fe5d4406357",
-    "scope": [
-      "adl-runtime-kernel/build.rs",
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/openapi.json",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/test_html_observatory.sh",
-      "adl/tools/validate_v092_html_observatory_roster.mjs",
-      ".csdlc/issues/113"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
-    "scope": [
-      "adl-runtime-kernel/build.rs",
-      "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/tests/agent_roster.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/openapi.json",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/test_html_observatory.sh",
-      "adl/tools/validate_v092_html_observatory_roster.mjs",
-      ".csdlc/issues/113"
-    ],
-    "reviewed_revision": "git-blake3:52179dc4f49255c4ab3a29726afe7c1e95a22097:504659dac81c77b4a589e859151c81ccda3d9707ff465f8074202fe5d4406357",
-    "findings": [],
-    "residual_risks": [
-      "Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.",
-      "Durable conversation history and cross-restart chat restoration remain outside #113 and is owned by issue #114."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 113,
-    "pull_request": 222,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/222",
-    "base": "main",
-    "head": "codex/113-wp18c03-roster-presence-preparation",
-    "revision": "git-blake3:52179dc4f49255c4ab3a29726afe7c1e95a22097:504659dac81c77b4a589e859151c81ccda3d9707ff465f8074202fe5d4406357",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -91,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5b73194d13ceaa033d8f5ed0ef0a0eb144263abc008e1c2621e6628af5a19bac",
+      "values_digest": "edb0d50ff78413231e8799f85cd1359b3f24826f8d1a245acc72e4968a0cfff6",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "9d9f00daec693d448c8ef2ab066f99f7b136e82abe38c788c42cf44ff74b2b70",
+      "values_digest": "c988c26b8bd3c488688062502e5c9ff3f8ad79ae16086b5e307551f588956ed2",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "68f1cf974ff85777ad19076f88a89573837938224e39e99b10a92e81e0b4b3b1",
+      "values_digest": "3cf9921d3b6a7e9783491f99f2fb39334059da2f9e2f6275f1dcef0d2c31efd6",
       "rendered_digest": "0a87219293ddd139966aaf0c77f56b8c6164f3213687bfda3ad8f4c32d49f1ba",
       "ast_digest": "793ed408d19b5d2ae07fdab2f8c6d13ca845ed5618969a25cc8fbb7b1f1187dc"
     },
     "vpp": {
-      "values_digest": "f7febce698797296f06da5adcb41d8edcb1d36964b2e4c026ae6566adf8c6f32",
+      "values_digest": "ee8d622d442b118f51f11ed0fb7db7f9b087badaa0fdb0bceded29a3c14cd5bf",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "f0a16078987233d27f6581ca535bcfef291c419ae83af76c31da92e6c60aaf11",
-      "rendered_digest": "2bb74ddc2bba2380c66a090c7622692f088c5337f3ee229800aebaa09854483c",
-      "ast_digest": "cf2c83c807311d9a93537f4d13355eb4f9456a88c38c610878849ce296127815"
+      "values_digest": "0db7e1d3decc00b02f7011a30c8a9d831c79572659cca99f5e549cb139f7f192",
+      "rendered_digest": "d9c26dbd6a36e87a985ca27ac27d1d24770837353ad4f5d42e457812b5fbc9d3",
+      "ast_digest": "9e00c4298c70492257694a1618a4adef8407c5b63b1f0e5b961f468d05b107fb"
     },
     "sor": {
-      "values_digest": "ff55c17c214e18a943ca6166f40a96e49f1ddc6f53e2f63f606728d83fdbc312",
-      "rendered_digest": "207f1bbb7e79d8d21744fdf19a5c7a7c6a5b7cace883c592deb494b97c011c18",
-      "ast_digest": "4cde687955b2c2779eca2779f130c0e21ebcc26179db97cf6a02f06adc1a0622"
+      "values_digest": "5337d30ac06ff961774fda65a063f5642b9b292ba827344a5ec13b2d16daedf3",
+      "rendered_digest": "f086145212e650ef19daad9e12a0d5bf4311c506b7c7fdc27dd51df0225dec7f",
+      "ast_digest": "79b63009a92df0d23387812ea80a79fa3a082ef6d04c60574e91ca691f1becde"
     }
   },
   "transitions": [
@@ -184,6 +117,13 @@
       "to": "published",
       "actor": "codex:wp18c03-execution",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:wp18c03-fresh-session-review",
+      "reason": "Recover publication and prior inherited-session review truth so PR #222 receives a fresh independently assigned exact-head review before merge."
     }
   ],
   "audit": [
@@ -529,6 +469,13 @@
       "actor": "codex:wp18c03-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 50,
+      "generation": 44,
+      "actor": "codex:wp18c03-fresh-session-review",
+      "reason": "Recover publication and prior inherited-session review truth so PR #222 receives a fresh independently assigned exact-head review before merge.",
+      "operation": "recover_review"
     }
   ]
 }
