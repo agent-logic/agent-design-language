@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 199,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a580029a34161e2682e14450ff26134b6c387efc6ddb14f8ad87b2f9225a5dc7",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 19,
-  "digest": "5b31b30455cdf46806dd780cc67951c6376173fb473a278f96c3d17eb095b549",
-  "branch": null,
-  "worktree": null,
+  "digest": "46e83b52d12d6c288e68ab01ece0dbb3ef42316688e594af67625a3fedbd2228",
+  "branch": "codex/199-governed-membership-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-199-governed-membership-preparation",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +55,22 @@
       "ast_digest": "099f6a54dc0259dfb78f30d2e3b7d7cf15f8b1a8b1e65ff079c211d2e1bc6aaa"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -195,6 +211,13 @@
       "actor": "codex:/root/review_199_saga_design",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
