@@ -7,13 +7,13 @@
     "title": "First-birthday core sprint",
     "slug": "first-birthday-core",
     "version": "v0.92",
-    "generation": 1
+    "generation": 11
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.",
       "steps": [
         {
@@ -25,7 +25,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "coordinate",
@@ -35,7 +35,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "review-close",
@@ -49,6 +49,7 @@
       "affected_areas": [
         ".csdlc/prepared/issues/5857/sprint-execution-packet.md",
         ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml",
+        ".csdlc/prepared/issues/5857/validate-sprint-review.rb",
         ".csdlc/evidence/5857"
       ],
       "invariants": [
