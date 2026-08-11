@@ -47,12 +47,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Administrative child worktree cleanup and historical closeout normalization remain asynchronous and do not authorize runtime, demo, or public-release claims.
+- Superseded WP-14 PR 76 remains excluded; agent-logic/agent-design-language#209 and PR 215 are the replacement production authority.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9a7b96b6aae5831701bf2705942787f26ea79f90:7fe98cb22a45243c3a20962a1d56694006d2bf4727219b53d55ca2fca23c0429")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5857_exact_head")
 
-Result: pre_review
+Result: pass
