@@ -26,6 +26,30 @@ def ordinary(relative)
   fail_receipt("missing or symlink file: #{relative}") unless path.file? && !path.symlink?
   path
 end
+def typed_option(line, label)
+  match = line&.match(/\A#{Regexp.escape(label)}: Some\(("(?:\\.|[^"\\])*")\)\z/)
+  match && JSON.parse(match[1])
+rescue JSON::ParserError
+  nil
+end
+def typed_review_revision?(value)
+  value&.match?(/\Agit-blake3:[0-9a-f]{40}:[0-9a-f]{64}\z/) == true
+end
+
+parser_revision = "git-blake3:#{'a' * 40}:#{'b' * 64}"
+fail_receipt("typed review provenance parser regression") unless
+  typed_option(%(Revision: Some("#{parser_revision}")), "Revision") == parser_revision &&
+  typed_option('Reviewer: Some("codex:/root/reviewer")', "Reviewer") == "codex:/root/reviewer" &&
+  [
+    "Revision: None",
+    "Revision: #{'a' * 40}",
+    "Revision: Some(\"#{parser_revision}\"), trailing",
+    'Reviewer: None',
+    'Reviewer: codex:/root/reviewer',
+    'Reviewer: Some("unterminated)'
+  ].all? { |line| typed_option(line, line.start_with?("Revision:") ? "Revision" : "Reviewer").nil? } &&
+  typed_review_revision?(parser_revision) &&
+  !typed_review_revision?("git-blake3:#{'a' * 39}:#{'b' * 64}")
 
 proof = JSON.parse(File.binread(ordinary(PROOF_RELATIVE)))
 fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue208.guardian_kernel_continuity_proof.v4" && proof["issue"] == 208
@@ -124,17 +148,24 @@ observed = receipts.flat_map { |receipt| receipt.fetch("markers") }
 expected = expected_cases.map { |row| row.fetch("marker") } + expected_boundaries.map { |row| row.fetch("marker") } + expected_lifecycle.map { |row| row.fetch("marker") }
 fail_receipt("observed marker mismatch") unless observed.sort == expected.sort && observed.uniq.length == expected.length
 srp = File.binread(ordinary(".csdlc/issues/208/cards/srp.md"))
-review_revision = srp[/^Revision:\s*([0-9a-f]{40})\s*$/, 1]
-reviewer = srp[/^Reviewer:\s*(\S.*?)\s*$/, 1]
+review_revision = typed_option(srp.lines.find { |line| line.start_with?("Revision:") }&.strip, "Revision")
+reviewer = typed_option(srp.lines.find { |line| line.start_with?("Reviewer:") }&.strip, "Reviewer")
 review_result = srp[/^Result:\s*(\S+)\s*$/, 1]
-fail_receipt("fresh independent review provenance missing") unless review_revision && reviewer && reviewer != "None" && review_result&.downcase == "pass"
-review_exists = system("git", "cat-file", "-e", "#{review_revision}^{commit}", chdir: ROOT.to_s, out: File::NULL, err: File::NULL)
+review_match = review_revision&.match(/\Agit-blake3:([0-9a-f]{40}):([0-9a-f]{64})\z/)
+index = JSON.parse(File.binread(ordinary(".csdlc/issues/208/index.json")))
+typed_review = index["review"]
+fail_receipt("fresh independent review provenance missing") unless
+  review_match && reviewer && !reviewer.empty? && review_result&.downcase == "pass" &&
+  typed_review.is_a?(Hash) && typed_review["completed"] == true && typed_review["findings"] == [] &&
+  typed_review["reviewed_revision"] == review_revision && typed_review["reviewer"] == reviewer
+review_commit = review_match[1]
+review_exists = system("git", "cat-file", "-e", "#{review_commit}^{commit}", chdir: ROOT.to_s, out: File::NULL, err: File::NULL)
 fail_receipt("review revision unavailable before integration") if source_exists && !review_exists
 if review_exists
-  system("git", "merge-base", "--is-ancestor", source, review_revision, chdir: ROOT.to_s, out: File::NULL, err: File::NULL) || fail_receipt("proof source is not ancestral to review") if source_exists
-  system("git", "merge-base", "--is-ancestor", review_revision, head, chdir: ROOT.to_s, out: File::NULL, err: File::NULL) || fail_receipt("review revision is not ancestral to current HEAD")
+  system("git", "merge-base", "--is-ancestor", source, review_commit, chdir: ROOT.to_s, out: File::NULL, err: File::NULL) || fail_receipt("proof source is not ancestral to review") if source_exists
+  system("git", "merge-base", "--is-ancestor", review_commit, head, chdir: ROOT.to_s, out: File::NULL, err: File::NULL) || fail_receipt("review revision is not ancestral to current HEAD")
   proof.fetch("protected_files").each do |entry|
-    reviewed = git!("show", "#{review_revision}:#{entry.fetch('path')}")
+    reviewed = git!("show", "#{review_commit}:#{entry.fetch('path')}")
     fail_receipt("reviewed protected source drift: #{entry['path']}") unless Digest::SHA256.hexdigest(reviewed) == entry.fetch("sha256")
   end
 end

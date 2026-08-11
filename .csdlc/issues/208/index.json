@@ -4,50 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "50ca6fd43f5b405ec1d942ed846978798206b1a15480a8d72bdd35cf9667b750",
-  "phase": "reviewed",
-  "generation": 50,
-  "digest": "54c20845c341c63c2822425089fb0120b25fa2c0f8dd4c56e62e7ed4ecf4adab",
+  "phase": "implemented",
+  "generation": 51,
+  "digest": "4f32c9954b27c985ea629992ec98f5479bcb92b47a55987f6ac6792c12b0f5ac",
   "branch": "codex/208-authenticated-guardian-kernel-continuity-bridge",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-208-kernel-continuity-bridge",
   "review_assignment": null,
-  "review": {
-    "reviewer": "codex:/root/review_208_ci_repair_final",
-    "scope": [
-      ".csdlc/issues/208",
-      ".csdlc/prepared/issues/208",
-      ".csdlc/evidence/208",
-      "adl/.config/nextest.toml",
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/continuity_control.rs",
-      "adl-runtime-kernel/src/governance.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/operations.rs",
-      "adl-runtime-kernel/src/reasoning.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/kernel_continuity_control.rs",
-      "adl-runtime-kernel/tests/production_acip_wss.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      "adl-runtime/src/distributed/polis_runtime.rs",
-      "adl-runtime/src/guardian.rs",
-      "adl-runtime/src/kernel_continuity_client.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/tests/kernel_continuity_client.rs",
-      "infra/runtime-v3/runtime-init.toml"
-    ],
-    "reviewed_revision": "git-blake3:fef999000f97e71a08d0b8aa9e22b4c93d33cb5f:7e40260fa8e06a7c25336fcf421a16fc69fef4b24b1dfa9905ab21ff21ed4c4c",
-    "findings": [],
-    "residual_risks": [
-      "Hosted CI must pass on the exact republished head before merge."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -62,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f5d898d185e2ffbe069ff8afd513e68ef42e9cac0adc8c4b9677aae327512709",
+      "values_digest": "6884896ba13631b59e908848450f5ff1fdc901f1754310bfa4fbbf8672f26d54",
       "rendered_digest": "5b2a673ab5bea5e6dde4d54e7f04b7922b882214032760db3a41deaa16e86323",
       "ast_digest": "0fcdacc0eb8f8218bef0614153064c837cc6aafd75e29eeff95ea5502c341bbf"
     },
     "stp": {
-      "values_digest": "f176caeabfe128cc897e3289f12238c50343e50bfdd763ebf4547ce79ffc2cda",
+      "values_digest": "6c96615e65e63cecda3a9d33462add62ad52b1cfa8f09e6b45ce244c72bdfbec",
       "rendered_digest": "78e8b9b9b614a832343bc985bf3eccc25251698f3f11ad95c06c6a0c98557f25",
       "ast_digest": "64ac9a8c5f2efde02f4d0c33baa531952fcf4efecfaff71e9c3fc7de78c38751"
     },
     "spp": {
-      "values_digest": "4b45e9a1f78d11dcc12bd21638b599d1974a1fd7055b12aabb7c450aa132e747",
+      "values_digest": "ba3a8e51d666b7608eb1b1e24af5660959d48e71d374e97c933a42bb398218f7",
       "rendered_digest": "8cae788a1f9d55f6f0e5f188e535df1b9b8ddc1e0811dfae2ecaf1e3aff6964b",
       "ast_digest": "7b060d64d99e45f1f112bc86a169823ef8303b2456684aafe538b63474edb761"
     },
     "vpp": {
-      "values_digest": "8e7d408db8c89dd049a48b29c4842fa40cf25604d220cb732bb67acb3201ff78",
+      "values_digest": "8a44d679b49eed6b2b32173caf01ce5be9214c57e679e67db75a6bfed0a634c8",
       "rendered_digest": "61ebce4bd91891b849aa0d6605ae175d8551ab8065bd5d42e5204db5f4edd760",
       "ast_digest": "013010973c9635259aed2bdb2787a2f4c4a550f07d55c9622bf5f86ddc739317"
     },
     "srp": {
-      "values_digest": "a1f185a76df03c53fdc1c0a80087cd9eb4ccad8368449ce8b44cce2954e3ffba",
-      "rendered_digest": "60488e66336208ecff7170fbab1ce58fc22636eab3968459826cf1b73c4fd317",
-      "ast_digest": "9d41364395ff218f0b746bf3a55e7bf872438a89d4616cad541c1de6eb4ea42e"
+      "values_digest": "45fe4888e2fbad74f71b1256c10f1c9ec9545834e534484dd47746a4ca939a04",
+      "rendered_digest": "f232a757053e661faf097130e00849d84b0bcfe7aaeaebba08e76aa0cc310725",
+      "ast_digest": "bf31673f1f85b5b1d7c8c7ead97e005913df10e168f532014240ff2fc43fc84d"
     },
     "sor": {
-      "values_digest": "b2519ab016e7851c92da7b40bf675c2fddcea5b83f896498be41f742da80ae6a",
+      "values_digest": "dbb6407738a339dfe7c3f48007e584772da811d66a0147f9bcadeba36bd406c2",
       "rendered_digest": "3bc945b44cc2dc02da6b0a757b91f6ed5a815725f883c01def808694ce7fa34f",
       "ast_digest": "0e012769dcd83ed981c3db8f044e04c27c507a1e839833eac3421e413b59c7ad"
     }
@@ -141,6 +104,13 @@
       "to": "reviewed",
       "actor": "codex:/root/resolve_208_final_review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Recover exact review after exercising the retained validator exposed its stale bare-field parser against canonical typed v2 Option review provenance; bounded parser repair and fresh independent rereview are required before publication."
     }
   ],
   "audit": [
@@ -514,6 +484,13 @@
       "actor": "codex:/root/resolve_208_final_review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 51,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Recover exact review after exercising the retained validator exposed its stale bare-field parser against canonical typed v2 Option review provenance; bounded parser repair and fresh independent rereview are required before publication.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -12,32 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/208
-.csdlc/prepared/issues/208
-.csdlc/evidence/208
-adl/.config/nextest.toml
-adl-runtime-kernel/Cargo.toml
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-adl-runtime-kernel/src/config.rs
-adl-runtime-kernel/src/continuity_control.rs
-adl-runtime-kernel/src/governance.rs
-adl-runtime-kernel/src/ingress.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/src/operations.rs
-adl-runtime-kernel/src/reasoning.rs
-adl-runtime-kernel/tests/configuration.rs
-adl-runtime-kernel/tests/kernel_continuity_control.rs
-adl-runtime-kernel/tests/production_acip_wss.rs
-adl-runtime-kernel/tests/support/runtime_init.rs
-adl-runtime/src/bin/adl-runtime-guardian.rs
-adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
-adl-runtime/src/distributed/polis_runtime.rs
-adl-runtime/src/guardian.rs
-adl-runtime/src/kernel_continuity_client.rs
-adl-runtime/src/lib.rs
-adl-runtime/tests/kernel_continuity_client.rs
-infra/runtime-v3/runtime-init.toml
+
 
 ## Prompts
 
@@ -62,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Hosted CI must pass on the exact republished head before merge.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:fef999000f97e71a08d0b8aa9e22b4c93d33cb5f:7e40260fa8e06a7c25336fcf421a16fc69fef4b24b1dfa9905ab21ff21ed4c4c")
+Revision: None
 
-Reviewer: Some("codex:/root/review_208_ci_repair_final")
+Reviewer: None
 
-Result: pass
+Result: pre_review
