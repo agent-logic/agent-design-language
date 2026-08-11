@@ -1,0 +1,23 @@
+{
+  "issue": 111,
+  "expected_generation": 43,
+  "expected_digest": "20dbec8c9307827eacb5b3a51560c4fe06c2e78d7342583a9c43c2fcee336c04",
+  "reviewer": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
+  "assigned_by": "codex:111-execution",
+  "scope": [
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/ingress.rs",
+    "adl-runtime-kernel/src/operations.rs",
+    "adl-runtime-kernel/tests/conversation_sessions.rs",
+    "adl-runtime-kernel/tests/observatory.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/index.html",
+    "demos/html-observatory/styles.css",
+    "demos/html-observatory/tests/conversation_sessions.test.mjs",
+    ".csdlc/issues/111",
+    ".csdlc/prepared/issues/111"
+  ]
+}
