@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 208,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
+    "slug": "authenticated-guardian-kernel-continuity-bridge",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact internal kernel listener and Guardian client, config/TLS identity, live continuity operations, persistence/replay/streams/cleanup, public-surface denial, focused tests/proof/evidence, typed issue truth, and absence of distributed policy or cloud scope.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any non-Guardian identity or public route reach continuity dispatch, or can the internal listener bind beyond loopback?",
+        "Do quiesce/export and stage/validate use the live kernel continuity coordinator and exact bounded signed bytes rather than synthetic proof?",
+        "Do client and server replay, deadlines, cancellation, crash, restart, reply loss, and rotation reconcile without duplicate effects or false results?",
+        "Can any caller choose a path, escape the fixed roots, race an opened handle, overrun bounds, or leave unverifiable residue?",
+        "Are bundle and possession handles opaque and evidence fully redacted?",
+        "Does the exact proof bind all thirty-six cases without claiming #204 policy or final operational/cloud integration?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+flowchart TD
+    G["Guardian production initialization"] --> C["Opaque KernelContinuityClient"]
+    C --> M["Loopback-only mTLS continuity listener"]
+    M --> A["Closed typed request and durable replay admission"]
+    A --> J["Accepted operation journal before effect"]
+    J --> Q["Live kernel admission gate and CheckpointCoordinator"]
+    Q --> B["Signed bounded checkpoint bundle under fixed root"]
+    J --> I["Bounded isolated target staging under fixed root"]
+    I --> V["Kernel signature topology schema and content validation"]
+    B --> R["Exact effect receipt result checkpoint and marker"]
+    V --> R
+    R --> O["Opaque bundle or possession evidence"]
+    O --> X["#204 migration and recovery executor"]
+    D["Deadline cancellation crash or reply loss"] --> Y["Exact restart and retry reconciliation"]
+    Y --> J
+    P["Public Runtime Observatory and agent control"] --> N["No continuity route or authority"]
+    O --> Z["No ownership activation serving or cloud authority"]

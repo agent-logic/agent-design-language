@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 208,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
+    "slug": "authenticated-guardian-kernel-continuity-bridge",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Give the Guardian-owned distributed Runtime an authenticated bounded bridge to the separate kernel's live continuity coordinator.",
+      "required_outcome": "The production Guardian client can quiesce and export a real signed kernel checkpoint, stage and validate it in an isolated target, resume or discard idempotently, and reconcile crashes without public routes, caller paths, synthetic snapshots, or partial residue.",
+      "declared_scope": [
+        "Loopback-only mutual-TLS kernel continuity listener and validated configuration",
+        "Opaque production Guardian continuity client with distinct control identity",
+        "Real live CheckpointCoordinator quiesce and signed checkpoint bundle export",
+        "Bounded isolated target staging, validation, resume, and discard operations",
+        "Durable replay, result, deadline, cancellation, crash, restart, cleanup, and path reconciliation",
+        "Exact focused proof that the public Runtime and Observatory surfaces expose no continuity operation"
+      ],
+      "authority_boundary": [
+        "Only the configured distinct Guardian client certificate and signed canonical request authorize internal continuity dispatch",
+        "The internal listener is loopback-only and is absent from the public Axum routes and OpenAPI",
+        "Caller paths, bearer tokens, agent keys, voter keys, Shepherd keys, and public control identities never authorize continuity",
+        "The bridge produces kernel effect receipts only; it creates no distributed policy, ownership, activation, serving, or cloud authority",
+        "Normal builds expose only opaque client and bundle/possession handles; deterministic fakes are cfg(test)-only"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not bind or edit product source until #191 / PR #197 is externally reviewed, merged, and ancestral",
+        "Keep #208 limited to the local Guardian-kernel continuity bridge; #204 owns distributed orchestration",
+        "Resolve all review findings through a subagent and obtain fresh exact-head review before publication",
+        "Open a ready PR for visibility but never merge before operator review and authorization",
+        "No public continuity route, no AWS use, and no lifecycle closeout"
+      ]
+    }
+  }
+}
