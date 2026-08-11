@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "bound",
-  "generation": 22,
-  "digest": "6c56ff741d2e21d6bba7928db5c3bd386450684884a6793d9e40e1dcd81700a9",
+  "generation": 23,
+  "digest": "2e8a246d635e880ad27d52b1072719ac199c902040feba8329ddce96033af581",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "aaf1c8abbb2f32ecded6a9fca8250d44dcec7aea9dcfec76910690ddec38eefe",
+      "values_digest": "f8f414c53237f1c61c0198f96c7e4b035f0117904b1abdb02639127baf70958b",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "25f74e276992b359fca4c9a37a4b438c6d7ece8c88fc5620c3cc775becdbc92e",
+      "values_digest": "77b6d1b74ba9b4522bb089c91a46e12535c83527a4c8ab48522dc8e21cf709ba",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "116f190d5a272900d242f6b06a79a2803ab1a24ffdf15ff51de597b77217fb62",
-      "rendered_digest": "39ac67ec16bf3473a620def6f271edc915fd0c95058429f66cd86257d75060d7",
-      "ast_digest": "a5aef1262fbc1c3edf4bdfb0b4e06932193e656881508273de9608a3b25146fe"
+      "values_digest": "1a478a8dc3d926ae37a1e4c177f2a4dab7dd6b5ccd764db2b1511b25d593b950",
+      "rendered_digest": "5b876e149b01f031a51aa443745bcf0e34e6b9f14bcb56f62b770fdfceda893f",
+      "ast_digest": "7995173fc4773327e0f6145b19197270a9cd6d19b74878b0bb731da829f14b5a"
     },
     "vpp": {
-      "values_digest": "1f8d6ce5b6dd870a7c75bc4ace3e84782e6260441515ae3070577aa6f60369ca",
+      "values_digest": "c078291c00787b88ec607e18345dce5f30021e2d87c3363209ea44b6061f3dc4",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "4147e45e871488d4f60c0e19bf8756e327ad6d2c8a50c91a13f43629c6321d0d",
+      "values_digest": "c37b0b19c173fd6bb0d2034f349c2e1e0980a410279983496a9acbb0a231088d",
       "rendered_digest": "0f2ba31fec14441b4f6b9fdbd93f2d31fd1dc2f6d844b4e3caab76d487b207ca",
       "ast_digest": "561ca13091bdccc8b6238cc66bbe339f2a8c55a24ba5d959b9f280752b2e976a"
     },
     "sor": {
-      "values_digest": "fded2afff9204a7fe39a58ada4de102ba57f45129f7e7433854301097f265563",
+      "values_digest": "48740b0a30c2cb4c8d3ab7e95133dfeeb1fcc0fce3495470bcda583742be208c",
       "rendered_digest": "17577983b71aba54172dc1d0442452db27a371c5a5f7083bb86dd5bd81a69739",
       "ast_digest": "113bf745061230af9980cb2729b7fd4efae7a939e0677d9a148c032622e1fd48"
     }
@@ -238,6 +238,13 @@
       "actor": "codex:113-roster-presence-remediation",
       "reason": "Reconcile exact product and proof ownership after independent review required bounded heartbeat authority, Runtime incarnation identity, exact source provenance, and expanded browser proof.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/build.rs\",\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_html_observatory_roster.mjs\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:113-roster-presence-remediation",
+      "reason": "Reconcile Guardian-owned signed restart and continuity-bound roster token proof paths required by exact-head review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/build.rs\",\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/src/live_continuity.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/openapi.json\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_html_observatory_roster.mjs\"]}"
     }
   ]
 }
