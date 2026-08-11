@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
     "slug": "wp18c01-canonical-human-agent-conversation-sessions",
     "version": "v0.92",
-    "generation": 79
+    "generation": 80
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/conversation_sessions.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/conversation_sessions.test.mjs\n.csdlc/issues/111\n.csdlc/publication/111.intent.json",
-      "review_revision": "git-blake3:52c57880d6d43c3c037022d4dfb2cacd086f6c83:3abdd5a05afd38946d3e310375846d035f55af37fdbdeaede6dc5a78254a5c3f",
-      "reviewer": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify Runtime is the only session/order/outcome authority and the browser cannot synthesize turns, delivery, or replies.",
         "Probe duplicate submission, sequence gaps, reconnect replay, cancellation/timeout races, late adapter output, saturation, shutdown, and restart behavior.",
@@ -24,11 +24,8 @@
         "Verify every product path in the diff is issue-owned, PVF-classified, and supported by exact-revision proof."
       ],
       "findings": [],
-      "residual_risk": [
-        "Routed CI and live mergeability require observation after retargeting to main.",
-        "Long-running and environment-dependent validation remains out of band under #226."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
