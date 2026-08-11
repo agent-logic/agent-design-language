@@ -3,37 +3,41 @@
   "issue": 74,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5a9e6aa79a12304b6e27e6c8dea110a8665c2c29be49daa03ce940bfcb816ef3",
-  "phase": "reviewed",
-  "generation": 9,
-  "digest": "8aa77c730417d803b52fe1dac9c5687516f5c9de719f71488691b14b012d11c2",
+  "phase": "published",
+  "generation": 23,
+  "digest": "3dd666e0a3800a97d53a8e786c1477252ab23b4c5a9b62601129015ac1998cee",
   "branch": "codex/74-stale-claim-topology-regression",
   "worktree": "/Volumes/FastWork/adl-issue-74-stale-claim-topology-regression",
-  "review_assignment": {
-    "reviewer": "subagent:74-exact-head-rereview",
-    "assigned_by": "codex:74-implementation",
-    "revision": "git-blake3:b07302a56c8a5ae1a88831e5920f7ae1831056db:ffea47c6678ee3a13a9efe4915882ac064b2aa525bfe8262498f3857af2a87be",
-    "scope": [
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/74",
-      ".csdlc/prepared/issues/74"
-    ]
-  },
+  "review_assignment": null,
   "review": {
-    "reviewer": "subagent:74-exact-head-rereview",
+    "reviewer": "subagent:Ampere",
     "scope": [
+      "csdlc-v2/src/lifecycle.rs",
       "csdlc-v2/tests/gate2.rs",
       ".csdlc/issues/74",
-      ".csdlc/prepared/issues/74"
+      ".csdlc/prepared/issues/74/record-exact-head-gate2-validation.json",
+      ".csdlc/prepared/issues/74/record-exact-head-clippy-validation.json"
     ],
-    "reviewed_revision": "git-blake3:b07302a56c8a5ae1a88831e5920f7ae1831056db:ffea47c6678ee3a13a9efe4915882ac064b2aa525bfe8262498f3857af2a87be",
+    "reviewed_revision": "git-blake3:2d064702c290fc18356f9673c701393f5473bbe9:9193c0a5e6ac7706f91924d13144f9d5d7c01d036a56b178567911fbbf44e808",
     "findings": [],
     "residual_risks": [
-      "This is regression proof of the existing relevance-first implementation; broader topology integration remains GitHub CI evidence."
+      "The historical PR #80 publication intent is non-authoritative after typed recovery and must be atomically replaced by csdlc-publish for this repair."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 74,
+    "pull_request": 99,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/99",
+    "base": "main",
+    "head": "codex/74-stale-claim-topology-regression",
+    "revision": "git-blake3:c85d474afeacecbab3aac0afd24c82854437a158:624de982f0239949e48fea7f239c809f8e317eb1f30bad9ffed70516b2fb7cc8",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -47,34 +51,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8206e27b1c3caa4a2a2f94ef883356054fd143f8c27b05603b528d2a1d9d1616",
+      "values_digest": "0aae10dc09934ce339925d6e03f1b1129940e734bd6653f78a271bd889732167",
       "rendered_digest": "abf52f923c7dc3e793e7653e35272cea0c429943da4d9d253b3cc86f4cae5865",
       "ast_digest": "ccc6a52015edc29bf7d2e8a928cb1c85d4f5bd0db23c251648cbbe5da27227e6"
     },
     "stp": {
-      "values_digest": "33b1ead2e3a6cb07e7b414a978b36f657d0f2ed6090c1180dba8f795359d5083",
+      "values_digest": "d2affd8d56d252cc71ea84c135e6d688a4c4dfe6a98b2f9f6eb6cea1e1da3080",
       "rendered_digest": "6945967f79af3b2038ab495ca3138b601ebe1e394e3ad1fc3c89bd4b7d666c2e",
       "ast_digest": "f8c35213e3b3ddbd87307c079a295e3c627ae70275908a7378246f8f55dfcb3a"
     },
     "spp": {
-      "values_digest": "6de6a1e392def726324f664dfcc7a3282df22387330aa5de390dc40294fcf21f",
-      "rendered_digest": "7afe725ae340004228f24f6962ab57296d10ba562ffd1df5a1b84c43b7c54be5",
-      "ast_digest": "f2f275c834510f1422be245a58b58c0c9861bfde818117ecd083e048b164e3ed"
+      "values_digest": "fe84c15e79d74284b58cdabe8e3cc30b93c6267ba683a4ebcb4bf82edcef96ed",
+      "rendered_digest": "8edfba55bdc2f54cee7cc11fe1504d98794e9572932f0c7ff22d71dfb3c6ddaa",
+      "ast_digest": "878ba9e971dbb462c5db1f1dce666b4a39ee0b9dc03b5f3b681057a2ae806aef"
     },
     "vpp": {
-      "values_digest": "1bf10e4c47deac0bd61de77f1c5f25619f07d6e03c24bd4ebe9c7feddeb366ce",
+      "values_digest": "86b9b09342ba1239342f1c41a3c46e064e06564fdb8cb4acba20b7728a9443ba",
       "rendered_digest": "0a5016d5e7889f2c2c450ef7dfaa80d863617141a30c69eff5fc103b2719ea0e",
       "ast_digest": "5d187200056f2d3ac8473b2f1232500093d97468fb644e7412007c3b590dc1c6"
     },
     "srp": {
-      "values_digest": "99e9ca92ce09bd5e07c6076b9696bbf78ea5c3a18a8747c309fa917a1b8b950f",
-      "rendered_digest": "d28cc38404cc17a35dfd9f037f52fe3d88c46672794eec9c587e0a3e2574c0ec",
-      "ast_digest": "4ad8fc36dca7557f8aedd7b23f1f064014c0bd7e687604a6b78a58f4524c15f4"
+      "values_digest": "3d8d97f7b37a0e4d9b07b271ff35405dd2de44213f8db29df5074a05809b159e",
+      "rendered_digest": "16f13197d16342bb6006d41ee2d7df319cb99c3462a366843722d51c0ecbb330",
+      "ast_digest": "631df722a438f54767bf9a9b4cfa254902252e2c03cfb10664ce7f99b088ee52"
     },
     "sor": {
-      "values_digest": "e6b3e5ac7650e0c7ffb9c85a7e1621555143ac47b579e411d8cf4efa149b6901",
-      "rendered_digest": "b253b4a1a2492a00993b1a4f3b57d477d01a9cd46d8debacc7ec723bcf432721",
-      "ast_digest": "115278e40f584bbea8bf4b6955362b5e8c3f182602ec4b0a5f8904a37d3847d2"
+      "values_digest": "c0f7eb5bb3b6896b5e4a813a4a3ad68c34770cb91300c3f1878e6ee5ae07a392",
+      "rendered_digest": "2a8e48a3d15804ca90452596099992a6e409d1a1abf5313ba45a972b0da9d915",
+      "ast_digest": "9dcd5cc81f29a8fd0d6be823e9abb33e0223cd622bc402107a9e252f8752dae4"
     }
   },
   "transitions": [
@@ -119,6 +123,34 @@
       "to": "reviewed",
       "actor": "subagent:74-exact-head-rereview",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:74-publication",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:74-regression-repair",
+      "reason": "Issue #74 was reopened after the original regression test proved only a different-issue stale projection. Recover to implemented so the same-issue pre-topology projection failure can be fixed and reviewed."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:74-regression-repair",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:74-regression-repair",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -212,6 +244,104 @@
       "actor": "subagent:74-exact-head-rereview",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:74-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:74-regression-repair",
+      "reason": "Issue #74 was reopened after the original regression test proved only a different-issue stale projection. Recover to implemented so the same-issue pre-topology projection failure can be fixed and reviewed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:74-regression-repair",
+      "reason": "Correct the plan to reproduce the reported same-issue pre-topology projection rather than only a different-issue stale record.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Reproduce real csdlc-bind with a stale same-issue projection whose retired claim field is present but whose branch and worktree ownership fields are absent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Skip strict decoding only for projections with no branch or worktree topology authority while preserving strict verification for live same-issue, branch, and worktree collisions.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run the focused Gate 2 real-binary regression and strict clippy validation from the issue worktree.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Obtain bounded exact-head review, publish the repair PR, and shepherd required checks without merging.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:74-regression-repair",
+      "reason": "Record the production correction for the exact same-issue pre-topology projection failure.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Fixed csdlc-bind so stale same-issue projections without Git topology authority are skipped before strict current-schema decoding.\",\"changes\":[\"Moved the no-branch/no-worktree decision ahead of strict IssueRecord deserialization in the topology scan.\",\"Added a real-binary regression with a second registered worktree containing a same-issue legacy claim projection.\",\"Kept strict decoding and collision rejection for every projection that declares branch or worktree authority.\"],\"artifacts\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:74-regression-repair",
+      "reason": "Record the complete Gate 2 proof for the same-issue topology correction.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove the exact same-issue stale projection succeeds without mutation while relevant corruption and genuine issue, branch, and worktree collisions remain fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-74-regression-gate2:5-passed\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:74-regression-repair",
+      "reason": "Record strict compilation and lint proof for the topology correction.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject compilation, ownership, error-path, test, and lint regressions across the C-SDLC v2 package.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-74-regression-strict-clippy:passed\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:74-regression-repair",
+      "reason": "The exact same-issue pre-topology claim projection is reproduced in the real-binary Gate 2 fixture.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:74-regression-repair",
+      "reason": "The topology scanner now skips only projections with no branch or worktree authority before strict decoding.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:74-regression-repair",
+      "reason": "All five Gate 2 tests, strict all-target clippy, formatting, card validation, and diff hygiene pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:74-regression-repair",
+      "reason": "Implementation and focused proof are complete; exact-head review and publication remain.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:74-regression-repair",
+      "reason": "Refresh Gate 2 evidence at the exact implementation head after the malformed-topology strictness correction.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove the same-issue topology-free stale projection is ignored without mutation while malformed, partial, and genuine ownership topology remains fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:da8074f0224b52c0212e05a8ca9734c30d740b8e:gate2:5-passed\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:74-regression-repair",
+      "reason": "Refresh strict compilation and lint evidence at the exact implementation head.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject compilation, ownership, error-path, test, and lint regressions across the complete C-SDLC v2 package.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:da8074f0224b52c0212e05a8ca9734c30d740b8e:strict-clippy:passed\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex:74-regression-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex:74-regression-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

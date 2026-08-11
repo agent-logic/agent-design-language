@@ -216,8 +216,15 @@ fn issue_records(
             let value: serde_json::Value = serde_json::from_slice(&bytes).map_err(|error| {
                 topology_error(issue, &index_path, "metadata parse", error.into())
             })?;
-            let branch = value.get("branch").and_then(serde_json::Value::as_str);
-            let worktree = value.get("worktree").and_then(serde_json::Value::as_str);
+            let branch_value = value.get("branch");
+            let worktree_value = value.get("worktree");
+            if branch_value.is_none_or(serde_json::Value::is_null)
+                && worktree_value.is_none_or(serde_json::Value::is_null)
+            {
+                continue;
+            }
+            let branch = branch_value.and_then(serde_json::Value::as_str);
+            let worktree = worktree_value.and_then(serde_json::Value::as_str);
             let same_issue = issue == requested_issue;
             let same_stored_branch = branch == Some(requested_branch);
             let same_canonical_worktree = worktree
@@ -233,9 +240,6 @@ fn issue_records(
             let record = store
                 .load_record_for_topology_scan(issue)
                 .map_err(|error| topology_error(issue, &index_path, "record read", error))?;
-            if record.branch.is_none() && record.worktree.is_none() {
-                continue;
-            }
             let cards_path = store.issue_dir(issue).join("cards");
             let cards = store
                 .load_cards(issue)

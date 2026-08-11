@@ -1,0 +1,10 @@
+{
+  "issue": 74,
+  "card": "spp",
+  "expected_generation": 16,
+  "expected_digest": "308391b5ce58d7cce29791d6c34ec0e4ac3df6c42b9ed5b35cb9edd75744879a",
+  "actor": "codex:74-regression-repair",
+  "reason": "The topology scanner now skips only projections with no branch or worktree authority before strict decoding.",
+  "operation": {"operation": "update_plan_step", "step_id": "S2", "status": "completed"},
+  "fail_after_backup": false
+}
