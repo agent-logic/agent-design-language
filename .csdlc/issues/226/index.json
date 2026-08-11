@@ -6,10 +6,21 @@
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
   "generation": 25,
-  "digest": "4b531994ad4f06262853d46b6d658bf95d38cfa14e8fef7c6fdcc1703aebd7b5",
+  "digest": "22a26059b378bfc8e083745fa526a71c168d31320c3fabf013e32b46790805ee",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+    "assigned_by": "codex:226-focused-runtime-validation-routing",
+    "revision": "git-blake3:da76e0d7c8b96cc0ad54a047d7290fcb8b0d640a:cda536cbbe6cde136bc4fe2c1b01bd8c32267cb4f12969a92f1ff90970885de0",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226/design.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "f781c71464fc62fc40f59266c67555cb5b7ccaf122a368028eb0b5c2fdad9068",
-      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
-      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
+      "values_digest": "1e9dd06c58ec9f026fc4ad5d34da89fbd951a1744c189fcabc44a1f84d54e30b",
+      "rendered_digest": "e1ac8934aa11c005160834b5b095a8e83756cf055f48e66c1acf96eebd811a26",
+      "ast_digest": "fccdd8a8cbae10354c4926365995351d865784831b3544d45c5bf0866fd223a3"
     },
     "sor": {
       "values_digest": "9f1ede9942c9a62e65202065d16a6bd5cc4f10fe19190e32b2673655a0f03694",
@@ -414,6 +425,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Replace the stalled codex-exec reviewer after bounded waits; a FastWork-capable independent reviewer completed the exact db28e8687 scope with no findings.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 25,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
