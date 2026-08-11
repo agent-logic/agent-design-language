@@ -909,6 +909,21 @@ pub struct PublishedAuthorityResult {
     retry_sha256: [u8; 32],
     committed_log_index: u64,
     operation: VerifiedAuthorityOperation,
+    identity: AuthorityNodeIdentity,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub(crate) struct ReconciliationTokenProjection {
+    pub(crate) identity: AuthorityNodeIdentity,
+    pub(crate) operation_id: String,
+    pub(crate) intent_sha256: [u8; 32],
+    pub(crate) result_sha256: [u8; 32],
+    pub(crate) retry_sha256: [u8; 32],
+    pub(crate) committed_log_index: u64,
+    pub(crate) finalization_time: CanonicalAuthorityTime,
+    pub(crate) artifact: CommittedAuthorityArtifact,
+    pub(crate) signer_set_sha256: [u8; 32],
+    pub(crate) signer_count: usize,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -925,22 +940,27 @@ struct DurablePublishedAuthorityResult {
 }
 
 impl DurablePublishedAuthorityResult {
-    fn public_result(&self) -> PublishedAuthorityResult {
+    fn verified_operation(&self) -> VerifiedAuthorityOperation {
+        VerifiedAuthorityOperation {
+            operation_id: self.operation_id.clone(),
+            intent_sha256: self.intent_sha256,
+            committed_log_index: self.committed_log_index,
+            finalization_time: self.finalization_time.clone(),
+            artifact: self.artifact.clone(),
+            signer_guardian_ids: self.signer_guardian_ids.clone(),
+            source: AuthorityVerificationSource::ReplicatedApply,
+        }
+    }
+
+    fn public_result(&self, identity: &AuthorityNodeIdentity) -> PublishedAuthorityResult {
         PublishedAuthorityResult {
             operation_id: self.operation_id.clone(),
             intent_sha256: self.intent_sha256,
             result_sha256: self.result_sha256,
             retry_sha256: self.retry_sha256,
             committed_log_index: self.committed_log_index,
-            operation: VerifiedAuthorityOperation {
-                operation_id: self.operation_id.clone(),
-                intent_sha256: self.intent_sha256,
-                committed_log_index: self.committed_log_index,
-                finalization_time: self.finalization_time.clone(),
-                artifact: self.artifact.clone(),
-                signer_guardian_ids: self.signer_guardian_ids.clone(),
-                source: AuthorityVerificationSource::ReplicatedApply,
-            },
+            operation: self.verified_operation(),
+            identity: identity.clone(),
         }
     }
 }
@@ -964,6 +984,96 @@ impl PublishedAuthorityResult {
 
     pub fn operation(&self) -> &VerifiedAuthorityOperation {
         &self.operation
+    }
+
+    pub(crate) fn reconciliation_projection(
+        &self,
+    ) -> AuthorityProtocolResult<ReconciliationTokenProjection> {
+        let artifact = self.operation.artifact_for_sealed_consumer()?.clone();
+        Ok(ReconciliationTokenProjection {
+            identity: self.identity.clone(),
+            operation_id: self.operation_id.clone(),
+            intent_sha256: self.intent_sha256,
+            result_sha256: self.result_sha256,
+            retry_sha256: self.retry_sha256,
+            committed_log_index: self.committed_log_index,
+            finalization_time: self.operation.finalization_time.clone(),
+            artifact,
+            signer_set_sha256: canonical_domain_digest(
+                b"ADL-COMMITTED-AUTHORITY-SIGNER-SET-V1\0",
+                &self.operation.signer_guardian_ids,
+            )?,
+            signer_count: self.operation.signer_guardian_ids.len(),
+        })
+    }
+}
+
+#[cfg(test)]
+pub(crate) fn test_published_reconciliation_token(
+    identity: AuthorityNodeIdentity,
+    operation_id: &str,
+    artifact: CommittedAuthorityArtifact,
+    committed_log_index: u64,
+    finalization_time: CanonicalAuthorityTime,
+) -> PublishedAuthorityResult {
+    let intent_sha256: [u8; 32] = Sha256::digest(
+        [
+            b"ADL-TEST-PUBLISHED-RECONCILIATION-TOKEN-V1\0".as_slice(),
+            operation_id.as_bytes(),
+            artifact.sha256.as_slice(),
+            &committed_log_index.to_be_bytes(),
+        ]
+        .concat(),
+    )
+    .into();
+    let result_sha256: [u8; 32] =
+        Sha256::digest([intent_sha256.as_slice(), b"result".as_slice()].concat()).into();
+    let retry_sha256: [u8; 32] =
+        Sha256::digest([intent_sha256.as_slice(), b"retry".as_slice()].concat()).into();
+    PublishedAuthorityResult {
+        operation_id: operation_id.to_owned(),
+        intent_sha256,
+        result_sha256,
+        retry_sha256,
+        committed_log_index,
+        operation: VerifiedAuthorityOperation {
+            operation_id: operation_id.to_owned(),
+            intent_sha256,
+            committed_log_index,
+            finalization_time,
+            artifact,
+            signer_guardian_ids: BTreeSet::from([b"test-guardian-a".to_vec()]),
+            source: AuthorityVerificationSource::ReplicatedApply,
+        },
+        identity,
+    }
+}
+
+#[cfg(test)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub(crate) enum TestReconciliationTokenMutation {
+    TrustDomain,
+    Polis,
+    Node,
+    Guardian,
+    BootGeneration,
+    Membership,
+}
+
+#[cfg(test)]
+pub(crate) fn mutate_test_reconciliation_token(
+    token: &mut PublishedAuthorityResult,
+    mutation: TestReconciliationTokenMutation,
+) {
+    match mutation {
+        TestReconciliationTokenMutation::TrustDomain => token.identity.trust_domain.push('x'),
+        TestReconciliationTokenMutation::Polis => token.identity.polis_id.push('x'),
+        TestReconciliationTokenMutation::Node => token.identity.node_id.push('x'),
+        TestReconciliationTokenMutation::Guardian => token.identity.guardian_id.push('x'),
+        TestReconciliationTokenMutation::BootGeneration => {
+            token.identity.boot_generation = token.identity.boot_generation.saturating_add(1)
+        }
+        TestReconciliationTokenMutation::Membership => token.operation.signer_guardian_ids.clear(),
     }
 }
 
@@ -1050,7 +1160,7 @@ impl DurableAuthorityProtocol {
             .payload()
             .published
             .get(operation_id)
-            .map(DurablePublishedAuthorityResult::public_result)
+            .map(|result| result.public_result(&self.identity))
     }
 
     pub(crate) fn publish(
@@ -1089,15 +1199,15 @@ impl DurableAuthorityProtocol {
         }
         if let Some(existing) = self.envelope.payload().published.get(&intent.operation_id) {
             if existing.intent_sha256 == verified.intent_sha256
-                && existing.public_result().operation == verified
+                && existing.public_result(&self.identity).operation == verified
                 && existing.retry_sha256 == retry_digest(existing)?
                 && existing.result_sha256
                     == result_digest(
-                        &existing.public_result().operation,
+                        &existing.public_result(&self.identity).operation,
                         existing.committed_log_index,
                     )?
             {
-                return Ok(existing.public_result());
+                return Ok(existing.public_result(&self.identity));
             }
             return Err(AuthorityProtocolError::RetryConflict);
         }
@@ -1129,7 +1239,7 @@ impl DurableAuthorityProtocol {
         next.published
             .insert(intent.operation_id.clone(), result.clone());
         self.envelope = self.store.commit(&self.envelope, next)?;
-        Ok(result.public_result())
+        Ok(result.public_result(&self.identity))
     }
 }
 
@@ -1151,8 +1261,8 @@ fn validate_protocol_state(state: &AuthorityProtocolState) -> AuthorityProtocolR
             .validate(AuthorityOperationKind::from_artifact_domain(
                 &durable.artifact.domain,
             )?)?;
-        let public = durable.public_result();
-        if durable.result_sha256 != result_digest(&public.operation, durable.committed_log_index)?
+        if durable.result_sha256
+            != result_digest(&durable.verified_operation(), durable.committed_log_index)?
             || durable.retry_sha256 != retry_digest(durable)?
         {
             return Err(AuthorityProtocolError::StateRegression);

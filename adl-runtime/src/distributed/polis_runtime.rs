@@ -42,6 +42,9 @@ use crate::distributed::authority_protocol::{
     AuthorityPrepareProposal, DurableAuthorityProtocol, PrepareAuthorityIntent,
     PublishedAuthorityResult,
 };
+use crate::distributed::authority_reconciliation::{
+    AuthorityReconciliationBarrier, AuthorityReconciliationError, PublishedReconciliationResult,
+};
 use crate::distributed::certificates::{AuthorityCertificate, DistributedCertificateStore};
 use crate::distributed::lease::{AuthorityMembership, VoterAuthority};
 use crate::distributed::membership::MembershipPolicy;
@@ -1745,6 +1748,27 @@ impl PolisStateMachineStore {
         protocol
             .publish(&intent, verified)
             .map_err(|_| PolisRuntimeError::Storage)
+    }
+
+    /// Carries only the opaque, locally published #201 result into the sealed
+    /// concrete-store reconciliation registry. Raw commands and caller-created
+    /// receipts never reach the barrier.
+    pub async fn reconcile_concrete_authority(
+        &self,
+        operation_id: &str,
+        barrier: &mut AuthorityReconciliationBarrier,
+    ) -> Result<PublishedReconciliationResult, PolisRuntimeError> {
+        let published = self.reconcile_authority_publication(operation_id).await?;
+        barrier.reconcile(&published).map_err(|error| match error {
+            AuthorityReconciliationError::Serialization => PolisRuntimeError::Serialization,
+            AuthorityReconciliationError::StateRegression
+            | AuthorityReconciliationError::CheckpointConflict => {
+                PolisRuntimeError::StateRegression
+            }
+            AuthorityReconciliationError::Storage => PolisRuntimeError::Storage,
+            AuthorityReconciliationError::CapacityExceeded => PolisRuntimeError::FrameTooLarge,
+            _ => PolisRuntimeError::AuthorityDenied,
+        })
     }
 
     fn validate_application_authority(
