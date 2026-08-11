@@ -3,7 +3,9 @@ use std::fs;
 use std::path::Path;
 use std::process::{Command, Output};
 
-use csdlc_v2::cards::{digest, CardContent, PlanStep, ResourceProfile, StepStatus, ValidationLane};
+use csdlc_v2::cards::{
+    digest, render, CardContent, PlanStep, ResourceProfile, StepStatus, ValidationLane,
+};
 use csdlc_v2::{
     bind_issue, edit_issue, BindRequest, BootstrapRequest, CardKind, EditRequest, InitialCardInput,
     LifecyclePhase, PlanningProfile, SemanticOperation, Store,
@@ -187,6 +189,13 @@ fn issue_projection_snapshot(repo: &Path, issue: u64) -> BTreeMap<String, Vec<u8
     snapshot
 }
 
+fn restore_issue_projection(repo: &Path, issue: u64, snapshot: &BTreeMap<String, Vec<u8>>) {
+    let root = repo.join(format!(".csdlc/issues/{issue}"));
+    for (relative, bytes) in snapshot {
+        fs::write(root.join(relative), bytes).expect("restore projection bytes");
+    }
+}
+
 fn direct_edit(
     store: &Store,
     record: &csdlc_v2::IssueRecord,
@@ -207,6 +216,46 @@ fn direct_edit(
             fail_after_backup,
         },
     )
+}
+
+fn write_consistent_record(repo: &Path, record: &mut csdlc_v2::IssueRecord) {
+    record.digest.clear();
+    record.digest = digest(&serde_json::to_vec(&*record).expect("record digest serialization"));
+    let mut bytes = serde_json::to_vec_pretty(&*record).expect("record projection serialization");
+    bytes.push(b'\n');
+    fs::write(
+        repo.join(format!(".csdlc/issues/{}/index.json", record.issue)),
+        bytes,
+    )
+    .expect("write consistent record projection");
+}
+
+fn write_consistent_card(
+    repo: &Path,
+    record: &mut csdlc_v2::IssueRecord,
+    kind: CardKind,
+    values: &csdlc_v2::CardValues,
+) {
+    let rendered = render(values).expect("render consistent card");
+    let cards = repo.join(format!(".csdlc/issues/{}/cards", record.issue));
+    let mut encoded = serde_json::to_vec_pretty(values).expect("card projection serialization");
+    encoded.push(b'\n');
+    fs::write(cards.join(format!("{kind}.values.json")), encoded)
+        .expect("write consistent card values");
+    fs::write(
+        cards.join(format!("{kind}.md")),
+        rendered.markdown.as_bytes(),
+    )
+    .expect("write consistent rendered card");
+    record.cards.insert(
+        kind,
+        csdlc_v2::model::CardProjection {
+            values_digest: rendered.values_digest,
+            rendered_digest: rendered.rendered_digest,
+            ast_digest: rendered.ast_digest,
+        },
+    );
+    write_consistent_record(repo, record);
 }
 
 fn assert_single_generation_preserves_lifecycle_shell(
@@ -2206,52 +2255,101 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     assert_eq!(issue_projection_snapshot(&repo, 42), wrong_card_before);
 
     let index_path = repo.join(".csdlc/issues/42/index.json");
-    let index_bytes = fs::read(&index_path).expect("index bytes");
-    let mut index: serde_json::Value = serde_json::from_slice(&index_bytes).expect("index JSON");
-    index["review_assignment"] = serde_json::json!({
-        "reviewer": "too-early",
-        "assigned_by": "test",
-        "revision": "0".repeat(40),
-        "scope": ["later evidence"]
+    let clean_initialized = issue_projection_snapshot(&repo, 42);
+    let mut later_evidence = record.clone();
+    later_evidence.review_assignment = Some(csdlc_v2::ReviewAssignment {
+        reviewer: "too-early".into(),
+        assigned_by: "test-operator".into(),
+        revision: "0".repeat(40),
+        scope: vec!["later evidence".into()],
     });
-    fs::write(
-        &index_path,
-        serde_json::to_vec_pretty(&index).expect("later-evidence index"),
+    write_consistent_record(&repo, &mut later_evidence);
+    let injected_later_evidence = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(
+        &store,
+        &later_evidence,
+        CardKind::Stp,
+        exact_acceptance(),
+        false,
     )
-    .expect("inject later evidence");
-    assert!(direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false).is_err());
-    fs::write(&index_path, &index_bytes).expect("restore index after later evidence");
+    .expect_err("later evidence guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(
+        error.message,
+        "pre-bind contract repair requires unbound topology and no later lifecycle evidence"
+    );
+    assert_eq!(
+        issue_projection_snapshot(&repo, 42),
+        injected_later_evidence
+    );
+    restore_issue_projection(&repo, 42, &clean_initialized);
 
-    let spp_path = repo.join(".csdlc/issues/42/cards/spp.values.json");
-    let spp_bytes = fs::read(&spp_path).expect("SPP bytes");
-    let mut spp: serde_json::Value = serde_json::from_slice(&spp_bytes).expect("SPP JSON");
-    spp["content"]["values"]["design_ref"] = serde_json::json!("design/wrong.md");
-    fs::write(
-        &spp_path,
-        serde_json::to_vec_pretty(&spp).expect("drifted SPP"),
+    let mut reference_drift = record.clone();
+    let mut drifted_spp =
+        store.load_cards(42).expect("cards for reference drift")[&CardKind::Spp].clone();
+    match &mut drifted_spp.content {
+        CardContent::Spp(values) => values.design_ref = "design/wrong.md".into(),
+        _ => unreachable!("SPP"),
+    }
+    write_consistent_card(&repo, &mut reference_drift, CardKind::Spp, &drifted_spp);
+    let injected_reference_drift = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(
+        &store,
+        &reference_drift,
+        CardKind::Stp,
+        exact_acceptance(),
+        false,
     )
-    .expect("inject reference drift");
-    assert!(direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false).is_err());
-    fs::write(&spp_path, &spp_bytes).expect("restore SPP");
+    .expect_err("reference drift guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::CardInvalid);
+    assert_eq!(
+        error.message,
+        "pre-bind repair design/diagram references disagree with issue authority"
+    );
+    assert_eq!(
+        issue_projection_snapshot(&repo, 42),
+        injected_reference_drift
+    );
+    restore_issue_projection(&repo, 42, &clean_initialized);
 
     let design_path = repo.join("design/issue-42.md");
     let design_bytes = fs::read(&design_path).expect("design bytes");
     fs::remove_file(&design_path).expect("remove design for path drift");
     fs::create_dir(&design_path).expect("replace design with directory");
-    assert!(direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false).is_err());
+    let path_drift_projection = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false)
+        .expect_err("authored path drift guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert_eq!(
+        error.message,
+        "authored artifact target is not a regular file"
+    );
+    assert_eq!(issue_projection_snapshot(&repo, 42), path_drift_projection);
     fs::remove_dir(&design_path).expect("remove drifted design directory");
     fs::write(&design_path, &design_bytes).expect("restore design");
 
-    let mut wrong_identity: serde_json::Value =
-        serde_json::from_slice(&index_bytes).expect("index JSON");
-    wrong_identity["issue"] = serde_json::json!(43);
-    fs::write(
-        &index_path,
-        serde_json::to_vec_pretty(&wrong_identity).expect("wrong identity index"),
-    )
-    .expect("inject identity drift");
-    assert!(direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false).is_err());
-    fs::write(&index_path, &index_bytes).expect("restore index after identity drift");
+    let mut wrong_identity = record.clone();
+    wrong_identity.issue = 43;
+    wrong_identity.digest.clear();
+    wrong_identity.digest =
+        digest(&serde_json::to_vec(&wrong_identity).expect("wrong identity digest serialization"));
+    let mut wrong_identity_bytes =
+        serde_json::to_vec_pretty(&wrong_identity).expect("wrong identity projection");
+    wrong_identity_bytes.push(b'\n');
+    fs::write(&index_path, wrong_identity_bytes).expect("inject identity drift");
+    let injected_identity_drift = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false)
+        .expect_err("record identity guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::CorruptRecord);
+    assert_eq!(
+        error.message,
+        "issue projection namespace mismatch: requested 42, embedded 43"
+    );
+    assert_eq!(
+        issue_projection_snapshot(&repo, 42),
+        injected_identity_drift
+    );
+    restore_issue_projection(&repo, 42, &clean_initialized);
 
     let approval = csdlc_v2::store::approve_design(
         &store,
@@ -2440,6 +2538,34 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     assert!(!pending_validation.status.success());
     assert!(String::from_utf8_lossy(&pending_validation.stdout)
         .contains("design_review_missing_or_stale"));
+    let clean_ready = issue_projection_snapshot(&repo, 42);
+    let mut ready_with_topology = record.clone();
+    ready_with_topology.branch = Some("premature-ready-branch".into());
+    ready_with_topology.worktree = Some("/tmp/premature-ready-worktree".into());
+    write_consistent_record(&repo, &mut ready_with_topology);
+    let injected_ready_topology = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(
+        &store,
+        &ready_with_topology,
+        CardKind::Spp,
+        plan(
+            "reject ready topology evidence",
+            vec!["AC-1", "AC-2"],
+            StepStatus::Pending,
+        ),
+        false,
+    )
+    .expect_err("ready topology guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(
+        error.message,
+        "pre-bind contract repair requires unbound topology and no later lifecycle evidence"
+    );
+    assert_eq!(
+        issue_projection_snapshot(&repo, 42),
+        injected_ready_topology
+    );
+    restore_issue_projection(&repo, 42, &clean_ready);
     record = csdlc_v2::store::approve_design(
         &store,
         csdlc_v2::store::ApproveDesignRequest {
@@ -2468,17 +2594,34 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     assert!(direct_edit(&store, &stale, CardKind::Stp, exact_acceptance(), false).is_err());
     assert_eq!(issue_projection_snapshot(&repo, 42), before_interruption);
 
-    let reviewed_index = fs::read(&index_path).expect("ready index");
-    let mut reviewed: serde_json::Value =
-        serde_json::from_slice(&reviewed_index).expect("ready index JSON");
-    reviewed["phase"] = serde_json::json!("reviewed");
-    fs::write(
-        &index_path,
-        serde_json::to_vec_pretty(&reviewed).expect("unsupported phase index"),
-    )
-    .expect("inject unsupported phase");
-    assert!(direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false).is_err());
-    fs::write(&index_path, reviewed_index).expect("restore ready index");
+    let clean_ready = issue_projection_snapshot(&repo, 42);
+    let mut reviewed = record.clone();
+    let mut from = LifecyclePhase::Ready;
+    for to in [
+        LifecyclePhase::Bound,
+        LifecyclePhase::Implemented,
+        LifecyclePhase::Reviewed,
+    ] {
+        reviewed.transitions.push(csdlc_v2::model::TransitionEvent {
+            sequence: reviewed.transitions.len() as u64 + 1,
+            from,
+            to,
+            actor: "test-operator".into(),
+            reason: "build consistent unsupported-phase fixture".into(),
+        });
+        from = to;
+    }
+    reviewed.phase = LifecyclePhase::Reviewed;
+    reviewed.branch = Some("reviewed-fixture".into());
+    reviewed.worktree = Some("/tmp/reviewed-fixture".into());
+    write_consistent_record(&repo, &mut reviewed);
+    let injected_reviewed = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(&store, &reviewed, CardKind::Stp, exact_acceptance(), false)
+        .expect_err("unsupported reviewed phase guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(error.message, "stp mutation is not allowed during reviewed");
+    assert_eq!(issue_projection_snapshot(&repo, 42), injected_reviewed);
+    restore_issue_projection(&repo, 42, &clean_ready);
 
     git(&repo, &["switch", "-c", "issue-42"]);
     bind_issue(

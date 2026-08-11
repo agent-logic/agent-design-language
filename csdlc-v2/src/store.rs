@@ -1321,6 +1321,14 @@ pub struct ApproveDesignRequest {
 }
 
 pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<IssueRecord> {
+    approve_design_with_hook(store, request, |_| {})
+}
+
+fn approve_design_with_hook(
+    store: &Store,
+    request: ApproveDesignRequest,
+    mut authored_hook: impl FnMut(AuthoredReadStage),
+) -> Result<IssueRecord> {
     let _lock = store.lock(request.issue)?;
     store.recover_if_needed(request.issue)?;
     let mut record = store.load_record(request.issue)?;
@@ -1344,8 +1352,12 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
     }
     let mut cards = store.load_cards(request.issue)?;
     verify_card_projections(store, &record, &cards)?;
-    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    let (design_digest, diagram_digest) = approval_authored_digests_with_hook(
+        store,
+        &record.design_path,
+        &record.diagram_path,
+        &mut authored_hook,
+    )?;
     let initial_approval = record.phase == LifecyclePhase::Initialized
         && matches!(
             record.design_review,
@@ -1446,8 +1458,8 @@ pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Resul
         ));
     }
     let bootstrap_actor = request.actor.clone();
-    let design_digest = digest(&fs::read(store.root.join(&request.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&request.diagram_path))?);
+    let design_digest = authored_digest(store, &request.design_path)?;
+    let diagram_digest = authored_digest(store, &request.diagram_path)?;
     let cards = initial_cards(
         request.issue,
         &request.repository,
@@ -1937,14 +1949,33 @@ fn refresh_prebind_design_bindings(
 }
 
 fn authored_digest(store: &Store, relative: &str) -> Result<String> {
-    let bytes =
-        read_regular_authored_artifact(store.root(), Path::new(relative))?.ok_or_else(|| {
+    authored_digest_with_hook(store, relative, |_| {})
+}
+
+fn authored_digest_with_hook(
+    store: &Store,
+    relative: &str,
+    hook: impl FnMut(AuthoredReadStage),
+) -> Result<String> {
+    let bytes = read_regular_authored_artifact_with_hook(store.root(), Path::new(relative), hook)?
+        .ok_or_else(|| {
             V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 format!("authored design artifact is absent: {relative}"),
             )
         })?;
     Ok(digest(&bytes))
+}
+
+fn approval_authored_digests_with_hook(
+    store: &Store,
+    design_path: &str,
+    diagram_path: &str,
+    mut hook: impl FnMut(AuthoredReadStage),
+) -> Result<(String, String)> {
+    let design_digest = authored_digest_with_hook(store, design_path, &mut hook)?;
+    let diagram_digest = authored_digest_with_hook(store, diagram_path, &mut hook)?;
+    Ok((design_digest, diagram_digest))
 }
 
 fn current_text_value(values: &CardValues, field: crate::cards::TextField) -> Result<String> {
@@ -1986,8 +2017,8 @@ pub(crate) fn verify_cards(
             "audit projection drift",
         ));
     }
-    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    let design_digest = authored_digest(store, &record.design_path)?;
+    let diagram_digest = authored_digest(store, &record.diagram_path)?;
     validate_cross_card(
         cards,
         &record.design_path,
@@ -2015,8 +2046,8 @@ pub(crate) fn verify_pre_topology_cards(
             "audit projection drift",
         ));
     }
-    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    let design_digest = authored_digest(store, &record.design_path)?;
+    let diagram_digest = authored_digest(store, &record.diagram_path)?;
     validate_cross_card(
         cards,
         &record.design_path,
@@ -2494,8 +2525,8 @@ fn validate_updated_cards(
     record: &IssueRecord,
     cards: &BTreeMap<CardKind, CardValues>,
 ) -> Result<()> {
-    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    let design_digest = authored_digest(store, &record.design_path)?;
+    let diagram_digest = authored_digest(store, &record.diagram_path)?;
     validate_cross_card(
         cards,
         &record.design_path,
@@ -3274,6 +3305,57 @@ mod edit_authorization_tests {
         assert_eq!(first_metadata.len(), second_metadata.len());
         assert!(same_file_identity(&first_metadata, &first_metadata));
         assert!(!same_file_identity(&first_metadata, &second_metadata));
+    }
+
+    #[test]
+    fn approval_hashes_bind_exact_authored_bytes() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design = b"# reviewed design\n";
+        let diagram = b"flowchart LR\n  Review --> Approve\n";
+        fs::write(temp.path().join("design.md"), design).expect("design");
+        fs::write(temp.path().join("diagram.mmd"), diagram).expect("diagram");
+        let store = Store::new(temp.path());
+        let (design_digest, diagram_digest) =
+            approval_authored_digests_with_hook(&store, "design.md", "diagram.mmd", |_| {})
+                .expect("approval digests");
+        assert_eq!(design_digest, digest(design));
+        assert_eq!(diagram_digest, digest(diagram));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn approval_hashing_rejects_symlinked_authored_path() {
+        use std::os::unix::fs::symlink;
+
+        let temp = tempfile::tempdir().expect("tempdir");
+        fs::write(temp.path().join("real-design.md"), b"# design\n").expect("real design");
+        fs::write(temp.path().join("diagram.mmd"), b"flowchart LR\n").expect("diagram");
+        symlink("real-design.md", temp.path().join("design.md")).expect("design symlink");
+        let store = Store::new(temp.path());
+        let error = approval_authored_digests_with_hook(&store, "design.md", "diagram.mmd", |_| {})
+            .expect_err("approval symlink must fail closed");
+        assert_eq!(error.code, ErrorCode::UnsafeCheckout);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn approval_hashing_rejects_hardlink_replacement_during_read() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design_path = temp.path().join("design.md");
+        fs::write(&design_path, vec![b'o'; 32]).expect("design");
+        fs::write(temp.path().join("malicious.md"), vec![b'x'; 32]).expect("malicious");
+        fs::write(temp.path().join("diagram.mmd"), b"flowchart LR\n").expect("diagram");
+        let store = Store::new(temp.path());
+        let error =
+            approval_authored_digests_with_hook(&store, "design.md", "diagram.mmd", |stage| {
+                if stage == AuthoredReadStage::BeforeFinalOpen {
+                    fs::remove_file(&design_path).expect("remove design name");
+                    fs::hard_link(temp.path().join("malicious.md"), &design_path)
+                        .expect("replace design with hardlink");
+                }
+            })
+            .expect_err("approval replacement must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
     }
 
     #[cfg(unix)]
