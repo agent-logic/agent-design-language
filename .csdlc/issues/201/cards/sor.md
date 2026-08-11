@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the independently approved stable replicated authority and runtime-external current boot-cut model. Replacement v7 evidence binds source 61cbbb157fd3c329ef0c399d0bd9bbf6e164519a with exact semantic 86/86, full runtime 230/230, strict Clippy, real three-voter OpenRaft, validator ancestry and shallow-safe modes, and immutable introduction d832b0169; fresh independent implementation review remains pending and nothing is published or merged.
+Resolved PR #229's hosted coverage-impact failure without changing the authority runtime or immutable v7 proof: the cfg(test)-only contract source is explicitly classified, all four changed production authority files map to one governed adl-runtime lane and exceed the unchanged 80-percent floor, and fresh independent exact-head review remains pending.
 
 ## Artifacts
 
@@ -27,6 +27,11 @@ Implemented the independently approved stable replicated authority and runtime-e
 - .csdlc/issues/201/cards/vpp.md
 - .csdlc/issues/201/cards/srp.md
 - .csdlc/issues/201/cards/sor.md
+- adl/tools/check_coverage_impact.sh
+- adl/tools/run_pr_fast_coverage_lane.sh
+- adl/tools/test_check_coverage_impact.sh
+- adl/tools/test_run_pr_fast_coverage_lane.sh
+- .csdlc/prepared/issues/201/coverage-impact-result.json
 
 ## Execution
 
@@ -35,6 +40,9 @@ Implemented the independently approved stable replicated authority and runtime-e
 - Finalization, publication, restore, and snapshot install reverify frozen historical custody, while boot-rotated reopen can immediately build and install a snapshot before a new Prepare.
 - The exact snapshot regression rejects stale cuts without mutation, accepts the current cut, preserves old prepared/finalized custody, and rejects duplicate, reordered, zero, missing, extra, non-JCS, and injected current boot vectors.
 - The v7 producer and validator now execute and bind the truthful full runtime 230/230 lane in addition to the unchanged exact 86-case semantic contract.
+- Classified authority_protocol_contract_tests.rs as test-only because authority_protocol.rs includes it only under cfg(test); no production Rust file is excluded or reclassified.
+- Mapped authority_protocol.rs, identity.rs, polis_runtime.rs, and the authority-bound transport bridge to one adl-runtime package coverage lane while preserving the standalone transport mapping.
+- Routed that lane to the owning adl-runtime manifest and added fail-closed policy/runner regressions for deduplication, standalone low-coverage rejection, exact expression preservation, and summary production.
 
 ## Validation
 
@@ -157,6 +165,61 @@ Implemented the independently approved stable replicated authority and runtime-e
     "purpose": "Prove current diff hygiene.",
     "outcome": "passed",
     "evidence_ref": "git:worktree"
+  },
+  {
+    "command": [
+      "GitHub Actions",
+      "adl-coverage-hosted",
+      "c5ce49147df76cc30f99e61a04c129f317671bed"
+    ],
+    "purpose": "Retain the hosted failure that exposed missing test-only classification and production authority coverage mapping.",
+    "outcome": "failed",
+    "evidence_ref": "https://github.com/agent-logic/agent-design-language/pull/229/checks"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "purpose": "Prove cfg(test) classification, exact authority mapping, deduplication, and fail-closed standalone or combined low-coverage behavior.",
+    "outcome": "passed",
+    "evidence_ref": "adl/tools/test_check_coverage_impact.sh"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "purpose": "Prove the authority filter skips the unrelated ADL workspace, runs against the owning adl-runtime manifest, and emits the expected summary.",
+    "outcome": "passed",
+    "evidence_ref": "adl/tools/test_run_pr_fast_coverage_lane.sh"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "--filter-expression",
+      "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))"
+    ],
+    "purpose": "Run the hosted-equivalent owning package lane: 443 selected authority-owning runtime tests passed and produced production-file coverage above 80 percent.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/check_coverage_impact.sh",
+      "--base",
+      "4041053",
+      "--head",
+      "948ba82c2",
+      "--summary",
+      "adl/target/coverage-impact-summary.json",
+      "--require-summary-for-risk"
+    ],
+    "purpose": "Prove exact PR-mode coverage rows at 94.08, 89.59, 84.58, and 92.39 percent with the global threshold unchanged.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json"
   }
 ]
 

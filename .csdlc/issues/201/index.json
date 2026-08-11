@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "implemented",
-  "generation": 83,
-  "digest": "2a1a5bceabf8b7893844986b2535f72c882d1d6a1268c7104bcda6c5ec28ef3e",
+  "generation": 84,
+  "digest": "78b4ad9f9a83573a5b5f08728a09e92e594f9535a1bfc8299d5c5ac460faecad",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9a44b573689146a38115df3ad954121c7dba04fb18b80ddf39382bd1ef9f9434",
+      "values_digest": "772495467c4df923ff69a31c46977b11b78d2d1420f2dcf364e5777a6091f349",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "358c515c84cfcc1610ddff44ace961b052c7ba9b60fedc96e261b0e03fb9c1de",
+      "values_digest": "87321f6f92fd47347c952c989a7a2e3ff2d7027e27283a6227a151f76a893734",
       "rendered_digest": "b950aba26dec0569a2cc4f517f94b1dd2e860aa0b69788bd18db7d5c75ed8f9a",
       "ast_digest": "28f2dc66f6faa44a769b5b71539953640466cfcbc68461ee06252a582338ed62"
     },
     "spp": {
-      "values_digest": "a5d084c8a63670067b21a6257f6cfe06fcee8d9045858dce60ca0c7e3828638a",
+      "values_digest": "f083d5dd4ed3fb2238f59d218e8ae53a4025843d614ed9bdcc81ee5c481cf473",
       "rendered_digest": "819ea926715f4c64b0b2b5341a74b4dce6df8dfe2a5910bfc60365cde0b11076",
       "ast_digest": "c5b82d532a96845ab40a3617553d6cac1277ee1979734c82003263b9dbcd00b9"
     },
     "vpp": {
-      "values_digest": "1c70d8259c6fcde0c1b73e89c6b39f849b55d6efcd5e1b824ef15ac22dc2c3f1",
+      "values_digest": "09c72311c5d17ebd0355e5d8a957a9ee854f338a43a04924c916d43a9ce3e4ab",
       "rendered_digest": "e58cc826de7c30048a6a531d68311e838b72324327811fc69b3289aa5cafe5de",
       "ast_digest": "cdec87441d57fbb78ffbf59fcdb73ab607411bf6437cd20dd96a8c510c5678f6"
     },
     "srp": {
-      "values_digest": "2c32117e245cfb207a17e109eeb8ccee76c4cb2e8cdbb454713c16804eb0b967",
+      "values_digest": "45176cfae1cc6e7c675c6ef5bd22ad49c854f52dbb8e2f3afa116262c8e1ebc1",
       "rendered_digest": "7842a5b4a31b4c37305c2c84faee2a2d137549db60dfe0aed36c2ef7c025775e",
       "ast_digest": "27aa8d1db9277ebe055025a0461f01a1750d7d572041cda65f76fda07ac2b1a8"
     },
     "sor": {
-      "values_digest": "fb5cb6117ee98606650b5a2346e8fdc13a76987ebd8b8d241bf18ca1b4388abd",
-      "rendered_digest": "6c0ae0b3a87034207c47fb0afac3e30824c41e84e1095a38ba14effd0661015b",
-      "ast_digest": "270e1140c31d9e03ccc6b6085098d821d7e36f2097177c497547d49c34258d80"
+      "values_digest": "baddbd412ef1ea664506b808eb85c3193de50c2bfd183084cec25b157cacb58e",
+      "rendered_digest": "b02d6774c4ef90637f70957f63d4f5c9fab4a82d9e43d246fbf8b3cd12a8fb24",
+      "ast_digest": "cdcd07803f5f5ba82a2b9673f0dfce9538cd0f8a72b2d23439d1ad14b647e853"
     }
   },
   "transitions": [
@@ -721,6 +721,13 @@
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
       "reason": "Govern the bounded coverage-impact mapping, runner, and policy-regression files added by hosted CI remediation.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_protocol_contract_tests.rs\",\"adl-runtime/src/distributed/identity.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/tests/distributed_authority_protocol.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201\",\".csdlc/issues/201\"]}"
+    },
+    {
+      "sequence": 87,
+      "generation": 84,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+      "reason": "Record the retained hosted failure and exact local coverage-impact repair proof while fresh review and republication remain pending.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved PR #229's hosted coverage-impact failure without changing the authority runtime or immutable v7 proof: the cfg(test)-only contract source is explicitly classified, all four changed production authority files map to one governed adl-runtime lane and exceed the unchanged 80-percent floor, and fresh independent exact-head review remains pending.\",\"changes\":[\"Replicated current authority now contains only stable polis, epoch, membership, configuration, and voter truth; current boot custody remains runtime-external and is validated as an exact full voter cut.\",\"Every Prepare requires exact canonical current boot-vector equality, never mutates current authority, and freezes its complete historical boot vector plus a digest bound to stable authority.\",\"Finalization, publication, restore, and snapshot install reverify frozen historical custody, while boot-rotated reopen can immediately build and install a snapshot before a new Prepare.\",\"The exact snapshot regression rejects stale cuts without mutation, accepts the current cut, preserves old prepared/finalized custody, and rejects duplicate, reordered, zero, missing, extra, non-JCS, and injected current boot vectors.\",\"The v7 producer and validator now execute and bind the truthful full runtime 230/230 lane in addition to the unchanged exact 86-case semantic contract.\",\"Classified authority_protocol_contract_tests.rs as test-only because authority_protocol.rs includes it only under cfg(test); no production Rust file is excluded or reclassified.\",\"Mapped authority_protocol.rs, identity.rs, polis_runtime.rs, and the authority-bound transport bridge to one adl-runtime package coverage lane while preserving the standalone transport mapping.\",\"Routed that lane to the owning adl-runtime manifest and added fail-closed policy/runner regressions for deduplication, standalone low-coverage rejection, exact expression preservation, and summary production.\"],\"artifacts\":[\"adl-runtime/src/distributed/polis_runtime.rs\",\".csdlc/prepared/issues/201/design.md\",\".csdlc/prepared/issues/201/diagram.mmd\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201/v7/execution-proof.json\",\".csdlc/issues/201/cards/stp.md\",\".csdlc/issues/201/cards/spp.md\",\".csdlc/issues/201/cards/vpp.md\",\".csdlc/issues/201/cards/srp.md\",\".csdlc/issues/201/cards/sor.md\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\",\".csdlc/prepared/issues/201/coverage-impact-result.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"-E\",\"test(/^distributed::authority_protocol::contract_tests::/) or test(/^distributed::polis_runtime::authority_consensus_tests::snapshot_/)\",\"--no-tests=fail\"],\"purpose\":\"Prove the 83 Rust cases contributing to the exact issue semantic denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\"--self-test\"],\"purpose\":\"Prove the three exact validator topology modes and semantic markers.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--no-tests=fail\"],\"purpose\":\"Prove the truthful complete runtime denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json#runtime_summary=230/230\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove production real three-voter OpenRaft authority flow.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove production authority code is warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"purpose\":\"Prove exact source ancestry, protected-tree fallback only when source is absent, available divergence rejection, immutable proof introduction, semantic 86/86, and runtime 230/230.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"201\"],\"purpose\":\"Prove typed card projections and independently approved design bindings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/201/index.json\"},{\"command\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"201\"],\"purpose\":\"Prove implemented lifecycle health with fresh review pending.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/201/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove current diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:worktree\"},{\"command\":[\"GitHub Actions\",\"adl-coverage-hosted\",\"c5ce49147df76cc30f99e61a04c129f317671bed\"],\"purpose\":\"Retain the hosted failure that exposed missing test-only classification and production authority coverage mapping.\",\"outcome\":\"failed\",\"evidence_ref\":\"https://github.com/agent-logic/agent-design-language/pull/229/checks\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove cfg(test) classification, exact authority mapping, deduplication, and fail-closed standalone or combined low-coverage behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_check_coverage_impact.sh\"},{\"command\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"purpose\":\"Prove the authority filter skips the unrelated ADL workspace, runs against the owning adl-runtime manifest, and emits the expected summary.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_pr_fast_coverage_lane.sh\"},{\"command\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))\"],\"purpose\":\"Run the hosted-equivalent owning package lane: 443 selected authority-owning runtime tests passed and produced production-file coverage above 80 percent.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/201/coverage-impact-result.json\"},{\"command\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--base\",\"4041053\",\"--head\",\"948ba82c2\",\"--summary\",\"adl/target/coverage-impact-summary.json\",\"--require-summary-for-risk\"],\"purpose\":\"Prove exact PR-mode coverage rows at 94.08, 89.59, 84.58, and 92.39 percent with the global threshold unchanged.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/201/coverage-impact-result.json\"}]}"
     }
   ]
 }
