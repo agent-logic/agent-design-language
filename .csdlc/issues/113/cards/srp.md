@@ -42,12 +42,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Distributed and non-local roster projection remains outside #113 under #142.
+- Long-running distributed and soak-style validation is out of band under #226 and is not a focused #113 gate.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ba4b4bb5cdae10be896a33b21e53a05cd5763138:bd12f7e87a54b35d0a9d2574c5f064d5068068b8937ee1490e7664abf7cd0ebb")
 
-Reviewer: None
+Reviewer: Some("subagent:019fefbc-1619-7a21-b27c-8edb01692b23")
 
-Result: pre_review
+Result: pass
