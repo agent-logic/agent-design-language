@@ -6,10 +6,24 @@
   "initialization_digest": "2f8a9edc733d36518cfdfe54639ecbf45210e8028e1a884bf5e25a2d1d52408c",
   "phase": "implemented",
   "generation": 60,
-  "digest": "aea55da664b1c927558503fa193a2aa1290fa49c0b27a01f0cbce286ca440471",
+  "digest": "42cc8de925429c89f2c35a9e8a51ee0577d488435f205b754cfb9273e6497687",
   "branch": "codex/5834-birthday-review-packet",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5834-birthday-review-packet",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5834_exact_head",
+    "assigned_by": "/root/sprint4_5857",
+    "revision": "git-blake3:632857a8eaa51e31f2dd339705959ee49bfe455f:184fe8f7e75e104585054b0d2c1dbd684e09d55264a909dce82c70bacf3d5a79",
+    "scope": [
+      ".csdlc/issues/5834",
+      ".csdlc/prepared/issues/5834/design.md",
+      ".csdlc/prepared/issues/5834/validate-review-packet.rb",
+      ".csdlc/evidence/5834",
+      "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
+      "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+      "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json",
+      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +59,9 @@
       "ast_digest": "b49b2b680a76314daa9af47da607411f5ef2cdebd31391702f63c6328e77c29c"
     },
     "srp": {
-      "values_digest": "ecb417ef0bd373dea5805e45e385ad2899bb67a758b15e411ed01090b0a5a9c2",
-      "rendered_digest": "683805d642506036f16f1ca4b7eb26becb33c489c340ab456c7103f39ba3b793",
-      "ast_digest": "52de401314362e5f2b46b7c5eb0ec1ee4bb558d5b39d3b87226b748db994044b"
+      "values_digest": "04c5f6f93d71ddb75e3763c91d7587638af9611831073f1b16889ba9f2c16ff8",
+      "rendered_digest": "95a7b64a69e86b5633046113c87baa76c4123d4ff756654ff0d78bc27265f882",
+      "ast_digest": "a2ea4b8fd200f5234dc47f04e11681aa3c36ee11d1a9128096d1191a1ca99bfd"
     },
     "sor": {
       "values_digest": "778b849d9292131984ebb1d35332f6dc2cff7be8c1a5ebd89394e5cd40fd62ac",
@@ -680,6 +694,13 @@
       "actor": "codex:5834-birthday-review-packet",
       "reason": "Record repository-qualified closure authority, typed STP/design supersession, live issue update, and ten-case fail-closed proof after review findings.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Assembled and locally proved WP-16's exact-digest reviewer packet across the merged WP-08 through WP-15 evidence chain without claiming the demo, release, publication, personhood, citizenship, or governance.\",\"changes\":[\"Added the reviewer-facing Birthday packet, exact nine-entry evidence manifest, strict JSON schema, caveats, reviewer questions, and bounded public non-claims.\",\"Added a validator that recomputes current and merge-tree evidence digests, verifies exact merged ancestry, per-entry issue/code repository identity, retained typed review authority, closure truth, and rejects private or machine-local references.\",\"Added ten executable negative mutations for stale digest, missing roster, private path, contradictory terminal state, forbidden public claim/projection, unreviewed authority, unknown schema field, wrong issue repository, and unauthorized publication-ready language.\",\"Replaced superseded WP-14 PR 76 listener evidence with reviewed and merged agent-logic/agent-design-language#209 production Guardian/kernel dispatch, replay, pressure rollback, and public-contract authority.\",\"Updated STP acceptance through the typed editor, reapproved the corrected design, and updated live issue #5834 through csdlc-github-issue so the replacement authority is explicit.\",\"Updated only the serialized D1 demo-matrix row to link the assembled packet while preserving the downstream runtime-demo boundary.\"],\"artifacts\":[\"docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md\",\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\",\"docs/milestones/v0.92/review/first-birthday-review-packet.schema.json\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\".csdlc/prepared/issues/5834/validate-review-packet.rb\",\".csdlc/evidence/5834/dependency-closure.json\",\".csdlc/evidence/5834/negative-fixtures/cases.json\",\".csdlc/evidence/5834/local-validation-manifest.json\",\".csdlc/evidence/5834/review-packet-validation.log\",\".csdlc/evidence/5834/negative-validation.log\",\".csdlc/evidence/5834/birthday-review-packet.log\",\".csdlc/evidence/5834/birthday-review-packet-negative.log\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5834/validate-review-packet.rb\",\"--packet\",\"docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md\",\"--manifest\",\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\",\"--schema\",\"docs/milestones/v0.92/review/first-birthday-review-packet.schema.json\"],\"purpose\":\"Validate the exact roster, schema, repository-qualified closure snapshot, merge ancestry, merge-tree bytes, evidence digests, retained typed review authority, path hygiene, and public boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5834/birthday-review-packet.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5834/validate-review-packet.rb\",\"--negative-fixtures\",\".csdlc/evidence/5834/negative-fixtures/\"],\"purpose\":\"Execute all ten fail-closed packet mutations.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5834/birthday-review-packet-negative.log\"},{\"command\":[\"ruby\",\"-c\",\".csdlc/prepared/issues/5834/validate-review-packet.rb\"],\"purpose\":\"Verify the issue validator parses before review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5834/local-validation-manifest.json\"}]}"
+    },
+    {
+      "sequence": 84,
+      "generation": 60,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -12,7 +12,14 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/5834
+.csdlc/prepared/issues/5834/design.md
+.csdlc/prepared/issues/5834/validate-review-packet.rb
+.csdlc/evidence/5834
+docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md
+docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json
+docs/milestones/v0.92/review/first-birthday-review-packet.schema.json
+docs/milestones/v0.92/DEMO_MATRIX_v0.92.md
 
 ## Prompts
 
