@@ -42,7 +42,7 @@ Diagram: .csdlc/prepared/issues/5857/diagram.mmd
       ".csdlc/prepared/issues/5857/validate-sprint-review.rb"
     ],
     "parallel_group": "5857-review",
-    "defer_reason": "Deferred only until the bound umbrella worktree authors the issue-owned validator and retained Sprint 4 review packet; missing or zero-child proof blocks review and closure."
+    "defer_reason": null
   }
 ]
 
