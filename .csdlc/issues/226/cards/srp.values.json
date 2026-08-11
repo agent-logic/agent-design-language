@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl/config/validation_lane_selector.v0.91.6.json\nadl/tools/test_select_validation_lanes.sh\nadl/tools/test_ci_path_policy.sh\n.csdlc/evidence/226\n.csdlc/prepared/issues/226/design.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -38,3 +38,4 @@
 {"sequence":38,"generation":23,"actor":"codex:226-focused-runtime-validation-routing","reason":"Recover review truth after making the JavaScript deletion regression unconditional on branches where the real validator already exists.","operation":"recover_review"}
 {"sequence":39,"generation":23,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":40,"generation":24,"actor":"codex:226-focused-runtime-validation-routing","reason":"Recover review truth after correcting the deletion-test cleanup order so an originally present validator is restored before its temporary backup directory is removed.","operation":"recover_review"}
+{"sequence":41,"generation":24,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}

@@ -6,10 +6,21 @@
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
   "generation": 24,
-  "digest": "f71f89843b49b68475ff8cdcafc1e8e5f0a41d8872b11a8e9d7859dfa033eac7",
+  "digest": "9b883960a036d68d60f446d8dd405977b55f8116319c1316ca12ba6dd6e2652e",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-exec:issue-226-independent-review-10",
+    "assigned_by": "codex:226-focused-runtime-validation-routing",
+    "revision": "git-blake3:db28e8687818309056717d36ff635321a120484f:02510bd34c36c3cf78cfd23e0aeba5cd5406fecebbf4c5882e72a221ffb77790",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226/design.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "e98b28e57910e5dfd97917c7b8367f27c05ea48833342d81754f7a2f2739c48c",
-      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
-      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
+      "values_digest": "9aa018420901d67a87bc185d97c8929e981a0fedff947f9d7cff0df3c7048ccc",
+      "rendered_digest": "e1ac8934aa11c005160834b5b095a8e83756cf055f48e66c1acf96eebd811a26",
+      "ast_digest": "fccdd8a8cbae10354c4926365995351d865784831b3544d45c5bf0866fd223a3"
     },
     "sor": {
       "values_digest": "329104451a527955c0fec22ea84ed7e53820ea3976159dbc27bf3b2bc5b759f8",
@@ -400,6 +411,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Recover review truth after correcting the deletion-test cleanup order so an originally present validator is restored before its temporary backup directory is removed.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 24,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
