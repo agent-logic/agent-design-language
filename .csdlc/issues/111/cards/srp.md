@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/tests/conversation_sessions.rs
-demos/html-observatory/app.js
-demos/html-observatory/tests/conversation_sessions.test.mjs
-.csdlc/issues/111
+
 
 ## Prompts
 
@@ -36,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Durable cross-restart conversation history remains owned by downstream issue #114.
-- The environment-dependent trusted public-TLS browser proof remains an out-of-band validation lane.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:078da534e9666acb443fb851ba0536fc617e0933:84105e0eeb1a0507e600532998cd980cfd84837f96f96875870bbe1221c29a0a")
+Revision: None
 
-Reviewer: Some("subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4")
+Reviewer: None
 
-Result: pass
+Result: pre_review
