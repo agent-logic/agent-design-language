@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 115,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "beca033b74ae0be21a8bba20b68fdbbd3f45f89ca85ba1ac70835f508e570481",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "b30f3b6f9bebdfd6895d1448fb45c3db233a7773cd8292e152fdc52771b585e0",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/115/design.md",
+  "diagram_path": ".csdlc/prepared/issues/115/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:115-bounded-design-review",
+      "revision": "a702863a1f8c2e7525820552fd74a68f7a7729942a890ba772ae914379b012a8"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4df56d30eeef936aef1ffabb96560db84c23aa286470d0d08b20a25a2164bff3",
+      "rendered_digest": "04125a44a3dadb884b01bd1fddfd25d949ff28c26d37601a1a2c2f6eeb03f743",
+      "ast_digest": "0425ebc1872d448b6fca471860899827f08c9cbb7f335be25ae759b80bc535f1"
+    },
+    "stp": {
+      "values_digest": "cf4f4031e6bcd7ce1f8c7498bce9349a8be542b6f979c2ec608dbf94a45469ce",
+      "rendered_digest": "aa388845351aaf5d7649babbd33a657875bafb6b54bcfb7f4adc7ce3adf572a7",
+      "ast_digest": "5ed7752ce7608581ec606b4137824ace53e5ffe545801aab4d3b542d0b0d3f1f"
+    },
+    "spp": {
+      "values_digest": "7f1def7ec696c7cdbf1386feb18498015b3e0003654da9589ae1920ce218422c",
+      "rendered_digest": "28f475614c6ba3ca004ed4c8f8b1d5bb3990b3b2b5c4e75fc6e5146c573f00fc",
+      "ast_digest": "94d03bbe02c08eaff6711d56fc25058da58cb1a85ef62eddbf91557b475bb2ed"
+    },
+    "vpp": {
+      "values_digest": "9e5d53818008b6b5fa9c5db47368376ba26ad5488a363cf57ff42f80c7cef338",
+      "rendered_digest": "9362ed0a4817725ae8e00ce5d49330510454d73a7285b00e2a00ee489d836038",
+      "ast_digest": "57094870c716e47c0ccb1925b0c4512f50be980515156881f16d5fb957d49fc8"
+    },
+    "srp": {
+      "values_digest": "98999bb350857244002a11fb617f813e3ad6426efbf59f25ca41dfc42aa96790",
+      "rendered_digest": "210e5a9c0c6be0b9840a6cad6b5fc5aafe87b563fb539d5ef9c1574d6c29d75f",
+      "ast_digest": "1c58131305d972330c0bab8cbfb17b727ec3340b52113128516ccd656cb60ccc"
+    },
+    "sor": {
+      "values_digest": "d3e88934a89aa7f598c07c2a19f001b513da4e1c33a199aaf539ab274e3b1133",
+      "rendered_digest": "7587244bc1c460b49c7285ad2a916b774b1f214af59a2ccaf1f1d1572f4338cf",
+      "ast_digest": "6cb1283bf14a1253d1e69e2a0efe032b44178efd7adcda83ca26d5d7b0bb4698"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:115-multi-agent-rooms-preparation",
+      "reason": "All six issue-specific design-time cards and governed ready-phase PVF lanes pass typed validation; advance to ready while leaving dependency-gated binding unperformed."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:115-multi-agent-rooms-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:115-multi-agent-rooms-preparation",
+      "reason": "Express affected-area ownership as exact safe repository paths for typed readiness validation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/tests/conversation_rooms.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_html_observatory_rooms.mjs\",\"docs/milestones/v0.92/features/GOVERNED_MULTI_AGENT_ROOMS.md\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:115-multi-agent-rooms-preparation",
+      "reason": "Select existing exact ready-phase PVF targets and require typed execution replanning for dedicated room targets after dependencies hand off.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"rooms-runtime-contract\",\"proof_role\":\"Use the existing exact nonzero control integration target as the ready-phase denominator for authenticated room routes, exact participants and recipients, deterministic delivery events, refusal, reconnect, replay, and OpenAPI behavior added during #115 execution; execution must add the dedicated conversation_rooms target through typed VPP replan.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"acip-routing-input-contract\",\"proof_role\":\"Re-run the exact existing protocol_adapters target to prove bounded authenticated ACIP-compatible routing, replay rejection, timeout, cancellation, retry, response bounds, and shutdown inputs remain compatible with the #115 fan-out adapter.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"protocol_adapters\",\"--no-tests=fail\"],\"parallel_group\":\"runtime-input\",\"defer_reason\":null},{\"lane\":\"observatory-room-openapi\",\"proof_role\":\"Use the existing exact OpenAPI contract target for checked-in room, participant, recipient, delivery, response, replay, and refusal schema parity after #115 integration.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"html-observatory-contract\",\"proof_role\":\"Run the checked-in executable HTML Observatory Runtime v3 contract; execution must add the dedicated live room browser validator through typed VPP replan once #111-#113 outputs are available.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"adl/tools/test_html_observatory.sh\"],\"parallel_group\":\"browser-contract\",\"defer_reason\":null},{\"lane\":\"rooms-focused-clippy\",\"proof_role\":\"Reject warning-bearing Rust across the bounded Runtime kernel library and production binary after room integration.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"static\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:115-multi-agent-rooms-preparation",
+      "reason": "All six issue-specific design-time cards and governed ready-phase PVF lanes pass typed validation; advance to ready while leaving dependency-gated binding unperformed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

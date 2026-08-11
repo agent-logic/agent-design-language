@@ -1,0 +1,154 @@
+{
+  "issue": 115,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:115-multi-agent-rooms-preparation",
+  "design_path": ".csdlc/prepared/issues/115/design.md",
+  "diagram_path": ".csdlc/prepared/issues/115/diagram.mmd",
+  "design_reviewer": "codex:115-bounded-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
+    "slug": "wp18c05-governed-multi-agent-rooms-routing",
+    "version": "v0.92",
+    "goal": "Allow an authenticated Layer 8 operator to convene a bounded explicit set of policy-eligible agents and exchange attributed messages through governed Runtime routing.",
+    "required_outcome": "Runtime owns versioned room, participant, membership, turn-routing, per-recipient delivery, replay, and attributed-response contracts, while the Observatory presents exact participants and deterministic partial outcomes without implicit broadcast or authority widening.",
+    "declared_scope": [
+      "adl-runtime-kernel/src/conversation_rooms.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_rooms.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_html_observatory_rooms.mjs",
+      "docs/milestones/v0.92/features/GOVERNED_MULTI_AGENT_ROOMS.md",
+      ".csdlc/issues/115",
+      ".csdlc/prepared/issues/115",
+      ".csdlc/evidence/115"
+    ],
+    "authority_boundary": [
+      "Issue and code authority are agent-logic/agent-design-language#115",
+      "Runtime owns room membership, routing, ordering, replay, delivery, attribution, and projection; browser state never grants authority",
+      "Issue #112 remains sole owner of Layer 8 principal, exact multi-recipient policy, refusal, revocation, replay authority, and redacted audit",
+      "Issue #111 remains sole owner of canonical conversation and turn contracts; issue #113 remains sole owner of roster and presence truth",
+      "Issue #83, umbrella #110, dependencies #111-#113, sibling #114, and every other WP-18C child remain read-only"
+    ],
+    "operator_constraints": [
+      "Do not bind or implement until #111, #112, and #113 are terminal, merged, ancestral, and ownership-compatible",
+      "Use only C-SDLC v2 owner binaries and typed card editors in the dedicated FastWork context",
+      "Do not publish, push, open a PR, merge, close, or mutate #83, #110, #111, #112, #113, or another issue during preparation",
+      "No implicit broadcast, browser-selected authority, cross-Polis routing, private cognition, credentials, secrets, or raw provider payloads",
+      "Every fan-out bound, replay identity, per-recipient outcome, event buffer, retry, timeout, response size, and UI list must be explicit and proven"
+    ],
+    "task_boundary": "Implement only governed Runtime room membership, explicit recipient routing, deterministic per-recipient and aggregate outcomes, attributed responses, and the bounded Observatory room experience after dependency handoff.",
+    "deliverables": [
+      "Versioned room, participant, membership-revision, mention, routing, per-recipient delivery, aggregate outcome, response, and replay contracts",
+      "Runtime-owned explicit membership and exact whole-recipient-set authorization before fan-out",
+      "Deterministic bounded ACIP-compatible dispatch, partial delivery, replay, reorder, revocation, timeout, cancellation, and restart behavior",
+      "Observatory room list, exact participant list, transcript, composer, attribution, and delivery/refusal/recovery states",
+      "Exact positive, negative, adversarial, OpenAPI, browser, resource-bound, rollback, and review proof"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Room creation and membership mutation use stable identities, exact expected revisions, bounded explicit participant sets, and no implicit additions",
+      "AC-2: Every turn freezes a visible exact recipient set and digest before send; empty, wildcard, omitted, duplicate, substituted, unauthorized, nonparticipant, or cross-Polis recipients fail closed",
+      "AC-3: #112 authorizes the exact whole recipient set before sequence commitment or dispatch, while post-admission delivery records monotonic per-recipient outcomes without hidden widening",
+      "AC-4: Fan-out completion order cannot change the canonical aggregate; delivered, partial_delivery, none_delivered, refused, timed_out, cancelled, and failed are deterministic and visible",
+      "AC-5: Every accepted response carries stable agent attribution and correlation to the triggering room turn and recipient delivery record",
+      "AC-6: Exact replay returns retained membership, delivery, response, and receipt truth without mutation or redispatch; conflicting reuse, duplicate conflict, reorder gaps, and buffer overflow fail closed",
+      "AC-7: Join, leave, revoke, unavailable, timeout, cancellation, late response, disconnect, reconnect, and Runtime restart behavior is deterministic and tested",
+      "AC-8: The Observatory exposes accessible room, participant, transcript, composer, recipient, attribution, delivery, refusal, reconnect, and failure states against live Runtime truth",
+      "AC-9: Exact room, Observatory, OpenAPI, browser, strict Clippy, resource-bound, diff-hygiene, and rollback proof pass at one candidate revision",
+      "AC-10: Exact-head independent security and correctness review has no unresolved actionable findings"
+    ],
+    "dependencies": [
+      "Hard serial gate: agent-logic/agent-design-language#111 terminal through a merged PR and ancestral to the execution base",
+      "Hard serial gate: agent-logic/agent-design-language#112 terminal through a merged PR and ancestral to the execution base after #111",
+      "Hard serial gate: agent-logic/agent-design-language#113 terminal through a merged PR and ancestral to the execution base",
+      "agent-logic/agent-design-language#110 remains umbrella sequencing authority and does not close before this child",
+      "No active issue owns an intended shared Runtime, OpenAPI, or Observatory integration path"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#110",
+      "agent-logic/agent-design-language#111",
+      "agent-logic/agent-design-language#112",
+      "agent-logic/agent-design-language#113",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js"
+    ],
+    "non_goals": [
+      "Unbounded broadcast, implicit recipient selection, browser-owned authorization, or cross-Polis federation policy",
+      "Redefining #111 conversation sessions, #112 authority/audit, #113 roster/presence, or #114 durable history",
+      "Private cognition, credentials, signing material, raw provider payloads, or unauthorized agent existence exposure",
+      "Attention inbox, intervention workflow, final integrated hardening, Unity, public AWS deployment, or transport redesign",
+      "Product implementation, publication, push, PR, merge, closeout, or #83 mutation during preparation"
+    ],
+    "plan_summary": "Revalidate #111-#113 terminal ancestry and shared-path ownership; freeze exact room, participant, recipient, security, fan-out, partial-delivery, replay, reorder, and recovery contracts; implement exclusive room logic and serial integrations; run exact PVF lanes and exact-head review; then hand off without publication unless separately authorized.",
+    "affected_areas": [
+      "Runtime room identity, membership revision, explicit participants, and lifecycle",
+      "Layer 8 exact recipient-set authorization and redacted decision references",
+      "ACIP-compatible bounded fan-out, per-recipient delivery, aggregate outcomes, replay, ordering, and attribution",
+      "Runtime control API, WSS, and Observatory OpenAPI integration",
+      "HTML Observatory rooms, participant selection, transcript, composer, delivery, refusal, reconnect, and accessibility",
+      "Adversarial security, deterministic failure, resource bounds, rollback, and exact-head review"
+    ],
+    "steps": [
+      {"id":"S1","action":"Re-read #110-#113; require #111, #112, and #113 terminal merged ancestry and no shared-path owner; bind only after every gate passes.","acceptance_ids":["AC-1","AC-2","AC-3","AC-10"],"status":"pending"},
+      {"id":"S2","action":"Implement versioned Runtime room membership, frozen recipient sets, exact authorization binding, deterministic bounded fan-out, monotonic outcomes, replay, reorder, and attribution in exclusive paths.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"status":"pending"},
+      {"id":"S3","action":"Integrate canonical conversation, authority, roster, ACIP-compatible dispatch, control/WSS/OpenAPI, and the accessible Observatory room experience only through handed-off shared paths.","acceptance_ids":["AC-2","AC-3","AC-4","AC-5","AC-7","AC-8","AC-9"],"status":"pending"},
+      {"id":"S4","action":"Run exact room, Observatory, OpenAPI, browser, adversarial, resource, strict-Clippy, diff, restart, replay, partial-delivery, and rollback proof at one candidate revision.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8","AC-9"],"status":"pending"},
+      {"id":"S5","action":"Resolve independent exact-head security and correctness review and produce a truthful execution handoff without publication unless separately authorized.","acceptance_ids":["AC-10"],"status":"pending"}
+    ],
+    "invariants": [
+      "Room membership and every turn recipient set are explicit, bounded, revisioned, canonical, and Runtime-owned",
+      "Exact whole-set authorization completes before sequence commitment or dispatch; no component may widen the recipient set",
+      "Per-recipient outcomes are monotonic and canonical ordering makes aggregate truth independent of completion order",
+      "Exact replay has no mutation or redispatch; conflicting reuse and event gaps fail closed",
+      "Every response is attributed to a stable dispatched participant and correlated to one room turn and delivery record",
+      "Browser, roster, presence, mentions, display names, and provider output never grant membership, routing, or policy authority"
+    ],
+    "risks": [
+      "Merged #111-#113 contracts may change shared paths or identifiers and require typed replanning before binding",
+      "Concurrent membership, revocation, timeout, cancellation, and late responses can produce ambiguous outcomes unless commit points are explicit",
+      "Fan-out concurrency can make aggregate ordering nondeterministic or permit hidden redispatch",
+      "Roster visibility or UI mentions can be mistaken for participant or recipient authority",
+      "Shared control, OpenAPI, and Observatory paths may remain actively owned at dependency handoff",
+      "Unbounded participants, response fan-in, event buffers, retries, or transcript DOM can exhaust Runtime or browser resources"
+    ],
+    "planning_profile": "large",
+    "stop_conditions": [
+      "#111, #112, or #113 is open, unmerged, nonterminal, non-ancestral, or lacks a compatible concrete contract",
+      "An active issue owns or modifies an intended shared path",
+      "Exact participant and recipient authority cannot be enforced before dispatch without widening another issue",
+      "Partial delivery, replay, reorder, revocation, restart, or late-response commit points cannot be deterministic and bounded",
+      "Implementation would permit implicit broadcast, cross-Polis routing, unattributed responses, forbidden data, or browser authority",
+      "Any exact PVF lane is missing, selects zero tests, fails, times out, or leaves an unresolved exact-head finding"
+    ],
+    "validation_lanes": [
+      {"lane":"conversation-rooms-contract","proof_role":"Exact nonzero room target for membership revisions, explicit recipients, authorization-before-dispatch, bounded fan-out, attribution, partial delivery, replay, reorder, revocation, restart, and adversarial substitution.","deterministic":true,"resource_profile":"medium","parallel_group":"runtime","budget_seconds":1800,"budget_tokens":12000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","conversation_rooms"],"acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"defer_reason":"Issue-owned target is created during execution after #111-#113 are terminal and ancestral."},
+      {"lane":"observatory-room-integration","proof_role":"Exact authenticated Observatory integration target for room list, participants, transcript, composer, recipient visibility, attribution, delivery/refusal events, disconnect, reconnect, and restart.","deterministic":true,"resource_profile":"medium","parallel_group":"runtime","budget_seconds":1200,"budget_tokens":8000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","observatory"],"acceptance_ids":["AC-3","AC-4","AC-5","AC-7","AC-8","AC-9"],"defer_reason":"Shared target must be reconciled after #111 and #113 handoff."},
+      {"lane":"observatory-room-openapi","proof_role":"Exact checked-in OpenAPI parity proof for versioned room, participant, routing, delivery, response, replay, and refusal schemas.","deterministic":true,"resource_profile":"small","parallel_group":"runtime","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","openapi_contract"],"acceptance_ids":["AC-1","AC-2","AC-4","AC-5","AC-9"],"defer_reason":"Shared target must be reconciled after dependency handoff."},
+      {"lane":"observatory-room-browser","proof_role":"Drive the live Runtime-backed accessible browser room flow for exact recipients, participants, attribution, partial delivery, refusal, reconnect, replay-safe rendering, bounded DOM, and clean console.","deterministic":true,"resource_profile":"medium","parallel_group":"browser","budget_seconds":1200,"budget_tokens":8000,"argv":["node","adl/tools/validate_v092_html_observatory_rooms.mjs"],"acceptance_ids":["AC-2","AC-4","AC-5","AC-7","AC-8","AC-9"],"defer_reason":"Issue-owned browser validator is created during execution."},
+      {"lane":"rooms-focused-clippy","proof_role":"Reject warning-bearing Rust across the bounded Runtime kernel library and production binary after room integration.","deterministic":true,"resource_profile":"small","parallel_group":"static","budget_seconds":900,"budget_tokens":4000,"argv":["cargo","clippy","--manifest-path","adl-runtime-kernel/Cargo.toml","--lib","--bin","adl-runtime-kernel","--","-D","warnings"],"acceptance_ids":["AC-9"],"defer_reason":"Runs after dependency-gated implementation exists."},
+      {"lane":"issue-diff-hygiene","proof_role":"Reject malformed whitespace and patch artifacts before exact-head review.","deterministic":true,"resource_profile":"small","parallel_group":"static","budget_seconds":60,"budget_tokens":500,"argv":["git","diff","--check"],"acceptance_ids":["AC-9","AC-10"],"defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on unresolved serial gates, ownership overlap, stale revisions, implicit or widened recipients, authorization ambiguity, unattributed responses, nondeterministic partial delivery, replay conflict, event gaps, restart uncertainty, unbounded resources, forbidden data, failed exact proof, or unresolved exact-head findings.",
+    "review_prompts": [
+      "Can any browser, roster, mention, display name, stale membership revision, or provider output add or substitute a recipient?",
+      "Does exact whole-set authorization complete before sequence commitment and dispatch, with no partial authorization side effects?",
+      "Are per-recipient outcomes monotonic and aggregate serialization deterministic under completion reorder, revocation, timeout, cancellation, and late responses?",
+      "Can exact replay, conflicting reuse, duplicate events, gaps, restart, or reconnect cause mutation, redispatch, duplicate rendering, or false continuity?",
+      "Is every response tied to a stable dispatched participant, room turn, correlation, and delivery record without exposing forbidden data?",
+      "Does the implementation stay within #115 ownership after #111-#113 handoff and preserve every declared resource bound?"
+    ],
+    "review_scope": "Issue #115 Runtime room membership, participant and recipient security, exact authorization binding, bounded ACIP-compatible fan-out, deterministic partial delivery and replay, stable response attribution, control/WSS/OpenAPI and HTML Observatory integration, resource bounds, rollback, dependency ancestry, affected-area ownership, and no-widening constraints."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "issue": 115,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "0961b7faebc25691e4558a2cf366b9d657f538794e1f2bc9bffbada50eea0fc8",
+  "actor": "codex:115-multi-agent-rooms-preparation",
+  "reason": "All six issue-specific design-time cards and governed ready-phase PVF lanes pass typed validation; advance to ready while leaving dependency-gated binding unperformed.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

@@ -1,0 +1,17 @@
+flowchart LR
+    O["Authenticated Layer 8 operator"] --> R["Room command with exact expected revision"]
+    P["#113 policy-filtered roster candidates"] --> R
+    R --> A["#112 exact participant and recipient-set authorization"]
+    A -->|deny whole set| F["Public-safe refusal and redacted audit"]
+    A -->|allow whole set| M["Runtime room state and frozen membership revision"]
+    M --> T["#111 canonical turn and correlation contract"]
+    T --> D["Bounded ACIP-compatible per-recipient dispatch"]
+    D --> X["Canonical per-recipient outcome map"]
+    X --> G["Deterministic aggregate: delivered, partial, or none"]
+    X --> E["Attributed correlated responses"]
+    G --> U["Observatory room transcript and delivery state"]
+    E --> U
+    K["Exact replay fingerprint and retained result"] --> M
+    M --> K
+    H["Gap, reorder, restart, or overflow"] --> Q["Fail closed or require fresh Runtime snapshot"]
+    Q --> U

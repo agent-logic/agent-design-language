@@ -1,0 +1,28 @@
+{
+  "issue": 115,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "c1327d4053a636c57906a369b05fba49697ee757f5ba2e4fd9c0ea96ec6136fe",
+  "actor": "codex:115-multi-agent-rooms-preparation",
+  "reason": "Express affected-area ownership as exact safe repository paths for typed readiness validation.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/conversation_rooms.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_rooms.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_html_observatory_rooms.mjs",
+      "docs/milestones/v0.92/features/GOVERNED_MULTI_AGENT_ROOMS.md"
+    ]
+  }
+}

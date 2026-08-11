@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 115,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
+    "slug": "wp18c05-governed-multi-agent-rooms-routing",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #115 Runtime room membership, participant and recipient security, exact authorization binding, bounded ACIP-compatible fan-out, deterministic partial delivery and replay, stable response attribution, control/WSS/OpenAPI and HTML Observatory integration, resource bounds, rollback, dependency ancestry, affected-area ownership, and no-widening constraints.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any browser, roster, mention, display name, stale membership revision, or provider output add or substitute a recipient?",
+        "Does exact whole-set authorization complete before sequence commitment and dispatch, with no partial authorization side effects?",
+        "Are per-recipient outcomes monotonic and aggregate serialization deterministic under completion reorder, revocation, timeout, cancellation, and late responses?",
+        "Can exact replay, conflicting reuse, duplicate events, gaps, restart, or reconnect cause mutation, redispatch, duplicate rendering, or false continuity?",
+        "Is every response tied to a stable dispatched participant, room turn, correlation, and delivery record without exposing forbidden data?",
+        "Does the implementation stay within #115 ownership after #111-#113 handoff and preserve every declared resource bound?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

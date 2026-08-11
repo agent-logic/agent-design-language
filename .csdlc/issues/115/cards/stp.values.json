@@ -1,0 +1,64 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 115,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
+    "slug": "wp18c05-governed-multi-agent-rooms-routing",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only governed Runtime room membership, explicit recipient routing, deterministic per-recipient and aggregate outcomes, attributed responses, and the bounded Observatory room experience after dependency handoff.",
+      "deliverables": [
+        "Versioned room, participant, membership-revision, mention, routing, per-recipient delivery, aggregate outcome, response, and replay contracts",
+        "Runtime-owned explicit membership and exact whole-recipient-set authorization before fan-out",
+        "Deterministic bounded ACIP-compatible dispatch, partial delivery, replay, reorder, revocation, timeout, cancellation, and restart behavior",
+        "Observatory room list, exact participant list, transcript, composer, attribution, and delivery/refusal/recovery states",
+        "Exact positive, negative, adversarial, OpenAPI, browser, resource-bound, rollback, and review proof"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Room creation and membership mutation use stable identities, exact expected revisions, bounded explicit participant sets, and no implicit additions",
+        "AC-2: Every turn freezes a visible exact recipient set and digest before send; empty, wildcard, omitted, duplicate, substituted, unauthorized, nonparticipant, or cross-Polis recipients fail closed",
+        "AC-3: #112 authorizes the exact whole recipient set before sequence commitment or dispatch, while post-admission delivery records monotonic per-recipient outcomes without hidden widening",
+        "AC-4: Fan-out completion order cannot change the canonical aggregate; delivered, partial_delivery, none_delivered, refused, timed_out, cancelled, and failed are deterministic and visible",
+        "AC-5: Every accepted response carries stable agent attribution and correlation to the triggering room turn and recipient delivery record",
+        "AC-6: Exact replay returns retained membership, delivery, response, and receipt truth without mutation or redispatch; conflicting reuse, duplicate conflict, reorder gaps, and buffer overflow fail closed",
+        "AC-7: Join, leave, revoke, unavailable, timeout, cancellation, late response, disconnect, reconnect, and Runtime restart behavior is deterministic and tested",
+        "AC-8: The Observatory exposes accessible room, participant, transcript, composer, recipient, attribution, delivery, refusal, reconnect, and failure states against live Runtime truth",
+        "AC-9: Exact room, Observatory, OpenAPI, browser, strict Clippy, resource-bound, diff-hygiene, and rollback proof pass at one candidate revision",
+        "AC-10: Exact-head independent security and correctness review has no unresolved actionable findings"
+      ],
+      "dependencies": [
+        "Hard serial gate: agent-logic/agent-design-language#111 terminal through a merged PR and ancestral to the execution base",
+        "Hard serial gate: agent-logic/agent-design-language#112 terminal through a merged PR and ancestral to the execution base after #111",
+        "Hard serial gate: agent-logic/agent-design-language#113 terminal through a merged PR and ancestral to the execution base",
+        "agent-logic/agent-design-language#110 remains umbrella sequencing authority and does not close before this child",
+        "No active issue owns an intended shared Runtime, OpenAPI, or Observatory integration path"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#110",
+        "agent-logic/agent-design-language#111",
+        "agent-logic/agent-design-language#112",
+        "agent-logic/agent-design-language#113",
+        "adl-runtime-kernel/src/acip.rs",
+        "adl-runtime-kernel/src/ingress.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/operations.rs",
+        "docs/api/runtime-v3/v1/observatory.openapi.json",
+        "demos/html-observatory/app.js"
+      ],
+      "non_goals": [
+        "Unbounded broadcast, implicit recipient selection, browser-owned authorization, or cross-Polis federation policy",
+        "Redefining #111 conversation sessions, #112 authority/audit, #113 roster/presence, or #114 durable history",
+        "Private cognition, credentials, signing material, raw provider payloads, or unauthorized agent existence exposure",
+        "Attention inbox, intervention workflow, final integrated hardening, Unity, public AWS deployment, or transport redesign",
+        "Product implementation, publication, push, PR, merge, closeout, or #83 mutation during preparation"
+      ]
+    }
+  }
+}
