@@ -32,7 +32,7 @@ Revision 18
       "AC-5",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -41,7 +41,7 @@ Revision 18
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -53,7 +53,7 @@ Revision 18
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
