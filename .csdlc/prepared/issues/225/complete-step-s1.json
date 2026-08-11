@@ -1,0 +1,13 @@
+{
+  "issue": 225,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "e20709cd91cd02157655eeef7f1fbe2d3da5f373fa339a52c122ff6368c253e2",
+  "actor": "codex:225-bounded-card-review-repair",
+  "reason": "The design review and binding contract are complete.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  }
+}

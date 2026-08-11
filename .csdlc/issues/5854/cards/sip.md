@@ -29,6 +29,7 @@ A reviewed Sprint 5 coordination packet routes prepared #5835, #5836, #5838, #58
 ## Authority
 
 - Sprint coordination records only; child issues own implementation, evidence, review, publication, and closeout.
+- WP-20 #5840 belongs to final release-tail sprint #5856 and is not an operative Sprint 5 child or closeout gate.
 - Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.
 - Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.
 - The operator retains external deployment and publication authority.

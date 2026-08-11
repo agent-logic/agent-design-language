@@ -1,0 +1,20 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+────────────
+ Nextest run ID 23f018a9-d2d2-4eff-ade5-caded3a20bce with nextest profile: default
+    Starting 14 tests across 1 binary
+        PASS [   0.244s] ( 1/14) adl-runtime::distributed_runtime_transport authenticated_quinn_binds_signed_authority_session_and_returns_bounded_response
+        PASS [   0.068s] ( 2/14) adl-runtime::distributed_runtime_transport authority_approved_certificate_overlap_is_valid_then_expires_closed
+        PASS [   0.157s] ( 3/14) adl-runtime::distributed_runtime_transport boot_generation_is_externally_monotonic_and_rejects_coherent_disk_rollback
+        PASS [   0.662s] ( 4/14) adl-runtime::distributed_runtime_transport durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rollback
+        PASS [   0.028s] ( 5/14) adl-runtime::distributed_runtime_transport durable_store_rejects_symlinked_ancestors_and_oversized_state
+        PASS [   0.046s] ( 6/14) adl-runtime::distributed_runtime_transport fresh_store_initialization_rolls_back_an_ambiguous_checkpoint_failure
+        PASS [   0.066s] ( 7/14) adl-runtime::distributed_runtime_transport log_store_does_not_publish_vote_before_external_checkpoint_commit
+        PASS [   0.183s] ( 8/14) adl-runtime::distributed_runtime_transport polis_frames_reject_unproved_polis_and_oversized_payload_before_dispatch
+        PASS [   2.485s] ( 9/14) adl-runtime::distributed_runtime_transport route_replacement_retries_exact_sequence_after_peer_restart_and_certificate_rotation
+        PASS [   0.088s] (10/14) adl-runtime::distributed_runtime_transport snapshot_install_rejects_noncanonical_bytes_and_preserves_exact_identity
+        PASS [   1.060s] (11/14) adl-runtime::distributed_runtime_transport stalled_rpc_stream_is_bounded_by_the_transport_idle_deadline
+        PASS [   5.564s] (12/14) adl-runtime::distributed_runtime_transport three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state
+        PASS [   0.166s] (13/14) adl-runtime::distributed_runtime_transport topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity
+        PASS [   0.009s] (14/14) adl-runtime::distributed_runtime_transport transport_frames_reject_truncated_and_noncanonical_trailing_bytes
+────────────
+     Summary [  10.827s] 14 tests run: 14 passed, 0 skipped

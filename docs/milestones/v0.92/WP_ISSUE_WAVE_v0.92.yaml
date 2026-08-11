@@ -228,7 +228,7 @@ execution_sprints:
     session_prompt_path: .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
     execution_mode: hybrid
     goal: Produce real demonstrations, consumer proofs, governance handoff, and complete launch media.
-    members: [WP-17, WP-18, WP-18B, WP-19, WP-20]
+    members: [WP-17, WP-18, WP-18B, WP-19]
     completed_streams:
       - member: WP-24
         legacy_issue: 5844
@@ -237,10 +237,9 @@ execution_sprints:
         typed_closeout: asynchronous
     serial_gates:
       - "WP-17 after #5826, #5827, and #5834"
-      - "WP-18 after #5825 through #5830 and #5832 through #5834"
-      - "WP-18B after #5832, #5834, and WP-18"
+      - "WP-18 after #5825 through #5830, canonical WP-14 #209 / PR #215, #5833, and #5834; legacy #5832 is superseded"
+      - "WP-18B after canonical WP-14 #209 / PR #215, #5834, and WP-18"
       - "WP-19 after #5834 and WP-17 plus accepted v0.93 allocation"
-      - WP-20 after WP-18, WP-18A, WP-18B, and WP-19
       - WP-24 final claims after WP-23
     parallel_lanes:
       - members: [WP-17, WP-18]
@@ -252,19 +251,21 @@ execution_sprints:
         issue: 5845
         gates_sprint: false
         dependency_on_sprint: false
-    write_surface: migration semantics, birthday demo, provider-neutral proof, governance handoff, proof matrix, and launch articles
+    write_surface: migration semantics, birthday demo, provider-neutral proof, governance handoff, and launch articles
   - sprint: release_tail
     issue: 5856
     session_prompt_path: .adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md
     execution_mode: sequential
     goal: Reduce and refactor safely, enforce the quality gate, complete reviews, remediate findings, and close the milestone.
-    members: [WP-21, WP-21A, WP-22, WP-23, WP-25, WP-26, WP-27, WP-28, WP-28A, WP-29, WP-30]
+    members: [WP-20, WP-21, WP-21A, WP-22, WP-23, WP-25, WP-26, WP-27, WP-28, WP-28A, WP-29, WP-30]
     serial_gates:
+      - WP-20 after WP-18, WP-18A, WP-18B, and WP-19
+      - WP-20 before WP-21
       - WP-21 before WP-21A
       - WP-21A before WP-22
       - WP-22 through WP-30 in declared dependency order
     parallel_lanes: []
-    write_surface: reduction, Rust refactoring, quality, documentation, reviews, remediation, next-milestone planning, and ceremony
+    write_surface: demo matrix, AEE proof, proof coverage, reduction, Rust refactoring, quality, documentation, reviews, remediation, next-milestone planning, and ceremony
 
 card_update_rule:
   - Every opened WP must receive SIP, STP, SPP, VPP, SRP, and SOR cards.

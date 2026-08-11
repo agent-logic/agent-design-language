@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 201,
+  "expected_generation": 84,
+  "expected_digest": "029a5ec13df81c73bf8deee2ed919dbe6f5807fb683dba8f30f084ef2a9ad80f",
+  "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+  "reason": "Fresh review proved that concurrent llvm-cov scheduling changes the exact polis_runtime covered-line count and whole-summary digest while every clean 443-test run remains above the unchanged 80-percent production threshold. Recover the assignment so retained evidence and SOR can state threshold-oriented truth and preserve individual observed-run provenance without claiming exact-summary reproducibility."
+}

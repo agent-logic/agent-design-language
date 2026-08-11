@@ -1,0 +1,13 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 17,
+  "expected_digest": "4a75aafc9f68e718f060ce70a4e4bf70924b88b311b94b6f06645778512f561c",
+  "actor": "codex:/root/resolve_201_208_findings",
+  "reason": "Resolve independent review by making the sealed #210 lineage and exact source checkpoint and bundle handle projection explicit in the operative plan summary.",
+  "operation": {
+    "operation": "set_field",
+    "field": "plan_summary",
+    "value": "After WP-04.16a merges, bind and implement the bounded committed authority protocol, retain a private byte-identical operation-specific store-native signed artifact view in each opaque finalized token for sealed #199/#200/#203 consumers, and expose to sealed #210 only a read-only ContinuityTransferGrantProjection bound to the exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; prove deterministic endorsement/time/retry/checkpoint/artifact, projection-confusion, wrong-lineage, wrong-checkpoint-handle, wrong-bundle-handle, and legacy-closure behavior, retain merge-safe evidence, resolve exact-head review, and publish a ready unmerged PR before releasing downstream integrations."
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 200,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
+    "slug": "crash-safe-authority-reconciliation-barrier",
+    "version": "v0.92",
+    "generation": 22
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "authority-reconciliation-barrier",
+          "proof_role": "Prove exact thirty-six-case denominator: happy_single_step, happy_multi_step, exact_retry_cached_result, pending_blocks_read, pending_blocks_mutation, published_permit_current, missing_201_token, public_token_forgery_denied, legacy_command_denied, wrong_domain, wrong_polis, wrong_node, wrong_guardian, wrong_boot, wrong_protocol_instance, wrong_membership, wrong_operation_kind, wrong_adapter_version, wrong_time_digest, conflicting_retry, reordered_step, duplicate_step, missing_step, forged_step_receipt, crash_after_journal, crash_each_step, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, coherent_rollback, capacity_n_plus_one_no_partial, state_or_lock_symlink_rejected, corrupt_journal_rejected, noncanonical_state_rejected, opened_handle_growth_rejected, checkpoint_object_collision. The module/unit suite inside authority_reconciliation.rs uses the only cfg(test)-sealed deterministic adapter and proves every state/adapter fault; the integration target proves the externally reachable opaque API and production denial surfaces without constructing that adapter. exact_retry_cached_result must prove cached result with old checkpoint resumes the same CAS, new checkpoint plus missing marker/view completes publication, corrupt or conflicting view fails closed, and only exact Published returns. published_permit_current plus pending_blocks_read/pending_blocks_mutation must prove lineage, adapter, action class, exact operation, and published generation binding; retained generation-N read/mutation permits reject after N+1 Pending; read-to-mutation escalation and wrong lineage/action reject; every use revalidates current view. wrong_time_digest must prove local-clock NotReady/Unsafe writes no effect, receipt, result, or phase advance and later exact retry resumes from the same step using only committed token time. crash_each_step and checkpoint cases must enumerate every before/after effect, receipt fsync, cached result, CAS, marker, view flip, and restart outcome; capacity and opened-handle cases prove no partial mutation or unbounded allocation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1800,
+          "budget_tokens": 24000,
+          "argv": [
+            "cargo",
+            "nextest",
+            "run",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "--test",
+            "distributed_authority_reconciliation",
+            "--no-tests=fail",
+            "-E",
+            "test(/authority_reconciliation/)"
+          ],
+          "parallel_group": "200-runtime",
+          "defer_reason": "Deferred until #191 and #201 merge and this issue creates the authority_reconciliation.rs unit suite plus distributed_authority_reconciliation.rs external API target; fail closed on missing targets, zero tests, absent unit or integration layer, or any result not mapping exactly once to all thirty-six names and required subassertions."
+        },
+        {
+          "lane": "authority-reconciliation-clippy",
+          "proof_role": "Reject warnings and API misuse across both the library barrier and external opaque API target.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 10000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "--test",
+            "distributed_authority_reconciliation",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "200-runtime",
+          "defer_reason": "Deferred until both owned proof layers exist; fail closed on warnings, missing target, or missing source."
+        },
+        {
+          "lane": "authority-reconciliation-producer",
+          "proof_role": "Produce exact source, both proof layers, command, stream, timing, Git, protected-digest, and thirty-six-case name/result/marker/subassertion evidence.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 10000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/200/produce-proof-receipt.rb"
+          ],
+          "parallel_group": "200-proof",
+          "defer_reason": "Deferred until exact producer exists; fail closed on dirty protected source, wrong case count, missing proof layer, missing/extra/duplicate name or subassertion, nonpassing result, or nonzero status."
+        },
+        {
+          "lane": "authority-reconciliation-receipt",
+          "proof_role": "Bind exact protected source, unit and integration commands, thirty-six cases and subassertions, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 5000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/200/validate-proof-receipt.rb"
+          ],
+          "parallel_group": "200-proof",
+          "defer_reason": "Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, both proof layers, and all cases/subassertions are bound."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing/invalid token, public adapter/receipt/permit construction, wrong authority/time/membership/checkpoint binding, partial publication, conflicting retry, step-order/receipt mismatch, rollback, corruption, capacity, unsafe path, zero-test proof, source drift, or unresolved review findings.",
+      "design_ref": ".csdlc/prepared/issues/200/design.md",
+      "design_digest": "7ad324d6833f2baa41d41a3115316e62df7cdc2863d54384d61c059316cd44ae",
+      "diagram_ref": ".csdlc/prepared/issues/200/diagram.mmd",
+      "diagram_digest": "b121a59cca8190c82a2fe1b53a658d318dd2e74f45263861fb4729a14743ab7b"
+    }
+  }
+}

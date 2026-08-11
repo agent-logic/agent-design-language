@@ -19,8 +19,8 @@
     },
     {
       "work_package": "WP-18",
-      "source_generation": 43,
-      "source_digest": "42dd645fa4fb8fe14a504ee940e19013cb943a87b16fd0b6734c39d6669c4ef2",
+      "source_generation": 44,
+      "source_digest": "e45f9365f8eaf2252922d7d7bd052791c616558816935b4d33ef2f865f47ca62",
       "request": {
         "issue": 5836,
         "base_branch": "main",
@@ -31,8 +31,8 @@
     },
     {
       "work_package": "WP-18B",
-      "source_generation": 34,
-      "source_digest": "1072cd866dd495a863c2c6c9f9504d200931785cae25f736311abf1b9ad602f4",
+      "source_generation": 35,
+      "source_digest": "ea9196201a74a814bc67dbb5a4eb4a1bed8f2bfe35b18eb7b37c508472c9eabd",
       "request": {
         "issue": 5838,
         "base_branch": "main",
@@ -50,18 +50,6 @@
         "base_branch": "main",
         "branch": "codex/5839-wp19-governance-handoff",
         "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5839-wp19-governance-handoff",
-        "code_repository": "agent-logic/agent-design-language"
-      }
-    },
-    {
-      "work_package": "WP-20",
-      "source_generation": 34,
-      "source_digest": "13eaccb3237cd7e892a02040a6d1833c6c99de6d81c83bee836b1c3232765cc6",
-      "request": {
-        "issue": 5840,
-        "base_branch": "main",
-        "branch": "codex/5840-wp20-demo-proof-matrix",
-        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5840-wp20-demo-proof-matrix",
         "code_repository": "agent-logic/agent-design-language"
       }
     }

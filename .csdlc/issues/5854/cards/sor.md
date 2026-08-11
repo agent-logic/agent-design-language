@@ -12,28 +12,36 @@ Status: pre_phase
 
 ## Summary
 
-Resolved all five actionable findings from the independent review of PR #103 without starting Sprint 5 or binding any child.
+Prepared Sprint 5 as a four-child execution wave and moved WP-20 to the first dependency-gated position in final sprint #5856 without starting any child.
 
 ## Artifacts
 
-- .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
 - docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
-- .csdlc/prepared/issues/5854/sprint-execution-packet.md
+- docs/milestones/v0.92/SPRINT_v0.92.md
+- .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
+- .adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md
 - .csdlc/prepared/issues/5854/sprint-execution-packet.yaml
+- .csdlc/prepared/issues/5854/sprint-execution-packet.md
 - .csdlc/prepared/issues/5854/split-authority-bind-requests.json
 - .csdlc/prepared/issues/5854/validate-sprint-readiness.rb
+- .csdlc/prepared/issues/5856/sprint-execution-packet.yaml
+- .csdlc/prepared/issues/5856/sprint-execution-packet.md
+- .csdlc/prepared/issues/5856/split-authority-bind-request.json
+- .csdlc/prepared/issues/5856/validate-sprint-readiness.rb
 - .csdlc/evidence/5854/live-gates.json
 - .csdlc/evidence/5854/live-gates-source.json
 - .csdlc/evidence/5854/sprint-review.md
+- .csdlc/evidence/5854/activity.jsonl
 - .csdlc/evidence/5854/v092-sprint5-readiness.log
-- .csdlc/evidence/5854/diff-hygiene.log
 
 ## Execution
 
-- Retained exact split-authority bind requests for #5835, #5836, #5838, #5839, and #5840 and documented the correct bind-before-ordinary-doctor startup route.
-- Reconciled the milestone issue wave and live legacy #5854 body to one five-child execution denominator, completed WP-24 product truth, and non-gating out-of-band WP-24A.
-- Added the complete WP-19 gate and fail-closed pairwise path-overlap validation for every declared parallel lane.
-- Refreshed typed live evidence to prove tooling issue #74 is closed and removed the obsolete sparse-checkout workaround.
+- Classified #5835 and #5836 as ready to bind from reviewed, merged, ancestral dependency authority; kept #5838 and #5839 behind their declared gates.
+- Removed #5840 from Sprint 5 membership, bind requests, watcher set, serial gates, and closeout denominator.
+- Added #5840 as the first child of final sprint #5856 after #5836, #5837, #5838, and #5839 and before WP-21.
+- Added a focused final-sprint packet validator, retained split-authority bind request, and typed live readback for both #5854 and #5856.
+- Updated both live sprint issue bodies through csdlc-github-issue and refreshed digest-bound evidence.
+- Preserved all WP-20 implementation scope, cards, dependencies, and artifacts; no child was bound or started.
 
 ## Validation
 
@@ -43,7 +51,7 @@ Resolved all five actionable findings from the independent review of PR #103 wit
       "ruby",
       ".csdlc/prepared/issues/5854/validate-sprint-readiness.rb"
     ],
-    "purpose": "Validate canonical membership parity, all five split-authority request contracts, complete serial gates, child ownership, typed live evidence, and publication boundaries.",
+    "purpose": "Validate exact four-child Sprint 5 membership, four split-authority bind contracts, complete serial gates, WP-20 release-tail handoff, typed live evidence, and publication boundaries.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5854/v092-sprint5-readiness.log"
   },
@@ -59,20 +67,21 @@ Resolved all five actionable findings from the independent review of PR #103 wit
   },
   {
     "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate2",
-      "actual_binaries_create_validate_doctor_and_bind_without_claims",
-      "--",
-      "--exact"
+      "ruby",
+      ".csdlc/prepared/issues/5856/validate-sprint-readiness.rb"
     ],
-    "purpose": "Exercise the production typed bind path that rejects an undeclared split repository and succeeds when code_repository is explicit.",
+    "purpose": "Validate exact final-sprint membership, WP-20-first serial order, typed child denominator, and retained live #5856 readback.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5854/v092-sprint5-readiness.log"
+    "evidence_ref": ".csdlc/evidence/5854/live-gates-source.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5834/validate-review-packet.rb"
+    ],
+    "purpose": "Prove the nine reviewed, merged, ancestral birthday dependency entries consumed by the first Sprint 5 wave.",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json"
   },
   {
     "command": [
@@ -83,7 +92,7 @@ Resolved all five actionable findings from the independent review of PR #103 wit
       "--issue",
       "5854"
     ],
-    "purpose": "Validate canonical typed issue and card projections after review remediation.",
+    "purpose": "Validate canonical typed #5854 issue and card projections after reclassification.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/issues/5854/index.json"
   },
@@ -93,7 +102,7 @@ Resolved all five actionable findings from the independent review of PR #103 wit
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace errors across the exact remediation diff.",
+    "purpose": "Reject whitespace errors across the exact readiness diff.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5854/diff-hygiene.log"
   }

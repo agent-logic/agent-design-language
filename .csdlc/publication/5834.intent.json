@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5834,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5834-birthday-review-packet",
+  "title": "[v0.92][WP-16] Birthday review packet",
+  "body": "Closes danielbaustin/agent-design-language#5834\n\n## Summary\n- assemble the reviewer-facing Birthday packet from exact terminal WP-08 through WP-15 evidence\n- bind every entry to its issue and code repository, reviewed revision, merge ancestry, retained evidence, and public projection\n- replace superseded WP-14 listener evidence with reviewed and merged agent-logic/agent-design-language#209 authority\n- reject stale, incomplete, unreviewed, wrong-repository, private-path, forbidden-claim, and publication-ready packet mutations\n\n## Validation\n- positive nine-entry packet validation passed\n- all ten fail-closed negative mutations passed\n- Ruby syntax, JSON parsing, diff hygiene, and typed issue validation passed\n- independent exact-head review APPROVED with no actionable findings\n\n## Non-claims\nThis packet does not authorize or claim the downstream birthday demo, public release, legal personhood, citizenship, consciousness, or governance approval.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:80e1c05465f4860b92e99c590dbc63443cd04acb:7ff395fc5e1d711bfe3642752d51fefcbc5667b784d05f94ab2b897ce45175dd",
+  "commit_sha": "80e1c05465f4860b92e99c590dbc63443cd04acb"
+}
