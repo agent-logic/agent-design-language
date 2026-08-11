@@ -12,10 +12,11 @@ Status: pre_phase
 
 ## Summary
 
-Resolved the two actionable findings from the independent review of #208 at 218a31cf. Completed operation retries now validate the exact canonical command value/digest and accepted prefix before consulting cached responses, so any conflicting same-kind retry fails without kernel contact. The succession retry explicitly releases and reacquires its only case-owned OS resource before evidence emission, and the retained producer now runs two complete Runtime-plus-kernel waves concurrently and rejects any LEAK sentinel. Fresh v4 evidence at abe0f10889667906d6031ab770d3e05651a2ed5f proves repeated concurrent 21/21 Runtime and 35/35 kernel lanes with zero LEAK, both strict Clippy lanes, exact 56/64/12 parity, current-main ancestry, and clean exact-range diff. Distinct exact-head rereview remains pending; publication and merge remain untouched.
+Resolved the remaining deterministic zero-LEAK finding from the independent review of #208 at ce606701. Systematic audit showed the moving nextest label occurred on resource-free synchronous cases and therefore did not originate in the production client, journals, TLS listeners, Tokio tasks, locks, or temporary roots. The shared Runtime harness now fails every case if any live or unreaped child process remains after explicit fixture closure, while a target-local 500 ms leak-as-failure window accounts for loaded-runner EOF observation latency without suppressing genuine inherited-handle leaks. Fresh v4 evidence at b0252da2a0e3f160ddddfa1815fcfea72ac75e8f retains two isolated and two concurrent full waves for both packages: Runtime 21/21 four times and kernel 35/35 four times, all zero-LEAK, plus both strict Clippy lanes, exact 56/64/12 parity, current-main ancestry, and clean exact-range diff. Distinct exact-head rereview remains pending; publication and merge remain untouched.
 
 ## Artifacts
 
+- adl/.config/nextest.toml
 - adl-runtime-kernel/src/assembly.rs
 - adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
 - adl-runtime-kernel/src/config.rs
@@ -38,10 +39,10 @@ Resolved the two actionable findings from the independent review of #208 at 218a
 
 ## Execution
 
-- Moved journal reserve and exact retry comparison ahead of completed-response lookup so command JCS digest/value and accepted prefix always fail closed before a cached result can return.
-- Added production regressions that stop the private listener, prove an exact completed checkpoint retry remains cache-served, then reject conflicting completed checkpoint, range-read, stage, chunk-write, and target-validation retries with ConflictingRetry and no possible kernel contact.
-- Made certificate_succession_retry explicitly drop and successfully reacquire its exclusive journal descriptor before receipt emission, proving the case retains no task, subprocess, or OS lock into process teardown.
-- Strengthened the proof producer and validator to retain two repeated concurrent full Runtime-plus-kernel nextest waves, require 21/21 and 35/35 in each wave, and reject every LEAK sentinel.
+- Audited shared Runtime harness and production client/journal teardown across descriptors, locks, TLS connections, listener tasks, current-thread runtimes, temporary roots, Drop ordering, and subprocess creation; the moving label reached cases that create none of those resources.
+- Added one shared bounded waitpid(WNOHANG) teardown assertion after explicit temporary-root closure so every Runtime case fails on any live or unreaped direct child instead of relying on nextest timing.
+- Added target-local 500 ms leak-as-failure overrides only for the two issue #208 test binaries, retaining detection of any genuine inherited stdout/stderr handle while removing the repo's below-default 100 ms loaded-runner classification race.
+- Expanded the exact producer and validator to retain two isolated and two concurrent complete nextest waves for each package, require every exact 21/21 and 35/35 denominator, and reject any LEAK or LEAK-FAIL sentinel.
 
 ## Validation
 
@@ -58,9 +59,9 @@ Resolved the two actionable findings from the independent review of #208 at 218a
       "kernel_continuity_client",
       "--no-tests=fail"
     ],
-    "purpose": "Prove production completed-cache retry validation, private TLS-to-kernel behavior, restart custody, and the exact Runtime denominator in both retained concurrent waves.",
+    "purpose": "Prove all 21 Runtime cases, shared child-process teardown assertion, and target-local fail-closed leak classification in two isolated and two concurrent retained waves.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/208/v4/runtime-nextest.stderr.log and runtime-nextest-repeat.stderr.log: 21 passed each, zero LEAK"
+    "evidence_ref": ".csdlc/evidence/208/v4/runtime-nextest*.stderr.log: 21 passed in all four waves, zero LEAK"
   },
   {
     "command": [
@@ -74,9 +75,9 @@ Resolved the two actionable findings from the independent review of #208 at 218a
       "kernel_continuity_control",
       "--no-tests=fail"
     ],
-    "purpose": "Prove live participant continuity, restart reconciliation, exact retries, filesystem safety, and the exact kernel denominator in both retained concurrent waves.",
+    "purpose": "Prove all 35 kernel cases and target-local fail-closed leak classification in two isolated and two concurrent retained waves.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/208/v4/kernel-nextest.stderr.log and kernel-nextest-repeat.stderr.log: 35 passed each, zero LEAK"
+    "evidence_ref": ".csdlc/evidence/208/v4/kernel-nextest*.stderr.log: 35 passed in all four waves, zero LEAK"
   },
   {
     "command": [
@@ -94,7 +95,7 @@ Resolved the two actionable findings from the independent review of #208 at 218a
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings across the production Runtime, Guardian, exact completed-cache validation, and behavioral tests.",
+    "purpose": "Reject warnings across the production Runtime, Guardian, completed-cache validation, and shared teardown assertion.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/runtime-clippy.stderr.log"
   },
@@ -132,7 +133,7 @@ Resolved the two actionable findings from the independent review of #208 at 218a
       "ruby",
       ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
     ],
-    "purpose": "Produce fresh canonical behavior evidence with exact 56/64/12 parity and two retained concurrent zero-LEAK full waves.",
+    "purpose": "Produce exact canonical 56/64/12 behavior evidence and eight retained isolated/concurrent zero-LEAK full lanes.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/execution-proof.json"
   }

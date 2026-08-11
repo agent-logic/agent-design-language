@@ -1,0 +1,27 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+────────────
+ Nextest run ID 90ab1380-47ae-4b13-9923-9fe58b7b86e1 with nextest profile: default
+    Starting 21 tests across 1 binary
+        PASS [   0.090s] ( 1/21) adl-runtime::kernel_continuity_client nonloopback_bind_rejected
+        PASS [   0.091s] ( 2/21) adl-runtime::kernel_continuity_client internal_listener_config_valid
+        PASS [   0.091s] ( 3/21) adl-runtime::kernel_continuity_client bearer_only_denied
+        PASS [   0.096s] ( 4/21) adl-runtime::kernel_continuity_client certificate_succession_retry
+        PASS [   0.107s] ( 5/21) adl-runtime::kernel_continuity_client guardian_identity_distinct
+        PASS [   0.112s] ( 6/21) adl-runtime::kernel_continuity_client stale_channel_epoch_denied
+        PASS [   0.115s] ( 7/21) adl-runtime::kernel_continuity_client reordered_request_rejected
+        PASS [   0.116s] ( 8/21) adl-runtime::kernel_continuity_client stale_certificate_denied
+        PASS [   0.124s] ( 9/21) adl-runtime::kernel_continuity_client conflicting_duplicate_rejected
+        PASS [   0.165s] (10/21) adl-runtime::kernel_continuity_client replay_rejected
+        PASS [   0.169s] (11/21) adl-runtime::kernel_continuity_client durable_channel_restart_retry
+        PASS [   0.115s] (12/21) adl-runtime::kernel_continuity_client unsafe_root_config_rejected
+        PASS [   0.151s] (13/21) adl-runtime::kernel_continuity_client wrong_guardian_denied
+        PASS [   0.135s] (14/21) adl-runtime::kernel_continuity_client wrong_polis_denied
+        PASS [   0.144s] (15/21) adl-runtime::kernel_continuity_client wrong_node_denied
+        PASS [   0.159s] (16/21) adl-runtime::kernel_continuity_client wrong_kernel_instance_denied
+        PASS [   0.143s] (17/21) adl-runtime::kernel_continuity_client wrong_trust_domain_denied
+        PASS [   0.307s] (18/21) adl-runtime::kernel_continuity_client agent_control_identity_denied
+        PASS [   2.869s] (19/21) adl-runtime::kernel_continuity_client guardian_mtls_authorized
+        PASS [   2.888s] (20/21) adl-runtime::kernel_continuity_client invalid_client_eku_denied
+        PASS [   2.804s] (21/21) adl-runtime::kernel_continuity_client unknown_client_certificate_denied
+────────────
+     Summary [   2.895s] 21 tests run: 21 passed, 0 skipped
