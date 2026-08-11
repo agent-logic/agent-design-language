@@ -51,12 +51,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.
+- Durable conversation history and cross-restart chat restoration remain outside #113 and is owned by issue #114.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5fd382c94203c58a4327dca79ff35824afcc624f:f25e487e18c95cb61848d69d379399e789041dda004eeef9eade6f82e238bf6b")
 
-Reviewer: None
+Reviewer: Some("subagent:019fef34-1897-7353-96e7-49320ae0043a")
 
-Result: pre_review
+Result: pass
