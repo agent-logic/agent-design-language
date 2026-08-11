@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
-  "phase": "implemented",
-  "generation": 29,
-  "digest": "f816bec3d8d355804dcb9624932b38bf3ccd4032093cb1be01f9b3f84bed0d0b",
+  "phase": "reviewed",
+  "generation": 30,
+  "digest": "a7b226548917e687d5b2dcd9065cafa41bffbfd19e4968b4909cf026639ac81c",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
   "review_assignment": {
@@ -21,7 +21,23 @@
       ".csdlc/prepared/issues/226"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-exec:issue-226-corrected-publication-safe-review",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226"
+    ],
+    "reviewed_revision": "git-blake3:01a28fb8359ee417ce600d53cf97c584d8edce08:bf5f6cf843315f20598367a625783720bf4a3fe379220d4e48d4862a39d885e7",
+    "findings": [],
+    "residual_risks": [
+      "Optional hosted, coverage, soak, slow, and long jobs were intentionally not run."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "79f6f7f61aae46b7b8434b71aca8eaf3f72eb865ad571b451a4bed5fa304949b",
+      "values_digest": "aa6af58da43ae823ced59f3d8479416da2e32866c1245d7ef3b65ff8a1d42a2d",
       "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
       "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
     },
     "stp": {
-      "values_digest": "ffafb9b9642d4377ff1dd13c78113971079825b4c553429c77b01a304213f384",
+      "values_digest": "d1daf1d400507c1ea9c059d2a42bde6ffea7d94fda6f4418a43babc0dc377361",
       "rendered_digest": "a6faeaeb82e223d1b0d7ad0414ad40e1b89002e5bea0b8443c885b7af71fee58",
       "ast_digest": "7624a3c03abf3bcca7cac469399714c1e1010189fa7be49366dbc24dbf8b6166"
     },
     "spp": {
-      "values_digest": "92dd8a2eb0009bf93282c8d5ca0a8229e8c0f99702af1f8d160f5bec5a539502",
+      "values_digest": "6f16577efde50f110507699546a900205a4dcafabcafb9e7b81569258bbdc98a",
       "rendered_digest": "b3e191c0cb5d1523edd4ed04a5ff4110124a0b16c58912723c8a0a5aabc0550f",
       "ast_digest": "a0cd926a07e9c1d7518af1efd50f744a2cc49ce7b43c7d50c920e94d0ad9b452"
     },
     "vpp": {
-      "values_digest": "60bcdf39248288ec299bfff9313c84b267841938161cdf46aec6f9cf226074fd",
+      "values_digest": "f08c5123c3c015f2662f3dc918362a0fd1367914b7933766587c15e2b2ce190a",
       "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "3f399d4a690a968c2f6b5e2659338966dbc27f383a6ee36919cbb505b663b66d",
-      "rendered_digest": "8f7b3382aaa24788024a4a991bd0c3ad3cba6585cc2c1d9c4838654b5b07bb3d",
-      "ast_digest": "53c8d152aefcd122d4f2edc571a9cc7e7f34e984ed9af92fea003f1b62cc00c4"
+      "values_digest": "25c3baf548b97fde43dac5807a57c84879cec6512f487198a6515085757010c9",
+      "rendered_digest": "377c983d57cfb12d00e72bb1b7b0fe4099c90a904ec38623cb0ea0d6ec8b17b7",
+      "ast_digest": "a031f6f55af85d0bbfbfaca279dc1e9d2b0fcb8d43d12a10497bb35a5635d9f7"
     },
     "sor": {
-      "values_digest": "135e0c34a3168d31eb68aa5ccdae79f8c92f4255d1cdf1fca13b48d174b058db",
+      "values_digest": "305503d9513505bb8892c4d3791bec1e43c26b315fb65697d0f9a72716d3eb92",
       "rendered_digest": "50bd38ec524e3785c2da01e6fd2426c164d084b259b4828ded63ab55a6985722",
       "ast_digest": "bec40a0c58bd803ce0e96adc993cca684734f0e46c86bdf7d2dc487df456113d"
     }
@@ -143,6 +159,13 @@
       "to": "implemented",
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Recover review for a publication-safe metadata-only tail; all typed review requests now remain outside tracked substantive preparation paths."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-exec:issue-226-corrected-publication-safe-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -495,6 +518,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 30,
+      "actor": "codex-exec:issue-226-corrected-publication-safe-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

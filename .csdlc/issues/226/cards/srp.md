@@ -34,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Optional hosted, coverage, soak, slow, and long jobs were intentionally not run.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:01a28fb8359ee417ce600d53cf97c584d8edce08:bf5f6cf843315f20598367a625783720bf4a3fe379220d4e48d4862a39d885e7")
 
-Reviewer: None
+Reviewer: Some("codex-exec:issue-226-corrected-publication-safe-review")
 
-Result: pre_review
+Result: pass
