@@ -29,7 +29,7 @@ A Layer 8 operator can start or resume a bounded one-to-one conversation with a 
 ## Authority
 
 - Runtime is the sole authority for sessions, ordering, outcomes, and public response correlation
-- Existing #83 and #112 identity and policy boundaries decide operator and recipient reachability; #111 does not widen authority
+- #83 is the sole terminal ancestral dependency for #111; #111 preserves its inherited authenticated reachability boundary without widening authority, and #112 consumes #111 later
 - The browser is a non-authoritative client and never synthesizes delivery or agent responses
 - Provider payloads, credentials, private cognition, and private agent state remain outside public contracts
 - No product implementation, binding, publication, push, PR, merge, close, or #83/#110 mutation is authorized during preparation

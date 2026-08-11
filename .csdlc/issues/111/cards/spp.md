@@ -16,7 +16,7 @@ After #83 is terminal and ancestral, rebase onto its exact dependency head, impl
 
 ## Plan
 
-Revision 4
+Revision 8
 
 ## Steps
 
@@ -88,7 +88,7 @@ Revision 4
 - At most one provider dispatch and one correlated public response occur per accepted submission key
 - Browser reconnect cannot create turns or replay dispatch, and browser state cannot resume a lost Runtime session
 - No provider-specific payload, credential, private cognition, or private agent state crosses the public projection
-- Existing #83/#112 authority is consumed but never widened
+- #111 consumes only the authenticated reachability boundary inherited from #83; downstream #112 depends on #111 and supplies no authority or gate to this issue
 
 ## Risks
 
@@ -109,7 +109,7 @@ Revision 4
 
 design/issue-111.md
 
-Digest: ef65c92031f674710e8f5a29dda5912677db37137bc21522b2bb297153d1bed4
+Digest: 807112016269e5b923102d52fcaa63f235d53e71174c271b5e256bcfbe01fe67
 
 ## Diagram
 
@@ -121,7 +121,8 @@ Digest: 7a7b26563a9aa9e1466f66e846ffecca7c34ece7a60dc705a9f60c4d9e0f1410
 
 - #83 is not terminal, independently validated, and ancestral to the candidate base
 - Exact post-#83 affected paths differ materially from this SPP without a typed replan
-- Any implementation requires identity/policy semantics owned by #112, durable history owned by #114, or multi-agent routing owned by #115
+- Any implementation would need to define broader Layer 8 identity or policy semantics outside the inherited #83 boundary; route that downstream scope to #112
+- Any implementation requires durable history owned by #114 or multi-agent routing owned by #115
 - A proving validator target is unavailable without an explicit initialized-phase defer and issue ownership
 - Any path would require product edits on root main or mutation of #83
 

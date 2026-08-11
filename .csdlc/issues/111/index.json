@@ -3,9 +3,9 @@
   "issue": 111,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
-  "phase": "initialized",
-  "generation": 6,
-  "digest": "1724ac2f7a23ec8e1789aa9798235edf7f6b71ee39ffa52de6bc8a1c9a2ff3bc",
+  "phase": "ready",
+  "generation": 17,
+  "digest": "059bcf17174f521f2f966284480714cd6661d31313d0cc4a72fd7a1610c2e592",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,43 +18,51 @@
   "diagram_path": "design/issue-111.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex-issue-111-preparation",
-      "revision": "ef65c92031f674710e8f5a29dda5912677db37137bc21522b2bb297153d1bed4"
+      "reviewer": "codex-issue-111-readiness-repair",
+      "revision": "807112016269e5b923102d52fcaa63f235d53e71174c271b5e256bcfbe01fe67"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "81f499e57232a4626b162bbd5c7a93e33b68e8c7839f234f75818a53a7d71d1a",
-      "rendered_digest": "fa2de1943892e8e8862e16f71d1b725f69dc2ecb844ac3c526bc1622fb017b87",
-      "ast_digest": "81611ec895da59ac409b67a2c835ffa1b9c64e831005b5eab0bc965ec4aa1a17"
+      "values_digest": "ee13eb57a7af77f15a84bbc333a06a7bdce5fe1b65a331d59043edb1872b4ee5",
+      "rendered_digest": "b32c24898fb51fe7983fc9c22fc3c4a2a1301a577fbfcbc4c544a8010e8467bf",
+      "ast_digest": "ec2c4ea994baf5d6fcf4c370786b31089a9f7b5703f759da1a79963fb8a97991"
     },
     "stp": {
-      "values_digest": "67c7033c16b4a8a664faa50c37fcf92baa2bc01d2875a22125cbd71a35311a8e",
-      "rendered_digest": "be380b56c5c5eff234d50f1ef694d2980f59507d33c63ba8c592df6709f37bf1",
-      "ast_digest": "2a56800e0ee03fbac394b3d3c2c11b0bc94cf4dd068ad8b4279ff58c2974f298"
+      "values_digest": "2c4fc7578be021110b9ca4df14d1d0db12a6fdfe64f57affd18a1349bda362f7",
+      "rendered_digest": "0e9cf329b13bea0024aa5435646a2c6eb28e8621d186026d14b63c83ba72e8ac",
+      "ast_digest": "3d05c54af057665cbd3763007ceb67f3cdf72e09fed17d530eaa9c01795f0f84"
     },
     "spp": {
-      "values_digest": "bc13a788b8eb5c2e8a33b0a6b4e8d6e3c65993672cb16a12df11eb0ce65b4343",
-      "rendered_digest": "d2e137d09779b22477ea1fe1105a6111b6ed854b4ac67bfe647c73131ab1948a",
-      "ast_digest": "4dbc0eef35ba2aff247fa44059737a46417bb3b3007bb8c9bfd9a022c4ec78bc"
+      "values_digest": "28aa0464483626330570935d226c4c4b5f191d1d6890b9c9c63fd1f83f6079bb",
+      "rendered_digest": "229350ca9284624ef0331433337ff2276b44c091df0c85c668a257964483d601",
+      "ast_digest": "d275a28e20694b2d506766088a66f6c7342493abed4bf6450c4d87b1d049e798"
     },
     "vpp": {
-      "values_digest": "7c94601b4b7ebdeb5f906b4ac8fc46c17d9c81774b56f8837b37f4b3885a8d69",
-      "rendered_digest": "f0af20892626e88c734eebf1ed61c2c2aae6be3207d90525589f50183034ea92",
-      "ast_digest": "83e17a5735566bf32d034001bce79c3c2e07feadc45d1ecd82f303adeb362a57"
+      "values_digest": "a316509b00797ee849ae2a97b0e2427727b32ed3fcbf96bd6b550659c153793f",
+      "rendered_digest": "8d58c54516e8bd1ec4ced8eb3eda3d24a451827d66cd0d53e2f100288b511382",
+      "ast_digest": "a53acb9562afb262f9e563fb20c115f18943b2b5431044eb85b0128017fe6613"
     },
     "srp": {
-      "values_digest": "430473119979d3bf48aa18a3f3442cf0047e7df675892353486cc20790632452",
-      "rendered_digest": "458cd2071b07b0980bc0887689b28427b218f23f58ef4b6ad7fe199336830fb1",
-      "ast_digest": "d045ef6b125cb8a761dc40b036c5310f84c2206d4f8ec69a97166768b1b192e6"
+      "values_digest": "d0c67ec02553487e3a62911c400d87ae2ad563869926ec52444fd7991830fd51",
+      "rendered_digest": "e37a0643a47fb863a387964ca9e69e03eea12c6cfb959ebfbc5c60f69ec98b2b",
+      "ast_digest": "998b9887f80c2418e8b940fed6ddaeeeaaa92fbf2c6a08f79884820b30e5dd90"
     },
     "sor": {
-      "values_digest": "5085421272a22d1fa9bd7f6b59f07a05a318f2a3493fcef85408254f2f00ae4d",
+      "values_digest": "11f9716a4b4e6bfa7b9e389ee6fb156e26f542a39ae0257ac1a37c28fe1720d2",
       "rendered_digest": "7e85772a1b45db70e43e5c774ccbd497398a8abcc4c36410055d3abbdbf7e98d",
       "ast_digest": "2b7c8a38e9f8222a78fea737458fba42a8b3696abaf3c65793811bd97261636d"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:111-readiness-repair",
+      "reason": "Advance the validated preparation packet from initialized to ready without binding."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -104,6 +112,83 @@
       "actor": "codex-issue-111-preparation",
       "reason": "leave #83 as the sole live serial bind gate after #110 reconciliation",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"#83 is not terminal, independently validated, and ancestral to the candidate base\",\"Exact post-#83 affected paths differ materially from this SPP without a typed replan\",\"Any implementation requires identity/policy semantics owned by #112, durable history owned by #114, or multi-agent routing owned by #115\",\"A proving validator target is unavailable without an explicit initialized-phase defer and issue ownership\",\"Any path would require product edits on root main or mutation of #83\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:111-readiness-correction",
+      "reason": "Remove circular reachability authority and record the serial #83 -> #111 -> #112 order.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Runtime is the sole authority for sessions, ordering, outcomes, and public response correlation\",\"#83 is the sole terminal ancestral dependency for #111; #111 preserves its inherited authenticated reachability boundary without widening authority, and #112 consumes #111 later\",\"The browser is a non-authoritative client and never synthesizes delivery or agent responses\",\"Provider payloads, credentials, private cognition, and private agent state remain outside public contracts\",\"No product implementation, binding, publication, push, PR, merge, close, or #83/#110 mutation is authorized during preparation\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:111-readiness-correction",
+      "reason": "Declare the exact issue-owned deferred behavioral browser validator target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Versioned canonical Runtime conversation/turn/delivery/response schemas\",\"Runtime session engine with ordered processing, idempotency, cancellation, timeout, reconnect, and explicit restart behavior\",\"Provider-neutral adapter boundary with deterministic fake proof\",\"Observatory integration that renders only Runtime-authoritative outcomes and correlated responses\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"Focused Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, and diff-hygiene validation evidence\",\"Exact-head review with all actionable findings resolved before publication\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex-issue-111-readiness-repair",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:111-readiness-correction",
+      "reason": "Add the exact deferred browser validator to issue-owned affected paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/conversation.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:111-readiness-correction",
+      "reason": "Replace syntax-only browser acceptance coverage with an exact deferred nonzero behavioral validator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime_conversation_contract\",\"proof_role\":\"Deterministic issue-specific proof of schemas, ordering, idempotency, failure outcomes, reconnect, and restart boundaries\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"parallel_group\":\"runtime_core\",\"defer_reason\":\"Issue-owned integration target is intentionally authored during execution after terminal #83 topology is available.\"},{\"lane\":\"observatory_wss_integration\",\"proof_role\":\"Deterministic authenticated WSS ingress, delivery/response correlation, reconnect, and negative-path proof\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_openapi_contract\",\"proof_role\":\"Deterministic public schema and checked-in OpenAPI parity proof\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_browser_conversation_behavior\",\"proof_role\":\"Deterministic browser-client behavior proof that transport acknowledgements and result hashes never render as agent replies and reconnect resumes without duplicate rendering or submission\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"parallel_group\":\"client_behavior\",\"defer_reason\":\"The issue-owned nonzero behavioral validator is authored with implementation; it must fail on zero assertions and prove ACK/hash rejection plus reconnect without duplicate rendering or submission before validation can pass.\"},{\"lane\":\"observatory_javascript_syntax\",\"proof_role\":\"Fast deterministic syntax support guard for the non-authoritative browser client integration\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"node\",\"--check\",\"demos/html-observatory/app.js\"],\"parallel_group\":\"client_static\",\"defer_reason\":null},{\"lane\":\"exact_diff_hygiene\",\"proof_role\":\"Fast exact-worktree whitespace and conflict-marker hygiene before independent review\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"client_static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Own the exact issue 111 behavioral browser validator target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/conversation.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Remove circular authority wording and preserve the serial issue order.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Runtime alone owns canonical session state, sequence allocation, idempotency, and outcome truth\",\"One session binds exactly one authenticated operator principal and one policy-reachable agent\",\"At most one provider dispatch and one correlated public response occur per accepted submission key\",\"Browser reconnect cannot create turns or replay dispatch, and browser state cannot resume a lost Runtime session\",\"No provider-specific payload, credential, private cognition, or private agent state crosses the public projection\",\"#111 consumes only the authenticated reachability boundary inherited from #83; downstream #112 depends on #111 and supplies no authority or gate to this issue\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Remove downstream issue 112 as an execution authority or dependency.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"#83 is not terminal, independently validated, and ancestral to the candidate base\",\"Exact post-#83 affected paths differ materially from this SPP without a typed replan\",\"Any implementation would need to define broader Layer 8 identity or policy semantics outside the inherited #83 boundary; route that downstream scope to #112\",\"Any implementation requires durable history owned by #114 or multi-agent routing owned by #115\",\"A proving validator target is unavailable without an explicit initialized-phase defer and issue ownership\",\"Any path would require product edits on root main or mutation of #83\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 15,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Review the true upstream authority boundary without treating downstream issue 112 as inherited authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Verify Runtime is the only session/order/outcome authority and the browser cannot synthesize turns, delivery, or replies.\",\"Probe duplicate submission, sequence gaps, reconnect replay, cancellation/timeout races, late adapter output, saturation, shutdown, and restart behavior.\",\"Verify recipient eligibility and operator authority consume only the authenticated reachability boundary inherited from #83; #112 remains downstream of #111 and supplies no authority or dependency.\",\"Verify provider-neutral contracts and public responses cannot expose raw provider payloads, credentials, private cognition, or private agent state.\",\"Verify every product path in the diff is issue-owned, PVF-classified, and supported by exact-revision proof.\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 16,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Replace syntax-only browser checking with exact nonzero behavioral proof and retain a nonempty Rust target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime_conversation_contract\",\"proof_role\":\"Deterministic issue-specific proof of schemas, ordering, idempotency, failure outcomes, reconnect, and restart boundaries with a required nonzero test count.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"--no-tests=fail\"],\"parallel_group\":\"runtime_core\",\"defer_reason\":\"The exact issue-owned conversation_sessions integration target is authored during execution after terminal #83 topology is available; --no-tests=fail forbids an empty proof.\"},{\"lane\":\"observatory_wss_integration\",\"proof_role\":\"Deterministic authenticated WSS ingress, delivery/response correlation, reconnect, and negative-path proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_openapi_contract\",\"proof_role\":\"Deterministic public schema and checked-in OpenAPI parity proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_browser_conversation_behavior\",\"proof_role\":\"Run the exact issue-owned browser validator and exit nonzero unless agent ACK/hash metadata is never rendered as an agent reply and reconnect does not duplicate transcript entries.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"parallel_group\":\"client_behavior\",\"defer_reason\":\"The exact issue-owned behavioral validator is an issue #111 execution deliverable and remains deferred until the post-#83 client contract is implemented; missing, skipped, zero-assertion, ACK/hash-as-reply, or duplicated-reconnect output cannot pass.\"},{\"lane\":\"exact_diff_hygiene\",\"proof_role\":\"Fast exact-worktree whitespace and conflict-marker hygiene before independent review.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"client_behavior\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 17,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Advance the validated preparation packet from initialized to ready without binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }

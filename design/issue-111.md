@@ -12,9 +12,9 @@ cursor, but it cannot create authoritative turns, infer delivery, or synthesize 
 agent response.
 
 This issue does not own durable searchable history (#114), multi-agent rooms or
-broadcast (#115), the operator attention inbox (#116), Layer 8 identity policy
-semantics (#112), agent roster/presence (#113), public deployment (#122), or any
-mutation of #83 preparation truth.
+broadcast (#115), the operator attention inbox (#116), downstream Layer 8 identity
+policy semantics (#112, which depends on #111), agent roster/presence (#113), public
+deployment (#122), or any mutation of #83 preparation truth.
 
 ## Dependency And Serial Gates
 
@@ -153,7 +153,7 @@ without the same typed replan.
 2. Add the canonical contracts and Runtime session engine with deterministic fake
    adapter coverage.
 3. Integrate authenticated ingress/egress and production adapter routing without
-   widening #83/#112 authority.
+   widening the inherited #83 authority or inventing downstream #112 semantics.
 4. Integrate the Observatory client and reconnect cursor without browser authority.
 5. Run the declared PVF lanes, then exact-head review focused on ordering,
    idempotency, cancellation races, redaction, and browser non-simulation.

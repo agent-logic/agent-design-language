@@ -25,7 +25,7 @@ Diagram: design/issue-111.mmd
 [
   {
     "lane": "runtime_conversation_contract",
-    "proof_role": "Deterministic issue-specific proof of schemas, ordering, idempotency, failure outcomes, reconnect, and restart boundaries",
+    "proof_role": "Deterministic issue-specific proof of schemas, ordering, idempotency, failure outcomes, reconnect, and restart boundaries with a required nonzero test count.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -37,18 +37,20 @@ Diagram: design/issue-111.mmd
     "budget_tokens": 8000,
     "argv": [
       "cargo",
-      "test",
+      "nextest",
+      "run",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "conversation_sessions"
+      "conversation_sessions",
+      "--no-tests=fail"
     ],
     "parallel_group": "runtime_core",
-    "defer_reason": "Issue-owned integration target is intentionally authored during execution after terminal #83 topology is available."
+    "defer_reason": "The exact issue-owned conversation_sessions integration target is authored during execution after terminal #83 topology is available; --no-tests=fail forbids an empty proof."
   },
   {
     "lane": "observatory_wss_integration",
-    "proof_role": "Deterministic authenticated WSS ingress, delivery/response correlation, reconnect, and negative-path proof",
+    "proof_role": "Deterministic authenticated WSS ingress, delivery/response correlation, reconnect, and negative-path proof.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -72,7 +74,7 @@ Diagram: design/issue-111.mmd
   },
   {
     "lane": "observatory_openapi_contract",
-    "proof_role": "Deterministic public schema and checked-in OpenAPI parity proof",
+    "proof_role": "Deterministic public schema and checked-in OpenAPI parity proof.",
     "acceptance_ids": [
       "AC-1",
       "AC-4",
@@ -94,27 +96,27 @@ Diagram: design/issue-111.mmd
     "defer_reason": null
   },
   {
-    "lane": "observatory_javascript_syntax",
-    "proof_role": "Fast deterministic syntax guard for the non-authoritative browser client integration",
+    "lane": "observatory_browser_conversation_behavior",
+    "proof_role": "Run the exact issue-owned browser validator and exit nonzero unless agent ACK/hash metadata is never rendered as an agent reply and reconnect does not duplicate transcript entries.",
     "acceptance_ids": [
+      "AC-1",
       "AC-4",
       "AC-5"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 120,
-    "budget_tokens": 1000,
+    "budget_seconds": 300,
+    "budget_tokens": 3000,
     "argv": [
       "node",
-      "--check",
-      "demos/html-observatory/app.js"
+      "demos/html-observatory/tests/conversation_sessions.test.mjs"
     ],
-    "parallel_group": "client_static",
-    "defer_reason": null
+    "parallel_group": "client_behavior",
+    "defer_reason": "The exact issue-owned behavioral validator is an issue #111 execution deliverable and remains deferred until the post-#83 client contract is implemented; missing, skipped, zero-assertion, ACK/hash-as-reply, or duplicated-reconnect output cannot pass."
   },
   {
     "lane": "exact_diff_hygiene",
-    "proof_role": "Fast exact-worktree whitespace and conflict-marker hygiene before independent review",
+    "proof_role": "Fast exact-worktree whitespace and conflict-marker hygiene before independent review.",
     "acceptance_ids": [
       "AC-5",
       "AC-6"
@@ -128,7 +130,7 @@ Diagram: design/issue-111.mmd
       "diff",
       "--check"
     ],
-    "parallel_group": "client_static",
+    "parallel_group": "client_behavior",
     "defer_reason": null
   }
 ]
@@ -145,10 +147,10 @@ Tokens: 25000
 
 ## Commands
 
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_sessions`
+- `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_sessions --no-tests=fail`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test observatory`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract`
-- `node --check demos/html-observatory/app.js`
+- `node demos/html-observatory/tests/conversation_sessions.test.mjs`
 - `git diff --check`
 
 ## Failure Semantics

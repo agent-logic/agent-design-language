@@ -21,7 +21,8 @@ Implement only the canonical one-operator-to-one-agent bounded conversation sess
 - Provider-neutral adapter boundary with deterministic fake proof
 - Observatory integration that renders only Runtime-authoritative outcomes and correlated responses
 - adl-runtime-kernel/tests/conversation_sessions.rs
-- Focused Observatory WSS, OpenAPI, JavaScript syntax, and diff-hygiene validation evidence
+- demos/html-observatory/tests/conversation_sessions.test.mjs
+- Focused Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, and diff-hygiene validation evidence
 - Exact-head review with all actionable findings resolved before publication
 
 ## Acceptance

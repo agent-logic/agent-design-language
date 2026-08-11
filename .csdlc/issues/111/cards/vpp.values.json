@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
     "slug": "wp18c01-canonical-human-agent-conversation-sessions",
     "version": "v0.92",
-    "generation": 6
+    "generation": 17
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "runtime_conversation_contract",
-          "proof_role": "Deterministic issue-specific proof of schemas, ordering, idempotency, failure outcomes, reconnect, and restart boundaries",
+          "proof_role": "Deterministic issue-specific proof of schemas, ordering, idempotency, failure outcomes, reconnect, and restart boundaries with a required nonzero test count.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -29,18 +29,20 @@
           "budget_tokens": 8000,
           "argv": [
             "cargo",
-            "test",
+            "nextest",
+            "run",
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
             "--test",
-            "conversation_sessions"
+            "conversation_sessions",
+            "--no-tests=fail"
           ],
           "parallel_group": "runtime_core",
-          "defer_reason": "Issue-owned integration target is intentionally authored during execution after terminal #83 topology is available."
+          "defer_reason": "The exact issue-owned conversation_sessions integration target is authored during execution after terminal #83 topology is available; --no-tests=fail forbids an empty proof."
         },
         {
           "lane": "observatory_wss_integration",
-          "proof_role": "Deterministic authenticated WSS ingress, delivery/response correlation, reconnect, and negative-path proof",
+          "proof_role": "Deterministic authenticated WSS ingress, delivery/response correlation, reconnect, and negative-path proof.",
           "acceptance_ids": [
             "AC-2",
             "AC-3",
@@ -64,7 +66,7 @@
         },
         {
           "lane": "observatory_openapi_contract",
-          "proof_role": "Deterministic public schema and checked-in OpenAPI parity proof",
+          "proof_role": "Deterministic public schema and checked-in OpenAPI parity proof.",
           "acceptance_ids": [
             "AC-1",
             "AC-4",
@@ -86,27 +88,27 @@
           "defer_reason": null
         },
         {
-          "lane": "observatory_javascript_syntax",
-          "proof_role": "Fast deterministic syntax guard for the non-authoritative browser client integration",
+          "lane": "observatory_browser_conversation_behavior",
+          "proof_role": "Run the exact issue-owned browser validator and exit nonzero unless agent ACK/hash metadata is never rendered as an agent reply and reconnect does not duplicate transcript entries.",
           "acceptance_ids": [
+            "AC-1",
             "AC-4",
             "AC-5"
           ],
           "deterministic": true,
           "resource_profile": "small",
-          "budget_seconds": 120,
-          "budget_tokens": 1000,
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
           "argv": [
             "node",
-            "--check",
-            "demos/html-observatory/app.js"
+            "demos/html-observatory/tests/conversation_sessions.test.mjs"
           ],
-          "parallel_group": "client_static",
-          "defer_reason": null
+          "parallel_group": "client_behavior",
+          "defer_reason": "The exact issue-owned behavioral validator is an issue #111 execution deliverable and remains deferred until the post-#83 client contract is implemented; missing, skipped, zero-assertion, ACK/hash-as-reply, or duplicated-reconnect output cannot pass."
         },
         {
           "lane": "exact_diff_hygiene",
-          "proof_role": "Fast exact-worktree whitespace and conflict-marker hygiene before independent review",
+          "proof_role": "Fast exact-worktree whitespace and conflict-marker hygiene before independent review.",
           "acceptance_ids": [
             "AC-5",
             "AC-6"
@@ -120,7 +122,7 @@
             "diff",
             "--check"
           ],
-          "parallel_group": "client_static",
+          "parallel_group": "client_behavior",
           "defer_reason": null
         }
       ],
@@ -128,7 +130,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed: no lane passes on skip, pending, timeout, missing target after execution begins, unavailable credentials, nondeterministic retry, or partial output. Stop implementation on any failed lane, stale #83 ancestry, authority widening, unbounded/provider-private projection, or unresolved actionable review finding.",
       "design_ref": "design/issue-111.md",
-      "design_digest": "ef65c92031f674710e8f5a29dda5912677db37137bc21522b2bb297153d1bed4",
+      "design_digest": "807112016269e5b923102d52fcaa63f235d53e71174c271b5e256bcfbe01fe67",
       "diagram_ref": "design/issue-111.mmd",
       "diagram_digest": "7a7b26563a9aa9e1466f66e846ffecca7c34ece7a60dc705a9f60c4d9e0f1410"
     }
