@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Implement and publish the complete private production Guardian-kernel continuity path: validated initialization in both binaries, durable TLS-authenticated client/server channel, sealed live-participant quiesce/export and rollback, isolated validation/discard, exact proof and review; do not implement distributed migration/recovery policy or remote transfer.
+Implement and publish the production Guardian-kernel private continuity bridge, live quiesce/export, isolated stage/validate/activate/discard effects, and sealed integration ports. #210 receives only ContinuityBundleSourcePort and TargetContinuityEffectPort stage/verify operations plus TargetCleanupPermit request access; it returns verified possession and never deletes or activates. #204 owns the executor/control-operation adapter and authority decisions and consumes SourceContinuityEffectPort, TargetContinuityEffectPort activation, and TargetCleanupPermit discard. #208 alone performs every kernel/filesystem effect, revalidates signed expected chunk/range/entry commitments before writes, and keeps the exact-stage discard-only permit valid after transfer expiry/cancellation until verified Discarded or Activated. No caller path, generic trait, normal-build mock, transfer policy, migration decision, fence, ownership, or serving authority is exposed.
 
 ## Deliverables
 
@@ -41,6 +41,7 @@ Implement and publish the complete private production Guardian-kernel continuity
 - adl-runtime-kernel/Cargo.lock
 - adl-runtime/Cargo.lock
 - .csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json
+- .csdlc/prepared/issues/208/verify-diff-hygiene.rb
 - .csdlc/prepared/issues/208/produce-proof-receipt.rb
 - .csdlc/prepared/issues/208/validate-proof-receipt.rb
 - .csdlc/evidence/208

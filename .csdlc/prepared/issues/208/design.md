@@ -133,8 +133,46 @@ matching accepted operation, bundle/possession receipt, channel epoch, root
 generation, and manifest/content digests. It removes only that opaque generation,
 fsyncs the parent, proves no open handle or directory entry remains, and emits a
 durable independently checkable zero-residue receipt. Exact retry returns that
-receipt. An activated generation is outside #208 and is denied rather than
-silently deleted.
+receipt. An activated generation is outside discard authority and is denied
+rather than silently deleted.
+
+## Sealed downstream effect ports
+
+#208 remains the sole owner of every kernel and filesystem effect while exposing
+only opaque, sealed ports and receipts to downstream protocols:
+
+- `SourceContinuityEffectPort` performs quiesce/checkpoint/resume and returns
+  `SourceQuiesceReceipt`, `SourceCheckpointHandle`, and `SourceResumeReceipt`.
+  A downstream decision never receives participant handles, roots, or paths.
+- `ContinuityBundleSourcePort` is derived only from an exact committed
+  `SourceCheckpointHandle`. It returns the retained signed manifest/catalog
+  projection and bounded reads for the exact expected ranges; no caller offset
+  outside that signed projection and no raw file handle is accepted.
+- `TargetContinuityEffectPort` owns stage, verify, and activate effects and
+  returns `TargetStageHandle`, `TargetPossessionEvidence`, and
+  `TargetActivationReceipt`. Before any write it independently verifies the
+  retained signature and trusted-key generation, then matches the exact signed
+  entry order/schema/range/length/digest and chunk index/range/digest/predecessor.
+  A digest of caller-selected bytes or caller-supplied expected descriptor is
+  never sufficient. `TargetPossessionEvidence` is unavailable until the whole
+  signed bundle has passed exact validation.
+- Stage creation separately mints `TargetCleanupPermit`, bound to the exact
+  trust domain, polis, target node/Guardian, durable channel epoch, root and
+  stage generations, bundle/manifest/catalog/content digests, and cleanup
+  identity. It permits only handle closure, exact nonactivated-stage discard,
+  parent fsync, and durable live `TargetDiscardReceipt`. Transfer deadline
+  expiry or cancellation removes transfer authority but does not invalidate
+  this cleanup authority. It remains usable until the exact stage is Discarded
+  or Activated; activation consumes it and any later discard is denied.
+
+#210 may use the source port and target stage/verify operations and may request
+#208 cleanup, but returns only `VerifiedTransferPossession` containing the exact
+`TargetStageHandle` and `TargetPossessionEvidence`; it never deletes or
+activates material. #204 owns the migration executor and private control
+operation adapter that decides when already-verified authority calls source
+resume, target activate, or target discard. #208 performs those effects and
+returns the opaque receipts. Thus there is exactly one cleanup/effect owner
+(#208), without moving migration policy into this issue.
 
 ## Crash, bounds, and filesystem safety
 
@@ -172,10 +210,12 @@ The issue owns the following production wiring, not merely new modules:
   `distributed/mod.rs`, `distributed/polis_runtime.rs`, `lib.rs`, and
   `bin/adl-runtime-guardian.rs`.
 
-The Guardian client exposes only opaque bundle/possession/rollback handles to
-the downstream #204 executor. It exposes no private key, raw filesystem path,
-normal-build injected trait, migration decision, owner commit, fence, activation,
-or serving authority.
+The Guardian client exposes the sealed ports and opaque handles named above:
+#210 receives only bundle-read, target-stage/verify, and cleanup-request access;
+#204 receives source resume, target activate/discard, and their receipts through
+its own private control-operation adapter. Neither receives a private key, raw
+filesystem path, normal-build injected trait, migration authority, owner commit,
+fence, activation decision, or serving authority from #208.
 
 ## Exact proof contract
 
@@ -206,21 +246,34 @@ The denominator is exactly fifty-six named cases:
 The tracked `continuity-boundary-subassertion-map.json` is part of the proof
 contract. It contains exactly eight boundary rows and sixty-four named
 subassertions: eight each for config, TLS, identity, domain, generation, prefix,
-path, and size. The producer and validator require byte-for-byte map parity,
-exact expected outcomes/markers, and its SHA-256. Retry/crash proof enumerates
+path, and size. The domain row binds canonical RFC 8785 acceptance and exact
+rejection markers for duplicate keys, noncanonical encoding, unknown fields,
+NaN/infinity, trailing bytes, decode/re-encode mismatch, and unknown operation
+kind; the TLS row separately retains exporter-mismatch proof. The named domain,
+polis, and node denial cases remain in the fifty-six-case denominator. The
+producer and validator require byte-for-byte map parity, exact expected
+outcomes/markers, and SHA-256
+`cc7a0f9cb8e09840bb977f88a8d1721e0f04348beefca2cfbb6a33a6b4b15ef0`.
+Retry/crash proof enumerates
 accepted journal, each participant prepare/resume receipt, admission transition,
 bundle/target effect, result, checkpoint, marker, response cache, certificate
 succession, process restart, and reply loss on both client and server.
 
 Validation runs serially: focused Runtime and kernel tests, Runtime Clippy,
-kernel library/binary Clippy, diff hygiene, producer, independent exact-head
-review, then the distinct immutable validator. No review or validator may race
-the producer or source-changing validation.
+kernel library/binary Clippy, exact-range diff hygiene, producer, independent
+exact-head review, then the distinct immutable validator. The diff verifier
+loads the recorded execution base and proving source revisions, requires both
+exact Git objects plus base ancestry, runs whitespace/EOF hygiene across the
+complete `base..source` range, and rejects dirty protected paths; a bare
+working-tree `git diff --check` is not proof. No review or validator may race the
+producer or source-changing validation.
 
 ## Non-goals
 
 - Consensus, distributed authority issuance, membership, lease/fence policy,
-  migration/recovery decisions, ownership, activation, or serving eligibility.
+  migration/recovery decisions, ownership, activation decisions, or serving
+  eligibility. The target activation effect remains #208-owned but is callable
+  only after #204's independently verified migration decision.
 - Remote bundle transport (#210) or migration/recovery orchestration (#204/#211).
 - Public continuity routes, Shepherd/model execution, AWS resources, live
   Wuji/AWS qualification, final #142 delivery, merge without operator

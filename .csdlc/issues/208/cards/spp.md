@@ -16,7 +16,7 @@ After PR #197 merges, bind #208 and implement the complete production Guardian-t
 
 ## Plan
 
-Revision 1
+Revision 4
 
 ## Steps
 
@@ -95,8 +95,13 @@ Revision 1
 - No production readiness is reported until Guardian and kernel share the validated private session and the complete sealed live-participant registry exists
 - Process restart preserves the durable logical channel epoch; certificate succession changes transport credentials without losing or duplicating an accepted operation
 - Only TLS 1.3 mTLS authenticates control frames, while the manifest signing key signs content only and no bearer or public identity gains continuity authority
-- Every participant prepared for quiesce either contributes to the committed bundle or has an exact reconciled resume receipt before admission reopens
-- Source remains quiesced after bundle commit until exact resume or downstream fence; every nonactivated Staging or Validated target remains exactly discardable
+- Every RFC 8785 request is rejected before dispatch on duplicate keys, noncanonical encoding, unknown fields, NaN or infinity, trailing bytes, decode/re-encode mismatch, or exporter mismatch, with exact tracked subassertion markers
+- Every participant prepared for quiesce either contributes to the committed bundle or has an exact reconciled SourceResumeReceipt before admission reopens
+- Source remains quiesced after SourceCheckpointHandle commit until exact SourceResumeReceipt or downstream fence; every nonactivated TargetStageHandle remains exactly discardable
+- ContinuityBundleSourcePort reads only signed expected ranges from one exact SourceCheckpointHandle and TargetContinuityEffectPort revalidates signed key generation, catalog entry order/schema/range/digest, and chunk index/range/digest/predecessor before any bytes are written
+- TargetPossessionEvidence exists only after exact complete validation; #210 wraps it with TargetStageHandle as VerifiedTransferPossession but gains no deletion or activation authority
+- TargetCleanupPermit is a separate discard-only #208 authority bound to the exact stage and remains valid after #210 transfer expiry or cancellation until verified TargetDiscardReceipt or TargetActivationReceipt
+- #204 owns migration/control decisions and adapters; #208 alone performs source resume, target activate, target discard, and every other kernel/filesystem effect and returns opaque receipts
 - No caller path, normal-build mock, synthetic snapshot, cached bool, opaque receipt, or redacted evidence creates distributed authority
 
 ## Risks

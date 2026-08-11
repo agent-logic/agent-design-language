@@ -31,10 +31,16 @@ The production Guardian initializes an opaque client and reaches a production ke
 
 - TLS 1.3 mutual authentication is the sole request-channel authority; there is no application signing claim, bearer authority, or unsigned self-authenticating payload
 - The accepted operation binds a stable logical Guardian/kernel identity and durable channel epoch; process boot identifiers are diagnostic and certificate rotation uses an explicit persisted succession schedule
-- The kernel continuity manifest authority signs checkpoint content only and cannot authenticate the private channel or authorize migration, ownership, activation, or serving
+- The kernel continuity manifest authority signs checkpoint content only and cannot authenticate the private channel or authorize transfer, migration, ownership, activation, or serving
 - The private listener is loopback-only, absent from public Axum/OpenAPI, and denies agent, voter, Shepherd, Observatory, public-control, and distributed-authority identities
 - Normal builds construct the client and participant registry only from validated production initialization; caller paths, mocks, synthetic checkpoints, injected traits, or omitted live participants fail closed
-- The bridge returns opaque effect receipts only; #210 owns remote transfer, #204 owns migration decisions, #211 owns recovery decisions, and #142 owns final live qualification
+- SourceContinuityEffectPort alone performs quiesce/checkpoint/resume and returns opaque SourceQuiesceReceipt, SourceCheckpointHandle, and SourceResumeReceipt; downstream callers supply an already-verified decision but never live handles or paths
+- ContinuityBundleSourcePort is issued only from an exact committed SourceCheckpointHandle and exposes bounded expected-range reads plus the exact signed manifest/catalog projection; it exposes no path or raw file handle
+- TargetContinuityEffectPort owns stage/verify/activate effects and returns opaque TargetStageHandle, TargetPossessionEvidence, and TargetActivationReceipt; every write revalidates signature/key generation, entry order/schema/range/digest and chunk index/range/digest/predecessor before effect
+- At stage creation #208 separately mints TargetCleanupPermit bound to the exact stage/root/channel generation and content commitments; transfer expiry/cancellation removes move authority but not this discard-only permit, which remains valid until verified TargetDiscardReceipt or TargetActivationReceipt
+- #210 may request #208 stage/verify/discard effects but returns only VerifiedTransferPossession and never deletes or activates; #204 alone owns the executor/control-operation adapter and migration decision that invokes #208 source resume, target activate, or target discard
+- #208 retains every kernel/filesystem effect and the cleanup owner; its effect receipts create no transfer, migration, fencing, ownership, activation-decision, or serving authority
+- #210 owns remote transfer protocol, #204 owns migration decisions, #211 owns recovery decisions, and #142 owns final live qualification
 
 ## Assumptions
 

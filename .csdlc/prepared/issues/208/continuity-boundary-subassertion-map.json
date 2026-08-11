@@ -48,13 +48,13 @@
     {
       "boundary": "domain",
       "subassertions": [
-        {"id":"schema_exact","case":"guardian_mtls_authorized","outcome":"accepted","marker":"accepted:domain:schema_exact"},
-        {"id":"wrong_schema_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:wrong_schema_denied"},
-        {"id":"wrong_trust_domain_denied","case":"wrong_trust_domain_denied","outcome":"denied","marker":"denied:domain:wrong_trust_domain_denied"},
-        {"id":"wrong_polis_denied","case":"wrong_polis_denied","outcome":"denied","marker":"denied:domain:wrong_polis_denied"},
-        {"id":"wrong_source_node_denied","case":"wrong_node_denied","outcome":"denied","marker":"denied:domain:wrong_source_node_denied"},
-        {"id":"wrong_target_node_denied","case":"wrong_node_denied","outcome":"denied","marker":"denied:domain:wrong_target_node_denied"},
-        {"id":"cross_polis_replay_denied","case":"replay_rejected","outcome":"denied","marker":"denied:domain:cross_polis_replay_denied"},
+        {"id":"canonical_rfc8785_accepted","case":"guardian_mtls_authorized","outcome":"accepted","marker":"accepted:domain:canonical_rfc8785_accepted"},
+        {"id":"duplicate_keys_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:duplicate_keys_denied"},
+        {"id":"noncanonical_encoding_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:noncanonical_encoding_denied"},
+        {"id":"unknown_fields_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:unknown_fields_denied"},
+        {"id":"nan_infinity_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:nan_infinity_denied"},
+        {"id":"trailing_bytes_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:trailing_bytes_denied"},
+        {"id":"decode_reencode_mismatch_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:decode_reencode_mismatch_denied"},
         {"id":"unknown_operation_kind_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:unknown_operation_kind_denied"}
       ]
     },

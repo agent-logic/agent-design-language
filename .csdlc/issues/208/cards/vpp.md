@@ -25,12 +25,13 @@ Diagram: .csdlc/prepared/issues/208/diagram.mmd
 [
   {
     "lane": "guardian-continuity-production",
-    "proof_role": "Prove production Guardian initialization, supervised-kernel private-session readiness, durable channel restart/certificate succession, public-route absence, and the client half of the exact fifty-six-case denominator with exact map markers.",
+    "proof_role": "Prove production Guardian initialization, supervised-kernel private-session readiness, durable channel restart/certificate succession, public-route absence, sealed #210 client ports, and the client half of the exact fifty-six cases plus eight-row sixty-four-subassertion map, including the domain row's exact RFC 8785 markers.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
+      "AC-7",
       "AC-8",
       "AC-9"
     ],
@@ -50,11 +51,11 @@ Diagram: .csdlc/prepared/issues/208/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "208-serial-01-runtime-test",
-    "defer_reason": "Deferred until #191 merges and the complete production client target exists; fail closed on missing target, zero tests, library-only reachability, or missing, extra, duplicate, nonpassing case/result/marker/subassertion."
+    "defer_reason": "Deferred until #191 merges and the complete production client target exists; fail closed on missing target, zero tests, library-only reachability, generic/caller-constructible #210 ports, or missing, extra, duplicate, reordered, nonpassing case/result/marker/subassertion."
   },
   {
     "lane": "kernel-continuity-production",
-    "proof_role": "After the Guardian lane, prove production kernel startup, sealed complete live-participant quiesce/export and rollback, isolated validation/discard, filesystem/bounds safety, and the server half of all fifty-six cases and sixty-four mapped subassertions.",
+    "proof_role": "After the Guardian lane, prove production kernel startup, sealed complete live-participant quiesce/export and rollback, isolated validation/discard, signed expected entry/chunk/range revalidation before #210 stage writes, discard-only cleanup survival after transfer expiry/cancel, filesystem/bounds safety, and the server half of all fifty-six cases and sixty-four mapped subassertions.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -82,11 +83,11 @@ Diagram: .csdlc/prepared/issues/208/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "208-serial-02-kernel-test",
-    "defer_reason": "Deferred until the private listener, participant registry and focused kernel target exist; fail closed on missing target, synthetic participants, zero tests, or any case/map parity drift."
+    "defer_reason": "Deferred until the private listener, participant registry, sealed #210 ports, and focused kernel target exist; fail closed on missing target, synthetic participants, caller descriptors, cleanup-authority expiry with transfer authority, zero tests, or any case/map parity drift."
   },
   {
     "lane": "guardian-continuity-clippy",
-    "proof_role": "After both focused tests, reject warnings and API misuse across the exact Runtime library, Guardian production binary and client integration test.",
+    "proof_role": "After both focused tests, reject warnings and API misuse across the Runtime library, Guardian production binary, client integration test, and sealed #210 client projections.",
     "acceptance_ids": [
       "AC-9"
     ],
@@ -114,7 +115,7 @@ Diagram: .csdlc/prepared/issues/208/diagram.mmd
   },
   {
     "lane": "kernel-continuity-clippy",
-    "proof_role": "After Runtime Clippy, reject warnings and API misuse across the exact kernel library, production kernel binary, and kernel continuity integration test.",
+    "proof_role": "After Runtime Clippy, reject warnings and API misuse across the kernel library, production kernel binary, integration test, expected-descriptor verifier, and persistent cleanup permit.",
     "acceptance_ids": [
       "AC-9"
     ],
@@ -142,7 +143,7 @@ Diagram: .csdlc/prepared/issues/208/diagram.mmd
   },
   {
     "lane": "continuity-diff-hygiene",
-    "proof_role": "After all source-changing validation, reject whitespace errors and EOF drift before evidence production.",
+    "proof_role": "After all source-changing validation, load the recorded execution base and proving source revisions, require both exact Git objects and base ancestry, and run diff whitespace/EOF hygiene over the complete base..source range plus reject dirty protected paths. A working-tree-only diff is insufficient.",
     "acceptance_ids": [
       "AC-9"
     ],
@@ -151,16 +152,15 @@ Diagram: .csdlc/prepared/issues/208/diagram.mmd
     "budget_seconds": 120,
     "budget_tokens": 500,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "ruby",
+      ".csdlc/prepared/issues/208/verify-diff-hygiene.rb"
     ],
     "parallel_group": "208-serial-05-diff",
-    "defer_reason": "Deferred until implementation; fail closed on any diff-hygiene finding."
+    "defer_reason": "Deferred until implementation records exact execution_base_revision and proving_source_revision and creates the verifier; fail closed on absent/non-object revisions, nonancestry, any base..source whitespace or EOF diagnostic, dirty protected source, or working-tree-only evidence."
   },
   {
     "lane": "guardian-kernel-continuity-producer",
-    "proof_role": "After tests, both Clippy packages and diff hygiene pass, produce exact Git/source/argv/stream/timing/protected-digest evidence for fifty-six cases and byte-for-byte parity with continuity-boundary-subassertion-map.json sha256=6b31b1287adf4b62cc00e9c42e79adf323cda48004ff950fa55776fb08907af5.",
+    "proof_role": "After tests, both Clippy packages and exact-range diff hygiene pass, produce exact Git/source/base/argv/stream/timing/protected-digest evidence for fifty-six cases and byte-for-byte parity with continuity-boundary-subassertion-map.json sha256=cc7a0f9cb8e09840bb977f88a8d1721e0f04348beefca2cfbb6a33a6b4b15ef0, boundary_row_count=8, subassertion_count=64, including exact RFC 8785 and sealed-port/cleanup proof.",
     "acceptance_ids": [
       "AC-9"
     ],
@@ -173,11 +173,11 @@ Diagram: .csdlc/prepared/issues/208/diagram.mmd
       ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
     ],
     "parallel_group": "208-serial-06-producer",
-    "defer_reason": "Deferred until the exact producer exists; fail closed on dirty protected source, wrong map digest/count, missing/extra/duplicate/nonpassing evidence, or nonzero status."
+    "defer_reason": "Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty protected source, wrong base/source diff proof, map digest/count/order drift, missing/extra/duplicate/nonpassing evidence, or nonzero status."
   },
   {
     "lane": "guardian-kernel-continuity-receipt",
-    "proof_role": "Only after producer completion and fresh independent exact-head review, validate exact protected source, argv, fifty-six cases, sixty-four mapped subassertions, both package Clippy lanes, immutable evidence introduction, review provenance, and squash-merge-safe proof truth.",
+    "proof_role": "Only after producer completion and fresh independent exact-head review, independently validate execution-base-to-reviewed-source diff hygiene, exact protected source, argv, fifty-six cases, eight rows, sixty-four mapped subassertions, both Clippy lanes, immutable evidence introduction, review provenance, and squash-merge-safe proof truth.",
     "acceptance_ids": [
       "AC-9"
     ],
@@ -190,7 +190,7 @@ Diagram: .csdlc/prepared/issues/208/diagram.mmd
       ".csdlc/prepared/issues/208/validate-proof-receipt.rb"
     ],
     "parallel_group": "208-serial-08-validator",
-    "defer_reason": "Deferred until producer, typed finalize, immutable evidence, and fresh review exist; fail closed until exact source, map digest, cases, subassertions, commands and review are bound."
+    "defer_reason": "Deferred until producer, typed finalize, immutable evidence, and fresh review exist; fail closed until exact source, execution base, map digest/count/order, cases, subassertions, commands, diff range, and review are bound."
   }
 ]
 
@@ -210,7 +210,7 @@ Tokens: 50000
 - `cargo nextest run --locked --manifest-path adl-runtime-kernel/Cargo.toml --test kernel_continuity_control --no-tests=fail`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib --bin adl-runtime-guardian --test kernel_continuity_client -- -D warnings`
 - `cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib --bin adl-runtime-kernel --test kernel_continuity_control -- -D warnings`
-- `git diff --check`
+- `ruby .csdlc/prepared/issues/208/verify-diff-hygiene.rb`
 - `ruby .csdlc/prepared/issues/208/produce-proof-receipt.rb`
 - `ruby .csdlc/prepared/issues/208/validate-proof-receipt.rb`
 

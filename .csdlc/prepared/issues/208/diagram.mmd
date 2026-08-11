@@ -10,12 +10,18 @@ flowchart TD
     RR -->|"all receipts reconciled"| AO["Reopen admission"]
     RR -->|"cannot prove rollback"| RF["Source remains closed: RecoveryRequired"]
     CP --> BR["Bundle receipt, checkpoint, marker, replayable result"]
-    CJ --> ST["Bounded opaque target staging"]
-    ST --> VT["Manifest, prefix, topology, config, services and content validation"]
-    VT --> DT["Receipt-bound discard of any nonactivated target"]
+    BR --> SB["ContinuityBundleSourcePort with signed expected ranges"]
+    CJ --> ST["TargetContinuityEffectPort creates TargetStageHandle"]
+    ST --> VT["Signed entry and chunk expectations verified before every write"]
+    VT --> PE["TargetPossessionEvidence after complete validation"]
+    ST --> CL["Separate TargetCleanupPermit survives transfer expiry or cancel"]
+    CL --> DT["#208-owned receipt-bound discard of exact nonactivated target"]
     DT --> ZR["Durable zero-residue receipt"]
-    BR --> EX["Opaque handle for downstream #204/#210"]
-    VT --> EX
+    PE --> VP["#210 returns VerifiedTransferPossession only"]
+    PE --> AT["#204 decision invokes #208 target activation effect"]
+    AT --> AR["TargetActivationReceipt consumes cleanup permit"]
+    BR --> EX["Opaque sealed ports for downstream #204/#210"]
+    VP --> EX
     PX["Process restart or reply loss"] --> CE
     PX --> CJ
     PUB["Public Runtime, Observatory and agent control"] --> DENY["No continuity route or authority"]
