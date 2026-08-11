@@ -7,45 +7,34 @@
     "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
     "slug": "authenticated-governed-learner-transport",
     "version": "v0.92",
-    "generation": 22
+    "generation": 23
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented and locally proved the authority-sealed one-learner transport, real Quinn/OpenRaft replication path, durable successor flip, and pending-voter exclusion without changing the exact three-voter cut; independent review, publication, merge, and closeout remain pending.",
+      "summary": "Resolved the production authorized-learner findings on exact current-main ancestry: every factory requires one reconstructed shared admission/exclusion authority, sessions bind exact TLS direction and authority generations, successor flips revoke retained routes and clones, and real OpenRaft learner catch-up plus later replication runs through the factory and Quinn server. Exact fresh review and publication remain pending.",
       "actual_changes": [
-        "Added a crate-private adapter that consumes only durably published coarse #201 Membership operations and validates exact canonical EnrollNonVoting or RemoveVoter artifacts.",
-        "Added token-bound learner AppendEntries and InstallSnapshot framing over authenticated Quinn, a real four-PolisRaft add_learner path, and fail-closed denial of vote, client, authority, mutation, renewal, Shepherd, and Observatory operations.",
-        "Added durable single-admission publication, private successor staging and atomic restart-safe flip, exact retry, expiry, capacity, replay, and symlink-safe checkpoint behavior.",
-        "Integrated one opaque pending-exclusion snapshot into #201 endorsement eligibility and ordinary voter session admission and revalidation without changing voter quorum or promotion semantics."
+        "Removed production allow-all endorsement and ordinary-session APIs; ProductionLearnerAuthority now reconstructs admission and exclusion before exposure and owns exclusion-aware endorsement.",
+        "Made ProductionLearnerAuthority mandatory for SecurePolisNetworkFactory construction and consulted it for ordinary pending/install/revalidation, learner install/server sessions, exclusion activation, and successor-flip fencing.",
+        "Bound learner effects to trust domain, polis, exact voter and learner Raft/node/Guardian identities, TLS direction, authorized socket address, certificate and boot generations, full authority voter cut, operation and predecessor digests, deadline, sequence, kind, role, and payload.",
+        "Preserved token previous_operation_sha256, required exact predecessor staging, and made the atomic successor flip remove routes so retained EstablishedLearnerSession clones reject without manual close or cross-generation reuse.",
+        "Replaced the disconnected four-node proof with SecurePolisNetworkFactory install/request over live Quinn into serve_authorized_learner_connection and a real fourth PolisRaft added by add_learner(4,true), proving forced snapshot catch-up, later append replication, unchanged voters, and denied vote/generic/unknown messages.",
+        "Strengthened live stale-boot, wrong-address, reversed-direction, production exclusion endorsement, and failed/committed admission plus exclusion restart regressions while retaining the exact 36 private and 13 public case denominator.",
+        "Versioned repaired proof as immutable v2 evidence, bound exact 2afa820c current-main ancestry, fifteen behavior assertions, mandatory production authority ownership, runtime integration compile, and strict library/public Clippy."
       ],
       "artifacts": [
+        "adl-runtime/src/distributed/authority_protocol.rs",
         "adl-runtime/src/distributed/learner_transport.rs",
         "adl-runtime/src/distributed/learner_transport/tests.rs",
-        "adl-runtime/tests/distributed_authorized_learner_transport.rs",
+        "adl-runtime/src/distributed/polis_runtime.rs",
+        "adl-runtime/src/distributed/transport.rs",
+        "adl-runtime/tests/distributed_runtime_transport.rs",
         ".csdlc/prepared/issues/202/produce-proof-receipt.rb",
         ".csdlc/prepared/issues/202/validate-proof-receipt.rb",
-        ".csdlc/evidence/202/v1/execution-proof.json"
+        ".csdlc/evidence/202/v2/execution-proof.json"
       ],
       "actual_validation": [
-        {
-          "command": [
-            "cargo",
-            "clippy",
-            "--locked",
-            "--manifest-path",
-            "adl-runtime/Cargo.toml",
-            "--test",
-            "distributed_authorized_learner_transport",
-            "--",
-            "-D",
-            "warnings"
-          ],
-          "purpose": "Run strict Clippy for the owned target.",
-          "outcome": "passed",
-          "evidence_ref": "authorized-learner-transport-clippy.log"
-        },
         {
           "command": [
             "cargo",
@@ -59,18 +48,9 @@
             "--nocapture",
             "--test-threads=1"
           ],
-          "purpose": "Run the focused sealed-adapter and learner runtime lane.",
+          "purpose": "Run the exact behavior-bound private authorized learner lane.",
           "outcome": "passed",
-          "evidence_ref": "authorized-learner-transport-private.log"
-        },
-        {
-          "command": [
-            "ruby",
-            ".csdlc/prepared/issues/202/produce-proof-receipt.rb"
-          ],
-          "purpose": "Run the issue-owned proof producer idempotently.",
-          "outcome": "passed",
-          "evidence_ref": "authorized-learner-transport-producer.log"
+          "evidence_ref": ".csdlc/evidence/202/v2/execution-proof.json"
         },
         {
           "command": [
@@ -84,18 +64,75 @@
             "--",
             "--test-threads=1"
           ],
-          "purpose": "Run the public learner-artifact integration lane.",
+          "purpose": "Run the exact public canonical Membership artifact boundary.",
           "outcome": "passed",
-          "evidence_ref": "authorized-learner-transport-public.log"
+          "evidence_ref": ".csdlc/evidence/202/v2/execution-proof.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_runtime_transport",
+            "--no-run"
+          ],
+          "purpose": "Compile the full runtime transport integration surface against mandatory shared authority construction.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/202/v2/execution-proof.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy across the production library.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/202/v2/execution-proof.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_authorized_learner_transport",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy across the exact public learner target.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/202/v2/execution-proof.json"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/202/produce-proof-receipt.rb"
+          ],
+          "purpose": "Produce immutable exact-source issue proof.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/202/v2/execution-proof.json"
         },
         {
           "command": [
             "ruby",
             ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
           ],
-          "purpose": "Validate the retained portable proof receipt.",
+          "purpose": "Validate current-main ancestry, immutable evidence, protected source, exact denominators, and behavior assertions.",
           "outcome": "passed",
-          "evidence_ref": "authorized-learner-transport-receipt.log"
+          "evidence_ref": ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
         }
       ],
       "integration_state": "not_started",
