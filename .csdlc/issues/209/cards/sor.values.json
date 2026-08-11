@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
     "slug": "wp14-production-acip-authority-repair",
     "version": "v0.92",
-    "generation": 14
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -59,7 +59,7 @@
             "--lib",
             "control::acip_replay_tests"
           ],
-          "purpose": "Prove structured replay-domain collision resistance, per-principal capacity, and concurrent rollback non-resurrection.",
+          "purpose": "Prove structured replay-domain collision resistance, per-principal capacity, rejected-advance non-mutation, and concurrent rollback non-resurrection.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/209/acip-replay-authority.log"
         },

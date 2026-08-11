@@ -63,7 +63,7 @@ Repaired production ACIP replay authority, transactional pressure rollback, plat
       "--lib",
       "control::acip_replay_tests"
     ],
-    "purpose": "Prove structured replay-domain collision resistance, per-principal capacity, and concurrent rollback non-resurrection.",
+    "purpose": "Prove structured replay-domain collision resistance, per-principal capacity, rejected-advance non-mutation, and concurrent rollback non-resurrection.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/209/acip-replay-authority.log"
   },

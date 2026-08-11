@@ -1,4 +1,4 @@
-source_revision=f555281d3bf31e5e4adeca89889183be5ff6b74b
+source_revision=2390794997bf216cc3f1826561978a9f716c3a1d
 command=cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract
 test runtime_serves_machine_and_human_readable_openapi_docs ... ok
 test runtime_core_wss_documents_real_bidirectional_acip_boundary ... ok
