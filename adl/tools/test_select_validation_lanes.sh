@@ -9,13 +9,13 @@ UNTRACKED_FIXTURE="$ROOT/docs/architecture/__selector_untracked_fixture__.md"
 JAVASCRIPT_VALIDATOR_FIXTURE=""
 JAVASCRIPT_VALIDATOR_BACKUP=""
 cleanup() {
-  rm -rf "$TMP" "$UNTRACKED_FIXTURE"
-  if [[ -n "$JAVASCRIPT_VALIDATOR_FIXTURE" ]]; then
-    rm -f "$JAVASCRIPT_VALIDATOR_FIXTURE"
-  fi
   if [[ -n "$JAVASCRIPT_VALIDATOR_BACKUP" ]]; then
     mv "$JAVASCRIPT_VALIDATOR_BACKUP" "$ROOT/adl/tools/validate_v092_html_observatory_roster.mjs"
   fi
+  if [[ -n "$JAVASCRIPT_VALIDATOR_FIXTURE" ]]; then
+    rm -f "$JAVASCRIPT_VALIDATOR_FIXTURE"
+  fi
+  rm -rf "$TMP" "$UNTRACKED_FIXTURE"
 }
 trap cleanup EXIT
 
