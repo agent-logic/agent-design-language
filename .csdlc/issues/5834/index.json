@@ -5,25 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2f8a9edc733d36518cfdfe54639ecbf45210e8028e1a884bf5e25a2d1d52408c",
   "phase": "implemented",
-  "generation": 55,
-  "digest": "18e1e2bec17d05a95ab13f4b5ed3de9d40f104df668437cd98d860b9ca7193cd",
+  "generation": 59,
+  "digest": "744b810692b70c6953ece0770accea43c46ecb9d136dd720c121f666a397ce59",
   "branch": "codex/5834-birthday-review-packet",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5834-birthday-review-packet",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_5834_exact_head",
-    "assigned_by": "/root/sprint4_5857",
-    "revision": "git-blake3:55781df9b0a8db0716304a1145bd6fdbd0b4b0d1:0c585dc6d646914db586a1fb3bd9ccd3ea5619f02e6646b59b6ff3867f7a8067",
-    "scope": [
-      ".csdlc/issues/5834",
-      ".csdlc/prepared/issues/5834/design.md",
-      ".csdlc/prepared/issues/5834/validate-review-packet.rb",
-      ".csdlc/evidence/5834",
-      "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
-      "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
-      "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json",
-      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -33,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/5834/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
-      "revision": "eae174084abaea4077d16ff5f93268fc566c2da88a93ba4f034d19627e0abeaf"
+      "reviewer": "operator-authorized:5834-wp14-replacement-authority",
+      "revision": "4c0857ebc6f7836789a489608eb84c5fb85eeb6d3753b97b97d74073b1242204"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "3969d617e197f4e82aacddc2bfae4d1c7b157dfea915d4aac16dacf86f265b23",
+      "values_digest": "48e4fdb02849269bb96d83917397a524ca24246556e74b0d4e7784f8b9b13696",
       "rendered_digest": "75fcd7a9ca988fb75b97169b64a72b3a7bcdb5b033e0ae15536b2cffa73ff6c6",
       "ast_digest": "725fd3bcdf422bf6c8117264e314f2fd76083afc31e9d67608c1aa8fbdac63f6"
     },
     "stp": {
-      "values_digest": "ce294b99c7db5be1aa7c2402fe73f9e0c2ca578acc428c4366c8b4701596ac5c",
-      "rendered_digest": "8827b3a7cdd999e4beeb34f4a4acc83e599697915de0c15b2ff7c602e4476e88",
-      "ast_digest": "7df437a7adc6cf8269fbc8198fbc546a30dbbf6372d1579e4468bd0aa104747c"
+      "values_digest": "3f327526e8084b20180237e98364be36174d688de41bff22178d3a25b060560e",
+      "rendered_digest": "bcee649d929f42d1d5ab5691865f0a72696a3dffab36316b208db045f6076d36",
+      "ast_digest": "3cd53d196febe157a1b95b57d0e0daa81fa5c7c51f851dc481f0b557782392f6"
     },
     "spp": {
-      "values_digest": "e8106b39d07c741bfbeed0224f8dddec4fd4d1b3aa7b2767efecda11eee660c6",
-      "rendered_digest": "5055eebd16e2eb6aba19b5fc9e2fda283fea82ed26154a19c142a6c03a3d13d1",
-      "ast_digest": "5497b61c335c7a1337fec7c65a71fa8e4fcd2c66b37997f3745288b042ad3b0c"
+      "values_digest": "858a7f38f0005f49d2bc062cbd6f6b921c71e613212936e13f160d135c003dc5",
+      "rendered_digest": "4cf5a212a0eb0bd19b03886440386906bf118daa588321bb34501c173ee22a5e",
+      "ast_digest": "3c5e96249544e6f879d2ffa0215f2e8a39ab08adf4fda3064dc946c654c7a745"
     },
     "vpp": {
-      "values_digest": "01ebb7ab4cc6c36f918e62ee1b3d11b6f8c85f58017c04967c5a598602e01295",
+      "values_digest": "b34456a087314ee4493e0d7f15acea0bddd3505751bad8828670fe2da8985c8c",
       "rendered_digest": "2dfb6d7bc24e9dac49d728129d79e336a0b9df3982aa7e17dce99c1ea1a52966",
       "ast_digest": "b49b2b680a76314daa9af47da607411f5ef2cdebd31391702f63c6328e77c29c"
     },
     "srp": {
-      "values_digest": "d9d71591808b890aa8c19a4692be06177a7b0935625919cf16964164c1b21717",
-      "rendered_digest": "95a7b64a69e86b5633046113c87baa76c4123d4ff756654ff0d78bc27265f882",
-      "ast_digest": "a2ea4b8fd200f5234dc47f04e11681aa3c36ee11d1a9128096d1191a1ca99bfd"
+      "values_digest": "1e21f76ac9deddf54d89518f14a8f24cd0f86b598c280c50a6a8d68237df2a79",
+      "rendered_digest": "683805d642506036f16f1ca4b7eb26becb33c489c340ab456c7103f39ba3b793",
+      "ast_digest": "52de401314362e5f2b46b7c5eb0ec1ee4bb558d5b39d3b87226b748db994044b"
     },
     "sor": {
-      "values_digest": "3be033de07aa202eaa97eed6f5d8f63873e42df7af60c55ab7f496a10f7b5a8f",
+      "values_digest": "1ae2c1dd42b9ca37bfcb3d3c41bf9b8e227989ae73f8855b5cd3f13929971614",
       "rendered_digest": "dcc69dae4fdd8d242a3d7fb78c0b0cb1fb39cd57a38b1d48ac6a2d2e3934cf7b",
       "ast_digest": "c12bd9fee341b7268b2daeea876f44a7666f1cb00f3859feff3e5587c2996af3"
     }
@@ -659,6 +645,34 @@
       "actor": "/root/sprint4_5857",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 79,
+      "generation": 56,
+      "actor": "/root/sprint4_5857",
+      "reason": "Recover the non-approved assignment to bind issue and code repository identity per entry and update the durable #5834 contract to authorize #209 as the WP-14 replacement authority.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 80,
+      "generation": 57,
+      "actor": "/root/sprint4_5857",
+      "reason": "Authorize the reviewed and merged agent-logic/agent-design-language#209 repair as WP-14 authority instead of superseded #5832 listener proof.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"The WP-16 packet inventories one canonical exact revision/digest for every required WP-08 through WP-15 proof, negative report, caveat, reviewer question, redacted projection, and public non-claim.\",\"Issues #5825 through #5831 and #5833 in danielbaustin/agent-design-language, plus WP-14 repair issue agent-logic/agent-design-language#209, satisfy terminal and retained exact-head review requirements before assembly; superseded #5832/PR 76 is not accepted as production authority.\",\"Implementation is confined to the named WP-16 review packet Markdown, evidence JSON, schema, issue-local validator, WP-16 demo-matrix row, and .csdlc/evidence/5834/.\",\"Schema, link, digest, repository identity, uniqueness, completeness, typed review authority, and merge ancestry validation is reproducible and retained at the exact reviewed revision.\",\"Missing, stale, contradictory, nonterminal, unreviewed, wrong-repository, duplicate-digest, private-path, personhood, citizenship, consciousness, governance, or publication-ready inputs produce named blocked failure.\",\"One bounded exact-head SRP review records no unresolved actionable findings.\",\"The implementation PR targets the intended base and includes Closes #5834 without claiming completion of downstream Birthday work.\",\"WP-08/#5825 through WP-13A/#5831, replacement WP-14/agent-logic/agent-design-language#209, and WP-15/#5833 are terminal with retained exact-head review evidence before packet assembly.\"]}"
+    },
+    {
+      "sequence": 81,
+      "generation": 58,
+      "actor": "operator-authorized:5834-wp14-replacement-authority",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 82,
+      "generation": 59,
+      "actor": "operator-authorized:5834-wp14-replacement-authority",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

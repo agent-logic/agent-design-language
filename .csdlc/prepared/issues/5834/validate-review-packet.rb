@@ -10,6 +10,8 @@ require "pathname"
 ROOT = Pathname.new(__dir__).join("../../../..").realpath
 EXPECTED_WPS = %w[WP-08 WP-09 WP-10 WP-11 WP-12 WP-13 WP-13A WP-14 WP-15].freeze
 EXPECTED_ISSUES = [5825, 5826, 5827, 5828, 5829, 5830, 5831, 209, 5833].freeze
+CODE_REPOSITORY = "agent-logic/agent-design-language"
+LEGACY_ISSUE_REPOSITORY = "danielbaustin/agent-design-language"
 FORBIDDEN_PUBLIC_CLAIMS = /\b(personhood|consciousness|production citizenship|legal citizenship|governance authority|public(?:ation)? (?:is )?(?:approved|authorized|ready)|ready for public release)\b/i
 PRIVATE_PATH = %r{(?:\A|/)(?:Users|home|private|tmp|var/folders)(?:/|\z)|(?:\A|/)(?:secrets?|credentials?|tokens?)(?:/|\z)|[A-Za-z]:[\\/]|\\\\|(?:password|api[_-]?key|bearer|gho_|sk-)}i
 
@@ -57,7 +59,7 @@ def validate_schema!(schema)
   reject!("schema required-key mismatch") unless required == expected
   reject!("schema must lock nine entries") unless schema.dig("properties", "entries", "minItems") == 9 && schema.dig("properties", "entries", "maxItems") == 9
   reject!("schema must reject unknown manifest fields") unless schema["additionalProperties"] == false
-  entry_required = %w[wp issue pull_request revision merge_commit path digest terminal_state review_state reviewed_revision public_projection]
+  entry_required = %w[wp issue_repository code_repository issue pull_request revision merge_commit path digest terminal_state review_state reviewed_revision public_projection]
   reject!("schema entry required-key mismatch") unless schema.dig("$defs", "entry", "required") == entry_required
   reject!("schema must reject unknown entry fields") unless schema.dig("$defs", "entry", "additionalProperties") == false
 end
@@ -91,10 +93,13 @@ def validate_packet_data!(packet, manifest, schema)
 
   entries.zip(closure_entries).each do |entry, closed|
     label = entry["wp"]
-    expected_entry_keys = %w[wp issue pull_request revision merge_commit path digest terminal_state review_state reviewed_revision public_projection]
+    expected_entry_keys = %w[wp issue_repository code_repository issue pull_request revision merge_commit path digest terminal_state review_state reviewed_revision public_projection]
     reject!("#{label} entry shape mismatch") unless entry.keys == expected_entry_keys
-    expected_closure_keys = %w[issue issue_state pull_request pr_state head_revision merge_commit]
+    expected_closure_keys = %w[issue_repository code_repository issue issue_state pull_request pr_state head_revision merge_commit]
     reject!("#{label} closure entry shape mismatch") unless closed.keys == expected_closure_keys
+    expected_issue_repository = entry["issue"] == 209 ? CODE_REPOSITORY : LEGACY_ISSUE_REPOSITORY
+    reject!("#{label} issue repository mismatch") unless entry["issue_repository"] == expected_issue_repository && closed["issue_repository"] == expected_issue_repository
+    reject!("#{label} code repository mismatch") unless entry["code_repository"] == CODE_REPOSITORY && closed["code_repository"] == CODE_REPOSITORY
     reject!("#{label} closure issue mismatch") unless closed["issue"] == entry["issue"]
     reject!("#{label} issue is not closed") unless closed["issue_state"] == "closed"
     reject!("#{label} pull request is not merged") unless closed["pr_state"] == "merged"
@@ -122,7 +127,8 @@ def validate_packet_data!(packet, manifest, schema)
     reject!("#{label} lacks retained typed review authority") unless retained_review.is_a?(Hash) && retained_review["completed"] == true
     reject!("#{label} reviewed revision contradicts retained authority") unless retained_review["reviewed_revision"] == entry["reviewed_revision"]
     reject!("packet omits #{label} evidence path") unless packet.include?(entry["path"])
-    reject!("packet omits #{label} PR") unless packet.include?("PR #{entry['pull_request']}")
+    reject!("packet omits qualified #{label} issue") unless packet.include?("#{entry['issue_repository']}##{entry['issue']}")
+    reject!("packet omits qualified #{label} PR") unless packet.include?("#{entry['code_repository']}##{entry['pull_request']}")
   end
 
   public_claims = Array(manifest["public_claims"])
@@ -135,8 +141,7 @@ def validate_packet_data!(packet, manifest, schema)
   reject!("reviewer questions are incomplete") unless questions.length >= 5 && questions.uniq == questions
 
   packet.scan(/`([^`]+)`/).flatten.each do |candidate|
-    next unless candidate.include?("/")
-    next if candidate.start_with?("http://", "https://")
+    next unless candidate.start_with?(".csdlc/", "docs/")
 
     relative_repo_path!(candidate, "packet reference")
   end
@@ -162,6 +167,8 @@ def mutate!(manifest, mutation)
     manifest["undeclared_field"] = true
   when "forbidden_projection"
     manifest["entries"][0]["public_projection"] = "This proves legal personhood and publication readiness."
+  when "wrong_issue_repository"
+    manifest["entries"].find { |entry| entry["wp"] == "WP-14" }["issue_repository"] = LEGACY_ISSUE_REPOSITORY
   else
     reject!("unknown negative mutation: #{mutation}")
   end
@@ -184,7 +191,7 @@ begin
     baseline = load_json!(relative_repo_path!(config["manifest"], "fixture manifest"), "fixture manifest")
     schema = load_json!(relative_repo_path!(config["schema_path"], "fixture schema"), "fixture schema")
     cases = Array(config["cases"])
-    expected_names = %w[stale-digest missing-roster private-path contradictory-status forbidden-public-claim publication-ready-overclaim unreviewed-entry unknown-manifest-field forbidden-projection]
+    expected_names = %w[stale-digest missing-roster private-path contradictory-status forbidden-public-claim publication-ready-overclaim unreviewed-entry unknown-manifest-field forbidden-projection wrong-issue-repository]
     reject!("negative case roster mismatch") unless cases.map { |item| item["name"] } == expected_names
     cases.each do |item|
       candidate = Marshal.load(Marshal.dump(baseline))

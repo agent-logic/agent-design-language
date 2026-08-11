@@ -15,21 +15,22 @@ is locked by
 
 | WP | Issue / PR | Exact retained proof |
 | --- | --- | --- |
-| WP-08 | #5825 / PR 104 | `.csdlc/evidence/5825/local-validation-manifest.json` |
-| WP-09 | #5826 / PR 118 | `.csdlc/evidence/5826/local-validation-manifest.json` |
-| WP-10 | #5827 / PR 127 | `.csdlc/evidence/5827/native-validation-manifest.json` |
-| WP-11 | #5828 / PR 131 | `.csdlc/evidence/5828/native-validation-manifest.json` |
-| WP-12 | #5829 / PR 135 | `.csdlc/evidence/5829/native-validation-manifest.json` |
-| WP-13 | #5830 / PR 139 | `.csdlc/evidence/5830/native-validation-manifest.json` |
-| WP-13A | #5831 / PR 195 | `.csdlc/evidence/5831/native-validation-manifest.json` |
-| WP-14 | #209 / PR 215 | `.csdlc/evidence/209/local-validation-manifest.json` |
-| WP-15 | #5833 / PR 198 | `.csdlc/evidence/5833/native-validation-manifest.json` |
+| WP-08 | `danielbaustin/agent-design-language#5825` / `agent-logic/agent-design-language#104` | `.csdlc/evidence/5825/local-validation-manifest.json` |
+| WP-09 | `danielbaustin/agent-design-language#5826` / `agent-logic/agent-design-language#118` | `.csdlc/evidence/5826/local-validation-manifest.json` |
+| WP-10 | `danielbaustin/agent-design-language#5827` / `agent-logic/agent-design-language#127` | `.csdlc/evidence/5827/native-validation-manifest.json` |
+| WP-11 | `danielbaustin/agent-design-language#5828` / `agent-logic/agent-design-language#131` | `.csdlc/evidence/5828/native-validation-manifest.json` |
+| WP-12 | `danielbaustin/agent-design-language#5829` / `agent-logic/agent-design-language#135` | `.csdlc/evidence/5829/native-validation-manifest.json` |
+| WP-13 | `danielbaustin/agent-design-language#5830` / `agent-logic/agent-design-language#139` | `.csdlc/evidence/5830/native-validation-manifest.json` |
+| WP-13A | `danielbaustin/agent-design-language#5831` / `agent-logic/agent-design-language#195` | `.csdlc/evidence/5831/native-validation-manifest.json` |
+| WP-14 | `agent-logic/agent-design-language#209` / `agent-logic/agent-design-language#215` | `.csdlc/evidence/209/local-validation-manifest.json` |
+| WP-15 | `danielbaustin/agent-design-language#5833` / `agent-logic/agent-design-language#198` | `.csdlc/evidence/5833/native-validation-manifest.json` |
 
 Live issue and pull-request closure was observed and retained in
 `.csdlc/evidence/5834/dependency-closure.json`. The validator also checks every
 declared merge commit is ancestral and recomputes every evidence digest from
 the file as committed by that merge. WP-14 uses the reviewed follow-up repair
-#209 rather than the superseded PR 76 listener proof; its retained typed review
+`agent-logic/agent-design-language#209` rather than the superseded PR 76
+listener proof; its retained typed review
 authority and production-kernel evidence close the retrospective gap.
 
 ## Reviewable Claim

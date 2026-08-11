@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-16] Birthday review packet",
     "slug": "v0-92-wp-16-birthday-review-packet",
     "version": "v0.92",
-    "generation": 55
+    "generation": 59
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5834\n.csdlc/prepared/issues/5834/design.md\n.csdlc/prepared/issues/5834/validate-review-packet.rb\n.csdlc/evidence/5834\ndocs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md\ndocs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\ndocs/milestones/v0.92/review/first-birthday-review-packet.schema.json\ndocs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

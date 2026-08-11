@@ -12,6 +12,7 @@
     {"name":"publication-ready-overclaim","mutation":"publication_ready_overclaim"},
     {"name":"unreviewed-entry","mutation":"unreviewed_entry"},
     {"name":"unknown-manifest-field","mutation":"unknown_manifest_field"},
-    {"name":"forbidden-projection","mutation":"forbidden_projection"}
+    {"name":"forbidden-projection","mutation":"forbidden_projection"},
+    {"name":"wrong-issue-repository","mutation":"wrong_issue_repository"}
   ]
 }
