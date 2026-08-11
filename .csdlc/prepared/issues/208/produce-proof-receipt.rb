@@ -12,17 +12,21 @@ ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 BASE = "4460ec8157da7a53decf28f41e20af8afd19f611"
 MAP_RELATIVE = ".csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json"
 MAP_SHA256 = "9a6d7834557f626487aae3115464ee60f19b06609b7ea9e6a24399a60eec8745"
-PREFIX = ".csdlc/evidence/208/v3/"
+PREFIX = ".csdlc/evidence/208/v4/"
 OUTPUT = ROOT.join(PREFIX)
 PROTECTED = %w[
   adl-runtime-kernel/Cargo.toml adl-runtime-kernel/Cargo.lock
   adl-runtime-kernel/src/continuity_control.rs adl-runtime-kernel/src/assembly.rs
   adl-runtime-kernel/src/bin/adl-runtime-kernel.rs adl-runtime-kernel/src/config.rs
   adl-runtime-kernel/src/governance.rs adl-runtime-kernel/src/ingress.rs adl-runtime-kernel/src/lib.rs
-  adl-runtime-kernel/src/reasoning.rs adl-runtime-kernel/tests/kernel_continuity_control.rs
+  adl-runtime-kernel/src/operations.rs adl-runtime-kernel/src/reasoning.rs
+  adl-runtime-kernel/tests/configuration.rs adl-runtime-kernel/tests/kernel_continuity_control.rs
+  adl-runtime-kernel/tests/support/runtime_init.rs
   adl-runtime/Cargo.toml adl-runtime/Cargo.lock adl-runtime/src/kernel_continuity_client.rs
-  adl-runtime/src/bin/adl-runtime-guardian.rs adl-runtime/src/distributed/polis_runtime.rs
+  adl-runtime/src/bin/adl-runtime-guardian.rs adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
+  adl-runtime/src/distributed/polis_runtime.rs
   adl-runtime/src/guardian.rs adl-runtime/src/lib.rs adl-runtime/tests/kernel_continuity_client.rs
+  infra/runtime-v3/runtime-init.toml
   .csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json
   .csdlc/prepared/issues/208/verify-diff-hygiene.rb
   .csdlc/prepared/issues/208/produce-proof-receipt.rb
@@ -120,7 +124,7 @@ system("git", "merge-base", "--is-ancestor", main_revision.strip, source, chdir:
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue208.guardian_kernel_continuity_proof.v3", "issue" => 208,
+  "schema" => "adl.issue208.guardian_kernel_continuity_proof.v4", "issue" => 208,
   "execution_base_revision" => BASE, "main_revision" => main_revision.strip,
   "source_revision" => source, "source_tree" => tree.strip,
   "produced_at" => Time.now.utc.iso8601(6),

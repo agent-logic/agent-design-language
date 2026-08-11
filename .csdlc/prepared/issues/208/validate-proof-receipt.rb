@@ -8,7 +8,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PROOF_RELATIVE = ".csdlc/evidence/208/v3/execution-proof.json"
+PROOF_RELATIVE = ".csdlc/evidence/208/v4/execution-proof.json"
 MAP_RELATIVE = ".csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json"
 MAP_SHA256 = "9a6d7834557f626487aae3115464ee60f19b06609b7ea9e6a24399a60eec8745"
 
@@ -28,7 +28,7 @@ def ordinary(relative)
 end
 
 proof = JSON.parse(File.binread(ordinary(PROOF_RELATIVE)))
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue208.guardian_kernel_continuity_proof.v3" && proof["issue"] == 208
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue208.guardian_kernel_continuity_proof.v4" && proof["issue"] == 208
 map = JSON.parse(File.binread(ordinary(MAP_RELATIVE)))
 fail_receipt("map digest drift") unless Digest::SHA256.file(ROOT.join(MAP_RELATIVE)).hexdigest == MAP_SHA256
 expected_cases = map.fetch("cases")
