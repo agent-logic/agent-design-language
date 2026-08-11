@@ -66,6 +66,7 @@ printf 'PR-fast coverage expression: %s\n' "$FILTER_EXPRESSION"
 printf 'PR-fast coverage target: %s\n' "$CARGO_TARGET_DIR"
 guardian_filter='test(/^guardian::tests::/)'
 runtime_auth_filter='test(/^runtime_api_auth::tests::/)'
+runtime_authority_filter='package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))'
 runtime_v3_csm_bridge_filter='test(/^runtime_api_auth::tests::/) or (binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_backpressure::/) or test(/^csm_cav::/) or test(/^csm_constructability_gate::/) or test(/^csm_freedom_gate::/) or test(/^csm_godel_snapshot::/) or test(/^csm_shepherd_agent::/) or test(/^long_lived_agent::/) or test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/)) or binary_id(adl::cli_smoke) and test(/^agent::csm_/)) and not test(governed_notice_retains_spool_and_cursor_for_ambiguous_timeout) or test(csmctl) or test(csm_service)'
 bounded_runtime_v3_csm_bridge=false
 adl_filter_expression="$FILTER_EXPRESSION"
@@ -75,7 +76,9 @@ if [ "$FILTER_EXPRESSION" = "$runtime_v3_csm_bridge_filter" ]; then
   printf 'PR-fast coverage ADL bridge expression: %s\n' "$adl_filter_expression"
 fi
 adl_coverage_ran=false
-if [ "$FILTER_EXPRESSION" != "$guardian_filter" ] && [ "$FILTER_EXPRESSION" != "$runtime_auth_filter" ]; then
+if [ "$FILTER_EXPRESSION" != "$guardian_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_auth_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_authority_filter" ]; then
   coverage_args=(
     llvm-cov nextest
   )
@@ -105,7 +108,10 @@ fi
 
 runtime_expression=""
 runtime_companion=""
-if [ "$bounded_runtime_v3_csm_bridge" = true ]; then
+if [ "$FILTER_EXPRESSION" = "$runtime_authority_filter" ]; then
+  runtime_expression="$FILTER_EXPRESSION"
+  runtime_companion="adl-runtime committed authority protocol tests"
+elif [ "$bounded_runtime_v3_csm_bridge" = true ]; then
   runtime_expression='test(/^runtime_api_auth::/) or test(/^supervision::/) or test(/^topology::/)'
   runtime_companion="adl-runtime Runtime v3 CSM bridge tests"
 elif grep -Fq 'test(/^csm_cav::/)' <<<"$FILTER_EXPRESSION"; then

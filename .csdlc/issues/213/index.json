@@ -1,0 +1,213 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 213,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d4d23337d701ae03975e437c748d19c827b416bfab581134071172ac1dff340e",
+  "phase": "published",
+  "generation": 11,
+  "digest": "7eb11131b88140bfc074c50cb0b568cecc3b0240093f92dd1d2d93b56f845c57",
+  "branch": "codex/213-initialized-card-repair-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-213-initialized-card-repair-preparation",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "/root/review_213_c46f23",
+    "scope": [
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/213",
+      ".csdlc/prepared/issues/213",
+      ".csdlc/locks/213.lock"
+    ],
+    "reviewed_revision": "git-blake3:c46f231b7f0ee1f52b08a52dac0000fb6cefd6b7:7694749d5e2c7a79df548bddbb979ffeb74d8a46c86430c0ebf60067ea46d8ec",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 213,
+    "pull_request": 219,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/219",
+    "base": "main",
+    "head": "codex/213-initialized-card-repair-preparation",
+    "revision": "git-blake3:b063f6930e5ba691016b9943f74c815714ec22cc:9c0dc6bdfbb53f71d490594cc40cc11e8fea456db9a644ddf22313cc101d7d63",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/213/design.md",
+  "diagram_path": ".csdlc/prepared/issues/213/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root/rereview_213_design",
+      "revision": "c671ce98f9fc1a009612418d64fa66c91d33540f34af1feea3d34cb454d21b83"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "84c34c95a25cd320918eb4a1a3104c61da72ecf9b6c9a138425c1bdc33e31266",
+      "rendered_digest": "7845e1efd5fdd1a037b4832d641194dcd3190bd61232853a6bb700ebee81ab2f",
+      "ast_digest": "1d5201f5d1cb0c1a2b3ca4157e6eb842efa06c06da55f7047724724d9d6956c8"
+    },
+    "stp": {
+      "values_digest": "fddbc278511629eee8237815254e9099e698da184e77c800cfee12ef25602922",
+      "rendered_digest": "1c5c193f02981508f73b2fb8b782124b046976d7b79c6f65cecd73b2babd161d",
+      "ast_digest": "ff8a50b9209d38d9bad1fa0244499f40d78ef6718927fd45c38c01d47c52d227"
+    },
+    "spp": {
+      "values_digest": "97196fa65b071d96473f0c5c171d9620bbb61e6542e618f66055ac5da93369a4",
+      "rendered_digest": "00570bb21dd0b90a7deb3b37df2165d60188c46a08d0b9da066264beda55dd59",
+      "ast_digest": "edb24db6686635c29a135b13ff21ce7bfee2333799eed0ce7ecc54f2ce316764"
+    },
+    "vpp": {
+      "values_digest": "46443e34e7f1d5d58ce52bbcc9f26a16818c17924ecea9bf7285ffb04576e358",
+      "rendered_digest": "7f1dd365af9e3158b4323f59d2d5a9f7590d229e93549dd22f1ff9f73b80f2d3",
+      "ast_digest": "c393b4d529ba92a5e38cabf4f3482136ab14300da4c0a500f88d1078b8e90027"
+    },
+    "srp": {
+      "values_digest": "0ee701ff44597f1a68bc539ac58d36a300b32abe9a839192db470e6ac05944a3",
+      "rendered_digest": "e068fe41fc68d956c7827bdc29ee6971373974bb6a4e82a18af56d90b81a3a5b",
+      "ast_digest": "959874ad729d1b8d2b2467708f17b47bd8cdadbe612470c56711051d10f61b1c"
+    },
+    "sor": {
+      "values_digest": "161882d638b5092968598726896ff44d6e78decd019663551b0ee427ffb0508a",
+      "rendered_digest": "d23e42c5d6f12383388f65e64f637ad9396ee35607e702bcae4c53f6a48a028f",
+      "ast_digest": "c07243230b7f0dc496e0dd9c67fe7cfcd668d0b9c58ebb11432220dc6d4e2658"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Independent exact-head design review passed and typed validation reports the tooling repair package ready for bounded implementation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/resolve_213_review",
+      "reason": "Implementation and exact-head validation are complete and ready for independent review recording."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/review_213_c46f23",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "/root/review_213_c46f23",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:213-initialized-card-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/rereview_213_design",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Independent exact-head design review passed and typed validation reports the tooling repair package ready for bounded implementation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root/resolve_213_review",
+      "reason": "Record the exact reviewed implementation before typed review publication.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented guarded initialized and ready STP/SPP repair with atomic binding refresh, anchored no-follow authored-artifact reads, truthful reapproval, exact rollback, and adversarial proof.\",\"changes\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate2.rs\"],\"artifacts\":[\"Exact product revision bfe17642cae704988035a974ee5074529dd9660e\",\"Gate 2 integration proof: 6 passed\",\"Approval, identity, and adversarial unit proof: 10 passed\",\"Strict all-target Clippy, formatting, and range-diff proof\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/resolve_213_review",
+      "reason": "Record exact-head Gate 2 validation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the complete initialized/ready repair, rollback, projection, approval, and compatibility contract at the reviewed product revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:bfe17642cae704988035a974ee5074529dd9660e#gate2-6-of-6\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root/resolve_213_review",
+      "reason": "Record exact-head approval, identity, and adversarial unit proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"edit_authorization_tests\",\"--\",\"--nocapture\"],\"purpose\":\"Prove approval authorization, opened-handle identity, anchored path safety, and adversarial mutation rejection at the reviewed product revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:bfe17642cae704988035a974ee5074529dd9660e#approval-identity-adversarial-10-of-10\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root/resolve_213_review",
+      "reason": "Record strict all-target Clippy proof at the reviewed product revision.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the complete Rust target set is warning-free under the strict lint gate.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:bfe17642cae704988035a974ee5074529dd9660e#strict-all-target-clippy\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root/resolve_213_review",
+      "reason": "Record Rust formatting proof at the reviewed product revision.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Prove the reviewed Rust changes conform to canonical formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:bfe17642cae704988035a974ee5074529dd9660e#cargo-fmt-check\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root/resolve_213_review",
+      "reason": "Record range-diff hygiene proof at the reviewed product revision.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Prove the complete issue range contains no whitespace errors.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:bfe17642cae704988035a974ee5074529dd9660e#range-diff-check\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root/resolve_213_review",
+      "reason": "Implementation and exact-head validation are complete and ready for independent review recording.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "/root/review_213_c46f23",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "/root/review_213_c46f23",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

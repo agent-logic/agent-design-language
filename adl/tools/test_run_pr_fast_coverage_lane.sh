@@ -227,6 +227,22 @@ grep -F "PR-fast coverage companion: adl-runtime Runtime v3 API auth tests" "$te
 grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_auth_only_cargo_log" >/dev/null
 grep -F "test(/^runtime_api_auth::tests::/)" "$runtime_auth_only_cargo_log" >/dev/null
 
+runtime_authority_cargo_log="$temp_root/cargo-runtime-authority.log"
+runtime_authority_expression='package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))'
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$runtime_authority_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-runtime-authority" \
+  bash "$SCRIPT" --filter-expression "$runtime_authority_expression" >"$temp_root/pr-fast-coverage-runtime-authority-run.out"
+if grep -Fq "cmd=llvm-cov nextest --workspace" "$runtime_authority_cargo_log"; then
+  echo "runtime-authority-only coverage must not send adl-runtime selectors to the adl workspace" >&2
+  exit 1
+fi
+grep -F "PR-fast coverage companion: adl-runtime committed authority protocol tests" "$temp_root/pr-fast-coverage-runtime-authority-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_authority_cargo_log" >/dev/null
+grep -F "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))" "$runtime_authority_cargo_log" >/dev/null
+grep -F "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $ROOT_DIR/adl/target/coverage-impact-summary.json" "$runtime_authority_cargo_log" >/dev/null
+
 runtime_auth_mixed_cargo_log="$temp_root/cargo-runtime-auth-mixed.log"
 runtime_auth_mixed_expression='binary_id(adl) and test(/^csm_runtime_api::tests::/) or test(/^runtime_api_auth::tests::/)'
 PATH="$bin_dir:$PATH" \

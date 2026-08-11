@@ -1,0 +1,9 @@
+{
+  "issue":201,"card":"spp","expected_generation":47,"expected_digest":"a2e12935e3d65d15cd8894427ca6f6c05e1f0ff1b3960856e44ced18d16736e5","actor":"codex:/root/resolve_201_review_129ea","reason":"Add the snapshot trust-boundary review repair to the operative implementation plan.",
+  "operation":{"operation":"replace_plan_steps","steps":[
+    {"id":"S1","action":"Bind production PrepareAuthority and FinalizeAuthority to actual OpenRaft applied IDs and exact verified route custody; reject caller authority, relabeling, legacy replay, and stale custody.","acceptance_ids":["AC-1","AC-2","AC-3"],"status":"pending"},
+    {"id":"S2","action":"Keep signer custody runtime-local and cryptographically bind exact endorsement fields while separately validating the actual finalize apply index; deny non-replicated artifact routes.","acceptance_ids":["AC-6","AC-7"],"status":"pending"},
+    {"id":"S3","action":"Keep trusted route custody outside snapshot-replaceable state; accept snapshot install only when current and every prepared custody exactly match configured polis, epoch, authority, and boots, legacy authority fields are empty, and every finalized entry carries complete evidence that re-verifies quorum, signatures, time, and committed indices before publication; prove legitimate restart plus all injection and tamper negatives through the production state machine.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"status":"pending"},
+    {"id":"S4","action":"Regenerate one immutable v6 proof, validate ancestry whenever its source object is available and protected-tree equivalence only when genuinely unavailable, obtain fresh independent exact-head review, and stop before publication or merge.","acceptance_ids":["AC-8"],"status":"pending"}
+  ]}
+}

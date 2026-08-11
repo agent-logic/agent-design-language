@@ -16,7 +16,7 @@ Verify the full child batch, route safe independent lanes to separate sessions, 
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -30,7 +30,7 @@ Revision 2
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "coordinate",
@@ -40,7 +40,7 @@ Revision 2
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "review-close",

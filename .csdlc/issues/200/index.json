@@ -1,0 +1,351 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 200,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
+  "phase": "published",
+  "generation": 22,
+  "digest": "53d85f8c63de8b2af9e9cbdcd95d3eaeda305878db76972590eefc44fbbb59cc",
+  "branch": "codex/200-concrete-authority-reconciliation-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-200-concrete-authority-reconciliation-preparation",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "codex:/root/review_200_post_208_final",
+    "scope": [
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_reconciliation.rs",
+      "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_authority_reconciliation.rs",
+      ".csdlc/prepared/issues/200",
+      ".csdlc/evidence/200/v5",
+      ".csdlc/issues/200"
+    ],
+    "reviewed_revision": "git-blake3:4d59de75c462e90c97768eaa4962d206bffd7b0e:e24edb736c5e67be872b25c06e7947bcbaa25c64dea3580df9d3ac3e870fb950",
+    "findings": [],
+    "residual_risks": [
+      "Replacement exact-head hosted CI remains a required pre-merge gate after rebasing onto issue #208."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 200,
+    "pull_request": 231,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/231",
+    "base": "main",
+    "head": "codex/200-concrete-authority-reconciliation-preparation",
+    "revision": "git-blake3:4b3f0d3dfc95965ccf491e71fbd65b54753a3e0e:f3d2ad7aa767918a3720810eaf058bc5c5019f9a9c4bbb204e24f65223606295",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/200/design.md",
+  "diagram_path": ".csdlc/prepared/issues/200/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root/prepare_5875_release:fafd09c9a",
+      "revision": "7ad324d6833f2baa41d41a3115316e62df7cdc2863d54384d61c059316cd44ae"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "0542ee91cf18b39b1454b86bdff58df382ef3df607b64d5ff12228415bbb6529",
+      "rendered_digest": "2bf7b8cfacd8ddd000f15d512793721dd8a66a41495705e6eea0e4720f11b449",
+      "ast_digest": "923d2e83e0be4ba4a7d60955f63d16ee37ccd6f57575b3d316923eec9d5a102c"
+    },
+    "stp": {
+      "values_digest": "1e8c61b05fc3dac6bb3b365b299321bee28e57dacfe27dfd161ed718e081e429",
+      "rendered_digest": "b57d439d1570e4d0f8228d5c1801e852b4ef66b058757c8f52598b0191fdc466",
+      "ast_digest": "ed3f711248a7c94c706cb3ef8eba0be4f78f4cb1890030f4e03aa319a4dc9fae"
+    },
+    "spp": {
+      "values_digest": "8083bd7470e68527114b714606362aec627252b9043d1dad4bb3dff0f05dc1d8",
+      "rendered_digest": "463d42373389c9b38afd2186ceea1e293e9e6ddf5168f01c0b5e02619a502e68",
+      "ast_digest": "96803f5ab0254cb9acbd5e3278f7a0065f10e72344dce3fab24f755267af92f6"
+    },
+    "vpp": {
+      "values_digest": "61a95a0fb80af0747a654df71e8ae54034d8faa463cf1d0457bf1e0e48ce9634",
+      "rendered_digest": "b19adcd318fa48f408a267f17c2a1f74c54cc933155eb4f1c75c9edaff1413b7",
+      "ast_digest": "af01edb6ae4e6432d48e99719f6c2eec6f31c3afbd0c0ae7d0e33c079cf9e479"
+    },
+    "srp": {
+      "values_digest": "85573a3c2f164a195cb22dd39e812dbb880683999f9e835451f8b7d763a178e2",
+      "rendered_digest": "7a01e025ae52aaad5e94613160b18e22b82540e8e8a53790984f8767a05ba5ef",
+      "ast_digest": "194f9b31e8106d40ce987904ab4a8df30dec84439c667160979f99605e1aa9af"
+    },
+    "sor": {
+      "values_digest": "e0efd4afb72e91d8b784523c6d96ca5be7bb0c515201d8904dc98eb9dc0a00a3",
+      "rendered_digest": "974a1097c2aeb073bb71f2b5696dfc57b631c347130a3286291a2e90ed4af469",
+      "ast_digest": "e2a4a9c7db332fa096f93691787ef5abe4ee64bff0520db7c9ed0b42d8b68f14"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Hosted Runtime coverage exposed that the issue-200 test fixtures hard-code the macOS-only /private/tmp root, causing 17 immediate NotFound failures on Linux. Recover published review truth for a bounded portable symlink-safe test-root repair, regenerated exact proof, typed execution truth, and fresh independent review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Typed publication correctly rejected the prior review-metadata commit because it also introduced prepared request files outside the automatic metadata-only allowlist. Recover review truth after sealing the final publication request so a different exact-head review can cover the complete clean head before republication."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Main advanced to merged issue #208 at 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90 and overlaps issue #200 at protected production path adl-runtime/src/distributed/polis_runtime.rs. Recover publication and review truth for narrow exact-main sync, overlap reconciliation, regenerated protected proof, and fresh independent review before republication."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:200-authority-reconciliation-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:200-design-review-repair",
+      "reason": "Bind publication-aware cached retry, generation/action-scoped permit revalidation, deterministic transient clock gating, and the truthful unit-plus-integration proof architecture into the exact denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"authority-reconciliation-barrier\",\"proof_role\":\"Prove exact thirty-six-case denominator: happy_single_step, happy_multi_step, exact_retry_cached_result, pending_blocks_read, pending_blocks_mutation, published_permit_current, missing_201_token, public_token_forgery_denied, legacy_command_denied, wrong_domain, wrong_polis, wrong_node, wrong_guardian, wrong_boot, wrong_protocol_instance, wrong_membership, wrong_operation_kind, wrong_adapter_version, wrong_time_digest, conflicting_retry, reordered_step, duplicate_step, missing_step, forged_step_receipt, crash_after_journal, crash_each_step, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, coherent_rollback, capacity_n_plus_one_no_partial, state_or_lock_symlink_rejected, corrupt_journal_rejected, noncanonical_state_rejected, opened_handle_growth_rejected, checkpoint_object_collision. The module/unit suite inside authority_reconciliation.rs uses the only cfg(test)-sealed deterministic adapter and proves every state/adapter fault; the integration target proves the externally reachable opaque API and production denial surfaces without constructing that adapter. exact_retry_cached_result must prove cached result with old checkpoint resumes the same CAS, new checkpoint plus missing marker/view completes publication, corrupt or conflicting view fails closed, and only exact Published returns. published_permit_current plus pending_blocks_read/pending_blocks_mutation must prove lineage, adapter, action class, exact operation, and published generation binding; retained generation-N read/mutation permits reject after N+1 Pending; read-to-mutation escalation and wrong lineage/action reject; every use revalidates current view. wrong_time_digest must prove local-clock NotReady/Unsafe writes no effect, receipt, result, or phase advance and later exact retry resumes from the same step using only committed token time. crash_each_step and checkpoint cases must enumerate every before/after effect, receipt fsync, cached result, CAS, marker, view flip, and restart outcome; capacity and opened-handle cases prove no partial mutation or unbounded allocation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--no-tests=fail\",\"-E\",\"test(/authority_reconciliation/)\"],\"parallel_group\":\"200-runtime\",\"defer_reason\":\"Deferred until #191 and #201 merge and this issue creates the authority_reconciliation.rs unit suite plus distributed_authority_reconciliation.rs external API target; fail closed on missing targets, zero tests, absent unit or integration layer, or any result not mapping exactly once to all thirty-six names and required subassertions.\"},{\"lane\":\"authority-reconciliation-clippy\",\"proof_role\":\"Reject warnings and API misuse across both the library barrier and external opaque API target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"200-runtime\",\"defer_reason\":\"Deferred until both owned proof layers exist; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"authority-reconciliation-producer\",\"proof_role\":\"Produce exact source, both proof layers, command, stream, timing, Git, protected-digest, and thirty-six-case name/result/marker/subassertion evidence.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/200/produce-proof-receipt.rb\"],\"parallel_group\":\"200-proof\",\"defer_reason\":\"Deferred until exact producer exists; fail closed on dirty protected source, wrong case count, missing proof layer, missing/extra/duplicate name or subassertion, nonpassing result, or nonzero status.\"},{\"lane\":\"authority-reconciliation-receipt\",\"proof_role\":\"Bind exact protected source, unit and integration commands, thirty-six cases and subassertions, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\"],\"parallel_group\":\"200-proof\",\"defer_reason\":\"Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, both proof layers, and all cases/subassertions are bound.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/prepare_5875_release:fafd09c9a",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Merged #191/#201 ancestry, typed bind, and the frozen opaque token, journal, checkpoint, view, and permit contracts are confirmed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Implemented the sealed reconciliation registry, deterministic time carrier, bounded durable phases, restart reconciliation, publication view, and cfg(test)-only deterministic adapter.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "The exact 36-case lane and strict Clippy pass locally; immutable receipt production and typed finalize remain in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "The portable immutable receipt binds the exact 36-case focused lane and strict Clippy to source 977213b66f131c8ff811274ed5293e8814303e02; independent review remains S4.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Record exact branch-only implementation and portable retained proof truth while leaving independent review, publication, merge, and terminal closeout pending.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #200 crash-safe concrete authority reconciliation barrier behind the opaque #201 publication token. The retained portable receipt at source 977213b66f131c8ff811274ed5293e8814303e02 binds exactly 36 focused cases, strict Clippy, immutable source/proof digests, and merge-safe ancestry. The broader runtime library also passes 264/264. SPP S4 independent review remains pending; nothing is published, merged, or closed.\",\"changes\":[\"Added the sealed concrete reconciliation registry with Pending, Reconciling, Checkpointed, and Published durable phases; exact retry caching; bounded canonical journal state; external checkpoint CAS; marker/view publication; and fail-closed lineage-bound read and mutation permits.\",\"Extended the #201 published result with runtime-only node identity and a crate-private projection while preserving the persisted #201 schema and digest, then routed Polis runtime reconciliation through the opaque publication result.\",\"Added a cfg(test)-only deterministic adapter and fault hooks plus 34 module tests and two production integration tests, yielding the exact approved 36-case denominator without exposing a production adapter.\",\"Added portable proof producer and validator scripts with immutable protected-source, stream, case-marker, ancestry, and squash-safe checks; retained v2 proof supersedes the initial host-Ruby-specific v1 attempt.\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_reconciliation.rs\",\"adl-runtime/src/distributed/authority_reconciliation/tests.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_authority_reconciliation.rs\",\".csdlc/prepared/issues/200/produce-proof-receipt.rb\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\",\".csdlc/evidence/200/v2/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--no-tests=fail\",\"-E\",\"test(/authority_reconciliation/)\"],\"purpose\":\"Prove the exact approved unit-plus-integration reconciliation denominator: 36 tests run and 36 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v2/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove production library and public integration target are warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v2/execution-proof.json\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--no-tests=fail\"],\"purpose\":\"Prove the full runtime library remains green after the bounded change: 264 tests run and 264 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/distributed/authority_reconciliation.rs\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\"],\"purpose\":\"Prove portable immutable receipt, exact markers, protected digests, ancestry, and clean proof paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v2/execution-proof.json\"},{\"command\":[\"cargo\",\"fmt\",\"--check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/distributed/authority_reconciliation.rs\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Fresh exact-head review returned four bounded test/proof findings; resolve them without changing the approved 36-case denominator before routing a different fresh review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Record resolution of all four fresh exact-head findings and the v3 source-bound proof while leaving SPP S4 pending for a different reviewer.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved all four findings from the fresh review of 20fd144ba1633c21c69a72fbd3a6b1ebb9ba84ee. The fixed 36-case denominator now injects restart faults after marker and after view, rejects conflicting and corrupt published views on exact retry, denies retained mutation permits after N+1 Pending plus wrong lineage/action use, and emits an independently enumerated 13-subassertion marker set. The immutable v3 receipt at source 22f481bf85f8a6775eef4ed9450204ad77dffe9b binds 36/36 cases, 13/13 subassertions, strict Clippy, and protected digests. Full runtime remains 264/264. Different fresh review is pending; nothing is published, merged, or closed.\",\"changes\":[\"Expanded crash_after_checkpoint within the approved denominator to inject and recover after checkpoint, after marker, and after published view.\",\"Expanded exact_retry_cached_result to prove no adapter re-execution and fail-closed conflicting and corrupt published views.\",\"Expanded published_permit_current to prove current read/mutation validity, read escalation denial, wrong-lineage and wrong-mutation-action denial, and retained read plus mutation denial after generation N+1 becomes Pending.\",\"Upgraded the proof producer and validator to v2 schema/v3 evidence with an exact 13-item required subassertion set and per-marker digests in addition to the unchanged 36-case denominator.\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_reconciliation/tests.rs\",\".csdlc/prepared/issues/200/produce-proof-receipt.rb\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\",\".csdlc/evidence/200/v3/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--no-tests=fail\",\"-E\",\"test(/authority_reconciliation/)\"],\"purpose\":\"Prove the unchanged exact 36-case denominator with all review-resolution assertions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v3/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"authority_reconciliation\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Emit and bind exactly 36 case markers plus the exact 13 required subassertion markers.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v3/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the owned production and test target remains warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v3/execution-proof.json\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--no-tests=fail\"],\"purpose\":\"Prove the full runtime library: 264 tests run and 264 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/distributed/authority_reconciliation/tests.rs\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\"],\"purpose\":\"Prove exact cases, exact subassertions, source/proof immutability, protected digests, and merge-safe ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v3/execution-proof.json\"},{\"command\":[\"cargo\",\"fmt\",\"--check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/distributed/authority_reconciliation/tests.rs\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Hosted Runtime coverage exposed that the issue-200 test fixtures hard-code the macOS-only /private/tmp root, causing 17 immediate NotFound failures on Linux. Recover published review truth for a bounded portable symlink-safe test-root repair, regenerated exact proof, typed execution truth, and fresh independent review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Record the bounded hosted Linux fixture-root repair and immutable v4 proof while leaving SPP S4 pending for a different fresh reviewer.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved the hosted Runtime coverage failure caused by issue-200 tests creating fixtures beneath the macOS-only /private/tmp path. Both unit and production-integration fixtures now use a canonical repository-local current-directory anchor compatible with the runtime storage symlink policy. The unchanged exact 36-case denominator and all 13 subassertions pass, strict Clippy passes, the full Runtime library passes 264/264, and the immutable v4 receipt binds the portable-path guard and protected digests at source bb400c8c832e29c93c0ca45b486d313acb01c83e. Different fresh review is pending; the existing PR is stale and nothing is merged or closed.\",\"changes\":[\"Replaced both hard-coded /private/tmp fixture roots with temporary directories beneath the canonical current checkout, preserving the absolute and symlink-free storage-root contract on macOS and Linux.\",\"Added producer and validator guards that fail if /private/tmp is reintroduced into either issue-200 test layer.\",\"Advanced immutable proof evidence from v3 to v4 without changing the approved 36-case or 13-subassertion denominators.\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_reconciliation/tests.rs\",\"adl-runtime/tests/distributed_authority_reconciliation.rs\",\".csdlc/prepared/issues/200/produce-proof-receipt.rb\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\",\".csdlc/evidence/200/v4/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--no-tests=fail\",\"-E\",\"test(/authority_reconciliation/)\"],\"purpose\":\"Prove the unchanged exact unit-plus-integration denominator on portable fixture roots: 36 tests run and 36 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v4/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"authority_reconciliation\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Emit and bind exactly 36 case markers plus the exact 13 required subassertion markers.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v4/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the owned production and test target remains warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v4/execution-proof.json\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--no-tests=fail\"],\"purpose\":\"Run the coverage-equivalent full Runtime library denominator: 264 tests run and 264 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/distributed/authority_reconciliation/tests.rs\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\"],\"purpose\":\"Prove exact cases, exact subassertions, portable fixture policy, source/proof immutability, protected digests, and merge-safe ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v4/execution-proof.json\"},{\"command\":[\"cargo\",\"fmt\",\"--check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/tests/distributed_authority_reconciliation.rs\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Typed publication correctly rejected the prior review-metadata commit because it also introduced prepared request files outside the automatic metadata-only allowlist. Recover review truth after sealing the final publication request so a different exact-head review can cover the complete clean head before republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Main advanced to merged issue #208 at 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90 and overlaps issue #200 at protected production path adl-runtime/src/distributed/polis_runtime.rs. Recover publication and review truth for narrow exact-main sync, overlap reconciliation, regenerated protected proof, and fresh independent review before republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Record exact-main synchronization after #208 and the immutable v5 proof while leaving fresh independent review pending.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Rebased issue #200 onto exact merged-main 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90 after issue #208 changed the shared protected path adl-runtime/src/distributed/polis_runtime.rs. Git reconciled the histories cleanly; the current #200 delta on that file remains the bounded 24-line sealed reconciliation bridge atop #208's continuity work. The immutable v5 receipt at source 3c827d4f6abd909e4ab3b4225cf8e9c8827e8ef6 binds 36/36 cases, 13/13 subassertions, strict Clippy, portable fixture policy, and the exact post-#208 protected digests. Full Runtime remains 264/264. Fresh independent exact-head review is pending; PR #231 is stale and nothing is merged or closed.\",\"changes\":[\"Synchronized the complete #200 history onto exact main 5e25dcceb after #208 merged.\",\"Reconciled the shared polis_runtime.rs path without conflict, preserving #208 continuity behavior and the bounded #200 sealed reconciliation bridge.\",\"Advanced immutable proof evidence from v4 to v5 so protected digests bind the exact post-#208 main ancestry.\"],\"artifacts\":[\"adl-runtime/src/distributed/polis_runtime.rs\",\".csdlc/prepared/issues/200/produce-proof-receipt.rb\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\",\".csdlc/evidence/200/v5/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--no-tests=fail\",\"-E\",\"test(/authority_reconciliation/)\"],\"purpose\":\"Prove the exact post-#208 unit-plus-integration denominator: 36 tests run and 36 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v5/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"authority_reconciliation\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Bind exactly 36 case markers and 13 required subassertion markers after main synchronization.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v5/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the reconciled production and test target remains warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v5/execution-proof.json\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--no-tests=fail\"],\"purpose\":\"Prove the full post-#208 Runtime library: 264 tests run and 264 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/distributed/polis_runtime.rs\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\"],\"purpose\":\"Prove exact cases, subassertions, portability, immutable v5 proof, protected digests, and current-main ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v5/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-16] Birthday review packet",
     "slug": "v0-92-wp-16-birthday-review-packet",
     "version": "v0.92",
-    "generation": 51
+    "generation": 63
   },
   "status": "ready",
   "content": {
@@ -111,7 +111,7 @@
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5834-demo-matrix-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\"],\"issues\":[5834,5843],\"order\":[5834,5843]}"
       ],
       "design_ref": ".csdlc/prepared/issues/5834/design.md",
-      "design_digest": "eae174084abaea4077d16ff5f93268fc566c2da88a93ba4f034d19627e0abeaf",
+      "design_digest": "4c0857ebc6f7836789a489608eb84c5fb85eeb6d3753b97b97d74073b1242204",
       "diagram_ref": ".csdlc/prepared/issues/5834/diagram.mmd",
       "diagram_digest": "8a837711a7e5863a846f42a46cd793d3ff77846c6e80cc07d72e14c7665a6224"
     }

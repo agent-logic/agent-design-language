@@ -1,0 +1,5 @@
+source_revision=2390794997bf216cc3f1826561978a9f716c3a1d
+command=cargo test --manifest-path adl-runtime/Cargo.toml runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay --lib -- --exact
+test runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 140 filtered out
+result=passed

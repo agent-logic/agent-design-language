@@ -1,0 +1,248 @@
+# Validation Planning Prompt
+
+Template: 1.0.0
+
+Issue: 201
+
+Repository: agent-logic/agent-design-language
+
+Card: vpp
+
+Status: ready
+
+## Summary
+
+Execute the smallest proving validation DAG.
+
+## Lane Inputs
+
+Design: .csdlc/prepared/issues/201/design.md
+
+Diagram: .csdlc/prepared/issues/201/diagram.mmd
+
+## Selected Lanes
+
+[
+  {
+    "lane": "committed-authority-contract-86",
+    "proof_role": "Require the unchanged exact ordered ADL_ISSUE_201_CASE_V2 selected=86 semantic contract: passed=11, reconciled=6, rejected=69, with marker name, result, order, and digest parity.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1200,
+    "budget_tokens": 12000,
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "-E",
+      "test(/^distributed::authority_protocol::contract_tests::|^distributed::polis_runtime::authority_consensus_tests::snapshot_/)",
+      "--no-tests=fail"
+    ],
+    "parallel_group": "201-runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "stable-custody-snapshot-matrix",
+    "proof_role": "Prove 36 snapshot cases including boot-rotated reopen before Prepare, immediate build/install, stale-cut no-mutation rejection, current-cut success, frozen historical custody, current-boot-field rejection, and finalized historical revalidation.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 900,
+    "budget_tokens": 8000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "distributed::polis_runtime::authority_consensus_tests::snapshot_",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "parallel_group": "201-runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "production-three-voter-openraft",
+    "proof_role": "Exercise production Prepare and Finalize through a real three-voter OpenRaft cluster using actual applied indices, runtime-external current boot custody, frozen historical prepared custody, pending publication, and restart reconciliation.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 900,
+    "budget_tokens": 7000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "parallel_group": "201-runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "full-runtime-230",
+    "proof_role": "Run the truthful current complete adl-runtime library denominator; the former 222-test expectation has expanded to exactly 230 tests on this source and all 230 must pass with zero skipped.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 900,
+    "budget_tokens": 7000,
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--no-tests=fail"
+    ],
+    "parallel_group": "201-runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "committed-authority-production-clippy",
+    "proof_role": "Reject production warnings and production-selectable authority bypasses.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "201-runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "committed-authority-proof-v7-replacement",
+    "proof_role": "Replace the stale a629080 packet with one immutable current-source v7 packet binding exact 86-case semantics plus 230/230 runtime coverage, strict Clippy, and the real three-voter lane.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 1200,
+    "budget_tokens": 7000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/201/produce-proof-receipt.rb"
+    ],
+    "parallel_group": "201-proof",
+    "defer_reason": "Deferred until independent approval of the corrected design digest and a clean final source commit."
+  },
+  {
+    "lane": "committed-authority-proof-validator-v7",
+    "proof_role": "Validate current v7 ancestry when the source object exists, exact protected-tree fallback only when absent, available divergence rejection, and exact independent semantic and runtime denominators.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 300,
+    "budget_tokens": 2500,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
+    ],
+    "parallel_group": "201-proof",
+    "defer_reason": "Deferred until the replacement current-source packet exists."
+  },
+  {
+    "lane": "hosted-authority-coverage-impact",
+    "proof_role": "Classify the cfg(test)-only authority contract source explicitly, run all owning adl-runtime tests except unrelated flaky observability and long-lived transport qualification cases, retain the unchanged 80-percent production-file floor, and require exact PR-mode rows for authority_protocol.rs, identity.rs, polis_runtime.rs, and transport.rs.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1200,
+    "budget_tokens": 2500,
+    "argv": [
+      "bash",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "--filter-expression",
+      "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))"
+    ],
+    "parallel_group": "201-coverage",
+    "defer_reason": null
+  }
+]
+
+## Parallelization
+
+Only declared parallel groups may overlap.
+
+## Budgets
+
+Seconds: 7200
+
+Tokens: 50000
+
+## Commands
+
+- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --lib -E test(/^distributed::authority_protocol::contract_tests::|^distributed::polis_runtime::authority_consensus_tests::snapshot_/) --no-tests=fail`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::polis_runtime::authority_consensus_tests::snapshot_ -- --nocapture --test-threads=1`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids -- --exact --nocapture`
+- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --lib --no-tests=fail`
+- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings`
+- `ruby .csdlc/prepared/issues/201/produce-proof-receipt.rb`
+- `ruby .csdlc/prepared/issues/201/validate-proof-receipt.rb`
+- `bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))`
+
+## Failure Semantics
+
+Fail closed on missing or invalid quorum endorsements, signer unavailability, stale membership, domain/index/time mismatch, incomplete protocol checkpoint, rollback, retry conflict, legacy direct authority, corruption, unsafe paths, zero-test proof, source drift, or unresolved review findings.
+
+## Handoff
+
+Retain typed evidence before convergence.

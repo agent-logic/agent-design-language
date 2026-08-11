@@ -1,0 +1,5 @@
+
+running 1 test
+test distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 229 filtered out; finished in 2.08s

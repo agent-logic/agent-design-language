@@ -1,0 +1,1 @@
+{"issue":201,"card":"spp","expected_generation":60,"expected_digest":"d4c176127451a27cbb857646438e401890f018940fad5b450e7803a50620834a","actor":"codex:/root/resolve_201_review_129ea","reason":"Implemented runtime-external trusted custody and exact current/prepared/legacy snapshot validation.","operation":{"operation":"update_plan_step","step_id":"S2","status":"completed"}}
