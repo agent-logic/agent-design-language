@@ -1,3 +1,4 @@
+use std::collections::BTreeMap;
 use std::fs;
 use std::path::Path;
 use std::process::{Command, Output};
@@ -158,6 +159,54 @@ fn apply_edit(
             &request.to_string_lossy(),
         ],
     ));
+}
+
+fn issue_projection_snapshot(repo: &Path, issue: u64) -> BTreeMap<String, Vec<u8>> {
+    fn collect(root: &Path, current: &Path, snapshot: &mut BTreeMap<String, Vec<u8>>) {
+        for entry in fs::read_dir(current).expect("read projection directory") {
+            let entry = entry.expect("projection entry");
+            if entry.file_type().expect("projection file type").is_dir() {
+                collect(root, &entry.path(), snapshot);
+            } else {
+                snapshot.insert(
+                    entry
+                        .path()
+                        .strip_prefix(root)
+                        .expect("projection relative path")
+                        .to_string_lossy()
+                        .into_owned(),
+                    fs::read(entry.path()).expect("projection bytes"),
+                );
+            }
+        }
+    }
+
+    let root = repo.join(format!(".csdlc/issues/{issue}"));
+    let mut snapshot = BTreeMap::new();
+    collect(&root, &root, &mut snapshot);
+    snapshot
+}
+
+fn direct_edit(
+    store: &Store,
+    record: &csdlc_v2::IssueRecord,
+    card: CardKind,
+    operation: SemanticOperation,
+    fail_after_backup: bool,
+) -> csdlc_v2::Result<csdlc_v2::IssueRecord> {
+    edit_issue(
+        store,
+        EditRequest {
+            issue: record.issue,
+            card,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            actor: "test-operator".into(),
+            reason: "prove guarded pre-bind contract repair".into(),
+            operation,
+            fail_after_backup,
+        },
+    )
 }
 
 fn request() -> BootstrapRequest {
@@ -1793,6 +1842,277 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         &repo,
         &["worktree", "remove", "--force", &worktree.to_string_lossy()],
     );
+}
+
+#[test]
+fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let repo = temp.path().join("repo");
+    focused_fixture_repo(&repo);
+    let store = Store::new(&repo);
+    let mut record = csdlc_v2::initialize_native_json(
+        &store,
+        &serde_json::to_vec(&request()).expect("serialize bootstrap"),
+    )
+    .expect("bootstrap initialized issue");
+
+    let exact_acceptance = || SemanticOperation::ReplaceAcceptanceCriteria {
+        values: vec![
+            "AC-1: issue creation is claim-free".into(),
+            "AC-2: binding is atomic and idempotent".into(),
+        ],
+    };
+    for (name, values) in [
+        (
+            "malformed",
+            vec![
+                "issue creation is claim-free",
+                "AC-2: binding remains exact",
+            ],
+        ),
+        (
+            "reordered",
+            vec![
+                "AC-2: binding remains exact",
+                "AC-1: creation remains exact",
+            ],
+        ),
+        (
+            "renumbered",
+            vec![
+                "AC-1: creation remains exact",
+                "AC-3: binding remains exact",
+            ],
+        ),
+    ] {
+        let before = issue_projection_snapshot(&repo, 42);
+        let error = direct_edit(
+            &store,
+            &record,
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria {
+                values: values.into_iter().map(str::to_owned).collect(),
+            },
+            false,
+        )
+        .expect_err(name);
+        assert_eq!(error.code, csdlc_v2::ErrorCode::CardInvalid);
+        assert_eq!(issue_projection_snapshot(&repo, 42), before);
+    }
+
+    fs::write(
+        repo.join("design/issue-42.md"),
+        "# Independently repaired design\n",
+    )
+    .expect("repair design");
+    fs::write(
+        repo.join("design/issue-42.mmd"),
+        "flowchart LR\n  Repair --> Review\n",
+    )
+    .expect("repair diagram");
+    let audit_before_acceptance =
+        fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("initial audit");
+    record = direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false)
+        .expect("initialized acceptance repair");
+    assert_eq!(record.phase, LifecyclePhase::Initialized);
+    assert!(matches!(
+        record.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    let audit_after_acceptance =
+        fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("repaired audit");
+    assert!(audit_after_acceptance.starts_with(&audit_before_acceptance));
+    assert!(String::from_utf8_lossy(&audit_after_acceptance).contains("design_binding_refresh"));
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        assert!(repo
+            .join(format!(".csdlc/issues/42/cards/{card}.values.json"))
+            .is_file());
+        assert!(repo
+            .join(format!(".csdlc/issues/42/cards/{card}.md"))
+            .is_file());
+    }
+    let pending_validation = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+    );
+    assert!(!pending_validation.status.success());
+    assert!(String::from_utf8_lossy(&pending_validation.stdout)
+        .contains("design_review_missing_or_stale"));
+
+    let wrong_card_before = issue_projection_snapshot(&repo, 42);
+    assert!(direct_edit(&store, &record, CardKind::Spp, exact_acceptance(), false,).is_err());
+    assert_eq!(issue_projection_snapshot(&repo, 42), wrong_card_before);
+
+    let index_path = repo.join(".csdlc/issues/42/index.json");
+    let index_bytes = fs::read(&index_path).expect("index bytes");
+    let mut index: serde_json::Value = serde_json::from_slice(&index_bytes).expect("index JSON");
+    index["review_assignment"] = serde_json::json!({
+        "reviewer": "too-early",
+        "assigned_by": "test",
+        "revision": "0".repeat(40),
+        "scope": ["later evidence"]
+    });
+    fs::write(
+        &index_path,
+        serde_json::to_vec_pretty(&index).expect("later-evidence index"),
+    )
+    .expect("inject later evidence");
+    assert!(direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false).is_err());
+    fs::write(&index_path, &index_bytes).expect("restore index after later evidence");
+
+    let spp_path = repo.join(".csdlc/issues/42/cards/spp.values.json");
+    let spp_bytes = fs::read(&spp_path).expect("SPP bytes");
+    let mut spp: serde_json::Value = serde_json::from_slice(&spp_bytes).expect("SPP JSON");
+    spp["content"]["values"]["design_ref"] = serde_json::json!("design/wrong.md");
+    fs::write(
+        &spp_path,
+        serde_json::to_vec_pretty(&spp).expect("drifted SPP"),
+    )
+    .expect("inject reference drift");
+    assert!(direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false).is_err());
+    fs::write(&spp_path, &spp_bytes).expect("restore SPP");
+
+    let design_path = repo.join("design/issue-42.md");
+    let design_bytes = fs::read(&design_path).expect("design bytes");
+    fs::remove_file(&design_path).expect("remove design for path drift");
+    fs::create_dir(&design_path).expect("replace design with directory");
+    assert!(direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false).is_err());
+    fs::remove_dir(&design_path).expect("remove drifted design directory");
+    fs::write(&design_path, &design_bytes).expect("restore design");
+
+    let mut wrong_identity: serde_json::Value =
+        serde_json::from_slice(&index_bytes).expect("index JSON");
+    wrong_identity["issue"] = serde_json::json!(43);
+    fs::write(
+        &index_path,
+        serde_json::to_vec_pretty(&wrong_identity).expect("wrong identity index"),
+    )
+    .expect("inject identity drift");
+    assert!(direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false).is_err());
+    fs::write(&index_path, &index_bytes).expect("restore index after identity drift");
+
+    let approval = csdlc_v2::store::approve_design(
+        &store,
+        csdlc_v2::store::ApproveDesignRequest {
+            issue: 42,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            reviewer: "independent-prebind-reviewer".into(),
+        },
+    )
+    .expect("reapprove initialized repair");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+    ));
+    record = direct_edit(
+        &store,
+        &approval,
+        CardKind::Spp,
+        SemanticOperation::AdvancePhase {
+            phase: LifecyclePhase::Ready,
+        },
+        false,
+    )
+    .expect("advance repaired issue to ready");
+
+    let plan =
+        |acceptance_ids: Vec<&str>, status: StepStatus| SemanticOperation::ReplacePlanSteps {
+            steps: vec![PlanStep {
+                id: "S1".into(),
+                action: "exercise exact pre-bind plan repair".into(),
+                acceptance_ids: acceptance_ids.into_iter().map(str::to_owned).collect(),
+                status,
+            }],
+        };
+    for (name, operation) in [
+        (
+            "nonpending",
+            plan(vec!["AC-1", "AC-2"], StepStatus::Completed),
+        ),
+        (
+            "duplicate",
+            plan(vec!["AC-1", "AC-1", "AC-2"], StepStatus::Pending),
+        ),
+        ("missing", plan(vec!["AC-1"], StepStatus::Pending)),
+        (
+            "extra",
+            plan(vec!["AC-1", "AC-2", "AC-3"], StepStatus::Pending),
+        ),
+    ] {
+        let before = issue_projection_snapshot(&repo, 42);
+        let error = direct_edit(&store, &record, CardKind::Spp, operation, false).expect_err(name);
+        assert_eq!(error.code, csdlc_v2::ErrorCode::CardInvalid);
+        assert_eq!(issue_projection_snapshot(&repo, 42), before);
+    }
+
+    let audit_before_plan =
+        fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("audit before plan");
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Spp,
+        plan(vec!["AC-1", "AC-2"], StepStatus::Pending),
+        false,
+    )
+    .expect("ready plan repair");
+    assert_eq!(record.phase, LifecyclePhase::Ready);
+    assert!(matches!(
+        record.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    let audit_after_plan =
+        fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("audit after plan");
+    assert!(audit_after_plan.starts_with(&audit_before_plan));
+    let pending_validation = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+    );
+    assert!(!pending_validation.status.success());
+    assert!(String::from_utf8_lossy(&pending_validation.stdout)
+        .contains("design_review_missing_or_stale"));
+    record = csdlc_v2::store::approve_design(
+        &store,
+        csdlc_v2::store::ApproveDesignRequest {
+            issue: 42,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            reviewer: "independent-ready-reviewer".into(),
+        },
+    )
+    .expect("reapprove ready plan repair");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+    ));
+
+    let before_interruption = issue_projection_snapshot(&repo, 42);
+    let interrupted = direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), true)
+        .expect_err("injected interruption");
+    assert_eq!(
+        interrupted.code,
+        csdlc_v2::ErrorCode::InterruptedTransaction
+    );
+    let mut stale = record.clone();
+    stale.digest = "0".repeat(64);
+    assert!(direct_edit(&store, &stale, CardKind::Stp, exact_acceptance(), false).is_err());
+    assert_eq!(issue_projection_snapshot(&repo, 42), before_interruption);
+
+    let reviewed_index = fs::read(&index_path).expect("ready index");
+    let mut reviewed: serde_json::Value =
+        serde_json::from_slice(&reviewed_index).expect("ready index JSON");
+    reviewed["phase"] = serde_json::json!("reviewed");
+    fs::write(
+        &index_path,
+        serde_json::to_vec_pretty(&reviewed).expect("unsupported phase index"),
+    )
+    .expect("inject unsupported phase");
+    assert!(direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false).is_err());
+    fs::write(&index_path, reviewed_index).expect("restore ready index");
 }
 
 #[test]

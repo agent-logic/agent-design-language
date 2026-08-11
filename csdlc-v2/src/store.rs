@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 use std::fs::{self, File, OpenOptions};
-use std::io::Write;
+use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
 
 use fs2::FileExt;
@@ -1831,11 +1831,15 @@ fn validate_prebind_contract_repair(
         SemanticOperation::ReplacePlanSteps { steps } => {
             let expected: std::collections::BTreeSet<_> =
                 (1..=current_count).map(|n| format!("AC-{n}")).collect();
-            let actual: std::collections::BTreeSet<_> = steps
+            let mapped_acceptance: Vec<_> = steps
                 .iter()
                 .flat_map(|step| step.acceptance_ids.iter().cloned())
                 .collect();
-            if actual != expected || steps.iter().any(|step| step.status != StepStatus::Pending) {
+            let actual: std::collections::BTreeSet<_> = mapped_acceptance.iter().cloned().collect();
+            if actual != expected
+                || mapped_acceptance.len() != expected.len()
+                || steps.iter().any(|step| step.status != StepStatus::Pending)
+            {
                 return Err(V2Error::new(
                     ErrorCode::CardInvalid,
                     "pre-bind plan repair must remain pending and cover exactly the STP denominator",
@@ -2786,10 +2790,10 @@ pub(crate) fn read_regular_authored_artifact(
         ));
     }
     let path = root.join(relative);
-    let Some(metadata) = canonical_path_metadata_beneath(root, relative)? else {
+    let Some(path_metadata_before_open) = canonical_path_metadata_beneath(root, relative)? else {
         return Ok(None);
     };
-    if !metadata.is_file() {
+    if !path_metadata_before_open.is_file() {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
             format!(
@@ -2798,7 +2802,89 @@ pub(crate) fn read_regular_authored_artifact(
             ),
         ));
     }
-    Ok(Some(fs::read(path)?))
+    let mut file = OpenOptions::new().read(true).open(&path)?;
+    let opened_metadata_before_read = file.metadata()?;
+    if !opened_metadata_before_read.is_file()
+        || !same_file_identity(&path_metadata_before_open, &opened_metadata_before_read)
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!(
+                "transport target authored path changed identity while opening: {}",
+                path.display()
+            ),
+        ));
+    }
+    let expected_len = usize::try_from(opened_metadata_before_read.len()).map_err(|_| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!(
+                "transport target authored artifact is too large: {}",
+                path.display()
+            ),
+        )
+    })?;
+    let mut bytes = Vec::with_capacity(expected_len);
+    file.read_to_end(&mut bytes)?;
+    let opened_metadata_after_read = file.metadata()?;
+    let path_metadata_after_read =
+        canonical_path_metadata_beneath(root, relative)?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!(
+                    "transport target authored path disappeared while reading: {}",
+                    path.display()
+                ),
+            )
+        })?;
+    if !opened_metadata_after_read.is_file()
+        || !path_metadata_after_read.is_file()
+        || !same_file_identity(&opened_metadata_before_read, &opened_metadata_after_read)
+        || !same_file_identity(&opened_metadata_after_read, &path_metadata_after_read)
+        || opened_metadata_before_read.len() != opened_metadata_after_read.len()
+        || opened_metadata_after_read.len() != path_metadata_after_read.len()
+        || bytes.len() != expected_len
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!(
+                "transport target authored path changed identity or size while reading: {}",
+                path.display()
+            ),
+        ));
+    }
+    Ok(Some(bytes))
+}
+
+#[cfg(unix)]
+fn same_file_identity(left: &fs::Metadata, right: &fs::Metadata) -> bool {
+    use std::os::unix::fs::MetadataExt;
+
+    left.dev() == right.dev() && left.ino() == right.ino()
+}
+
+#[cfg(windows)]
+fn same_file_identity(left: &fs::Metadata, right: &fs::Metadata) -> bool {
+    use std::os::windows::fs::MetadataExt;
+
+    match (
+        left.volume_serial_number(),
+        left.file_index(),
+        right.volume_serial_number(),
+        right.file_index(),
+    ) {
+        (Some(left_volume), Some(left_index), Some(right_volume), Some(right_index)) => {
+            left_volume == right_volume && left_index == right_index
+        }
+        _ => false,
+    }
+}
+
+#[cfg(not(any(unix, windows)))]
+fn same_file_identity(_left: &fs::Metadata, _right: &fs::Metadata) -> bool {
+    // No stable file-identity primitive is available on this target. Fail
+    // closed instead of accepting a pathname-only comparison.
+    false
 }
 
 fn canonical_path_metadata_beneath(root: &Path, relative: &Path) -> Result<Option<fs::Metadata>> {
@@ -2999,6 +3085,20 @@ fn enum_iterator() -> impl Iterator<Item = CardKind> {
 mod edit_authorization_tests {
     use super::*;
 
+    #[test]
+    fn authored_artifact_identity_distinguishes_equal_length_files() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let first = temp.path().join("first.md");
+        let second = temp.path().join("second.md");
+        fs::write(&first, b"same-length").expect("first artifact");
+        fs::write(&second, b"other-byte!").expect("second artifact");
+        let first_metadata = fs::metadata(first).expect("first metadata");
+        let second_metadata = fs::metadata(second).expect("second metadata");
+        assert_eq!(first_metadata.len(), second_metadata.len());
+        assert!(same_file_identity(&first_metadata, &first_metadata));
+        assert!(!same_file_identity(&first_metadata, &second_metadata));
+    }
+
     fn replacement_steps() -> Vec<crate::cards::PlanStep> {
         vec![crate::cards::PlanStep {
             id: "review-fix".into(),
@@ -3010,6 +3110,25 @@ mod edit_authorization_tests {
 
     #[test]
     fn implemented_review_remediation_authorizes_only_bounded_operations() {
+        for phase in [LifecyclePhase::Bound, LifecyclePhase::Implemented] {
+            authorize_card_operation(
+                phase,
+                CardKind::Stp,
+                &SemanticOperation::ReplaceAcceptanceCriteria {
+                    values: vec!["AC-1: compatibility repair".into()],
+                },
+            )
+            .expect("bound and implemented STP compatibility remains available");
+            authorize_card_operation(
+                phase,
+                CardKind::Spp,
+                &SemanticOperation::ReplacePlanSteps {
+                    steps: replacement_steps(),
+                },
+            )
+            .expect("bound and implemented SPP compatibility remains available");
+        }
+
         for operation in [
             SemanticOperation::ReplacePlanSteps {
                 steps: replacement_steps(),
