@@ -7,23 +7,25 @@
     "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
     "slug": "focused-runtime-validation-routing",
     "version": "v0.92",
-    "generation": 18
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/config/validation_lane_selector.v0.91.6.json\nadl/tools/test_select_validation_lanes.sh\nadl/tools/test_ci_path_policy.sh\n.csdlc/evidence/226\n.csdlc/prepared/issues/226/design.md",
+      "review_revision": "git-blake3:4fdb11b6b7e8c6a03891399e26b52887c776fa8f:40cdaded16e6952f3e43fb251cb05e04d49a9ca23c7610381ff3759be2d3c21e",
+      "reviewer": "codex-exec:issue-226-independent-review-7",
       "review_prompts": [
         "Are the new selectors narrowly bounded to existing proof ownership?",
         "Does any unknown path become silently covered?",
         "Can this change launch optional slow or coverage jobs?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Optional hosted, coverage, soak, slow, and long jobs were intentionally not run."
+      ],
+      "review_result": "pass"
     }
   }
 }
