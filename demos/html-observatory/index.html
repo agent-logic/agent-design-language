@@ -72,6 +72,7 @@
     </svg>
     <main
       class="observatory"
+      data-dashboard-surface="runtime"
       data-packet-ref="../../../docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json"
       data-report-ref="../../../docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/operator_report.md"
       data-csm-service-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_service_4903/service/service_manifest.json"
@@ -314,6 +315,14 @@
       </section>
 
       <section class="panopticon-shell" id="panopticon" aria-labelledby="panopticon-title">
+        <nav class="surface-nav" aria-label="Observatory navigation">
+          <a href="#runtime-proof" data-dashboard-link="runtime"><svg><use href="#icon-pulse"></use></svg>Runtime</a>
+          <a href="#panopticon" data-dashboard-link="agents" aria-current="page"><svg><use href="#icon-agent"></use></svg>Agents</a>
+          <a href="#csm-api" data-dashboard-link="csm-api"><svg><use href="#icon-events"></use></svg>Events</a>
+          <a href="#cloudwatch" data-dashboard-link="cloudwatch"><svg><use href="#icon-cloud"></use></svg>AWS</a>
+          <a href="#governance" data-dashboard-link="governance"><svg><use href="#icon-shield"></use></svg>Governance</a>
+          <a href="#evidence" data-dashboard-link="evidence"><svg><use href="#icon-evidence"></use></svg>Evidence</a>
+        </nav>
         <div class="panel-head">
           <div>
             <p class="eyebrow">Runtime system</p>
@@ -351,7 +360,39 @@
               </div>
               <span class="mini-badge" id="live-readiness">unknown</span>
             </div>
+            <div class="roster-controls" aria-label="Roster controls">
+              <label class="field" for="roster-search">
+                <span>Search</span>
+                <input id="roster-search" type="search" autocomplete="off" placeholder="Name, role, or ID">
+              </label>
+              <label class="field" for="roster-presence-filter">
+                <span>Presence</span>
+                <select id="roster-presence-filter">
+                  <option value="all">All visible</option>
+                  <option value="ready">Ready</option>
+                  <option value="busy">Busy</option>
+                  <option value="sleeping">Sleeping</option>
+                  <option value="degraded">Degraded</option>
+                  <option value="unreachable">Unreachable</option>
+                  <option value="migrating">Migrating</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </label>
+              <label class="field" for="roster-sort">
+                <span>Sort</span>
+                <select id="roster-sort">
+                  <option value="name">Name</option>
+                  <option value="presence">Presence</option>
+                </select>
+              </label>
+            </div>
             <div class="agent-list" id="live-agent-list"></div>
+            <button class="secondary-action roster-load-more" id="roster-load-more" type="button" hidden>Load more agents</button>
+            <div class="roster-detail" id="roster-detail" aria-live="polite">
+              <span class="row-kicker">Selection</span>
+              <strong>No visible agent selected</strong>
+              <p class="row-detail">Select a Runtime-authorized roster row to inspect current presence evidence.</p>
+            </div>
           </section>
           <section class="panopticon-column" aria-labelledby="live-signals-title">
             <div class="panel-head">

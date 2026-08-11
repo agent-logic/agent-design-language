@@ -1,0 +1,30 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 48,
+  "expected_digest": "e989a6a62f88c6f76a401a0ba46f360a1cd54d9bfaf471d5f4f30e1562c4fe7a",
+  "actor": "codex:wp18c03-execution",
+  "reason": "Record instrumented coverage for the exact issue-owned roster, control, and OpenAPI targets before final review.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "llvm-cov",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "--test",
+        "agent_roster",
+        "--test",
+        "control",
+        "--test",
+        "openapi_contract",
+        "--summary-only"
+      ],
+      "purpose": "Measure the issue-owned Runtime roster and control surfaces under the exact proving tests without substituting unrelated workspace tests.",
+      "outcome": "passed",
+      "evidence_ref": "Exact head 6a1abef9aa44682dec2aa489d0300962f76bc155: 44/44 focused tests passed under instrumentation; agent_roster.rs line coverage 93.72%, control.rs line coverage 64.32%, ingress.rs 91.01%, telemetry.rs 88.89%. The broader authoritative lane passed 176/177 adl-runtime tests but was stopped after the unrelated distributed three-voter transport test exceeded eight minutes; full kernel instrumentation separately found an unrelated guardian_soak JSON parse failure, so neither broader run is claimed as a passing gate."
+    }
+  },
+  "fail_after_backup": false
+}

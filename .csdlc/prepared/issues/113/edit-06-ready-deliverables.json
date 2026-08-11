@@ -1,0 +1,19 @@
+{
+  "issue": 113,
+  "card": "stp",
+  "expected_generation": 6,
+  "expected_digest": "b0a7ddba2fb897a41f11f8470e3ec693fe496d85d0df40b53d290d725a903c60",
+  "actor": "codex:113-roster-presence-preparation",
+  "reason": "Keep ready-phase deliverables behavioral and avoid claiming unavailable execution-created validator files as current artifacts.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Versioned paginated Runtime roster and policy-safe agent-detail projections",
+      "Deterministic presence, health, availability, freshness, provenance, relocation, capability, and communication-eligibility model",
+      "Opaque revision-bound pagination and bounded reconnect/event update contract",
+      "Search, filter, sort, selection, and status-change Observatory UI",
+      "Exact positive, negative, scale, browser, OpenAPI, reconnect, and rollback proof"
+    ]
+  }
+}

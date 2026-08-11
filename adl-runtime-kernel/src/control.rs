@@ -1,8 +1,10 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
+    fs::OpenOptions,
     future::Future,
     io::Write,
     net::SocketAddr,
+    path::Path,
     sync::Arc,
     sync::Mutex,
     time::{Duration, SystemTime, UNIX_EPOCH},
@@ -13,7 +15,7 @@ use axum::{
     body::Bytes,
     extract::{
         ws::{close_code, CloseFrame, Message, WebSocket, WebSocketUpgrade},
-        DefaultBodyLimit, State,
+        DefaultBodyLimit, Query, State,
     },
     http::{header, HeaderMap, HeaderValue, StatusCode},
     response::{IntoResponse, Response},
@@ -28,10 +30,11 @@ use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::{
-    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, DomainResult,
-    DomainWork, IngressError, KernelControl, KernelExit, LifecycleState, LiveContinuity,
-    ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
-    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
+    decode_acip_envelope, AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy,
+    AgentRosterQuery, AgentRuntimeEvidence, BootstrapEvent, CanonicalIngress, CheckpointManifest,
+    ComponentId, DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LifecycleState,
+    LiveContinuity, ObservabilityHealth, RunningState, RuntimeRecorder, RuntimeSnapshot,
+    RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA, AGENT_ROSTER_PAGE_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -121,8 +124,16 @@ pub enum ControlCapability {
 #[serde(tag = "action", rename_all = "snake_case")]
 pub enum ControlAction {
     Snapshot,
-    Submit { work: DomainWork },
-    Shutdown { grace_millis: u64 },
+    Submit {
+        work: DomainWork,
+    },
+    Shutdown {
+        grace_millis: u64,
+    },
+    Restart {
+        expected_incarnation_id: String,
+        grace_millis: u64,
+    },
 }
 
 impl ControlAction {
@@ -131,6 +142,7 @@ impl ControlAction {
             Self::Snapshot => ControlCapability::Read,
             Self::Submit { .. } => ControlCapability::Execute,
             Self::Shutdown { .. } => ControlCapability::Stop,
+            Self::Restart { .. } => ControlCapability::Stop,
         }
     }
 }
@@ -200,9 +212,19 @@ impl SignedControlCommand {
         }
         if matches!(
             self.action,
-            ControlAction::Shutdown { grace_millis } if grace_millis == 0 || grace_millis > MAX_SHUTDOWN_GRACE_MILLIS
+            ControlAction::Shutdown { grace_millis }
+                | ControlAction::Restart { grace_millis, .. }
+                if grace_millis == 0 || grace_millis > MAX_SHUTDOWN_GRACE_MILLIS
         ) {
             return Err(ControlError::InvalidBounds);
+        }
+        if let ControlAction::Restart {
+            expected_incarnation_id,
+            ..
+        } = &self.action
+        {
+            uuid::Uuid::parse_str(expected_incarnation_id)
+                .map_err(|_| ControlError::InvalidIdentifier)?;
         }
         Ok(())
     }
@@ -254,6 +276,38 @@ pub fn generate_runtime_instance_id() -> String {
     uuid::Uuid::new_v4().simple().to_string()
 }
 
+pub fn load_or_create_runtime_instance_id(state_root: &Path) -> std::io::Result<String> {
+    let path = state_root.join("runtime-instance-id");
+    match OpenOptions::new().write(true).create_new(true).open(&path) {
+        Ok(mut file) => {
+            let instance_id = generate_runtime_instance_id();
+            file.write_all(instance_id.as_bytes())?;
+            file.write_all(b"\n")?;
+            file.sync_all()?;
+            Ok(instance_id)
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+            let metadata = std::fs::symlink_metadata(&path)?;
+            if metadata.file_type().is_symlink() || !metadata.is_file() {
+                return Err(std::io::Error::new(
+                    std::io::ErrorKind::InvalidData,
+                    "runtime instance identity must be a regular file",
+                ));
+            }
+            let instance_id = std::fs::read_to_string(path)?.trim().to_owned();
+            if instance_id.len() != 32 || !instance_id.bytes().all(|byte| byte.is_ascii_hexdigit())
+            {
+                return Err(std::io::Error::new(
+                    std::io::ErrorKind::InvalidData,
+                    "runtime instance identity is invalid",
+                ));
+            }
+            Ok(instance_id)
+        }
+        Err(error) => Err(error),
+    }
+}
+
 pub fn verifying_key_from_hex(value: &str) -> Result<VerifyingKey, ControlError> {
     let bytes: [u8; 32] = hex::decode(value)
         .map_err(|_| ControlError::Authentication)?
@@ -275,6 +329,7 @@ pub enum ControlOutcome {
     Snapshot { snapshot: Box<RuntimeSnapshot> },
     Submitted { work_result: DomainResult },
     Shutdown { exit: ControlExit },
+    Restart { accepted: bool },
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -288,6 +343,10 @@ pub struct ControlResponse {
 #[async_trait]
 pub trait LifecycleControl: Send + Sync {
     async fn shutdown(&self, grace: Duration) -> Result<KernelExit, ()>;
+
+    async fn restart(&self, grace: Duration) -> Result<(), ()> {
+        self.shutdown(grace).await.map(|_| ())
+    }
 }
 
 #[async_trait]
@@ -394,6 +453,7 @@ fn rollback_replay_sequence(state: &mut AcipReplayState, reservation: AcipSequen
 
 pub struct ControlService<C> {
     instance_id: String,
+    runtime_incarnation_id: String,
     recorder: RuntimeRecorder,
     lifecycle: C,
     authority: ControlAuthority,
@@ -409,6 +469,7 @@ pub struct ControlService<C> {
     control_addr: Mutex<SocketAddr>,
     public_base_url: Mutex<String>,
     canonical_ingress: Option<CanonicalIngress>,
+    agent_roster_token_key: Mutex<[u8; 32]>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
 }
 
@@ -427,7 +488,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             authority,
             max_records,
             std::iter::empty(),
-            AgentPopulationFeed::single(),
+            AgentPopulationFeed::empty(),
         )
     }
 
@@ -446,7 +507,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             authority,
             max_records,
             observatory_allowed_origins,
-            AgentPopulationFeed::single(),
+            AgentPopulationFeed::empty(),
         )
     }
 
@@ -457,7 +518,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         authority: ControlAuthority,
         max_records: usize,
         observatory_allowed_origins: impl IntoIterator<Item = String>,
-        agent_population: AgentPopulationFeed,
+        mut agent_population: AgentPopulationFeed,
     ) -> Self {
         assert!(max_records > 0, "idempotency capacity must be non-zero");
         let instance_id = instance_id.into();
@@ -466,8 +527,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "runtime instance id must be bounded"
         );
         let observatory_allowed_origins = observatory_allowed_origins.into_iter().collect();
+        agent_population
+            .sample
+            .sort_by(|left, right| left.id.cmp(&right.id));
         Self {
             instance_id,
+            runtime_incarnation_id: uuid::Uuid::new_v4().to_string(),
             recorder,
             lifecycle,
             authority,
@@ -489,8 +554,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
             public_base_url: Mutex::new("https://localhost".to_owned()),
             canonical_ingress: None,
+            agent_roster_token_key: Mutex::new(blake3::derive_key(
+                "adl.runtime_v3.agent_roster.page_token.ephemeral.v1",
+                uuid::Uuid::new_v4().as_bytes(),
+            )),
             api_policy: Mutex::new(None),
         }
+    }
+
+    pub fn set_agent_roster_token_key(&self, key: [u8; 32]) {
+        *self
+            .agent_roster_token_key
+            .lock()
+            .expect("agent roster token key mutex poisoned") = key;
     }
 
     fn set_api_policy(&self, policy: ControlApiPolicy) {
@@ -778,9 +854,23 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 stale: age_millis > stale_after_millis,
             }
         });
+        let agents = self.agent_population.with_runtime_snapshot_query(
+            &snapshot,
+            now,
+            *self
+                .agent_roster_token_key
+                .lock()
+                .expect("agent roster token key mutex poisoned"),
+            AgentRosterQuery {
+                page_size: 100,
+                page_token: None,
+                filter: None,
+            },
+        );
         ObservatoryFeed {
             schema: OBSERVATORY_FEED_SCHEMA.to_owned(),
             runtime_instance_id: self.instance_id.clone(),
+            runtime_incarnation_id: self.runtime_incarnation_id.clone(),
             runtime_process_id: std::process::id(),
             default_runtime_changed: false,
             runtime_selection: "runtime_v3_explicit_opt_in".to_owned(),
@@ -819,7 +909,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .as_ref()
                 .map(CanonicalIngress::snapshot)
                 .unwrap_or_default(),
-            agents: self.agent_population.clone(),
+            agents,
             proof: ObservatoryProofFeed {
                 default_runtime_switch_authorized: false,
                 runtime_v2_decommission_authorized: false,
@@ -849,10 +939,54 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             lifecycle: feed.health.snapshot.lifecycle,
             observability_ready: feed.health.observability_ready,
             runtime_instance_id: feed.runtime_instance_id,
+            runtime_incarnation_id: feed.runtime_incarnation_id,
             runtime_process_id: feed.runtime_process_id,
             weather_freshness,
             degraded_reasons,
         }
+    }
+
+    pub fn agent_roster_page(
+        &self,
+        page_size: usize,
+        page_token: Option<String>,
+        filter: Option<String>,
+        event_cursor: Option<String>,
+    ) -> Result<AgentPopulationFeed, ControlError> {
+        let snapshot = self.recorder.snapshot();
+        let now = now_unix_millis();
+        self.agent_population
+            .try_with_runtime_snapshot_query(
+                &snapshot,
+                now,
+                *self
+                    .agent_roster_token_key
+                    .lock()
+                    .expect("agent roster token key mutex poisoned"),
+                AgentRosterQuery {
+                    page_size,
+                    page_token,
+                    filter,
+                },
+                event_cursor.as_deref(),
+            )
+            .map_err(|_| ControlError::InvalidBounds)
+    }
+
+    pub fn agent_roster_detail(&self, agent_id: &str) -> Result<AgentRosterEntry, ControlError> {
+        let snapshot = self.recorder.snapshot();
+        let now = now_unix_millis();
+        self.agent_population
+            .agent_detail(
+                &snapshot,
+                now,
+                *self
+                    .agent_roster_token_key
+                    .lock()
+                    .expect("agent roster token key mutex poisoned"),
+                agent_id,
+            )
+            .map_err(|_| ControlError::InvalidBounds)
     }
 
     pub async fn execute(
@@ -862,6 +996,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self.authority.authorize(&command)?;
         if command.runtime_instance_id != self.instance_id {
             return Err(ControlError::StaleRuntimeInstance);
+        }
+        if let ControlAction::Restart {
+            expected_incarnation_id,
+            ..
+        } = &command.action
+        {
+            if expected_incarnation_id != &self.runtime_incarnation_id {
+                return Err(ControlError::StaleRuntimeInstance);
+            }
         }
         let fingerprint = command.fingerprint()?;
         {
@@ -886,7 +1029,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 };
                 state.records.pop(&completed);
             }
-            if matches!(command.action, ControlAction::Shutdown { .. }) {
+            if matches!(
+                command.action,
+                ControlAction::Shutdown { .. } | ControlAction::Restart { .. }
+            ) {
                 if state.terminal_action.is_some() {
                     return Err(ControlError::LifecycleAlreadyRequested);
                 }
@@ -975,6 +1121,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         .unwrap_or(ControlExit::Failed);
                     Ok(ControlOutcome::Shutdown { exit })
                 }
+                ControlAction::Restart {
+                    expected_incarnation_id,
+                    grace_millis,
+                } => {
+                    debug_assert_eq!(expected_incarnation_id, self.runtime_incarnation_id);
+                    self.lifecycle
+                        .restart(Duration::from_millis(grace_millis))
+                        .await
+                        .map_err(|_| ControlError::Internal)?;
+                    Ok(ControlOutcome::Restart { accepted: true })
+                }
             }
         }
         .instrument(span)
@@ -1044,6 +1201,7 @@ pub struct RuntimeReadinessReport {
     pub lifecycle: LifecycleState,
     pub observability_ready: bool,
     pub runtime_instance_id: String,
+    pub runtime_incarnation_id: String,
     pub runtime_process_id: u32,
     pub weather_freshness: Option<ObservatoryWeatherFreshness>,
     pub degraded_reasons: Vec<String>,
@@ -1056,23 +1214,255 @@ pub struct ObservatoryContinuityFeed {
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct AgentPopulationFeed {
+    pub schema: String,
+    pub revision: u64,
+    pub scope: String,
     pub total_count: u64,
     pub rendered_sample_count: u64,
+    pub has_more: bool,
+    pub next_page_token: Option<String>,
+    pub event_cursor: Option<String>,
+    pub population_complete: bool,
     pub sample: Vec<AgentSample>,
+    #[serde(skip)]
+    pub public_policy: Option<AgentRosterPolicy>,
 }
 
 impl AgentPopulationFeed {
-    pub fn single() -> Self {
+    pub fn empty() -> Self {
         Self {
-            total_count: 1,
-            rendered_sample_count: 1,
+            schema: AGENT_ROSTER_PAGE_SCHEMA.to_owned(),
+            revision: 0,
+            scope: "local_runtime".to_owned(),
+            total_count: 0,
+            rendered_sample_count: 0,
+            has_more: false,
+            next_page_token: None,
+            event_cursor: None,
+            population_complete: false,
+            sample: Vec::new(),
+            public_policy: None,
+        }
+    }
+
+    pub fn resident_shepherd() -> Self {
+        Self {
             sample: vec![AgentSample {
-                id: "agent-0001".to_owned(),
-                label: "Runtime agent 1".to_owned(),
-                role: "runtime agent".to_owned(),
-                state: "running".to_owned(),
-                detail: "sample 1 of 1".to_owned(),
+                id: "shepherd".to_owned(),
+                label: "Shepherd".to_owned(),
+                role: "resident shepherd".to_owned(),
+                state: "unknown".to_owned(),
+                detail: "Awaiting production Runtime admission".to_owned(),
+                health: "unknown".to_owned(),
+                availability: "unknown".to_owned(),
+                activity: None,
+                capabilities: vec!["conversation".to_owned()],
+                location: Some("local_runtime".to_owned()),
+                communication_eligible: false,
+                observed_at_unix_millis: 0,
+                freshness_deadline_unix_millis: 0,
+                source_revision: "unobserved".to_owned(),
+                provenance: "runtime_component_state".to_owned(),
             }],
+            public_policy: Some(AgentRosterPolicy {
+                policy_subject: "public-observatory".to_owned(),
+                visible_agent_ids: BTreeSet::from(["shepherd".to_owned()]),
+                reveal_capabilities: false,
+                reveal_location: false,
+            }),
+            ..Self::empty()
+        }
+    }
+
+    pub fn with_public_policy(mut self, policy: AgentRosterPolicy) -> Self {
+        self.public_policy = Some(policy);
+        self
+    }
+
+    fn with_runtime_snapshot_query(
+        &self,
+        snapshot: &RuntimeSnapshot,
+        now_unix_millis: u64,
+        token_key: [u8; 32],
+        query: AgentRosterQuery,
+    ) -> Self {
+        self.try_with_runtime_snapshot_query(snapshot, now_unix_millis, token_key, query, None)
+            .unwrap_or_else(|_| Self::empty())
+    }
+
+    fn try_with_runtime_snapshot_query(
+        &self,
+        snapshot: &RuntimeSnapshot,
+        now_unix_millis: u64,
+        token_key: [u8; 32],
+        query: AgentRosterQuery,
+        event_cursor: Option<&str>,
+    ) -> Result<Self, crate::AgentRosterError> {
+        if self.sample.is_empty() {
+            return Ok(Self::empty());
+        }
+        if !self
+            .sample
+            .iter()
+            .any(|agent| agent.provenance == "runtime_component_state")
+        {
+            return Ok(self.clone());
+        }
+        let Some(public_policy) = self.public_policy.as_ref() else {
+            return Ok(Self::empty());
+        };
+        let evidence = self
+            .sample
+            .iter()
+            .filter_map(|agent| project_agent_evidence(agent, snapshot));
+        let page = AgentRoster::projection(
+            snapshot.revision.max(self.revision).max(1),
+            false,
+            token_key,
+        )?
+        .page_evidence(
+            evidence,
+            public_policy,
+            query,
+            now_unix_millis,
+            event_cursor,
+        )?;
+        Ok(Self {
+            schema: page.schema,
+            revision: page.revision,
+            scope: page.scope,
+            total_count: page.visible_count,
+            rendered_sample_count: page.page_count,
+            has_more: page.has_more,
+            next_page_token: page.next_page_token,
+            event_cursor: Some(page.event_cursor),
+            population_complete: page.population_complete,
+            sample: page.agents.into_iter().map(AgentSample::from).collect(),
+            public_policy: None,
+        })
+    }
+
+    fn agent_detail(
+        &self,
+        snapshot: &RuntimeSnapshot,
+        now_unix_millis: u64,
+        token_key: [u8; 32],
+        agent_id: &str,
+    ) -> Result<AgentRosterEntry, crate::AgentRosterError> {
+        let policy = self
+            .public_policy
+            .as_ref()
+            .ok_or(crate::AgentRosterError::NotVisible)?;
+        if !policy.visible_agent_ids.contains(agent_id) {
+            return Err(crate::AgentRosterError::NotVisible);
+        }
+        let sample = self
+            .sample
+            .iter()
+            .find(|agent| agent.id == agent_id)
+            .ok_or(crate::AgentRosterError::NotVisible)?;
+        let evidence =
+            project_agent_evidence(sample, snapshot).ok_or(crate::AgentRosterError::NotVisible)?;
+        AgentRoster::new(snapshot.revision.max(1), false, [evidence], token_key)?.detail(
+            policy,
+            agent_id,
+            now_unix_millis,
+        )
+    }
+}
+
+fn project_agent_evidence(
+    agent: &AgentSample,
+    snapshot: &RuntimeSnapshot,
+) -> Option<AgentRuntimeEvidence> {
+    if agent.provenance != "runtime_component_state" {
+        return Some(AgentRuntimeEvidence::from(agent));
+    }
+    let state = snapshot.components.get(&ComponentId::new(&agent.id))?;
+    let admission = snapshot.agent_admissions.get(&agent.id)?;
+    let (presence, health, availability, eligible) = match state {
+        RunningState::Running => (AgentPresence::Ready, "healthy", "available", true),
+        RunningState::Starting | RunningState::Ready => {
+            (AgentPresence::Unknown, "starting", "unavailable", false)
+        }
+        RunningState::Restarting => (AgentPresence::Migrating, "recovering", "unavailable", false),
+        RunningState::Degraded => (AgentPresence::Degraded, "degraded", "unavailable", false),
+        RunningState::Stopping | RunningState::Stopped | RunningState::Failed => (
+            AgentPresence::Unreachable,
+            "unhealthy",
+            "unavailable",
+            false,
+        ),
+    };
+    Some(AgentRuntimeEvidence {
+        agent_id: agent.id.clone(),
+        display_name: agent.label.clone(),
+        public_role: agent.role.clone(),
+        presence,
+        health: health.to_owned(),
+        availability: availability.to_owned(),
+        activity: agent.activity.clone(),
+        capabilities: agent.capabilities.clone(),
+        location: agent.location.clone(),
+        communication_eligible: eligible,
+        observed_at_unix_millis: admission.observed_at_unix_millis,
+        freshness_deadline_unix_millis: admission.freshness_deadline_unix_millis,
+        source_revision: admission.source_revision.clone(),
+        provenance: agent.provenance.clone(),
+    })
+}
+
+impl From<&AgentSample> for AgentRuntimeEvidence {
+    fn from(agent: &AgentSample) -> Self {
+        Self {
+            agent_id: agent.id.clone(),
+            display_name: agent.label.clone(),
+            public_role: agent.role.clone(),
+            presence: match agent.state.as_str() {
+                "ready" => AgentPresence::Ready,
+                "busy" => AgentPresence::Busy,
+                "sleeping" => AgentPresence::Sleeping,
+                "degraded" => AgentPresence::Degraded,
+                "unreachable" => AgentPresence::Unreachable,
+                "migrating" => AgentPresence::Migrating,
+                _ => AgentPresence::Unknown,
+            },
+            health: agent.health.clone(),
+            availability: agent.availability.clone(),
+            activity: agent.activity.clone(),
+            capabilities: agent.capabilities.clone(),
+            location: agent.location.clone(),
+            communication_eligible: agent.communication_eligible,
+            observed_at_unix_millis: agent.observed_at_unix_millis,
+            freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
+            source_revision: agent.source_revision.clone(),
+            provenance: agent.provenance.clone(),
+        }
+    }
+}
+
+impl From<AgentRosterEntry> for AgentSample {
+    fn from(agent: AgentRosterEntry) -> Self {
+        let state = serde_json::to_value(agent.presence)
+            .ok()
+            .and_then(|value| value.as_str().map(str::to_owned))
+            .unwrap_or_else(|| "unknown".to_owned());
+        Self {
+            id: agent.id,
+            label: agent.label,
+            role: agent.role,
+            state,
+            detail: "Runtime-authorized local roster projection".to_owned(),
+            health: agent.health,
+            availability: agent.availability,
+            activity: agent.activity,
+            capabilities: agent.capabilities,
+            location: agent.location,
+            communication_eligible: agent.communication_eligible,
+            observed_at_unix_millis: agent.observed_at_unix_millis,
+            freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
+            source_revision: agent.source_revision,
+            provenance: agent.provenance,
         }
     }
 }
@@ -1084,6 +1474,16 @@ pub struct AgentSample {
     pub role: String,
     pub state: String,
     pub detail: String,
+    pub health: String,
+    pub availability: String,
+    pub activity: Option<String>,
+    pub capabilities: Vec<String>,
+    pub location: Option<String>,
+    pub communication_eligible: bool,
+    pub observed_at_unix_millis: u64,
+    pub freshness_deadline_unix_millis: u64,
+    pub source_revision: String,
+    pub provenance: String,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1098,6 +1498,7 @@ pub struct ObservatoryProofFeed {
 pub struct ObservatoryFeed {
     pub schema: String,
     pub runtime_instance_id: String,
+    pub runtime_incarnation_id: String,
     pub runtime_process_id: u32,
     pub default_runtime_changed: bool,
     pub runtime_selection: String,
@@ -1207,6 +1608,14 @@ where
         .route(
             "/v1/observatory",
             get(observatory_feed_handler::<C>).options(observatory_preflight_handler::<C>),
+        )
+        .route(
+            "/v1/agents",
+            get(agent_roster_handler::<C>).options(observatory_preflight_handler::<C>),
+        )
+        .route(
+            "/v1/agents/{agent_id}",
+            get(agent_detail_handler::<C>).options(observatory_preflight_handler::<C>),
         )
         .route(OBSERVATORY_WS_PATH, get(observatory_ws_handler::<C>))
         .route(
@@ -1379,6 +1788,69 @@ async fn observatory_feed_handler<C: LifecycleControl + 'static>(
         return StatusCode::FORBIDDEN.into_response();
     }
     observatory_json(StatusCode::OK, service.observatory_feed(), allowed_origin)
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AgentRosterHttpQuery {
+    #[serde(default = "default_roster_page_size")]
+    page_size: usize,
+    page_token: Option<String>,
+    filter: Option<String>,
+    event_cursor: Option<String>,
+}
+
+fn default_roster_page_size() -> usize {
+    50
+}
+
+async fn agent_roster_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    Query(query): Query<AgentRosterHttpQuery>,
+    headers: HeaderMap,
+) -> Response {
+    let allowed_origin = allowed_origin(&service, &headers);
+    if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+    match service.agent_roster_page(
+        query.page_size,
+        query.page_token,
+        query.filter,
+        query.event_cursor,
+    ) {
+        Ok(page) => observatory_json(StatusCode::OK, page, allowed_origin),
+        Err(_) => observatory_json(
+            StatusCode::BAD_REQUEST,
+            serde_json::json!({
+                "schema": "adl.runtime_v3.agent_roster_error.v1",
+                "code": "invalid_roster_query"
+            }),
+            allowed_origin,
+        ),
+    }
+}
+
+async fn agent_detail_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    axum::extract::Path(agent_id): axum::extract::Path<String>,
+    headers: HeaderMap,
+) -> Response {
+    let allowed_origin = allowed_origin(&service, &headers);
+    if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+    match service.agent_roster_detail(&agent_id) {
+        Ok(agent) => observatory_json(StatusCode::OK, agent, allowed_origin),
+        Err(_) => observatory_json(
+            StatusCode::NOT_FOUND,
+            serde_json::json!({
+                "schema": "adl.runtime_v3.agent_roster_error.v1",
+                "code": "agent_not_visible"
+            }),
+            allowed_origin,
+        ),
+    }
 }
 
 async fn observatory_ws_handler<C: LifecycleControl + 'static>(

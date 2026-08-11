@@ -1,0 +1,19 @@
+{
+  "issue": 113,
+  "card": "stp",
+  "expected_generation": 4,
+  "expected_digest": "7f48f9b6a106188761a6eb4ec7cbf8264869f04994a0679e7aec1a39c25c746f",
+  "actor": "codex:113-roster-presence-preparation",
+  "reason": "Align dependency truth with the newer live #122 issue-local deferral decision while preserving #83 and #142 as hard serial gates.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "agent-logic/agent-design-language#83 merged, terminal, ancestral, and shared Observatory paths handed off",
+      "agent-logic/agent-design-language#142 merged, terminal, and ancestral with operational distributed Polis identity/topology truth",
+      "agent-logic/agent-design-language#110 remains the read-only umbrella; newer agent-logic/agent-design-language#122 status explicitly defers public exposure beyond v0.92 and is non-gating for local work",
+      "Closed legacy identity #5863, membership/topology #5867, distributed projection #5877, final integration #5878, and closed workflow #137 remain compatible contract inputs",
+      "No active issue owns any intended shared integration path"
+    ]
+  }
+}

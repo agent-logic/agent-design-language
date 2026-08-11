@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 113,
+  "expected_generation": 40,
+  "expected_digest": "e0b209c62e2f1cc59c4471e013b58ae194356b8f5aed484c9c169368dbf8745e",
+  "actor": "codex:wp18c03-execution",
+  "reason": "Re-establish exact-head review at a committed publication-preparation head, then leave review recording and final CAS regeneration uncommitted for atomic typed publication."
+}

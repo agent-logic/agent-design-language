@@ -1,0 +1,10 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 56,
+  "expected_digest": "c0b6167d6dbe85affbf9d450ae970e9ac542e16bd0a57f20a4e7171f7186fa83",
+  "actor": "codex:wp18c03-locke-remediation",
+  "reason": "Record focused validation of every second-review remediation.",
+  "operation": {"operation":"record_validation","result":{"command":["focused issue-113 roster, control, OpenAPI, browser contract, strict Clippy, format, and diff gates"],"purpose":"Prove exact-ID detail lookup, Runtime-authenticated browser cursor exchange, and page-only policy allocation.","outcome":"passed","evidence_ref":"agent_roster 15/15; control 25/25; openapi_contract 6/6; HTML Observatory contract PASS including cursor return; strict library and binary Clippy PASS; cargo fmt PASS; git diff --check PASS."}},
+  "fail_after_backup": false
+}

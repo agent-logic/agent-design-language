@@ -1,0 +1,43 @@
+{
+  "issue": 113,
+  "expected_generation": 49,
+  "expected_digest": "c8d929e6d353214558e0aaabcbdf14eebae592692fd5762daacc77e5a7d05a80",
+  "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+  "evidence": {
+    "reviewer": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+    "scope": [
+      "adl-runtime-kernel/build.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      ".csdlc/evidence/113/roster-live-proof-2118c05b3",
+      ".csdlc/issues/113"
+    ],
+    "reviewed_revision": "git-blake3:6b43cb17914a1c6ab53b45794a8025200bb916d2:5bf299687a2b79a9d4a1130177e41e49b4eda0e9f545f764cd78e1b464d9b5a9",
+    "findings": [
+      {"id":"LOCKE-113-1","severity":"p1","summary":"Add the required public agent-detail route and Runtime-authenticated event cursor contract with replay, gap, policy, revision, and query-change rejection.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":null},
+      {"id":"LOCKE-113-2","severity":"p1","summary":"Remove per-request full-population cloning and index reconstruction; prove bounded page allocation and explicit population work ceiling.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":null},
+      {"id":"LOCKE-113-3","severity":"p2","summary":"Correct production redaction policy and lifecycle claims, then obtain a fresh exact-head review.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":null}
+    ],
+    "residual_risks": [
+      "Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.",
+      "Long-running Runtime and soak-style validation routing is tracked separately by issue #226 and is non-gating for this focused product issue."
+    ],
+    "completed": false,
+    "non_substantive_proof": null
+  }
+}

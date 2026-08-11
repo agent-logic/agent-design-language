@@ -28,6 +28,27 @@ pub fn capped_exponential_backoff(base_ms: u64, cap_ms: u64, failures: u32) -> D
     Duration::from_millis(base_ms.saturating_mul(multiplier).min(cap_ms))
 }
 
+// `guardian.rs` is included directly so this kernel integration test can exercise
+// process supervision without creating a circular crate dependency. The polis
+// continuity path is production-only and is not invoked by this test.
+#[cfg(unix)]
+mod distributed {
+    pub mod polis_runtime {
+        pub struct ProductionPolisRuntime;
+
+        impl ProductionPolisRuntime {
+            pub async fn establish_continuity(
+                &self,
+                _attempt: u32,
+                _deadline_unix_millis: u64,
+                _cancellation: &tokio_util::sync::CancellationToken,
+            ) -> Result<(), ()> {
+                Ok(())
+            }
+        }
+    }
+}
+
 #[cfg(unix)]
 #[allow(dead_code)]
 #[path = "../../adl-runtime/src/guardian.rs"]

@@ -1,0 +1,17 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 31,
+  "expected_digest": "5634e5c5567e81d6ebab91c3e34a51828ece238514e7a7c6097cfb6a39c4c0f3",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Record the static HTML Observatory contract proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", "adl/tools/test_html_observatory.sh"],
+      "purpose": "Prove Runtime v3 roster projection, signed control contract, persistent navigation, and static browser bindings.",
+      "outcome": "passed",
+      "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: HTML Observatory Runtime v3, signed command, and roster projection contract passed."
+    }
+  }
+}
