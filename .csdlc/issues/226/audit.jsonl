@@ -34,3 +34,4 @@
 {"sequence":34,"generation":21,"actor":"codex:226-focused-runtime-validation-routing","reason":"Replace the deletion-fix reviewer after three bounded waits produced no verdict and refresh focused evidence for the split fail-closed lanes.","operation":"recover_review"}
 {"sequence":35,"generation":21,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":36,"generation":22,"actor":"codex:226-focused-runtime-validation-routing","reason":"Replace the stalled codex-exec reviewer after repeated bounded waits; preserve the exact focused implementation and refreshed evidence for an independent FastWork review.","operation":"recover_review"}
+{"sequence":37,"generation":22,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
