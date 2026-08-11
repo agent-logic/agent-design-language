@@ -1,0 +1,16 @@
+flowchart LR
+  A["Authenticated agent or Runtime governance"] --> B["Runtime attention ingress"]
+  B --> C["#112 identity and capability decision"]
+  C -->|deny| D["Redacted refusal and audit receipt"]
+  C -->|allow| E["Policy priority, quota, expiry, dedup"]
+  E -->|reject or group| F["Accounted bounded outcome"]
+  E -->|admit| G["#114 durable attention record"]
+  G --> H["Runtime-owned ordered inbox projection"]
+  H --> I["Observatory inbox, filters, unread, deep link"]
+  I --> J["Acknowledge, reply, defer, resolve, refuse"]
+  J --> K["Runtime reauthorization"]
+  K -->|attention transition| G
+  K -->|reply| L["#111 canonical conversation ingress"]
+  K -->|explicit authority action required| M["#112 governed authority path"]
+  N["Restart or reconnect"] --> G
+  G --> O["Replay without duplicate rows or notifications"]

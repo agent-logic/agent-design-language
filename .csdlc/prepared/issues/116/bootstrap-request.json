@@ -1,0 +1,133 @@
+{
+  "actor": "codex:116-operator-attention-preparation",
+  "design_approved": true,
+  "design_path": ".csdlc/prepared/issues/116/design.md",
+  "design_reviewer": "codex:116-bounded-design-review",
+  "diagram_path": ".csdlc/prepared/issues/116/diagram.mmd",
+  "issue": 116,
+  "repository": "agent-logic/agent-design-language",
+  "initial": {
+    "acceptance_criteria": [
+      "AC-1: Every attention request has Runtime-verified source identity, reason class, correlation, policy-derived priority, expiry, stable lifecycle identity, and durable transition receipts.",
+      "AC-2: Queue depth, retention, payload size, per-source and per-Polis rates, grouping, deduplication, quiet mode, and notification fanout are bounded and accounted without silent loss of accepted actionable requests.",
+      "AC-3: Spoofed identity, fabricated urgency or authority, replay, cross-Polis access, revoked capability, unauthorized deep link, and stale browser cache fail closed with public-safe outcomes.",
+      "AC-4: Acknowledge, reply, defer, resolve, and refuse are re-authorized Runtime transitions; reply uses #111 canonical conversation ingress and never implies approval without a separate #112 authority action.",
+      "AC-5: Restart, reconnect, partial write, stale sequence, corruption, policy drift, expiry, and recovery preserve or safely quarantine actionable state without duplicate rows, ordering drift, or duplicate notifications.",
+      "AC-6: The Observatory exposes an accessible responsive inbox with unread projection, filters, deep links, lifecycle actions, notification preferences, explicit refusal/degradation states, and no private cognition or secrets.",
+      "AC-7: Focused exact-head Runtime, schema, authorization, overload, durability, browser, and review proof passes with no unresolved actionable findings."
+    ],
+    "affected_areas": [
+      "OWNED NEW: adl-runtime/src/operator_attention.rs",
+      "OWNED NEW: adl-runtime/schemas/operator-attention/v1/",
+      "OWNED NEW: adl-runtime/tests/operator_attention.rs",
+      "OWNED NEW: demos/html-observatory/operator-attention.js",
+      "OWNED NEW: adl/tools/test_v092_operator_attention_inbox.sh",
+      "OWNED NEW: docs/milestones/v0.92/features/OPERATOR_ATTENTION_INBOX_v0.92.md",
+      "NARROW INTEGRATION: adl-runtime/src/lib.rs and adl-runtime/src/runtime_api.rs",
+      "NARROW INTEGRATION: demos/html-observatory/index.html, styles.css, app.js, and runtime-v3.config.json",
+      "NO OWNERSHIP: #111 conversation internals, #112 identity/authority/audit internals, #114 conversation-history internals, or #83 lifecycle state"
+    ],
+    "authority_boundary": [
+      "Runtime owns identity verification, authorization, priority, ordering, expiry, lifecycle, retention, and receipts; browser state is projection only.",
+      "Source identity, urgency, reason class, and authority claims are derived or checked against #112 policy and never trusted from display payloads.",
+      "Operator responses are attention outcomes; no response grants approval or governance authority without a separate explicit authorized action.",
+      "This preparation may create cards/design and commit locally but may not bind, implement product code, publish, push, open a PR, merge, close, or mutate #83."
+    ],
+    "declared_scope": [
+      "Define a typed agent-to-operator attention request and transition contract.",
+      "Implement bounded Runtime queueing, deduplication, expiry, prioritization, grouping, retention, rate limits, quiet mode, and durable recovery after serial gates clear.",
+      "Integrate an authorized Observatory inbox with unread state, filters, deep links, lifecycle actions, and notification preferences.",
+      "Prove overload, spoofing, stale request, restart, reconnect, partial-write, corruption, expiry, and recovery behavior."
+    ],
+    "deliverables": [
+      "Typed attention request, lifecycle, projection, policy decision, and receipt schemas.",
+      "Runtime attention queue and bounded policy implementation over predecessor-owned exported contracts.",
+      "Observatory inbox integration with accessible operator outcomes and explicit failure states.",
+      "Focused deterministic positive, adversarial, restart/reconnect, recovery, and browser proof.",
+      "Issue-local contract documentation and exact-head review handoff."
+    ],
+    "dependencies": [
+      "SERIAL BLOCKER: #111 canonical conversation sessions must be terminal and ancestral before bind.",
+      "SERIAL BLOCKER: #112 Layer 8 identity, authority, refusal, and audit must be terminal and ancestral before bind.",
+      "SERIAL BLOCKER: #114 durable conversation history, continuity, and receipts must be terminal and ancestral before bind.",
+      "Part of #110; #110 owns umbrella order and reconciliation, not #116 implementation.",
+      "#83 is an upstream vertical-slice consumer surface and must not be mutated by preparation."
+    ],
+    "failure_policy": "Fail closed on identity, authority, topology, schema, queue, rate, expiry, deduplication, durability, recovery, or projection ambiguity. Do not bind while #111/#112/#114 are non-terminal; do not treat deferred, skipped, fixture-only, or browser-only evidence as product proof.",
+    "goal": "Prepare an execution-ready, policy-governed operator attention inbox contract that agents can use without fabricating authority or flooding the operator.",
+    "invariants": [
+      "Runtime, not the Observatory, owns canonical attention state and transition authority.",
+      "Accepted actionable requests are never silently lost; overload outcomes are bounded and durably accounted.",
+      "Deduplication never merges distinct source, authorization, Polis, reason, correlation, or governed-work identities.",
+      "Expiry and rate decisions use Runtime authority rather than client clocks or client priority.",
+      "Every read, deep link, transition, and reply is re-authorized; revocation fails closed.",
+      "Restart and reconnect preserve ordering and actionable state without duplicate notifications.",
+      "No projection exposes secrets, private cognition, raw policy inputs, or unauthorized conversation content."
+    ],
+    "non_goals": [
+      "Generic system-alert replacement or unrestricted operator actuation.",
+      "Silent or automatic approval, constitutional redesign, or browser-owned authorization.",
+      "Push-notification vendor integration, AWS/public deployment, or live provider work.",
+      "Redefining #111 conversations, #112 authority/audit, #114 history/receipts, #110 umbrella truth, or #83 lifecycle state."
+    ],
+    "operator_constraints": [
+      "Preparation worktree only under /Volumes/FastWork; root main remains inspection-only.",
+      "Use only C-SDLC v2 owner binaries and typed card editors.",
+      "Do not bind, implement product code, publish, push, open a PR, merge, close, or mutate #83.",
+      "Commit preparation artifacts and stop at the strongest truthful pre-bind ready phase."
+    ],
+    "plan_summary": "After #111/#112/#114 are terminal and ancestral, inspect their exported contracts, replan typed cards if paths drift, implement the isolated attention domain and schema, compose authorization/durability/conversation adapters, add the Observatory inbox, run focused PVF lanes and adversarial recovery proof, then hand off for exact-head review.",
+    "planning_profile": "large",
+    "repo_inputs": [
+      "Live GitHub issues #116, #110, #111, #112, and #114 read through csdlc-github-issue.",
+      "Root AGENTS.md final C-SDLC v2 authority and worktree policy.",
+      "adl-runtime/src/runtime_api.rs, runtime_api_auth.rs, backpressure.rs, continuity_history.rs, lib.rs, and Cargo.toml.",
+      "demos/html-observatory/index.html, app.js, styles.css, runtime-v3.config.json, and README.md.",
+      "docs/milestones/v0.92 planning and feature-proof surfaces."
+    ],
+    "required_outcome": "A six-card, issue-specific, design-backed pre-bind package with exact ownership, bounded queue/authorization contracts, pairwise overlap notes, PVF lanes, negative proof, serial gates, and an execution handoff that remains blocked on #111/#112/#114.",
+    "review_prompts": [
+      "Does the queue contract prevent identity, urgency, authority, deduplication, or ordering spoofing under overload?",
+      "Are #111 conversation, #112 authority/audit, and #114 durability boundaries consumed without duplicated ownership?",
+      "Can restart, reconnect, partial write, corruption, expiry, and policy drift recover without loss, reordering, or duplicate notification?",
+      "Does every operator action re-authorize and avoid implying approval?",
+      "Are Observatory projections accessible, responsive, bounded, and free of private cognition, secrets, stale authority, and cross-principal leakage?",
+      "Does exact-head proof cover every AC with no fixture-only product claim?"
+    ],
+    "review_scope": "Exact changed head across Runtime attention contract, schema/API integration, authorization composition, durable recovery, Observatory UI, focused proof, and issue-local documentation.",
+    "risks": [
+      "Predecessor exported APIs and paths may differ from preparation assumptions; typed replan is mandatory before implementation if they drift.",
+      "Deduplication or grouping could erase distinct authorization/correlation identities.",
+      "Priority and quiet-mode semantics could create starvation or covert authority escalation.",
+      "Restart recovery could duplicate notification delivery or resurrect expired/revoked requests.",
+      "Browser caching and deep links could leak revoked or cross-principal state.",
+      "Shared Runtime API and HTML files may overlap downstream sibling work and require serial integration."
+    ],
+    "slug": "wp-18c-06-operator-attention-inbox",
+    "steps": [
+      {"id":"P1","action":"Wait for #111, #112, and #114 terminal merged ancestry; inspect exact exported contracts and apply typed replan if any prepared path or assumption drifted.","acceptance_ids":["AC-1","AC-4","AC-5"],"status":"pending"},
+      {"id":"P2","action":"Implement the isolated typed attention lifecycle, schema, authorization inputs, queue ordering, deduplication, expiry, grouping, retention, rate limits, and durable transition receipts.","acceptance_ids":["AC-1","AC-2","AC-3","AC-5"],"status":"pending"},
+      {"id":"P3","action":"Compose narrow Runtime API adapters with #111 reply ingress, #112 authorization/audit, and #114 durability/recovery without editing predecessor-owned internals.","acceptance_ids":["AC-1","AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"P4","action":"Implement the accessible Observatory inbox, unread projection, filters, deep links, outcomes, notification preferences, and explicit degraded/reconnect states.","acceptance_ids":["AC-4","AC-6"],"status":"pending"},
+      {"id":"P5","action":"Run focused PVF lanes for schemas, Runtime behavior, overload/spoofing, restart/reconnect/recovery, and browser behavior; remediate all failures.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"status":"pending"},
+      {"id":"P6","action":"Run bounded exact-head review, resolve every actionable finding, record truthful SRP/SOR evidence, and hand off to publication authority without publishing silently.","acceptance_ids":["AC-7"],"status":"pending"}
+    ],
+    "stop_conditions": [
+      "Stop before bind while #111, #112, or #114 is non-terminal or not ancestral to the execution base.",
+      "Stop and typed-replan if predecessor contracts, ownership, API paths, schemas, or shared-file assumptions differ materially.",
+      "Stop on any request to mutate #83, widen into push-vendor/AWS/public deployment, or redefine predecessor-owned authority.",
+      "Stop on ambiguous identity, authorization, expiry, deduplication, recovery, projection, or retention semantics.",
+      "Stop before publication, push, PR creation, merge, issue closure, or cleanup without separate operator authorization."
+    ],
+    "task_boundary": "Preparation now; later implementation only after serial gates. Own the attention-specific domain, projection, and proof while consuming #111/#112/#114 exports and leaving #83 untouched.",
+    "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
+    "validation_lanes": [
+      {"lane":"pvf-attention-unit-schema","argv":["cargo","test","--manifest-path","adl-runtime/Cargo.toml","--lib","operator_attention::tests"],"budget_seconds":300,"budget_tokens":4000,"deterministic":true,"parallel_group":"attention-core","proof_role":"Prove typed lifecycle, ordering, deduplication, expiry, limits, schemas, and transition invariants.","resource_profile":"small","acceptance_ids":["AC-1","AC-2","AC-4"]},
+      {"lane":"pvf-attention-api-auth-negative","argv":["cargo","test","--manifest-path","adl-runtime/Cargo.toml","--test","operator_attention","authorization_and_spoofing"],"budget_seconds":420,"budget_tokens":5000,"deterministic":true,"parallel_group":"attention-adversarial","proof_role":"Prove source substitution, urgency/authority fabrication, replay, revocation, cross-Polis denial, and reauthorization.","resource_profile":"small","acceptance_ids":["AC-3","AC-4"]},
+      {"lane":"pvf-attention-overload-recovery","argv":["cargo","test","--manifest-path","adl-runtime/Cargo.toml","--test","operator_attention","overload_restart_and_recovery"],"budget_seconds":600,"budget_tokens":7000,"deterministic":true,"parallel_group":"attention-adversarial","proof_role":"Prove bounded queue/rates/retention plus restart, reconnect, partial-write, corruption, expiry, and duplicate-notification recovery.","resource_profile":"medium","acceptance_ids":["AC-2","AC-5"]},
+      {"lane":"pvf-attention-observatory-browser","argv":["bash","adl/tools/test_v092_operator_attention_inbox.sh"],"budget_seconds":600,"budget_tokens":7000,"deterministic":true,"parallel_group":"attention-browser","proof_role":"Prove accessible responsive inbox behavior, unread/filter/deep-link actions, projection redaction, refusal, degradation, and reconnect.","resource_profile":"medium","acceptance_ids":["AC-6","AC-7"]},
+      {"lane":"pvf-exact-head-review","argv":["git","diff","--check","main...HEAD"],"budget_seconds":60,"budget_tokens":1000,"deterministic":true,"parallel_group":"attention-review","proof_role":"Preflight changed-head hygiene before independent exact-head review; this lane does not substitute review authority.","resource_profile":"small","acceptance_ids":["AC-7"]}
+    ],
+    "version": "v0.92"
+  }
+}

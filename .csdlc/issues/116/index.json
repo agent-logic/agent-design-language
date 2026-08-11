@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 116,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "16594e427a2613d8837d930dc9c7317f027a211ddc71033bb8ef2f1fe42102d3",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "792d207cafec06ff4e24fb9235b7e3704d3d2f3fec7e36df52b6d33877b6b1a2",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/116/design.md",
+  "diagram_path": ".csdlc/prepared/issues/116/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:116-bounded-design-review",
+      "revision": "330de9cb9c3cdf277dfcf24319c01c2d857f90a14149c9f5d30109d89f87d105"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3e2fd5caff5428573253e37552dc2ea3c94044e75c5e47409bbb7cc7e4b9c452",
+      "rendered_digest": "a60e051ab76b7e2c14b312d41b49f0ca1126b95c135ab29a8c4be905a85297e4",
+      "ast_digest": "4063d55bddde1674f2f8428041b237a3945a27ba55bdbfbe7fd37a480644d974"
+    },
+    "stp": {
+      "values_digest": "d112f736976266bd31966e33c2da6c3547228d61af5060e99cfff1e0e12455d0",
+      "rendered_digest": "dc6d969fd5c76ed64896568e3de6e078275ef0e42217d4489d469725cd381937",
+      "ast_digest": "9541e64bc6e32a0329b36904dbfef760a0fb2d2803bdcb02cd9025f2fa615d44"
+    },
+    "spp": {
+      "values_digest": "ff736de643336c4bcb449a8fd6dedc26fc838ef10563256e9349920eef2007cd",
+      "rendered_digest": "cc76af973cd755380162d62297f54ffe27ab828652c08809ebb4f78a0abe77a6",
+      "ast_digest": "2f188993530ae43ba1e5b2b08f984d299ba16c5682ded324e2ce93f30fb75f00"
+    },
+    "vpp": {
+      "values_digest": "94c965d97b70be71eaacdc09f12554b0dde7eace24524b27c25dfa0c5369a2c2",
+      "rendered_digest": "72812e14465e5689fed27375f769e97e12ccdb3bca90a104b1452cb7a030304e",
+      "ast_digest": "3a6ff36480673174bab0fcd68d2f9100a7d07dfe31e5aa6f037903d839aefbc8"
+    },
+    "srp": {
+      "values_digest": "6e9d3de2a54510af5dd0c2741dcba0a1297f3081fb2efe1de00cd978f4edbbaf",
+      "rendered_digest": "3ebf382ba5b3471dc14cefc26110c52ad055ee603ae3a930e2f6af2a555dd243",
+      "ast_digest": "767b96e556d6cba818e2ea71184d4f43dcd126d5c7ce08c981ed14df2555db10"
+    },
+    "sor": {
+      "values_digest": "1388aad2f017fa88453ab6023dc39b7ee1f94e3b6b503778eabcb8ef48d56edf",
+      "rendered_digest": "3b76e487b5000da5c68d56af5001f9a23b07fdcabd02c09af8a7698089a234a7",
+      "ast_digest": "57731f65564bf158d2cc7dfa5ff39d3eb2fa70d1b090a7ffcfe897c308d46695"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:116-operator-attention-preparation",
+      "reason": "All six issue-specific design-time cards, exact ownership boundaries, serial dependency gates, negative cases, and declared PVF lanes are present; advance to strongest truthful pre-bind ready phase without binding."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:116-operator-attention-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:116-operator-attention-preparation",
+      "reason": "All six issue-specific design-time cards, exact ownership boundaries, serial dependency gates, negative cases, and declared PVF lanes are present; advance to strongest truthful pre-bind ready phase without binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:116-operator-attention-preparation",
+      "reason": "Normalize the exact affected-area ownership into safe repository paths while preserving detailed ownership and overlap boundaries in the approved design.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/operator_attention.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/schemas/operator-attention/v1/catalog.json\",\"adl-runtime/schemas/operator-attention/v1/attention-request.schema.json\",\"adl-runtime/schemas/operator-attention/v1/attention-transition.schema.json\",\"adl-runtime/schemas/operator-attention/v1/attention-projection.schema.json\",\"adl-runtime/schemas/operator-attention/v1/attention-receipt.schema.json\",\"adl-runtime/tests/operator_attention.rs\",\"demos/html-observatory/operator-attention.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"adl/tools/test_v092_operator_attention_inbox.sh\",\"docs/milestones/v0.92/features/OPERATOR_ATTENTION_INBOX_v0.92.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:116-operator-attention-preparation",
+      "reason": "Mark issue-owned implementation validators as explicit pre-bind deferrals while retaining one executable Observatory contract lane and diff hygiene.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"attention-runtime-contract\",\"proof_role\":\"Run the exact nonzero issue-owned Runtime target for lifecycle, schema, queue ordering, deduplication, expiry, authorization, overload, restart, and recovery.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"operator_attention\"],\"parallel_group\":\"attention-runtime\",\"defer_reason\":\"The issue-owned adl-runtime/tests/operator_attention.rs target is created only after #111, #112, and #114 are terminal and #116 is bound; execution must fail closed if absent or zero-test.\"},{\"lane\":\"attention-observatory-browser\",\"proof_role\":\"Run the issue-owned live Runtime-backed browser proof for inbox accessibility, unread/filter/deep-link behavior, authorization, overload, degradation, reconnect, and duplicate-notification prevention.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":7000,\"argv\":[\"adl/tools/test_v092_operator_attention_inbox.sh\"],\"parallel_group\":\"attention-browser\",\"defer_reason\":\"The issue-owned browser validator is created with #116 implementation after serial gates pass; execution must fail closed if absent or non-executable.\"},{\"lane\":\"html-observatory-existing-contract\",\"proof_role\":\"Preserve the checked-in HTML Observatory Runtime v3 feed, event, signed-control, endpoint-selection, and browser rejection contract during later integration.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"adl/tools/test_html_observatory.sh\"],\"parallel_group\":\"attention-browser-contract\",\"defer_reason\":null},{\"lane\":\"attention-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"attention-static\",\"defer_reason\":null}]}"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 116,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
+    "slug": "wp-18c-06-operator-attention-inbox",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact changed head across Runtime attention contract, schema/API integration, authorization composition, durable recovery, Observatory UI, focused proof, and issue-local documentation.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the queue contract prevent identity, urgency, authority, deduplication, or ordering spoofing under overload?",
+        "Are #111 conversation, #112 authority/audit, and #114 durability boundaries consumed without duplicated ownership?",
+        "Can restart, reconnect, partial write, corruption, expiry, and policy drift recover without loss, reordering, or duplicate notification?",
+        "Does every operator action re-authorize and avoid implying approval?",
+        "Are Observatory projections accessible, responsive, bounded, and free of private cognition, secrets, stale authority, and cross-principal leakage?",
+        "Does exact-head proof cover every AC with no fixture-only product claim?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 116,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
+    "slug": "wp-18c-06-operator-attention-inbox",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prepare an execution-ready, policy-governed operator attention inbox contract that agents can use without fabricating authority or flooding the operator.",
+      "required_outcome": "A six-card, issue-specific, design-backed pre-bind package with exact ownership, bounded queue/authorization contracts, pairwise overlap notes, PVF lanes, negative proof, serial gates, and an execution handoff that remains blocked on #111/#112/#114.",
+      "declared_scope": [
+        "Define a typed agent-to-operator attention request and transition contract.",
+        "Implement bounded Runtime queueing, deduplication, expiry, prioritization, grouping, retention, rate limits, quiet mode, and durable recovery after serial gates clear.",
+        "Integrate an authorized Observatory inbox with unread state, filters, deep links, lifecycle actions, and notification preferences.",
+        "Prove overload, spoofing, stale request, restart, reconnect, partial-write, corruption, expiry, and recovery behavior."
+      ],
+      "authority_boundary": [
+        "Runtime owns identity verification, authorization, priority, ordering, expiry, lifecycle, retention, and receipts; browser state is projection only.",
+        "Source identity, urgency, reason class, and authority claims are derived or checked against #112 policy and never trusted from display payloads.",
+        "Operator responses are attention outcomes; no response grants approval or governance authority without a separate explicit authorized action.",
+        "This preparation may create cards/design and commit locally but may not bind, implement product code, publish, push, open a PR, merge, close, or mutate #83."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Preparation worktree only under /Volumes/FastWork; root main remains inspection-only.",
+        "Use only C-SDLC v2 owner binaries and typed card editors.",
+        "Do not bind, implement product code, publish, push, open a PR, merge, close, or mutate #83.",
+        "Commit preparation artifacts and stop at the strongest truthful pre-bind ready phase."
+      ]
+    }
+  }
+}
