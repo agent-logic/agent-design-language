@@ -8,24 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/ingress.rs
-adl-runtime-kernel/src/operations.rs
-adl-runtime-kernel/tests/conversation_sessions.rs
-adl-runtime-kernel/tests/observatory.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-docs/api/runtime-v3/v1/observatory.openapi.json
-demos/html-observatory/app.js
-demos/html-observatory/index.html
-demos/html-observatory/styles.css
-demos/html-observatory/tests/conversation_sessions.test.mjs
-.csdlc/issues/111
-.csdlc/prepared/issues/111
+
 
 ## Prompts
 
@@ -45,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Durable cross-restart conversation history remains explicitly outside #111 and is owned by downstream issue #114.
-- Broader multi-agent room and routing semantics remain outside #111 and are owned by downstream issues #115 and #116.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:4f0f40e378404e95d199be99ace4b63058b85f12:623011134d357c4da77527fbe004107872f97fa5ecde5f6d0877f692580e7f31")
+Revision: None
 
-Reviewer: Some("subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133")
+Reviewer: None
 
-Result: pass
+Result: pre_review

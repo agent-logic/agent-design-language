@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the bounded selected-agent Observatory conversation path with Runtime-owned conversation identity, recipient binding, deterministic turn sequencing, authenticated WSS intent and cancellation, canonical ingress dispatch, propagated executor cancellation, one absolute timeout budget, bounded reconnect retrieval, and Runtime-authoritative browser rendering.
+Integrated the canonical conversation session path over WP-18C.03 live roster and presence authority at exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689.
 
 ## Artifacts
 
@@ -23,6 +23,11 @@ Implemented the bounded selected-agent Observatory conversation path with Runtim
 - demos/html-observatory/app.js
 - demos/html-observatory/tests/conversation_sessions.test.mjs
 - docs/api/runtime-v3/v1/observatory.openapi.json
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- demos/html-observatory/app.js
+- demos/html-observatory/tests/conversation_sessions.test.mjs
+- exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689
 
 ## Execution
 
@@ -31,6 +36,10 @@ Implemented the bounded selected-agent Observatory conversation path with Runtim
 - Added correlated accepted, delivered, refused, failed, timed_out, and cancelled WSS outcomes plus OpenAPI contracts.
 - Updated the Observatory to render only fully correlated Runtime-authoritative turns and to recover exact pending intents once after reconnect.
 - Added focused ordering, timeout, cancellation, reconnect, capacity, forgery, OpenAPI, and browser regressions.
+- Merged the complete #113 Runtime roster, presence, navigation, OpenAPI, and signed Guardian restart surface beneath #111.
+- Changed conversation recipient admission to use the same live Runtime-projected roster and fail-closed communication eligibility authority exposed to the Observatory.
+- Changed the browser recipient selector to use communication_eligible instead of the obsolete literal running state.
+- Added integrated Shepherd admission proof while preserving ordering, idempotency, timeout, cancellation, reconnect, and bounded rendering behavior.
 
 ## Validation
 
@@ -122,12 +131,90 @@ Implemented the bounded selected-agent Observatory conversation path with Runtim
     "purpose": "Reject malformed whitespace in the independently approved implementation revision.",
     "outcome": "passed",
     "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; diff hygiene PASS"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "conversation_sessions",
+      "--test",
+      "agent_roster",
+      "--test",
+      "control",
+      "--test",
+      "openapi_contract"
+    ],
+    "purpose": "Prove canonical conversations and the live roster/presence authority compose across Runtime admission, control, ordering, cancellation, reconnect, pagination, and OpenAPI boundaries.",
+    "outcome": "passed",
+    "evidence_ref": "git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; conversation_sessions 1/1, agent_roster 10/10, control 24/24, openapi_contract 6/6 PASS"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "observatory",
+      "&&",
+      "node",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "&&",
+      "bash",
+      "adl/tools/test_html_observatory.sh"
+    ],
+    "purpose": "Prove authenticated WSS authority, token rotation, reconnect, Runtime-correlated rendering, live roster eligibility selection, and the combined Observatory static contract.",
+    "outcome": "passed",
+    "evidence_ref": "git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; observatory 7/7, conversation browser contract PASS, combined HTML Observatory contract PASS"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings",
+      "&&",
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--all",
+      "--",
+      "--check",
+      "&&",
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject production-library warnings, Rust formatting drift, malformed whitespace, and unresolved merge artifacts at the integrated candidate.",
+    "outcome": "passed",
+    "evidence_ref": "git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; strict library Clippy, cargo fmt check, and diff hygiene PASS"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      ".",
+      "issue",
+      "--issue",
+      "111"
+    ],
+    "purpose": "Prove all six issue cards and implemented lifecycle truth are structurally current after roster integration.",
+    "outcome": "passed",
+    "evidence_ref": "issue 111 generation 49: status pass, zero findings"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

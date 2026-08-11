@@ -1,0 +1,26 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 45,
+  "expected_digest": "1812be8d43734331817980b831ae7421d98d01f70c7e98d95e4753a3b1abae05",
+  "actor": "codex:wp18c01-execution",
+  "reason": "Record exact #111 integration over the published #113 live roster branch.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Integrated the canonical conversation session path over WP-18C.03 live roster and presence authority at exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689.",
+    "changes": [
+      "Merged the complete #113 Runtime roster, presence, navigation, OpenAPI, and signed Guardian restart surface beneath #111.",
+      "Changed conversation recipient admission to use the same live Runtime-projected roster and fail-closed communication eligibility authority exposed to the Observatory.",
+      "Changed the browser recipient selector to use communication_eligible instead of the obsolete literal running state.",
+      "Added integrated Shepherd admission proof while preserving ordering, idempotency, timeout, cancellation, reconnect, and bounded rendering behavior."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689"
+    ]
+  },
+  "fail_after_backup": false
+}

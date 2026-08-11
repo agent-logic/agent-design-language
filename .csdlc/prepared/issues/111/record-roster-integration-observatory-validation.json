@@ -1,0 +1,18 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 47,
+  "expected_digest": "3c964e13dba0274df0f59f8ead6eeb463429391e03af9c77eb2918cee6d21a4a",
+  "actor": "codex:wp18c01-execution",
+  "reason": "Record exact integrated Observatory WSS and browser behavior proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "observatory", "&&", "node", "demos/html-observatory/tests/conversation_sessions.test.mjs", "&&", "bash", "adl/tools/test_html_observatory.sh"],
+      "purpose": "Prove authenticated WSS authority, token rotation, reconnect, Runtime-correlated rendering, live roster eligibility selection, and the combined Observatory static contract.",
+      "outcome": "passed",
+      "evidence_ref": "git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; observatory 7/7, conversation browser contract PASS, combined HTML Observatory contract PASS"
+    }
+  },
+  "fail_after_backup": false
+}

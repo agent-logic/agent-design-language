@@ -4,59 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
-  "phase": "reviewed",
-  "generation": 44,
-  "digest": "c1f0c04dfac44d3a15562dcdea56aad958e04d13838d1c1b99fd7b446d2cef4e",
+  "phase": "implemented",
+  "generation": 50,
+  "digest": "794e49cf20995a9035f60130552e311decd694a27e0f0465701c31047fde64b5",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": {
-    "reviewer": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
-    "assigned_by": "codex:111-execution",
-    "revision": "git-blake3:4f0f40e378404e95d199be99ace4b63058b85f12:623011134d357c4da77527fbe004107872f97fa5ecde5f6d0877f692580e7f31",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/operations.rs",
-      "adl-runtime-kernel/tests/conversation_sessions.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs",
-      ".csdlc/issues/111",
-      ".csdlc/prepared/issues/111"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/operations.rs",
-      "adl-runtime-kernel/tests/conversation_sessions.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs",
-      ".csdlc/issues/111",
-      ".csdlc/prepared/issues/111"
-    ],
-    "reviewed_revision": "git-blake3:4f0f40e378404e95d199be99ace4b63058b85f12:623011134d357c4da77527fbe004107872f97fa5ecde5f6d0877f692580e7f31",
-    "findings": [],
-    "residual_risks": [
-      "Durable cross-restart conversation history remains explicitly outside #111 and is owned by downstream issue #114.",
-      "Broader multi-agent room and routing semantics remain outside #111 and are owned by downstream issues #115 and #116."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -71,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0fbc86c07192ecacc45f8bfd0447b7aef81a2cee3c2f66a1dcb498fca93df8d5",
+      "values_digest": "15ab74d9a36cfc9b48db180e10c1e800119021465617a04b73dac9b579f61055",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "5a9ac11a01904112001547ceee96af533eb85edcfa1b920520a3c5148c57d705",
+      "values_digest": "d2df2cac9b9b475ca31164daa48a009cb61f9a88b474d0eb3d7315b947cdaed9",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "a1fc52a024183e5338a1732e810d7b3f6de018e2a17fbb75abf35a6d44be04bc",
+      "values_digest": "1d604c685bdb63185a24061ed4a6154a2045272d9d909041a951d3b7413620e4",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "ce7a0834e8bd922ae8e8b26b1b6c2391edccf3a87fb128c995097f0c96bb0e31",
+      "values_digest": "03e70f26dc2ccd4fd94c3807cf7ee4c42885cc38ee2891727d5e9ca0bd8215d0",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "5869240b72a02c0d9cdc2c3b8f0849978be1120fa3a080c2ae64b6368002e604",
-      "rendered_digest": "b73a5631023e401d45ae3723aad9e3182ee3f1dc3b617340f6f7638aac57364d",
-      "ast_digest": "e7eabe4d7cc81876ad2b5aae7b5ecc99c125819d95a8c8029cbe1e66e46c0b1b"
+      "values_digest": "5b5cc6675bcc482b0433db25b45a030f3cf309d53281027cde159004894055e8",
+      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
+      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
     },
     "sor": {
-      "values_digest": "0044626158fef4e3d236d760952c8db0a9d3cc49c7e219a052831a4209a91c21",
-      "rendered_digest": "d2418f2560d0a43e858baa8965bb3a7cb8a41be65a670f95851c762392b0b80e",
-      "ast_digest": "47bd3da56dd7d0425031af5f256b8f2eec27fd734bee528aa2d2e3e5808a0f91"
+      "values_digest": "502f9ccf729a792e8d3e5541457559c328714c9958cfee3c1e68261f4af6770e",
+      "rendered_digest": "37db180994745d4ea15d88687862ed64cadb972a7e1987766bb31d95ec57057c",
+      "ast_digest": "993ef602855ba76758eba7e8d8574b0080ab7740be5fbeeb89568015fb56cfd2"
     }
   },
   "transitions": [
@@ -129,6 +83,13 @@
       "to": "reviewed",
       "actor": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:wp18c01-execution",
+      "reason": "Refresh exact-head execution and review truth after integrating the published #113 roster branch and aligning conversation admission with live communication eligibility."
     }
   ],
   "audit": [
@@ -460,6 +421,48 @@
       "actor": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 45,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Refresh exact-head execution and review truth after integrating the published #113 roster branch and aligning conversation admission with live communication eligibility.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 46,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record exact #111 integration over the published #113 live roster branch.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Integrated the canonical conversation session path over WP-18C.03 live roster and presence authority at exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689.\",\"changes\":[\"Merged the complete #113 Runtime roster, presence, navigation, OpenAPI, and signed Guardian restart surface beneath #111.\",\"Changed conversation recipient admission to use the same live Runtime-projected roster and fail-closed communication eligibility authority exposed to the Observatory.\",\"Changed the browser recipient selector to use communication_eligible instead of the obsolete literal running state.\",\"Added integrated Shepherd admission proof while preserving ordering, idempotency, timeout, cancellation, reconnect, and bounded rendering behavior.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689\"]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 47,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record exact integrated Runtime and contract proof at product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"--test\",\"agent_roster\",\"--test\",\"control\",\"--test\",\"openapi_contract\"],\"purpose\":\"Prove canonical conversations and the live roster/presence authority compose across Runtime admission, control, ordering, cancellation, reconnect, pagination, and OpenAPI boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; conversation_sessions 1/1, agent_roster 10/10, control 24/24, openapi_contract 6/6 PASS\"}}"
+    },
+    {
+      "sequence": 51,
+      "generation": 48,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record exact integrated Observatory WSS and browser behavior proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\",\"&&\",\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"&&\",\"bash\",\"adl/tools/test_html_observatory.sh\"],\"purpose\":\"Prove authenticated WSS authority, token rotation, reconnect, Runtime-correlated rendering, live roster eligibility selection, and the combined Observatory static contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; observatory 7/7, conversation browser contract PASS, combined HTML Observatory contract PASS\"}}"
+    },
+    {
+      "sequence": 52,
+      "generation": 49,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record exact integrated static and diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\",\"&&\",\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all\",\"--\",\"--check\",\"&&\",\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject production-library warnings, Rust formatting drift, malformed whitespace, and unresolved merge artifacts at the integrated candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; strict library Clippy, cargo fmt check, and diff hygiene PASS\"}}"
+    },
+    {
+      "sequence": 53,
+      "generation": 50,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record typed card and lifecycle validation after integrated evidence reconciliation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"111\"],\"purpose\":\"Prove all six issue cards and implemented lifecycle truth are structurally current after roster integration.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue 111 generation 49: status pass, zero findings\"}}"
     }
   ]
 }
