@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "implemented",
-  "generation": 75,
-  "digest": "22a2793e6c5fc51d53c4b0fc7b7fd3090363eadc76b0fcf404b199f057c8e3ce",
+  "generation": 77,
+  "digest": "a3b5146199830dbb17c63952842f458eca50260530b23f6164746f37f5c2a1cf",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "729741c03ce7123306bc09a015993874b6275e207bb02c98e0918335c7141258",
+      "values_digest": "a8a8fac9ac5a01be9383e4fb5b13850197852d3cb7f7fb1d91216fa18e4d438a",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "ca007c928ccba5616f13eb8945a0968b6833df133df7cf4674b8b91d2ce06da0",
+      "values_digest": "025e9dbfd0f8510f1c48fd71825acc0d32d186018ac3543ea635562b46844d74",
       "rendered_digest": "b950aba26dec0569a2cc4f517f94b1dd2e860aa0b69788bd18db7d5c75ed8f9a",
       "ast_digest": "28f2dc66f6faa44a769b5b71539953640466cfcbc68461ee06252a582338ed62"
     },
     "spp": {
-      "values_digest": "a7f8e40728d2f80ede6e47c2801959a953400b4a86161b446b527c63e4addeee",
-      "rendered_digest": "c951e7649573a650c74cb3efd8b36d1e877fd51104867b751bc439759a1c1c7f",
-      "ast_digest": "fe62a7c14747edeed83b55718a18cf0c340065bf2b2dc052532af6f2b07aadb9"
+      "values_digest": "76748b6cb6bf0afb79682ef596d9550913c39abf1ddbf4ee973b1f4652c34863",
+      "rendered_digest": "163c275788d650f9255e060605446feb79e5eace539cdc9f8e4c6e6dcba48984",
+      "ast_digest": "95da71ab8ef2699ef37eb0548bc5d4b440dfcc7f65c22fd62eb9271d68dcc2cb"
     },
     "vpp": {
-      "values_digest": "4fd8299c57f6d0b054057789ebff579bb2718498d5993ce727977170bebfca44",
+      "values_digest": "d8157f881fc085412685ccda481f37737beaf820968b530322ad1a6f5d78a30b",
       "rendered_digest": "a3c25f115351481744ed680e7ff934b696691dead6bca8d592ffbd2063ceb962",
       "ast_digest": "4a5d5c1c34a6b48c219e67cf99d91b8fe6421b309a3a053832cfc635bcc06982"
     },
     "srp": {
-      "values_digest": "6309e90307d63c2525a5810cb8ee7ed5cb19a1a8437f9e85b3ff1d6f767db60d",
+      "values_digest": "0a1a43b426810fc88d54c8a450c3295dd406f91ce2d4b76ca9efdfaddb2236f3",
       "rendered_digest": "7842a5b4a31b4c37305c2c84faee2a2d137549db60dfe0aed36c2ef7c025775e",
       "ast_digest": "27aa8d1db9277ebe055025a0461f01a1750d7d572041cda65f76fda07ac2b1a8"
     },
     "sor": {
-      "values_digest": "bf1a06e145dfb66b6187c2a943c50c958e90acf2fe98e221f4277b58ce641216",
-      "rendered_digest": "2aa8ccdbce26be96cae82ea06dd418fa2f64bb1c283995b009b5263d4fc157d7",
-      "ast_digest": "bb950e983da5fbac5c493a5e3cc1f61aedddcac03e5e53fd624a8743e507ff44"
+      "values_digest": "d96dcbdad945b4d9a19cf4c394593b02b4b0eeec6c975c51a75b91a0ba247687",
+      "rendered_digest": "6c0ae0b3a87034207c47fb0afac3e30824c41e84e1095a38ba14effd0661015b",
+      "ast_digest": "270e1140c31d9e03ccc6b6085098d821d7e36f2097177c497547d49c34258d80"
     }
   },
   "transitions": [
@@ -637,6 +637,20 @@
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
       "reason": "Record the approved-design regression and proof step as active until final immutable evidence is regenerated.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 78,
+      "generation": 76,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+      "reason": "Record the independently approved stable-custody implementation and immutable exact current-source proof while fresh implementation review remains pending.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the independently approved stable replicated authority and runtime-external current boot-cut model. Replacement v7 evidence binds source 61cbbb157fd3c329ef0c399d0bd9bbf6e164519a with exact semantic 86/86, full runtime 230/230, strict Clippy, real three-voter OpenRaft, validator ancestry and shallow-safe modes, and immutable introduction d832b0169; fresh independent implementation review remains pending and nothing is published or merged.\",\"changes\":[\"Replicated current authority now contains only stable polis, epoch, membership, configuration, and voter truth; current boot custody remains runtime-external and is validated as an exact full voter cut.\",\"Every Prepare requires exact canonical current boot-vector equality, never mutates current authority, and freezes its complete historical boot vector plus a digest bound to stable authority.\",\"Finalization, publication, restore, and snapshot install reverify frozen historical custody, while boot-rotated reopen can immediately build and install a snapshot before a new Prepare.\",\"The exact snapshot regression rejects stale cuts without mutation, accepts the current cut, preserves old prepared/finalized custody, and rejects duplicate, reordered, zero, missing, extra, non-JCS, and injected current boot vectors.\",\"The v7 producer and validator now execute and bind the truthful full runtime 230/230 lane in addition to the unchanged exact 86-case semantic contract.\"],\"artifacts\":[\"adl-runtime/src/distributed/polis_runtime.rs\",\".csdlc/prepared/issues/201/design.md\",\".csdlc/prepared/issues/201/diagram.mmd\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201/v7/execution-proof.json\",\".csdlc/issues/201/cards/stp.md\",\".csdlc/issues/201/cards/spp.md\",\".csdlc/issues/201/cards/vpp.md\",\".csdlc/issues/201/cards/srp.md\",\".csdlc/issues/201/cards/sor.md\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"-E\",\"test(/^distributed::authority_protocol::contract_tests::/) or test(/^distributed::polis_runtime::authority_consensus_tests::snapshot_/)\",\"--no-tests=fail\"],\"purpose\":\"Prove the 83 Rust cases contributing to the exact issue semantic denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\"--self-test\"],\"purpose\":\"Prove the three exact validator topology modes and semantic markers.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--no-tests=fail\"],\"purpose\":\"Prove the truthful complete runtime denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json#runtime_summary=230/230\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove production real three-voter OpenRaft authority flow.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove production authority code is warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"purpose\":\"Prove exact source ancestry, protected-tree fallback only when source is absent, available divergence rejection, immutable proof introduction, semantic 86/86, and runtime 230/230.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v7/execution-proof.json\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"201\"],\"purpose\":\"Prove typed card projections and independently approved design bindings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/201/index.json\"},{\"command\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"201\"],\"purpose\":\"Prove implemented lifecycle health with fresh review pending.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/201/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove current diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:worktree\"}]}"
+    },
+    {
+      "sequence": 79,
+      "generation": 77,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+      "reason": "Record independent design approval and the exact stable-custody regression matrix plus immutable proof as complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
     }
   ]
 }

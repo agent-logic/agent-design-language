@@ -7,23 +7,28 @@
     "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
     "slug": "quorum-committed-authority-protocol",
     "version": "v0.92",
-    "generation": 75
+    "generation": 77
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Material stable-custody rework is implemented locally and preflight-green, but the prior a629080 v7 packet and review are superseded. Snapshot-replicated current authority is stable-only, runtime current boot custody is external, prepared operations freeze historical boot custody, and fresh independent design approval is required before final evidence or implementation review.",
+      "summary": "Implemented the independently approved stable replicated authority and runtime-external current boot-cut model. Replacement v7 evidence binds source 61cbbb157fd3c329ef0c399d0bd9bbf6e164519a with exact semantic 86/86, full runtime 230/230, strict Clippy, real three-voter OpenRaft, validator ancestry and shallow-safe modes, and immutable introduction d832b0169; fresh independent implementation review remains pending and nothing is published or merged.",
       "actual_changes": [
-        "Removed restart-scoped current boot generations from snapshot-replicated current authority; retained only stable polis, epoch, membership, configuration, and voter truth.",
-        "Required every Prepare to supply the exact canonical runtime-external full boot vector, froze that vector plus stable authority digest per prepared operation, and prevented Prepare from mutating current authority.",
-        "Reverified historical frozen custody during finalization, publication, restore, and snapshot install; boot-rotated reopen can build and install a snapshot before any new Prepare.",
-        "Extended the valid snapshot regression to prove stale-cut no-mutation rejection, current-cut success, frozen old prepared/finalized custody, and duplicate, reordered, zero, and non-JCS wire denial."
+        "Replicated current authority now contains only stable polis, epoch, membership, configuration, and voter truth; current boot custody remains runtime-external and is validated as an exact full voter cut.",
+        "Every Prepare requires exact canonical current boot-vector equality, never mutates current authority, and freezes its complete historical boot vector plus a digest bound to stable authority.",
+        "Finalization, publication, restore, and snapshot install reverify frozen historical custody, while boot-rotated reopen can immediately build and install a snapshot before a new Prepare.",
+        "The exact snapshot regression rejects stale cuts without mutation, accepts the current cut, preserves old prepared/finalized custody, and rejects duplicate, reordered, zero, missing, extra, non-JCS, and injected current boot vectors.",
+        "The v7 producer and validator now execute and bind the truthful full runtime 230/230 lane in addition to the unchanged exact 86-case semantic contract."
       ],
       "artifacts": [
         "adl-runtime/src/distributed/polis_runtime.rs",
         ".csdlc/prepared/issues/201/design.md",
         ".csdlc/prepared/issues/201/diagram.mmd",
+        ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
+        ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
+        ".csdlc/evidence/201/v7/execution-proof.json",
+        ".csdlc/issues/201/cards/stp.md",
         ".csdlc/issues/201/cards/spp.md",
         ".csdlc/issues/201/cards/vpp.md",
         ".csdlc/issues/201/cards/srp.md",
@@ -33,36 +38,44 @@
         {
           "command": [
             "cargo",
-            "test",
+            "nextest",
+            "run",
             "--locked",
             "--manifest-path",
             "adl-runtime/Cargo.toml",
             "--lib",
-            "distributed::authority_protocol::contract_tests::",
-            "--",
-            "--nocapture",
-            "--test-threads=1"
+            "-E",
+            "test(/^distributed::authority_protocol::contract_tests::/) or test(/^distributed::polis_runtime::authority_consensus_tests::snapshot_/)",
+            "--no-tests=fail"
           ],
-          "purpose": "Preflight the retained exact authority protocol semantics.",
+          "purpose": "Prove the 83 Rust cases contributing to the exact issue semantic denominator.",
           "outcome": "passed",
-          "evidence_ref": "local:stable-custody-preapproval:47-passed"
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
+            "--self-test"
+          ],
+          "purpose": "Prove the three exact validator topology modes and semantic markers.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
         },
         {
           "command": [
             "cargo",
-            "test",
+            "nextest",
+            "run",
             "--locked",
             "--manifest-path",
             "adl-runtime/Cargo.toml",
             "--lib",
-            "distributed::polis_runtime::authority_consensus_tests::snapshot_",
-            "--",
-            "--nocapture",
-            "--test-threads=1"
+            "--no-tests=fail"
           ],
-          "purpose": "Preflight the corrected stable-current and frozen-historical custody snapshot boundary.",
+          "purpose": "Prove the truthful complete runtime denominator.",
           "outcome": "passed",
-          "evidence_ref": "local:stable-custody-preapproval:36-passed"
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json#runtime_summary=230/230"
         },
         {
           "command": [
@@ -77,33 +90,69 @@
             "--exact",
             "--nocapture"
           ],
-          "purpose": "Preflight the production real three-voter OpenRaft route.",
+          "purpose": "Prove production real three-voter OpenRaft authority flow.",
           "outcome": "passed",
-          "evidence_ref": "local:stable-custody-preapproval:1-passed"
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
         },
         {
           "command": [
             "cargo",
-            "nextest",
-            "run",
+            "clippy",
             "--locked",
             "--manifest-path",
             "adl-runtime/Cargo.toml",
             "--lib",
-            "--no-tests=fail"
+            "--",
+            "-D",
+            "warnings"
           ],
-          "purpose": "Record the truthful expanded full-runtime denominator before final proof.",
+          "purpose": "Prove production authority code is warning-free.",
           "outcome": "passed",
-          "evidence_ref": "local:stable-custody-preapproval:230-passed"
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
         },
         {
           "command": [
             "ruby",
-            ".csdlc/prepared/issues/201/produce-proof-receipt.rb"
+            ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
           ],
-          "purpose": "Replace stale v7 evidence only after approved design and final clean source.",
-          "outcome": "deferred",
+          "purpose": "Prove exact source ancestry, protected-tree fallback only when source is absent, available divergence rejection, immutable proof introduction, semantic 86/86, and runtime 230/230.",
+          "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
+        },
+        {
+          "command": [
+            "csdlc-validate",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "201"
+          ],
+          "purpose": "Prove typed card projections and independently approved design bindings.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/issues/201/index.json"
+        },
+        {
+          "command": [
+            "csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "201"
+          ],
+          "purpose": "Prove implemented lifecycle health with fresh review pending.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/issues/201/index.json"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Prove current diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": "git:worktree"
         }
       ],
       "integration_state": "worktree_only",
