@@ -57,6 +57,9 @@ def validate_schema!(schema)
   reject!("schema required-key mismatch") unless required == expected
   reject!("schema must lock nine entries") unless schema.dig("properties", "entries", "minItems") == 9 && schema.dig("properties", "entries", "maxItems") == 9
   reject!("schema must reject unknown manifest fields") unless schema["additionalProperties"] == false
+  entry_required = %w[wp issue pull_request revision merge_commit path digest terminal_state review_state reviewed_revision public_projection]
+  reject!("schema entry required-key mismatch") unless schema.dig("$defs", "entry", "required") == entry_required
+  reject!("schema must reject unknown entry fields") unless schema.dig("$defs", "entry", "additionalProperties") == false
 end
 
 def evidence_revision(entry, source_data)
@@ -66,14 +69,18 @@ end
 def validate_packet_data!(packet, manifest, schema)
   validate_schema!(schema)
   reject!("unsupported manifest schema") unless manifest["schema"] == "adl.v092.first-birthday-review-evidence.v1"
+  expected_manifest_keys = %w[schema digest_algorithm packet_sha256 closure_evidence entries public_claims non_claims reviewer_questions]
+  reject!("manifest shape mismatch") unless manifest.keys == expected_manifest_keys
   reject!("digest algorithm must be sha256") unless manifest["digest_algorithm"] == "sha256"
   reject!("packet digest mismatch") unless Digest::SHA256.hexdigest(packet) == manifest["packet_sha256"]
 
   closure_ref = manifest.fetch("closure_evidence") { reject!("missing closure evidence") }
+  reject!("closure reference shape mismatch") unless closure_ref.keys == %w[path digest]
   closure_path = relative_repo_path!(closure_ref["path"], "closure evidence path")
   reject!("closure evidence digest mismatch") unless Digest::SHA256.file(closure_path).hexdigest == closure_ref["digest"]
   closure = load_json!(closure_path, "closure evidence")
   reject!("unsupported closure evidence schema") unless closure["schema"] == "adl.v092.birthday-dependency-closure.v1"
+  reject!("closure evidence shape mismatch") unless closure.keys == %w[schema observed_at issue_repository code_repository entries]
   closure_entries = Array(closure["entries"])
   reject!("closure issue roster mismatch") unless closure_entries.map { |entry| entry["issue"] } == EXPECTED_ISSUES
 
@@ -84,6 +91,10 @@ def validate_packet_data!(packet, manifest, schema)
 
   entries.zip(closure_entries).each do |entry, closed|
     label = entry["wp"]
+    expected_entry_keys = %w[wp issue pull_request revision merge_commit path digest terminal_state review_state reviewed_revision public_projection]
+    reject!("#{label} entry shape mismatch") unless entry.keys == expected_entry_keys
+    expected_closure_keys = %w[issue issue_state pull_request pr_state head_revision merge_commit]
+    reject!("#{label} closure entry shape mismatch") unless closed.keys == expected_closure_keys
     reject!("#{label} closure issue mismatch") unless closed["issue"] == entry["issue"]
     reject!("#{label} issue is not closed") unless closed["issue_state"] == "closed"
     reject!("#{label} pull request is not merged") unless closed["pr_state"] == "merged"
@@ -94,7 +105,7 @@ def validate_packet_data!(packet, manifest, schema)
     reject!("#{label} reviewed revision malformed") unless String(entry["reviewed_revision"]).match?(/\A(?:git-blake3:[0-9a-f]{40}:[0-9a-f]{64}|[0-9a-f]{40})\z/)
     reject!("#{label} revision malformed") unless String(entry["revision"]).match?(/\A[0-9a-f]{40}\z/)
     reject!("#{label} merge commit malformed") unless String(entry["merge_commit"]).match?(/\A[0-9a-f]{40}\z/)
-    reject!("#{label} projection unsafe or unbounded") unless entry["public_projection"].is_a?(String) && entry["public_projection"].bytesize.between?(1, 240) && !entry["public_projection"].match?(PRIVATE_PATH)
+    reject!("#{label} projection unsafe or unbounded") unless entry["public_projection"].is_a?(String) && entry["public_projection"].bytesize.between?(1, 240) && !entry["public_projection"].match?(PRIVATE_PATH) && !entry["public_projection"].match?(FORBIDDEN_PUBLIC_CLAIMS)
 
     source = relative_repo_path!(entry["path"], "#{label} evidence path")
     reject!("missing #{label} evidence path") unless source.file?
@@ -141,6 +152,12 @@ def mutate!(manifest, mutation)
     manifest["public_claims"] << "This proves legal personhood."
   when "publication_ready_overclaim"
     manifest["public_claims"] << "This packet is ready for public release."
+  when "unreviewed_entry"
+    manifest["entries"][0]["review_state"] = "pending"
+  when "unknown_manifest_field"
+    manifest["undeclared_field"] = true
+  when "forbidden_projection"
+    manifest["entries"][0]["public_projection"] = "This proves legal personhood and publication readiness."
   else
     reject!("unknown negative mutation: #{mutation}")
   end
@@ -163,7 +180,7 @@ begin
     baseline = load_json!(relative_repo_path!(config["manifest"], "fixture manifest"), "fixture manifest")
     schema = load_json!(relative_repo_path!(config["schema_path"], "fixture schema"), "fixture schema")
     cases = Array(config["cases"])
-    expected_names = %w[stale-digest missing-roster private-path contradictory-status forbidden-public-claim publication-ready-overclaim]
+    expected_names = %w[stale-digest missing-roster private-path contradictory-status forbidden-public-claim publication-ready-overclaim unreviewed-entry unknown-manifest-field forbidden-projection]
     reject!("negative case roster mismatch") unless cases.map { |item| item["name"] } == expected_names
     cases.each do |item|
       candidate = Marshal.load(Marshal.dump(baseline))

@@ -69,6 +69,7 @@ proof.
 ## Reproduce
 
 Run the two commands declared in `.csdlc/issues/5834/cards/vpp.md`. The positive
-lane validates the packet, schema, closure snapshot, Git ancestry, and evidence
-bytes. The negative lane independently mutates stale, missing, private,
-contradictory, forbidden-claim, and publication-overclaim inputs.
+lane validates the packet, closed schema shape, closure snapshot, Git ancestry,
+and evidence bytes. The negative lane independently mutates stale, missing,
+private, contradictory, unreviewed, unknown-field, forbidden-claim,
+forbidden-projection, and publication-overclaim inputs.
