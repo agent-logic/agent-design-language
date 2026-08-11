@@ -4,6 +4,7 @@
 //! registration point only; it deliberately does not duplicate or weaken the
 //! validation performed by those authorities.
 
+pub mod authority_protocol;
 pub mod capability_advertisement;
 pub mod certificates;
 pub mod discovery;
