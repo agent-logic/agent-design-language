@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 22
+    "generation": 27
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 6,
+      "plan_revision": 7,
       "summary": "Reach typed pre-bind readiness now; after #111 merges ancestrally, reconcile its concrete conversation contract, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.",
       "steps": [
         {
@@ -85,8 +85,8 @@
         "validation_seconds": 7200
       },
       "stop_conditions": [
-        "Either serial gate is open, unmerged, non-ancestral, or lacks the concrete producer contract required by issue #112",
-        "The intended write set collides with ownership established by either merged gated contract or another issue",
+        "The sole #111 serial gate is open, unmerged, non-ancestral, or lacks the concrete producer contract required by issue #112",
+        "The intended write set collides with ownership established by the merged gated contract or another issue",
         "Authorization cannot be enforced before sequence reservation, provider execution, and delivery without widening scope",
         "Public-safe refusal or redacted audit cannot be proven without retaining forbidden content or private policy inputs",
         "Any requested action would bind, mutate another issue, publish, merge, or treat preparation evidence as product proof"

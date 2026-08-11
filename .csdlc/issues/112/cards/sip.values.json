@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 22
+    "generation": 27
   },
   "status": "ready",
   "content": {
@@ -20,7 +20,7 @@
         "Least-privilege discovery, contact, continuation, attachment, and exact multi-recipient policy decisions",
         "Narrow pre-delivery Runtime API integration using authenticated identity and canonical conversation identifiers",
         "Truthful disclosure-safe Observatory presentation of authorized, refused, and stale or revoked authority states through a dedicated real-browser/UI contract target",
-        "Deterministic positive, negative, restart, tamper, projection, browser/UI, and nonzero-target product proof after both serial gates pass"
+        "Deterministic positive, negative, restart, tamper, projection, browser/UI, and nonzero-target product proof after the sole #111 serial gate passes"
       ],
       "authority_boundary": [
         "Only authenticated Runtime identity intersected with exact current capability, agent policy, and Polis policy may authorize an action",
@@ -30,10 +30,9 @@
       ],
       "initial_assumptions": [],
       "operator_constraints": [
-        "Preparation only: do not implement product code, bind, push, open a PR, publish, merge, mutate GitHub, or edit issue #83",
         "Use only typed C-SDLC v2 lifecycle owners and active templates for canonical issue state and cards",
         "Preserve /Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation unchanged as non-authoritative historical evidence",
-        "Stop before execution while either declared serial gate is open, unmerged, non-ancestral, or ownership-colliding"
+        "Stop before execution while the sole #111 serial gate is open, unmerged, non-ancestral, or ownership-colliding"
       ]
     }
   }

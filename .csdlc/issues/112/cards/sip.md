@@ -24,7 +24,7 @@ The Runtime alone decides whether an authenticated human may discover, contact, 
 - Least-privilege discovery, contact, continuation, attachment, and exact multi-recipient policy decisions
 - Narrow pre-delivery Runtime API integration using authenticated identity and canonical conversation identifiers
 - Truthful disclosure-safe Observatory presentation of authorized, refused, and stale or revoked authority states through a dedicated real-browser/UI contract target
-- Deterministic positive, negative, restart, tamper, projection, browser/UI, and nonzero-target product proof after both serial gates pass
+- Deterministic positive, negative, restart, tamper, projection, browser/UI, and nonzero-target product proof after the sole #111 serial gate passes
 
 ## Authority
 
@@ -39,7 +39,6 @@ The Runtime alone decides whether an authenticated human may discover, contact, 
 
 ## Operator Constraints
 
-- Preparation only: do not implement product code, bind, push, open a PR, publish, merge, mutate GitHub, or edit issue #83
 - Use only typed C-SDLC v2 lifecycle owners and active templates for canonical issue state and cards
 - Preserve /Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation unchanged as non-authoritative historical evidence
-- Stop before execution while either declared serial gate is open, unmerged, non-ancestral, or ownership-colliding
+- Stop before execution while the sole #111 serial gate is open, unmerged, non-ancestral, or ownership-colliding

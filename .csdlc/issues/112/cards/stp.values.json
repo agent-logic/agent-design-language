@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 22
+    "generation": 27
   },
   "status": "ready",
   "content": {
@@ -44,7 +44,7 @@
         "adl-runtime/src/acip.rs",
         "adl-runtime/src/lib.rs",
         "adl/src/csm_runtime_api.rs",
-        "Merged gated contracts when both serial gates become terminal and ancestral"
+        "Merged #111 conversation contract once terminal and ancestral"
       ],
       "non_goals": [
         "Implementing or mutating either gated issue, the umbrella issue, or any sibling work package",

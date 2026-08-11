@@ -48,7 +48,7 @@ Prepare and later implement only issue #112 Runtime authority, refusal, replay, 
 - adl-runtime/src/acip.rs
 - adl-runtime/src/lib.rs
 - adl/src/csm_runtime_api.rs
-- Merged gated contracts when both serial gates become terminal and ancestral
+- Merged #111 conversation contract once terminal and ancestral
 
 ## Non Goals
 

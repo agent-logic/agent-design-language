@@ -11,6 +11,7 @@ fail!("wrong repository") unless index.fetch("repository") == "agent-logic/agent
 fail!("not ready") unless index.fetch("phase") == "ready"
 fail!("design unapproved") unless index.dig("design_review", "approved")
 KINDS.each { |kind| %W[#{kind}.md #{kind}.values.json].each { |name| fail!("missing #{name}") unless File.file?(File.join(ISSUE_ROOT, "cards", name)) } }
+sip = JSON.parse(File.read(File.join(ISSUE_ROOT, "cards/sip.values.json")))
 stp = JSON.parse(File.read(File.join(ISSUE_ROOT, "cards/stp.values.json")))
 expected_gate = ["Hard serial gate: #111 must be closed by a merged PR and ancestral to the execution base"]
 fail!("serial gate differs from live #112 authority") unless stp.dig("content", "values", "dependencies") == expected_gate
@@ -38,6 +39,9 @@ if requested
   contracts.fetch(requested).each { |fragment| fail!("lane omits #{fragment}") unless lane.fetch("proof_role").include?(fragment) }
 end
 spp = JSON.parse(File.read(File.join(ISSUE_ROOT, "cards/spp.values.json")))
+current_planning_text = JSON.generate([sip, stp, spp])
+fail!("stale multi-gate wording") if current_planning_text.match?(/both serial gates|either (?:declared )?serial gate/i)
+fail!("SIP omits sole #111 gate") unless current_planning_text.include?("sole #111 serial gate")
 s4 = spp.dig("content", "values", "steps").find { |step| step.fetch("id") == "S4" }
 %w[authority-contract real-browser].each { |fragment| fail!("S4 omits #{fragment}") unless s4.fetch("action").include?(fragment) }
 fail!("S4 omits Runtime API") unless s4.fetch("action").include?("Runtime API")

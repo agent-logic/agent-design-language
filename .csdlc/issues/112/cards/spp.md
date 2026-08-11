@@ -16,7 +16,7 @@ Reach typed pre-bind readiness now; after #111 merges ancestrally, reconcile its
 
 ## Plan
 
-Revision 6
+Revision 7
 
 ## Steps
 
@@ -96,8 +96,8 @@ Digest: 8123e40f11131f1474ed236413da4886bf8cdd0022a8148005cfff1302897151
 
 ## Stop Conditions
 
-- Either serial gate is open, unmerged, non-ancestral, or lacks the concrete producer contract required by issue #112
-- The intended write set collides with ownership established by either merged gated contract or another issue
+- The sole #111 serial gate is open, unmerged, non-ancestral, or lacks the concrete producer contract required by issue #112
+- The intended write set collides with ownership established by the merged gated contract or another issue
 - Authorization cannot be enforced before sequence reservation, provider execution, and delivery without widening scope
 - Public-safe refusal or redacted audit cannot be proven without retaining forbidden content or private policy inputs
 - Any requested action would bind, mutate another issue, publish, merge, or treat preparation evidence as product proof

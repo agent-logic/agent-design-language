@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "ready",
-  "generation": 22,
-  "digest": "a147980e7c2ca8a8f77fd5d4c735109d72f41828a3d56693110acd16f443bd69",
+  "generation": 27,
+  "digest": "66574346ab063b52fd870c8058e42eca666eb2b884fcfc6d207168caba67bbc3",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e3f5e6ecbe8d764a1e1cd99349326c756daabdd7efbdaf91d2e90545fe239c38",
-      "rendered_digest": "b8c33d505a1cd92baf597953ef6b21336be077e8871718bb430a8a4faf53dbb8",
-      "ast_digest": "1e920f5a080a8d58bac47d6dca57f7d151f15f9d04e4b2b105d2d0688b9c5283"
+      "values_digest": "407b57e6537ec3628718566fe385f7457b96c13a3a38dc802c31fd0b5cb2c605",
+      "rendered_digest": "c359833435b3fec371ee4fb3e06c059405db392529200e79f667ddf634f49dd9",
+      "ast_digest": "1550fcf3865ee5b7fdd70c7d721016ca49bc28929bea299bc58bdddb875263ed"
     },
     "stp": {
-      "values_digest": "ab63d72aaf43fb9b1058f453b75f862aa5b20a96f4e852d42077820700b1cd54",
-      "rendered_digest": "b2e20983f1586742ab536c240cee1f4c80598af0e43f51ac96b871534d14838f",
-      "ast_digest": "aafc17b48ea4a00cf42db842a1c8ea96055fa89890dd1694b4680b4e594d1e72"
+      "values_digest": "552e9d1f11eadbc385c99f3fcd5c21b89e8fe0049f306281ac938f9b3691e46c",
+      "rendered_digest": "23485206f9821e4fc40f0686d8a2cf02cfe49c9a464b2f00865a5d3abb22661d",
+      "ast_digest": "a4a8481091da799851404aaabc50a5f3d2f37ef91b69043bb475b3ae1abb13dc"
     },
     "spp": {
-      "values_digest": "a9bd2f64a6ae9cad2b588ca4125fd759cd4b970fdb050c84015df1ce89f46e25",
-      "rendered_digest": "5887fb33807e8391c6933b3a46181840418185fdcee950c7818ee66d6b682d01",
-      "ast_digest": "4953163712782c66f2bd823010a35b17f589d1bdd617fb426419e4e698de0f89"
+      "values_digest": "95fd0b3e6bcdba9a795c107b029b28f2c2fc1d31acb22154a0bbbc15e9409be0",
+      "rendered_digest": "722c5a798fd9449e663f7f46080dcb88e773e2de5f63e48efad8ff30164db2fd",
+      "ast_digest": "fc0e67c1f9b75be540a81f52f055276459ab4637f0c61ed91b98c6e1120579c4"
     },
     "vpp": {
-      "values_digest": "6c59b760089dbd4de5989f27643ee003056cd39343c97e4a22608b915b95e03e",
+      "values_digest": "334f527d738a6386c55bcc22ec818fd338ec166457663f61026c822e376ef1df",
       "rendered_digest": "ab054f0ec3b9b81c006214307a096a4ee7158bfe9c9aff48b4705c9c6c746dea",
       "ast_digest": "6ddfd3f3116bc221ef78cae0c68a34666390b0ee32a619ebbb68df8f3cf0c929"
     },
     "srp": {
-      "values_digest": "95b53a2d1bc763266aa4ccc726083f9c9b406a368341a2508ac10f1fa296f940",
+      "values_digest": "5ef5ec385cdb786113a0c10a45473e128250101a0c61058a657d2774e6db715c",
       "rendered_digest": "2cd40ee68347d1da9e597b44f113efbb4a7a084d33601afb7f78aef350a73547",
       "ast_digest": "c39e15dc8ca48abd1c026f67c273e12132af658af93c09a36bcfab69ba683559"
     },
     "sor": {
-      "values_digest": "4a93f154bb910b44d691232bbcc8bfa0e562047d48e14ba7f5c6e0becf7a13ce",
+      "values_digest": "7e182f3a8fe52ff6d874504b6bd4e495bf7e0454876c1197a5c2efd29ecf2269",
       "rendered_digest": "a0564026b2d4a57a1a5cbaa9fa222d0ac661820c43f4871fd9b9dc90ebdd8a47",
       "ast_digest": "c0065cfecbfe94f68170322c50c2bb26a7b5d3d8335345c1cbcf5b11a985bffd"
     }
@@ -224,6 +224,41 @@
       "actor": "codex:wp18c02-live-dependency-repair",
       "reason": "All six typed cards, approved design, shared ACIP authority boundary, and exact preparation lanes are ready for pre-bind validation; product binding remains gated on merged ancestral #111 only.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 23,
+      "actor": "codex:wp18c02-single-gate-review-repair",
+      "reason": "Remove stale two-gate wording so the current SIP agrees with the sole live #111 serial gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"Typed Runtime-owned Layer 8 principal, capability, authority decision, refusal projection, replay guard, and redacted audit contracts\",\"Least-privilege discovery, contact, continuation, attachment, and exact multi-recipient policy decisions\",\"Narrow pre-delivery Runtime API integration using authenticated identity and canonical conversation identifiers\",\"Truthful disclosure-safe Observatory presentation of authorized, refused, and stale or revoked authority states through a dedicated real-browser/UI contract target\",\"Deterministic positive, negative, restart, tamper, projection, browser/UI, and nonzero-target product proof after the sole #111 serial gate passes\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 24,
+      "actor": "codex:wp18c02-single-gate-review-repair",
+      "reason": "Make the SIP execution stop condition name the sole live #111 serial gate.",
+      "operation": "{\"new_values\":[\"Use only typed C-SDLC v2 lifecycle owners and active templates for canonical issue state and cards\",\"Preserve /Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation unchanged as non-authoritative historical evidence\",\"Stop before execution while the sole #111 serial gate is open, unmerged, non-ancestral, or ownership-colliding\"],\"operation\":\"correct_operator_constraints_before_bind\",\"previous_values\":[\"Preparation only: do not implement product code, bind, push, open a PR, publish, merge, mutate GitHub, or edit issue #83\",\"Use only typed C-SDLC v2 lifecycle owners and active templates for canonical issue state and cards\",\"Preserve /Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation unchanged as non-authoritative historical evidence\",\"Stop before execution while either declared serial gate is open, unmerged, non-ancestral, or ownership-colliding\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 25,
+      "actor": "codex:wp18c02-single-gate-review-repair",
+      "reason": "Make the STP repository inputs name the sole live #111 serial gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"AGENTS.md\",\"csdlc-v2/AGENTS.md\",\"docs/templates/prompts/current.json\",\"adl-runtime/src/runtime_api_auth.rs\",\"adl-runtime/src/acip.rs\",\"adl-runtime/src/lib.rs\",\"adl/src/csm_runtime_api.rs\",\"Merged #111 conversation contract once terminal and ancestral\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 26,
+      "actor": "codex:wp18c02-single-gate-review-repair",
+      "reason": "Make the SPP stop condition name the sole live #111 serial gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"The sole #111 serial gate is open, unmerged, non-ancestral, or lacks the concrete producer contract required by issue #112\",\"The intended write set collides with ownership established by the merged gated contract or another issue\",\"Authorization cannot be enforced before sequence reservation, provider execution, and delivery without widening scope\",\"Public-safe refusal or redacted audit cannot be proven without retaining forbidden content or private policy inputs\",\"Any requested action would bind, mutate another issue, publish, merge, or treat preparation evidence as product proof\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 27,
+      "actor": "operator:daniel-explicit-fresh-packet-authorization",
+      "reason": "reapprove repaired ready issue design",
+      "operation": "approve_design"
     }
   ]
 }
