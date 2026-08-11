@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "50ca6fd43f5b405ec1d942ed846978798206b1a15480a8d72bdd35cf9667b750",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "c5b7957f5ccce8b6c88acfbab56dc498e9174a6fced6ffe909b3501228a71264",
+  "generation": 28,
+  "digest": "4f9ac93bc6df42fa3effa5745dbf5c6123b1fbe61e46827aa38e7759f24ff8b9",
   "branch": "codex/208-authenticated-guardian-kernel-continuity-bridge",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-208-kernel-continuity-bridge",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8d5aed398789dab5ee3f4617453d0fa749a5443dc951c0ab7723479892dfa45b",
+      "values_digest": "a16885ef1009b28e484b194dd51441a37ebb2b793f6840c97b12c8b87bfd7620",
       "rendered_digest": "5b2a673ab5bea5e6dde4d54e7f04b7922b882214032760db3a41deaa16e86323",
       "ast_digest": "0fcdacc0eb8f8218bef0614153064c837cc6aafd75e29eeff95ea5502c341bbf"
     },
     "stp": {
-      "values_digest": "63468b611ace9b6493791ab14856644dc2c376029b24a54ea2acb5285a2d67cd",
+      "values_digest": "2c310e9a3c0c82501ab6a9e4265a726a0b1e2cd020259100dce0916dc273eb9f",
       "rendered_digest": "78e8b9b9b614a832343bc985bf3eccc25251698f3f11ad95c06c6a0c98557f25",
       "ast_digest": "64ac9a8c5f2efde02f4d0c33baa531952fcf4efecfaff71e9c3fc7de78c38751"
     },
     "spp": {
-      "values_digest": "5b16d95c2b8e9f74de2201451f81a1f1b9eb8ff8e61a97035dd023d42dcce1cf",
+      "values_digest": "7fa6bb894a3ecd28549756c3a332f7a6525a2dfa4b64767f5e05f15cacd93b7c",
       "rendered_digest": "3379350a14829e3956dc7a964cc8c07b14f6869d7b3d8880a0c6a8da788a16e1",
       "ast_digest": "21aa44f640308a60e7f3df3f2b7329238364b65e175237f857784ff347f32432"
     },
     "vpp": {
-      "values_digest": "0b270cd39d4dfc2247641239fd98789317bb658445b3baef61dc1a52349e7d83",
+      "values_digest": "4280780f81521ec4231ff213e8839b4eff1856fe90c81d65e3911d37e26ec882",
       "rendered_digest": "edf5d11626996065f767fe2ba7a7720c711f3ba75886b37e1fee234bfffdec72",
       "ast_digest": "65273793e6665f731a959dd813c1b58b65871c6cbd048f853dbf02cc6f242d80"
     },
     "srp": {
-      "values_digest": "93587a3ddf94eefc0bb92db881956a73771bf8e5790bd61c57eb55646be04ee9",
+      "values_digest": "3cc9723741ed5185f695a4a0d914c1657cd90d11195d35132bc445eded55a940",
       "rendered_digest": "ee616e4b683f5282eb3ce0c040d8526405ff1e736b2f3b4e63f0c1c2d387e52b",
       "ast_digest": "bc7fe208e028ff2138420faa39a88bbfaceccc4ef441750273f7d91093946d5f"
     },
     "sor": {
-      "values_digest": "bb0165a8ffdc6646994018c231332011c520fad197ee662236d3ad530c9db6d8",
-      "rendered_digest": "5fb9c670e56ac71f6941844e2dfb05ed11f3d74ed2c985d7a27a1e0d9c8ff3ca",
-      "ast_digest": "499fec67ba30127845a5bb9f336da209d98ee561bd2b728ab4f14ba2cdb3a099"
+      "values_digest": "22752f515c72cfcc2ff6b14103962a2269e8a6c5c0643d2b143a024fde244e25",
+      "rendered_digest": "04f9c0d6dedcc6b34e24cb5d37496524be33614fc2ba9a9d2c12ab0382dd36da",
+      "ast_digest": "3a85b7c01ef40888ea411f6b560fcb5523a43c0296540dee0b1e2a92bd3ea8b5"
     }
   },
   "transitions": [
@@ -281,6 +281,13 @@
       "actor": "codex:/root/implement_208",
       "reason": "Bind the implemented SOR to the exact retained source and validation packet before review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the production Guardian-to-kernel private continuity bridge with pre-readiness loopback TLS 1.3 mTLS, exporter-bound canonical frames, durable restart and certificate succession, live participant quiesce/export/resume, signed bounded bundle reads, isolated target effects, persistent cleanup permits, and opaque receipts. Retained exact proof for source d5131cf18f757e7e3a4a93192c777c0cb3aa7509; publication and merge remain untouched.\",\"changes\":[\"Wired one validated RuntimeInitConfig continuity contract into the production Guardian and kernel binaries before normal readiness.\",\"Added durable exclusively locked client/server journals, strict RFC 8785 decoding, TLS exporter and peer-SPKI binding, ordered replay/conflict protection, and two-generation Guardian certificate succession.\",\"Built the complete live admission, accepted-prefix, reasoning/mutation, governance, and operation-state registry and its quiesce, signed export, exact resume, restart, and bounded source-read paths.\",\"Added fixed-root target stage, signed catalog verification, exact entry validation, persistent cleanup authority, receipt-bearing discard, finalized-#204-bound activation effect, durable retry receipts, and activated-stage discard denial.\",\"Added the exact ordered 56-case integration denominator, 64 boundary subassertions, 12 lifecycle subassertions, diff verifier, producer, validator, and immutable evidence packet.\"],\"artifacts\":[\"adl-runtime-kernel/src/continuity_control.rs\",\"adl-runtime/src/kernel_continuity_client.rs\",\"adl-runtime-kernel/tests/kernel_continuity_control.rs\",\"adl-runtime/tests/kernel_continuity_client.rs\",\".csdlc/evidence/208/v1/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"kernel_continuity_client\",\"--no-tests=fail\"],\"purpose\":\"Prove the Runtime half of the exact continuity contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"21 tests run: 21 passed\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"kernel_continuity_control\",\"--no-tests=fail\"],\"purpose\":\"Prove the kernel half of the exact continuity contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"35 tests run: 35 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-guardian\",\"--test\",\"kernel_continuity_client\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject Runtime and Guardian warnings and API misuse.\",\"outcome\":\"passed\",\"evidence_ref\":\"evidence 208 v1 runtime-clippy streams\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--test\",\"kernel_continuity_control\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject kernel warnings and API misuse.\",\"outcome\":\"passed\",\"evidence_ref\":\"evidence 208 v1 kernel-clippy streams\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/verify-diff-hygiene.rb\"],\"purpose\":\"Verify exact execution-base-to-source ancestry and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"4460ec8157da7a53decf28f41e20af8afd19f611..d5131cf18f757e7e3a4a93192c777c0cb3aa7509\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/produce-proof-receipt.rb\"],\"purpose\":\"Produce exact protected-source and case/boundary/lifecycle evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"56 cases, 64 boundary assertions, 12 lifecycle assertions\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/validate-proof-receipt.rb\"],\"purpose\":\"Validate immutable proof structure and protected source binding before review handoff.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS issue 208 exact source proof\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 28,
+      "actor": "codex:/root/implement_208",
+      "reason": "Bind the implemented SOR to the exact retained source and validation packet before review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the production Guardian-to-kernel private continuity bridge with pre-readiness loopback TLS 1.3 mTLS, exporter-bound canonical frames, durable restart and certificate succession, live participant quiesce/export/resume captured at the quiesce cut, signed bounded bundle reads, isolated target effects, persistent cleanup permits, and opaque receipts. Retained exact proof for source 84e2c9135326f311eaf4dbbc0767f41c4cbb8261; publication and merge remain untouched.\",\"changes\":[\"Wired one validated RuntimeInitConfig continuity contract into the production Guardian and kernel binaries before normal readiness.\",\"Added durable exclusively locked client/server journals, strict RFC 8785 decoding, TLS exporter and peer-SPKI binding, ordered replay/conflict protection, and two-generation Guardian certificate succession.\",\"Built the complete live admission, accepted-prefix, reasoning/mutation, governance, and operation-state registry and its quiesce, signed export, exact resume, restart, and bounded source-read paths.\",\"Added fixed-root target stage, signed catalog verification, exact entry validation, persistent cleanup authority, receipt-bearing discard, finalized-#204-bound activation effect, durable retry receipts, and activated-stage discard denial.\",\"Added the exact ordered 56-case integration denominator, 64 boundary subassertions, 12 lifecycle subassertions, diff verifier, producer, validator, and immutable evidence packet.\"],\"artifacts\":[\"adl-runtime-kernel/src/continuity_control.rs\",\"adl-runtime/src/kernel_continuity_client.rs\",\"adl-runtime-kernel/tests/kernel_continuity_control.rs\",\"adl-runtime/tests/kernel_continuity_client.rs\",\".csdlc/evidence/208/v1/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"kernel_continuity_client\",\"--no-tests=fail\"],\"purpose\":\"Prove the Runtime half of the exact continuity contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"21 tests run: 21 passed\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"kernel_continuity_control\",\"--no-tests=fail\"],\"purpose\":\"Prove the kernel half of the exact continuity contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"35 tests run: 35 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-guardian\",\"--test\",\"kernel_continuity_client\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject Runtime and Guardian warnings and API misuse.\",\"outcome\":\"passed\",\"evidence_ref\":\"evidence 208 v1 runtime-clippy streams\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--test\",\"kernel_continuity_control\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject kernel warnings and API misuse.\",\"outcome\":\"passed\",\"evidence_ref\":\"evidence 208 v1 kernel-clippy streams\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/verify-diff-hygiene.rb\"],\"purpose\":\"Verify exact execution-base-to-source ancestry and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"4460ec8157da7a53decf28f41e20af8afd19f611..84e2c9135326f311eaf4dbbc0767f41c4cbb8261\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/produce-proof-receipt.rb\"],\"purpose\":\"Produce exact protected-source and case/boundary/lifecycle evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"56 cases, 64 boundary assertions, 12 lifecycle assertions\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/validate-proof-receipt.rb\"],\"purpose\":\"Validate immutable proof structure and protected source binding before review handoff.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS issue 208 exact source proof\"}]}"
     }
   ]
 }

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the production Guardian-to-kernel private continuity bridge with pre-readiness loopback TLS 1.3 mTLS, exporter-bound canonical frames, durable restart and certificate succession, live participant quiesce/export/resume, signed bounded bundle reads, isolated target effects, persistent cleanup permits, and opaque receipts. Retained exact proof for source d5131cf18f757e7e3a4a93192c777c0cb3aa7509; publication and merge remain untouched.
+Implemented the production Guardian-to-kernel private continuity bridge with pre-readiness loopback TLS 1.3 mTLS, exporter-bound canonical frames, durable restart and certificate succession, live participant quiesce/export/resume captured at the quiesce cut, signed bounded bundle reads, isolated target effects, persistent cleanup permits, and opaque receipts. Retained exact proof for source 84e2c9135326f311eaf4dbbc0767f41c4cbb8261; publication and merge remain untouched.
 
 ## Artifacts
 
@@ -112,7 +112,7 @@ Implemented the production Guardian-to-kernel private continuity bridge with pre
     ],
     "purpose": "Verify exact execution-base-to-source ancestry and diff hygiene.",
     "outcome": "passed",
-    "evidence_ref": "4460ec8157da7a53decf28f41e20af8afd19f611..d5131cf18f757e7e3a4a93192c777c0cb3aa7509"
+    "evidence_ref": "4460ec8157da7a53decf28f41e20af8afd19f611..84e2c9135326f311eaf4dbbc0767f41c4cbb8261"
   },
   {
     "command": [
