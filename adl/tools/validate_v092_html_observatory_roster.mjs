@@ -13,8 +13,10 @@ try {
 
 const observatoryUrl = process.env.ADL_OBSERVATORY_URL;
 const runtimeApiBase = process.env.ADL_RUNTIME_API_BASE;
+const sourceRevision = process.env.ADL_SOURCE_REVISION;
 assert(observatoryUrl, "ADL_OBSERVATORY_URL must name the HTML Observatory URL");
 assert(runtimeApiBase, "ADL_RUNTIME_API_BASE must name the Runtime v3 API base");
+assert(/^[0-9a-f]{40}$/.test(sourceRevision || ""), "ADL_SOURCE_REVISION must name the exact candidate");
 
 const observatory = new URL(observatoryUrl);
 const runtime = new URL(runtimeApiBase);
@@ -40,6 +42,13 @@ assert.equal(shepherd.communication_eligible, true);
 assert(Number.isSafeInteger(shepherd.observed_at_unix_millis));
 assert(shepherd.freshness_deadline_unix_millis >= shepherd.observed_at_unix_millis);
 assert(/^[0-9a-f]{40}$/.test(shepherd.source_revision));
+assert.equal(shepherd.source_revision, sourceRevision, "roster evidence must name the exact Runtime build revision");
+const rosterResponse = await fetch(new URL("/v1/agents?page_size=1", runtime));
+assert.equal(rosterResponse.status, 200);
+const rosterPage = await rosterResponse.json();
+assert.equal(rosterPage.schema, "adl.runtime_v3.agent_roster_page.v1");
+assert.equal(rosterPage.sample.length, 1);
+assert.equal(rosterPage.sample[0].id, shepherd.id);
 
 const proofUrl = new URL(observatory);
 proofUrl.searchParams.set("runtime", "v3");
@@ -48,7 +57,8 @@ proofUrl.searchParams.set("live", "1");
 
 const browser = await chromium.launch({ headless: true });
 try {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const page = await context.newPage();
   const pageErrors = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
   await page.goto(proofUrl.href, { waitUntil: "networkidle" });
@@ -73,9 +83,17 @@ try {
   await page.locator("#roster-presence-filter").selectOption("ready");
   await row.waitFor({ state: "visible" });
 
+  await context.setOffline(true);
+  await page.locator("#statusbar-websocket").getByText("disconnected", { exact: true }).waitFor({ timeout: 10_000 });
+  await context.setOffline(false);
+  await page.locator("#statusbar-websocket").getByText("connected", { exact: true }).waitFor({ timeout: 12_000 });
+  await row.waitFor({ state: "visible" });
+  assert.equal(await page.locator('[data-agent-id="shepherd"]').count(), 1, "reconnect must not duplicate roster rows");
+
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
   assert.deepEqual(pageErrors, []);
+  await context.close();
 } finally {
   await browser.close();
 }

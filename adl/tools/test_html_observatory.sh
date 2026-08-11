@@ -60,8 +60,14 @@ const observatoryFeed = {
     stale: false
   },
   agents: {
+    schema: "adl.runtime_v3.agent_roster_page.v1",
+    revision: 7,
+    scope: "local_runtime",
     total_count: 1,
     rendered_sample_count: 1,
+    has_more: false,
+    next_page_token: null,
+    population_complete: false,
     sample: [{
       id: "shepherd",
       label: "Shepherd",
@@ -111,6 +117,9 @@ const context = {
     if (String(url) === `${config.api_base}/v1/ready`) {
       return { ok: true, status: 200, json: async () => readiness };
     }
+    if (String(url).startsWith(`${config.api_base}/v1/agents?`)) {
+      return { ok: true, status: 200, json: async () => observatoryFeed.agents };
+    }
     if (String(url) === `${config.api_base}/v1/control`) {
       const body = JSON.parse(String(options.body || "{}"));
       assert.equal(options.method, "POST");
@@ -156,6 +165,22 @@ assert.equal(roster[0].health, "healthy");
 assert.equal(roster[0].communicationEligible, true);
 assert.equal(roster[0].provenance, "runtime_component_state");
 assert.equal(roster[0].sourceRevision, "0123456789abcdef0123456789abcdef01234567");
+assert.deepEqual(
+  api.buildRuntimeAgentRows({ status: { schema: observatoryFeed.schema, agent_population: { sample: [], total_count: 0 } } }),
+  [],
+  "an empty authoritative Runtime page must not invent fallback agents"
+);
+const rosterPage = await api.fetchRuntimeV3AgentRosterPage(config.api_base, "next-token");
+assert.equal(rosterPage.sample[0].id, "shepherd");
+assert(calls.some((call) => call.url.includes("/v1/agents?page_size=50&page_token=next-token")));
+const cursorSnapshot = (runtimeId, revision) => ({
+  status: { runtime_id: runtimeId, agent_population: { revision } }
+});
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", 7)), true);
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", 7)), false, "duplicate revision rejected");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", 6)), false, "out-of-order revision rejected");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", 9)), true, "newer status revision accepted");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-b", 1)), true, "Runtime restart resets cursor safely");
 
 const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");
@@ -197,5 +222,6 @@ grep -q 'id="roster-search"' "${ROOT_DIR}/demos/html-observatory/index.html"
 grep -q 'id="roster-presence-filter"' "${ROOT_DIR}/demos/html-observatory/index.html"
 grep -q 'id="roster-sort"' "${ROOT_DIR}/demos/html-observatory/index.html"
 grep -q 'id="roster-detail"' "${ROOT_DIR}/demos/html-observatory/index.html"
+grep -q 'id="roster-load-more"' "${ROOT_DIR}/demos/html-observatory/index.html"
 
 echo "PASS: HTML Observatory Runtime v3, signed command, and roster projection contract"
