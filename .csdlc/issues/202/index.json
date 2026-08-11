@@ -3,13 +3,35 @@
   "issue": 202,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
-  "phase": "implemented",
-  "generation": 43,
-  "digest": "350ad8d3348a9598caf2ec558d4ececfc6267241930d43f6e81522800672f35b",
+  "phase": "reviewed",
+  "generation": 44,
+  "digest": "6044a671f7598c66c65589eaaab1cdfdd360849d337b3b99a9fa4148b5a14fe3",
   "branch": "codex/202-authorized-learner-transport-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-202-authorized-learner-transport-preparation",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/review_202_v7_production_final",
+    "scope": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/src/distributed/transport/core.rs",
+      "adl-runtime/src/distributed/transport/root.rs",
+      "adl-runtime/src/distributed/transport/governed/learner_transport.rs",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_authorized_learner_transport.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      ".csdlc/issues/202",
+      ".csdlc/prepared/issues/202",
+      ".csdlc/evidence/202"
+    ],
+    "reviewed_revision": "git-blake3:4b55f2e4a40ce03e1612aaf4da7c129962f3369e:ab1400a4186baadad114ad90a481162360ea7b9c2555264c5117b4d2518850c8",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +46,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "064c4b27732c8b64999d1244257ae1810ac3778f73e0be2f2f4f2cd15d2e60cd",
+      "values_digest": "3ff07280a8d69d27fd2b9bd054382041c3cd48ea35187c0fd9cbb7c81cce6e1e",
       "rendered_digest": "69a805a23892f34aeda5bc6c018c4b6d3425674b3472f433c95fa96c01aa8830",
       "ast_digest": "004791ead09b105cebf8ab0978301127312b0ae5a7c0c34cebf6291fa33a196d"
     },
     "stp": {
-      "values_digest": "e457dbaceaab7d4f70b6902c0de2033521d6d04c52ca267c0f87a920a257bc3a",
+      "values_digest": "0e83195f23c2b02a36fb05b9d0bcf56903f0ece8cd2c55537ee0befdc09fa399",
       "rendered_digest": "dfddaeadcb4d739c0c3331bc30dbfd94b4b57d0d9ad9f9a74ab81174a9dcee43",
       "ast_digest": "1614c5e31e990ab93563b802b9a8d59738cb7f5b68caede9b9107241152d43fc"
     },
     "spp": {
-      "values_digest": "13e3a6f77aab4545ed72ae2d51fb6b28be5615ab345e2b92b4e6adcb6e1cb696",
+      "values_digest": "8f94520994701ffb934d367762ae9a51c9dfa7c307a829e94e78f94335d554b9",
       "rendered_digest": "093cc6780f5a2d975bf7b1b164fe4eba33825f122f62fb3d4f5f7c50b181d5bb",
       "ast_digest": "bdf56b18f8b8a4ad50b131b2c6d134a634c810789f2a69f6e75593fbacb827bc"
     },
     "vpp": {
-      "values_digest": "5f28fddcee6e46685367d1c17e5d2d52bc4c3977158b28de89cb5d53945441f8",
+      "values_digest": "8566ffcd18e26a9543187e929f5480ac7b01a5e2cc73af769bb33a9ba18ccdda",
       "rendered_digest": "c74cd2a0cd12e9d5e7f5c9e886b7dd9554cabaca9a094ebeebff969134bdfa6e",
       "ast_digest": "42807c43a59d8a6f30a7eade0a6f10c32eaa068bc919ec502c161890b6751b29"
     },
     "srp": {
-      "values_digest": "5aa9cbc5e1c9761f0a7e7d2bacfcefc00217755598eda4fc507454e5c6414153",
-      "rendered_digest": "d0b42a8d0f670a1ac2893b87ff7407c0ecf0cc6698d2910e6a4cf8e8414d29b1",
-      "ast_digest": "3b633767e24f419fbee6f7bc2181423cddf1369fed91219a81ddccf852436cab"
+      "values_digest": "854d37a99f2f3ac040e3694405181b4fdba9bcb2ce702057f0a6c1bd88bbd786",
+      "rendered_digest": "b68d8c91ee72f17514a9df8ed984bce1afe294bb3ba9bbc83db25845d0aa1717",
+      "ast_digest": "4140e8073f9502882a7c456bfc3c811da2557d51ebcc779dd8cd72b8683d9a77"
     },
     "sor": {
-      "values_digest": "fea41aca803d51143e88ff7db7dd1cc634cfc1f80d020acf3a855dc29426234f",
+      "values_digest": "9f9ed514ea126ea719695fa42ef55686756d4505f1e4fcc646b81245dbd13736",
       "rendered_digest": "b7bc141f0567db13d2fac0f4ea7fd1e6883f25ad162604eb6842943a858ad6ed",
       "ast_digest": "2e9f3d356f947e00def4f1c14b9b328427d21a7cad6f5fd35bba864fa42b2adf"
     }
@@ -75,6 +97,13 @@
       "to": "implemented",
       "actor": "codex:/root/advance_200_after_201",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -406,6 +435,13 @@
       "actor": "codex:/root/resolve_202_production_final",
       "reason": "Record the completed generation-38 production remediation and immutable v7 proof without claiming fresh independent review, publication, merge, or closeout.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved all four generation-38 production review findings on exact current origin/main ancestry. A distinct learner-owned factory now holds its own durable transport instance and live boot custody; pending exclusion governs recovery admission and route retention; removal binds target membership and deadline with cache-first exact retry; and immutable v7 proof requires a fully clean worktree plus exact current origin/main. The STP v6 evidence entry remains immutable historical design-time input because typed lifecycle policy forbids STP mutation after implemented; current proof authority is the v7 VPP, SOR, SRP, and evidence packet.\",\"changes\":[\"Added SecureLearnerNetworkFactory as a learner-owned production ingress path with distinct durable ProductionLearnerAuthority, TransportAuthorityOwner, transport instance, peer pins, and nonextractable LearnerBootAttestationCustody.\",\"Proved the voter and learner factories complete a production handshake over Quinn and replicate snapshot plus append traffic into a real fourth PolisRaft while the learner-owned expiry writer waits through the actual Raft effect and response.\",\"Made pending exclusion govern admission currentness, session currentness, voter-side route installation, learner-side ingress, and recovery of the same stable Raft id under a new node and Guardian identity with a higher committed index.\",\"Bound removal activation and durable recovery state to the exact target-membership digest and live authorization deadline while serving exact retries from durable cache before re-decoding an expired result.\",\"Drained learner routes denied by exclusion and retained transition serialization across ordinary and learner dispatch locks.\",\"Rebased onto exact origin/main 1567469e395f9a6ea6c2e736366a8008f5ee1e06 and introduced immutable v7 evidence with no temporary-directory or machine-local cleanliness exceptions.\",\"Recorded v7 as current validation and review authority while preserving the typed lifecycle's immutable implemented-phase STP history.\"],\"artifacts\":[\"adl-runtime/src/distributed/transport/governed/learner_transport.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\",\"adl-runtime/src/distributed/transport/governed/polis_runtime.rs\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\",\".csdlc/evidence/202/v7/execution-proof.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\"],\"purpose\":\"Produce exact clean-source v7 evidence for 36 semantic cases, 42 private runner tests, 13 public tests, 31 named behavior assertions, three integration compiles, and strict library and public Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v7/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\"],\"purpose\":\"Validate immutable v7 protected-source parity, exact current origin/main ancestry, proof denominators, command streams, and absence of post-proof drift.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/202/v7/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 44,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
