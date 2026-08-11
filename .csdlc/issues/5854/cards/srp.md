@@ -12,17 +12,16 @@ Status: draft
 
 ## Scope
 
-.adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
 .adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md
-.csdlc/evidence/5854
-.csdlc/issues/5836
-.csdlc/issues/5838
+.csdlc/issues/5840
 .csdlc/issues/5854
-.csdlc/issues/5856
 .csdlc/prepared/issues/5854
-.csdlc/prepared/issues/5856
-docs/milestones/v0.92/SPRINT_v0.92.md
-docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
+.csdlc/prepared/issues/5856/sprint-execution-packet.md
+.csdlc/prepared/issues/5856/sprint-execution-packet.yaml
+.csdlc/prepared/issues/5856/validate-sprint-readiness.rb
+csdlc-v2/src/cards.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate5.rs
 
 ## Prompts
 
@@ -41,13 +40,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Final sprint #5856 remains initialized with the documented split-repository identity drift until its retained typed bind request is executed; no umbrella or child was bound by this readiness work.
-- WP-28A #5850 remains a process-heavy but distinct fail-closed closeout-plan step between WP-28 planning, WP-29 review, and WP-30 ceremony pending any explicit folding decision.
+- WP-20 #5840 remains intentionally unbound and may report repository_identity_drift until final sprint #5856 executes its typed bind request.
+- The retained live-gate snapshot remains time-bounded; Sprint execution must refresh live dependency truth when its 24-hour window expires.
 
 ## Review Result
 
-Revision: Some("git-blake3:df0552be531be0fad355c3536c76399ca67d3477:b35f3844da49336abf38902ffbf58c6c6f34060ffff4dc4dbe22676c5958abfe")
+Revision: Some("git-blake3:a8a344b3a7af59f999391bda597056be24e69fa2:fe0e97e03042bf198f1b135d07cdb65e1316d74718ef29ffe01a6156ea016ff4")
 
-Reviewer: Some("subagent:sartre-019fef6d")
+Reviewer: Some("subagent:pascal-019ff1eb")
 
 Result: pass

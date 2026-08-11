@@ -23,18 +23,20 @@ Startup:
    bundles.
 4. Audit readiness and dependencies without executing out of order.
 
-Before umbrella execution, bind #5856 through the retained split-authority
-request at `.csdlc/prepared/issues/5856/split-authority-bind-request.json`.
+Before umbrella execution, resolve the installed v2 `csdlc-bind` owner and run
+it with `--root . --request .csdlc/prepared/issues/5856/split-authority-bind-request.json`.
 The initialized legacy issue record is expected to report
 `repository_identity_drift` until typed bind records the canonical code
 repository; this expected pre-bind diagnosis does not authorize a manual
 worktree or branch.
 
-WP-01 published the initialized child records under its own temporary publication
-claim. After WP-01 releases that claim, create and register each real child
-worktree, use typed `csdlc-bind --reacquire-request` to acquire the child's exact
-issue-local paths, then run the normal bind and goal sequence. Do not assume the
-bootstrap reservation is still active.
+Each child remains unbound until its gate opens. At that point, create the
+child's typed bind request with its exact issue number, canonical code
+repository, branch, and FastWork worktree; run the installed v2 `csdlc-bind`
+with `--root . --request <child-bind-request>`; then create the issue-bound goal
+before implementation. Branch/worktree binding is lifecycle authority; no
+claim, lease, heartbeat, or protected-path reacquisition step is part of this
+flow.
 
 Exact child wave:
 
