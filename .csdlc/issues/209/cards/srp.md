@@ -52,12 +52,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Fresh exact Linux and macOS native receipts and the aggregate validator remain required on the next published head; merge remains prohibited until those checks are green and operator review is complete.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f8ccbd4b5f245a2d82cb9dfa421e5d1441954c15:7d943700a84dfa2b9d603382d4d82b4a0ab69b8d3ce4b3803bd55f947c4a8d14")
 
-Reviewer: None
+Reviewer: Some("/root/shepherd_pr215_green/rereview_pr215_semantic_path")
 
-Result: pre_review
+Result: pass

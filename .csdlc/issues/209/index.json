@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
-  "phase": "implemented",
-  "generation": 31,
-  "digest": "315098149d10e6ac4d43ac5daa461b2fcd0103f41d3b91e52abd4161d159ae7a",
+  "phase": "reviewed",
+  "generation": 32,
+  "digest": "ef953b4bcaba5c6960e241c45f0c6a06b4095d77c4429b9af79a1fab8d7dc090",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
   "review_assignment": {
@@ -37,7 +37,39 @@
       "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/shepherd_pr215_green/rereview_pr215_semantic_path",
+    "scope": [
+      ".csdlc/issues/209",
+      ".csdlc/prepared/issues/209/design.md",
+      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      ".csdlc/evidence/209",
+      ".github/workflows/wp14-production-acip-repair.yml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl/tools/install_vector_component.sh",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:f8ccbd4b5f245a2d82cb9dfa421e5d1441954c15:7d943700a84dfa2b9d603382d4d82b4a0ab69b8d3ce4b3803bd55f947c4a8d14",
+    "findings": [],
+    "residual_risks": [
+      "Fresh exact Linux and macOS native receipts and the aggregate validator remain required on the next published head; merge remains prohibited until those checks are green and operator review is complete."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -52,32 +84,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6de327feb0b546091e73c9cdd26d227615c3135dd0e369a8e06af6c7252cfc7e",
+      "values_digest": "80501fe46f4818d3d6cf82184965114cc00b53f7a04bee86160b737576beb5ed",
       "rendered_digest": "6ab414912da8b10f191cb7cd3eea7784652fb74e3078d62b0910875fce567253",
       "ast_digest": "0aee2bd815b8c6341e8aff6dc3c6cd119dfed378531100564f71b0578fe18f04"
     },
     "stp": {
-      "values_digest": "299e4057ea705c622f7a08bcbf88f27897d4cc2704998e8f6c95a36af23db880",
+      "values_digest": "454f9e12f8b6e3d137a683e51b836d0243eb0d8937844b224068ca7376fb81fa",
       "rendered_digest": "e951f98cdd50987c53b2a86e54705081136876bf7a37371391f5666fc8d69277",
       "ast_digest": "1f3ffc61430a58bd141d682d1f46cee9cb750b4fc7484d1ffdd17668fbba9981"
     },
     "spp": {
-      "values_digest": "c899db0798bc3421d739784ef3c45c42de69f0f56a3bc01c56882c2bcdc33356",
+      "values_digest": "f617e2f8e4eccce4dc154198c23a24c9efd499ab423fd6ed9293e6c12831fc7b",
       "rendered_digest": "65126dd5e86756e71a625179916063764d0b78027945b2653a76eadcbf7b6db5",
       "ast_digest": "93b187170b51ddd77987e72bd0f5ecc30bfc162be27c358e6944fdf455a710bf"
     },
     "vpp": {
-      "values_digest": "b124b8867ff8ed1b59cd3a1cc735e6d1e749954ff54a24e04dc162e7b623b319",
+      "values_digest": "4f2da941347d23000007d541704936e2cc938a342f5aeda61b18345b3ea8d82a",
       "rendered_digest": "1cf5d053c982cfa3dbb1576026b45f79b6f645d14b06baacfb117fd30e39a4f2",
       "ast_digest": "6b62309165c156b026db20c16e4fa82877f6fa6aa554733e8e5144b69c2f3642"
     },
     "srp": {
-      "values_digest": "62e43b3bd0400fe2f563e7d1f9697b3055d4cc04b7d5002ede2fd6fcbed3cc4f",
-      "rendered_digest": "055317f2b0566eec015d66a6afac28879dafebdd26675730e8b621d7b1b74dd5",
-      "ast_digest": "5e52e5474fe5fdabe1055b064e173975a5dcc00f610003d3d85c2cb424f2b554"
+      "values_digest": "657cc67ea6a44b7c9a84ffd7812dddc720dc93e0142a3a5b5372bc825d0d483c",
+      "rendered_digest": "da58da12fe93f8c75453b94a4a46e9dac0de44b696b9d043f3a191419a2e0654",
+      "ast_digest": "374e9d601b603ee85d38e78694069f8158eaa5f60bc898126f735695ec6c1b41"
     },
     "sor": {
-      "values_digest": "1bcfc558805b9f0d683696777686c5a0181a8f0710b50d439a062bdcdae7d8c3",
+      "values_digest": "9b550eeafb12929d9124a5dddd04b97a371d9f6674e40d68067d272189a10bc3",
       "rendered_digest": "cd2a847780ff00b828b51edb0fc1da7c9f003c990db7b41347f105333418a3cd",
       "ast_digest": "e77dac6cca5053f9431758a05f5d738b96d2803161ad96bd7178660145ff9f6f"
     }
@@ -180,6 +212,13 @@
       "to": "implemented",
       "actor": "/root/shepherd_pr215_green",
       "reason": "Recover the final review record because its current reviewer attribution names the earlier assignment rather than the fresh independent reviewer that actually passed exact head 2275b59607dcbe3a8220746861a8bd71f73aaac6. Preserve the earlier assignment as historical audit evidence, then record the actual reviewer identity."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -469,6 +508,13 @@
       "actor": "/root/shepherd_pr215_green",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 32,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
