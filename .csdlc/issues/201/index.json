@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "initialized",
-  "generation": 11,
-  "digest": "9d2071c331b854fb40f4726de531e08281e814a8bbb742719702e81cd769a7f8",
+  "generation": 12,
+  "digest": "50871522b7fb8db97ff665eb87c7825c30844676441ceb49879329cb63b2b389",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/201/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:/root/prepare_5875_release:a7ddfc99f",
-      "revision": "e9a9cf340baeab70b7c80defe670336fc4bb1efbaaae3aac83fbeb224dc914c8"
+      "reviewer": "codex:/root/rereview_203_design",
+      "revision": "a5a0fd9d0f672d98f9675af40f4dec4b14a1c90b0d5cdef79976235f9193b4c7"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "0b172827108da5bfec7ab26d3074cdba88f3e0ae4efe5d2cd9917fff0545942e",
+      "values_digest": "c47f206f1d6ac9e5758ebe390e233184dfa02a027401644b55983f06aa44e9c6",
       "rendered_digest": "f980b79efefdd650489881122036bae7df7da8ce98f22ba7cc2d3c2b81b113c4",
       "ast_digest": "d275b3c3a3157cccbe0b96c5dab7effe592b3830963e9884db6173f7772d7960"
     },
     "stp": {
-      "values_digest": "5fda9cbe56223fde4826720a2ec75e3640be281fb79fa6a4594480e699b2e089",
+      "values_digest": "b9f5466e7287dc05a6c28fac91352c135ee42bd8cf6ee6a876014669a455e151",
       "rendered_digest": "cb02ebb494c1d3623e820edefa4da9eaa1a6109233a9bb93bbeee7e18d1f8a18",
       "ast_digest": "5af802b0757383235c0a8da1f690b1efc0a247594c31bf9b169096e271c88bee"
     },
     "spp": {
-      "values_digest": "8597b99f49ddc2d4d47594cf38bdc811cb305f1526d9db703dfa8f705b1159e4",
-      "rendered_digest": "f20c8d97c021259400df6e84408691930537034e36cdb8d6a72691f73b23e070",
-      "ast_digest": "5a23841ddc152e312cdf19d7af776ac11468c8de4e868ec0d887e6aef3d8c3c0"
+      "values_digest": "4c47179effbd4c29c930da8f41ea46c7840477c39d783a97831026be6e8d9d3a",
+      "rendered_digest": "58b0b9859ebea853881dc9dc173da390759f26f9dcb365d96804d619386909ad",
+      "ast_digest": "d4381084bf9e6689917b026168fe8c3b7d1128b3817495582d4c6dae6f03e60e"
     },
     "vpp": {
-      "values_digest": "4941ba4fa5b63f36c86bfaa9c7a795e4418933a684d6c7b9c9252746f05e2383",
+      "values_digest": "d46551330f77d3911e35d826321be96ed5cf44a102b9167910573872ab1d1944",
       "rendered_digest": "c2dfcef09113ec5837805b570c07a0a41704a6d694c0eb820df3c4c697075ae3",
       "ast_digest": "06366a53f16287d34a62d9b567f9b42b1865443729b3d597d97195b97ece0cd7"
     },
     "srp": {
-      "values_digest": "53a22842f0fa5a1c81851fc7f976484b503769f45d71ee6b2a85618514c2c131",
+      "values_digest": "e33daa86a773e9a9439d4e7a1d4689275bebfd31ba802def828b8a368396513e",
       "rendered_digest": "1c7c49e61e5dd4b7b7c0b1bbe13f8797c6befc6f0af72099b986030461ad2339",
       "ast_digest": "54a63bba887d6f624a35f8c408c063cd13b1c5850eca19191396471ed6ca9ba1"
     },
     "sor": {
-      "values_digest": "b02469f3c5fa57f23f36486efd5a45a84cab7aa9821fcc33d3b936439c63bcdb",
+      "values_digest": "3aa47120319582636a4994d49924a36e648a59df14676f4d4f3d25bd648843af",
       "rendered_digest": "dd074b4fa9e4431fe2d9bec84b129f0ae6f0187e7df563f658756033aa354313",
       "ast_digest": "39cc131d0e4042080ae44500a2d66d4a67ce65a724fd47e2836886ae741db8b7"
     }
@@ -139,6 +139,13 @@
       "actor": "codex:203-review-resolution",
       "reason": "Require independent review of the private exact artifact view and absence of substitution authority.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?\",\"Does the private operation-specific artifact view retain the exact bounded committed store-native signed bytes, digest, and operation binding for sealed #199/#200/#203 consumers without accepting caller replacement or digest-only reconstruction?\",\"Does replicated apply consume only committed deterministic time, membership, and artifact evidence, including skew and uncertainty boundaries?\",\"Do initialization, exact retry, artifact retention, result-cache, and external-checkpoint crash windows reconcile without false publication, byte substitution, or rollback acceptance?\",\"Are all legacy direct authority commands retired or explicitly versioned fail-closed across apply, log replay, and snapshot restore?\",\"Does implementation stay strictly out of #199 membership transitions, #200 reconciliation effects, and #203 concrete store effects?\",\"Does exact proof bind all forty-two machine cases, protected-source drift, immutable evidence, strict Clippy, and merge topology?\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:/root/rereview_203_design",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
     }
   ]
 }
