@@ -12,20 +12,23 @@ Status: pre_phase
 
 ## Summary
 
-Implemented an opaque verified Birthday continuity token and token-consuming capability/cognitive paths; exact review, publication, CI, merge, and closeout remain pending.
+Removed every public raw-continuity authority bypass; verified continuity now gates authoritative capability and governed-cognition APIs, with exact local proof green and publication still pending.
 
 ## Artifacts
 
 - adl-runtime-kernel/src/birthday_continuity.rs
 - adl-runtime-kernel/src/capability_envelope.rs
 - adl-runtime-kernel/src/cognitive_profile.rs
+- adl-runtime-kernel/tests/capability_envelope.rs
+- adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs
 - adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs
+- adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs
 
 ## Execution
 
-- Added VerifiedBirthdayContinuity, constructible only after full canonical record validation over opaque verified Runtime cycles.
-- Added capability and governed-cognitive entrypoints that consume the same verified continuity token.
-- Added self-consistently rehashed record/head/root/identity-digest substitution rejection while preserving retained authority and privacy tests.
+- Require opaque VerifiedBirthdayContinuity on every public authoritative capability and governed-cognition build and validation route.
+- Keep raw BirthdayContinuityRecord compatibility primitives crate-private and remove permissive either-or continuity acceptance.
+- Prove real signed Runtime composition, self-consistent whole-record substitutions, token mismatch and replay rejection, and direct old-API compile-fail boundaries.
 
 ## Validation
 
@@ -40,9 +43,9 @@ Implemented an opaque verified Birthday continuity token and token-consuming cap
       "--test",
       "capability_envelope"
     ],
-    "purpose": "Run the focused capability integration suite.",
+    "purpose": "Run the focused public API target (1/1 passed).",
     "outcome": "passed",
-    "evidence_ref": "continuity-capability.log"
+    "evidence_ref": "continuity-public-api-target.log"
   },
   {
     "command": [
@@ -53,9 +56,38 @@ Implemented an opaque verified Birthday continuity token and token-consuming cap
       "--locked",
       "--lib"
     ],
-    "purpose": "Run the Runtime library test suite.",
+    "purpose": "Run the Runtime library authority suite (79/79 passed).",
     "outcome": "passed",
-    "evidence_ref": "continuity-cognitive-authority.log"
+    "evidence_ref": "continuity-authority-lib.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--locked",
+      "--doc"
+    ],
+    "purpose": "Run compile-fail public-boundary documentation tests (8/8 passed).",
+    "outcome": "passed",
+    "evidence_ref": "continuity-public-boundary-doc.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--locked",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run strict library Clippy.",
+    "outcome": "passed",
+    "evidence_ref": "continuity-strict-lib-clippy.log"
   }
 ]
 

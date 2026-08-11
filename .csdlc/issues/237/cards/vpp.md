@@ -24,19 +24,16 @@ Diagram: .csdlc/prepared/issues/237/diagram.mmd
 
 [
   {
-    "lane": "continuity-composition-focused",
-    "proof_role": "Prove the updated public capability API, continuity substitutions, and exact reviewed source in the one required CI job.",
+    "lane": "continuity-public-api-target",
+    "proof_role": "In the one required CI job, execute the issue-owned public-boundary target and prove the verified-continuity capability and governed-cognition entrypoints remain exported.",
     "acceptance_ids": [
       "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
       "AC-5",
       "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 1200,
+    "budget_seconds": 900,
     "budget_tokens": 1200,
     "argv": [
       "cargo",
@@ -51,8 +48,8 @@ Diagram: .csdlc/prepared/issues/237/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "continuity-cognitive-authority",
-    "proof_role": "In the same required CI job, prove real signed composition plus retained cognitive authority and privacy negatives.",
+    "lane": "continuity-authority-lib",
+    "proof_role": "In the one required CI job, prove real signed continuity composition, self-consistent substitutions, token mismatch and replay rejection, and retained authority/privacy negatives.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -63,7 +60,7 @@ Diagram: .csdlc/prepared/issues/237/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 1200,
+    "budget_seconds": 900,
     "budget_tokens": 1200,
     "argv": [
       "cargo",
@@ -72,6 +69,56 @@ Diagram: .csdlc/prepared/issues/237/diagram.mmd
       "adl-runtime-kernel/Cargo.toml",
       "--locked",
       "--lib"
+    ],
+    "parallel_group": "required",
+    "defer_reason": null
+  },
+  {
+    "lane": "continuity-public-boundary-doc",
+    "proof_role": "In the same required CI job, prove direct callers cannot import the retired raw public capability or governed-cognition APIs.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 900,
+    "budget_tokens": 1200,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--locked",
+      "--doc"
+    ],
+    "parallel_group": "required",
+    "defer_reason": null
+  },
+  {
+    "lane": "continuity-strict-lib-clippy",
+    "proof_role": "In the same required CI job, reject warnings in the changed library surface without claiming the unrelated pre-existing TLS all-target lint.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 900,
+    "budget_tokens": 1200,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--locked",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
     ],
     "parallel_group": "required",
     "defer_reason": null
@@ -92,6 +139,8 @@ Tokens: 25000
 
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --locked --test capability_envelope`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --locked --lib`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --locked --doc`
+- `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --locked --lib -- -D warnings`
 
 ## Failure Semantics
 

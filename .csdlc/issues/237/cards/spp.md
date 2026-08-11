@@ -16,7 +16,7 @@ Introduce the smallest typed continuity-record binding at the capability boundar
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -84,7 +84,7 @@ Revision 2
 
 .csdlc/prepared/issues/237/design.md
 
-Digest: a4fad40162d5d0a30a9d5ac2e35539f42f7dfe2ec173ea7b2b0fcc8e2f856a27
+Digest: 4473af66cfe35bdecb90869469e835fa8400d91d4867718824b47f92b487ff7d
 
 ## Diagram
 
