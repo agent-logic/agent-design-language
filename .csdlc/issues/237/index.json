@@ -5,25 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "a5af7fc8681c2aa670db737a775917d2b5b61374246d3d823f5e363e93cf85ee",
+  "generation": 10,
+  "digest": "a8bb9955842aa62e1b2b17c9b27f041727cecd61fc20a2d7a989ad40b56d68ae",
   "branch": "codex/237-continuity-binding-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
-  "review_assignment": {
-    "reviewer": "/root/review_237_exact_head",
-    "assigned_by": "/root/sprint5_5836",
-    "revision": "git-blake3:22e5e697c0998f6f8f6598190cce8dcdfb0f6593:dea98fb7c87d3910db353d2716c897e8d6fa7a2857e8330be72938fa25c268f4",
-    "scope": [
-      ".csdlc/issues/237",
-      ".csdlc/prepared/issues/237/design.md",
-      ".csdlc/prepared/issues/237/diagram.mmd",
-      ".csdlc/evidence/237",
-      "adl-runtime-kernel/src/birthday_continuity.rs",
-      "adl-runtime-kernel/src/capability_envelope.rs",
-      "adl-runtime-kernel/src/cognitive_profile.rs",
-      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "32ee757f3c4672ef2d09fa5773d4426102e641861c8ff1109eb4a715075affd7",
+      "values_digest": "ba54bc6b931423bd33d44755b3dba7c44061ebfbc24141d7d255a2f22ad4fb0d",
       "rendered_digest": "0f6629e693297f8a2eb8e4e029f507657271276795d4b5bbd81755940bb86c8a",
       "ast_digest": "f46556d73fa2c09d0c6e681dc9740a8184e284e33ba7babeeebffb1d729a8123"
     },
     "stp": {
-      "values_digest": "651f719d36daa90e4c4303a29cac01d1727932eb9b7494e8182d08b54de877f7",
+      "values_digest": "4e3444ee3287cdb3858867f74cdc4e4f9dd799d288580362708f5f173a1e7437",
       "rendered_digest": "f7a8004785b409a2efe1ac3ab53bdec813b55e2935ec1ba16dbc28347e9f67a1",
       "ast_digest": "166322a3cc6ed81aec67904d218571f122e03eb6b0ace1c165e6fb98c5f8aed3"
     },
     "spp": {
-      "values_digest": "69dd9565cba2cc7f4cfb956df991a77941b1f61a88d744af143c0637df6ff07a",
+      "values_digest": "b7d23550176b46fa183cdfef558b98fdffd8c195d2112cf2403c90dd3753de92",
       "rendered_digest": "680b972af44674334df8f06f0d3761a0232d70d2e170d4afa8cd7e830b8792fc",
       "ast_digest": "3a804355133000a5a7abb426832b80fce36f270daa0c37ea36f822f192923f0c"
     },
     "vpp": {
-      "values_digest": "92ca7bb0336a355fcb5d072b384612c71382fe69d5416d5e4357d5ac810eedd2",
+      "values_digest": "1c7027ebb182037b69bab2a54bf8de398dd1da48f6abf3c68b743c52d7af1c6d",
       "rendered_digest": "7fd22e56394321c6175230790652edb77d2c21ec815c3792cb14e0c9e2bc7cf5",
       "ast_digest": "56c3a382c9ac8f716a7d5707810ee036340ff647da1cafb83e081eadb8bfa593"
     },
     "srp": {
-      "values_digest": "f14e5276805444adec6c8de07e945ba1d2e7546ae4baa7018f9a4165818ffcda",
-      "rendered_digest": "89b8c2a651249697cefaffc60d463c1f35a922cf6d62e104faec4273978f1394",
-      "ast_digest": "06d07a51396829f2acb214491f8fe8ca63f10a2df5ed9085b854e8fd3bdcbb90"
+      "values_digest": "9c535298daa5e1f7b53b797c192845dcf3038c24d9c74961b4430753694c4681",
+      "rendered_digest": "73e3a45137d9fa80b09504c4438ad098af6c21af0a3b6034c95905b5c1d1efb8",
+      "ast_digest": "9826ba27c212418af607a6e63d1dd36b52533885b603103ca717ec2709e7bb82"
     },
     "sor": {
-      "values_digest": "e80d21ab7adb838794599befc458af8b461acb679cfd4cdc494712b79c4d6a62",
-      "rendered_digest": "8a9283bdfaa3b827604f8c718074a875ccd04c365041acb3c1e1c5f0705a6cae",
-      "ast_digest": "5a53fe96701a6cbd48e8400eb8a19ac7173a933cedd2d22db11075d9a3eb9125"
+      "values_digest": "e410d57fee329d0a4d79e027400c6fc8e960e06b7350f3fb3e6315f16e39e57a",
+      "rendered_digest": "6f377d07488292c8984b88e7b838d01c7346308adc442c6c916f805ed2a07d50",
+      "ast_digest": "0459d1f53f74cfdb45eb985c62fd0cf7d6f9ad018a3000f969422696c97acd15"
     }
   },
   "transitions": [
@@ -176,6 +162,13 @@
       "actor": "/root/sprint5_5836",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Exact review requested removal of every public raw continuity bypass, elimination of either-or acceptance, and real downstream composition and boundary negatives before fresh review.",
+      "operation": "recover_review"
     }
   ]
 }

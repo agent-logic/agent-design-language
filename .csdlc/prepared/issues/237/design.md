@@ -25,6 +25,7 @@ trusted authority is made public and no caller-supplied trust root is added.
 - `adl-runtime-kernel/src/cognitive_profile.rs`
 - `adl-runtime-kernel/src/birthday_continuity.rs`
 - `adl-runtime-kernel/tests/capability_envelope.rs`
+- `adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs`
 - `adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs`
 - `.csdlc/issues/237/**`
 - `.csdlc/evidence/237/**`
@@ -40,6 +41,9 @@ trusted authority is made public and no caller-supplied trust root is added.
   boundaries remain unchanged.
 - Positive proof uses real signed `LiveContinuity` checkpoints, not fixtures or
   cached packets.
+- Raw-record capability and governed-cognitive builders/validators are
+  crate-private component primitives; every public authoritative entrypoint
+  requires `VerifiedBirthdayContinuity`.
 
 ## Proof
 

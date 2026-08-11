@@ -236,7 +236,7 @@ fn material() -> (
     (identity, policy, vec![first, second])
 }
 
-async fn real_live_material() -> (
+pub(crate) async fn real_live_material() -> (
     BirthdayIdentityRecord,
     BirthdayContinuityAuthorityPolicy,
     Vec<CheckpointManifest>,
@@ -306,7 +306,7 @@ async fn real_live_material() -> (
     (identity, policy, vec![second, third])
 }
 
-fn verify(
+pub(crate) fn verify(
     policy: &BirthdayContinuityAuthorityPolicy,
     identity: &BirthdayIdentityRecord,
     manifests: &[CheckpointManifest],
@@ -434,6 +434,12 @@ async fn verified_continuity_token_rejects_self_consistent_substitutions() {
         {
             let mut value = record.clone();
             value.identity_record_sha256 = H.to_owned();
+            value
+        },
+        {
+            let mut value = record.clone();
+            value.authority_context_sha256 = H.to_owned();
+            value.cycles.reverse();
             value
         },
     ] {

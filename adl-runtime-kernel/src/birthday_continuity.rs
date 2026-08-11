@@ -584,7 +584,7 @@ fn is_canonical_digest(value: &str) -> bool {
 
 #[cfg(test)]
 #[path = "../tests/fixtures/birthday_continuity/authority_tests.rs"]
-mod authority_tests;
+pub(crate) mod authority_tests;
 
 fn safe_path(value: &str) -> bool {
     !value.is_empty()

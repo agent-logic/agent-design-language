@@ -39,7 +39,7 @@ fn identity(root: &str) -> BirthdayIdentityRecord {
 fn continuity(identity: &BirthdayIdentityRecord) -> BirthdayContinuityRecord {
     let mut value: BirthdayContinuityRecord=serde_json::from_value(json!({
         "schema":"adl.birthday.continuity_record.v1","identity_root":identity.identity_root,"identity_record_sha256":identity.record_sha256,
-        "predecessor_head":R,"authority_context_sha256":H,"cycles":[{"generation":1,"accepted_through":1,"previous_integrity":R,"integrity":H,"signing_key_id":"key","reference":{"id":"cycle","path":"evidence/cycle.json","sha256":H}}],
+        "predecessor_head":H,"authority_context_sha256":H,"cycles":[{"generation":1,"accepted_through":1,"previous_integrity":H,"integrity":H,"signing_key_id":"key","reference":{"id":"cycle","path":"evidence/cycle.json","sha256":H}}],
         "grade":"evidence_backed","continuity_head":H,"record_sha256":""
     })).unwrap();
     value.record_sha256 = continuity_record_digest(&value).unwrap();
@@ -137,6 +137,30 @@ fn capability(
         build_capability_envelope(b, i, &input, &policy).unwrap(),
         policy,
     )
+}
+
+fn capability_with_continuity(
+    b: &BirthdayCandidate,
+    i: &BirthdayIdentityRecord,
+    continuity: &VerifiedBirthdayContinuity,
+) -> (CapabilityEnvelope, CapabilityEnvelopePolicy) {
+    let (component, policy) = capability(b, i);
+    let input = CapabilityEnvelopeInput {
+        schema: CAPABILITY_ENVELOPE_INPUT_SCHEMA.into(),
+        birthday_candidate_sha256: component.birthday_candidate_sha256,
+        identity_record_sha256: component.identity_record_sha256,
+        evidence: component.evidence,
+        provider_model: component.provider_model,
+        tools: component.tools,
+        skills: component.skills,
+        grants: component.grants,
+        denials: component.denials,
+        resource_limits: component.resource_limits,
+        unsupported_claims: component.unsupported_claims,
+    };
+    let envelope =
+        build_capability_envelope_with_continuity(b, i, continuity, &input, &policy).unwrap();
+    (envelope, policy)
 }
 fn evidence(
     id: &str,
@@ -513,6 +537,120 @@ fn identity_continuity_capability_and_birthday_substitution_fail_closed() {
         }
         assert!(build_cognitive_profile(&bb, &ii, &cc, &cp, &base, &p, None).is_err());
     }
+}
+
+#[tokio::test]
+async fn real_continuity_composes_through_capability_and_cognition() {
+    let (identity, continuity_policy, manifests) =
+        crate::birthday_continuity::authority_tests::real_live_material().await;
+    let cycles = crate::birthday_continuity::authority_tests::verify(
+        &continuity_policy,
+        &identity,
+        &manifests,
+    )
+    .unwrap();
+    let record = build_birthday_continuity(&identity, &cycles).unwrap();
+    let verified = verify_birthday_continuity_record(&record, &identity, &cycles).unwrap();
+
+    let mut b = birthday(&identity.identity_root);
+    b.stable_name = identity.stable_name.clone();
+    b.continuity_head = verified.identity_checkpoint_head().to_owned();
+    for cycle in &mut b.bounded_cycles {
+        cycle.continuity_head = b.continuity_head.clone();
+    }
+    b.packet_sha256 = candidate_digest(&b).unwrap();
+    let (capability, capability_policy) = capability_with_continuity(&b, &identity, &verified);
+    validate_capability_envelope_with_continuity(
+        &capability,
+        &b,
+        &identity,
+        &verified,
+        &capability_policy,
+    )
+    .unwrap();
+
+    let (_, _, _, _, mut cognitive_policy) = authorities();
+    cognitive_policy.capability_policy = capability_policy;
+    for item in &mut cognitive_policy.evidence {
+        item.sha256 = match item.category {
+            CognitiveEvidenceCategory::Identity => identity.record_sha256.clone(),
+            CognitiveEvidenceCategory::Continuity => record.record_sha256.clone(),
+            CognitiveEvidenceCategory::Capability => capability.envelope_sha256.clone(),
+            _ => item.sha256.clone(),
+        };
+    }
+    let cognitive_input = input(&b, &identity, &record, &capability, &cognitive_policy);
+    let key = SigningKey::from_bytes(&[7; 32]);
+    let authority = trusted(&key, &cognitive_policy, &cognitive_input);
+    let authority_context = context("cognitive-board", "cognitive-key-1", 1, &key);
+    let proof = authority_proof(
+        &cognitive_input,
+        &cognitive_policy,
+        authority_context,
+        &key,
+        None,
+    );
+    let profile = build_governed_cognitive_profile_with_continuity(
+        &b,
+        &identity,
+        &verified,
+        &capability,
+        &cognitive_input,
+        &cognitive_policy,
+        &[],
+        &authority,
+        &proof,
+    )
+    .unwrap();
+    validate_governed_cognitive_profile_with_continuity(
+        &profile,
+        &b,
+        &identity,
+        &verified,
+        &capability,
+        &cognitive_policy,
+        &[],
+        &authority,
+    )
+    .unwrap();
+
+    let mut wrong_identity = identity.clone();
+    wrong_identity.identity_root = H.into();
+    assert!(validate_capability_envelope_with_continuity(
+        &capability,
+        &b,
+        &wrong_identity,
+        &verified,
+        &cognitive_policy.capability_policy,
+    )
+    .is_err());
+
+    let mut replayed_candidate = b.clone();
+    replayed_candidate.continuity_head = verified.continuity_head().to_owned();
+    for cycle in &mut replayed_candidate.bounded_cycles {
+        cycle.continuity_head = replayed_candidate.continuity_head.clone();
+    }
+    replayed_candidate.packet_sha256 = candidate_digest(&replayed_candidate).unwrap();
+    assert!(build_capability_envelope_with_continuity(
+        &replayed_candidate,
+        &identity,
+        &verified,
+        &CapabilityEnvelopeInput {
+            schema: CAPABILITY_ENVELOPE_INPUT_SCHEMA.into(),
+            birthday_candidate_sha256: replayed_candidate.packet_sha256.clone(),
+            identity_record_sha256: identity.record_sha256.clone(),
+            evidence: capability.evidence.clone(),
+            provider_model: capability.provider_model.clone(),
+            tools: capability.tools.clone(),
+            skills: capability.skills.clone(),
+            grants: capability.grants.clone(),
+            denials: capability.denials.clone(),
+            resource_limits: capability.resource_limits.clone(),
+            unsupported_claims: capability.unsupported_claims.clone(),
+        },
+        &cognitive_policy.capability_policy,
+    )
+    .is_err());
 }
 #[test]
 fn unsupported_labels_diagnosis_and_status_inference_fail_closed() {

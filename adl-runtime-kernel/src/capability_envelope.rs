@@ -157,7 +157,7 @@ pub enum CapabilityEnvelopeRejection {
     EncodingFailure,
 }
 
-pub fn build_capability_envelope(
+pub(crate) fn build_capability_envelope(
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
     input: &CapabilityEnvelopeInput,
@@ -205,6 +205,12 @@ pub fn build_capability_envelope(
     Ok(envelope)
 }
 
+/// Builds the public capability envelope only from opaque verified continuity.
+///
+/// The former raw-record API is not public:
+/// ```compile_fail
+/// use adl_runtime_kernel::build_capability_envelope;
+/// ```
 pub fn build_capability_envelope_with_continuity(
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
@@ -218,7 +224,7 @@ pub fn build_capability_envelope_with_continuity(
 
 /// Revalidates every exported field against the original authorities and
 /// provisioned policy. Re-hashing a forged packet is insufficient to pass.
-pub fn validate_capability_envelope(
+pub(crate) fn validate_capability_envelope(
     envelope: &CapabilityEnvelope,
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
@@ -258,6 +264,11 @@ pub fn validate_capability_envelope(
     }
 }
 
+/// Revalidates a public envelope against the same opaque continuity authority.
+///
+/// ```compile_fail
+/// use adl_runtime_kernel::validate_capability_envelope;
+/// ```
 pub fn validate_capability_envelope_with_continuity(
     envelope: &CapabilityEnvelope,
     birthday: &BirthdayCandidate,
@@ -813,6 +824,10 @@ fn unsafe_content(value: &str) -> bool {
     .iter()
     .any(|needle| lower.contains(needle))
 }
+
+#[cfg(test)]
+#[path = "../tests/fixtures/capability_envelope/authority_tests.rs"]
+mod authority_tests;
 
 fn is_sha256(value: &str) -> bool {
     value.len() == 64

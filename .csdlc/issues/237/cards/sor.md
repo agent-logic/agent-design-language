@@ -61,7 +61,7 @@ Implemented an opaque verified Birthday continuity token and token-consuming cap
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -316,7 +316,7 @@ pub fn build_cognitive_profile(
 }
 
 #[allow(clippy::too_many_arguments)]
-pub fn build_governed_cognitive_profile(
+pub(crate) fn build_governed_cognitive_profile(
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
     continuity: &BirthdayContinuityRecord,
@@ -371,6 +371,11 @@ pub fn build_governed_cognitive_profile(
 }
 
 #[allow(clippy::too_many_arguments)]
+/// Builds governed cognition only after opaque Runtime continuity verification.
+///
+/// ```compile_fail
+/// use adl_runtime_kernel::build_governed_cognitive_profile;
+/// ```
 pub fn build_governed_cognitive_profile_with_continuity(
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
@@ -521,7 +526,7 @@ pub fn validate_cognitive_profile(
 }
 
 #[allow(clippy::too_many_arguments)]
-pub fn validate_governed_cognitive_profile(
+pub(crate) fn validate_governed_cognitive_profile(
     profile: &CognitiveProfile,
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
@@ -550,6 +555,11 @@ pub fn validate_governed_cognitive_profile(
 }
 
 #[allow(clippy::too_many_arguments)]
+/// Revalidates governed cognition against the same opaque continuity token.
+///
+/// ```compile_fail
+/// use adl_runtime_kernel::validate_governed_cognitive_profile;
+/// ```
 pub fn validate_governed_cognitive_profile_with_continuity(
     profile: &CognitiveProfile,
     birthday: &BirthdayCandidate,
@@ -874,7 +884,7 @@ fn validate_authorities(
         || input.continuity_record_sha256 != c.record_sha256
         || c.identity_root != i.identity_root
         || c.identity_record_sha256 != i.record_sha256
-        || (c.continuity_head != b.continuity_head && c.predecessor_head != b.continuity_head)
+        || c.predecessor_head != b.continuity_head
     {
         errors.insert(CognitiveProfileRejection::ContinuityMismatch);
     }

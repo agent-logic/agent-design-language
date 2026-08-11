@@ -10,3 +10,4 @@
 {"sequence":10,"generation":8,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":11,"generation":9,"actor":"codex:sprint5-5836-blocker","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":12,"generation":9,"actor":"/root/sprint5_5836","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":13,"generation":10,"actor":"codex:sprint5-5836-blocker","reason":"Exact review requested removal of every public raw continuity bypass, elimination of either-or acceptance, and real downstream composition and boundary negatives before fresh review.","operation":"recover_review"}
