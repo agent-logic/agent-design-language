@@ -7,25 +7,23 @@
     "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
     "slug": "focused-runtime-validation-routing",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/config/validation_lane_selector.v0.91.6.json\nadl/tools/test_select_validation_lanes.sh\nadl/tools/test_ci_path_policy.sh\n.csdlc/issues/226\n.csdlc/evidence/226",
-      "review_revision": "git-blake3:c42bafa0abab4a2b6f10b5071ef86fae6083ab2d:da9fbf4f532d6a03e5b96ec984240d4803bc7050247e839d76bec8314d80acbb",
-      "reviewer": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Are the new selectors narrowly bounded to existing proof ownership?",
         "Does any unknown path become silently covered?",
         "Can this change launch optional slow or coverage jobs?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Authoritative full coverage and slow proof remain explicitly out of band and were not run for this routing-only change."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

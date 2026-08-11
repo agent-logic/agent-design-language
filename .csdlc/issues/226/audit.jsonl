@@ -5,3 +5,4 @@
 {"sequence":5,"generation":3,"actor":"codex:226-focused-runtime-validation-routing","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":6,"generation":3,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":7,"generation":4,"actor":"subagent:019ff1ef-56db-74c3-b178-26775be4021e","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":8,"generation":5,"actor":"codex:226-focused-runtime-validation-routing","reason":"Recover stale review truth after committing the typed assignment and first exact-head review record; no product or routing behavior changed.","operation":"recover_review"}
