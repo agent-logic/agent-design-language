@@ -12,7 +12,32 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/208
+.csdlc/prepared/issues/208
+.csdlc/evidence/208
+adl/.config/nextest.toml
+adl-runtime-kernel/Cargo.toml
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/src/continuity_control.rs
+adl-runtime-kernel/src/governance.rs
+adl-runtime-kernel/src/ingress.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/src/operations.rs
+adl-runtime-kernel/src/reasoning.rs
+adl-runtime-kernel/tests/configuration.rs
+adl-runtime-kernel/tests/kernel_continuity_control.rs
+adl-runtime-kernel/tests/production_acip_wss.rs
+adl-runtime-kernel/tests/support/runtime_init.rs
+adl-runtime/src/bin/adl-runtime-guardian.rs
+adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
+adl-runtime/src/distributed/polis_runtime.rs
+adl-runtime/src/guardian.rs
+adl-runtime/src/kernel_continuity_client.rs
+adl-runtime/src/lib.rs
+adl-runtime/tests/kernel_continuity_client.rs
+infra/runtime-v3/runtime-init.toml
 
 ## Prompts
 
@@ -37,12 +62,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI and live GitHub merge state remain pending until the exact reviewed head is republished.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5411ebebb463b8d0ee3f0a46bfa034ff0eaf608d:7e028a14e3db5b553ff905b72fc76fab33a1172fd85b5179f6b58a755d73bb90")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_208_canonical_option_final")
 
-Result: pre_review
+Result: pass
