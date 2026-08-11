@@ -64,7 +64,7 @@ Revision 2
     "acceptance_ids": [
       "AC-7"
     ],
-    "status": "in_progress"
+    "status": "completed"
   }
 ]
 
