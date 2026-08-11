@@ -1,0 +1,143 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 176
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Implement one typed GitHub observation boundary using Octocrab plus bounded reviewed raw requests, preserving exact qualified identities, REST ambiguity, pagination, rate limits, head-bound checks, and authenticated reviewer principals without mutation.
+
+## Plan
+
+Revision 2
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Define the narrow GitHub trait and normalized issue, PR, check, review, mergeability, repository, and principal observations.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Implement typed Octocrab endpoints and only inventory-approved raw requests with cited API contracts and typed transport fixtures.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Implement pagination, authentication, rate-limit/retry, missing-resource, unknown-mergeability, and observation-time distinctions.",
+    "acceptance_ids": [
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Preserve exact head SHA/check conclusions and issue state/state_reason/updated_at/qualified identity without optimistic normalization.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Implement read-only status commands and authenticated ReviewerIdentityResolver output with zero local/remote mutation authority.",
+    "acceptance_ids": [
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S6",
+    "action": "Run strict unconsumed-request fixtures, null/404/closed issue cases, stale checks, pagination, credentials, and no-mutation tests.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S7",
+    "action": "Close client scopes, discard response scratch data, retain redacted fixtures, and prove the read-only adapter produced no local or remote mutation.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Issue V3-13 owns only its declared repository paths and named external operation/evidence boundary.
+- Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.
+- The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.
+- No unsupported completion, legal, production, or release claim
+- No mutation outside exact owned paths
+
+## Risks
+
+- A passing artifact could overstate production, legal, or release authority.
+- Path or external-account overlap could collide with another active issue.
+- Evidence could become stale if it is not tied to exact revisions and producer outcomes.
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/176/design.md
+
+Digest: 40c06f063163b97862d785ad9649afa059c2f1fc199d60c892d44479e262927c
+
+## Diagram
+
+.csdlc/prepared/issues/176/diagram.mmd
+
+Digest: a61f923f1a15e9a392c3f6127c86ca0c34cdb7438a22e601bf8e912ec793f3e9
+
+## Stop Conditions
+
+- An endpoint requires raw shell/`gh`, response ambiguity is collapsed into success, credentials enter URLs/logs, or observation mutates state implicitly.
+- Typed doctor is not ready
+- A required dependency is nonterminal
+- An owned-path collision is discovered
+
+## Handoff
+
+Proceed only after doctor readiness.

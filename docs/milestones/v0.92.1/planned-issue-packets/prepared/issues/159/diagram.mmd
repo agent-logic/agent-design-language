@@ -1,0 +1,16 @@
+flowchart LR
+  GATES["Terminal CORP-05 and CORP-06"] --> STATE["Company-owned Terraform state and locks"]
+  COMPANY["Authorized clean company operator"] --> RUNBOOK["Single-command deploy/rollback runbooks"]
+  GITHUB["Company GitHub environment"] --> OIDC["Short-lived OIDC identity"]
+  OIDC --> ROLE["Reviewed least-privilege deployment role"]
+  STATE --> PLAN["State readback, lock contention, plan/apply"]
+  ROLE --> PLAN
+  RUNBOOK --> DEPLOY["Clean deployment rehearsal"]
+  PLAN --> DEPLOY
+  DEPLOY --> ROLLBACK["Runbook-driven rollback"]
+  ROLLBACK --> RECEIPTS["State/identity/deploy/rollback receipts"]
+  RECEIPTS --> REVIEW{"No personal credential or hidden step?"}
+  REVIEW -->|"yes"| HANDOFF["CORP-07 authority proof"]
+  REVIEW -->|"no"| STOP["STOP: restore approved posture\nand revoke temporary access"]
+
+  SECRETS["Secret names only\nvalues remain outside repository"] --> RUNBOOK

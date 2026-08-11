@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 170,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-09] Implement Typed Git, Process, And Credential Adapters",
+    "slug": "v3-09-implement-typed-git-process-and-credential-adapters",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-09 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Git and process traits, production adapters, fakes, V3-01 command-allowance enforcement, credential resolver, cancellation integration, and redaction tests."
+      ],
+      "acceptance_criteria": [
+        "Every Git/process invocation is argv-based and typed.",
+        "Exit status, stdout, stderr, timeout, cancellation, and truncation remain distinguishable.",
+        "Credentials exist only in the child/provider process scope that needs them.",
+        "Branch-name observation alone never authorizes lifecycle work."
+      ],
+      "dependencies": [
+        "V3-01: issue #161",
+        "V3-04: issue #165",
+        "V3-05: issue #166"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-09",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Shell scripts as internal control flow, arbitrary command evaluation, GitHub API behavior, lifecycle decisions, or secret persistence."
+      ]
+    }
+  }
+}

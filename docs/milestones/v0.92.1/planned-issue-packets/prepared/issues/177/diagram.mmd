@@ -1,0 +1,15 @@
+sequenceDiagram
+  participant C as csdlc pr
+  participant S as transaction store
+  participant G as GitHub adapter
+  participant W as foreground watch
+  C->>S: commit + sync typed mutation intent
+  S-->>C: durable intent receipt
+  C->>G: idempotent PR mutation
+  G-->>C: exact qualified readback
+  C->>W: fixed deadline + poll policy
+  loop until terminal/deadline/cancel
+    W->>G: exact-head checks and issue readback
+    G-->>W: typed observation
+  end
+  W-->>C: joined typed result, no persistent job

@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 161,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-01] Freeze Product Contract And Retained Invariants",
+    "slug": "v3-01-freeze-product-contract-and-retained-invariants",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-01 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "A versioned contract manifest, retained-v2 invariant register, versioned normalized parity/import schema, importer retention policy, command/help golden packet, explicit unsupported behavior register, the retained `.csdlc/evidence/73/official-cli-source-baseline.json` manifest and portable `git ls-tree` verification contract, the measured `csdlc-v3/contracts/state-size-baseline.v1.json` artifact and locked recomputation lane, versioned JSON envelope and schema-evolution policy, reviewer-principal and independence mechanism, per-card/per-phase field optionality table and optional-value placeholder, `PublicationLinkage::{Closing, PartOf}` contract with normalized qualified issue identity and relation grammar, state-size guard, PVF subprocess command-allowance policy, `pr watch` timeout/poll policy, and a versioned field/operation capability matrix covering normal authoring, post-review correction, invalidation, recovery provenance, audit evidence, and next valid operations. The state-size guard includes measured warning/block thresholds and headroom evidence. Output filtering includes a versioned supported-`jq` subset manifest with explicit unsupported syntax and diagnostics. The contract also pins the exact candidate `cargo-deny` release used from the construction spike onward. V3-02 may recommend changing that candidate only through the same reviewed stop/go architecture-revision path used for any failed spike threshold; it cannot silently substitute a release. V3-01 also freezes a candidate dependency manifest naming every previously open YAML, JSON Schema, middleware, template, and file-locking crate with exact version/features and a pre-spike direct-dependency count. V3-02 cannot begin while a production dependency slot remains unnamed or the candidate set already exceeds 30."
+      ],
+      "acceptance_criteria": [
+        "Every public command and output mode has a versioned contract.",
+        "Every retained v2 invariant maps to one owner issue and proof lane.",
+        "Exact review, GitHub truth, topology ownership, atomic state, and cleanup boundaries cannot be weakened by later implementation choices.",
+        "Unknown or intentionally changed v2 behavior is explicit and reviewed.",
+        "The importer remains available until the later of all v2-origin issues reaching terminal state or the operator-approved rollback window expiring.",
+        "Output filtering and templating have one approved in-process implementation boundary and cannot invoke a shell or external formatter.",
+        "Reviewer independence is structurally checked where identity is bindable; policy-only identity cannot silently satisfy publication.",
+        "Closing and non-closing publication are disjoint typed modes; `PartOf` cannot close or terminally complete its parent issue, and split-repository linkage is qualified in both modes.",
+        "Every mutable authoritative field has exactly one matrix owner and at least one typed authoring path; every supported invalidation/recovery state has a valid typed next operation. Operator authority may gate that operation but cannot replace its command, transition, target state, or audit contract.",
+        "Command help, kernel authorization, doctor findings, and tests are generated from or mechanically checked against the same capability matrix so scattered phase allowlists cannot silently diverge.",
+        "The state-size warning precedes the mutation block, initial block capacity is at least ten times the largest deterministic v2 baseline bundle, warning is fixed at 80 percent of that block, and neither path silently drops audit evidence.",
+        "V3-01 approval is blocked until the state-size artifact identifies the actual largest v2 bundle at `f1c01499`, records every measured blob and total, and passes the locked recomputation case; no unmeasured adequacy claim is allowed.",
+        "If that measurement makes the 10x block impractical for atomic state or operator latency, V3-01 stops and returns to architecture review for a versioned retention/compaction decision; it may neither lower the factor nor proceed with an unbounded aggregate.",
+        "The same gate proves the complete V3-16 review/recover/card-family canary fits below 50 percent of the block using maximum schema-valid event sizes, so embedded audit growth is represented rather than inferred from typical v2 history.",
+        "`--jq` accepts only the frozen supported subset; unsupported syntax fails with a typed usage error rather than partial or external execution.",
+        "The retained `adl.external_source_baseline.v1` manifest passes the VPP's repository-relative `upstream-source-baseline` lane before V3-02 can start; every cited blob must match the pinned `cli/cli` tree object exactly."
+      ],
+      "dependencies": [
+        "No child dependency; setup issue #146 and umbrella readiness only"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-01",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Rust implementation, dependency selection beyond constraints, live state mutation, child command implementation, or v2 behavior changes."
+      ]
+    }
+  }
+}

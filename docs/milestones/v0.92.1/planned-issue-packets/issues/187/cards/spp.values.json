@@ -1,0 +1,124 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 187,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-07] Complete soak replay resource cleanup and synthesis",
+    "slug": "drt-07-complete-soak-replay-resource-cleanup-and-synthesis",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Run bounded two-hour local and four-hour hybrid production soaks, preserve every attempt, prove resource and error thresholds, replay deterministically, verify cleanup, and synthesize truthful residual risks.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Freeze exact local and hybrid workload, fault schedule, duration, resource, cost, and error thresholds plus attempt identifiers before either soak begins.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Run the uninterrupted two-hour local production soak and retain per-phase commands, clocks, terms, committed indexes, envelopes, source/model digests, faults, resources, errors, and cleanup receipts.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "After business-AWS identity and budget verification, run the uninterrupted four-hour hybrid production soak with the same producer-derived denominator and provider resource/cost readback.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Preserve failed attempts without resetting their clocks or evidence, classify every expected and unexpected failure, and stop when resource or error thresholds are exceeded.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Replay retained deterministic inputs without live-provider dependence and compare committed outcomes, terms, indexes, envelopes, and state digests exactly.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "Verify local process/port cleanup and AWS provider cleanup after normal completion and every failure phase; reject any surviving process or cloud resource.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S7",
+          "action": "Synthesize the exact qualification report, non-claims, residual risks, and all attempt receipts; run the issue validator and independent exact-head review without claiming release approval.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/tools/v0921/drt-07/**",
+        "docs/milestones/v0.92.1/evidence/runtime-qualification/**",
+        ".csdlc/issues/187/**",
+        ".csdlc/prepared/issues/187/**",
+        ".csdlc/evidence/187/**",
+        ".csdlc/prepared/issues/187/validate-outcome.rb",
+        "adl/tools/v0921/drt-07/validate.sh"
+      ],
+      "invariants": [
+        "Issue DRT-07 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.",
+        "No unsupported completion, legal, production, or release claim",
+        "No mutation outside exact owned paths"
+      ],
+      "risks": [
+        "A passing artifact could overstate production, legal, or release authority.",
+        "Path or external-account overlap could collide with another active issue.",
+        "Evidence could become stale if it is not tied to exact revisions and producer outcomes."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 86400,
+        "total_tokens": 240000,
+        "validation_seconds": 21600
+      },
+      "stop_conditions": [
+        "A soak restarts without retaining the failed attempt",
+        "Resource or error thresholds are exceeded",
+        "Replay diverges",
+        "Any cloud or local process survives cleanup",
+        "Typed doctor is not ready",
+        "A required dependency is nonterminal",
+        "An owned-path collision is discovered"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/187/design.md",
+      "design_digest": "bcc95757e789cd3e054f41a2cd15c49190f1c1a308966dc15fe3f180c9a6ae2d",
+      "diagram_ref": ".csdlc/prepared/issues/187/diagram.mmd",
+      "diagram_digest": "4499a2c837b9f57dd68bf4fba95fc28f4ee10bad1c4f72ab5640cd785491725c"
+    }
+  }
+}

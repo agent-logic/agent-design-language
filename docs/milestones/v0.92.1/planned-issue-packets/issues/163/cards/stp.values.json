@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 163,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-D11] Approve platform commit matrix and Windows posture",
+    "slug": "v3-d11-approve-platform-commit-matrix-and-windows-posture",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-D11 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Retained Decision 11 record tied to V3-02 measurements.",
+        "Approved platform commit matrix with explicit Windows posture and proof requirements."
+      ],
+      "acceptance_criteria": [
+        "Every supported platform has a measured commit primitive and durability contract.",
+        "Windows mutation is either equivalently proven or explicitly fail-closed read-only.",
+        "The operator decision cites exact V3-02 evidence and cannot be inferred from recommendation text.",
+        "V3-08 remains blocked until this issue is terminal."
+      ],
+      "dependencies": [
+        "V3-02: issue #162"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#decisions-required-before-implementation",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Implementing V3-08",
+        "Accepting a V3-02 recommendation as approval",
+        "Claiming unsupported-platform mutation"
+      ]
+    }
+  }
+}

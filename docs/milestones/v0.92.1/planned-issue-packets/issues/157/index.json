@@ -1,0 +1,95 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 157,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "0076d85a2fdd451f7a646959484bfd73ebdbd38d684b1ceb2bcbb491507c6cea",
+  "phase": "initialized",
+  "generation": 4,
+  "digest": "d548c5cd3baf2191c0778d0a85e45371757d1b8720baca1a96d4a3477586b186",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/157/design.md",
+  "diagram_path": ".csdlc/prepared/issues/157/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "revision": "ca8e391f9af1d4d0e6afbf3b726758940896d140f18f98208a8668db7b9142b2"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "32b3298a6a2a14164eef1630fc28becc0e8f2d8589ea9ed586fbabfa9ab42b6b",
+      "rendered_digest": "87fd8f8d16dd62d46a7a6f6969ff449cc3b5f5061dbcb1f5e9e542221eab43f6",
+      "ast_digest": "4fd89c0a69349680643b6a1f295e0ff61eb49d938ca990ac68baeeaa978d0012"
+    },
+    "stp": {
+      "values_digest": "0b79bb9d0b1956f308da1304ea9e751b359e602eb322409776970fc636281533",
+      "rendered_digest": "5b567b4e9cd4709e04e662d145a7c7043d6676ba09dca15ed0eea7d7d66ebe7c",
+      "ast_digest": "d27068de08146542dd84445e00761b77c27b23bce0aab381dfc0aaa6d1bc1362"
+    },
+    "spp": {
+      "values_digest": "c9f1155947602eb6051701bf156163047ff4f8fa99620eb71bcb9885f64cc997",
+      "rendered_digest": "d00e6b2e6f7d5d9bf59a800fa33daca369d3163926654d2625055f69608f90b9",
+      "ast_digest": "49ac6103601bb6fe0cb930d9b6601000d2d6d19d2732405ce23a236c75bf9ee4"
+    },
+    "vpp": {
+      "values_digest": "ae4609d33e2273589e46b765e876b3e0d5a1bfdbf916d2f1c9d1e447b3aec2eb",
+      "rendered_digest": "d285a04ac8b133d15c602f39d77d9e07b9b9ed4e35e33739ee03c6f3b3e6c0e3",
+      "ast_digest": "3587191d8858b73eee7b9eb35e86e21d747a8dceaac6e26b073c56af455c60a2"
+    },
+    "srp": {
+      "values_digest": "3e0ec5514337ae5bacede272ed485d2d2209b08604a7fb07e8a65e6617a83fe3",
+      "rendered_digest": "8004be9f5a54f9bbfcb21aed367312b7da6a8042484c45ebde37afe252bb1961",
+      "ast_digest": "3a344664799b97de378f047436fe0f2c54cec08b08e1cc49e042a81b1c817fa6"
+    },
+    "sor": {
+      "values_digest": "025ac441e2792192b98e6e5b057ff833cf8526c470405c4d35967aea0a21ca9e",
+      "rendered_digest": "d5344c799dea3ad7035f26c492b336f271b94869c348e81b128a0dc2180016e0",
+      "ast_digest": "9a261cbaca793815dc96446165ce5e9aea64ab0ba7133f1261bdd799c0a1853d"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:146-corporate-readiness-remediation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:146-review-remediation",
+      "reason": "Remove the redundant exact validator path already covered by the issue prepared-root declaration.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/corporate/corp-05/**\",\"docs/operations/corporate/corp-05/**\",\".csdlc/issues/157/**\",\".csdlc/prepared/issues/157/**\",\".csdlc/evidence/157/**\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:146-typed-readiness-remediation",
+      "reason": "Declare the executable issue validator as an exact owned target required by the typed issue-specific denominator gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/corporate/corp-05/**\",\"docs/operations/corporate/corp-05/**\",\".csdlc/issues/157/**\",\".csdlc/prepared/issues/157/**\",\".csdlc/evidence/157/**\",\".csdlc/prepared/issues/157/validate-outcome.rb\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

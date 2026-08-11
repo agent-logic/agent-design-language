@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 146,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/146-v0921-milestone-planning",
+  "title": "[v0.92][planning] Establish the v0.92.1 corporate, C-SDLC v3, and distributed Runtime milestone",
+  "body": "Closes #146\n\n## Summary\n\n- establish the canonical planning-only v0.92.1 milestone package\n- preserve 42 complete work-package specifications for corporate/IP transfer, C-SDLC v3, distributed Runtime qualification, and the integration/closeout tail\n- make post-merge operator bootstrap responsible for creating WP-01; WP-01 then exclusively creates and validates the downstream live issue wave\n- retire prematurely created issues #149-#190 without execution and remove them from live local lifecycle authority\n- preserve all 721 generated cards, designs, diagrams, validators, and proof stubs byte-for-byte in a source-commit-anchored, explicitly non-authoritative planning archive\n- preserve all eleven mandatory C-SDLC v3 decisions with exact package ownership and the standard nine-stage milestone lifecycle\n\n## Validation\n\n- `ruby .csdlc/prepared/issues/146/validate-v0921-package.rb`: passed\n- `ruby .csdlc/prepared/issues/146/validate-v0921-links.rb`: passed\n- `git diff --check`: passed\n- typed issue validation: passed with no findings\n- independent exact-head review: PASS at `dd67013066c1dbcd50634fdb30b24e8125eea242`\n- GitHub readback: all 42 retired issues are closed; no retired issue is active execution authority\n\nNo v0.92.1 implementation, transfer, qualification, cutover, release, or child execution is claimed by this PR. No broad test suite was run because this is a planning/documentation correction.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:9331888fe4607ebbbc675237ae1e15017e95fb3f:8f26d67988b0fcc9480d710c1c8f187ee23385e281e2ae8698489a5342aa005f",
+  "commit_sha": "9331888fe4607ebbbc675237ae1e15017e95fb3f"
+}

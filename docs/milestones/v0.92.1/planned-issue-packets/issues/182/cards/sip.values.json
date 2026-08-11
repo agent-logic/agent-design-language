@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 182,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-02] Prove deterministic ACIP authority and replay conformance",
+    "slug": "drt-02-prove-deterministic-acip-authority-and-replay-conformance",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prove deterministic ACIP identity, authority, ordering, causation, duplicate, denial, and replay conformance before live distribution.",
+      "required_outcome": "canonical vectors ordering causation denial duplicate and replay digest is produced at an exact revision and independently reproducible.",
+      "declared_scope": [
+        "Canonical envelopes and encodings, identity and authority bindings, sequence and term rules, duplicate and replay behavior, negative vectors, deterministic receipts, and cross-polis denial."
+      ],
+      "authority_boundary": [
+        "Issue DRT-02 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main",
+        "Bind only after typed doctor reports ready",
+        "Do not cross dependency or stop gates",
+        "Keep evidence producer-derived and exact-revision bound"
+      ]
+    }
+  }
+}
