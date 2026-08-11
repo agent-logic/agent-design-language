@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "initialized",
-  "generation": 27,
-  "digest": "c9a1227eae7336f00df24db9c8504a4c0362cc0804b1716b02943988db1e7df1",
+  "generation": 28,
+  "digest": "f0e877a8f0740d09f0b8dc9313ef0c5ef0e806184fac780e54ee2df7d74412c5",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/201/design.md",
   "diagram_path": ".csdlc/prepared/issues/201/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/review_201_fresh_cas_f277",
+      "revision": "673631c5387f72f4d5da4b11b2a467360a565ee306efd9229fa0fa36f409c5bf"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "48523085d19b2cebfe4cfd2b1122ba95874d9d292e005187f0f7e099514302f6",
+      "values_digest": "3aa130d176ba972ad46599dd4fafb6de83980b634a356f6e050529983d9ea72b",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "6dd439e7cd00cc02770870db9afdc65bc5177204ad00f4179960b1445d351576",
+      "values_digest": "99a225b5c5c0621cacc138fa2b15ebd0977692fc1c98b7fbb436e54bd5bc97e2",
       "rendered_digest": "b9dc9472b5cb780e06096f27d1ea410affd2ef1dbe6879575b904767dd8e5a96",
       "ast_digest": "933b98acdd836328d3647ded0d86e0a2aed1320befac8f59ce373d1c34fb1041"
     },
     "spp": {
-      "values_digest": "0155c1786a4ba3bafdd460717a74e51fb24f987f398b56d7c59f3d42872c21d1",
+      "values_digest": "7d01c0df9ddb666c195ba88f538ac7dad2935d2af2d4b20fbdbf94a8a34a50c5",
       "rendered_digest": "10ce9a9edb4e76b3362c1d3de2096f809583c3a57f7d207325bb3258855f7052",
       "ast_digest": "1a41a09ee89d37928caaab6d352f64c3b031eecffaa5aee6e48dfd17d2ade2c8"
     },
     "vpp": {
-      "values_digest": "8fb0706de25e9197b9374f45861bc9d40239d85423df0eeb3e5f1c646e659637",
+      "values_digest": "2047554bddf288a1415b7390ab8e3162c439a8027141ec02612fcd7c650ba880",
       "rendered_digest": "db671aa0607a480b4a925142fa568d4d22bdee057b9bd0c60ffdbc2d5364620b",
       "ast_digest": "184c02956b7ba54244773345a62706068bdfb7cf226e9844c4c37d8b3ebb3f6e"
     },
     "srp": {
-      "values_digest": "6f0e7331a4e58e6d041505270ba3d381aec57cdd2a7d5eea2ec6b02c808571d3",
+      "values_digest": "5184095e7a20c03ef4ee04234e036c17aeaf6f3d9af78a4cd4ee22c4502b7359",
       "rendered_digest": "90fa315a353a116877a3fa27ade2db93422edf515657fe8ab849f228ea853511",
       "ast_digest": "4862f04ad392f0a53588c93e4670d28dba36f7ee0e30adb3bb78c000e911cf3d"
     },
     "sor": {
-      "values_digest": "8eaec78fdb4c2472ac06e41a18fcdc5580e0856179bf327e8b366152b0505bb9",
+      "values_digest": "8876890141c5c787cb7cb914b45f06056528b97ebc8853dc3c9d7205b846e401",
       "rendered_digest": "dd074b4fa9e4431fe2d9bec84b129f0ae6f0187e7df563f658756033aa354313",
       "ast_digest": "39cc131d0e4042080ae44500a2d66d4a67ce65a724fd47e2836886ae741db8b7"
     }
@@ -246,6 +251,13 @@
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6",
       "reason": "Resolve exact-head review by requiring explicit review of the AC-4 and AC-5 per-voter fresh-CAS exact-once publication sequence.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?\",\"Does the existing private artifact view retain byte-identical committed signed bytes only for sealed #199/#200/#203 consumers without replacement or digest-only reconstruction?\",\"Can only an exact finalized continuity-transfer variant produce the separate sealed #210 ContinuityTransferGrantProjection, with wrong consumer and wrong variant denied?\",\"Does the #210 projection bind exact lineage, SourceCheckpointHandle identity, byte-identical bundle-handle identity, source, target, route/membership/certificate/boot cuts, exact signed bundle/catalog bytes and digests, entry/chunk/range bounds, deadline, and cleanup identity while rejecting wrong lineage or either wrong handle before source access and exposing no constructor, generic conversion, signing, transport, filesystem, migration, fence, activation, serving, or store-effect authority?\",\"Does replicated apply consume only committed deterministic time, membership, and artifact evidence, including skew and uncertainty boundaries?\",\"Do AC-4 and AC-5 use three independent node-local checkpoint authorities that each record exact expected old and new checkpoints, perform only a fresh compare-and-swap against their own expected old checkpoint, complete only the exact same operation after a proved partial commit, and withhold token, projection, canonical-response, and Raft-apply publication until the canonical result, retry record, and that node-local external checkpoint are durable and agree?\",\"Do initialization, exact retry, artifact retention, projection retention, result-cache, and every node-local external-checkpoint crash window reconcile without false publication, substitution, rollback acceptance, or one voter publishing for another?\",\"Are all legacy direct authority commands retired or explicitly versioned fail-closed across apply, log replay, and snapshot restore?\",\"Does exact proof bind all forty-seven machine cases, protected-source drift, immutable evidence, strict Clippy, and merge topology?\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 28,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/review_201_fresh_cas_f277",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
     }
   ]
 }
