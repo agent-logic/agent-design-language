@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
-  "phase": "bound",
-  "generation": 34,
-  "digest": "14cc227d32822b79897a1a08ece84ebcb42688dc0d0d346719264d9412480e05",
+  "phase": "implemented",
+  "generation": 36,
+  "digest": "1ec05af46b09c1840690b1b49372c993b178c63953aaabcba75c51ce2124a0bd",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d47dcf43adcc5fe53dcb5424d4f67b18836986fd8f56fe570be8d4ed1f62ef58",
+      "values_digest": "8286cd2172f457f33f130b4d3612ca2ced50691645a4737a1ded8e3d53fb25af",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "36afdef9e359fcd3e0184fbc428dd1cf63f10bc83afe328d44220023bbb38b98",
+      "values_digest": "e3218df887d2bb388180bba5fc68f7238e06f04ec9fbdb077c5bb8d54182e06c",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "c43363cce7047373f5bbd9eac5c73afb4083015afef5770e6b2f38b2a273fb23",
+      "values_digest": "b72ad751e9ef27e2538d904f2dcbaf1e65cf6e25c5a6386b9154a3b5e00565cb",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "70fe182c5e63a7ef4bce1db82a30c4e32387ffeaf5c043953db0f91159fe95f3",
+      "values_digest": "b217cebeac31f3f0542564acaefe939b4df2bbf8efae76dcf26935f7ecbe5dc3",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "5c8a43c74e3a17c66466809598085bb7bf7a3629d9acdf168bd331935a6f00da",
+      "values_digest": "e822dd2fb4b6718636511eef6784753f05b9fc4b9969f17d06f72b0e85612b60",
       "rendered_digest": "e37a0643a47fb863a387964ca9e69e03eea12c6cfb959ebfbc5c60f69ec98b2b",
       "ast_digest": "998b9887f80c2418e8b940fed6ddaeeeaaa92fbf2c6a08f79884820b30e5dd90"
     },
     "sor": {
-      "values_digest": "d043f7699989978ab5babcd743522808db84c77ea62804bb652176fcd6e570cf",
-      "rendered_digest": "7e85772a1b45db70e43e5c774ccbd497398a8abcc4c36410055d3abbdbf7e98d",
-      "ast_digest": "2b7c8a38e9f8222a78fea737458fba42a8b3696abaf3c65793811bd97261636d"
+      "values_digest": "87110c6c7776d51777c76425f854c4471d44b9c5b19cd52ad67696e3085ec97f",
+      "rendered_digest": "b43d2c0a3131be800c3aa9ea4e05cbe09dce3c3e99b0de77150c1ec5d9fc7695",
+      "ast_digest": "55eb6d526a9d0456fbef98ad20f486d06be6298b6bd1ede11e9c32d648f2b7ed"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:111-review-remediation",
+      "reason": "Focused product, contract, browser, cancellation, ordering, timeout, typed-card, lint, and diff validation is complete at the independently approved implementation revision."
     }
   ],
   "audit": [
@@ -323,6 +330,20 @@
       "actor": "codex:111-review-remediation",
       "reason": "Align acceptance with the live bounded conversation issue and the exact remediation proof surface.",
       "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Conversation identity, recipient binding, per-turn sequence, exact duplicate state, and terminal outcome are Runtime-owned; disconnect and bounded reconnect retrieve the same turn without duplicate dispatch or transcript entries\",\"AC-2: Every accepted turn has stable conversation, turn, recipient, sequence, correlation, submission, and outcome identity under versioned provider-neutral schemas\",\"AC-3: Unknown or unavailable recipients, malformed input, conflicting duplicates, cancellation, timeout, saturation, shutdown, and adapter failure fail closed with deterministic typed outcomes\",\"AC-4: The Observatory submits through canonical authenticated ingress and renders operator text or an agent reply only after a fully correlated Runtime result; acknowledgements, hashes, browser-generated acceptance, and arbitrary adapter fields are never replies\",\"AC-5: Focused deterministic conversation, Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, strict Clippy, card, and diff-hygiene validation passes at the exact implementation revision\",\"AC-6: Exact-head independent review resolves all actionable findings and records residual risks without claiming durable history, multi-agent routing, or broader Layer 8 authority\"]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 35,
+      "actor": "codex:111-review-remediation",
+      "reason": "Record the bounded implementation and focused proof before entering exact-revision review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the bounded selected-agent Observatory conversation path with Runtime-owned conversation identity, recipient binding, deterministic turn sequencing, authenticated WSS intent and cancellation, canonical ingress dispatch, propagated executor cancellation, one absolute timeout budget, bounded reconnect retrieval, and Runtime-authoritative browser rendering.\",\"changes\":[\"Added Runtime-owned bounded conversation and turn state with explicit sequence-gated dispatch and exact duplicate handling.\",\"Propagated cancellation through canonical ingress and the queued operational factory into the existing adapter executor cancellation boundary.\",\"Added correlated accepted, delivered, refused, failed, timed_out, and cancelled WSS outcomes plus OpenAPI contracts.\",\"Updated the Observatory to render only fully correlated Runtime-authoritative turns and to recover exact pending intents once after reconnect.\",\"Added focused ordering, timeout, cancellation, reconnect, capacity, forgery, OpenAPI, and browser regressions.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\"]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 36,
+      "actor": "codex:111-review-remediation",
+      "reason": "Focused product, contract, browser, cancellation, ordering, timeout, typed-card, lint, and diff validation is complete at the independently approved implementation revision.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
