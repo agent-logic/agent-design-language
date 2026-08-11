@@ -4,6 +4,8 @@ import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { createPrivateKey, randomBytes, sign } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { mkdir, realpath, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
 
 const require = createRequire(import.meta.url);
 let chromium;
@@ -18,11 +20,18 @@ const runtimeApiBase = process.env.ADL_RUNTIME_API_BASE;
 const sourceRevision = process.env.ADL_SOURCE_REVISION;
 const controlPrivateKeyPath = process.env.ADL_CONTROL_PRIVATE_KEY_PATH;
 const allowRestartProof = process.env.ADL_ALLOW_RUNTIME_RESTART_PROOF === "1";
+const evidenceRoot = process.env.ADL_EVIDENCE_ROOT;
 assert(observatoryUrl, "ADL_OBSERVATORY_URL must name the HTML Observatory URL");
 assert(runtimeApiBase, "ADL_RUNTIME_API_BASE must name the Runtime v3 API base");
 assert(/^[0-9a-f]{40}$/.test(sourceRevision || ""), "ADL_SOURCE_REVISION must name the exact candidate");
 assert(controlPrivateKeyPath, "ADL_CONTROL_PRIVATE_KEY_PATH must name the external proof control key");
 assert(allowRestartProof, "ADL_ALLOW_RUNTIME_RESTART_PROOF=1 is required for the isolated Guardian restart proof");
+assert(evidenceRoot, "ADL_EVIDENCE_ROOT must name a fresh FastWork evidence directory");
+const resolvedEvidenceRoot = resolve(evidenceRoot);
+assert(resolvedEvidenceRoot.startsWith("/Volumes/FastWork/"), "evidence must remain on FastWork");
+await mkdir(resolvedEvidenceRoot, { recursive: false });
+assert.equal(await realpath(resolvedEvidenceRoot), resolvedEvidenceRoot, "evidence root must not traverse a symlink");
+const retain = (name, bytes) => writeFile(resolve(resolvedEvidenceRoot, name), bytes, { flag: "wx" });
 
 const sleep = (millis) => new Promise((resolve) => setTimeout(resolve, millis));
 const signedRestart = (feed) => {
@@ -100,6 +109,7 @@ proofUrl.searchParams.set("runtimeApiBase", runtime.origin);
 proofUrl.searchParams.set("live", "1");
 
 const browser = await chromium.launch({ headless: true });
+let retainedReport;
 try {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await context.newPage();
@@ -246,12 +256,34 @@ try {
   await row.waitFor({ state: "visible" });
   assert.equal(await page.locator('[data-agent-id="shepherd"]').count(), 1, "Runtime reincarnation must reset cursor without duplicate rows");
 
+  await retain("roster-desktop.png", await page.screenshot({ fullPage: true }));
+
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
+  await retain("roster-mobile.png", await page.screenshot({ fullPage: true }));
   assert.deepEqual(pageErrors, []);
+  retainedReport = {
+    schema: "adl.runtime_v3.roster_live_proof.v1",
+    source_revision: sourceRevision,
+    observatory_url: observatory.href,
+    runtime_api_base: runtime.href,
+    tls: "public_platform_trust",
+    initial_runtime_instance_id: feed.runtime_instance_id,
+    initial_runtime_incarnation_id: feed.runtime_incarnation_id,
+    restarted_runtime_instance_id: restartedFeed.runtime_instance_id,
+    restarted_runtime_incarnation_id: restartedFeed.runtime_incarnation_id,
+    roster_revision_gap: { from: 23, to: 25, disposition: "full_snapshot_resync" },
+    public_agents: restartedFeed.agents.sample.map(({ id }) => id),
+    checks_passed: 22,
+    checks_failed: 0,
+    artifacts: ["roster-desktop.png", "roster-mobile.png"],
+    completed_at: new Date().toISOString()
+  };
   await context.close();
 } finally {
   await browser.close();
 }
+
+await retain("roster-live-proof.json", `${JSON.stringify(retainedReport, null, 2)}\n`);
 
 process.stdout.write("PASS: Runtime-backed local Shepherd roster, bounded presence, pagination, transition, reconnect, and reincarnation proof\n");
