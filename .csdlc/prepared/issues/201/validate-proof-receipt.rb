@@ -9,7 +9,8 @@ require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 PREFIX = ".csdlc/evidence/201/"
-PROOF_RELATIVE = "#{PREFIX}v1/execution-proof.json"
+PROOF_PREFIX = "#{PREFIX}v2/"
+PROOF_RELATIVE = "#{PROOF_PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = [
   "adl-runtime/Cargo.toml", "adl-runtime/Cargo.lock",
   "adl-runtime/src/distributed/mod.rs", "adl-runtime/src/distributed/authority_protocol.rs",
@@ -89,6 +90,6 @@ unless system("git", "merge-base", "--is-ancestor", source, introduction, chdir:
   fail_receipt("squash introduction lacks exact protected source") unless (EXPECTED_PROTECTED - introduced).empty?
 end
 fail_receipt("protected source changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED).empty?
-fail_receipt("evidence changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PREFIX).empty?
-fail_receipt("protected/evidence worktree dirty") unless git("status", "--porcelain=v1", "--untracked-files=all", "--", *EXPECTED_PROTECTED, PREFIX).empty?
+fail_receipt("immutable proof changed after introduction") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PROOF_PREFIX).empty?
+fail_receipt("protected/proof worktree dirty") unless git("status", "--porcelain=v1", "--untracked-files=all", "--", *EXPECTED_PROTECTED, PROOF_PREFIX).empty?
 puts "PASS: issue #201 merge-safe proof binds exact source, strict Clippy, and ordered 47/47 case evidence"
