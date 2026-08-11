@@ -16,7 +16,7 @@ Freeze the retained-proof contract, restore the exact source packet, implement a
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 

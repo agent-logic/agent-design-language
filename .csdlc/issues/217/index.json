@@ -3,9 +3,9 @@
   "issue": 217,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "043cf4baaa244241d04c17933035cff870bc658c4ed2b6a116dd94077e6a85eb",
-  "phase": "initialized",
-  "generation": 8,
-  "digest": "063e9b357d1d80d03d7847ea2888ca484d4b56ae2cf3dce6c732e737b59631b8",
+  "phase": "ready",
+  "generation": 12,
+  "digest": "14c36abddbf4e7f3b66cdf909ed69ff689349c88b6e62b19017285f51a7f1476",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b5460f4604eed8214ff5199c7ba81aa456379ac3097a83b09c9475f52f77818b",
+      "values_digest": "c3ba582ac8f98be2daa0d29ac63b28e69f8d6aa37475fbabff7b12af7ac10678",
       "rendered_digest": "a989adca89f39e74d79e1887b76cb8c0bb95a24c196524c48983478eb6ddbb96",
       "ast_digest": "8a432891032c24112f8e5b368214f38d8a57ce71e5397b6cb1c8a54b128d63de"
     },
     "stp": {
-      "values_digest": "43dd5766f7fab5f053334e233e88a085a74bd3de5bdf157eb8176763a579f2ff",
-      "rendered_digest": "ebd802e6aab9367ff80a045cf7b11cfb8a47b9a1857f73cd11b351fc14354d66",
-      "ast_digest": "332d5f46983526ce41525e3f7cc7ffffa6c30c39dbed2ece6567433af8428567"
+      "values_digest": "5a2bcf40d5e47bedff771ed3394cd6d893805818e0f01207ff846c5007e9d2fd",
+      "rendered_digest": "7a6bc8370b9cf73cb46f464d8a56486fab005dadc254f2aea600d57da6ee2108",
+      "ast_digest": "304608a2230cfc1e43c3eef9873a7e7cf86a7b10a49affd684fddf454d461fb3"
     },
     "spp": {
-      "values_digest": "805dc871f59994133cf589b22191ad7ce3fa507e5ebf9432c8661ea1c2621b52",
-      "rendered_digest": "874d04a035edae0bd46df13da8922fd49727d94527766171c2155c1909980dd8",
-      "ast_digest": "3bc7c90f2ba159a8bca33443951fd86a193f402c6f3ee3df2ab93fee0b0ab214"
+      "values_digest": "9a82c7c778674bd17337bd810ded88088e203b19cc00a08d6314aced232cb5a1",
+      "rendered_digest": "2ee12337e0c19239cf38d92c50428e1ce9e6938e7ab2b2715f798b4c5fc3c93f",
+      "ast_digest": "3c8f44f9b8912e3df53e9062c9bc7452865711d2adc3beb61274f23c2a9168f3"
     },
     "vpp": {
-      "values_digest": "8a227651bebcff474384ffbfa5bd1c5a614e724cde75c2abfd4fada5773b12ca",
-      "rendered_digest": "2b5a38f21f1ca85734de4bb5ab4abfa95f4971a2097320f7c82bbcf4f7bc8940",
-      "ast_digest": "5bddce9fde13b73cdc1db582ecb9b1194e8b7daf5bd73084103f6b17564e3f3d"
+      "values_digest": "308cde59a47449c8abf7dbd55391f08aa0b56cdf9f939001639642ac802e9b36",
+      "rendered_digest": "ba302d661100be8d1ce6b36405c868329eefbe0cf0a6255e29e4a5e1a6ea42d6",
+      "ast_digest": "ca0f4743bdfb4ac2edfa17b130f3886ea2374673fd3e19cba08d72e24593202e"
     },
     "srp": {
-      "values_digest": "309e0aa5e1532ed6330a5605b229d7c8ecd00e327cb48c083367b945832615e8",
+      "values_digest": "422f171c0c2134bc3416facada899ae817d1eb22e95b90933e30e005b48c3c22",
       "rendered_digest": "1370542e364f694d6e9bd501245c0a5f17bd1d71a6181cd1228ab6093374c909",
       "ast_digest": "a9639ee67355ef0745c3359e955446da5d4c0b41711c28d9ddaab2b12eedadda"
     },
     "sor": {
-      "values_digest": "e041cccc653e5d1b48c1df9079a94cffda8d60066d1e2cfb23e5d651bfd6d3cb",
+      "values_digest": "e8adb64ff087fa1c9f9de3a446868ead325599c2a25f9e57b5e31772ff7e8ea3",
       "rendered_digest": "1c281a238160a23ca2d9522f521acc4d55a2dca5e4a72308ce5616c76aa63c59",
       "ast_digest": "2581958855efc1d1ff0b20f11890a11444d91d86ee9caefc9f25135ab9f44f4b"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Advance the independently approved, mechanically valid preparation packet to ready solely for binding and remaining typed card repair."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -118,6 +126,34 @@
       "actor": "/root/review_217_97dac68",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Record exact issue-owned proof tooling/workflow paths required for initialized bind readiness; no implementation occurs.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/evidence/209\",\".csdlc/evidence/217\",\".csdlc/prepared/issues/217/historical-c640-denominator.json\",\".csdlc/prepared/issues/217/protected-source-denominator.json\",\".csdlc/prepared/issues/217/verify-historical-c640-packet.rb\",\".csdlc/prepared/issues/217/produce-native-receipt.rb\",\".csdlc/prepared/issues/217/validate-retained-native-proof.rb\",\".github/workflows/wp14-retained-native-proof.yml\",\".csdlc/issues/217\",\".csdlc/prepared/issues/217\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Keep validator executables exact-owned while describing the future workflow without misclassifying YAML as an executable validator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Exact restored ten-file historical packet beneath .csdlc/evidence/209\",\".csdlc/prepared/issues/217/historical-c640-denominator.json\",\".csdlc/prepared/issues/217/protected-source-denominator.json\",\".csdlc/prepared/issues/217/verify-historical-c640-packet.rb\",\".csdlc/prepared/issues/217/produce-native-receipt.rb\",\".csdlc/prepared/issues/217/validate-retained-native-proof.rb\",\"Narrow issue-owned GitHub Actions workflow for fresh current-head native proof\",\"Fresh exact ten-file native packet plus machine-consumed denominator beneath .csdlc/evidence/217\",\".csdlc/issues/217 complete typed lifecycle and review evidence\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Replace the unavailable prep target with executable preparation proof and defer exact issue-owned validators until the second full-package review permits implementation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"historical-c640-packet\",\"proof_role\":\"Verify the exact ten-path historical denominator, create a detached c640 worktree, overlay evidence, set original GitHub environment, and run the unchanged source validator as provenance-only proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/verify-historical-c640-packet.rb\",\".csdlc/prepared/issues/217/historical-c640-denominator.json\"],\"parallel_group\":\"217-historical\",\"defer_reason\":\"The issue-owned detached-source wrapper is implemented only after the second independent full-package review passes.\"},{\"lane\":\"fresh-native-producer-contract\",\"proof_role\":\"Prove the issue-owned producer loads the exact 17-path denominator and writes confined issue #217 native artifacts.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/produce-native-receipt.rb\",\"--self-test\"],\"parallel_group\":\"217-contract\",\"defer_reason\":\"The issue-owned producer is implemented only after the second independent full-package review passes.\"},{\"lane\":\"fresh-native-linux-macos\",\"proof_role\":\"Produce and aggregate the fresh exact-H Linux/macOS packet, exact ten-path denominator, and semantic-equivalence proof before evidence-only H2 retention.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/validate-retained-native-proof.rb\",\".csdlc/evidence/217/retained-proof-denominator.json\"],\"parallel_group\":\"217-native\",\"defer_reason\":\"Runs on GitHub Actions Linux and macOS at reviewed producer head H; missing fresh proof blocks evidence retention, publication readiness, and merge.\"},{\"lane\":\"retained-proof-regressions\",\"proof_role\":\"Prove exact 10-path evidence and 17-path source denominators, provenance, ancestry/equivalence, protected drift, semantics, path confinement, and tamper behavior.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/validate-retained-native-proof.rb\",\"--self-test\"],\"parallel_group\":\"217-contract\",\"defer_reason\":\"The issue-owned retained validator is implemented only after the second independent full-package review passes.\"},{\"lane\":\"preparation-contract\",\"proof_role\":\"Check the complete preparation diff for malformed patches or whitespace errors before second independent review.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"--\",\".csdlc/issues/217\",\".csdlc/prepared/issues/217\"],\"parallel_group\":\"217-prep\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Advance the independently approved, mechanically valid preparation packet to ready solely for binding and remaining typed card repair.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }
