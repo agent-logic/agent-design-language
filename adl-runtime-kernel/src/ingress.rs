@@ -783,8 +783,80 @@ pub fn verify_signed_identity_message_with_watermark(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::verifying_key_from_hex;
+    use crate::{
+        verifying_key_from_hex, AdapterKind, AdapterPolicy, AuthorityMode, ExecutorError,
+        FailureClass, OperationExecutor, OperationalAdapter,
+    };
     use ed25519_dalek::{Signer, SigningKey};
+    use tokio::sync::Notify;
+    use tokio_util::sync::CancellationToken;
+
+    struct StartedPendingExecutor {
+        started: Arc<Notify>,
+    }
+
+    #[async_trait]
+    impl OperationExecutor for StartedPendingExecutor {
+        async fn execute(&self, _request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+            self.started.notify_one();
+            std::future::pending().await
+        }
+    }
+
+    struct StartedFatalExecutor {
+        started: Arc<Notify>,
+    }
+
+    #[async_trait]
+    impl OperationExecutor for StartedFatalExecutor {
+        async fn execute(&self, _request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+            self.started.notify_one();
+            Err(ExecutorError {
+                class: FailureClass::Fatal,
+                message: "injected operation failure".to_owned(),
+            })
+        }
+    }
+
+    fn test_agent_policy() -> AdapterPolicy {
+        AdapterPolicy {
+            capacity: 1,
+            max_in_flight: 1,
+            shutdown_grace_millis: 100,
+            max_attempts: 1,
+            idempotency_entries: 4,
+            authority: AuthorityMode::Internal,
+        }
+    }
+
+    fn operator_communication_keys(
+        signing_key: &SigningKey,
+    ) -> BTreeMap<String, CommunicationVerifyingIdentity> {
+        BTreeMap::from([(
+            "layer8-operator".to_owned(),
+            CommunicationVerifyingIdentity {
+                signing_key_id: "operator-key".to_owned(),
+                verifying_key: signing_key.verifying_key(),
+            },
+        )])
+    }
+
+    fn start_component(
+        factory: &impl ComponentFactory,
+        recorder: RuntimeRecorder,
+    ) -> (
+        CancellationToken,
+        tokio::task::JoinHandle<Result<(), ComponentError>>,
+        oneshot::Receiver<()>,
+    ) {
+        let cancellation = CancellationToken::new();
+        let (ready_tx, ready_rx) = oneshot::channel();
+        let context =
+            ComponentContext::new(factory.spec().id, cancellation.clone(), recorder, ready_tx);
+        let component = factory.build();
+        let task = tokio::spawn(async move { component.run(context).await });
+        (cancellation, task, ready_rx)
+    }
 
     fn layer8_work() -> DomainWork {
         let now = now_unix_millis();
@@ -1171,6 +1243,190 @@ mod tests {
                 .get("layer8-operator"),
             Some(&1)
         );
+    }
+
+    #[tokio::test]
+    async fn real_in_flight_cancellation_retains_watermark_across_restart() {
+        let root = tempfile::tempdir().unwrap();
+        let store = Arc::new(KernelDurableState::open(root.path()).unwrap());
+        let signing_key = SigningKey::from_bytes(&[97; 32]);
+        let started = Arc::new(Notify::new());
+        let adapter = Arc::new(
+            OperationalAdapter::new(
+                AdapterKind::Agent,
+                test_agent_policy(),
+                Arc::new(StartedPendingExecutor {
+                    started: started.clone(),
+                }),
+            )
+            .unwrap(),
+        );
+        let factory = OperationalFactory::new(adapter, Vec::new());
+        let recorder = RuntimeRecorder::new(8);
+        recorder.set_clock_authority(crate::ClockAuthority::Authoritative {
+            source: "test-qualified-clock".to_owned(),
+            unix_millis: now_unix_millis(),
+        });
+        let ingress = CanonicalIngress::new_with_communication_keys(
+            1,
+            recorder.clone(),
+            BTreeMap::from([("agent".to_owned(), factory.clone())]),
+            operator_communication_keys(&signing_key),
+        )
+        .with_communication_replay_store(store.clone())
+        .unwrap();
+        let (factory_cancel, factory_task, factory_ready) =
+            start_component(&factory, recorder.clone());
+        let (ingress_cancel, ingress_task, ingress_ready) =
+            start_component(&ingress, recorder.clone());
+        factory_ready.await.unwrap();
+        ingress_ready.await.unwrap();
+
+        let work = signed_request_work(&signing_key, 1);
+        let submitted = {
+            let ingress = ingress.clone();
+            let work = work.clone();
+            tokio::spawn(async move {
+                ingress
+                    .submit(work, "real-cancellation-correlation".to_owned())
+                    .await
+            })
+        };
+        tokio::time::timeout(Duration::from_secs(1), started.notified())
+            .await
+            .expect("executor must start before cancellation");
+        factory_cancel.cancel();
+        assert_eq!(submitted.await.unwrap(), Err(IngressError::ExecutionFailed));
+        assert!(factory_task.await.unwrap().is_ok());
+        assert_eq!(
+            store
+                .communication_inbound_sequences()
+                .unwrap()
+                .get("layer8-operator"),
+            Some(&1)
+        );
+        ingress_cancel.cancel();
+        assert!(ingress_task.await.unwrap().is_ok());
+        drop(ingress);
+        drop(factory);
+        drop(store);
+
+        let reopened_store = Arc::new(KernelDurableState::open(root.path()).unwrap());
+        let recorder = RuntimeRecorder::new(8);
+        recorder.set_clock_authority(crate::ClockAuthority::Authoritative {
+            source: "test-qualified-clock".to_owned(),
+            unix_millis: now_unix_millis(),
+        });
+        let restarted = CanonicalIngress::new_with_communication_keys(
+            1,
+            recorder,
+            BTreeMap::new(),
+            operator_communication_keys(&signing_key),
+        )
+        .with_communication_replay_store(reopened_store)
+        .unwrap();
+        assert_eq!(
+            restarted
+                .submit(work, "real-cancellation-replay".to_owned())
+                .await,
+            Err(IngressError::Conflict)
+        );
+    }
+
+    #[tokio::test]
+    async fn real_factory_saturation_rolls_back_and_allows_same_sequence_retry() {
+        let root = tempfile::tempdir().unwrap();
+        let store = Arc::new(KernelDurableState::open(root.path()).unwrap());
+        let signing_key = SigningKey::from_bytes(&[98; 32]);
+        let started = Arc::new(Notify::new());
+        let adapter = Arc::new(
+            OperationalAdapter::new(
+                AdapterKind::Agent,
+                test_agent_policy(),
+                Arc::new(StartedFatalExecutor {
+                    started: started.clone(),
+                }),
+            )
+            .unwrap(),
+        );
+        let factory = OperationalFactory::new(adapter, Vec::new());
+        let recorder = RuntimeRecorder::new(8);
+        recorder.set_clock_authority(crate::ClockAuthority::Authoritative {
+            source: "test-qualified-clock".to_owned(),
+            unix_millis: now_unix_millis(),
+        });
+        let ingress = CanonicalIngress::new_with_communication_keys(
+            1,
+            recorder.clone(),
+            BTreeMap::from([("agent".to_owned(), factory.clone())]),
+            operator_communication_keys(&signing_key),
+        )
+        .with_communication_replay_store(store.clone())
+        .unwrap();
+        let (ingress_cancel, ingress_task, ingress_ready) =
+            start_component(&ingress, recorder.clone());
+        ingress_ready.await.unwrap();
+
+        let occupied = {
+            let factory = factory.clone();
+            tokio::spawn(async move {
+                factory
+                    .submit(OperationRequest {
+                        schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                        request_id: "occupy-factory-queue".to_owned(),
+                        idempotency_key: "occupy-factory-queue".to_owned(),
+                        principal: "canonical-ingress".to_owned(),
+                        payload: b"queued-before-component-start".to_vec(),
+                        permit: None,
+                    })
+                    .await
+            })
+        };
+        tokio::time::timeout(Duration::from_secs(1), async {
+            while factory.queued_requests() != 1 {
+                tokio::task::yield_now().await;
+            }
+        })
+        .await
+        .expect("the first request must occupy the real factory queue");
+        assert!(!occupied.is_finished());
+        let work = signed_request_work(&signing_key, 1);
+        assert_eq!(
+            ingress
+                .submit(work.clone(), "real-saturation-correlation".to_owned())
+                .await,
+            Err(IngressError::ExecutionFailed)
+        );
+        assert!(store
+            .communication_inbound_sequences()
+            .unwrap()
+            .get("layer8-operator")
+            .is_none());
+
+        let (factory_cancel, factory_task, factory_ready) =
+            start_component(&factory, recorder.clone());
+        factory_ready.await.unwrap();
+        assert!(occupied.await.unwrap().is_err());
+        assert_eq!(
+            ingress
+                .submit(work, "real-saturation-retry".to_owned())
+                .await,
+            Err(IngressError::ExecutionFailed)
+        );
+        tokio::time::timeout(Duration::from_secs(1), started.notified())
+            .await
+            .expect("retry must reach the real executor");
+        assert_eq!(
+            store
+                .communication_inbound_sequences()
+                .unwrap()
+                .get("layer8-operator"),
+            Some(&1)
+        );
+        factory_cancel.cancel();
+        ingress_cancel.cancel();
+        assert!(factory_task.await.unwrap().is_ok());
+        assert!(ingress_task.await.unwrap().is_ok());
     }
 
     #[test]

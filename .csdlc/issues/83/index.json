@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
   "phase": "bound",
-  "generation": 63,
-  "digest": "c47a27f213c33c19ff8df5fe57e4ac6b796e52ed9ed2168c46fb6c8da596de59",
+  "generation": 64,
+  "digest": "4af160aaca995a5742c9ec64230ebb840dcfcf6deca7274568cb47297afa60c5",
   "branch": "codex/83-html-observatory-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-83-html-observatory-readiness",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ddd4e15babd83e241401d3f3e08b309fb664a62a09a563e69cfe303007dd6046",
+      "values_digest": "325847f28496b681fee3fa5d2c6a2e9fd200f989efa3b0c16106b1d50f69a39f",
       "rendered_digest": "f9c586eb466927cafcd847b9bc0b6559e9b3909b47de4ab815bdcd1c2f5cf376",
       "ast_digest": "29bb89cab62c6b8a3486eb78c3f597eb829a97a573cd843e688997ace03f127d"
     },
     "stp": {
-      "values_digest": "3387a08bd3ec4b396d7885374576e80e695b732a92166e2545a0cd5166eae0a3",
+      "values_digest": "e5c782af446f0faf496216b6f53b3f043806beea545db49a981a340522d56df3",
       "rendered_digest": "951b0f87e95b3eb451b87e830be166854b6dfb542d50625565d1909d6e61b553",
       "ast_digest": "3facab5e9cf31c18bb13c2832d865598f1272205a26a27c5467db88cfeb07d40"
     },
     "spp": {
-      "values_digest": "b25de9b5bb1ecde3444d9ecdf8a1f7d74b452f144cd3690763b6006b2a89c2b2",
-      "rendered_digest": "8363612c853d8480fe982d272ccd4d1f4d5f3c7e2c8604c5b61de3e587093c41",
-      "ast_digest": "6a13314deb72ebe4b1833f94a692279748c0c4c87396c0e54bb51d40af649889"
+      "values_digest": "21bb2903a0ba21476ab9469bde83dde8f8280316823e10f5ebd1cbf752ec5ecc",
+      "rendered_digest": "acd61b53e8e640e85d2bc666cef9a1ba75635640f09d260f766ae3212e0fe276",
+      "ast_digest": "b33b29ec3ac77ad54dcb116fcaecaee4476fc6bca83045c6217aece66cff58e3"
     },
     "vpp": {
-      "values_digest": "f12f2a30fcae9069c5deab858cac526bcd0ad136f95b2804c3aedd42daf31a81",
+      "values_digest": "4ab5cc1c76b7473887666c0b6c903eed68bb406b07712003c4034f014e5d8029",
       "rendered_digest": "3ceb7aa9cb5fd4a4f8e02de576362926a72cce77940561ad37351b244214bf05",
       "ast_digest": "28abb1f3fbbff54e3edfceaae389046dc627bd2e72cccdbd2bea24449c22ffb2"
     },
     "srp": {
-      "values_digest": "b9a6b35e9c78e647586ad65fc9f38ddf2d628038ccfca1c777fbdb31c53ca848",
+      "values_digest": "e70844b9240b63aa8e5ac749ab1d097dfc93a0fd0cbb9418259e0703e1e34efc",
       "rendered_digest": "50fb03326332cab8c9f515ed5eb376ae3246c813bca40c100145049534ba7a22",
       "ast_digest": "8843fede4a14d643e09e56ba7eb9995bc77e718fb63a8ee44d9ed2c329c6f4d8"
     },
     "sor": {
-      "values_digest": "6cc501d331963b4eb00a23242aa3af5f68f9ccd2dec62ed7d06d48e2afb55843",
+      "values_digest": "2af485ac2316d7b0bef0d7009a069b7e685e61cc6ce1d4ab726905b61c6c3044",
       "rendered_digest": "b96665315cdc5ce98e4e01498f9252ce37b30cad89c18835273b996ed3583503",
       "ast_digest": "4b1e7725024b934ae65d5525747c457342517b488eb3711a8c1a713b8ecfe052"
     }
@@ -525,6 +525,13 @@
       "actor": "codex:83-exact-review-remediation-design",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 66,
+      "generation": 64,
+      "actor": "codex:83-dispatch-cancellation-proof",
+      "reason": "Include the real OperationalFactory queue observation hook used only by the deterministic cancellation and pre-dispatch rollback regressions.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/Cargo.lock\",\"adl-runtime-kernel/build.rs\",\"adl-runtime-kernel/src/acip.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/live_continuity.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/src/time.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/parity_b_live_kernel.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime-kernel/tests/time.rs\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl/tools/serve_v092_html_observatory.mjs\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"demos/html-observatory/README.md\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/styles.css\",\"docs/api/runtime-v3/v1/acip-identity-message-golden.json\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"docs/api/runtime-v3/v1/openapi.json\",\"infra/runtime-v3/runtime-init.toml\"]}"
     }
   ]
 }

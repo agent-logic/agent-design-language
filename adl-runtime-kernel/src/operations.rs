@@ -323,6 +323,11 @@ impl OperationalFactory {
         &self.adapter
     }
 
+    #[cfg(test)]
+    pub(crate) fn queued_requests(&self) -> u64 {
+        self.sender.metrics().depth()
+    }
+
     pub async fn submit(
         &self,
         request: OperationRequest,
