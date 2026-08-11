@@ -127,11 +127,11 @@ Resolved all four findings from the fresh review of 20fd144ba1633c21c69a72fbd3a6
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
