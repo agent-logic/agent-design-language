@@ -668,12 +668,28 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         recipient_id: &str,
     ) -> Result<Option<bool>, ControlError> {
-        Ok(self
-            .agent_roster_page(100, None, None)?
+        const PAGE_SIZE: usize = 100;
+        let page_bound = self
+            .agent_population
             .sample
-            .iter()
-            .find(|agent| agent.id == recipient_id)
-            .map(|agent| agent.communication_eligible))
+            .len()
+            .div_ceil(PAGE_SIZE)
+            .max(1);
+        let mut page_token = None;
+        for _ in 0..page_bound {
+            let page = self.agent_roster_page(PAGE_SIZE, page_token, None)?;
+            if let Some(agent) = page.sample.iter().find(|agent| agent.id == recipient_id) {
+                return Ok(Some(agent.communication_eligible));
+            }
+            if !page.has_more {
+                return Ok(None);
+            }
+            page_token = page.next_page_token;
+            if page_token.is_none() {
+                return Err(ControlError::InvalidBounds);
+            }
+        }
+        Err(ControlError::InvalidBounds)
     }
 
     fn accept_conversation_intent(
@@ -2324,7 +2340,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
     let api_policy = service.api_policy();
     let mut bearer_token: Option<String> = None;
     let (conversation_results_tx, mut conversation_results_rx) =
-        tokio::sync::mpsc::unbounded_channel::<ObservatoryConversationResult>();
+        tokio::sync::mpsc::unbounded_channel::<([u8; 32], ObservatoryConversationResult)>();
     let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
     refresh.tick().await;
     let Ok(initial_feed) = serde_json::to_string(&service.observatory_feed()) else {
@@ -2340,7 +2356,33 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
 
     loop {
         tokio::select! {
-            Some(result) = conversation_results_rx.recv() => {
+            Some((authorized_token_digest, result)) = conversation_results_rx.recv() => {
+                if bearer_token.as_deref().map(|token| *blake3::hash(token.as_bytes()).as_bytes())
+                    != Some(authorized_token_digest)
+                {
+                    continue;
+                }
+                if bearer_token
+                    .as_deref()
+                    .is_none_or(|token| !service.observatory_token_authorized(token))
+                {
+                    bearer_token = None;
+                    let revoked = ObservatoryWsControlResult {
+                        schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                        status: "rejected",
+                        command_id: None,
+                        correlation_id: None,
+                        response: None,
+                        error: Some("credential_revoked"),
+                    };
+                    let Ok(payload) = serde_json::to_string(&revoked) else {
+                        break;
+                    };
+                    if socket.send(Message::Text(payload.into())).await.is_err() {
+                        break;
+                    }
+                    continue;
+                }
                 let Ok(payload) = serde_json::to_string(&result) else {
                     break;
                 };
@@ -2444,19 +2486,27 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         if let Some(dispatch) = dispatch {
                             let service = service.clone();
                             let results = conversation_results_tx.clone();
+                            let authorized_token_digest = bearer_token
+                                .as_deref()
+                                .map(|token| *blake3::hash(token.as_bytes()).as_bytes())
+                                .expect("authenticated conversation dispatch has a bearer token");
                             tokio::spawn(async move {
                                 let result = service.complete_conversation_dispatch(dispatch).await;
-                                let _ = results.send(result);
+                                let _ = results.send((authorized_token_digest, result));
                             });
                         } else if attach_to_in_flight {
                             let service = service.clone();
                             let results = conversation_results_tx.clone();
+                            let authorized_token_digest = bearer_token
+                                .as_deref()
+                                .map(|token| *blake3::hash(token.as_bytes()).as_bytes())
+                                .expect("authenticated conversation replay has a bearer token");
                             tokio::spawn(async move {
                                 if let Some(result) = service
                                     .wait_for_conversation_terminal(&conversation_id, &turn_id)
                                     .await
                                 {
-                                    let _ = results.send(result);
+                                    let _ = results.send((authorized_token_digest, result));
                                 }
                             });
                         }

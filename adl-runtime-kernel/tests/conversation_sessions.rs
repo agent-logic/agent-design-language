@@ -8,11 +8,11 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    serve_control_listener, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
-    CanonicalIngress, ComponentId, ComponentRegistry, ControlApiPolicy, ControlAuthority,
-    ControlService, ExecutorError, FailureClass, Kernel, KernelExit, LifecycleControl,
-    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, RunningState,
-    RuntimeRecorder, OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA,
+    serve_control_listener, AdapterKind, AdapterPolicy, AgentPopulationFeed, AgentSample,
+    AuthorityMode, CanonicalIngress, ComponentId, ComponentRegistry, ControlApiPolicy,
+    ControlAuthority, ControlService, ExecutorError, FailureClass, Kernel, KernelExit,
+    LifecycleControl, OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory,
+    RunningState, RuntimeRecorder, OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA,
     OBSERVATORY_WS_CONTROL_RESULT_SCHEMA, OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA,
     OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
     OBSERVATORY_WS_PATH,
@@ -31,6 +31,7 @@ mod tls_support;
 use tls_support::TestPki;
 
 const TOKEN: &str = "conversation-test-token-000000000001";
+const ROTATED_TOKEN: &str = "rotated-conversation-test-token-0002";
 
 struct FakeLifecycle;
 struct ConversationExecutor {
@@ -72,6 +73,8 @@ impl OperationExecutor for ConversationExecutor {
             tokio::time::sleep(Duration::from_millis(60)).await;
         } else if work["tasks"][0]["input"] == "delay budget" {
             tokio::time::sleep(Duration::from_millis(70)).await;
+        } else if work["tasks"][0]["input"] == "delay revoke" {
+            tokio::time::sleep(Duration::from_millis(25)).await;
         }
         self.completions.fetch_add(1, Ordering::SeqCst);
         serde_json::to_vec(&serde_json::json!({
@@ -132,6 +135,34 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         admitted_at + 30_000,
         "1111111111111111111111111111111111111111",
     ));
+    let mut population = AgentPopulationFeed::resident_shepherd();
+    for index in 0..=100 {
+        let agent_id = format!("agent-{index:04}");
+        recorder.set_component_state(ComponentId::new(&agent_id), RunningState::Running);
+        assert!(recorder.record_agent_admission(
+            &agent_id,
+            admitted_at,
+            admitted_at + 30_000,
+            "1111111111111111111111111111111111111111",
+        ));
+        population.sample.push(AgentSample {
+            id: agent_id,
+            label: format!("Agent {index:04}"),
+            role: "conversation agent".to_owned(),
+            state: "unknown".to_owned(),
+            detail: "Awaiting Runtime projection".to_owned(),
+            health: "unknown".to_owned(),
+            availability: "unknown".to_owned(),
+            activity: None,
+            capabilities: vec!["conversation".to_owned()],
+            location: Some("local_runtime".to_owned()),
+            communication_eligible: false,
+            observed_at_unix_millis: 0,
+            freshness_deadline_unix_millis: 0,
+            source_revision: "unobserved".to_owned(),
+            provenance: "runtime_component_state".to_owned(),
+        });
+    }
     let service = Arc::new(
         ControlService::new_with_observatory_config_and_agents(
             "conversation-runtime",
@@ -140,7 +171,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             ControlAuthority::new(BTreeMap::new()),
             8,
             ["https://observatory.example.test".to_owned()],
-            AgentPopulationFeed::resident_shepherd(),
+            population,
         )
         .with_canonical_ingress(ingress.clone()),
     );
@@ -173,9 +204,10 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .start()
         .await
         .unwrap();
+    let server_service = service.clone();
     let server = tokio::spawn(async move {
         serve_control_listener(
-            service,
+            server_service,
             listener,
             tls,
             ControlApiPolicy::new(
@@ -248,6 +280,68 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-page-two",
+                "turn_id": "turn-page-two",
+                "recipient_id": "agent-0100",
+                "correlation_id": "10101010101010101010101010101010",
+                "message": "Hello"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(accepted["status"], "accepted", "{accepted}");
+    let delivered =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(delivered["status"], "delivered", "{delivered}");
+    assert_eq!(delivered["recipient_id"], "agent-0100");
+    assert_eq!(dispatches.load(Ordering::SeqCst), 2);
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-revoked-in-flight",
+                "turn_id": "turn-revoked-in-flight",
+                "recipient_id": "shepherd",
+                "correlation_id": "20202020202020202020202020202020",
+                "message": "delay revoke"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(accepted["status"], "accepted", "{accepted}");
+    service.set_observatory_bearer_token(ROTATED_TOKEN).unwrap();
+    let revoked = next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(revoked["status"], "rejected");
+    assert_eq!(revoked["error"], "credential_revoked");
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_AUTH_SCHEMA,
+                "bearer_token": ROTATED_TOKEN,
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let authenticated =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(authenticated["status"], "authenticated");
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
                 "conversation_id": "conversation-shepherd",
                 "turn_id": "turn-positive",
                 "recipient_id": "shepherd",
@@ -262,7 +356,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let duplicate =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(duplicate["status"], "delivered");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 1);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 3);
 
     socket
         .send(Message::Text(
@@ -283,7 +377,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(conflict["status"], "refused");
     assert_eq!(conflict["error"], "conversation_conflict");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 1);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 3);
 
     for (turn_id, correlation_id, message) in [
         (
@@ -452,7 +546,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_AUTH_SCHEMA,
-                "bearer_token": TOKEN,
+                "bearer_token": ROTATED_TOKEN,
             })
             .to_string()
             .into(),
@@ -467,8 +561,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let timed_out =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(timed_out["status"], "timed_out");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 6);
-    assert_eq!(completions.load(Ordering::SeqCst), 4);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 8);
+    assert_eq!(completions.load(Ordering::SeqCst), 6);
 
     socket
         .send(Message::Text(
@@ -512,7 +606,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert!(statuses.contains(&"accepted"));
     assert!(statuses.contains(&"cancelled"));
     tokio::time::sleep(Duration::from_millis(275)).await;
-    assert_eq!(completions.load(Ordering::SeqCst), 4);
+    assert_eq!(completions.load(Ordering::SeqCst), 6);
 
     socket
         .send(Message::Text(
