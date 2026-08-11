@@ -10,8 +10,8 @@ require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 PREFIX = ".csdlc/evidence/201/"
-OUTPUT = ROOT.join(PREFIX, "v6")
-MARKER = "ADL_ISSUE_201_CASE_V1 "
+OUTPUT = ROOT.join(PREFIX, "v7")
+MARKER = "ADL_ISSUE_201_CASE_V2 "
 PROTECTED = [
   "adl-runtime/Cargo.toml", "adl-runtime/Cargo.lock",
   "adl-runtime/src/distributed/mod.rs",
@@ -43,6 +43,23 @@ EXPECTED_CASES = %w[
   continuity_projection_consumer_confusion_rejected continuity_projection_wrong_lineage_rejected
   continuity_projection_wrong_source_checkpoint_handle_rejected
   continuity_projection_wrong_bundle_handle_rejected
+  snapshot_valid_multi_prepared_finalized_restart snapshot_current_polis_mismatch
+  snapshot_current_epoch_mismatch snapshot_current_membership_mismatch snapshot_current_boot_mismatch
+  snapshot_prepared_polis_mismatch snapshot_prepared_epoch_mismatch snapshot_prepared_membership_mismatch
+  snapshot_prepared_boot_mismatch snapshot_later_prepared_custody_mismatch
+  snapshot_legacy_owner_injection snapshot_legacy_shepherd_injection
+  snapshot_legacy_observatory_injection snapshot_legacy_fence_injection snapshot_legacy_demotion_injection
+  snapshot_finalized_missing_proposal snapshot_finalized_missing_endorsements
+  snapshot_finalized_wrong_operation snapshot_finalized_insufficient_quorum
+  snapshot_finalized_duplicate_quorum snapshot_finalized_bad_signature
+  snapshot_finalized_stale_certificate snapshot_finalized_wrong_boot snapshot_finalized_invalid_time
+  snapshot_finalized_wrong_prepare_index snapshot_finalized_wrong_finalize_index
+  snapshot_custody_omitted snapshot_custody_reencoded snapshot_custody_injected
+  snapshot_custody_substituted snapshot_custody_byte_digest_mismatch
+  snapshot_evidence_omitted snapshot_evidence_reencoded snapshot_evidence_injected
+  snapshot_evidence_substituted snapshot_evidence_byte_digest_mismatch
+  validator_available_divergent_rejected validator_available_ancestral_passed
+  validator_unavailable_protected_fallback_passed
 ].freeze
 EXPECTED_RESULTS = {
   "current_three_voter_finalize" => "passed",
@@ -53,6 +70,9 @@ EXPECTED_RESULTS = {
   "local_clock_skew_apply_parity" => "passed",
   "exact_store_artifact_bytes_retained" => "passed",
   "sealed_continuity_transfer_projection" => "passed",
+  "snapshot_valid_multi_prepared_finalized_restart" => "passed",
+  "validator_available_ancestral_passed" => "passed",
+  "validator_unavailable_protected_fallback_passed" => "passed",
   "node_a_local_before_cas" => "reconciled",
   "node_a_cas_before_final_marker" => "reconciled",
   "node_b_local_before_cas" => "reconciled",
@@ -102,22 +122,32 @@ end
 FileUtils.mkdir_p(OUTPUT, mode: 0o700)
 
 commands = {}
-commands["nextest"] = run_command("nextest", ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "-E", "test(/^distributed::authority_protocol::contract_tests::/)", "--no-tests=fail"])
+commands["nextest"] = run_command("nextest", ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "-E", "test(/^distributed::authority_protocol::contract_tests::/) or test(/^distributed::polis_runtime::authority_consensus_tests::snapshot_/)", "--no-tests=fail"])
 fail_proof("focused nextest failed") unless commands["nextest"]["exit_code"] == 0
 nextest_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["nextest"]["#{stream}_path"])) }.join
-fail_proof("nextest denominator mismatch") unless nextest_text.match?(/47 tests run: 47 passed, \d+ skipped/)
+fail_proof("nextest denominator mismatch") unless nextest_text.match?(/83 tests run: 83 passed, \d+ skipped/)
 
 commands["clippy"] = run_command("clippy", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings])
 fail_proof("strict Clippy failed") unless commands["clippy"]["exit_code"] == 0
 commands["machine_cases"] = run_command("machine-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::authority_protocol::contract_tests:: -- --nocapture --test-threads=1])
 fail_proof("machine cases failed") unless commands["machine_cases"]["exit_code"] == 0
-machine_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["machine_cases"]["#{stream}_path"])) }.join
+commands["snapshot_cases"] = run_command("snapshot-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::polis_runtime::authority_consensus_tests::snapshot_ -- --nocapture --test-threads=1])
+fail_proof("snapshot cases failed") unless commands["snapshot_cases"]["exit_code"] == 0
+machine_text = [commands["machine_cases"], commands["snapshot_cases"]].flat_map { |command| %w[stdout stderr].map { |stream| File.binread(ROOT.join(command["#{stream}_path"])) } }.join
 observed = machine_text.lines.each_with_object([]) do |line, rows|
   next unless line.include?(MARKER)
   name, result = line.split(MARKER, 2).fetch(1).strip.split(" ", 2)
-  rows << [name, result, Digest::SHA256.hexdigest(line.chomp)]
+  rows << [name, result, Digest::SHA256.hexdigest("#{MARKER}#{name} #{result}")]
 end
-fail_proof("case denominator mismatch") unless observed.length == 47 && observed.map(&:first).sort == EXPECTED_CASES.sort
+commands["validator_modes"] = run_command("validator-modes", ["ruby", ".csdlc/prepared/issues/201/validate-proof-receipt.rb", "--self-test"])
+fail_proof("validator mode self-test failed") unless commands["validator_modes"]["exit_code"] == 0
+validator_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["validator_modes"]["#{stream}_path"])) }.join
+validator_text.lines.each do |line|
+  next unless line.include?(MARKER)
+  name, result = line.split(MARKER, 2).fetch(1).strip.split(" ", 2)
+  observed << [name, result, Digest::SHA256.hexdigest("#{MARKER}#{name} #{result}")]
+end
+fail_proof("case denominator mismatch") unless observed.length == 86 && observed.map(&:first).sort == EXPECTED_CASES.sort
 observed_by_name = observed.to_h { |name, result, digest| [name, [result, digest]] }
 EXPECTED_CASES.each { |name| fail_proof("wrong result for #{name}") unless observed_by_name.fetch(name).first == EXPECTED_RESULTS.fetch(name, "rejected") }
 commands["openraft"] = run_command("openraft", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids -- --exact --nocapture])
@@ -127,11 +157,12 @@ fail_proof("real three-voter OpenRaft denominator mismatch") unless openraft_tex
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue201.committed_authority_proof.v1", "issue" => 201,
+  "schema" => "adl.issue201.committed_authority_proof.v2", "issue" => 201,
   "source_revision" => source, "source_tree" => tree.strip,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
-  "commands" => commands, "test_summary" => { "selected" => 47, "passed" => 47, "skipped" => 0 },
+  "commands" => commands, "test_summary" => { "selected" => 86, "passed" => 86, "skipped" => 0 },
+  "result_summary" => { "passed" => 11, "reconciled" => 6, "rejected" => 69 },
   "cases" => EXPECTED_CASES.map { |name| result, digest = observed_by_name.fetch(name); { "case" => name, "result" => result, "observed_line_sha256" => digest } }
 }
 File.binwrite(OUTPUT.join("execution-proof.json"), JSON.generate(proof) + "\n")
-puts "PASS: produced exact issue #201 47-case proof at source #{source}"
+puts "PASS: produced exact issue #201 86-case proof at source #{source}"

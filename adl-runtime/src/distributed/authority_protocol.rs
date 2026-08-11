@@ -489,7 +489,7 @@ impl PrepareAuthorityIntent {
         canonical_domain_digest(INTENT_DOMAIN, self)
     }
 
-    fn validate_against_authority(
+    pub(crate) fn validate_against_authority(
         &self,
         authority: &AuthorityMembership,
     ) -> AuthorityProtocolResult<()> {
@@ -1162,30 +1162,6 @@ fn validate_protocol_state(state: &AuthorityProtocolState) -> AuthorityProtocolR
 }
 
 impl VerifiedAuthorityOperation {
-    pub(crate) fn from_replicated_commit(
-        intent: &PrepareAuthorityIntent,
-        intent_sha256: [u8; 32],
-        committed_log_index: u64,
-        finalization_time: CanonicalAuthorityTime,
-        signer_guardian_ids: BTreeSet<Vec<u8>>,
-    ) -> AuthorityProtocolResult<Self> {
-        if intent.digest()? != intent_sha256
-            || committed_log_index <= intent.prepare_log_index
-            || signer_guardian_ids.is_empty()
-        {
-            return Err(AuthorityProtocolError::StateRegression);
-        }
-        Ok(Self {
-            operation_id: intent.operation_id.clone(),
-            intent_sha256,
-            committed_log_index,
-            finalization_time,
-            artifact: intent.artifact.clone(),
-            signer_guardian_ids,
-            source: AuthorityVerificationSource::ReplicatedApply,
-        })
-    }
-
     pub fn operation_id(&self) -> &str {
         &self.operation_id
     }
@@ -1200,10 +1176,6 @@ impl VerifiedAuthorityOperation {
 
     pub fn committed_log_index(&self) -> u64 {
         self.committed_log_index
-    }
-
-    pub(crate) fn signer_guardian_ids(&self) -> &BTreeSet<Vec<u8>> {
-        &self.signer_guardian_ids
     }
 
     // The sealed downstream adapters land in their owning issues. Keep this

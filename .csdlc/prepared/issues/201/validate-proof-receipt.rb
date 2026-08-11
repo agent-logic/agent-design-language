@@ -9,7 +9,7 @@ require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 PREFIX = ".csdlc/evidence/201/"
-PROOF_PREFIX = "#{PREFIX}v6/"
+PROOF_PREFIX = "#{PREFIX}v7/"
 PROOF_RELATIVE = "#{PROOF_PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = [
   "adl-runtime/Cargo.toml", "adl-runtime/Cargo.lock",
@@ -20,7 +20,7 @@ EXPECTED_PROTECTED = [
   ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
   ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
 ].freeze
-MARKER = "ADL_ISSUE_201_CASE_V1 "
+MARKER = "ADL_ISSUE_201_CASE_V2 "
 EXPECTED_CASES = %w[
   current_three_voter_finalize exact_retry_returns_cached_result
   signer_rotation_current_generation joint_majority_each_config finalize_at_deadline
@@ -40,6 +40,23 @@ EXPECTED_CASES = %w[
   continuity_projection_consumer_confusion_rejected continuity_projection_wrong_lineage_rejected
   continuity_projection_wrong_source_checkpoint_handle_rejected
   continuity_projection_wrong_bundle_handle_rejected
+  snapshot_valid_multi_prepared_finalized_restart snapshot_current_polis_mismatch
+  snapshot_current_epoch_mismatch snapshot_current_membership_mismatch snapshot_current_boot_mismatch
+  snapshot_prepared_polis_mismatch snapshot_prepared_epoch_mismatch snapshot_prepared_membership_mismatch
+  snapshot_prepared_boot_mismatch snapshot_later_prepared_custody_mismatch
+  snapshot_legacy_owner_injection snapshot_legacy_shepherd_injection
+  snapshot_legacy_observatory_injection snapshot_legacy_fence_injection snapshot_legacy_demotion_injection
+  snapshot_finalized_missing_proposal snapshot_finalized_missing_endorsements
+  snapshot_finalized_wrong_operation snapshot_finalized_insufficient_quorum
+  snapshot_finalized_duplicate_quorum snapshot_finalized_bad_signature
+  snapshot_finalized_stale_certificate snapshot_finalized_wrong_boot snapshot_finalized_invalid_time
+  snapshot_finalized_wrong_prepare_index snapshot_finalized_wrong_finalize_index
+  snapshot_custody_omitted snapshot_custody_reencoded snapshot_custody_injected
+  snapshot_custody_substituted snapshot_custody_byte_digest_mismatch
+  snapshot_evidence_omitted snapshot_evidence_reencoded snapshot_evidence_injected
+  snapshot_evidence_substituted snapshot_evidence_byte_digest_mismatch
+  validator_available_divergent_rejected validator_available_ancestral_passed
+  validator_unavailable_protected_fallback_passed
 ].freeze
 EXPECTED_RESULTS = {
   "current_three_voter_finalize" => "passed",
@@ -50,6 +67,9 @@ EXPECTED_RESULTS = {
   "local_clock_skew_apply_parity" => "passed",
   "exact_store_artifact_bytes_retained" => "passed",
   "sealed_continuity_transfer_projection" => "passed",
+  "snapshot_valid_multi_prepared_finalized_restart" => "passed",
+  "validator_available_ancestral_passed" => "passed",
+  "validator_unavailable_protected_fallback_passed" => "passed",
   "node_a_local_before_cas" => "reconciled",
   "node_a_cas_before_final_marker" => "reconciled",
   "node_b_local_before_cas" => "reconciled",
@@ -82,7 +102,13 @@ rescue Errno::ENOENT
 end
 
 def canonical_marker_line(name, result)
-  "test distributed::authority_protocol::contract_tests::#{name} ... #{MARKER}#{name} #{result}"
+  "#{MARKER}#{name} #{result}"
+end
+
+def source_validation_mode(source_available, source_is_ancestor)
+  return :ancestry if source_available && source_is_ancestor
+  raise "available source is not ancestral" if source_available
+  :protected_tree
 end
 
 def case_contract_error(cases, observed)
@@ -123,8 +149,23 @@ fail_receipt("case-substitution regression failed") unless case_contract_error(s
 reordered = canonical_cases.rotate(1)
 fail_receipt("case-reorder regression failed") unless case_contract_error(reordered, canonical_observed)
 
+if ARGV == ["--self-test"]
+  begin
+    source_validation_mode(true, false)
+    fail_receipt("available-divergent regression failed")
+  rescue RuntimeError => error
+    fail_receipt("available-divergent wrong rejection") unless error.message == "available source is not ancestral"
+  end
+  fail_receipt("available-ancestral regression failed") unless source_validation_mode(true, true) == :ancestry
+  fail_receipt("unavailable-fallback regression failed") unless source_validation_mode(false, false) == :protected_tree
+  puts "#{MARKER}validator_available_divergent_rejected rejected"
+  puts "#{MARKER}validator_available_ancestral_passed passed"
+  puts "#{MARKER}validator_unavailable_protected_fallback_passed passed"
+  exit 0
+end
+
 proof = JSON.parse(File.binread(ordinary(PROOF_RELATIVE)))
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue201.committed_authority_proof.v1" && proof["issue"] == 201
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue201.committed_authority_proof.v2" && proof["issue"] == 201
 source = proof.fetch("source_revision")
 fail_receipt("source malformed") unless source.match?(/\A[0-9a-f]{40}\z/)
 source_tree = proof.fetch("source_tree")
@@ -135,10 +176,11 @@ protected.each do |entry|
   path = ordinary(entry.fetch("path"))
   fail_receipt("protected digest drift: #{entry['path']}") unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
 end
-fail_receipt("test summary mismatch") unless proof["test_summary"] == { "selected" => 47, "passed" => 47, "skipped" => 0 }
+fail_receipt("test summary mismatch") unless proof["test_summary"] == { "selected" => 86, "passed" => 86, "skipped" => 0 }
+fail_receipt("result summary mismatch") unless proof["result_summary"] == { "passed" => 11, "reconciled" => 6, "rejected" => 69 }
 cases = proof.fetch("cases")
 commands = proof.fetch("commands")
-fail_receipt("command denominator mismatch") unless commands.keys.sort == %w[clippy machine_cases nextest openraft]
+fail_receipt("command denominator mismatch") unless commands.keys.sort == %w[clippy machine_cases nextest openraft snapshot_cases validator_modes]
 commands.each do |name, command|
   fail_receipt("#{name} failed") unless command.fetch("exit_code") == 0
   fail_receipt("#{name} stream normalization mismatch") unless command.fetch("stream_normalization") == "trailing_blank_lines_removed"
@@ -150,11 +192,13 @@ commands.each do |name, command|
   end
 end
 machine = commands.fetch("machine_cases")
-text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(machine.fetch("#{stream}_path"))) }.join
+snapshot_cases = commands.fetch("snapshot_cases")
+validator_modes = commands.fetch("validator_modes")
+text = [machine, snapshot_cases, validator_modes].flat_map { |command| %w[stdout stderr].map { |stream| File.binread(ROOT.join(command.fetch("#{stream}_path"))) } }.join
 observed = text.lines.each_with_object([]) do |line, rows|
   next unless line.include?(MARKER)
   name, result = line.split(MARKER, 2).fetch(1).strip.split(" ", 2)
-  rows << [name, result, Digest::SHA256.hexdigest(line.chomp)]
+  rows << [name, result, Digest::SHA256.hexdigest(canonical_marker_line(name, result))]
 end
 case_error = case_contract_error(cases, observed)
 fail_receipt(case_error) if case_error
@@ -168,7 +212,12 @@ parent_has_proof = system("git", "cat-file", "-e", "#{introduction}^:#{PROOF_REL
 fail_receipt("live proof was not introduced from absence") if parent_has_proof
 source_available = system("git", "cat-file", "-e", "#{source}^{commit}", chdir: ROOT.to_s, out: File::NULL, err: File::NULL)
 source_is_ancestor = source_available && system("git", "merge-base", "--is-ancestor", source, introduction, chdir: ROOT.to_s, out: File::NULL, err: File::NULL)
-if source_is_ancestor
+begin
+  mode = source_validation_mode(source_available, source_is_ancestor)
+rescue RuntimeError => error
+  fail_receipt(error.message)
+end
+if mode == :ancestry
   fail_receipt("source tree mismatch") unless git("rev-parse", "#{source}^{tree}").strip == source_tree
   protected.each do |entry|
     committed = git("show", "#{source}:#{entry.fetch('path')}")
@@ -186,4 +235,4 @@ end
 fail_receipt("protected source changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED).empty?
 fail_receipt("immutable proof changed after introduction") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PROOF_PREFIX).empty?
 fail_receipt("protected/proof worktree dirty") unless git("status", "--porcelain=v1", "--untracked-files=all", "--", *EXPECTED_PROTECTED, PROOF_PREFIX).empty?
-puts "PASS: issue #201 merge-safe proof binds exact source, strict Clippy, and ordered 47/47 case evidence"
+puts "PASS: issue #201 merge-safe proof binds exact source, strict Clippy, and ordered 86/86 case evidence"

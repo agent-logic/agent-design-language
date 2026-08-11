@@ -35,7 +35,7 @@ const POLIS: &str = "polis-a";
 const FINALIZE_SECONDS: i64 = 1_800_000_010;
 
 fn marker(case: &str, result: &str) {
-    println!("ADL_ISSUE_201_CASE_V1 {case} {result}");
+    println!("ADL_ISSUE_201_CASE_V2 {case} {result}");
 }
 
 #[derive(Default)]

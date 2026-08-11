@@ -38,8 +38,8 @@ use tokio_util::sync::CancellationToken;
 
 use crate::distributed::authority_protocol::{
     verify_replicated_finalization, AuthorityFinalizeProposal, AuthorityNodeIdentity,
-    AuthorityPrepareProposal, CanonicalAuthorityTime, DurableAuthorityProtocol,
-    PrepareAuthorityIntent, PublishedAuthorityResult, VerifiedAuthorityOperation,
+    AuthorityPrepareProposal, DurableAuthorityProtocol, PrepareAuthorityIntent,
+    PublishedAuthorityResult,
 };
 use crate::distributed::certificates::{AuthorityCertificate, DistributedCertificateStore};
 use crate::distributed::lease::{AuthorityMembership, VoterAuthority};
@@ -272,10 +272,8 @@ impl ReplicatedAuthorityCustody {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct ReplicatedFinalizedAuthority {
-    intent_sha256: [u8; 32],
+    proposal: AuthorityFinalizeProposal,
     committed_log_index: u64,
-    finalization_time: CanonicalAuthorityTime,
-    signer_guardian_ids: BTreeSet<Vec<u8>>,
 }
 
 impl PolisApplicationState {
@@ -405,10 +403,8 @@ impl PolisApplicationState {
                     self.finalized_authority.insert(
                         proposal.operation_id.clone(),
                         ReplicatedFinalizedAuthority {
-                            intent_sha256: verified.intent_sha256(),
+                            proposal: proposal.clone(),
                             committed_log_index: verified.committed_log_index(),
-                            finalization_time: verified.finalization_time().clone(),
-                            signer_guardian_ids: verified.signer_guardian_ids().clone(),
                         },
                     );
                 }
@@ -992,6 +988,7 @@ impl CheckpointMetadataSource for PersistedStateMachineStorage {
 pub struct PolisStateMachineStore {
     durable: Arc<CheckpointedJson<PersistedStateMachineStorage>>,
     inner: Arc<RwLock<DurableEnvelope<PersistedStateMachineStorage>>>,
+    trusted_custody: Option<ReplicatedAuthorityCustody>,
     authority_publication: Option<Arc<AuthorityPublicationContext>>,
 }
 
@@ -1079,6 +1076,17 @@ impl PolisStateMachineStore {
             initial,
             Arc::clone(&authority),
         )?;
+        let trusted_custody = trusted_authority
+            .as_ref()
+            .map(|bootstrap| {
+                ReplicatedAuthorityCustody::from_authority(
+                    &bootstrap.polis_id,
+                    bootstrap.membership_epoch,
+                    &bootstrap.authority,
+                    &bootstrap.boot_generations,
+                )
+            })
+            .transpose()?;
         let authority_publication = if let Some(bootstrap) = trusted_authority {
             let expected = ReplicatedAuthorityCustody::from_authority(
                 &bootstrap.polis_id,
@@ -1097,9 +1105,18 @@ impl PolisStateMachineStore {
         } else {
             None
         };
+        Self::validate_application_authority(
+            trusted_custody.as_ref(),
+            &inner.payload.current.application,
+        )?;
+        Self::validate_application_authority(
+            trusted_custody.as_ref(),
+            &inner.payload.snapshot.state.application,
+        )?;
         Ok(Self {
             durable: Arc::new(durable),
             inner: Arc::new(RwLock::new(inner)),
+            trusted_custody,
             authority_publication,
         })
     }
@@ -1134,12 +1151,17 @@ impl PolisStateMachineStore {
                 .ok_or(PolisRuntimeError::AuthorityDenied)?;
             (prepared.intent.clone(), finalized.clone())
         };
-        let verified = VerifiedAuthorityOperation::from_replicated_commit(
+        let custody = self
+            .trusted_custody
+            .as_ref()
+            .ok_or(PolisRuntimeError::AuthorityDenied)?;
+        let (authority, boot_generations) = custody.to_authority()?;
+        let verified = verify_replicated_finalization(
             &intent,
-            finalized.intent_sha256,
+            &finalized.proposal,
             finalized.committed_log_index,
-            finalized.finalization_time,
-            finalized.signer_guardian_ids,
+            &authority,
+            &boot_generations,
         )
         .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
         let mut protocol = DurableAuthorityProtocol::open(
@@ -1151,6 +1173,67 @@ impl PolisStateMachineStore {
         protocol
             .publish(&intent, verified)
             .map_err(|_| PolisRuntimeError::Storage)
+    }
+
+    fn validate_application_authority(
+        trusted_custody: Option<&ReplicatedAuthorityCustody>,
+        application: &PolisApplicationState,
+    ) -> Result<(), PolisRuntimeError> {
+        let Some(trusted) = trusted_custody else {
+            return if application.current_authority.is_none()
+                && application.prepared_authority.is_empty()
+                && application.finalized_authority.is_empty()
+            {
+                Ok(())
+            } else {
+                Err(PolisRuntimeError::AuthorityDenied)
+            };
+        };
+        if application.current_authority.as_ref() != Some(trusted)
+            || !application.fenced_voters.is_empty()
+            || application.active_owner.is_some()
+            || application.active_shepherd.is_some()
+            || application.observatory_owner.is_some()
+            || application.observatory_expires_unix_millis.is_some()
+            || !application.demoted_voters.is_empty()
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        let (authority, boot_generations) = trusted.to_authority()?;
+        for (operation_id, prepared) in &application.prepared_authority {
+            if operation_id != &prepared.intent.operation_id
+                || prepared.authority != *trusted
+                || prepared.intent.polis_id != trusted.polis_id
+                || prepared.intent.membership_epoch != trusted.membership_epoch
+                || prepared.intent.prepare_log_index > application.committed_index
+            {
+                return Err(PolisRuntimeError::AuthorityDenied);
+            }
+            prepared
+                .intent
+                .validate_against_authority(&authority)
+                .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
+        }
+        for (operation_id, finalized) in &application.finalized_authority {
+            let prepared = application
+                .prepared_authority
+                .get(operation_id)
+                .ok_or(PolisRuntimeError::AuthorityDenied)?;
+            if finalized.proposal.operation_id != *operation_id
+                || finalized.committed_log_index > application.committed_index
+            {
+                return Err(PolisRuntimeError::AuthorityDenied);
+            }
+            verify_replicated_finalization(
+                &prepared.intent,
+                &finalized.proposal,
+                finalized.committed_log_index,
+                &authority,
+                &boot_generations,
+            )
+            .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
+        }
+        Ok(())
     }
 
     #[allow(clippy::result_large_err)]
@@ -1329,6 +1412,14 @@ impl RaftStateMachine<PolisTypeConfig> for PolisStateMachineStore {
                 ),
             ));
         }
+        Self::validate_application_authority(self.trusted_custody.as_ref(), &current.application)
+            .map_err(|error| {
+            StorageError::from_io_error(
+                ErrorSubject::Snapshot(Some(meta.signature())),
+                ErrorVerb::Read,
+                std::io::Error::new(std::io::ErrorKind::InvalidData, error.code()),
+            )
+        })?;
         let mut durable = self.inner.write().await;
         if matches!(
             (durable.payload.current.last_applied_log, meta.last_log_id),
@@ -2514,6 +2605,524 @@ mod authority_consensus_tests {
         .await
         .expect("three-voter cluster elected a writable leader")
     }
+
+    #[derive(Clone, Copy)]
+    enum SnapshotCase {
+        Valid,
+        CurrentPolis,
+        CurrentEpoch,
+        CurrentMembership,
+        CurrentBoot,
+        PreparedPolis,
+        PreparedEpoch,
+        PreparedMembership,
+        PreparedBoot,
+        LaterPrepared,
+        LegacyOwner,
+        LegacyShepherd,
+        LegacyObservatory,
+        LegacyFence,
+        LegacyDemotion,
+        MissingProposal,
+        MissingEndorsements,
+        WrongOperation,
+        InsufficientQuorum,
+        DuplicateQuorum,
+        BadSignature,
+        StaleCertificate,
+        WrongBoot,
+        InvalidTime,
+        WrongPrepareIndex,
+        WrongFinalizeIndex,
+        CustodyOmitted,
+        CustodyReencoded,
+        CustodyInjected,
+        CustodySubstituted,
+        CustodyByteDigestMismatch,
+        EvidenceOmitted,
+        EvidenceReencoded,
+        EvidenceInjected,
+        EvidenceSubstituted,
+        EvidenceByteDigestMismatch,
+    }
+
+    fn snapshot_application_fixture() -> (
+        PolisApplicationState,
+        MembershipState,
+        AuthorityMembership,
+        BTreeMap<Vec<u8>, u64>,
+        Vec<LocalNodeGuardianIdentity>,
+    ) {
+        let (membership, authority, boots, signers) = authority_fixture(17);
+        let mut application = PolisApplicationState::default();
+        application
+            .install_trusted_authority(
+                "polis-a",
+                membership.epoch(),
+                authority.clone(),
+                boots.clone(),
+            )
+            .unwrap();
+        for (offset, operation_id) in ["snapshot-op-a", "snapshot-op-b"].iter().enumerate() {
+            let prepare_index = 20 + (offset as u64 * 2);
+            let finalize_index = prepare_index + 1;
+            let prepare = AuthorityPrepareProposal::new(
+                "polis-a",
+                &membership,
+                &authority,
+                AuthorityOperationKind::Membership,
+                [17; 32],
+                CanonicalAuthorityTime {
+                    unix_seconds: 1_800_000_000,
+                    nanos: 0,
+                    uncertainty_millis: 1,
+                },
+                CanonicalAuthorityTime {
+                    unix_seconds: 1_800_000_050,
+                    nanos: 0,
+                    uncertainty_millis: 1,
+                },
+                *operation_id,
+                CommittedAuthorityArtifact::new(
+                    AuthorityOperationKind::Membership,
+                    format!("snapshot-artifact-{offset}").into_bytes(),
+                )
+                .unwrap(),
+            )
+            .unwrap();
+            assert!(application
+                .apply_committed(
+                    prepare_index,
+                    &PolisCommand::PrepareAuthority {
+                        proposal: Box::new(prepare),
+                    },
+                )
+                .unwrap());
+            let intent = application
+                .prepared_authority_intent(operation_id)
+                .unwrap()
+                .clone();
+            let finalization_time = CanonicalAuthorityTime {
+                unix_seconds: 1_800_000_010 + offset as i64,
+                nanos: 0,
+                uncertainty_millis: 1,
+            };
+            let endorsements = signers[..2]
+                .iter()
+                .map(|signer| {
+                    endorse_committed_authority_prepare(
+                        signer,
+                        authority.voter_set_generation,
+                        authority.voter_set_generation,
+                        membership.committed_log_index(),
+                        &boots,
+                        &intent,
+                        &finalization_time,
+                        &membership,
+                        &authority,
+                    )
+                    .unwrap()
+                })
+                .collect();
+            let proposal =
+                AuthorityFinalizeProposal::new(&intent, finalization_time, endorsements).unwrap();
+            assert!(!application
+                .apply_committed(
+                    finalize_index,
+                    &PolisCommand::FinalizeAuthority { proposal },
+                )
+                .unwrap());
+        }
+        (application, membership, authority, boots, signers)
+    }
+
+    async fn run_snapshot_case(case: SnapshotCase) {
+        let (mut application, membership, authority, boots, _signers) =
+            snapshot_application_fixture();
+        let first = "snapshot-op-a";
+        let second = "snapshot-op-b";
+        match case {
+            SnapshotCase::CurrentPolis => application
+                .current_authority
+                .as_mut()
+                .unwrap()
+                .polis_id
+                .push('x'),
+            SnapshotCase::CurrentEpoch => {
+                application
+                    .current_authority
+                    .as_mut()
+                    .unwrap()
+                    .membership_epoch += 1
+            }
+            SnapshotCase::CurrentMembership => {
+                application
+                    .current_authority
+                    .as_mut()
+                    .unwrap()
+                    .voter_set_generation += 1
+            }
+            SnapshotCase::CurrentBoot => {
+                application
+                    .current_authority
+                    .as_mut()
+                    .unwrap()
+                    .boot_generations[0]
+                    .1 += 1
+            }
+            SnapshotCase::PreparedPolis => application
+                .prepared_authority
+                .get_mut(first)
+                .unwrap()
+                .authority
+                .polis_id
+                .push('x'),
+            SnapshotCase::PreparedEpoch => {
+                application
+                    .prepared_authority
+                    .get_mut(first)
+                    .unwrap()
+                    .authority
+                    .membership_epoch += 1
+            }
+            SnapshotCase::PreparedMembership => {
+                application
+                    .prepared_authority
+                    .get_mut(first)
+                    .unwrap()
+                    .authority
+                    .voter_set_generation += 1
+            }
+            SnapshotCase::PreparedBoot => {
+                application
+                    .prepared_authority
+                    .get_mut(first)
+                    .unwrap()
+                    .authority
+                    .boot_generations[0]
+                    .1 += 1
+            }
+            SnapshotCase::LaterPrepared => application
+                .prepared_authority
+                .get_mut(second)
+                .unwrap()
+                .authority
+                .polis_id
+                .push('x'),
+            SnapshotCase::LegacyOwner => application.active_owner = Some("legacy".into()),
+            SnapshotCase::LegacyShepherd => application.active_shepherd = Some("legacy".into()),
+            SnapshotCase::LegacyObservatory => {
+                application.observatory_owner = Some("legacy".into());
+                application.observatory_expires_unix_millis = Some(1);
+            }
+            SnapshotCase::LegacyFence => {
+                application.fenced_voters.insert("legacy".into(), 1);
+            }
+            SnapshotCase::LegacyDemotion => {
+                application.demoted_voters.insert("legacy".into(), 1);
+            }
+            SnapshotCase::MissingEndorsements => application
+                .finalized_authority
+                .get_mut(first)
+                .unwrap()
+                .proposal
+                .endorsements
+                .clear(),
+            SnapshotCase::WrongOperation | SnapshotCase::EvidenceSubstituted => application
+                .finalized_authority
+                .get_mut(first)
+                .unwrap()
+                .proposal
+                .operation_id
+                .push('x'),
+            SnapshotCase::InsufficientQuorum => application
+                .finalized_authority
+                .get_mut(first)
+                .unwrap()
+                .proposal
+                .endorsements
+                .truncate(1),
+            SnapshotCase::DuplicateQuorum => {
+                let endorsement =
+                    application.finalized_authority[first].proposal.endorsements[0].clone();
+                application
+                    .finalized_authority
+                    .get_mut(first)
+                    .unwrap()
+                    .proposal
+                    .endorsements
+                    .push(endorsement);
+            }
+            SnapshotCase::InvalidTime => {
+                application
+                    .finalized_authority
+                    .get_mut(first)
+                    .unwrap()
+                    .proposal
+                    .finalization_time
+                    .unix_seconds += 100
+            }
+            SnapshotCase::WrongPrepareIndex => {
+                application
+                    .prepared_authority
+                    .get_mut(first)
+                    .unwrap()
+                    .intent
+                    .prepare_log_index += 1
+            }
+            SnapshotCase::WrongFinalizeIndex => {
+                application
+                    .finalized_authority
+                    .get_mut(first)
+                    .unwrap()
+                    .committed_log_index = application.prepared_authority[first]
+                    .intent
+                    .prepare_log_index
+            }
+            SnapshotCase::Valid
+            | SnapshotCase::MissingProposal
+            | SnapshotCase::CustodyOmitted
+            | SnapshotCase::CustodyReencoded
+            | SnapshotCase::CustodyInjected
+            | SnapshotCase::CustodySubstituted
+            | SnapshotCase::CustodyByteDigestMismatch
+            | SnapshotCase::EvidenceOmitted
+            | SnapshotCase::EvidenceReencoded
+            | SnapshotCase::EvidenceInjected
+            | SnapshotCase::EvidenceByteDigestMismatch => {}
+            SnapshotCase::BadSignature
+            | SnapshotCase::StaleCertificate
+            | SnapshotCase::WrongBoot => {}
+        }
+        let current = PersistedStateMachine {
+            last_applied_log: Some(LogId::new(openraft::CommittedLeaderId::new(1, 1), 23)),
+            last_membership: StoredMembership::default(),
+            application,
+        };
+        let mut value = serde_json::to_value(&current).unwrap();
+        match case {
+            SnapshotCase::MissingProposal | SnapshotCase::EvidenceOmitted => {
+                value["application"]["finalized_authority"][first]
+                    .as_object_mut()
+                    .unwrap()
+                    .remove("proposal");
+            }
+            SnapshotCase::CustodyOmitted => {
+                value["application"]
+                    .as_object_mut()
+                    .unwrap()
+                    .remove("current_authority");
+            }
+            SnapshotCase::CustodyInjected => {
+                value["application"]["current_authority"]["injected"] = serde_json::json!(true);
+            }
+            SnapshotCase::CustodySubstituted => {
+                value["application"]["current_authority"]["polis_id"] =
+                    serde_json::json!("polis-x");
+            }
+            SnapshotCase::EvidenceInjected => {
+                value["application"]["finalized_authority"][first]["proposal"]["injected"] =
+                    serde_json::json!(true);
+            }
+            SnapshotCase::BadSignature => {
+                value["application"]["finalized_authority"][first]["proposal"]["endorsements"][0]
+                    ["signature"][0] = serde_json::json!(255);
+            }
+            SnapshotCase::StaleCertificate => {
+                value["application"]["finalized_authority"][first]["proposal"]["endorsements"][0]
+                    ["certificate_generation"] = serde_json::json!(999);
+            }
+            SnapshotCase::WrongBoot => {
+                value["application"]["finalized_authority"][first]["proposal"]["endorsements"][0]
+                    ["boot_generation"] = serde_json::json!(999);
+            }
+            _ => {}
+        }
+        let mut data = if matches!(
+            case,
+            SnapshotCase::CustodyReencoded | SnapshotCase::EvidenceReencoded
+        ) {
+            serde_json::to_vec_pretty(&value).unwrap()
+        } else {
+            serde_jcs::to_vec(&value).unwrap()
+        };
+        if matches!(
+            case,
+            SnapshotCase::CustodyByteDigestMismatch | SnapshotCase::EvidenceByteDigestMismatch
+        ) {
+            data.push(b' ');
+        }
+        let decoded: PersistedStateMachine = serde_json::from_value(value).unwrap_or_default();
+        let meta = SnapshotMeta {
+            last_log_id: decoded.last_applied_log,
+            last_membership: decoded.last_membership.clone(),
+            snapshot_id: canonical_snapshot_id(&decoded, &data),
+        };
+        let root = tempfile::Builder::new()
+            .prefix("adl-authority-snapshot-")
+            .tempdir_in("/private/tmp")
+            .unwrap();
+        let checkpoint = Arc::new(MemoryAuthority::default());
+        let mut store = PolisStateMachineStore::open_with_trusted_authority(
+            root.path(),
+            1,
+            checkpoint.clone(),
+            TrustedAuthorityBootstrap {
+                polis_id: "polis-a".into(),
+                membership_epoch: membership.epoch(),
+                authority: authority.clone(),
+                boot_generations: boots.clone(),
+                publication_identity: publication_identity(1, &membership, &authority, 17),
+            },
+        )
+        .unwrap();
+        let result = store
+            .install_snapshot(&meta, Box::new(Cursor::new(data)))
+            .await;
+        if matches!(case, SnapshotCase::Valid) {
+            result.unwrap();
+            drop(store);
+            PolisStateMachineStore::open_with_trusted_authority(
+                root.path(),
+                1,
+                checkpoint,
+                TrustedAuthorityBootstrap {
+                    polis_id: "polis-a".into(),
+                    membership_epoch: membership.epoch(),
+                    authority: authority.clone(),
+                    boot_generations: boots,
+                    publication_identity: publication_identity(1, &membership, &authority, 17),
+                },
+            )
+            .unwrap();
+        } else {
+            assert!(result.is_err());
+        }
+    }
+
+    macro_rules! snapshot_case {
+        ($name:ident, $case:ident, $result:literal) => {
+            #[tokio::test]
+            async fn $name() {
+                run_snapshot_case(SnapshotCase::$case).await;
+                println!(concat!(
+                    "ADL_ISSUE_201_CASE_V2 ",
+                    stringify!($name),
+                    " ",
+                    $result
+                ));
+            }
+        };
+    }
+
+    snapshot_case!(
+        snapshot_valid_multi_prepared_finalized_restart,
+        Valid,
+        "passed"
+    );
+    snapshot_case!(snapshot_current_polis_mismatch, CurrentPolis, "rejected");
+    snapshot_case!(snapshot_current_epoch_mismatch, CurrentEpoch, "rejected");
+    snapshot_case!(
+        snapshot_current_membership_mismatch,
+        CurrentMembership,
+        "rejected"
+    );
+    snapshot_case!(snapshot_current_boot_mismatch, CurrentBoot, "rejected");
+    snapshot_case!(snapshot_prepared_polis_mismatch, PreparedPolis, "rejected");
+    snapshot_case!(snapshot_prepared_epoch_mismatch, PreparedEpoch, "rejected");
+    snapshot_case!(
+        snapshot_prepared_membership_mismatch,
+        PreparedMembership,
+        "rejected"
+    );
+    snapshot_case!(snapshot_prepared_boot_mismatch, PreparedBoot, "rejected");
+    snapshot_case!(
+        snapshot_later_prepared_custody_mismatch,
+        LaterPrepared,
+        "rejected"
+    );
+    snapshot_case!(snapshot_legacy_owner_injection, LegacyOwner, "rejected");
+    snapshot_case!(
+        snapshot_legacy_shepherd_injection,
+        LegacyShepherd,
+        "rejected"
+    );
+    snapshot_case!(
+        snapshot_legacy_observatory_injection,
+        LegacyObservatory,
+        "rejected"
+    );
+    snapshot_case!(snapshot_legacy_fence_injection, LegacyFence, "rejected");
+    snapshot_case!(
+        snapshot_legacy_demotion_injection,
+        LegacyDemotion,
+        "rejected"
+    );
+    snapshot_case!(
+        snapshot_finalized_missing_proposal,
+        MissingProposal,
+        "rejected"
+    );
+    snapshot_case!(
+        snapshot_finalized_missing_endorsements,
+        MissingEndorsements,
+        "rejected"
+    );
+    snapshot_case!(
+        snapshot_finalized_wrong_operation,
+        WrongOperation,
+        "rejected"
+    );
+    snapshot_case!(
+        snapshot_finalized_insufficient_quorum,
+        InsufficientQuorum,
+        "rejected"
+    );
+    snapshot_case!(
+        snapshot_finalized_duplicate_quorum,
+        DuplicateQuorum,
+        "rejected"
+    );
+    snapshot_case!(snapshot_finalized_bad_signature, BadSignature, "rejected");
+    snapshot_case!(
+        snapshot_finalized_stale_certificate,
+        StaleCertificate,
+        "rejected"
+    );
+    snapshot_case!(snapshot_finalized_wrong_boot, WrongBoot, "rejected");
+    snapshot_case!(snapshot_finalized_invalid_time, InvalidTime, "rejected");
+    snapshot_case!(
+        snapshot_finalized_wrong_prepare_index,
+        WrongPrepareIndex,
+        "rejected"
+    );
+    snapshot_case!(
+        snapshot_finalized_wrong_finalize_index,
+        WrongFinalizeIndex,
+        "rejected"
+    );
+    snapshot_case!(snapshot_custody_omitted, CustodyOmitted, "rejected");
+    snapshot_case!(snapshot_custody_reencoded, CustodyReencoded, "rejected");
+    snapshot_case!(snapshot_custody_injected, CustodyInjected, "rejected");
+    snapshot_case!(snapshot_custody_substituted, CustodySubstituted, "rejected");
+    snapshot_case!(
+        snapshot_custody_byte_digest_mismatch,
+        CustodyByteDigestMismatch,
+        "rejected"
+    );
+    snapshot_case!(snapshot_evidence_omitted, EvidenceOmitted, "rejected");
+    snapshot_case!(snapshot_evidence_reencoded, EvidenceReencoded, "rejected");
+    snapshot_case!(snapshot_evidence_injected, EvidenceInjected, "rejected");
+    snapshot_case!(
+        snapshot_evidence_substituted,
+        EvidenceSubstituted,
+        "rejected"
+    );
+    snapshot_case!(
+        snapshot_evidence_byte_digest_mismatch,
+        EvidenceByteDigestMismatch,
+        "rejected"
+    );
 
     #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
     async fn real_three_voter_authority_prepare_finalize_uses_applied_log_ids() {
