@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Corrected central CI concurrency to target repository, workflow, and base plus source repository and branch, with cancel-in-progress enabled; this both coalesces duplicate PR objects for one effective surface and cancels an older run when that source branch advances.
+Remediated the exact-head review findings by coalescing identical source heads across PR bases and enforcing one exclusive ADL heavy-runner allocation per ordinary PR while retaining all selected required jobs.
 
 ## Artifacts
 
@@ -65,6 +65,10 @@ Corrected central CI concurrency to target repository, workflow, and base plus s
 - docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md
 - .csdlc/prepared/issues/234/design.md
 - .csdlc/prepared/issues/234/diagram.mmd
+- .github/workflows/ci.yaml
+- adl/tools/ci_path_policy.sh
+- adl/tools/validate_ci_workflow_policy.rb
+- adl/tools/test_ci_runtime_contracts.sh
 
 ## Execution
 
@@ -82,6 +86,9 @@ Corrected central CI concurrency to target repository, workflow, and base plus s
 - Replaced SHA-only concurrency with stable source-and-target surface identity.
 - Retained cancel-in-progress so newer commits cancel older in-progress runs.
 - Updated the policy validator, machine-readable disposition reason, routing regression, procedure, accepted AC-4, design, and diagram.
+- Removed target base from ordinary PR concurrency identity while preserving repository, workflow, source repository, and source branch isolation.
+- Added one deterministic heavy_runner_job choice; only that selected required job may acquire ADL_HEAVY_RUNNER and all other required jobs use the standard runner.
+- Strengthened workflow-policy and runtime-contract validators to reject base-split concurrency and non-exclusive heavy-runner selectors.
 
 ## Validation
 

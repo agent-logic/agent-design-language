@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
-  "generation": 26,
-  "digest": "389964c180709290ad8dd104709eebdfb753b913d756781790135aed56f3206c",
+  "generation": 27,
+  "digest": "496e926e4fb47a6fb485538359a98dab7fbecdb9245e4d0e94fff314d347b017",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": {
@@ -36,34 +36,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "67cd2320a32a7839d402039ed16a77af633e3f60840e571b1439e4ceffa9ca19",
+      "values_digest": "038ccc683c57ee63854d78c5d571b80d663686edb78ded597ed126781d59e95f",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "826a6f677072044f229ce5292088f143dc2d708d562635bcbc9b2c80a49798a3",
+      "values_digest": "93e212d7d0943037ee0303b3c6ed514ccd4eb157f291578d81e98494f126a540",
       "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
       "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "49a664281a4a3d559b1d32be6868d09e294fc4857c01824a4eb284a427255f80",
+      "values_digest": "97e94c53b113ead0e413584b62e6770099cb76c77bc8e85a36fb70abadb8b54a",
       "rendered_digest": "4aefac7b866c381e05080459460429c537d4ef79b16a3d8d1207c2d93aa5c2f8",
       "ast_digest": "4275040bf85db61f054c1978dcb59027ff4817fc3e9cad80287eaea38385c582"
     },
     "vpp": {
-      "values_digest": "7bbb1841355eb2b29708337cef20667b6d967283b4d01c89b4375bc2fe642085",
+      "values_digest": "9975f4fe49d7d8930974c34d2879b5461add03c19cf6a277b047c407f47e3b5a",
       "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "8e60804bca1b7bb53648cea1dd7a579a224fdbe9f2f9f201add8e5edca96aed2",
+      "values_digest": "7b5b5204d77b2def0885da1898653f0e847d0dc5bf91ac2e79a33e03be0f08e4",
       "rendered_digest": "0eeafc2ec52fc108a85d659a970295e8083c465c8e6e1d4569b5b355b82cc3a7",
       "ast_digest": "c3e80579cb5abc6c7da556066a1a54e25ac2cf32ac6f0fda170e12a30dce9678"
     },
     "sor": {
-      "values_digest": "6e496473e13933d984433ee14d13a8f11f15424d55b6eb2cb585c8c46bd7a13a",
-      "rendered_digest": "71bce633f33219d209c7fd757985b1f973e7d0cdcc345ba343f592e68fdc2626",
-      "ast_digest": "707579aa754e465a6f3d8f2509029eebdbb1b1ef1329cac152a104ba71993782"
+      "values_digest": "4dc066e0b991cb5e654af1c7636d99773154205379c6ab48f87e57952da3f0e4",
+      "rendered_digest": "8dd6d35674d7072d751578d0f97fca496b2c7df201623cb5727854b225c324b3",
+      "ast_digest": "ee045f6e7aa547cc8b4b61f4364e31618375e91ffcb3dcaf295cf0791e90e9b0"
     }
   },
   "transitions": [
@@ -292,6 +292,13 @@
       "actor": "operator",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 27,
+      "actor": "codex:234-gibbs-remediation",
+      "reason": "Record remediation of both exact-head Gibbs P1 findings before re-review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Remediated the exact-head review findings by coalescing identical source heads across PR bases and enforcing one exclusive ADL heavy-runner allocation per ordinary PR while retaining all selected required jobs.\",\"changes\":[\"Removed target base from ordinary PR concurrency identity while preserving repository, workflow, source repository, and source branch isolation.\",\"Added one deterministic heavy_runner_job choice; only that selected required job may acquire ADL_HEAVY_RUNNER and all other required jobs use the standard runner.\",\"Strengthened workflow-policy and runtime-contract validators to reject base-split concurrency and non-exclusive heavy-runner selectors.\"],\"artifacts\":[\".github/workflows/ci.yaml\",\"adl/tools/ci_path_policy.sh\",\"adl/tools/validate_ci_workflow_policy.rb\",\"adl/tools/test_ci_runtime_contracts.sh\"]}"
     }
   ]
 }
