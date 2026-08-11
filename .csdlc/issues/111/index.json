@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
-  "generation": 68,
-  "digest": "7e1cf739a8dbf9ecab8b8284995540b632698108871b578a5e9aa2d8bf053323",
+  "generation": 72,
+  "digest": "dd8c9890ef30daa3eb4e086cf824665f05a3f35c107b93adffcf8fead9a5e72e",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2e6ea14e0539f9ba808321c9dff9b21be8ebd0b2a8fa8a0fb970f1a627488336",
+      "values_digest": "8edb76985e8ebfd32521ed2e3370d9ba728292a430457196e961b700b5e13f03",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "ea7997460017c4b290104ceb94e4146d799ff5d41e313f8202e09a43d6f06084",
+      "values_digest": "03f28146637ec20c153b379e17b7663d110a9a122c4413d318490c60bcc883c0",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "c98eab53a73e111317a7b1bdc1d51862cc674cb9e2b28519e489ef55ca9154e6",
+      "values_digest": "cc8ab9d0bcd8827e5e3e5b5398aeb8e31ccbc801c74c1398ba58c8be642f6a52",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "fc87cc044195bf41a97905fb0d2bb39cd4626053d23668461fc067e29d7ecd09",
+      "values_digest": "f58f5955ec310e8365091b9a8b7dc9d3a4e8c95f1aa98a24eec6b130b148c68b",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "993d87b6142fa205b975c61f9c93b7ebb175ca8b5d34fe1f3e50efdc6f7cb07f",
+      "values_digest": "1f627859aa071cb603061d9707a975d0d6c5f73dfb6e25204c890e9f7ced5fed",
       "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
       "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
     },
     "sor": {
-      "values_digest": "b9a68024bb0dd5bda2af191b08710e91093ad79f1f11e78fa6798d5f5e35a16f",
-      "rendered_digest": "82b9c53f64349c5e2200450324ddf32cd46cf6a9847418fe3196b5a4c5632efd",
-      "ast_digest": "2aaff0208af0a7b3f6ab2cf5eed6405b304fdb46d96f3a939f6670e3ec5e2b9c"
+      "values_digest": "a2bde03f5d3c701ee73738fc25054800de9ccf75093ee157cd838a1698714400",
+      "rendered_digest": "dbaf4bffb224961fb038db0d855048f598c874eda1d3b078ceba4849f9e3917b",
+      "ast_digest": "2b77ae1606377f3a286a0e752404bcc8501a85777862d319e7326938640d53ca"
     }
   },
   "transitions": [
@@ -645,6 +645,41 @@
       "actor": "codex:wp18c01-fresh-review-remediation",
       "reason": "Record focused proof for the deterministic stale-completion cleanup race remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"purpose\":\"Prove the newer authentication-generation attachment exists before the old completion is released and remains the only deliverable terminal result.\",\"outcome\":\"passed\",\"evidence_ref\":\"conversation_sessions 1/1 PASS with barrier-controlled stale cleanup race; cargo fmt check PASS; git diff --check PASS\"}}"
+    },
+    {
+      "sequence": 77,
+      "generation": 68,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 78,
+      "generation": 69,
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 79,
+      "generation": 70,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Move generation-scoped attachment reservation before the accepted response so the protocol exposes a deterministic attachment-before-release boundary.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 80,
+      "generation": 71,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record the deterministic attachment reservation ordering fix.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the attachment-before-release ordering finding in the production WSS path.\",\"changes\":[\"Reserve a generation-scoped dispatch or in-flight attachment before sending its accepted response.\",\"Keep executor and waiter task spawning after the response, preserving accepted-before-terminal frame ordering.\",\"Make receipt of conversation_in_flight a deterministic proof that the newer attachment already exists before the test releases the old completion.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\"]}"
+    },
+    {
+      "sequence": 81,
+      "generation": 72,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record complete focused proof for deterministic attachment reservation ordering.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused conversation, Observatory, control, browser, static, Clippy, format, and diff gates\"],\"purpose\":\"Prove attachment-before-ack ordering and preserve all prior conversation authorization, boundedness, and UI contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"conversation_sessions 1/1, observatory 7/7, control 25/25 PASS; browser conversation PASS; combined HTML Observatory PASS; strict lib+binary Clippy PASS; cargo fmt and git diff hygiene PASS\"}}"
     }
   ]
 }

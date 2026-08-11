@@ -2605,6 +2605,15 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                             && response.error == Some("conversation_in_flight");
                         let conversation_id = response.conversation_id.clone();
                         let turn_id = response.turn_id.clone();
+                        let attachment_inserted = if dispatch.is_some() || attach_to_in_flight {
+                            conversation_attachments.insert((
+                                authentication_generation,
+                                conversation_id.clone(),
+                                turn_id.clone(),
+                            ))
+                        } else {
+                            false
+                        };
                         let Ok(payload) = serde_json::to_string(&response) else {
                             break;
                         };
@@ -2612,11 +2621,6 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                             break;
                         }
                         if let Some(dispatch) = dispatch {
-                            conversation_attachments.insert((
-                                authentication_generation,
-                                conversation_id.clone(),
-                                turn_id.clone(),
-                            ));
                             let service = service.clone();
                             let results = conversation_results_tx.clone();
                             let authorized_generation = authentication_generation;
@@ -2630,14 +2634,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                     .send((authorized_generation, authorized_token_digest, result))
                                     .await;
                             });
-                        } else if attach_to_in_flight
-                            && conversation_attachments
-                                .insert((
-                                    authentication_generation,
-                                    conversation_id.clone(),
-                                    turn_id.clone(),
-                                ))
-                        {
+                        } else if attach_to_in_flight && attachment_inserted {
                             let service = service.clone();
                             let results = conversation_results_tx.clone();
                             let authorized_generation = authentication_generation;

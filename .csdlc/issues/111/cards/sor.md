@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Closed the final P2 review finding with a scheduler-independent authentication-generation cleanup race regression.
+Closed the attachment-before-release ordering finding in the production WSS path.
 
 ## Artifacts
 
@@ -39,6 +39,8 @@ Closed the final P2 review finding with a scheduler-independent authentication-g
 - adl-runtime-kernel/tests/conversation_sessions.rs
 - demos/html-observatory/app.js
 - 17044db84
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- adl-runtime-kernel/src/control.rs
 - adl-runtime-kernel/tests/conversation_sessions.rs
 
 ## Execution
@@ -67,6 +69,9 @@ Closed the final P2 review finding with a scheduler-independent authentication-g
 - Added an executor barrier that proves the old-generation operation has started but cannot complete until explicitly released.
 - Reauthenticated with the same credential and attached the same conversation turn under the newer generation before releasing the old completion.
 - Proved the old completion cannot remove the newer attachment and exactly one current-generation delivered result is emitted.
+- Reserve a generation-scoped dispatch or in-flight attachment before sending its accepted response.
+- Keep executor and waiter task spawning after the response, preserving accepted-before-terminal frame ordering.
+- Make receipt of conversation_in_flight a deterministic proof that the newer attachment already exists before the test releases the old completion.
 
 ## Validation
 
@@ -273,6 +278,14 @@ Closed the final P2 review finding with a scheduler-independent authentication-g
     "purpose": "Prove the newer authentication-generation attachment exists before the old completion is released and remains the only deliverable terminal result.",
     "outcome": "passed",
     "evidence_ref": "conversation_sessions 1/1 PASS with barrier-controlled stale cleanup race; cargo fmt check PASS; git diff --check PASS"
+  },
+  {
+    "command": [
+      "focused conversation, Observatory, control, browser, static, Clippy, format, and diff gates"
+    ],
+    "purpose": "Prove attachment-before-ack ordering and preserve all prior conversation authorization, boundedness, and UI contracts.",
+    "outcome": "passed",
+    "evidence_ref": "conversation_sessions 1/1, observatory 7/7, control 25/25 PASS; browser conversation PASS; combined HTML Observatory PASS; strict lib+binary Clippy PASS; cargo fmt and git diff hygiene PASS"
   }
 ]
 
