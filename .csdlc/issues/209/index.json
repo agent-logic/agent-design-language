@@ -4,81 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
-  "phase": "reviewed",
-  "generation": 29,
-  "digest": "51af8f51bb93983da76aa5a320ce3e9a509bd2137a64b98db918be684502024c",
+  "phase": "implemented",
+  "generation": 31,
+  "digest": "f819072d0aa4660264c6a73fc1f5c7b72d9aca904fd88762002c4933a9f03ee6",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_209_exact_head",
-    "assigned_by": "/root/sprint4_5857",
-    "revision": "git-blake3:98d6bb3b4063d5115aef21cc5264120b2f3fd883:1a08fb081e7085cbd160da118b6637a5a5cfb692b9193097f6e1245d8f85f31f",
-    "scope": [
-      ".csdlc/issues/209",
-      ".csdlc/prepared/issues/209/design.md",
-      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
-      ".csdlc/evidence/209",
-      ".github/workflows/wp14-production-acip-repair.yml",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/acip.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/governed_operations.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime-kernel/tests/production_acip_wss.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "adl-runtime/src/runtime_api_auth.rs",
-      "adl/tools/install_vector_component.sh",
-      "docs/api/runtime-v3/v1/openapi.json",
-      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/sprint4_5857/review_209_exact_head",
-    "scope": [
-      ".csdlc/issues/209",
-      ".csdlc/prepared/issues/209/design.md",
-      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
-      ".csdlc/evidence/209",
-      ".github/workflows/wp14-production-acip-repair.yml",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/acip.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/governed_operations.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime-kernel/tests/production_acip_wss.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "adl-runtime/src/runtime_api_auth.rs",
-      "adl/tools/install_vector_component.sh",
-      "docs/api/runtime-v3/v1/openapi.json",
-      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
-    ],
-    "reviewed_revision": "git-blake3:98d6bb3b4063d5115aef21cc5264120b2f3fd883:1a08fb081e7085cbd160da118b6637a5a5cfb692b9193097f6e1245d8f85f31f",
-    "findings": [
-      {
-        "id": "P1-native-semantic-output-path-lock",
-        "severity": "p1",
-        "summary": "Fixed: the producer path-confines the semantic destination, converts it through an explicitly tested absolute-path helper stable under package working directories, and retains repository-relative receipt paths.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:98d6bb3b4063d5115aef21cc5264120b2f3fd883:1a08fb081e7085cbd160da118b6637a5a5cfb692b9193097f6e1245d8f85f31f",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Exact Linux and macOS native receipt execution remains deferred until reviewed publication; merge remains blocked until retained packet validation and fresh post-native review pass."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -93,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "acccd57f39de28b536d4cc521f6632c4044265d770e7cb942f6a828f2313a715",
+      "values_digest": "6de327feb0b546091e73c9cdd26d227615c3135dd0e369a8e06af6c7252cfc7e",
       "rendered_digest": "6ab414912da8b10f191cb7cd3eea7784652fb74e3078d62b0910875fce567253",
       "ast_digest": "0aee2bd815b8c6341e8aff6dc3c6cd119dfed378531100564f71b0578fe18f04"
     },
     "stp": {
-      "values_digest": "dea85683c4cacf9dffb64e60d32c230171fc9d64a0655c26fec7d2a050c99430",
+      "values_digest": "299e4057ea705c622f7a08bcbf88f27897d4cc2704998e8f6c95a36af23db880",
       "rendered_digest": "e951f98cdd50987c53b2a86e54705081136876bf7a37371391f5666fc8d69277",
       "ast_digest": "1f3ffc61430a58bd141d682d1f46cee9cb750b4fc7484d1ffdd17668fbba9981"
     },
     "spp": {
-      "values_digest": "69b920ca73ee11ae8e366cc9d15d4325f35f58402b3110ec2522db89eb0240df",
+      "values_digest": "c899db0798bc3421d739784ef3c45c42de69f0f56a3bc01c56882c2bcdc33356",
       "rendered_digest": "65126dd5e86756e71a625179916063764d0b78027945b2653a76eadcbf7b6db5",
       "ast_digest": "93b187170b51ddd77987e72bd0f5ecc30bfc162be27c358e6944fdf455a710bf"
     },
     "vpp": {
-      "values_digest": "7a03676c7e70bc0759263b0721c3521eda63d015710566c209e2d1764e6422ab",
+      "values_digest": "b124b8867ff8ed1b59cd3a1cc735e6d1e749954ff54a24e04dc162e7b623b319",
       "rendered_digest": "1cf5d053c982cfa3dbb1576026b45f79b6f645d14b06baacfb117fd30e39a4f2",
       "ast_digest": "6b62309165c156b026db20c16e4fa82877f6fa6aa554733e8e5144b69c2f3642"
     },
     "srp": {
-      "values_digest": "e464cad1b28e435bfb09b69a55ff2aacaf1381566486efea8a31481bbef8d87e",
-      "rendered_digest": "a1fc9e505487bd34a789ea014d598cbbd52a4ad176cf31632b1e7ea027921b03",
-      "ast_digest": "6b50a04b5a5cde381ddb2606516cb3526f1f149eca9b0b8715041130179fafb1"
+      "values_digest": "67f811402ca876effdece03a8d1cdf0ef86032f6c18a0ec3bf949e05d78f605e",
+      "rendered_digest": "ce0e746ee279504a5a62dd63f853913c5fc594bcd05290dedec4c543cb420c71",
+      "ast_digest": "769084b712424270abe146c3a27e4efba8647fda8b7ac75d03f9bbadaa01542e"
     },
     "sor": {
-      "values_digest": "2b3c68c30bc8addb1809f5b1af6dcd91e7ccf69a46f491ffd20b846877eccc85",
+      "values_digest": "1bcfc558805b9f0d683696777686c5a0181a8f0710b50d439a062bdcdae7d8c3",
       "rendered_digest": "cd2a847780ff00b828b51edb0fc1da7c9f003c990db7b41347f105333418a3cd",
       "ast_digest": "e77dac6cca5053f9431758a05f5d738b96d2803161ad96bd7178660145ff9f6f"
     }
@@ -207,6 +139,20 @@
       "to": "reviewed",
       "actor": "/root/sprint4_5857",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "/root/sprint4_5857",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Recover the final review record because its current reviewer attribution names the earlier assignment rather than the fresh independent reviewer that actually passed exact head 2275b59607dcbe3a8220746861a8bd71f73aaac6. Preserve the earlier assignment as historical audit evidence, then record the actual reviewer identity."
     }
   ],
   "audit": [
@@ -475,6 +421,20 @@
       "actor": "/root/sprint4_5857",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 30,
+      "actor": "/root/sprint4_5857",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 40,
+      "generation": 31,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Recover the final review record because its current reviewer attribution names the earlier assignment rather than the fresh independent reviewer that actually passed exact head 2275b59607dcbe3a8220746861a8bd71f73aaac6. Preserve the earlier assignment as historical audit evidence, then record the actual reviewer identity.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
     "slug": "wp14-production-acip-authority-repair",
     "version": "v0.92",
-    "generation": 29
+    "generation": 31
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/209\n.csdlc/prepared/issues/209/design.md\n.csdlc/prepared/issues/209/produce-native-receipt.rb\n.csdlc/prepared/issues/209/validate-native-receipts.rb\n.csdlc/evidence/209\n.github/workflows/wp14-production-acip-repair.yml\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/acip.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/governed_operations.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/production_acip_wss.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\nadl-runtime/src/runtime_api_auth.rs\nadl/tools/install_vector_component.sh\ndocs/api/runtime-v3/v1/openapi.json\ndocs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
-      "review_revision": "git-blake3:98d6bb3b4063d5115aef21cc5264120b2f3fd883:1a08fb081e7085cbd160da118b6637a5a5cfb692b9193097f6e1245d8f85f31f",
-      "reviewer": "/root/sprint4_5857/review_209_exact_head",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the test exercise the real Guardian/kernel operation path rather than a service-local ACK?",
         "Can any principal/session sequence choice deny or authorize unrelated traffic?",
@@ -23,22 +23,9 @@
         "Are OpenAPI required/nullability rules identical to runtime admission?",
         "Are exact native receipts bound to every authority-bearing source and test path?"
       ],
-      "findings": [
-        {
-          "id": "P1-native-semantic-output-path-lock",
-          "severity": "p1",
-          "summary": "Fixed: the producer path-confines the semantic destination, converts it through an explicitly tested absolute-path helper stable under package working directories, and retains repository-relative receipt paths.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:98d6bb3b4063d5115aef21cc5264120b2f3fd883:1a08fb081e7085cbd160da118b6637a5a5cfb692b9193097f6e1245d8f85f31f",
-          "route": null
-        }
-      ],
-      "residual_risk": [
-        "Exact Linux and macOS native receipt execution remains deferred until reviewed publication; merge remains blocked until retained packet validation and fresh post-native review pass."
-      ],
-      "review_result": "pass"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
