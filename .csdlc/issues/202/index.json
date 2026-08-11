@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
   "phase": "implemented",
-  "generation": 32,
-  "digest": "9d916ea23a9cd02ad888cbe489e02d6f482afaaaa294bca3d5615493f594b563",
+  "generation": 35,
+  "digest": "e439af73cf11581211e5d435b9530c18f81be4474567924e31c992854270a332",
   "branch": "codex/202-authorized-learner-transport-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-202-authorized-learner-transport-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7fba377414537f259ac61d9e4de4fc7c800da08b8fda99e325d8cf756aa3e32b",
+      "values_digest": "1ddb31d6a0b051a41e804fa488b0b3966486aefe55fe483123fcf1814ca8d252",
       "rendered_digest": "69a805a23892f34aeda5bc6c018c4b6d3425674b3472f433c95fa96c01aa8830",
       "ast_digest": "004791ead09b105cebf8ab0978301127312b0ae5a7c0c34cebf6291fa33a196d"
     },
     "stp": {
-      "values_digest": "705e971da9eb72112118ac563cb34f7b4a9eb6f683c78d7c5049c9efde38df3b",
+      "values_digest": "0577f8eea7ba4c38195e343da1b2ec2ca976c3458f6372aa0fe6d4b73b0a979d",
       "rendered_digest": "dfddaeadcb4d739c0c3331bc30dbfd94b4b57d0d9ad9f9a74ab81174a9dcee43",
       "ast_digest": "1614c5e31e990ab93563b802b9a8d59738cb7f5b68caede9b9107241152d43fc"
     },
     "spp": {
-      "values_digest": "591334807598280ad3cce44375f0a736c15f9aa3b7af40ced6f6e4520346b059",
+      "values_digest": "04f7909f7ee4bbdb144e073d8c9a412f4689587a41f0c37dcbba9aecce7c0154",
       "rendered_digest": "093cc6780f5a2d975bf7b1b164fe4eba33825f122f62fb3d4f5f7c50b181d5bb",
       "ast_digest": "bdf56b18f8b8a4ad50b131b2c6d134a634c810789f2a69f6e75593fbacb827bc"
     },
     "vpp": {
-      "values_digest": "212011df74cc7387a0d462116fa1de67b680b2b0441829e4bf05b2efb10eb3b9",
-      "rendered_digest": "76d2647e9f8896b77843dc0aa3b1f3a9ebb025f9d6981282fe802f79745aee08",
-      "ast_digest": "ca7ca4a900d6ec7fd089d3a85b477c8a26c4be6aca98c8b647319c3f08f47157"
+      "values_digest": "f700caae613e41ae494827edb64fb5e42637e98b6cf2074e553ee943640d38b8",
+      "rendered_digest": "88819c7b9f074f934810f6a93237044a438267df95b080edaa41abb0dc64a2b8",
+      "ast_digest": "7643c556cdacd81b2c6b760e7d2085791e5e5de6830db2a00d915c11b1733976"
     },
     "srp": {
-      "values_digest": "af7887c695cc55ad5e817a8c6a98e57a3069bc470573235badc91e053a5720ef",
-      "rendered_digest": "d3b260e57f05f2eeb4aa3081eee2d1dc8abdcc3bcee776a6af7ebb4715245ece",
-      "ast_digest": "6785d18198526e634f9b34fff8911270179003c0a89d3ae581cd8ea6df98e227"
+      "values_digest": "3ff4f75424e9d65eca8c7d1b00d5a049d9d1a0654199200ae37e0a4693c9ca81",
+      "rendered_digest": "bf736485fa6a9bd49ec2f72b81d687f809819e372b57ab6bc15df4e11a9f6e31",
+      "ast_digest": "7b33026f81971a165f778349c1be19bf5ea81dadbfac1578be557657d0e1feb4"
     },
     "sor": {
-      "values_digest": "5dce353bfcc8f17d07ad3c91fc3ba07c8c54041c9c714d81c82f3bcae38b86d8",
+      "values_digest": "3841ee2084fe8c07e81bec9c767668fb9f054ea9f64c0e182769a0043746607c",
       "rendered_digest": "6976b76851f7f116ddab91edc1438c1142c65eb69e7dc2810b014279f4f77e49",
       "ast_digest": "ab806f71c5e77f79d57c204e292265934fba1caa38794d956c4430f0eb77819a"
     }
@@ -322,6 +322,34 @@
       "actor": "codex:/root/prepare_204_parallel:review-resolution",
       "reason": "Align the implementation plan with the approved governed subtree and exact preserved integration targets.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/transport/core.rs\",\"adl-runtime/src/distributed/transport/root.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\",\"adl-runtime/src/distributed/transport/governed/polis_runtime.rs\",\"adl-runtime/tests/distributed_authorized_learner_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\",\".csdlc/evidence/202/v6\",\".csdlc/issues/202\"]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 32,
+      "actor": "codex:/root/prepare_204_parallel:review-resolution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 33,
+      "actor": "codex:/root/prepare_204_parallel:review-resolution",
+      "reason": "Continue typed recovery so the plan summary records the approved final authority and proof contract before fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 34,
+      "actor": "codex:/root/prepare_204_parallel:review-resolution",
+      "reason": "Normalize final exact proof truth to thirty-six semantic cases, forty-two private runner tests, thirteen public tests, twenty-nine named subassertions, three standalone compiles, and strict Clippy.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"authorized-learner-transport\",\"proof_role\":\"Prove the unchanged exact thirty-six semantic learner cases through forty-two passing private runner tests, including six supplemental authority-boundary, boot-custody, durable-instance, peer-pin, and real-effect race tests, with exactly twenty-nine named subassertions.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1500,\"budget_tokens\":18000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::transport::governed::learner_transport::tests\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"parallel_group\":\"202-runtime\",\"defer_reason\":\"Fail closed unless all 42 runner tests pass, all 36 semantic cases remain represented, and the exact 29 named subassertions occur once.\"},{\"lane\":\"authorized-learner-transport-public-boundary\",\"proof_role\":\"Prove the separate exact thirteen-test public canonical Membership artifact boundary without exposing governed construction or mutation authority.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authorized_learner_transport\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"202-runtime\",\"defer_reason\":\"Fail closed on any count other than 13, any failure, or any public route around the sealed adapter.\"},{\"lane\":\"distributed-transport-standalone-compile\",\"proof_role\":\"Compile the unchanged standalone distributed_transport target against the dependency-free transport core.\",\"acceptance_ids\":[\"AC-2\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\",\"--no-run\"],\"parallel_group\":\"202-compile\",\"defer_reason\":\"Fail closed if the historical standalone transport target no longer compiles.\"},{\"lane\":\"distributed-discovery-standalone-compile\",\"proof_role\":\"Compile the unchanged standalone distributed_discovery target against the dependency-free transport core.\",\"acceptance_ids\":[\"AC-2\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-run\"],\"parallel_group\":\"202-compile\",\"defer_reason\":\"Fail closed if the historical standalone discovery target no longer compiles.\"},{\"lane\":\"authorized-learner-runtime-integration-compile\",\"proof_role\":\"Compile the full distributed runtime transport target against the factory-owned governed authority API.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-run\"],\"parallel_group\":\"202-compile\",\"defer_reason\":\"Fail closed if runtime integration bypasses sole factory ownership or does not compile.\"},{\"lane\":\"authorized-learner-transport-clippy-lib\",\"proof_role\":\"Reject warnings and API misuse across the production library boundary.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"202-lint\",\"defer_reason\":\"Fail closed on any production library warning.\"},{\"lane\":\"authorized-learner-transport-clippy-public\",\"proof_role\":\"Reject warnings and API misuse across the exact public learner artifact target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authorized_learner_transport\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"202-lint\",\"defer_reason\":\"Fail closed on any public-target warning.\"},{\"lane\":\"authorized-learner-transport-producer\",\"proof_role\":\"Produce v6 exact-source evidence binding current-main ancestry, all protected paths, 36 semantic versus 42 runner plus 13 public and 29 subassertions, three integration compiles, and strict Clippy.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":2400,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/202/produce-proof-receipt.rb\"],\"parallel_group\":\"202-proof\",\"defer_reason\":\"Fail closed on dirty protected source, stale ancestry, API-boundary guard drift, count mismatch, or any failed command.\"},{\"lane\":\"authorized-learner-transport-receipt\",\"proof_role\":\"Validate immutable v6 exact-source evidence and protected-path parity for fresh independent review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/202/validate-proof-receipt.rb\"],\"parallel_group\":\"202-proof\",\"defer_reason\":\"Fail closed until exact source, denominators, commands, immutable evidence introduction, and current-main ancestry agree.\"}]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 35,
+      "actor": "codex:/root/prepare_204_parallel:review-resolution",
+      "reason": "Focus fresh exact-head review on the approved governed ownership, lease, boot, pin, transition, compatibility, and proof contracts.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the private transport::governed subtree make TransportAuthorityOwner construction and every authority mutation reachable only from SecurePolisNetworkFactory, while preserving public distributed learner_transport and polis_runtime source paths?\",\"Are raw QUIC send, receive, learner handshake, permit construction, exclusion activation, flip, expiry, and cut replacement private or opaque so no crate sibling can mint a governed-looking bypass?\",\"Does each ordinary and learner request retain one shared authority lease from under-fence revalidation through stream creation, actual OpenRaft append or snapshot effect, and response send or receive without a dropped gap or nested read deadlock?\",\"Do exclusion, successor flip, expiry, and authority-cut replacement serialize under one lock order, update exact current view and durable truth, drain routes, and make retained sessions fail before any later governed data STREAM?\",\"Does a separate checkpointed random transport instance id survive restart, do canonical peer pins bind role plus stable Raft id plus node and Guardian ids, and do signed handshakes reject a fresh alternate-root peer while accepting a same-root restart?\",\"Does production learner boot attestation require runtime-owned nonclone custody and hold the durable current-generation guard while the nonextractable Guardian signer signs, so retained generation N cannot attest or sign after N plus 1?\",\"Do the untouched distributed_transport and distributed_discovery targets and the distributed_runtime_transport target all compile against the dependency-free transport core and compatible public reexports?\",\"Does real_four_node_learner_replication prove a writer waits across the real learner Raft effect and response while preserving snapshot, append, and unchanged voter behavior?\",\"Does the retained exclusion race prove the in-flight request boundary and zero post-exclusion STREAM frames across every public ordinary dispatch route?\",\"Does v6 evidence distinguish exactly 36 semantic cases from 42 private runner tests, separately require 13 public tests and 29 named subassertions, protect every moved or new path, and bind exact current-main ancestor dbd060d1e?\",\"Are all changes bounded to #202, with #199 promotion and later serving or recovery integration left to their declared owners, and no paid runner, AWS, publish, merge, or closeout side effect?\"]}"
     }
   ]
 }

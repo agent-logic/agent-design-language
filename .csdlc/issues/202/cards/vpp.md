@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
 [
   {
     "lane": "authorized-learner-transport",
-    "proof_role": "Prove the exact thirty-six private cases and eighteen behavior assertions, including mandatory shared authority ownership, real SecurePolisNetworkFactory-to-Quinn fourth-PolisRaft snapshot and append replication, exact TLS role/address/generation binding, automatic successor revocation, production exclusion endorsement, restart reconciliation, and denied non-replication RPCs. Retained excluded ordinary sessions must deny every public request/accept route before a QUIC STREAM frame, and published-result admission plus live install must deny cross-polis or cross-cut publisher identity.",
+    "proof_role": "Prove the unchanged exact thirty-six semantic learner cases through forty-two passing private runner tests, including six supplemental authority-boundary, boot-custody, durable-instance, peer-pin, and real-effect race tests, with exactly twenty-nine named subassertions.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -46,17 +46,17 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       "--manifest-path",
       "adl-runtime/Cargo.toml",
       "--lib",
-      "learner_transport::tests",
+      "distributed::transport::governed::learner_transport::tests",
       "--",
       "--nocapture",
       "--test-threads=1"
     ],
     "parallel_group": "202-runtime",
-    "defer_reason": "Fail closed on any count other than 36, any missing or duplicate case marker, any mismatch from the exact eighteen behavior assertions, or any failed real transport effect."
+    "defer_reason": "Fail closed unless all 42 runner tests pass, all 36 semantic cases remain represented, and the exact 29 named subassertions occur once."
   },
   {
     "lane": "authorized-learner-transport-public-boundary",
-    "proof_role": "Prove the exact thirteen-case public canonical Membership artifact boundary without exposing the sealed adapter.",
+    "proof_role": "Prove the separate exact thirteen-test public canonical Membership artifact boundary without exposing governed construction or mutation authority.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
@@ -79,19 +79,67 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       "--test-threads=1"
     ],
     "parallel_group": "202-runtime",
-    "defer_reason": "Fail closed on a count other than 13, any failure, or any public route around the sealed adapter."
+    "defer_reason": "Fail closed on any count other than 13, any failure, or any public route around the sealed adapter."
+  },
+  {
+    "lane": "distributed-transport-standalone-compile",
+    "proof_role": "Compile the unchanged standalone distributed_transport target against the dependency-free transport core.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_transport",
+      "--no-run"
+    ],
+    "parallel_group": "202-compile",
+    "defer_reason": "Fail closed if the historical standalone transport target no longer compiles."
+  },
+  {
+    "lane": "distributed-discovery-standalone-compile",
+    "proof_role": "Compile the unchanged standalone distributed_discovery target against the dependency-free transport core.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_discovery",
+      "--no-run"
+    ],
+    "parallel_group": "202-compile",
+    "defer_reason": "Fail closed if the historical standalone discovery target no longer compiles."
   },
   {
     "lane": "authorized-learner-runtime-integration-compile",
-    "proof_role": "Compile the full distributed runtime transport integration target against the mandatory three-argument factory constructor and shared authority API.",
+    "proof_role": "Compile the full distributed runtime transport target against the factory-owned governed authority API.",
     "acceptance_ids": [
       "AC-4",
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 600,
-    "budget_tokens": 4000,
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
     "argv": [
       "cargo",
       "test",
@@ -102,8 +150,8 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       "distributed_runtime_transport",
       "--no-run"
     ],
-    "parallel_group": "202-runtime",
-    "defer_reason": "Fail closed if any ordinary production factory construction omits the shared authority or the runtime integration target fails to compile."
+    "parallel_group": "202-compile",
+    "defer_reason": "Fail closed if runtime integration bypasses sole factory ownership or does not compile."
   },
   {
     "lane": "authorized-learner-transport-clippy-lib",
@@ -127,7 +175,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       "warnings"
     ],
     "parallel_group": "202-lint",
-    "defer_reason": "Fail closed on any library warning or missing production source."
+    "defer_reason": "Fail closed on any production library warning."
   },
   {
     "lane": "authorized-learner-transport-clippy-public",
@@ -152,11 +200,11 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       "warnings"
     ],
     "parallel_group": "202-lint",
-    "defer_reason": "Fail closed on any public-target warning or missing target."
+    "defer_reason": "Fail closed on any public-target warning."
   },
   {
     "lane": "authorized-learner-transport-producer",
-    "proof_role": "Produce exact source, current-main ancestry, protected digests, command streams, 36+13 results, eighteen behavior assertions, runtime compile, and strict Clippy evidence.",
+    "proof_role": "Produce v6 exact-source evidence binding current-main ancestry, all protected paths, 36 semantic versus 42 runner plus 13 public and 29 subassertions, three integration compiles, and strict Clippy.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -169,11 +217,11 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       ".csdlc/prepared/issues/202/produce-proof-receipt.rb"
     ],
     "parallel_group": "202-proof",
-    "defer_reason": "Fail closed on dirty protected source, wrong ancestry, production allow-all bypass, omitted shared-authority constructor, missing real fourth-Raft behavior, wrong denominator, or any failed command."
+    "defer_reason": "Fail closed on dirty protected source, stale ancestry, API-boundary guard drift, count mismatch, or any failed command."
   },
   {
     "lane": "authorized-learner-transport-receipt",
-    "proof_role": "Validate immutable exact-source evidence and squash-merge-safe current-main ancestry for fresh independent review.",
+    "proof_role": "Validate immutable v6 exact-source evidence and protected-path parity for fresh independent review.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -186,7 +234,7 @@ Diagram: .csdlc/prepared/issues/202/diagram.mmd
       ".csdlc/prepared/issues/202/validate-proof-receipt.rb"
     ],
     "parallel_group": "202-proof",
-    "defer_reason": "Fail closed until the exact source, 36+13 results, eighteen assertions, both Clippy lanes, and immutable evidence introduction agree."
+    "defer_reason": "Fail closed until exact source, denominators, commands, immutable evidence introduction, and current-main ancestry agree."
   }
 ]
 
@@ -202,8 +250,10 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib learner_transport::tests -- --nocapture --test-threads=1`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::transport::governed::learner_transport::tests -- --nocapture --test-threads=1`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport -- --test-threads=1`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_transport --no-run`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_discovery --no-run`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport --no-run`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport -- -D warnings`
