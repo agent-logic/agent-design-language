@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Closed the integrated review findings by rechecking live recipient eligibility at the dispatch boundary and making pending-turn replay repeatable once per actual disconnect.
+Closed both fresh-session review findings at exact product revision fb4003c15a1eefd9daf780bf5c397dd887185b75.
 
 ## Artifacts
 
@@ -32,6 +32,9 @@ Closed the integrated review findings by rechecking live recipient eligibility a
 - adl-runtime-kernel/tests/conversation_sessions.rs
 - demos/html-observatory/app.js
 - demos/html-observatory/tests/conversation_sessions.test.mjs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- fb4003c15a1eefd9daf780bf5c397dd887185b75
 
 ## Execution
 
@@ -48,6 +51,9 @@ Closed the integrated review findings by rechecking live recipient eligibility a
 - Reused one shared live roster eligibility helper at acceptance and immediately before dispatch.
 - Allowed one idempotent pending-turn retrieval after each distinct disconnect while preventing duplicate replay within one connection cycle.
 - Added focused regressions for recipient degradation behind an ordered turn and two separate reconnect cycles.
+- Bound every asynchronous conversation terminal result to the digest of the exact Observatory credential that accepted it, revalidated current authorization immediately before delivery, and discarded results when the session credential changed.
+- Traversed the Runtime roster through revision-bound continuation pages with a finite population-derived bound so eligible recipients beyond the first 100 entries are resolved without bypassing policy projection.
+- Added authenticated production-WSS regressions for in-flight credential rotation across reauthentication and successful conversation delivery to agent-0100 on the second roster page.
 
 ## Validation
 
@@ -225,6 +231,14 @@ Closed the integrated review findings by rechecking live recipient eligibility a
     "purpose": "Prove recipient eligibility is fail-closed at dispatch, reconnect replay is bounded per disconnect, and the complete integrated issue surface remains green.",
     "outcome": "passed",
     "evidence_ref": "conversation_sessions 1/1; agent_roster 10/10; control 24/24; openapi_contract 6/6; observatory 7/7; browser conversation PASS; HTML static PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS"
+  },
+  {
+    "command": [
+      "focused issue-111 Runtime, WSS, roster, control, OpenAPI, browser, static, lint, format, and diff gates"
+    ],
+    "purpose": "Prove exact-credential terminal-result binding, immediate pre-send revocation enforcement, bounded continuation-page recipient resolution, and preservation of the complete conversation and roster contract.",
+    "outcome": "passed",
+    "evidence_ref": "git:fb4003c15a1eefd9daf780bf5c397dd887185b75; conversation_sessions 1/1; agent_roster 10/10; control 24/24; observatory 7/7; openapi_contract 6/6; browser conversation PASS; HTML Observatory PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS"
   }
 ]
 

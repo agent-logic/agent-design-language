@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
     "slug": "wp18c01-canonical-human-agent-conversation-sessions",
     "version": "v0.92",
-    "generation": 58
+    "generation": 61
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/operations.rs\nadl-runtime-kernel/tests/conversation_sessions.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/openapi_contract.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/conversation_sessions.test.mjs\n.csdlc/issues/111",
-      "review_revision": "git-blake3:b05f9e8bbe25c14487dba05e7ff69c69ed40382e:d2de6f42fe2c856fa63d57a918ac97c87b0c32251f43fd24def640be034d69f6",
-      "reviewer": "subagent:019fef8b-4eb1-71e1-80ff-3b34f9b94dc5",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify Runtime is the only session/order/outcome authority and the browser cannot synthesize turns, delivery, or replies.",
         "Probe duplicate submission, sequence gaps, reconnect replay, cancellation/timeout races, late adapter output, saturation, shutdown, and restart behavior.",
@@ -23,34 +23,9 @@
         "Verify provider-neutral contracts and public responses cannot expose raw provider payloads, credentials, private cognition, or private agent state.",
         "Verify every product path in the diff is issue-owned, PVF-classified, and supported by exact-revision proof."
       ],
-      "findings": [
-        {
-          "id": "fresh-review-223-p1-revoked-inflight-reply",
-          "severity": "p1",
-          "summary": "Revoked Observatory credentials can still receive an in-flight conversation reply because authorization is not revalidated immediately before asynchronous result delivery.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": "adl-runtime-kernel/src/control.rs:2343"
-        },
-        {
-          "id": "fresh-review-223-p2-roster-page-two-recipient",
-          "severity": "p2",
-          "summary": "Conversation recipient validation searches only the first 100-agent roster page and incorrectly refuses eligible recipients on later pages.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": "adl-runtime-kernel/src/control.rs:667"
-        }
-      ],
-      "residual_risk": [
-        "Durable cross-restart conversation history remains owned by downstream issue #114.",
-        "Broader multi-agent room and routing semantics remain owned by downstream issues #115 and #116.",
-        "The fresh reviewer did not independently exercise restart-across-process behavior or a hostile adapter that ignores cancellation."
-      ],
-      "review_result": "changes_required"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
