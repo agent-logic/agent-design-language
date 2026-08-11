@@ -221,8 +221,20 @@ impl PolisSessionBinding {
         Ok(binding)
     }
 
+    pub(crate) fn polis_id(&self) -> &str {
+        &self.polis_id
+    }
+    pub(crate) fn trust_domain(&self) -> &str {
+        &self.trust_domain
+    }
     pub fn local_node_id(&self) -> &str {
         &self.local_node_id
+    }
+    pub(crate) fn local_guardian_id(&self) -> &str {
+        &self.local_guardian_id
+    }
+    pub(crate) fn local_control_public_key(&self) -> [u8; 32] {
+        self.local_control_public_key
     }
     pub fn local_certificate_generation(&self) -> u64 {
         self.local_certificate_generation
@@ -232,6 +244,12 @@ impl PolisSessionBinding {
     }
     pub fn peer_node_id(&self) -> &str {
         &self.peer_node_id
+    }
+    pub(crate) fn peer_guardian_id(&self) -> &str {
+        &self.peer_guardian_id
+    }
+    pub(crate) fn peer_control_public_key(&self) -> [u8; 32] {
+        self.peer_control_public_key
     }
     pub fn peer_certificate_generation(&self) -> u64 {
         self.peer_certificate_generation
@@ -740,6 +758,17 @@ impl VerifiedPolisRouteCut {
 
     pub fn same_polis_and_domain(&self, other: &Self) -> bool {
         self.polis_id == other.polis_id && self.trust_domain == other.trust_domain
+    }
+
+    pub(crate) fn same_authority_lineage(&self, other: &Self) -> bool {
+        self.authorities.len() == other.authorities.len()
+            && self.authorities.iter().all(|(node, authority)| {
+                other.authorities.get(node).is_some_and(|candidate| {
+                    candidate.node_id == authority.node_id
+                        && candidate.guardian_id == authority.guardian_id
+                        && candidate.control_public_key == authority.control_public_key
+                })
+            })
     }
 
     pub fn boot_generation(&self, node: u64) -> Option<u64> {

@@ -529,10 +529,21 @@ fn authority_topology() -> (
     BTreeMap<String, SocketAddr>,
     BTreeMap<u64, SigningKey>,
 ) {
+    authority_topology_with_key_seeds([11, 12, 13])
+}
+
+fn authority_topology_with_key_seeds(
+    key_seeds: [u8; 3],
+) -> (
+    MembershipState,
+    AuthorityMembership,
+    BTreeMap<String, SocketAddr>,
+    BTreeMap<u64, SigningKey>,
+) {
     let keys = [
-        SigningKey::from_bytes(&[11; 32]),
-        SigningKey::from_bytes(&[12; 32]),
-        SigningKey::from_bytes(&[13; 32]),
+        SigningKey::from_bytes(&[key_seeds[0]; 32]),
+        SigningKey::from_bytes(&[key_seeds[1]; 32]),
+        SigningKey::from_bytes(&[key_seeds[2]; 32]),
     ];
     let mut membership = MembershipState::new(MembershipPolicy::new(DOMAIN, 8, 16).unwrap());
     let mut index = 0_u64;
@@ -614,14 +625,15 @@ fn authority_topology() -> (
     )
 }
 
-fn polis_identity(
+fn polis_identity_for(
+    polis_id: &str,
     authority: &AuthorityMembership,
     established: &EstablishedRuntimeAuthority,
     keys: &BTreeMap<u64, SigningKey>,
     boot_generations: &BTreeMap<u64, u64>,
 ) -> PolisIdentityBinding {
     let payload = polis_identity_signing_payload(
-        POLIS,
+        polis_id,
         DOMAIN,
         authority.committed_log_index,
         boot_generations,
@@ -638,7 +650,7 @@ fn polis_identity(
         })
         .collect();
     PolisIdentityBinding::verify(
-        POLIS,
+        polis_id,
         DOMAIN,
         authority.committed_log_index,
         boot_generations,
@@ -646,6 +658,15 @@ fn polis_identity(
         established,
     )
     .unwrap()
+}
+
+fn polis_identity(
+    authority: &AuthorityMembership,
+    established: &EstablishedRuntimeAuthority,
+    keys: &BTreeMap<u64, SigningKey>,
+    boot_generations: &BTreeMap<u64, u64>,
+) -> PolisIdentityBinding {
+    polis_identity_for(POLIS, authority, established, keys, boot_generations)
 }
 
 fn membership_commitment(snapshot: &[u8]) -> [u8; 32] {
@@ -752,6 +773,29 @@ fn verified_cut(
         .map(|(node, address)| (node, BasicNode::new(address)))
         .collect();
     (cut, keys, routes)
+}
+
+fn verified_cut_for_polis(
+    polis_id: &str,
+    boot_generations: &BTreeMap<u64, u64>,
+) -> (VerifiedPolisRouteCut, BTreeMap<u64, SigningKey>) {
+    let (membership, authority, addresses, keys) = authority_topology();
+    let (established, _authority_directory) = establish_runtime_authority(&membership, &authority);
+    let polis = polis_identity_for(polis_id, &authority, &established, &keys, boot_generations);
+    (
+        derive_authority_cut(&polis, &established, &addresses, 100).unwrap(),
+        keys,
+    )
+}
+
+fn verified_cut_with_key_seeds(
+    key_seeds: [u8; 3],
+    boot_generations: &BTreeMap<u64, u64>,
+) -> VerifiedPolisRouteCut {
+    let (membership, authority, addresses, keys) = authority_topology_with_key_seeds(key_seeds);
+    let (established, _authority_directory) = establish_runtime_authority(&membership, &authority);
+    let polis = polis_identity(&authority, &established, &keys, boot_generations);
+    derive_authority_cut(&polis, &established, &addresses, 100).unwrap()
 }
 
 fn verified_cut_after_membership_advance(
@@ -1140,6 +1184,18 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
         authority.clone(),
     )
     .unwrap();
+    let state_path = std::fs::read_dir(root_path.as_path())
+        .unwrap()
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .find(|path| {
+            path.file_name()
+                .and_then(|name| name.to_str())
+                .is_some_and(|name| {
+                    name.starts_with("raft-rpc-session-") && name.ends_with(".json")
+                })
+        })
+        .expect("the initial session owns one durable replay state file");
     let request = [7_u8; 32];
     let dispatches = Arc::new(AtomicUsize::new(0));
     let first_cache = cache.clone();
@@ -1230,15 +1286,37 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
     assert_eq!(advanced_cache.lookup(1, &request).await.unwrap(), None);
     drop(advanced_right_session.unwrap());
 
-    let binding = left_session.binding();
-    let state_path = root_path.join(format!(
-        "raft-rpc-node-1-local-cert-{}-local-boot-{}-peer-2-peer-cert-{}-peer-boot-{}-membership-{}.json",
-        binding.local_certificate_generation(),
-        binding.local_boot_generation(),
-        binding.peer_certificate_generation(),
-        binding.peer_boot_generation(),
-        binding.committed_membership_index(),
-    ));
+    let (other_polis_cut, other_polis_keys) = verified_cut_for_polis("other-polis", &boots);
+    let other_left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, other_polis_cut.clone()).unwrap();
+    let other_right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, other_polis_cut).unwrap();
+    let (other_left, other_right, _, _other_left_endpoint, _other_right_endpoint, _) =
+        connected_pair().await;
+    let other_left_pending = other_left_factory
+        .pending_session(2, &other_left)
+        .await
+        .unwrap();
+    let other_right_pending = other_right_factory
+        .pending_session(1, &other_right)
+        .await
+        .unwrap();
+    let (other_left_session, other_right_session) = tokio::join!(
+        other_left.accept_polis_session(other_left_pending, &other_polis_keys[&1]),
+        other_right.initiate_polis_session(other_right_pending, &other_polis_keys[&2]),
+    );
+    let other_polis_cache = DurableRpcResponses::open(
+        root_path.as_path(),
+        1,
+        2,
+        &other_left_session.unwrap(),
+        8,
+        authority.clone(),
+    )
+    .unwrap();
+    assert_eq!(other_polis_cache.lookup(1, &request).await.unwrap(), None);
+    drop(other_right_session.unwrap());
+
     let accepted = std::fs::read(&state_path).unwrap();
     cache
         .commit(2, &[9_u8; 32], b"new-response".to_vec())
@@ -1358,8 +1436,8 @@ fn boot_generation_is_externally_monotonic_and_rejects_coherent_disk_rollback() 
     eprintln!("ADL_ISSUE_191_CASE boot_generation_rollback=passed");
 }
 
-#[test]
-fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity() {
+#[tokio::test]
+async fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity() {
     let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
     let (membership, authority, addresses, keys) = authority_topology();
     let (initializer, certificates, _authority_directory) =
@@ -1373,6 +1451,15 @@ fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity()
     assert_eq!(
         cut.routes()[&1],
         SocketAddr::from((Ipv4Addr::LOCALHOST, 4101))
+    );
+    let factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
+    let independently_configured_same_index = verified_cut_with_key_seeds([21, 22, 23], &boots);
+    assert_eq!(
+        factory
+            .replace_authority_cut(independently_configured_same_index)
+            .await
+            .unwrap_err(),
+        PolisRuntimeError::AuthorityDenied
     );
 
     let mut incomplete = addresses.clone();

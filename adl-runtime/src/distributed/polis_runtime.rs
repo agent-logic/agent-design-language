@@ -41,8 +41,8 @@ use crate::distributed::lease::AuthorityMembership;
 use crate::distributed::membership::MembershipPolicy;
 use crate::distributed::transport::{
     AuthenticatedConnection, EstablishedPolisSession, EstablishedRuntimeAuthority,
-    IncomingPolisRequest, PendingPolisSession, PolisIdentityBinding, RuntimeAuthorityInitializer,
-    TransportLimits, TransportResult, VerifiedPolisRouteCut,
+    IncomingPolisRequest, PendingPolisSession, PolisIdentityBinding, PolisSessionBinding,
+    RuntimeAuthorityInitializer, TransportLimits, TransportResult, VerifiedPolisRouteCut,
 };
 
 const MAX_RPC_BYTES: usize = 16 * 1024 * 1024;
@@ -1154,6 +1154,7 @@ impl SecurePolisNetworkFactory {
     ) -> Result<(), PolisRuntimeError> {
         let mut current = self.cut.write().await;
         if !candidate.same_polis_and_domain(&current)
+            || !candidate.same_authority_lineage(&current)
             || candidate.committed_membership_index() < current.committed_membership_index()
             || !candidate.contains(self.local)
         {
@@ -1518,7 +1519,36 @@ pub struct DurableRpcResponses {
     peer_certificate_generation: u64,
     peer_boot_generation: u64,
     committed_membership_index: u64,
+    session_namespace_sha256: [u8; 32],
     max_entries: usize,
+}
+
+fn rpc_session_namespace(binding: &PolisSessionBinding) -> [u8; 32] {
+    let mut hasher = Sha256::new();
+    hasher.update(b"adl-polis-rpc-session-v1\0");
+    for value in [
+        binding.polis_id(),
+        binding.trust_domain(),
+        binding.local_node_id(),
+        binding.local_guardian_id(),
+        binding.peer_node_id(),
+        binding.peer_guardian_id(),
+    ] {
+        hasher.update(u64::try_from(value.len()).unwrap_or(u64::MAX).to_be_bytes());
+        hasher.update(value.as_bytes());
+    }
+    for value in [
+        binding.local_certificate_generation(),
+        binding.local_boot_generation(),
+        binding.peer_certificate_generation(),
+        binding.peer_boot_generation(),
+        binding.committed_membership_index(),
+    ] {
+        hasher.update(value.to_be_bytes());
+    }
+    hasher.update(binding.local_control_public_key());
+    hasher.update(binding.peer_control_public_key());
+    hasher.finalize().into()
 }
 
 impl DurableRpcResponses {
@@ -1531,6 +1561,7 @@ impl DurableRpcResponses {
         authority: Arc<dyn ConsensusCheckpointAuthority>,
     ) -> Result<Self, PolisRuntimeError> {
         let binding = session.binding();
+        let session_namespace_sha256 = rpc_session_namespace(binding);
         Self::open_inner(
             root,
             local,
@@ -1542,6 +1573,7 @@ impl DurableRpcResponses {
             binding.peer_certificate_generation(),
             binding.peer_boot_generation(),
             binding.committed_membership_index(),
+            session_namespace_sha256,
             max_entries,
             authority,
         )
@@ -1559,6 +1591,7 @@ impl DurableRpcResponses {
         peer_certificate_generation: u64,
         peer_boot_generation: u64,
         committed_membership_index: u64,
+        session_namespace_sha256: [u8; 32],
         max_entries: usize,
         authority: Arc<dyn ConsensusCheckpointAuthority>,
     ) -> Result<Self, PolisRuntimeError> {
@@ -1572,13 +1605,12 @@ impl DurableRpcResponses {
             || peer_certificate_generation == 0
             || peer_boot_generation == 0
             || committed_membership_index == 0
+            || session_namespace_sha256 == [0; 32]
             || !(8..=4096).contains(&max_entries)
         {
             return Err(PolisRuntimeError::InvalidConfiguration);
         }
-        let object = format!(
-            "raft-rpc-node-{local}-local-cert-{local_certificate_generation}-local-boot-{local_boot_generation}-peer-{peer}-peer-cert-{peer_certificate_generation}-peer-boot-{peer_boot_generation}-membership-{committed_membership_index}"
-        );
+        let object = format!("raft-rpc-session-{}", hex::encode(session_namespace_sha256));
         let (durable, state) = CheckpointedJson::open(
             root,
             &object,
@@ -1597,6 +1629,7 @@ impl DurableRpcResponses {
             peer_certificate_generation,
             peer_boot_generation,
             committed_membership_index,
+            session_namespace_sha256,
             max_entries,
         })
     }
@@ -1718,6 +1751,7 @@ pub async fn serve_secure_raft_connection(
         || session.binding().peer_certificate_generation() != responses.peer_certificate_generation
         || session.binding().peer_boot_generation() != responses.peer_boot_generation
         || session.binding().committed_membership_index() != responses.committed_membership_index
+        || rpc_session_namespace(session.binding()) != responses.session_namespace_sha256
     {
         return Err(PolisRuntimeError::InvalidConfiguration);
     }
