@@ -16,12 +16,16 @@ Exact transfer authority/session, existing transport integration, frame/prefix p
 
 ## Prompts
 
-- Can any generic, Raft, public, unknown, wrong-source or wrong-target path move continuity bytes?
-- Does every frame and durable prefix preserve exact ordering, replay, bounds and crash/restart behavior before acknowledgment?
-- Does incremental verification prove the exact signed catalog and whole bundle without whole-content allocation?
-- Do partition, cancellation, deadline, disk-full, source/target restart and reply loss reconcile without false success or duplicate bytes?
-- Does abort produce live #208-attested zero residue with no caller paths or evidence leaks?
-- Does the exact proof bind all forty-five cases without claiming #204 policy or cloud integration?
+- Can any caller, wrong #201 variant/consumer, generic/Raft/public dispatch, stale route/membership/certificate/boot cut, or wrong source/target/domain/polis/lineage establish or continue a transfer?
+- Do #210 and #208 independently verify the retained signed manifest/catalog key generation and exact entry order/schema/range/length/digest plus chunk index/range/digest/predecessor before every target write?
+- Are zero/nonfinal, final-shape, gap, reorder, overlap, duplicate, predecessor, cross-entry, range-overflow, frame/queue/inflight/open-reader/open-stage/concurrent-transfer/journal/cache/total N+1 boundaries denied before effect?
+- Do durable bytes, incremental verifier state, and accepted prefix advance only through one crash-reconcilable journal effect, with acknowledgment after prefix commit and exact recovery after every crash/reply-loss boundary?
+- Can VerifiedTransferPossession appear only after complete signed entry/chunk/whole verification and contain only exact #208 TargetStageHandle plus TargetPossessionEvidence?
+- Is TargetCleanupPermit independent of transfer expiry/cancellation, discard-only, exact-stage-bound, restart-reconcilable, and consumed only by TargetDiscardReceipt or TargetActivationReceipt, with #208 as the sole cleanup/effect owner?
+- Does #210 request cleanup but never delete/activate/resume/fence/own/serve/decide migration, while #204 owns control decisions and #208 performs kernel/filesystem effects?
+- Does evidence remain bounded and redacted with no raw content, identity, certificate, token, endpoint, address, path, key, signature, handle, or secret?
+- Does the SHA-256-bound acceptance map cover all eight ACs, all forty-five cases, and exactly eighty unique subassertions with exact ordered result/marker parity?
+- Does validation run serially tests, Clippy, recorded execution-base-to-source diff, producer, independent exact-head review, and distinct validator, rejecting protected-source, evidence, review, or squash-topology drift?
 
 ## Findings
 

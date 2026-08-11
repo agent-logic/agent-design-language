@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Implement and publish only the authenticated typed transfer session, bounded stream/prefix protocol, incremental verification, #208 handle integration, cleanup, and focused proof.
+Implement and publish only the authenticated typed continuity-transfer session on #191, consuming #201's sealed ContinuityTransferGrantProjection and #208's sealed ContinuityBundleSourcePort/TargetContinuityEffectPort. Before any target write, independently verify the retained signed manifest/catalog key generation and exact entry/chunk/range commitments; advance bytes, incremental verifier, and durable accepted prefix only through a crash-reconcilable effect. Return VerifiedTransferPossession only after full verification. On abort, request #208 cleanup through a separate TargetCleanupPermit that survives transfer expiry/cancellation; #210 never deletes, activates, fences, owns, serves, or decides migration. Prove the exact 45 cases and SHA-256-bound 8-acceptance/80-subassertion map serially through tests, Clippy, exact base-to-source diff, producer, independent review, and validator.
 
 ## Deliverables
 
@@ -22,6 +22,8 @@ Implement and publish only the authenticated typed transfer session, bounded str
 - adl-runtime/src/distributed/snapshot_catalog.rs
 - adl-runtime/src/distributed/mod.rs
 - adl-runtime/tests/distributed_continuity_transfer.rs
+- .csdlc/prepared/issues/210/continuity-transfer-acceptance-map.json
+- .csdlc/prepared/issues/210/verify-diff-hygiene.rb
 - .csdlc/prepared/issues/210/produce-proof-receipt.rb
 - .csdlc/prepared/issues/210/validate-proof-receipt.rb
 - .csdlc/evidence/210

@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
 [
   {
     "lane": "continuity-transfer",
-    "proof_role": "Prove exact forty-five-case denominator: authorized_transfer, real_bundle_source, exact_target_stage, incremental_catalog_verify, resume_after_partition, exact_retry_cached, wrong_source_denied, wrong_target_denied, wrong_polis_denied, wrong_domain_denied, wrong_lineage_denied, wrong_membership_cut_denied, stale_certificate_denied, wrong_boot_generation_denied, generic_send_denied, raft_rpc_confusion_denied, unknown_kind_denied, frame_n_accepted, frame_n_plus_one_denied, reordered_frame_denied, exact_duplicate_frame_cached, conflicting_duplicate_denied, wrong_predecessor_denied, wrong_chunk_digest_denied, wrong_manifest_denied, oversized_frame_denied, oversized_total_denied, deadline_before_first_byte, deadline_midstream, cancellation_before_effect, cancellation_midstream, source_restart_resume, target_restart_resume, crash_after_admission, crash_after_frame_write, crash_after_prefix_receipt, crash_after_completion_result, crash_before_checkpoint, crash_after_checkpoint, reply_loss_retry, disk_full_no_false_success, coherent_rollback_denied, unsafe_path_denied, zero_residue_abort, evidence_redaction. One marker per exact name; no execution-defined subdenominator.",
+    "proof_role": "Prove exactly forty-five ordered case name/result/marker tuples and byte-for-byte parity with continuity-transfer-acceptance-map.json sha256=c6ca9f915499c03d2fbb224a8301915a0d217fa23bd1b1e5a174df7118dd2ce3, acceptance_count=8, subassertion_count=80. The map covers every AC and all 45 cases, including live route/membership/certificate/boot drift, canonical framing/final/range bounds, signed catalog entry/chunk/range expectations, bounded queues/readers/stages/transfers/journals/caches, crash-reconcilable bytes/verifier/prefix order, cleanup after expiry/cancel/restart, #208 live zero residue, and strict proof sequencing. Reject missing, extra, duplicate, reordered, renamed, wrongly mapped, wrongly marked, or nonpassing case/subassertion evidence.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -33,7 +33,8 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       "AC-4",
       "AC-5",
       "AC-6",
-      "AC-7"
+      "AC-7",
+      "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "large",
@@ -50,12 +51,12 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       "distributed_continuity_transfer",
       "--no-tests=fail"
     ],
-    "parallel_group": "210-runtime",
-    "defer_reason": "Deferred until all four dependencies merge and this issue creates the exact target; fail closed on missing target, zero tests or missing, extra, duplicate, renamed, reordered, nonpassing case/result/marker."
+    "parallel_group": "210-serial-01-runtime",
+    "defer_reason": "Deferred until all four dependencies merge and this issue creates the exact target; fail closed on missing target, zero tests, map digest/count/order drift, caller-substitutable authority/expectations, or any case/result/marker/subassertion mismatch."
   },
   {
     "lane": "continuity-transfer-clippy",
-    "proof_role": "Reject warnings and API misuse across the exact transfer target.",
+    "proof_role": "Only after the focused proof passes, reject warnings and API misuse across the transfer session, sealed #201/#208 ports, signed incremental verifier, cleanup requests, and focused target.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -75,12 +76,29 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       "-D",
       "warnings"
     ],
-    "parallel_group": "210-runtime",
-    "defer_reason": "Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source."
+    "parallel_group": "210-serial-02-clippy",
+    "defer_reason": "Deferred until the owned focused target exists and serial test proof passes; fail closed on warnings, missing target, or missing source."
+  },
+  {
+    "lane": "continuity-transfer-diff-hygiene",
+    "proof_role": "Only after tests and Clippy, load recorded execution_base_revision and proving_source_revision, require exact Git objects and base ancestry, check whitespace and EOF over the complete base..source range, and reject dirty protected paths. Working-tree-only diff output is insufficient.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 500,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/210/verify-diff-hygiene.rb"
+    ],
+    "parallel_group": "210-serial-03-diff",
+    "defer_reason": "Deferred until exact execution base/source truth and the verifier exist; fail closed on absent/non-object revisions, nonancestry, any base..source whitespace/EOF diagnostic, dirty protected source, or working-tree-only evidence."
   },
   {
     "lane": "continuity-transfer-producer",
-    "proof_role": "Produce exact Git, source, command, stream, timing, protected-digest and forty-five-case evidence.",
+    "proof_role": "Only after tests, Clippy, and exact-range diff pass, independently load and hash the protected acceptance map, require exact ordered 45-case and 8-row/80-subassertion parity, and produce exact Git execution-base/source, command, stream, timing, protected-digest, signed expectation, resource, cleanup, and result evidence for independent review.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -92,12 +110,12 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       "ruby",
       ".csdlc/prepared/issues/210/produce-proof-receipt.rb"
     ],
-    "parallel_group": "210-producer",
-    "defer_reason": "Deferred until the exact producer exists; fail closed on dirty protected source, wrong case count, missing, extra, duplicate, renamed, reordered, nonpassing case or nonzero status."
+    "parallel_group": "210-serial-04-producer",
+    "defer_reason": "Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty protected source, wrong map digest/count/order, missing/extra/duplicate/nonpassing evidence, wrong signed expectations, wrong cleanup authority, or nonzero status."
   },
   {
     "lane": "continuity-transfer-receipt",
-    "proof_role": "After producer completion, bind exact protected source, commands, forty-five cases, strict Clippy, immutable evidence introduction, review and squash-merge-safe validation.",
+    "proof_role": "Only after producer completion, immutable evidence introduction, and fresh independent review of the exact proving source, independently validate execution-base-to-reviewed-source diff hygiene, protected digests, commands, all 45 ordered cases, all 8 acceptance rows and 80 unique subassertions, strict Clippy, signed expectation and cleanup bindings, review provenance, evidence immutability, and squash-merge-safe ancestry.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -109,8 +127,8 @@ Diagram: .csdlc/prepared/issues/210/diagram.mmd
       "ruby",
       ".csdlc/prepared/issues/210/validate-proof-receipt.rb"
     ],
-    "parallel_group": "210-receipt",
-    "defer_reason": "Deferred until producer, validator, typed finalize, post-finalize immutable evidence and review exist; fail closed until exact source and all cases are bound."
+    "parallel_group": "210-serial-06-validator",
+    "defer_reason": "Deferred until producer, typed finalize, immutable evidence, and fresh exact-head review exist; it must not overlap any prior lane or review and fails on any source/base/map/case/subassertion/order/result/marker/command/review/ancestry drift."
   }
 ]
 
@@ -128,6 +146,7 @@ Tokens: 50000
 
 - `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_continuity_transfer --no-tests=fail`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_continuity_transfer -- -D warnings`
+- `ruby .csdlc/prepared/issues/210/verify-diff-hygiene.rb`
 - `ruby .csdlc/prepared/issues/210/produce-proof-receipt.rb`
 - `ruby .csdlc/prepared/issues/210/validate-proof-receipt.rb`
 
