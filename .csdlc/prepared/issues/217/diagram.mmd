@@ -11,15 +11,16 @@ flowchart LR
     IMPL --> H["Reviewed producer head H"]
     H --> N["Fresh #217 Linux and macOS Actions artifacts"]
     N --> H2["Exact-allowlist retention head H2"]
-    H2 --> AL["Required denominator + ten evidence; only named lifecycle paths optional"]
+    H2 --> AL["Required denominator + ten evidence + retained-surface manifest; only named lifecycle paths optional"]
     AL --> PI["Eight proof-contract paths byte-identical H to H2"]
-    PI --> HR["Independent exact-H2 review"]
-    HR --> H3["Later H3 retains H/H2 review receipt"]
-    H3 --> ND["Exact ten-path current denominator"]
-    ND --> DV["Digest, provenance, diff, and review-receipt validation"]
+    PI --> RM["Manifest: exact 19 retained path digests"]
+    RM --> HR["Independent exact-H2 review"]
+    HR --> H3["H3 adds manifest-bound receipt + named lifecycle only"]
+    H3 --> OA["Discard H2 refs and objects in fixture"]
+    OA --> DV["Reconstruct exact H2 retained-surface equality from manifest + receipt"]
     DV --> SM["Exact 17-path protected source manifest"]
     SM --> REL{"Source relation"}
     REL -->|"ancestor"| EQ["Current protected-byte equality"]
-    REL -->|"tree digest equivalent"| EQ
+    REL -->|"complete source-manifest equivalent"| EQ
     EQ -->|"all equal"| PASS["Current retained proof passes"]
     EQ -->|"drift or omission"| FAIL["Fail closed"]

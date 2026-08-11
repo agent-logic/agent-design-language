@@ -58,7 +58,8 @@ The fresh proof has an exact two-head sequence:
 2. GitHub Actions runs against exact `H` and uploads the Linux, macOS, and
    aggregate artifacts without changing the branch.
 3. `H2` adds only the downloaded current evidence, its exact ten-path
-   denominator, and the explicitly named issue-lifecycle paths frozen by
+   denominator, an H2 retained-surface manifest, and the explicitly named
+   issue-lifecycle paths frozen by
    `.csdlc/prepared/issues/217/h2-retention-allowlist.json`. It changes none of
    the protected, unprotected-source, proof-contract, design, or workflow
    paths.
@@ -67,25 +68,34 @@ The fresh proof has an exact two-head sequence:
    pushing evidence-only `H2` cannot recursively launch another native run.
 5. Before parsing proof content, the retained validator compares
    `git diff --name-status H..H2` with the machine allowlist. The current
-   evidence denominator and its ten unique paths are required; every changed
-   lifecycle path must be one of the fourteen exact paths named by the
-   allowlist. Deletions, renames, copies, unmerged states, duplicate paths, or
-   any other changed path fail closed.
+   evidence denominator, its ten unique paths, and the retained-surface manifest
+   are required; every changed lifecycle path must be one of the fourteen exact
+   paths named by the allowlist. Deletions, renames, copies, unmerged states,
+   duplicate paths, or any other changed path fail closed.
 6. The eight paths in
    `.csdlc/prepared/issues/217/proof-contract-paths.json` are digest-bound at H
    and must be byte-identical at H2. This independently freezes the historical
    wrapper, producer, validator, workflow, both denominators, the proof-path
    denominator itself, and the H2 allowlist.
-7. An independent reviewer reviews exact H2. A later `H3` (or later head)
+7. The H2 retained-surface manifest records exactly nineteen unique
+   repository-relative path/digest entries: the current denominator, its ten
+   evidence paths, and all eight proof-contract paths. It deliberately does not
+   digest itself. Lifecycle paths are also excluded because typed truth advances
+   after review.
+8. An independent reviewer reviews exact H2. A later `H3` (or later head)
    retains a review receipt, because a receipt cannot truthfully authenticate
    the review of the same commit that contains it. The receipt binds H, H2,
    both tree identities, the canonical `name-status` diff digest, both
-   evidence/source denominators, all eight proof-contract path digests,
-   reviewer identity, reviewed scope, result, and no-drift verdict.
-8. The retained validator at H2 and later heads requires H ancestry or complete
-   protected tree equivalence and independently requires zero protected-source
-   drift. At H3 and later it additionally authenticates the reviewed-H2 receipt
-   and anchors H2 through ancestry or complete retained-tree equivalence.
+   evidence/source denominators, all eight proof-contract path digests, the H2
+   retained-surface manifest digest, reviewer identity, reviewed scope, result,
+   and no-drift verdict. `H2..H3` may add only that receipt and named lifecycle
+   changes.
+9. At H3 and later the validator authenticates the reviewed-H2 receipt and
+   compares the current checkout with every path and digest in the H2 manifest.
+   This retained-surface equality is reconstructible even when the H2 commit and
+   tree objects are unavailable. H2 ancestry, when available, is additional
+   evidence rather than a prerequisite. Independent current equality for all
+   seventeen protected paths remains mandatory.
 
 ### 3. Validate retained proof at later heads
 
@@ -114,11 +124,14 @@ point and:
    digest-equivalent to the validating checkout; and
 7. in both modes, requires every current protected path to equal the proved
    source manifest so post-proof protected drift always fails closed;
-8. validates the exact H-to-H2 changed-path/status set and the H-to-H2
-   byte-identity of every proof-contract path; and
-9. at H3 or later, validates the independently created reviewed-H2 receipt and
-   its H/H2/tree/diff/denominator/proof-digest/reviewer bindings before accepting
-   later-head ancestry or complete retained-tree equivalence.
+8. validates the exact H-to-H2 changed-path/status set, the H-to-H2
+   byte-identity of every proof-contract path, and the exact nineteen-entry H2
+   retained-surface manifest;
+9. validates that H2-to-H3 adds only the review receipt and named lifecycle
+   paths; and
+10. at H3 or later, validates the independent reviewed-H2 receipt, its
+   H/H2/tree/diff/manifest/denominator/proof-digest/reviewer bindings, and every
+   retained-surface path/digest without requiring H2 commit or tree objects.
 
 The equivalence mode is merge/squash/rebase-safe because it does not require the
 source commit object to remain locally available. It is not a waiver: complete
@@ -144,7 +157,10 @@ Focused fixtures cover:
 - historical-wrapper, producer, validator, proof-denominator, allowlist, or
   workflow drift;
 - H-to-H2 deletion, rename, copy, unexpected status, or unlisted path;
-- missing, stale, forged, or self-referential H2 review receipt; and
+- missing, extra, duplicate, or tampered H2 retained-surface entries;
+- missing, stale, forged, or self-referential H2 review receipt;
+- disallowed H2-to-H3 additions or modifications;
+- a later-head success fixture with H2 refs and objects unavailable; and
 - unrelated/non-equivalent source failure.
 
 The final #217 VPP/SOR command invokes the retained validator on the fresh #217
@@ -164,9 +180,9 @@ The preparation lifecycle is deliberately serial:
    evidence, publication, or PR changes;
 5. a second independent reviewer passes the complete bound six-card package;
 6. only then may implementation begin, followed by exact-head implementation
-   review, publication, the `H` native run, exact-allowlist `H2` retention,
-   independent exact-H2 review, later `H3` receipt retention, and final
-   later-head validation.
+   review, publication, the `H` native run, exact-allowlist `H2` retention with
+   the retained-surface manifest, independent exact-H2 review, allowlisted `H3`
+   receipt retention, and final object-independent later-head validation.
 
 Any missing review or unresolved finding stops the sequence. In particular,
 there is no implementation or publication between binding and the second

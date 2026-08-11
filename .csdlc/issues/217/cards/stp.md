@@ -26,19 +26,20 @@ Restore and validate only #209's retained native proof contract and typed proof 
 - Issue-owned merge-safe retained native proof and retention-chain validator
 - Narrow issue-owned GitHub Actions workflow for fresh current-head native proof
 - Fresh exact ten-file native packet plus machine-consumed denominator beneath .csdlc/evidence/217
-- Reviewed H2 retention receipt binding producer head H, evidence-only H2, exact diffs, denominators, and review identity
+- .csdlc/evidence/217/h2-retained-surface-manifest.json with exact retained path digests and no self-binding H2 commit field
+- .csdlc/evidence/217/h2-retention-review-receipt.json binding H, H2, the retained-surface manifest digest, exact diff, and independent review identity
 - .csdlc/issues/217 complete typed lifecycle and review evidence
 
 ## Acceptance
 
 1. AC-1: The exact historical ten-path set from #209 run 31453636709 is restored unchanged and matches the machine-consumed historical denominator byte-for-byte; detached c640 validation passes with the original GitHub environment and remains provenance-only.
 2. AC-2: A fresh workflow run at reviewed producer head H produces a separate exact ten-file #217 Linux/macOS packet; absence of fresh proof fails closed unless a later reviewed design records explicit operator rebaseline approval.
-3. AC-3: Evidence-only H2 differs from H only by the current evidence denominator, its exact ten evidence paths, and explicitly named #217 lifecycle paths; no other source, proof tool, workflow, design, or repository path changes.
-4. AC-4: The producer, historical wrapper, retained validator, native workflow, exact seventeen-path source denominator, proof-contract path denominator, and H2 allowlist are byte-identical from H through reviewed H2.
-5. AC-5: The retained validator verifies exact evidence/source/proof-contract denominators, all internal digests and provenance, complete semantics, and H-to-H2 diff status; missing, extra, duplicate, tampered, unprotected-source, proof-tool, workflow, protected-source, semantic, provenance, and unrelated drift fail closed.
-6. AC-6: Independent review of exact H2 produces a later retained receipt binding H, H2, both tree identities, exact changed-path/status digest, denominators, proof-contract digests, reviewer identity/result/scope, and no-drift result; later heads anchor that reviewed-H2 receipt through ancestry or complete retained-tree equivalence.
-7. AC-7: Typed #217 VPP/SOR execute both preparation denominators, name the fresh retained/receipt validator as terminal proof, distinguish c640 as provenance-only, and no implementation/publication occurs before the second independent full-package review passes.
-8. AC-8: Fresh exact-head implementation, H2, and retained-receipt reviews have no unresolved actionable findings; the visible qualified PR links #209/PR #215 and #142, stays unmerged pending operator review, and is green before terminal delivery.
+3. AC-3: H2 differs from H only by the current evidence denominator, its exact ten evidence paths, the H2 retained-surface manifest, and explicitly named #217 lifecycle paths; no other source, proof tool, workflow, design, or repository path changes.
+4. AC-4: The producer, historical wrapper, retained validator, native workflow, exact seventeen-path source denominator, exact eight-path proof-contract denominator, and exact fourteen-path H2 lifecycle allowlist are byte-identical from H through reviewed H2.
+5. AC-5: The H2 manifest records the exact retained path set and digests for the current denominator, its ten evidence paths, and all eight proof-contract paths; it excludes itself to avoid self-digest recursion, while its own digest is bound by the later independent-review receipt.
+6. AC-6: Independent review of exact H2 produces a later H3 receipt binding H, H2, available tree identities, exact changed-path/status digest, retained-surface manifest digest, denominators, proof-contract digests, reviewer identity/result/scope, and no-drift result; later heads validate H2 through ancestry when available or exact retained-surface equivalence without requiring H2 commit/tree objects, and always require all seventeen current protected paths to equal the proved source manifest.
+7. AC-7: H2-to-H3 changes are limited to the review receipt and named #217 lifecycle paths; after H3, unrelated paths may evolve but the retained surface, all proof-contract paths, evidence, receipt, and protected seventeen-path source set remain immutable and any drift fails closed.
+8. AC-8: Typed #217 VPP/SOR execute the historical ten-file, protected seventeen-path, proof eight-path, and lifecycle fourteen-path preparation contracts and name the fresh retained/receipt validator as terminal proof; fresh exact-head implementation, H2, and receipt reviews have no unresolved findings, no implementation/publication occurs before the second full-package review passes, and the visible green PR links #209/PR #215 and #142 while remaining unmerged pending operator review.
 
 ## Dependencies
 
