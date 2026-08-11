@@ -102,6 +102,7 @@ fn bindings(recorder: RuntimeRecorder, state_root: &Path) -> LiveBindings {
     let key = SigningKey::from_bytes(&[31; 32]);
     LiveBindings {
         recorder: recorder.clone(),
+        canonical_ingress_capacity: 64,
         operation_executors: build_production_operation_executors_with_recorder(
             state_root.join("production"),
             recorder.clone(),

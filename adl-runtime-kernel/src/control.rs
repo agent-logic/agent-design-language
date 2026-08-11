@@ -52,6 +52,7 @@ pub const OBSERVATORY_WS_AUTH_SCHEMA: &str = "adl.runtime_v3.observatory_ws_auth
 pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_ws_control_result.v1";
 pub const CONTROL_MAX_BODY_BYTES: usize = 64 * 1024;
+const ACIP_MAX_SEQUENCE_ADVANCE: u64 = 1_000_000;
 const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
 const OBSERVATORY_OPENAPI_DOCUMENT: &str =
     include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
@@ -307,14 +308,88 @@ struct IdempotencyState {
     admission_open: bool,
 }
 
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
+struct AcipReplayDomain {
+    runtime_id: String,
+    source: String,
+}
+
+#[derive(Default)]
+struct AcipReplayDomainState {
+    committed_sequence: u64,
+    pending_sequences: BTreeSet<u64>,
+}
+
 struct AcipReplayState {
-    sequences_by_source: LruCache<String, u64>,
+    sequences_by_principal: BTreeMap<[u8; 32], BTreeMap<AcipReplayDomain, AcipReplayDomainState>>,
 }
 
 struct AcipSequenceReservation {
-    source: String,
+    principal: [u8; 32],
+    domain: AcipReplayDomain,
     sequence: u64,
-    previous: Option<u64>,
+}
+
+fn reserve_replay_sequence(
+    state: &mut AcipReplayState,
+    max_records: usize,
+    principal: [u8; 32],
+    domain: AcipReplayDomain,
+    sequence: u64,
+) -> Option<AcipSequenceReservation> {
+    let domains = state.sequences_by_principal.entry(principal).or_default();
+    let high_water = domains
+        .get(&domain)
+        .map(|domain_state| {
+            domain_state
+                .pending_sequences
+                .last()
+                .copied()
+                .unwrap_or(domain_state.committed_sequence)
+                .max(domain_state.committed_sequence)
+        })
+        .unwrap_or(0);
+    if sequence <= high_water || sequence - high_water > ACIP_MAX_SEQUENCE_ADVANCE {
+        return None;
+    }
+    if !domains.contains_key(&domain) && domains.len() >= max_records {
+        return None;
+    }
+    let domain_state = domains.entry(domain.clone()).or_default();
+    domain_state.pending_sequences.insert(sequence);
+    Some(AcipSequenceReservation {
+        principal,
+        domain,
+        sequence,
+    })
+}
+
+fn commit_replay_sequence(state: &mut AcipReplayState, reservation: &AcipSequenceReservation) {
+    if let Some(domain) = state
+        .sequences_by_principal
+        .get_mut(&reservation.principal)
+        .and_then(|domains| domains.get_mut(&reservation.domain))
+    {
+        domain.pending_sequences.remove(&reservation.sequence);
+        domain.committed_sequence = domain.committed_sequence.max(reservation.sequence);
+    }
+}
+
+fn rollback_replay_sequence(state: &mut AcipReplayState, reservation: AcipSequenceReservation) {
+    let mut remove_principal = false;
+    if let Some(domains) = state.sequences_by_principal.get_mut(&reservation.principal) {
+        let remove_domain = domains.get_mut(&reservation.domain).is_some_and(|domain| {
+            domain.pending_sequences.remove(&reservation.sequence);
+            domain.committed_sequence == 0 && domain.pending_sequences.is_empty()
+        });
+        if remove_domain {
+            domains.remove(&reservation.domain);
+        }
+        remove_principal = domains.is_empty();
+    }
+    if remove_principal {
+        state.sequences_by_principal.remove(&reservation.principal);
+    }
 }
 
 pub struct ControlService<C> {
@@ -403,7 +478,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 admission_open: true,
             }),
             acip_replay: Mutex::new(AcipReplayState {
-                sequences_by_source: LruCache::unbounded(),
+                sequences_by_principal: BTreeMap::new(),
             }),
             weather: Mutex::new(None),
             weather_stale_after_millis: Mutex::new(30_000),
@@ -484,10 +559,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         if !(32..=256).contains(&token.len()) || token.chars().any(char::is_whitespace) {
             return Err(ControlError::Authentication);
         }
-        *self
+        let next = blake3::hash(token.as_bytes());
+        let mut active = self
             .acip_write_bearer_digest
             .lock()
-            .expect("ACIP write credential mutex poisoned") = Some(blake3::hash(token.as_bytes()));
+            .expect("ACIP write credential mutex poisoned");
+        if active.is_some_and(|current| current != next) {
+            self.acip_replay
+                .lock()
+                .expect("ACIP replay mutex poisoned")
+                .sequences_by_principal
+                .clear();
+        }
+        *active = Some(next);
         Ok(())
     }
 
@@ -576,49 +660,38 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     fn reserve_acip_sequence(
         &self,
+        principal_digest: &blake3::Hash,
+        runtime_id: &str,
         source: &str,
         sequence: u64,
     ) -> Option<AcipSequenceReservation> {
-        if sequence == 0 {
+        if sequence == 0 || sequence == u64::MAX {
             return None;
         }
-        let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
-        let previous = state.sequences_by_source.get(source).copied();
-        if let Some(previous) = previous {
-            if sequence <= previous {
-                return None;
-            }
-        } else {
-            while state.sequences_by_source.len() >= self.max_records {
-                state.sequences_by_source.pop_lru();
-            }
-        }
-        state.sequences_by_source.put(source.to_owned(), sequence);
-        Some(AcipSequenceReservation {
+        let principal = *principal_digest.as_bytes();
+        let domain = AcipReplayDomain {
+            runtime_id: runtime_id.to_owned(),
             source: source.to_owned(),
-            sequence,
-            previous,
-        })
+        };
+        let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
+        reserve_replay_sequence(&mut state, self.max_records, principal, domain, sequence)
+    }
+
+    fn commit_acip_sequence(&self, reservation: &AcipSequenceReservation) {
+        let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
+        commit_replay_sequence(&mut state, reservation);
     }
 
     fn rollback_acip_sequence(&self, reservation: AcipSequenceReservation) {
         let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
-        if state.sequences_by_source.peek(&reservation.source).copied()
-            != Some(reservation.sequence)
-        {
-            return;
-        }
-        match reservation.previous {
-            Some(previous) => {
-                state.sequences_by_source.put(reservation.source, previous);
-            }
-            None => {
-                state.sequences_by_source.pop(&reservation.source);
-            }
-        }
+        rollback_replay_sequence(&mut state, reservation);
     }
 
-    async fn dispatch_acip_payload(&self, payload: &[u8]) -> serde_json::Value {
+    async fn dispatch_acip_payload(
+        &self,
+        authenticated_principal: &blake3::Hash,
+        payload: &[u8],
+    ) -> serde_json::Value {
         let envelope = match decode_acip_envelope(payload) {
             Ok(envelope) => envelope,
             Err(reason) => {
@@ -639,9 +712,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "sequence_reserved": false
             });
         };
-        let Some(reservation) =
-            self.reserve_acip_sequence(&envelope.source, envelope.monotonic_sequence)
-        else {
+        let Some(reservation) = self.reserve_acip_sequence(
+            authenticated_principal,
+            &envelope.runtime_id,
+            &envelope.source,
+            envelope.monotonic_sequence,
+        ) else {
             return serde_json::json!({
                 "schema": ACIP_WEBSOCKET_SCHEMA,
                 "status": "rejected",
@@ -657,14 +733,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             payload: envelope.payload_json.as_bytes().to_vec(),
         };
         match ingress.submit(work, envelope.message_id.clone()).await {
-            Ok(result) => serde_json::json!({
-                "schema": ACIP_WEBSOCKET_SCHEMA,
-                "status": "completed",
-                "message_id": envelope.message_id,
-                "accepted_sequence": result.accepted_sequence,
-                "result_hash": result.result_hash,
-                "sequence_reserved": true
-            }),
+            Ok(result) => {
+                self.commit_acip_sequence(&reservation);
+                serde_json::json!({
+                    "schema": ACIP_WEBSOCKET_SCHEMA,
+                    "status": "completed",
+                    "message_id": envelope.message_id,
+                    "accepted_sequence": result.accepted_sequence,
+                    "result_hash": result.result_hash,
+                    "sequence_reserved": true
+                })
+            }
             Err(error) => {
                 self.rollback_acip_sequence(reservation);
                 serde_json::json!({
@@ -1261,7 +1340,8 @@ async fn acip_ws_session<C: LifecycleControl + 'static>(
         }
         match message {
             Ok(Message::Binary(payload)) => {
-                let response = service.dispatch_acip_payload(&payload).await;
+                let principal = blake3::hash(bearer_token.as_bytes());
+                let response = service.dispatch_acip_payload(&principal, &payload).await;
                 if socket
                     .send(Message::Text(response.to_string().into()))
                     .await
@@ -1781,4 +1861,81 @@ pub enum ControlApiError {
     Tls(String),
     #[error("control API server failed: {0}")]
     Serve(String),
+}
+
+#[cfg(test)]
+mod acip_replay_tests {
+    use super::*;
+
+    fn replay_state() -> AcipReplayState {
+        AcipReplayState {
+            sequences_by_principal: BTreeMap::new(),
+        }
+    }
+
+    fn domain(runtime_id: &str, source: &str) -> AcipReplayDomain {
+        AcipReplayDomain {
+            runtime_id: runtime_id.to_owned(),
+            source: source.to_owned(),
+        }
+    }
+
+    #[test]
+    fn structured_domains_do_not_delimiter_collide() {
+        let mut state = replay_state();
+        assert!(reserve_replay_sequence(&mut state, 2, [1; 32], domain("a:b", "c"), 1).is_some());
+        assert!(reserve_replay_sequence(&mut state, 2, [1; 32], domain("a", "b:c"), 1).is_some());
+    }
+
+    #[test]
+    fn domain_capacity_is_partitioned_by_principal() {
+        let mut state = replay_state();
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "one"), 1).is_some()
+        );
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "two"), 1).is_none()
+        );
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [2; 32], domain("runtime", "two"), 1).is_some()
+        );
+    }
+
+    #[test]
+    fn rejected_excessive_advances_do_not_consume_domain_capacity() {
+        let mut state = replay_state();
+        for index in 0..4 {
+            assert!(reserve_replay_sequence(
+                &mut state,
+                1,
+                [1; 32],
+                domain("runtime", &format!("rejected-{index}")),
+                ACIP_MAX_SEQUENCE_ADVANCE + 1,
+            )
+            .is_none());
+        }
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "valid"), 1)
+                .is_some()
+        );
+    }
+
+    #[test]
+    fn failed_concurrent_reservations_never_resurrect() {
+        let mut state = replay_state();
+        let first = reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "source"), 1)
+            .unwrap();
+        commit_replay_sequence(&mut state, &first);
+        let second =
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "source"), 2)
+                .unwrap();
+        let third = reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "source"), 3)
+            .unwrap();
+        rollback_replay_sequence(&mut state, second);
+        rollback_replay_sequence(&mut state, third);
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "source"), 2)
+                .is_some()
+        );
+    }
 }

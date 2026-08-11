@@ -191,6 +191,7 @@ async fn main() -> ExitCode {
             ));
             let assembly = match build_live_assembly(LiveBindings {
                 recorder: recorder.clone(),
+                canonical_ingress_capacity: init.kernel.canonical_ingress_capacity,
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
                 reasoning,
