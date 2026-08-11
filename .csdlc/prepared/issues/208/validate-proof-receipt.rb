@@ -79,10 +79,10 @@ markers_text = %w[runtime_markers kernel_markers].flat_map { |name| %w[stdout st
 fail_receipt("forbidden LEAK sentinel in retained behavior evidence") if markers_text.include?("LEAK")
 receipts = proof.fetch("behavior_receipts")
 fail_receipt("behavior receipt denominator mismatch") unless receipts.length == 56 && receipts.map { |receipt| receipt["case"] }.uniq.length == 56
-retained_receipts = markers_text.lines.filter_map do |line|
+retained_receipts = markers_text.lines.map do |line|
   payload = line[/BEHAVIOR_RECEIPT (\{.*\})\s*\z/, 1]
   payload && JSON.parse(payload)
-end
+end.compact
 fail_receipt("retained behavior receipts drift") unless retained_receipts.sort_by { |receipt| receipt["case"] } == receipts.sort_by { |receipt| receipt["case"] }
 receipts.each do |receipt|
   fail_receipt("behavior receipt schema/outcome mismatch") unless receipt["schema"] == "adl.issue208.behavior_receipt.v1" && receipt["outcome"] == "passed"

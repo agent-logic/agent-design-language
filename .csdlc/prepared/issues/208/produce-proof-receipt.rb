@@ -94,13 +94,13 @@ nextest_text = %w[runtime_nextest kernel_nextest].flat_map { |name| %w[stdout st
 fail_proof("nextest denominator mismatch") unless nextest_text.include?("21 tests run: 21 passed") && nextest_text.include?("35 tests run: 35 passed")
 marker_text = %w[runtime_markers kernel_markers].flat_map { |name| %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])) } }.join
 fail_proof("behavior evidence leaked a forbidden LEAK sentinel") if marker_text.include?("LEAK")
-receipts = marker_text.lines.filter_map do |line|
+receipts = marker_text.lines.map do |line|
   payload = line[/BEHAVIOR_RECEIPT (\{.*\})\s*\z/, 1]
   next unless payload
   JSON.parse(payload)
 rescue JSON::ParserError
   fail_proof("malformed behavior receipt")
-end
+end.compact
 fail_proof("behavior receipt denominator mismatch") unless receipts.length == 56 && receipts.map { |receipt| receipt["case"] }.uniq.length == 56
 receipts.each do |receipt|
   fail_proof("behavior receipt schema/outcome mismatch") unless receipt["schema"] == "adl.issue208.behavior_receipt.v1" && receipt["outcome"] == "passed"
