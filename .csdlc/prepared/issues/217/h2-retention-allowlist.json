@@ -1,0 +1,125 @@
+{
+  "schema": "adl.h2_retention_allowlist.v1",
+  "issue": 217,
+  "purpose": "Define the complete allowed H-to-H2 changed-path surface, the exact H2 retained surface, and the H2-to-H3 review-receipt additions. The current evidence denominator supplies the exact ten evidence paths; every other changed path must be explicitly named here.",
+  "evidence_denominator_path": ".csdlc/evidence/217/retained-proof-denominator.json",
+  "expected_evidence_file_count": 10,
+  "expected_proof_path_count": 8,
+  "proof_paths": [
+    ".csdlc/prepared/issues/217/historical-c640-denominator.json",
+    ".csdlc/prepared/issues/217/protected-source-denominator.json",
+    ".csdlc/prepared/issues/217/proof-contract-paths.json",
+    ".csdlc/prepared/issues/217/h2-retention-allowlist.json",
+    ".csdlc/prepared/issues/217/verify-historical-c640-packet.rb",
+    ".csdlc/prepared/issues/217/produce-native-receipt.rb",
+    ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
+    ".github/workflows/wp14-retained-native-proof.yml"
+  ],
+  "retained_surface_manifest_path": ".csdlc/evidence/217/h2-retained-surface-manifest.json",
+  "retained_surface_manifest_schema": "adl.h2_retained_surface_manifest.v1",
+  "retained_surface_manifest_digest_binding": "h3_review_receipt",
+  "expected_retained_surface_fixed_path_count": 9,
+  "retained_surface_fixed_paths": [
+    ".csdlc/evidence/217/retained-proof-denominator.json",
+    ".csdlc/prepared/issues/217/historical-c640-denominator.json",
+    ".csdlc/prepared/issues/217/protected-source-denominator.json",
+    ".csdlc/prepared/issues/217/proof-contract-paths.json",
+    ".csdlc/prepared/issues/217/h2-retention-allowlist.json",
+    ".csdlc/prepared/issues/217/verify-historical-c640-packet.rb",
+    ".csdlc/prepared/issues/217/produce-native-receipt.rb",
+    ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
+    ".github/workflows/wp14-retained-native-proof.yml"
+  ],
+  "retained_surface_dynamic_path_source": {
+    "path": ".csdlc/evidence/217/retained-proof-denominator.json",
+    "selector": ".files[].path",
+    "expected_count": 10
+  },
+  "expected_retained_surface_entry_count": 19,
+  "retained_surface_manifest_exclusions": [
+    {
+      "path": ".csdlc/evidence/217/h2-retained-surface-manifest.json",
+      "reason": "A file cannot contain its own digest; the independent H3 review receipt binds this manifest's digest."
+    },
+    {
+      "path_prefix": ".csdlc/issues/217/",
+      "reason": "The exact fourteen lifecycle paths may change as typed review and publication truth advances."
+    }
+  ],
+  "expected_lifecycle_path_count": 14,
+  "lifecycle_paths": [
+    ".csdlc/issues/217/audit.jsonl",
+    ".csdlc/issues/217/cards/sip.md",
+    ".csdlc/issues/217/cards/sip.values.json",
+    ".csdlc/issues/217/cards/sor.md",
+    ".csdlc/issues/217/cards/sor.values.json",
+    ".csdlc/issues/217/cards/spp.md",
+    ".csdlc/issues/217/cards/spp.values.json",
+    ".csdlc/issues/217/cards/srp.md",
+    ".csdlc/issues/217/cards/srp.values.json",
+    ".csdlc/issues/217/cards/stp.md",
+    ".csdlc/issues/217/cards/stp.values.json",
+    ".csdlc/issues/217/cards/vpp.md",
+    ".csdlc/issues/217/cards/vpp.values.json",
+    ".csdlc/issues/217/index.json"
+  ],
+  "allowed_statuses": [
+    "A",
+    "M"
+  ],
+  "forbidden_statuses": [
+    "D",
+    "R",
+    "C",
+    "T",
+    "U",
+    "X",
+    "B"
+  ],
+  "review_receipt_path": ".csdlc/evidence/217/h2-retention-review-receipt.json",
+  "review_receipt_retention_head": "H3-or-later",
+  "review_receipt_anchor_policy": {
+    "kind": "unique_ancestral_introduction_blob",
+    "path": ".csdlc/evidence/217/h2-retention-review-receipt.json",
+    "addition_semantics": "A candidate commit contains the receipt path and every existing parent lacks that path; a normal merge with one receipt-bearing parent is not a second addition.",
+    "acceptable_anchor_roles": [
+      "H3",
+      "squash_or_integration_commit"
+    ],
+    "require_unique_first_addition_on_current_head_ancestry": true,
+    "require_anchor_commit_object": true,
+    "require_anchor_blob_object": true,
+    "current_receipt_must_equal_anchor": [
+      "bytes",
+      "git_blob_oid",
+      "sha256"
+    ],
+    "objects_permitted_missing": [
+      "H2_commit",
+      "H2_tree"
+    ],
+    "fail_closed_cases": [
+      "missing_anchor",
+      "ambiguous_addition_history",
+      "non_ancestral_anchor",
+      "missing_anchor_blob",
+      "current_receipt_blob_mismatch",
+      "coherent_receipt_and_manifest_rewrite"
+    ]
+  },
+  "h3_allowed_addition_paths": [
+    ".csdlc/evidence/217/h2-retention-review-receipt.json"
+  ],
+  "h3_optional_lifecycle_paths_source": "lifecycle_paths",
+  "later_head_policy": {
+    "requires_h2_git_objects": false,
+    "requires_receipt_anchor_git_objects": true,
+    "immutable_sets": [
+      "retained_surface_manifest_and_all_entries",
+      "review_receipt",
+      "proof_paths",
+      "protected_source_denominator_and_current_protected_bytes"
+    ],
+    "allowed_outside_immutable_sets": "Unrelated later repository evolution is allowed only when it does not alter an immutable set or a protected source path."
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "adl.native_ci_receipt.v1",
+  "payload": {
+    "issue": 209,
+    "platform": "macos",
+    "source_sha": "c640066f284a915b638add377cc4b0a2e221e6f9",
+    "producer_path": ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+    "producer_sha256": "df776213ea9ac0fa474011acefe945245ac08be5b8670441639f533112dbcdd7",
+    "test_argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "production_acip_wss",
+      "--no-tests=fail",
+      "--status-level",
+      "all",
+      "--message-format",
+      "libtest-json-plus"
+    ],
+    "tests_run": 2,
+    "passed_tests": [
+      "adl-runtime-kernel::production_acip_wss$canonical_ingress_applies_bounded_pressure",
+      "adl-runtime-kernel::production_acip_wss$production_binary_acip_wss_produces_observed_receipt"
+    ],
+    "command_output_path": ".csdlc/evidence/209/native-platform/macos-nextest.log",
+    "command_output_sha256": "ad3c0ebc699103a2ac4aaeaeefeb82f637a933f91f8d706ed615439186bc6711",
+    "semantic_output_path": ".csdlc/evidence/209/native-platform/macos-semantic.json",
+    "semantic_output_sha256": "eb4890a2c91cd10378484eb495e42967caebe13f8a965666b7d71aac40c40135",
+    "semantic_projection_sha256": "9f24494a6f40d1fb8786ddfb7cb5447ad67bde4f73848d68bd5e82056aa0360b",
+    "source_manifest_path": ".csdlc/evidence/209/native-platform/macos-source-manifest.json",
+    "source_manifest_sha256": "999c594f5d878ab777be393b7dd5fbf90242ee140cce9f2b8ee65c6b914d86db",
+    "runner": {
+      "provider": "github_actions",
+      "repository": "agent-logic/agent-design-language",
+      "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp14-production-acip-repair.yml@refs/heads/codex/209-acip-authority-repair",
+      "run_id": "31453636709",
+      "run_attempt": "1",
+      "job": "produce-native-receipt",
+      "os": "Darwin",
+      "architecture": "arm64"
+    },
+    "status": "passed"
+  },
+  "payload_sha256": "7a1e0d4cdfbf71b0362ac4910ffef71df6f8e8b75bb0277e34857e6691b837f1"
+}

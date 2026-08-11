@@ -1,0 +1,55 @@
+{
+  "schema": "adl.native_validation_manifest.v1",
+  "issue": 209,
+  "repository": "agent-logic/agent-design-language",
+  "pull_request": 215,
+  "validated_revision": "c640066f284a915b638add377cc4b0a2e221e6f9",
+  "workflow": ".github/workflows/wp14-production-acip-repair.yml",
+  "workflow_run_id": "31453636709",
+  "workflow_run_attempt": "1",
+  "jobs": {
+    "linux": {
+      "job_id": "93662892252",
+      "status": "success",
+      "os": "Linux",
+      "architecture": "x86_64",
+      "tests_passed": 2,
+      "receipt_sha256": "cb9fc5260a3254c618653315163a7d27c141591c11b2fe0be8d0f69411238821",
+      "command_output_sha256": "eeb28e93219654c4570ecfc4a02a0b434d87abb9de642c893fd154629808672f",
+      "semantic_output_sha256": "8474537a1f482af747bd58464448eacd321761c2d2d35144cbb7518cfebaccd5"
+    },
+    "macos": {
+      "job_id": "93662892169",
+      "status": "success",
+      "os": "Darwin",
+      "architecture": "arm64",
+      "tests_passed": 2,
+      "receipt_sha256": "1a12abcc48b4bd7ce0a20e289d42aa80ccb0a8493c271ca052f10280d7eb54c8",
+      "command_output_sha256": "ad3c0ebc699103a2ac4aaeaeefeb82f637a933f91f8d706ed615439186bc6711",
+      "semantic_output_sha256": "eb4890a2c91cd10378484eb495e42967caebe13f8a965666b7d71aac40c40135"
+    },
+    "aggregate": {
+      "job_id": "93663352429",
+      "status": "success"
+    }
+  },
+  "artifact": {
+    "id": "9087274098",
+    "name": "wp14-production-acip-repair-validated-31453636709-1",
+    "archive_sha256": "4e739eaed0a24f7edf6ae3a0abbfc55e9e4b225917faf063a6e591cb55b37e3c"
+  },
+  "source_manifest_sha256": "999c594f5d878ab777be393b7dd5fbf90242ee140cce9f2b8ee65c6b914d86db",
+  "semantic_projection_sha256": "9f24494a6f40d1fb8786ddfb7cb5447ad67bde4f73848d68bd5e82056aa0360b",
+  "independent_validation": {
+    "status": "passed",
+    "detached_exact_head": "c640066f284a915b638add377cc4b0a2e221e6f9",
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      ".csdlc/evidence/209/native-platform/macos.json",
+      ".csdlc/evidence/209/native-platform/linux.json"
+    ],
+    "output_ref": ".csdlc/evidence/209/native-receipts-validation.log",
+    "output_sha256": "f618042cb2f36cddb67d2d3448752567843a78d400f519a9e2428fcc03b9e223"
+  }
+}
