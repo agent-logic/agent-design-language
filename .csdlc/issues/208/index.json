@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "50ca6fd43f5b405ec1d942ed846978798206b1a15480a8d72bdd35cf9667b750",
   "phase": "implemented",
-  "generation": 56,
-  "digest": "9dff2f81e2fe10f1629a995dcaa4fa6c38e4d9d58112f8ed57b1ce9f77b68bc1",
+  "generation": 57,
+  "digest": "f95b07502ebe558a28fe7aae3e3c8326e0c07823bf05687b730974229dcdddb0",
   "branch": "codex/208-authenticated-guardian-kernel-continuity-bridge",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-208-kernel-continuity-bridge",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4bcf8db70736d26f7eac99931e7501721cb7dcfb2f5b93b182a603b6e2c3d3d9",
+      "values_digest": "098cb5fb11c1be4925519a3bdac9662ef8c7b518e74c288a64936e58e4515c7a",
       "rendered_digest": "5b2a673ab5bea5e6dde4d54e7f04b7922b882214032760db3a41deaa16e86323",
       "ast_digest": "0fcdacc0eb8f8218bef0614153064c837cc6aafd75e29eeff95ea5502c341bbf"
     },
     "stp": {
-      "values_digest": "bb9de4f404d193dcc09a0be486afee52ad79d198d09113283b39169c6ef28dc9",
+      "values_digest": "c81e3fe4a68149d530bf6acc7a1218bbdf560268e2b23f97001c6b9efdd03626",
       "rendered_digest": "78e8b9b9b614a832343bc985bf3eccc25251698f3f11ad95c06c6a0c98557f25",
       "ast_digest": "64ac9a8c5f2efde02f4d0c33baa531952fcf4efecfaff71e9c3fc7de78c38751"
     },
     "spp": {
-      "values_digest": "325df2c7e2f2c56448cab5ce09431d65887cca6bb4448488e9a9f7ff734f8514",
+      "values_digest": "b52d1e91af45dd000892db9c276dd8a025a0b1c9d50a2102099c08ab1d7ccf98",
       "rendered_digest": "8cae788a1f9d55f6f0e5f188e535df1b9b8ddc1e0811dfae2ecaf1e3aff6964b",
       "ast_digest": "7b060d64d99e45f1f112bc86a169823ef8303b2456684aafe538b63474edb761"
     },
     "vpp": {
-      "values_digest": "cbd50ea1e38e5e21d227ef5f401a48bd9aa4684129b7bc27ddf888357c39b225",
+      "values_digest": "2813ac96cf8b6d6fd7ff80bac2673fb7174207aa3022ab6a881445b7d47097ed",
       "rendered_digest": "61ebce4bd91891b849aa0d6605ae175d8551ab8065bd5d42e5204db5f4edd760",
       "ast_digest": "013010973c9635259aed2bdb2787a2f4c4a550f07d55c9622bf5f86ddc739317"
     },
     "srp": {
-      "values_digest": "76b1e18c48185c868db494f7ddbb8ad613d937eff2add3eaf59cc81fe39b3be2",
+      "values_digest": "6dd16e9f4bdfc48f9453f66e2c478bb30028068dac52631fbc4d2984720a1c16",
       "rendered_digest": "f232a757053e661faf097130e00849d84b0bcfe7aaeaebba08e76aa0cc310725",
       "ast_digest": "bf31673f1f85b5b1d7c8c7ead97e005913df10e168f532014240ff2fc43fc84d"
     },
     "sor": {
-      "values_digest": "aa98013639b4fa21dcfe6c1bd60b220c051e6d41d1e651d04ece2e4b07ccc8b8",
-      "rendered_digest": "fce296c443e8cc77af8a22bc6c3a7db29f2c5e00016f710927a0619d42d93c46",
-      "ast_digest": "0b85b7daf03c819c9f2590b10378d36e1a2356ddd687212eabc876cc1a273e07"
+      "values_digest": "d394af23e64a8796ab1f7446fe101cc93a6cf9f54f2375b906407b8be964f5eb",
+      "rendered_digest": "5577780c5c11e3fc3cb08031ab3902aec5a0c4fdf36199ae40d4700eb14992ab",
+      "ast_digest": "0aa95eb6a3dddc37a1b1549d0324a8ec6f6e16aa14f9c1a318ce39ebc8ef73cd"
     }
   },
   "transitions": [
@@ -547,6 +547,13 @@
       "actor": "codex:/root/resolve_208_final_review",
       "reason": "Recover stale review and publication truth after exact-head PR #230 runtime coverage exposed the bounded positive Guardian CLI fixture still emitting a pre-continuity partial runtime init; production mandatory continuity remains fail closed and fresh proof plus independent rereview are required.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 57,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Record the bounded Guardian CLI full-continuity fixture repair and regenerated exact proof without claiming rereview or republication.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved the PR #230 hosted-CI regressions and subsequently exercised retained-validator defects while preserving mandatory production continuity. The final runtime-coverage regression was a positive Guardian CLI fixture that still emitted a legacy partial init. It now constructs an isolated complete RuntimeInitConfig, dedicated server/client EKUs and roots, exact private continuity bounds and roots, distinct #204 key custody, and a live private TLS continuity service; the two sibling negative CLI cases remain fail closed. Fresh v4 evidence at d1d261bea5da89922730ec835d64a261b9ad2f53 retains Runtime 21/21 and kernel 35/35 in two concurrent plus two isolated waves with zero LEAK, Guardian CLI 3/3, production ACIP 2/2, both strict Clippy lanes, selector contract, exact 56/64/12 parity, and diff hygiene. Fresh independent rereview remains required before republishing PR #230.\",\"changes\":[\"Extended production and Guardian CLI runtime-init fixtures with isolated private continuity listeners, exact five-participant bounds, dedicated ServerAuth and ClientAuth credentials, trust roots, SPKI pins, distinct migration-decision custody, and actionable readiness behavior.\",\"Preserved production mandatory continuity initialization while the real Guardian CLI positive path now reaches a live TLS Status effect and both malformed/missing-kernel negatives remain fail closed.\",\"Replaced absent binary-name nextest selectors with the exact ordered 56-case filter and explicitly bound all standalone proof lanes to the tracked fail-on-leak policy.\",\"Expanded retained proof with Guardian CLI 3/3, production ACIP 2/2, the workspace/slow-proof selector contract, and four zero-LEAK full waves per package.\",\"Repaired final receipt review provenance parsing to require exact canonical JSON token serialization, canonical index equality, exact git-blake3 shape and ancestry, and rejection of malformed or escaped aliases.\"],\"artifacts\":[\"adl/.config/nextest.toml\",\"adl-runtime/tests/guardian_cli.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\".csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb\",\".csdlc/prepared/issues/208/produce-proof-receipt.rb\",\".csdlc/prepared/issues/208/validate-proof-receipt.rb\",\".csdlc/evidence/208/v4/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--config-file\",\"adl/.config/nextest.toml\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"guardian_cli\",\"--no-tests=fail\"],\"purpose\":\"Reproduce the hosted Runtime coverage failure with a real mandatory private-continuity Guardian fixture while preserving sibling denials.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/guardian-cli-nextest.stderr.log: 3/3 passed, zero LEAK\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--config-file\",\"adl/.config/nextest.toml\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"kernel_continuity_client\",\"--no-tests=fail\"],\"purpose\":\"Prove the exact 21-case Runtime target in two concurrent and two isolated retained waves.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/runtime-nextest*.stderr.log: 21/21 in all four waves, zero LEAK\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--config-file\",\"adl/.config/nextest.toml\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"kernel_continuity_control\",\"--no-tests=fail\"],\"purpose\":\"Prove the exact 35-case kernel target in two concurrent and two isolated retained waves.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/kernel-nextest*.stderr.log: 35/35 in all four waves, zero LEAK\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--config-file\",\"adl/.config/nextest.toml\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\",\"--no-tests=fail\"],\"purpose\":\"Reproduce the hosted production ACIP lane with mandatory private continuity initialization.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/production-acip-nextest.stderr.log: 2/2 passed\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb\"],\"purpose\":\"Require all eight standalone nextest invocations to load the tracked fail-closed policy without absent binary selectors.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/nextest-workspace-contract.stdout.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-guardian\",\"--test\",\"guardian_cli\",\"--test\",\"kernel_continuity_client\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across Runtime, Guardian, hosted Guardian CLI fixture, and continuity client target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/runtime-clippy.stderr.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--test\",\"kernel_continuity_control\",\"--test\",\"production_acip_wss\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across kernel effects, persistence, private server, fixture, and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/kernel-clippy.stderr.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/verify-diff-hygiene.rb\"],\"purpose\":\"Verify exact execution-base-to-source diff hygiene and current-main ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/diff-hygiene.stdout.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/produce-proof-receipt.rb\"],\"purpose\":\"Produce exact protected-source evidence for 16 commands, 56 cases, 64 boundary assertions, and 12 lifecycle assertions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/execution-proof.json\"}]}"
     }
   ]
 }

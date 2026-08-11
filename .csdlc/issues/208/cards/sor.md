@@ -12,11 +12,12 @@ Status: pre_phase
 
 ## Summary
 
-Resolved the PR #230 hosted-CI regressions and the subsequently exercised retained-validator provenance defects. Production test initialization supplies the mandatory isolated private continuity listener, exact five-participant registry, dedicated server/client EKUs, trust roots, and SPKI pins. Nextest uses an exact 56-case filter, explicit standalone config binding, and a five-second result=fail loaded-host EOF bound. The proof validator parses only canonical typed v2 Option review fields, requires each captured JSON token to equal canonical JSON reserialization, binds values to the canonical index review, validates exact git-blake3 shape and ancestry, and rejects malformed or escaped aliases. Fresh v4 evidence at f0d21d2eaa6cb50f1f3903b140381e3e7e5962c8 retains Runtime 21/21 and kernel 35/35 in two concurrent plus two isolated waves with zero LEAK, production ACIP 2/2, both strict Clippy lanes, selector contract, exact 56/64/12 parity, and diff hygiene. Fresh independent rereview remains required before republishing PR #230.
+Resolved the PR #230 hosted-CI regressions and subsequently exercised retained-validator defects while preserving mandatory production continuity. The final runtime-coverage regression was a positive Guardian CLI fixture that still emitted a legacy partial init. It now constructs an isolated complete RuntimeInitConfig, dedicated server/client EKUs and roots, exact private continuity bounds and roots, distinct #204 key custody, and a live private TLS continuity service; the two sibling negative CLI cases remain fail closed. Fresh v4 evidence at d1d261bea5da89922730ec835d64a261b9ad2f53 retains Runtime 21/21 and kernel 35/35 in two concurrent plus two isolated waves with zero LEAK, Guardian CLI 3/3, production ACIP 2/2, both strict Clippy lanes, selector contract, exact 56/64/12 parity, and diff hygiene. Fresh independent rereview remains required before republishing PR #230.
 
 ## Artifacts
 
 - adl/.config/nextest.toml
+- adl-runtime/tests/guardian_cli.rs
 - adl-runtime-kernel/tests/production_acip_wss.rs
 - adl-runtime-kernel/tests/support/runtime_init.rs
 - .csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb
@@ -26,15 +27,33 @@ Resolved the PR #230 hosted-CI regressions and the subsequently exercised retain
 
 ## Execution
 
-- Extended the production runtime-init fixture with an isolated private continuity listener, exact five-participant bound, dedicated ServerAuth and ClientAuth credentials, trust roots, SPKI pins, and actionable readiness diagnostics.
+- Extended production and Guardian CLI runtime-init fixtures with isolated private continuity listeners, exact five-participant bounds, dedicated ServerAuth and ClientAuth credentials, trust roots, SPKI pins, distinct migration-decision custody, and actionable readiness behavior.
+- Preserved production mandatory continuity initialization while the real Guardian CLI positive path now reaches a live TLS Status effect and both malformed/missing-kernel negatives remain fail closed.
 - Replaced absent binary-name nextest selectors with the exact ordered 56-case filter and explicitly bound all standalone proof lanes to the tracked fail-on-leak policy.
-- Expanded retained proof with production ACIP 2/2 and the workspace/slow-proof selector contract while retaining four zero-LEAK full waves per package.
-- Repaired the final receipt validator to parse canonical typed v2 Some review fields, require exact canonical JSON token serialization, compare them with canonical index review truth, and use the embedded review commit for source ancestry and protected-file checks.
-- Added fail-closed parser regressions for absent, bare, trailing, unterminated, truncated, wrong-shape, escaped revision, escaped-slash reviewer, and Unicode-escaped reviewer provenance before regenerating proof.
+- Expanded retained proof with Guardian CLI 3/3, production ACIP 2/2, the workspace/slow-proof selector contract, and four zero-LEAK full waves per package.
+- Repaired final receipt review provenance parsing to require exact canonical JSON token serialization, canonical index equality, exact git-blake3 shape and ancestry, and rejection of malformed or escaped aliases.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--config-file",
+      "adl/.config/nextest.toml",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "guardian_cli",
+      "--no-tests=fail"
+    ],
+    "purpose": "Reproduce the hosted Runtime coverage failure with a real mandatory private-continuity Guardian fixture while preserving sibling denials.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v4/guardian-cli-nextest.stderr.log: 3/3 passed, zero LEAK"
+  },
   {
     "command": [
       "cargo",
@@ -94,7 +113,7 @@ Resolved the PR #230 hosted-CI regressions and the subsequently exercised retain
       "ruby",
       ".csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb"
     ],
-    "purpose": "Reject absent binary-name selectors and require exact fail-closed standalone policy binding.",
+    "purpose": "Require all eight standalone nextest invocations to load the tracked fail-closed policy without absent binary selectors.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/nextest-workspace-contract.stdout.log"
   },
@@ -109,12 +128,14 @@ Resolved the PR #230 hosted-CI regressions and the subsequently exercised retain
       "--bin",
       "adl-runtime-guardian",
       "--test",
+      "guardian_cli",
+      "--test",
       "kernel_continuity_client",
       "--",
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings across the Runtime, Guardian, client target, and teardown assertion.",
+    "purpose": "Reject warnings across Runtime, Guardian, hosted Guardian CLI fixture, and continuity client target.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/runtime-clippy.stderr.log"
   },
@@ -154,7 +175,7 @@ Resolved the PR #230 hosted-CI regressions and the subsequently exercised retain
       "ruby",
       ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
     ],
-    "purpose": "Produce exact 56-case, 64-boundary, 12-lifecycle evidence with hosted regressions and zero-LEAK lanes.",
+    "purpose": "Produce exact protected-source evidence for 16 commands, 56 cases, 64 boundary assertions, and 12 lifecycle assertions.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/execution-proof.json"
   }
