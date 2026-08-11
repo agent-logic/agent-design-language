@@ -2,7 +2,7 @@
   "issue": 226,
   "expected_generation": 17,
   "expected_digest": "92d147d5e412d6b9bd1ac74fcfcaced78fc32e6367389f6ded25dcf98069e614",
-  "reviewer": "codex-exec:issue-226-independent-review-6",
+  "reviewer": "subagent:019ff205-4896-7c42-807c-3953cfa4247f",
   "assigned_by": "codex:226-focused-runtime-validation-routing",
   "scope": [
     "adl/config/validation_lane_selector.v0.91.6.json",

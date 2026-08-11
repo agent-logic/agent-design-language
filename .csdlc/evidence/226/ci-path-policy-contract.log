@@ -169,3 +169,4 @@ PASS test_select_validation_lanes
 ==> docs_diff_check: git diff --check
 ==> nessus_remote_validation: bash adl/tools/run_nessus_remote_validation.sh --command 'printf remote-manager-ok' --local-artifact-dir /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/tmp.jEQyJ4nuPS/remote-manager-artifacts-run
 PASS test_validation_manager
+PASS: ci_path_policy PR-fast/full-coverage contract

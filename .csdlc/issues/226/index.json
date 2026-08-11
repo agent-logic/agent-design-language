@@ -6,10 +6,21 @@
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
   "generation": 17,
-  "digest": "92d147d5e412d6b9bd1ac74fcfcaced78fc32e6367389f6ded25dcf98069e614",
+  "digest": "dcbaf44451ef941aa441bbe6c58959fd6b12d779de39e7ad51d7230887500ffc",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff205-4896-7c42-807c-3953cfa4247f",
+    "assigned_by": "codex:226-focused-runtime-validation-routing",
+    "revision": "git-blake3:202f5b9ddbbf59848add361bf40bc5c1686e311b:ee0a04e7962212add0088861a10ac5b9381aeb1beaf490c9598e6b609051272d",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226/design.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "8d4b412a0cad09d51635dcdeccd6e3478d2dbe7cc6ed17419b65a29daf1aeb75",
-      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
-      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
+      "values_digest": "caa6de6ff732990080f800a21f4c55176bf448c6eafe431ee59439c7bdd35d35",
+      "rendered_digest": "e1ac8934aa11c005160834b5b095a8e83756cf055f48e66c1acf96eebd811a26",
+      "ast_digest": "fccdd8a8cbae10354c4926365995351d865784831b3544d45c5bf0866fd223a3"
     },
     "sor": {
       "values_digest": "11bd3f8304219bc7d29f09fadfef105fb1af529caea0656ef79cf8070b40b6a0",
@@ -295,6 +306,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Replace the inaccessible codex-exec reviewer after repeated bounded waits; preserve the exact validated routing implementation for a FastWork-capable independent subagent review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 17,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

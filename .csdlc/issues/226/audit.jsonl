@@ -25,3 +25,4 @@
 {"sequence":25,"generation":16,"actor":"codex:226-focused-runtime-validation-routing","reason":"Replace the reviewer whose Codex sandbox could enter but not read the FastWork repository; preserve the exact product head and review its immutable archived scope.","operation":"recover_review"}
 {"sequence":26,"generation":16,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":27,"generation":17,"actor":"codex:226-focused-runtime-validation-routing","reason":"Replace the inaccessible codex-exec reviewer after repeated bounded waits; preserve the exact validated routing implementation for a FastWork-capable independent subagent review.","operation":"recover_review"}
+{"sequence":28,"generation":17,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
