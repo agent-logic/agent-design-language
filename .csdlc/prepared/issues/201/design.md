@@ -83,11 +83,16 @@ signature or quorum path before any concrete effect.
 
 The distinct sealed #210 projection is available only when the operation class
 is continuity transfer. It binds the exact source and target voter/Guardian,
-route, membership, certificate and boot cuts; transfer and bundle ids; the
-retained signed bundle manifest and catalog bytes plus their digests and trusted
-key generation; canonical entry order and each entry's schema, range, length,
-and digest; canonical chunk index, absolute range, expected digest, and
-predecessor; total bounds, deadline, uncertainty policy, and a cleanup identity.
+route, membership, certificate and boot cuts; transfer id and lineage; the exact
+#208 `SourceCheckpointHandle` identity and its byte-identical bundle-handle
+identity; the retained signed bundle manifest and catalog bytes plus their
+digests and trusted key generation; canonical entry order and each entry's
+schema, range, length, and digest; canonical chunk index, absolute range,
+expected digest, and predecessor; total bounds, deadline, uncertainty policy,
+and a cleanup identity. The projection does not derive a fresh checkpoint or
+bundle handle from those bytes: #210 must present the exact borrowed identities
+to #208's sealed `ContinuityBundleSourcePort`, and a lineage or handle mismatch
+fails before a read or transfer session can begin.
 The projection borrows those values from the finalized journal record and has no
 public constructor, replacement setter, generic artifact conversion, or method
 that signs, sends bytes, reads or writes a path, discards a stage, decides
@@ -176,8 +181,11 @@ protocol atomicity, not a transaction over downstream authority stores.
   applies existing certificate, lease, and fencing store effects. #201 never
   performs or reconstructs those effects.
 - #210 consumes only the separate sealed continuity-transfer projection and
-  combines it with #208's opaque source, stage, verifier, and cleanup ports. #201
-  neither transports bytes nor performs a kernel continuity effect.
+  combines it with #208's opaque source, stage, verifier, and cleanup ports. The
+  projection binds the exact lineage, `SourceCheckpointHandle`, and
+  byte-identical bundle-handle identity consumed by #208; wrong lineage or
+  either wrong handle is rejected before source access. #201 neither transports
+  bytes nor performs a kernel continuity effect.
 - #193 and later children consume those merged authorities for real kernel
   continuity and operational serving. They do not broaden this protocol.
 
@@ -216,7 +224,7 @@ The denominator is exactly forty-four cases, with exact name/result/marker parit
 `lock_symlink_rejected`, `legacy_fence_voter_rejected`,
 `legacy_activate_owner_rejected`, `legacy_activate_shepherd_rejected`,
 `legacy_acquire_observatory_rejected`, `legacy_demote_voter_rejected`,
-`exact_store_artifact_bytes_retained`, and
+`exact_store_artifact_bytes_retained`,
 `artifact_bytes_digest_substitution_rejected`,
 `sealed_continuity_transfer_projection`, and
 `continuity_projection_consumer_confusion_rejected`.
