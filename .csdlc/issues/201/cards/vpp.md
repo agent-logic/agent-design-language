@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
 
 [
   {
-    "lane": "committed-authority-contract-47",
-    "proof_role": "Prove the exact ordered 47-case authority protocol contract with no production-selectable bypass.",
+    "lane": "committed-authority-contract-86",
+    "proof_role": "Prove the exact ordered 86 names in STP AC-8 with one canonical ADL_ISSUE_201_CASE_V2 marker per case; declared positive/reconciled cases pass and every named negative rejects.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -33,11 +33,12 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
       "AC-4",
       "AC-5",
       "AC-6",
-      "AC-7"
+      "AC-7",
+      "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 1200,
+    "budget_seconds": 1500,
     "budget_tokens": 15000,
     "argv": [
       "cargo",
@@ -48,15 +49,42 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
       "adl-runtime/Cargo.toml",
       "--lib",
       "-E",
-      "test(/^distributed::authority_protocol::contract_tests::/)",
+      "test(/^distributed::authority_protocol::contract_tests::|^distributed::polis_runtime::authority_consensus_tests::snapshot_/)",
       "--no-tests=fail"
     ],
     "parallel_group": "201-runtime",
     "defer_reason": null
   },
   {
+    "lane": "snapshot-trust-matrix",
+    "proof_role": "Prove by exact name the valid multi-operation restart; current and prepared polis epoch membership boot mismatches including a later record; five legacy-field injections; eleven finalized-evidence failures; ten custody/evidence encoding and substitution failures. Only the valid restart passes; all others reject before publication.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1200,
+    "budget_tokens": 10000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "distributed::polis_runtime::authority_consensus_tests::snapshot_",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "parallel_group": "201-runtime",
+    "defer_reason": null
+  },
+  {
     "lane": "production-three-voter-openraft",
-    "proof_role": "Exercise production PrepareAuthority, FinalizeAuthority, actual apply IDs, trusted route custody, pending publication, and snapshot install/restart with exact custody/finalization verification plus injection and tamper denial through the production state machine.",
+    "proof_role": "Exercise production prepare finalize actual apply IDs route custody pending publication and legitimate snapshot restart through a real three-voter OpenRaft cluster.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -69,7 +97,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     "deterministic": true,
     "resource_profile": "large",
     "budget_seconds": 1200,
-    "budget_tokens": 10000,
+    "budget_tokens": 8000,
     "argv": [
       "cargo",
       "test",
@@ -87,14 +115,14 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "committed-authority-production-clippy",
-    "proof_role": "Reject warnings and API misuse across the production library without cfg(test)-only authority helpers.",
+    "proof_role": "Reject production warnings and any production-selectable test authority bypass.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "large",
     "budget_seconds": 900,
-    "budget_tokens": 8000,
+    "budget_tokens": 5000,
     "argv": [
       "cargo",
       "clippy",
@@ -110,15 +138,15 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "committed-authority-proof-producer",
-    "proof_role": "Produce one v6 packet binding protected source, strict Clippy, exact 47/47, real three-voter OpenRaft, and snapshot trust-boundary results.",
+    "lane": "committed-authority-proof-v7",
+    "proof_role": "Produce one v7 packet whose independent immutable manifest binds the exact ordered 86 names results and marker hashes.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 1800,
-    "budget_tokens": 10000,
+    "budget_seconds": 1500,
+    "budget_tokens": 7000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/201/produce-proof-receipt.rb"
@@ -127,15 +155,15 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "committed-authority-proof-validator",
-    "proof_role": "Require ancestry whenever the source object exists; allow exact protected-tree fallback only when it is genuinely unavailable, proving available-divergent rejection and depth-one pass.",
+    "lane": "committed-authority-proof-validator-v7",
+    "proof_role": "Require ancestry for validator_available_ancestral_passed reject validator_available_divergent_rejected and allow tree fallback only for validator_unavailable_protected_fallback_passed.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "medium",
     "budget_seconds": 300,
-    "budget_tokens": 5000,
+    "budget_tokens": 3000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
@@ -157,7 +185,8 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --lib -E test(/^distributed::authority_protocol::contract_tests::/) --no-tests=fail`
+- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --lib -E test(/^distributed::authority_protocol::contract_tests::|^distributed::polis_runtime::authority_consensus_tests::snapshot_/) --no-tests=fail`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::polis_runtime::authority_consensus_tests::snapshot_ -- --nocapture --test-threads=1`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids -- --exact --nocapture`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings`
 - `ruby .csdlc/prepared/issues/201/produce-proof-receipt.rb`

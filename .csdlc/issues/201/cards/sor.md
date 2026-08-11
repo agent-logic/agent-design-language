@@ -12,47 +12,25 @@ Status: pre_phase
 
 ## Summary
 
-Authority-protocol review repairs are implemented and the final v6 receipt binds source 5386a3a44ea2b5c0edc7490c086bb953b03751e8 with exact ordered 47/47 cases, strict production Clippy, a real three-voter OpenRaft path, legacy denial, and full-history plus depth-one validation.
+Snapshot trust-boundary and proof-denominator rework is in progress. The prior 47-case v6 receipt is superseded and stale for the expanded contract; there is no current implementation PASS, publication readiness, or approval claim.
 
 ## Artifacts
 
-- adl-runtime/src/distributed/authority_protocol.rs
-- adl-runtime/src/distributed/authority_protocol_contract_tests.rs
-- adl-runtime/src/distributed/polis_runtime.rs
-- adl-runtime/src/distributed/transport.rs
-- adl-runtime/tests/distributed_authority_protocol.rs
-- .csdlc/prepared/issues/201/produce-proof-receipt.rb
-- .csdlc/prepared/issues/201/validate-proof-receipt.rb
-- .csdlc/evidence/201/v6/execution-proof.json
+- .csdlc/prepared/issues/201/design.md
+- .csdlc/prepared/issues/201/diagram.mmd
+- .csdlc/issues/201/cards/stp.md
+- .csdlc/issues/201/cards/spp.md
+- .csdlc/issues/201/cards/vpp.md
+- .csdlc/issues/201/cards/srp.md
 
 ## Execution
 
-- Bound production PrepareAuthority to state-held verified route custody: exact polis id, membership epoch, authority membership, and boot generations, with real OpenRaft denial of relabeled polis, epoch, and self-consistent wrong authority cuts.
-- Kept signer custody runtime-local and non-serialized; signatures bind guardian, certificate generation, boot generation, membership index, intent digest, committed prepare index, and finalization time, while actual finalize apply index is separately verified and recorded.
-- Made committed finalize return authority_publication_pending with no token and removed caller-selected node identity, root, and checkpoint authority from public reconciliation.
-- Proved each store publishes only through configured local voter context, rejecting fake-node, fake-root, fake-CAS, retry, and restart substitutions.
-- Made the validator independently enforce exact ordered canonical 47 names, results, and marker hashes, including substitution and reorder regressions in full and shallow history.
+- Designed runtime-external trusted custody and exact snapshot custody/finalization re-verification.
+- Expanded the planned proof denominator from 47 to an exact ordered 86 named cases including the complete snapshot and validator matrix.
 
 ## Validation
 
 [
-  {
-    "command": [
-      "cargo",
-      "nextest",
-      "run",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--lib",
-      "-E",
-      "test(/^distributed::authority_protocol::contract_tests::/)",
-      "--no-tests=fail"
-    ],
-    "purpose": "Prove the exact ordered 47-case denominator.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
-  },
   {
     "command": [
       "cargo",
@@ -66,72 +44,18 @@ Authority-protocol review repairs are implemented and the final v6 receipt binds
       "--exact",
       "--nocapture"
     ],
-    "purpose": "Prove real three-voter OpenRaft route custody, pending response, local reconcile/restart, and substitution denial.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "clippy",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--lib",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "purpose": "Prove production code is warning-free without test-only authority helpers.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_authority_protocol"
-    ],
-    "purpose": "Prove legacy caller-indexed authority shapes fail closed.",
-    "outcome": "passed",
-    "evidence_ref": "adl-runtime/tests/distributed_authority_protocol.rs"
+    "purpose": "Prove the expanded production snapshot matrix after approved design implementation.",
+    "outcome": "deferred",
+    "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
   },
   {
     "command": [
       "ruby",
       ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
     ],
-    "purpose": "Prove independent exact-case and immutable receipt validation in full and depth-one history.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
-  },
-  {
-    "command": [
-      "csdlc-validate",
-      "--root",
-      ".",
-      "issue",
-      "--issue",
-      "201"
-    ],
-    "purpose": "Prove typed card projections after independent design approval.",
+    "purpose": "Prove exact ordered 86-case evidence and all three ancestry modes after implementation.",
     "outcome": "deferred",
-    "evidence_ref": ".csdlc/issues/201/index.json"
-  },
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check",
-      "origin/main...HEAD"
-    ],
-    "purpose": "Prove branch diff hygiene.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
   }
 ]
 

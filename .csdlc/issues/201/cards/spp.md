@@ -16,47 +16,48 @@ After WP-04.16a merges, bind and implement the bounded committed authority proto
 
 ## Plan
 
-Revision 17
+Revision 18
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Bind production PrepareAuthority and FinalizeAuthority to actual OpenRaft applied IDs and exact verified route custody; reject caller authority, relabeling, legacy replay, and stale custody.",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3"
-    ],
-    "status": "pending"
-  },
-  {
-    "id": "S2",
-    "action": "Keep signer custody runtime-local and cryptographically bind exact endorsement fields while separately validating the actual finalize apply index; deny non-replicated artifact routes.",
-    "acceptance_ids": [
-      "AC-6",
-      "AC-7"
-    ],
-    "status": "pending"
-  },
-  {
-    "id": "S3",
-    "action": "Keep trusted route custody outside snapshot-replaceable state; accept snapshot install only when current and every prepared custody exactly match configured polis, epoch, authority, and boots, legacy authority fields are empty, and every finalized entry carries complete evidence that re-verifies quorum, signatures, time, and committed indices before publication; prove legitimate restart plus all injection and tamper negatives through the production state machine.",
+    "action": "Preserve actual OpenRaft apply IDs, exact verified route custody, opaque runtime signer custody, pending finalize response, and runtime-owned publication context without reopening prior bypasses.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6",
       "AC-7"
     ],
     "status": "pending"
   },
   {
+    "id": "S2",
+    "action": "Keep trusted custody outside snapshot-replaceable state and validate current plus every prepared custody and empty legacy authority fields before snapshot install.",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Retain complete finalized proposal and endorsement evidence and rerun live quorum, signature, certificate, boot, time, operation, prepare-index, and finalize-index verification during install; implement every exact snapshot case named in AC-8.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
     "id": "S4",
-    "action": "Regenerate one immutable v6 proof, validate ancestry whenever its source object is available and protected-tree equivalence only when genuinely unavailable, obtain fresh independent exact-head review, and stop before publication or merge.",
+    "action": "Replace the superseded 47-case v6 packet with one immutable v7 proof binding the exact ordered 86 names, results, and ADL_ISSUE_201_CASE_V2 marker hashes; require ancestry whenever source exists, prove available-divergent rejection and unavailable depth-one fallback, then obtain fresh exact-head review and stop before publication.",
     "acceptance_ids": [
       "AC-8"
     ],

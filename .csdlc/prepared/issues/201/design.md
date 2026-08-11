@@ -100,18 +100,18 @@ migration, fences a source, activates a target, or grants serving. Wrong
 operation variants and every consumer other than the sealed #210 adapter are
 rejected before a view is returned.
 
-Trusted route custody is runtime configuration outside snapshot-replaceable
-state. Snapshot install accepts an application image only when its current
-custody and every prepared operation custody exactly equal the configured polis
-id, membership epoch, authority membership, and boot-generation map, and when
-all retired owner, Shepherd, Observatory, fence, and demotion authority fields
-are empty. A finalized snapshot entry retains its complete finalize proposal and
-endorsements; install reruns the same operation, quorum, signature, certificate,
-boot, time-window, committed-prepare-index, and finalize-index verification used
-by live apply before the entry can become eligible for local publication.
 Serialization, snapshot restore, retry-cache load, and checkpoint reconciliation
-compare retained bytes and digests. Any omitted, re-encoded, injected, or
-substituted custody, evidence, or legacy field fails closed.
+all compare both retained bytes and digest. Trusted route custody remains
+runtime configuration outside snapshot-replaceable state. Install requires the
+snapshot's current custody and every prepared custody, including later records,
+to equal the configured polis id, membership epoch, authority membership, and
+boot generations exactly; retired owner, Shepherd, Observatory, fence, and
+demotion fields must all be empty. Each finalized record retains the complete
+finalize proposal and endorsements, and install reruns the same operation,
+quorum, signature, certificate, boot, time-window, committed-prepare-index, and
+finalize-index verification used by live apply before publication is possible.
+Omitted, re-encoded, injected, substituted, or byte/digest-inconsistent custody
+or evidence fails closed.
 
 The prepare and finalize entries contain canonical quorum-attested time tokens.
 Replica-local clocks may determine whether a voter is willing to endorse a
@@ -176,10 +176,10 @@ node, boot, polis, trust domain, or protocol instance rejects.
 
 No downstream consumer may receive a token whose protocol publication barrier
 is incomplete. Deterministic Raft apply records a valid finalize as pending and
-returns no token; the runtime-owned local reconciliation path exposes the
-canonical published result only after its retry record, journal, and external
-checkpoint are durable and agree. This is per-object protocol atomicity, not a
-transaction over downstream authority stores.
+returns no token; runtime-owned local reconciliation exposes the published
+result only after its retry record, journal, and external checkpoint are durable
+and agree. This is per-object protocol atomicity, not a transaction over
+downstream authority stores.
 
 ## Downstream split
 
@@ -216,7 +216,10 @@ transaction over downstream authority stores.
   strict Clippy, marker parity, protected-source drift, immutable evidence
   introduction, and eventual squash-merge topology.
 
-The denominator is exactly forty-seven cases, with exact name/result/marker parity:
+The replacement denominator is exactly eighty-six cases. Every case emits one
+canonical `ADL_ISSUE_201_CASE_V2` marker; the independent immutable manifest
+binds the order, name, expected result, and complete marker-line digest. The
+retained forty-seven names are:
 `current_three_voter_finalize`, `exact_retry_returns_cached_result`,
 `signer_rotation_current_generation`, `joint_majority_each_config`,
 `finalize_at_deadline`, `three_node_checkpoint_restart_reconcile`,
@@ -242,6 +245,39 @@ The denominator is exactly forty-seven cases, with exact name/result/marker pari
 `continuity_projection_wrong_lineage_rejected`,
 `continuity_projection_wrong_source_checkpoint_handle_rejected`, and
 `continuity_projection_wrong_bundle_handle_rejected`.
+
+The added thirty-nine names are:
+`snapshot_valid_multi_prepared_finalized_restart`,
+`snapshot_current_polis_mismatch`, `snapshot_current_epoch_mismatch`,
+`snapshot_current_membership_mismatch`, `snapshot_current_boot_mismatch`,
+`snapshot_prepared_polis_mismatch`, `snapshot_prepared_epoch_mismatch`,
+`snapshot_prepared_membership_mismatch`, `snapshot_prepared_boot_mismatch`,
+`snapshot_later_prepared_custody_mismatch`, `snapshot_legacy_owner_injection`,
+`snapshot_legacy_shepherd_injection`, `snapshot_legacy_observatory_injection`,
+`snapshot_legacy_fence_injection`, `snapshot_legacy_demotion_injection`,
+`snapshot_finalized_missing_proposal`,
+`snapshot_finalized_missing_endorsements`,
+`snapshot_finalized_wrong_operation`,
+`snapshot_finalized_insufficient_quorum`,
+`snapshot_finalized_duplicate_quorum`, `snapshot_finalized_bad_signature`,
+`snapshot_finalized_stale_certificate`, `snapshot_finalized_wrong_boot`,
+`snapshot_finalized_invalid_time`, `snapshot_finalized_wrong_prepare_index`,
+`snapshot_finalized_wrong_finalize_index`, `snapshot_custody_omitted`,
+`snapshot_custody_reencoded`, `snapshot_custody_injected`,
+`snapshot_custody_substituted`, `snapshot_custody_byte_digest_mismatch`,
+`snapshot_evidence_omitted`, `snapshot_evidence_reencoded`,
+`snapshot_evidence_injected`, `snapshot_evidence_substituted`,
+`snapshot_evidence_byte_digest_mismatch`,
+`validator_available_divergent_rejected`,
+`validator_available_ancestral_passed`, and
+`validator_unavailable_protected_fallback_passed`.
+
+The existing declared positive and reconciled results remain unchanged.
+`snapshot_valid_multi_prepared_finalized_restart`,
+`validator_available_ancestral_passed`, and
+`validator_unavailable_protected_fallback_passed` have result `passed`;
+`validator_available_divergent_rejected` and every other added negative have
+result `rejected`.
 
 ## Non-goals
 
