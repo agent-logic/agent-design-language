@@ -4,65 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6b554b8bf1e14bfe51db35c853eb74588989147fd1dd3b17660b246cbaa621c",
-  "phase": "published",
-  "generation": 50,
-  "digest": "dede00527b0a827233c628bdb4faeeb5e7176cc9d80dea88ff4465a63fe8b4f2",
+  "phase": "implemented",
+  "generation": 52,
+  "digest": "5c3f5dbceacdc51f55e92bf8f7770390c4d145e8776be26ab0237b67f2cc4e94",
   "branch": "codex/5854-sprint5-readiness-current",
   "worktree": "/Volumes/FastWork/adl-standalone-5854",
-  "review_assignment": {
-    "reviewer": "subagent:sartre-019fef6d",
-    "assigned_by": "codex:5854-sprint5-readiness",
-    "revision": "git-blake3:df0552be531be0fad355c3536c76399ca67d3477:b35f3844da49336abf38902ffbf58c6c6f34060ffff4dc4dbe22676c5958abfe",
-    "scope": [
-      ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md",
-      ".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md",
-      ".csdlc/evidence/5854",
-      ".csdlc/issues/5836",
-      ".csdlc/issues/5838",
-      ".csdlc/issues/5854",
-      ".csdlc/issues/5856",
-      ".csdlc/prepared/issues/5854",
-      ".csdlc/prepared/issues/5856",
-      "docs/milestones/v0.92/SPRINT_v0.92.md",
-      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:sartre-019fef6d",
-    "scope": [
-      ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md",
-      ".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md",
-      ".csdlc/evidence/5854",
-      ".csdlc/issues/5836",
-      ".csdlc/issues/5838",
-      ".csdlc/issues/5854",
-      ".csdlc/issues/5856",
-      ".csdlc/prepared/issues/5854",
-      ".csdlc/prepared/issues/5856",
-      "docs/milestones/v0.92/SPRINT_v0.92.md",
-      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml"
-    ],
-    "reviewed_revision": "git-blake3:df0552be531be0fad355c3536c76399ca67d3477:b35f3844da49336abf38902ffbf58c6c6f34060ffff4dc4dbe22676c5958abfe",
-    "findings": [],
-    "residual_risks": [
-      "Final sprint #5856 remains initialized with the documented split-repository identity drift until its retained typed bind request is executed; no umbrella or child was bound by this readiness work.",
-      "WP-28A #5850 remains a process-heavy but distinct fail-closed closeout-plan step between WP-28 planning, WP-29 review, and WP-30 ceremony pending any explicit folding decision."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5854,
-    "pull_request": 224,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/224",
-    "base": "main",
-    "head": "codex/5854-sprint5-readiness-current",
-    "revision": "git-blake3:518b3e74ed133b0d291e4e0fefcbe54e94766b05:8658cb1a81fb3c28464f387c2d3cef9f4c1f19a907347a5cd0cb1b8ba86511bc",
-    "linkage_mode": "part_of",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -76,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3d4897c49dad307314dcb28d0c961d9d1a5563d4e2dcec59db0cbc55a68d8260",
+      "values_digest": "f2d3a025d46bfdcfa24b654d67f901deefaaa3307cc66f28f09e83cd6e9712ed",
       "rendered_digest": "cc54eda02aaacd8b9f27460401a72cff1dbdc8ef515122bd12efb38e28720425",
       "ast_digest": "64ba167e7c17b23699fac119154ed58c1ddd91d7e02c927a2d0721a4de103880"
     },
     "stp": {
-      "values_digest": "ff258f11df5e3bd038cd35527702cd41c6572a1aeb817ee47392a99d19d12380",
+      "values_digest": "4cbb298ad1a7737b6ffe3e2ec9cd655d1544d71ebbcfe8af55aeaa7493ea7982",
       "rendered_digest": "85fc3f5565210111cfe2a976195402979e8ba8b69ea6c5eff3f50407003ef2fb",
       "ast_digest": "5adaadbffc36efbce9525095c9bd4c2eea53f5a7b07bb8aba49dc2ebd662a270"
     },
     "spp": {
-      "values_digest": "00689d48eae01241abaf8d6593952b86fd2ed27ce47fccaba11ae84ed64f6996",
-      "rendered_digest": "a82ccc2ce24ce2753f3cc8fdacd4d8dc65cd03d5d43c1a94d9e268c4f5163190",
-      "ast_digest": "45665ce1047f93add5f4b004d10daa4c30ad88337537380961324a60d678b305"
+      "values_digest": "cee0a7c4d083f316df92352d6095d2eb7202a0aaf3af60d7005aa4f91d64f8b4",
+      "rendered_digest": "1fbea092811a9e09c1999b91c774ef6c1d269b770d564b40e6119157e2c13160",
+      "ast_digest": "da5c4d8c698739d254ff0783abc84429bee20c61fd2ed5413f1bcab064b35cc4"
     },
     "vpp": {
-      "values_digest": "b6ef2b8225c96e70b12e7909207c7d7fd2b54b0ecd23f62f326d51223346ce75",
+      "values_digest": "cb7d452f29d4a42982bddb2fb1231cc0983c0d58b85635a0552e1605123cb5c9",
       "rendered_digest": "75dc0c1b32a923706c5859da32eac177de6285944cc33183e88e22bc53fcfb50",
       "ast_digest": "24ca3b01d2791450e03e20133ea51743c7a5bdf9e90d4bf16299e1dd0e09193d"
     },
     "srp": {
-      "values_digest": "43901efeb0f3a7674bcd214581519455aa8083e97e334e52ddcc24cf4d5ce111",
-      "rendered_digest": "36f45ad0abb6371941abf3ca20e47a2151be7ea9f772310fb0c73a603c349522",
-      "ast_digest": "159046fa2d2fb2013d3f689a56a7c812403978a3f5e7d681e1825441217d873f"
+      "values_digest": "00604c39b6c86b7fa64f0441d886c5789a18cf91db603ef8a98e1af8037ce594",
+      "rendered_digest": "b8d06eaae84a777e18be1f0e987bd92c612df99c5cf9bce94e84e4f6a441cdd8",
+      "ast_digest": "bff86cd7eade89af750d0822abd6697742de8c00cdeb427dc917801c5b592ecb"
     },
     "sor": {
-      "values_digest": "b0c96ed8358be1766730808e4b943d214485fe252e1c5a96b7c3c3af005ca3ed",
-      "rendered_digest": "3e1ab31bedfe249eba703a71ab4e0715a2ef7d97945f4632c636067a958a1a6c",
-      "ast_digest": "c9e41508f099bb875ede294cb24e497dabf7b33b490ebebfb73730be89b16cea"
+      "values_digest": "4787b4487d546e7f2f9c97722f04447cc4e37bcf509389808b7fbf2ead9307ef",
+      "rendered_digest": "d6e85c65a701825ea92de651bbe355c6ad8cadb9cae257b03d9cc84adfff8ef0",
+      "ast_digest": "bb763215c443bae1ca22fe9c7568836583fe710d0fa86cb437a35bdc084e8e54"
     }
   },
   "transitions": [
@@ -204,6 +153,13 @@
       "to": "published",
       "actor": "codex:5854-wp20-final-sprint-handoff",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "PR #224 exact-head review found stale Sprint 5 membership and obsolete lifecycle guidance; recover publication and review truth for bounded typed remediation and fresh exact-head review."
     }
   ],
   "audit": [
@@ -591,6 +547,20 @@
       "actor": "codex:5854-wp20-final-sprint-handoff",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 56,
+      "generation": 51,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "PR #224 exact-head review found stale Sprint 5 membership and obsolete lifecycle guidance; recover publication and review truth for bounded typed remediation and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 52,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "Reconcile the operative Sprint 5 SPP with the approved four-child wave after moving WP-20 to final sprint #5856.",
+      "operation": "{\"new_value\":\"Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, and #5839 to separate FastWork sessions, treat WP-20 #5840 as the first child of final release-tail sprint #5856, treat WP-24A as an independent out-of-band stream, and synthesize one integrated Sprint 5 review after the four operative children complete.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, #5839, and #5840 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated sprint review after the five operative children complete.\"}"
     }
   ]
 }

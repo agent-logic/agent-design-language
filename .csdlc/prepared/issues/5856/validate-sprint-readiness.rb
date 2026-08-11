@@ -45,6 +45,27 @@ lane = vpp.fetch("lanes").find { |entry| entry.fetch("lane") == "v092-final-spri
 raise "final-sprint readiness lane missing" unless lane
 raise "final-sprint readiness lane targets wrong proof" unless lane.fetch("argv") == ["ruby", ".csdlc/prepared/issues/5856/validate-sprint-readiness.rb"]
 
+sprint5_spp = JSON.parse((ROOT / ".csdlc/issues/5854/cards/spp.values.json").read).dig("content", "values")
+sprint5_summary = sprint5_spp.fetch("summary")
+raise "Sprint 5 SPP still routes WP-20" if sprint5_summary.include?("#5840")
+raise "Sprint 5 SPP omits its four operative children" unless [5835, 5836, 5838, 5839].all? { |issue| sprint5_summary.include?("##{issue}") }
+raise "Sprint 5 SPP retains the five-child denominator" if sprint5_summary.match?(/five operative children/i)
+raise "Sprint 5 SPP omits the four-child denominator" unless sprint5_summary.match?(/four operative children/i)
+
+wp20_sip = JSON.parse((ROOT / ".csdlc/issues/5840/cards/sip.values.json").read).dig("content", "values")
+wp20_constraints = wp20_sip.fetch("operator_constraints")
+raise "WP-20 SIP retains preparation-claim guidance" if wp20_constraints.any? { |value| value.match?(/preparation claim|release .*claim/i) }
+raise "WP-20 SIP omits typed bind authority" unless wp20_constraints.any? { |value| value.include?("typed C-SDLC v2") && value.include?("issue branch and worktree") }
+
+session_prompt = (ROOT / ".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md").read
+raise "final-sprint prompt uses removed reacquire command" if session_prompt.include?("--reacquire-request")
+raise "final-sprint prompt retains temporary-claim startup guidance" if session_prompt.match?(/temporary publication\s+claim|releases? that claim/i)
+raise "final-sprint prompt omits real bind arguments" unless session_prompt.include?("--root . --request")
+bind_source = (ROOT / "csdlc-v2/src/bin/csdlc-bind.rs").read
+raise "typed bind source omits --root" unless bind_source.include?("root: PathBuf")
+raise "typed bind source omits --request" unless bind_source.include?("request: PathBuf")
+raise "typed bind source unexpectedly supports reacquire-request" if bind_source.include?("reacquire_request")
+
 source_path = ROOT / ".csdlc/evidence/5854/live-gates-source.json"
 gates = JSON.parse((ROOT / ".csdlc/evidence/5854/live-gates.json").read)
 source = JSON.parse(source_path.read)
