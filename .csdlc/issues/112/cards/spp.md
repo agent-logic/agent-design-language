@@ -12,26 +12,20 @@ Status: ready
 
 ## Summary
 
-Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, reconcile their concrete contracts, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.
+Reach typed pre-bind readiness now; after #111 merges ancestrally, reconcile its concrete conversation contract, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.
 
 ## Plan
 
-Revision 3
+Revision 6
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Hold at pre-bind readiness until #83 and #111 are both terminal, merged, ancestral, and ownership-compatible; then reconcile their exact contracts and replan through typed edits on drift.",
+    "action": "Hold at pre-bind readiness until #111 is terminal, merged, ancestral, and ownership-compatible; then reconcile its exact conversation contract and replan through typed edits on drift.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-7"
+      "AC-1"
     ],
     "status": "pending"
   },
@@ -39,20 +33,15 @@ Revision 3
     "id": "S2",
     "action": "Implement the typed Layer 8 principal, action-specific capability, policy intersection, replay guard, bounded refusal, and hash-chained redacted audit contracts in the issue-owned Runtime module.",
     "acceptance_ids": [
-      "AC-1",
       "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-6"
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Integrate the authority decision before sequence reservation, provider execution, and delivery while preserving the merged ingress and session ownership boundaries.",
+    "action": "Integrate the authority decision before sequence reservation, provider execution, and delivery while preserving the merged #111 ingress and session ownership boundaries.",
     "acceptance_ids": [
-      "AC-2",
-      "AC-3",
       "AC-4",
       "AC-5"
     ],
@@ -60,11 +49,8 @@ Revision 3
   },
   {
     "id": "S4",
-    "action": "Run the exact issue-owned authority-contract and Runtime API integration targets with nonzero selection, resolve all actionable exact-head review findings, and only then hand off for publication.",
+    "action": "Run the exact issue-owned authority-contract, Runtime API integration, and real-browser Observatory UI targets with nonzero selection where applicable, resolve every actionable exact-head review finding, and only then hand off for publication.",
     "acceptance_ids": [
-      "AC-3",
-      "AC-4",
-      "AC-5",
       "AC-6",
       "AC-7"
     ],
@@ -100,7 +86,7 @@ Revision 3
 
 .csdlc/prepared/issues/112/design.md
 
-Digest: b72f31882a4d915230c29accc68f7feced2a5dbe442a6768abdefda2d389ff70
+Digest: 98a528db6b03233108b7780ccb4d1561e49f6aaf95a25d6b45ddb7582f218558
 
 ## Diagram
 

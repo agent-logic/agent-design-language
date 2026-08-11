@@ -21,7 +21,7 @@ Issue #112 Runtime-owned Layer 8 authority, refusal, replay, redacted audit, nar
 - Do replay, expiry, rotation, revocation, restart, audit corruption, and concurrent duplicate requests fail before sequence reservation or provider execution?
 - Do all projections omit content, attachment bytes, secrets, private policy, provider payloads, and private cognition?
 - Does the dedicated real-browser Observatory contract render authorized, refused, and stale or revoked states truthfully, keep refused actions unavailable, and disclose only audience-approved projection fields?
-- Are #83 and #111 the only serial gates, and are all three exact product targets deferred without any preparation surrogate claiming product proof?
+- Is #111 the sole serial gate, is #83 retained only as preserved source, and are all three exact product targets deferred without preparation surrogate proof?
 
 ## Findings
 

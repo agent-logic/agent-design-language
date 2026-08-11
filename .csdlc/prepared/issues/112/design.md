@@ -13,14 +13,14 @@ binding, publication, merge, or GitHub authority.
 
 ## Serial Gates
 
-Execution has exactly two serial gates:
+Execution has exactly one serial gate:
 
-- #83 must be closed by a merged PR and ancestral to the execution base.
 - #111 must be closed by a merged PR and ancestral to the execution base.
 
-Preparation may reach typed pre-bind readiness while either gate is open.
-Binding, product edits, and product validation remain unavailable until both
-gates are terminal, merged, ancestral, and ownership-compatible.
+Preparation may reach typed pre-bind readiness while #111 is open. Binding,
+product edits, and product validation remain unavailable until #111 is
+terminal, merged, ancestral, and ownership-compatible. Closed #83 is preserved
+source material and explicitly is not a dependency.
 
 ## Runtime Authority Contract
 
@@ -45,7 +45,7 @@ audit write failure all fail closed.
 
 ## Runtime API Integration
 
-After both gates pass, `adl/src/csm_runtime_api.rs` may invoke the Layer 8
+After #111 passes, `adl/src/csm_runtime_api.rs` may invoke the Layer 8
 authority decision before sequence reservation, provider execution, and
 delivery. The integration consumes authenticated Runtime identity and the
 canonical conversation identifiers provided by the merged gated contracts. It
@@ -65,23 +65,26 @@ Role projections remain bounded:
 
 ## Issue-Owned Product Surface
 
-After both gates pass, issue #112 owns these exact product targets:
+After #111 passes, issue #112 owns these exact product targets:
 
 - `adl-runtime/src/layer8_authority.rs`
 - `adl-runtime/src/lib.rs` for the module export only
 - `adl-runtime/tests/layer8_authority.rs`
 - `adl/src/csm_runtime_api.rs` for the narrow pre-delivery invocation only
 - `adl/tests/layer8_authority_runtime_api.rs`
+- `adl/tools/validate_layer8_authority_observatory_ui.sh`
 - `docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md`
 
 The focused product validation targets are exact and deferred:
 
-- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority`
-- `cargo test --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api`
+- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail --status-level all`
+- `cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail --status-level all`
+- `bash adl/tools/validate_layer8_authority_observatory_ui.sh`
 
-Both targets must select and pass nonzero tests at the implementation revision.
-They do not exist as preparation proof, and no preparation-text check may stand
-in for either product target.
+The Rust targets must select and pass nonzero tests at the implementation
+revision, and the browser target must prove authorized, refused, stale or
+revoked, and disclosure-safe Observatory states. No preparation-text check may
+stand in for any product target.
 
 ## Preparation Boundary
 
@@ -93,8 +96,8 @@ does not import its lifecycle state, generation, approval, or readiness.
 
 ## Stop Conditions
 
-Stop before binding or product edits when either gate is not terminal, merged,
-and ancestral; when either merged contract changes the declared ownership or
+Stop before binding or product edits when #111 is not terminal, merged, and
+ancestral; when its merged contract changes the declared ownership or
 API boundary; when authorization cannot precede sequence reservation and
 provider execution; when redaction requires retaining forbidden content; or
 when any requested action would mutate another issue or widen issue #112.

@@ -16,15 +16,14 @@ Prepare and later implement only issue #112 Runtime authority, refusal, replay, 
 
 ## Deliverables
 
-- adl-runtime/src/layer8_authority.rs
-- adl-runtime/src/lib.rs
-- adl-runtime/tests/layer8_authority.rs
-- adl/src/csm_runtime_api.rs
-- adl/tests/layer8_authority_runtime_api.rs
-- adl/tools/validate_layer8_authority_observatory_ui.sh
-- docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md
+- Runtime-owned Layer 8 principal, authority, refusal, replay, and redacted audit module at the execution-planned source path
+- Narrow Runtime module export and pre-delivery API integration at the execution-planned source paths
+- Focused nonzero authority and Runtime API integration test targets required after #111
+- Dedicated real-browser Observatory authority-state contract required after #111
+- Feature contract for Layer 8 conversation authority under v0.92
 - .csdlc/prepared/issues/112/design.md
 - .csdlc/prepared/issues/112/diagram.mmd
+- .csdlc/prepared/issues/112/validate-preparation.rb
 
 ## Acceptance
 
@@ -34,11 +33,10 @@ Prepare and later implement only issue #112 Runtime authority, refusal, replay, 
 4. AC-4: Recipient substitution, recipient-set widening, implicit broadcast, action or conversation scope escalation, replay, and cross-Polis attempts are rejected atomically before provider execution.
 5. AC-5: Operator, recipient-agent, reviewer, and public projections expose only audience-allowed decision, refusal, retry, correlation, recipient, conversation, and outcome fields.
 6. AC-6: Restart restores replay and redacted audit integrity before admission; corrupt, truncated, reordered, discontinuous, or unwritable audit state remains unavailable.
-7. AC-7: The exact issue-owned Layer 8 authority and Runtime API integration test targets each select and pass nonzero tests at one reviewed implementation revision; preparation text is never accepted as product proof.
+7. AC-7: All three exact issue-owned authority, Runtime API integration, and real-browser Observatory targets pass at one reviewed implementation revision, with nonzero Rust test selection and no preparation-text substitution.
 
 ## Dependencies
 
-- Hard serial gate: #83 must be closed by a merged PR and ancestral to the execution base
 - Hard serial gate: #111 must be closed by a merged PR and ancestral to the execution base
 
 ## Inputs

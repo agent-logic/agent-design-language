@@ -3,9 +3,9 @@
   "issue": 112,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
-  "phase": "initialized",
-  "generation": 9,
-  "digest": "2fabb15931ac7573298ba848ca9ff0db7a32261c6a9d17115b1fc7eef4bf4ed8",
+  "phase": "ready",
+  "generation": 22,
+  "digest": "a147980e7c2ca8a8f77fd5d4c735109d72f41828a3d56693110acd16f443bd69",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,42 +19,50 @@
   "design_review": {
     "approved": {
       "reviewer": "operator:daniel-explicit-fresh-packet-authorization",
-      "revision": "b72f31882a4d915230c29accc68f7feced2a5dbe442a6768abdefda2d389ff70"
+      "revision": "98a528db6b03233108b7780ccb4d1561e49f6aaf95a25d6b45ddb7582f218558"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "cdd73308e7be3d9cb31220483dd3307fd27c618264079d57dcab5f40087e6047",
+      "values_digest": "e3f5e6ecbe8d764a1e1cd99349326c756daabdd7efbdaf91d2e90545fe239c38",
       "rendered_digest": "b8c33d505a1cd92baf597953ef6b21336be077e8871718bb430a8a4faf53dbb8",
       "ast_digest": "1e920f5a080a8d58bac47d6dca57f7d151f15f9d04e4b2b105d2d0688b9c5283"
     },
     "stp": {
-      "values_digest": "878e43fd4867df5889d4f1b4f80be691df3e0b88fae63a2321b411e132f89207",
-      "rendered_digest": "a28ddea762027403f39dfbbc5a1fdf5f6c6e2e325735dad0a34fe83f02e70bab",
-      "ast_digest": "bd5010b53aff6216ae0fbdd09cb21e428a083d5997977fa64a9abd5c223fc9c0"
+      "values_digest": "ab63d72aaf43fb9b1058f453b75f862aa5b20a96f4e852d42077820700b1cd54",
+      "rendered_digest": "b2e20983f1586742ab536c240cee1f4c80598af0e43f51ac96b871534d14838f",
+      "ast_digest": "aafc17b48ea4a00cf42db842a1c8ea96055fa89890dd1694b4680b4e594d1e72"
     },
     "spp": {
-      "values_digest": "576e54e5b49703252c87ce385aa986fb7bc16ea2de2e523cd81511f79b0f26a2",
-      "rendered_digest": "ca49c0e32673a8b9fa9130867a41eef2621096e950eefb4cc286937321ec1b9c",
-      "ast_digest": "399bd1864bcc1b5a5c484d7ca0a70d8fcd7fc1a7c9724acd01d0035508db49b0"
+      "values_digest": "a9bd2f64a6ae9cad2b588ca4125fd759cd4b970fdb050c84015df1ce89f46e25",
+      "rendered_digest": "5887fb33807e8391c6933b3a46181840418185fdcee950c7818ee66d6b682d01",
+      "ast_digest": "4953163712782c66f2bd823010a35b17f589d1bdd617fb426419e4e698de0f89"
     },
     "vpp": {
-      "values_digest": "c529ca731a823407e32e7dafc7f350f63dd8c31d1ab0feae2ad23f3236290a65",
-      "rendered_digest": "a2027617ead35cbb1e2555e06fb8336fdd1125a2f0f774baee2c847e9f22bd8f",
-      "ast_digest": "53a8eeed4e3ec2b7007084315c484f27ded4f4a5af9b10de6fee1913ebb99a9e"
+      "values_digest": "6c59b760089dbd4de5989f27643ee003056cd39343c97e4a22608b915b95e03e",
+      "rendered_digest": "ab054f0ec3b9b81c006214307a096a4ee7158bfe9c9aff48b4705c9c6c746dea",
+      "ast_digest": "6ddfd3f3116bc221ef78cae0c68a34666390b0ee32a619ebbb68df8f3cf0c929"
     },
     "srp": {
-      "values_digest": "a0a1b6fa616e5b8c10bbd6321872d8d444b7b12392651586bb363403ad008e87",
-      "rendered_digest": "601b2d0d0c0552f995cfc4a9a187aa1b689b4b1e292ec01b26b85850ca016aa1",
-      "ast_digest": "6a0a7dfad55bcc06b7d7784c063086769c1f4e879874ef039e7307eadfd44137"
+      "values_digest": "95b53a2d1bc763266aa4ccc726083f9c9b406a368341a2508ac10f1fa296f940",
+      "rendered_digest": "2cd40ee68347d1da9e597b44f113efbb4a7a084d33601afb7f78aef350a73547",
+      "ast_digest": "c39e15dc8ca48abd1c026f67c273e12132af658af93c09a36bcfab69ba683559"
     },
     "sor": {
-      "values_digest": "10663597dcd7efde94fa24e9d47a7c80273c5429f1c1068fcd1296c1463d5ad0",
+      "values_digest": "4a93f154bb910b44d691232bbcc8bfa0e562047d48e14ba7f5c6e0becf7a13ce",
       "rendered_digest": "a0564026b2d4a57a1a5cbaa9fa222d0ac661820c43f4871fd9b9dc90ebdd8a47",
       "ast_digest": "c0065cfecbfe94f68170322c50c2bb26a7b5d3d8335345c1cbcf5b11a985bffd"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:wp18c02-live-dependency-repair",
+      "reason": "All six typed cards, approved design, shared ACIP authority boundary, and exact preparation lanes are ready for pre-bind validation; product binding remains gated on merged ancestral #111 only."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -125,6 +133,97 @@
       "actor": "codex:112-layer8-authority-readiness-repair",
       "reason": "Make the pre-bind plan summary name the preserved Rust/API targets and the added Observatory real-browser/UI contract target.",
       "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, reconcile their concrete contracts, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "operator:daniel-explicit-fresh-packet-authorization",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:wp18c02-live-dependency-repair",
+      "reason": "Align the packet with live #112 authority: #111 is the sole execution gate and closed #83 is preserved source, not a dependency.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Hard serial gate: #111 must be closed by a merged PR and ancestral to the execution base\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:wp18c02-live-dependency-repair",
+      "reason": "Bind the plan to the sole live #111 gate and all three exact post-gate product proofs.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/112/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/112/diagram.mmd\",\"new_design_digest\":\"a71d0c21b1825dfb0ffff07d5f639c19d5bb72e9ea9f2eda854b6af4e4d332b0\",\"new_diagram_digest\":\"8123e40f11131f1474ed236413da4886bf8cdd0022a8148005cfff1302897151\",\"old_design_digest\":\"a71d0c21b1825dfb0ffff07d5f639c19d5bb72e9ea9f2eda854b6af4e4d332b0\",\"old_diagram_digest\":\"8123e40f11131f1474ed236413da4886bf8cdd0022a8148005cfff1302897151\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Hold at pre-bind readiness until #111 is terminal, merged, ancestral, and ownership-compatible; then reconcile its exact conversation contract and replan through typed edits on drift.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"action\":\"Implement the typed Layer 8 principal, action-specific capability, policy intersection, replay guard, bounded refusal, and hash-chained redacted audit contracts in the issue-owned Runtime module.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"action\":\"Integrate the authority decision before sequence reservation, provider execution, and delivery while preserving the merged #111 ingress and session ownership boundaries.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"action\":\"Run the exact issue-owned authority-contract, Runtime API integration, and real-browser Observatory UI targets with nonzero selection where applicable, resolve every actionable exact-head review finding, and only then hand off for publication.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "operator:daniel-explicit-fresh-packet-authorization",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex:wp18c02-live-dependency-repair",
+      "reason": "Name only the live #111 gate while retaining all three exact product targets.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Reach typed pre-bind readiness now; after #111 merges ancestrally, reconcile its concrete conversation contract, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 15,
+      "actor": "codex:wp18c02-live-dependency-repair",
+      "reason": "Make the #111-gated packet doctor-valid without treating missing product targets as preparation proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-112-preparation-hygiene\",\"proof_role\":\"Prove all six typed cards, approved design, sole #111 serial gate, fail-closed validation truth, and pre-execution SRP/SOR truth without claiming product behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null},{\"lane\":\"layer8-authority-contract-plan\",\"proof_role\":\"Validate the future product PVF contract cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail after #111 merges; this preparation lane proves plan completeness only, not product behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\",\"--lane\",\"authority-contract\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null},{\"lane\":\"layer8-runtime-api-integration-plan\",\"proof_role\":\"Validate the future product PVF contract cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail after #111 merges; this preparation lane proves plan completeness only, not product behavior.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\",\"--lane\",\"runtime-api-integration\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null},{\"lane\":\"layer8-observatory-ui-plan\",\"proof_role\":\"Validate the future real-browser product PVF contract adl/tools/validate_layer8_authority_observatory_ui.sh for authorized and refused states after #111 merges; this preparation lane proves plan completeness only, not product behavior.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\",\"--lane\",\"observatory-ui\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 16,
+      "actor": "codex:wp18c02-live-dependency-repair",
+      "reason": "Describe gated future outputs without requiring missing product files before bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Runtime-owned Layer 8 principal, authority, refusal, replay, and redacted audit module at the execution-planned source path\",\"Narrow Runtime module export and pre-delivery API integration at the execution-planned source paths\",\"Focused nonzero authority and Runtime API integration test targets required after #111\",\"Dedicated real-browser Observatory authority-state contract required after #111\",\"Feature contract for Layer 8 conversation authority under v0.92\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\",\".csdlc/prepared/issues/112/validate-preparation.rb\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 17,
+      "actor": "codex:wp18c02-live-dependency-repair",
+      "reason": "Own the preparation validator while preserving planned post-gate product paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\",\".csdlc/issues/112\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\",\".csdlc/prepared/issues/112/validate-preparation.rb\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 18,
+      "actor": "codex:wp18c02-live-dependency-repair",
+      "reason": "Review the sole live #111 gate and all three deferred product targets.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can authentication, browser state, caller claims, content, provider output, or agent self-report authorize any action without an exact current capability and policy intersection?\",\"Can contact, continuation, attachment, or single-recipient authority widen into another action, conversation, recipient set, room, broadcast, or Polis?\",\"Do replay, expiry, rotation, revocation, restart, audit corruption, and concurrent duplicate requests fail before sequence reservation or provider execution?\",\"Do all projections omit content, attachment bytes, secrets, private policy, provider payloads, and private cognition?\",\"Does the dedicated real-browser Observatory contract render authorized, refused, and stale or revoked states truthfully, keep refused actions unavailable, and disclose only audience-approved projection fields?\",\"Is #111 the sole serial gate, is #83 retained only as preserved source, and are all three exact product targets deferred without preparation surrogate proof?\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 19,
+      "actor": "operator:daniel-explicit-fresh-packet-authorization",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 21,
+      "generation": 20,
+      "actor": "codex:wp18c02-live-dependency-repair",
+      "reason": "Make AC-7 cover all three exact post-gate product targets.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/112/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/112/diagram.mmd\",\"new_design_digest\":\"98a528db6b03233108b7780ccb4d1561e49f6aaf95a25d6b45ddb7582f218558\",\"new_diagram_digest\":\"8123e40f11131f1474ed236413da4886bf8cdd0022a8148005cfff1302897151\",\"old_design_digest\":\"98a528db6b03233108b7780ccb4d1561e49f6aaf95a25d6b45ddb7582f218558\",\"old_diagram_digest\":\"8123e40f11131f1474ed236413da4886bf8cdd0022a8148005cfff1302897151\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Every governed action derives a stable Layer 8 principal only from authenticated, unexpired, non-revoked Runtime evidence bound to one Polis and credential generation.\",\"AC-2: Discovery, contact, continuation, attachment, and exact multi-recipient actions require separate least-privilege capabilities intersected with current agent and Polis policy before sequence reservation or delivery.\",\"AC-3: Identity expiry, rotation, revocation, stale capability epoch, malformed input, policy unavailability, replay ambiguity, and audit failure fail closed without fallback authority.\",\"AC-4: Recipient substitution, recipient-set widening, implicit broadcast, action or conversation scope escalation, replay, and cross-Polis attempts are rejected atomically before provider execution.\",\"AC-5: Operator, recipient-agent, reviewer, and public projections expose only audience-allowed decision, refusal, retry, correlation, recipient, conversation, and outcome fields.\",\"AC-6: Restart restores replay and redacted audit integrity before admission; corrupt, truncated, reordered, discontinuous, or unwritable audit state remains unavailable.\",\"AC-7: All three exact issue-owned authority, Runtime API integration, and real-browser Observatory targets pass at one reviewed implementation revision, with nonzero Rust test selection and no preparation-text substitution.\"]}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 21,
+      "actor": "operator:daniel-explicit-fresh-packet-authorization",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 23,
+      "generation": 22,
+      "actor": "codex:wp18c02-live-dependency-repair",
+      "reason": "All six typed cards, approved design, shared ACIP authority boundary, and exact preparation lanes are ready for pre-bind validation; product binding remains gated on merged ancestral #111 only.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }

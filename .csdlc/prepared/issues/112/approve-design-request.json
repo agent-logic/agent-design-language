@@ -1,6 +1,6 @@
 {
   "issue": 112,
-  "expected_generation": 0,
-  "expected_digest": "38a7327fef0e2cfcb03d59a6647f303271bf992036538899cee5a496a7384fa6",
+  "expected_generation": 20,
+  "expected_digest": "0b48a96836df3b67ad6b9414cefbf880c2e7aa7414ad218342c72fb2a340a9ef",
   "reviewer": "operator:daniel-explicit-fresh-packet-authorization"
 }
