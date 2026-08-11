@@ -73,6 +73,8 @@ function formatCurrentTimestampLabel() {
 
 let livePollTimer = null;
 let retainedPollTimer = null;
+let liveReconnectTimer = null;
+let liveReconnectAttempt = 0;
 const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
@@ -88,6 +90,69 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
 let runtimeV3Config = { ...RUNTIME_V3_DEFAULT_CONFIG };
+const rosterUiState = {
+  filter: "",
+  presence: "all",
+  sort: "name",
+  selectedId: null,
+  runtimeInstanceId: null,
+  runtimeIncarnationId: null,
+  revision: 0,
+  eventCursor: null,
+  resyncCount: 0,
+  lastResyncReason: null
+};
+
+function publishRosterCursorState() {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  root.dataset.agentRosterRevision = String(rosterUiState.revision);
+  root.dataset.agentRosterCursorPresent = rosterUiState.eventCursor ? "true" : "false";
+  root.dataset.agentRosterResyncCount = String(rosterUiState.resyncCount);
+  root.dataset.agentRosterResyncReason = rosterUiState.lastResyncReason || "none";
+}
+let lastPanopticonSnapshot = null;
+let lastPanopticonPacket = FALLBACK_PACKET;
+
+function acceptRuntimeRosterSnapshot(snapshot) {
+  const runtimeInstanceId = snapshot?.status?.runtime_id || null;
+  const runtimeIncarnationId = snapshot?.status?.runtime_incarnation_id || null;
+  const revision = Number(snapshot?.status?.agent_population?.revision || 0);
+  const eventCursor = snapshot?.status?.agent_population?.event_cursor;
+  if (!runtimeInstanceId || !runtimeIncarnationId || !Number.isSafeInteger(revision) || revision < 0) return false;
+  if (revision > 0 && (typeof eventCursor !== "string" || eventCursor.length === 0)) return false;
+  if (
+    rosterUiState.runtimeInstanceId !== runtimeInstanceId
+    || rosterUiState.runtimeIncarnationId !== runtimeIncarnationId
+  ) {
+    rosterUiState.runtimeInstanceId = runtimeInstanceId;
+    rosterUiState.runtimeIncarnationId = runtimeIncarnationId;
+    rosterUiState.revision = revision;
+    rosterUiState.eventCursor = eventCursor || null;
+    rosterUiState.selectedId = null;
+    rosterUiState.lastResyncReason = "runtime_incarnation_changed";
+    rosterUiState.resyncCount += 1;
+    publishRosterCursorState();
+    return true;
+  }
+  if (revision <= rosterUiState.revision) return false;
+  if (eventCursor === rosterUiState.eventCursor) return false;
+  if (revision !== rosterUiState.revision + 1) {
+    rosterUiState.lastResyncReason = "revision_gap";
+    rosterUiState.resyncCount += 1;
+  } else {
+    rosterUiState.lastResyncReason = null;
+  }
+  rosterUiState.revision = revision;
+  rosterUiState.eventCursor = eventCursor;
+  rosterUiState.selectedId = null;
+  publishRosterCursorState();
+  return true;
+}
+
+function runtimeRosterCursorState() {
+  return { ...rosterUiState };
+}
 
 function normalizeRuntimeV3Endpoint(value, fallback) {
   const endpoint = String(value || "").trim();
@@ -479,6 +544,8 @@ const DASHBOARD_FOCUS = {
 
 function updateDashboardFocus(key = "runtime", extraDetail = "") {
   const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
+  const root = document.querySelector(".observatory");
+  if (root) root.dataset.dashboardSurface = key === "agents" ? "agents" : "runtime";
   setText("dashboard-focus-kicker", selected.kicker);
   setText("dashboard-focus-title", selected.title);
   setText("dashboard-focus-status", selected.status);
@@ -507,9 +574,11 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
       updateDashboardFocus(key);
       const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
       globalThis.history?.replaceState(null, "", selected.target);
-      const panel = document.getElementById("dashboard-focus-panel");
-      panel?.setAttribute("tabindex", "-1");
-      panel?.focus({ preventScroll: true });
+      const focusTarget = key === "agents"
+        ? document.getElementById("panopticon")
+        : document.getElementById("dashboard-focus-panel");
+      focusTarget?.setAttribute("tabindex", "-1");
+      focusTarget?.focus({ preventScroll: true });
       if (key === "communication") {
         document.getElementById("prepare-envelope")?.click();
       }
@@ -628,16 +697,19 @@ function isRuntimeV3ApiBase(value) {
 function normalizeTrustedRuntimeV3ApiBase(value) {
   const base = normalizeApiBase(value);
   const parsed = new URL(base);
+  const observatoryHost = String(globalThis.location?.hostname || "").toLowerCase();
+  const allowedHost = parsed.hostname === RUNTIME_V3_TRUSTED_HOST
+    || (observatoryHost && parsed.hostname === observatoryHost);
   if (
     parsed.protocol !== "https:" ||
-    parsed.hostname !== RUNTIME_V3_TRUSTED_HOST ||
+    !allowedHost ||
     parsed.username ||
     parsed.password ||
     parsed.pathname !== "/" ||
     parsed.search ||
     parsed.hash
   ) {
-    throw new Error(`Runtime v3 selection requires HTTPS for ${RUNTIME_V3_TRUSTED_HOST}.`);
+    throw new Error("Runtime v3 selection requires HTTPS for the configured Runtime host or this Observatory host.");
   }
   return parsed.origin;
 }
@@ -729,6 +801,52 @@ async function fetchRuntimeV3ObservatorySnapshot(apiBase) {
   return runtimeV3SnapshotFromFeed(feed, readiness);
 }
 
+async function fetchRuntimeV3AgentRosterPage(apiBase, pageToken, eventCursor = null, pageSize = 50) {
+  const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
+  const url = new URL(`${base}/v1/agents`);
+  url.searchParams.set("page_size", String(pageSize));
+  if (pageToken) url.searchParams.set("page_token", pageToken);
+  if (eventCursor) url.searchParams.set("event_cursor", eventCursor);
+  const response = await fetch(url, { method: "GET" });
+  if (!response.ok) throw new Error(`/v1/agents returned ${response.status}`);
+  const page = await response.json();
+  if (page.schema !== "adl.runtime_v3.agent_roster_page.v1") {
+    throw new Error("Runtime returned an unsupported roster page");
+  }
+  return page;
+}
+
+async function authenticateRuntimeRosterSuccessor(apiBase, snapshot) {
+  const population = snapshot?.status?.agent_population;
+  const revision = Number(population?.revision || 0);
+  if (
+    rosterUiState.runtimeInstanceId !== snapshot?.status?.runtime_id
+    || rosterUiState.runtimeIncarnationId !== snapshot?.status?.runtime_incarnation_id
+    || revision !== rosterUiState.revision + 1
+    || !rosterUiState.eventCursor
+  ) return;
+  const authenticated = await fetchRuntimeV3AgentRosterPage(
+    apiBase,
+    null,
+    rosterUiState.eventCursor,
+    100
+  );
+  if (authenticated.revision !== revision || authenticated.event_cursor !== population.event_cursor) {
+    throw new Error("Runtime roster cursor authentication mismatch");
+  }
+}
+
+async function fetchRuntimeV3AgentDetail(apiBase, agentId) {
+  const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
+  const response = await fetch(`${base}/v1/agents/${encodeURIComponent(agentId)}`, { method: "GET" });
+  if (!response.ok) throw new Error(`/v1/agents/{agent_id} returned ${response.status}`);
+  const detail = await response.json();
+  if (detail.schema !== "adl.runtime_v3.agent_roster_entry.v1" || detail.id !== agentId) {
+    throw new Error("Runtime returned an incompatible agent detail");
+  }
+  return detail;
+}
+
 async function fetchRuntimeV3Readiness(base) {
   const endpoint = getRuntimeV3Config().readiness_endpoint;
   const response = await fetch(`${base}${endpoint}`, { method: "GET" });
@@ -778,6 +896,7 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null) {
       schema: feed.schema,
       runtime_owner: "runtime-v3",
       runtime_id: feed.runtime_instance_id,
+      runtime_incarnation_id: feed.runtime_incarnation_id,
       agent_instance_id: feed.runtime_instance_id,
       agent_population: feed.agents,
       status: snapshot.lifecycle || "unknown",
@@ -1059,13 +1178,23 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
     })).slice(0, 6);
   }
 
-  if (agentSample.length) {
-    return agentSample.slice(0, 12).map((agent) => ({
+  if (agentSample.length || status.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
+    return agentSample.map((agent) => ({
       id: agent.id,
       label: agent.label || agent.id,
       role: agent.role || "runtime agent",
       state: agent.state || primaryState,
-      detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`
+      detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`,
+      health: agent.health || "unknown",
+      availability: agent.availability || "unknown",
+      activity: agent.activity || null,
+      capabilities: asArray(agent.capabilities),
+      location: agent.location || null,
+      communicationEligible: agent.communication_eligible === true,
+      observedAtUnixMillis: Number(agent.observed_at_unix_millis || 0),
+      freshnessDeadlineUnixMillis: Number(agent.freshness_deadline_unix_millis || 0),
+      sourceRevision: agent.source_revision || "unknown",
+      provenance: agent.provenance || "unknown"
     }));
   }
 
@@ -1125,6 +1254,16 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   const statusRows = flattenStatusRows(status);
   const liveAgents = buildRuntimeAgentRows({ status, health, ready, metrics, events, packet });
   const agentTotal = Number(status.agent_population?.total_count ?? metrics.gauges?.agent_count ?? liveAgents.length);
+  const rosterNeedle = rosterUiState.filter.trim().toLocaleLowerCase();
+  const visibleAgents = liveAgents
+    .filter((agent) => rosterUiState.presence === "all" || agent.state === rosterUiState.presence)
+    .filter((agent) => !rosterNeedle || [agent.id, agent.label, agent.role].some((value) => String(value || "").toLocaleLowerCase().includes(rosterNeedle)))
+    .sort((left, right) => {
+      const primary = rosterUiState.sort === "presence"
+        ? String(left.state).localeCompare(String(right.state))
+        : String(left.label || left.id).localeCompare(String(right.label || right.id));
+      return primary || String(left.id).localeCompare(String(right.id));
+    });
 
   const signalRows = [
     {
@@ -1152,8 +1291,10 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   return {
     mode: snapshot.mode || "retained",
     fetchedAt: snapshot.fetchedAt || "",
-    agents: liveAgents,
+    agents: visibleAgents,
+    allAgents: liveAgents,
     agentTotal,
+    visibleAgentCount: visibleAgents.length,
     signals: signalRows,
     metrics: normalizeMetricRows(metrics),
     events,
@@ -1163,6 +1304,8 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
 }
 
 function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
+  lastPanopticonSnapshot = snapshot;
+  lastPanopticonPacket = packet;
   const vm = buildPanopticonViewModel(snapshot, packet);
   setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
   setText("hero-live-mode", vm.mode === "live" ? "Online" : vm.mode === "published" ? "Published" : "Retained");
@@ -1175,7 +1318,12 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   }
   setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
-  setText("agent-count", `${vm.agentTotal.toLocaleString()} agents`);
+  setText("agent-count", `${vm.visibleAgentCount.toLocaleString()} of ${vm.agentTotal.toLocaleString()} visible`);
+  const loadMore = document.getElementById("roster-load-more");
+  if (loadMore) {
+    loadMore.hidden = snapshot.status?.agent_population?.has_more !== true;
+    loadMore.disabled = !snapshot.status?.agent_population?.next_page_token;
+  }
   setText("hero-agent-count", `${vm.agentTotal.toLocaleString()} Agents`);
   setText("live-readiness", formatLabel(vm.readyState));
   setText("hero-ready-state", formatLabel(vm.readyState));
@@ -1220,12 +1368,33 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   `]);
 
   renderRows("live-agent-list", vm.agents.map((agent) => `
-    <article class="agent-row" data-state="${escapeHtml(stateTone(agent.state))}">
+    <button type="button" class="agent-row roster-row" data-state="${escapeHtml(stateTone(agent.state))}" data-agent-id="${escapeHtml(agent.id)}" aria-pressed="${rosterUiState.selectedId === agent.id ? "true" : "false"}">
       <span class="row-kicker">${escapeHtml(agent.id)}</span>
       <strong>${escapeHtml(agent.label || agent.id)}</strong>
-      <p class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(formatLabel(agent.role))}</p>
-    </article>
+      <span class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(formatLabel(agent.role))}</span>
+    </button>
   `));
+
+  const selected = vm.allAgents.find((agent) => agent.id === rosterUiState.selectedId);
+  const detail = document.getElementById("roster-detail");
+  if (detail) {
+    detail.innerHTML = selected ? `
+      <span class="row-kicker">${escapeHtml(selected.id)} / ${escapeHtml(formatLabel(selected.provenance))}</span>
+      <strong>${escapeHtml(selected.label || selected.id)}</strong>
+      <dl class="roster-facts">
+        <div><dt>Presence</dt><dd>${escapeHtml(formatLabel(selected.state))}</dd></div>
+        <div><dt>Health</dt><dd>${escapeHtml(formatLabel(selected.health))}</dd></div>
+        <div><dt>Availability</dt><dd>${escapeHtml(formatLabel(selected.availability))}</dd></div>
+        <div><dt>Communication</dt><dd>${selected.communicationEligible ? "Eligible" : "Unavailable"}</dd></div>
+        <div><dt>Location</dt><dd>${escapeHtml(selected.location || "Redacted")}</dd></div>
+        <div><dt>Source revision</dt><dd>${escapeHtml(selected.sourceRevision)}</dd></div>
+      </dl>
+    ` : `
+      <span class="row-kicker">Selection</span>
+      <strong>No visible agent selected</strong>
+      <p class="row-detail">Select a Runtime-authorized roster row to inspect current presence evidence.</p>
+    `;
+  }
 
   renderRows("live-signal-list", vm.signals.map((signal) => `
     <article class="signal-row" data-state="${escapeHtml(stateTone(signal.value))}">
@@ -1543,17 +1712,34 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const signedControlCommand = document.getElementById("signed-control-command");
   const sendSignedCommand = document.getElementById("send-signed-command");
   const operatorControlResult = document.getElementById("operator-control-result");
+  const rosterSearch = document.getElementById("roster-search");
+  const rosterPresence = document.getElementById("roster-presence-filter");
+  const rosterSort = document.getElementById("roster-sort");
+  const rosterList = document.getElementById("live-agent-list");
+  const rosterLoadMore = document.getElementById("roster-load-more");
   let lastLiveError = null;
   let runtimeBaseActive = false;
   let liveSocket = null;
   let liveStoppedByOperator = false;
   let liveRequestGeneration = 0;
   let runtimeV3Readiness = null;
+  let runtimeV3ReadinessRefresh = null;
   const nextLiveGeneration = () => {
     liveRequestGeneration += 1;
     return liveRequestGeneration;
   };
   const isCurrentLiveGeneration = (generation) => generation === liveRequestGeneration;
+  const fetchCurrentRuntimeV3Readiness = async (base) => {
+    const readiness = await fetchRuntimeV3Readiness(normalizeTrustedRuntimeV3ApiBase(base));
+    return {
+      schema: readiness?.schema,
+      status: readiness?.ready ? "ready" : "degraded",
+      ready: readiness?.ready === true,
+      state: readiness?.ready ? "ready" : "degraded",
+      blocking_reasons: asArray(readiness?.degraded_reasons),
+      weather_freshness: readiness?.weather_freshness
+    };
+  };
   const refs = {
     statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
     healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
@@ -1613,6 +1799,59 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     document.querySelector(".observatory")?.setAttribute("data-live-connection", state);
   };
   mirrorApiBase(getQueryApiBase());
+
+  if (rosterSearch && !rosterSearch.dataset.rosterBound) {
+    rosterSearch.dataset.rosterBound = "true";
+    rosterSearch.addEventListener("input", () => {
+      rosterUiState.filter = rosterSearch.value;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+    });
+    rosterPresence?.addEventListener("change", () => {
+      rosterUiState.presence = rosterPresence.value;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+    });
+    rosterSort?.addEventListener("change", () => {
+      rosterUiState.sort = rosterSort.value;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+    });
+    rosterList?.addEventListener("click", async (event) => {
+      const row = event.target instanceof Element
+        ? event.target.closest("[data-agent-id]")
+        : null;
+      if (!row) return;
+      rosterUiState.selectedId = row.dataset.agentId;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+      try {
+        const detail = await fetchRuntimeV3AgentDetail(getQueryApiBase(), rosterUiState.selectedId);
+        const population = lastPanopticonSnapshot?.status?.agent_population;
+        const selected = asArray(population?.sample).find((agent) => agent.id === detail.id);
+        if (selected) Object.assign(selected, detail, { state: detail.presence });
+        if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+      } catch (error) {
+        await renderLiveError(error);
+      }
+    });
+    rosterLoadMore?.addEventListener("click", async () => {
+      const population = lastPanopticonSnapshot?.status?.agent_population;
+      if (!population?.next_page_token || rosterLoadMore.disabled) return;
+      rosterLoadMore.disabled = true;
+      try {
+        const page = await fetchRuntimeV3AgentRosterPage(getQueryApiBase(), population.next_page_token);
+        const known = new Map(asArray(population.sample).map((agent) => [agent.id, agent]));
+        asArray(page.sample).forEach((agent) => known.set(agent.id, agent));
+        population.sample = [...known.values()];
+        population.rendered_sample_count = population.sample.length;
+        population.has_more = page.has_more === true;
+        population.next_page_token = page.next_page_token || null;
+        population.revision = page.revision;
+        renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+      } catch (error) {
+        await renderLiveError(error);
+      } finally {
+        rosterLoadMore.disabled = false;
+      }
+    });
+  }
 
   const renderMinimalFallback = (error) => {
     renderPanopticon({
@@ -1714,6 +1953,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
       if (snapshot.runtimeSelection === "runtime_v3_explicit_opt_in") {
         runtimeV3Readiness = snapshot.ready || null;
+        await authenticateRuntimeRosterSuccessor(base, snapshot);
       }
       const endpointKeys = ["status", "health", "ready", "metrics", "events"];
       const successfulEndpoints = endpointKeys.filter((key) => snapshot[key]);
@@ -1721,7 +1961,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         throw new Error("No CSM runtime API endpoints responded from the browser context.");
       }
       lastLiveError = null;
-      renderPanopticon(snapshot, packet);
+      if (snapshot.runtimeSelection !== "runtime_v3_explicit_opt_in" || acceptRuntimeRosterSnapshot(snapshot)) {
+        renderPanopticon(snapshot, packet);
+      }
       const status = Object.keys(snapshot.errors || {}).length ? "live partial" : "live loopback";
       setText("live-status", status);
       const runtimeKind = snapshot.runtimeSelection === "runtime_v3_explicit_opt_in" ? "Runtime v3 observatory feed" : "loopback CSM server";
@@ -1735,7 +1977,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   };
 
-  const stopPolling = () => {
+  const stopPolling = ({ resetReconnect = true } = {}) => {
     liveStoppedByOperator = true;
     nextLiveGeneration();
     setLiveConnectionState("stopped");
@@ -1751,6 +1993,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       clearInterval(retainedPollTimer);
       retainedPollTimer = null;
     }
+    if (liveReconnectTimer) {
+      clearTimeout(liveReconnectTimer);
+      liveReconnectTimer = null;
+    }
+    if (resetReconnect) liveReconnectAttempt = 0;
     lastLiveError = null;
     runtimeV3Readiness = null;
     runtimeBaseActive = false;
@@ -1759,8 +2006,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
   };
 
-  const connectLive = async () => {
-    stopPolling();
+  const connectLive = async ({ reconnecting = false } = {}) => {
+    stopPolling({ resetReconnect: !reconnecting });
     liveStoppedByOperator = false;
     const requestGeneration = nextLiveGeneration();
     setLiveConnectionState("connecting");
@@ -1774,15 +2021,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         socketEndpoint.protocol = "wss:";
         setRuntimeTestStatus("connecting secure stream", `Opening ${socketEndpoint}.`);
         try {
-          const readiness = await fetchRuntimeV3Readiness(normalizeTrustedRuntimeV3ApiBase(base));
-          runtimeV3Readiness = {
-            schema: readiness?.schema,
-            status: readiness?.ready ? "ready" : "degraded",
-            ready: readiness?.ready === true,
-            state: readiness?.ready ? "ready" : "degraded",
-            blocking_reasons: asArray(readiness?.degraded_reasons),
-            weather_freshness: readiness?.weather_freshness
-          };
+          runtimeV3Readiness = await fetchCurrentRuntimeV3Readiness(base);
         } catch (error) {
           runtimeV3Readiness = {
             status: "pending",
@@ -1794,7 +2033,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         let socket;
         socket = connectRuntimeV3ObservatoryWebSocket(
           base,
-          (snapshot) => {
+          async (snapshot) => {
             if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) {
               return;
             }
@@ -1802,7 +2041,27 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             const streamSnapshot = runtimeV3Readiness
               ? { ...snapshot, ready: runtimeV3Readiness }
               : snapshot;
+            try {
+              await authenticateRuntimeRosterSuccessor(base, streamSnapshot);
+            } catch (error) {
+              await renderLiveError(error, requestGeneration);
+              return;
+            }
+            if (!acceptRuntimeRosterSnapshot(streamSnapshot)) return;
             renderPanopticon(streamSnapshot, packet);
+            if (runtimeV3Readiness?.ready !== true && !runtimeV3ReadinessRefresh) {
+              runtimeV3ReadinessRefresh = fetchCurrentRuntimeV3Readiness(base)
+                .then((readiness) => {
+                  if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) return;
+                  runtimeV3Readiness = readiness;
+                  renderPanopticon({ ...snapshot, ready: readiness }, packet);
+                })
+                .catch(() => {})
+                .finally(() => {
+                  runtimeV3ReadinessRefresh = null;
+                });
+            }
+            liveReconnectAttempt = 0;
             setText("live-status", "live secure stream");
             setText("statusbar-websocket", "connected");
             setLiveConnectionState("connected");
@@ -1824,6 +2083,12 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               setText("statusbar-websocket", "disconnected");
               setWriteAccess(false, "public read", "The live connection closed. Public monitoring can reconnect without login.");
               renderLiveError(error, requestGeneration);
+              const delay = Math.min(250 * (2 ** liveReconnectAttempt), 4_000);
+              liveReconnectAttempt = Math.min(liveReconnectAttempt + 1, 5);
+              liveReconnectTimer = setTimeout(() => {
+                liveReconnectTimer = null;
+                if (!liveStoppedByOperator) connectLive({ reconnecting: true });
+              }, delay);
             }
           },
           (frame) => {
@@ -1847,10 +2112,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     livePollTimer = setInterval(refreshLive, 3000);
   };
 
-  if (connect) connect.onclick = connectLive;
+  if (connect) connect.onclick = () => connectLive();
   if (refresh) refresh.onclick = refreshLive;
   if (stop) stop.onclick = stopPolling;
-  if (dashboardConnect) dashboardConnect.onclick = connectLive;
+  if (dashboardConnect) dashboardConnect.onclick = () => connectLive();
   if (dashboardRefresh) dashboardRefresh.onclick = refreshLive;
   if (dashboardStop) dashboardStop.onclick = stopPolling;
   modeSelect?.addEventListener("change", () => {
@@ -2041,6 +2306,9 @@ globalThis.AdlHtmlObservatory = {
   checkEventsEndpoint,
   fetchRuntimeSnapshot,
   fetchRuntimeV3ObservatorySnapshot,
+  fetchRuntimeV3AgentRosterPage,
+  fetchRuntimeV3AgentDetail,
+  authenticateRuntimeRosterSuccessor,
   submitRuntimeV3SignedControlCommand,
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,
@@ -2052,6 +2320,8 @@ globalThis.AdlHtmlObservatory = {
   isRuntimeV3ApiBase,
   normalizeTrustedRuntimeV3ApiBase,
   buildRuntimeAgentRows,
+  acceptRuntimeRosterSnapshot,
+  runtimeRosterCursorState,
   buildViewModel,
   buildIntegrationViewModel,
   buildPanopticonViewModel,

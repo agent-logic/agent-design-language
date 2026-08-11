@@ -1,0 +1,17 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 29,
+  "expected_digest": "baf952f11b8ff02bfe55cf86d60261385a7cc474706a885612bb36602a055c86",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Record strict production Rust static-analysis proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "clippy", "--lib", "--", "-D", "warnings"],
+      "purpose": "Reject production Runtime library warnings across the bounded roster implementation.",
+      "outcome": "passed",
+      "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: production library strict Clippy passed with -D warnings."
+    }
+  }
+}

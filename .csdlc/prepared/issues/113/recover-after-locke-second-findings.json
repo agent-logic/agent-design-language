@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 113,
+  "expected_generation": 54,
+  "expected_digest": "96d2cd56df2bf0fff9005f293f41ff541bf487db2a05c8243efda9566a4c410d",
+  "actor": "codex:wp18c03-execution",
+  "reason": "Recover review readiness to remediate the three concrete defects found in the second assigned review."
+}

@@ -1,0 +1,19 @@
+{
+  "issue": 113,
+  "card": "stp",
+  "expected_generation": 13,
+  "expected_digest": "1b2c97fc7e7d235b82c10c47ec7baa07ecddd60ed2bb630056f4217782e77630",
+  "actor": "codex:113-local-roster-execution",
+  "reason": "Reconcile bound execution with newer live #110 and #113 authority: #83 is non-gating and #142 gates only non-local distributed projection.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "Current main Runtime v3 admission, component-state, policy, stable local identity, and Observatory contracts",
+      "Live agent-logic/agent-design-language#110 and #113 authority: open #83 is preserved source and no longer gates WP-18C execution",
+      "Open agent-logic/agent-design-language#142 gates only non-local/distributed roster projection; local resident Shepherd admission and presence proceed without claiming distributed behavior",
+      "agent-logic/agent-design-language#122 remains deferred beyond v0.92 and non-gating",
+      "Shared #111 overlap is isolated to integration commits and reported explicitly for later rebase"
+    ]
+  }
+}
