@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved PR #229's hosted coverage-impact failure without changing the authority runtime or immutable v7 proof: the cfg(test)-only contract source is explicitly classified, all four changed production authority files map to one governed adl-runtime lane and exceed the unchanged 80-percent floor, and fresh independent exact-head review remains pending.
+Resolved PR #229's hosted coverage-impact failure without changing the authority runtime or immutable v7 proof. Repeated clean 443-test runs consistently pass the unchanged 80-percent production-file threshold, while retained v2 evidence explicitly treats exact llvm-cov line counts and summary digests as per-run provenance because concurrent scheduling varies the polis_runtime row; another fresh independent review remains pending.
 
 ## Artifacts
 
@@ -43,6 +43,7 @@ Resolved PR #229's hosted coverage-impact failure without changing the authority
 - Classified authority_protocol_contract_tests.rs as test-only because authority_protocol.rs includes it only under cfg(test); no production Rust file is excluded or reclassified.
 - Mapped authority_protocol.rs, identity.rs, polis_runtime.rs, and the authority-bound transport bridge to one adl-runtime package coverage lane while preserving the standalone transport mapping.
 - Routed that lane to the owning adl-runtime manifest and added fail-closed policy/runner regressions for deduplication, standalone low-coverage rejection, exact expression preservation, and summary production.
+- Replaced the falsely exact coverage-summary reproducibility claim with threshold-oriented v2 evidence: three fully retained author runs, two independent review observations, an observed polis_runtime range of 2610-2617/3094, and no claim that exact summary hashes reproduce.
 
 ## Validation
 
@@ -201,7 +202,7 @@ Resolved PR #229's hosted coverage-impact failure without changing the authority
       "--filter-expression",
       "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))"
     ],
-    "purpose": "Run the hosted-equivalent owning package lane: 443 selected authority-owning runtime tests passed and produced production-file coverage above 80 percent.",
+    "purpose": "Retain the pre-review 443/443 run as one exact observed run; its summary digest and rows are per-run provenance, not a reproducibility contract.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json"
   },
@@ -217,7 +218,72 @@ Resolved PR #229's hosted coverage-impact failure without changing the authority
       "adl/target/coverage-impact-summary.json",
       "--require-summary-for-risk"
     ],
-    "purpose": "Prove exact PR-mode coverage rows at 94.08, 89.59, 84.58, and 92.39 percent with the global threshold unchanged.",
+    "purpose": "Prove the pre-review observed run passed the unchanged 80-percent production-file threshold; exact line counts are not promoted into a cross-run invariant.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "--filter-expression",
+      "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))"
+    ],
+    "purpose": "Post-review observed run A: 443/443 passed; exact summary 723e1987... recorded only as run provenance, with polis_runtime 2610/3094.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json#author-post-review-a"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/check_coverage_impact.sh",
+      "--base",
+      "4041053",
+      "--head",
+      "9b863c5bd",
+      "--summary",
+      "adl/target/coverage-impact-summary.json",
+      "--require-summary-for-risk"
+    ],
+    "purpose": "Post-review observed run A passed the unchanged 80-percent threshold for every changed production authority file.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json#author-post-review-a"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "--filter-expression",
+      "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))"
+    ],
+    "purpose": "Post-review observed run B: 443/443 passed; exact summary 36fe4efb... recorded only as run provenance, with polis_runtime 2617/3094.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json#author-post-review-b"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/check_coverage_impact.sh",
+      "--base",
+      "4041053",
+      "--head",
+      "9b863c5bd",
+      "--summary",
+      "adl/target/coverage-impact-summary.json",
+      "--require-summary-for-risk"
+    ],
+    "purpose": "Post-review observed run B passed the unchanged 80-percent threshold for every changed production authority file.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json#author-post-review-b"
+  },
+  {
+    "command": [
+      "jq",
+      "-e",
+      "threshold-oriented coverage variability contract",
+      ".csdlc/prepared/issues/201/coverage-impact-result.json"
+    ],
+    "purpose": "Require no top-level exact summary hash, explicit denial of exact-summary reproducibility, multiple distinct retained run hashes and polis line counts, and every retained production row at or above 80 percent.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json"
   }

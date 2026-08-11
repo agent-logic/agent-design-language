@@ -12,20 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/201
-.csdlc/prepared/issues/201
-.csdlc/evidence/201/v7
-adl-runtime/src/distributed/authority_protocol.rs
-adl-runtime/src/distributed/authority_protocol_contract_tests.rs
-adl-runtime/src/distributed/identity.rs
-adl-runtime/src/distributed/mod.rs
-adl-runtime/src/distributed/polis_runtime.rs
-adl-runtime/src/distributed/transport.rs
-adl-runtime/tests/distributed_authority_protocol.rs
-adl/tools/check_coverage_impact.sh
-adl/tools/run_pr_fast_coverage_lane.sh
-adl/tools/test_check_coverage_impact.sh
-adl/tools/test_run_pr_fast_coverage_lane.sh
+
 
 ## Prompts
 
