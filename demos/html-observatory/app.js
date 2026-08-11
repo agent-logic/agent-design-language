@@ -662,16 +662,19 @@ function isRuntimeV3ApiBase(value) {
 function normalizeTrustedRuntimeV3ApiBase(value) {
   const base = normalizeApiBase(value);
   const parsed = new URL(base);
+  const observatoryHost = String(globalThis.location?.hostname || "").toLowerCase();
+  const allowedHost = parsed.hostname === RUNTIME_V3_TRUSTED_HOST
+    || (observatoryHost && parsed.hostname === observatoryHost);
   if (
     parsed.protocol !== "https:" ||
-    parsed.hostname !== RUNTIME_V3_TRUSTED_HOST ||
+    !allowedHost ||
     parsed.username ||
     parsed.password ||
     parsed.pathname !== "/" ||
     parsed.search ||
     parsed.hash
   ) {
-    throw new Error(`Runtime v3 selection requires HTTPS for ${RUNTIME_V3_TRUSTED_HOST}.`);
+    throw new Error("Runtime v3 selection requires HTTPS for the configured Runtime host or this Observatory host.");
   }
   return parsed.origin;
 }

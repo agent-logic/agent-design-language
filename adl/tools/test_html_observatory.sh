@@ -250,7 +250,17 @@ assert(calls.some((call) => call.url === `${config.api_base}/v1/control` && call
 
 assert.throws(
   () => api.normalizeTrustedRuntimeV3ApiBase("https://operator:token@localhost:20997"),
-  new RegExp(`Runtime v3 selection requires HTTPS for ${config.api_base.replace(/^https:\/\//, "").replace(/:\d+$/, "")}\\.`)
+  /Runtime v3 selection requires HTTPS for the configured Runtime host or this Observatory host\./
+);
+context.location.hostname = "wuji.agent-logic.ai";
+context.window.location.hostname = "wuji.agent-logic.ai";
+assert.equal(
+  api.normalizeTrustedRuntimeV3ApiBase("https://wuji.agent-logic.ai:33983"),
+  "https://wuji.agent-logic.ai:33983"
+);
+assert.throws(
+  () => api.normalizeTrustedRuntimeV3ApiBase("https://unrelated.example:33983"),
+  /Runtime v3 selection requires HTTPS for the configured Runtime host or this Observatory host\./
 );
 
 await assert.rejects(
