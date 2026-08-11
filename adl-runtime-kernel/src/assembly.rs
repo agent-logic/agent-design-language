@@ -931,22 +931,22 @@ impl InProcessOperationExecutor {
             .lock()
             .expect("local shepherd state poisoned")
             .insert("shepherd".to_owned());
-        if admitted {
-            if !self.state.recorder.record_agent_admission(
+        if admitted
+            && !self.state.recorder.record_agent_admission(
                 "shepherd",
                 self.state.trusted_time.now_unix_millis(),
                 env!("ADL_RUNTIME_SOURCE_REVISION"),
-            ) {
-                self.state
-                    .admitted
-                    .lock()
-                    .expect("local shepherd state poisoned")
-                    .remove("shepherd");
-                return Err(adapter_error(
-                    FailureClass::Retryable,
-                    "shepherd admission evidence unavailable",
-                ));
-            }
+            )
+        {
+            self.state
+                .admitted
+                .lock()
+                .expect("local shepherd state poisoned")
+                .remove("shepherd");
+            return Err(adapter_error(
+                FailureClass::Retryable,
+                "shepherd admission evidence unavailable",
+            ));
         }
         let mut value = self.result(request, if admitted { "admitted" } else { "duplicate" });
         value["admitted"] = admitted.into();
