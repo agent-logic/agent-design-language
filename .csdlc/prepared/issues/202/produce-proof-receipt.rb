@@ -92,11 +92,21 @@ end
 %w[adl-runtime/src/distributed/learner_transport/tests.rs adl-runtime/tests/distributed_authorized_learner_transport.rs].each do |relative|
   fail_proof("machine-local temp root") if File.binread(ROOT.join(relative)).include?("/private/tmp")
 end
+runtime_source = File.binread(ROOT.join("adl-runtime/src/distributed/polis_runtime.rs"))
+authority_source = File.binread(ROOT.join("adl-runtime/src/distributed/authority_protocol.rs"))
+transport_source = File.binread(ROOT.join("adl-runtime/src/distributed/transport.rs"))
+private_tests = File.binread(ROOT.join("adl-runtime/src/distributed/learner_transport/tests.rs"))
+fail_proof("production allow-all authority bypass remains") if [runtime_source, authority_source, transport_source].any? { |source_text| source_text.include?("AllowAll") }
+fail_proof("production factory does not require shared learner authority") unless runtime_source.scan("learner_authority: ProductionLearnerAuthority").length >= 2
+%w[install_learner_route request_bytes serve_authorized_learner_connection add_learner].each do |behavior|
+  fail_proof("real fourth-Raft behavior missing #{behavior}") unless private_tests.include?(behavior)
+end
 FileUtils.mkdir_p(OUTPUT, mode: 0o700)
 
 commands = {}
 commands["private_cases"] = run_command("private-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib learner_transport::tests -- --nocapture --test-threads=1])
 commands["public_cases"] = run_command("public-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport -- --test-threads=1])
+commands["runtime_compile"] = run_command("runtime-compile", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport --no-run])
 commands["clippy_lib"] = run_command("clippy-lib", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings])
 commands["clippy_public"] = run_command("clippy-public", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport -- -D warnings])
 fail_proof("command failed") unless commands.values.all? { |command| command["exit_code"] == 0 }
