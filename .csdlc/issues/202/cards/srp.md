@@ -23,9 +23,11 @@ Status: draft
 - Are target-membership digest and deadline carried into durable admission, durable exclusion, learner session binding, RPC authorization digest, and restart reconstruction without a public bypass?
 - Do ordinary and learner requests retain one shared authority lease from under-fence revalidation through stream creation, actual OpenRaft effect, and response, with transitions draining denied routes before later governed STREAM frames?
 - Do the unchanged distributed_transport and distributed_discovery targets plus distributed_runtime_transport compile, and do all 42 private runner tests, 13 public tests, and both strict Clippy lanes pass?
-- Does v7 evidence preserve exactly 36 semantic cases, 42 private runner tests, 13 public tests, and 31 named subassertions while protecting every governed source, integration target, and proof script?
-- Does the v7 producer reject every dirty or untracked path outside its own output with no named temporary-directory exceptions, and does the validator require the proof's required main revision to equal current refs/remotes/origin/main and be ancestral to the protected source?
+- Does v8 evidence preserve exactly 36 semantic cases, 42 private runner tests, 13 public tests, and 31 named subassertions while protecting every governed source, integration target, and proof script?
+- Does the v8 producer reject every dirty or untracked path outside its own output with no named temporary-directory exceptions, and does the validator require the proof's required main revision to equal current refs/remotes/origin/main and be ancestral to the protected source?
 - Is the exact review revision clean, immutable, based on origin/main 1567469e395f9a6ea6c2e736366a8008f5ee1e06, bounded to #202, and free of unresolved P0-P3 findings before publication?
+- Does the coverage-impact mapping classify executable transport subtree files through runtime_v3_distributed_transport while preserving the dependency-free shim contract, and does the focused policy suite pass?
+- After replace_authority_cut intentionally drains the stale peer route, does the exact runtime regression reinstall the rotated peer as a fresh governed route and preserve the issue-191 retry marker?
 
 ## Findings
 
