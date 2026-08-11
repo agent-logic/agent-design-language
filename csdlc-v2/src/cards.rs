@@ -580,6 +580,12 @@ pub enum SemanticOperation {
     CorrectStpDeliverablesAfterRecovery {
         values: Vec<String>,
     },
+    CorrectPlanSummaryAfterRecovery {
+        value: String,
+    },
+    CorrectOperatorConstraintsBeforeBind {
+        values: Vec<String>,
+    },
     ReplacePlanSteps {
         steps: Vec<PlanStep>,
     },
@@ -940,6 +946,34 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Stp(value) => value.deliverables = replacement.clone(),
                 _ => return ownership(values.kind(), "correct_stp_deliverables_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectPlanSummaryAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "plan summary cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Spp(v) => v.summary = value.clone(),
+                _ => return ownership(values.kind(), "correct_plan_summary_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectOperatorConstraintsBeforeBind {
+            values: replacement,
+        } => {
+            if replacement.is_empty() || replacement.iter().any(|value| value.trim().is_empty()) {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "operator constraints cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Sip(v) => v.operator_constraints = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_operator_constraints_before_bind"),
             }
             Ok(None)
         }

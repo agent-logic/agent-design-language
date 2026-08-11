@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 208,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/208-authenticated-guardian-kernel-continuity-bridge",
+  "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
+  "body": "Closes #208\n\n## Summary\n- add the production private TLS Guardian-to-kernel continuity service and sealed #210 transfer / #204 migration role ports\n- quiesce and resume all five live participants with durable receipts, exact accepted-prefix binding, restart recovery, and bounded cancellation/deadline behavior\n- stream signed predecessor-linked chunks into crash-reconciled target staging with durable cleanup custody across Guardian restart\n- verify dedicated #204 decision authority before activation and preserve exact discard/activate terminal truth\n- harden journal, filesystem, certificate succession, exact retry, root-generation, and canonical typed-review provenance against replay, relabeling, replacement, corruption, and JSON escape aliases\n- exercise the production Guardian CLI through a real isolated private TLS continuity service while preserving malformed and missing-kernel denials\n- retain assertion-bound merge-safe proof with exact 56 cases, 64 boundary assertions, and 12 lifecycle assertions\n\n## Validation\n- Runtime continuity integration: 21/21 in two isolated and two concurrent retained lanes\n- kernel continuity integration: 35/35 in two isolated and two concurrent retained lanes\n- all eight retained Runtime/kernel lanes contain zero LEAK/LEAK-FAIL and leak classification remains fail-closed\n- Guardian CLI integration: 3/3 through mandatory private continuity\n- production ACIP integration: 2/2\n- both strict production Clippy lanes PASS\n- workspace and slow-proof nextest selector contract PASS\n- exact 16-command, 56/64/12 producer and immutable validator PASS\n- real ProductionPolisRuntime through private TLS, transfer, Guardian restart, and #204 activation PASS\n- typed validation and doctor PASS\n- independent exact-head review PASS with no actionable findings",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:b732ad8138bb68d2c1284eb71e64fb45813fa365:93b10163fcb55bf269c83d0bf017a2cb06180c6b36615609f872cdd943d6fe04",
+  "commit_sha": "b732ad8138bb68d2c1284eb71e64fb45813fa365"
+}

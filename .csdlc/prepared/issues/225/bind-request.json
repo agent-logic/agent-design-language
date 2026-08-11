@@ -1,0 +1,6 @@
+{
+  "issue": 225,
+  "base_branch": "main",
+  "branch": "codex/225-bounded-card-review-repair",
+  "worktree": "."
+}

@@ -1,0 +1,22 @@
+{
+  "issue": 208,
+  "card": "stp",
+  "expected_generation": 16,
+  "expected_digest": "a4e2aa25769e01279a11092b3b13fb752b97e0afc487a977c93040ba321e3917",
+  "actor": "codex:/root/resolve_201_208_findings",
+  "reason": "Resolve independent review by binding the exact ordered case denominator and lifecycle subassertion table into AC-9.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: Both production binaries consume one validated Runtime init contract: the Guardian constructs the opaque client and establishes the supervised-kernel session before distributed-runtime readiness, while the kernel binds the private listener before public readiness; missing wiring, a standalone library, mock, or fixture cannot satisfy closure.",
+      "AC-2: Configuration rejects non-loopback, wildcard, multicast, public, zero or duplicate ports, overlapping/symlinked/replaceable roots, missing or duplicate identities, invalid TLS material/EKU/trust, and zero or excessive bounds before either listener reports ready.",
+      "AC-3: TLS 1.3 mutual authentication, an RFC 9266 tls-exporter binding on every transient envelope, and strict RFC 8785 canonical operation bodies authorize only the exact logical Guardian and kernel channel; schema/domain/polis/node/identity/epoch/sequence/kind/deadline/prefix/payload bindings reject captured-session replay, bearer-only, agent, voter, Shepherd, public-control, stale, reordered, conflicting, cross-domain, or wrong-peer work before dispatch.",
+      "AC-4: A persisted logical channel identity and epoch survives Guardian/kernel process restart; explicit two-phase certificate succession permits predecessor exact retries and successor reconciliation of accepted work but forbids predecessor new work, skipped epochs, ambiguous lineage, or retirement while accepted work remains.",
+      "AC-5: The live assembly supplies one sealed complete registry for admission, recorder/accepted prefix, reasoning/mutation, governance, and production operation state; startup and checkpoint fail on missing, extra, duplicate, test-only, or replaced participants, and quiesce/export uses those exact live handles rather than synthetic snapshot bytes.",
+      "AC-6: A pre-commit participant failure, deadline, or cancellation triggers receipt-bound resume for every applied or uncertain participant and reopens admission only after all resume receipts reconcile; otherwise the source stays closed with RecoveryRequired. A committed bundle stays quiesced until exact resume or downstream fencing.",
+      "AC-7: Stage/validate accepts only bounded streamed bytes under a fixed isolated root and verifies signature, generation, predecessor, accepted prefix, topology, configuration, service set/schema, canonical file names, sizes, and content; every Staging or Validated nonactivated target can be receipt-bound discarded with durable zero-residue proof and exact retry.",
+      "AC-8: Client/server journals, participant/effect receipts, results, checkpoints, markers, caches, deadlines, restart, reply loss, capacity and opened-handle safety reconcile without duplicate effects, false no-effect claims, arbitrary paths, residue, secrets, or public continuity routes; #204 alone decides activation, while #208 owns the exact activation effect, durable exact-retry TargetActivationReceipt, cleanup-permit consumption, and denial of discard after activation.",
+      "AC-9: Exact ordered fifty-six-case proof, contiguous unique ordinals and name/outcome/marker parity, byte-for-byte parity with the tracked eight-row sixty-four-boundary-subassertion plus twelve-lifecycle-subassertion map, Runtime and kernel Clippy, exact-range diff hygiene, producer, fresh independent exact-head review, and distinct merge-safe immutable validation pass serially before a ready unmerged PR opens."
+    ]
+  }
+}

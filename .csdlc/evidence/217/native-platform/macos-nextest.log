@@ -1,0 +1,15 @@
+{"type":"suite","event":"started","test_count":2,"nextest":{"crate":"adl-runtime-kernel","test_binary":"production_acip_wss","kind":"test"}}
+{"type":"test","event":"started","name":"adl-runtime-kernel::production_acip_wss$production_binary_acip_wss_produces_observed_receipt"}
+{"type":"test","event":"started","name":"adl-runtime-kernel::production_acip_wss$canonical_ingress_applies_bounded_pressure"}
+{"type":"test","event":"ok","name":"adl-runtime-kernel::production_acip_wss$canonical_ingress_applies_bounded_pressure","exec_time":0.014361416}
+{"type":"test","event":"ok","name":"adl-runtime-kernel::production_acip_wss$production_binary_acip_wss_produces_observed_receipt","exec_time":3.8558735}
+{"type":"suite","event":"ok","passed":2,"failed":0,"ignored":0,"measured":0,"filtered_out":0,"exec_time":3.8702349160000002,"nextest":{"crate":"adl-runtime-kernel","test_binary":"production_acip_wss","kind":"test"}}
+[1m[92m   Compiling[0m adl-runtime-kernel v0.92.0 (./adl-runtime-kernel)
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 1.93s
+────────────
+[32;1m Nextest run[0m ID [1m226f7b9d-f36b-47c4-a47c-a6a1185e181c[0m with nextest profile: [1mdefault[0m
+[32;1m    Starting[0m [1m2[0m tests across [1m1[0m binary
+[32;1m        PASS[0m [   0.014s] (1/2) [35;1madl-runtime-kernel::production_acip_wss[0m [34;1mcanonical_ingress_applies_bounded_pressure[0m
+[32;1m        PASS[0m [   3.856s] (2/2) [35;1madl-runtime-kernel::production_acip_wss[0m [34;1mproduction_binary_acip_wss_produces_observed_receipt[0m
+────────────
+[32;1m     Summary[0m [   3.860s] [1m2[0m tests run: [1m2[0m [32;1mpassed[0m, [1m0[0m [33;1mskipped[0m

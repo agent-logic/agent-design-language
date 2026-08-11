@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 191,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
+    "slug": "secure-durable-three-voter-openraft",
+    "version": "v0.92",
+    "generation": 25
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/191\n.csdlc/prepared/issues/191\n.csdlc/evidence/191\nadl-runtime/Cargo.toml\nadl-runtime/Cargo.lock\nadl-runtime/src/distributed/mod.rs\nadl-runtime/src/distributed/transport.rs\nadl-runtime/src/distributed/polis_runtime.rs\nadl-runtime/tests/distributed_runtime_transport.rs\nadl-runtime/tests/distributed_transport.rs\nadl-runtime/tests/distributed_discovery.rs",
+      "review_revision": "git-blake3:ba341ffeb2fee4c461b6b5741fb59e0a41cdcdfe:4beaadced31f252cf7f95617d0d99468d04bd76b46a9c3141834a932c8bf3aba",
+      "reviewer": "/root/prepare_5875_release/review_191_v5_final",
+      "review_prompts": [
+        "Can any node send or accept OpenRaft traffic without an authenticated encrypted session bound to the exact polis/domain/node generation?",
+        "Can any persistence or snapshot failure leave live or recovered state ahead of the last durable commit?",
+        "Do the tests exercise real network encryption, three-to-two, one-of-three halt, restart, replay, corruption and path attacks?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "PR #197 remains intentionally unmerged pending operator and external review after same-PR update."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

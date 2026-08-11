@@ -23,6 +23,13 @@ Startup:
    bundles.
 4. Audit readiness and dependencies without executing out of order.
 
+Before umbrella execution, bind #5856 through the retained split-authority
+request at `.csdlc/prepared/issues/5856/split-authority-bind-request.json`.
+The initialized legacy issue record is expected to report
+`repository_identity_drift` until typed bind records the canonical code
+repository; this expected pre-bind diagnosis does not authorize a manual
+worktree or branch.
+
 WP-01 published the initialized child records under its own temporary publication
 claim. After WP-01 releases that claim, create and register each real child
 worktree, use typed `csdlc-bind --reacquire-request` to acquire the child's exact
@@ -31,6 +38,7 @@ bootstrap reservation is still active.
 
 Exact child wave:
 
+- #5840, WP-20: demo matrix, AEE proof, and proof coverage
 - #5786, WP-21: repository-wide code reduction cleanup
 - #5841, WP-21A: Rust refactoring and maintainability pass
 - #5842, WP-22: quality gate over every indexed v0.92 feature
@@ -45,6 +53,8 @@ Exact child wave:
 
 Strict order:
 
+- #5840 starts only after #5836, #5837, #5838, and #5839 are terminal
+- #5840 before #5786
 - #5786 before #5841
 - #5841 before #5842
 - #5842 before #5843

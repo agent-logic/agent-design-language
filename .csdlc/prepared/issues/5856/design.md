@@ -2,11 +2,12 @@
 
 ## Purpose
 
-Coordinate WP-21, WP-21A, WP-22, WP-23, and WP-25 through WP-30 as the
+Coordinate WP-20, WP-21, WP-21A, WP-22, WP-23, and WP-25 through WP-30 as the
 strictly ordered release tail.
 
 ## Execution Contract
 
+- Build the exact-revision demo matrix, AEE index, and proof coverage in WP-20 after its proof producers are terminal.
 - Complete deletion-safe cleanup before Rust refactoring.
 - Complete refactoring before the quality gate.
 - Advance quality, docs, reviews, remediation, planning, and ceremony in order.

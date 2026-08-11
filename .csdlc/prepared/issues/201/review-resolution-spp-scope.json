@@ -1,0 +1,23 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 30,
+  "expected_digest": "3c9016752d72efbdd424211b9f91df70151a582dba97ec575b4056f04729d94e",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "Record the exact production integration and proof paths required by the independent review resolution.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
+      ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
+      ".csdlc/evidence/201",
+      ".csdlc/issues/201"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "issue": 208,
+  "card": "spp",
+  "expected_generation": 14,
+  "expected_digest": "4eb8ecdc117fee22c28c281e91425b6d960db853bf9509804bdabae485e634c8",
+  "actor": "codex:/root/resolve_201_208_findings",
+  "reason": "Resolve independent review by pinning cleanup survival, restart reconciliation, activation effect, receipt, and activated-discard invariants.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "No production readiness is reported until Guardian and kernel share the validated private session and the complete sealed live-participant registry exists",
+      "Process restart preserves the durable logical channel epoch; certificate succession changes transport credentials without losing or duplicating an accepted operation",
+      "Only TLS 1.3 mTLS authenticates control frames, while the manifest signing key signs content only and no bearer or public identity gains continuity authority",
+      "Every RFC 8785 request is rejected before dispatch on duplicate keys, noncanonical encoding, unknown fields, NaN or infinity, trailing bytes, decode/re-encode mismatch, or exporter mismatch, with exact tracked subassertion markers",
+      "Every participant prepared for quiesce either contributes to the committed bundle or has an exact reconciled SourceResumeReceipt before admission reopens, including after reply loss or process restart",
+      "Source remains quiesced after SourceCheckpointHandle commit until exact SourceResumeReceipt or downstream fence; every nonactivated TargetStageHandle remains exactly discardable",
+      "ContinuityBundleSourcePort reads only signed expected ranges from one exact SourceCheckpointHandle and TargetContinuityEffectPort revalidates signed key generation, catalog entry order/schema/range/digest, and chunk index/range/digest/predecessor before any bytes are written",
+      "TargetPossessionEvidence exists only after exact complete validation; #210 wraps it with TargetStageHandle as VerifiedTransferPossession but gains no deletion or activation authority",
+      "TargetCleanupPermit is a separate discard-only #208 authority bound to the exact stage and survives #210 transfer expiry, cancellation, reply loss, and process restart until verified TargetDiscardReceipt or TargetActivationReceipt",
+      "#204 alone owns the activation decision and private decision adapter; #208 alone performs source resume, target activate, target discard, and every other kernel/filesystem effect",
+      "#208 activation revalidates the exact finalized #204 decision and stage/possession/cleanup/route/membership/certificate/boot/lineage bindings, atomically consumes TargetCleanupPermit, durably records the activated generation, and returns a retained exact-retry TargetActivationReceipt",
+      "A TargetStageHandle with a TargetActivationReceipt is never discardable; cleanup or discard after activation is denied across retry and restart",
+      "No caller path, normal-build mock, synthetic snapshot, cached bool, opaque receipt, or redacted evidence creates distributed authority"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "issue": 225,
+  "card": "spp",
+  "expected_generation": 7,
+  "expected_digest": "8bef2dc6db3bb3f54be6fbca9de585b11959980db065c412900ba5b4240a296b",
+  "actor": "codex:225-bounded-card-review-repair",
+  "reason": "The independently reviewed design and complete typed planning packet are ready for binding.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

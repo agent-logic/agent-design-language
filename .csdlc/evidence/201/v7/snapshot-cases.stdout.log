@@ -1,0 +1,76 @@
+
+running 36 tests
+test distributed::polis_runtime::authority_consensus_tests::snapshot_current_boot_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_current_boot_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_current_epoch_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_current_epoch_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_current_membership_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_current_membership_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_current_polis_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_current_polis_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_custody_byte_digest_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_custody_byte_digest_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_custody_injected ... ADL_ISSUE_201_CASE_V2 snapshot_custody_injected rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_custody_omitted ... ADL_ISSUE_201_CASE_V2 snapshot_custody_omitted rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_custody_reencoded ... ADL_ISSUE_201_CASE_V2 snapshot_custody_reencoded rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_custody_substituted ... ADL_ISSUE_201_CASE_V2 snapshot_custody_substituted rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_byte_digest_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_evidence_byte_digest_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_injected ... ADL_ISSUE_201_CASE_V2 snapshot_evidence_injected rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_omitted ... ADL_ISSUE_201_CASE_V2 snapshot_evidence_omitted rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_reencoded ... ADL_ISSUE_201_CASE_V2 snapshot_evidence_reencoded rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_substituted ... ADL_ISSUE_201_CASE_V2 snapshot_evidence_substituted rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_bad_signature ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_bad_signature rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_duplicate_quorum ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_duplicate_quorum rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_insufficient_quorum ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_insufficient_quorum rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_invalid_time ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_invalid_time rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_missing_endorsements ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_missing_endorsements rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_missing_proposal ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_missing_proposal rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_stale_certificate ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_stale_certificate rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_boot ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_wrong_boot rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_finalize_index ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_wrong_finalize_index rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_operation ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_wrong_operation rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_prepare_index ... ADL_ISSUE_201_CASE_V2 snapshot_finalized_wrong_prepare_index rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_later_prepared_custody_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_later_prepared_custody_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_demotion_injection ... ADL_ISSUE_201_CASE_V2 snapshot_legacy_demotion_injection rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_fence_injection ... ADL_ISSUE_201_CASE_V2 snapshot_legacy_fence_injection rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_observatory_injection ... ADL_ISSUE_201_CASE_V2 snapshot_legacy_observatory_injection rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_owner_injection ... ADL_ISSUE_201_CASE_V2 snapshot_legacy_owner_injection rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_shepherd_injection ... ADL_ISSUE_201_CASE_V2 snapshot_legacy_shepherd_injection rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_boot_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_prepared_boot_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_epoch_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_prepared_epoch_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_membership_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_prepared_membership_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_polis_mismatch ... ADL_ISSUE_201_CASE_V2 snapshot_prepared_polis_mismatch rejected
+ok
+test distributed::polis_runtime::authority_consensus_tests::snapshot_valid_multi_prepared_finalized_restart ... ADL_ISSUE_201_CASE_V2 snapshot_valid_multi_prepared_finalized_restart passed
+ok
+
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 194 filtered out; finished in 1.79s
