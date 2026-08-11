@@ -220,7 +220,7 @@ impl Fixture {
             checkpoint: Arc::new(MemoryCheckpointAuthority::default()),
             root: tempfile::Builder::new()
                 .prefix("adl-authority-201-")
-                .tempdir_in("/private/tmp")
+                .tempdir_in(std::env::current_dir().unwrap())
                 .unwrap(),
         }
     }

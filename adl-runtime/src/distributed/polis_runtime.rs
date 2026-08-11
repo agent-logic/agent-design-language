@@ -2960,7 +2960,7 @@ mod authority_consensus_tests {
         };
         let root = tempfile::Builder::new()
             .prefix("adl-authority-snapshot-")
-            .tempdir_in("/private/tmp")
+            .tempdir_in(std::env::current_dir().unwrap())
             .unwrap();
         let checkpoint = Arc::new(MemoryAuthority::default());
         let mut store = PolisStateMachineStore::open_with_trusted_authority(
@@ -3128,7 +3128,7 @@ mod authority_consensus_tests {
     async fn real_three_voter_authority_prepare_finalize_uses_applied_log_ids() {
         let root = tempfile::Builder::new()
             .prefix("adl-authority-raft-")
-            .tempdir_in("/private/tmp")
+            .tempdir_in(std::env::current_dir().unwrap())
             .unwrap();
         let checkpoint = Arc::new(MemoryAuthority::default());
         let network = MemoryNetwork::default();
