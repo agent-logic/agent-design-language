@@ -3,13 +3,73 @@
   "issue": 225,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c2539d70d91f701387359b5176d8f0797988aec3b5745e78e295d6bcf53e1c4",
-  "phase": "implemented",
-  "generation": 20,
-  "digest": "ab259d185a8dc62f29804e0a1b25d53dbbbeaa6124f0ef39e036511984e3de5a",
+  "phase": "reviewed",
+  "generation": 21,
+  "digest": "ee2ab62f867ecc2be0ff8852960c0322ab573d809e638ca16ee06ec944526766",
   "branch": "codex/225-bounded-card-review-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-225-bounded-card-review-repair",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "Bernoulli:019fefc0-cd6b-7072-84d5-9fc5b78de4d5",
+    "scope": [
+      ".csdlc/evidence/225",
+      ".csdlc/issues/225",
+      ".csdlc/prepared/issues/225",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ],
+    "reviewed_revision": "git-blake3:120455414b9a457f735a6f177742780d185a3b8b:1d6d41964c0fcc493d39f18f757d1025118c8f9f40da751808c01e492a3abeb9",
+    "findings": [
+      {
+        "id": "225-review-p1-recovery-actor",
+        "severity": "p1",
+        "summary": "Review recovery accepted a blank actor; actor and reason are now both required before mutation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:120455414b9a457f735a6f177742780d185a3b8b:1d6d41964c0fcc493d39f18f757d1025118c8f9f40da751808c01e492a3abeb9",
+        "route": null
+      },
+      {
+        "id": "225-review-p1-retained-sor-state",
+        "severity": "p1",
+        "summary": "Pre-bind correction did not reject every retained SOR lifecycle state; integration, publication, merge, and closeout state are now all guarded.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:120455414b9a457f735a6f177742780d185a3b8b:1d6d41964c0fcc493d39f18f757d1025118c8f9f40da751808c01e492a3abeb9",
+        "route": null
+      },
+      {
+        "id": "225-review-p2-proof-matrix",
+        "severity": "p2",
+        "summary": "The declared proof matrix omitted six authorization boundaries; Gate 2 and Gate 5 now prove every accepted and rejected case explicitly.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:120455414b9a457f735a6f177742780d185a3b8b:1d6d41964c0fcc493d39f18f757d1025118c8f9f40da751808c01e492a3abeb9",
+        "route": null
+      },
+      {
+        "id": "225-review-p2-plan-truth",
+        "severity": "p2",
+        "summary": "SPP execution steps lagged implementation truth; all four steps are now reconciled through typed edits.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:120455414b9a457f735a6f177742780d185a3b8b:1d6d41964c0fcc493d39f18f757d1025118c8f9f40da751808c01e492a3abeb9",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The two correction operations are intentionally field-specific; any future correction surface requires its own typed authorization contract."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +84,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0d9611e6dae48c6acc26a71f4e164d43c91a8f879371af54c8d34e133a0aacc8",
+      "values_digest": "0ed1e10bf674d2ef8319e2e71669c0f9d8bb1902b0101f86a197c979da27d20c",
       "rendered_digest": "9f38b68f225883c5296d0930f90a0bd45b5d3fdfbc79b9e2eb784c83f1be0027",
       "ast_digest": "80936f9bc8d37273b594570a048d63acc5befe735e1ed02d3e188eec4b50430f"
     },
     "stp": {
-      "values_digest": "dab7e81051600949d470823636efc13a982bfae0e0f930c53cbd7beb1e1f75ad",
+      "values_digest": "ec1639a2eacf5261431e5bfe2e04b560cd1cdc1fe5f22d1b026a336c13aaf84e",
       "rendered_digest": "4b480f8134f03a8df280641a44c7466ac2427aaacdcad4f4bb09a40f9dfd65dc",
       "ast_digest": "98229242cbbc08bd4320f8997bf7a53d4c41945051bf846790c8b8e750b4e697"
     },
     "spp": {
-      "values_digest": "2f49db3956a940a54b769078c604998854a899615fd36007979c269a85bc33ae",
+      "values_digest": "d63e1c2cd79a63569122cc73c015614c2ee2d877f646fae59307adbf8822a904",
       "rendered_digest": "581ec08597db7ed52f8891edbde7a0e653083ac4d6d828e82bfa4293a4617296",
       "ast_digest": "c42351901df588a1dc8fe8be566846f7d4c48a92e4292383b5fff5e9b64168df"
     },
     "vpp": {
-      "values_digest": "744dd7c89d27ed5ad601e13655ed169949d60e3cbfdd6eedd68db16e2604b43f",
+      "values_digest": "5f094137e9e7f0dd10454bf5b986e687a25af54c219d03c04f37373aa4748c0d",
       "rendered_digest": "b11d0c53253aa8d670c14bdb6c2c21cad2f0a63147079d96a1e1d3b5888ca1b4",
       "ast_digest": "c6630cd1b261473cb656a38b6b5a47350843e9ee08ef5ada14e48a97043f2d12"
     },
     "srp": {
-      "values_digest": "d59ba5006186e12780efedd525f8cf6c1ec9049a3e6a9b47d90a3a26b27ee0cb",
-      "rendered_digest": "cc2eaa4e9e9f1935e1846fbbed3634f3dec9f4d33edb2e23a63b87705eedcba7",
-      "ast_digest": "94db6738b2be4771ce8b282bba064fb03464b2755a7dcfd6757054c8d3d6c388"
+      "values_digest": "a511eab8b434e4612483d8d33bc64e64d0c71aaeb2678a29a909a945f9c493e8",
+      "rendered_digest": "f4781610b73861cec10be4e1c058b3c0f6d057b9a86974d71ed8b87ffe2991b7",
+      "ast_digest": "a6a5fbb9f98b8131f76f12feafda176be73461f11e1808e22e69a7d6d26fa662"
     },
     "sor": {
-      "values_digest": "3795b066c4cb104fc96875c57ac2d1d116832c490c0451f1c68eea7a2d158542",
+      "values_digest": "0e6c0fb2f78e97fb8aca7ccf868c861b929b87b391384b1ede80427bd7aae4ba",
       "rendered_digest": "4aa8a2e7242000b0c9dce04c74d739d10f8586a4ad5a6331afc82de98724c7fe",
       "ast_digest": "a3b9314bf67563ad5832c1b7e3346d105b5289d619ada58a9f583f811232c304"
     }
@@ -75,6 +135,13 @@
       "to": "implemented",
       "actor": "codex:225-bounded-card-review-repair",
       "reason": "The bounded implementation and all declared focused validation lanes are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "Bernoulli:019fefc0-cd6b-7072-84d5-9fc5b78de4d5",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -231,6 +298,13 @@
       "actor": "codex:225-bounded-card-review-repair",
       "reason": "All focused validation lanes and the independent exact-head review passed with no remaining findings.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "Bernoulli:019fefc0-cd6b-7072-84d5-9fc5b78de4d5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
