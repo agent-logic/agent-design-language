@@ -2252,6 +2252,10 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         ("absolute", "/tmp/outside-design.md"),
         ("traversal", "../design/issue-42.md"),
         ("empty", ""),
+        ("drive-relative", "C:relative.md"),
+        ("backslash", "design\\issue-42.md"),
+        ("dot-segment", "design/./issue-42.md"),
+        ("trailing-separator", "design/issue-42.md/"),
         ("noncanonical", "design//issue-42.md"),
     ] {
         let mut invalid_record = record.clone();
@@ -2287,6 +2291,25 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         assert_eq!(
             approval_error.message,
             "authored artifact path must be nonempty, clean, canonical, and repository-relative"
+        );
+        assert_eq!(issue_projection_snapshot(&repo, 42), injected);
+
+        let diagnosis = command(
+            &repo,
+            env!("CARGO_BIN_EXE_csdlc-doctor"),
+            &["--repo", &repo.to_string_lossy(), "--issue", "42"],
+        );
+        assert!(!diagnosis.status.success(), "{name} doctor succeeded");
+        let diagnosis_stdout = String::from_utf8_lossy(&diagnosis.stdout);
+        assert!(
+            diagnosis_stdout.contains("corrupt_record"),
+            "{name}: {diagnosis_stdout}"
+        );
+        assert!(
+            diagnosis_stdout.contains(
+                "authored artifact path must be nonempty, clean, canonical, and repository-relative"
+            ),
+            "{name}: {diagnosis_stdout}"
         );
         assert_eq!(issue_projection_snapshot(&repo, 42), injected);
 

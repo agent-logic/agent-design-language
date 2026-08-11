@@ -2843,16 +2843,17 @@ fn validate_authored_relative_path(relative: &Path) -> Result<()> {
         )
     })?;
     let segments: Vec<_> = value.split('/').collect();
+    let bytes = value.as_bytes();
+    let has_ascii_drive_prefix =
+        bytes.len() >= 2 && bytes[0].is_ascii_alphabetic() && bytes[1] == b':';
     if value.is_empty()
         || value.contains('\\')
+        || has_ascii_drive_prefix
         || !crate::pvf::clean_relative(relative)
         || segments.iter().any(|segment| segment.is_empty())
         || segments
             .iter()
             .any(|segment| *segment == "." || *segment == "..")
-        || segments
-            .first()
-            .is_some_and(|segment| segment.ends_with(':'))
     {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
@@ -3332,6 +3333,36 @@ fn enum_iterator() -> impl Iterator<Item = CardKind> {
 #[cfg(test)]
 mod edit_authorization_tests {
     use super::*;
+
+    #[cfg(unix)]
+    #[test]
+    fn authored_reader_rejects_non_utf8_path_before_open() {
+        use std::ffi::OsString;
+        use std::os::unix::ffi::OsStringExt;
+
+        let temp = tempfile::tempdir().expect("tempdir");
+        let path = PathBuf::from(OsString::from_vec(vec![
+            b'd', b'e', 0xff, b's', b'i', b'g', b'n',
+        ]));
+        let error = read_regular_authored_artifact(temp.path(), &path)
+            .expect_err("non-UTF authored path must fail closed");
+        assert_eq!(error.code, ErrorCode::CorruptRecord);
+        assert_eq!(error.message, "authored artifact path must be UTF-8");
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn authored_reader_rejects_non_utf8_path_before_open() {
+        use std::ffi::OsString;
+        use std::os::windows::ffi::OsStringExt;
+
+        let temp = tempfile::tempdir().expect("tempdir");
+        let path = PathBuf::from(OsString::from_wide(&[0x0064, 0xd800, 0x006e]));
+        let error = read_regular_authored_artifact(temp.path(), &path)
+            .expect_err("non-UTF authored path must fail closed");
+        assert_eq!(error.code, ErrorCode::CorruptRecord);
+        assert_eq!(error.message, "authored artifact path must be UTF-8");
+    }
 
     #[test]
     fn authored_artifact_identity_distinguishes_equal_length_files() {
