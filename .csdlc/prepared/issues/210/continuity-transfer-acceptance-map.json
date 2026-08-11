@@ -3,7 +3,7 @@
   "issue": 210,
   "case_count": 45,
   "acceptance_count": 8,
-  "subassertion_count": 80,
+  "subassertion_count": 84,
   "marker_format": "<outcome>:<acceptance>:<subassertion>",
   "case_marker_format": "pass:CASE-<three-digit-ordinal>:<case_name>",
   "case_manifest": [
@@ -66,6 +66,9 @@
         {"id":"source_target_swap_denied","case":"wrong_source_denied","outcome":"denied","marker":"denied:AC-1:source_target_swap_denied"},
         {"id":"lineage_or_domain_drift_denied","case":"wrong_lineage_denied","outcome":"denied","marker":"denied:AC-1:lineage_or_domain_drift_denied"},
         {"id":"wrong_session_role_denied","case":"wrong_target_denied","outcome":"denied","marker":"denied:AC-1:wrong_session_role_denied"},
+        {"id":"wrong_polis_binding_denied","case":"wrong_polis_denied","outcome":"denied","marker":"denied:AC-1:wrong_polis_binding_denied"},
+        {"id":"wrong_domain_binding_denied","case":"wrong_domain_denied","outcome":"denied","marker":"denied:AC-1:wrong_domain_binding_denied"},
+        {"id":"generic_send_authority_denied","case":"generic_send_denied","outcome":"denied","marker":"denied:AC-1:generic_send_authority_denied"},
         {"id":"raft_transfer_confusion_denied","case":"raft_rpc_confusion_denied","outcome":"denied","marker":"denied:AC-1:raft_transfer_confusion_denied"},
         {"id":"generic_unknown_dispatch_denied","case":"unknown_kind_denied","outcome":"denied","marker":"denied:AC-1:generic_unknown_dispatch_denied"}
       ]
@@ -95,6 +98,7 @@
         {"id":"bytes_fsync_before_verifier_prefix","case":"crash_after_frame_write","outcome":"accepted","marker":"accepted:AC-3:bytes_fsync_before_verifier_prefix"},
         {"id":"verifier_state_matches_durable_bytes","case":"crash_after_frame_write","outcome":"accepted","marker":"accepted:AC-3:verifier_state_matches_durable_bytes"},
         {"id":"prefix_commit_before_ack","case":"crash_after_prefix_receipt","outcome":"accepted","marker":"accepted:AC-3:prefix_commit_before_ack"},
+        {"id":"exact_retry_returns_retained_published_result","case":"exact_retry_cached","outcome":"accepted","marker":"accepted:AC-3:exact_retry_returns_retained_published_result"},
         {"id":"exact_duplicate_returns_retained_receipt","case":"exact_duplicate_frame_cached","outcome":"accepted","marker":"accepted:AC-3:exact_duplicate_returns_retained_receipt"},
         {"id":"source_restart_uses_target_prefix","case":"source_restart_resume","outcome":"accepted","marker":"accepted:AC-3:source_restart_uses_target_prefix"},
         {"id":"target_restart_rebuilds_verifier","case":"target_restart_resume","outcome":"accepted","marker":"accepted:AC-3:target_restart_rebuilds_verifier"},
@@ -172,7 +176,7 @@
       "subassertions": [
         {"id":"exact_45_case_ordered_parity","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:exact_45_case_ordered_parity"},
         {"id":"exact_8_acceptance_rows","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:exact_8_acceptance_rows"},
-        {"id":"exact_80_unique_subassertions","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:exact_80_unique_subassertions"},
+        {"id":"exact_84_unique_subassertions","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:exact_84_unique_subassertions"},
         {"id":"map_sha256_bound","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:map_sha256_bound"},
         {"id":"tests_before_clippy","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:tests_before_clippy"},
         {"id":"clippy_before_exact_diff","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:clippy_before_exact_diff"},

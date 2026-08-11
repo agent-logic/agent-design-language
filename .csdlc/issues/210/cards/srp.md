@@ -24,7 +24,7 @@ Exact transfer authority/session, existing transport integration, frame/prefix p
 - Is TargetCleanupPermit independent of transfer expiry/cancellation, discard-only, exact-stage-bound, restart-reconcilable, and consumed only by TargetDiscardReceipt or TargetActivationReceipt, with #208 as the sole cleanup/effect owner?
 - Does #210 request cleanup but never delete/activate/resume/fence/own/serve/decide migration, while #204 owns control decisions and #208 performs kernel/filesystem effects?
 - Does evidence remain bounded and redacted with no raw content, identity, certificate, token, endpoint, address, path, key, signature, handle, or secret?
-- Does the SHA-256-bound acceptance map cover all eight ACs, all forty-five cases, and exactly eighty unique subassertions with exact ordered result/marker parity?
+- Does the SHA-256-bound acceptance map cover all eight ACs, all forty-five cases, and exactly eighty-four unique subassertions with exact ordered result/marker parity? Does every case, including exact_retry_cached, wrong_polis_denied, wrong_domain_denied, and generic_send_denied, have at least one direct subassertion mapping?
 - Does validation run serially tests, Clippy, recorded execution-base-to-source diff, producer, independent exact-head review, and distinct validator, rejecting protected-source, evidence, review, or squash-topology drift?
 
 ## Findings

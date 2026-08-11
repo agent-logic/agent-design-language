@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1d] Stream authenticated continuity bundles between voters",
     "slug": "authenticated-continuity-bundle-transfer",
     "version": "v0.92",
-    "generation": 10
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "continuity-transfer",
-          "proof_role": "Prove byte-for-byte parity with continuity-transfer-acceptance-map.json sha256=b792f8c40545542b1e9b108d053a68e4fab64bd2c83e914dc8974f9dd3a79fa2, including the canonical ordered 45-case manifest with exact pass result and unique marker for every case, acceptance_count=8, subassertion_count=80, AC-3 conflicting_duplicate_denied membership, and the explicit machine assertion that #210 has no activation or deletion authority. The map covers every AC and all 45 cases, including live route/membership/certificate/boot drift, canonical framing/final/range bounds, signed catalog entry/chunk/range expectations, bounded queues/readers/stages/transfers/journals/caches, crash-reconcilable bytes/verifier/prefix order, cleanup after expiry/cancel/restart, #208 live zero residue, and strict proof sequencing. Reject missing, extra, duplicate, reordered, renamed, wrongly mapped, wrongly marked, nonpassing, or authority-widening case/subassertion evidence.",
+          "proof_role": "Prove byte-for-byte parity with continuity-transfer-acceptance-map.json sha256=2929794678966f233f8caf4df3131d9188cac3e5107fc0190cee9dd4fd1d71cd, including the canonical ordered 45-case manifest with exact pass result and unique marker for every case, acceptance_count=8, subassertion_count=84, every case has at least one directly mapped subassertion, including exact_retry_cached, wrong_polis_denied, wrong_domain_denied, and generic_send_denied, AC-3 conflicting_duplicate_denied membership, and the explicit machine assertion that #210 has no activation or deletion authority. The map covers every AC and all 45 cases, including live route/membership/certificate/boot drift, canonical framing/final/range bounds, signed catalog entry/chunk/range expectations, bounded queues/readers/stages/transfers/journals/caches, crash-reconcilable bytes/verifier/prefix order, cleanup after expiry/cancel/restart, #208 live zero residue, and strict proof sequencing. Reject missing, extra, duplicate, reordered, renamed, wrongly mapped, wrongly marked, nonpassing, or authority-widening case/subassertion evidence.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -90,7 +90,7 @@
         },
         {
           "lane": "continuity-transfer-producer",
-          "proof_role": "Only after tests, Clippy, and exact-range diff pass, independently load and hash the protected acceptance map, require exact ordered 45-case result/marker manifest and 8-row/80-subassertion parity, prove the corrected AC-3 conflict mapping and absence of #210 activation/deletion authority, and produce exact Git execution-base/source, command, stream, timing, protected-digest, signed expectation, resource, cleanup, and result evidence for independent review.",
+          "proof_role": "Only after tests, Clippy, and exact-range diff pass, independently load and hash the protected acceptance map, require exact ordered 45-case result/marker manifest and 8-row/84-subassertion parity, prove the corrected AC-3 conflict mapping and absence of #210 activation/deletion authority, and produce exact Git execution-base/source, command, stream, timing, protected-digest, signed expectation, resource, cleanup, and result evidence for independent review.",
           "acceptance_ids": [
             "AC-8"
           ],
@@ -107,7 +107,7 @@
         },
         {
           "lane": "continuity-transfer-receipt",
-          "proof_role": "Only after producer completion, immutable evidence introduction, and fresh independent review of the exact proving source, independently validate execution-base-to-reviewed-source diff hygiene, protected digests, commands, the canonical ordered 45-case result/marker manifest, all 8 acceptance rows and 80 unique subassertions, corrected AC-3 membership, #210 nonactivation/nondeletion authority, strict Clippy, signed expectation and cleanup bindings, review provenance, evidence immutability, and squash-merge-safe ancestry.",
+          "proof_role": "Only after producer completion, immutable evidence introduction, and fresh independent review of the exact proving source, independently validate execution-base-to-reviewed-source diff hygiene, protected digests, commands, the canonical ordered 45-case result/marker manifest, all 8 acceptance rows and 84 unique subassertions, corrected AC-3 membership, #210 nonactivation/nondeletion authority, strict Clippy, signed expectation and cleanup bindings, review provenance, evidence immutability, and squash-merge-safe ancestry.",
           "acceptance_ids": [
             "AC-8"
           ],

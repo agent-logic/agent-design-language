@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-After #191/#201/#203/#208 merge ancestrally, bind #210; implement the sealed transfer session, signed expected entry/chunk/range verification, crash-reconcilable bytes/verifier/prefix advancement, bounded resources, VerifiedTransferPossession, and #208-owned cleanup requests; prove exactly 45 cases plus the SHA-256-bound 8-acceptance/80-subassertion map serially through tests, Clippy, recorded-base-to-source diff hygiene, producer, fresh independent exact-head review, and distinct validator; then publish a ready unmerged PR before #204.
+After #191/#201/#203/#208 merge ancestrally, bind #210; implement the sealed transfer session, signed expected entry/chunk/range verification, crash-reconcilable bytes/verifier/prefix advancement, bounded resources, VerifiedTransferPossession, and #208-owned cleanup requests; prove exactly 45 cases plus the SHA-256-bound 8-acceptance/84-subassertion map serially through tests, Clippy, recorded-base-to-source diff hygiene, producer, fresh independent exact-head review, and distinct validator; then publish a ready unmerged PR before #204. The map must directly associate every case with at least one subassertion.
 
 ## Plan
 
-Revision 4
+Revision 5
 
 ## Steps
 

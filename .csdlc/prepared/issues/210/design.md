@@ -169,9 +169,12 @@ The tracked `continuity-transfer-acceptance-map.json` is part of the proof
 contract. Its canonical `case_manifest` is the sole ordered case denominator:
 ordinals 1 through 45 each bind one exact case name, expected `pass` result,
 and unique `pass:CASE-<three-digit-ordinal>:<case_name>` marker. SHA-256
-`b792f8c40545542b1e9b108d053a68e4fab64bd2c83e914dc8974f9dd3a79fa2`
+`2929794678966f233f8caf4df3131d9188cac3e5107fc0190cee9dd4fd1d71cd`
 binds that exact ordered result/marker table, exactly eight acceptance rows,
-all forty-five case names, and exactly eighty unique named subassertions. It
+all forty-five case names, and exactly eighty-four unique named subassertions.
+Every case has at least one direct subassertion mapping; in particular,
+`exact_retry_cached`, `wrong_polis_denied`, `wrong_domain_denied`, and
+`generic_send_denied` are no longer covered only by the case manifest. It
 makes route/membership/certificate/boot
 drift, framing/final/range errors, signed catalog entry/chunk/range checks,
 resource N+1 boundaries, bytes/verifier/prefix crash order, cleanup after
@@ -186,8 +189,9 @@ the implementation and proof must show that #210 exposes neither activation nor
 deletion authority while #208 alone performs discard effects. The focused test,
 producer, and validator independently load and hash the map and reject missing,
 extra, duplicate, renamed, reordered, wrongly mapped/marked, or nonpassing
-case-manifest or subassertion evidence; no case may expand its own denominator
-at execution time.
+case-manifest or subassertion evidence. They also reject any case without a
+direct subassertion mapping; no case may expand its own denominator at execution
+time.
 
 Validation is strictly serial: focused tests, strict Clippy, exact diff hygiene,
 producer, fresh independent exact-head review, then the distinct validator. The
