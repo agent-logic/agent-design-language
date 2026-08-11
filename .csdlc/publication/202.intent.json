@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 202,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/202-authorized-learner-transport-preparation",
+  "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
+  "body": "Closes #202\n\n## Summary\n\n- add a learner-owned production authority and factory with distinct durable transport identity and live boot custody\n- enforce pending-exclusion recovery identity, committed-index, target-membership, deadline, route-drain, and cache-first exact-retry semantics\n- prove a real fourth OpenRaft node over authenticated Quinn through add_learner, snapshot catch-up, later append, fencing, and clean shutdown\n- retain immutable merge-safe v7 proof with no machine-local cleanliness exceptions\n\n## Validation\n\n- 42/42 private runner tests covering 36 semantic cases\n- 13/13 public boundary tests\n- 31 exact named behavior assertions\n- distributed_transport, distributed_discovery, and distributed_runtime_transport compile checks\n- strict library and public-target Clippy\n- immutable v7 receipt validator PASS\n- fresh independent exact-head review PASS at 4b55f2e4a40ce03e1612aaf4da7c129962f3369e\n\n## Boundary\n\nThis PR implements #202 only. Joint/final voter membership remains #199, and final production integration remains #142.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:f1c353d052151c3142d46ec73069e1ad7628de87:022fa1934533a126f76609807cf8a3408882b7ac24c67a49fcc71f7043a91684",
+  "commit_sha": "f1c353d052151c3142d46ec73069e1ad7628de87"
+}
