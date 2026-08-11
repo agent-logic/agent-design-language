@@ -47,12 +47,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Only the required Runtime-fast GitHub lane remains to be re-observed after publication; no optional jobs are authorized.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7a0eb7e60259fe37a83e02016c7c9bfa8dbbb1dd:2f0559f45e649e4af9f52aa5e9bda51a5e74b97b37e464c182205e72ae4785c4")
 
-Reviewer: None
+Reviewer: Some("subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c")
 
-Result: pre_review
+Result: pass

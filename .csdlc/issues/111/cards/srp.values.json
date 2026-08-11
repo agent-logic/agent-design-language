@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
     "slug": "wp18c01-canonical-human-agent-conversation-sessions",
     "version": "v0.92",
-    "generation": 86
+    "generation": 87
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/operations.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/conversation_sessions.rs\nadl-runtime-kernel/tests/parity_b_live_kernel.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/conversation_sessions.test.mjs\nadl/config/validation_lane_selector.v0.91.6.json\nadl/tools/test_ci_path_policy.sh\nadl/tools/test_select_validation_lanes.sh\n.csdlc/issues/111",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:7a0eb7e60259fe37a83e02016c7c9bfa8dbbb1dd:2f0559f45e649e4af9f52aa5e9bda51a5e74b97b37e464c182205e72ae4785c4",
+      "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
       "review_prompts": [
         "Verify Runtime is the only session/order/outcome authority and the browser cannot synthesize turns, delivery, or replies.",
         "Probe duplicate submission, sequence gaps, reconnect replay, cancellation/timeout races, late adapter output, saturation, shutdown, and restart behavior.",
@@ -24,8 +24,10 @@
         "Verify every product path in the diff is issue-owned, PVF-classified, and supported by exact-revision proof."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Only the required Runtime-fast GitHub lane remains to be re-observed after publication; no optional jobs are authorized."
+      ],
+      "review_result": "pass"
     }
   }
 }
