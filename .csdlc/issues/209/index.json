@@ -1,0 +1,88 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 209,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
+  "phase": "initialized",
+  "generation": 3,
+  "digest": "8c265fae55946bb6579ebfee035be1e5c4b1625c6fe3009c2d238b65d2337919",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/209/design.md",
+  "diagram_path": ".csdlc/prepared/issues/209/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-authorized:209-current-production-surface",
+      "revision": "a0deba7b47bacb85077993e73131c18d26500cc0f1034a58420319c2784773f1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c0e00a0284427b24fea6138b3b42994d5768667f87edb5a056069021361c2593",
+      "rendered_digest": "6ab414912da8b10f191cb7cd3eea7784652fb74e3078d62b0910875fce567253",
+      "ast_digest": "0aee2bd815b8c6341e8aff6dc3c6cd119dfed378531100564f71b0578fe18f04"
+    },
+    "stp": {
+      "values_digest": "9a7fb4a6ebbcd47c8b829b251e5b23010ff564d9f8303d35c298367d2d63aa07",
+      "rendered_digest": "79f56ef82fe12d87895c86ccae837ef4b17c501cc774f7bd466322f20d032199",
+      "ast_digest": "94e37cfee499fc89d83ef4edaf9aa309a14ee1913f16e6b666f71e96cb6681c9"
+    },
+    "spp": {
+      "values_digest": "ce7ecf2c3dc95adcaa4e04771be81a1dce1f6ed36df324d545b3056e8a796ab4",
+      "rendered_digest": "1d3d25755b6ef0f80ed7b4fecbe3138453815a11bc0aa93db359d5a9b2de10d2",
+      "ast_digest": "92f603d4dbdef78af390e87adcc0e07907e95d525df658aeadc8874a598c56f0"
+    },
+    "vpp": {
+      "values_digest": "299c84e4f949933232f31578ffeb7c6822a250ad2f54be6737c37b5b9304f4d0",
+      "rendered_digest": "17e64cb4854052c7f8f2bff185a71a5e0e9f8fde40dcae0f439564f70e43e719",
+      "ast_digest": "151d846e28b49f0ebcdbb3bbf15386246db6b4d85348b645fd0ad962b5235ccb"
+    },
+    "srp": {
+      "values_digest": "ab493d6766b976c7dbe59e0fe4799f38c8b545c22193e77f160e0220db77ef09",
+      "rendered_digest": "4509b9bb41fb9f0bc69eacba44a9fbeaa735d81555a8da778e92107c45e4ae0c",
+      "ast_digest": "8bf94a34d92f04afa1c12f9b864b31656d6405c02dd03d3dcdd9af1c2d403d07"
+    },
+    "sor": {
+      "values_digest": "9988d3fe3c5a68185f282c4774230bbc5c7c7bfe14a293226ef3b31e3263e145",
+      "rendered_digest": "5200a724c734a44dff9f290b31f293ca5ba3a18edf04e9561bb71d2f350faed0",
+      "ast_digest": "db87af4114c1a662963f52bf855e2712c0dd771c47892ba6d00c126faaf45914"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:209-acip-authority-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator-authorized:209-current-production-surface",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:209-acip-authority-repair",
+      "reason": "Align pre-execution validation with the current production kernel ACIP endpoint that superseded the merged PR76 embedded-listener paths.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"production-acip-wss\",\"proof_role\":\"Prove real adl-runtime-kernel binary dispatch, typed completion/rejection, bounded queue pressure, and public contract parity.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\",\"--no-tests=fail\"],\"parallel_group\":\"209-core\",\"defer_reason\":null},{\"lane\":\"acip-replay-authority\",\"proof_role\":\"Prove principal-and-domain replay isolation, bounded progression, reconnect, maximum value, duplicate, eviction, and unrelated-traffic recovery.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3500,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\",\"--no-tests=fail\"],\"parallel_group\":\"209-core\",\"defer_reason\":null},{\"lane\":\"production-acip-native\",\"proof_role\":\"Retain exact-head Linux/macOS receipts for production dispatch, replay isolation, pressure/errors, path hygiene, and semantic equivalence, then require fresh review and terminal green delivery.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/209/validate-native-receipts.rb\",\".csdlc/evidence/209/native-platform/linux.json\",\".csdlc/evidence/209/native-platform/macos.json\"],\"parallel_group\":\"209-native\",\"defer_reason\":\"Runs after publication on native GitHub Actions Linux and macOS; merge remains blocked until retained proof and fresh post-native review pass.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:209-acip-authority-repair",
+      "reason": "Align issue ownership with the current production kernel ACIP surface that superseded the historical embedded-listener paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/acip.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime/src/runtime_api_auth.rs\",\"docs/api/runtime-v3/v1/openapi.json\",\"docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md\",\".csdlc/prepared/issues/209\",\".csdlc/evidence/209\",\".github/workflows/wp14-production-acip-repair.yml\"]}"
+    }
+  ]
+}

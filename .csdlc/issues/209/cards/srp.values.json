@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 209,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
+    "slug": "wp14-production-acip-authority-repair",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #209 production ACIP dispatch, pressure/typed-error behavior, scoped replay authority, OpenAPI parity, focused tests, native proof, and typed lifecycle evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the test exercise the real Guardian/kernel operation path rather than a service-local ACK?",
+        "Can any principal/session sequence choice deny or authorize unrelated traffic?",
+        "Does bounded pressure preserve replay and operation state while returning the declared typed error?",
+        "Are OpenAPI required/nullability rules identical to runtime admission?",
+        "Are exact native receipts bound to every authority-bearing source and test path?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
