@@ -24,7 +24,7 @@ Resolved both independent P1 findings on exact current-main ancestry: production
 - adl-runtime/tests/distributed_runtime_transport.rs
 - .csdlc/prepared/issues/202/produce-proof-receipt.rb
 - .csdlc/prepared/issues/202/validate-proof-receipt.rb
-- .csdlc/evidence/202/v3/execution-proof.json
+- .csdlc/evidence/202/v4/execution-proof.json
 
 ## Execution
 
@@ -34,10 +34,11 @@ Resolved both independent P1 findings on exact current-main ancestry: production
 - Preserved token previous_operation_sha256, required exact predecessor staging, and made the atomic successor flip remove routes so retained EstablishedLearnerSession clones reject without manual close or cross-generation reuse.
 - Replaced the disconnected four-node proof with SecurePolisNetworkFactory install/request over live Quinn into serve_authorized_learner_connection and a real fourth PolisRaft added by add_learner(4,true), proving forced snapshot catch-up, later append replication, unchanged voters, and denied vote/generic/unknown messages.
 - Strengthened live stale-boot, wrong-address, reversed-direction, production exclusion endorsement, and failed/committed admission plus exclusion restart regressions while retaining the exact 36 private and 13 public case denominator.
-- Versioned repaired proof as immutable v3 evidence, bound exact 2afa820c current-main ancestry, eighteen behavior assertions, mandatory production authority ownership, runtime integration compile, and strict library/public Clippy.
+- Versioned repaired proof as immutable v4 evidence, bound exact 2afa820c current-main ancestry, eighteen behavior assertions, mandatory production authority ownership, runtime integration compile, and strict library/public Clippy.
 - Sealed exclusion policy traits and raw endorsement/session constructors to crate scope; ordinary opaque sessions now embed the reconstructed ProductionLearnerAuthority and revalidate both peers before every public request/accept stream operation.
 - Bound PublishedAuthorityResult publisher identity and membership artifact learner identity to the exact live polis, trust domain, route-cut digest/index, authority Guardian, and boot generation at admission, topology, route install, TLS/server acceptance, and exclusion activation.
 - Added retained-session zero-STREAM-frame denial across every public Polis dispatch entry point plus cross-polis published-result and live-install denial, expanding the immutable behavior denominator from fifteen to eighteen assertions while retaining 36 private and 13 public cases.
+- Retained the publisher node ID alongside Guardian and boot generation in the factory trust snapshot, so synchronous activation enforces the same exact authority identity tuple as admission and live route installation.
 
 ## Validation
 
@@ -57,7 +58,7 @@ Resolved both independent P1 findings on exact current-main ancestry: production
     ],
     "purpose": "Run the exact behavior-bound private authorized learner lane.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v3/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v4/execution-proof.json"
   },
   {
     "command": [
@@ -73,7 +74,7 @@ Resolved both independent P1 findings on exact current-main ancestry: production
     ],
     "purpose": "Run the exact public canonical Membership artifact boundary.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v3/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v4/execution-proof.json"
   },
   {
     "command": [
@@ -88,7 +89,7 @@ Resolved both independent P1 findings on exact current-main ancestry: production
     ],
     "purpose": "Compile the full runtime transport integration surface against mandatory shared authority construction.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v3/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v4/execution-proof.json"
   },
   {
     "command": [
@@ -104,7 +105,7 @@ Resolved both independent P1 findings on exact current-main ancestry: production
     ],
     "purpose": "Run strict Clippy across the production library.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v3/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v4/execution-proof.json"
   },
   {
     "command": [
@@ -121,7 +122,7 @@ Resolved both independent P1 findings on exact current-main ancestry: production
     ],
     "purpose": "Run strict Clippy across the exact public learner target.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v3/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v4/execution-proof.json"
   },
   {
     "command": [
@@ -130,7 +131,7 @@ Resolved both independent P1 findings on exact current-main ancestry: production
     ],
     "purpose": "Produce immutable exact-source issue proof.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/202/v3/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/202/v4/execution-proof.json"
   },
   {
     "command": [
