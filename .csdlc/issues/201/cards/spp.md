@@ -16,7 +16,7 @@ After WP-04.16a merges, bind and implement the bounded committed authority proto
 
 ## Plan
 
-Revision 15
+Revision 16
 
 ## Steps
 
@@ -29,7 +29,7 @@ Revision 15
       "AC-2",
       "AC-3"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S2",
@@ -38,16 +38,16 @@ Revision 15
       "AC-6",
       "AC-7"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Return only a fail-closed pending response from committed finalize apply, then use state-held local voter identity, root, and checkpoint authority to reconcile that voter's exact result, retry record, journal, and fresh CAS before exposing an opaque PublishedAuthorityResult; prove the exact independent 47-case contract and real three-voter OpenRaft path.",
+    "action": "Return only a fail-closed pending response from committed finalize apply, then use state-held local voter identity, root, and checkpoint authority to reconcile that voter's exact result, retry record, journal, and fresh CAS before exposing an opaque PublishedAuthorityResult; regenerate and validate the exact independent 47-case and real three-voter OpenRaft proof.",
     "acceptance_ids": [
       "AC-4",
       "AC-5"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S4",

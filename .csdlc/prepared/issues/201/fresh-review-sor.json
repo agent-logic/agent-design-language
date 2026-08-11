@@ -1,13 +1,13 @@
 {
   "issue": 201,
   "card": "sor",
-  "expected_generation": 41,
-  "expected_digest": "a617ad7285aec05ecb269c0f1b36c7b8f35d9bc16c396edaa15b7b4fc14af8e9",
+  "expected_generation": 42,
+  "expected_digest": "45c68c3896f9eff54633b5592f398d6af5fdb884651d8b57fa74ec3222af8b8c",
   "actor": "codex:/root/resolve_201_review_129ea",
   "reason": "Record the exact route-custody, pending-response, local publication-context, and independent validator implementation truth.",
   "operation": {
     "operation": "replace_execution",
-    "summary": "Resolved authority-protocol review by making actual OpenRaft apply indices and the verified route cut's exact polis, membership epoch, authority cut, and boot generations the replicated commit authority; valid finalize apply returns pending with no token, and only runtime-held local identity, root, and checkpoint authority may publish after reconciliation.",
+    "summary": "Authority-protocol review repairs are implemented, but the superseded v6 proof has been removed and exact current-source proof regeneration, full and shallow validation, and fresh independent review remain pending.",
     "changes": [
       "Bound production PrepareAuthority to the state-held verified route cut's exact polis id and membership epoch as well as its authority membership and boot generations, with real OpenRaft rejection of relabeled polis, epoch, and self-consistent wrong authority cuts.",
       "Kept Guardian signer custody opaque, crate-private, runtime-local, and non-serialized; signatures bind guardian, certificate generation, boot generation, membership index, intent digest, committed prepare index, and finalization time, while actual finalize apply index is separately verified and recorded.",
@@ -28,13 +28,8 @@
       ".csdlc/evidence/201/v6/execution-proof.json"
     ],
     "validation": [
-      {"command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "-E", "test(/^distributed::authority_protocol::contract_tests::/)", "--no-tests=fail"], "purpose": "Prove the exact selected 47-case contract denominator.", "outcome": "passed", "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"},
-      {"command": ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids", "--", "--exact", "--nocapture"], "purpose": "Prove real three-voter OpenRaft prepare/finalize, pending response, exact route custody, local reconcile/restart, and substitution denial.", "outcome": "passed", "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"},
-      {"command": ["cargo", "clippy", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "--", "-D", "warnings"], "purpose": "Prove the production library is warning-free without test-only authority helpers.", "outcome": "passed", "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"},
-      {"command": ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_authority_protocol"], "purpose": "Prove legacy caller-indexed authority command shapes fail closed through the public production type.", "outcome": "passed", "evidence_ref": "adl-runtime/tests/distributed_authority_protocol.rs"},
-      {"command": ["ruby", ".csdlc/prepared/issues/201/validate-proof-receipt.rb"], "purpose": "Prove the independent exact-case contract and immutable packet in full and depth-one history.", "outcome": "passed", "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"},
-      {"command": ["csdlc-validate", "--root", ".", "issue", "--issue", "201"], "purpose": "Prove typed card projections and lifecycle record consistency.", "outcome": "passed", "evidence_ref": ".csdlc/issues/201/index.json"},
-      {"command": ["git", "diff", "--check", "origin/main...HEAD"], "purpose": "Prove final branch diff hygiene.", "outcome": "passed", "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"}
+      {"command": ["ruby", ".csdlc/prepared/issues/201/produce-proof-receipt.rb"], "purpose": "Regenerate exact current-source 47-case, OpenRaft, and strict Clippy proof.", "outcome": "deferred", "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"},
+      {"command": ["ruby", ".csdlc/prepared/issues/201/validate-proof-receipt.rb"], "purpose": "Validate the independent exact-case contract in full and depth-one history after regeneration.", "outcome": "deferred", "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"}
     ]
   }
 }

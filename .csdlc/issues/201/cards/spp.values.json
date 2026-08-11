@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
     "slug": "quorum-committed-authority-protocol",
     "version": "v0.92",
-    "generation": 41
+    "generation": 43
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 15,
+      "plan_revision": 16,
       "summary": "After WP-04.16a merges, bind and implement the bounded committed authority protocol, retain a private byte-identical operation-specific store-native signed artifact view in each opaque finalized token for sealed #199/#200/#203 consumers, and expose to sealed #210 only a read-only ContinuityTransferGrantProjection bound to the exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; prove deterministic endorsement/time/retry/checkpoint/artifact, projection-confusion, wrong-lineage, wrong-checkpoint-handle, wrong-bundle-handle, and legacy-closure behavior, retain merge-safe evidence, resolve exact-head review, and publish a ready unmerged PR before releasing downstream integrations.",
       "steps": [
         {
@@ -24,7 +24,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "completed"
+          "status": "pending"
         },
         {
           "id": "S2",
@@ -33,16 +33,16 @@
             "AC-6",
             "AC-7"
           ],
-          "status": "completed"
+          "status": "pending"
         },
         {
           "id": "S3",
-          "action": "Return only a fail-closed pending response from committed finalize apply, then use state-held local voter identity, root, and checkpoint authority to reconcile that voter's exact result, retry record, journal, and fresh CAS before exposing an opaque PublishedAuthorityResult; prove the exact independent 47-case contract and real three-voter OpenRaft path.",
+          "action": "Return only a fail-closed pending response from committed finalize apply, then use state-held local voter identity, root, and checkpoint authority to reconcile that voter's exact result, retry record, journal, and fresh CAS before exposing an opaque PublishedAuthorityResult; regenerate and validate the exact independent 47-case and real three-voter OpenRaft proof.",
           "acceptance_ids": [
             "AC-4",
             "AC-5"
           ],
-          "status": "completed"
+          "status": "pending"
         },
         {
           "id": "S4",

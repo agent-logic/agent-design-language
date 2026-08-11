@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "implemented",
-  "generation": 41,
-  "digest": "a617ad7285aec05ecb269c0f1b36c7b8f35d9bc16c396edaa15b7b4fc14af8e9",
+  "generation": 43,
+  "digest": "f455cd075f35761e15187f746ff67ad67d47c527e1b62ad8225cb88b265a8cdb",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ef3d753635cb34904dd4e373f4f80a7487c2b49600cefdb2c5164a9693341b39",
+      "values_digest": "716ba957a87f50bafeb2083869ea256c1f855846034f2f3f1ac2dfa1e64d989a",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "814cf74c4280f2c2179e04f1cbcaced3b4323d94b920a7594fafb8faaddb5619",
+      "values_digest": "d4a0b7de36e6fd388d6a670f2bfe47e2c73a5cf920a5428767cb96b9eb216178",
       "rendered_digest": "b9dc9472b5cb780e06096f27d1ea410affd2ef1dbe6879575b904767dd8e5a96",
       "ast_digest": "933b98acdd836328d3647ded0d86e0a2aed1320befac8f59ce373d1c34fb1041"
     },
     "spp": {
-      "values_digest": "0ce46e3f91e47ad1f43374b2573208d5da71e216bb8ac433a683f27785adbf50",
-      "rendered_digest": "2fa4fa01a864b827a67a5808c7c0bd3e44c617d2ef43207408a21c70470e476b",
-      "ast_digest": "a683ed2d6267b1270150f5a43dcb174ef5d47efb1710e8cd7abb4f0352bb1c17"
+      "values_digest": "9eac9a2322dd1660a7c846d989cbde45428a718e3c1919d904a83e917f8eedda",
+      "rendered_digest": "b8b6f14718b1507ba039cad79b99352076ef29782f2d732cae3861c5c8b5bd61",
+      "ast_digest": "d345f4d467d77c62c283f4b9baa131ddf1d19ad212c050116536fea7147c7bed"
     },
     "vpp": {
-      "values_digest": "c7bbaad20dd8262f321be575ed476828c5b2cf8931f59ec5b5efddef4f19974d",
+      "values_digest": "8ceb93c2391fa2f128007f5c55448c1c345e07245cad862ef1c9841d81e52aa4",
       "rendered_digest": "42a390c74604fc4273bf3e1a861ece961444f50988e9289f707715edbed60559",
       "ast_digest": "7f269ed3178a7aaff27ca611b7373893e8262283ef10e798b55ffec597969f04"
     },
     "srp": {
-      "values_digest": "477d5f0e1cf72a7561981bde9e4f0a4b9b90b5617c828b64d1827cda081449a5",
+      "values_digest": "2288bed4acb8556606d6dcd2fa508cb80ab10a1367e32de762b49eef0f77f283",
       "rendered_digest": "2ebd7b74465430ffbb6acd15c33462060b46de2365908b3aed8622ae54266d1d",
       "ast_digest": "13c1b8227b09144168af3061755df4d86a7c19afc00c36dbf97c550164221481"
     },
     "sor": {
-      "values_digest": "c8d1078b98f13f313bff382a77486c822f03039e29bea6fa3f68bbf60298f337",
-      "rendered_digest": "e6057b87aa8791896222444e08eeb067bec2eb5fa2ebce8207e6812cc76b503f",
-      "ast_digest": "747d8021483e2cf52d03ee8ca1e9cfbb441fe758f506506c05dea1fe6ac54227"
+      "values_digest": "9b9cb2dda7e3f740e57eb8a06f7499969e0917c7c0c28ea828a2a393babb36d0",
+      "rendered_digest": "8ed09f4abe248e44449d7ae2036706be29632765d26772e8409b242c9f3d785b",
+      "ast_digest": "a8de6820996ad73734c750311d9ca57acb788d33e3e4de2dc004f053aaa75668"
     }
   },
   "transitions": [
@@ -378,6 +378,20 @@
       "actor": "codex:/root/resolve_201_review_129ea",
       "reason": "Valid finalize apply returns pending and runtime reconciliation uses only configured local publication context.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 42,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "The previous v6 proof is stale and has been removed; proof regeneration and shallow validation remain in progress.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Bind production PrepareAuthority and FinalizeAuthority commands to actual OpenRaft applied log IDs and the verified route cut's exact polis, membership epoch, authority cut, and boot generations; reject caller-selected authority, caller indices, route relabeling, legacy replay, and stale custody.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Keep signer custody runtime-local and non-serialized; cryptographically bind guardian, certificate generation, boot generation, membership index, intent, committed prepare index, and finalization time, while separately validating and recording the actual finalize apply index; deny every non-replicated route to a sealed artifact or projection.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Return only a fail-closed pending response from committed finalize apply, then use state-held local voter identity, root, and checkpoint authority to reconcile that voter's exact result, retry record, journal, and fresh CAS before exposing an opaque PublishedAuthorityResult; regenerate and validate the exact independent 47-case and real three-voter OpenRaft proof.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Retain one immutable v6 proof, validate it in full-history and depth-one squash-like history, obtain fresh independent exact-head review, and stop before publication or merge.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 45,
+      "generation": 43,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Record the exact route-custody, pending-response, local publication-context, and independent validator implementation truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Authority-protocol review repairs are implemented, but the superseded v6 proof has been removed and exact current-source proof regeneration, full and shallow validation, and fresh independent review remain pending.\",\"changes\":[\"Bound production PrepareAuthority to the state-held verified route cut's exact polis id and membership epoch as well as its authority membership and boot generations, with real OpenRaft rejection of relabeled polis, epoch, and self-consistent wrong authority cuts.\",\"Kept Guardian signer custody opaque, crate-private, runtime-local, and non-serialized; signatures bind guardian, certificate generation, boot generation, membership index, intent digest, committed prepare index, and finalization time, while actual finalize apply index is separately verified and recorded.\",\"Made valid committed finalize return a fail-closed authority_publication_pending response with no token, artifact, projection, or authority-restoring read.\",\"Removed caller-selected publication identity, root, and checkpoint authority from the public reconcile method; each store uses only its configured local voter context and proves fake-node, fake-root, fake-CAS, retry, and restart denial or reconciliation.\",\"Retained direct protocol fault cases under cfg(test), kept production legacy command shapes fail-closed, and preserved exclusive voter-certificate not_after plus inclusive intent deadline boundaries.\",\"Made the v6 validator independently enforce exact ordered canonical 47 case names, expected results, and marker hashes, with built-in substitution and reorder rejection in both full and shallow validation.\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_protocol_contract_tests.rs\",\"adl-runtime/src/distributed/identity.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/tests/distributed_authority_protocol.rs\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201/v6/execution-proof.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\"],\"purpose\":\"Regenerate exact current-source 47-case, OpenRaft, and strict Clippy proof.\",\"outcome\":\"deferred\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"purpose\":\"Validate the independent exact-case contract in full and depth-one history after regeneration.\",\"outcome\":\"deferred\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"}]}"
     }
   ]
 }
