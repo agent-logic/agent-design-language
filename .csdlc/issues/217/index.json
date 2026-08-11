@@ -3,13 +3,40 @@
   "issue": 217,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "043cf4baaa244241d04c17933035cff870bc658c4ed2b6a116dd94077e6a85eb",
-  "phase": "implemented",
-  "generation": 51,
-  "digest": "21198acbec25b63742bcc741f6a5091e04fb8380938a86876318a63536397597",
+  "phase": "reviewed",
+  "generation": 52,
+  "digest": "89510cc53d521f6c4a759b54b28da9a810486d995d06510ab6f2d9664241147a",
   "branch": "codex/217-wp14-retained-native-proof-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-217-retained-native-proof-preparation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/shepherd_pr215_green/review_217_finalized_b362e8a",
+    "assigned_by": "/root/shepherd_pr215_green",
+    "revision": "git-blake3:b362e8acd63cd392c1fbf4ae44a6f690c430b2af:85712f0e38a551d7d40319a3a2b1c513efbf7426bce2ba57d8e3f05ca8b7fdbb",
+    "scope": [
+      ".csdlc/evidence/209",
+      ".csdlc/evidence/217",
+      ".csdlc/issues/217",
+      ".csdlc/prepared/issues/217",
+      ".github/workflows/wp14-retained-native-proof.yml"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/shepherd_pr215_green/review_217_finalized_b362e8a",
+    "scope": [
+      ".csdlc/evidence/209",
+      ".csdlc/evidence/217",
+      ".csdlc/issues/217",
+      ".csdlc/prepared/issues/217",
+      ".github/workflows/wp14-retained-native-proof.yml"
+    ],
+    "reviewed_revision": "git-blake3:b362e8acd63cd392c1fbf4ae44a6f690c430b2af:85712f0e38a551d7d40319a3a2b1c513efbf7426bce2ba57d8e3f05ca8b7fdbb",
+    "findings": [],
+    "residual_risks": [
+      "Fresh exact-head Linux and macOS GitHub Actions evidence is a mandatory downstream gate and has not yet run; no retention or merge claim is authorized until that packet and its H2/H3 review chain pass."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7f35f6284a19eec170910acdd0f20e7e6e238c0d76f9296c616a886346a3829a",
+      "values_digest": "c6f16ddab86b0bc678c01a3be6a5742e4c3347c2f20aed03b89d5cabbdcc4d40",
       "rendered_digest": "a989adca89f39e74d79e1887b76cb8c0bb95a24c196524c48983478eb6ddbb96",
       "ast_digest": "8a432891032c24112f8e5b368214f38d8a57ce71e5397b6cb1c8a54b128d63de"
     },
     "stp": {
-      "values_digest": "b7f338004c2b219678e2d407a8bf343b7649fa31d82fc3d05d620ad2edb553e0",
+      "values_digest": "6cf6f2a3af54a4cd6e627c9044ee17b46aceb07c0b841c94bf18596f17dbca45",
       "rendered_digest": "53d95ab64a5024f4c40aba2686398846dda6f4950ab093add0af6c2d117abd68",
       "ast_digest": "ee038cf01ea390de9e733b41b68b8c8e3f550041c50166eb6cc5b0a9b46c78d5"
     },
     "spp": {
-      "values_digest": "530a8a0df3488e448ded9527063601f30fd33959b5cadae0c1699da9baec578f",
+      "values_digest": "e77bc9fe46b7800155de78fa8e6faa3eb507bcfb6f0e3cd3bae936e2d500d639",
       "rendered_digest": "ae068b436699cabc6822fd9f90a1c7e76bdb18e498d6a6bc76f709863252f556",
       "ast_digest": "0d99cdb9ffb71d12174a5c4ee0f3deed3dcf74ccad373ee9948345dfb8ce80cc"
     },
     "vpp": {
-      "values_digest": "1c9a2c39880e30b7054cbdb6919254d9fcadc2b49f76cb72b5e10d4b5e093822",
+      "values_digest": "6b9fcacd5804d17973c2f4d112d894e13cde85bd162668ff927c5269918566da",
       "rendered_digest": "be534364373509ad61d27e2c98bf41925fa1102ee38870ee96944299c3e31182",
       "ast_digest": "2205f5677c8b2b063bae71df1270d0118511803fa00d9c9001944b2eb43b7680"
     },
     "srp": {
-      "values_digest": "9436bb5add9c89ff8353e0d40224515a559c80ae94fe8b805cd2ccbd82773f1e",
-      "rendered_digest": "abc6054a9088878dc78f2a9390b26c7024d9376d6d0e278bbb69cebf7d957428",
-      "ast_digest": "6bfbd0e833b82cbc0a72c98df948b1946a4e7bdf5f788388059cdc64741a2f58"
+      "values_digest": "2cbf7b35af55f30f2ab3bc89c26b2590953478bfa89b9f3a1e54178dbd4e52fc",
+      "rendered_digest": "9d464ac252c98d8522762ee71cdf17c8345179ed3c624571eed68ad3a029edfa",
+      "ast_digest": "fbacf729ba165ba1ed9fc384e931b6974677a9dffcbb4a8c49eecf0cf7082030"
     },
     "sor": {
-      "values_digest": "213c5c929d97dd356c85b2c9458a313d68ec1bae6172aa82ad48807bf514e2aa",
+      "values_digest": "c7dbf05fa9bf292f8b6d40ae138cd0378a79f5da449b8e6414a69b1c22901b1f",
       "rendered_digest": "242873576628df89df55fd65774974e4e1c26bebab92c10e26468d55683fe6f4",
       "ast_digest": "801c190a6b8ce7288e66e8f1aa41e0447788b6b03057a0aa5dad92c8141815ad"
     }
@@ -75,6 +102,13 @@
       "to": "implemented",
       "actor": "/root/shepherd_pr215_green",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -448,6 +482,20 @@
       "actor": "/root/shepherd_pr215_green",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 54,
+      "generation": 51,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 52,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

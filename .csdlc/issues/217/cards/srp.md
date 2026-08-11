@@ -12,16 +12,11 @@ Status: pre_phase
 
 ## Scope
 
+.csdlc/evidence/209
+.csdlc/evidence/217
 .csdlc/issues/217
-.csdlc/prepared/issues/217/design.md
-.csdlc/prepared/issues/217/diagram.mmd
-.csdlc/prepared/issues/217/historical-c640-denominator.json
-.csdlc/prepared/issues/217/protected-source-denominator.json
-.csdlc/prepared/issues/217/proof-contract-paths.json
-.csdlc/prepared/issues/217/h2-retention-allowlist.json
-Read-only #209 producer/validator, exact b27 ten-file packet identity, and c640/a775 ancestry facts
-Review H -> Actions -> H2 denominator/ten evidence/nineteen-entry retained-surface manifest -> independent H2 review -> allowlisted H3 manifest-bound receipt -> later validation without H2 objects
-No implementation, workflow, fresh evidence, publication, or product diff exists yet
+.csdlc/prepared/issues/217
+.github/workflows/wp14-retained-native-proof.yml
 
 ## Prompts
 
@@ -45,12 +40,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Fresh exact-head Linux and macOS GitHub Actions evidence is a mandatory downstream gate and has not yet run; no retention or merge claim is authorized until that packet and its H2/H3 review chain pass.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b362e8acd63cd392c1fbf4ae44a6f690c430b2af:85712f0e38a551d7d40319a3a2b1c513efbf7426bce2ba57d8e3f05ca8b7fdbb")
 
-Reviewer: None
+Reviewer: Some("/root/shepherd_pr215_green/review_217_finalized_b362e8a")
 
-Result: pre_review
+Result: pass
