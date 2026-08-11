@@ -6,10 +6,21 @@
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
   "generation": 20,
-  "digest": "9b80a9de38f91a90592fa472754240377c13aacfdb9af854b9f16599f6339ad3",
+  "digest": "95598be832fe427b71ff554979917f88bce6c0faddd8e67131e11d612226174c",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff20b-043d-7243-a363-68cff29f493b",
+    "assigned_by": "codex:226-focused-runtime-validation-routing",
+    "revision": "git-blake3:2c28996e9e77188dedfe3a3c42c897ac27e32263:9d34daa8cac36e7d567921de9f35cf2e1c417188e8c1b2b0c1a7cf9d3669c42b",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226/design.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "e8815fcd018a6f7bb6bcac9b0f3945d7e0f9a6e6a039f89597c22586f6677e8d",
-      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
-      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
+      "values_digest": "b7d6b95494de91528bfbdd0c04d54ce96c25c87bbde9007f81712adf32ec123b",
+      "rendered_digest": "e1ac8934aa11c005160834b5b095a8e83756cf055f48e66c1acf96eebd811a26",
+      "ast_digest": "fccdd8a8cbae10354c4926365995351d865784831b3544d45c5bf0866fd223a3"
     },
     "sor": {
       "values_digest": "5f61eb304ed0873d0657f2bd148285e8be93874c3aafa9eb175049c7a965924c",
@@ -344,6 +355,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Recover stale review truth after fixing the independent review finding: selected JavaScript validation now requires the file to exist, executes syntax proof, and fails closed on deletion.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 20,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
