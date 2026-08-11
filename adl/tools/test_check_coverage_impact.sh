@@ -451,6 +451,18 @@ cargo nextest list --manifest-path "$ROOT/adl-runtime/Cargo.toml" \
 grep -Fx "adl-runtime::distributed_transport mutual_tls_loopback_carries_identity_bound_messages_both_ways" \
   "$runtime_v3_transport_inventory" >/dev/null
 
+runtime_v3_governed_transport_changed="$TMP/runtime-v3-governed-transport-changed.txt"
+printf 'M\tadl-runtime/src/distributed/transport/governed/learner_transport.rs\n' >"$runtime_v3_governed_transport_changed"
+runtime_v3_governed_transport_filters="$TMP/runtime-v3-governed-transport-filters.txt"
+bash "$SCRIPT" --changed-files "$runtime_v3_governed_transport_changed" --print-risk-filters >"$runtime_v3_governed_transport_filters"
+grep -Fx "runtime_v3_distributed_transport" "$runtime_v3_governed_transport_filters" >/dev/null
+
+runtime_v3_transport_shim_changed="$TMP/runtime-v3-transport-shim-changed.txt"
+printf 'M\tadl-runtime/src/distributed/transport.rs\n' >"$runtime_v3_transport_shim_changed"
+runtime_v3_transport_shim_filters="$TMP/runtime-v3-transport-shim-filters.txt"
+bash "$SCRIPT" --changed-files "$runtime_v3_transport_shim_changed" --print-risk-filters >"$runtime_v3_transport_shim_filters"
+[ ! -s "$runtime_v3_transport_shim_filters" ]
+
 runtime_v3_auth_changed="$TMP/runtime-v3-auth-changed.txt"
 printf 'M\tadl-runtime/src/runtime_api_auth.rs\n' >"$runtime_v3_auth_changed"
 runtime_v3_auth_filters="$TMP/runtime-v3-auth-filters.txt"

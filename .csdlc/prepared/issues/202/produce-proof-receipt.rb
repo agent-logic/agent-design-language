@@ -9,7 +9,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/202/v8/"
+PREFIX = ".csdlc/evidence/202/v9/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_202_CASE_V1 "
@@ -184,7 +184,7 @@ fail_proof("subassertion mismatch") unless assertions.sort == EXPECTED_ASSERTION
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue202.authorized_learner_transport_proof.v8", "issue" => 202,
+  "schema" => "adl.issue202.authorized_learner_transport_proof.v9", "issue" => 202,
   "source_revision" => source, "source_tree" => tree.strip, "required_main_ancestor" => MAIN_ANCESTOR,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
   "commands" => commands, "test_summary" => { "semantic_cases" => 36, "private_runner_selected" => 42, "private_runner_passed" => 42, "public_selected" => 13, "public_passed" => 13, "named_subassertions" => 31 },
@@ -192,4 +192,4 @@ proof = {
   "subassertions" => EXPECTED_ASSERTIONS.map { |case_name, name| { "case" => case_name, "assertion" => name, "marker_sha256" => Digest::SHA256.hexdigest("#{ASSERTION_MARKER}#{case_name} #{name}") } }
 }
 File.binwrite(PROOF, JSON.generate(proof) + "\n")
-puts "PASS: produced issue #202 exact 36 semantic / 42 runner + 13 public / 31 assertion v8 proof with coverage-routing and route-rotation regressions at #{source}"
+puts "PASS: produced issue #202 exact 36 semantic / 42 runner + 13 public / 31 assertion v9 proof with coverage-routing and route-rotation regressions at #{source}"
