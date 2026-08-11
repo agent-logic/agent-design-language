@@ -18,8 +18,11 @@ use sha2::{Digest, Sha256};
 use tokio::time::Instant;
 use tokio_util::sync::CancellationToken;
 
+#[cfg(test)]
+use super::lease::VoterAuthority;
 use super::{
     certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
+    learner_transport::LearnerEndpointRole,
     lease::{AuthorityMembership, ControlCertificatePurpose},
     membership::{MemberRole, MembershipPolicy, MembershipState},
 };
@@ -597,15 +600,63 @@ pub trait OrdinarySessionExclusion {
     fn ordinary_session_allowed(&self, node_id: &str, guardian_id: &str) -> bool;
 }
 
-struct AllowAllSessions;
-
-impl OrdinarySessionExclusion for AllowAllSessions {
-    fn ordinary_session_allowed(&self, _node_id: &str, _guardian_id: &str) -> bool {
-        true
-    }
-}
-
 impl VerifiedPolisRouteCut {
+    #[cfg(test)]
+    pub(crate) fn test_from_parts(
+        polis_id: &str,
+        trust_domain: &str,
+        routes: BTreeMap<u64, SocketAddr>,
+        identities: BTreeMap<u64, (String, String, [u8; 32], u64)>,
+    ) -> Self {
+        let voters = identities
+            .iter()
+            .map(
+                |(_, (_, guardian_id, control_public_key, _))| VoterAuthority {
+                    guardian_id: guardian_id.as_bytes().to_vec(),
+                    trust_domain_id: trust_domain.as_bytes().to_vec(),
+                    certificate_generation: 1,
+                    purpose: ControlCertificatePurpose::AuthorityEndorsement,
+                    not_before_unix_seconds: 1,
+                    not_after_unix_seconds: i64::MAX,
+                    revoked: false,
+                    control_public_key: *control_public_key,
+                },
+            )
+            .collect::<Vec<_>>();
+        let configs = vec![voters
+            .iter()
+            .map(|voter| voter.guardian_id.clone())
+            .collect()];
+        let authority_membership =
+            AuthorityMembership::new(trust_domain.as_bytes().to_vec(), 1, 1, configs, voters)
+                .expect("test authority membership");
+        let authorities = identities
+            .into_iter()
+            .map(
+                |(node, (node_id, guardian_id, control_public_key, boot_generation))| {
+                    (
+                        node,
+                        VerifiedRouteAuthority {
+                            node_id,
+                            guardian_id,
+                            control_public_key,
+                            boot_generation,
+                        },
+                    )
+                },
+            )
+            .collect();
+        Self {
+            polis_id: polis_id.to_owned(),
+            trust_domain: trust_domain.to_owned(),
+            membership_epoch: 1,
+            committed_membership_index: 1,
+            routes,
+            authorities,
+            authority_membership,
+        }
+    }
+
     pub fn verify(
         polis: &PolisIdentityBinding,
         established: &EstablishedRuntimeAuthority,
@@ -755,15 +806,6 @@ impl VerifiedPolisRouteCut {
             .collect()
     }
 
-    pub fn pending_session(
-        &self,
-        local: u64,
-        peer: u64,
-        connection: &AuthenticatedConnection,
-    ) -> TransportResult<PendingPolisSession> {
-        self.pending_session_with_exclusion(local, peer, connection, &AllowAllSessions)
-    }
-
     pub fn pending_session_with_exclusion(
         &self,
         local: u64,
@@ -816,17 +858,6 @@ impl VerifiedPolisRouteCut {
                 peer_authority.control_public_key,
             )?,
         ))
-    }
-
-    pub fn session_matches(
-        &self,
-        local: u64,
-        peer: u64,
-        connection: &AuthenticatedConnection,
-        established: &EstablishedPolisSession,
-    ) -> bool {
-        self.pending_session(local, peer, connection)
-            .is_ok_and(|pending| pending.binding == established.binding)
     }
 
     pub fn session_matches_with_exclusion(
@@ -1297,6 +1328,8 @@ fn transport_config(limits: &TransportLimits) -> TransportResult<Arc<quinn::Tran
 
 pub struct AuthenticatedConnection {
     connection: Connection,
+    local_address: SocketAddr,
+    remote_address: SocketAddr,
     local: PeerBinding,
     expected_peer: PeerBinding,
     local_authorization: TransportAuthorization,
@@ -1330,7 +1363,10 @@ impl AuthenticatedConnection {
             _ = cancellation.cancelled() => return Err(TransportError::Cancelled),
             result = connecting => result.map_err(|_| TransportError::Connection)?,
         };
-        Self::from_connection(connection, security, ConnectionRole::Dialer)
+        let local_address = endpoint
+            .local_addr()
+            .map_err(|_| TransportError::Connection)?;
+        Self::from_connection(connection, security, ConnectionRole::Dialer, local_address)
     }
 
     pub async fn accept(
@@ -1346,13 +1382,22 @@ impl AuthenticatedConnection {
             _ = cancellation.cancelled() => return Err(TransportError::Cancelled),
             result = incoming => result.map_err(|_| TransportError::Connection)?,
         };
-        Self::from_connection(connection, security, ConnectionRole::Acceptor)
+        let local_address = endpoint
+            .local_addr()
+            .map_err(|_| TransportError::Connection)?;
+        Self::from_connection(
+            connection,
+            security,
+            ConnectionRole::Acceptor,
+            local_address,
+        )
     }
 
     fn from_connection(
         connection: Connection,
         security: ConnectionSecurity,
         role: ConnectionRole,
+        local_address: SocketAddr,
     ) -> TransportResult<Self> {
         let ConnectionSecurity {
             local,
@@ -1371,8 +1416,11 @@ impl AuthenticatedConnection {
             limits.authorization_lifetime,
             local_deadline.min(peer_deadline),
         )?;
+        let remote_address = connection.remote_address();
         Ok(Self {
             connection,
+            local_address,
+            remote_address,
             local,
             expected_peer,
             local_authorization,
@@ -1413,21 +1461,53 @@ impl AuthenticatedConnection {
         (&self.local, &self.expected_peer)
     }
 
-    pub(crate) fn matches_learner_endpoint(
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn matches_learner_route(
         &self,
+        endpoint_role: LearnerEndpointRole,
         trust_domain: &str,
-        node_id: &str,
-        guardian_id: &str,
-        certificate_generation: u64,
+        voter_node_id: &str,
+        voter_guardian_id: &str,
+        voter_certificate_generation: u64,
+        learner_node_id: &str,
+        learner_guardian_id: &str,
+        learner_certificate_generation: u64,
+        authorized_learner_address: SocketAddr,
     ) -> bool {
-        [&self.local, &self.expected_peer]
-            .into_iter()
-            .any(|binding| {
-                binding.trust_domain == trust_domain
-                    && binding.node_id == node_id
-                    && binding.guardian_id.as_bytes() == guardian_id.as_bytes()
-                    && binding.certificate_generation == certificate_generation
-            })
+        let voter_matches = |binding: &PeerBinding| {
+            binding.trust_domain == trust_domain
+                && binding.node_id == voter_node_id
+                && binding.guardian_id == voter_guardian_id
+                && binding.certificate_generation == voter_certificate_generation
+        };
+        let learner_matches = |binding: &PeerBinding| {
+            binding.trust_domain == trust_domain
+                && binding.node_id == learner_node_id
+                && binding.guardian_id == learner_guardian_id
+                && binding.certificate_generation == learner_certificate_generation
+        };
+        match endpoint_role {
+            LearnerEndpointRole::Voter => {
+                self.role == ConnectionRole::Dialer
+                    && voter_matches(&self.local)
+                    && learner_matches(&self.expected_peer)
+                    && self.remote_address == authorized_learner_address
+            }
+            LearnerEndpointRole::Learner => {
+                self.role == ConnectionRole::Acceptor
+                    && learner_matches(&self.local)
+                    && voter_matches(&self.expected_peer)
+                    && self.local_address == authorized_learner_address
+            }
+        }
+    }
+
+    pub(crate) fn local_certificate_generation(&self) -> u64 {
+        self.local.certificate_generation
+    }
+
+    pub(crate) fn peer_certificate_generation(&self) -> u64 {
+        self.expected_peer.certificate_generation
     }
 
     fn has_authority_connection_role(&self, local: u64, peer: u64) -> bool {

@@ -650,14 +650,6 @@ pub trait AuthorityEligibilityExclusion {
     fn ordinary_authority_allowed(&self, node_id: &str, guardian_id: &[u8]) -> bool;
 }
 
-struct AllowAllAuthorityEligibility;
-
-impl AuthorityEligibilityExclusion for AllowAllAuthorityEligibility {
-    fn ordinary_authority_allowed(&self, _node_id: &str, _guardian_id: &[u8]) -> bool {
-        true
-    }
-}
-
 struct VoterEndorsementAuthority {
     node_id: String,
     guardian_id: Vec<u8>,
@@ -668,33 +660,8 @@ struct VoterEndorsementAuthority {
 }
 
 /// Produces one endorsement through the configured local Guardian identity
-/// without exposing or accepting raw signing-key material.
-#[allow(clippy::too_many_arguments)]
-pub fn endorse_committed_authority_prepare(
-    identity: &LocalNodeGuardianIdentity,
-    certificate_generation: u64,
-    boot_generation: u64,
-    membership_log_index: u64,
-    authoritative_boot_generations: &BTreeMap<Vec<u8>, u64>,
-    intent: &PrepareAuthorityIntent,
-    finalization_time: &CanonicalAuthorityTime,
-    membership: &MembershipState,
-    authority: &AuthorityMembership,
-) -> AuthorityProtocolResult<AuthorityIntentEndorsement> {
-    endorse_committed_authority_prepare_with_exclusion(
-        identity,
-        certificate_generation,
-        boot_generation,
-        membership_log_index,
-        authoritative_boot_generations,
-        intent,
-        finalization_time,
-        membership,
-        authority,
-        &AllowAllAuthorityEligibility,
-    )
-}
-
+/// and the durable pending-membership exclusion view, without exposing raw
+/// signing-key material or accepting caller-supplied eligibility booleans.
 #[allow(clippy::too_many_arguments)]
 pub fn endorse_committed_authority_prepare_with_exclusion(
     identity: &LocalNodeGuardianIdentity,

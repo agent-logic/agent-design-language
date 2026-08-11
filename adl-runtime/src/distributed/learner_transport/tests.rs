@@ -1,11 +1,8 @@
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, BTreeSet},
     fs,
     net::Ipv4Addr,
-    sync::{
-        atomic::{AtomicU64, Ordering},
-        Arc, Mutex, RwLock as StdRwLock,
-    },
+    sync::{Arc, Mutex, RwLock as StdRwLock},
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
@@ -13,18 +10,26 @@ use super::*;
 use crate::distributed::{
     authority_protocol::{
         test_published_reconciliation_token, AuthorityNodeIdentity, CanonicalAuthorityTime,
+        PrepareAuthorityIntent,
     },
     certificates::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
         CertificateValidity, DistributedCertificateStore,
     },
+    identity::LocalNodeGuardianIdentity,
+    lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
+    membership::{
+        CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
+        MembershipState,
+    },
     polis_runtime::{
-        ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisCommand, PolisLogStore, PolisRaft,
-        PolisRuntimeError, PolisStateMachineStore, PolisTypeConfig,
+        serve_authorized_learner_connection, ConsensusCheckpoint, ConsensusCheckpointAuthority,
+        PolisCommand, PolisLogStore, PolisRaft, PolisRuntimeError, PolisStateMachineStore,
+        PolisTypeConfig, SecurePolisNetworkConnection, SecurePolisNetworkFactory,
     },
     transport::{
         client_endpoint, server_endpoint, AuthenticatedConnection, ConnectionSecurity, PeerBinding,
-        TransportAuthorization, TransportLimits,
+        TransportAuthorization, TransportLimits, VerifiedPolisRouteCut,
     },
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
@@ -35,7 +40,7 @@ use openraft::{
         AppendEntriesRequest, AppendEntriesResponse, InstallSnapshotRequest,
         InstallSnapshotResponse, VoteRequest, VoteResponse,
     },
-    BasicNode, SnapshotMeta, Vote,
+    BasicNode,
 };
 use rcgen::{
     BasicConstraints, CertificateParams, CertifiedIssuer, ExtendedKeyUsagePurpose, IsCa, KeyPair,
@@ -78,6 +83,86 @@ fn authority_identity() -> AuthorityNodeIdentity {
         guardian_id: "guardian-1".to_owned(),
         boot_generation: 3,
     }
+}
+
+fn endorsement_fixture() -> (
+    MembershipState,
+    AuthorityMembership,
+    BTreeMap<Vec<u8>, u64>,
+    Vec<LocalNodeGuardianIdentity>,
+) {
+    let signers = (0..3)
+        .map(|_| LocalNodeGuardianIdentity::generate("runtime-prod", 4).unwrap())
+        .collect::<Vec<_>>();
+    let mut membership =
+        MembershipState::new(MembershipPolicy::new("runtime-prod", 8, 16).unwrap());
+    let mut index = 0_u64;
+    for signer in &signers {
+        let public = signer.public_identity();
+        index += 1;
+        membership
+            .apply(&CommittedMembershipEvent::new(
+                "runtime-prod",
+                [index as u8; 32],
+                index,
+                index,
+                MembershipOperation::Join {
+                    member: Member {
+                        node_id: public.node_id.clone(),
+                        guardian_id: public.guardian_id.clone(),
+                        identity_generation: public.identity_generation,
+                        guardian_control_public_key: public.guardian_control_public_key,
+                        role: MemberRole::NonVoting,
+                    },
+                },
+            ))
+            .unwrap();
+    }
+    for signer in &signers {
+        index += 1;
+        membership
+            .apply(&CommittedMembershipEvent::new(
+                "runtime-prod",
+                [index as u8; 32],
+                index,
+                index,
+                MembershipOperation::Promote {
+                    node_id: signer.public_identity().node_id.clone(),
+                },
+            ))
+            .unwrap();
+    }
+    let guardians = signers
+        .iter()
+        .map(|signer| signer.public_identity().guardian_id.as_bytes().to_vec())
+        .collect::<BTreeSet<_>>();
+    let voters = signers
+        .iter()
+        .map(|signer| VoterAuthority {
+            guardian_id: signer.public_identity().guardian_id.as_bytes().to_vec(),
+            trust_domain_id: b"runtime-prod".to_vec(),
+            certificate_generation: 4,
+            purpose: ControlCertificatePurpose::AuthorityEndorsement,
+            not_before_unix_seconds: NOW - 100,
+            not_after_unix_seconds: NOW + 100,
+            revoked: false,
+            control_public_key: signer.public_identity().guardian_control_public_key,
+        })
+        .collect();
+    let authority = AuthorityMembership::new(
+        b"runtime-prod".to_vec(),
+        4,
+        membership.committed_log_index(),
+        vec![guardians],
+        voters,
+    )
+    .unwrap();
+    let boots = authority
+        .voters
+        .keys()
+        .map(|guardian| (guardian.clone(), 4))
+        .collect();
+    (membership, authority, boots, signers)
 }
 
 fn enroll_token_with(
@@ -145,11 +230,27 @@ fn admission() -> VerifiedLearnerAdmission {
 }
 
 fn session() -> EstablishedLearnerSession {
-    EstablishedLearnerSession {
-        binding: LearnerSessionBinding::from_admission(&admission(), CUT),
-        highest_sequence: 0,
-        closed: false,
-    }
+    let directory = portable_tempdir();
+    let authority =
+        ProductionLearnerAuthority::open(directory.path(), Arc::new(MemoryCheckpoint::default()))
+            .unwrap();
+    let admission = admission();
+    authority.activate_admission(&admission).unwrap();
+    EstablishedLearnerSession::new(
+        &admission,
+        CUT,
+        LearnerVoterBinding {
+            stable_raft_id: 1,
+            node_id: "node-1".to_owned(),
+            guardian_id: "guardian-1".to_owned(),
+            certificate_generation: 4,
+            boot_generation: 3,
+        },
+        LearnerEndpointRole::Voter,
+        authority,
+        NOW,
+    )
+    .unwrap()
 }
 
 #[derive(Default)]
@@ -259,7 +360,9 @@ fn transport_authorization(
     TransportAuthorization::new(Arc::clone(store), &certificate).unwrap()
 }
 
-async fn live_learner_pair() -> (
+async fn live_learner_pair(
+    voter_node: u64,
+) -> (
     Arc<AuthenticatedConnection>,
     Arc<AuthenticatedConnection>,
     quinn::Endpoint,
@@ -268,7 +371,9 @@ async fn live_learner_pair() -> (
 ) {
     let issuer = certificate_authority();
     let root_certificate = issuer.der().clone();
-    let voter = leaf(&issuer, "node-1");
+    let voter_node_id = format!("node-{voter_node}");
+    let voter_guardian_id = format!("guardian-{voter_node}");
+    let voter = leaf(&issuer, &voter_node_id);
     let learner = leaf(&issuer, "node-4");
     let signing_root = SigningKey::from_bytes(&[91; 32]);
     let policy = CertificatePolicy::new("runtime-prod", [signing_root.verifying_key()])
@@ -280,15 +385,19 @@ async fn live_learner_pair() -> (
         DistributedCertificateStore::open(store_dir.path().join("certificates.redb"), policy)
             .unwrap(),
     );
-    let voter_authorization =
-        transport_authorization(&store, &signing_root, "node-1", voter.subject_public_key);
+    let voter_authorization = transport_authorization(
+        &store,
+        &signing_root,
+        &voter_node_id,
+        voter.subject_public_key,
+    );
     let learner_authorization =
         transport_authorization(&store, &signing_root, "node-4", learner.subject_public_key);
     let voter_binding = PeerBinding::new(
         &voter.certificate,
         "runtime-prod",
-        "node-1",
-        "guardian-1",
+        voter_node_id,
+        voter_guardian_id,
         1,
         4,
     )
@@ -309,15 +418,7 @@ async fn live_learner_pair() -> (
         Duration::from_secs(30),
     )
     .unwrap();
-    let voter_endpoint = server_endpoint(
-        (Ipv4Addr::LOCALHOST, 0).into(),
-        vec![voter.certificate.clone()],
-        voter.private_key(),
-        std::slice::from_ref(&root_certificate),
-        &limits,
-    )
-    .unwrap();
-    let learner_endpoint = client_endpoint(
+    let learner_endpoint = server_endpoint(
         (Ipv4Addr::LOCALHOST, 0).into(),
         vec![learner.certificate.clone()],
         learner.private_key(),
@@ -325,10 +426,20 @@ async fn live_learner_pair() -> (
         &limits,
     )
     .unwrap();
-    let voter_address = voter_endpoint.local_addr().unwrap();
+    let voter_endpoint = client_endpoint(
+        (Ipv4Addr::LOCALHOST, 0).into(),
+        vec![voter.certificate.clone()],
+        voter.private_key(),
+        std::slice::from_ref(&root_certificate),
+        &limits,
+    )
+    .unwrap();
+    let learner_address = learner_endpoint.local_addr().unwrap();
     let (voter_connection, learner_connection) = tokio::join!(
-        AuthenticatedConnection::accept(
+        AuthenticatedConnection::connect(
             &voter_endpoint,
+            learner_address,
+            "localhost",
             ConnectionSecurity::new(
                 voter_binding.clone(),
                 learner_binding.clone(),
@@ -339,10 +450,8 @@ async fn live_learner_pair() -> (
             )
             .unwrap(),
         ),
-        AuthenticatedConnection::connect(
+        AuthenticatedConnection::accept(
             &learner_endpoint,
-            voter_address,
-            "localhost",
             ConnectionSecurity::new(
                 learner_binding,
                 voter_binding,
@@ -363,11 +472,77 @@ async fn live_learner_pair() -> (
     )
 }
 
+fn live_voter_cut(boot_generations: [u64; 3]) -> VerifiedPolisRouteCut {
+    let routes = (1..=3)
+        .map(|node| {
+            (
+                node,
+                format!("127.0.0.1:{}", 45_000 + node).parse().unwrap(),
+            )
+        })
+        .collect();
+    let identities = (1..=3)
+        .map(|node| {
+            (
+                node,
+                (
+                    format!("node-{node}"),
+                    format!("guardian-{node}"),
+                    SigningKey::from_bytes(&[node as u8; 32])
+                        .verifying_key()
+                        .to_bytes(),
+                    boot_generations[(node - 1) as usize],
+                ),
+            )
+        })
+        .collect();
+    VerifiedPolisRouteCut::test_from_parts("polis-a", "runtime-prod", routes, identities)
+}
+
+fn live_admission(
+    mut learner_identity: LearnerIdentity,
+    address: std::net::SocketAddr,
+    cut_sha256: [u8; 32],
+) -> (VerifiedLearnerAdmission, i64) {
+    learner_identity.address = address;
+    let now = i64::try_from(unix_now()).unwrap();
+    let artifact = LearnerMembershipArtifact::enroll_non_voting(
+        learner_identity.clone(),
+        cut_sha256,
+        None,
+        MEMBERSHIP,
+        Some(now + 240),
+        now + 300,
+    )
+    .unwrap();
+    let token = test_published_reconciliation_token(
+        authority_identity(),
+        "live-enroll-4",
+        artifact,
+        41,
+        CanonicalAuthorityTime {
+            unix_seconds: now,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    (
+        VerifiedLearnerAdmission::from_published_membership(
+            &token,
+            &learner_identity,
+            cut_sha256,
+            now,
+        )
+        .unwrap(),
+        now,
+    )
+}
+
 #[derive(Clone)]
 struct AuthorizedLearnerMemoryNetwork {
+    local: u64,
     peers: Arc<StdRwLock<BTreeMap<u64, PolisRaft>>>,
-    learner: Arc<Mutex<EstablishedLearnerSession>>,
-    sequence: Arc<AtomicU64>,
+    learner_factories: Arc<StdRwLock<BTreeMap<u64, SecurePolisNetworkFactory>>>,
 }
 
 struct AuthorizedLearnerMemoryConnection {
@@ -400,23 +575,18 @@ impl AuthorizedLearnerMemoryConnection {
             .ok_or_else(|| RPCError::Network(NetworkError::new(&PolisRuntimeError::Network)))
     }
 
-    fn authorize<T: Serialize>(
-        &self,
-        kind: LearnerRpcKind,
-        request: &T,
-    ) -> Result<(), PolisRuntimeError> {
-        if self.target != 4 {
-            return Ok(());
-        }
-        let sequence = self.network.sequence.fetch_add(1, Ordering::SeqCst) + 1;
-        let bytes = serde_jcs::to_vec(request).map_err(|_| PolisRuntimeError::Serialization)?;
-        self.network
-            .learner
-            .lock()
+    async fn learner_client(&self) -> Result<SecurePolisNetworkConnection, PolisRuntimeError> {
+        let mut factory = self
+            .network
+            .learner_factories
+            .read()
             .unwrap()
-            .authorize(kind, sequence, &bytes, NOW)
-            .map(|_| ())
-            .map_err(|_| PolisRuntimeError::AuthorityDenied)
+            .get(&self.network.local)
+            .cloned()
+            .ok_or(PolisRuntimeError::AuthorityDenied)?;
+        Ok(factory
+            .new_client(self.target, &BasicNode::new("authorized-learner"))
+            .await)
     }
 }
 
@@ -426,8 +596,14 @@ impl RaftNetwork<PolisTypeConfig> for AuthorizedLearnerMemoryConnection {
         request: AppendEntriesRequest<PolisTypeConfig>,
         _option: RPCOption,
     ) -> Result<AppendEntriesResponse<u64>, RPCError<u64, BasicNode, RaftError<u64>>> {
-        self.authorize(LearnerRpcKind::AppendEntries, &request)
-            .map_err(|error| RPCError::Network(NetworkError::new(&error)))?;
+        if self.target == 4 {
+            return self
+                .learner_client()
+                .await
+                .map_err(|error| RPCError::Network(NetworkError::new(&error)))?
+                .append_entries(request, _option)
+                .await;
+        }
         self.peer()?
             .append_entries(request)
             .await
@@ -442,8 +618,14 @@ impl RaftNetwork<PolisTypeConfig> for AuthorizedLearnerMemoryConnection {
         InstallSnapshotResponse<u64>,
         RPCError<u64, BasicNode, RaftError<u64, InstallSnapshotError>>,
     > {
-        self.authorize(LearnerRpcKind::InstallSnapshot, &request)
-            .map_err(|error| RPCError::Network(NetworkError::new(&error)))?;
+        if self.target == 4 {
+            return self
+                .learner_client()
+                .await
+                .map_err(|error| RPCError::Network(NetworkError::new(&error)))?
+                .install_snapshot(request, _option)
+                .await;
+        }
         self.peer()?
             .install_snapshot(request)
             .await
@@ -484,60 +666,10 @@ fn exclusion() -> (
 
 #[tokio::test]
 async fn real_four_node_learner_replication() {
-    let (voter, learner, _voter_endpoint, _learner_endpoint, _store) = live_learner_pair().await;
-    let mut sender = session();
-    let mut receiver = session();
-    let append_request = AppendEntriesRequest::<PolisTypeConfig> {
-        vote: Vote::new(7, 1),
-        prev_log_id: None,
-        entries: Vec::new(),
-        leader_commit: None,
-    };
-    let append_bytes = serde_jcs::to_vec(&append_request).unwrap();
-    let learner_receive = Arc::clone(&learner);
-    let append =
-        tokio::spawn(async move { receiver.receive_replication(&learner_receive, NOW).await });
-    sender
-        .send_append_entries(&voter, 1, append_bytes.clone(), NOW)
-        .await
-        .unwrap();
-    let append = append.await.unwrap().unwrap();
-    assert_eq!(append.message_kind, "append_entries");
-    let decoded_append: AppendEntriesRequest<PolisTypeConfig> =
-        serde_json::from_slice(&append.payload).unwrap();
-    assert_eq!(decoded_append.vote, append_request.vote);
-
-    let mut receiver = session();
-    let snapshot_request = InstallSnapshotRequest::<PolisTypeConfig> {
-        vote: Vote::new(7, 1),
-        meta: SnapshotMeta::default(),
-        offset: 0,
-        data: b"canonical-snapshot".to_vec(),
-        done: true,
-    };
-    let snapshot_bytes = serde_jcs::to_vec(&snapshot_request).unwrap();
-    let learner_receive = Arc::clone(&learner);
-    let snapshot =
-        tokio::spawn(async move { receiver.receive_replication(&learner_receive, NOW).await });
-    sender
-        .send_install_snapshot(&voter, 2, snapshot_bytes, NOW)
-        .await
-        .unwrap();
-    let snapshot = snapshot.await.unwrap().unwrap();
-    assert_eq!(snapshot.message_kind, "install_snapshot");
-    assert_eq!(sender.vote(), Err(LearnerTransportError::AuthorityDenied));
-    assert_eq!(
-        sender.deny_message_kind("unknown"),
-        Err(LearnerTransportError::AuthorityDenied)
-    );
-
     let raft_root = portable_tempdir();
     let checkpoint = Arc::new(MemoryCheckpoint::default());
-    let authorized_network = AuthorizedLearnerMemoryNetwork {
-        peers: Arc::new(StdRwLock::new(BTreeMap::new())),
-        learner: Arc::new(Mutex::new(session())),
-        sequence: Arc::new(AtomicU64::new(0)),
-    };
+    let peers = Arc::new(StdRwLock::new(BTreeMap::new()));
+    let learner_factories = Arc::new(StdRwLock::new(BTreeMap::new()));
     let configuration = Arc::new(
         openraft::Config {
             cluster_name: "adl-authorized-learner-test".to_owned(),
@@ -569,7 +701,11 @@ async fn real_four_node_learner_replication() {
         let raft = PolisRaft::new(
             node,
             Arc::clone(&configuration),
-            authorized_network.clone(),
+            AuthorizedLearnerMemoryNetwork {
+                local: node,
+                peers: Arc::clone(&peers),
+                learner_factories: Arc::clone(&learner_factories),
+            },
             log,
             machine.clone(),
         )
@@ -578,7 +714,7 @@ async fn real_four_node_learner_replication() {
         nodes.insert(node, raft);
         machines.insert(node, machine);
     }
-    *authorized_network.peers.write().unwrap() = nodes.clone();
+    *peers.write().unwrap() = nodes.clone();
     let voter_routes = (1..=3)
         .map(|node| (node, BasicNode::new(format!("memory://voter-{node}"))))
         .collect::<BTreeMap<_, _>>();
@@ -589,10 +725,69 @@ async fn real_four_node_learner_replication() {
         }
         tokio::time::sleep(Duration::from_millis(25)).await;
     };
+    let before_learner = nodes[&leader]
+        .client_write(PolisCommand::GovernedMutation {
+            mutation_id: "authorized-learner-snapshot".to_owned(),
+            payload_sha256: "33".repeat(32),
+        })
+        .await
+        .unwrap();
+    assert!(before_learner.data.accepted);
+    nodes[&leader].trigger().snapshot().await.unwrap();
+    let purge_upto = nodes[&leader]
+        .metrics()
+        .borrow()
+        .last_applied
+        .expect("leader has an applied log")
+        .index;
+    nodes[&leader]
+        .trigger()
+        .purge_log(purge_upto)
+        .await
+        .unwrap();
+
+    let (voter_connection, learner_connection, voter_endpoint, learner_endpoint, _store) =
+        live_learner_pair(leader).await;
+    let learner_address = learner_endpoint.local_addr().unwrap();
+    let cut = live_voter_cut([3, 3, 3]);
+    let cut_sha256 = route_cut_digest(&cut).unwrap();
+    let (admission, now) = live_admission(identity(), learner_address, cut_sha256);
+    let authority = ProductionLearnerAuthority::open(
+        &raft_root.path().join("learner-authority"),
+        Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    authority.activate_admission(&admission).unwrap();
+    let factory = SecurePolisNetworkFactory::from_authority_cut(leader, cut, authority).unwrap();
+    factory
+        .install_learner_route(4, Arc::clone(&voter_connection), &admission, now)
+        .await
+        .unwrap();
+    let (inbound, outbound) = factory
+        .learner_server_sessions(&learner_connection, &admission, now)
+        .await
+        .unwrap();
+    learner_factories
+        .write()
+        .unwrap()
+        .insert(leader, factory.clone());
+    let cancellation = CancellationToken::new();
+    let learner_server = tokio::spawn(serve_authorized_learner_connection(
+        nodes[&4].clone(),
+        learner_connection,
+        inbound,
+        outbound,
+        cancellation.child_token(),
+    ));
+
     nodes[&leader]
         .add_learner(4, BasicNode::new("memory://authorized-learner-4"), true)
         .await
         .unwrap();
+    assert!(
+        !learner_server.is_finished(),
+        "learner server ended during catch-up"
+    );
     let response = nodes[&leader]
         .client_write(PolisCommand::GovernedMutation {
             mutation_id: "authorized-learner-replicated".to_owned(),
@@ -601,7 +796,7 @@ async fn real_four_node_learner_replication() {
         .await
         .unwrap();
     assert!(response.data.accepted);
-    for _ in 0..100 {
+    for _ in 0..200 {
         if machines[&4]
             .application_state()
             .await
@@ -612,11 +807,20 @@ async fn real_four_node_learner_replication() {
         }
         tokio::time::sleep(Duration::from_millis(20)).await;
     }
+    assert!(
+        !learner_server.is_finished(),
+        "learner server ended after replication"
+    );
     assert!(machines[&4]
         .application_state()
         .await
         .mutation_ids
         .contains("authorized-learner-replicated"));
+    assert!(machines[&4]
+        .application_state()
+        .await
+        .mutation_ids
+        .contains("authorized-learner-snapshot"));
     let membership = nodes[&leader].metrics().borrow().membership_config.clone();
     let voters = membership
         .membership()
@@ -626,6 +830,12 @@ async fn real_four_node_learner_replication() {
         .copied()
         .collect::<std::collections::BTreeSet<_>>();
     assert_eq!(voters, std::collections::BTreeSet::from([1, 2, 3]));
+    for message_kind in ["vote", "generic", "unknown"] {
+        assert_eq!(
+            factory.request_bytes(4, message_kind, b"{}".to_vec()).await,
+            Err(PolisRuntimeError::AuthorityDenied)
+        );
+    }
     assertion(
         "real_four_node_learner_replication",
         "raft_add_learner_replicated",
@@ -642,6 +852,14 @@ async fn real_four_node_learner_replication() {
     let voters = BTreeMap::from([(1, "a"), (2, "b"), (3, "c")]);
     assert_eq!(voters.len(), 3);
     assert!(!voters.contains_key(&4));
+    for raft in nodes.values() {
+        raft.shutdown().await.unwrap();
+    }
+    cancellation.cancel();
+    voter_connection.close();
+    voter_endpoint.close(0_u32.into(), b"test complete");
+    learner_endpoint.close(0_u32.into(), b"test complete");
+    let _ = learner_server.await;
     mark("real_four_node_learner_replication");
 }
 
@@ -734,7 +952,32 @@ fn reconnect_boot_rotation() {
 
 #[test]
 fn certificate_overlap_authorized() {
-    let mut old = session();
+    let dir = portable_tempdir();
+    let checkpoint = Arc::new(MemoryCheckpoint::default());
+    let authority = ProductionLearnerAuthority::open(
+        dir.path(),
+        Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    let current = admission();
+    authority.activate_admission(&current).unwrap();
+    let voter = LearnerVoterBinding {
+        stable_raft_id: 1,
+        node_id: "node-1".to_owned(),
+        guardian_id: "guardian-1".to_owned(),
+        certificate_generation: 4,
+        boot_generation: 3,
+    };
+    let mut old = EstablishedLearnerSession::new(
+        &current,
+        CUT,
+        voter.clone(),
+        LearnerEndpointRole::Voter,
+        authority.clone(),
+        NOW,
+    )
+    .unwrap();
+    let mut retained_old = old.clone();
     assert!(old
         .authorize(LearnerRpcKind::AppendEntries, 1, b"old", NOW)
         .is_ok());
@@ -751,45 +994,50 @@ fn certificate_overlap_authorized() {
         VerifiedLearnerAdmission::from_published_membership(&token, &next_identity, CUT, NOW)
             .unwrap();
     assert_ne!(old.binding.operation_sha256, next.operation_sha256);
-    let dir = portable_tempdir();
-    let checkpoint = Arc::new(MemoryCheckpoint::default());
-    let mut authority = LearnerAdmissionAuthority::open(
-        dir.path(),
-        Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
-    )
-    .unwrap();
-    let current = admission();
-    authority.activate(&current).unwrap();
-    authority
-        .stage_successor(&next, current.operation_sha256)
-        .unwrap();
+    authority.stage_successor(&next).unwrap();
     assert_eq!(
-        authority.snapshot().current().unwrap().operation_sha256,
+        authority
+            .admission_snapshot()
+            .unwrap()
+            .current()
+            .unwrap()
+            .operation_sha256,
         current.operation_sha256
     );
     assertion(
         "certificate_overlap_authorized",
         "successor_private_before_flip",
     );
-    drop(authority);
-    let mut recovered = LearnerAdmissionAuthority::open(
-        dir.path(),
-        checkpoint as Arc<dyn ConsensusCheckpointAuthority>,
-    )
-    .unwrap();
+    let recovered = authority;
     let flipped = recovered.flip_successor(next.operation_sha256).unwrap();
     assert_eq!(
         flipped.current().unwrap().operation_sha256,
         next.operation_sha256
     );
-    assertion(
-        "certificate_overlap_authorized",
-        "successor_restart_atomic_flip",
-    );
-    old.close();
+    assertion("certificate_overlap_authorized", "successor_atomic_flip");
     assert_eq!(
         old.authorize(LearnerRpcKind::AppendEntries, 2, b"late", NOW),
         Err(LearnerTransportError::AuthorityDenied)
+    );
+    assert_eq!(
+        retained_old.authorize(LearnerRpcKind::InstallSnapshot, 1, b"late-clone", NOW),
+        Err(LearnerTransportError::AuthorityDenied)
+    );
+    let mut successor = EstablishedLearnerSession::new(
+        &next,
+        CUT,
+        voter,
+        LearnerEndpointRole::Voter,
+        recovered,
+        NOW,
+    )
+    .unwrap();
+    assert!(successor
+        .authorize(LearnerRpcKind::AppendEntries, 1, b"next", NOW)
+        .is_ok());
+    assertion(
+        "certificate_overlap_authorized",
+        "retained_old_clones_atomically_revoked",
     );
     mark("certificate_overlap_authorized");
 }
@@ -912,11 +1160,99 @@ fn revoked_certificate() {
     mark("revoked_certificate");
 }
 
-identity_mismatch_case!(wrong_boot_generation, |value: &mut LearnerIdentity| {
-    value.boot_generation += 1
-});
-identity_mismatch_case!(wrong_address, |value: &mut LearnerIdentity| value.address =
-    "127.0.0.1:9999".parse().unwrap());
+#[tokio::test]
+async fn wrong_boot_generation() {
+    let token = enroll_token();
+    let mut wrong_learner_boot = identity();
+    wrong_learner_boot.boot_generation += 1;
+    assert_eq!(
+        VerifiedLearnerAdmission::from_published_membership(&token, &wrong_learner_boot, CUT, NOW),
+        Err(LearnerTransportError::InvalidBinding)
+    );
+
+    let (voter, _learner, voter_endpoint, learner_endpoint, _store) = live_learner_pair(1).await;
+    let current_cut = live_voter_cut([3, 3, 3]);
+    let current_digest = route_cut_digest(&current_cut).unwrap();
+    let (admission, now) = live_admission(
+        identity(),
+        learner_endpoint.local_addr().unwrap(),
+        current_digest,
+    );
+    let authority_dir = portable_tempdir();
+    let authority = ProductionLearnerAuthority::open(
+        authority_dir.path(),
+        Arc::new(MemoryCheckpoint::default()),
+    )
+    .unwrap();
+    authority.activate_admission(&admission).unwrap();
+    let stale_boot_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, live_voter_cut([2, 3, 3]), authority)
+            .unwrap();
+    assert_eq!(
+        stale_boot_factory
+            .install_learner_route(4, Arc::clone(&voter), &admission, now)
+            .await,
+        Err(PolisRuntimeError::AuthorityDenied)
+    );
+    voter.close();
+    voter_endpoint.close(0_u32.into(), b"test complete");
+    learner_endpoint.close(0_u32.into(), b"test complete");
+    assertion("wrong_boot_generation", "live_stale_voter_boot_rejected");
+    mark("wrong_boot_generation");
+}
+
+#[tokio::test]
+async fn wrong_address() {
+    let (voter, _learner, voter_endpoint, learner_endpoint, _store) = live_learner_pair(1).await;
+    let cut = live_voter_cut([3, 3, 3]);
+    let cut_digest = route_cut_digest(&cut).unwrap();
+    let (admission, now) =
+        live_admission(identity(), "127.0.0.1:9999".parse().unwrap(), cut_digest);
+    let authority_dir = portable_tempdir();
+    let authority = ProductionLearnerAuthority::open(
+        authority_dir.path(),
+        Arc::new(MemoryCheckpoint::default()),
+    )
+    .unwrap();
+    authority.activate_admission(&admission).unwrap();
+    let factory = SecurePolisNetworkFactory::from_authority_cut(1, cut, authority).unwrap();
+    assert_eq!(
+        factory
+            .install_learner_route(4, Arc::clone(&voter), &admission, now)
+            .await,
+        Err(PolisRuntimeError::InvalidConfiguration)
+    );
+    let (direction_admission, direction_now) = live_admission(
+        identity(),
+        learner_endpoint.local_addr().unwrap(),
+        cut_digest,
+    );
+    let direction_dir = portable_tempdir();
+    let direction_authority = ProductionLearnerAuthority::open(
+        direction_dir.path(),
+        Arc::new(MemoryCheckpoint::default()),
+    )
+    .unwrap();
+    direction_authority
+        .activate_admission(&direction_admission)
+        .unwrap();
+    let direction_factory = SecurePolisNetworkFactory::from_authority_cut(
+        1,
+        live_voter_cut([3, 3, 3]),
+        direction_authority,
+    )
+    .unwrap();
+    assert!(direction_factory
+        .learner_server_sessions(&voter, &direction_admission, direction_now)
+        .await
+        .is_err());
+    voter.close();
+    voter_endpoint.close(0_u32.into(), b"test complete");
+    learner_endpoint.close(0_u32.into(), b"test complete");
+    assertion("wrong_address", "live_authorized_address_rejected");
+    assertion("wrong_address", "live_wrong_direction_rejected");
+    mark("wrong_address");
+}
 
 macro_rules! denied_case {
     ($name:ident, $method:ident) => {
@@ -941,10 +1277,18 @@ denied_case!(learner_observatory_denied, observatory);
 
 #[test]
 fn exclusion_ordinary_session_denied() {
-    let (_dir, _checkpoint, mut authority) = exclusion();
-    let target = identity();
+    let dir = portable_tempdir();
+    let authority =
+        ProductionLearnerAuthority::open(dir.path(), Arc::new(MemoryCheckpoint::default()))
+            .unwrap();
+    let (membership, voter_authority, boots, signers) = endorsement_fixture();
+    let excluded_public = signers[0].public_identity();
+    let mut target = identity();
+    target.node_id = excluded_public.node_id.clone();
+    target.guardian_id = excluded_public.guardian_id.clone();
+    target.guardian_control_public_key = excluded_public.guardian_control_public_key;
     let snapshot = authority
-        .activate(
+        .activate_exclusion(
             &remove_token_with(target.clone(), "remove-ordinary", 42),
             &target,
             CUT,
@@ -955,7 +1299,67 @@ fn exclusion_ordinary_session_denied() {
         "exclusion_ordinary_session_denied",
         "published_exclusion_denies_retained_identity",
     );
-    assert!(snapshot.ordinary_authority_allowed("node-1", "guardian-1"));
+    let intent = PrepareAuthorityIntent::new(
+        "polis-a",
+        &membership,
+        &voter_authority,
+        AuthorityOperationKind::ExistingStore,
+        50,
+        [9; 32],
+        CanonicalAuthorityTime {
+            unix_seconds: NOW,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+        CanonicalAuthorityTime {
+            unix_seconds: NOW + 50,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+        "excluded-endorsement",
+        CommittedAuthorityArtifact::new(
+            AuthorityOperationKind::ExistingStore,
+            b"excluded-endorsement".to_vec(),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    let finalization_time = CanonicalAuthorityTime {
+        unix_seconds: NOW + 1,
+        nanos: 0,
+        uncertainty_millis: 1,
+    };
+    assert_eq!(
+        authority.endorse_committed_prepare(
+            &signers[0],
+            4,
+            4,
+            membership.committed_log_index(),
+            &boots,
+            &intent,
+            &finalization_time,
+            &membership,
+            &voter_authority,
+        ),
+        Err(AuthorityProtocolError::WrongVoter)
+    );
+    assert!(authority
+        .endorse_committed_prepare(
+            &signers[1],
+            4,
+            4,
+            membership.committed_log_index(),
+            &boots,
+            &intent,
+            &finalization_time,
+            &membership,
+            &voter_authority,
+        )
+        .is_ok());
+    assertion(
+        "exclusion_ordinary_session_denied",
+        "production_endorsement_uses_durable_exclusion",
+    );
     mark("exclusion_ordinary_session_denied");
 }
 
@@ -1058,15 +1462,20 @@ fn capacity_n_plus_one_no_partial() {
 fn crash_before_exclusion_checkpoint() {
     let dir = portable_tempdir();
     let checkpoint = Arc::new(MemoryCheckpoint::default());
-    let mut authority = PendingMembershipExclusionAuthority::open(
+    let authority = ProductionLearnerAuthority::open(
         dir.path(),
         Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
     )
     .unwrap();
     *checkpoint.fail_next.lock().unwrap() = true;
+    assert_eq!(
+        authority.activate_admission(&admission()),
+        Err(LearnerTransportError::Replay)
+    );
+    *checkpoint.fail_next.lock().unwrap() = true;
     let target = identity();
     assert_eq!(
-        authority.activate(
+        authority.activate_exclusion(
             &remove_token_with(target.clone(), "remove-crash-before", 42),
             &target,
             CUT
@@ -1074,17 +1483,29 @@ fn crash_before_exclusion_checkpoint() {
         Err(LearnerTransportError::Replay)
     );
     drop(authority);
-    let recovered = PendingMembershipExclusionAuthority::open(
+    assert!(dir.path().join(".learner-admission.json.journal").exists());
+    assert!(dir
+        .path()
+        .join(".pending-membership-exclusion.json.journal")
+        .exists());
+    let recovered = ProductionLearnerAuthority::open(
         dir.path(),
         checkpoint as Arc<dyn ConsensusCheckpointAuthority>,
     )
     .unwrap();
+    assert!(recovered.admission_snapshot().unwrap().current().is_none());
     assert!(recovered
-        .snapshot()
+        .exclusion_snapshot()
+        .unwrap()
         .ordinary_authority_allowed(&target.node_id, &target.guardian_id));
+    assert!(!dir.path().join(".learner-admission.json.journal").exists());
+    assert!(!dir
+        .path()
+        .join(".pending-membership-exclusion.json.journal")
+        .exists());
     assertion(
         "crash_before_exclusion_checkpoint",
-        "failed_cas_recovers_old_view",
+        "failed_admission_and_exclusion_cas_recover_old_view",
     );
     mark("crash_before_exclusion_checkpoint");
 }
@@ -1095,30 +1516,51 @@ fn crash_after_exclusion_checkpoint() {
     let checkpoint = Arc::new(MemoryCheckpoint::default());
     let target = identity();
     {
-        let mut authority = PendingMembershipExclusionAuthority::open(
+        let authority = ProductionLearnerAuthority::open(
             dir.path(),
             Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
         )
         .unwrap();
+        authority.activate_admission(&admission()).unwrap();
         authority
-            .activate(
+            .activate_exclusion(
                 &remove_token_with(target.clone(), "remove-crash-after", 42),
                 &target,
                 CUT,
             )
             .unwrap();
     }
-    let recovered = PendingMembershipExclusionAuthority::open(
+    let recovered = ProductionLearnerAuthority::open(
         dir.path(),
         checkpoint as Arc<dyn ConsensusCheckpointAuthority>,
     )
     .unwrap();
+    assert_eq!(
+        recovered
+            .admission_snapshot()
+            .unwrap()
+            .current()
+            .unwrap()
+            .operation_sha256,
+        admission().operation_sha256
+    );
     assert!(!recovered
-        .snapshot()
+        .exclusion_snapshot()
+        .unwrap()
         .ordinary_authority_allowed(&target.node_id, &target.guardian_id));
+    assert!(dir.path().join("learner-admission.json").exists());
+    assert!(dir
+        .path()
+        .join("pending-membership-exclusion.json")
+        .exists());
+    assert!(!dir.path().join(".learner-admission.json.journal").exists());
+    assert!(!dir
+        .path()
+        .join(".pending-membership-exclusion.json.journal")
+        .exists());
     assertion(
         "crash_after_exclusion_checkpoint",
-        "committed_view_survives_restart",
+        "committed_admission_and_exclusion_survive_restart",
     );
     mark("crash_after_exclusion_checkpoint");
 }

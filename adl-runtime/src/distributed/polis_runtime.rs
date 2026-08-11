@@ -47,7 +47,9 @@ use crate::distributed::authority_reconciliation::{
 };
 use crate::distributed::certificates::{AuthorityCertificate, DistributedCertificateStore};
 use crate::distributed::learner_transport::{
-    EstablishedLearnerSession, LearnerRpcKind, LearnerTransportError,
+    route_cut_digest as learner_route_cut_digest, EstablishedLearnerSession, LearnerEndpointRole,
+    LearnerIdentity, LearnerRpcKind, LearnerTransportError, LearnerVoterBinding,
+    PendingExclusionSnapshot, ProductionLearnerAuthority, VerifiedLearnerAdmission,
 };
 use crate::distributed::lease::{AuthorityMembership, VoterAuthority};
 use crate::distributed::membership::MembershipPolicy;
@@ -2107,6 +2109,8 @@ pub struct SecurePolisNetworkFactory {
     local_publication_identity: AuthorityNodeIdentity,
     connections: Arc<RwLock<BTreeMap<NodeId, SecurePeerRoute>>>,
     learner_connections: Arc<RwLock<BTreeMap<NodeId, SecureLearnerRoute>>>,
+    learner_authority: ProductionLearnerAuthority,
+    authority_transition: Arc<tokio::sync::Mutex<()>>,
 }
 
 #[derive(Clone)]
@@ -2144,6 +2148,7 @@ impl SecurePolisNetworkFactory {
     pub fn from_authority_cut(
         local: NodeId,
         cut: VerifiedPolisRouteCut,
+        learner_authority: ProductionLearnerAuthority,
     ) -> Result<Self, PolisRuntimeError> {
         if local == 0 || !cut.contains(local) || cut.len() != 3 {
             return Err(PolisRuntimeError::AuthorityDenied);
@@ -2167,6 +2172,8 @@ impl SecurePolisNetworkFactory {
             cut: Arc::new(RwLock::new(cut)),
             connections: Arc::new(RwLock::new(BTreeMap::new())),
             learner_connections: Arc::new(RwLock::new(BTreeMap::new())),
+            learner_authority,
+            authority_transition: Arc::new(tokio::sync::Mutex::new(())),
         })
     }
 
@@ -2185,10 +2192,15 @@ impl SecurePolisNetworkFactory {
         target: NodeId,
         connection: &AuthenticatedConnection,
     ) -> Result<PendingPolisSession, PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        let exclusion = self
+            .learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?;
         self.cut
             .read()
             .await
-            .pending_session(self.local, target, connection)
+            .pending_session_with_exclusion(self.local, target, connection, &exclusion)
             .map_err(|_| PolisRuntimeError::AuthorityDenied)
     }
 
@@ -2198,12 +2210,18 @@ impl SecurePolisNetworkFactory {
         connection: Arc<AuthenticatedConnection>,
         session: EstablishedPolisSession,
     ) -> Result<(), PolisRuntimeError> {
-        if !self
-            .cut
-            .read()
-            .await
-            .session_matches(self.local, target, &connection, &session)
-        {
+        let _transition = self.authority_transition.lock().await;
+        let exclusion = self
+            .learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?;
+        if !self.cut.read().await.session_matches_with_exclusion(
+            self.local,
+            target,
+            &connection,
+            &session,
+            &exclusion,
+        ) {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
         let mut routes = self.connections.write().await;
@@ -2228,16 +2246,46 @@ impl SecurePolisNetworkFactory {
         &self,
         target: NodeId,
         connection: Arc<AuthenticatedConnection>,
-        outbound: EstablishedLearnerSession,
-        responses: EstablishedLearnerSession,
+        admission: &VerifiedLearnerAdmission,
+        now_unix_seconds: i64,
     ) -> Result<(), PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        let cut = self.cut.read().await;
         if target == 0
-            || target != outbound.learner_id()
-            || target != responses.learner_id()
-            || self.cut.read().await.contains(target)
+            || target != admission.identity().stable_raft_id
+            || cut.contains(target)
+            || admission.voter_cut_sha256()
+                != learner_route_cut_digest(&cut).map_err(map_learner_error)?
         {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
+        let voter =
+            learner_voter_binding(&cut, self.local, connection.local_certificate_generation())?;
+        let outbound = EstablishedLearnerSession::new(
+            admission,
+            admission.voter_cut_sha256(),
+            voter.clone(),
+            LearnerEndpointRole::Voter,
+            self.learner_authority.clone(),
+            now_unix_seconds,
+        )
+        .map_err(map_learner_error)?;
+        let responses = EstablishedLearnerSession::new(
+            admission,
+            admission.voter_cut_sha256(),
+            voter,
+            LearnerEndpointRole::Voter,
+            self.learner_authority.clone(),
+            now_unix_seconds,
+        )
+        .map_err(map_learner_error)?;
+        outbound
+            .validate_connection(&connection)
+            .map_err(map_learner_error)?;
+        responses
+            .validate_connection(&connection)
+            .map_err(map_learner_error)?;
+        drop(cut);
         let mut routes = self.learner_connections.write().await;
         if routes.contains_key(&target) {
             return Err(PolisRuntimeError::InvalidConfiguration);
@@ -2255,18 +2303,156 @@ impl SecurePolisNetworkFactory {
         Ok(())
     }
 
+    pub async fn learner_server_sessions(
+        &self,
+        connection: &AuthenticatedConnection,
+        admission: &VerifiedLearnerAdmission,
+        now_unix_seconds: i64,
+    ) -> Result<(EstablishedLearnerSession, EstablishedLearnerSession), PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        let cut = self.cut.read().await;
+        if cut.contains(admission.identity().stable_raft_id)
+            || admission.voter_cut_sha256()
+                != learner_route_cut_digest(&cut).map_err(map_learner_error)?
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        let voter =
+            learner_voter_binding(&cut, self.local, connection.peer_certificate_generation())?;
+        let inbound = EstablishedLearnerSession::new(
+            admission,
+            admission.voter_cut_sha256(),
+            voter.clone(),
+            LearnerEndpointRole::Learner,
+            self.learner_authority.clone(),
+            now_unix_seconds,
+        )
+        .map_err(map_learner_error)?;
+        let outbound = EstablishedLearnerSession::new(
+            admission,
+            admission.voter_cut_sha256(),
+            voter,
+            LearnerEndpointRole::Learner,
+            self.learner_authority.clone(),
+            now_unix_seconds,
+        )
+        .map_err(map_learner_error)?;
+        inbound
+            .validate_connection(connection)
+            .map_err(map_learner_error)?;
+        outbound
+            .validate_connection(connection)
+            .map_err(map_learner_error)?;
+        Ok((inbound, outbound))
+    }
+
+    pub fn activate_learner_admission(
+        &self,
+        admission: &VerifiedLearnerAdmission,
+    ) -> Result<(), PolisRuntimeError> {
+        self.learner_authority
+            .activate_admission(admission)
+            .map(|_| ())
+            .map_err(map_learner_error)
+    }
+
+    pub fn stage_learner_successor(
+        &self,
+        successor: &VerifiedLearnerAdmission,
+    ) -> Result<(), PolisRuntimeError> {
+        self.learner_authority
+            .stage_successor(successor)
+            .map_err(map_learner_error)
+    }
+
+    pub async fn flip_learner_successor(
+        &self,
+        operation_sha256: [u8; 32],
+    ) -> Result<(), PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        let routes = self
+            .learner_connections
+            .read()
+            .await
+            .values()
+            .cloned()
+            .collect::<Vec<_>>();
+        let mut dispatch_guards = Vec::with_capacity(routes.len());
+        for route in &routes {
+            dispatch_guards.push(route.dispatch_lock.clone().lock_owned().await);
+        }
+        self.learner_authority
+            .flip_successor(operation_sha256)
+            .map_err(map_learner_error)?;
+        for route in &routes {
+            route.connection.close();
+        }
+        self.learner_connections.write().await.clear();
+        drop(dispatch_guards);
+        Ok(())
+    }
+
+    pub async fn activate_pending_exclusion(
+        &self,
+        result: &PublishedAuthorityResult,
+        expected_identity: &LearnerIdentity,
+        expected_voter_cut_sha256: [u8; 32],
+    ) -> Result<(), PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        let routes = self
+            .connections
+            .read()
+            .await
+            .values()
+            .cloned()
+            .collect::<Vec<_>>();
+        let mut dispatch_guards = Vec::with_capacity(routes.len());
+        for route in &routes {
+            dispatch_guards.push(route.dispatch_lock.clone().lock_owned().await);
+        }
+        let snapshot = self
+            .learner_authority
+            .activate_exclusion(result, expected_identity, expected_voter_cut_sha256)
+            .map_err(map_learner_error)?;
+        let cut = self.cut.read().await;
+        let denied = self
+            .connections
+            .read()
+            .await
+            .keys()
+            .copied()
+            .filter(|target| !ordinary_route_allowed(&cut, self.local, *target, &snapshot))
+            .collect::<Vec<_>>();
+        drop(cut);
+        let mut installed = self.connections.write().await;
+        for target in denied {
+            if let Some(route) = installed.remove(&target) {
+                route.connection.read().await.close();
+            }
+        }
+        drop(installed);
+        drop(dispatch_guards);
+        Ok(())
+    }
+
     pub async fn replace_route(
         &self,
         target: NodeId,
         connection: Arc<AuthenticatedConnection>,
         session: EstablishedPolisSession,
     ) -> Result<(), PolisRuntimeError> {
-        if !self
-            .cut
-            .read()
-            .await
-            .session_matches(self.local, target, &connection, &session)
-        {
+        let _transition = self.authority_transition.lock().await;
+        let exclusion = self
+            .learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?;
+        if !self.cut.read().await.session_matches_with_exclusion(
+            self.local,
+            target,
+            &connection,
+            &session,
+            &exclusion,
+        ) {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
         let route = self
@@ -2348,9 +2534,19 @@ impl SecurePolisNetworkFactory {
         let _dispatch = route.dispatch_lock.lock().await;
         {
             let cut = self.cut.read().await;
+            let exclusion = self
+                .learner_authority
+                .exclusion_snapshot()
+                .map_err(map_learner_error)?;
             let connection = route.connection.read().await;
             let session = route.session.read().await;
-            if !cut.session_matches(self.local, target, &connection, &session) {
+            if !cut.session_matches_with_exclusion(
+                self.local,
+                target,
+                &connection,
+                &session,
+                &exclusion,
+            ) {
                 return Err(PolisRuntimeError::AuthorityDenied);
             }
         }
@@ -2463,6 +2659,10 @@ impl SecurePolisNetworkFactory {
 
     async fn validate_ready(&self) -> Result<(), PolisRuntimeError> {
         let cut = self.cut.read().await;
+        let exclusion = self
+            .learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?;
         let expected = cut
             .routes()
             .keys()
@@ -2483,7 +2683,13 @@ impl SecurePolisNetworkFactory {
         for (peer, route) in routes.iter() {
             let connection = route.connection.read().await;
             let session = route.session.read().await;
-            if !cut.session_matches(self.local, *peer, &connection, &session) {
+            if !cut.session_matches_with_exclusion(
+                self.local,
+                *peer,
+                &connection,
+                &session,
+                &exclusion,
+            ) {
                 return Err(PolisRuntimeError::AuthorityDenied);
             }
         }
@@ -2496,6 +2702,40 @@ impl SecurePolisNetworkFactory {
         }
         Ok(local.min(peer))
     }
+}
+
+fn learner_voter_binding(
+    cut: &VerifiedPolisRouteCut,
+    voter: NodeId,
+    certificate_generation: u64,
+) -> Result<LearnerVoterBinding, PolisRuntimeError> {
+    let (node_id, guardian_id, boot_generation) = cut
+        .authority_node_identity(voter)
+        .ok_or(PolisRuntimeError::AuthorityDenied)?;
+    if certificate_generation == 0 {
+        return Err(PolisRuntimeError::AuthorityDenied);
+    }
+    Ok(LearnerVoterBinding {
+        stable_raft_id: voter,
+        node_id,
+        guardian_id,
+        certificate_generation,
+        boot_generation,
+    })
+}
+
+fn ordinary_route_allowed(
+    cut: &VerifiedPolisRouteCut,
+    local: NodeId,
+    peer: NodeId,
+    exclusion: &PendingExclusionSnapshot,
+) -> bool {
+    [local, peer].into_iter().all(|node| {
+        cut.authority_node_identity(node)
+            .is_some_and(|(node_id, guardian_id, _)| {
+                exclusion.ordinary_authority_allowed(&node_id, &guardian_id)
+            })
+    })
 }
 
 async fn reserve_outbound(
@@ -3126,8 +3366,9 @@ mod authority_consensus_tests {
     use super::*;
     use crate::distributed::{
         authority_protocol::{
-            endorse_committed_authority_prepare, AuthorityFinalizeProposal, AuthorityOperationKind,
-            AuthorityPrepareProposal, CanonicalAuthorityTime, CommittedAuthorityArtifact,
+            endorse_committed_authority_prepare_with_exclusion, AuthorityEligibilityExclusion,
+            AuthorityFinalizeProposal, AuthorityOperationKind, AuthorityPrepareProposal,
+            CanonicalAuthorityTime, CommittedAuthorityArtifact,
         },
         identity::LocalNodeGuardianIdentity,
         lease::{ControlCertificatePurpose, VoterAuthority},
@@ -3140,6 +3381,14 @@ mod authority_consensus_tests {
         Mutex, RwLock as StdRwLock,
     };
     use std::time::Duration;
+
+    struct NoPendingExclusion;
+
+    impl AuthorityEligibilityExclusion for NoPendingExclusion {
+        fn ordinary_authority_allowed(&self, _node_id: &str, _guardian_id: &[u8]) -> bool {
+            true
+        }
+    }
 
     #[derive(Default)]
     struct MemoryAuthority {
@@ -3481,7 +3730,7 @@ mod authority_consensus_tests {
             let endorsements = signers[..2]
                 .iter()
                 .map(|signer| {
-                    endorse_committed_authority_prepare(
+                    endorse_committed_authority_prepare_with_exclusion(
                         signer,
                         authority.voter_set_generation,
                         authority.voter_set_generation,
@@ -3491,6 +3740,7 @@ mod authority_consensus_tests {
                         &finalization_time,
                         &membership,
                         &authority,
+                        &NoPendingExclusion,
                     )
                     .unwrap()
                 })
@@ -4273,7 +4523,7 @@ mod authority_consensus_tests {
         let endorsements = signers[..2]
             .iter()
             .map(|identity| {
-                endorse_committed_authority_prepare(
+                endorse_committed_authority_prepare_with_exclusion(
                     identity,
                     authority.voter_set_generation,
                     authority.voter_set_generation,
@@ -4283,6 +4533,7 @@ mod authority_consensus_tests {
                     &finalization_time,
                     &membership,
                     &authority,
+                    &NoPendingExclusion,
                 )
                 .unwrap()
             })

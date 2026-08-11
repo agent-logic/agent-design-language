@@ -4,16 +4,26 @@
 //! three-voter route cut.  Admission is possible only through the sealed
 //! artifact carried by a durably published membership operation.
 
-use std::{collections::BTreeMap, net::SocketAddr, path::Path, sync::Arc};
+use std::{
+    collections::BTreeMap,
+    net::SocketAddr,
+    path::Path,
+    sync::{Arc, Mutex},
+};
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use super::{
     authority_protocol::{
-        AuthorityEligibilityExclusion, AuthorityOperationKind, CommittedAuthorityArtifact,
+        endorse_committed_authority_prepare_with_exclusion, AuthorityEligibilityExclusion,
+        AuthorityIntentEndorsement, AuthorityOperationKind, AuthorityProtocolError,
+        CanonicalAuthorityTime, CommittedAuthorityArtifact, PrepareAuthorityIntent,
         PublishedAuthorityResult,
     },
+    identity::LocalNodeGuardianIdentity,
+    lease::AuthorityMembership,
+    membership::MembershipState,
     polis_runtime::{
         CheckpointMetadata, CheckpointMetadataSource, CheckpointedJson,
         ConsensusCheckpointAuthority, DurableEnvelope, PolisRuntimeError,
@@ -254,6 +264,7 @@ pub struct VerifiedLearnerAdmission {
     voter_cut_sha256: [u8; 32],
     operation_sha256: [u8; 32],
     operation_id: String,
+    previous_operation_sha256: Option<[u8; 32]>,
     committed_log_index: u64,
     deadline_unix_seconds: i64,
     overlap_end_unix_seconds: Option<i64>,
@@ -280,6 +291,7 @@ impl VerifiedLearnerAdmission {
             voter_cut_sha256: verified.payload.voter_cut_sha256,
             operation_sha256: verified.operation_sha256,
             operation_id: verified.operation_id,
+            previous_operation_sha256: verified.payload.previous_operation_sha256,
             committed_log_index: verified.committed_log_index,
             deadline_unix_seconds: verified.payload.deadline_unix_seconds,
             overlap_end_unix_seconds: verified.payload.authority_overlap_end_unix_seconds,
@@ -291,6 +303,14 @@ impl VerifiedLearnerAdmission {
     }
     pub fn operation_sha256(&self) -> [u8; 32] {
         self.operation_sha256
+    }
+
+    pub(crate) fn voter_cut_sha256(&self) -> [u8; 32] {
+        self.voter_cut_sha256
+    }
+
+    pub fn previous_operation_sha256(&self) -> Option<[u8; 32]> {
+        self.previous_operation_sha256
     }
 }
 
@@ -342,33 +362,34 @@ impl VerifiedPolisLearnerTopology {
             )
         })
     }
-
-    pub fn establish_learner_session(
-        &self,
-        now_unix_seconds: i64,
-    ) -> Result<EstablishedLearnerSession, LearnerTransportError> {
-        let admission = self
-            .admission
-            .as_ref()
-            .ok_or(LearnerTransportError::AuthorityDenied)?;
-        if now_unix_seconds >= admission.deadline_unix_seconds {
-            return Err(LearnerTransportError::Expired);
-        }
-        Ok(EstablishedLearnerSession {
-            binding: LearnerSessionBinding::from_admission(admission, self.voter_cut_sha256),
-            highest_sequence: 0,
-            closed: false,
-        })
-    }
 }
 
-fn route_cut_digest(cut: &VerifiedPolisRouteCut) -> Result<[u8; 32], LearnerTransportError> {
+pub(crate) fn route_cut_digest(
+    cut: &VerifiedPolisRouteCut,
+) -> Result<[u8; 32], LearnerTransportError> {
+    let authority_bindings = cut
+        .routes()
+        .keys()
+        .map(|node| {
+            let (node_id, guardian_id, boot_generation) = cut
+                .authority_node_identity(*node)
+                .ok_or(LearnerTransportError::InvalidBinding)?;
+            let voter = cut
+                .authority_membership()
+                .voters
+                .get(guardian_id.as_bytes())
+                .cloned()
+                .ok_or(LearnerTransportError::InvalidBinding)?;
+            Ok((*node, node_id, guardian_id, boot_generation, voter))
+        })
+        .collect::<Result<Vec<_>, LearnerTransportError>>()?;
     let bytes = serde_jcs::to_vec(&(
         cut.polis_id(),
         cut.trust_domain(),
         cut.membership_epoch(),
         cut.committed_membership_index(),
         cut.routes(),
+        authority_bindings,
     ))
     .map_err(|_| LearnerTransportError::InvalidBinding)?;
     Ok(Sha256::digest(bytes).into())
@@ -392,6 +413,7 @@ impl LearnerRpcKind {
 #[derive(Clone, Debug, Eq, PartialEq)]
 struct LearnerSessionBinding {
     identity: LearnerIdentity,
+    voter: LearnerVoterBinding,
     voter_cut_sha256: [u8; 32],
     operation_sha256: [u8; 32],
     operation_id: String,
@@ -403,9 +425,14 @@ struct LearnerSessionBinding {
 }
 
 impl LearnerSessionBinding {
-    fn from_admission(admission: &VerifiedLearnerAdmission, voter_cut_sha256: [u8; 32]) -> Self {
+    fn from_admission(
+        admission: &VerifiedLearnerAdmission,
+        voter_cut_sha256: [u8; 32],
+        voter: LearnerVoterBinding,
+    ) -> Self {
         Self {
             identity: admission.identity.clone(),
+            voter,
             voter_cut_sha256,
             operation_sha256: admission.operation_sha256,
             operation_id: admission.operation_id.clone(),
@@ -418,9 +445,26 @@ impl LearnerSessionBinding {
     }
 }
 
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub(crate) struct LearnerVoterBinding {
+    pub(crate) stable_raft_id: u64,
+    pub(crate) node_id: String,
+    pub(crate) guardian_id: String,
+    pub(crate) certificate_generation: u64,
+    pub(crate) boot_generation: u64,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum LearnerEndpointRole {
+    Voter,
+    Learner,
+}
+
 #[derive(Clone, Debug)]
 pub struct EstablishedLearnerSession {
     binding: LearnerSessionBinding,
+    endpoint_role: LearnerEndpointRole,
+    authority: ProductionLearnerAuthority,
     highest_sequence: u64,
     closed: bool,
 }
@@ -431,6 +475,11 @@ struct LearnerRpcBinding<'a> {
     polis_id: &'a str,
     node_id: &'a str,
     guardian_id: &'a str,
+    voter_node_id: &'a str,
+    voter_guardian_id: &'a str,
+    voter_stable_raft_id: u64,
+    voter_certificate_generation: u64,
+    voter_boot_generation: u64,
     stable_raft_id: u64,
     certificate_generation: u64,
     boot_generation: u64,
@@ -448,6 +497,30 @@ struct LearnerRpcBinding<'a> {
 }
 
 impl EstablishedLearnerSession {
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn new(
+        admission: &VerifiedLearnerAdmission,
+        voter_cut_sha256: [u8; 32],
+        voter: LearnerVoterBinding,
+        endpoint_role: LearnerEndpointRole,
+        authority: ProductionLearnerAuthority,
+        now_unix_seconds: i64,
+    ) -> Result<Self, LearnerTransportError> {
+        if !authority.admission_is_current(admission)?
+            || now_unix_seconds <= 0
+            || now_unix_seconds >= admission.deadline_unix_seconds
+        {
+            return Err(LearnerTransportError::AuthorityDenied);
+        }
+        Ok(Self {
+            binding: LearnerSessionBinding::from_admission(admission, voter_cut_sha256, voter),
+            endpoint_role,
+            authority,
+            highest_sequence: 0,
+            closed: false,
+        })
+    }
+
     pub fn authorize(
         &mut self,
         kind: LearnerRpcKind,
@@ -456,6 +529,10 @@ impl EstablishedLearnerSession {
         now_unix_seconds: i64,
     ) -> Result<[u8; 32], LearnerTransportError> {
         if self.closed {
+            return Err(LearnerTransportError::AuthorityDenied);
+        }
+        if !self.authority.binding_is_current(&self.binding)? {
+            self.closed = true;
             return Err(LearnerTransportError::AuthorityDenied);
         }
         let deadline = self
@@ -481,6 +558,11 @@ impl EstablishedLearnerSession {
             polis_id: &self.binding.identity.polis_id,
             node_id: &self.binding.identity.node_id,
             guardian_id: &self.binding.identity.guardian_id,
+            voter_node_id: &self.binding.voter.node_id,
+            voter_guardian_id: &self.binding.voter.guardian_id,
+            voter_stable_raft_id: self.binding.voter.stable_raft_id,
+            voter_certificate_generation: self.binding.voter.certificate_generation,
+            voter_boot_generation: self.binding.voter.boot_generation,
             stable_raft_id: self.binding.identity.stable_raft_id,
             certificate_generation: self.binding.identity.certificate_generation,
             boot_generation: self.binding.identity.boot_generation,
@@ -533,16 +615,28 @@ impl EstablishedLearnerSession {
         connection: &AuthenticatedConnection,
     ) -> Result<(), LearnerTransportError> {
         let identity = &self.binding.identity;
-        if connection.matches_learner_endpoint(
+        if connection.matches_learner_route(
+            self.endpoint_role,
             &identity.trust_domain,
+            &self.binding.voter.node_id,
+            &self.binding.voter.guardian_id,
+            self.binding.voter.certificate_generation,
             &identity.node_id,
             &identity.guardian_id,
             identity.certificate_generation,
+            identity.address,
         ) {
             Ok(())
         } else {
             Err(LearnerTransportError::InvalidBinding)
         }
+    }
+
+    pub(crate) fn validate_connection(
+        &self,
+        connection: &AuthenticatedConnection,
+    ) -> Result<(), LearnerTransportError> {
+        self.require_connection(connection)
     }
 }
 
@@ -738,10 +832,6 @@ impl EstablishedLearnerSession {
         Ok(response.payload)
     }
 
-    pub(crate) fn learner_id(&self) -> u64 {
-        self.binding.identity.stable_raft_id
-    }
-
     pub fn deny_message_kind(&self, message_kind: &str) -> Result<(), LearnerTransportError> {
         match message_kind {
             "append_entries" | "install_snapshot" => Ok(()),
@@ -757,6 +847,7 @@ struct DurableAdmission {
     voter_cut_sha256: [u8; 32],
     operation_sha256: [u8; 32],
     operation_id: String,
+    previous_operation_sha256: Option<[u8; 32]>,
     committed_log_index: u64,
     deadline_unix_seconds: i64,
     overlap_end_unix_seconds: Option<i64>,
@@ -769,6 +860,7 @@ impl From<&VerifiedLearnerAdmission> for DurableAdmission {
             voter_cut_sha256: value.voter_cut_sha256,
             operation_sha256: value.operation_sha256,
             operation_id: value.operation_id.clone(),
+            previous_operation_sha256: value.previous_operation_sha256,
             committed_log_index: value.committed_log_index,
             deadline_unix_seconds: value.deadline_unix_seconds,
             overlap_end_unix_seconds: value.overlap_end_unix_seconds,
@@ -783,6 +875,7 @@ impl From<DurableAdmission> for VerifiedLearnerAdmission {
             voter_cut_sha256: value.voter_cut_sha256,
             operation_sha256: value.operation_sha256,
             operation_id: value.operation_id,
+            previous_operation_sha256: value.previous_operation_sha256,
             committed_log_index: value.committed_log_index,
             deadline_unix_seconds: value.deadline_unix_seconds,
             overlap_end_unix_seconds: value.overlap_end_unix_seconds,
@@ -865,14 +958,13 @@ impl LearnerAdmissionAuthority {
     pub fn stage_successor(
         &mut self,
         successor: &VerifiedLearnerAdmission,
-        previous_operation_sha256: [u8; 32],
     ) -> Result<(), LearnerTransportError> {
         let state = self.envelope.payload();
         let current = state
             .current
             .as_ref()
             .ok_or(LearnerTransportError::AuthorityDenied)?;
-        if current.operation_sha256 != previous_operation_sha256
+        if successor.previous_operation_sha256 != Some(current.operation_sha256)
             || successor.identity.stable_raft_id != current.identity.stable_raft_id
             || successor.identity.certificate_generation <= current.identity.certificate_generation
             || successor.committed_log_index <= current.committed_log_index
@@ -1075,6 +1167,160 @@ impl PendingMembershipExclusionAuthority {
             generation: self.envelope.generation(),
             published: self.envelope.payload().published.clone(),
         }
+    }
+}
+
+/// The mandatory production authority shared by every voter factory and every
+/// established learner session. Opening this value reconstructs both durable
+/// admission and pending-exclusion state before any route can be exposed.
+#[derive(Clone)]
+pub struct ProductionLearnerAuthority {
+    admissions: Arc<Mutex<LearnerAdmissionAuthority>>,
+    exclusions: Arc<Mutex<PendingMembershipExclusionAuthority>>,
+}
+
+impl std::fmt::Debug for ProductionLearnerAuthority {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("ProductionLearnerAuthority")
+            .finish_non_exhaustive()
+    }
+}
+
+impl ProductionLearnerAuthority {
+    pub fn open(
+        root: &Path,
+        checkpoint: Arc<dyn ConsensusCheckpointAuthority>,
+    ) -> Result<Self, LearnerTransportError> {
+        let admissions = LearnerAdmissionAuthority::open(root, Arc::clone(&checkpoint))?;
+        let exclusions = PendingMembershipExclusionAuthority::open(root, checkpoint)?;
+        // Both constructors validate the node-local file against its durable
+        // checkpoint. Do not expose the shared handle until both succeed.
+        Ok(Self {
+            admissions: Arc::new(Mutex::new(admissions)),
+            exclusions: Arc::new(Mutex::new(exclusions)),
+        })
+    }
+
+    pub fn activate_admission(
+        &self,
+        admission: &VerifiedLearnerAdmission,
+    ) -> Result<LearnerAdmissionSnapshot, LearnerTransportError> {
+        self.admissions
+            .lock()
+            .map_err(|_| LearnerTransportError::Storage)?
+            .activate(admission)
+    }
+
+    pub fn stage_successor(
+        &self,
+        successor: &VerifiedLearnerAdmission,
+    ) -> Result<(), LearnerTransportError> {
+        self.admissions
+            .lock()
+            .map_err(|_| LearnerTransportError::Storage)?
+            .stage_successor(successor)
+    }
+
+    pub fn flip_successor(
+        &self,
+        operation_sha256: [u8; 32],
+    ) -> Result<LearnerAdmissionSnapshot, LearnerTransportError> {
+        self.admissions
+            .lock()
+            .map_err(|_| LearnerTransportError::Storage)?
+            .flip_successor(operation_sha256)
+    }
+
+    pub fn expire_admission(
+        &self,
+        now_unix_seconds: i64,
+    ) -> Result<LearnerAdmissionSnapshot, LearnerTransportError> {
+        self.admissions
+            .lock()
+            .map_err(|_| LearnerTransportError::Storage)?
+            .expire(now_unix_seconds)
+    }
+
+    pub fn activate_exclusion(
+        &self,
+        result: &PublishedAuthorityResult,
+        expected_identity: &LearnerIdentity,
+        expected_voter_cut_sha256: [u8; 32],
+    ) -> Result<PendingExclusionSnapshot, LearnerTransportError> {
+        self.exclusions
+            .lock()
+            .map_err(|_| LearnerTransportError::Storage)?
+            .activate(result, expected_identity, expected_voter_cut_sha256)
+    }
+
+    pub fn admission_snapshot(&self) -> Result<LearnerAdmissionSnapshot, LearnerTransportError> {
+        Ok(self
+            .admissions
+            .lock()
+            .map_err(|_| LearnerTransportError::Storage)?
+            .snapshot())
+    }
+
+    pub fn exclusion_snapshot(&self) -> Result<PendingExclusionSnapshot, LearnerTransportError> {
+        Ok(self
+            .exclusions
+            .lock()
+            .map_err(|_| LearnerTransportError::Storage)?
+            .snapshot())
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub fn endorse_committed_prepare(
+        &self,
+        identity: &LocalNodeGuardianIdentity,
+        certificate_generation: u64,
+        boot_generation: u64,
+        membership_log_index: u64,
+        authoritative_boot_generations: &BTreeMap<Vec<u8>, u64>,
+        intent: &PrepareAuthorityIntent,
+        finalization_time: &CanonicalAuthorityTime,
+        membership: &MembershipState,
+        authority: &AuthorityMembership,
+    ) -> Result<AuthorityIntentEndorsement, AuthorityProtocolError> {
+        let exclusion = self
+            .exclusion_snapshot()
+            .map_err(|_| AuthorityProtocolError::Storage)?;
+        endorse_committed_authority_prepare_with_exclusion(
+            identity,
+            certificate_generation,
+            boot_generation,
+            membership_log_index,
+            authoritative_boot_generations,
+            intent,
+            finalization_time,
+            membership,
+            authority,
+            &exclusion,
+        )
+    }
+
+    fn admission_is_current(
+        &self,
+        admission: &VerifiedLearnerAdmission,
+    ) -> Result<bool, LearnerTransportError> {
+        Ok(self
+            .admission_snapshot()?
+            .current()
+            .is_some_and(|current| current == admission))
+    }
+
+    fn binding_is_current(
+        &self,
+        binding: &LearnerSessionBinding,
+    ) -> Result<bool, LearnerTransportError> {
+        Ok(self.admission_snapshot()?.current().is_some_and(|current| {
+            current.operation_sha256 == binding.operation_sha256
+                && current.operation_id == binding.operation_id
+                && current.committed_log_index == binding.committed_log_index
+                && current.identity == binding.identity
+                && current.voter_cut_sha256 == binding.voter_cut_sha256
+        }))
     }
 }
 
