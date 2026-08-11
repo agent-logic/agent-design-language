@@ -15,23 +15,28 @@ Add exactly two `SemanticOperation` variants:
 - `correct_operator_constraints_before_bind { values }`
 
 The first owns only `SPP.plan_summary`. It is accepted only in `implemented`
-when the latest transition is a typed review recovery from `reviewed`,
-`published`, or `merge_ready`, and review assignment, review, publication,
-readiness, and terminal truth are absent.
+when the latest relevant review audit event is exactly `recover_review`, its
+recorded transition returned the issue from `reviewed`, `published`, or
+`merge_ready`, and review assignment, review, publication, readiness, and
+terminal truth are absent. A transition-shaped record or stale recovery event
+is insufficient provenance.
 
 The second owns only `SIP.operator_constraints`. It is accepted only in
-`initialized` or `ready` while branch and worktree are absent and review,
-publication, readiness, and terminal truth are absent. It is a substantive
-pre-bind contract repair and therefore invalidates any design approval exactly
-like the initialized acceptance/plan-step repair added by #213.
+`initialized` or `ready` while branch and worktree are absent; migration,
+execution, validation, review, publication, readiness, and terminal truth are
+absent; and the authored design and diagram digests still match the record.
+Authored-file drift fails closed instead of being absorbed by this operation.
+It is a substantive pre-bind contract repair and therefore invalidates only
+the existing design approval; no other projection field changes.
 
 ## Atomicity and audit
 
 Both operations retain the existing generation/digest CAS, card ownership,
 cross-card validation, renderer, AST validation, transaction, and interrupted
-write recovery. Values must be nonempty and contain no empty element. Audit
-serialization records the complete previous and replacement value, plus the
-request actor and reason already owned by the edit envelope.
+write recovery. Values, request actor, and request reason must be nonempty;
+collection values may contain no empty element. Invalid input fails before any
+durable mutation. Audit serialization records the complete previous and
+replacement value, plus the validated request actor and reason.
 
 No operation changes phase, branch, worktree, execution, validation, review,
 publication, merge, terminal, or cleanup authority.
@@ -40,12 +45,16 @@ publication, merge, terminal, or cleanup authority.
 
 Focused Gate 2 proof exercises initialized and ready SIP correction, design
 invalidation, reapproval, stale CAS, wrong card, bound/later-phase rejection,
-empty values, atomic regeneration, and audit old/new truth.
+migration rejection, authored design/diagram drift rejection, empty values,
+empty actor/reason rejection with zero mutation, atomic regeneration, and audit
+old/new truth.
 
 Focused Gate 5 proof exercises reviewed and published recovery followed by SPP
-summary correction, clean implemented and unrecovered rejection, retained
-review/publication/readiness rejection, wrong card, empty value, stale CAS,
-atomic regeneration, and audit old/new truth.
+summary correction, exact `recover_review` provenance, stale or transition-only
+provenance rejection, clean implemented and unrecovered rejection, retained
+review/publication/readiness rejection, wrong card, empty value, empty
+actor/reason rejection with zero mutation, stale CAS, atomic regeneration, and
+audit old/new truth.
 
 Formatting, strict library/editor Clippy, typed issue validation, diff hygiene,
 and independent exact-head review complete the issue.
@@ -57,4 +66,3 @@ and independent exact-head review complete the issue.
 - Direct card, Markdown, or JSON patching.
 - Binding or starting WP-20.
 - Sprint membership or PR #224 planning changes.
-

@@ -1,0 +1,108 @@
+{
+  "issue": 225,
+  "card": "stp",
+  "expected_generation": 2,
+  "expected_digest": "0bf7bd6390844489a5ac66ae04bfff655dac1b34d9d8cf390a1b21299a181970",
+  "actor": "codex:225-bounded-card-review-repair",
+  "reason": "Resolve independent design-review findings by tightening provenance, drift, migration, and input guards.",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "AC-1: Recovered implemented SPP plan_summary correction succeeds only after the latest relevant review audit event is exactly recover_review with stale lifecycle truth cleared",
+      "AC-2: Initialized/ready unbound SIP operator_constraints correction succeeds only without migration or authored design/diagram drift and without granting bind or execution authority",
+      "AC-3: Both operations enforce nonempty values, actor, and reason plus card ownership, lifecycle phase, topology, CAS, provenance, migration, drift, and retained-truth guards",
+      "AC-4: Audit truth retains complete previous and replacement values plus validated actor and reason",
+      "AC-5: Values, Markdown, AST, cross-card identity, generation, digest, and design-review truth remain coherent and atomic",
+      "AC-6: Wrong phase/card, stale or transition-only recovery, stale CAS, empty input/actor/reason, migration, authored drift, retained truth, and partial-write cases fail without mutation",
+      "AC-7: Focused tests, strict Clippy, formatting, typed validation, diff hygiene, and independent exact-head review pass"
+    ],
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Review and approve exact operation, phase, card, topology, provenance, migration, drift, input, and audit contracts, then bind #225.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement both semantic operations through the existing store transaction and renderer.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add focused Gate 2 and Gate 5 accepted and fail-closed regression sequences for every declared guard.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused validation, resolve independent exact-head review, and publish a ready PR closing #225.",
+        "acceptance_ids": ["AC-7"],
+        "status": "pending"
+      }
+    ],
+    "validation_lanes": [
+      {
+        "lane": "prebind-sip-correction",
+        "proof_role": "The complete Gate 2 binary proves initialized/ready unbound SIP correction, including migration and authored-drift rejection plus empty actor/reason zero-mutation proof.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1200,
+        "budget_tokens": 9000,
+        "argv": ["cargo", "test", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate2"],
+        "parallel_group": "225-serial-01",
+        "defer_reason": null
+      },
+      {
+        "lane": "recovered-spp-correction",
+        "proof_role": "The complete Gate 5 binary proves exact recover_review audit provenance, rejects stale or transition-only provenance, and proves empty actor/reason zero-mutation behavior.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1200,
+        "budget_tokens": 9000,
+        "argv": ["cargo", "test", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate5"],
+        "parallel_group": "225-serial-02",
+        "defer_reason": null
+      },
+      {
+        "lane": "focused-clippy",
+        "proof_role": "Reject type, exhaustiveness, and editor owner regressions.",
+        "acceptance_ids": ["AC-5", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 3000,
+        "argv": ["cargo", "clippy", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--lib", "--bin", "csdlc-edit", "--", "-D", "warnings"],
+        "parallel_group": "225-serial-03",
+        "defer_reason": null
+      },
+      {
+        "lane": "format",
+        "proof_role": "Require canonical Rust formatting.",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 500,
+        "argv": ["cargo", "fmt", "--manifest-path", "csdlc-v2/Cargo.toml", "--", "--check"],
+        "parallel_group": "225-serial-04",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject whitespace and patch defects across the committed branch range.",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check", "origin/main...HEAD"],
+        "parallel_group": "225-serial-05",
+        "defer_reason": null
+      }
+    ]
+  }
+}
