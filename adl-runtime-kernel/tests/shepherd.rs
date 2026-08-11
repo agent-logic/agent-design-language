@@ -633,14 +633,16 @@ else:
             "-c",
             "import time; allocation = bytearray(8 * 1024 * 1024); time.sleep(5)",
         ])
-        for _ in range(4)
+        for _ in range(8)
     ]
     time.sleep(5)"#,
             marker.display()
         ),
     );
     let mut bounded = config(&runner, vec![]);
-    bounded.max_memory_bytes = 32 * 1024 * 1024;
+    // Leave enough per-process headroom for Python itself while the aggregate
+    // process tree deterministically crosses the configured limit.
+    bounded.max_memory_bytes = 64 * 1024 * 1024;
     bounded.timeout = Duration::from_secs(3);
     let executor = LocalShepherdExecutor::configured(bounded).unwrap();
 
