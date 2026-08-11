@@ -71,6 +71,53 @@ pub struct LiveAssembly {
     pub canonical_ingress: CanonicalIngress,
 }
 
+/// Construct the continuity registry from the same live handles and durable
+/// operation root consumed by the production kernel assembly.
+pub fn build_live_continuity_registry(
+    assembly: &LiveAssembly,
+    recorder: RuntimeRecorder,
+    reasoning: &ReasoningServices,
+    operation_state_root: &Path,
+    max_services: usize,
+) -> Result<crate::LiveContinuityRegistry, crate::ContinuityControlError> {
+    let reasoning_snapshot = reasoning
+        .continuity_snapshot_bytes()
+        .map_err(|error| crate::ContinuityControlError::Encoding(error.to_string()))?;
+    let governance_snapshot = crate::governance_live_registry_snapshot()
+        .map_err(|error| crate::ContinuityControlError::Encoding(error.to_string()))?;
+    let operation_state_snapshot = operation_state_projection(operation_state_root)?;
+    crate::LiveContinuityRegistry::from_live_handles(
+        assembly.canonical_ingress.clone(),
+        recorder,
+        reasoning_snapshot,
+        governance_snapshot,
+        operation_state_snapshot,
+        max_services,
+    )
+}
+
+fn operation_state_projection(root: &Path) -> Result<Vec<u8>, crate::ContinuityControlError> {
+    let metadata = fs::symlink_metadata(root)?;
+    if metadata.file_type().is_symlink() || !metadata.is_dir() {
+        return Err(crate::ContinuityControlError::UnsafeRoot);
+    }
+    let mut entries = Vec::new();
+    for entry in fs::read_dir(root)? {
+        let entry = entry?;
+        let metadata = entry.file_type()?;
+        if metadata.is_symlink() {
+            return Err(crate::ContinuityControlError::UnsafePath);
+        }
+        entries.push(entry.file_name().to_string_lossy().into_owned());
+    }
+    entries.sort();
+    serde_jcs::to_vec(&serde_json::json!({
+        "schema": "adl.runtime.operation_state_registry.v1",
+        "entries": entries,
+    }))
+    .map_err(|error| crate::ContinuityControlError::Encoding(error.to_string()))
+}
+
 #[derive(Debug, Error)]
 pub enum AssemblyError {
     #[error("missing live operation executor bindings: {0:?}")]

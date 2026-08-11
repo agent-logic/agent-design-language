@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 208,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "50ca6fd43f5b405ec1d942ed846978798206b1a15480a8d72bdd35cf9667b750",
-  "phase": "initialized",
-  "generation": 18,
-  "digest": "773570daf37fb278d8c7fac5757cffaed9ab90603fff157d6016cafeb302c731",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 22,
+  "digest": "36004d9e30cf50fa0b7fcf2e529c435847c068e917aba4082dd5f5f4977fc86c",
+  "branch": "codex/208-authenticated-guardian-kernel-continuity-bridge",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-208-kernel-continuity-bridge",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,37 +25,52 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a8dc90fc2fc4a29842dd8b3cdd96047a8cd5f79e40674394dd95393425f261f7",
+      "values_digest": "8a3439ca6cc9ca620f2055379f1d90f6585218649b293366474ea10d10a8106d",
       "rendered_digest": "5b2a673ab5bea5e6dde4d54e7f04b7922b882214032760db3a41deaa16e86323",
       "ast_digest": "0fcdacc0eb8f8218bef0614153064c837cc6aafd75e29eeff95ea5502c341bbf"
     },
     "stp": {
-      "values_digest": "c1a3147cf6711fb8ff322d109e259ea87c29f5080c6ad555d5a49fc211df7459",
+      "values_digest": "289980484b35f48f64c50529dc3472fc1a072157a5cf1bf79f1f428237a51493",
       "rendered_digest": "78e8b9b9b614a832343bc985bf3eccc25251698f3f11ad95c06c6a0c98557f25",
       "ast_digest": "64ac9a8c5f2efde02f4d0c33baa531952fcf4efecfaff71e9c3fc7de78c38751"
     },
     "spp": {
-      "values_digest": "28b384e158bbe4a535ba014512dc4a0c3e43c5b1e1f175e5b3580e3a8dfa9abc",
-      "rendered_digest": "c2be0159946a977ca56bc32947c8b7c5bfbd8728b65764386f4853f99b10a353",
-      "ast_digest": "3c6077490424e1ad5669bed00dadee93dda8c8e5099e1d5a664c6ef367ce606d"
+      "values_digest": "5ce7ea35ad958cd42837bcbb681ac37229d7de2efa1d1c3f34cff9f28d21f83b",
+      "rendered_digest": "95ae573faefa5ccd2db40fa8ff2b5a6e8eb26979f58a64bc6ad675d8531e045f",
+      "ast_digest": "f3ae8cfbdb7dfc6628716bc0cc05e923553b8a98c92b89b7b99f8a43d2410edd"
     },
     "vpp": {
-      "values_digest": "26c31a6922687abdd67e970302afd51394f9c55a9c279d8cd303cdca7dc756c4",
+      "values_digest": "6e0405625e877530624ee715079fe704ab2fc8d4938211ea5d63e9f7010072ba",
       "rendered_digest": "edf5d11626996065f767fe2ba7a7720c711f3ba75886b37e1fee234bfffdec72",
       "ast_digest": "65273793e6665f731a959dd813c1b58b65871c6cbd048f853dbf02cc6f242d80"
     },
     "srp": {
-      "values_digest": "373b70a39d802cfd28ce0077bc95c9315f3232cbb474fd1e355db98923f25a3d",
+      "values_digest": "5bcc23a3d12f2ef4d4f6fc53bcbb37ed42bba6d48d98e03ce53a049fd41b2e72",
       "rendered_digest": "ee616e4b683f5282eb3ce0c040d8526405ff1e736b2f3b4e63f0c1c2d387e52b",
       "ast_digest": "bc7fe208e028ff2138420faa39a88bbfaceccc4ef441750273f7d91093946d5f"
     },
     "sor": {
-      "values_digest": "46b10e043a68848ed5149fccd2a3b0bce9c4d7fa24025c264ffd870724a06ae5",
+      "values_digest": "889ee2e6b7044fc92c09da6c8af2859095ab2330d6ba4c1a6a17e7b93cad325e",
       "rendered_digest": "71e4cc70af920f2b147de0f31b22d5776caf053d2140b23eb235eb83e41e2b07",
       "ast_digest": "39082939dec27f1e99209667379585cef63a41eab863870d004d35dfb33f4a80"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -188,6 +204,41 @@
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:/root/implement_208",
+      "reason": "Record completed production binding and interface-freeze slice.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:/root/implement_208",
+      "reason": "Record completed production Guardian and kernel startup wiring.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:/root/implement_208",
+      "reason": "Record completed live participant, quiesce/export, stage, discard, replay, and filesystem-safety implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:/root/implement_208",
+      "reason": "Enter the exact serial test, Clippy, diff, and producer proof gate.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
     }
   ]
 }

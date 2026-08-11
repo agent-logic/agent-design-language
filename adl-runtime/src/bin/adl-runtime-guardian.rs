@@ -3,8 +3,14 @@ use std::{
     process::ExitCode,
 };
 
-use adl_runtime::guardian::{run_guardian_with_os_signals, GuardianConfig, GuardianTerminalState};
-use adl_runtime_kernel::RuntimeShutdownInitConfig;
+use adl_runtime::{
+    distributed::polis_runtime::PolisRuntimeContinuityCapability,
+    guardian::{
+        run_guardian_with_continuity_and_os_signals, GuardianConfig, GuardianTerminalState,
+    },
+    kernel_continuity_client::KernelContinuityClient,
+};
+use adl_runtime_kernel::{RuntimeInitConfig, RuntimeShutdownInitConfig};
 use serde::Deserialize;
 
 #[tokio::main]
@@ -16,7 +22,28 @@ async fn main() -> ExitCode {
             return ExitCode::from(64);
         }
     };
-    match run_guardian_with_os_signals(config).await {
+    let init_path = PathBuf::from(
+        config
+            .args
+            .get(2)
+            .expect("validated Guardian config retains one init path"),
+    );
+    let init = match RuntimeInitConfig::load(Some(init_path)) {
+        Ok(init) => init,
+        Err(error) => {
+            eprintln!("runtime init invalid for Guardian continuity: {error}");
+            return ExitCode::from(78);
+        }
+    };
+    let continuity = match KernelContinuityClient::from_runtime_init(&init).await {
+        Ok(client) => std::sync::Arc::new(client),
+        Err(error) => {
+            eprintln!("runtime private continuity client invalid: {error}");
+            return ExitCode::from(78);
+        }
+    };
+    let continuity = PolisRuntimeContinuityCapability::from_initialized_guardian(continuity);
+    match run_guardian_with_continuity_and_os_signals(config, continuity).await {
         Ok(outcome) => {
             let terminal = outcome.terminal_state;
             match serde_json::to_string(&outcome) {

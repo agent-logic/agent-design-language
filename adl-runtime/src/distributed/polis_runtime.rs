@@ -44,6 +44,7 @@ use crate::distributed::transport::{
     IncomingPolisRequest, PendingPolisSession, PolisIdentityBinding, PolisSessionBinding,
     RuntimeAuthorityInitializer, TransportLimits, TransportResult, VerifiedPolisRouteCut,
 };
+use crate::kernel_continuity_client::KernelContinuityClient;
 
 const MAX_RPC_BYTES: usize = 16 * 1024 * 1024;
 const MAX_TEXT_BYTES: usize = 256;
@@ -58,6 +59,23 @@ openraft::declare_raft_types!(
 );
 
 pub type PolisRaft = openraft::Raft<PolisTypeConfig>;
+
+/// Non-forgeable continuity capability injected into the production Guardian
+/// polis runtime only after the Guardian has validated the common init
+/// contract and constructed the opaque private client.
+pub struct PolisRuntimeContinuityCapability {
+    client: Arc<KernelContinuityClient>,
+}
+
+impl PolisRuntimeContinuityCapability {
+    pub fn from_initialized_guardian(client: Arc<KernelContinuityClient>) -> Self {
+        Self { client }
+    }
+
+    pub(crate) fn client(&self) -> &Arc<KernelContinuityClient> {
+        &self.client
+    }
+}
 
 /// Trusted deployment bootstrap for the authority accepted by one Polis Runtime.
 ///

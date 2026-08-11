@@ -222,6 +222,8 @@ pub struct RuntimeInitConfig {
     pub paths: RuntimePathsInitConfig,
     pub api: RuntimeApiInitConfig,
     pub kernel: RuntimeKernelInitConfig,
+    #[serde(default)]
+    pub continuity_control: Option<crate::ContinuityControlInitConfig>,
     pub credentials: RuntimeCredentialInitConfig,
     pub shutdown: RuntimeShutdownInitConfig,
     pub guardian: RuntimeGuardianInitConfig,
@@ -265,6 +267,11 @@ impl RuntimeInitConfig {
             return Err(RuntimeInitError::Policy(
                 "api.address must resolve only to IPv4".to_owned(),
             ));
+        }
+        if let Some(continuity_control) = &self.continuity_control {
+            continuity_control
+                .validate(&self.state_root, &self.socket_addrs()?)
+                .map_err(|error| RuntimeInitError::Policy(error.to_string()))?;
         }
         validate_https_base_url("api.public_base_url", &self.api.public_base_url)?;
         let public_uri = parse_http_uri(&self.api.public_base_url)?;

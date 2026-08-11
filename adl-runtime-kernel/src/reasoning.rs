@@ -1131,6 +1131,15 @@ pub struct ReasoningServices {
     pub mutation: Arc<MutationGate>,
 }
 
+impl ReasoningServices {
+    /// Snapshot the exact live mutation/adaptation handles used by the running
+    /// assembly.  The continuity registry calls this on the retained service,
+    /// never on a reconstructed test participant.
+    pub fn continuity_snapshot_bytes(&self) -> Result<Vec<u8>, ReasoningError> {
+        self.mutation.snapshot_bytes()
+    }
+}
+
 struct ReasoningServiceComponent {
     role: ReasoningServiceRole,
     services: Arc<ReasoningServices>,
