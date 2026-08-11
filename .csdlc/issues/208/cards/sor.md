@@ -162,11 +162,11 @@ Resolved the PR #230 hosted-CI regressions and the subsequently exercised retain
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
