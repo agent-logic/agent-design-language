@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "41c47b778f5ab90d33c4b76b0025fb63974aa22d4492746abde0a305f44c691a",
+  "generation": 20,
+  "digest": "fd6dbacfe2267309548b02f76a4f80d475cffd1a436afbbb7cfb7196614c35e6",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/234/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator:issue-234-authority",
+      "reviewer": "subagent:019ff278-d9aa-7bd3-80b0-55c7c3318dc3",
       "revision": "e874e5f9268540952661f4e8cdf524146510d0c12ef75de26a6de2af426edf6e"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "73914a97258164a7fd5ba65f2d73bb2ea42416e972a06233a060babc392cb038",
+      "values_digest": "6b1db7b4a46792cbf8681468b2f9b78ce1e960dc681aa98456688a4f929e95ca",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "161a6704f5a4701bc677dd40a0a6a12feadbb2bab5c1cbe8230720a4d8ae7d91",
+      "values_digest": "fb6a2757edbbf8d265f05848a915c188d5b1cc7f7888442be35763f52b806f11",
       "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
       "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "0b4fffab2890a790e71a48c0701fbaeba10510759ecf5ef985b757e8bb4334a9",
-      "rendered_digest": "6a1fb18669325f98f58dd8f2085956140e28c706c608d47b936ab3025d2237b2",
-      "ast_digest": "7cf552a56fa5e0a823db68830877dfbbe56bff863b962bdd0abd91b95318bb1f"
+      "values_digest": "ccd9d2f855cbaf0710deef058af0a9e667b91e9a27aa0b1ee2a3068cdcb13c7c",
+      "rendered_digest": "4aefac7b866c381e05080459460429c537d4ef79b16a3d8d1207c2d93aa5c2f8",
+      "ast_digest": "4275040bf85db61f054c1978dcb59027ff4817fc3e9cad80287eaea38385c582"
     },
     "vpp": {
-      "values_digest": "6c28628a1d88e6c12979f628a056fe1106c2742c7ac0d649539da5c832953cd6",
+      "values_digest": "03a14268641020f26a18c1588630a5f0a39045be75d2ad528959251d53c08a84",
       "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "dd1b20bead6efa05c83bc040aa517db8ee07ce43bdbe60189d8858de49395b48",
+      "values_digest": "03449029cbd0c721502a54c315b520ebd8a152ae3bd6bda406a70aa2c0623af6",
       "rendered_digest": "77626bc721006bed1b02d7f8346dc821491f2814047b76157665a72a250dfa92",
       "ast_digest": "62d954a925d06397d2332035e0ca173f48f78e3547d37b092ffad20f0b4fc9f2"
     },
     "sor": {
-      "values_digest": "9a23674993f899fa40217a05487f64c8b6229383018f6e51ad163b24dea47136",
+      "values_digest": "fe7d7cf3a21d66f285581dce9164bc8f116df2c5884109dba448afcb581df2bc",
       "rendered_digest": "9ee8412023199ab9b8fae5004cc4f1b5536980a1f79438e7124d4f6c4068b225",
       "ast_digest": "34931754d7f6f9d256765a1d523742448af295878a65922f275e3d521bf8ede2"
     }
@@ -224,6 +224,13 @@
       "actor": "codex:234-review-fix",
       "reason": "Replace the impossible SHA-only supersession claim with the source repository and branch identity that coalesces duplicate PRs and cancels older commits.",
       "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Only ci.yaml subscribes directly to pull_request; every standalone proof workflow requires explicit dispatch or an intentional reusable-workflow call.\",\"AC-2: Every required heavy job remains path-policy gated and uses vars.ADL_HEAVY_RUNNER with the 16-core approved default.\",\"AC-3: Optional, unrelated, soak, demo, provider, retained-proof, nightly, and release-only coverage lanes skip before acquiring a runner on ordinary PRs.\",\"AC-4: CI concurrency is keyed by target repository and workflow plus source repository, source branch, and target base, so duplicate PR objects for one effective surface share one fleet and a newer commit cancels the older branch run.\",\"AC-5: Unknown paths fail closed to a conservative required baseline without selecting the optional fleet.\",\"AC-6: Focused Runtime and Observatory changes select only their declared required checks and issue-owned coverage, with long soaks excluded.\",\"AC-7: A deterministic repository contract scans all workflows and fails on unauthorized PR triggers, heavy-runner bypass, concurrency regression, or optional fanout.\",\"AC-8: The procedure records machine-readable selected, skipped, deferred, and canceled reasons without starting skipped workflows.\",\"AC-9: Local focused proof and bounded exact-head review pass before one publication push; no optional GitHub workflow is used as development feedback.\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "subagent:019ff278-d9aa-7bd3-80b0-55c7c3318dc3",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }
