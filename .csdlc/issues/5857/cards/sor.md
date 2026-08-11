@@ -21,6 +21,7 @@ Assembled and locally validated the Sprint 4 first-birthday core findings-first 
 - .csdlc/prepared/issues/5857/validate-sprint-review.rb
 - .csdlc/evidence/5857/activity.jsonl
 - .csdlc/evidence/5857/sprint-review.json
+- .csdlc/evidence/5857/terminal-mappings.json
 - .csdlc/evidence/5857/sprint-review.md
 - .csdlc/evidence/5857/local-validation.log
 - .csdlc/evidence/5857/local-validation-manifest.json
@@ -28,9 +29,9 @@ Assembled and locally validated the Sprint 4 first-birthday core findings-first 
 ## Execution
 
 - Reconciled all nine declared children to qualified issue repositories, implementation PRs, exact reviewed revisions, live closure, merge SHAs, and origin/main ancestry.
-- Retained corrective authority routes agent-logic/agent-design-language#144/PR147 and #209/PR215 and excluded superseded WP-14 PR76 from production authority.
-- Added an issue-owned fail-closed validator for roster shape, finding-free child reviews, commit existence, merge ancestry, repair ancestry, bounded non-claims, and the integrated WP-16 validator.
-- Updated the sprint execution packet with observed serialized execution and truthful pending umbrella review state.
+- Retained the corrective authority routes agent-logic/agent-design-language#144/PR147 and #209/PR215 and excluded superseded WP-14 PR76 from production authority.
+- Added an issue-owned fail-closed validator that binds exact PR/head/merge mappings, verifies completed finding-free child and repair reviews from each merge tree, verifies ancestry, and runs four adversarial mapping/review mutations plus the integrated WP-16 validator.
+- Updated the sprint execution packet and typed SPP with observed serialized execution, merge-only umbrella activity scope, completed readiness/coordination, and truthful pending review/close state.
 
 ## Validation
 
@@ -38,11 +39,32 @@ Assembled and locally validated the Sprint 4 first-birthday core findings-first 
   {
     "command": [
       "ruby",
+      ".csdlc/prepared/issues/5857/validate-sprint-review.rb",
+      "--self-test"
+    ],
+    "purpose": "Validate exact PR/head/merge mappings, nine child and two repair merge-tree reviews, ancestry, non-claims, four adversarial mutations, and the integrated WP-16 packet.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5857/local-validation.log"
+  },
+  {
+    "command": [
+      "ruby",
+      "-c",
       ".csdlc/prepared/issues/5857/validate-sprint-review.rb"
     ],
-    "purpose": "Prove the umbrella review packet is complete, exact-revision bound, findings-first, and narrower than child evidence.",
+    "purpose": "Verify the issue-owned validator parses before independent review.",
     "outcome": "passed",
-    "evidence_ref": "sprint4-terminal-review.log"
+    "evidence_ref": ".csdlc/evidence/5857/local-validation-manifest.json"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Verify patch hygiene before independent review.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5857/local-validation-manifest.json"
   }
 ]
 

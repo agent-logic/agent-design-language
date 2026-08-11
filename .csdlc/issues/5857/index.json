@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e489915a11df3b89a0864fc0dc5f4f7d5e8af55bf967136e961c4946457d9a97",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "6b50467a2d473d35e09e0cb2ed60060eb4f2e37cf9f869a23db83e08ff647584",
+  "generation": 9,
+  "digest": "76c5f0ae850abd8dd39814d4f939b941997532562982b9d0cbd63c7ac59dfac5",
   "branch": "codex/5857-sprint4-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5857-sprint4-review",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f27790e3cd4df295b96b5e53ebbcab16ba9287395487bfd547ebbdf76bf72da1",
+      "values_digest": "8ee8bb2f64b948455279d505fd33f5927ce9520f24182b30a8eb37b24eb34d48",
       "rendered_digest": "51ab82f4fc086b0ca966e2e3cc4ab142ec9da44bfd35f767228117e71886c9d5",
       "ast_digest": "7318c166b74bb2ab1b5fe72039fead58f3e64e287e7127115f34b2a3a13469b9"
     },
     "stp": {
-      "values_digest": "15be56fbe3eeb10d815b6ec4c066088751b6272542ae710283b467c782272733",
+      "values_digest": "457ea7c4fbadd421960e6532bb56df685183791434f0e222c114829dd69b8487",
       "rendered_digest": "f47d3a9d5f37c64d76c52c23037eee7180ae25f815c1e5d4973b76724d53ab86",
       "ast_digest": "f907e1273652d9d8b0e3e335b5c814943deedd5cf057ebc0bbf56eea458fc121"
     },
     "spp": {
-      "values_digest": "fb3757453f81585426f6409c3e9e48f738c647d061b8c6a84e4a032bf2b8bf30",
+      "values_digest": "c1b52bac37058cd6c4bf0791afb71030195376e32f691532ae85ad4ee20e0d1c",
       "rendered_digest": "c0ecd5b7d7c408414baa31f7e613d8a76bfd2084b2c471048c139a514d0464e7",
       "ast_digest": "faa114501aae1fdbdfcb9865eff5c1d01f56e4667774f26397edc5b7877ee624"
     },
     "vpp": {
-      "values_digest": "e9b5e65782d048157d554c080abd76e1c9ca18bdb490d28228f86e9c647ec962",
+      "values_digest": "1350345c97628e68b2e355cdf03b07c4e847b795d49e3820f62269e7ba37391a",
       "rendered_digest": "85a35e9c9484a5e94ea835c7f8ae7c7f4421f2b035eb3d5c87185cffed5d3859",
       "ast_digest": "d1319d9e68f30243e33080865594b440614c75bbb4b3334996226323ddb1f8a4"
     },
     "srp": {
-      "values_digest": "fc9c3be51ff7579b785acab9652e10585fafd930201be966b89fb9f818c6816f",
+      "values_digest": "b1c266d53d3e2f2c72ff10b97653113e2eb8149fd6b5400d3536d35d5bb0d018",
       "rendered_digest": "ca74204fafaf2381dcaf0b73ed22aa416812493b3be2db9983011fe54d1d5e70",
       "ast_digest": "ffe7e4216aa1f24820ee40cca85774d4391b67d4c3a9a575c8ff4f6ab01e4e10"
     },
     "sor": {
-      "values_digest": "98de34c49d6c1787165019a8daa8fe90ff2698af20d88f989fc4bab1a0bdb96a",
-      "rendered_digest": "944f88e959f2d0c6c15da714855a1e093759968e578eebf8964095ce8bf4f05e",
-      "ast_digest": "b2be72576dc94b27958309dbcc8046bf95e3eda3cf92a33d1911d8acb3c403c9"
+      "values_digest": "6b14cee7791e2a9be7d03ee17e0521314ebcdaa1c812d6645c076a6ce6f27170",
+      "rendered_digest": "997bdc4d8e213367736cffeb45e9fd392e3a5556fd83b5a72d7e60adc7c79bba",
+      "ast_digest": "4360141f867fc2b489b5e0d9f9379fc8a8ae2a8b4a66be7fba62f05675e2a8cb"
     }
   },
   "transitions": [
@@ -162,6 +162,13 @@
       "actor": "/root/sprint4_5857",
       "reason": "Record completed child routing through declared serial dependency and review gates.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"coordinate\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "/root/sprint4_5857",
+      "reason": "Record the implemented findings-first Sprint 4 review and exact local validation while preserving review, publication, merge, and closeout as pending.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Assembled and locally validated the Sprint 4 first-birthday core findings-first review across nine merged children and two merged authority repairs without claiming downstream demo, release, governance, personhood, citizenship, or consciousness.\",\"changes\":[\"Reconciled all nine declared children to qualified issue repositories, implementation PRs, exact reviewed revisions, live closure, merge SHAs, and origin/main ancestry.\",\"Retained the corrective authority routes agent-logic/agent-design-language#144/PR147 and #209/PR215 and excluded superseded WP-14 PR76 from production authority.\",\"Added an issue-owned fail-closed validator that binds exact PR/head/merge mappings, verifies completed finding-free child and repair reviews from each merge tree, verifies ancestry, and runs four adversarial mapping/review mutations plus the integrated WP-16 validator.\",\"Updated the sprint execution packet and typed SPP with observed serialized execution, merge-only umbrella activity scope, completed readiness/coordination, and truthful pending review/close state.\"],\"artifacts\":[\".csdlc/prepared/issues/5857/sprint-execution-packet.md\",\".csdlc/prepared/issues/5857/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5857/validate-sprint-review.rb\",\".csdlc/evidence/5857/activity.jsonl\",\".csdlc/evidence/5857/sprint-review.json\",\".csdlc/evidence/5857/terminal-mappings.json\",\".csdlc/evidence/5857/sprint-review.md\",\".csdlc/evidence/5857/local-validation.log\",\".csdlc/evidence/5857/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5857/validate-sprint-review.rb\",\"--self-test\"],\"purpose\":\"Validate exact PR/head/merge mappings, nine child and two repair merge-tree reviews, ancestry, non-claims, four adversarial mutations, and the integrated WP-16 packet.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5857/local-validation.log\"},{\"command\":[\"ruby\",\"-c\",\".csdlc/prepared/issues/5857/validate-sprint-review.rb\"],\"purpose\":\"Verify the issue-owned validator parses before independent review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5857/local-validation-manifest.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify patch hygiene before independent review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5857/local-validation-manifest.json\"}]}"
     }
   ]
 }
