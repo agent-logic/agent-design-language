@@ -823,6 +823,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     );
     assert_eq!(completions.load(Ordering::SeqCst), 10);
 
+    let dispatches_before_turnover = dispatches.load(Ordering::SeqCst);
     socket
         .send(Message::Text(
             serde_json::json!({
@@ -840,8 +841,88 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .unwrap();
     let capacity =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
-    assert_eq!(capacity["status"], "failed");
-    assert_eq!(capacity["error"], "conversation_capacity_exhausted");
+    assert_eq!(capacity["status"], "accepted", "{capacity}");
+    let delivered = next_conversation_result_for_turn(&mut socket, "turn-over-capacity").await;
+    assert_eq!(delivered["status"], "delivered", "{delivered}");
+    assert_eq!(
+        dispatches.load(Ordering::SeqCst),
+        dispatches_before_turnover + 1,
+        "a new turn should execute after the oldest terminal record is evicted"
+    );
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-shepherd",
+                "turn_id": "turn-over-capacity",
+                "recipient_id": "shepherd",
+                "correlation_id": "44444444444444444444444444444444",
+                "message": "Hello"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let duplicate =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(duplicate["status"], "delivered", "{duplicate}");
+    assert_eq!(
+        dispatches.load(Ordering::SeqCst),
+        dispatches_before_turnover + 1,
+        "a retained terminal duplicate must not execute again"
+    );
+
+    for index in 0..8 {
+        let turn_id = format!("turn-in-flight-{index}");
+        socket
+            .send(Message::Text(
+                serde_json::json!({
+                    "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                    "conversation_id": "conversation-in-flight-capacity",
+                    "turn_id": turn_id,
+                    "recipient_id": "shepherd",
+                    "correlation_id": format!("{:032x}", 100 + index),
+                    "message": "barrier cleanup"
+                })
+                .to_string()
+                .into(),
+            ))
+            .await
+            .unwrap();
+        let accepted =
+            next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+        assert_eq!(accepted["status"], "accepted", "{accepted}");
+        if index == 0 {
+            tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
+                .await
+                .expect("capacity fixture did not enter in-flight execution");
+        }
+    }
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-in-flight-capacity",
+                "turn_id": "turn-in-flight-over-capacity",
+                "recipient_id": "shepherd",
+                "correlation_id": "000000000000000000000000000000ff",
+                "message": "Hello"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let capacity =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(capacity["status"], "failed", "{capacity}");
+    assert_eq!(
+        capacity["error"], "conversation_capacity_exhausted",
+        "active turns must never be evicted to admit new work"
+    );
+    barrier_release.add_permits(8);
 
     socket.close(None).await.unwrap();
     server.abort();

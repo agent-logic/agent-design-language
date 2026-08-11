@@ -1057,8 +1057,17 @@ function conversationFrameProvesAcceptance(frame) {
       frame.turn_sequence > 0);
 }
 
-function conversationReconnectIntent(pending) {
+function conversationReconnectIntent(pending, runtimeIncarnationId) {
   if (!pending || !pending.disconnected || pending.terminal) {
+    return null;
+  }
+  if (typeof runtimeIncarnationId !== "string" || runtimeIncarnationId.length === 0) {
+    return null;
+  }
+  if (pending.runtimeIncarnationId !== runtimeIncarnationId) {
+    pending.restartUnavailable = true;
+    pending.terminal = true;
+    pending.disconnected = false;
     return null;
   }
   pending.reconnectReplayCount += 1;
@@ -1796,6 +1805,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   let liveRequestGeneration = 0;
   let runtimeV3Readiness = null;
   let runtimeV3ReadinessRefresh = null;
+  let liveRuntimeIncarnationId = null;
   const nextLiveGeneration = () => {
     liveRequestGeneration += 1;
     return liveRequestGeneration;
@@ -1957,9 +1967,16 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const replayPendingConversationsAfterAuthentication = () => {
-    if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) return;
-    for (const pending of pendingConversationTurns.values()) {
-      const intent = conversationReconnectIntent(pending);
+    if (!conversationAuthorized || !liveRuntimeIncarnationId ||
+        !liveSocket || liveSocket.readyState !== WebSocket.OPEN) return;
+    for (const [turnId, pending] of pendingConversationTurns.entries()) {
+      const intent = conversationReconnectIntent(pending, liveRuntimeIncarnationId);
+      if (!intent && pending.restartUnavailable) {
+        pending.cancelButton?.remove();
+        setConversationTurnStatus(pending, "restart_unavailable");
+        pendingConversationTurns.delete(turnId);
+        continue;
+      }
       if (!intent) continue;
       liveSocket.send(JSON.stringify(intent));
       setConversationTurnStatus(pending, "reconnecting");
@@ -2221,6 +2238,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (resetReconnect) liveReconnectAttempt = 0;
     lastLiveError = null;
     runtimeV3Readiness = null;
+    liveRuntimeIncarnationId = null;
     runtimeBaseActive = false;
     setText("live-status", "polling stopped");
     setText("statusbar-websocket", "stopped");
@@ -2262,12 +2280,14 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             const streamSnapshot = runtimeV3Readiness
               ? { ...snapshot, ready: runtimeV3Readiness }
               : snapshot;
+            liveRuntimeIncarnationId = streamSnapshot.status?.runtime_incarnation_id || null;
             try {
               await authenticateRuntimeRosterSuccessor(base, streamSnapshot);
             } catch (error) {
               await renderLiveError(error, requestGeneration);
               return;
             }
+            replayPendingConversationsAfterAuthentication();
             if (!acceptRuntimeRosterSnapshot(streamSnapshot)) return;
             renderPanopticon(streamSnapshot, packet);
             updateConversationRoster(streamSnapshot.status?.agent_population);
@@ -2448,6 +2468,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     const randomId = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now().toString(16).padStart(32, "0")}`;
     const turnId = `turn-${randomId}`;
     const conversationId = `conversation-${recipientId}`;
+    if (!liveRuntimeIncarnationId) {
+      if (conversationStatus) conversationStatus.textContent = "runtime incarnation unavailable";
+      return;
+    }
     const intent = {
       schema: "adl.runtime_v3.observatory_conversation_intent.v1",
       conversation_id: conversationId,
@@ -2463,6 +2487,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       correlationId: randomId,
       message,
       intent,
+      runtimeIncarnationId: liveRuntimeIncarnationId,
       operatorRendered: false,
       disconnected: false,
       reconnectReplayCount: 0,

@@ -78,6 +78,7 @@ const pending = {
   turnId: "turn-1",
   recipientId: "agent-0001",
   correlationId: "0123456789abcdef0123456789abcdef",
+  runtimeIncarnationId: "incarnation-a",
   cancelRequested: false,
   disconnected: false,
   reconnectReplayCount: 0,
@@ -136,17 +137,49 @@ assert.deepEqual(conversationFrameTransition({
 }, pending), { status: "cancelling", terminal: false, reply: null });
 
 pending.disconnected = true;
-const replay = conversationReconnectIntent(pending);
+const replay = conversationReconnectIntent(pending, "incarnation-a");
 assert.strictEqual(replay, pending.intent, "reconnect must resend the exact retained intent");
 assert.equal(pending.reconnectReplayCount, 1);
-assert.equal(conversationReconnectIntent(pending), null, "one disconnect event may replay at most once");
+assert.equal(conversationReconnectIntent(pending, "incarnation-a"), null, "one disconnect event may replay at most once");
 pending.disconnected = true;
 assert.strictEqual(
-  conversationReconnectIntent(pending),
+  conversationReconnectIntent(pending, "incarnation-a"),
   pending.intent,
   "a later disconnect may retrieve the same idempotent Runtime result"
 );
 assert.equal(pending.reconnectReplayCount, 2);
-assert.equal(conversationReconnectIntent({ ...pending, terminal: true, disconnected: true, reconnectReplayCount: 0 }), null);
+assert.equal(conversationReconnectIntent({ ...pending, terminal: true, disconnected: true, reconnectReplayCount: 0 }, "incarnation-a"), null);
+
+const restartedPending = {
+  ...pending,
+  terminal: false,
+  disconnected: true,
+  reconnectReplayCount: 0,
+  restartUnavailable: false
+};
+assert.equal(
+  conversationReconnectIntent(restartedPending, "incarnation-b"),
+  null,
+  "a changed Runtime incarnation must never receive an old pending turn"
+);
+assert.equal(restartedPending.restartUnavailable, true);
+assert.equal(restartedPending.terminal, true);
+assert.equal(restartedPending.disconnected, false);
+assert.equal(restartedPending.reconnectReplayCount, 0);
+assert.equal(
+  conversationReconnectIntent({ ...restartedPending, disconnected: true }, "incarnation-b"),
+  null,
+  "restart-unavailable turns remain terminal"
+);
+
+const incarnationUnknown = {
+  ...pending,
+  terminal: false,
+  disconnected: true,
+  reconnectReplayCount: 0
+};
+assert.equal(conversationReconnectIntent(incarnationUnknown, null), null);
+assert.equal(incarnationUnknown.terminal, false, "replay waits until the current socket proves its incarnation");
+assert.equal(incarnationUnknown.reconnectReplayCount, 0);
 
 console.log("WP-18C.01 Observatory conversation contract: PASS");

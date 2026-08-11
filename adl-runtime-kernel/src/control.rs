@@ -471,6 +471,26 @@ struct ConversationSession {
     turns: BTreeMap<String, ConversationTurn>,
 }
 
+impl ConversationSession {
+    fn retain_capacity_for_new_turn(&mut self, max_records: usize) -> bool {
+        if self.turns.len() < max_records {
+            return true;
+        }
+
+        let oldest_terminal_turn = self
+            .turns
+            .iter()
+            .filter(|(_, turn)| turn.terminal.is_some())
+            .min_by_key(|(_, turn)| turn.sequence)
+            .map(|(turn_id, _)| turn_id.clone());
+        let Some(turn_id) = oldest_terminal_turn else {
+            return false;
+        };
+        self.turns.remove(&turn_id);
+        true
+    }
+}
+
 struct ConversationDispatchGate {
     state: Mutex<ConversationDispatchGateState>,
     changed: tokio::sync::Notify,
@@ -835,7 +855,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 },
             ));
         }
-        if session.turns.len() >= self.max_records {
+        if !session.retain_capacity_for_new_turn(self.max_records) {
             return ConversationAcceptance::Response(outcome(
                 "failed",
                 "conversation_capacity_exhausted",
