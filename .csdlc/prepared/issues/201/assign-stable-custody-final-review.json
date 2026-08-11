@@ -1,0 +1,19 @@
+{
+  "issue": 201,
+  "expected_generation": 77,
+  "expected_digest": "a3b5146199830dbb17c63952842f458eca50260530b23f6164746f37f5c2a1cf",
+  "reviewer": "codex:/root/review_201_stable_custody_final",
+  "assigned_by": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+  "scope": [
+    ".csdlc/issues/201",
+    ".csdlc/prepared/issues/201",
+    ".csdlc/evidence/201/v7",
+    "adl-runtime/src/distributed/authority_protocol.rs",
+    "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+    "adl-runtime/src/distributed/identity.rs",
+    "adl-runtime/src/distributed/mod.rs",
+    "adl-runtime/src/distributed/polis_runtime.rs",
+    "adl-runtime/src/distributed/transport.rs",
+    "adl-runtime/tests/distributed_authority_protocol.rs"
+  ]
+}
