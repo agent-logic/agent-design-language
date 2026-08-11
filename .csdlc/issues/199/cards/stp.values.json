@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
     "slug": "governed-voter-membership-transitions",
     "version": "v0.92",
-    "generation": 14
+    "generation": 18
   },
   "status": "ready",
   "content": {
@@ -16,7 +16,9 @@
       "task_boundary": "Implement and publish only governed learner catch-up, OpenRaft joint/final transition orchestration, exact membership/route parity publication, pending removal exclusion, governed rejoin, and crash reconciliation using merged #201 authority and, after its merge, #202 transport contracts while treating merged #200 stores as out of scope.",
       "deliverables": [
         "adl-runtime/src/distributed/membership_coordinator.rs",
-        "adl-runtime/src/distributed/polis_runtime.rs",
+        "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
+        "adl-runtime/src/distributed/transport/governed/learner_transport.rs",
+        "adl-runtime/src/distributed/authority_protocol.rs",
         "adl-runtime/src/distributed/membership.rs",
         "adl-runtime/src/distributed/lease.rs",
         "adl-runtime/src/distributed/mod.rs",

@@ -27,11 +27,14 @@ not launch Guardian/kernel processes or run Wuji/AWS demos.
 ## Authoritative input and stable identities
 
 - A private-field #201 token binds polis, trust domain, operation id, committed
-  index, the coarse `AuthorityOperationKind::Membership`, exact old configuration digest, canonical payload
-  digest, and result/checkpoint identity. For membership operations, the
-  digest-bound canonical payload contains the candidate identity and role,
-  expected certificate generation, exact authorized candidate Raft id, and the
-  complete old and target guardian-to-Raft-id mappings.
+  index, the coarse `AuthorityOperationKind::Membership`, exact old configuration
+  digest, canonical payload digest, and result/checkpoint identity. The reused
+  #202 `EnrollNonVoting` and `RemoveVoter` artifacts carry the exact candidate
+  identity, voter-cut digest, target-membership digest, deadline, and canonical
+  metadata; they do not carry complete guardian-to-Raft-id maps. The #199-owned
+  `PromoteVoter` artifact additionally binds the candidate Raft id and exact old
+  and target stable-map digests. The complete maps are loaded from durable local
+  state and accepted only when their canonical digests match that artifact.
 - The old cut is accepted only when `MembershipState`, `AuthorityMembership`,
   #191 durable OpenRaft membership/history, #202 route/exclusion view, and the
   currently published membership view agree exactly on domain, index, voters,
@@ -73,6 +76,15 @@ under the same coarse `Membership` kind. The coordinator consumes artifacts
 only through the crate-private sealed accessor and validates exact canonical
 domain, bytes, digest, old/target cut, operation id, and committed index.
 
+#199 adds one narrow governed observation surface to the #202 factory boundary.
+Successful learner-admission or pending-exclusion activation returns an opaque
+`GovernedMembershipAuthorityReceipt` containing the canonical operation digest,
+external durable generation, and published state digest. A read-only observation
+method returns that same receipt only while the exact operation remains current,
+or `None` otherwise. Receipt construction, durable admission/exclusion state,
+route mutation, and transition ownership remain private to #202. Callers cannot
+forge a receipt, choose a generation, or obtain the private state behind it.
+
 ## Non-voting enrollment state machine
 
 `EnrollNonVoting` has its own bounded durable protocol rather than borrowing the
@@ -88,10 +100,10 @@ voter-transition phases:
 2. `LearnerAdmissionRequested` invokes only the merged #202 governed factory
    port with the verified admission and exact current time. The coordinator
    does not stage, mutate, or transact over #202 private state. It journals the
-   requested operation digest and the returned durable #202 admission
-   generation/result identity before proceeding.
-3. `EnrollmentReconciled` observes that exact #202 operation/generation through
-   the governed port, then idempotently prepares the local
+   requested operation digest and returned
+   `GovernedMembershipAuthorityReceipt` before proceeding.
+3. `EnrollmentReconciled` observes that exact receipt again through the
+   governed read-only port, then idempotently prepares the local
    `MembershipState` Join-as-NonVoting event and collision-checked stable-id
    registry entry. Their canonical old/new digests are recorded separately.
    A missing, different, expired, or superseded #202 generation fails closed.
@@ -120,7 +132,7 @@ Promotion and removal use one durable transition record and only these phases:
 1. `AuthorizedOld`: persist the exact token, stable maps, old/target cuts,
    expected checkpoint, and operation digest before an OpenRaft side effect.
    Removal invokes the governed #202 exclusion activation port and journals its
-   exact durable operation/generation receipt. It does not mutate #202 private
+   exact `GovernedMembershipAuthorityReceipt`. It does not mutate #202 private
    state directly or claim that local and external publication are atomic.
    From this phase the target cannot create ordinary voter sessions, endorse
    #201 operations, renew, mutate, become Shepherd, or acquire/serve the polis

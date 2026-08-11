@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
     "slug": "governed-voter-membership-transitions",
     "version": "v0.92",
-    "generation": 14
+    "generation": 18
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 6,
+      "plan_revision": 7,
       "summary": "After #202 is reviewed, merged, ancestral, and followed by a fresh preparation resync and typed validation, bind and implement one crash-resumable coordinator for learner catch-up, standard OpenRaft joint/final changes, exact Runtime authority parity, pending removal exclusion, and governed rejoin; prove it, independently review it, and publish a ready unmerged PR while preserving already-merged #200 as an out-of-scope consumer boundary.",
       "steps": [
         {
@@ -72,7 +72,7 @@
         "Every transition preserves stable existing Raft ids and binds exact old, joint, and final configuration digests",
         "A learner never votes before exact committed-prefix or canonical-snapshot catch-up",
         "A pending removal target cannot authorize new operations even before final uniform membership publishes",
-        "No public membership or route view becomes authoritative before final Raft and concrete authority parity plus checkpoint reconciliation"
+        "No #199 local membership-parity view becomes authoritative before final Raft membership, exact observed #202 receipt, local authority parity, and checkpoint reconciliation; #202 independently owned views may publish earlier while #199 remains fail closed"
       ],
       "risks": [
         "OpenRaft membership API semantics could be wrapped incorrectly or duplicate joint consensus",

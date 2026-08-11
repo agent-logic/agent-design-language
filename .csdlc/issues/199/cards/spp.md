@@ -16,7 +16,7 @@ After #202 is reviewed, merged, ancestral, and followed by a fresh preparation r
 
 ## Plan
 
-Revision 6
+Revision 7
 
 ## Steps
 
@@ -65,7 +65,7 @@ Revision 6
 - Every transition preserves stable existing Raft ids and binds exact old, joint, and final configuration digests
 - A learner never votes before exact committed-prefix or canonical-snapshot catch-up
 - A pending removal target cannot authorize new operations even before final uniform membership publishes
-- No public membership or route view becomes authoritative before final Raft and concrete authority parity plus checkpoint reconciliation
+- No #199 local membership-parity view becomes authoritative before final Raft membership, exact observed #202 receipt, local authority parity, and checkpoint reconciliation; #202 independently owned views may publish earlier while #199 remains fail closed
 
 ## Risks
 

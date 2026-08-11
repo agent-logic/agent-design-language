@@ -17,7 +17,9 @@ Implement and publish only governed learner catch-up, OpenRaft joint/final trans
 ## Deliverables
 
 - adl-runtime/src/distributed/membership_coordinator.rs
-- adl-runtime/src/distributed/polis_runtime.rs
+- adl-runtime/src/distributed/transport/governed/polis_runtime.rs
+- adl-runtime/src/distributed/transport/governed/learner_transport.rs
+- adl-runtime/src/distributed/authority_protocol.rs
 - adl-runtime/src/distributed/membership.rs
 - adl-runtime/src/distributed/lease.rs
 - adl-runtime/src/distributed/mod.rs

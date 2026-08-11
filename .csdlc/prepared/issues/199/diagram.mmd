@@ -13,7 +13,7 @@ flowchart LR
   L --> J["JointCommitted persisted per OpenRaft membership log entry"]
   J --> F["FinalCommitted exact uniform target"]
   F --> I["Durable publication intent"]
-  I --> R["Reconcile private MembershipState stable AuthorityMembership and route objects"]
+  I --> R["Reconcile local MembershipState and stable AuthorityMembership against observed #202 receipt"]
   R --> X["External checkpoint plus exact result cache"]
   X --> V["Atomic published-view generation flip"]
   V --> O["Pending-exclusion receipt for #200"]
