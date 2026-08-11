@@ -18,7 +18,7 @@ use super::{
         AuthorityNodeIdentity, AuthorityOperationKind, CommittedAuthorityArtifact,
         PublishedAuthorityResult,
     },
-    learner_transport::LearnerIdentity,
+    learner_transport::{LearnerIdentity, MembershipDiscriminator, VerifiedMembershipArtifact},
     polis_runtime::GovernedMembershipAuthorityReceipt,
     polis_runtime::{
         AppliedMembershipEntry, CheckpointMetadata, CheckpointMetadataSource, CheckpointedJson,
@@ -653,6 +653,37 @@ pub fn stable_map_sha256(
     serde_jcs::to_vec(&ordered)
         .map(|bytes| <[u8; 32]>::from(Sha256::digest(bytes)))
         .map_err(|_| MembershipCoordinatorError::WrongStableMap)
+}
+
+pub fn verify_external_membership_receipt(
+    result: &PublishedAuthorityResult,
+    discriminator: MembershipDiscriminator,
+    receipt: &GovernedMembershipAuthorityReceipt,
+    expected_identity: &LearnerIdentity,
+    expected_voter_cut_sha256: [u8; 32],
+    expected_target_membership_sha256: [u8; 32],
+    now_unix_seconds: i64,
+) -> MembershipCoordinatorResult<()> {
+    let artifact = VerifiedMembershipArtifact::from_published(result, discriminator)
+        .map_err(|_| MembershipCoordinatorError::InvalidArtifact)?;
+    if artifact.identity() != expected_identity {
+        return Err(MembershipCoordinatorError::WrongIdentity);
+    }
+    if artifact.voter_cut_sha256() != expected_voter_cut_sha256
+        || artifact.target_membership_sha256() != expected_target_membership_sha256
+    {
+        return Err(MembershipCoordinatorError::WrongStableMap);
+    }
+    if now_unix_seconds <= 0 || now_unix_seconds >= artifact.deadline_unix_seconds() {
+        return Err(MembershipCoordinatorError::Expired);
+    }
+    if receipt.operation_sha256() != artifact.operation_sha256()
+        || receipt.generation() == 0
+        || receipt.published_state_sha256() == [0; 32]
+    {
+        return Err(MembershipCoordinatorError::ReceiptMismatch);
+    }
+    Ok(())
 }
 
 #[cfg(test)]
