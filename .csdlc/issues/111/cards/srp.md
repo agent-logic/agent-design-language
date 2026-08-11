@@ -46,12 +46,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Only required GitHub checks remain to be re-observed at the final pushed head; optional and out-of-band jobs are not part of this issue proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b7970f08cb259090ff9eb600b66c5ed95fab1ec1:f964078c80ee05775bec709cf9477a5a8f81d6b1a095015dffa33048470902a6")
 
-Reviewer: None
+Reviewer: Some("subagent:019ff1ee-694b-7b62-b86d-ebe05224810c")
 
-Result: pre_review
+Result: pass
