@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC v2][blocker] Support truthful initialized-phase acceptance and plan-step repair",
     "slug": "initialized-card-repair",
     "version": "v0.92",
-    "generation": 9
+    "generation": 10
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #213 exact literal-#205 design, guarded phase authorization, atomic current design/diagram binding refresh, ordinal/pending semantics, review invalidation, before/after bytes, path/identity drift, bound/implemented compatibility, complete Gate 2 proof, committed base-to-source diff lane, lifecycle records, and absence of #205 or broader authority changes.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/doctor.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate2.rs\n.csdlc/issues/213\n.csdlc/prepared/issues/213\n.csdlc/locks/213.lock",
+      "review_revision": "git-blake3:c46f231b7f0ee1f52b08a52dac0000fb6cefd6b7:7694749d5e2c7a79df548bddbb979ffeb74d8a46c86430c0ebf60067ea46d8ec",
+      "reviewer": "/root/review_213_c46f23",
       "review_prompts": [
         "Are only guarded initialized/ready STP replace_acceptance_criteria and SPP replace_plan_steps newly authorized, with ordinal AC IDs and pending-only pre-bind steps?",
         "Does the literal #205 sequence atomically refresh both current canonical design/diagram bindings while rejecting exact path/reference/card-identity drift?",
@@ -26,7 +26,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

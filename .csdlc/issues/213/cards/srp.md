@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Issue #213 exact literal-#205 design, guarded phase authorization, atomic current design/diagram binding refresh, ordinal/pending semantics, review invalidation, before/after bytes, path/identity drift, bound/implemented compatibility, complete Gate 2 proof, committed base-to-source diff lane, lifecycle records, and absence of #205 or broader authority changes.
+csdlc-v2/src/doctor.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate2.rs
+.csdlc/issues/213
+.csdlc/prepared/issues/213
+.csdlc/locks/213.lock
 
 ## Prompts
 
@@ -37,8 +42,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c46f231b7f0ee1f52b08a52dac0000fb6cefd6b7:7694749d5e2c7a79df548bddbb979ffeb74d8a46c86430c0ebf60067ea46d8ec")
 
-Reviewer: None
+Reviewer: Some("/root/review_213_c46f23")
 
-Result: pre_review
+Result: pass
