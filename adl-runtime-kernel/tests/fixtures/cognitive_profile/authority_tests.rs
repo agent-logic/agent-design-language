@@ -552,6 +552,32 @@ async fn real_continuity_composes_through_capability_and_cognition() {
     let record = build_birthday_continuity(&identity, &cycles).unwrap();
     let verified = verify_birthday_continuity_record(&record, &identity, &cycles).unwrap();
 
+    // A second fully valid Runtime history can share the identity checkpoint
+    // predecessor while producing a distinct continuity record and head.
+    let authority = CheckpointAuthority::from_bytes("runtime-continuity", &[19; 32]);
+    let mut alternate_manifests = manifests.clone();
+    alternate_manifests[0].snapshots[0].checksum = "d".repeat(64);
+    authority
+        .sign_manifest(&mut alternate_manifests[0])
+        .unwrap();
+    alternate_manifests[1].previous_integrity = Some(alternate_manifests[0].integrity.clone());
+    alternate_manifests[1].snapshots[0].checksum = "e".repeat(64);
+    authority
+        .sign_manifest(&mut alternate_manifests[1])
+        .unwrap();
+    let alternate_cycles = crate::birthday_continuity::authority_tests::verify(
+        &continuity_policy,
+        &identity,
+        &alternate_manifests,
+    )
+    .unwrap();
+    let alternate_record = build_birthday_continuity(&identity, &alternate_cycles).unwrap();
+    let alternate_verified =
+        verify_birthday_continuity_record(&alternate_record, &identity, &alternate_cycles).unwrap();
+    assert_eq!(record.predecessor_head, alternate_record.predecessor_head);
+    assert_ne!(record.record_sha256, alternate_record.record_sha256);
+    assert_ne!(record.continuity_head, alternate_record.continuity_head);
+
     let mut b = birthday(&identity.identity_root);
     b.stable_name = identity.stable_name.clone();
     b.continuity_head = verified.identity_checkpoint_head().to_owned();
@@ -568,6 +594,15 @@ async fn real_continuity_composes_through_capability_and_cognition() {
         &capability_policy,
     )
     .unwrap();
+    assert!(validate_capability_envelope_with_continuity(
+        &capability,
+        &b,
+        &identity,
+        &alternate_verified,
+        &capability_policy,
+    )
+    .unwrap_err()
+    .contains(&CapabilityEnvelopeRejection::ContinuityBindingMismatch));
 
     let (_, _, _, _, mut cognitive_policy) = authorities();
     cognitive_policy.capability_policy = capability_policy;
@@ -613,6 +648,47 @@ async fn real_continuity_composes_through_capability_and_cognition() {
         &authority,
     )
     .unwrap();
+
+    // Rebuild and re-sign every downstream cognitive artifact for the second
+    // valid record. The capability remains bound to the first opaque token,
+    // so substitution still fails closed rather than accepting shared
+    // identity/predecessor fields.
+    let mut substituted_policy = cognitive_policy.clone();
+    for item in &mut substituted_policy.evidence {
+        if item.category == CognitiveEvidenceCategory::Continuity {
+            item.sha256 = alternate_record.record_sha256.clone();
+        }
+    }
+    let substituted_input = input(
+        &b,
+        &identity,
+        &alternate_record,
+        &capability,
+        &substituted_policy,
+    );
+    let substituted_authority = trusted(&key, &substituted_policy, &substituted_input);
+    let substituted_proof = authority_proof(
+        &substituted_input,
+        &substituted_policy,
+        context("cognitive-board", "cognitive-key-1", 1, &key),
+        &key,
+        None,
+    );
+    assert_eq!(
+        build_governed_cognitive_profile_with_continuity(
+            &b,
+            &identity,
+            &alternate_verified,
+            &capability,
+            &substituted_input,
+            &substituted_policy,
+            &[],
+            &substituted_authority,
+            &substituted_proof,
+        )
+        .unwrap_err(),
+        vec![CognitiveProfileRejection::CapabilityMismatch]
+    );
 
     let mut wrong_identity = identity.clone();
     wrong_identity.identity_root = H.into();

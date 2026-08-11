@@ -9,8 +9,9 @@ use sha2::{Digest, Sha256};
 
 use crate::{
     birthday_identity::record_digest as identity_digest, candidate_digest,
-    continuity_record_digest, decide_birthday, validate_capability_envelope, BirthdayCandidate,
-    BirthdayContinuityRecord, BirthdayIdentityRecord, CapabilityEnvelope, CapabilityEnvelopePolicy,
+    continuity_record_digest, decide_birthday, validate_capability_envelope,
+    validate_capability_envelope_with_continuity, BirthdayCandidate, BirthdayContinuityRecord,
+    BirthdayIdentityRecord, CapabilityEnvelope, CapabilityEnvelopePolicy,
     VerifiedBirthdayContinuity, BIRTHDAY_IDENTITY_RECORD_SCHEMA,
 };
 
@@ -388,6 +389,14 @@ pub fn build_governed_cognitive_profile_with_continuity(
     proof: &CognitiveAuthorityProof,
 ) -> Result<CognitiveProfile, Vec<CognitiveProfileRejection>> {
     validate_verified_continuity(identity, continuity)?;
+    validate_capability_envelope_with_continuity(
+        capability,
+        birthday,
+        identity,
+        continuity,
+        &policy.capability_policy,
+    )
+    .map_err(|_| vec![CognitiveProfileRejection::CapabilityMismatch])?;
     build_governed_cognitive_profile(
         birthday,
         identity,
@@ -571,6 +580,14 @@ pub fn validate_governed_cognitive_profile_with_continuity(
     authority_policy: &CognitiveAuthorityPolicy,
 ) -> Result<(), Vec<CognitiveProfileRejection>> {
     validate_verified_continuity(identity, continuity)?;
+    validate_capability_envelope_with_continuity(
+        capability,
+        birthday,
+        identity,
+        continuity,
+        &cognitive_policy.capability_policy,
+    )
+    .map_err(|_| vec![CognitiveProfileRejection::CapabilityMismatch])?;
     validate_governed_cognitive_profile(
         profile,
         birthday,

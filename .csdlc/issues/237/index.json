@@ -5,28 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "8cbe7dad7dbc5ff4aeca5dbecd3cd504e9303fc12218082e6a744287d422dabf",
+  "generation": 18,
+  "digest": "048f5d52e1ad95c5767db0e83904cece5c8a1c7d10ca15a087e6d5b72c8c5880",
   "branch": "codex/237-continuity-binding-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
-  "review_assignment": {
-    "reviewer": "/root/sprint5_5836/review_237_remediation_exact_head",
-    "assigned_by": "/root/sprint5_5836",
-    "revision": "git-blake3:dde76f206e85ac543ce653448976e07da89d5820:c4c5b4a04d547877092401049bdd48e095e8c1261f839522a4075bb80039f08a",
-    "scope": [
-      ".csdlc/issues/237",
-      ".csdlc/prepared/issues/237/design.md",
-      ".csdlc/prepared/issues/237/diagram.mmd",
-      ".csdlc/evidence/237",
-      "adl-runtime-kernel/src/birthday_continuity.rs",
-      "adl-runtime-kernel/src/capability_envelope.rs",
-      "adl-runtime-kernel/src/cognitive_profile.rs",
-      "adl-runtime-kernel/tests/capability_envelope.rs",
-      "adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs",
-      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
-      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/237/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex-subagent:issue237-design-alignment",
-      "revision": "4473af66cfe35bdecb90869469e835fa8400d91d4867718824b47f92b487ff7d"
+      "reviewer": "codex-subagent:issue237-exact-token-design",
+      "revision": "05eaa39b5c0b51a23b17b7291b86844fbd77fb9349b1f2efad178cfcb55a98cb"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "564276d7d488dbf36bba862e2d8e28f5d8e431840991898f5de31056e076ace2",
+      "values_digest": "cced5f0662d8df5d6dcb77ea59b9ff75d1dae5193cb2bfc6b08a0be04d961f84",
       "rendered_digest": "0f6629e693297f8a2eb8e4e029f507657271276795d4b5bbd81755940bb86c8a",
       "ast_digest": "f46556d73fa2c09d0c6e681dc9740a8184e284e33ba7babeeebffb1d729a8123"
     },
     "stp": {
-      "values_digest": "5a6e44243d07e3df88555dff8edd16a95a109dde0d77b896dc1b48b31741eb17",
+      "values_digest": "2c1ba6d20e67ee40cd254ac140777ee37f0a426494ddda9f8bb1b4aff4d61ded",
       "rendered_digest": "f7a8004785b409a2efe1ac3ab53bdec813b55e2935ec1ba16dbc28347e9f67a1",
       "ast_digest": "166322a3cc6ed81aec67904d218571f122e03eb6b0ace1c165e6fb98c5f8aed3"
     },
     "spp": {
-      "values_digest": "2c6481990fba17c0f6913ca97e3d9f17334a471e35c749a4c7b06bcd1a9d3526",
-      "rendered_digest": "a697811eb51aa3a309c8d46e5ff1373a5268056c06eb3c55c64b8ab30a552c18",
-      "ast_digest": "f6d147534cd0cdd308f86c3b3a32cbe92c26da575d1832b3d7dc233b17ea08d9"
+      "values_digest": "f05cc61c0fac5a3ec8c25f8c25a241afc0a6bddb18186b78571e255fe2c9b501",
+      "rendered_digest": "e6a80408a6ef9542fe7ecdddd694b730ad391eeadfa21eee9889b937199856da",
+      "ast_digest": "37f126d691722ee8fe061a6b39f46817c3d73a917572506171330133dbe49efa"
     },
     "vpp": {
-      "values_digest": "dcbc48a83ac880609458a7e8dec14365a0172624347ea4ea320a4d683017fc75",
+      "values_digest": "74242d2e5f2c9e7e105d5097ee461eb0e1309ffc7e274796a691ac38a9b27345",
       "rendered_digest": "6a13c547f3d29f0c261f0312823c2aa86e7a47ec2772f99a7e666c035d9fbbee",
       "ast_digest": "5e92538817ea1029ad69966a60af6f0bde2d8d2e49d9d44b3417095573fbfb3f"
     },
     "srp": {
-      "values_digest": "8073004f091b9c91dcf930e84f55e646e4499043cfba81b8ed1376c85f2660f8",
-      "rendered_digest": "e78473ef4cc56826af432d635c11c608478c84a9f440979f1b20493af230b7fb",
-      "ast_digest": "40865c5c51659402a6676dbf2b8163b44bdd4ac49f6ef8041ffe48721d0c1615"
+      "values_digest": "be38da2ce0beaa2f4fa49aa3c580417a06ce1df6ee5af1ab2765dcceba7f3d79",
+      "rendered_digest": "73e3a45137d9fa80b09504c4438ad098af6c21af0a3b6034c95905b5c1d1efb8",
+      "ast_digest": "9826ba27c212418af607a6e63d1dd36b52533885b603103ca717ec2709e7bb82"
     },
     "sor": {
-      "values_digest": "d234cc9a21958338327aebc2065ab4c6bd733be773f98e57ac4a0a331302613b",
-      "rendered_digest": "9e00e820bf3fb4196ce7ef8a548167a5007db8738bdf501679e5de705c5816ce",
-      "ast_digest": "3e6c87605f802d9a81524cbf2f7a6dd3f53168eeaab6fa60c16ca1b7fa9f98df"
+      "values_digest": "c79d0c10904ee6b97213de6649dca7fe7a5ba876b122e493f345c900720a55c1",
+      "rendered_digest": "bec3c7570c44747449c0aa8b3d807915596021e5c13644cc5a0157d1aa2aae2e",
+      "ast_digest": "0b570ae055a45a8649bc958ec4d0a3357904947b3a631b3580af122226f269ae"
     }
   },
   "transitions": [
@@ -228,6 +211,27 @@
       "actor": "/root/sprint5_5836",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Exact review found that capability and governed cognition were not bound to the exact verified continuity record when two valid tokens shared identity and predecessor fields.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex-subagent:issue237-exact-token-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Record exact-token capability binding, two-valid-token substitution rejection, and refreshed exact-head evidence for every required local proof lane.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Capability envelopes now canonically bind the exact verified continuity head and record digest, and governed cognition rejects substitution by a separately valid token; exact local proof is green and publication remains pending.\",\"changes\":[\"Require opaque VerifiedBirthdayContinuity on every public authoritative capability and governed-cognition build and validation route.\",\"Keep raw BirthdayContinuityRecord compatibility primitives crate-private and remove permissive either-or continuity acceptance.\",\"Bind the capability envelope canonical hash to the exact token continuity head and record digest, and require token-aware capability validation inside governed cognition.\",\"Prove two independently valid signed continuity tokens sharing identity and predecessor cannot be substituted after downstream cognition is rebuilt and re-signed.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Run the focused public API target (1/1 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Run the Runtime library authority suite (79/79 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Run compile-fail public-boundary documentation tests (8/8 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict library Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-strict-lib-clippy.log\"}]}"
     }
   ]
 }

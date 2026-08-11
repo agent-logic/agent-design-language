@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Removed every public raw-continuity authority bypass; verified continuity now gates authoritative capability and governed-cognition APIs, with exact local proof green and publication still pending.
+Capability envelopes now canonically bind the exact verified continuity head and record digest, and governed cognition rejects substitution by a separately valid token; exact local proof is green and publication remains pending.
 
 ## Artifacts
 
@@ -28,7 +28,8 @@ Removed every public raw-continuity authority bypass; verified continuity now ga
 
 - Require opaque VerifiedBirthdayContinuity on every public authoritative capability and governed-cognition build and validation route.
 - Keep raw BirthdayContinuityRecord compatibility primitives crate-private and remove permissive either-or continuity acceptance.
-- Prove real signed Runtime composition, self-consistent whole-record substitutions, token mismatch and replay rejection, and direct old-API compile-fail boundaries.
+- Bind the capability envelope canonical hash to the exact token continuity head and record digest, and require token-aware capability validation inside governed cognition.
+- Prove two independently valid signed continuity tokens sharing identity and predecessor cannot be substituted after downstream cognition is rebuilt and re-signed.
 
 ## Validation
 

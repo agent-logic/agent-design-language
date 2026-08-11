@@ -7,7 +7,7 @@
     "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
     "slug": "birthday-continuity-binding-reconciliation",
     "version": "v0.92",
-    "generation": 15
+    "generation": 18
   },
   "status": "ready",
   "content": {
@@ -87,7 +87,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/237/design.md",
-      "design_digest": "4473af66cfe35bdecb90869469e835fa8400d91d4867718824b47f92b487ff7d",
+      "design_digest": "05eaa39b5c0b51a23b17b7291b86844fbd77fb9349b1f2efad178cfcb55a98cb",
       "diagram_ref": ".csdlc/prepared/issues/237/diagram.mmd",
       "diagram_digest": "5cfcdecfc7cf13d3a56ebf2d905ea63c4a59781cbff3c3b9b839e8c78780c9b4"
     }

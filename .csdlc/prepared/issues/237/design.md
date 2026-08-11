@@ -18,6 +18,12 @@ from `verify_birthday_cycles`, then runs the full continuity-record validator.
 Both capability and governed cognition consume that same verified value; a
 public record or matching digest alone confers no authority. No constructor for
 trusted authority is made public and no caller-supplied trust root is added.
+The capability envelope records both the exact verified continuity head and
+canonical continuity-record digest inside its canonical envelope hash. Its
+public builder writes those fields from the opaque value, and its public
+validator requires an exact match to the supplied opaque value. Governed
+cognition invokes that verified capability validator before it builds or
+validates a profile, rather than relying on the raw component validator.
 
 ## Owned paths
 
@@ -37,6 +43,9 @@ trusted authority is made public and no caller-supplied trust root is added.
   cognition is accepted.
 - A substituted record, head, identity root, or identity-record digest fails
   closed with typed rejection.
+- Two independently valid continuity records that share the same identity and
+  predecessor remain distinct authority values; a capability built against one
+  cannot be replayed under the other.
 - Signature, policy-digest, evidence-digest, privacy, and caller authority
   boundaries remain unchanged.
 - Positive proof uses real signed `LiveContinuity` checkpoints, not fixtures or
@@ -58,3 +67,10 @@ fail with the typed continuity-binding rejection because the attacker cannot
 forge the opaque verified cycles/runtime authority. Run the retained capability
 and cognitive authority tests in the same required job to prove authority and
 privacy behavior was not weakened.
+
+The composition regression also creates two separately signed and verified
+Runtime continuity histories with the same identity and predecessor. It builds
+the capability against token A, then substitutes token B while rebuilding and
+re-signing the downstream cognitive input and authority proof. Capability and
+governed cognition must both reject the substitution because the envelope's
+canonical continuity head and record digest remain bound to token A.

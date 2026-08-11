@@ -107,6 +107,8 @@ pub struct CapabilityEnvelopePolicy {
 pub struct CapabilityEnvelope {
     pub schema: String,
     pub identity_root: String,
+    pub continuity_head: String,
+    pub continuity_record_sha256: String,
     pub birthday_candidate_sha256: String,
     pub identity_record_sha256: String,
     pub evidence: Vec<CapabilityEvidenceReference>,
@@ -187,6 +189,8 @@ pub(crate) fn build_capability_envelope(
     let mut envelope = CapabilityEnvelope {
         schema: CAPABILITY_ENVELOPE_SCHEMA.to_owned(),
         identity_root: identity.identity_root.clone(),
+        continuity_head: String::new(),
+        continuity_record_sha256: String::new(),
         birthday_candidate_sha256: canonical.birthday_candidate_sha256,
         identity_record_sha256: canonical.identity_record_sha256,
         evidence: canonical.evidence,
@@ -219,7 +223,11 @@ pub fn build_capability_envelope_with_continuity(
     policy: &CapabilityEnvelopePolicy,
 ) -> Result<CapabilityEnvelope, Vec<CapabilityEnvelopeRejection>> {
     validate_verified_continuity(birthday, identity, continuity)?;
-    build_capability_envelope(birthday, identity, input, policy)
+    let mut envelope = build_capability_envelope(birthday, identity, input, policy)?;
+    envelope.continuity_head = continuity.continuity_head().to_owned();
+    envelope.continuity_record_sha256 = continuity.record().record_sha256.clone();
+    envelope.envelope_sha256 = envelope_digest(&envelope)?;
+    Ok(envelope)
 }
 
 /// Revalidates every exported field against the original authorities and
@@ -251,9 +259,13 @@ pub(crate) fn validate_capability_envelope(
         unsupported_claims: envelope.unsupported_claims.clone(),
     };
     match build_capability_envelope(birthday, identity, &input, policy) {
-        Ok(expected) if &expected == envelope => {}
-        Ok(_) => {
-            errors.insert(CapabilityEnvelopeRejection::NonCanonicalEnvelope);
+        Ok(mut expected) => {
+            expected.continuity_head = envelope.continuity_head.clone();
+            expected.continuity_record_sha256 = envelope.continuity_record_sha256.clone();
+            expected.envelope_sha256 = envelope_digest(&expected)?;
+            if &expected != envelope {
+                errors.insert(CapabilityEnvelopeRejection::NonCanonicalEnvelope);
+            }
         }
         Err(found) => errors.extend(found),
     }
@@ -277,6 +289,11 @@ pub fn validate_capability_envelope_with_continuity(
     policy: &CapabilityEnvelopePolicy,
 ) -> Result<(), Vec<CapabilityEnvelopeRejection>> {
     validate_verified_continuity(birthday, identity, continuity)?;
+    if envelope.continuity_head != continuity.continuity_head()
+        || envelope.continuity_record_sha256 != continuity.record().record_sha256
+    {
+        return Err(vec![CapabilityEnvelopeRejection::ContinuityBindingMismatch]);
+    }
     validate_capability_envelope(envelope, birthday, identity, policy)
 }
 
