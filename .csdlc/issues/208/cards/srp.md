@@ -12,7 +12,31 @@ Status: pre_phase
 
 ## Scope
 
-Exact production Guardian/kernel startup and reachability, private TLS/canonical channel and succession, complete live participant registry, quiesce/export/rollback, isolated validation/discard, crash/replay/path/bounds/redaction/public denial, fifty-six cases, sixty-four mapped subassertions, both package Clippy lanes, proof/evidence and typed issue truth; exclude remote transfer and distributed migration/recovery policy.
+.csdlc/issues/208
+.csdlc/prepared/issues/208
+.csdlc/evidence/208
+adl/.config/nextest.toml
+adl-runtime-kernel/Cargo.toml
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/src/continuity_control.rs
+adl-runtime-kernel/src/governance.rs
+adl-runtime-kernel/src/ingress.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/src/operations.rs
+adl-runtime-kernel/src/reasoning.rs
+adl-runtime-kernel/tests/configuration.rs
+adl-runtime-kernel/tests/kernel_continuity_control.rs
+adl-runtime-kernel/tests/support/runtime_init.rs
+adl-runtime/src/bin/adl-runtime-guardian.rs
+adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
+adl-runtime/src/distributed/polis_runtime.rs
+adl-runtime/src/guardian.rs
+adl-runtime/src/kernel_continuity_client.rs
+adl-runtime/src/lib.rs
+adl-runtime/tests/kernel_continuity_client.rs
+infra/runtime-v3/runtime-init.toml
 
 ## Prompts
 
@@ -37,12 +61,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI and live GitHub merge state remain pending until publication of the exact reviewed implementation.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7cc490d3dce60e8ab96e00fc1fadaf42544ad479:26d89f0e7b9786d90d4a08981582a78c175a5266384b970d3a8362c802255534")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_208_8fa5c65")
 
-Result: pre_review
+Result: pass

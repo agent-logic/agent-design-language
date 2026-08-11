@@ -4,13 +4,80 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "50ca6fd43f5b405ec1d942ed846978798206b1a15480a8d72bdd35cf9667b750",
-  "phase": "implemented",
-  "generation": 45,
-  "digest": "04cbfff1a338810997bd7cad54b346ce88f474f6a504df7b0c02b45522dafaf8",
+  "phase": "reviewed",
+  "generation": 46,
+  "digest": "7df3ae1a56028c371421d97477058e60d752b2fd398a469a6a11968598fb4666",
   "branch": "codex/208-authenticated-guardian-kernel-continuity-bridge",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-208-kernel-continuity-bridge",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_208_8fa5c65",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:7cc490d3dce60e8ab96e00fc1fadaf42544ad479:26d89f0e7b9786d90d4a08981582a78c175a5266384b970d3a8362c802255534",
+    "scope": [
+      ".csdlc/issues/208",
+      ".csdlc/prepared/issues/208",
+      ".csdlc/evidence/208",
+      "adl/.config/nextest.toml",
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/continuity_control.rs",
+      "adl-runtime-kernel/src/governance.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/kernel_continuity_control.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/kernel_continuity_client.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/kernel_continuity_client.rs",
+      "infra/runtime-v3/runtime-init.toml"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/review_208_8fa5c65",
+    "scope": [
+      ".csdlc/issues/208",
+      ".csdlc/prepared/issues/208",
+      ".csdlc/evidence/208",
+      "adl/.config/nextest.toml",
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/continuity_control.rs",
+      "adl-runtime-kernel/src/governance.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/kernel_continuity_control.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/kernel_continuity_client.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/kernel_continuity_client.rs",
+      "infra/runtime-v3/runtime-init.toml"
+    ],
+    "reviewed_revision": "git-blake3:7cc490d3dce60e8ab96e00fc1fadaf42544ad479:26d89f0e7b9786d90d4a08981582a78c175a5266384b970d3a8362c802255534",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI and live GitHub merge state remain pending until publication of the exact reviewed implementation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +92,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c89d1e06b12d3a13002848917c471c38b287e81bf56e99945fd20a305757b016",
+      "values_digest": "bf5a600c67a75f6f8d02ce5b1c1b8f078c71ece5daaab2c95c24de4a064db130",
       "rendered_digest": "5b2a673ab5bea5e6dde4d54e7f04b7922b882214032760db3a41deaa16e86323",
       "ast_digest": "0fcdacc0eb8f8218bef0614153064c837cc6aafd75e29eeff95ea5502c341bbf"
     },
     "stp": {
-      "values_digest": "4ded0e33e360d255e2b38b8830431092c8bc50ea9a5edda528306f67be5e69c1",
+      "values_digest": "d859021ba956393674537d80f5b37074bbcacb4996bd086f7e00efb97d8ec1c0",
       "rendered_digest": "78e8b9b9b614a832343bc985bf3eccc25251698f3f11ad95c06c6a0c98557f25",
       "ast_digest": "64ac9a8c5f2efde02f4d0c33baa531952fcf4efecfaff71e9c3fc7de78c38751"
     },
     "spp": {
-      "values_digest": "150489976796324543fe3fcb7be9bab537b78a681056a833c9d8b6b3ec6e4d9d",
+      "values_digest": "03033ce313ae55d2849b91e722f10f63db136ec1998f974c0bbf09c764f07ae9",
       "rendered_digest": "8cae788a1f9d55f6f0e5f188e535df1b9b8ddc1e0811dfae2ecaf1e3aff6964b",
       "ast_digest": "7b060d64d99e45f1f112bc86a169823ef8303b2456684aafe538b63474edb761"
     },
     "vpp": {
-      "values_digest": "2011e908b6ec30535fbd89f5ccad474567fe4bc463828d823f313990b7c7ed6a",
+      "values_digest": "fa8b5a819a458aa2062adbc15ab88554cfa7dc263cb635601e5f424118f4b0cc",
       "rendered_digest": "61ebce4bd91891b849aa0d6605ae175d8551ab8065bd5d42e5204db5f4edd760",
       "ast_digest": "013010973c9635259aed2bdb2787a2f4c4a550f07d55c9622bf5f86ddc739317"
     },
     "srp": {
-      "values_digest": "2b067b6eb06198d31ff155bfd42bff02a676342a39d32647e2b62a92fff22e56",
-      "rendered_digest": "ee616e4b683f5282eb3ce0c040d8526405ff1e736b2f3b4e63f0c1c2d387e52b",
-      "ast_digest": "bc7fe208e028ff2138420faa39a88bbfaceccc4ef441750273f7d91093946d5f"
+      "values_digest": "f11384f12968b90dc4a5c07646f4d4528e23e86e167018df3434016d39a8af25",
+      "rendered_digest": "9aaa1eca7ff6637449d528c8426610151297d88f67db49e9b7c97b7ef87eaf84",
+      "ast_digest": "bb48804c9f3f5b8bc82cedfdb7db2dcdf724b59a2b95ae3ff47b1f5d3de579c7"
     },
     "sor": {
-      "values_digest": "8715aab1f962705758686d76321930d914a46343f551d7819a69d12c943b5e12",
+      "values_digest": "714212563218be348308e054c284eba545fff8be3454fcba1176d9714e358f0c",
       "rendered_digest": "727b7f6c2cf0764eab7dfc91b2db531f14edb4a50fa4f1090ccce9217489e289",
       "ast_digest": "ecdc975900493de9ef7726f1afc89f1cbf2d4030f0ca495ffe06645ed81071fe"
     }
@@ -76,6 +143,13 @@
       "to": "implemented",
       "actor": "codex:/root/implement_208",
       "reason": "Production implementation and retained exact local proof are complete; enter independent review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -407,6 +481,20 @@
       "actor": "codex:/root/resolve_208_final_review",
       "reason": "Record the systematic shared-harness leak diagnosis, bounded child-process assertion, target-local fail-closed classifier window, and repeated isolated/concurrent proof without claiming rereview or publication.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved the remaining deterministic zero-LEAK finding from the independent review of #208 at ce606701. Systematic audit showed the moving nextest label occurred on resource-free synchronous cases and therefore did not originate in the production client, journals, TLS listeners, Tokio tasks, locks, or temporary roots. The shared Runtime harness now fails every case if any live or unreaped child process remains after explicit fixture closure, while a target-local 500 ms leak-as-failure window accounts for loaded-runner EOF observation latency without suppressing genuine inherited-handle leaks. Fresh v4 evidence at b0252da2a0e3f160ddddfa1815fcfea72ac75e8f retains two isolated and two concurrent full waves for both packages: Runtime 21/21 four times and kernel 35/35 four times, all zero-LEAK, plus both strict Clippy lanes, exact 56/64/12 parity, current-main ancestry, and clean exact-range diff. Distinct exact-head rereview remains pending; publication and merge remain untouched.\",\"changes\":[\"Audited shared Runtime harness and production client/journal teardown across descriptors, locks, TLS connections, listener tasks, current-thread runtimes, temporary roots, Drop ordering, and subprocess creation; the moving label reached cases that create none of those resources.\",\"Added one shared bounded waitpid(WNOHANG) teardown assertion after explicit temporary-root closure so every Runtime case fails on any live or unreaped direct child instead of relying on nextest timing.\",\"Added target-local 500 ms leak-as-failure overrides only for the two issue #208 test binaries, retaining detection of any genuine inherited stdout/stderr handle while removing the repo's below-default 100 ms loaded-runner classification race.\",\"Expanded the exact producer and validator to retain two isolated and two concurrent complete nextest waves for each package, require every exact 21/21 and 35/35 denominator, and reject any LEAK or LEAK-FAIL sentinel.\"],\"artifacts\":[\"adl/.config/nextest.toml\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/continuity_control.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/src/reasoning.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/kernel_continuity_control.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/guardian.rs\",\"adl-runtime/src/kernel_continuity_client.rs\",\"adl-runtime/tests/kernel_continuity_client.rs\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/208/produce-proof-receipt.rb\",\".csdlc/prepared/issues/208/validate-proof-receipt.rb\",\".csdlc/evidence/208/v4/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"kernel_continuity_client\",\"--no-tests=fail\"],\"purpose\":\"Prove all 21 Runtime cases, shared child-process teardown assertion, and target-local fail-closed leak classification in two isolated and two concurrent retained waves.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/runtime-nextest*.stderr.log: 21 passed in all four waves, zero LEAK\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"kernel_continuity_control\",\"--no-tests=fail\"],\"purpose\":\"Prove all 35 kernel cases and target-local fail-closed leak classification in two isolated and two concurrent retained waves.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/kernel-nextest*.stderr.log: 35 passed in all four waves, zero LEAK\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-guardian\",\"--test\",\"kernel_continuity_client\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the production Runtime, Guardian, completed-cache validation, and shared teardown assertion.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/runtime-clippy.stderr.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--test\",\"kernel_continuity_control\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across kernel effects, persistence, private server, and behavior tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/kernel-clippy.stderr.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/verify-diff-hygiene.rb\"],\"purpose\":\"Verify exact execution-base-to-source diff hygiene and current-main ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/diff-hygiene.stdout.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/produce-proof-receipt.rb\"],\"purpose\":\"Produce exact canonical 56/64/12 behavior evidence and eight retained isolated/concurrent zero-LEAK full lanes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/208/v4/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 45,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 46,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
