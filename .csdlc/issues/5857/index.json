@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5857,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e489915a11df3b89a0864fc0dc5f4f7d5e8af55bf967136e961c4946457d9a97",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 3,
-  "digest": "9c6f303f788362ec7094dba3244d4cfe9f20b11dd56d2eb306eee595eb547b54",
-  "branch": null,
-  "worktree": null,
+  "digest": "94efd6bccec4e432c57f034def5e8ab135be2e30208f3103ba4f65cfdb701c79",
+  "branch": "codex/5857-sprint4-review",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5857-sprint4-review",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +55,22 @@
       "ast_digest": "a33fdd54470df6fd7cfc9142d98f5752cf530c74b563d0cdedb2d7a8a036169b"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -90,6 +106,13 @@
       "actor": "/root/sprint4_5857",
       "reason": "Declare the issue-owned Sprint 4 validator and retained findings-first review packet before binding.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/5857/sprint-execution-packet.md\",\".csdlc/prepared/issues/5857/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5857/validate-sprint-review.rb\",\".csdlc/evidence/5857\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
