@@ -6,3 +6,6 @@
 {"sequence":6,"generation":3,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":7,"generation":4,"actor":"subagent:019ff1ef-56db-74c3-b178-26775be4021e","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":8,"generation":5,"actor":"codex:226-focused-runtime-validation-routing","reason":"Recover stale review truth after committing the typed assignment and first exact-head review record; no product or routing behavior changed.","operation":"recover_review"}
+{"sequence":9,"generation":5,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":10,"generation":6,"actor":"subagent:019ff1ef-56db-74c3-b178-26775be4021e","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":11,"generation":7,"actor":"codex:226-focused-runtime-validation-routing","reason":"Independent exact-head review found that the mapped tooling paths were not executed by their selected lane; recover review truth after the direct syntax-lane remediation.","operation":"recover_review"}

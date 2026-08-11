@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "b42ad0d16754ca7a3879fc03b014c9b933de579fac06367a306ae447c41d91e7",
+  "generation": 7,
+  "digest": "9a6977bd5928b70e7b7e31cc9c23940dc48a0d498be301352f251bd2d0136877",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "040a73af329ac20ed5640aac923629e647ad628a661773f5c6adeef95487a798",
+      "values_digest": "9e876b532a021fd7282bb7f7eeea4a89070404b0352c71c7e306f429f209d0f0",
       "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
       "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
     },
     "stp": {
-      "values_digest": "e6102fb73ca06852d597d419a060db83ce0975be9490ab9bee162e17dcb47292",
+      "values_digest": "d19ddf7f66c10c2d9c8c0dd0e3d20cc68a0c483dfa3942c850309288de06e089",
       "rendered_digest": "dc477e2f9030b68eb91a990bf415344d7afba7b165d3fe0a001b5131936b6f38",
       "ast_digest": "6891721fccb0938653ab7a9200b79a3401756c15c07cb56ab6e6fae87a1994c1"
     },
     "spp": {
-      "values_digest": "9a2b575eb9aa7d9218f8f72809fca5be855b87406ec82ddfd36c501cc1ad6b6e",
+      "values_digest": "a3790a5e5eac044f61b7a689409a8224801edb0b40b01e6c62f770d66d403abc",
       "rendered_digest": "d495923846fa9aef45a220aaeecb3cdd3b05eba9999bb124ba45a0876019d458",
       "ast_digest": "8e6cdb077758ac8e938a8b992154f7de4a2f764e21f538a554d2c61f503c0497"
     },
     "vpp": {
-      "values_digest": "bc4bfe776839ff70bdeaa73abea847d47e9d3160397ff784b4688aa13480aaba",
+      "values_digest": "b6fb54b6c9646611fed6c9595f247eb2f33f726196cf04098f96d24afacd690a",
       "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "09dfeba3f6fd397f8d78b01e79fc453051fb6a73daa3e9165d0d2dd90489ed5d",
+      "values_digest": "3b02118eb9034ae4e7f792c2b59574b06a5aeb4b5d5603a1cf22c1421f988816",
       "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
       "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
     },
     "sor": {
-      "values_digest": "89e12a7a2f39e09fbf8bfcbc28a4b8d1f48fd6c8953ec51f5fc94a85404623b4",
+      "values_digest": "524c10f9167cc56cbd06cef804be5f509c0d0c323734b30918bc09b43b453adb",
       "rendered_digest": "50bd38ec524e3785c2da01e6fd2426c164d084b259b4828ded63ab55a6985722",
       "ast_digest": "bec40a0c58bd803ce0e96adc993cca684734f0e46c86bdf7d2dc487df456113d"
     }
@@ -90,6 +90,20 @@
       "to": "implemented",
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Recover stale review truth after committing the typed assignment and first exact-head review record; no product or routing behavior changed."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Independent exact-head review found that the mapped tooling paths were not executed by their selected lane; recover review truth after the direct syntax-lane remediation."
     }
   ],
   "audit": [
@@ -147,6 +161,27 @@
       "generation": 5,
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Recover stale review truth after committing the typed assignment and first exact-head review record; no product or routing behavior changed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "subagent:019ff1ef-56db-74c3-b178-26775be4021e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Independent exact-head review found that the mapped tooling paths were not executed by their selected lane; recover review truth after the direct syntax-lane remediation.",
       "operation": "recover_review"
     }
   ]
