@@ -32,8 +32,9 @@ Assembled and locally proved WP-16's exact-digest reviewer packet across the mer
 ## Execution
 
 - Added the reviewer-facing Birthday packet, exact nine-entry evidence manifest, strict JSON schema, caveats, reviewer questions, and bounded public non-claims.
-- Added a validator that recomputes current and merge-tree evidence digests, verifies exact merged ancestry and retained closure truth, and rejects private or machine-local references.
-- Added six executable negative mutations for stale digest, missing roster, private path, contradictory terminal state, forbidden public claim, and unauthorized publication-ready language.
+- Added a validator that recomputes current and merge-tree evidence digests, verifies exact merged ancestry, retained typed review authority, closure truth, and rejects private or machine-local references.
+- Added nine executable negative mutations for stale digest, missing roster, private path, contradictory terminal state, forbidden public claim/projection, unreviewed authority, unknown schema field, and unauthorized publication-ready language.
+- Replaced superseded WP-14 PR 76 listener evidence with reviewed and merged #209 production Guardian/kernel dispatch, replay, pressure rollback, and public-contract authority.
 - Updated only the serialized D1 demo-matrix row to link the assembled packet while preserving the downstream runtime-demo boundary.
 
 ## Validation
@@ -50,7 +51,7 @@ Assembled and locally proved WP-16's exact-digest reviewer packet across the mer
       "--schema",
       "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json"
     ],
-    "purpose": "Validate the exact roster, schema, closure snapshot, merge ancestry, merge-tree bytes, evidence digests, review identifiers, path hygiene, and public boundaries.",
+    "purpose": "Validate the exact roster, schema, closure snapshot, merge ancestry, merge-tree bytes, evidence digests, retained typed review authority, path hygiene, and public boundaries.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5834/birthday-review-packet.log"
   },
@@ -61,7 +62,7 @@ Assembled and locally proved WP-16's exact-digest reviewer packet across the mer
       "--negative-fixtures",
       ".csdlc/evidence/5834/negative-fixtures/"
     ],
-    "purpose": "Execute all six fail-closed packet mutations.",
+    "purpose": "Execute all nine fail-closed packet mutations.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5834/birthday-review-packet-negative.log"
   },
