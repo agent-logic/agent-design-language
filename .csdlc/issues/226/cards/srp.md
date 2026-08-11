@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+adl/config/validation_lane_selector.v0.91.6.json
+adl/tools/test_select_validation_lanes.sh
+adl/tools/test_ci_path_policy.sh
+.csdlc/evidence/226
+.csdlc/prepared/issues/226/design.md
+.csdlc/prepared/issues/226
 
 ## Prompts
 

@@ -6,10 +6,22 @@
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
   "generation": 27,
-  "digest": "6e47e1acc362385f8675e71739ac44bda23fa9c9732245bb7c52a9d158b8d8d4",
+  "digest": "36d0e5d7c5fdd25ccf58788e603520d79a0511eab1bc0dfe2aebf32308d708fd",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-exec:issue-226-publication-safe-review",
+    "assigned_by": "codex:226-focused-runtime-validation-routing",
+    "revision": "git-blake3:ba7b02d32179b999cca0afdbc772b7ab0c87fe43:9b4dd68564ac330d3de581eeb7359e898c83676ee016bcfe9c9dadec10ac0904",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226/design.md",
+      ".csdlc/prepared/issues/226"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "ff1da42ab4232a11d5255df41887c977fb71e75a3341233153c4837b75e9f3f5",
-      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
-      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
+      "values_digest": "e30a7b9b3e6d79b0f0fb8cc2a05f2dc5612b1c3745d456031792accb1bcdf4b4",
+      "rendered_digest": "d0cfcc5371cee9cbe18bb1fda75ef9ac6acef150fba2f2538651208f194a889f",
+      "ast_digest": "caa8de021e3952901a29b2b21782051f1bbf7f2e973b0a11304ec32c53889ccc"
     },
     "sor": {
       "values_digest": "12e36ee132e98828bf3f5b4c6037053a0c175aa4d02a4dbf12fd65d4597ea589",
@@ -449,6 +461,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Recover review for a publication-safe metadata-only tail; all typed review requests now remain outside tracked substantive preparation paths.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 27,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
