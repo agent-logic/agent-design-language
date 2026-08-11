@@ -3,7 +3,7 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { createPrivateKey, randomBytes, sign } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { mkdir, realpath, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -21,12 +21,14 @@ const sourceRevision = process.env.ADL_SOURCE_REVISION;
 const controlPrivateKeyPath = process.env.ADL_CONTROL_PRIVATE_KEY_PATH;
 const allowRestartProof = process.env.ADL_ALLOW_RUNTIME_RESTART_PROOF === "1";
 const evidenceRoot = process.env.ADL_EVIDENCE_ROOT;
+const chromeExecutablePath = process.env.ADL_CHROME_EXECUTABLE_PATH;
 assert(observatoryUrl, "ADL_OBSERVATORY_URL must name the HTML Observatory URL");
 assert(runtimeApiBase, "ADL_RUNTIME_API_BASE must name the Runtime v3 API base");
 assert(/^[0-9a-f]{40}$/.test(sourceRevision || ""), "ADL_SOURCE_REVISION must name the exact candidate");
 assert(controlPrivateKeyPath, "ADL_CONTROL_PRIVATE_KEY_PATH must name the external proof control key");
 assert(allowRestartProof, "ADL_ALLOW_RUNTIME_RESTART_PROOF=1 is required for the isolated Guardian restart proof");
 assert(evidenceRoot, "ADL_EVIDENCE_ROOT must name a fresh FastWork evidence directory");
+assert(chromeExecutablePath && existsSync(chromeExecutablePath), "ADL_CHROME_EXECUTABLE_PATH must name the managed Chrome binary");
 const resolvedEvidenceRoot = resolve(evidenceRoot);
 assert(resolvedEvidenceRoot.startsWith("/Volumes/FastWork/"), "evidence must remain on FastWork");
 await mkdir(resolvedEvidenceRoot, { recursive: false });
@@ -108,7 +110,7 @@ proofUrl.searchParams.set("runtime", "v3");
 proofUrl.searchParams.set("runtimeApiBase", runtime.origin);
 proofUrl.searchParams.set("live", "1");
 
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({ headless: true, executablePath: chromeExecutablePath });
 let retainedReport;
 try {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
