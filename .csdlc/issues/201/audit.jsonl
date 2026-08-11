@@ -79,3 +79,4 @@
 {"sequence":79,"generation":77,"actor":"codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea","reason":"Record independent design approval and the exact stable-custody regression matrix plus immutable proof as complete.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"}
 {"sequence":80,"generation":77,"actor":"codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":81,"generation":78,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":82,"generation":79,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
