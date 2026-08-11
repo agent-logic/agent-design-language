@@ -21,7 +21,7 @@ ASSERTIONS = %w[
   text_frame_rejected
   typed_ingress_error_rolls_back_sequence
 ].freeze
-SOURCE_PATHS = %w[adl-runtime-kernel/Cargo.toml adl-runtime-kernel/src/assembly.rs adl-runtime-kernel/src/acip.rs adl-runtime-kernel/src/bin/adl-runtime-kernel.rs adl-runtime-kernel/src/config.rs adl-runtime-kernel/src/control.rs adl-runtime-kernel/src/governed_operations.rs adl-runtime-kernel/src/lib.rs adl-runtime-kernel/tests/assembly.rs adl-runtime-kernel/tests/openapi_contract.rs adl-runtime-kernel/tests/production_acip_wss.rs adl-runtime-kernel/tests/support/runtime_init.rs adl-runtime/Cargo.toml adl-runtime/src/runtime_api_auth.rs docs/api/runtime-v3/v1/openapi.json docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md].freeze
+SOURCE_PATHS = %w[adl-runtime-kernel/Cargo.toml adl-runtime-kernel/src/assembly.rs adl-runtime-kernel/src/acip.rs adl-runtime-kernel/src/bin/adl-runtime-kernel.rs adl-runtime-kernel/src/config.rs adl-runtime-kernel/src/control.rs adl-runtime-kernel/src/governed_operations.rs adl-runtime-kernel/src/lib.rs adl-runtime-kernel/tests/assembly.rs adl-runtime-kernel/tests/openapi_contract.rs adl-runtime-kernel/tests/production_acip_wss.rs adl-runtime-kernel/tests/support/runtime_init.rs adl-runtime/Cargo.toml adl-runtime/src/runtime_api_auth.rs adl/tools/install_vector_component.sh docs/api/runtime-v3/v1/openapi.json docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md].freeze
 
 def fail!(message)
   warn(message)
@@ -47,6 +47,7 @@ end
 if ARGV == ["--self-test"]
   fail!("authority source omitted") unless SOURCE_PATHS.include?("adl-runtime/src/runtime_api_auth.rs")
   fail!("pressure configuration omitted") unless SOURCE_PATHS.include?("adl-runtime-kernel/src/config.rs")
+  fail!("verified Vector installer omitted") unless SOURCE_PATHS.include?("adl/tools/install_vector_component.sh")
   fail!("workflow missing") unless File.read(WORKFLOW).include?("include-hidden-files: true")
   fail!("host path accepted") unless unsafe_log?("/Users/runner/work/repo/file", Pathname.new("/repo"))
   fail!("relative log rejected") if unsafe_log?("./adl-runtime-kernel/src/control.rs", Pathname.new("/repo"))

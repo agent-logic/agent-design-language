@@ -30,6 +30,7 @@ SOURCE_PATHS = %w[
   adl-runtime-kernel/tests/support/runtime_init.rs
   adl-runtime/Cargo.toml
   adl-runtime/src/runtime_api_auth.rs
+  adl/tools/install_vector_component.sh
   docs/api/runtime-v3/v1/openapi.json
   docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md
 ].freeze
@@ -79,6 +80,7 @@ if options[:self_test]
   fail!("normalizer damaged test name") unless JSON.parse(normalized).fetch("name") == TESTS.first
   fail!("authority source omitted") unless SOURCE_PATHS.include?("adl-runtime/src/runtime_api_auth.rs")
   fail!("pressure configuration omitted") unless SOURCE_PATHS.include?("adl-runtime-kernel/src/config.rs")
+  fail!("verified Vector installer omitted") unless SOURCE_PATHS.include?("adl/tools/install_vector_component.sh")
   puts JSON.generate(status: "passed", check: "wp14-native-producer")
   exit 0
 end
