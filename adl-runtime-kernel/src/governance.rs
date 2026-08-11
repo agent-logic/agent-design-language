@@ -1050,6 +1050,22 @@ pub fn governance_service_contracts() -> Vec<ServiceContract> {
         .collect()
 }
 
+/// Canonical snapshot of the production governance components actually
+/// admitted into live topology.  Their component loops are intentionally
+/// stateless; durable FreedomGate/AEE state remains in their receipt-bearing
+/// stores when configured by the governed operation surface.
+pub fn governance_live_registry_snapshot() -> Result<Vec<u8>, GovernanceError> {
+    let services = governance_component_specs()
+        .into_iter()
+        .map(|spec| spec.id.as_str().to_owned())
+        .collect::<Vec<_>>();
+    serde_jcs::to_vec(&serde_json::json!({
+        "schema": "adl.runtime.governance_live_registry.v1",
+        "services": services,
+    }))
+    .map_err(|error| GovernanceError::Encoding(error.to_string()))
+}
+
 fn requirement(name: &str) -> CapabilityRequirement {
     CapabilityRequirement {
         name: name.to_owned(),
