@@ -3,13 +3,33 @@
   "issue": 200,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "9d34a25287f89b70ff38833944f4085281a4071ae55c0e64670e31ae7be57edc",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "f3e1233adab1b31eda562fa52dc0223a1050c98be372dac79ff555fa95482588",
   "branch": "codex/200-concrete-authority-reconciliation-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-200-concrete-authority-reconciliation-preparation",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/review_200_publish_hygiene_final",
+    "scope": [
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_reconciliation.rs",
+      "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_authority_reconciliation.rs",
+      ".csdlc/prepared/issues/200",
+      ".csdlc/evidence/200/v4",
+      ".csdlc/issues/200"
+    ],
+    "reviewed_revision": "git-blake3:1e7ab4b1b561554ec270c5ea53da0547e703ee15:794fa71e2b028ff0d9e41febbd35a2af5a0ad4dec17b32685d1e3b149496e083",
+    "findings": [],
+    "residual_risks": [
+      "Replacement hosted Runtime coverage remains a required pre-merge gate for the repaired Linux fixture path."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0a3de10eb15377f7b932b470a37ba5a1870ed5ffa6361180681a8d7d49ee1dbe",
+      "values_digest": "32ef7c97440beac774d4405d4d172766e949a16258095aa032d2d2a4832ed58e",
       "rendered_digest": "2bf7b8cfacd8ddd000f15d512793721dd8a66a41495705e6eea0e4720f11b449",
       "ast_digest": "923d2e83e0be4ba4a7d60955f63d16ee37ccd6f57575b3d316923eec9d5a102c"
     },
     "stp": {
-      "values_digest": "35a0a1b40393d956ee93c3199224548e2b1b48dff8a8dcf837a2d54207fa8945",
+      "values_digest": "6ddfcc73fc1b795b3d2b4dc321fcf5f21c7f1e098fc8c459d5ca116a8327d2e4",
       "rendered_digest": "b57d439d1570e4d0f8228d5c1801e852b4ef66b058757c8f52598b0191fdc466",
       "ast_digest": "ed3f711248a7c94c706cb3ef8eba0be4f78f4cb1890030f4e03aa319a4dc9fae"
     },
     "spp": {
-      "values_digest": "b78a0c02b2fb3e059f9ecf767da48d70b16b55a60857d7820a8187466a6e8356",
+      "values_digest": "d67f9ca6bee63c70d1658b930f0ccbd600dd4828fc364373f84934e82850bc6b",
       "rendered_digest": "463d42373389c9b38afd2186ceea1e293e9e6ddf5168f01c0b5e02619a502e68",
       "ast_digest": "96803f5ab0254cb9acbd5e3278f7a0065f10e72344dce3fab24f755267af92f6"
     },
     "vpp": {
-      "values_digest": "bbb1b823d3e152ca4610e4bdbc05e629f56c1fd2e40692bfc1be51eedc60038c",
+      "values_digest": "d1cae844ff6b3e879e06a0d33447a88a63b6ce4d992c6cce35911d71de9150c5",
       "rendered_digest": "b19adcd318fa48f408a267f17c2a1f74c54cc933155eb4f1c75c9edaff1413b7",
       "ast_digest": "af01edb6ae4e6432d48e99719f6c2eec6f31c3afbd0c0ae7d0e33c079cf9e479"
     },
     "srp": {
-      "values_digest": "23f786a3a9337de439ffa63e33ac7c9232b63956c9c5a8825d93a1322d71c6b0",
-      "rendered_digest": "79b745015647e53a89d72550c999b47163e55e9efc7fd229bee8819732e72f50",
-      "ast_digest": "eb134f8926f936f6b01425a01def31ffcec5ae04ff6ec1a93e8443527baa94dc"
+      "values_digest": "dc9a699dd0dc7844b3f63087daf04ac91ce895fb83e0e82a2d353dfec7800490",
+      "rendered_digest": "777f23ac750e95ec5d0b32ae2312cb3ac2efbea0531efb39ab4ffcacdc5b4af5",
+      "ast_digest": "916ddba6a086cfa6e84278af50a7821b7c5e42f2fc09cb394db487e18f15e9cc"
     },
     "sor": {
-      "values_digest": "28cf26d2fbeb29ad55b481d49a60b4c00016e4118d7fc98ef4a2ad5a79441d4e",
+      "values_digest": "57c01c865d07c1dfe60e956a5eea6401c8218c43eb576d9d0ba28936c0679757",
       "rendered_digest": "39ef0b7ebd6ddc5a3abcb27bea3cffa99eedd5d6df965722cf5888f9a19d7da6",
       "ast_digest": "d5b1ba72a3010da017e271584cdd841bb1e30ea5936c2391239e7a706bc36b7e"
     }
@@ -110,6 +130,13 @@
       "to": "implemented",
       "actor": "codex:/root/advance_200_after_201",
       "reason": "Typed publication correctly rejected the prior review-metadata commit because it also introduced prepared request files outside the automatic metadata-only allowlist. Recover review truth after sealing the final publication request so a different exact-head review can cover the complete clean head before republication."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -238,6 +265,13 @@
       "actor": "codex:/root/advance_200_after_201",
       "reason": "Typed publication correctly rejected the prior review-metadata commit because it also introduced prepared request files outside the automatic metadata-only allowlist. Recover review truth after sealing the final publication request so a different exact-head review can cover the complete clean head before republication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
