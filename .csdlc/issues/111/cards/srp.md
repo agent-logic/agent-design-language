@@ -45,12 +45,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Durable cross-restart conversation history remains explicitly outside #111 and is owned by downstream issue #114.
+- Broader multi-agent room and routing semantics remain outside #111 and are owned by downstream issues #115 and #116.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4f0f40e378404e95d199be99ace4b63058b85f12:623011134d357c4da77527fbe004107872f97fa5ecde5f6d0877f692580e7f31")
 
-Reviewer: None
+Reviewer: Some("subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133")
 
-Result: pre_review
+Result: pass

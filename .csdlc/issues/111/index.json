@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
-  "phase": "implemented",
-  "generation": 43,
-  "digest": "bad615e5c28b8a598bcec0aeb61f415dd69686ed7b50c16f23a00672f488e91a",
+  "phase": "reviewed",
+  "generation": 44,
+  "digest": "c1f0c04dfac44d3a15562dcdea56aad958e04d13838d1c1b99fd7b446d2cef4e",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
   "review_assignment": {
@@ -30,7 +30,33 @@
       ".csdlc/prepared/issues/111"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111",
+      ".csdlc/prepared/issues/111"
+    ],
+    "reviewed_revision": "git-blake3:4f0f40e378404e95d199be99ace4b63058b85f12:623011134d357c4da77527fbe004107872f97fa5ecde5f6d0877f692580e7f31",
+    "findings": [],
+    "residual_risks": [
+      "Durable cross-restart conversation history remains explicitly outside #111 and is owned by downstream issue #114.",
+      "Broader multi-agent room and routing semantics remain outside #111 and are owned by downstream issues #115 and #116."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,32 +71,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3e35cea30a47243f21df2e5c667cab644e2b01f7aedb05c14f330e8d42bc4185",
+      "values_digest": "0fbc86c07192ecacc45f8bfd0447b7aef81a2cee3c2f66a1dcb498fca93df8d5",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "8e3a320c6efdd09c68d28f2a07bbf81d4bc09d10a7fa79dfbe643d8275e5507e",
+      "values_digest": "5a9ac11a01904112001547ceee96af533eb85edcfa1b920520a3c5148c57d705",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "935153a03781c52da917ddf62b1759896730e19e5587220511037db998c9b9a8",
+      "values_digest": "a1fc52a024183e5338a1732e810d7b3f6de018e2a17fbb75abf35a6d44be04bc",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "df02bcd119e02b826e1b2be64bd8f975aba35a1c095e6dfcb7651ade2d05428d",
+      "values_digest": "ce7a0834e8bd922ae8e8b26b1b6c2391edccf3a87fb128c995097f0c96bb0e31",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "d91ab43c5c6ce8fc737a92f621526e98b276c96d7d4c9bb161f5b254961ca2b0",
-      "rendered_digest": "9d2bc066d785654a1f9b90bd61c6d82b967b5e29c77672a860d6b2f508e64bf9",
-      "ast_digest": "48c91146a06bba0e8c88340ac67a961a8f24f32e1853d44b27fa8feba5cd8080"
+      "values_digest": "5869240b72a02c0d9cdc2c3b8f0849978be1120fa3a080c2ae64b6368002e604",
+      "rendered_digest": "b73a5631023e401d45ae3723aad9e3182ee3f1dc3b617340f6f7638aac57364d",
+      "ast_digest": "e7eabe4d7cc81876ad2b5aae7b5ecc99c125819d95a8c8029cbe1e66e46c0b1b"
     },
     "sor": {
-      "values_digest": "8066f61d668d16db34342f3b89061e9338bb299e44112865dfd6e4d3cba484bc",
+      "values_digest": "0044626158fef4e3d236d760952c8db0a9d3cc49c7e219a052831a4209a91c21",
       "rendered_digest": "d2418f2560d0a43e858baa8965bb3a7cb8a41be65a670f95851c762392b0b80e",
       "ast_digest": "47bd3da56dd7d0425031af5f256b8f2eec27fd734bee528aa2d2e3e5808a0f91"
     }
@@ -96,6 +122,13 @@
       "to": "implemented",
       "actor": "codex:111-review-remediation",
       "reason": "Focused product, contract, browser, cancellation, ordering, timeout, typed-card, lint, and diff validation is complete at the independently approved implementation revision."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -420,6 +453,13 @@
       "actor": "codex:111-execution",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 44,
+      "actor": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
