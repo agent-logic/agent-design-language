@@ -12,12 +12,10 @@ pub mod discovery;
 pub mod failure_detection;
 pub mod fencing;
 pub mod identity;
-pub mod learner_transport;
 pub mod lease;
 pub mod membership;
 pub mod migration;
 pub mod placement;
-pub mod polis_runtime;
 pub mod projection;
 // The recovery store retains a private compatibility persistence helper for
 // restart-format parity. Registration makes the module production-visible,
@@ -26,4 +24,6 @@ pub mod projection;
 pub mod recovery;
 pub mod resource_weather;
 pub mod snapshot_catalog;
+#[path = "transport/root.rs"]
 pub mod transport;
+pub use transport::{learner_transport, polis_runtime};

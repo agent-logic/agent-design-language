@@ -25,7 +25,8 @@ use crate::distributed::{
     polis_runtime::{
         serve_authorized_learner_connection, ConsensusCheckpoint, ConsensusCheckpointAuthority,
         PolisCommand, PolisLogStore, PolisRaft, PolisRuntimeError, PolisStateMachineStore,
-        PolisTypeConfig, SecurePolisNetworkConnection, SecurePolisNetworkFactory,
+        PolisTypeConfig, SecureBootGenerationAuthority, SecurePolisNetworkConnection,
+        SecurePolisNetworkFactory,
     },
     transport::{
         client_endpoint, server_endpoint, AuthenticatedConnection, ConnectionSecurity, PeerBinding,
@@ -529,6 +530,234 @@ fn exact_voter_target(cut: &VerifiedPolisRouteCut, raft_id: u64) -> LearnerIdent
     }
 }
 
+#[tokio::test]
+async fn transport_instance_and_peer_pin_are_durable_and_unique() {
+    let root = portable_tempdir();
+    let alternate_root = portable_tempdir();
+    let checkpoint = Arc::new(MemoryCheckpoint::default());
+    let authority = ProductionLearnerAuthority::open(
+        root.path(),
+        Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    let first_instance = authority.transport_instance.lock().unwrap().instance_id();
+    let owner = authority.take_transport_owner().unwrap();
+    let mut lease = owner.write_lease().await;
+    let peer_key =
+        transport_peer_identity_key(LearnerEndpointRole::Learner, 4, "node-4", "guardian-4")
+            .unwrap();
+    authority
+        .pin_peer_instance(&mut lease, &peer_key, [55; 32])
+        .unwrap();
+    authority
+        .pin_peer_instance(&mut lease, &peer_key, [55; 32])
+        .unwrap();
+    assert_eq!(
+        authority.pin_peer_instance(&mut lease, &peer_key, [56; 32]),
+        Err(LearnerTransportError::AuthorityDenied)
+    );
+    drop(lease);
+    drop(owner);
+    drop(authority);
+
+    let recovered = ProductionLearnerAuthority::open(
+        root.path(),
+        Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    assert_eq!(
+        recovered.transport_instance.lock().unwrap().instance_id(),
+        first_instance
+    );
+    assert_eq!(
+        recovered
+            .transport_instance
+            .lock()
+            .unwrap()
+            .peer_instances()
+            .get(&peer_key),
+        Some(&[55; 32])
+    );
+    let alternate = ProductionLearnerAuthority::open(
+        alternate_root.path(),
+        Arc::new(MemoryCheckpoint::default()),
+    )
+    .unwrap();
+    assert_ne!(
+        alternate.transport_instance.lock().unwrap().instance_id(),
+        first_instance
+    );
+    assert_ne!(
+        transport_peer_identity_key(LearnerEndpointRole::Voter, 4, "node-4", "guardian-4",)
+            .unwrap(),
+        peer_key
+    );
+    assert_eq!(
+        transport_peer_identity_key(
+            LearnerEndpointRole::Learner,
+            4,
+            "node-4:guardian-4",
+            "guardian-4",
+        ),
+        Err(TransportError::InvalidPeerBinding)
+    );
+    assertion(
+        "transport_instance_and_peer_pin_are_durable_and_unique",
+        "restart_preserves_instance_and_exact_peer_pin",
+    );
+    assertion(
+        "transport_instance_and_peer_pin_are_durable_and_unique",
+        "alternate_root_and_identity_alias_are_denied",
+    );
+    mark("transport_instance_and_peer_pin_are_durable_and_unique");
+}
+
+#[tokio::test]
+async fn fresh_connection_requires_durable_peer_instance_pin() {
+    let voter_root = portable_tempdir();
+    let peer_root = portable_tempdir();
+    let alternate_peer_root = portable_tempdir();
+    let voter_checkpoint = Arc::new(MemoryCheckpoint::default());
+    let peer_checkpoint = Arc::new(MemoryCheckpoint::default());
+    let voter_authority = ProductionLearnerAuthority::open(
+        voter_root.path(),
+        Arc::clone(&voter_checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    let peer_authority = ProductionLearnerAuthority::open(
+        peer_root.path(),
+        Arc::clone(&peer_checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    let (voter_connection, peer_connection, voter_endpoint, peer_endpoint, _store) =
+        live_learner_pair(1).await;
+    let routes = [
+        (4, "127.0.0.1:45404".parse().unwrap()),
+        (1, peer_endpoint.local_addr().unwrap()),
+        (3, "127.0.0.1:45303".parse().unwrap()),
+    ]
+    .into_iter()
+    .collect();
+    let identities = [
+        (
+            4,
+            (
+                "node-1".to_owned(),
+                "guardian-1".to_owned(),
+                SigningKey::from_bytes(&[1; 32]).verifying_key().to_bytes(),
+                4,
+            ),
+        ),
+        (
+            1,
+            (
+                "node-4".to_owned(),
+                "guardian-4".to_owned(),
+                SigningKey::from_bytes(&[4; 32]).verifying_key().to_bytes(),
+                4,
+            ),
+        ),
+        (
+            3,
+            (
+                "node-3".to_owned(),
+                "guardian-3".to_owned(),
+                SigningKey::from_bytes(&[3; 32]).verifying_key().to_bytes(),
+                4,
+            ),
+        ),
+    ]
+    .into_iter()
+    .collect();
+    let cut = VerifiedPolisRouteCut::test_from_parts("polis-a", "runtime-prod", routes, identities);
+    let voter_factory =
+        SecurePolisNetworkFactory::from_authority_cut(4, cut.clone(), voter_authority.clone())
+            .unwrap();
+    let peer_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), peer_authority.clone())
+            .unwrap();
+    let voter_key = SigningKey::from_bytes(&[1; 32]);
+    let peer_key = SigningKey::from_bytes(&[4; 32]);
+    let (voter_session, peer_session) = tokio::join!(
+        voter_factory.initiate_session(1, &voter_connection, &voter_key),
+        peer_factory.accept_session(4, &peer_connection, &peer_key),
+    );
+    drop(voter_session.unwrap());
+    drop(peer_session.unwrap());
+    voter_connection.close();
+    peer_connection.close();
+    voter_endpoint.close(0_u32.into(), b"test phase complete");
+    peer_endpoint.close(0_u32.into(), b"test phase complete");
+    drop(peer_factory);
+    drop(peer_authority);
+
+    let recovered_peer_authority = ProductionLearnerAuthority::open(
+        peer_root.path(),
+        Arc::clone(&peer_checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    let recovered_peer_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), recovered_peer_authority)
+            .unwrap();
+    let (voter_connection, peer_connection, voter_endpoint, peer_endpoint, _store) =
+        live_learner_pair(1).await;
+    let (voter_session, peer_session) = tokio::join!(
+        voter_factory.initiate_session(1, &voter_connection, &voter_key),
+        recovered_peer_factory.accept_session(4, &peer_connection, &peer_key),
+    );
+    drop(voter_session.unwrap());
+    drop(peer_session.unwrap());
+    voter_connection.close();
+    peer_connection.close();
+    voter_endpoint.close(0_u32.into(), b"test phase complete");
+    peer_endpoint.close(0_u32.into(), b"test phase complete");
+    drop(recovered_peer_factory);
+    assertion(
+        "fresh_connection_requires_durable_peer_instance_pin",
+        "fresh_connection_accepts_restarted_peer_with_persisted_instance",
+    );
+
+    let alternate_peer_authority = ProductionLearnerAuthority::open(
+        alternate_peer_root.path(),
+        Arc::new(MemoryCheckpoint::default()),
+    )
+    .unwrap();
+    let alternate_peer_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut, alternate_peer_authority).unwrap();
+    let (voter_connection, peer_connection, voter_endpoint, peer_endpoint, _store) =
+        live_learner_pair(1).await;
+    let stream_frames_before = voter_connection.test_stream_frames_sent();
+    let (voter_result, peer_result) = tokio::join!(
+        voter_factory.initiate_session(1, &voter_connection, &voter_key),
+        alternate_peer_factory.accept_session(4, &peer_connection, &peer_key),
+    );
+    assert!(matches!(
+        voter_result,
+        Err(PolisRuntimeError::AuthorityDenied)
+    ));
+    assert!(matches!(
+        peer_result,
+        Err(PolisRuntimeError::AuthorityDenied)
+    ));
+    let stream_frames_after_handshake = voter_connection.test_stream_frames_sent();
+    assert!(stream_frames_after_handshake >= stream_frames_before);
+    tokio::task::yield_now().await;
+    assert_eq!(
+        voter_connection.test_stream_frames_sent(),
+        stream_frames_after_handshake,
+        "mismatched peer emitted a post-denial STREAM frame"
+    );
+    assertion(
+        "fresh_connection_requires_durable_peer_instance_pin",
+        "alternate_factory_denied_before_session_or_post_denial_stream",
+    );
+    voter_connection.close();
+    peer_connection.close();
+    voter_endpoint.close(0_u32.into(), b"test complete");
+    peer_endpoint.close(0_u32.into(), b"test complete");
+    mark("fresh_connection_requires_durable_peer_instance_pin");
+}
+
 fn exact_publisher(cut: &VerifiedPolisRouteCut, raft_id: u64) -> AuthorityNodeIdentity {
     let (node_id, guardian_id, boot_generation) = cut.authority_node_identity(raft_id).unwrap();
     AuthorityNodeIdentity {
@@ -821,7 +1050,8 @@ async fn real_four_node_learner_replication() {
     )
     .unwrap();
     authority.activate_admission(&admission).unwrap();
-    let factory = SecurePolisNetworkFactory::from_authority_cut(leader, cut, authority).unwrap();
+    let factory =
+        SecurePolisNetworkFactory::from_authority_cut(leader, cut, authority.clone()).unwrap();
     let voter_signing_key = SigningKey::from_bytes(&[leader as u8; 32]);
     let learner_signing_key = SigningKey::from_bytes(&[44; 32]);
     let (installed, server_sessions) = tokio::join!(
@@ -863,14 +1093,36 @@ async fn real_four_node_learner_replication() {
         !learner_server.is_finished(),
         "learner server ended during catch-up"
     );
-    let response = nodes[&leader]
-        .client_write(PolisCommand::GovernedMutation {
-            mutation_id: "authorized-learner-replicated".to_owned(),
-            payload_sha256: "44".repeat(32),
-        })
-        .await
-        .unwrap();
+    let hook = authority.install_dispatch_pause_for_test("learner_raft_effect");
+    let effect_raft = nodes[&leader].clone();
+    let effect = tokio::spawn(async move {
+        effect_raft
+            .client_write(PolisCommand::GovernedMutation {
+                mutation_id: "authorized-learner-replicated".to_owned(),
+                payload_sha256: "44".repeat(32),
+            })
+            .await
+    });
+    hook.reached.notified().await;
+    let expiry_factory = factory.clone();
+    let expiry_at = admission.deadline_unix_seconds;
+    let expiry =
+        tokio::spawn(async move { expiry_factory.expire_learner_admission(expiry_at).await });
+    for _ in 0..8 {
+        tokio::task::yield_now().await;
+    }
+    assert!(
+        !expiry.is_finished(),
+        "expiry crossed an in-flight learner Raft effect/response lease"
+    );
+    hook.release.notify_one();
+    let response = effect.await.unwrap().unwrap();
     assert!(response.data.accepted);
+    expiry.await.unwrap().unwrap();
+    assertion(
+        "real_four_node_learner_replication",
+        "expiry_writer_waits_through_real_raft_effect_and_response",
+    );
     for _ in 0..200 {
         if machines[&4]
             .application_state()
@@ -882,10 +1134,6 @@ async fn real_four_node_learner_replication() {
         }
         tokio::time::sleep(Duration::from_millis(20)).await;
     }
-    assert!(
-        !learner_server.is_finished(),
-        "learner server ended after replication"
-    );
     assert!(machines[&4]
         .application_state()
         .await
@@ -1382,18 +1630,19 @@ async fn stale_live_learner_boot_handshake_denied() {
     .unwrap();
     authority.activate_admission(&admission).unwrap();
     let factory = SecurePolisNetworkFactory::from_authority_cut(1, cut, authority).unwrap();
-    assert!(matches!(
-        factory
-            .learner_server_sessions(
-                &learner,
-                &admission,
-                now,
-                admission.identity().boot_generation - 1,
-                &SigningKey::from_bytes(&[44; 32]),
-            )
-            .await,
-        Err(PolisRuntimeError::AuthorityDenied)
-    ));
+    let stale = factory
+        .learner_server_sessions(
+            &learner,
+            &admission,
+            now,
+            admission.identity().boot_generation - 1,
+            &SigningKey::from_bytes(&[44; 32]),
+        )
+        .await;
+    assert!(
+        matches!(stale, Err(PolisRuntimeError::AuthorityDenied)),
+        "unexpected stale boot result: {stale:?}"
+    );
     assertion(
         "stale_live_learner_boot_handshake_denied",
         "live_boot_generation_must_match_signed_admission_binding",
@@ -1402,6 +1651,63 @@ async fn stale_live_learner_boot_handshake_denied() {
     voter_endpoint.close(0_u32.into(), b"test complete");
     learner_endpoint.close(0_u32.into(), b"test complete");
     mark("stale_live_learner_boot_handshake_denied");
+}
+
+#[tokio::test]
+async fn production_factory_boot_custody_current_then_stale_denied() {
+    let checkpoint = Arc::new(MemoryCheckpoint::default());
+    let boot_dir = portable_tempdir();
+    let boot_authority = SecureBootGenerationAuthority::open(
+        boot_dir.path(),
+        4,
+        checkpoint.clone() as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    let generation_one = boot_authority.advance().unwrap();
+    let local_identity = LocalNodeGuardianIdentity::generate("runtime-prod", 4).unwrap();
+    let public = local_identity.public_identity();
+    let mut learner = identity();
+    learner.node_id = public.node_id.clone();
+    learner.guardian_id = public.guardian_id.clone();
+    learner.guardian_control_public_key = public.guardian_control_public_key;
+    learner.certificate_generation = public.identity_generation;
+    learner.boot_generation = generation_one.generation();
+    let cut = live_voter_cut([3, 3, 3]);
+    let (admission, _) = live_admission(learner, "127.0.0.1:4404".parse().unwrap(), &cut);
+    let authority_dir = portable_tempdir();
+    let authority = ProductionLearnerAuthority::open(
+        authority_dir.path(),
+        checkpoint.clone() as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    let factory = SecurePolisNetworkFactory::from_authority_cut(1, cut, authority).unwrap();
+    factory
+        .activate_learner_admission(&admission)
+        .await
+        .unwrap();
+    let attestation = factory
+        .learner_boot_attestation(&local_identity, generation_one, &admission)
+        .await
+        .unwrap();
+    assert!(attestation.require_current().is_ok());
+    let generation_two = boot_authority.advance().unwrap();
+    assert_eq!(
+        generation_two.generation(),
+        admission.identity().boot_generation + 1
+    );
+    assert!(matches!(
+        attestation.require_current(),
+        Err(LearnerTransportError::AuthorityDenied)
+    ));
+    assert!(matches!(
+        attestation.sign(b"stale-generation-must-not-sign"),
+        Err(LearnerTransportError::AuthorityDenied)
+    ));
+    assertion(
+        "production_factory_boot_custody_current_then_stale_denied",
+        "factory_attestation_rechecks_generation_under_signing_guard",
+    );
+    mark("production_factory_boot_custody_current_then_stale_denied");
 }
 
 #[tokio::test]
@@ -1619,11 +1925,17 @@ async fn exclusion_ordinary_session_denied() {
         Arc::new(MemoryCheckpoint::default()),
     )
     .unwrap();
+    let learner_session_authority_dir = portable_tempdir();
+    let learner_session_authority = ProductionLearnerAuthority::open(
+        learner_session_authority_dir.path(),
+        Arc::new(MemoryCheckpoint::default()),
+    )
+    .unwrap();
     let voter_factory =
         SecurePolisNetworkFactory::from_authority_cut(4, cut.clone(), session_authority.clone())
             .unwrap();
     let learner_factory =
-        SecurePolisNetworkFactory::from_authority_cut(1, cut, session_authority.clone()).unwrap();
+        SecurePolisNetworkFactory::from_authority_cut(1, cut, learner_session_authority).unwrap();
     let voter_signing_key = SigningKey::from_bytes(&[1; 32]);
     let learner_signing_key = SigningKey::from_bytes(&[4; 32]);
     let (voter_session, learner_session) = tokio::join!(
@@ -1677,6 +1989,7 @@ async fn exclusion_ordinary_session_denied() {
     hook.reached.notified().await;
     let activation_factory = voter_factory.clone();
     let activation_identity = excluded.clone();
+    let learner_removal = removal.clone();
     let activation = tokio::spawn(async move {
         activation_factory
             .activate_pending_exclusion(&removal, &activation_identity, cut_sha256)
@@ -1699,6 +2012,10 @@ async fn exclusion_ordinary_session_denied() {
         .await
         .expect("exclusion activation joined")
         .expect("exclusion activated after in-flight dispatch");
+    learner_factory
+        .activate_pending_exclusion(&learner_removal, &excluded, cut_sha256)
+        .await
+        .expect("peer exclusion view activated");
     assert!(
         voter_connection.test_stream_frames_sent() > stream_frames_before_inflight,
         "the deliberately retained pre-exclusion dispatch did not open its stream"

@@ -14,7 +14,7 @@ use std::{
     path::{Path, PathBuf},
     sync::{
         atomic::{AtomicU64, Ordering},
-        Arc,
+        Arc, Mutex as StdMutex,
     },
 };
 
@@ -37,6 +37,19 @@ use sha2::{Digest, Sha256};
 use tokio::sync::{watch, RwLock};
 use tokio_util::sync::CancellationToken;
 
+use super::super::{
+    AuthenticatedConnection, EstablishedPolisSession, EstablishedRuntimeAuthority,
+    IncomingPolisRequest, LearnerEndpointRole, PendingPolisResponse, PendingPolisSession,
+    PolisIdentityBinding, PolisSessionBinding, RuntimeAuthorityInitializer,
+    TransportAuthorityOwner, TransportLimits, TransportResult, VerifiedPolisRouteCut,
+};
+use super::learner_transport::{
+    establish_learner_voter_sessions, establish_voter_learner_sessions,
+    route_cut_digest as learner_route_cut_digest, EstablishedLearnerSession,
+    LearnerBootAttestationCustody, LearnerIdentity, LearnerRpcKind, LearnerTransportError,
+    LearnerVoterBinding, PendingExclusionSnapshot, ProductionLearnerAuthority,
+    VerifiedLearnerAdmission,
+};
 use crate::distributed::authority_protocol::{
     verify_replicated_finalization, AuthorityFinalizeProposal, AuthorityIntentEndorsement,
     AuthorityNodeIdentity, AuthorityPrepareProposal, AuthorityProtocolError,
@@ -48,20 +61,8 @@ use crate::distributed::authority_reconciliation::{
 };
 use crate::distributed::certificates::{AuthorityCertificate, DistributedCertificateStore};
 use crate::distributed::identity::LocalNodeGuardianIdentity;
-use crate::distributed::learner_transport::{
-    establish_learner_voter_sessions, establish_voter_learner_sessions,
-    route_cut_digest as learner_route_cut_digest, EstablishedLearnerSession, LearnerEndpointRole,
-    LearnerIdentity, LearnerRpcKind, LearnerTransportError, LearnerVoterBinding,
-    PendingExclusionSnapshot, ProductionLearnerAuthority, VerifiedLearnerAdmission,
-};
 use crate::distributed::lease::{AuthorityMembership, VoterAuthority};
 use crate::distributed::membership::MembershipPolicy;
-use crate::distributed::transport::{
-    AuthenticatedConnection, EstablishedPolisSession, EstablishedRuntimeAuthority,
-    IncomingPolisRequest, PendingPolisResponse, PendingPolisSession, PolisIdentityBinding,
-    PolisSessionBinding, RuntimeAuthorityInitializer, TransportLimits, TransportResult,
-    VerifiedPolisRouteCut,
-};
 use crate::kernel_continuity_client::KernelContinuityClient;
 use adl_runtime_kernel::{
     sha256, ContinuityCommand, ContinuityControlError, ContinuityReply,
@@ -1059,7 +1060,7 @@ pub trait ConsensusCheckpointAuthority: Send + Sync {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub(super) struct DurableEnvelope<T> {
+pub(crate) struct DurableEnvelope<T> {
     schema: String,
     generation: u64,
     payload_sha256: String,
@@ -1075,18 +1076,18 @@ struct DurableJournal<T> {
 }
 
 #[derive(Clone, Debug, Default)]
-pub(super) struct CheckpointMetadata {
-    pub(super) committed_log_index: Option<u64>,
-    pub(super) state_sha256: Option<String>,
-    pub(super) snapshot_log_index: Option<u64>,
-    pub(super) snapshot_sha256: Option<String>,
+pub(crate) struct CheckpointMetadata {
+    pub(crate) committed_log_index: Option<u64>,
+    pub(crate) state_sha256: Option<String>,
+    pub(crate) snapshot_log_index: Option<u64>,
+    pub(crate) snapshot_sha256: Option<String>,
 }
 
-pub(super) trait CheckpointMetadataSource {
+pub(crate) trait CheckpointMetadataSource {
     fn checkpoint_metadata(&self) -> Result<CheckpointMetadata, PolisRuntimeError>;
 }
 
-pub(super) struct CheckpointedJson<T> {
+pub(crate) struct CheckpointedJson<T> {
     object: String,
     path: PathBuf,
     journal_path: PathBuf,
@@ -1099,7 +1100,7 @@ impl<T> CheckpointedJson<T>
 where
     T: Clone + Serialize + DeserializeOwned + CheckpointMetadataSource,
 {
-    pub(super) fn open(
+    pub(crate) fn open(
         root: &Path,
         object: &str,
         file_name: &str,
@@ -1214,7 +1215,7 @@ where
         Ok(())
     }
 
-    pub(super) fn commit(
+    pub(crate) fn commit(
         &self,
         current: &DurableEnvelope<T>,
         payload: T,
@@ -1248,15 +1249,15 @@ where
 }
 
 impl<T> DurableEnvelope<T> {
-    pub(super) fn generation(&self) -> u64 {
+    pub(crate) fn generation(&self) -> u64 {
         self.generation
     }
 
-    pub(super) fn payload_sha256(&self) -> &str {
+    pub(crate) fn payload_sha256(&self) -> &str {
         &self.payload_sha256
     }
 
-    pub(super) fn payload(&self) -> &T {
+    pub(crate) fn payload(&self) -> &T {
         &self.payload
     }
 }
@@ -2107,7 +2108,7 @@ pub struct SecurePolisNetworkFactory {
     local: NodeId,
     cut: Arc<RwLock<VerifiedPolisRouteCut>>,
     trusted_polis_id: String,
-    trusted_cut_sha256: [u8; 32],
+    trusted_cut_sha256: Arc<RwLock<[u8; 32]>>,
     trusted_trust_domain: String,
     trusted_membership_epoch: u64,
     trusted_authority: AuthorityMembership,
@@ -2117,6 +2118,7 @@ pub struct SecurePolisNetworkFactory {
     connections: Arc<RwLock<BTreeMap<NodeId, SecurePeerRoute>>>,
     learner_connections: Arc<RwLock<BTreeMap<NodeId, SecureLearnerRoute>>>,
     learner_authority: ProductionLearnerAuthority,
+    transport_owner: Arc<tokio::sync::Mutex<TransportAuthorityOwner>>,
     authority_transition: Arc<tokio::sync::Mutex<()>>,
 }
 
@@ -2160,10 +2162,29 @@ impl SecurePolisNetworkFactory {
         if local == 0 || !cut.contains(local) || cut.len() != 3 {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
+        let transport_owner = learner_authority
+            .take_transport_owner()
+            .map_err(map_learner_error)?;
         let (node_id, guardian_id, boot_generation) = cut
             .authority_node_identity(local)
             .ok_or(PolisRuntimeError::AuthorityDenied)?;
         let trusted_cut_sha256 = learner_route_cut_digest(&cut).map_err(map_learner_error)?;
+        let current_learner_operation = learner_authority
+            .admission_snapshot()
+            .map_err(map_learner_error)?
+            .current()
+            .map(VerifiedLearnerAdmission::operation_sha256);
+        let exclusion = learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?;
+        transport_owner
+            .bind_current_view(
+                trusted_cut_sha256,
+                current_learner_operation,
+                exclusion.transport_identity(),
+                exclusion.generation(),
+            )
+            .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
         let trusted_node_identities = cut
             .routes()
             .keys()
@@ -2178,7 +2199,7 @@ impl SecurePolisNetworkFactory {
         Ok(Self {
             local,
             trusted_polis_id: cut.polis_id().to_owned(),
-            trusted_cut_sha256,
+            trusted_cut_sha256: Arc::new(RwLock::new(trusted_cut_sha256)),
             trusted_trust_domain: cut.trust_domain().to_owned(),
             trusted_membership_epoch: cut.membership_epoch(),
             trusted_authority: cut.authority_membership().clone(),
@@ -2195,6 +2216,7 @@ impl SecurePolisNetworkFactory {
             connections: Arc::new(RwLock::new(BTreeMap::new())),
             learner_connections: Arc::new(RwLock::new(BTreeMap::new())),
             learner_authority,
+            transport_owner: Arc::new(tokio::sync::Mutex::new(transport_owner)),
             authority_transition: Arc::new(tokio::sync::Mutex::new(())),
         })
     }
@@ -2255,7 +2277,7 @@ impl SecurePolisNetworkFactory {
                 self.local,
                 target,
                 connection,
-                self.learner_authority.clone(),
+                self.learner_authority.transport_authority(),
             )
             .map_err(|_| PolisRuntimeError::AuthorityDenied)
     }
@@ -2267,10 +2289,13 @@ impl SecurePolisNetworkFactory {
         signing_key: &ed25519_dalek::SigningKey,
     ) -> Result<EstablishedPolisSession, PolisRuntimeError> {
         let pending = self.pending_session(target, connection).await?;
-        connection
+        let established = connection
             .initiate_polis_session(pending, signing_key)
             .await
-            .map_err(|_| PolisRuntimeError::AuthorityDenied)
+            .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
+        self.pin_established_peer(target, connection, &established)
+            .await?;
+        Ok(established)
     }
 
     pub async fn accept_session(
@@ -2280,10 +2305,44 @@ impl SecurePolisNetworkFactory {
         signing_key: &ed25519_dalek::SigningKey,
     ) -> Result<EstablishedPolisSession, PolisRuntimeError> {
         let pending = self.pending_session(target, connection).await?;
-        connection
+        let established = connection
             .accept_polis_session(pending, signing_key)
             .await
-            .map_err(|_| PolisRuntimeError::AuthorityDenied)
+            .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
+        self.pin_established_peer(target, connection, &established)
+            .await?;
+        Ok(established)
+    }
+
+    async fn pin_established_peer(
+        &self,
+        target: NodeId,
+        connection: &AuthenticatedConnection,
+        established: &EstablishedPolisSession,
+    ) -> Result<(), PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        let owner = self.transport_owner.lock().await;
+        let mut lease = owner.write_lease().await;
+        let exclusion = self
+            .learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?;
+        if !self.cut.read().await.session_matches_with_exclusion(
+            self.local,
+            target,
+            connection,
+            established,
+            &exclusion,
+        ) {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        self.learner_authority
+            .pin_peer_instance(
+                &mut lease,
+                established.peer_identity_key(),
+                established.peer_authority_instance_id(),
+            )
+            .map_err(map_learner_error)
     }
 
     async fn validate_uninstalled_session(
@@ -2452,7 +2511,8 @@ impl SecurePolisNetworkFactory {
         .await
         .map_err(map_learner_error)?;
         let _transition = self.authority_transition.lock().await;
-        let _dispatch = self.learner_authority.dispatch_guard().await;
+        let owner = self.transport_owner.lock().await;
+        let mut lease = owner.write_lease().await;
         let cut = self.cut.read().await;
         let exclusion = self
             .learner_authority
@@ -2472,6 +2532,12 @@ impl SecurePolisNetworkFactory {
         {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
+        let (peer_key, peer_instance) = outbound
+            .peer_transport_instance()
+            .ok_or(PolisRuntimeError::AuthorityDenied)?;
+        self.learner_authority
+            .pin_peer_instance(&mut lease, peer_key, peer_instance)
+            .map_err(map_learner_error)?;
         drop(cut);
         let mut routes = self.learner_connections.write().await;
         if routes.contains_key(&target) {
@@ -2490,13 +2556,12 @@ impl SecurePolisNetworkFactory {
         Ok(())
     }
 
-    pub async fn learner_server_sessions(
+    async fn learner_server_sessions_attested(
         &self,
         connection: &AuthenticatedConnection,
         admission: &VerifiedLearnerAdmission,
         now_unix_seconds: i64,
-        live_learner_boot_generation: u64,
-        learner_signing_key: &ed25519_dalek::SigningKey,
+        custody: &LearnerBootAttestationCustody,
     ) -> Result<(EstablishedLearnerSession, EstablishedLearnerSession), PolisRuntimeError> {
         let _transition = self.authority_transition.lock().await;
         let cut = self.cut.read().await;
@@ -2535,17 +2600,12 @@ impl SecurePolisNetworkFactory {
             .map_err(map_learner_error)?;
         drop(cut);
         drop(_transition);
-        establish_learner_voter_sessions(
-            connection,
-            &mut inbound,
-            &mut outbound,
-            live_learner_boot_generation,
-            learner_signing_key,
-        )
-        .await
-        .map_err(map_learner_error)?;
+        establish_learner_voter_sessions(connection, &mut inbound, &mut outbound, custody)
+            .await
+            .map_err(map_learner_error)?;
         let _transition = self.authority_transition.lock().await;
-        let _dispatch = self.learner_authority.dispatch_guard().await;
+        let owner = self.transport_owner.lock().await;
+        let mut lease = owner.write_lease().await;
         let cut = self.cut.read().await;
         let (local_node_id, local_guardian_id, _) = cut
             .authority_node_identity(self.local)
@@ -2564,31 +2624,93 @@ impl SecurePolisNetworkFactory {
         {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
+        let (peer_key, peer_instance) = inbound
+            .peer_transport_instance()
+            .ok_or(PolisRuntimeError::AuthorityDenied)?;
+        self.learner_authority
+            .pin_peer_instance(&mut lease, peer_key, peer_instance)
+            .map_err(map_learner_error)?;
         Ok((inbound, outbound))
     }
 
-    pub fn activate_learner_admission(
+    #[cfg(not(test))]
+    pub async fn learner_server_sessions(
+        &self,
+        connection: &AuthenticatedConnection,
+        admission: &VerifiedLearnerAdmission,
+        now_unix_seconds: i64,
+        custody: &LearnerBootAttestationCustody,
+    ) -> Result<(EstablishedLearnerSession, EstablishedLearnerSession), PolisRuntimeError> {
+        self.learner_server_sessions_attested(connection, admission, now_unix_seconds, custody)
+            .await
+    }
+
+    #[cfg(test)]
+    pub async fn learner_server_sessions(
+        &self,
+        connection: &AuthenticatedConnection,
+        admission: &VerifiedLearnerAdmission,
+        now_unix_seconds: i64,
+        live_learner_boot_generation: u64,
+        learner_signing_key: &ed25519_dalek::SigningKey,
+    ) -> Result<(EstablishedLearnerSession, EstablishedLearnerSession), PolisRuntimeError> {
+        let custody = LearnerBootAttestationCustody::for_test(
+            live_learner_boot_generation,
+            learner_signing_key,
+        );
+        self.learner_server_sessions_attested(connection, admission, now_unix_seconds, &custody)
+            .await
+    }
+
+    pub async fn learner_boot_attestation(
+        &self,
+        identity: &LocalNodeGuardianIdentity,
+        boot: SecureBootGenerationCustody,
+        admission: &VerifiedLearnerAdmission,
+    ) -> Result<LearnerBootAttestationCustody, PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        let cut = self.cut.read().await;
+        if cut.contains(admission.identity().stable_raft_id)
+            || !admission.matches_route_cut(&cut)
+            || !self
+                .learner_authority
+                .admission_is_current(admission)
+                .map_err(map_learner_error)?
+        {
+            return Err(PolisRuntimeError::AuthorityDenied);
+        }
+        LearnerBootAttestationCustody::establish(boot, identity, admission.identity())
+            .map_err(map_learner_error)
+    }
+
+    pub async fn activate_learner_admission(
         &self,
         admission: &VerifiedLearnerAdmission,
     ) -> Result<(), PolisRuntimeError> {
-        if !self.admission_matches_trusted_cut(admission) {
+        let _transition = self.authority_transition.lock().await;
+        if !self.admission_matches_trusted_cut(admission).await {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
+        let owner = self.transport_owner.lock().await;
+        let mut lease = owner.write_lease().await;
         self.learner_authority
-            .activate_admission(admission)
+            .governed_activate_admission(&mut lease, admission)
             .map(|_| ())
             .map_err(map_learner_error)
     }
 
-    pub fn stage_learner_successor(
+    pub async fn stage_learner_successor(
         &self,
         successor: &VerifiedLearnerAdmission,
     ) -> Result<(), PolisRuntimeError> {
-        if !self.admission_matches_trusted_cut(successor) {
+        let _transition = self.authority_transition.lock().await;
+        if !self.admission_matches_trusted_cut(successor).await {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
+        let owner = self.transport_owner.lock().await;
+        let mut lease = owner.write_lease().await;
         self.learner_authority
-            .stage_successor(successor)
+            .governed_stage_successor(&mut lease, successor)
             .map_err(map_learner_error)
     }
 
@@ -2608,9 +2730,10 @@ impl SecurePolisNetworkFactory {
         for route in &routes {
             dispatch_guards.push(route.dispatch_lock.clone().lock_owned().await);
         }
-        let _authority_transition = self.learner_authority.exclusion_guard().await;
+        let transport_owner = self.transport_owner.lock().await;
+        let mut authority_transition = transport_owner.write_lease().await;
         self.learner_authority
-            .flip_successor(operation_sha256)
+            .governed_flip_successor(&mut authority_transition, operation_sha256)
             .map_err(map_learner_error)?;
         for route in &routes {
             route.connection.close();
@@ -2620,11 +2743,33 @@ impl SecurePolisNetworkFactory {
         Ok(())
     }
 
-    pub fn expire_learner_admission(&self, now_unix_seconds: i64) -> Result<(), PolisRuntimeError> {
+    pub async fn expire_learner_admission(
+        &self,
+        now_unix_seconds: i64,
+    ) -> Result<(), PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        let routes = self
+            .learner_connections
+            .read()
+            .await
+            .values()
+            .cloned()
+            .collect::<Vec<_>>();
+        let mut dispatch_guards = Vec::with_capacity(routes.len());
+        for route in &routes {
+            dispatch_guards.push(route.dispatch_lock.clone().lock_owned().await);
+        }
+        let owner = self.transport_owner.lock().await;
+        let mut lease = owner.write_lease().await;
         self.learner_authority
-            .expire_admission(now_unix_seconds)
-            .map(|_| ())
-            .map_err(map_learner_error)
+            .governed_expire_admission(&mut lease, now_unix_seconds)
+            .map_err(map_learner_error)?;
+        for route in &routes {
+            route.connection.close();
+        }
+        self.learner_connections.write().await.clear();
+        drop(dispatch_guards);
+        Ok(())
     }
 
     pub async fn activate_pending_exclusion(
@@ -2645,15 +2790,22 @@ impl SecurePolisNetworkFactory {
         for route in &routes {
             dispatch_guards.push(route.dispatch_lock.clone().lock_owned().await);
         }
-        let _exclusion = self.learner_authority.exclusion_guard().await;
+        let transport_owner = self.transport_owner.lock().await;
+        let mut exclusion = transport_owner.write_lease().await;
         if expected_identity.trust_domain != self.trusted_trust_domain
             || expected_identity.polis_id != self.trusted_polis_id
-            || expected_voter_cut_sha256 != self.trusted_cut_sha256
-            || !self
-                .cut
-                .read()
-                .await
-                .exact_removal_target_matches(expected_identity)
+            || expected_voter_cut_sha256 != *self.trusted_cut_sha256.read().await
+            || !self.cut.read().await.exact_removal_target_matches(
+                expected_identity.stable_raft_id,
+                &expected_identity.trust_domain,
+                &expected_identity.polis_id,
+                &expected_identity.node_id,
+                &expected_identity.guardian_id,
+                expected_identity.guardian_control_public_key,
+                expected_identity.certificate_generation,
+                expected_identity.boot_generation,
+                expected_identity.address,
+            )
             || !published_result_matches_trusted_cut(
                 result,
                 &self.trusted_polis_id,
@@ -2666,8 +2818,20 @@ impl SecurePolisNetworkFactory {
         }
         let snapshot = self
             .learner_authority
-            .activate_exclusion(result, expected_identity, expected_voter_cut_sha256)
+            .governed_activate_exclusion(
+                &mut exclusion,
+                result,
+                expected_identity,
+                expected_voter_cut_sha256,
+            )
             .map_err(map_learner_error)?;
+        exclusion
+            .commit_exclusion(
+                &expected_identity.node_id,
+                &expected_identity.guardian_id,
+                snapshot.generation(),
+            )
+            .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
         let cut = self.cut.read().await;
         let denied = self
             .connections
@@ -2689,10 +2853,10 @@ impl SecurePolisNetworkFactory {
         Ok(())
     }
 
-    fn admission_matches_trusted_cut(&self, admission: &VerifiedLearnerAdmission) -> bool {
+    async fn admission_matches_trusted_cut(&self, admission: &VerifiedLearnerAdmission) -> bool {
         admission.identity().trust_domain == self.trusted_trust_domain
             && admission.identity().polis_id == self.trusted_polis_id
-            && admission.voter_cut_sha256() == self.trusted_cut_sha256
+            && admission.voter_cut_sha256() == *self.trusted_cut_sha256.read().await
             && admission.publication_identity_matches(
                 &self.trusted_polis_id,
                 &self.trusted_trust_domain,
@@ -2761,6 +2925,31 @@ impl SecurePolisNetworkFactory {
         &self,
         candidate: VerifiedPolisRouteCut,
     ) -> Result<(), PolisRuntimeError> {
+        let _transition = self.authority_transition.lock().await;
+        let ordinary_routes = self
+            .connections
+            .read()
+            .await
+            .values()
+            .cloned()
+            .collect::<Vec<_>>();
+        let learner_routes = self
+            .learner_connections
+            .read()
+            .await
+            .values()
+            .cloned()
+            .collect::<Vec<_>>();
+        let mut ordinary_dispatch = Vec::with_capacity(ordinary_routes.len());
+        for route in &ordinary_routes {
+            ordinary_dispatch.push(route.dispatch_lock.clone().lock_owned().await);
+        }
+        let mut learner_dispatch = Vec::with_capacity(learner_routes.len());
+        for route in &learner_routes {
+            learner_dispatch.push(route.dispatch_lock.clone().lock_owned().await);
+        }
+        let owner = self.transport_owner.lock().await;
+        let mut authority = owner.write_lease().await;
         let mut current = self.cut.write().await;
         if !candidate.same_polis_and_domain(&current)
             || !candidate.same_authority_lineage(&current)
@@ -2778,7 +2967,26 @@ impl SecurePolisNetworkFactory {
                 return Err(PolisRuntimeError::StateRegression);
             }
         }
+        let next_digest = learner_route_cut_digest(&candidate).map_err(map_learner_error)?;
+        let changed = next_digest != *self.trusted_cut_sha256.read().await;
         *current = candidate;
+        authority
+            .replace_voter_cut(next_digest)
+            .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
+        *self.trusted_cut_sha256.write().await = next_digest;
+        drop(current);
+        if changed {
+            for route in &ordinary_routes {
+                route.connection.read().await.close();
+            }
+            for route in &learner_routes {
+                route.connection.close();
+            }
+            self.connections.write().await.clear();
+            self.learner_connections.write().await.clear();
+        }
+        drop(ordinary_dispatch);
+        drop(learner_dispatch);
         Ok(())
     }
 
@@ -2891,7 +3099,7 @@ impl SecurePolisNetworkFactory {
             .map_err(|_| PolisRuntimeError::StateRegression)?
             .as_secs();
         let now = i64::try_from(now).map_err(|_| PolisRuntimeError::StateRegression)?;
-        let request_authorization = {
+        let pending = {
             let mut outbound = route.outbound.lock().await;
             match kind {
                 LearnerRpcKind::AppendEntries => {
@@ -2911,13 +3119,7 @@ impl SecurePolisNetworkFactory {
             .responses
             .lock()
             .await
-            .receive_response(
-                &route.connection,
-                kind,
-                sequence,
-                request_authorization,
-                now,
-            )
+            .receive_response(&route.connection, pending, now)
             .await
             .map_err(map_learner_error);
         response
@@ -3111,28 +3313,110 @@ impl CheckpointMetadataSource for BootGenerationState {
     }
 }
 
+struct SecureBootGenerationAuthorityInner {
+    durable: CheckpointedJson<BootGenerationState>,
+    current: StdMutex<DurableEnvelope<BootGenerationState>>,
+    node_id: NodeId,
+}
+
+#[derive(Clone)]
+pub struct SecureBootGenerationAuthority {
+    inner: Arc<SecureBootGenerationAuthorityInner>,
+}
+
+pub struct SecureBootGenerationCustody {
+    authority: SecureBootGenerationAuthority,
+    generation: u64,
+}
+
+impl SecureBootGenerationAuthority {
+    pub fn open(
+        state_root: &Path,
+        node_id: NodeId,
+        checkpoint_authority: Arc<dyn ConsensusCheckpointAuthority>,
+    ) -> Result<Self, PolisRuntimeError> {
+        if node_id == 0 {
+            return Err(PolisRuntimeError::InvalidConfiguration);
+        }
+        let (durable, current) = CheckpointedJson::open(
+            state_root,
+            &format!("raft-boot-node-{node_id}"),
+            "raft-boot-generation.json",
+            BootGenerationState::default(),
+            checkpoint_authority,
+        )?;
+        Ok(Self {
+            inner: Arc::new(SecureBootGenerationAuthorityInner {
+                durable,
+                current: StdMutex::new(current),
+                node_id,
+            }),
+        })
+    }
+
+    pub fn advance(&self) -> Result<SecureBootGenerationCustody, PolisRuntimeError> {
+        let mut current = self
+            .inner
+            .current
+            .lock()
+            .map_err(|_| PolisRuntimeError::Storage)?;
+        let generation = current
+            .payload()
+            .generation
+            .checked_add(1)
+            .ok_or(PolisRuntimeError::StateRegression)?;
+        *current = self
+            .inner
+            .durable
+            .commit(&current, BootGenerationState { generation })?;
+        Ok(SecureBootGenerationCustody {
+            authority: self.clone(),
+            generation,
+        })
+    }
+}
+
+impl SecureBootGenerationCustody {
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+
+    pub(crate) fn node_id(&self) -> NodeId {
+        self.authority.inner.node_id
+    }
+
+    pub(crate) fn require_current(&self) -> Result<(), PolisRuntimeError> {
+        self.with_current(|| ())
+    }
+
+    pub(crate) fn with_current<T>(
+        &self,
+        action: impl FnOnce() -> T,
+    ) -> Result<T, PolisRuntimeError> {
+        let current = self
+            .authority
+            .inner
+            .current
+            .lock()
+            .map_err(|_| PolisRuntimeError::Storage)?;
+        if current.payload().generation == self.generation {
+            Ok(action())
+        } else {
+            Err(PolisRuntimeError::AuthorityDenied)
+        }
+    }
+}
+
 pub fn advance_secure_boot_generation(
     state_root: &Path,
     node_id: NodeId,
     checkpoint_authority: Arc<dyn ConsensusCheckpointAuthority>,
 ) -> Result<u64, PolisRuntimeError> {
-    if node_id == 0 {
-        return Err(PolisRuntimeError::InvalidConfiguration);
-    }
-    let (durable, current) = CheckpointedJson::open(
-        state_root,
-        &format!("raft-boot-node-{node_id}"),
-        "raft-boot-generation.json",
-        BootGenerationState::default(),
-        checkpoint_authority,
-    )?;
-    let generation = current
-        .payload
-        .generation
-        .checked_add(1)
-        .ok_or(PolisRuntimeError::StateRegression)?;
-    durable.commit(&current, BootGenerationState { generation })?;
-    Ok(generation)
+    Ok(
+        SecureBootGenerationAuthority::open(state_root, node_id, checkpoint_authority)?
+            .advance()?
+            .generation(),
+    )
 }
 
 pub async fn new_secure_raft_node(
@@ -3581,6 +3865,10 @@ pub async fn serve_authorized_learner_connection(
             _ = cancellation.cancelled() => return Ok(()),
             result = inbound.receive_replication(&connection, now) => result.map_err(map_learner_error)?,
         };
+        #[cfg(test)]
+        inbound
+            .pause_after_revalidation_for_test("learner_raft_effect")
+            .await;
         let response = match request.message_kind() {
             "append_entries" => {
                 let value: AppendEntriesRequest<PolisTypeConfig> =
@@ -3595,7 +3883,7 @@ pub async fn serve_authorized_learner_connection(
             _ => return Err(PolisRuntimeError::AuthorityDenied),
         };
         outbound
-            .send_response(&connection, &request, response, now)
+            .send_response(&connection, request, response, now)
             .await
             .map_err(map_learner_error)?;
     }
@@ -5029,6 +5317,41 @@ mod authority_consensus_tests {
         for raft in nodes.values() {
             let _ = raft.shutdown().await;
         }
+    }
+
+    #[test]
+    fn production_boot_custody_denies_retained_generation_after_advance() {
+        let root = tempfile::Builder::new()
+            .prefix("boot-custody-")
+            .tempdir_in(std::env::current_dir().unwrap())
+            .unwrap();
+        let checkpoint: Arc<dyn ConsensusCheckpointAuthority> =
+            Arc::new(MemoryAuthority::default());
+        let authority = SecureBootGenerationAuthority::open(root.path(), 41, checkpoint).unwrap();
+        let generation_one = authority.advance().unwrap();
+        let identity = LocalNodeGuardianIdentity::generate("boot-custody.test", 9).unwrap();
+        let public = identity.public_identity();
+        let learner = LearnerIdentity {
+            trust_domain: public.trust_domain.clone(),
+            polis_id: "polis-boot-custody".to_owned(),
+            node_id: public.node_id.clone(),
+            guardian_id: public.guardian_id.clone(),
+            guardian_control_public_key: public.guardian_control_public_key,
+            stable_raft_id: 41,
+            certificate_generation: public.identity_generation,
+            boot_generation: generation_one.generation(),
+            address: "127.0.0.1:4041".parse().unwrap(),
+        };
+        let attestation =
+            LearnerBootAttestationCustody::establish(generation_one, &identity, &learner).unwrap();
+        assert!(attestation.require_current().is_ok());
+
+        let generation_two = authority.advance().unwrap();
+        assert_eq!(generation_two.generation(), learner.boot_generation + 1);
+        assert!(matches!(
+            attestation.require_current(),
+            Err(LearnerTransportError::AuthorityDenied)
+        ));
     }
 }
 
