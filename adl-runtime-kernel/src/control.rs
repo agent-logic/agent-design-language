@@ -462,13 +462,35 @@ fn rollback_replay_sequence(state: &mut AcipReplayState, reservation: AcipSequen
 #[derive(Default)]
 struct ConversationSessions {
     sessions: BTreeMap<String, ConversationSession>,
+    next_sequence: u64,
 }
 
 struct ConversationSession {
+    sequence: u64,
     recipient_id: String,
     next_sequence: u64,
     dispatch_gate: Arc<ConversationDispatchGate>,
     turns: BTreeMap<String, ConversationTurn>,
+}
+
+impl ConversationSessions {
+    fn retain_capacity_for_new_session(&mut self, max_records: usize) -> bool {
+        if self.sessions.len() < max_records {
+            return true;
+        }
+
+        let oldest_terminal_session = self
+            .sessions
+            .iter()
+            .filter(|(_, session)| session.turns.values().all(|turn| turn.terminal.is_some()))
+            .min_by_key(|(_, session)| session.sequence)
+            .map(|(conversation_id, _)| conversation_id.clone());
+        let Some(conversation_id) = oldest_terminal_session else {
+            return false;
+        };
+        self.sessions.remove(&conversation_id);
+        true
+    }
 }
 
 impl ConversationSession {
@@ -812,24 +834,37 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .conversation_sessions
             .lock()
             .expect("conversation sessions mutex poisoned");
-        if !sessions.sessions.contains_key(&intent.conversation_id)
-            && sessions.sessions.len() >= self.max_records
-        {
-            return ConversationAcceptance::Response(outcome(
-                "failed",
-                "conversation_capacity_exhausted",
-                None,
-            ));
+        if !sessions.sessions.contains_key(&intent.conversation_id) {
+            if !sessions.retain_capacity_for_new_session(self.max_records) {
+                return ConversationAcceptance::Response(outcome(
+                    "failed",
+                    "conversation_capacity_exhausted",
+                    None,
+                ));
+            }
+            let Some(sequence) = sessions.next_sequence.checked_add(1) else {
+                return ConversationAcceptance::Response(outcome(
+                    "failed",
+                    "conversation_sequence_exhausted",
+                    None,
+                ));
+            };
+            sessions.next_sequence = sequence;
+            sessions.sessions.insert(
+                intent.conversation_id.clone(),
+                ConversationSession {
+                    sequence,
+                    recipient_id: intent.recipient_id.clone(),
+                    next_sequence: 0,
+                    dispatch_gate: Arc::new(ConversationDispatchGate::new()),
+                    turns: BTreeMap::new(),
+                },
+            );
         }
         let session = sessions
             .sessions
-            .entry(intent.conversation_id.clone())
-            .or_insert_with(|| ConversationSession {
-                recipient_id: intent.recipient_id.clone(),
-                next_sequence: 0,
-                dispatch_gate: Arc::new(ConversationDispatchGate::new()),
-                turns: BTreeMap::new(),
-            });
+            .get_mut(&intent.conversation_id)
+            .expect("conversation session inserted before lookup");
         if session.recipient_id != intent.recipient_id {
             return ConversationAcceptance::Response(outcome(
                 "refused",
@@ -3064,6 +3099,73 @@ pub enum ControlApiError {
 #[cfg(test)]
 mod conversation_dispatch_gate_tests {
     use super::*;
+
+    fn session(sequence: u64, terminal: bool) -> ConversationSession {
+        let (completion, _) = tokio::sync::watch::channel(None);
+        let mut turns = BTreeMap::new();
+        turns.insert(
+            "turn".to_owned(),
+            ConversationTurn {
+                fingerprint: "fingerprint".to_owned(),
+                correlation_id: "00000000000000000000000000000000".to_owned(),
+                sequence: 1,
+                cancellation: CancellationToken::new(),
+                completion,
+                terminal: terminal.then(|| ObservatoryConversationResult {
+                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                    status: "delivered",
+                    conversation_id: "conversation".to_owned(),
+                    turn_id: "turn".to_owned(),
+                    recipient_id: "shepherd".to_owned(),
+                    correlation_id: "00000000000000000000000000000000".to_owned(),
+                    reply: None,
+                    accepted_sequence: Some(1),
+                    turn_sequence: Some(1),
+                    error: None,
+                }),
+            },
+        );
+        ConversationSession {
+            sequence,
+            recipient_id: "shepherd".to_owned(),
+            next_sequence: 1,
+            dispatch_gate: Arc::new(ConversationDispatchGate::new()),
+            turns,
+        }
+    }
+
+    #[test]
+    fn session_capacity_evicts_only_the_oldest_terminal_session() {
+        let mut sessions = ConversationSessions::default();
+        sessions
+            .sessions
+            .insert("old-terminal".to_owned(), session(1, true));
+        sessions
+            .sessions
+            .insert("active".to_owned(), session(2, false));
+        sessions
+            .sessions
+            .insert("new-terminal".to_owned(), session(3, true));
+
+        assert!(sessions.retain_capacity_for_new_session(3));
+        assert!(!sessions.sessions.contains_key("old-terminal"));
+        assert!(sessions.sessions.contains_key("active"));
+        assert!(sessions.sessions.contains_key("new-terminal"));
+    }
+
+    #[test]
+    fn session_capacity_refuses_when_every_session_is_active() {
+        let mut sessions = ConversationSessions::default();
+        sessions
+            .sessions
+            .insert("active-1".to_owned(), session(1, false));
+        sessions
+            .sessions
+            .insert("active-2".to_owned(), session(2, false));
+
+        assert!(!sessions.retain_capacity_for_new_session(2));
+        assert_eq!(sessions.sessions.len(), 2);
+    }
 
     #[tokio::test]
     async fn later_turn_cannot_overtake_an_unfinished_earlier_sequence() {
