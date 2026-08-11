@@ -3,34 +3,13 @@
   "issue": 200,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
-  "phase": "reviewed",
-  "generation": 15,
-  "digest": "cf8d49927607a23dbd8f10b93e48a9ff3eb5503db18144fc8758f0a5493b867a",
+  "phase": "implemented",
+  "generation": 16,
+  "digest": "9d34a25287f89b70ff38833944f4085281a4071ae55c0e64670e31ae7be57edc",
   "branch": "codex/200-concrete-authority-reconciliation-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-200-concrete-authority-reconciliation-preparation",
   "review_assignment": null,
-  "review": {
-    "reviewer": "codex:/root/review_200_portable_final",
-    "scope": [
-      "adl-runtime/src/distributed/mod.rs",
-      "adl-runtime/src/distributed/authority_protocol.rs",
-      "adl-runtime/src/distributed/authority_reconciliation.rs",
-      "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
-      "adl-runtime/src/distributed/polis_runtime.rs",
-      "adl-runtime/tests/distributed_authority_reconciliation.rs",
-      ".csdlc/prepared/issues/200/produce-proof-receipt.rb",
-      ".csdlc/prepared/issues/200/validate-proof-receipt.rb",
-      ".csdlc/evidence/200/v4",
-      ".csdlc/issues/200"
-    ],
-    "reviewed_revision": "git-blake3:0b4887b1aa1a7f5e76f672929c45935311d5d28e:0936c8d3a8f831a6dd9661cf1cbfdfc69920296db8f6ec04177187b3dd087693",
-    "findings": [],
-    "residual_risks": [
-      "The repaired Linux fixture path must still pass the replacement hosted Runtime coverage job before merge; local exact and full Runtime denominators are green."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "56ce99e114cbdda166883c6627297fd11c096e9ea6dda256b4bdec816d885d7a",
+      "values_digest": "0a3de10eb15377f7b932b470a37ba5a1870ed5ffa6361180681a8d7d49ee1dbe",
       "rendered_digest": "2bf7b8cfacd8ddd000f15d512793721dd8a66a41495705e6eea0e4720f11b449",
       "ast_digest": "923d2e83e0be4ba4a7d60955f63d16ee37ccd6f57575b3d316923eec9d5a102c"
     },
     "stp": {
-      "values_digest": "62cdf523d34566dbdc22a69dc7d6f33c04ee36eba1bdda967794baa3d4633c69",
+      "values_digest": "35a0a1b40393d956ee93c3199224548e2b1b48dff8a8dcf837a2d54207fa8945",
       "rendered_digest": "b57d439d1570e4d0f8228d5c1801e852b4ef66b058757c8f52598b0191fdc466",
       "ast_digest": "ed3f711248a7c94c706cb3ef8eba0be4f78f4cb1890030f4e03aa319a4dc9fae"
     },
     "spp": {
-      "values_digest": "db88f7614e839298f7c9ee617ccfb782cbafc037562b2622725f09c036b86510",
+      "values_digest": "b78a0c02b2fb3e059f9ecf767da48d70b16b55a60857d7820a8187466a6e8356",
       "rendered_digest": "463d42373389c9b38afd2186ceea1e293e9e6ddf5168f01c0b5e02619a502e68",
       "ast_digest": "96803f5ab0254cb9acbd5e3278f7a0065f10e72344dce3fab24f755267af92f6"
     },
     "vpp": {
-      "values_digest": "0d0e0e0e055778f1b06b145ac773e2701450dcbc2fe0fb5fea04ecaedc68e7bb",
+      "values_digest": "bbb1b823d3e152ca4610e4bdbc05e629f56c1fd2e40692bfc1be51eedc60038c",
       "rendered_digest": "b19adcd318fa48f408a267f17c2a1f74c54cc933155eb4f1c75c9edaff1413b7",
       "ast_digest": "af01edb6ae4e6432d48e99719f6c2eec6f31c3afbd0c0ae7d0e33c079cf9e479"
     },
     "srp": {
-      "values_digest": "65ad65e2eae05f8fa815e86ff9aa7ff3561835203aee94780c83fd9f6c8cd70a",
-      "rendered_digest": "d94beda513ba98f542640ae715f2b427e07fd42e84054a03c4b1a9c9a08d3564",
-      "ast_digest": "c2bffcd40d8305e7c95dd8c133511df39df12e4e3ee846373ad484977b387792"
+      "values_digest": "23f786a3a9337de439ffa63e33ac7c9232b63956c9c5a8825d93a1322d71c6b0",
+      "rendered_digest": "79b745015647e53a89d72550c999b47163e55e9efc7fd229bee8819732e72f50",
+      "ast_digest": "eb134f8926f936f6b01425a01def31ffcec5ae04ff6ec1a93e8443527baa94dc"
     },
     "sor": {
-      "values_digest": "15aa7af7bc966698e4d99c0f8cd9bbf1558582b8dbf2d97cbd99a3f55bab73be",
+      "values_digest": "28cf26d2fbeb29ad55b481d49a60b4c00016e4118d7fc98ef4a2ad5a79441d4e",
       "rendered_digest": "39ef0b7ebd6ddc5a3abcb27bea3cffa99eedd5d6df965722cf5888f9a19d7da6",
       "ast_digest": "d5b1ba72a3010da017e271584cdd841bb1e30ea5936c2391239e7a706bc36b7e"
     }
@@ -124,6 +103,13 @@
       "to": "reviewed",
       "actor": "codex:/root/advance_200_after_201",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Typed publication correctly rejected the prior review-metadata commit because it also introduced prepared request files outside the automatic metadata-only allowlist. Recover review truth after sealing the final publication request so a different exact-head review can cover the complete clean head before republication."
     }
   ],
   "audit": [
@@ -245,6 +231,13 @@
       "actor": "codex:/root/advance_200_after_201",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Typed publication correctly rejected the prior review-metadata commit because it also introduced prepared request files outside the automatic metadata-only allowlist. Recover review truth after sealing the final publication request so a different exact-head review can cover the complete clean head before republication.",
+      "operation": "recover_review"
     }
   ]
 }
