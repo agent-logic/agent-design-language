@@ -42,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI and live GitHub merge state remain pending until publication of the exact reviewed implementation.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:53a7ce592cd85fb132ed40314dfe47d312eb7659:4b82414e2e97ce632a55814068f2f4c36bf9f18ecd5e95253a8c0851fff33c9d")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_201_stable_custody_final")
 
-Result: pre_review
+Result: pass

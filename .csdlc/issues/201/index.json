@@ -3,9 +3,9 @@
   "issue": 201,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
-  "phase": "implemented",
-  "generation": 77,
-  "digest": "a79d4d2c06ee52d4c7970dd008ace558e98a9d32ef0d4842ff1e897953beaa23",
+  "phase": "reviewed",
+  "generation": 78,
+  "digest": "d5b6966ef33f79e72d4f96700d175d2ee1dc523720a901604ffded45b5881245",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
   "review_assignment": {
@@ -25,7 +25,28 @@
       "adl-runtime/tests/distributed_authority_protocol.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/review_201_stable_custody_final",
+    "scope": [
+      ".csdlc/issues/201",
+      ".csdlc/prepared/issues/201",
+      ".csdlc/evidence/201/v7",
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_authority_protocol.rs"
+    ],
+    "reviewed_revision": "git-blake3:53a7ce592cd85fb132ed40314dfe47d312eb7659:4b82414e2e97ce632a55814068f2f4c36bf9f18ecd5e95253a8c0851fff33c9d",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI and live GitHub merge state remain pending until publication of the exact reviewed implementation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a8a8fac9ac5a01be9383e4fb5b13850197852d3cb7f7fb1d91216fa18e4d438a",
+      "values_digest": "e8cf716e342f8581e4a05163bcd5ff8fb595f45309ce087d9bac39ac52de9005",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "025e9dbfd0f8510f1c48fd71825acc0d32d186018ac3543ea635562b46844d74",
+      "values_digest": "f0332a94f17ec86fd50bbdef72088f5438d72667f4d7b8566ac75bf4cc53225f",
       "rendered_digest": "b950aba26dec0569a2cc4f517f94b1dd2e860aa0b69788bd18db7d5c75ed8f9a",
       "ast_digest": "28f2dc66f6faa44a769b5b71539953640466cfcbc68461ee06252a582338ed62"
     },
     "spp": {
-      "values_digest": "76748b6cb6bf0afb79682ef596d9550913c39abf1ddbf4ee973b1f4652c34863",
+      "values_digest": "6a95f8b4cec6f32257cfe54221fd21804b533faee86307cafc08b2fa4b002ec9",
       "rendered_digest": "163c275788d650f9255e060605446feb79e5eace539cdc9f8e4c6e6dcba48984",
       "ast_digest": "95da71ab8ef2699ef37eb0548bc5d4b440dfcc7f65c22fd62eb9271d68dcc2cb"
     },
     "vpp": {
-      "values_digest": "d8157f881fc085412685ccda481f37737beaf820968b530322ad1a6f5d78a30b",
+      "values_digest": "46782507b27874ab4585c95cac2fbf2f74239849abf1ccf8790874401acd1ee6",
       "rendered_digest": "a3c25f115351481744ed680e7ff934b696691dead6bca8d592ffbd2063ceb962",
       "ast_digest": "4a5d5c1c34a6b48c219e67cf99d91b8fe6421b309a3a053832cfc635bcc06982"
     },
     "srp": {
-      "values_digest": "2e77888881445bfa891e540721dc08381507cefcea9baa253b246effa6a633bb",
-      "rendered_digest": "ff89e4b1ae8fc865ccabac6ce8745c34a2a9c7078a232ab8f8506a25b44e3311",
-      "ast_digest": "58112cd2e76fd29de536936471d3fc78d8ec1d0087ebb48da77748dc28473604"
+      "values_digest": "d6fd378f47342fb61b1f4e09033888ec393c36ea842e791860ed98b394f3b8e2",
+      "rendered_digest": "2aae563a0ba69a63969b9a2a3094ff02dd419f918c556fbe7c03dd8bea507b03",
+      "ast_digest": "ecbc41d208d0ed2adab402c76c2536d2e75c4d7206513dff61d46d6ba020947a"
     },
     "sor": {
-      "values_digest": "d96dcbdad945b4d9a19cf4c394593b02b4b0eeec6c975c51a75b91a0ba247687",
+      "values_digest": "ed64d684aa208b780584f7414404eab21bf06f978fbe522ab9996b98a7f930cb",
       "rendered_digest": "6c0ae0b3a87034207c47fb0afac3e30824c41e84e1095a38ba14effd0661015b",
       "ast_digest": "270e1140c31d9e03ccc6b6085098d821d7e36f2097177c497547d49c34258d80"
     }
@@ -112,6 +133,13 @@
       "to": "implemented",
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
       "reason": "Recover published review truth for the material stable replicated authority versus runtime-external current boot-cut correction."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -674,6 +702,13 @@
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 81,
+      "generation": 78,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
