@@ -1,0 +1,7 @@
+flowchart LR
+  C["Authenticated ACIP client"] --> A["Admission and scoped replay state"]
+  A --> Q["Bounded production queue"]
+  Q --> G["Guardian/kernel operation dispatch"]
+  G --> R["Typed success or error response"]
+  A -. "deny stale, duplicate, poison" .-> X["Fail closed"]
+  Q -. "pressure" .-> X

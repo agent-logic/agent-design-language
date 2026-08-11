@@ -1,0 +1,108 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 66,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Add first-class Deepgram speech provider",
+    "slug": "deepgram-speech-provider",
+    "version": "v0.92",
+    "generation": 30
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Freeze typed media and redaction contracts, implement the Deepgram adapter and registry wiring, prove it with deterministic loopback tests and one minimal live round trip, document downstream use, resolve exact-head review, and publish one closing PR.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Define typed synthesis, transcription, media, provenance, credential, and error contracts plus canonical Deepgram profiles.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Implement the Deepgram batch HTTP adapter and profile-based speech-provider factory.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-8"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Add deterministic loopback tests, opt-in live canary, redacted receipt, and focused provider documentation.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused validation, resolve independent exact-head review, publish, shepherd, and finish truthfully.",
+          "acceptance_ids": [
+            "AC-9"
+          ],
+          "status": "in_progress"
+        }
+      ],
+      "affected_areas": [
+        "adl/src/provider/mod.rs",
+        "adl/src/provider/deepgram.rs",
+        "adl/src/provider/profiles.rs",
+        "adl/src/provider_substrate.rs",
+        "adl/tests/provider_tests.rs",
+        "adl/tests/provider_tests/deepgram.rs",
+        "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+        "docs/tooling/PROVIDER_SETUP.md",
+        ".csdlc/evidence/66/deepgram-live-receipt.json"
+      ],
+      "invariants": [
+        "No credential value or authorization header enters durable state or user-visible errors",
+        "Successful synthesis bytes match declared encoding and container",
+        "Successful transcription includes explicit provider and model identity",
+        "Request identity excludes text, audio bytes, and credential material",
+        "Deepgram speech support does not imply completion support"
+      ],
+      "risks": [
+        "Provider-profile reuse could accidentally imply completion support",
+        "HTTP diagnostics could expose authorization data",
+        "Weak media checks could accept HTML or JSON error bodies as audio",
+        "Live canary evidence could retain source text or audio",
+        "Deepgram response schema drift could be mistaken for an empty transcript"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The implementation requires credentials in tracked files or command arguments",
+        "The provider can send a real credential to an unapproved host",
+        "Live proof cannot retain a fully redacted receipt",
+        "Scope expands into realtime streaming, episode rerendering, or broad provider refactoring"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/66/design.md",
+      "design_digest": "41fd4baf0170e04617950e0cfcd50433042ff1d566d1ad4bf143abcaff7cdfde",
+      "diagram_ref": ".csdlc/prepared/issues/66/diagram.mmd",
+      "diagram_digest": "fb37a1b6d6003ef785d5150520a67d4b3a102ac9556ab97d3c3bb36557d274c4"
+    }
+  }
+}

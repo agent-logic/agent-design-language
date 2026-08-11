@@ -1,0 +1,11 @@
+{"schema":"adl.wp04.exact_child_summary.v1","selected_tests":4,"passed_tests":4,"skipped_tests":0}
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID 24c430c0-9751-4d27-861c-2556a4860566 with nextest profile: default
+    Starting 4 tests across 1 binary
+        PASS [   0.481s] (1/4) adl-runtime::distributed_migration pre_fence_abort_resumes_source_and_post_fence_skip_is_denied
+        PASS [   0.502s] (2/4) adl-runtime::distributed_migration mismatched_replay_corrupt_restart_and_bounds_fail_closed
+        PASS [   0.523s] (3/4) adl-runtime::distributed_migration timeout_and_interrupted_commit_recovery_fail_closed
+        PASS [   0.769s] (4/4) adl-runtime::distributed_migration migration_orders_authority_and_survives_restart
+────────────
+     Summary [   0.769s] 4 tests run: 4 passed, 0 skipped

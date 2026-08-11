@@ -1,0 +1,7 @@
+{
+  "issue": 5874,
+  "base_branch": "codex/5874-snapshot-catalog-preparation",
+  "branch": "codex/5874-snapshot-catalog",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5874-snapshot-catalog",
+  "code_repository": "agent-logic/agent-design-language"
+}

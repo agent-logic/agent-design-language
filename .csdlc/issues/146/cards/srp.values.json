@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 146,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][planning] Create corporate transfer, C-SDLC v3, and distributed Runtime milestone",
+    "slug": "v0921-corporate-csdlc-v3-runtime-proof",
+    "version": "v0.92.0",
+    "generation": 39
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/146\n.csdlc/prepared/issues/146\ndocs/milestones/v0.92.1",
+      "review_revision": "git-blake3:2ea89bd158d95893b0f66f0ef162cd98f8736e53:f78043f27b48003f7345a3ce68ee052b494f7b9d0ef829195c1040d973be5a73",
+      "reviewer": "subagent:019fee2b-d867-7702-94df-5efbb4cdb84c",
+      "review_prompts": [
+        "Does any planned acceptance claim legal completion without a counsel-reviewed instrument and corporate acceptance evidence?",
+        "Are all V3-01 through V3-16 and deferred V3-R01 responsibilities preserved with their reviewed dependencies and cutover controls?",
+        "Can each of the three primary lanes execute independently without waiting on another lane?",
+        "Would the Runtime cycle detect false distribution, fabricated receipts, authority bypass, partition loss, replay divergence, or restart data loss?",
+        "Are all first-class work tracks represented in WBS, issue wave, features, ADR plan, proof coverage, quality gates, and release closeout?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

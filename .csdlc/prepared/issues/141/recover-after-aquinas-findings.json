@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 141,
+  "expected_generation": 12,
+  "expected_digest": "aa5dcf3f752cd5005d981e880975155a056ce540421b525378fa52f19575b598",
+  "actor": "codex:141-pr120-review-repair",
+  "reason": "Recover after resolving all three Aquinas findings with disposition-aware terminal state and committed review provenance."
+}

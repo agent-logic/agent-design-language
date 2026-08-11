@@ -1,0 +1,58 @@
+{
+  "issue": 66,
+  "card": "vpp",
+  "expected_generation": 6,
+  "expected_digest": "f395b415533d3ce01ab958f5549639f8ec047fdec698ee22c11cf43074bcdc1a",
+  "actor": "codex:66-deepgram-provider",
+  "reason": "Resolve readiness review with one named live canary and one exact redacted receipt contract.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "deepgram-provider-contract",
+        "proof_role": "Exercise canonical profiles, typed requests, loopback HTTP construction, response parsing, media validation, redaction, timeout, malformed response, and stable error mapping.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "provider",
+        "budget_seconds": 420,
+        "budget_tokens": 6000,
+        "argv": ["cargo", "test", "--manifest-path", "adl/Cargo.toml", "--test", "provider_tests", "deepgram_"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-8"]
+      },
+      {
+        "lane": "deepgram-live-canary",
+        "proof_role": "Run only deepgram_pluto_nova3_round_trip and retain .csdlc/evidence/66/deepgram-live-receipt.json containing redacted request identity, provider/model/voice, media, latency, usage, and cost fields with no source text, audio, or credentials.",
+        "deterministic": false,
+        "resource_profile": "small",
+        "parallel_group": "live-provider",
+        "budget_seconds": 180,
+        "budget_tokens": 1500,
+        "argv": ["cargo", "test", "--manifest-path", "adl/Cargo.toml", "--test", "provider_tests", "deepgram_pluto_nova3_round_trip", "--", "--ignored"],
+        "acceptance_ids": ["AC-7"]
+      },
+      {
+        "lane": "deepgram-focused-clippy",
+        "proof_role": "Reject type, ownership, error, and dead-code regressions in the bounded library surface.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "provider",
+        "budget_seconds": 420,
+        "budget_tokens": 3000,
+        "argv": ["cargo", "clippy", "--manifest-path", "adl/Cargo.toml", "--lib", "--", "-D", "warnings"],
+        "acceptance_ids": ["AC-9"]
+      },
+      {
+        "lane": "issue-diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "provider",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "acceptance_ids": ["AC-9"]
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

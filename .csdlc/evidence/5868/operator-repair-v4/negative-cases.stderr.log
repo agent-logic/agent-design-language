@@ -1,0 +1,2 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
+     Running tests/distributed_failure_detection.rs (adl-runtime/target/debug/deps/distributed_failure_detection-c8b9a72add8270bf)

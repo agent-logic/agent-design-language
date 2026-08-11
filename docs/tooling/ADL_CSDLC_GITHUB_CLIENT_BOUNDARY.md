@@ -11,13 +11,23 @@ wrappers, shell/Python lifecycle mutation, or AWS for covered lifecycle writes.
 
 The current command surface is split by responsibility:
 
+Covered C-SDLC GitHub route owners: issue actions =
+`csdlc-github-issue`; PR state = `csdlc-github-pr`; publication =
+`csdlc-publish`; terminal delivery = `csdlc-finish`.
+
+Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for
+covered lifecycle writes; missing or unavailable owner binaries fail closed
+and never authorize fallback.
+
 - `csdlc-github-issue` owns GitHub issue lifecycle actions:
   `issue_create`, `issue_update`, `issue_comment`, `issue_close`, and
   `issue_read`.
 - `csdlc-github-pr` owns GitHub PR observation through `pr_state`.
 - `csdlc-pr-state` remains the dedicated low-level PR-state observer used by
   other v2 binaries.
-- `csdlc-finish` is the sole exact-head merge and derived-terminal authority.
+- `csdlc-publish` is the sole PR-publication owner.
+- `csdlc-finish` is the sole terminal-delivery owner, including exact-head
+  merge and derived-terminal authority.
 - `csdlc-github` remains a compatibility facade while callers migrate to the
   narrower owner binaries.
   It also owns the read-only organization larger-runner preflight because that
@@ -53,6 +63,11 @@ The GitHub app connector is read-only for this repository and is not a write
 fallback. The operator-approved token file may be supplied through
 `token_file`/`ADL_GITHUB_TOKEN_FILE`; token contents must never be printed,
 copied, persisted into tracked artifacts, or committed.
+
+A connector `403 Resource not accessible by integration` is an integration
+authorization failure. It is not evidence that the shared token resolver or
+operator-approved token failed, and it does not authorize connector retry or
+raw-`gh` fallback.
 
 ## Split Issue And Code Repository Authority
 
@@ -93,6 +108,7 @@ owner binary:
 - `csdlc-github-issue`
 - `csdlc-github-pr`
 - `csdlc-pr-state`
+- `csdlc-publish`
 - `csdlc-finish`
 
 `csdlc-install install` must build and install the reviewed binary set into the
@@ -122,6 +138,7 @@ or built from stale provenance.
 
 Focused proof for this boundary lives in:
 
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_route_policy`
 - `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions`
 - `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate10a`
 - `csdlc-install install --repo <repo> --destination <repo>/.adl/bin/csdlc-v2`

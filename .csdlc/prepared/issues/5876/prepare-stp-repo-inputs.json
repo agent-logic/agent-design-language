@@ -1,0 +1,20 @@
+{
+  "issue": 5876,
+  "card": "stp",
+  "expected_generation": 13,
+  "expected_digest": "df5200ae07fe35d61a3347a4737514254f0cd8cba86d8421db3cee00694a03d5",
+  "actor": "codex:5876-recovery-readiness-preparation",
+  "reason": "Declare only future direct input paths and avoid inventing interfaces before dependency merges.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
+      ".csdlc/prepared/issues/5821/design.md",
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/src/distributed/snapshot_catalog.rs",
+      "adl-runtime/src/distributed/migration.rs"
+    ]
+  }
+}

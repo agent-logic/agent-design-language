@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 137,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16] Register three-platform distributed native proof workflow",
+    "slug": "wp04-native-distributed-workflow",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "wp04-native-workflow-contract",
+          "proof_role": "Prove exact checkout, three-platform production, distinct artifacts, live hosted attestation, aggregate validation, pinned actions, bounded timeouts, fail-closed behavior, and repository path-policy compatibility.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 500,
+          "budget_tokens": 4000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/137/validate-workflow.rb"
+          ],
+          "parallel_group": "workflow",
+          "defer_reason": "The issue-owned workflow and focused validator are created only after typed binding."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace errors and unintended tracked churn.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "workflow",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on invalid or mutable checkout input, missing matrix coverage, artifact collision, missing receipt fragments, aggregation failure, action pin drift, widened permissions, out-of-scope paths, failed validation, review drift, or hosted CI failure.",
+      "design_ref": ".csdlc/prepared/issues/137/design.md",
+      "design_digest": "9b186b59424e873be1c371c9c336dcfaf6c94b7c3ab8272a004eee3ec6b1c65f",
+      "diagram_ref": ".csdlc/prepared/issues/137/diagram.mmd",
+      "diagram_digest": "93f505a975c21eeb52199e301b4ab9cb3f4ace91a1bf167c559b8926285acc89"
+    }
+  }
+}

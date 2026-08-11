@@ -1,0 +1,20 @@
+{
+  "issue": 5876,
+  "card": "stp",
+  "expected_generation": 12,
+  "expected_digest": "d708bf071f874e8633324bf9292a34f6ca8c4f26ab9417b900385b53465226db",
+  "actor": "codex:5876-recovery-readiness-preparation",
+  "reason": "Record the exact serial dependency frontier without claiming any open gate is terminal.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "#5909 PR #120 must merge and be ancestral before #5870 may execute",
+      "#5870 must merge and be ancestral before #5873 and #5874 may execute",
+      "#5873 and #5874 must both merge and be ancestral before #5875 may execute",
+      "#5875 must merge and be ancestral before #5876 may bind or implement",
+      "#5862 is the coordination umbrella and is not a substitute for child terminality",
+      "#5821 is the terminal architecture gate"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+
+running 10 tests
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"symlinked_recovery_journal","result":"rejected"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"symlinked_recovery_state","result":"rejected"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"initial_checkpoint_failure","result":"recovered"}
+test recovery_open_rejects_a_symlinked_journal_file ... ok
+test recovery_open_rejects_a_symlinked_state_file ... ok
+test recovery_create_recovers_after_initial_checkpoint_failure ... ok
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"record_capacity","result":"rejected"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"recovery_timeout","result":"rejected"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"zero_valid_committed_prefix","result":"fail_closed"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"rollback_without_live_source_authority","result":"rejected"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"minority_fence","result":"rejected"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"wrong_trust_domain_fence","result":"rejected"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"operator_required_terminal","result":"fail_closed"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"divergent_committed_prefix","result":"fail_closed"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"side_effect_crossed_recovery_deadline","result":"fail_closed"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"pending_fence_crash_reconciliation","result":"recovered"}
+test recovery_side_effect_crossing_the_bounded_recovery_deadline_requires_operator ... ok
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"wrong_trust_domain_begin","result":"rejected"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"activation_inside_safety_window","result":"rejected"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"rollback_before_target_cleanup","result":"rejected"}
+test recovery_pre_fence_rollback_requires_live_source_authority ... ok
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"local_claimed_owner_not_authority","result":"rejected"}
+ADL_ISSUE_5876_NEGATIVE_CASE_V1 {"case":"stale_membership_generation","result":"rejected"}
+test recovery_restored_prefix_activates_and_commits_without_an_explicit_fencing_floor ... ok
+test recovery_is_bounded_and_times_out_fail_closed ... ok
+test recovery_begin_and_committed_prefix_survive_restart_without_trusting_local_owner_claims ... ok
+test recovery_quorum_fence_safety_window_activation_commit_and_restart ... ok
+test recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_rollback ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.58s

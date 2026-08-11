@@ -4,18 +4,22 @@
 
 - Feature Name: Memory Grounding, Capability Envelope, and Witnesses
 - Milestone Target: `v0.92`
-- Status: planned
-- Related issues: `#3377`, `#3434`
+- Status: implementation in progress; WP-12 capability-envelope and WP-15 birth-witness slices implemented by `#5829` and `#5833`
+- Related issues: `#3377`, `#3434`, `#5825`, `#5826`, `#5829`, `#5833`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Template Rules
 
-This is a planning feature doc. It defines proof surfaces for memory,
-capability, witnesses, and receipts without claiming implementation has landed.
+This feature doc remains the bounded contract for memory, capability,
+witnesses, and receipts. The WP-12 capability-envelope slice is implemented by
+`#5829`; the bounded WP-15 exact-candidate witness and redacted receipt slice is
+implemented by `#5833`.
 
 ## Status
 
-Forward-planning feature contract for `v0.92`.
+Mixed implementation feature contract for `v0.92`: the capability-envelope and
+exact-candidate birth-witness runtime contracts and fixtures are implemented.
+Broader governance, public launch, and legal-status work remains out of scope.
 
 Related readiness issue: `#3377`.
 
@@ -79,11 +83,91 @@ birthday execution, Memory Palace completion, credentialed remote-provider
 deployment, production citizenship, governance completion, or raw private-state
 authority.
 
+## WP-12 Runtime Capability Envelope
+
+Issue `#5829` adds the versioned runtime contract at
+`adl-runtime-kernel/src/capability_envelope.rs`. The contract consumes two
+separately checked Birthday authorities:
+
+- an accepted WP-08 `BirthdayCandidate` whose canonical digest is current; and
+- a WP-09 `BirthdayIdentityRecord` whose schema and canonical record digest are
+  current and whose stable name, identity root, and continuity head agree with
+  the Birthday candidate.
+
+The untrusted envelope input is evaluated against a separately provisioned
+policy. The policy pins exact evidence path, content digest, source revision,
+and issue provenance; allowed provider/model pairs, tools, skills, and grants;
+required denials and unsupported claims; and explicit resource ceilings for
+prompt/output tokens, tool calls, skill invocations, timeout, and recurrence.
+The envelope describes capability context only. It neither grants authority nor
+proves provider, model, tool, or skill invocation.
+
+Canonical sorting and exact deduplication make equivalent inputs byte-stable.
+Case-folded identifier collisions, unknown evidence, stale revisions,
+undeclared provider/model/tool/skill selections, authority escalation,
+grant/denial conflicts, omitted or zero limits, limit escalation, missing
+provenance, and omitted non-claims fail closed. Every serialized contract uses
+`deny_unknown_fields`. Paths must remain normalized and repository-relative;
+secret-like material and private, home, host, or traversal paths are rejected.
+Rejected untrusted identifiers are represented only by stable SHA-256
+fingerprints in serializable and debug diagnostics; raw evidence, provider,
+model, tool, skill, grant, denial, and unsupported-claim values are never
+echoed. Path checks are lexical and platform-independent, including Windows
+drive/UNC forms and leading private, home, users, or user namespaces.
+
+`validate_capability_envelope` is the exported consumption boundary. It checks
+the packet digest and reconstructs the complete expected envelope from the
+original Birthday authorities plus the provisioned policy, so a caller cannot
+make a forged packet acceptable merely by recomputing its digest.
+
+## WP-15 Exact-Candidate Birth Witnesses
+
+Issue `#5833` adds the versioned runtime contract at
+`adl-runtime-kernel/src/birth_witness.rs`. It consumes an accepted, canonical
+WP-08 `BirthdayCandidate` and its exact `BirthdayDecision`, then checks four
+distinct signed witness roles against an opaque, runtime-established Ed25519 roster:
+identity continuity, memory and capability, negative-case guard, and handoff
+consumer. Every signature binds the exact candidate digest, reviewed evidence
+set digest, current generation, role, witness identity, signing-key identity,
+and accept-or-reject decision. External callers cannot construct or serialize
+the authority policy or nominate its root keys. The candidate's
+reviewer-visible WitnessSet reference must itself pin the established roster
+digest.
+
+The resulting witness set and citizen-facing receipt are canonical and
+byte-stable under equivalent witness ordering. The receipt replaces source
+paths with deterministic kind-and-digest evidence tokens, exposes no original
+path text, and carries fixed caveats. Its birth
+event status is always `not_claimed`: an all-accept witness set is review
+evidence, not autonomous birth authority, legal personhood, citizenship,
+governance approval, or public-launch authorization. A valid signed rejection
+produces a deterministic rejected witness disposition with the same
+`not_claimed` boundary.
+
+Missing roles, duplicate or substituted identities/keys, stale generations,
+candidate or evidence transplant, forged signatures, roster/policy mismatch,
+private or host-local paths, secret-like identifiers, unknown fields, and
+self-rehashed packet tampering fail closed. `validate_birth_witness_packet`
+reconstructs the entire packet from the authoritative candidate, decision,
+provisioned policy, and signed attestations rather than trusting caller-supplied
+hashes.
+
 ## Validation
 
-Validation should include required memory-reference fields, redaction checks,
+Validation includes required memory-reference fields, redaction checks,
 capability-envelope checks, witness/receipt fixtures, and private-state denial
-cases.
+cases. The focused `capability_envelope` integration target covers deterministic
+positive construction and comprehensive negative evidence, authorization,
+limit, provenance, parsing, privacy, portability, and packet-forgery cases.
+The focused crate-internal `birth_witness::authority_tests` lane contains 13
+tests covering the exact four-role signed witness surface, deterministic
+accept/reject receipts, executable fixture negatives, signature and candidate
+substitution, generation freshness, roster/policy binding, redaction and path
+hygiene, and complete packet reconstruction. The separate public
+`birth_witness` integration target contains one serialization-boundary test for
+unknown-field rejection; it is not the authority proof. A compile-fail doctest
+separately proves that external callers cannot establish the opaque authority
+root.
 
 ## Source Inputs
 
@@ -110,8 +194,8 @@ This feature should establish:
 ## Acceptance Criteria
 
 - Memory-grounding references are reviewable and redaction-safe.
-- Capability envelope records provider, model, tool, skill, authority, and
-  limit context.
+- Capability envelope records provider, model, tool, skill, authority, denial,
+  limit, provenance, and unsupported-claim context.
 - Witness and receipt surfaces exist.
 - Birthday packet can cite these surfaces without exposing raw private state.
 

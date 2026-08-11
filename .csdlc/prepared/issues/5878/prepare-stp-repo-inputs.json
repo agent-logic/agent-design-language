@@ -1,0 +1,35 @@
+{
+  "issue": 5878,
+  "card": "stp",
+  "expected_generation": 10,
+  "expected_digest": "ac319abb1eca078986b133e7258853a94ca7df7d95f3cc0cd04db046e46822a8",
+  "actor": "codex:5878-final-integration-readiness-preparation",
+  "reason": "Declare exact future read-only integration inputs without inventing API names or widening ownership.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
+      ".csdlc/prepared/issues/5821/design.md",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/networking.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/src/distributed/certificates.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/src/distributed/discovery.rs",
+      "adl-runtime/src/distributed/membership.rs",
+      "adl-runtime/src/distributed/failure_detection.rs",
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/src/distributed/capability_advertisement.rs",
+      "adl-runtime/src/distributed/resource_weather.rs",
+      "adl-runtime/src/distributed/placement.rs",
+      "adl-runtime/src/distributed/snapshot_catalog.rs",
+      "adl-runtime/src/distributed/migration.rs",
+      "adl-runtime/src/distributed/recovery.rs",
+      "adl-runtime/src/distributed/projection.rs",
+      "docs/api/runtime-v3/v1/distributed.openapi.json"
+    ]
+  }
+}

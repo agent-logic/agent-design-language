@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 177,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-14] Implement PR Mutation And Foreground Watch",
+    "slug": "v3-14-implement-pr-mutation-and-foreground-watch",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-14 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Typed mutation operations, durable intent integration, publication command with explicit `closing | part_of` linkage selection, mode-bound publication evidence and reconciliation, foreground watch with 30-minute default, 24-hour maximum, 15-second default poll interval and stderr progress, idempotency/readback fixtures, and bounded live publication canary."
+      ],
+      "acceptance_criteria": [
+        "No remote mutation begins before its durable intent commit.",
+        "Every mutation is idempotent and verified by exact remote readback.",
+        "`closing` requires the exact closing relation; `part_of` requires the exact non-closing relation and proves the target issue remains open after PR publication and checkpoint merge observation.",
+        "Same-repository shorthand normalizes to a qualified identity, while split repositories reject unqualified linkage in either mode.",
+        "`pr watch` is foreground, cancellable by root signals, bounded, and leaves no persistent job or unjoined task.",
+        "Fake-adapter tests prove that a `part_of` watch cannot report checkpoint-ready unless exact REST issue readback still observes the qualified target issue open; closed, missing, stale, or contradictory observations produce reconciliation-required.",
+        "Every watch sleep and network await is selected against root cancellation; cancellation drains and joins the watch scope before exit 130.",
+        "Default and overridden timeout/poll values remain within the V3-01 bounds and timeout exits without a persistent job or unjoined task.",
+        "If `now + max(poll_interval, retry_after)` exceeds the fixed deadline, watch exits immediately without sleeping past the deadline.",
+        "Merge occurs only when the approved explicit policy and operator authority are both present."
+      ],
+      "dependencies": [
+        "V3-04: issue #165",
+        "V3-08: issue #169",
+        "V3-09: issue #170",
+        "V3-12: issue #175",
+        "V3-13: issue #176"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-14",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Finish, cleanup, detached watchers, polling daemons, implicit merge, remote rollback, or terminal issue closure reconciliation."
+      ]
+    }
+  }
+}

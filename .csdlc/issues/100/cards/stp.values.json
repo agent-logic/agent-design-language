@@ -1,0 +1,56 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 100,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Emergency] Recover and publish the 10 Medium launch article drafts to Google Drive",
+    "slug": "recover-medium-launch-article-drafts",
+    "version": "v0.92",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Recover, reconcile, upload, verify, review, and publish issue #100 evidence; stop before merge without explicit authority.",
+      "deliverables": [
+        "Ten canonical Medium launch article drafts in the approved Drive folder",
+        "Preserved inventory of every distinct substantive draft",
+        "Recovery manifest with title, Drive URL, source path or revision, status, and digest",
+        "Focused verifier that fails on an empty or incomplete destination",
+        "Explicit unrecoverable-item report if any article cannot be found"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Recovery searches approved Drive, repository content and history, and registered FastWork worktrees.",
+        "AC-2: Every distinct substantive draft is preserved and attributed; no source is silently replaced or deleted.",
+        "AC-3: Exactly one evidence-backed canonical revision is selected for each of the ten required titles.",
+        "AC-4: All ten canonical drafts have stable names and readable content in the approved destination folder.",
+        "AC-5: The retained manifest records title, Drive URL, source path or revision, recovery status, and content digest for every article.",
+        "AC-6: Any unrecoverable article is explicitly reported and no synthetic replacement is created without approval.",
+        "AC-7: No publication, sharing, deletion, or destructive overwrite occurs.",
+        "AC-8: A focused verifier fails closed when the destination or manifest is empty, incomplete, duplicated, unreadable, or missing provenance."
+      ],
+      "dependencies": [
+        "Canonical GitHub issue agent-logic/agent-design-language#100",
+        "Approved company Google Drive credential",
+        "Destination folder 1hacu6zwCUlIYXYtvpMW0IFtk506LUb8Q",
+        "Retained repository and FastWork history"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/publication",
+        "demos",
+        "Git history",
+        "registered FastWork ADL worktrees"
+      ],
+      "non_goals": [
+        "Writing replacement articles",
+        "Publishing to Medium or podcast channels",
+        "Changing Drive access or public visibility",
+        "Deleting or rewriting historical drafts",
+        "Lifecycle tooling changes",
+        "Any change to PR #98"
+      ]
+    }
+  }
+}

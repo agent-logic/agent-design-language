@@ -1,0 +1,20 @@
+{
+  "issue": 5875,
+  "card": "stp",
+  "expected_generation": 13,
+  "expected_digest": "e893fb7eef99eabdcca4ee30d36ee5f60ad17a682ce386c83baf80f7c37e388f",
+  "actor": "codex:5875-readiness-preparation",
+  "reason": "Replace generic runtime inputs with direct future distributed input-path obligations while leaving exact API names to post-merge inspection.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
+      ".csdlc/prepared/issues/5821/design.md",
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/src/distributed/placement.rs",
+      "adl-runtime/src/distributed/snapshot_catalog.rs"
+    ]
+  }
+}

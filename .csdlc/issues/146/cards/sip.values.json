@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 146,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][planning] Create corporate transfer, C-SDLC v3, and distributed Runtime milestone",
+    "slug": "v0921-corporate-csdlc-v3-runtime-proof",
+    "version": "v0.92.0",
+    "generation": 39
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Create a complete, execution-ready v0.92.1 milestone package spanning corporate and IP transfer, C-SDLC v3 implementation, and distributed multi-agent Runtime validation.",
+      "required_outcome": "A reviewed milestone package defines three independently executable lanes, complete child issue specifications and dependencies, bounded proof requirements, release gates, and truthful routing from the superseded v0.92.5 draft and reviewed C-SDLC v3 architecture.",
+      "declared_scope": [
+        ".adl/docs/TBD/V0.92.5_CORPORATE_MIGRATION.md",
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
+        ".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md",
+        "docs/milestones/v0.92.1",
+        ".csdlc/prepared/issues/146",
+        ".csdlc/issues/146"
+      ],
+      "authority_boundary": [
+        "This issue creates planning authority but does not execute legal transfer, C-SDLC v3 implementation, or Runtime deployment.",
+        "Final legal instruments require qualified counsel review and corporate approval.",
+        "The reviewed C-SDLC v3 Rust architecture remains the source design authority; this issue allocates and operationalizes its implementation wave.",
+        "Distributed Runtime proof must consume existing implementation issues and may identify defects without silently absorbing their remediation."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main.",
+        "Use the typed C-SDLC v2 lifecycle and a bound FastWork worktree.",
+        "Keep the three lanes independently operable and parallelizable.",
+        "Use focused documentation, YAML, link, and graph validation only; do not run broad Rust/runtime tests for planning-only changes.",
+        "Do not claim completion, approval, transfer, or runtime proof without retained evidence."
+      ]
+    }
+  }
+}

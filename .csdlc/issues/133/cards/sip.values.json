@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 133,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.15] Expose revisioned redacted authority snapshots",
+    "slug": "revisioned-redacted-authority-snapshots",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Expose authority-derived bounded redacted snapshots so issue #5877 can project distributed runtime state without caller self-attestation.",
+      "required_outcome": "Certificate, failure-detection, placement, migration, and recovery authorities expose complete deterministic revisioned redacted snapshots with explicit unavailable rows, restart parity, and fail-closed drift semantics.",
+      "declared_scope": [
+        "Authority-owned snapshot accessors in the five distributed runtime modules",
+        "Monotonic revision or checkpoint changes on authoritative mutation",
+        "Bounded deterministic complete enumeration and explicit unavailable rows",
+        "One focused integration-test surface"
+      ],
+      "authority_boundary": [
+        "Snapshot values are constructed only by the owning authorities",
+        "No private key, signature material, raw probe payload, placement internals, or recovery payload may enter the redacted surface",
+        "Consumers must present the observed revision and fail closed when authority changes before use",
+        "Issue #5877 retains ownership of its three projection files and integration API"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle routes",
+        "Work only in a bound FastWork worktree",
+        "Do not touch issue #5877 owned files",
+        "Do not modify module registration or manifests unless compilation strictly requires a minimal change",
+        "Merge the exact reviewed green head as soon as CI is green",
+        "Do not delay for asynchronous closeout bookkeeping"
+      ]
+    }
+  }
+}

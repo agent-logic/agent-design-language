@@ -1,0 +1,11 @@
+flowchart TB
+  T["Terminal release closeout"] --> H["Portable next-milestone handoff"]
+  H --> E["Exact evidence and residual-risk register"]
+  H --> D["Deferred work with owners, dependencies, and proof"]
+  H --> V["V3-R01 eligibility evaluation"]
+  V --> W["Rollback window expired"]
+  V --> S["Stability metrics pass"]
+  V --> R["Historical readability passes"]
+  V --> O["Explicit operator approval"]
+  W & S & R & O --> EL["V3-R01 eligible"]
+  D & E & EL --> P["Repository-portable downstream packet"]

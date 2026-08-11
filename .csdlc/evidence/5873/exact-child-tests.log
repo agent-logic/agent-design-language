@@ -1,0 +1,18 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID 7a2d8929-bc01-42d4-b534-be9ca6d2f6e0 with nextest profile: default
+    Starting 12 tests across 1 binary
+        PASS [   0.010s] ( 1/12) adl-runtime::distributed_placement capacity_capability_pressure_and_generation_constraints_are_fail_closed
+        PASS [   0.010s] ( 2/12) adl-runtime::distributed_placement wrong_trust_domain_fails_the_entire_decision
+        PASS [   0.009s] ( 3/12) adl-runtime::distributed_placement nonvoter_and_uncommitted_evidence_cannot_be_selected
+        PASS [   0.009s] ( 4/12) adl-runtime::distributed_placement stale_membership_floor_fails_closed
+        PASS [   0.010s] ( 5/12) adl-runtime::distributed_placement missing_unavailable_or_non_advisory_weather_never_places
+        PASS [   0.010s] ( 6/12) adl-runtime::distributed_placement stable_node_identifier_breaks_an_exact_score_tie
+        PASS [   0.010s] ( 7/12) adl-runtime::distributed_placement deterministic_ranking_is_independent_of_input_order
+        PASS [   0.010s] ( 8/12) adl-runtime::distributed_placement fenced_candidate_is_excluded_from_selection
+        PASS [   0.010s] ( 9/12) adl-runtime::distributed_placement request_and_policy_bounds_are_enforced_before_ranking
+        PASS [   0.011s] (10/12) adl-runtime::distributed_placement stale_capability_and_weather_never_place
+        PASS [   0.011s] (11/12) adl-runtime::distributed_placement fencing_ahead_of_membership_is_not_treated_as_authority
+        PASS [   0.011s] (12/12) adl-runtime::distributed_placement duplicate_evidence_and_alias_collisions_fail_closed
+────────────
+     Summary [   0.011s] 12 tests run: 12 passed, 0 skipped

@@ -1,0 +1,4 @@
+command: cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_route_policy
+target_dir: /Volumes/FastWork/builds/adl-issue-101-target
+result: 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+outcome: passed

@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-09] Stable name and identity architecture",
     "slug": "v0-92-wp-09-stable-name-and-identity-architecture",
     "version": "v0.92",
-    "generation": 54
+    "generation": 88
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "birthday_identity-runtime-v3",
-          "proof_role": "Run the exact Runtime v3 integration target and fail when the selected target contains no tests.",
+          "proof_role": "Run the crate-internal authority-context proof; external callers must be unable to establish self-consistent attacker trust roots, while canonical signed lineage and governed projection cases remain proven.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -38,8 +38,9 @@
             "run",
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
-            "--test",
-            "birthday_identity",
+            "--lib",
+            "-E",
+            "test(/^birthday_identity::authority_tests::/)",
             "--no-tests=fail",
             "--status-level",
             "all"
@@ -49,7 +50,7 @@
         },
         {
           "lane": "birthday_identity-macos-native-ci-producer",
-          "proof_role": "Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.",
+          "proof_role": "Run the issue-local receipt producer on native macOS at the repaired exact candidate HEAD and retain the full log, authority source manifest, passed-test inventory, and semantic output.",
           "acceptance_ids": [
             "AC-4",
             "AC-8"
@@ -69,11 +70,11 @@
             ".csdlc/evidence/5826/native-platform/macos-semantic.json"
           ],
           "parallel_group": "5826-native-produce",
-          "defer_reason": "Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness."
+          "defer_reason": null
         },
         {
           "lane": "birthday_identity-linux-native-ci-producer",
-          "proof_role": "Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.",
+          "proof_role": "Run the issue-local receipt producer on native Linux at the repaired exact candidate HEAD and retain the full log, authority source manifest, passed-test inventory, and semantic output.",
           "acceptance_ids": [
             "AC-4",
             "AC-8"
@@ -93,11 +94,11 @@
             ".csdlc/evidence/5826/native-platform/linux-semantic.json"
           ],
           "parallel_group": "5826-native-produce",
-          "defer_reason": "Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness."
+          "defer_reason": null
         },
         {
           "lane": "birthday_identity-native-ci-receipt-verification",
-          "proof_role": "Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=c8b24d2558afe0de9854c441b4a8c953221c2ec951c699811e323fada9a5c917]",
+          "proof_role": "Independently recompute exact HEAD, producer, source-manifest, complete internal-test log, machine-derived passed tests, and semantic-output digests; verify GitHub workflow/run identity and require macOS/Linux equivalence.",
           "acceptance_ids": [
             "AC-4",
             "AC-8"
@@ -120,9 +121,9 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5826/design.md",
-      "design_digest": "808598da005814fe2c5ec62495819b60cdac1d328a0611562a1126a4902fe297",
+      "design_digest": "9c143b55f2e75010e7f934806c64fb50b3b46fc7456253871c91947bcbfb71d2",
       "diagram_ref": ".csdlc/prepared/issues/5826/diagram.mmd",
-      "diagram_digest": "d5cc198edc4895057317ca54fe8aa3c676496c00d23ba4718aa88f17ac266f58"
+      "diagram_digest": "0c8418cba179260289efc43a6ec61eb785f3973ba701053a09c7066f5e59adfd"
     }
   }
 }

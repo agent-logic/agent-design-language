@@ -1,0 +1,10 @@
+schema=adl.local_validation_log.v1
+issue=5833
+validated_revision=c2d41009a3029a7ba1335810e8811ddb017a37c1
+validated_tree=efa703343f5463ac584401812cdccc558914bf71
+command=cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test birth_witness --no-tests=fail --status-level all
+tests_run=1
+tests_passed=1
+tests_failed=0
+tests_skipped=0
+result=passed

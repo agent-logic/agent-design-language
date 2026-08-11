@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.11 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/placement.rs
+adl-runtime/tests/distributed_placement.rs
+.csdlc/prepared/issues/5873/validate-proof-receipt.rb
+.csdlc/evidence/5873/remediation-v7
 
 ## Prompts
 
@@ -31,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Placement remains intentionally unregistered until integration issue #5878 owns distributed module registration.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:289badf00d1ebf1d150b09e944c853948c7c2483:7613cc5414d00eb5bce8958e88360f460b4c0bc860ffa0ee43cfaefed4881821")
 
-Reviewer: None
+Reviewer: Some("subagent:5873-final-narrow-review")
 
-Result: pre_review
+Result: pass

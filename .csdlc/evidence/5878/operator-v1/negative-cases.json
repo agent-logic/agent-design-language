@@ -1,0 +1,14 @@
+[
+  {
+    "case": "authority_replay",
+    "result": "rejected"
+  },
+  {
+    "case": "oversized_protobuf_frame",
+    "result": "rejected"
+  },
+  {
+    "case": "wrong_authority_domain",
+    "result": "rejected"
+  }
+]

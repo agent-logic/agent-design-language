@@ -1,0 +1,194 @@
+{
+  "issue": 66,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:66-deepgram-provider",
+  "design_path": ".csdlc/prepared/issues/66/design.md",
+  "diagram_path": ".csdlc/prepared/issues/66/diagram.mmd",
+  "design_reviewer": "subagent:66-design-review",
+  "design_approved": false,
+  "initial": {
+    "title": "Add first-class Deepgram speech provider",
+    "slug": "deepgram-speech-provider",
+    "version": "v0.92",
+    "goal": "Provide governed typed batch synthesis and transcription through Deepgram without podcast-owned HTTP or credential logic.",
+    "required_outcome": "ADL exposes typed Deepgram synthesis and prerecorded transcription through its canonical provider/profile boundary, with validated media, redacted provenance, deterministic offline proof, and one bounded opt-in live round trip.",
+    "declared_scope": [
+      "adl/src/provider/deepgram.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/tests/provider_tests.rs",
+      "adl/tests/provider_tests/deepgram.rs",
+      "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+      "docs/tooling/PROVIDER_SETUP.md",
+      ".csdlc/prepared/issues/66",
+      ".csdlc/issues/66",
+      ".csdlc/evidence/66"
+    ],
+    "authority_boundary": [
+      "Issue and code authority are agent-logic/agent-design-language#66",
+      "Provider profiles and ProviderSpec remain canonical construction inputs",
+      "Deepgram credentials are request-only secrets and never durable provider state",
+      "Live network proof is opt-in and separate from deterministic offline validation"
+    ],
+    "operator_constraints": [
+      "Never write tracked issue work on main",
+      "Use the independent Rust C-SDLC v2 route and issue-bound FastWork worktree",
+      "Use $HOME/keys/adl-deepgram-01.key only through a process-scoped environment mapping and never print or persist its contents",
+      "Run focused provider validation rather than broad test suites",
+      "Do not rerender Episode 001 or add realtime speech scope"
+    ],
+    "task_boundary": "Add one typed speech-provider boundary and Deepgram batch adapter with profile discovery, focused tests, one opt-in live canary, and setup documentation.",
+    "deliverables": [
+      "Typed SpeechProvider synthesis and transcription contracts",
+      "Deepgram HTTP adapter with redacted credential and error handling",
+      "Canonical Deepgram profiles and speech capability discovery",
+      "Deterministic loopback tests and bounded live canary",
+      "Provider setup and Podcast Studio consumption example"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Deepgram profiles expand through the canonical provider registry and advertise native synthesis and transcription capabilities",
+      "AC-2: Typed synthesis validates explicit voice/media settings and returns validated bytes with redacted provenance",
+      "AC-3: Typed transcription accepts declared audio and returns structured transcript, timing, confidence, language, usage, and redacted provenance",
+      "AC-4: Stable error kinds distinguish authentication, throttling, invalid input, unsupported media, timeout, transport, and malformed response",
+      "AC-5: Credentials and authorization headers never appear in Debug, errors, fixtures, logs, manifests, or retained evidence",
+      "AC-6: Deterministic offline tests cover requests, parsing, media validation, redaction, timeout, malformed responses, and provider errors",
+      "AC-7: One opt-in minimal live round trip retains redacted cost, latency, identity, media, request, and usage evidence",
+      "AC-8: Podcast Studio can consume the provider without embedding Deepgram HTTP or credential logic",
+      "AC-9: Focused documentation and independent exact-head review pass without unresolved findings"
+    ],
+    "dependencies": [
+      "agent-logic/agent-design-language#66",
+      "Existing provider profile registry and ProviderSpec expansion",
+      "Deepgram Aura-2 batch synthesis and prerecorded transcription APIs"
+    ],
+    "repo_inputs": [
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/tests.rs",
+      "adl/tests/provider_tests/profiles.rs",
+      "adl/tools/demo_v0911_multiagent_podcast_audio.sh",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "docs/milestones/v0.91.8/review/podcast_launch_5711/DEEPGRAM_AUDIO_INVESTIGATION_5711.md"
+    ],
+    "non_goals": [
+      "Migrating or rerendering Episode 001",
+      "Realtime conversational or Gemini Live integration",
+      "Voice cloning or custom voice training",
+      "General media editing or automatic price-only selection",
+      "Broad completion-provider refactoring"
+    ],
+    "plan_summary": "Freeze typed media and redaction contracts, implement the Deepgram adapter and registry wiring, prove it with deterministic loopback tests and one minimal live round trip, document downstream use, resolve exact-head review, and publish one closing PR.",
+    "affected_areas": [
+      "Provider profile registry",
+      "Provider capability discovery",
+      "Typed speech provider API",
+      "Deepgram HTTP and credential boundary",
+      "Podcast Studio provider consumption"
+    ],
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Define typed synthesis, transcription, media, provenance, credential, and error contracts plus canonical Deepgram profiles.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement the Deepgram batch HTTP adapter and profile-based speech-provider factory.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-8"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add deterministic loopback tests, opt-in live canary, redacted receipt, and focused provider documentation.",
+        "acceptance_ids": ["AC-5", "AC-6", "AC-7", "AC-8", "AC-9"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused validation, resolve independent exact-head review, publish, shepherd, and finish truthfully.",
+        "acceptance_ids": ["AC-9"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "No credential value or authorization header enters durable state or user-visible errors",
+      "Successful synthesis bytes match declared encoding and container",
+      "Successful transcription includes explicit provider and model identity",
+      "Request identity excludes text, audio bytes, and credential material",
+      "Deepgram speech support does not imply completion support"
+    ],
+    "risks": [
+      "Provider-profile reuse could accidentally imply completion support",
+      "HTTP diagnostics could expose authorization data",
+      "Weak media checks could accept HTML or JSON error bodies as audio",
+      "Live canary evidence could retain source text or audio",
+      "Deepgram response schema drift could be mistaken for an empty transcript"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The implementation requires credentials in tracked files or command arguments",
+      "The provider can send a real credential to an unapproved host",
+      "Live proof cannot retain a fully redacted receipt",
+      "Scope expands into realtime streaming, episode rerendering, or broad provider refactoring"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "deepgram-provider-contract",
+        "proof_role": "Exercise typed requests, loopback HTTP construction, response parsing, media validation, redaction, timeout, malformed response, and stable error mapping.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "provider",
+        "budget_seconds": 420,
+        "budget_tokens": 6000,
+        "argv": ["cargo", "test", "--manifest-path", "adl/Cargo.toml", "--test", "provider_tests", "deepgram_"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-8"]
+      },
+      {
+        "lane": "deepgram-live-canary",
+        "proof_role": "Run one operator-authorized minimal Pluto synthesis and Nova-3 prerecorded transcription round trip, retaining only redacted request, identity, media, latency, usage, and cost evidence.",
+        "deterministic": false,
+        "resource_profile": "small",
+        "parallel_group": "live-provider",
+        "budget_seconds": 180,
+        "budget_tokens": 1500,
+        "argv": ["cargo", "test", "--manifest-path", "adl/Cargo.toml", "--test", "provider_tests", "deepgram_pluto_nova3_round_trip", "--", "--ignored"],
+        "acceptance_ids": ["AC-7"]
+      },
+      {
+        "lane": "deepgram-focused-clippy",
+        "proof_role": "Reject type, ownership, error, and dead-code regressions in the bounded library surface.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "provider",
+        "budget_seconds": 420,
+        "budget_tokens": 3000,
+        "argv": ["cargo", "clippy", "--manifest-path", "adl/Cargo.toml", "--lib", "--", "-D", "warnings"],
+        "acceptance_ids": ["AC-9"]
+      },
+      {
+        "lane": "issue-diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "provider",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "acceptance_ids": ["AC-9"]
+      }
+    ],
+    "failure_policy": "Fail closed on credential exposure, unapproved endpoints, unsupported media, malformed provider responses, stale lifecycle truth, failed focused proof, or unresolved exact-head findings.",
+    "review_prompts": [
+      "Can any credential or authorization value appear in Debug, error, log, fixture, request identity, or retained evidence?",
+      "Can a real Deepgram credential be sent to a non-Deepgram host?",
+      "Do typed media checks reject JSON/HTML error bodies and incompatible encoding/container combinations?",
+      "Does capability discovery truthfully distinguish speech operations from completion operations?",
+      "Does the live receipt prove a real round trip without retaining source content or audio?"
+    ],
+    "review_scope": "Issue #66 typed speech boundary, Deepgram profile/capability integration, credential and endpoint controls, media/result/error contracts, deterministic proof, live receipt, documentation, and no-widening constraints."
+  }
+}

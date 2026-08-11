@@ -1,0 +1,257 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5877,
+  "wp": "WP-04.15",
+  "source_revision": "5e489df977192040ac2d46afe4185414cd3d6e62",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/projection.rs",
+    "adl-runtime/tests/distributed_projection.rs",
+    "docs/api/runtime-v3/v1/distributed.openapi.json"
+  ],
+  "source_artifacts": [
+    {
+      "path": "adl-runtime/src/distributed/projection.rs",
+      "sha256": "1dc7f671e10fab45c984fb3c4db309a3fcebb6cca022c8ab626ee77f002f9207"
+    },
+    {
+      "path": "adl-runtime/tests/distributed_projection.rs",
+      "sha256": "e278afdb84d2724595cfc5aea25769e5a20fd3d8a9895cd1214a480b41efe06b"
+    },
+    {
+      "path": "docs/api/runtime-v3/v1/distributed.openapi.json",
+      "sha256": "33c383995acd7fd5ec1e7fbd3fc6a034d2bed3f2cc04f7744479d6d9dee1230b"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "ruby",
+        ".csdlc/evidence/5877/run-exact-child-tests.rb",
+        "cargo",
+        "nextest",
+        "run",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_projection",
+        "--no-tests=fail"
+      ],
+      "exit_code": 0,
+      "selected_tests": 4,
+      "started_at": "2026-08-10T13:37:59.544596Z",
+      "finished_at": "2026-08-10T13:38:00.186866Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5877-local-operator-v7",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "fd764e4dc7b47b45772dd8a2bce745fc4a4363f0849adb59145f5af9b109e701"
+      },
+      "stdout_path": ".csdlc/evidence/5877/operator-v7/exact-child-tests.stdout.log",
+      "stdout_sha256": "8bd3d917e022732f37e4ad3d9f17f5a549eb0a33af99ece5542f531a0d753995",
+      "stderr_path": ".csdlc/evidence/5877/operator-v7/exact-child-tests.stderr.log",
+      "stderr_sha256": "41531719db174f765a6e0d89edd217622fa083a1db323cb5cafe21c719cc5cba"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_projection",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-10T13:38:00.187194Z",
+      "finished_at": "2026-08-10T13:38:00.375713Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5877-local-operator-v7",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "fd764e4dc7b47b45772dd8a2bce745fc4a4363f0849adb59145f5af9b109e701"
+      },
+      "stdout_path": ".csdlc/evidence/5877/operator-v7/strict-focused-clippy.stdout.log",
+      "stdout_sha256": "62d401addf5b136df381ee75cfd7d3c3b5e3d8c4a2f9cb01c831d9a5612ce4e0",
+      "stderr_path": ".csdlc/evidence/5877/operator-v7/strict-focused-clippy.stderr.log",
+      "stderr_sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe"
+    }
+  ],
+  "negative_cases": [
+    {
+      "case": "deterministic_jcs",
+      "result": "recovered",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "raw_evidence_redaction",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "openapi_parity",
+      "result": "recovered",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "response_byte_bound",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "unauthorized_request",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "authorization_before_read",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "unsupported_version",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "wrong_authority_domain",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "authority_voter_membership_mismatch",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "authority_index_behind_membership",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "authority_index_ahead_of_membership",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "unknown_member_reference",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "zero_reference_key",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "placement_authority_unavailable",
+      "result": "fail_closed",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "identity_without_transport",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "exact_identity_and_transport",
+      "result": "recovered",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "certificate_count_n_plus_one",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "identity_rotation_overlap",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "keyed_opaque_references",
+      "result": "recovered",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "stale_authority_cut",
+      "result": "rejected",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "case": "nested_openapi_parity",
+      "result": "recovered",
+      "evidence_path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "evidence_sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".csdlc/evidence/5877/derive-negative-cases.rb",
+      "sha256": "71d5e287aedab407b6a9bfb50c34e0430e8e3f3cd10a950eb7bd4295d11e90b6"
+    },
+    {
+      "path": ".csdlc/evidence/5877/run-exact-child-tests.rb",
+      "sha256": "8a8367a89bd4b62dcbcf49effec905576b4da37eb7497cb90ffee8be7a7df226"
+    },
+    {
+      "path": ".csdlc/evidence/5877/runner.txt",
+      "sha256": "fd764e4dc7b47b45772dd8a2bce745fc4a4363f0849adb59145f5af9b109e701"
+    },
+    {
+      "path": ".csdlc/evidence/5877/operator-v7/exact-child-tests.stdout.log",
+      "sha256": "8bd3d917e022732f37e4ad3d9f17f5a549eb0a33af99ece5542f531a0d753995"
+    },
+    {
+      "path": ".csdlc/evidence/5877/operator-v7/exact-child-tests.stderr.log",
+      "sha256": "41531719db174f765a6e0d89edd217622fa083a1db323cb5cafe21c719cc5cba"
+    },
+    {
+      "path": ".csdlc/evidence/5877/operator-v7/strict-focused-clippy.stdout.log",
+      "sha256": "62d401addf5b136df381ee75cfd7d3c3b5e3d8c4a2f9cb01c831d9a5612ce4e0"
+    },
+    {
+      "path": ".csdlc/evidence/5877/operator-v7/strict-focused-clippy.stderr.log",
+      "sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe"
+    },
+    {
+      "path": ".csdlc/evidence/5877/operator-v7/negative-cases.json",
+      "sha256": "c13e3071829025d7dce4367b89deee0a95a46832ad7242ff8e1e86bbedc609e0"
+    },
+    {
+      "path": ".csdlc/evidence/5877/operator-v7/negative-cases.stdout.log",
+      "sha256": "06dd0658c998436f0160a3f92db811d01902e4a0fd4d7b8d56abb8ae98783d79"
+    },
+    {
+      "path": ".csdlc/evidence/5877/operator-v7/negative-cases.stderr.log",
+      "sha256": "66d1fd4838d4d392d5a934168f5006f739e635b5b13b34f1d892f09a639a3a12"
+    }
+  ],
+  "native_receipts": [
+
+  ]
+}

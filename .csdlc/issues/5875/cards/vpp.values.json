@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.13] Migration state machine",
     "slug": "v0-92-wp-04-13-migration-state-machine",
     "version": "v0.92",
-    "generation": 11
+    "generation": 23
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "exact-child-tests",
-          "proof_role": "Exact nextest target distributed_migration proves every transition, idempotence, source retention before fence, majority-committed fencing, source-permit revocation, activation-certificate and activation-key checks, interruption on both sides of the fence boundary, and split-brain denial.",
+          "proof_role": "Exact nonzero nextest target proves ordered and idempotent prepare, quiesce, checkpoint, transfer, validate, fence, activate, and commit; source retention before fence; non-authoritative ambiguity after fence; atomic durable restart recovery; hard bounds; and stale, replayed, mismatched, corrupt, incomplete, unauthorized, wrong-domain, and split-brain denial.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -39,11 +39,11 @@
             "--no-tests=fail"
           ],
           "parallel_group": "child",
-          "defer_reason": null
+          "defer_reason": "The issue-owned temporary #[path = \"../src/distributed/migration.rs\"] harness in adl-runtime/tests/distributed_migration.rs will route adl-runtime/src/distributed/migration.rs after both owned paths are implemented and until integration issue #5878 registers the production module; their pre-implementation absence is not a validation pass."
         },
         {
           "lane": "exact-revision-proof-receipt",
-          "proof_role": "Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=0ed776eb98d3230838ba407a55b3ae0bc50d8f859ce54004b3819be92ea55d83]",
+          "proof_role": "Recompute source, command, nonzero test, artifact, machine-derived transition and negative-case, runner, and receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=0ed776eb98d3230838ba407a55b3ae0bc50d8f859ce54004b3819be92ea55d83]",
           "acceptance_ids": [
             "AC-3",
             "AC-4",

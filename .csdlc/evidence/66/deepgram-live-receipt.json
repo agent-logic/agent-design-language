@@ -1,0 +1,40 @@
+{
+  "schema": "adl.deepgram.live_receipt.v1",
+  "provider": "deepgram",
+  "result": "pass",
+  "expected_phrase_matched": true,
+  "synthesis": {
+    "model": "aura-2-pluto-en",
+    "voice": "aura-2-pluto-en",
+    "request_id": "019fe5c4-154c-7c63-a6b4-668f890d833d",
+    "request_identity": "ac23f23eb106ac0b14a05036aa060f11d4c12951e2cf2ab3b527d5f19e0d3a8a",
+    "elapsed_ms": 5971,
+    "character_count": 29,
+    "encoding": "linear16",
+    "container": "wav",
+    "sample_rate": 24000,
+    "audio_bytes": 88364
+  },
+  "transcription": {
+    "model": "general-nova-3",
+    "request_id": "019fe5c4-1988-7773-90c3-e3c9314cfc3d",
+    "request_identity": "9be40fbcd6e05724b7a7f58ba7fc345687079ceaec6ff613770d48356add95d0",
+    "elapsed_ms": 1866,
+    "audio_seconds": 1.8399374,
+    "language": null
+  },
+  "estimated_cost_usd": 0.0011061252996666666,
+  "pricing_snapshot": {
+    "observed_on": "2026-08-09",
+    "source": "https://deepgram.com/pricing",
+    "aura_2_usd_per_1000_characters": 0.03,
+    "nova_3_prerecorded_usd_per_minute": 0.0077
+  },
+  "redaction": {
+    "source_text_retained": false,
+    "audio_retained": false,
+    "credential_retained": false,
+    "authorization_retained": false,
+    "transcript_retained": false
+  }
+}

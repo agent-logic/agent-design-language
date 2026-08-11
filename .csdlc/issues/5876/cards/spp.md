@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 4
 
 ## Steps
 
@@ -61,11 +61,16 @@ Revision 2
 
 ## Invariants
 
-- Exclusive paths remain disjoint
-- Guardian stays process 0
-- No insecure or Runtime v2 fallback
-- Queues and waits remain bounded
-- Evidence is exact-revision and digest bound
+- Only adl-runtime/src/distributed/recovery.rs and adl-runtime/tests/distributed_recovery.rs are mutable; #5878 owns production module registration
+- The highest local epoch, last durable local owner, newest timestamp, or any single-node state never confers recovery authority
+- Ambiguous durable histories fence every candidate until majority or quorum committed evidence proves exactly one authority
+- A source may resume before the fence only when durable migration state proves the fence was never crossed
+- After the fence, recovery never re-authorizes the source without newer majority or quorum committed authority
+- Every recovery decision and its audit state are persisted atomically before any observable authority or state change
+- Restart and rollback recover only the last committed record; corrupt, torn, missing, or inconsistent durable state fails closed
+- Candidates, histories, snapshot or manifest references, identifiers, retries, timeouts, evidence bytes, and arithmetic are hard bounded with checked operations
+- Only exact idempotent repeats are accepted; stale, replayed, mismatched, unauthorized, wrong-domain, expired, or revoked inputs fail closed
+- Execution evidence and independent review remain digest-bound to the exact protected source revision
 
 ## Risks
 
@@ -96,11 +101,12 @@ Digest: f14e247760f9faddb6e77001751c05c08c67b6879c04b2ede6a34e177ec688e9
 
 ## Stop Conditions
 
-- #5821 is not terminal
-- A dependency is not terminal
-- Any declared path overlaps an active claim
-- The exact test target is absent or selects zero tests
-- Scope or rollback authority must widen
+- Stop before binding unless #5909 PR #120, then #5870, then both #5873 and #5874, then #5875 are merged and ancestral in that order
+- Stop if merged future input paths do not expose enough stable behavior to implement recovery without inventing interfaces or widening owned paths
+- Stop on any active product-path collision or ownership ambiguity
+- Stop if atomic durability, rollback to the last committed record, hard resource bounds, or fail-closed recovery authority cannot be proved
+- After both issue-owned paths are implemented, stop if distributed_recovery is absent, selects zero tests, or any focused or receipt validation fails
+- Stop if scope, interface, registration, or authority changes exceed the two owned paths or require unapproved architecture changes
 
 ## Handoff
 

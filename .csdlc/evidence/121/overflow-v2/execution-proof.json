@@ -1,0 +1,50 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 121,
+  "wp": "WP-04.07",
+  "source_revision": "3ede52685324593fd0272773dac0165d0928f4a1",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": ["adl-runtime/src/distributed/lease.rs", "adl-runtime/tests/distributed_lease.rs"],
+  "source_artifacts": [
+    {"path":"adl-runtime/src/distributed/lease.rs","sha256":"7d4b204edf84ca56e7dd5ee82c1527381c4da6350f19a18dd0a8e87f4d24ddfd"},
+    {"path":"adl-runtime/tests/distributed_lease.rs","sha256":"74deb9d860a07300edf5d0297580f4ad04374a9fc2a4fc010cb57b7de6a260ca"}
+  ],
+  "commands": [{
+    "argv": ["ruby", ".csdlc/evidence/121/run-exact-child-tests.rb", "cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_lease", "--no-tests=fail"],
+    "exit_code": 0,
+    "selected_tests": 21,
+    "started_at": "2026-08-10T06:42:44.823356Z",
+    "finished_at": "2026-08-10T06:42:45.254947Z",
+    "runner": {"provider":"local-codex","run_id":"121-epoch-overflow-v2","os":"macos","arch":"aarch64","identity_sha256":"58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"},
+    "stdout_path": ".csdlc/evidence/121/overflow-v2/operator-v2/exact-child-tests.stdout.log",
+    "stdout_sha256": "3d005f1f0136efbd7aaa1efbc53892261f14c057ece239e026eb72a2c0199be3",
+    "stderr_path": ".csdlc/evidence/121/overflow-v2/operator-v2/exact-child-tests.stderr.log",
+    "stderr_sha256": "415d160f40c5a30990a7d45e49bd30bdda9dd46f5b7270c3f1ca51d6784231bb"
+  }],
+  "negative_cases": [
+    {"case":"fence_without_holder_key","result":"fenced","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"case":"revoke_without_holder_key","result":"fenced","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"case":"fence_same_epoch","result":"denied","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"case":"fence_epoch_gap","result":"denied","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"case":"fence_stale_epoch","result":"denied","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"case":"fenced_mutation","result":"denied","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"case":"restore_current_index","result":"recovered","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"case":"recovery_floor_retained","result":"fenced","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"case":"premature_activation","result":"denied","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"case":"holder_operation_possession","result":"denied","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"case":"atomic_fence_failure","result":"fail_closed","evidence_path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","evidence_sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"}
+  ],
+  "artifacts": [
+    {"path":".csdlc/evidence/121/review-v2/derive-negative-cases.rb","sha256":"3102ff6e71f8c44de363dc5b9080fdcdb730fb94447d1c8c4428e0753775f006"},
+    {"path":".csdlc/evidence/121/runner.txt","sha256":"58c12481ab6ca64f223a3d873e8d32b30fdf2c200be485065372adcd9ddf23d8"},
+    {"path":".csdlc/evidence/121/overflow-v2/operator-v2/exact-child-tests.log","sha256":"d7d611bf01149cac1d2646c26ac13c4d394cfc9fb6939b454ebe53f0e5ef4517"},
+    {"path":".csdlc/evidence/121/overflow-v2/operator-v2/exact-child-tests.stdout.log","sha256":"3d005f1f0136efbd7aaa1efbc53892261f14c057ece239e026eb72a2c0199be3"},
+    {"path":".csdlc/evidence/121/overflow-v2/operator-v2/exact-child-tests.stderr.log","sha256":"415d160f40c5a30990a7d45e49bd30bdda9dd46f5b7270c3f1ca51d6784231bb"},
+    {"path":".csdlc/evidence/121/overflow-v2/operator-v2/strict-focused-clippy.log","sha256":"4f27ac380b22e1d975eee20ce727fa8cbc09061177f6253af0777fd4de7b7506"},
+    {"path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.json","sha256":"caacb57e2c0e876ec06a8ea1462b17bb234da49a47a6eb62bde61d6bb2359cce"},
+    {"path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.stdout.log","sha256":"0036c254422c92a03cdb8115fb31015ddfd91774d3ea790cc77df5864d7bbb6a"},
+    {"path":".csdlc/evidence/121/overflow-v2/operator-v2/negative-cases.stderr.log","sha256":"6ad1a6d32fd0d155a80a337aa8603ce5e09adf926a6dd537304ec1394a37c26d"},
+    {"path":".csdlc/evidence/121/overflow-v2/operator-v2/validation-manifest.json","sha256":"087be3753ed2b4ad8323fd51870ee5737ea65d490c82f76a43b4536e34a1ca22"}
+  ],
+  "native_receipts": []
+}

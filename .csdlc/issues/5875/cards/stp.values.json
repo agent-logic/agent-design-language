@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.13] Migration state machine",
     "slug": "v0-92-wp-04-13-migration-state-machine",
     "version": "v0.92",
-    "generation": 11
+    "generation": 23
   },
   "status": "ready",
   "content": {
@@ -15,11 +15,12 @@
     "values": {
       "task_boundary": "Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate, and commit with source authority retained until validation and fencing succeed.",
       "deliverables": [
-        "Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate, and commit with source authority retained until validation and fencing succeed.",
-        "Focused positive and negative tests",
-        "Digest-bound execution proof",
-        "Reviewed rollback evidence",
-        "Authority safety: Before fence the source may resume; after fence both candidates remain non-authoritative and recovery routes through WP-04.14."
+        "adl-runtime/src/distributed/migration.rs",
+        "adl-runtime/tests/distributed_migration.rs",
+        "Focused deterministic positive, interruption, and fail-closed negative tests",
+        "Digest-bound exact-revision execution proof",
+        "Independent exact-head review and rollback evidence",
+        "Authority safety: before fence the source may resume; after fence both candidates remain non-authoritative until verified activation"
       ],
       "acceptance_criteria": [
         "Implement only the declared exclusive paths",
@@ -30,18 +31,20 @@
         "Complete independent review and child-owned typed closeout"
       ],
       "dependencies": [
-        "WP-04.08 issue #5870",
-        "WP-04.11 issue #5873",
-        "WP-04.12 issue #5874",
-        "WP-04-IMP issue 5862",
-        "Architecture/security gate issue 5821 terminal"
+        "Corrective lease issue #5909 PR #120 merged and its exact merge revision ancestral before fencing execution",
+        "WP-04.08 fencing issue #5870 closed through a merged PR whose exact merge revision is ancestral before placement, snapshot, or migration execution",
+        "WP-04.11 placement issue #5873 closed through a merged PR whose exact merge revision is ancestral before migration execution",
+        "WP-04.12 snapshot-catalog issue #5874 closed through a merged PR whose exact merge revision is ancestral before migration execution",
+        "WP-04-IMP umbrella issue #5862 as coordination parent, not a terminal child gate",
+        "Architecture/security gate issue #5821 terminal"
       ],
       "repo_inputs": [
         "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
         ".csdlc/prepared/issues/5821/design.md",
-        "adl-runtime/src/guardian.rs",
-        "adl-runtime/src/networking.rs",
-        "adl-runtime/src/runtime_api.rs"
+        "adl-runtime/src/distributed/lease.rs",
+        "adl-runtime/src/distributed/fencing.rs",
+        "adl-runtime/src/distributed/placement.rs",
+        "adl-runtime/src/distributed/snapshot_catalog.rs"
       ],
       "non_goals": [
         "Sibling WP-04 paths",

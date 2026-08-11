@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-15] Birth witnesses and receipts",
     "slug": "v0-92-wp-15-birth-witnesses-and-receipts",
     "version": "v0.92",
-    "generation": 54
+    "generation": 76
   },
   "status": "ready",
   "content": {
@@ -18,7 +18,8 @@
         "Versioned witness-set schema and validator",
         "Deterministic accepted/rejected citizen receipt contract",
         "Equivocation, duplicate, stale, forged, mismatch, authority, and redaction fixtures",
-        "Retained focused, security, privacy, and premature-claim evidence"
+        "Retained focused, security, privacy, and premature-claim evidence",
+        "adl-runtime-kernel/tests/birth_witness.rs"
       ],
       "acceptance_criteria": [
         "The WP-15 validator accepts only policy-complete distinct witnesses bound to the exact candidate/evidence digest and derives a deterministic caveated receipt from the validated decision.",

@@ -1,0 +1,12 @@
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-5876-recovery/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.69s
+────────────
+ Nextest run ID 42829820-e592-4fdc-a9ad-c62178abe82c with nextest profile: default
+    Starting 5 tests across 1 binary
+        PASS [   0.807s] (1/5) adl-runtime::distributed_recovery recovery_pre_fence_rollback_requires_live_source_authority
+        PASS [   0.945s] (2/5) adl-runtime::distributed_recovery recovery_quorum_fence_safety_window_activation_commit_and_restart
+        PASS [   1.005s] (3/5) adl-runtime::distributed_recovery recovery_is_bounded_and_times_out_fail_closed
+        PASS [   1.065s] (4/5) adl-runtime::distributed_recovery recovery_begin_and_committed_prefix_survive_restart_without_trusting_local_owner_claims
+        PASS [   1.135s] (5/5) adl-runtime::distributed_recovery recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_rollback
+────────────
+     Summary [   1.136s] 5 tests run: 5 passed, 0 skipped

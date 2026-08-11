@@ -101,6 +101,7 @@ operation_key_id = "runtime-operations"
 continuity_signing_key_path = "{}"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "{}"
+acip_write_token_path = "{}"
 continuity_min_generation = 0
 sntp_server = "time.cloudflare.com"
 
@@ -169,6 +170,7 @@ snapshot_concurrency = 4
         toml_path(&credentials.join("operation-public-key.hex")),
         toml_path(&credentials.join("continuity-signing-key.hex")),
         toml_path(&credentials.join("observatory-token.txt")),
+        toml_path(&credentials.join("acip-write-token.txt")),
         toml_path(&vector),
         "config/runtime-v3-vector.json",
         "spool/runtime-v3.current.jsonl",
@@ -184,8 +186,10 @@ fn valid_runtime_init_toml(state_root: &Path) -> String {
     std::fs::create_dir_all(&tls_root).unwrap();
     let certificate = tls_root.join("localhost-cert.pem");
     let private_key = tls_root.join("localhost-key.pem");
+    let trust_roots = tls_root.join("trust-roots.pem");
     std::fs::write(&certificate, "test certificate").unwrap();
     std::fs::write(&private_key, "test private key").unwrap();
+    std::fs::write(&trust_roots, "test trust roots").unwrap();
     format!(
         r#"
 schema = "adl.runtime_v3.init.v1"
@@ -203,6 +207,8 @@ websocket_max_frame_bytes = 65536
 [api.tls]
 certificate_chain_path = "{}"
 private_key_path = "{}"
+trust_roots_path = "{}"
+server_name = "runtime-gateway.example.test"
 
 [observatory]
 allowed_origins = ["https://localhost:8765", "https://observatory.example.test"]
@@ -211,6 +217,7 @@ allowed_origins = ["https://localhost:8765", "https://observatory.example.test"]
         toml_path(state_root),
         toml_path(&certificate),
         toml_path(&private_key),
+        toml_path(&trust_roots),
         explicit_runtime_sections_toml(state_root),
     )
 }
@@ -220,8 +227,7 @@ fn runtime_init_toml(body: &str) -> String {
     std::fs::create_dir_all(state_root.join("tls")).unwrap();
     let certificate = state_root.join("tls/localhost-cert.pem");
     let private_key = state_root.join("tls/localhost-key.pem");
-    std::fs::write(&certificate, "test certificate").unwrap();
-    std::fs::write(&private_key, "test private key").unwrap();
+    let trust_roots = state_root.join("tls/trust-roots.pem");
     format!(
         r#"
 schema = "adl.runtime_v3.init.v1"
@@ -239,12 +245,15 @@ websocket_max_frame_bytes = 65536
 [api.tls]
 certificate_chain_path = "{}"
 private_key_path = "{}"
+trust_roots_path = "{}"
+server_name = "runtime-gateway.example.test"
 {}
 {body}
 "#,
         toml_path(&state_root),
         toml_path(&certificate),
         toml_path(&private_key),
+        toml_path(&trust_roots),
         explicit_runtime_sections_toml(&state_root)
     )
 }
@@ -444,6 +453,14 @@ fn runtime_init_file_defines_local_and_remote_access_intent() {
     assert_eq!(
         init.credentials.control_public_key_path,
         state_root.join("credentials/control-public-key.hex")
+    );
+    assert_eq!(
+        init.credentials.observatory_token_path,
+        state_root.join("credentials/observatory-token.txt")
+    );
+    assert_eq!(
+        init.credentials.acip_write_token_path,
+        state_root.join("credentials/acip-write-token.txt")
     );
     assert_eq!(init.guardian_shutdown_grace_millis(), 18_500);
     assert_eq!(

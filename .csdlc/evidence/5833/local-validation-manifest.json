@@ -1,0 +1,12 @@
+{
+  "schema": "adl.local_validation_manifest.v1",
+  "issue": 5833,
+  "validated_revision": "c2d41009a3029a7ba1335810e8811ddb017a37c1",
+  "validated_tree": "efa703343f5463ac584401812cdccc558914bf71",
+  "authority_tests": {"run": 13, "passed": 13, "failed": 0, "skipped": 0, "evidence_ref": ".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log", "sha256": "86664c8110625f74af4c868080b204d9bcc63a8512d7d16b650e825b8aa39650"},
+  "public_tests": {"run": 1, "passed": 1, "failed": 0, "skipped": 0, "evidence_ref": ".csdlc/evidence/5833/birth-witness-public-boundary.log", "sha256": "cae5fa1f8784c046ea2bf44764aa081b1a0cba31e1281f3388daa8ca32371929"},
+  "compile_fail": {"run": 1, "passed": 1, "failed": 0, "evidence_ref": ".csdlc/evidence/5833/birth-witness-compile-fail.log", "sha256": "26d6e34881e1dc8dcb58d467868566913590361efc07ddb3100160516333c346"},
+  "strict_clippy": {"status": "passed", "evidence_ref": ".csdlc/evidence/5833/birth-witness-strict-clippy.log", "sha256": "7a9b12911ea0a4027bf4df20b32475bf33c1d0cd3917c736ae7cf45dafe07ed5"},
+  "native_scripts": {"status": "passed", "evidence_ref": ".csdlc/evidence/5833/birth-witness-native-scripts.log", "sha256": "8871e21c13e53cd382ee939bfac760214ae311de7d4ccddf4d3bc9370dc98b4b"},
+  "status": "passed"
+}

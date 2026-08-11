@@ -1,4 +1,4 @@
-# Editorial Review: What Is ADL?
+# Editorial Review: What is ADL?
 
 ## Verdict
 

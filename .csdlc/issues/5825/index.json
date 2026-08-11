@@ -2,14 +2,52 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5825,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "904390dda83597a867777bbf16ebbe9907f65b6d6481c7be13b55d2ed2e2de2d",
-  "phase": "initialized",
-  "generation": 67,
-  "digest": "60737859539f5dd63c6ef388ebbda06689edbceed5e7fc56983521ff642ca383",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
+  "phase": "reviewed",
+  "generation": 90,
+  "digest": "a9da63d3414b88b5514de8362afb7c318298dbdbbca89ddb27cb2e30917a0ed6",
+  "branch": "codex/5825-birthday-contract",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5825-birthday-contract",
+  "review_assignment": {
+    "reviewer": "codex:review_5825_exact_head",
+    "assigned_by": "codex:5825-native-proof-repair",
+    "revision": "git-blake3:a3d4ba435f4ee37d93eed06912845e5166d11420:76dd13f3839fdd8153d0185dd8bd588fdf26f0065f606a6d3522dc4ef54824ac",
+    "scope": [
+      ".csdlc/issues/5825",
+      ".csdlc/prepared/issues/5825/design.md",
+      ".csdlc/prepared/issues/5825/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5825/validate-native-receipts.rb",
+      ".csdlc/evidence/5825",
+      ".github/workflows/wp08-native-birthday.yml",
+      "adl-runtime-kernel/src/birthday.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/birthday.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday",
+      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:review_5825_exact_head",
+    "scope": [
+      ".csdlc/issues/5825",
+      ".csdlc/prepared/issues/5825/design.md",
+      ".csdlc/prepared/issues/5825/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/5825/validate-native-receipts.rb",
+      ".csdlc/evidence/5825",
+      ".github/workflows/wp08-native-birthday.yml",
+      "adl-runtime-kernel/src/birthday.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/birthday.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday",
+      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:a3d4ba435f4ee37d93eed06912845e5166d11420:76dd13f3839fdd8153d0185dd8bd588fdf26f0065f606a6d3522dc4ef54824ac",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -18,40 +56,40 @@
   "diagram_path": ".csdlc/prepared/issues/5825/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
-      "revision": "f04080d6b3bc8bc4d9c062333476ab8d4a44b464205d149c001a48c317361621"
+      "reviewer": "operator:pr104-changes-requested",
+      "revision": "9c839d6a89c75ecf5e3b5d8932f6e99669a5c91d3062802fcc0f610f5f244ecb"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "805a1b7979b7fa857a66625b517322e00858e131a28dd946cc9b7582b54b3432",
-      "rendered_digest": "d6a522f9b96a13db366a0ee6b8ce2cdab3049852134faabe28fe9a42af07fe66",
-      "ast_digest": "8d6bf8fbed7abdd44c892e87970e36f564d7ffc9fc248f3cae3aa1c0b8185d8a"
+      "values_digest": "f65e795b7d3f695755e7090087ce4a007deb3d4ffef81ad64c564e79b37f220b",
+      "rendered_digest": "562c7bfc490d7284291d56b367ff81c6592be8d921d8f1839ee20c7d349ec3fe",
+      "ast_digest": "261cba2f9b6292cb356cb44c4435f67aaf77b6f7a2f9b0ae52d9ef6e051e31ea"
     },
     "stp": {
-      "values_digest": "cd9108878a033302cc1762ee34fb4ebd35c1506ae43eaf6c4b17efe370661961",
-      "rendered_digest": "9b4a0528dca8794b600709aeeae7acd7726325f47dd2975721db6e5156dcc245",
-      "ast_digest": "013473c072130c1eb36860a8ccbf49a7b8b4acb815224e3e298125a880502aa6"
+      "values_digest": "f323797db947cc1d95687edee9b789b66bbd166dc59b22bde313bf9a2de6ca80",
+      "rendered_digest": "ca441f83e7c60f77aa833ae6fb1148e64cc124bbafff1d43fdbfdbfe699edd4f",
+      "ast_digest": "d8f1c631dd8e95217c917065d59544f72a7046e9f4d6efa9a57fc05f03964d3c"
     },
     "spp": {
-      "values_digest": "626778670745267b2b37ccf9d3b689cc1d3427305c9c0ecaa40e03a9732648a4",
-      "rendered_digest": "3892d59c3fdb136316095e6b74bcfec0a0446f019f7cb3729b9aee3bc07ae1e2",
-      "ast_digest": "a74b944fa96ab68704d950730a43b42959ad57d22e0660f2d1700ec7b3701300"
+      "values_digest": "6019d90c33953f101517d2fbd1ea2c2f0aba96379ff3c6c948012c9c1f3ad60d",
+      "rendered_digest": "ce28a36beb7302c926d6f30c76262fe9a55b0a06ccdcf86835010dc28fd712c9",
+      "ast_digest": "cea7f6a0ab83613094c814dc0782731afae754b1d49abebc60f9feb92f3a0165"
     },
     "vpp": {
-      "values_digest": "54d66ed463f4bdf391c8cbca832d4948edea1ef9f2b94a745cb090c0639d16e4",
-      "rendered_digest": "99bfa9cb57e3bce8a94bfa4265fa7a503aa89e00d653fbe0317b74a0bd3c4754",
-      "ast_digest": "800cdc9faf9d9e8150d11b8b7cc41d660c8619ab66d8fb3f17913ec956c5f6e9"
+      "values_digest": "007d0906b254ef39ba6f307af494bdb8c44119e0f93f12fd36a23e8b39c3185b",
+      "rendered_digest": "3ce2c5cf96d4e213ccd788046edaae6e767fda600f43eb1b83929c18e61f9ce5",
+      "ast_digest": "cd39dee64a65172ddea1c885cd897ab982fd61830a81c2c200a03baa8dd233e9"
     },
     "srp": {
-      "values_digest": "8eae364fb40555534e8a678193f496d4352ec7e4805a4dea1f3b9a53aea6b48a",
-      "rendered_digest": "656f33b83ff10ead3fa1cb155ab9ef8be5b90d51a2e442224b85d9fbfe76b2b4",
-      "ast_digest": "ecc45c5df390f8f354a35abfe2e442480c22c6a4d71cbba8d76a340898994d13"
+      "values_digest": "3b7e4c6f274ff88859a50b30670fe9c37b5b40f6fa7d82a046bc5db38a530f3e",
+      "rendered_digest": "45b820b25729ce44f3b4921118d5bfaf0e51cb5f576ec211f8c76a3d62d5cdc8",
+      "ast_digest": "892f7c62817c1af42c51406bbb79d2abc6def6a8d78216e9738d26e39c91da5f"
     },
     "sor": {
-      "values_digest": "367f0fea93cb8ce7a593297429bab5e465cd9fa3910d01e7ce712222a24b508b",
-      "rendered_digest": "e3a6c6ec76708b4213ad79897d6cf48fe48bcaecd057a5a4c8601d59795a6d41",
-      "ast_digest": "bf6ffc3401c9b3afd0a0dc0839121b241979dfa196064dffb3a6f233a26d1799"
+      "values_digest": "0e6f95ea93e2be47546448c0b451a70a6baa042c928045e15551ca3411903275",
+      "rendered_digest": "fc56d41092c8e8e11d3b1de3d475d21737b581ea3d54b7eda63a1233802c09e6",
+      "ast_digest": "c72904e9abae33bb2e4ff0bfaab44945109f5aa7e51accb2e344a0f58d27e57b"
     }
   },
   "transitions": [
@@ -75,6 +113,55 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5825-birthday-contract",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5825-birthday-review-record",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5825-birthday-publication",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Operator review of PR #104 requested removal of unrelated CI policy, mandatory exact-head macOS/Linux native receipts, and a fresh exact-head review after proof; recover stale review/publication truth before repair."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5825-native-proof-review-record",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -700,6 +787,188 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"The source contract changes required birth evidence or disqualifiers.\",\"Execution requires a shared Runtime v3 schema change outside the exact declared paths.\",\"A reviewer identifies an uncovered lifecycle lookalike or unsupported public claim.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5825-birthday-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\\\"],\\\"issues\\\":[5825,5843],\\\"order\\\":[5825,5843]}\"]}"
+    },
+    {
+      "sequence": 90,
+      "generation": 68,
+      "actor": "codex:5825-birthday-execution",
+      "reason": "Declare exact issue-owned implementation and test deliverables before bind-safe deferred-target admission.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".csdlc/evidence/5825\",\"Focused positive and fail-closed negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 91,
+      "generation": 69,
+      "actor": "codex:5825-birthday-execution",
+      "reason": "Declare the issue-owned birthday target as bind-safe deferred until implementation creates the exact source and nonzero test target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birthday-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5825-core\",\"defer_reason\":\"Deferred only until this issue creates owned source adl-runtime-kernel/src/birthday.rs and exact owned target adl-runtime-kernel/tests/birthday.rs, registered through owned adl-runtime-kernel/src/lib.rs; fail closed until the target exists and selects nonzero tests.\"},{\"lane\":\"birthday-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5825/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5825/native-platform/macos-semantic.json\"],\"parallel_group\":\"5825-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5825/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5825/native-platform/linux-semantic.json\"],\"parallel_group\":\"5825-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=0ca36480e629a794cd9bb5c2a43756fde84052f1eb88e3bac3077c3b7c669cc9]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/evidence/5825/native-platform/macos.json\",\".csdlc/evidence/5825/native-platform/linux.json\"],\"parallel_group\":\"5825-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 92,
+      "generation": 70,
+      "actor": "codex:5825-birthday-execution",
+      "reason": "Keep the exact Rust target deliverable explicit without misclassifying the future fixture directory as an executable validator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"Complete valid and disqualifying fixture matrix under the owned birthday fixture directory\",\"Focused positive and fail-closed negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 93,
+      "generation": 70,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 94,
+      "generation": 71,
+      "actor": "codex:5825-birthday-contract",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 95,
+      "generation": 72,
+      "actor": "codex:5825-review-fix",
+      "reason": "Execution evidence proves dependency verification and source inspection completed before implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 96,
+      "generation": 73,
+      "actor": "codex:5825-review-fix",
+      "reason": "Committed implementation and focused negative proof complete the deterministic birthday contract work.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 97,
+      "generation": 74,
+      "actor": "codex:5825-review-fix",
+      "reason": "Typed finalize retained the deterministic focused validation log and exact command for the implemented birthday target.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 98,
+      "generation": 75,
+      "actor": "codex:5825-review-fix",
+      "reason": "The owned birthday target now exists and typed finalize retained a positive exact-target run; clear only its obsolete pre-implementation defer reason.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birthday-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5825-core\",\"defer_reason\":null},{\"lane\":\"birthday-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5825/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5825/native-platform/macos-semantic.json\"],\"parallel_group\":\"5825-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5825/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5825/native-platform/linux-semantic.json\"],\"parallel_group\":\"5825-native-produce\",\"defer_reason\":\"Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness.\"},{\"lane\":\"birthday-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=0ca36480e629a794cd9bb5c2a43756fde84052f1eb88e3bac3077c3b7c669cc9]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/evidence/5825/native-platform/macos.json\",\".csdlc/evidence/5825/native-platform/linux.json\"],\"parallel_group\":\"5825-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 99,
+      "generation": 76,
+      "actor": "codex:5825-birthday-review-record",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 100,
+      "generation": 77,
+      "actor": "codex:5825-birthday-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 101,
+      "generation": 78,
+      "actor": "codex:5825-birthday-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 102,
+      "generation": 79,
+      "actor": "codex:5825-birthday-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 103,
+      "generation": 80,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Operator review of PR #104 requested removal of unrelated CI policy, mandatory exact-head macOS/Linux native receipts, and a fresh exact-head review after proof; recover stale review/publication truth before repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 104,
+      "generation": 81,
+      "actor": "operator:pr104-changes-requested",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 105,
+      "generation": 82,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Formally own only the narrowly issue-specific native birthday proof workflow required by AC-8.",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday/\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".csdlc/evidence/5825/\",\".github/workflows/wp08-native-birthday.yml\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday/\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/evidence/5825/\"]}"
+    },
+    {
+      "sequence": 106,
+      "generation": 83,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Align the implemented plan boundary with the operator-approved issue-specific native birthday workflow.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".csdlc/evidence/5825\",\".github/workflows/wp08-native-birthday.yml\"]}"
+    },
+    {
+      "sequence": 107,
+      "generation": 84,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Add the operator-approved issue-specific native workflow as the exact missing AC-8 deliverable after typed review recovery.",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".github/workflows/wp08-native-birthday.yml\",\"Complete valid and disqualifying fixture matrix under the owned birthday fixture directory\",\"Focused positive and fail-closed negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"Complete valid and disqualifying fixture matrix under the owned birthday fixture directory\",\"Focused positive and fail-closed negative tests\",\"Digest-bound native macOS and Linux exact-revision proof\",\"Independent exact-head review and rollback evidence\"]}"
+    },
+    {
+      "sequence": 108,
+      "generation": 85,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "GitHub Actions run 31348649171 produced and independently validated exact-head macOS and Linux birthday receipts at abf0b48589342b04d2b8220a56c4f1ef30f837ea.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"birthday-runtime-v3\",\"proof_role\":\"Run the exact Runtime v3 integration target and fail when the selected target contains no tests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"5825-core\",\"defer_reason\":null},{\"lane\":\"birthday-macos-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"--platform\",\"macos\",\"--receipt\",\".csdlc/evidence/5825/native-platform/macos.json\",\"--semantic-output\",\".csdlc/evidence/5825/native-platform/macos-semantic.json\"],\"parallel_group\":\"5825-native-produce\",\"defer_reason\":null},{\"lane\":\"birthday-linux-native-ci-producer\",\"proof_role\":\"Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\"--platform\",\"linux\",\"--receipt\",\".csdlc/evidence/5825/native-platform/linux.json\",\"--semantic-output\",\".csdlc/evidence/5825/native-platform/linux-semantic.json\"],\"parallel_group\":\"5825-native-produce\",\"defer_reason\":null},{\"lane\":\"birthday-native-ci-receipt-verification\",\"proof_role\":\"Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=0ca36480e629a794cd9bb5c2a43756fde84052f1eb88e3bac3077c3b7c669cc9]\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/evidence/5825/native-platform/macos.json\",\".csdlc/evidence/5825/native-platform/linux.json\"],\"parallel_group\":\"5825-native-verify\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 109,
+      "generation": 86,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Record the operator-requested native proof route and the removal of unrelated CI policy from PR #104.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the deterministic WP-08 birthday decision contract and its narrowly issue-specific exact-head native macOS/Linux receipt workflow, with fail-closed lifecycle, evidence, integrity, privacy, path, continuity, and claim boundaries.\",\"changes\":[\"Added the deterministic birthday candidate and decision contract with positive and exhaustive table-driven negative proof.\",\"Added a WP-08-only GitHub Actions workflow that produces native macOS/Linux receipts and validates both fragments against the unchanged exact PR head.\",\"Made native nextest evidence machine-readable and stable through structured suite output while preserving complete logs and source manifests.\",\"Resolved repository-relative semantic output from the Runtime kernel manifest root and rejected parent traversal.\",\"Removed the unrelated global Runtime v3 runner-policy changes from PR #104.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".github/workflows/wp08-native-birthday.yml\"]}"
+    },
+    {
+      "sequence": 110,
+      "generation": 87,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Retain the exact native GitHub Actions proof and independent receipt validation result requested for PR #104.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/evidence/5825/native-platform/macos.json\",\".csdlc/evidence/5825/native-platform/linux.json\"],\"purpose\":\"Validate native macOS arm64 and Linux x86_64 receipt fragments, exact source SHA, six-test structured summaries, manifests, logs, producer provenance, and byte-identical semantic output.\",\"outcome\":\"passed\",\"evidence_ref\":\"https://github.com/agent-logic/agent-design-language/actions/runs/31348649171\"}}"
+    },
+    {
+      "sequence": 111,
+      "generation": 88,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Correct the recovered review prompt to use the authoritative WP-01/#5817 and WP-02A/#5801 predecessor gates before final exact-head review.",
+      "operation": "{\"operation\":\"correct_review_prompts_after_recovery\",\"values\":[\"Does any startup, task, wake, restore, snapshot, admission, copied-state, migration, or incomplete packet incorrectly satisfy the birth contract?\",\"Are canonicalization, rejection reasons, fixtures, structured native receipts, and retained reports deterministic and bound to the reviewed product revision?\",\"Do all evidence references remain repository-relative and redaction-safe, with no personhood, consciousness, citizenship, governance, migration, or launch overclaim?\",\"Are WP-01/#5817 and WP-02A/#5801 terminal proof and all claimed acceptance criteria evidenced without substituting #5818 or #5819?\",\"Does PR #104 exclude unrelated global CI policy and retain only the narrowly issue-specific native macOS/Linux workflow required by AC-8?\"]}"
+    },
+    {
+      "sequence": 112,
+      "generation": 89,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "Normalize the durable output record after native proof without duplicating implementation changes or artifacts.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the deterministic WP-08 birthday decision contract and its narrowly issue-specific exact-head native macOS/Linux receipt workflow, with fail-closed lifecycle, evidence, integrity, privacy, path, continuity, and claim boundaries.\",\"changes\":[\"Added the deterministic birthday candidate and decision contract with positive and exhaustive table-driven negative proof.\",\"Added a WP-08-only GitHub Actions workflow that produces native macOS/Linux receipts and validates both fragments against the unchanged exact PR head.\",\"Made native nextest evidence machine-readable and stable through structured suite output while preserving complete logs and source manifests.\",\"Resolved repository-relative semantic output from the Runtime kernel manifest root and rejected parent traversal.\",\"Removed the unrelated global Runtime v3 runner-policy changes from PR #104.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".github/workflows/wp08-native-birthday.yml\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Prove the deterministic birthday contract and its positive and negative matrix.\",\"outcome\":\"passed\",\"evidence_ref\":\"birthday-runtime-v3.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/evidence/5825/native-platform/macos.json\",\".csdlc/evidence/5825/native-platform/linux.json\"],\"purpose\":\"Validate native macOS arm64 and Linux x86_64 receipt fragments, exact source SHA, six-test structured summaries, manifests, logs, producer provenance, and byte-identical semantic output.\",\"outcome\":\"passed\",\"evidence_ref\":\"https://github.com/agent-logic/agent-design-language/actions/runs/31348649171\"}]}"
+    },
+    {
+      "sequence": 113,
+      "generation": 89,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 114,
+      "generation": 89,
+      "actor": "codex:5825-native-proof-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 115,
+      "generation": 90,
+      "actor": "codex:5825-native-proof-review-record",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

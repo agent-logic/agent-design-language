@@ -12,7 +12,7 @@ observability_dir = "observability"
 
 [api]
 address = "127.0.0.1:20997"
-public_base_url = "https://localhost:20997"
+public_base_url = "https://runtime.dev.agent-logic.ai:20997"
 bind_attempts = 20
 bind_retry_millis = 100
 websocket_auth_timeout_millis = 5000
@@ -20,13 +20,14 @@ websocket_refresh_millis = 1000
 websocket_max_frame_bytes = 65536
 
 [api.tls]
-certificate_chain_path = "/var/lib/adl/runtime-v3/tls/localhost-cert.pem"
-private_key_path = "/var/lib/adl/runtime-v3/tls/localhost-key.pem"
+certificate_chain_path = "/var/lib/adl/runtime-v3/tls/fullchain.pem"
+private_key_path = "/var/lib/adl/runtime-v3/tls/private-key.pem"
+trust_roots_path = "/var/lib/adl/runtime-v3/tls/trust-roots.pem"
+server_name = "runtime.dev.agent-logic.ai"
 
 [observatory]
 allowed_origins = [
-  "https://localhost:8765",
-  "https://localhost:8766",
+  "https://observatory.dev.agent-logic.ai",
 ]
 
 [kernel]
@@ -53,6 +54,7 @@ operation_key_id = "runtime-operations"
 continuity_signing_key_path = "/var/lib/adl/runtime-v3/credentials/continuity-signing-key.hex"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "/var/lib/adl/runtime-v3/credentials/observatory-token.txt"
+acip_write_token_path = "/var/lib/adl/runtime-v3/credentials/acip-write-token.txt"
 continuity_min_generation = 0
 sntp_server = "time.cloudflare.com"
 

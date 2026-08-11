@@ -44,7 +44,7 @@ requirements once implementation exists.
 
 | Demo ID | Candidate demo | Milestone claim | Primary proof surface | Status |
 | --- | --- | --- | --- | --- |
-| D1 | First birthday rehearsal | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and reviewer packet. | Planned candidate |
+| D1 | First birthday rehearsal | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and [`FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md`](review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md). | Reviewer packet assembled by WP-16; runtime demo remains planned |
 | D2 | Not-a-birthday negative suite | Startup, wake, snapshot, admission, and copied state are not birth. | Negative fixtures and validation report. | Planned candidate |
 | D3 | Continuity across bounded cycles | Identity persists across multiple bounded cycles with evidence. | Cycle artifacts, continuity record, witness links. | Planned candidate |
 | D4 | Memory grounding proof | Birth references witnessed memory artifacts without exposing raw private memory. | Memory-grounding fixture and redacted packet. | Planned candidate |

@@ -1,0 +1,53 @@
+{
+  "schema": "adl.native_validation_manifest.v1",
+  "issue": 5831,
+  "repository": "agent-logic/agent-design-language",
+  "pull_request": 195,
+  "validated_revision": "4cff1680fa6ad97b3002dee070521b7ab24bd08c",
+  "workflow": ".github/workflows/wp13a-native-adaptive-learning.yml",
+  "workflow_run_id": "31430072319",
+  "workflow_run_attempt": "1",
+  "jobs": {
+    "linux": {
+      "job_id": "93591063553",
+      "status": "success",
+      "os": "Linux",
+      "architecture": "x86_64",
+      "tests_passed": 15,
+      "receipt_sha256": "c65d95701f6747fe1549c99d2af1e3f3a2b7fe4dee0fbddd7bfee8a3d96b823c",
+      "command_output_sha256": "2340b746e1b4f7f43416ca0268e4f55a19cf14fa99d847302cb8d768fd2ba7f7"
+    },
+    "macos": {
+      "job_id": "93591063409",
+      "status": "success",
+      "os": "Darwin",
+      "architecture": "arm64",
+      "tests_passed": 15,
+      "receipt_sha256": "ef07fd21bdabe3c12dbb4f52fcea90843a1b4f54f86fe9bdb5d8bc448d01910d",
+      "command_output_sha256": "f14ca53966a4ecfae596552c2554618ed26923e2e26f0521d8f66c35550d34af"
+    },
+    "aggregate": {
+      "job_id": "93593286649",
+      "status": "success"
+    }
+  },
+  "artifact": {
+    "id": "9078997724",
+    "name": "wp13a-native-adaptive-learning-validated-31430072319-1",
+    "archive_sha256": "2e9a55703ce659bb19dc01ba1843c3b8ea9850eb05cf2f3cf434f3b7d047cf23"
+  },
+  "source_manifest_sha256": "799d58a30873937633f6449cac0af16946ab0dea77ba695c7bf977417e461a40",
+  "semantic_output_sha256": "79b4011682bd3419975b5f8ee6ae566ab1b45aeba9b598e37758050a983bcb40",
+  "independent_validation": {
+    "status": "passed",
+    "detached_exact_head": "4cff1680fa6ad97b3002dee070521b7ab24bd08c",
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
+      ".csdlc/evidence/5831/native-platform/linux.json",
+      ".csdlc/evidence/5831/native-platform/macos.json"
+    ],
+    "output_ref": ".csdlc/evidence/5831/native-platform/independent-validator.log",
+    "output_sha256": "6c9ab4671b2e4f26769c4606d1175bf3beae99d043e788b41153bcbadbac7941"
+  }
+}

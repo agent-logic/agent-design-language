@@ -1,0 +1,6 @@
+{
+  "issue":143,"card":"spp","expected_generation":8,
+  "expected_digest":"45ae292f857d43b92461223df2999f669e5b3ffc7e2f1e814a0948d5bdc37cca",
+  "actor":"codex:143-v092-adr-authoring","reason":"Record active exact-head review remediation while publication remains pending.",
+  "operation":{"operation":"update_plan_step","step_id":"S4","status":"in_progress"}
+}

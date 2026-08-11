@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 165,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-04] Implement Application Context And Shared Services",
+    "slug": "v3-04-implement-application-context-and-shared-services",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only V3-04 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Narrow traits including `ReviewerIdentityResolver`, an independently reviewed adapter-interface checkpoint, production and fake constructors, typed config schema, error taxonomy, cancellation policy, tracing contract, and redaction fixtures."
+      ],
+      "acceptance_criteria": [
+        "One `App` exists per invocation and no mutable global service locator exists.",
+        "`Git`, `FileSystem`, and `ProcessRunner` signatures are reviewed and frozen at an explicit checkpoint before parallel V3-05 or V3-09 implementation begins.",
+        "Expensive or credential-bearing services initialize only on demand.",
+        "Sync lazy accessors initialize once without panic and propagate one cached typed result to concurrent callers.",
+        "Async lazy accessors cache completed success/error results while cancelled initialization remains uninitialized and retryable.",
+        "Cancelled async initialization remains single-flight on retry, applies the configured cooldown for localized cancellation/timeouts, and never retries after root cancellation.",
+        "The selected Tokio release is exact-version pinned, and deterministic leader drop tests prove state reset, waiter notification, exactly one cooldown-governed retry, and absence of deadlock, leaked waiter, or retained initializer future.",
+        "Sync initialization tests prove that one terminal error is cached for the invocation and is not changed by later filesystem mutation.",
+        "Async adapter traits remain object-safe without infecting pure domain APIs.",
+        "Supported OS and console interruption signals drive root cancellation and bounded child/task teardown before exit code 130.",
+        "Machine output is stdout-only and diagnostics/tracing are stderr-only by default.",
+        "Secrets and machine-local paths are absent from durable output."
+      ],
+      "dependencies": [
+        "V3-03: issue #164"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-04",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Domain lifecycle behavior, concrete GitHub endpoints, state transactions, detached telemetry, update checks, or background services."
+      ]
+    }
+  }
+}

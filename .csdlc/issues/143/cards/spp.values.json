@@ -1,0 +1,132 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 143,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR] Author and review the milestone architecture decision record set",
+    "slug": "v092-adr-authoring",
+    "version": "v0.92",
+    "generation": 23
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Bind issue 143, inventory accepted ADRs and landed evidence, correct the stale plan, author one Proposed or Deferred document per reserved number, build an evidence/disposition index and focused validator, then resolve fresh exact-head review before publishing.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bind issue 143 and inventory accepted ADR numbers, candidate conventions, and landed v0.92 evidence",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Correct the v0.92 ADR plan and author ADR 0059 through 0071 as source-grounded Proposed or Deferred candidates",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Create the reviewer index and focused ADR packet validator",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused validation and fresh exact-head independent review; resolve every actionable finding",
+          "acceptance_ids": [
+            "AC-9",
+            "AC-10"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S5",
+          "action": "Publish a documentation-only PR that closes issue 143 without accepting any ADR",
+          "acceptance_ids": [
+            "AC-10"
+          ],
+          "status": "in_progress"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/issues/143",
+        ".csdlc/prepared/issues/143",
+        ".csdlc/evidence/143",
+        ".csdlc/evidence/143/adr-evidence-manifest.json",
+        ".csdlc/prepared/issues/143/validate-v092-adrs.rb",
+        "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+        "docs/architecture/adr/README.md",
+        "docs/architecture/adr/V092_ADR_INDEX_143.md",
+        "docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md",
+        "docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md",
+        "docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md",
+        "docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md",
+        "docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md",
+        "docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md",
+        "docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md",
+        "docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md",
+        "docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md",
+        "docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md",
+        "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+        "docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md",
+        "docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md"
+      ],
+      "invariants": [
+        "Candidate status remains Proposed or Deferred",
+        "Accepted ADR files remain unchanged",
+        "Every architectural claim is bounded by landed evidence and explicit non-claims",
+        "Planned feature contracts are not misrepresented as executable proof",
+        "Cross-polis operational migration remains deferred beyond v0.92"
+      ],
+      "risks": [
+        "A candidate may overstate behavior beyond its cited proof",
+        "Forward-looking WP-18A or WP-18B plans may be mistaken for landed evidence",
+        "A new ADR may duplicate or silently supersede an accepted record",
+        "Cross-polis language may imply production migration",
+        "A candidate number may collide with current registry truth"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Accepted ADR registry or candidate numbering is ambiguous",
+        "A required decision cannot be grounded in repository evidence",
+        "A candidate requires an unlanded implementation claim rather than Deferred status",
+        "Any proposed text implies production cross-polis migration, personhood, citizenship, or accepted authority",
+        "Focused validation or exact-head review reports an unresolved actionable finding"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/143/design.md",
+      "design_digest": "0894b6fc8938c94fc13c44f9258cbfe7168995f5550907f83ebe274d4fb9c39e",
+      "diagram_ref": ".csdlc/prepared/issues/143/diagram.mmd",
+      "diagram_digest": "452985f0a9f483748e9e7a20058fff994d332b9215a524b891b41d17ecf8c125"
+    }
+  }
+}

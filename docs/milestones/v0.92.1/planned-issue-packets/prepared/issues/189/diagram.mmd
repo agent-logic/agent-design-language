@@ -1,0 +1,9 @@
+flowchart LR
+  R["Terminal INT-01 recommendation"] --> M["Exact release-candidate manifest"]
+  M --> A["Company authority and observer gate"]
+  M --> H["Isolated rollback rehearsal"]
+  H --> D["Data and authority digest parity"]
+  H --> B["Abort path and cleanup proof"]
+  A & D & B --> C["Operator ceremony packet"]
+  C --> G["Explicit final authorization gate"]
+  G -. "not executed by this issue" .-> P["Release publication"]

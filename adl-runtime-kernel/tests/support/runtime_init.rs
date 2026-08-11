@@ -14,6 +14,15 @@ pub fn write_with_certificate_for_state(
     address: std::net::SocketAddr,
     state_root: &Path,
 ) -> (PathBuf, Vec<u8>) {
+    write_with_certificate_for_state_and_ingress_capacity(directory, address, state_root, 64)
+}
+
+pub fn write_with_certificate_for_state_and_ingress_capacity(
+    directory: &Path,
+    address: std::net::SocketAddr,
+    state_root: &Path,
+    canonical_ingress_capacity: usize,
+) -> (PathBuf, Vec<u8>) {
     use rcgen::{
         date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer, IsCa, KeyPair,
     };
@@ -38,14 +47,17 @@ pub fn write_with_certificate_for_state(
     std::fs::create_dir_all(&tls_root).unwrap();
     let certificate = tls_root.join("localhost-cert.pem");
     let private_key = tls_root.join("localhost-key.pem");
-    std::fs::write(&certificate, leaf.pem()).unwrap();
+    let trust_roots = tls_root.join("test-root-ca.pem");
+    std::fs::write(&certificate, format!("{}{}", leaf.pem(), ca.pem())).unwrap();
     std::fs::write(&private_key, leaf_key.serialize_pem()).unwrap();
+    std::fs::write(&trust_roots, ca.pem()).unwrap();
     let credentials_root = state_root.join("credentials");
     std::fs::create_dir_all(&credentials_root).unwrap();
     let control_public_key = credentials_root.join("control-public-key.hex");
     let operation_public_key = credentials_root.join("operation-public-key.hex");
     let continuity_signing_key = credentials_root.join("continuity-signing-key.hex");
     let observatory_token = credentials_root.join("observatory-token.txt");
+    let acip_write_token = credentials_root.join("acip-write-token.txt");
     std::fs::write(
         &control_public_key,
         hex::encode(
@@ -66,6 +78,7 @@ pub fn write_with_certificate_for_state(
     .unwrap();
     std::fs::write(&continuity_signing_key, hex::encode([23_u8; 32])).unwrap();
     std::fs::write(&observatory_token, "guardian-observatory-token-00000001").unwrap();
+    std::fs::write(&acip_write_token, "guardian-acip-write-token-000000001").unwrap();
     let vector = repo_vector_binary();
     let kernel = std::env::current_exe().unwrap();
     let init = directory.join("runtime-init.toml");
@@ -85,6 +98,7 @@ observability_dir = "observability"
 recorder_capacity = 32
 control_history_capacity = 64
 checkpoint_channel_capacity = 4
+canonical_ingress_capacity = {}
 component_readiness_timeout_millis = 5000
 observability_poll_millis = 50
 weather_stale_after_millis = 75
@@ -106,6 +120,8 @@ websocket_max_frame_bytes = 65536
 [api.tls]
 certificate_chain_path = "{}"
 private_key_path = "{}"
+trust_roots_path = "{}"
+server_name = "localhost"
 [credentials]
 control_public_key_path = "{}"
 control_key_id = "operator"
@@ -115,6 +131,7 @@ operation_key_id = "runtime-operations"
 continuity_signing_key_path = "{}"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "{}"
+acip_write_token_path = "{}"
 continuity_min_generation = 0
 sntp_server = "time.cloudflare.com"
 [shutdown]
@@ -177,14 +194,17 @@ snapshot_concurrency = 4
 "#,
             toml_path(state_root),
             toml_path(&kernel),
+            canonical_ingress_capacity,
             address,
             address.port(),
             toml_path(&certificate),
             toml_path(&private_key),
+            toml_path(&trust_roots),
             toml_path(&control_public_key),
             toml_path(&operation_public_key),
             toml_path(&continuity_signing_key),
             toml_path(&observatory_token),
+            toml_path(&acip_write_token),
             toml_path(&vector),
         ),
     )

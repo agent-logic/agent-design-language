@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 5909,
+  "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "expected_generation": 11,
+  "expected_digest": "ec9e47adeb5edcabf3c60febcc05b89505e97bdb164bb427793af4a84317120e",
+  "actor": "codex:141-pr120-terminal-repair",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/5909-lease-authority-defect",
+  "title": "[v0.92][WP-04.07][defect] Harden lease mutation authority and bounded proof",
+  "body": "Closes danielbaustin/agent-design-language#5909\n\nReconcile the already-merged PR #120 publication identity so typed terminal materialization can record the live merged and closed outcome. No new merge authority is implied.",
+  "draft": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}

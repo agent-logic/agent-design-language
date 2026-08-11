@@ -109,6 +109,14 @@ fn provider_caps() -> ProviderCapabilitiesV1 {
             supported: false,
             mode: CapabilityModeV1::None,
         },
+        speech_synthesis: CapabilitySupportV1 {
+            supported: false,
+            mode: CapabilityModeV1::None,
+        },
+        speech_transcription: CapabilitySupportV1 {
+            supported: false,
+            mode: CapabilityModeV1::None,
+        },
     }
 }
 

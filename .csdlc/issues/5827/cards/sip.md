@@ -22,11 +22,12 @@ A versioned continuity record and validator linking identity root, predecessor a
 
 - adl-runtime-kernel/src/birthday_continuity.rs
 - adl-runtime-kernel/src/lib.rs
-- adl-runtime-kernel/tests/birthday_continuity.rs
-- adl-runtime-kernel/tests/fixtures/birthday_continuity/
+- adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs
 - docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md
 - .csdlc/prepared/issues/5827/validate-native-receipts.rb
-- .csdlc/evidence/5827/
+- .csdlc/prepared/issues/5827/produce-native-receipt.rb
+- .csdlc/evidence/5827
+- .github/workflows/wp10-native-birthday-continuity.yml
 
 ## Authority
 
@@ -36,8 +37,10 @@ A versioned continuity record and validator linking identity root, predecessor a
 
 ## Assumptions
 
-- Every listed dependency is a current execution gate to verify from source and receipt-backed evidence, not a preparation-time completion claim.
-- The exact declared implementation paths are complete for claim planning and must be collision-checked unchanged before editing; widening requires explicit replan and reapproval.
+- Issue #5826 and PR #118 remain a serial execution gate: the repaired Birthday Identity implementation must be freshly independently reviewed, fully green, merged, terminally reconciled, and ancestral to the eventual #5827 execution base before binding or product edits.
+- The authoritative Birthday Identity output and its verified identity-memory and governed private-state projection authorities are direct read-only inputs; #5827 must consume rather than recreate or weaken them.
+- The future typed bind preserves the existing legacy issue identity danielbaustin/agent-design-language#5827 while declaring code_repository agent-logic/agent-design-language.
+- The exact declared owned paths are complete for planning and must be collision-checked unchanged before implementation; widening requires explicit typed replan and reapproval.
 
 ## Operator Constraints
 

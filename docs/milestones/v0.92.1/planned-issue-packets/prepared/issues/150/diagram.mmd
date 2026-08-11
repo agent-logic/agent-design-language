@@ -1,0 +1,23 @@
+flowchart TD
+  CONTRACT["V3-01 product contract"] --> SPIKE["V3-02 construction spike"]
+  SPIKE --> D11["V3-D11 platform commit decision"]
+  SPIKE --> FOUNDATION["V3-03 single binary"]
+  FOUNDATION --> APP["V3-04 application context"]
+  APP --> REPO["V3-05 repository context"]
+  REPO --> STATE["V3-06 canonical state and cards"]
+  STATE --> KERNEL["V3-07 lifecycle kernel"]
+  D11 --> TX["V3-08 transactions and recovery"]
+  KERNEL --> TX
+  APP --> ADAPTERS["V3-09 typed effect adapters"]
+  TX --> COMMANDS["V3-10A/B issue, bind, edit, doctor"]
+  STATE --> PVFPLAN["V3-11A PVF planning"]
+  TX --> PVFRUN["V3-11B PVF execution"]
+  PVFPLAN --> PVFRUN
+  COMMANDS --> REVIEWGATE["V3-12 exact review and publication"]
+  REVIEWGATE --> GHREAD["V3-13 GitHub observation"]
+  GHREAD --> GHMUTATE["V3-14 PR mutation and watch"]
+  GHMUTATE --> FINISH["V3-15 finish and cleanup"]
+  PVFRUN --> CUTOVER["V3-16 parity and writer-fenced cutover"]
+  FINISH --> CUTOVER
+  CUTOVER -. rollback expiry .-> RETIRE["V3-R01 deferred v2 retirement"]
+  CUTOVER --> LEDGER["Terminal ledger; retirement excluded"]

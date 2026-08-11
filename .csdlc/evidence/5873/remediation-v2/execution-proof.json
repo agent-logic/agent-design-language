@@ -1,0 +1,212 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5873,
+  "wp": "WP-04.11",
+  "source_revision": "7bf3def4d32fdebcf2e0aa5b4b6438ec2a02ebc7",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/placement.rs",
+    "adl-runtime/tests/distributed_placement.rs"
+  ],
+  "source_artifacts": [
+    {
+      "path": "adl-runtime/src/distributed/placement.rs",
+      "sha256": "7518d586fa22523270e44934067eedb17753d6816f5a94146822cb73ef43bad7"
+    },
+    {
+      "path": "adl-runtime/tests/distributed_placement.rs",
+      "sha256": "149b5f469f98d42c23b120ec7ad02817816734bf50d37a4f7d159fd4a641145c"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "ruby",
+        ".csdlc/evidence/5873/run-exact-child-tests.rb",
+        "cargo",
+        "nextest",
+        "run",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_placement",
+        "--no-tests=fail"
+      ],
+      "exit_code": 0,
+      "selected_tests": 15,
+      "started_at": "2026-08-10T08:49:19.879515Z",
+      "finished_at": "2026-08-10T08:49:21.089553Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5873-local-remediation-v2",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "900b5728e1f1647cdbb287a60817e8b2d28d63334c9ac4628b1473285e542447"
+      },
+      "stdout_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/exact-child-tests.stdout.log",
+      "stdout_sha256": "946fdf9b8bcb5c64d3b8ca4da85aa8ffaad9a1b7594720a18bd7c28edc4de157",
+      "stderr_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/exact-child-tests.stderr.log",
+      "stderr_sha256": "7cb56ee14eeab05153adc2a17933f50f24b1fda5cfa66ccb7a62f8c3b8381475"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_placement",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-10T08:49:21.090226Z",
+      "finished_at": "2026-08-10T08:49:21.275078Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5873-local-remediation-v2",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "900b5728e1f1647cdbb287a60817e8b2d28d63334c9ac4628b1473285e542447"
+      },
+      "stdout_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/strict-focused-clippy.log",
+      "stdout_sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe",
+      "stderr_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/strict-focused-clippy.stderr.log",
+      "stderr_sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe"
+    }
+  ],
+  "negative_cases": [
+    {
+      "case": "fenced_node_excluded",
+      "result": "fenced",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "stale_advertisement_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "wrong_trust_domain_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "stale_membership_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "future_fence_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "candidate_constraints_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "unavailable_weather_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "unauthorized_candidate_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "duplicate_evidence_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "policy_bounds_enforced",
+      "result": "fail_closed",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "membership_domain_mismatch_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "incomplete_fencing_view_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "case": "caller_selected_fencing_slice_unavailable",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "evidence_sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".csdlc/evidence/5873/derive-negative-cases.rb",
+      "sha256": "77e7bbff59bfca1d62dd78911b32532f3efd0b3db4b56e50f7eaf9e7d2598e9a"
+    },
+    {
+      "path": ".csdlc/evidence/5873/run-exact-child-tests.rb",
+      "sha256": "f3bd96674574dc0499001f3a31536c8d8acbaffbc44bbee3324f335afd2e553a"
+    },
+    {
+      "path": ".csdlc/evidence/5873/runner.txt",
+      "sha256": "900b5728e1f1647cdbb287a60817e8b2d28d63334c9ac4628b1473285e542447"
+    },
+    {
+      "path": ".csdlc/evidence/5873/remediation-v2/operator-v2/exact-child-tests.log",
+      "sha256": "c2bfb651c50a3295b3801aab7d96f7e4ad88b995320d3a53bc763405edae14d1"
+    },
+    {
+      "path": ".csdlc/evidence/5873/remediation-v2/operator-v2/exact-child-tests.stdout.log",
+      "sha256": "946fdf9b8bcb5c64d3b8ca4da85aa8ffaad9a1b7594720a18bd7c28edc4de157"
+    },
+    {
+      "path": ".csdlc/evidence/5873/remediation-v2/operator-v2/exact-child-tests.stderr.log",
+      "sha256": "7cb56ee14eeab05153adc2a17933f50f24b1fda5cfa66ccb7a62f8c3b8381475"
+    },
+    {
+      "path": ".csdlc/evidence/5873/remediation-v2/operator-v2/strict-focused-clippy.log",
+      "sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe"
+    },
+    {
+      "path": ".csdlc/evidence/5873/remediation-v2/operator-v2/strict-focused-clippy.stderr.log",
+      "sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe"
+    },
+    {
+      "path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.json",
+      "sha256": "0daa57f74e934f452c7cc8f7bb0863e23604a3bcae865f16a87a09cf197fef85"
+    },
+    {
+      "path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.stdout.log",
+      "sha256": "2e68ef7901b14b2a77b8b0cba9030ff4b36a59e63250739bbc4aa23bd31387c8"
+    },
+    {
+      "path": ".csdlc/evidence/5873/remediation-v2/operator-v2/negative-cases.stderr.log",
+      "sha256": "2327084414cba0e72538c2b6df540637e143815aa619953ed5ca16aaae7d98db"
+    },
+    {
+      "path": ".csdlc/evidence/5873/remediation-v2/operator-v2/validation-manifest.json",
+      "sha256": "d4786b5027db023da857c82873a5f2c7c4cdb44b63a392107a2fa1b6bc0235d4"
+    }
+  ],
+  "native_receipts": [
+
+  ]
+}

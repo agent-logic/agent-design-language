@@ -1,4 +1,5 @@
 use std::{
+    collections::BTreeSet,
     fs,
     path::{Path, PathBuf},
 };
@@ -41,6 +42,7 @@ pub enum KernelDurableStateError {
 }
 
 pub type KernelDurableStateResult<T> = Result<T, KernelDurableStateError>;
+pub type GovernedStateCompareAndSet<'a> = (&'a str, Option<&'a [u8]>, &'a [u8]);
 
 pub struct KernelDurableState {
     database: Database,
@@ -200,6 +202,64 @@ impl KernelDurableState {
             .map_err(database_error)?;
         write.commit().map_err(database_error)?;
         Ok(())
+    }
+
+    /// Atomically replaces one governed-state value only when its current bytes exactly match
+    /// `expected`. `None` means the domain must not exist. A false result makes no mutation.
+    pub fn compare_and_set_governed_state(
+        &self,
+        domain: &str,
+        expected: Option<&[u8]>,
+        replacement: &[u8],
+    ) -> KernelDurableStateResult<bool> {
+        self.compare_and_set_governed_states(&[(domain, expected, replacement)])
+    }
+
+    /// Atomically compares and replaces distinct governed-state domains in one transaction.
+    /// Any mismatch leaves every domain unchanged.
+    pub fn compare_and_set_governed_states(
+        &self,
+        changes: &[GovernedStateCompareAndSet<'_>],
+    ) -> KernelDurableStateResult<bool> {
+        if changes.is_empty()
+            || changes
+                .iter()
+                .map(|(domain, _, _)| *domain)
+                .collect::<BTreeSet<_>>()
+                .len()
+                != changes.len()
+        {
+            return Ok(false);
+        }
+        let mut write = self.database.begin_write().map_err(database_error)?;
+        write
+            .set_durability(Durability::Immediate)
+            .map_err(database_error)?;
+        let applied = {
+            let mut table = write.open_table(GOVERNED_STATE).map_err(database_error)?;
+            let mut matches = true;
+            for (domain, expected, _) in changes {
+                let current = table.get(*domain).map_err(database_error)?;
+                if current.as_ref().map(|value| value.value()) != *expected {
+                    matches = false;
+                    break;
+                }
+            }
+            if matches {
+                for (domain, _, replacement) in changes {
+                    table
+                        .insert(*domain, *replacement)
+                        .map_err(database_error)?;
+                }
+            }
+            matches
+        };
+        if applied {
+            write.commit().map_err(database_error)?;
+        } else {
+            write.abort().map_err(database_error)?;
+        }
+        Ok(applied)
     }
 
     pub fn append_governed_lifelog(&self, entry: &Value) -> KernelDurableStateResult<()> {

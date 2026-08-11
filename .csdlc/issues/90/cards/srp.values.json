@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 90,
+    "repository": "agent-logic/agent-design-language",
+    "title": "C-SDLC v2: support split-repository publication for pre-code_repository bound records",
+    "slug": "split-repository-pre-code-repository-migration",
+    "version": "unversioned",
+    "generation": 28
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/90/audit.jsonl\n.csdlc/issues/90/cards/sip.md\n.csdlc/issues/90/cards/sip.values.json\n.csdlc/issues/90/cards/sor.md\n.csdlc/issues/90/cards/sor.values.json\n.csdlc/issues/90/cards/spp.md\n.csdlc/issues/90/cards/spp.values.json\n.csdlc/issues/90/cards/srp.md\n.csdlc/issues/90/cards/srp.values.json\n.csdlc/issues/90/cards/stp.md\n.csdlc/issues/90/cards/stp.values.json\n.csdlc/issues/90/cards/vpp.md\n.csdlc/issues/90/cards/vpp.values.json\n.csdlc/issues/90/index.json\n.csdlc/locks/90.lock\n.csdlc/prepared/issues/90/design.md\n.csdlc/prepared/issues/90/diagram.mmd\ncsdlc-v2/operator/skills/csdlc-v2-init/SKILL.md\ncsdlc-v2/src/bin/csdlc-issue.rs\ncsdlc-v2/src/git.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/migration.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/code_repository_migration.rs",
+      "review_revision": "git-blake3:ad6d858f5d9f41d83aaf04a32c72a48729981287:9ebb06db2eb27dd2cab6c36d243e66d94858cdfbe976033a6ecb3fb4b0220488",
+      "reviewer": "Carver:019fe94e-cede-7900-90db-4e9b92164cef",
+      "review_prompts": [
+        "Can any request assign a repository that differs from an effective origin fetch or push identity?",
+        "Can an unbound, dirty, stale, terminal, published, or already-conflicting record migrate?",
+        "Does the atomic update preserve every card, phase, review, publication, readiness, and terminal field?",
+        "Can a reviewed migrated record publish only by satisfying the unchanged exact-head and split-authority checks?",
+        "Is retry behavior deterministic and audit-safe?"
+      ],
+      "findings": [
+        {
+          "id": "90-review-p1-nonexistent-schema-command",
+          "severity": "p1",
+          "summary": "The first CI remediation named a nonexistent schema command; guidance now uses executable csdlc-edit schema and retains command proof.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:ad6d858f5d9f41d83aaf04a32c72a48729981287:9ebb06db2eb27dd2cab6c36d243e66d94858cdfbe976033a6ecb3fb4b0220488",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "This is a temporary one-sprint compatibility bridge; typed republication must replace the superseded publication intent with this reviewed head."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

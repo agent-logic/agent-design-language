@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
 
 [
   {
-    "lane": "birth_witness-runtime-v3",
-    "proof_role": "Run the exact Runtime v3 integration target and fail when the selected target contains no tests.",
+    "lane": "birth-witness-authority-runtime-v3",
+    "proof_role": "Run the exact crate-internal opaque-authority and executable negative-matrix lane.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -39,8 +39,36 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 600,
-    "budget_tokens": 4000,
+    "budget_seconds": 480,
+    "budget_tokens": 3000,
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "-E",
+      "test(/^birth_witness::authority_tests::/)",
+      "--no-tests=fail",
+      "--status-level",
+      "all"
+    ],
+    "parallel_group": "5833-core",
+    "defer_reason": null
+  },
+  {
+    "lane": "birth-witness-public-boundary",
+    "proof_role": "Prove the public serialized packet rejects unknown/private fields without exposing an authority constructor.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-3",
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
     "argv": [
       "cargo",
       "nextest",
@@ -57,16 +85,38 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "birth-witness-external-authority-compile-fail",
+    "proof_role": "Prove an external crate cannot establish or nominate the opaque witness authority root.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--doc",
+      "birth_witness"
+    ],
+    "parallel_group": "5833-core",
+    "defer_reason": null
+  },
+  {
     "lane": "birth_witness-macos-native-ci-producer",
-    "proof_role": "Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.",
+    "proof_role": "Run the exact 13-test opaque-authority lane on native GitHub Actions macOS and retain the complete normalized structured log, source manifest, and canonical semantic output.",
     "acceptance_ids": [
       "AC-4",
       "AC-9"
     ],
     "deterministic": false,
     "resource_profile": "medium",
-    "budget_seconds": 240,
-    "budget_tokens": 2000,
+    "budget_seconds": 180,
+    "budget_tokens": 1500,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
@@ -78,19 +128,19 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
       ".csdlc/evidence/5833/native-platform/macos-semantic.json"
     ],
     "parallel_group": "5833-native-produce",
-    "defer_reason": "Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness."
+    "defer_reason": null
   },
   {
     "lane": "birth_witness-linux-native-ci-producer",
-    "proof_role": "Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.",
+    "proof_role": "Run the exact 13-test opaque-authority lane on native GitHub Actions Linux and retain the complete normalized structured log, source manifest, and canonical semantic output.",
     "acceptance_ids": [
       "AC-4",
       "AC-9"
     ],
     "deterministic": false,
     "resource_profile": "medium",
-    "budget_seconds": 240,
-    "budget_tokens": 2000,
+    "budget_seconds": 180,
+    "budget_tokens": 1500,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
@@ -102,11 +152,11 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
       ".csdlc/evidence/5833/native-platform/linux-semantic.json"
     ],
     "parallel_group": "5833-native-produce",
-    "defer_reason": "Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness."
+    "defer_reason": null
   },
   {
     "lane": "birth_witness-native-ci-receipt-verification",
-    "proof_role": "Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=4642a6843434bf0f51560bd78bc2de1fe7f0c2645d4a55e92efa10b384b9383c]",
+    "proof_role": "Recompute exact source, producer, structured 13-test inventory, provenance, path hygiene, and semantic equivalence for both native fragments.",
     "acceptance_ids": [
       "AC-4",
       "AC-9"
@@ -114,7 +164,7 @@ Diagram: .csdlc/prepared/issues/5833/diagram.mmd
     "deterministic": true,
     "resource_profile": "small",
     "budget_seconds": 60,
-    "budget_tokens": 1500,
+    "budget_tokens": 1000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
@@ -138,7 +188,9 @@ Tokens: 10000
 
 ## Commands
 
+- `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --lib -E test(/^birth_witness::authority_tests::/) --no-tests=fail --status-level all`
 - `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test birth_witness --no-tests=fail --status-level all`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --doc birth_witness`
 - `ruby .csdlc/prepared/issues/5833/produce-native-receipt.rb --platform macos --receipt .csdlc/evidence/5833/native-platform/macos.json --semantic-output .csdlc/evidence/5833/native-platform/macos-semantic.json`
 - `ruby .csdlc/prepared/issues/5833/produce-native-receipt.rb --platform linux --receipt .csdlc/evidence/5833/native-platform/linux.json --semantic-output .csdlc/evidence/5833/native-platform/linux-semantic.json`
 - `ruby .csdlc/prepared/issues/5833/validate-native-receipts.rb .csdlc/evidence/5833/native-platform/macos.json .csdlc/evidence/5833/native-platform/linux.json`

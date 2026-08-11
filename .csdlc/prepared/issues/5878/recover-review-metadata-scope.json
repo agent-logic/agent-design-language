@@ -1,0 +1,7 @@
+{
+  "issue": 5878,
+  "expected_generation": 23,
+  "expected_digest": "b4f47ce9035c0b18e33929e859cc7e1512c5c647bc7ace09346e1f770f1788aa",
+  "actor": "codex:issue-5878-final-integration",
+  "reason": "Expand the exact review scope to include typed issue and request metadata so the publication guard can prove automatic metadata-only advancement from the independently approved evidence head."
+}

@@ -191,6 +191,7 @@ async fn main() -> ExitCode {
             ));
             let assembly = match build_live_assembly(LiveBindings {
                 recorder: recorder.clone(),
+                canonical_ingress_capacity: init.kernel.canonical_ingress_capacity,
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
                 reasoning,
@@ -353,6 +354,25 @@ async fn main() -> ExitCode {
                 .is_err()
             {
                 eprintln!("runtime Observatory read token is invalid");
+                return ExitCode::from(78);
+            }
+            let acip_write_token = match read_trimmed_config_file(
+                &init.credentials.acip_write_token_path,
+                "runtime ACIP write token",
+            )
+            .await
+            {
+                Ok(token) => token,
+                Err(error) => {
+                    eprintln!("{error}");
+                    return ExitCode::from(78);
+                }
+            };
+            if service
+                .set_acip_write_bearer_token(&acip_write_token)
+                .is_err()
+            {
+                eprintln!("runtime ACIP write token is invalid");
                 return ExitCode::from(78);
             }
             if service

@@ -1,0 +1,21 @@
+flowchart LR
+  INV["Terminal CORP-01\nasset/contributor schedule"] --> COUNSEL["Qualified counsel\nfinal-form approval"]
+  COUNSEL -->|"approved"| PRIVATE["Private execution channel\nfounder/contributor instruments"]
+  COUNSEL -->|"not approved"| STOP["STOP: no execution\nno completion claim"]
+  AUTH["Corporate acceptance authority"] --> PRIVATE
+  PRIVATE --> CUSTODY["Company-controlled private custody\noriginals never enter repository"]
+  PRIVATE --> IRREVERSIBLE["Irreversible execution boundary\nrollback is pre-execution stop only"]
+  CUSTODY --> DIGEST["Private-boundary digest recomputation"]
+  DIGEST --> REDACTED["Redacted chain-of-title index\nroles, scope, dates, exclusions"]
+  AUTH --> RECEIPT["Corporate acceptance receipt"]
+  RECEIPT --> REDACTED
+  REDACTED --> REVIEW["Independent redaction and\nschedule-coverage review"]
+  REVIEW -->|"pass"| HANDOFF["CORP-02 public receipts"]
+  REVIEW -->|"leak, missing party, or custody failure"| STOP
+  IRREVERSIBLE --> STOP
+
+  subgraph PUBLIC["Public repository boundary"]
+    REDACTED
+    RECEIPT
+    REVIEW
+  end

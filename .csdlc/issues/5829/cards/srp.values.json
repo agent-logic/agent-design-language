@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-12] Capability envelope",
     "slug": "v0-92-wp-12-capability-envelope",
     "version": "v0.92",
-    "generation": 73
+    "generation": 97
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact-head review of WP-12 capability description, canonical ordering, #4761 provenance, authority and limit semantics, secret handling, path portability, and dependency proof only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5829\n.csdlc/prepared/issues/5829/design.md\n.csdlc/prepared/issues/5829/produce-native-receipt.rb\n.csdlc/prepared/issues/5829/validate-native-receipts.rb\n.csdlc/evidence/5829\n.github/workflows/wp12-native-capability-envelope.yml\nadl-runtime-kernel/src/capability_envelope.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/capability_envelope.rs\nadl-runtime-kernel/tests/fixtures/capability_envelope\ndocs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
+      "review_revision": "git-blake3:e0271f2f437f44c740e6de230cb97d219d11d5e4:01e43cecd4292667001537d2077323a6adcb163150885e291018b21a79f44b62",
+      "reviewer": "/root/sprint4_5857/review_5829_exact_head",
       "review_prompts": [
         "Can any envelope grant authority, prove invocation, or imply unlimited capacity from missing fields?",
         "Are provider/model/tool/skill identifiers, grants, denials, limits, provenance, and unsupported claims canonical and complete?",
@@ -23,8 +23,10 @@
         "Are #5825, #5826, #4761, and every WP-12 acceptance claim current at exact HEAD?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Final publication projection and required standard/native checks must remain green at the exact remote head before merge."
+      ],
+      "review_result": "pass"
     }
   }
 }

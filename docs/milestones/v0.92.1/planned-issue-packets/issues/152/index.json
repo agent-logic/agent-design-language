@@ -1,0 +1,102 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 152,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "67026c279fe07cca848df434ed044d093f0dd531f473d19f5522c746c3c47993",
+  "phase": "initialized",
+  "generation": 5,
+  "digest": "86552cac5ea94c3b7097491296c05d19488e89d385ce4b346ba75859e48eb2cc",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/152/design.md",
+  "diagram_path": ".csdlc/prepared/issues/152/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "revision": "2a9b03e60dfd150de8fd7b4ad8a7ddb906a3f443d587d3f843bb3447b9103f43"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e3cb38a6031ea28fbf51107b640e25dfbf7f30ff142b323059f1ab70046edf90",
+      "rendered_digest": "25478e8018b119346da0751aaf71040b447ac2cbc43af30608433c862b64d8e2",
+      "ast_digest": "a3f7c86e5f74645094771837e6037429a25d22a30819e7f34e67bdc6a0e973e4"
+    },
+    "stp": {
+      "values_digest": "9ddd6ac3e2fa0eaad66c7a03ea5f618f5824918e1e3b9a698d151128386a7256",
+      "rendered_digest": "c63dd821e1d51e60a519bab26f271f0e2e14f94530eb2dfda2bfbf2d121c9af2",
+      "ast_digest": "91deb857b31202214ee19091d167014de5151679fe6afc2d3426b90ab7cce871"
+    },
+    "spp": {
+      "values_digest": "a2dda21fabbf16ed26148e4e09d5e33b962a35902d4b58285b5d0251e0d7bebd",
+      "rendered_digest": "a262dc7e342e588620c1d91e28b94a36766f8837ac61c159126b38134aa08533",
+      "ast_digest": "265694acba5ab536a606d2e3ce34f5a7668e05c98ef959805c627e65002240e3"
+    },
+    "vpp": {
+      "values_digest": "e2e6f96f2bff3a8a58017f4e56b17bc1e1c65d96abc7f4fc4c888fb806482663",
+      "rendered_digest": "a105a02d7f63c6ed17133e79a39a1e0fdf17b728947ca1a831250255a55ae58a",
+      "ast_digest": "0bc79b53912990f05dfae9b2b12356dce5a3d66caf105c056fbcb64205c72526"
+    },
+    "srp": {
+      "values_digest": "27cc4cc927492d84f39640854d3832580c573b194d8e065a6414c85b581d9505",
+      "rendered_digest": "d45abbfc0a8203508c447f796adf88bd1c56c25d5df75a20498df7fdb8d77876",
+      "ast_digest": "9013a04fa30754283584be65dbe3c86eaed5f37f6e8856e2738d1f2458bd0982"
+    },
+    "sor": {
+      "values_digest": "00c73b1de3485297a3d503ab28ff7bae3c8b9646fc16523c6108c559684567f9",
+      "rendered_digest": "3e9342c3ff5815b3a3f9acf596014ad4350277bed08b1f5c4974b506813356c3",
+      "ast_digest": "0f79ab455703a4eebbdd4003aad3ae9fc62e51ab9a67f11bbe7056313c914386"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:146-v0921-wave-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:146-umbrella-review-remediation",
+      "reason": "Finalize the issue-specific umbrella plan through the typed semantic editor without approving its design.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Coordinate integrated review and release only after CORP-08, V3-16, and DRT-07 are terminal, routing all findings before release-candidate and final evidence work. Fail closed on missing terminal, producer, ancestry, dependency, cleanup, or path-ownership proof.\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:146-umbrella-review-remediation",
+      "reason": "Activate the now-authored issue-specific fail-closed umbrella validator while leaving design approval pending.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"int-u-coordination\",\"proof_role\":\"Validate exact child denominator, readiness, dependency, terminal, and no-product-ownership truth.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/152/validate-outcome.rb\"],\"parallel_group\":\"int-u-coordination\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:146-typed-readiness-remediation",
+      "reason": "Declare the executable issue validator as an exact owned target required by the typed issue-specific denominator gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/umbrellas/int-u/**\",\".csdlc/prepared/issues/152/**\",\".csdlc/issues/152/**\",\".csdlc/evidence/152/**\",\".csdlc/prepared/issues/152/validate-outcome.rb\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

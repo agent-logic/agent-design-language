@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice",
     "slug": "v0-92-wp-11-runtime-implement-first-memory-palace-context-topology-slice",
     "version": "v0.92",
-    "generation": 49
+    "generation": 77
   },
   "status": "ready",
   "content": {
@@ -15,10 +15,19 @@
     "values": {
       "task_boundary": "Extend only the existing Memory Palace and long-lived-agent slice, fixtures, tests, feature contract, and retained evidence named by WP-11.",
       "deliverables": [
-        "Identity/continuity-bound context-topology integration",
-        "Bounded deterministic working-set and overflow behavior",
-        "Stale, hash, continuity, redaction, and unauthorized-access fixtures",
-        "Retained replay and platform-portability report"
+        "adl-runtime-kernel/src/memory_palace.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/tests/memory_palace.rs",
+        "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
+        ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
+        ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
+        ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
+        ".csdlc/evidence/5828",
+        ".github/workflows/wp11-native-memory-palace.yml",
+        "Complete canonical bounded-working-set, overflow, stale, hash, continuity, redaction, unauthorized-access, and fail-closed negative fixture matrix under adl-runtime-kernel/tests/fixtures/memory_palace/",
+        "Focused deterministic replay, ObsMem trace binding, budget, privacy, and negative tests",
+        "Digest-bound native macOS and Linux exact-revision proof",
+        "Independent exact-head review and rollback evidence"
       ],
       "acceptance_criteria": [
         "The WP-11 slice produces a canonical bounded working set and overflow record whose memory/citation hashes bind current identity, continuity, provenance, temporal anchors, and redaction policy.",

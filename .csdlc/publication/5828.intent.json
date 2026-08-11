@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5828,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5828-memory-palace-context-topology",
+  "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice",
+  "body": "Closes danielbaustin/agent-design-language#5828\n\n## Summary\n- adds a deterministic Runtime v3 Memory Palace packet bound to WP-09 identity, WP-10 continuity, normalized ObsMem records, and exact trace citations\n- enforces bounded working sets, digest-bearing overflow, canonical topology, temporal freshness, collision-resistant room IDs, and fail-closed privacy/redaction rules\n- adds an issue-specific native macOS/Linux receipt workflow with exact inventory, provenance, artifact isolation, and semantic-equivalence validation\n\n## Validation\n- focused Memory Palace nextest: 12/12 passed\n- strict Clippy and formatting: passed\n- retained ObsMem/trace receipt validator: passed at source 41755b0e3b1fb927b19770243572aa028eb6444e\n- exact-head native run 31385543888 passed 12/12 on Linux x86_64 and macOS arm64; the downloaded artifact independently validates at e20b9870dbc56ab59c68f123ed355af331ee5614 with identical semantic SHA b941f2a2d005d12b3a6b8c5b758817fe256196d2963fd0f749ed532e79a42fe2\n- all required standard and native checks were green on the proven publication head; the final metadata projection must remain green before merge\n\n## Review\n- exact assigned review by /root/sprint4_5857/review_5828_exact_head: APPROVED, no findings\n- reviewed revision git-blake3:c370a3096afe9e6486444cf1e76ab527cf3f212d:e28cdafe669d5292380a7aba7c05a05cc0ea7b3a2b2a5bd7e7f7fcdc07aa31da\n\n## Non-claims\n- does not implement downstream capability, cognitive-profile, adaptive-learning, witness, or sprint-closeout work",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:8b1d9b011c72c79ece917a86f459b28e92de8067:73b800756f1e01dbe8e1022f78a8396d33e62e5dcfeea227193e1a9dec9a7460",
+  "commit_sha": "8b1d9b011c72c79ece917a86f459b28e92de8067"
+}

@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.terminal_materialize_request.v1",
+  "issue": 5909,
+  "expected_generation": 12,
+  "expected_digest": "8da22f3a2f5a05835aa735b62e7bf5091dcbc994f9e382d3a059e69a05b62043",
+  "actor": "codex:141-pr120-terminal-repair",
+  "reason": "Materialize live merged PR #120 and closed issue #5909 terminal truth."
+}

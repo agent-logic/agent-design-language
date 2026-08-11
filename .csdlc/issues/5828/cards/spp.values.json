@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice",
     "slug": "v0-92-wp-11-runtime-implement-first-memory-palace-context-topology-slice",
     "version": "v0.92",
-    "generation": 49
+    "generation": 77
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 18,
+      "plan_revision": 19,
       "summary": "Extend and prove the existing WP-11 Memory Palace topology with identity/continuity gates, bounded deterministic selection, overflow, provenance, and redaction.",
       "steps": [
         {
@@ -23,7 +23,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-1",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,7 +41,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -69,7 +69,8 @@
         ".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb",
         ".csdlc/prepared/issues/5828/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5828/produce-native-receipt.rb",
-        ".csdlc/evidence/5828"
+        ".csdlc/evidence/5828",
+        ".github/workflows/wp11-native-memory-palace.yml"
       ],
       "invariants": [
         "Same inputs and observation time produce byte-equivalent semantic topology output.",
@@ -100,7 +101,7 @@
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5828-memory-palace-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\"],\"issues\":[5828,5843],\"order\":[5828,5843]}"
       ],
       "design_ref": ".csdlc/prepared/issues/5828/design.md",
-      "design_digest": "f45c9ef86e3ddd174ed2b1f1ab71865ef6ff02989b5ab3e4205845499160dd50",
+      "design_digest": "077de77e1c857ca4bf1b996885f9d5b33e4e051c98ae1634c37b8cf2dc78311f",
       "diagram_ref": ".csdlc/prepared/issues/5828/diagram.mmd",
       "diagram_digest": "ff82b0bec69f0e9368d20aff4022d0a5506a8040000a27f8a1991dece282ff8b"
     }

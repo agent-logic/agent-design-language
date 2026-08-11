@@ -1,0 +1,9 @@
+{
+  "issue": 66,
+  "card": "sor",
+  "expected_generation": 16,
+  "expected_digest": "944443043b8a2ace8cddaac3dc33dc6b2ee047acff916e30ba519ac8ca4ff708",
+  "actor": "codex:66-validation",
+  "reason": "Record final diff hygiene and credential non-retention proof.",
+  "operation": {"operation":"record_validation","result":{"command":["git","diff","--check"],"purpose":"Reject malformed whitespace and confirm the operator Deepgram credential value is absent from tracked and untracked issue files.","outcome":"passed","evidence_ref":"local:issue-66-diff-and-credential-scan:passed"}}
+}

@@ -1,0 +1,22 @@
+{
+  "issue": 5873,
+  "card": "stp",
+  "expected_generation": 9,
+  "expected_digest": "923316add48b0042b8e7577a1f21d5b935a096671b7489b8a2926e3a1dd8d77c",
+  "actor": "codex:5873-readiness-preparation",
+  "reason": "Replace generic runtime inputs with the exact merged distributed contracts and the gated future fencing contract, all read-only to placement.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
+      ".csdlc/prepared/issues/5821/design.md",
+      "adl-runtime/src/distributed/membership.rs",
+      "adl-runtime/src/distributed/failure_detection.rs",
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/src/distributed/capability_advertisement.rs",
+      "adl-runtime/src/distributed/resource_weather.rs",
+      "adl-runtime/src/distributed/fencing.rs"
+    ]
+  }
+}

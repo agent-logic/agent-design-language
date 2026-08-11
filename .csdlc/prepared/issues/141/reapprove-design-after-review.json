@@ -1,0 +1,6 @@
+{
+  "issue": 141,
+  "expected_generation": 4,
+  "expected_digest": "0cb9001d090626cfd1f3a808c5ec728c0a9f1be0ee0cef221ffc1b873557380c",
+  "reviewer": "codex:141-design-review-remediation"
+}

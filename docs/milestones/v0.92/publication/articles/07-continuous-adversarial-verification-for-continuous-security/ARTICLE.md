@@ -1,4 +1,4 @@
-# Continuous Adversarial Verification for Continuous Security
+# Continuous Adversarial Verification For Continuous Security
 
 Security reviews are snapshots. Agent systems are moving targets.
 

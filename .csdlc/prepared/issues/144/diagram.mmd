@@ -1,0 +1,8 @@
+flowchart LR
+  A["Provisioned cognitive authority"] --> S["Signed policy and evidence statement"]
+  S --> C["Create or update profile"]
+  P["Complete predecessor chain to genesis"] --> V["Full-chain verifier"]
+  C --> V
+  R["Signed governed authority rotation"] --> V
+  V --> H["Authority-bound cognitive profile"]
+  V -->|"forged, truncated, stale, or self-authorized"| X["Fail closed"]

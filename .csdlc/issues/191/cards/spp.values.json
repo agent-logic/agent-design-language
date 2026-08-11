@@ -1,0 +1,109 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 191,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
+    "slug": "secure-durable-three-voter-openraft",
+    "version": "v0.92",
+    "generation": 25
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 5,
+      "summary": "Design the encrypted transport and storage transaction, implement the bounded substrate, prove adversarial transport and crash recovery, obtain independent review, and publish one reviewed PR for #191.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Freeze existing-transport identity, authority-derived topology, framing, retry-cache and storage transaction invariants from current source.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Extend the authoritative encrypted transport and implement crash-safe OpenRaft durable stores without higher-level authority policy.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Add exact three-voter, authorized-overlap, retry/conflict, checkpoint rollback, membership parity, corruption, injected-failure, path and restart tests.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Seal proof, resolve independent review, publish and shepherd CI; do not merge without operator authority.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "status": "in_progress"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/Cargo.toml",
+        "adl-runtime/Cargo.lock",
+        "adl-runtime/src/distributed/mod.rs",
+        "adl-runtime/src/distributed/transport.rs",
+        "adl-runtime/src/distributed/polis_runtime.rs",
+        "adl-runtime/tests/distributed_runtime_transport.rs",
+        "adl-runtime/tests/distributed_transport.rs",
+        "adl-runtime/tests/distributed_discovery.rs",
+        ".csdlc/prepared/issues/191/produce-proof-receipt.rb",
+        ".csdlc/prepared/issues/191/validate-proof-receipt.rb"
+      ],
+      "invariants": [
+        "No plaintext Raft RPC is accepted in production mode and no parallel transport authority is created outside distributed/transport.rs.",
+        "Every route comes from exact MembershipState and AuthorityMembership parity; caller routing hints cannot create a voter.",
+        "No OpenRaft callback makes live state visible before its own durable transaction and external checkpoint reconciliation complete.",
+        "Exact retries return a durable cached response; conflicting replay is never redispatched.",
+        "The trusted deployment bootstrap owns configured certificate roots and the externally retained membership commitment; untrusted transport, RPC, and routing inputs cannot mint application authority, and no secret enters retained evidence."
+      ],
+      "risks": [
+        "OpenRaft storage callbacks can make atomic ordering easy to overstate.",
+        "Certificate rotation or restart replay state can diverge from transport identity.",
+        "Network fault tests can accidentally prove only signed plaintext instead of encryption."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "The current transport module cannot provide a domain-bound Quinn/rustls session without widening to an explicitly reviewed transport path.",
+        "A storage callback contract makes fail-atomic application impossible without a separate bounded storage issue.",
+        "Focused proof cannot distinguish encrypted production traffic from a test-only adapter."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/191/design.md",
+      "design_digest": "67e89d04a23163ac830a6995571e3b04e850aef200801d553b6eaa62e16504ce",
+      "diagram_ref": ".csdlc/prepared/issues/191/diagram.mmd",
+      "diagram_digest": "eb951660d4302394a4add57aa323d81e0f62917c4febc5fcb334d09d8cfd7539"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID 88d634e2-2bec-4086-a739-29e7419b1182 with nextest profile: default
+    Starting 11 tests across 1 binary
+        PASS [   0.011s] ( 1/11) adl-runtime-kernel::cognitive_profile unknown_json_fields_fail_closed
+        PASS [   0.018s] ( 2/11) adl-runtime-kernel::cognitive_profile exported_validator_rejects_rehashed_forgery
+        PASS [   0.020s] ( 3/11) adl-runtime-kernel::cognitive_profile identity_continuity_capability_and_birthday_substitution_fail_closed
+        PASS [   0.020s] ( 4/11) adl-runtime-kernel::cognitive_profile missing_nonclaims_and_public_everything_fail_closed
+        PASS [   0.022s] ( 5/11) adl-runtime-kernel::cognitive_profile canonical_creation_is_deterministic_and_public_projection_is_narrow
+        PASS [   0.022s] ( 6/11) adl-runtime-kernel::cognitive_profile revision_updates_link_and_explain_exact_delta
+        PASS [   0.023s] ( 7/11) adl-runtime-kernel::cognitive_profile exact_duplicates_canonicalize_and_case_collisions_fail
+        PASS [   0.025s] ( 8/11) adl-runtime-kernel::cognitive_profile stale_missing_duplicate_and_forbidden_evidence_fail_closed
+        PASS [   0.029s] ( 9/11) adl-runtime-kernel::cognitive_profile privacy_secrets_paths_and_raw_state_fail_closed
+        PASS [   0.030s] (10/11) adl-runtime-kernel::cognitive_profile broken_revision_link_and_unexplained_delta_fail_closed
+        PASS [   0.030s] (11/11) adl-runtime-kernel::cognitive_profile unsupported_labels_diagnosis_and_status_inference_fail_closed
+────────────
+     Summary [   0.031s] 11 tests run: 11 passed, 0 skipped

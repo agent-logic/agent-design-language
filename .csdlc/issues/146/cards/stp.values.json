@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 146,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][planning] Create corporate transfer, C-SDLC v3, and distributed Runtime milestone",
+    "slug": "v0921-corporate-csdlc-v3-runtime-proof",
+    "version": "v0.92.0",
+    "generation": 39
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Create and publish the complete v0.92.1 milestone planning package and setup issue only; child implementation and legal execution remain future issue work.",
+      "deliverables": [
+        "Full canonical docs/milestones/v0.92.1 planning package and feature documentation.",
+        "Machine-readable issue wave with independent corporate/IP, C-SDLC v3, and distributed Runtime proof lanes.",
+        "Corporate chain-of-title, infrastructure-control, counsel-review, and due-diligence evidence plan.",
+        "C-SDLC v3 conversion of V3-01 through V3-16 and deferred V3-R01 into a gated execution wave.",
+        "Distributed multi-agent Runtime test-cycle contract covering real topology, identity, authority, messaging, partitions, recovery, replay, observability, negative cases, and soak.",
+        "ADR, demo, feature-proof, quality-gate, release, readiness, and next-milestone handoff surfaces."
+      ],
+      "acceptance_criteria": [
+        "The complete canonical v0.92.1 planning package exists and contains no unsupported completion claims.",
+        "The v0.92.5 corporate migration draft is explicitly superseded and all relevant work is preserved in v0.92.1.",
+        "Corporate/IP transfer includes chain of title, asset schedules, provenance, account and infrastructure control, counsel review, corporate acceptance, exclusions, and due-diligence evidence.",
+        "C-SDLC v3 has all reviewed implementation slices, dependencies, canary gates, cutover controls, rollback window, and deferred retirement represented without changing the architecture contract.",
+        "The Runtime proof cycle requires real distributed agents and nodes, governed identity and authority, positive and negative message flows, partition and restart recovery, deterministic replay, observability, resource and soak bounds, and retained receipts.",
+        "The three primary lanes have no cross-lane implementation dependencies and converge only at milestone review and release closeout.",
+        "Issue-wave YAML, links, placeholders, feature coverage, ADR coverage, and diff hygiene pass focused validation.",
+        "A bounded independent review finds no unresolved actionable planning defects before publication."
+      ],
+      "dependencies": [
+        "Issue #73 and merged PR #77 reviewed C-SDLC v3 Rust architecture",
+        "Existing v0.92 distributed Runtime and Observatory implementation issues, including #142",
+        "Existing v0.92.5 corporate infrastructure consolidation draft",
+        "Qualified legal counsel for final IP-transfer instruments"
+      ],
+      "repo_inputs": [
+        ".adl/docs/TBD/V0.92.5_CORPORATE_MIGRATION.md",
+        ".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md",
+        ".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md",
+        ".adl/docs/TBD/planning/GTM_CHECKLIST_v0.1.md",
+        "docs/milestones/v0.92",
+        "https://github.com/agent-logic/agent-design-language/issues/73",
+        "https://github.com/agent-logic/agent-design-language/issues/142"
+      ],
+      "non_goals": [
+        "Implementing any C-SDLC v3 child issue",
+        "Executing transfers or substituting repository prose for legal advice",
+        "Duplicating active Runtime or Observatory implementation",
+        "Running the distributed live proof during this planning issue",
+        "Approving or releasing v0.92.1"
+      ]
+    }
+  }
+}

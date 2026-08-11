@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.historical_finish_request.v1",
+  "issue": 5909,
+  "expected_generation": 12,
+  "expected_digest": "8da22f3a2f5a05835aa735b62e7bf5091dcbc994f9e382d3a059e69a05b62043",
+  "actor": "codex:141-pr120-terminal-repair",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "disposition": "merged",
+  "pr_repository": "agent-logic/agent-design-language",
+  "pull_request": 120,
+  "expected_head_sha": "309d170dc569ca43fa74ce6d73d68857ce82c994",
+  "expected_merge_sha": "350d4a336c8b4812e965bd2da1df465844f9838e",
+  "approved_reason": null,
+  "token_file": "/Users/daniel/keys/github.token"
+}

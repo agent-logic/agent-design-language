@@ -1,0 +1,19 @@
+{
+  "issue": 5874,
+  "card": "stp",
+  "expected_generation": 8,
+  "expected_digest": "ff0f2306995871a3fc1b9bf7e240768787142858f9a2992f838ff8db99171c00",
+  "actor": "codex:5874-readiness-preparation",
+  "reason": "Record the merged certificate dependency and preserve the corrective lease then fencing serial merge gates before snapshot execution.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "WP-04.02 certificate issue #5864 closed through merged PR #62 and merge revision ancestral",
+      "Corrective lease issue #5909 PR #120 merged and its exact merge revision ancestral before fencing or snapshot execution",
+      "WP-04.08 fencing issue #5870 closed through a merged PR whose exact merge revision is ancestral before snapshot execution",
+      "WP-04-IMP umbrella issue #5862 as coordination parent, not a terminal child gate",
+      "Architecture/security gate issue #5821 terminal"
+    ]
+  }
+}

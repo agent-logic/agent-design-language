@@ -1,0 +1,2 @@
+Command: cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings
+Result: passed with zero warnings.

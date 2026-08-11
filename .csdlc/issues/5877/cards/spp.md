@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 4
 
 ## Steps
 
@@ -61,11 +61,17 @@ Revision 2
 
 ## Invariants
 
-- Exclusive paths remain disjoint
-- Guardian stays process 0
-- No insecure or Runtime v2 fallback
-- Queues and waits remain bounded
-- Evidence is exact-revision and digest bound
+- Only adl-runtime/src/distributed/projection.rs, adl-runtime/tests/distributed_projection.rs, and docs/api/runtime-v3/v1/distributed.openapi.json are mutable
+- Integration issue #5878 alone owns route and production module registration
+- Expose exactly one authenticated least-privilege redacted v1 view; current authentication has no scope model, so no privileged detail tier or scope-based authorization is claimed
+- The projection is read-only and never grants, transfers, reconstructs, or mutates distributed authority
+- Every response is one coherent cut whose topology, certificate, failure, lease, placement, migration, and recovery fields derive from the same declared version or revision boundary
+- Canonical ordering, stable identifiers, version selection, serialization, and error results are deterministic for identical coherent input state
+- Secrets, signatures, private keys, raw credentials, bearer material, internal paths, unbounded diagnostics, and unauthorized detail are always omitted or redacted
+- Nodes, edges, certificates, failures, leases, placements, migrations, recoveries, strings, identifiers, response bytes, nesting, and serialization work have explicit hard bounds with checked arithmetic
+- The OpenAPI document exactly matches implemented authentication, version, schema, required fields, bounds, redaction, status, and error behavior
+- Missing, stale, malformed, incoherent, unauthorized, wrong-domain, oversized, or unsupported-version state fails closed without partial or mixed-cut output
+- Execution evidence and independent review remain digest-bound to all three exact protected paths
 
 ## Risks
 
@@ -96,11 +102,13 @@ Digest: 205e7e83ffbf8812f537bacc9065673460c7a36bdcb9ca33e80fc0cabd99e5b4
 
 ## Stop Conditions
 
-- #5821 is not terminal
-- A dependency is not terminal
-- Any declared path overlaps an active claim
-- The exact test target is absent or selects zero tests
-- Scope or rollback authority must widen
+- Stop before binding unless #5909 PR #120, then #5870, then both #5873 and #5874, then #5875, then #5876 are merged and ancestral in that order
+- Stop if merged future input paths do not expose enough stable behavior to project one coherent cut without inventing interfaces
+- Stop if the design would require authorization scopes, a privileged detail tier, route registration, module registration, or mutation outside the three owned paths
+- Stop on any active product-path collision or ownership ambiguity
+- Stop if coherent-cut determinism, least-privilege redaction, hard resource bounds, fail-closed errors, or exact OpenAPI parity cannot be proved
+- After the three issue-owned paths are implemented, stop if distributed_projection is absent, selects zero tests, or any focused, OpenAPI-parity, or receipt validation fails
+- Stop if scope, interface, versioning, registration, authentication, or rollback authority must widen
 
 ## Handoff
 

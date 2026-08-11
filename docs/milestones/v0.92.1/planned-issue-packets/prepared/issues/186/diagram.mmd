@@ -1,0 +1,10 @@
+flowchart TB
+  M["Portable support matrix"] --> MA["macOS arm64 artifact"]
+  M --> LX["Linux x86_64 artifact"]
+  MA & LX --> H["Hosted-model governed path"]
+  MA & LX --> L["Local-model governed path"]
+  H & L --> D["Disconnect / reconnect"]
+  D --> R["Voter restart and agent continuity"]
+  R --> O["Observatory reattachment"]
+  O --> P["Independent replay"]
+  P --> X["Exact artifact, model, term, index, and state digest matrix"]

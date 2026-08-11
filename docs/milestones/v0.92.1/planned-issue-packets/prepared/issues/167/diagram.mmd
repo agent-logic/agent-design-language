@@ -1,0 +1,13 @@
+flowchart TD
+  STATE["versioned state.json authority"] --> SIP["SIP projection"]
+  STATE --> STP["STP projection"]
+  STATE --> SPP["SPP projection"]
+  STATE --> VPP["VPP projection"]
+  STATE --> SRP["SRP projection"]
+  STATE --> SOR["SOR projection"]
+  STATE --> AUDIT["audit.jsonl view"]
+  STATE --> EVIDENCE["evidence indexes"]
+  TABLE["per-card/per-phase optionality"] --> SIP
+  TABLE --> SOR
+  DRIFT["projection digest check"] --> REPAIR["repair from state only"]
+  STATE --> REPAIR

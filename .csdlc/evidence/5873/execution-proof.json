@@ -1,0 +1,194 @@
+{
+  "schema": "adl.wp04.execution_proof.v3",
+  "issue": 5873,
+  "wp": "WP-04.11",
+  "source_revision": "4e60c0c011d00f7a4124e41708d985c648292222",
+  "evidence_revision_strategy": "derive_from_receipt_introduction",
+  "protected_paths": [
+    "adl-runtime/src/distributed/placement.rs",
+    "adl-runtime/tests/distributed_placement.rs"
+  ],
+  "source_artifacts": [
+    {
+      "path": "adl-runtime/src/distributed/placement.rs",
+      "sha256": "9dc46a190c3b01f366bb2afdf89d08fa0ee46066dc6f42ad1bbb1ca1a8d68310"
+    },
+    {
+      "path": "adl-runtime/tests/distributed_placement.rs",
+      "sha256": "a7c743e736c710e3f677d98a5282619ffd98e388c40f48e2e9833124a7817692"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "ruby",
+        ".csdlc/evidence/5873/run-exact-child-tests.rb",
+        "cargo",
+        "nextest",
+        "run",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_placement",
+        "--no-tests=fail"
+      ],
+      "exit_code": 0,
+      "selected_tests": 12,
+      "started_at": "2026-08-10T08:30:24.871217Z",
+      "finished_at": "2026-08-10T08:30:25.217067Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5873-local-operator-v3",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "e2d2621f86599bf3096ee31a5d4c1465e911cc8081bd9c8070f5915bfd225303"
+      },
+      "stdout_path": ".csdlc/evidence/5873/operator-v3/exact-child-tests.stdout.log",
+      "stdout_sha256": "b016bbd5b259c8b9566dabafd371fce37933caff6aa5a42b4685d533ccde0f80",
+      "stderr_path": ".csdlc/evidence/5873/operator-v3/exact-child-tests.stderr.log",
+      "stderr_sha256": "76dc36b29ba2ab676306775e33cecb9b11e323313b6ba7fd5bd21192286dfb44"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_placement",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "started_at": "2026-08-10T08:30:25.217568Z",
+      "finished_at": "2026-08-10T08:30:25.400675Z",
+      "runner": {
+        "provider": "local-codex",
+        "run_id": "5873-local-operator-v3",
+        "os": "macos",
+        "arch": "aarch64",
+        "identity_sha256": "e2d2621f86599bf3096ee31a5d4c1465e911cc8081bd9c8070f5915bfd225303"
+      },
+      "stdout_path": ".csdlc/evidence/5873/operator-v3/strict-focused-clippy.log",
+      "stdout_sha256": "a41051563a4cb5fc1b1bcdd9aa0ba28ca80f7736d629d90cc138218756e8e3a9",
+      "stderr_path": ".csdlc/evidence/5873/operator-v3/strict-focused-clippy.stderr.log",
+      "stderr_sha256": "a41051563a4cb5fc1b1bcdd9aa0ba28ca80f7736d629d90cc138218756e8e3a9"
+    }
+  ],
+  "negative_cases": [
+    {
+      "case": "fenced_node_excluded",
+      "result": "fenced",
+      "evidence_path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "evidence_sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    },
+    {
+      "case": "stale_advertisement_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "evidence_sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    },
+    {
+      "case": "wrong_trust_domain_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "evidence_sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    },
+    {
+      "case": "stale_membership_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "evidence_sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    },
+    {
+      "case": "future_fence_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "evidence_sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    },
+    {
+      "case": "candidate_constraints_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "evidence_sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    },
+    {
+      "case": "unavailable_weather_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "evidence_sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    },
+    {
+      "case": "unauthorized_candidate_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "evidence_sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    },
+    {
+      "case": "duplicate_evidence_denied",
+      "result": "denied",
+      "evidence_path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "evidence_sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    },
+    {
+      "case": "policy_bounds_enforced",
+      "result": "fail_closed",
+      "evidence_path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "evidence_sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".csdlc/evidence/5873/derive-negative-cases.rb",
+      "sha256": "fb0f315c3bd5050614b9bdfb0e037fae00a9f81e34754d700496dc52c2cd1967"
+    },
+    {
+      "path": ".csdlc/evidence/5873/run-exact-child-tests.rb",
+      "sha256": "f3bd96674574dc0499001f3a31536c8d8acbaffbc44bbee3324f335afd2e553a"
+    },
+    {
+      "path": ".csdlc/evidence/5873/runner.txt",
+      "sha256": "e2d2621f86599bf3096ee31a5d4c1465e911cc8081bd9c8070f5915bfd225303"
+    },
+    {
+      "path": ".csdlc/evidence/5873/operator-v3/exact-child-tests.log",
+      "sha256": "cf8a53c0fdeb688432a7dbdff3332d28e7c9796af26e6e5a29cdcdfbb985187a"
+    },
+    {
+      "path": ".csdlc/evidence/5873/operator-v3/exact-child-tests.stdout.log",
+      "sha256": "b016bbd5b259c8b9566dabafd371fce37933caff6aa5a42b4685d533ccde0f80"
+    },
+    {
+      "path": ".csdlc/evidence/5873/operator-v3/exact-child-tests.stderr.log",
+      "sha256": "76dc36b29ba2ab676306775e33cecb9b11e323313b6ba7fd5bd21192286dfb44"
+    },
+    {
+      "path": ".csdlc/evidence/5873/operator-v3/strict-focused-clippy.log",
+      "sha256": "a41051563a4cb5fc1b1bcdd9aa0ba28ca80f7736d629d90cc138218756e8e3a9"
+    },
+    {
+      "path": ".csdlc/evidence/5873/operator-v3/strict-focused-clippy.stderr.log",
+      "sha256": "a41051563a4cb5fc1b1bcdd9aa0ba28ca80f7736d629d90cc138218756e8e3a9"
+    },
+    {
+      "path": ".csdlc/evidence/5873/operator-v3/negative-cases.json",
+      "sha256": "b4e77fe9182e93b8840233d118916bfd47114f94666c6d0b8cfab106e6e263f4"
+    },
+    {
+      "path": ".csdlc/evidence/5873/operator-v3/negative-cases.stdout.log",
+      "sha256": "a41c818337a355a9cc5cee906c67a2060cc98b1d079d39bd90d3cf48279ae4e9"
+    },
+    {
+      "path": ".csdlc/evidence/5873/operator-v3/negative-cases.stderr.log",
+      "sha256": "2327084414cba0e72538c2b6df540637e143815aa619953ed5ca16aaae7d98db"
+    },
+    {
+      "path": ".csdlc/evidence/5873/operator-v3/validation-manifest.json",
+      "sha256": "18ab456782a7543b9265ffc6827f1d943d3de2aa10b97c68df205807c4e4439e"
+    }
+  ],
+  "native_receipts": [
+
+  ]
+}

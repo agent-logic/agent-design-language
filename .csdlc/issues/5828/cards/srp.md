@@ -8,11 +8,22 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact-head review of WP-11 topology semantics, bounded selection and overflow, identity/continuity bindings, deterministic replay, redaction, schema compatibility, and platform portability only.
+.csdlc/issues/5828
+.csdlc/prepared/issues/5828/design.md
+.csdlc/prepared/issues/5828/produce-native-receipt.rb
+.csdlc/prepared/issues/5828/validate-native-receipts.rb
+.csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb
+.csdlc/evidence/5828
+.github/workflows/wp11-native-memory-palace.yml
+adl-runtime-kernel/src/memory_palace.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/memory_palace.rs
+adl-runtime-kernel/tests/fixtures/memory_palace
+docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md
 
 ## Prompts
 
@@ -31,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The final publication projection must retain green standard and issue-specific native GitHub checks before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c370a3096afe9e6486444cf1e76ab527cf3f212d:e28cdafe669d5292380a7aba7c05a05cc0ea7b3a2b2a5bd7e7f7fcdc07aa31da")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_5828_exact_head")
 
-Result: pre_review
+Result: pass

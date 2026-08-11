@@ -1,0 +1,56 @@
+{
+  "schema": "adl.distributed_guardian.native_receipt.v1",
+  "issue": 5878,
+  "platform": "windows",
+  "source_revision": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+  "command": {
+    "argv": [
+      "bash",
+      "adl/tools/validate_v092_distributed_guardian.sh"
+    ],
+    "exit_code": 0,
+    "selected_tests": 2,
+    "started_at": "2026-08-10T15:08:43Z",
+    "finished_at": "2026-08-10T15:13:05Z",
+    "runner": {
+      "provider": "github_actions",
+      "run_id": "31401936181-1-windows",
+      "os": "windows",
+      "arch": "x86_64",
+      "repository": "agent-logic/agent-design-language",
+      "workflow_ref": "agent-logic/agent-design-language/.github/workflows/wp04-native-distributed.yml@refs/heads/codex/5878-final-distributed-integration",
+      "run_attempt": "1",
+      "github_run_id": "31401936181",
+      "commit": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+      "provenance_path": ".csdlc/evidence/5878/native/windows/runner-provenance.json",
+      "provenance_sha256": "8f2d58269ea2561d830f0ee1c430bdb5070737c3c14ef1ac15a6967978ccc078",
+      "identity_sha256": "118fbd12ff5a956fe8e8c7d7e294d1d7f43f92be64fe3db887debbfbec59038b"
+    },
+    "stdout_path": ".csdlc/evidence/5878/native/windows/distributed-guardian.stdout.log",
+    "stdout_sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203",
+    "stderr_path": ".csdlc/evidence/5878/native/windows/distributed-guardian.stderr.log",
+    "stderr_sha256": "4208ee4f4e1447d1d01615a7682be127d52777c1687c97dd361aa9455eb91242"
+  },
+  "negative_cases": [
+    "authority_replay",
+    "oversized_protobuf_frame",
+    "wrong_authority_domain"
+  ],
+  "artifacts": [
+    {
+      "role": "integration_stdout",
+      "path": ".csdlc/evidence/5878/native/windows/distributed-guardian.stdout.log",
+      "sha256": "fce2f80ba151e3e55eef3b93cb0eb082b1b8a94a4a4ca61de725f6951f91d203"
+    },
+    {
+      "role": "integration_stderr",
+      "path": ".csdlc/evidence/5878/native/windows/distributed-guardian.stderr.log",
+      "sha256": "4208ee4f4e1447d1d01615a7682be127d52777c1687c97dd361aa9455eb91242"
+    },
+    {
+      "role": "runner_provenance",
+      "path": ".csdlc/evidence/5878/native/windows/runner-provenance.json",
+      "sha256": "8f2d58269ea2561d830f0ee1c430bdb5070737c3c14ef1ac15a6967978ccc078"
+    }
+  ]
+}

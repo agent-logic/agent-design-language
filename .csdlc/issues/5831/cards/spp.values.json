@@ -7,23 +7,23 @@
     "title": "[v0.92][WP-13A][runtime] Implement the Adaptive Learning DAG",
     "slug": "v0-92-wp-13a-runtime-implement-adaptive-learning-dag",
     "version": "v0.92",
-    "generation": 54
+    "generation": 93
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 21,
+      "plan_revision": 23,
       "summary": "Implement and prove WP-13A's evaluation-to-policy-to-graph DAG, including accepted and rejected paths, deterministic replay, bounded Runtime v3 integration, and rollback history.",
       "steps": [
         {
           "id": "S1",
-          "action": "Verify #5818, #5830, #5104, and Runtime v3 requalification, then inspect adl-runtime-kernel reasoning, cognition, governance, and durable-state authorities.",
+          "action": "Verify #5817, #5830, #5104, and Runtime v3 requalification, then inspect adl-runtime-kernel reasoning, cognition, governance, and durable-state authorities.",
           "acceptance_ids": [
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-1",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,11 +41,11 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
-          "action": "Resolve one bounded exact-head review and publish only with correct base and Closes #5831 linkage.",
+          "action": "Resolve one bounded exact-head review and publish only with correct base and a qualified closing reference for legacy issue #5831.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -56,7 +56,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "in_progress"
         }
       ],
       "affected_areas": [
@@ -67,7 +67,8 @@
         "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
         ".csdlc/prepared/issues/5831/validate-native-receipts.rb",
         ".csdlc/prepared/issues/5831/produce-native-receipt.rb",
-        ".csdlc/evidence/5831"
+        ".csdlc/evidence/5831",
+        ".github/workflows/wp13a-native-adaptive-learning.yml"
       ],
       "invariants": [
         "Missing evidence never becomes feedback and rejected proposals never mutate state or graph.",
@@ -98,7 +99,7 @@
         "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5831-adaptive-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\"],\"issues\":[5831,5843],\"order\":[5831,5843]}"
       ],
       "design_ref": ".csdlc/prepared/issues/5831/design.md",
-      "design_digest": "91f8ac6dc1021239177fb488afde787bf38e715cc2ec533d8e20aa425f85fd0e",
+      "design_digest": "5155978013a9bc8e77519604207c1662822266331c7cb58b94d3bcc07c7f3520",
       "diagram_ref": ".csdlc/prepared/issues/5831/diagram.mmd",
       "diagram_digest": "859dbad5aa913e1a5f65375bd3b1ea19e42c33ed9c4c5d264053d6763a54d057"
     }

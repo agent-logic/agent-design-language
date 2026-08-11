@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 146,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/146-v0921-milestone-planning",
+  "title": "[v0.92][planning] Establish the v0.92.1 corporate, C-SDLC v3, and distributed Runtime milestone",
+  "body": "Closes #146\n\n## Summary\n\n- establish the canonical planning-only v0.92.1 milestone package\n- preserve 45 complete work-package specifications for corporate/IP transfer, C-SDLC v3, distributed Runtime qualification, and the standard closeout tail\n- use the canonical nine-step closeout sequence: demo convergence, quality gate, docs alignment, internal review, external review, remediation and final preflight, next-milestone planning, next-milestone review, and release ceremony with lifecycle closeout\n- make post-merge operator bootstrap responsible for creating WP-01; WP-01 then exclusively creates and validates the downstream live issue wave\n- preserve the retired #149-#190 planning work in its source-anchored, explicitly non-authoritative archive without reopening or reusing those issues\n- preserve all eleven mandatory C-SDLC v3 decisions and keep release ceremony as the terminal lifecycle boundary\n\n## Validation\n\n- `ruby .csdlc/prepared/issues/146/validate-v0921-package.rb`: passed\n- `ruby .csdlc/prepared/issues/146/validate-v0921-links.rb`: passed\n- `git diff --check`: passed\n- typed issue validation: passed with no findings\n- independent exact-head review: PASS at `2ea89bd158d95893b0f66f0ef162cd98f8736e53`\n- validator now enforces ordered INT-01 through INT-09 agreement across all seven human-facing closeout documents\n\nNo child issues were created by this revision. No v0.92.1 implementation, transfer, qualification, cutover, release, or child execution is claimed by this PR. No broad test suite was run because this is a planning/documentation correction.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:3e83d9abe7e59ff1a1063d69d76d71b1f970d393:a1a671aa1afca6417d6133a671a2f762c050f02990d4feb7c43c3ddae4affb2e",
+  "commit_sha": "3e83d9abe7e59ff1a1063d69d76d71b1f970d393"
+}

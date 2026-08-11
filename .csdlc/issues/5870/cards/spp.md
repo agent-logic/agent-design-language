@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 6
 
 ## Steps
 
@@ -61,11 +61,18 @@ Revision 2
 
 ## Invariants
 
-- Exclusive paths remain disjoint
-- Guardian stays process 0
-- No insecure or Runtime v2 fallback
-- Queues and waits remain bounded
-- Evidence is exact-revision and digest bound
+- Only adl-runtime/src/distributed/fencing.rs and adl-runtime/tests/distributed_fencing.rs are mutable; lease.rs is a read-only imported contract and #5878 owns production registration
+- A valid quorum may fence or revoke an unavailable holder without old-holder activation possession, but no fenced or former holder may activate or mutate without fresh current authority and holder proof
+- Epoch changes are exactly the next committed epoch; same, stale, skipped, uncommitted, overflowed, or ambiguous epochs fail closed
+- The portable safety floor is derived from committed authority, stored independently of machine-local paths, and never decreases across restart, restore, migration, or rollback
+- Every request revalidates fresh current AuthorityMembership, its trust domain, voter set, generation, quorum, committed index, expiry, and revocation state; absent current membership fails closed
+- Only the exact declared fencing operation allowlist is accepted; unknown, confused-deputy, cross-lineage, wrong-domain, or holder-only operations without possession are denied
+- Fence and replay receipts are written atomically and made immediately durable before success or authority change is observable; torn, corrupt, missing, partially persisted, or reordered receipts fail closed
+- Exact idempotent replay returns only the committed result; nonce, digest, operation, epoch, lineage, membership, or authority mismatch is denied
+- State directories and files are repository-independent, normalized, ordinary, and component-wise symlink safe with bounded check-open exposure; path escape and unsafe ancestors are rejected
+- Lineages, memberships, receipts, replay keys, identifiers, paths, serialized bytes, retries, waits, and arithmetic have explicit hard bounds; full capacity fails closed without evicting live safety state
+- Restart and rollback recover only the latest valid committed floor and receipt state and never reactivate a fenced owner
+- Execution evidence and independent review remain digest-bound to the two exact protected paths
 
 ## Risks
 
@@ -96,11 +103,14 @@ Digest: 113850977a9b27ab371914763d9bcac7fc2757008adcd1fe7dea0da48ef809b9
 
 ## Stop Conditions
 
-- #5821 is not terminal
-- A dependency is not terminal
-- Any declared path overlaps an active claim
-- The exact test target is absent or selects zero tests
-- Scope or rollback authority must widen
+- Stop before binding unless #5868, #5869, corrective PR #120 for #5909, and same-repository issue #121 with stacked PR #123 are merged, closed where applicable, and ancestral to the exact execution base
+- Stop if the merged #120 or #123 lease contract differs materially from the audited fencing assumptions or requires API invention
+- Stop if any path beyond adl-runtime/src/distributed/fencing.rs and adl-runtime/tests/distributed_fencing.rs must change, including read-only lease.rs or registration owned by #5878
+- Stop if quorum fence or revoke without old-holder activation proof, strict next-epoch commitment, portable nondecreasing safety floor, fresh current AuthorityMembership, or the exact operation allowlist cannot be proved
+- Stop if immediate atomic durability, exact replay behavior, restart and rollback safety, path and component-wise symlink denial, or hard capacity behavior cannot be proved
+- After both owned paths are implemented, stop if distributed_fencing is absent, selects zero tests, lacks the exact issue-specific machine-marker denominator, or any receipt, strict focused Clippy, diff, or review validation fails
+- Stop if current membership is absent or stale, any live safety state would need eviction, or evidence is not exact-revision and digest bound
+- Stop on unresolved path collision, actionable independent review finding, or any required widening of scope, authority, persistence, proof, or rollback behavior
 
 ## Handoff
 

@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 182,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-02] Prove deterministic ACIP authority and replay conformance",
+    "slug": "drt-02-prove-deterministic-acip-authority-and-replay-conformance",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only DRT-02 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Versioned positive and negative ACIP conformance vector corpus.",
+        "Deterministic producer and independent replay verifier with exact digest contract."
+      ],
+      "acceptance_criteria": [
+        "Canonical encode-decode-reencode is byte-stable for every supported message family.",
+        "Identity, authority, permit, causation, correlation, sequence, term, and polis bindings reject every declared mutation.",
+        "Duplicate, reordered, stale, malformed, unsigned, wrong-domain, and cross-polis messages produce typed deterministic outcomes.",
+        "Independent replay from retained inputs reproduces the exact committed outcome and digest."
+      ],
+      "dependencies": [
+        "DRT-01: issue #181"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#drt-02",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Provisioning a distributed cluster",
+        "Replacing ACIP implementation",
+        "Accepting hard-coded assertion labels as producer proof"
+      ]
+    }
+  }
+}

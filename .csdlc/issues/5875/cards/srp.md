@@ -8,11 +8,14 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-WP-04.13 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/migration.rs
+adl-runtime/tests/distributed_migration.rs
+.csdlc/evidence/5875
+.csdlc/issues/5875
 
 ## Prompts
 
@@ -31,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Production module registration remains intentionally owned by integration issue #5878.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:85c4023c5fdd0776177b3dc87adbdd203cf8c375:778d772d22b56bc27032efc48c7271c61293f255489ea48e9d97b98237e63c46")
 
-Reviewer: None
+Reviewer: Some("codex:independent-5875-exact-head-review")
 
-Result: pre_review
+Result: pass

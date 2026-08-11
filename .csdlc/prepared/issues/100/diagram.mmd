@@ -1,0 +1,9 @@
+flowchart LR
+  A["Approved Drive search"] --> D["Candidate inventory"]
+  B["Repository and history search"] --> D
+  C["FastWork worktree search"] --> D
+  D --> E["Digest and variant preservation"]
+  E --> F["Canonical selection"]
+  F --> G["Non-destructive Drive upload"]
+  G --> H["Credentialed readability verification"]
+  H --> I["Ten-article recovery manifest"]

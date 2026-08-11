@@ -1,0 +1,114 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 209,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
+    "slug": "wp14-production-acip-authority-repair",
+    "version": "v0.92",
+    "generation": 33
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Bind the production dispatch and replay authority contract, implement the narrow repair, prove exact behavior and portability, resolve independent review, then publish and merge before refreshing #5834.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Map the production Guardian/kernel dispatch boundary, queue/error model, replay identity, and public schema contract.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Implement production dispatch, bounded pressure/typed errors, scoped replay state, and OpenAPI parity.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Add focused positive/adversarial tests and issue-local exact native proof surfaces.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Resolve fresh exact-head review, publish a qualified PR, shepherd exact green checks, and merge through typed finish.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/acip.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/governed_operations.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/tests/assembly.rs",
+        "adl-runtime-kernel/tests/openapi_contract.rs",
+        "adl-runtime-kernel/tests/production_acip_wss.rs",
+        "adl-runtime-kernel/tests/support/runtime_init.rs",
+        "adl-runtime/src/runtime_api_auth.rs",
+        "docs/api/runtime-v3/v1/openapi.json",
+        "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
+        ".csdlc/prepared/issues/209",
+        ".csdlc/evidence/209",
+        ".github/workflows/wp14-production-acip-repair.yml"
+      ],
+      "invariants": [
+        "Admission precedes dispatch and replay-state advancement",
+        "Replay state never crosses authenticated principal or replay-domain boundaries",
+        "Durable/public contracts describe exactly what production runtime enforces",
+        "Pressure or dispatch failure returns a bounded typed error and does not leak private material",
+        "All retained evidence is exact-revision and repository-relative"
+      ],
+      "risks": [
+        "A test-only listener could again substitute for production dispatch",
+        "Replay namespacing could permit duplicate reuse across poorly defined domains",
+        "Pressure tests could accidentally prove only frame-size limits",
+        "Schema changes could diverge from runtime serialization or compatibility behavior"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "No existing bounded Guardian/kernel operation can be safely exposed through this issue",
+        "The repair requires a broad transport redesign beyond reviewed findings",
+        "Any proposed edit targets #5834 product, PR197, PR191, Sprint 3, or unrelated global CI",
+        "Focused proof or exact-head review finds an unresolved authority bypass"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/209/design.md",
+      "design_digest": "c7c0d740c2ada0040066a789f4966a9281a24998e794e7c715d54c9786f28c69",
+      "diagram_ref": ".csdlc/prepared/issues/209/diagram.mmd",
+      "diagram_digest": "6cf31b19e67ab3d9b3b5e0570f05943a78d7ee7615d0fcec9fc54c6309c4fe3b"
+    }
+  }
+}

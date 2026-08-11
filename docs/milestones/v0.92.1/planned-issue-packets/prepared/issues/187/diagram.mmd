@@ -1,0 +1,9 @@
+flowchart TB
+  C["Frozen workload, fault, resource, cost, and error thresholds"] --> L["2-hour local production soak"]
+  C --> H["4-hour hybrid production soak"]
+  L & H --> A["Attempt ledger preserves successes and failures"]
+  A --> R["Commands, clocks, terms, indexes, envelopes, source/model digests"]
+  R --> P["Independent replay without live provider"]
+  P --> D["Deterministic outcome parity"]
+  A --> CL["Local and provider cleanup after every phase"]
+  D & CL --> S["Qualification synthesis, non-claims, residual risks"]

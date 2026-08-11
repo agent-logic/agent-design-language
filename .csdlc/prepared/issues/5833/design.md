@@ -13,6 +13,7 @@ Define WP-15 Runtime v3 witness and receipt contracts from `docs/milestones/v0.9
 - `docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`
 - `.csdlc/prepared/issues/5833/validate-native-receipts.rb`
 - `.csdlc/prepared/issues/5833/produce-native-receipt.rb`
+- `.github/workflows/wp15-native-birth-witness.yml`
 - `.csdlc/evidence/5833`
 
 ## Read-Only Inputs
@@ -86,7 +87,7 @@ Define WP-15 Runtime v3 witness and receipt contracts from `docs/milestones/v0.9
 
 ## Contract
 
-Witnesses must be distinct where policy requires, bind the exact birthday candidate digest, and agree on the reviewed evidence set. Missing, duplicate, stale, forged, equivocal, unauthorized, or candidate-mismatched witnesses fail closed. The receipt is deterministically derived from the validated decision and cannot claim a birth while `birth_event_status` remains `not_claimed`.
+Witnesses must be distinct where policy requires, bind the exact birthday candidate digest, and agree on the reviewed evidence set. The trusted roster is held by an opaque runtime-established policy that external callers cannot construct or serialize. Missing, duplicate, stale, forged, equivocal, unauthorized, or candidate-mismatched witnesses fail closed. The receipt replaces source paths with deterministic evidence-kind-and-digest tokens, is derived from the validated decision, and cannot claim a birth while `birth_event_status` remains `not_claimed`.
 
 ## Dependencies And Invariants
 
@@ -94,12 +95,13 @@ WP-09/#5826 through WP-13/#5830 must be terminal as required by sprint gate 3, a
 
 ## Validation
 
-The exact `birth_witness` Runtime v3 integration-test target must run a nonzero count proving valid witness sets, deterministic receipts, and equivocation, duplicate identity, stale digest, missing authority, forged integrity ref, redaction leakage, and premature-birth rejection. The issue-local producer must run that target on native GitHub Actions macOS and Linux jobs at exact candidate HEAD and retain a hashed source manifest, complete nextest log, and canonical semantic-output artifact. The independent validator recomputes those files and producer digest, parses the positive test count, verifies workflow/run/job identity, and requires byte-identical semantic outputs; ancestral SHA equivalence is forbidden.
+The exact crate-internal `birth_witness::authority_tests` Runtime v3 lane must run a nonzero count proving valid witness sets, deterministic receipts, executable fixture negatives, opaque authority establishment, and equivocation, duplicate identity, stale digest, missing authority, forged integrity ref, redaction leakage, and premature-birth rejection. The public `birth_witness` integration target separately proves the externally visible serialization boundary without exposing an authority constructor. The issue-local producer must run the authority lane on native GitHub Actions macOS and Linux jobs at exact candidate HEAD and retain a hashed source manifest, complete structured nextest log, exact test inventory, and canonical semantic-output artifact. The independent validator recomputes those files and producer digest, verifies workflow/run/job identity and log path hygiene, and requires byte-identical semantic outputs; ancestral SHA equivalence is forbidden.
 
 ## Rollback
 
-Remove only the WP-15 witness module, registration, integration test, fixtures,
-and owned feature-document edits. Preserve retained #4762 evidence, all emitted
+Remove only the WP-15 witness module, registration, authority/public tests,
+fixtures, issue-local native workflow/scripts, and owned feature-document
+edits. Preserve retained #4762 evidence, all emitted
 audit receipts, rejected witness sets, and native CI receipts; rollback must
 not erase equivocation evidence or authorize a premature birth.
 

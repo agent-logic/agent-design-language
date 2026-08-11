@@ -144,6 +144,96 @@ pub struct BoundTopologyMigrationReport {
     pub results: Vec<BoundTopologyMigrationResult>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct CodeRepositoryMigrationRequest {
+    pub schema: String,
+    pub issue: u64,
+    pub code_repository: String,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub reason: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct CodeRepositoryMigrationEvidence {
+    pub schema: String,
+    pub issue: u64,
+    pub actor: String,
+    pub reason: String,
+    pub pre_generation: u64,
+    pub pre_digest: String,
+    pub previous_code_repository: Option<String>,
+    pub requested_repository: String,
+    pub fetch_repositories: Vec<String>,
+    pub push_repositories: Vec<String>,
+    pub phase: LifecyclePhase,
+    pub branch: String,
+    pub worktree: String,
+    pub clean_worktree: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct CodeRepositoryMigrationReport {
+    pub schema: String,
+    pub issue: u64,
+    pub changed: bool,
+    pub phase: LifecyclePhase,
+    pub branch: String,
+    pub worktree: String,
+    pub code_repository: String,
+    pub resulting_generation: u64,
+    pub resulting_digest: String,
+    pub evidence: CodeRepositoryMigrationEvidence,
+}
+
+pub fn migrate_code_repository(
+    store: &Store,
+    request: CodeRepositoryMigrationRequest,
+) -> Result<CodeRepositoryMigrationReport> {
+    if request.schema != "csdlc.code_repository_migration_request.v1"
+        || request.issue == 0
+        || !valid_repository_identity(&request.code_repository)
+        || request.expected_digest.trim().is_empty()
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "code repository migration request is incomplete",
+        ));
+    }
+    let _binding_lock = store.binding_lock()?;
+    let (record, evidence) = store.commit_code_repository_migration(&request)?;
+    Ok(CodeRepositoryMigrationReport {
+        schema: "csdlc.code_repository_migration_report.v1".into(),
+        issue: record.issue,
+        changed: true,
+        phase: record.phase,
+        branch: evidence.branch.clone(),
+        worktree: evidence.worktree.clone(),
+        code_repository: record
+            .code_repository
+            .clone()
+            .expect("migration commits repository identity"),
+        resulting_generation: record.generation,
+        resulting_digest: record.digest.clone(),
+        evidence,
+    })
+}
+
+fn valid_repository_identity(value: &str) -> bool {
+    let mut parts = value.split('/');
+    matches!((parts.next(), parts.next(), parts.next()), (Some(owner), Some(repo), None)
+        if !owner.is_empty()
+            && !repo.is_empty()
+            && !owner.chars().any(char::is_whitespace)
+            && !repo.chars().any(char::is_whitespace))
+}
+
 #[derive(Debug, Deserialize)]
 struct IssueStateEvidence {
     schema: String,

@@ -1,0 +1,10 @@
+flowchart LR
+    Workflow["Podcast Studio or ADL workflow"] --> Spec["ADL ProviderSpec and profile"]
+    Spec --> Factory["build_speech_provider_for_id"]
+    Factory --> Provider["DeepgramSpeechProvider"]
+    Provider --> Credential["Environment or approved key file"]
+    Provider --> TTS["Deepgram batch synthesis"]
+    Provider --> STT["Deepgram prerecorded transcription"]
+    TTS --> Audio["Validated audio bytes and redacted provenance"]
+    STT --> Transcript["Structured transcript and redacted provenance"]
+    Provider --> Evidence["Redacted request identity, latency, usage, and media metadata"]

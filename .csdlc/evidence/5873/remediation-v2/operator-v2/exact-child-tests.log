@@ -1,0 +1,22 @@
+{"schema":"adl.wp04.exact_child_summary.v1","selected_tests":15,"passed_tests":15,"skipped_tests":0}
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+────────────
+ Nextest run ID fa65016d-fd15-4467-a4a6-9378589eca86 with nextest profile: default
+    Starting 15 tests across 1 binary
+        PASS [   0.009s] ( 1/15) adl-runtime::distributed_placement membership_domain_is_bound_by_the_authoritative_snapshot
+        PASS [   0.011s] ( 2/15) adl-runtime::distributed_placement fencing_ahead_of_membership_is_not_treated_as_authority
+        PASS [   0.238s] ( 3/15) adl-runtime::distributed_placement stale_membership_floor_fails_closed
+        PASS [   0.269s] ( 4/15) adl-runtime::distributed_placement fenced_candidate_is_excluded_from_selection
+        PASS [   0.291s] ( 5/15) adl-runtime::distributed_placement fencing_snapshot_cannot_be_reused_after_membership_advances
+        PASS [   0.293s] ( 6/15) adl-runtime::distributed_placement wrong_trust_domain_fails_the_entire_decision
+        PASS [   0.326s] ( 7/15) adl-runtime::distributed_placement stable_node_identifier_breaks_an_exact_score_tie
+        PASS [   0.336s] ( 8/15) adl-runtime::distributed_placement authoritative_lineage_fencing_cannot_be_omitted
+        PASS [   0.489s] ( 9/15) adl-runtime::distributed_placement nonvoter_and_uncommitted_evidence_cannot_be_selected
+        PASS [   0.494s] (10/15) adl-runtime::distributed_placement duplicate_evidence_and_alias_collisions_fail_closed
+        PASS [   0.541s] (11/15) adl-runtime::distributed_placement stale_capability_and_weather_never_place
+        PASS [   0.549s] (12/15) adl-runtime::distributed_placement request_and_policy_bounds_are_enforced_before_ranking
+        PASS [   0.605s] (13/15) adl-runtime::distributed_placement deterministic_ranking_is_independent_of_input_order
+        PASS [   0.656s] (14/15) adl-runtime::distributed_placement missing_unavailable_or_non_advisory_weather_never_places
+        PASS [   0.850s] (15/15) adl-runtime::distributed_placement capacity_capability_pressure_and_generation_constraints_are_fail_closed
+────────────
+     Summary [   0.850s] 15 tests run: 15 passed, 0 skipped

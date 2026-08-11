@@ -1,0 +1,7 @@
+command=cargo test --manifest-path adl-runtime-kernel/Cargo.toml --doc cognitive_profile
+validated_revision=abe5607ec4825e33a9a99851fbd3e40afb8f8454
+tests_run=1
+tests_passed=1
+tests_failed=0
+result=passed
+test=CognitiveAuthorityPolicy external establish compile_fail

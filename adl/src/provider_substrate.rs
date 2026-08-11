@@ -30,6 +30,17 @@ pub struct ProviderCapabilitiesV1 {
     pub tool_calling: CapabilitySupportV1,
     pub structured_json: CapabilitySupportV1,
     pub semantic_tool_fallback: CapabilitySupportV1,
+    #[serde(default = "unsupported_capability")]
+    pub speech_synthesis: CapabilitySupportV1,
+    #[serde(default = "unsupported_capability")]
+    pub speech_transcription: CapabilitySupportV1,
+}
+
+fn unsupported_capability() -> CapabilitySupportV1 {
+    CapabilitySupportV1 {
+        supported: false,
+        mode: CapabilityModeV1::None,
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -136,6 +147,7 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
                 "cohere" => return "cohere".to_string(),
                 "gemini" => return "google".to_string(),
                 "http" => return "generic_http".to_string(),
+                "deepgram" => return "deepgram".to_string(),
                 _ => {}
             }
         }
@@ -162,6 +174,9 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
         if lower.contains("deepseek") {
             return "deepseek".to_string();
         }
+        if lower.contains("deepgram") {
+            return "deepgram".to_string();
+        }
         if lower.contains("openrouter") {
             return "openrouter".to_string();
         }
@@ -186,6 +201,7 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
         "openrouter" => "openrouter".to_string(),
         "z_ai" | "zai" | "zhipu" => "z_ai".to_string(),
         "http" | "http_remote" => "generic_http".to_string(),
+        "deepgram" => "deepgram".to_string(),
         other if !other.is_empty() => other.to_lowercase(),
         _ => "unknown".to_string(),
     }
@@ -201,7 +217,7 @@ fn infer_transport(spec: &adl::ProviderSpec) -> Result<ProviderTransportV1> {
             }
         }
         "http" | "http_remote" | "openai" | "anthropic" | "deepseek" | "openrouter" | "bedrock"
-        | "aws_bedrock" | "z_ai" | "zai" | "zhipu" => Ok(ProviderTransportV1::Http),
+        | "aws_bedrock" | "z_ai" | "zai" | "zhipu" | "deepgram" => Ok(ProviderTransportV1::Http),
         "local_ollama" => Ok(ProviderTransportV1::LocalCli),
         "mock" => Ok(ProviderTransportV1::InProcess),
         other => Err(anyhow!(
@@ -236,6 +252,21 @@ fn infer_capability_defaults(
     model_ref: Option<&str>,
 ) -> ProviderCapabilitiesV1 {
     let model = model_ref.unwrap_or("").trim().to_lowercase();
+    if vendor == "deepgram" {
+        return ProviderCapabilitiesV1 {
+            tool_calling: unsupported_capability(),
+            structured_json: unsupported_capability(),
+            semantic_tool_fallback: unsupported_capability(),
+            speech_synthesis: CapabilitySupportV1 {
+                supported: true,
+                mode: CapabilityModeV1::Native,
+            },
+            speech_transcription: CapabilitySupportV1 {
+                supported: true,
+                mode: CapabilityModeV1::Native,
+            },
+        };
+    }
     if vendor == "ollama" {
         let native_supported = model.contains("gpt-oss")
             || model.contains("qwen3-coder")
@@ -269,6 +300,8 @@ fn infer_capability_defaults(
                 supported: true,
                 mode: CapabilityModeV1::SemanticFallback,
             },
+            speech_synthesis: unsupported_capability(),
+            speech_transcription: unsupported_capability(),
         };
     }
 
@@ -286,6 +319,8 @@ fn infer_capability_defaults(
                 supported: false,
                 mode: CapabilityModeV1::None,
             },
+            speech_synthesis: unsupported_capability(),
+            speech_transcription: unsupported_capability(),
         };
     }
 
@@ -308,6 +343,8 @@ fn infer_capability_defaults(
                 supported: false,
                 mode: CapabilityModeV1::None,
             },
+            speech_synthesis: unsupported_capability(),
+            speech_transcription: unsupported_capability(),
         };
     }
 
@@ -369,6 +406,8 @@ fn infer_capability_defaults(
         tool_calling: native_tool_calling,
         structured_json,
         semantic_tool_fallback,
+        speech_synthesis: unsupported_capability(),
+        speech_transcription: unsupported_capability(),
     }
 }
 
@@ -387,6 +426,12 @@ fn provider_capabilities_v1(
     }
     if let Some(v) = capability_override(&spec.config, "semantic_tool_fallback") {
         caps.semantic_tool_fallback = v;
+    }
+    if let Some(v) = capability_override(&spec.config, "speech_synthesis") {
+        caps.speech_synthesis = v;
+    }
+    if let Some(v) = capability_override(&spec.config, "speech_transcription") {
+        caps.speech_transcription = v;
     }
     caps
 }

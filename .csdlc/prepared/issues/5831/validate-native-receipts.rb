@@ -44,7 +44,7 @@ def repo_file(root, value, label, required_prefix: nil)
 end
 
 def source_paths(test_target, feature_path)
-  [
+  paths = [
     "adl-runtime-kernel/Cargo.toml",
     "adl-runtime-kernel/src/lib.rs",
     "adl-runtime-kernel/src/#{test_target}.rs",
@@ -52,6 +52,14 @@ def source_paths(test_target, feature_path)
     "adl-runtime-kernel/tests/fixtures/#{test_target}",
     feature_path
   ]
+  if test_target == "adaptive_learning"
+    paths.concat([
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/tests/durable_state.rs"
+    ])
+  end
+  paths
 end
 
 def source_manifest(root, paths)
@@ -66,9 +74,62 @@ def source_manifest(root, paths)
   end.sort_by { |row| row.fetch("path") }
 end
 
+def machine_local_command_log?(text, root)
+  checkout_prefixes = [root.to_s, ENV["GITHUB_WORKSPACE"]].compact.reject(&:empty?).flat_map do |prefix|
+    [prefix, prefix.tr("/", "\\")]
+  end.uniq
+  return true if checkout_prefixes.any? { |prefix| text.include?(prefix) }
+
+  [
+    %r{/(?:users?|home|private)(?:/|\\)}i,
+    %r{(?:^|[^[:alnum:]_])[a-z]:[\\/]}i,
+    %r{\\\\[^\\/\s]+[\\/]},
+    %r{\\(?:users?|home|private|runner|worktrees?)[\\/]}i,
+    %r{(?:^|[\\/])(?:\.codex[\\/])?(?:adl-)?worktrees?[\\/]}i,
+    %r{/volumes/(?:fastwork|home)(?:/|\\)}i,
+    %r{/var/folders/}i
+  ].any? { |pattern| text.match?(pattern) }
+end
+
+if ARGV == ["--self-test"]
+  synthetic_root = Pathname.new("/repo")
+  accepted = '{"type":"test","event":"ok","path":"./adl-runtime-kernel/src/lib.rs"}'
+  fail!("self-test rejected normalized repository-relative log") if machine_local_command_log?(accepted, synthetic_root)
+  rejected = [
+    "/Users/runner/work/repo/repo/file.rs",
+    "/home/runner/work/repo/file.rs",
+    "/private/var/folders/file.rs",
+    "C:/runner/work/repo/file.rs",
+    'C:\\runner\\work\\repo\\file.rs',
+    '\\\\server\\share\\repo\\file.rs',
+    "/Volumes/FastWork/adl-worktrees/issue/file.rs",
+    ".codex/worktrees/issue/file.rs",
+    "/repo/adl-runtime-kernel/src/lib.rs"
+  ]
+  rejected.each do |value|
+    fail!("self-test accepted machine-local command log") unless machine_local_command_log?(value, synthetic_root)
+  end
+  required_authority_paths = [
+    "adl-runtime-kernel/src/reasoning.rs",
+    "adl-runtime-kernel/src/durable_state.rs",
+    "adl-runtime-kernel/tests/durable_state.rs"
+  ]
+  validator_paths = source_paths("adaptive_learning", "docs/adaptive.md")
+  fail!("self-test omitted adaptive authority source") unless required_authority_paths.all? { |path| validator_paths.include?(path) }
+  puts JSON.generate(status: "passed", check: "native-log-path-rejection")
+  exit 0
+end
+
 issue = File.basename(File.dirname(__FILE__)).to_i
 test_target, feature_path = ISSUE_CONFIG.fetch(issue) { fail!("unsupported issue-local validator path") }
 fail!("expected exactly two receipt paths") unless ARGV.length == 2
+fail!("native receipts must be validated by GitHub Actions") unless ENV["GITHUB_ACTIONS"] == "true"
+
+current_workflow_ref = ENV.fetch("GITHUB_WORKFLOW_REF")
+current_run_id = ENV.fetch("GITHUB_RUN_ID")
+current_run_attempt = ENV.fetch("GITHUB_RUN_ATTEMPT")
+expected_workflow_prefix = "agent-logic/agent-design-language/.github/workflows/wp13a-native-adaptive-learning.yml@"
+fail!("validator workflow identity mismatch") unless current_workflow_ref.start_with?(expected_workflow_prefix)
 
 root_text, root_status = Open3.capture2("git", "rev-parse", "--show-toplevel")
 fail!("cannot resolve repository root") unless root_status.success?
@@ -81,11 +142,29 @@ producer_path = ".csdlc/prepared/issues/#{issue}/produce-native-receipt.rb"
 producer_digest = Digest::SHA256.file(root.join(producer_path)).hexdigest
 expected_test_argv = [
   "cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml",
-  "--test", test_target, "--no-tests=fail", "--status-level", "all"
+  "--test", test_target, "--no-tests=fail", "--status-level", "all",
+  "--message-format", "libtest-json-plus"
 ]
 expected_manifest = source_manifest(root, source_paths(test_target, feature_path))
 evidence_prefix = ".csdlc/evidence/#{issue}/native-platform"
 required_hex = /\A[0-9a-f]{64}\z/
+required_tests = %w[
+  concurrent_adaptive_executions_have_one_authoritative_winner
+  fixture_matrix_tracks_the_governed_negative_surface
+  forged_grant_and_authority_fail_before_history_acceptance
+  governed_acceptance_mutates_and_persists_exact_history
+  policy_digest_mismatch_fails_before_mutation_or_persistence
+  predecessor_splice_and_sequence_overflow_fail_closed
+  proposal_patch_mismatch_and_durable_collision_are_nonmutating
+  recurrence_roundtrip_and_capacity_bounds_fail_closed
+  rejected_and_cancelled_paths_are_durable_and_nonmutating
+  startup_completes_committed_intent_and_restores_aborted_live_gate
+  startup_discovers_reserved_intent_and_rejects_tampering
+  tampered_history_and_rollback_never_return_attacker_hashes
+  transactional_completion_and_postcheck_failure_leave_gate_unchanged
+  two_sequence_history_survives_restart_and_supports_authoritative_rollback
+  unsafe_ids_rationale_paths_and_unknown_fields_fail_closed
+]
 
 receipts = ARGV.map do |receipt_relative|
   receipt_file = repo_file(root, receipt_relative, "receipt", required_prefix: evidence_prefix)
@@ -113,7 +192,10 @@ receipts.each do |receipt|
   fail!("#{platform}: producer argv mismatch") unless receipt["producer_argv"] == expected_producer_argv
   fail!("#{platform}: test argv mismatch") unless receipt["test_argv"] == expected_test_argv
   expected_semantic_path = ".csdlc/evidence/#{issue}/native-platform/#{platform}-semantic.json"
-  fail!("#{platform}: semantic-output environment mismatch") unless receipt["test_environment"] == { "ADL_NATIVE_SEMANTIC_OUTPUT" => expected_semantic_path }
+  fail!("#{platform}: semantic-output environment mismatch") unless receipt["test_environment"] == {
+    "ADL_NATIVE_SEMANTIC_OUTPUT" => expected_semantic_path,
+    "NEXTEST_EXPERIMENTAL_LIBTEST_JSON" => "1"
+  }
   fail!("#{platform}: status must be passed") unless receipt["status"] == "passed"
 
   runner = receipt["runner"]
@@ -122,14 +204,35 @@ receipts.each do |receipt|
   %w[repository workflow_ref run_id run_attempt job os architecture].each do |field|
     fail!("#{platform}: runner #{field} is required") unless runner[field].is_a?(String) && !runner[field].strip.empty?
   end
-  fail!("#{platform}: repository mismatch") unless runner["repository"] == "danielbaustin/agent-design-language"
+  fail!("#{platform}: repository mismatch") unless runner["repository"] == "agent-logic/agent-design-language"
+  fail!("#{platform}: workflow identity mismatch") unless runner["workflow_ref"] == current_workflow_ref
+  fail!("#{platform}: workflow run mismatch") unless runner["run_id"] == current_run_id
+  fail!("#{platform}: workflow attempt mismatch") unless runner["run_attempt"] == current_run_attempt
+  fail!("#{platform}: producer job mismatch") unless runner["job"] == "produce-native-receipt"
   fail!("#{platform}: native OS mismatch") unless runner["os"] == (platform == "macos" ? "Darwin" : "Linux")
 
   command_output = repo_file(root, receipt["command_output_path"], "#{platform} command output", required_prefix: evidence_prefix)
   fail!("#{platform}: command output digest mismatch") unless required_hex.match?(receipt["command_output_sha256"].to_s) && receipt["command_output_sha256"] == Digest::SHA256.file(command_output).hexdigest
-  summary = command_output.read.match(/(?<count>\d+)\s+tests?\s+run:/)
-  fail!("#{platform}: command output lacks a positive test summary") unless summary && summary[:count].to_i.positive?
-  fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == summary[:count].to_i
+  command_output_text = command_output.read
+  fail!("#{platform}: command output retains machine-local path") if machine_local_command_log?(command_output_text, root)
+  suites = []
+  passed_tests = []
+  command_output_text.each_line do |line|
+    parsed = JSON.parse(line)
+    suites << parsed if parsed["type"] == "suite" && parsed["event"] == "ok"
+    passed_tests << parsed["name"] if parsed["type"] == "test" && parsed["event"] == "ok"
+  rescue JSON::ParserError
+    next
+  end
+  suite = suites.last
+  fail!("#{platform}: command output lacks a passing structured suite summary") unless suite && suite["passed"].to_i.positive? && suite["failed"].to_i.zero?
+  fail!("#{platform}: tests_run disagrees with command output") unless receipt["tests_run"] == suite["passed"].to_i
+  observed_tests = receipt["passed_tests"]
+  fail!("#{platform}: passed test inventory disagrees with output") unless observed_tests == passed_tests.sort
+  prefix = "adl-runtime-kernel::adaptive_learning$"
+  expected_tests = required_tests.map { |name| "#{prefix}#{name}" }.sort
+  fail!("#{platform}: exact adaptive-learning test inventory mismatch") unless observed_tests == expected_tests
+  fail!("#{platform}: exact test count mismatch") unless receipt["tests_run"] == required_tests.length
 
   semantic_output = repo_file(root, receipt["semantic_output_path"], "#{platform} semantic output", required_prefix: evidence_prefix)
   fail!("#{platform}: semantic path mismatch") unless receipt["semantic_output_path"] == expected_semantic_path
@@ -141,5 +244,7 @@ receipts.each do |receipt|
   fail!("#{platform}: source manifest does not match candidate HEAD files") unless parsed_manifest == expected_manifest
 end
 
+fail!("native receipts must come from one workflow run") unless receipts.map { |receipt| receipt.dig("runner", "run_id") }.uniq.one?
+fail!("native receipts must come from one workflow attempt") unless receipts.map { |receipt| receipt.dig("runner", "run_attempt") }.uniq.one?
 fail!("native semantic outputs differ") unless receipts.map { |receipt| receipt["semantic_output_sha256"] }.uniq.one?
 puts JSON.generate(issue: issue, status: "passed", reviewed_head: head, platforms: %w[linux macos], semantic_output_sha256: receipts.first["semantic_output_sha256"])

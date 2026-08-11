@@ -8,11 +8,25 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact-head review of WP-10 predecessor binding, continuity-head derivation, cycle ordering, replay determinism, privacy, portability, and dependency proof only.
+.csdlc/issues/5827
+.csdlc/prepared/issues/5827
+.csdlc/evidence/5827
+.github/workflows/wp10-native-birthday-continuity.yml
+adl-runtime-kernel/Cargo.toml
+adl-runtime-kernel/src/birthday_continuity.rs
+adl-runtime-kernel/src/birthday_identity.rs
+adl-runtime-kernel/src/continuity.rs
+adl-runtime-kernel/src/live_continuity.rs
+adl-runtime-kernel/src/identity_memory.rs
+adl-runtime-kernel/src/private_state.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/fixtures/birthday_continuity
+adl-runtime-kernel/tests/fixtures/birthday_identity
+docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md
 
 ## Prompts
 
@@ -31,12 +45,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Republish the exact reviewed workflow repair and require a replacement exact-head Linux/macOS/aggregate run to pass before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9965dd19fc95ea561cc791915ceed5d937242b4f:6cd9cb64e4541d1e1545dc1da3d69d19349b55b74cc038a8bee13f3c9b89ee3c")
 
-Reviewer: None
+Reviewer: Some("/root/review_5827_native_final")
 
-Result: pre_review
+Result: pass

@@ -621,8 +621,10 @@ fn serve_requires_init_declared_state_root_before_live_adapters_start() {
     std::fs::create_dir_all(&tls_root).unwrap();
     let certificate = tls_root.join("localhost-cert.pem");
     let private_key = tls_root.join("localhost-key.pem");
+    let trust_roots = tls_root.join("trust-roots.pem");
     std::fs::write(&certificate, "test certificate").unwrap();
     std::fs::write(&private_key, "test private key").unwrap();
+    std::fs::write(&trust_roots, "test trust roots").unwrap();
     let init = directory
         .path()
         .join("runtime-init-missing-state-root.toml");
@@ -641,11 +643,14 @@ websocket_max_frame_bytes = 65536
 [api.tls]
 certificate_chain_path = "{}"
 private_key_path = "{}"
+trust_roots_path = "{}"
+server_name = "localhost"
 "#,
             address,
             address.port(),
             toml_path(&certificate),
             toml_path(&private_key),
+            toml_path(&trust_roots),
         ),
     )
     .unwrap();

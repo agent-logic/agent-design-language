@@ -1,0 +1,73 @@
+{
+  "issue": 5878,
+  "card": "vpp",
+  "expected_generation": 17,
+  "expected_digest": "03cd2059ae39258878754f4faf1c01d4b2363c0993622471b42adc27823617a3",
+  "actor": "codex-sprint-5862",
+  "reason": "Bind the native proof plan to the operator-authorized three-platform hosted workflow and remove unowned runtime-route claims.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "exact-child-tests",
+        "proof_role": "Run the exact nonzero distributed_guardian target through the production library registration and prove bounded Prost transport plus quorum authority replay and wrong-domain rejection.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 5000,
+        "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_guardian", "--no-tests=fail"],
+        "parallel_group": "child",
+        "defer_reason": null
+      },
+      {
+        "lane": "production-distributed-guardian",
+        "proof_role": "Execute the exact integration target on one native runner and produce bounded digest-bound logs, native host provenance, and machine-derived negative cases.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 5000,
+        "argv": ["bash", "adl/tools/validate_v092_distributed_guardian.sh"],
+        "parallel_group": "integration",
+        "defer_reason": null
+      },
+      {
+        "lane": "native-hosted-matrix",
+        "proof_role": "Dispatch the exact branch head to standard macOS, Linux, and Windows GitHub runners, run the production producer once per platform, retain distinct receipt fragments, and aggregate them without substituting platform labels.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5"],
+        "deterministic": false,
+        "resource_profile": "medium",
+        "budget_seconds": 1200,
+        "budget_tokens": 5000,
+        "argv": ["gh", "workflow", "run", "wp04-native-distributed.yml", "--ref", "codex/5878-final-distributed-integration"],
+        "parallel_group": "native",
+        "defer_reason": null
+      },
+      {
+        "lane": "native-distributed-receipts",
+        "proof_role": "Recompute all artifact and runner-provenance digests and require exactly one distinct native macOS, Linux, and Windows receipt at the same exact source revision.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 5000,
+        "argv": ["ruby", "adl/tools/validate_v092_distributed_native_receipts.rb"],
+        "parallel_group": "native-verify",
+        "defer_reason": null
+      },
+      {
+        "lane": "exact-revision-proof-receipt",
+        "proof_role": "Recompute exact protected source artifacts, nonzero command logs, machine-derived negative cases, and the three distinct native receipt bindings.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5878/validate-proof-receipt.rb"],
+        "parallel_group": "receipt",
+        "defer_reason": null
+      }
+    ]
+  }
+}

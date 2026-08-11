@@ -1,0 +1,37 @@
+{
+  "issue": 5874,
+  "card": "vpp",
+  "expected_generation": 11,
+  "expected_digest": "10b4f5f71f99ee1b9e34fa53af57022758290cb2c6e9cd28d9b229234d42327e",
+  "actor": "codex:5874-readiness-preparation",
+  "reason": "Declare the issue-owned bind-safe temporary path harness enabled by merged issue #79 while preserving exact nonzero and receipt proof.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "exact-child-tests",
+        "proof_role": "Exact nonzero nextest target proves authenticated digest-bound redacted snapshot catalogs and transfer manifests, including certificate authorization, schema versioning, replay, incomplete transfer, corruption, oversize, and fenced-authority fail-closed cases.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1800,
+        "budget_tokens": 8000,
+        "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_snapshot_catalog", "--no-tests=fail"],
+        "parallel_group": "child",
+        "defer_reason": "The issue-owned temporary #[path = \"../src/distributed/snapshot_catalog.rs\"] harness in adl-runtime/tests/distributed_snapshot_catalog.rs will route adl-runtime/src/distributed/snapshot_catalog.rs after both owned paths are implemented and until integration issue #5878 registers the production module; their pre-implementation absence is not a validation pass."
+      },
+      {
+        "lane": "exact-revision-proof-receipt",
+        "proof_role": "Recompute source, command, nonzero test, artifact, machine-derived negative-case, runner, and receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=946415ba5922dcd2b1aa02885207ed7d5ebdf557ea1299b5acdd805c6866d3f6]",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5874/validate-proof-receipt.rb"],
+        "parallel_group": "receipt",
+        "defer_reason": null
+      }
+    ]
+  }
+}

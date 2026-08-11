@@ -1,0 +1,22 @@
+{
+  "issue": 5878,
+  "card": "spp",
+  "expected_generation": 12,
+  "expected_digest": "39f11d56f06f8d8a0a36641c68852b89581c308d74c9e39e2793222f8512cd22",
+  "actor": "codex:5878-final-integration-readiness-preparation",
+  "reason": "Separate terminal dependency and denominator stops from post-implementation integration and native-proof stops.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Stop before binding unless #5909 PR #120 and exactly every child #5863 through #5877 are merged, closed, and ancestral with #5909 preceding #5870 and all downstream serial gates satisfied",
+      "Stop if any sibling input path, terminal receipt, reviewed source revision, ownership mapping, or fifteen-child denominator entry is missing, ambiguous, stale, or inconsistent",
+      "Stop on any active path collision or any requested mutation outside the five canonical owned paths",
+      "Stop if production registration would require reimplementing sibling logic, inventing interfaces, weakening authentication, or diverging from the issue-owned OpenAPI contract",
+      "Stop if coherent integration, deterministic ordering, redaction, hard bounds, finite cancellation, rollback or disable safety, or fenced remote ownership cannot be proved",
+      "After all five owned paths are implemented, stop if distributed_guardian or either owned validator target is absent, the exact integration target selects zero tests, or any integration, native, receipt, or diff validation fails",
+      "Stop if any macOS, Linux, or Windows receipt is missing, duplicated, self-attested, shares a run identity, lacks production command logs or artifacts, or is not bound to the exact protected source revision",
+      "Stop if scope, registration, interface, platform, authority, proof, or rollback behavior must widen"
+    ]
+  }
+}

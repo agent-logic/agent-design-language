@@ -7,8 +7,10 @@ Implement WP-13A's evaluated, policy-governed graph-change path in current Runti
 ## Owned Paths
 
 - `adl-runtime-kernel/src/adaptive_learning.rs`
+- `adl-runtime-kernel/src/durable_state.rs` (only the atomic governed-state compare-and-set primitive required by WP-13A)
 - `adl-runtime-kernel/src/lib.rs`
 - `adl-runtime-kernel/tests/adaptive_learning.rs`
+- `adl-runtime-kernel/tests/durable_state.rs` (focused atomic reservation/compare-and-set proof only)
 - `adl-runtime-kernel/tests/fixtures/adaptive_learning`
 - `docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md`
 - `.csdlc/prepared/issues/5831/validate-native-receipts.rb`
@@ -71,7 +73,7 @@ Implement WP-13A's evaluated, policy-governed graph-change path in current Runti
 
 ## Contract
 
-Evaluation bindings connect one loop iteration to feedback source, confidence, evidence refs, and policy context. An adaptation delta records before/after state hashes, rationale, rollback note, and canonical order. Graph changes begin as proposals; policy emits accepted or rejected disposition before mutation. Durable history links loop events, evaluation, state delta, proposal, policy decision, graph delta, and replay evidence.
+Evaluation bindings connect one loop iteration to feedback source, confidence, evidence refs, and policy context. An adaptation delta records before/after state hashes, rationale, rollback note, and canonical order. Graph changes begin as proposals; policy emits accepted or rejected disposition before mutation. Durable history links loop events, evaluation, state delta, proposal, policy decision, graph delta, and replay evidence. Accepted mutation uses a non-authoritative pending intent and one durable compare-and-set reservation/completion boundary: the authoritative head advances only after live mutation succeeds, while restart reconciliation deterministically clears or completes a pending intent without claiming an unapplied mutation.
 
 ## Dependencies And Invariants
 
