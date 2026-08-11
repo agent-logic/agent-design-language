@@ -20,6 +20,43 @@ EXPECTED_PROTECTED = [
   ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
   ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
 ].freeze
+MARKER = "ADL_ISSUE_201_CASE_V1 "
+EXPECTED_CASES = %w[
+  current_three_voter_finalize exact_retry_returns_cached_result
+  signer_rotation_current_generation joint_majority_each_config finalize_at_deadline
+  three_node_checkpoint_restart_reconcile missing_quorum duplicate_signer wrong_voter
+  signer_unavailable expired_signer_cert stale_membership config_digest_mismatch
+  joint_old_only joint_new_only joint_union_majority_only joint_duplicate_guardian_reuse
+  declared_finalize_time_after_deadline finalize_before_prepare_time
+  replay_with_regressed_finalize_time local_clock_skew_apply_parity checkpoint_object_collision
+  node_a_local_before_cas node_a_cas_before_final_marker node_b_local_before_cas
+  node_b_cas_before_final_marker node_c_local_before_cas node_c_cas_before_final_marker
+  checkpoint_result_retry_digest_mismatch coherent_rollback_rejected corrupt_journal_rejected
+  corrupt_retry_cache_rejected capacity_n_plus_one_no_partial state_symlink_rejected
+  lock_symlink_rejected legacy_fence_voter_rejected legacy_activate_owner_rejected
+  legacy_activate_shepherd_rejected legacy_acquire_observatory_rejected
+  legacy_demote_voter_rejected exact_store_artifact_bytes_retained
+  artifact_bytes_digest_substitution_rejected sealed_continuity_transfer_projection
+  continuity_projection_consumer_confusion_rejected continuity_projection_wrong_lineage_rejected
+  continuity_projection_wrong_source_checkpoint_handle_rejected
+  continuity_projection_wrong_bundle_handle_rejected
+].freeze
+EXPECTED_RESULTS = {
+  "current_three_voter_finalize" => "passed",
+  "exact_retry_returns_cached_result" => "passed",
+  "joint_majority_each_config" => "passed",
+  "finalize_at_deadline" => "passed",
+  "three_node_checkpoint_restart_reconcile" => "passed",
+  "local_clock_skew_apply_parity" => "passed",
+  "exact_store_artifact_bytes_retained" => "passed",
+  "sealed_continuity_transfer_projection" => "passed",
+  "node_a_local_before_cas" => "reconciled",
+  "node_a_cas_before_final_marker" => "reconciled",
+  "node_b_local_before_cas" => "reconciled",
+  "node_b_cas_before_final_marker" => "reconciled",
+  "node_c_local_before_cas" => "reconciled",
+  "node_c_cas_before_final_marker" => "reconciled"
+}.freeze
 
 def fail_receipt(message)
   abort("issue 201 receipt: #{message}")
@@ -44,6 +81,48 @@ rescue Errno::ENOENT
   fail_receipt("missing file: #{relative}")
 end
 
+def canonical_marker_line(name, result)
+  "test distributed::authority_protocol::contract_tests::#{name} ... #{MARKER}#{name} #{result}"
+end
+
+def case_contract_error(cases, observed)
+  return "case denominator/order mismatch" unless cases.map { |entry| entry["case"] } == EXPECTED_CASES
+  return "marker denominator mismatch" unless observed.length == EXPECTED_CASES.length
+  return "duplicate marker" unless observed.map(&:first).uniq.length == EXPECTED_CASES.length
+
+  observed_by_name = observed.to_h { |name, result, digest| [name, [result, digest]] }
+  EXPECTED_CASES.each_with_index do |name, index|
+    result = EXPECTED_RESULTS.fetch(name, "rejected")
+    digest = Digest::SHA256.hexdigest(canonical_marker_line(name, result))
+    entry = cases.fetch(index)
+    return "canonical case substitution: #{name}" unless entry == {
+      "case" => name,
+      "result" => result,
+      "observed_line_sha256" => digest
+    }
+    return "observed case substitution: #{name}" unless observed_by_name[name] == [result, digest]
+  end
+  nil
+end
+
+canonical_cases = EXPECTED_CASES.map do |name|
+  result = EXPECTED_RESULTS.fetch(name, "rejected")
+  {
+    "case" => name,
+    "result" => result,
+    "observed_line_sha256" => Digest::SHA256.hexdigest(canonical_marker_line(name, result))
+  }
+end
+canonical_observed = canonical_cases.map do |entry|
+  [entry.fetch("case"), entry.fetch("result"), entry.fetch("observed_line_sha256")]
+end
+fail_receipt("canonical case self-check failed") if case_contract_error(canonical_cases, canonical_observed)
+substituted = Marshal.load(Marshal.dump(canonical_cases))
+substituted[0]["result"] = "rejected"
+fail_receipt("case-substitution regression failed") unless case_contract_error(substituted, canonical_observed)
+reordered = canonical_cases.rotate(1)
+fail_receipt("case-reorder regression failed") unless case_contract_error(reordered, canonical_observed)
+
 proof = JSON.parse(File.binread(ordinary(PROOF_RELATIVE)))
 fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue201.committed_authority_proof.v1" && proof["issue"] == 201
 source = proof.fetch("source_revision")
@@ -58,7 +137,6 @@ protected.each do |entry|
 end
 fail_receipt("test summary mismatch") unless proof["test_summary"] == { "selected" => 47, "passed" => 47, "skipped" => 0 }
 cases = proof.fetch("cases")
-fail_receipt("case denominator/order mismatch") unless cases.length == 47 && cases.map { |entry| entry.fetch("case") }.uniq.length == 47
 commands = proof.fetch("commands")
 fail_receipt("command denominator mismatch") unless commands.keys.sort == %w[clippy machine_cases nextest openraft]
 commands.each do |name, command|
@@ -74,16 +152,12 @@ end
 machine = commands.fetch("machine_cases")
 text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(machine.fetch("#{stream}_path"))) }.join
 observed = text.lines.each_with_object([]) do |line, rows|
-  next unless line.include?("ADL_ISSUE_201_CASE_V1 ")
-  name, result = line.split("ADL_ISSUE_201_CASE_V1 ", 2).fetch(1).strip.split(" ", 2)
+  next unless line.include?(MARKER)
+  name, result = line.split(MARKER, 2).fetch(1).strip.split(" ", 2)
   rows << [name, result, Digest::SHA256.hexdigest(line.chomp)]
 end
-fail_receipt("marker denominator mismatch") unless observed.length == 47
-observed_by_name = observed.to_h { |name, result, digest| [name, [result, digest]] }
-cases.each do |entry|
-  result, digest = observed_by_name.fetch(entry.fetch("case")) { fail_receipt("missing marker") }
-  fail_receipt("case result/digest mismatch") unless [result, digest] == [entry.fetch("result"), entry.fetch("observed_line_sha256")]
-end
+case_error = case_contract_error(cases, observed)
+fail_receipt(case_error) if case_error
 introductions = git("log", "--format=%H", "--diff-filter=A", "--", PROOF_RELATIVE).lines.map(&:strip).reject(&:empty?)
 fail_receipt("proof requires exactly one immutable introduction") unless introductions.length == 1
 introduction = introductions.fetch(0)

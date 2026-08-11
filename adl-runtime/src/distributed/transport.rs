@@ -224,6 +224,7 @@ impl PolisSessionBinding {
     pub(crate) fn polis_id(&self) -> &str {
         &self.polis_id
     }
+
     pub(crate) fn trust_domain(&self) -> &str {
         &self.trust_domain
     }
@@ -583,6 +584,7 @@ pub fn polis_identity_signing_payload(
 pub struct VerifiedPolisRouteCut {
     polis_id: String,
     trust_domain: String,
+    membership_epoch: u64,
     committed_membership_index: u64,
     routes: BTreeMap<u64, SocketAddr>,
     authorities: BTreeMap<u64, VerifiedRouteAuthority>,
@@ -678,6 +680,7 @@ impl VerifiedPolisRouteCut {
         Ok(Self {
             polis_id: polis.polis_id.clone(),
             trust_domain: membership.trust_domain().to_owned(),
+            membership_epoch: membership.epoch(),
             committed_membership_index: membership.committed_log_index(),
             routes,
             authorities,
@@ -699,6 +702,27 @@ impl VerifiedPolisRouteCut {
     }
     pub fn committed_membership_index(&self) -> u64 {
         self.committed_membership_index
+    }
+
+    pub(crate) fn polis_id(&self) -> &str {
+        &self.polis_id
+    }
+
+    pub(crate) fn trust_domain(&self) -> &str {
+        &self.trust_domain
+    }
+
+    pub(crate) fn membership_epoch(&self) -> u64 {
+        self.membership_epoch
+    }
+
+    pub(crate) fn authority_node_identity(&self, node: u64) -> Option<(String, String, u64)> {
+        let authority = self.authorities.get(&node)?;
+        Some((
+            authority.node_id.clone(),
+            String::from_utf8(authority.guardian_id.as_bytes().to_vec()).ok()?,
+            authority.boot_generation,
+        ))
     }
 
     pub(crate) fn authority_membership(&self) -> &AuthorityMembership {

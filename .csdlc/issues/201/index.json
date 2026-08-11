@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "implemented",
-  "generation": 35,
-  "digest": "b90d11c1e624fea78a7c7fc02dfb2e24c60164ffa8b2d86c21e277389354b8cb",
+  "generation": 41,
+  "digest": "a617ad7285aec05ecb269c0f1b36c7b8f35d9bc16c396edaa15b7b4fc14af8e9",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a9317cbff80312074a82441c418806e74583451b54ace355c57b353135b514ae",
+      "values_digest": "ef3d753635cb34904dd4e373f4f80a7487c2b49600cefdb2c5164a9693341b39",
       "rendered_digest": "00f6ad8aa7a98dacf8a2a14a706f79d99d4b7d686bf7bc0cf9e6a6005aaaab9e",
       "ast_digest": "cbaf0d7e5e5ca677f38f639ddf865f7545c4d842626a5a01ccd10ae11b8e90b4"
     },
     "stp": {
-      "values_digest": "ef7a19dd9d045879fe2c131a384f5948e6f1b74afe3024abc235d8cd91a3962b",
+      "values_digest": "814cf74c4280f2c2179e04f1cbcaced3b4323d94b920a7594fafb8faaddb5619",
       "rendered_digest": "b9dc9472b5cb780e06096f27d1ea410affd2ef1dbe6879575b904767dd8e5a96",
       "ast_digest": "933b98acdd836328d3647ded0d86e0a2aed1320befac8f59ce373d1c34fb1041"
     },
     "spp": {
-      "values_digest": "cbac8dc92901e0bac5e1a84a19e9944573adbe12378c0dc09d4b8002de9c75d5",
-      "rendered_digest": "84e65a6daeabd91eeebdde5f2320baa034a452fc4f74529c7c319c63c0b33475",
-      "ast_digest": "718e2392fb06eb47aead4569dedc401f13acd3be88395285c11f748347b54a5a"
+      "values_digest": "0ce46e3f91e47ad1f43374b2573208d5da71e216bb8ac433a683f27785adbf50",
+      "rendered_digest": "2fa4fa01a864b827a67a5808c7c0bd3e44c617d2ef43207408a21c70470e476b",
+      "ast_digest": "a683ed2d6267b1270150f5a43dcb174ef5d47efb1710e8cd7abb4f0352bb1c17"
     },
     "vpp": {
-      "values_digest": "80ce57b1b4ea7ccc0953636db483ede8b1a9bfb9655f9da84af02f924ceb5fd7",
+      "values_digest": "c7bbaad20dd8262f321be575ed476828c5b2cf8931f59ec5b5efddef4f19974d",
       "rendered_digest": "42a390c74604fc4273bf3e1a861ece961444f50988e9289f707715edbed60559",
       "ast_digest": "7f269ed3178a7aaff27ca611b7373893e8262283ef10e798b55ffec597969f04"
     },
     "srp": {
-      "values_digest": "ea62c28bbd620ae7f7b4b7b1aea5e79a556bf8baaa6318ef0559091cfd6d45c6",
-      "rendered_digest": "90fa315a353a116877a3fa27ade2db93422edf515657fe8ab849f228ea853511",
-      "ast_digest": "4862f04ad392f0a53588c93e4670d28dba36f7ee0e30adb3bb78c000e911cf3d"
+      "values_digest": "477d5f0e1cf72a7561981bde9e4f0a4b9b90b5617c828b64d1827cda081449a5",
+      "rendered_digest": "2ebd7b74465430ffbb6acd15c33462060b46de2365908b3aed8622ae54266d1d",
+      "ast_digest": "13c1b8227b09144168af3061755df4d86a7c19afc00c36dbf97c550164221481"
     },
     "sor": {
-      "values_digest": "3ac7eed4faae3f4829ac03166be9a9f5b6cf21486c6fd2a8b1e8aac421aea5e5",
+      "values_digest": "c8d1078b98f13f313bff382a77486c822f03039e29bea6fa3f68bbf60298f337",
       "rendered_digest": "e6057b87aa8791896222444e08eeb067bec2eb5fa2ebce8207e6812cc76b503f",
       "ast_digest": "747d8021483e2cf52d03ee8ca1e9cfbb441fe758f506506c05dea1fe6ac54227"
     }
@@ -336,6 +336,48 @@
       "actor": "codex:/root/resolve_201_review_129ea",
       "reason": "Record the exact implementation and validation truth after resolving all independent review findings without publishing or merging.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved the authority-protocol review by making actual OpenRaft apply indices and an already-approved route-cut authority the only commit authority, keeping signer custody opaque and runtime-local, binding every voter custody generation cryptographically, withholding publication until each node-local fresh CAS reconciles, and retaining one exact v6 proof that validates with or without the feature source object.\",\"changes\":[\"Added production PrepareAuthority and FinalizeAuthority commands whose deterministic state-machine application derives prepare and finalize authority from the actual committed OpenRaft log IDs and state-held trusted authority cut.\",\"Added opaque crate-private Guardian signer custody and a high-level committed-prepare endorsement operation; raw signing keys, direct legacy verification, test feature bypasses, and non-replicated sealed artifact access are unavailable in production.\",\"Bound guardian identity, certificate generation, boot generation, membership index, intent digest, committed prepare index, and finalization time to each endorsement, with exclusive voter-certificate not_after and inclusive intent deadline boundaries.\",\"Stored committed finalize as pending replicated truth and required per-node journal, retry, result, and external checkpoint reconciliation before returning PublishedAuthorityResult.\",\"Moved the exact 47-case direct fault contract under cfg(test), retained a public command-shape fail-closed integration regression, and added a separate real three-voter OpenRaft production-path proof including wrong self-consistent authority-cut denial.\",\"Changed receipt validation to choose source ancestry or exact protected-tree equivalence before requiring a source object, proving full-history and depth-one squash-like validation.\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_protocol_contract_tests.rs\",\"adl-runtime/src/distributed/identity.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/tests/distributed_authority_protocol.rs\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\",\".csdlc/evidence/201/v6/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"-E\",\"test(/^distributed::authority_protocol::contract_tests::/)\",\"--no-tests=fail\"],\"purpose\":\"Prove the exact selected 47-case contract denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove one real three-voter production OpenRaft prepare, finalize, pending response, per-node reconcile/restart, and wrong-cut denial path.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the production library is warning-free without cfg(test)-only helpers.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\"],\"purpose\":\"Prove legacy caller-indexed authority command shapes fail closed through the public production type.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/tests/distributed_authority_protocol.rs\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"purpose\":\"Prove the immutable packet in full history and separately in a depth-one clone where the feature source object is absent.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"201\"],\"purpose\":\"Prove typed card projections and lifecycle record consistency after the review repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/201/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Prove final branch diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/201/v6/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 36,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Normalize the operative plan to the reviewed production apply and runtime-local publication boundary.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Bind production PrepareAuthority and FinalizeAuthority commands to actual OpenRaft applied log IDs and the verified route cut's exact polis, membership epoch, authority cut, and boot generations; reject caller-selected authority, caller indices, route relabeling, legacy replay, and stale custody.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Keep signer custody runtime-local and non-serialized; cryptographically bind guardian, certificate generation, boot generation, membership index, intent, committed prepare index, and finalization time, while separately validating and recording the actual finalize apply index; deny every non-replicated route to a sealed artifact or projection.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Return only a fail-closed pending response from committed finalize apply, then use state-held local voter identity, root, and checkpoint authority to reconcile that voter's exact result, retry record, journal, and fresh CAS before exposing an opaque PublishedAuthorityResult; prove the exact independent 47-case contract and real three-voter OpenRaft path.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Retain one immutable v6 proof, validate it in full-history and depth-one squash-like history, obtain fresh independent exact-head review, and stop before publication or merge.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 37,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "State the deterministic apply response and node-local publication visibility boundary truthfully.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No uncommitted proposal, single voter, leader, caller, harness, Shepherd, model, local history, or local clock can mint a verified authority-operation token\",\"Every finalized token binds exact polis, domain, membership cut, committed index, operation, bounded store-native signed artifact bytes and digest, time token, and distinct quorum endorsements\",\"The existing private artifact view returns byte-identical retained committed bytes only to sealed #199/#200/#203 consumers; it cannot accept replacement bytes or reconstruct authority from a digest\",\"The separate #210 projection is constructible only by #201 from an exact finalized continuity-transfer variant and exposes a borrowed read-only bounded transfer grant; every other operation variant and consumer identity is rejected\",\"The #210 projection binds the exact lineage, SourceCheckpointHandle identity, byte-identical bundle-handle identity, signed bundle/catalog bytes and digests, source, target, route, membership, certificate, boot, entry, chunk, range, bounds, deadline, and cleanup identity without granting transport, filesystem, migration, fence, activation, serving, or store-effect authority\",\"Wrong lineage, wrong SourceCheckpointHandle, or wrong bundle-handle identity is rejected before #208 source access or #210 transfer-session establishment\",\"Each voter publishes only through state-held local identity, root, and checkpoint authority, records exact expected old and new checkpoints, and after a proved partial commit may complete only the exact same operation; no caller, voter, root, or checkpoint substitution can publish for another\",\"Committed finalize apply returns pending with no token; artifact, projection, canonical published result, and authority-restoring reads remain unavailable until the local result, retry record, journal, and external checkpoint CAS are durable and agree\",\"Legacy direct authority commands cannot mint or restore authority\",\"One-of-three always halts new authority token finalization\"]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 38,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Ask independent review about exact route custody, pending apply visibility, and caller-context substitution denial.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?\",\"Does production PrepareAuthority match the state-held verified route cut's exact polis id, membership epoch, authority membership, and boot generations, including negative OpenRaft submissions for relabeled polis and epoch?\",\"Does the private artifact view retain byte-identical committed signed bytes only for sealed #199/#200/#203 consumers without replacement or digest-only reconstruction?\",\"Can only an exact finalized continuity-transfer variant produce the separate sealed #210 projection with wrong consumer, variant, lineage, checkpoint handle, and bundle handle denied before source access?\",\"Does replicated apply consume only committed deterministic time, membership, and artifact evidence, returning a pending response with no token after valid finalize?\",\"Does runtime reconciliation use only state-held local voter identity, deterministic publication root, and configured checkpoint authority, rejecting fake node, root, checkpoint authority, retry, rollback, and one-voter-for-another publication?\",\"Are the actual endorsement signature fields stated exactly, with committed prepare index and finalization time bound while the actual finalize apply index is separately verified and recorded?\",\"Are all legacy direct authority commands retired or versioned fail-closed across apply, log replay, and snapshot restore?\",\"Does the validator independently enforce the exact ordered forty-seven names, results, and canonical marker hashes, including substitution and reorder rejection in full and shallow history?\"]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 39,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Production commands now derive authority from actual apply IDs and exact verified route custody.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 42,
+      "generation": 40,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Signer custody and cryptographic fields now match the implemented replicated protocol without a false finalize-index claim.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 43,
+      "generation": 41,
+      "actor": "codex:/root/resolve_201_review_129ea",
+      "reason": "Valid finalize apply returns pending and runtime reconciliation uses only configured local publication context.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
     }
   ]
 }

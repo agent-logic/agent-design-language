@@ -166,9 +166,11 @@ of those boundaries independently on nodes A, B, and C. Checkpoint reuse across
 node, boot, polis, trust domain, or protocol instance rejects.
 
 No downstream consumer may receive a token whose protocol publication barrier
-is incomplete. The Raft apply callback acknowledges only after the canonical
-result, retry record, and external checkpoint are durable. This is per-object
-protocol atomicity, not a transaction over downstream authority stores.
+is incomplete. Deterministic Raft apply records a valid finalize as pending and
+returns no token; the runtime-owned local reconciliation path exposes the
+canonical published result only after its retry record, journal, and external
+checkpoint are durable and agree. This is per-object protocol atomicity, not a
+transaction over downstream authority stores.
 
 ## Downstream split
 

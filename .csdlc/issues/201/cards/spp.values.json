@@ -7,42 +7,42 @@
     "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
     "slug": "quorum-committed-authority-protocol",
     "version": "v0.92",
-    "generation": 35
+    "generation": 41
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 13,
+      "plan_revision": 15,
       "summary": "After WP-04.16a merges, bind and implement the bounded committed authority protocol, retain a private byte-identical operation-specific store-native signed artifact view in each opaque finalized token for sealed #199/#200/#203 consumers, and expose to sealed #210 only a read-only ContinuityTransferGrantProjection bound to the exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; prove deterministic endorsement/time/retry/checkpoint/artifact, projection-confusion, wrong-lineage, wrong-checkpoint-handle, wrong-bundle-handle, and legacy-closure behavior, retain merge-safe evidence, resolve exact-head review, and publish a ready unmerged PR before releasing downstream integrations.",
       "steps": [
         {
           "id": "S1",
-          "action": "Bind production PrepareAuthority and FinalizeAuthority commands to the actual OpenRaft applied log IDs and an already-approved current authority cut bootstrapped from the verified route cut; reject caller-selected authority, caller indices, legacy replay, relabeling, and stale custody.",
+          "action": "Bind production PrepareAuthority and FinalizeAuthority commands to actual OpenRaft applied log IDs and the verified route cut's exact polis, membership epoch, authority cut, and boot generations; reject caller-selected authority, caller indices, route relabeling, legacy replay, and stale custody.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
-          "action": "Keep opaque signer custody runtime-local and non-serialized, cryptographically bind guardian, certificate generation, boot generation, membership index, intent, committed prepare, finalize time, and actual finalize apply index, and deny every non-replicated route to a sealed artifact or projection.",
+          "action": "Keep signer custody runtime-local and non-serialized; cryptographically bind guardian, certificate generation, boot generation, membership index, intent, committed prepare index, and finalization time, while separately validating and recording the actual finalize apply index; deny every non-replicated route to a sealed artifact or projection.",
           "acceptance_ids": [
             "AC-6",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
-          "action": "Withhold authority publication while replicated finalize remains pending, then reconcile each voter's exact result, retry record, journal, and node-local fresh CAS before returning an opaque PublishedAuthorityResult; prove the fixed 47-case contract and a separate real three-voter production OpenRaft path including wrong self-consistent authority-cut denial.",
+          "action": "Return only a fail-closed pending response from committed finalize apply, then use state-held local voter identity, root, and checkpoint authority to reconcile that voter's exact result, retry record, journal, and fresh CAS before exposing an opaque PublishedAuthorityResult; prove the exact independent 47-case contract and real three-voter OpenRaft path.",
           "acceptance_ids": [
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -72,8 +72,8 @@
         "The separate #210 projection is constructible only by #201 from an exact finalized continuity-transfer variant and exposes a borrowed read-only bounded transfer grant; every other operation variant and consumer identity is rejected",
         "The #210 projection binds the exact lineage, SourceCheckpointHandle identity, byte-identical bundle-handle identity, signed bundle/catalog bytes and digests, source, target, route, membership, certificate, boot, entry, chunk, range, bounds, deadline, and cleanup identity without granting transport, filesystem, migration, fence, activation, serving, or store-effect authority",
         "Wrong lineage, wrong SourceCheckpointHandle, or wrong bundle-handle identity is rejected before #208 source access or #210 transfer-session establishment",
-        "Each of the three voters owns an independent node-local checkpoint authority, records exact expected old and new checkpoints, performs only a fresh compare-and-swap against its own expected old checkpoint, and after a proved partial commit may complete only the exact same operation; no voter or shared checkpoint can publish for another",
-        "No token, artifact view, projection, canonical response, or Raft-apply acknowledgement is published until that voter's canonical result, retry record, and node-local external checkpoint are durable and agree",
+        "Each voter publishes only through state-held local identity, root, and checkpoint authority, records exact expected old and new checkpoints, and after a proved partial commit may complete only the exact same operation; no caller, voter, root, or checkpoint substitution can publish for another",
+        "Committed finalize apply returns pending with no token; artifact, projection, canonical published result, and authority-restoring reads remain unavailable until the local result, retry record, journal, and external checkpoint CAS are durable and agree",
         "Legacy direct authority commands cannot mint or restore authority",
         "One-of-three always halts new authority token finalization"
       ],

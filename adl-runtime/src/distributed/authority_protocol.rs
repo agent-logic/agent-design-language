@@ -548,9 +548,13 @@ impl AuthorityPrepareProposal {
     pub(crate) fn commit_at(
         &self,
         committed_log_index: u64,
+        polis_id: &str,
+        membership_epoch: u64,
         authority: &AuthorityMembership,
     ) -> AuthorityProtocolResult<PrepareAuthorityIntent> {
         if self.intent_template.prepare_log_index != 0
+            || self.intent_template.polis_id != polis_id
+            || self.intent_template.membership_epoch != membership_epoch
             || committed_log_index <= self.intent_template.membership_log_index
         {
             return Err(AuthorityProtocolError::StateRegression);
