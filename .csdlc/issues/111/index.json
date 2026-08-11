@@ -5,12 +5,81 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
-  "generation": 61,
-  "digest": "ef9782166a3ee6c7129e5e432be73b979bd3d64fb26917abc47d06c6268dfbbb",
+  "generation": 62,
+  "digest": "dedcf3e2ab394b162e3fd7f857cbe80d1cf1d185bbfbb46abb9dd983af83709a",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fef9d-f81f-7d52-860a-86b07b79ec9c",
+    "assigned_by": "codex:wp18c01-fresh-review-remediation",
+    "revision": "git-blake3:7b0759e9b0fd632112a502419434b853fa82bdbb:a9e12465c8e7a123485fc70f469fb50ed78974498024927d8cee5fe4d8e9246e",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fef9d-f81f-7d52-860a-86b07b79ec9c",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ],
+    "reviewed_revision": "git-blake3:7b0759e9b0fd632112a502419434b853fa82bdbb:a9e12465c8e7a123485fc70f469fb50ed78974498024927d8cee5fe4d8e9246e",
+    "findings": [
+      {
+        "id": "fresh-review-223-p1-auth-generation",
+        "severity": "p1",
+        "summary": "In-flight results were bound only to token bytes, allowing same-token reauthentication or rotate-away/rotate-back to revive an older authentication generation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "adl-runtime-kernel/src/control.rs:2359"
+      },
+      {
+        "id": "fresh-review-223-p2-unbounded-waiters",
+        "severity": "p2",
+        "summary": "Every exact in-flight duplicate spawned another waiter and terminal frame through an unbounded result channel.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "adl-runtime-kernel/src/control.rs:2497"
+      }
+    ],
+    "residual_risks": [
+      "Durable cross-restart conversation history remains owned by issue #114.",
+      "The review did not rerun the environment-dependent trusted-TLS browser proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +94,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1bf8a99bf57ad0d292c82c41b41294237dca9b95e62fa20f92c737666c05e916",
+      "values_digest": "7219c284dbc8b2a4f4e5d6d5ca0c1504bdc5fce4e195b17d3f2964a1962398a2",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "4467732a8f5c82bd87c7bffcb8999ed1566905989ffbb57ae7f57d0639ef0a38",
+      "values_digest": "7b3c6249267b42ff78d490d2c14491b1013382b948d2911dcdcc4bb80a61dd48",
       "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
       "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
     },
     "spp": {
-      "values_digest": "70e7d02aebd355035c786615b2ec55c1bfa2595228dd7535088cd7a74939872f",
+      "values_digest": "4e2b129c90d5bc5186304d05918316968474579aef2e125611362e46a7bf0cb3",
       "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
       "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "6324a0b50873fcf64862860bb8b7b8280fcd3fa8e3560d7ccfdfb6182ae36b90",
+      "values_digest": "d9c1cf3bb52598aef8bcdfb16710eec17523f85756dfb15298ec1b67eb12a769",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "3c88c7c9c393a26994152d6a82644381fdc0061de544ec7d721d7a35afa77a8d",
-      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
-      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
+      "values_digest": "a1e8c9fcbc3f1acb5ccf0c5f065792e014c91a728a6c69c1b784f52407f2ff6e",
+      "rendered_digest": "201f5c0edf4fbccc30cb682e264ac177f82b1b1d51addad0f8d6e6365d88be24",
+      "ast_digest": "48768d04ffd61b9f333507da04d2bad9bbdfb3cf78d358e2e5586e488428ccb4"
     },
     "sor": {
-      "values_digest": "5618e8769369ec4654fbb1cd4d61c4c3713bcbb3596e63976c2e2860d3fd2bce",
+      "values_digest": "9ac592643d0c963a9472a919168381f8cc4de01957322ba6fbcb5bf42b506f98",
       "rendered_digest": "a8aff07ca78643042e05d806878a5c0ce47343f339ea383e3d1ab3638f130803",
       "ast_digest": "3c85ae68fb16bc32fedef9cb28e4abc3627e50cbcadb9d0db204f132aae8d787"
     }
@@ -582,6 +651,20 @@
       "actor": "codex:wp18c01-fresh-review-remediation",
       "reason": "Clear the failed review assignment after substantive remediation and exact focused proof so a different fresh session can review the repaired head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 61,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 69,
+      "generation": 62,
+      "actor": "subagent:019fef9d-f81f-7d52-860a-86b07b79ec9c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

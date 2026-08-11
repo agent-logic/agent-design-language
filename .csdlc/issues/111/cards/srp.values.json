@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
     "slug": "wp18c01-canonical-human-agent-conversation-sessions",
     "version": "v0.92",
-    "generation": 61
+    "generation": 62
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/operations.rs\nadl-runtime-kernel/tests/conversation_sessions.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/openapi_contract.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/conversation_sessions.test.mjs\n.csdlc/issues/111",
+      "review_revision": "git-blake3:7b0759e9b0fd632112a502419434b853fa82bdbb:a9e12465c8e7a123485fc70f469fb50ed78974498024927d8cee5fe4d8e9246e",
+      "reviewer": "subagent:019fef9d-f81f-7d52-860a-86b07b79ec9c",
       "review_prompts": [
         "Verify Runtime is the only session/order/outcome authority and the browser cannot synthesize turns, delivery, or replies.",
         "Probe duplicate submission, sequence gaps, reconnect replay, cancellation/timeout races, late adapter output, saturation, shutdown, and restart behavior.",
@@ -23,9 +23,33 @@
         "Verify provider-neutral contracts and public responses cannot expose raw provider payloads, credentials, private cognition, or private agent state.",
         "Verify every product path in the diff is issue-owned, PVF-classified, and supported by exact-revision proof."
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "fresh-review-223-p1-auth-generation",
+          "severity": "p1",
+          "summary": "In-flight results were bound only to token bytes, allowing same-token reauthentication or rotate-away/rotate-back to revive an older authentication generation.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": "adl-runtime-kernel/src/control.rs:2359"
+        },
+        {
+          "id": "fresh-review-223-p2-unbounded-waiters",
+          "severity": "p2",
+          "summary": "Every exact in-flight duplicate spawned another waiter and terminal frame through an unbounded result channel.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": "adl-runtime-kernel/src/control.rs:2497"
+        }
+      ],
+      "residual_risk": [
+        "Durable cross-restart conversation history remains owned by issue #114.",
+        "The review did not rerun the environment-dependent trusted-TLS browser proof."
+      ],
+      "review_result": "changes_required"
     }
   }
 }
