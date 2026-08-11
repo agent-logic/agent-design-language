@@ -53,3 +53,4 @@
 {"sequence":53,"generation":51,"actor":"/root/shepherd_pr215_green","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":54,"generation":51,"actor":"/root/shepherd_pr215_green","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":55,"generation":52,"actor":"/root/shepherd_pr215_green","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":56,"generation":53,"actor":"/root/shepherd_pr215_green","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

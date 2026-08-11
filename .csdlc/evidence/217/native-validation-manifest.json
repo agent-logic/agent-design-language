@@ -1,0 +1,56 @@
+{
+  "schema": "adl.native_validation_manifest.v2",
+  "payload": {
+    "issue": 217,
+    "source_sha": "535039124f23de2dfcad210ac49f8ffda80f45ca",
+    "workflow": ".github/workflows/wp14-retained-native-proof.yml",
+    "run_id": "31460872332",
+    "run_attempt": "1",
+    "receipts": [
+      {
+        "path": ".csdlc/evidence/217/native-platform/linux.json",
+        "sha256": "2c96e31773c3c3ba421b8f9dba9cea8b3c88f0698746f85781709742b7e79907"
+      },
+      {
+        "path": ".csdlc/evidence/217/native-platform/macos.json",
+        "sha256": "f3d6a3afb4742c7a2363a4ae15016ab7f3b3294821c208ce7ccf0682f5e83586"
+      }
+    ],
+    "proof_manifest": [
+      {
+        "path": ".csdlc/prepared/issues/217/historical-c640-denominator.json",
+        "sha256": "176e8cc984eb764f4e5bb9f3d72a425ca14021624e91207398ae47c3b21fa411"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/protected-source-denominator.json",
+        "sha256": "a04248911cb0355f25251d3caf59ac167bfab3964d008a942dccedbf3456b01e"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/proof-contract-paths.json",
+        "sha256": "fe4e705b8fe35ccbf5f136597b3381b34083a8e4b99d55cff15c815dad4700d6"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/h2-retention-allowlist.json",
+        "sha256": "e4b5b7c96a24401b762b2cd8f62aec20a3e649acbc35d3d41d379b055412a6d0"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/verify-historical-c640-packet.rb",
+        "sha256": "35dfa21d668cfc275ee5109aee8071cbcf74b422cf91658a6cf148e6330ec9cf"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/produce-native-receipt.rb",
+        "sha256": "230a526fd6041e4c92570b8e2ddf7a3ef3ca8c00ee0fcd75bd948a9bb6044b91"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
+        "sha256": "3ffa785499696507882af867002313a21248d9abbb9f6b3fe56b383071240242"
+      },
+      {
+        "path": ".github/workflows/wp14-retained-native-proof.yml",
+        "sha256": "d132a2f8922476764605cfe9c5b546aa0a1e028b41aa5cbb9ea971dcd4031bbe"
+      }
+    ],
+    "status": "passed"
+  },
+  "payload_sha256": "196d5ee28e2ec07bdfb66dad3d75f85658690476f100bb2c5d9da0fcfb6e29d4"
+}
