@@ -3,13 +3,75 @@
   "issue": 83,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e9673d03c5638bc71f039c92849b487b1a105f96d12cfb75f39d881a59e25d3",
-  "phase": "implemented",
-  "generation": 69,
-  "digest": "ed4a3b27a1d9ea463908fc20f3b3321137047f5097a454e022ebfcfc122a8c5e",
+  "phase": "reviewed",
+  "generation": 70,
+  "digest": "ae98af9067f1c26e75320629f5302bb268d08ab0df49ca72b574d5546df463e2",
   "branch": "codex/83-html-observatory-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-83-html-observatory-readiness",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "Arendt:019fedd2-cff2-70a2-89f0-64cd4217177c",
+    "assigned_by": "codex:83-final-review",
+    "revision": "git-blake3:9053fdf26aa24603f643bdfa997b575d7a821787:1d9a893ecbc0ad4f6587ac9006b568675547b2f5d8fd7b1da1c37928eb7b05af",
+    "scope": [
+      ".csdlc/issues/83/audit.jsonl",
+      ".csdlc/issues/83/cards/sip.values.json",
+      ".csdlc/issues/83/cards/sor.values.json",
+      ".csdlc/issues/83/cards/spp.md",
+      ".csdlc/issues/83/cards/spp.values.json",
+      ".csdlc/issues/83/cards/srp.values.json",
+      ".csdlc/issues/83/cards/stp.values.json",
+      ".csdlc/issues/83/cards/vpp.md",
+      ".csdlc/issues/83/cards/vpp.values.json",
+      ".csdlc/issues/83/index.json",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "Arendt:019fedd2-cff2-70a2-89f0-64cd4217177c",
+    "scope": [
+      ".csdlc/issues/83/audit.jsonl",
+      ".csdlc/issues/83/cards/sip.values.json",
+      ".csdlc/issues/83/cards/sor.values.json",
+      ".csdlc/issues/83/cards/spp.md",
+      ".csdlc/issues/83/cards/spp.values.json",
+      ".csdlc/issues/83/cards/srp.values.json",
+      ".csdlc/issues/83/cards/stp.values.json",
+      ".csdlc/issues/83/cards/vpp.md",
+      ".csdlc/issues/83/cards/vpp.values.json",
+      ".csdlc/issues/83/index.json",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs"
+    ],
+    "reviewed_revision": "git-blake3:9053fdf26aa24603f643bdfa997b575d7a821787:1d9a893ecbc0ad4f6587ac9006b568675547b2f5d8fd7b1da1c37928eb7b05af",
+    "findings": [
+      {
+        "id": "83-review-p1-zero-test-vpp-filter",
+        "severity": "p1",
+        "summary": "The acknowledgement continuity VPP lane named a nonexistent test and could report a zero-test Cargo success; the lane now names the implemented restart-continuity test and requires exact selection.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9053fdf26aa24603f643bdfa997b575d7a821787:1d9a893ecbc0ad4f6587ac9006b568675547b2f5d8fd7b1da1c37928eb7b05af",
+        "route": null
+      },
+      {
+        "id": "83-review-p2-cross-carrier-reservation-race",
+        "severity": "p2",
+        "summary": "ControlService inferred reservation ownership from shared snapshots and could claim another same-sender carrier's watermark; canonical ingress now returns attempt-local disposition with a deterministic cross-carrier regression.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9053fdf26aa24603f643bdfa997b575d7a821787:1d9a893ecbc0ad4f6587ac9006b568675547b2f5d8fd7b1da1c37928eb7b05af",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The exact live browser evidence is retained outside Git at the recorded FastWork path; hosted CI remains the final integration confirmation after publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +86,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "83e3b8561c30d8e728fef9359dcd9abe4d3b7df020c56f66d593a3a0ea35d8a2",
+      "values_digest": "0b1f5ce7b6bbf0bacaccbff0ae425a960207dd67b8d83fc8d91f08fb62a05518",
       "rendered_digest": "f9c586eb466927cafcd847b9bc0b6559e9b3909b47de4ab815bdcd1c2f5cf376",
       "ast_digest": "29bb89cab62c6b8a3486eb78c3f597eb829a97a573cd843e688997ace03f127d"
     },
     "stp": {
-      "values_digest": "3b483a8fe886cac5d88999ab49e38273aaec4964d4766792ccf08ae9675ec548",
+      "values_digest": "b40f83062977e55f1a1a9772953fcfd1a3be3086823e4df5da020ef71904fbd4",
       "rendered_digest": "951b0f87e95b3eb451b87e830be166854b6dfb542d50625565d1909d6e61b553",
       "ast_digest": "3facab5e9cf31c18bb13c2832d865598f1272205a26a27c5467db88cfeb07d40"
     },
     "spp": {
-      "values_digest": "e0cee935b0bedc50ea169ff5537a85859feb69bae4fb6629913aca7d39949806",
+      "values_digest": "b82dfdc106f9f54654d491d70b5eadba144fc735bdb860c95a736232da88413c",
       "rendered_digest": "b11212f1960a96c98315d3d40af79ecd2389e79185d705b3382f6a8afb273bcc",
       "ast_digest": "7df752a3f8c1088a1d6cd9342deafbe5c0e5ebab5a6768e16ed0d26a3aba1a94"
     },
     "vpp": {
-      "values_digest": "1bbbcbedf1ed5ad216f6931ad4881936e1c24f12809b65e6a7d75b2a1d376d79",
+      "values_digest": "38bfb5f3935281c914beae0b526f11cba2113461c2c547bcf89902a38ed1a1cb",
       "rendered_digest": "268c6f20f949add3437aebce971bc5b22dd9d8eae1e63caec533dc625d2036e5",
       "ast_digest": "91556df1f10a0a193528c9949758d2853288a12956dd60a51378955fe2f3bea6"
     },
     "srp": {
-      "values_digest": "863072ce4b2f591dcb505d9d6792b3fdf5441d5908f8951b6f9e16b9400cc611",
-      "rendered_digest": "50fb03326332cab8c9f515ed5eb376ae3246c813bca40c100145049534ba7a22",
-      "ast_digest": "8843fede4a14d643e09e56ba7eb9995bc77e718fb63a8ee44d9ed2c329c6f4d8"
+      "values_digest": "74af022ca11775c00e24523a9fa502eb750dad8cbe1a62f8144cbf9b1673dc83",
+      "rendered_digest": "ea35e88e15374e10cda2e7ca59f3277ec5e43e7372b3b566d86efe26041598e3",
+      "ast_digest": "960441ec2366415f9eec9472975c16f48f4d22af9c839a318d96ab9399eb246c"
     },
     "sor": {
-      "values_digest": "c884c397118c516b52551cf6b050c7d91329f707cc69d9925308033893e071ad",
+      "values_digest": "619286efe734bf9bd70e1d720ec3a4c81e4f32e887cccad72dbfd9a1b1cabbae",
       "rendered_digest": "039c58ff4eaaa4c9781f923f719c1f36607c66f079d896c641a0519d9a4c5168",
       "ast_digest": "bebe3f658056fa932ef0d16447049650751b54daccbee732a7338461c9ce717f"
     }
@@ -75,6 +137,13 @@
       "to": "implemented",
       "actor": "codex:83-exact-review-remediation",
       "reason": "Implementation is committed and focused exact-head validation passes; advance to implemented before recording output and review truth."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "Arendt:019fedd2-cff2-70a2-89f0-64cd4217177c",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -574,6 +643,20 @@
       "actor": "codex:83-exact-review-remediation",
       "reason": "Record the implemented Observatory and signed ACIP communication surface plus the exact focused proof completed at the remediation head.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and integrated the live HTML Observatory Runtime v3 client and shared signed ACIP identity-message path for Layer 8 and agent communication, including durable replay continuity, browser keylessness, recipient-signed acknowledgements, qualified-time freshness, and attempt-local cross-carrier reservation truth.\",\"changes\":[\"Integrated the HTML Observatory with the live Runtime roster, qualified capture time, authenticated Layer 8 chat, recipient signature verification, reconnect, and fail-closed states.\",\"Implemented one JCS-canonical signed identity-message contract for Layer 8 and agent-to-agent communication with durable sender and acknowledgement replay watermarks.\",\"Provisioned distinct external Runtime communication identities without browser or repository private-key material.\",\"Returned attempt-local canonical-ingress reservation disposition so concurrent carriers cannot claim another submission's replay watermark.\",\"Corrected the VPP continuity lane to run the implemented exact restart test and removed the false #5836 publication gate.\"],\"artifacts\":[\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"demos/html-observatory/app.js\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"/Volumes/FastWork/adl-issue-83-826e378f2-v2/evidence/observatory-layer8-chat-826e378f270e-22a51f53-1964-4ebf-b7af-21b1b9e61ae3-report.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\"],\"purpose\":\"Run the full runtime-kernel unit denominator including the deterministic cross-carrier reservation regression.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head local output: 47 passed at 826e378f270ea36edef4183430baea7c9ec5eb7e\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\",\"communication_replay_and_ack_sequences_survive_process_cycles_without_snapshot_restore\",\"--\",\"--exact\"],\"purpose\":\"Run the corrected exact acknowledgement restart-continuity lane.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head local output: 1 passed at 826e378f270ea36edef4183430baea7c9ec5eb7e\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\",\"production_binary_acip_wss_produces_observed_receipt\",\"--\",\"--exact\"],\"purpose\":\"Prove the production binary ACIP WebSocket path after reservation-disposition remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head local output: 1 passed at 826e378f270ea36edef4183430baea7c9ec5eb7e\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bins\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings in the changed Runtime library and binary surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head local output at 826e378f270ea36edef4183430baea7c9ec5eb7e\"},{\"command\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\"],\"purpose\":\"Run the exact committed Runtime and Observatory through trusted public TLS in managed Chrome, including restart and replay continuity.\",\"outcome\":\"passed\",\"evidence_ref\":\"/Volumes/FastWork/adl-issue-83-826e378f2-v2/evidence/observatory-layer8-chat-826e378f270e-22a51f53-1964-4ebf-b7af-21b1b9e61ae3-report.json\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"83\"],\"purpose\":\"Validate typed issue structure and card projections.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc.doctor.report.v1 generation 66\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff output.\",\"outcome\":\"passed\",\"evidence_ref\":\"clean exact-head remediation diff\"}]}"
+    },
+    {
+      "sequence": 72,
+      "generation": 69,
+      "actor": "codex:83-final-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 73,
+      "generation": 70,
+      "actor": "Arendt:019fedd2-cff2-70a2-89f0-64cd4217177c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
