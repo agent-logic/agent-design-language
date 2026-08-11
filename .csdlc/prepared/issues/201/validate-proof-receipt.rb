@@ -9,7 +9,7 @@ require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 PREFIX = ".csdlc/evidence/201/"
-PROOF_PREFIX = "#{PREFIX}v3/"
+PROOF_PREFIX = "#{PREFIX}v4/"
 PROOF_RELATIVE = "#{PROOF_PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = [
   "adl-runtime/Cargo.toml", "adl-runtime/Cargo.lock",

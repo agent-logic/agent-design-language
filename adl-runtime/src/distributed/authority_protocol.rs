@@ -829,6 +829,11 @@ impl DurableAuthorityProtocol {
         if intent.expected_protocol_checkpoint_sha256 != self.checkpoint_sha256()? {
             return Err(AuthorityProtocolError::StateRegression);
         }
+        if intent.prepare_log_index <= self.envelope.payload().committed_log_index
+            || verified.committed_log_index <= self.envelope.payload().committed_log_index
+        {
+            return Err(AuthorityProtocolError::StateRegression);
+        }
         if self.envelope.payload().published.len() >= self.capacity {
             return Err(AuthorityProtocolError::CapacityExceeded);
         }

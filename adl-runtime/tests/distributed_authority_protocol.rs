@@ -487,7 +487,7 @@ fn capacity_n_plus_one_no_partial() {
     .unwrap();
     let first = fixture.intent(&store, "one");
     store.publish(&first, fixture.verified(&first)).unwrap();
-    let second = fixture.intent(&store, "two");
+    let second = fixture.intent_at(&store, "two", fixture.membership.committed_log_index() + 3);
     assert_eq!(
         store.publish(&second, fixture.verified(&second)),
         Err(AuthorityProtocolError::CapacityExceeded)
@@ -800,6 +800,15 @@ fn replay_with_regressed_finalize_time() {
     assert_eq!(
         store.publish(&intent, verified),
         Err(AuthorityProtocolError::RetryConflict)
+    );
+    let distinct = fixture.intent_at(
+        &store,
+        "distinct-regressed-log-index",
+        fixture.membership.committed_log_index() + 1,
+    );
+    assert_eq!(
+        store.publish(&distinct, fixture.verified(&distinct)),
+        Err(AuthorityProtocolError::StateRegression)
     );
     marker("replay_with_regressed_finalize_time", "rejected");
 }

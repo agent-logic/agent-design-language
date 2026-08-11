@@ -10,7 +10,7 @@ require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 PREFIX = ".csdlc/evidence/201/"
-OUTPUT = ROOT.join(PREFIX, "v3")
+OUTPUT = ROOT.join(PREFIX, "v4")
 MARKER = "ADL_ISSUE_201_CASE_V1 "
 PROTECTED = [
   "adl-runtime/Cargo.toml", "adl-runtime/Cargo.lock",
