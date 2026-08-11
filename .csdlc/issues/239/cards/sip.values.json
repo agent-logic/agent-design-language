@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 239,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Reconcile terminal envelopes across publication metadata-only heads",
+    "slug": "csdlc-v2-terminal-envelope-metadata-only-head-reconciliation",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make derived terminal validation accept governed publication metadata-only head progression without accepting substantive drift.",
+      "required_outcome": "A repository-grounded reconciliation shared with existing metadata-only review policy plus a PR #238-shaped regression and successful cached #5835 validation after merge.",
+      "declared_scope": [
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/src/bin/csdlc-finish.rs",
+        "csdlc-v2/src/cleanup.rs",
+        "csdlc-v2/tests/gate_finish.rs",
+        ".csdlc/evidence/239/"
+      ],
+      "authority_boundary": [
+        "Canonical issue generation, digest, publication, PR, repository, and terminal identity remain mandatory",
+        "Only the existing typed metadata-only path policy may reconcile publication revision to terminal head",
+        "Sprint #5854 closeout waits for this issue to land and revalidate cached #5835"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not rewrite merged #5835 cards or terminal cache by hand",
+        "No optional CI jobs",
+        "At most one large runner",
+        "Do not merge before fresh independent exact-head approval"
+      ]
+    }
+  }
+}

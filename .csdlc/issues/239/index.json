@@ -1,0 +1,245 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 239,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "74ac66d5503a454f1b2eb18cd92f8fa7b6c1c4dbaf3046edc3b044a6e0f44993",
+  "phase": "published",
+  "generation": 13,
+  "digest": "277b0cca47204abe8427f15c1ce52e971b507cb04cf91006e403599cbd350b60",
+  "branch": "codex/239-terminal-envelope-reconciliation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-239-terminal-envelope-reconciliation",
+  "review_assignment": {
+    "reviewer": "/root/review_239_exact_head",
+    "assigned_by": "/root/sprint5_5835",
+    "revision": "git-blake3:a89ff0333f4a21844dd0e3504d1bf338908038ac:fdbea6d5a65a9bc094ad33e6a28887d8bf3922efab1d355fe7d865f0f2872b84",
+    "scope": [
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/cleanup.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/evidence/239/"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_239_exact_head",
+    "scope": [
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/cleanup.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/evidence/239/"
+    ],
+    "reviewed_revision": "git-blake3:a89ff0333f4a21844dd0e3504d1bf338908038ac:fdbea6d5a65a9bc094ad33e6a28887d8bf3922efab1d355fe7d865f0f2872b84",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 239,
+    "pull_request": 240,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/240",
+    "base": "main",
+    "head": "codex/239-terminal-envelope-reconciliation",
+    "revision": "git-blake3:d55bcb3cd718fae51f48f7d7b106141313a4448d:2f29a97d2d009bab29dd54407963029869567fcc83a053218f9728dcda2057c5",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/239/design.md",
+  "diagram_path": ".csdlc/prepared/issues/239/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "/root/sprint5_5835/review_5835_remediation_exact_head",
+      "revision": "77fb0844a36c274eb6e41e368346366406a4a341852d1107ff0a4b1e5d1ee253"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f845db83fabc034059ae8c77b1ade052198ac8d05c4b7cb20058df5c1c83103e",
+      "rendered_digest": "9d74c8560ecdcda1980e90b7424b807d02b045f61cb14979c9f02a10dcd95416",
+      "ast_digest": "92b029c86686bf2c67512129288dc7fd23f0a4d4594cdd1a3fc5d5a8c326abec"
+    },
+    "stp": {
+      "values_digest": "8f5a48a317b6c5b76b88ef178cb7b0f79494d0bbedcfa29e65278f1968f785e0",
+      "rendered_digest": "32fb959c852e7f690dd835deb13d567fbdc8bd10da0657f3cfc78f20c9fbde6f",
+      "ast_digest": "7572881f9306365e6f9a5d91678de8e9ad2e6c79402ec85b408766c24e827e44"
+    },
+    "spp": {
+      "values_digest": "378b5505c0894d3e505af76aa3c309bbbb4906447519e561a60887ba5a8b1af9",
+      "rendered_digest": "902b0c579940cbf44fe004f8d710ecc51ccbb53962125f5e2bce4185cf9d9910",
+      "ast_digest": "6fafddae8b3ad12f8737e35abbedc0270f2ebc516e4d45d3807744f45af4f797"
+    },
+    "vpp": {
+      "values_digest": "65780ef5313d9e34ea7d415ddd3d6309c914e92ba260c42d16a98471363da69e",
+      "rendered_digest": "7f2c552b51e157f5b12080c3fd4260bbfdcdd35973b03864c8f47de193f3670a",
+      "ast_digest": "e92b2d8fbfc390c866a34ad23c997be354bb3f0f603ec3afb8c3b6ee9f9d38a9"
+    },
+    "srp": {
+      "values_digest": "35c3a0ea99556ca9d1d818f786c0806ac2fa3168fc8a759883ccbd273dbc274e",
+      "rendered_digest": "9b5b74f9bbce721f455cad3df6132af85b13b310baf63178d805e2fbf49bd7f2",
+      "ast_digest": "ff76fffb2144cb8fea28cbbfe74f94e414276fb053cbf02b80ad86e0e00d977e"
+    },
+    "sor": {
+      "values_digest": "ef40d5a3f582ed407f0cd37a9d8ad3f56b6059e765bd23d7f8da2601593ad05f",
+      "rendered_digest": "2814ebfa6296fb179c10614dcf9c1561000f9eafe76a06585c3db360adcdaa31",
+      "ast_digest": "f3416753f0c8cc8ad41f820a20a682aab16b894f90ac06f99e766f2008b2b8b2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "/root/sprint5_5835",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/sprint5_5835",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "/root/sprint5_5835",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "/root/sprint5_5835",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "/root/sprint5_5835/review_5835_remediation_exact_head",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "/root/sprint5_5835",
+      "reason": "Align declared scope with approved root-aware envelope consumers.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/cleanup.rs\",\"csdlc-v2/tests/gate_finish.rs\",\".csdlc/evidence/239/\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "/root/sprint5_5835",
+      "reason": "Align affected areas with approved root-aware envelope consumers.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/cleanup.rs\",\"csdlc-v2/tests/gate_finish.rs\",\".csdlc/evidence/239/\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "/root/sprint5_5835",
+      "reason": "Align deliverables with the approved full fail-closed regression set.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Root-aware repository-grounded terminal envelope reconciliation across cached validation and cleanup consumers\",\"Focused PR #238-shaped acceptance regression\",\"Substantive-drift, malformed-publication-revision, and metadata-only non-ancestor rejection regressions\",\"Post-merge cached #5835 validation\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "/root/sprint5_5835",
+      "reason": "Align VPP with all approved metadata-only and fail-closed regression cases.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"terminal-envelope-metadata-head\",\"proof_role\":\"Reproduce PR #238 topology and prove metadata-only acceptance plus substantive-drift, malformed-publication-revision, and metadata-only non-ancestor rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":700,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\",\"derived_terminal_accepts_publication_metadata_only_head_and_rejects_substantive_drift\",\"--\",\"--exact\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed patch structure.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":100,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"post-merge-5835-cache\",\"proof_role\":\"Prove the merged binary validates the retained #5835 terminal envelope without tracked rewrites.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":200,\"budget_tokens\":1000,\"argv\":[\"csdlc-finish\",\"--root\",\".\",\"--validate-cached-issue\",\"5835\"],\"parallel_group\":\"post-merge\",\"defer_reason\":\"This terminal acceptance lane can run only after #239 merges to main; pre-merge proof is the focused gate_finish regression.\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "/root/sprint5_5835",
+      "reason": "Use the governed Cargo owner-binary route for deferred post-merge cache validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"terminal-envelope-metadata-head\",\"proof_role\":\"Reproduce PR #238 topology and prove metadata-only acceptance plus substantive-drift, malformed-publication-revision, and metadata-only non-ancestor rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":700,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\",\"derived_terminal_accepts_publication_metadata_only_head_and_rejects_substantive_drift\",\"--\",\"--exact\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed patch structure.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":100,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"post-merge-5835-cache\",\"proof_role\":\"Prove the merged binary validates the retained #5835 terminal envelope without tracked rewrites.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":200,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-finish\",\"--\",\"--root\",\".\",\"--validate-cached-issue\",\"5835\"],\"parallel_group\":\"post-merge\",\"defer_reason\":\"This terminal acceptance lane can run only after #239 merges to main; pre-merge proof is the focused gate_finish regression.\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "/root/sprint5_5835",
+      "reason": "Record the bounded root-aware terminal envelope implementation and focused proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented repository-grounded derived-terminal reconciliation for governed publication metadata-only heads without weakening exact identity or substantive drift rejection.\",\"changes\":[\"Added a root-aware envelope matcher while retaining exact-only compatibility behavior.\",\"Routed cached csdlc-finish validation and cleanup compatibility through the root-aware matcher.\",\"Reused git::metadata_only_changed_paths in publication lineage validation, preserving forward ancestry, safe path, per-commit, and typed card projection checks.\",\"Expanded the PR #238-shaped regression to cover positive metadata-only reconciliation plus rename drift, substantive drift, malformed publication revision, non-ancestor metadata, and missing commit rejection.\"],\"artifacts\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/cleanup.rs\",\"csdlc-v2/tests/gate_finish.rs\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "/root/sprint5_5835",
+      "reason": "The PR #238 mismatch is reproduced and isolated.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "/root/sprint5_5835",
+      "reason": "Root-aware reconciliation now reuses the governed metadata-only policy.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "/root/sprint5_5835",
+      "reason": "Focused PR #238-shaped positive and all declared fail-closed regressions pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "/root/sprint5_5835",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "/root/sprint5_5835",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "/root/sprint5_5835",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "/root/sprint5_5835",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

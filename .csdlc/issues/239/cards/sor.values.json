@@ -1,0 +1,73 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 239,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Reconcile terminal envelopes across publication metadata-only heads",
+    "slug": "csdlc-v2-terminal-envelope-metadata-only-head-reconciliation",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented root-aware terminal envelope validation for governed publication metadata-only heads with fail-closed regression coverage.",
+      "actual_changes": [
+        "Added a root-aware envelope matcher while retaining exact-only compatibility behavior.",
+        "Routed cached csdlc-finish validation and cleanup compatibility through the root-aware matcher.",
+        "Reused git::metadata_only_changed_paths in publication lineage validation, preserving forward ancestry, safe path, per-commit, and typed card projection checks.",
+        "Expanded the PR #238-shaped regression to cover positive metadata-only reconciliation plus rename drift, substantive drift, malformed publication revision, non-ancestor metadata, and missing commit rejection.",
+        "Added root-aware matcher and retained exact-only compatibility matcher.",
+        "Routed cached finish validation and cleanup compatibility through explicit repository root.",
+        "Reused governed metadata-only ancestry/path/projection policy.",
+        "Added PR #238-shaped positive and substantive, malformed, non-ancestor, missing-commit negatives."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/src/bin/csdlc-finish.rs",
+        "csdlc-v2/src/cleanup.rs",
+        "csdlc-v2/tests/gate_finish.rs",
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/src/bin/csdlc-finish.rs",
+        "csdlc-v2/src/cleanup.rs",
+        "csdlc-v2/tests/gate_finish.rs",
+        ".csdlc/evidence/239"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Run diff whitespace validation.",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_finish",
+            "derived_terminal_accepts_publication_metadata_only_head_and_rejects_substantive_drift",
+            "--",
+            "--exact"
+          ],
+          "purpose": "Run the exact focused gate_finish regression.",
+          "outcome": "passed",
+          "evidence_ref": "terminal-envelope-metadata-head.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
