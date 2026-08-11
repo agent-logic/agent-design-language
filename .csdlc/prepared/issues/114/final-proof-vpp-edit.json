@@ -1,0 +1,48 @@
+{
+  "issue": 114,
+  "card": "vpp",
+  "expected_generation": 7,
+  "expected_digest": "8ce98898ed7b69291ec7372f7f0faa208add7829fa8ad74e8c89aa08b404331a",
+  "actor": "codex:114-final-proof-contract-repair",
+  "reason": "Require exact-candidate, separately passing product and review receipts before the exact 42-case denominator may claim AC coverage.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "conversation-history-exact-denominator",
+        "proof_role": "After #111 and #112 are terminal and ancestral, validate one exact candidate aggregate against history-proof-receipt-schema.v2.json. AC-1 through AC-9 coverage may be emitted only when the canonical 42 unique ordered cases all pass and six separate, ordered, nonduplicate receipts for the Rust store target, Runtime API target, real Runtime-backed browser validator, strict Clippy, diff hygiene, and fresh independent review each bind the same resolved candidate SHA, are structurally complete, and pass. Test selection, an aggregate status, a stale review, or any missing receipt is insufficient.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6",
+          "AC-7",
+          "AC-8",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 21600,
+        "budget_tokens": 100000,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/114/validate-history-proof.rb",
+          "--repo",
+          ".",
+          "--candidate-sha",
+          "HEAD",
+          "--manifest",
+          ".csdlc/prepared/issues/114/history-proof-cases.json",
+          "--schema",
+          ".csdlc/prepared/issues/114/history-proof-receipt-schema.v2.json",
+          "--results",
+          ".csdlc/evidence/114/conversation-history-proof-receipts.v2.json"
+        ],
+        "parallel_group": "114-history-proof",
+        "defer_reason": "Deferred until #111 and #112 are terminal through merged PRs ancestral to the selected #114 execution base and all six issue-owned exact-candidate receipts exist. The validator currently fails closed on absent product evidence; preparation records no product implementation, AC pass, dependency completion, review pass, or #83 mutation claim."
+      }
+    ]
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "adl.conversation_history.proof_receipts.v2",
+  "title": "ADL issue 114 exact-head conversation history proof receipts",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "issue", "candidate_sha", "cases", "receipts"],
+  "properties": {
+    "schema": { "const": "adl.conversation_history.proof_receipts.v2" },
+    "issue": { "const": 114 },
+    "candidate_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "cases": {
+      "type": "array",
+      "minItems": 42,
+      "maxItems": 42,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status"],
+        "properties": {
+          "name": { "type": "string" },
+          "status": { "const": "passed" }
+        }
+      }
+    },
+    "receipts": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "prefixItems": [
+        { "$ref": "#/$defs/testReceipt", "properties": { "kind": { "const": "rust_store" } } },
+        { "$ref": "#/$defs/testReceipt", "properties": { "kind": { "const": "runtime_api" } } },
+        { "$ref": "#/$defs/browserReceipt" },
+        { "$ref": "#/$defs/clippyReceipt" },
+        { "$ref": "#/$defs/diffReceipt" },
+        { "$ref": "#/$defs/reviewReceipt" }
+      ],
+      "items": false
+    }
+  },
+  "$defs": {
+    "testReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "candidate_sha", "status", "command", "evidence_ref", "test_count"],
+      "properties": {
+        "kind": { "enum": ["rust_store", "runtime_api"] },
+        "candidate_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "status": { "const": "passed" },
+        "command": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "evidence_ref": { "type": "string", "minLength": 1 },
+        "test_count": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "browserReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "candidate_sha", "status", "command", "evidence_ref", "runtime_backed", "browser_check_count"],
+      "properties": {
+        "kind": { "const": "browser" },
+        "candidate_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "status": { "const": "passed" },
+        "command": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "evidence_ref": { "type": "string", "minLength": 1 },
+        "runtime_backed": { "const": true },
+        "browser_check_count": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "clippyReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "candidate_sha", "status", "command", "evidence_ref", "deny_warnings"],
+      "properties": {
+        "kind": { "const": "strict_clippy" },
+        "candidate_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "status": { "const": "passed" },
+        "command": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "evidence_ref": { "type": "string", "minLength": 1 },
+        "deny_warnings": { "const": true }
+      }
+    },
+    "diffReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "candidate_sha", "status", "command", "evidence_ref", "clean"],
+      "properties": {
+        "kind": { "const": "diff_hygiene" },
+        "candidate_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "status": { "const": "passed" },
+        "command": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "evidence_ref": { "type": "string", "minLength": 1 },
+        "clean": { "const": true }
+      }
+    },
+    "reviewReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "candidate_sha", "status", "evidence_ref", "reviewer", "independent", "findings_status"],
+      "properties": {
+        "kind": { "const": "independent_review" },
+        "candidate_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "status": { "const": "passed" },
+        "evidence_ref": { "type": "string", "minLength": 1 },
+        "reviewer": { "type": "string", "minLength": 1 },
+        "independent": { "const": true },
+        "findings_status": { "const": "resolved" }
+      }
+    }
+  },
+  "x-adl-issue": 114,
+  "x-adl-canonical-case-count": 42,
+  "x-adl-receipt-order": ["rust_store", "runtime_api", "browser", "strict_clippy", "diff_hygiene", "independent_review"],
+  "x-adl-acceptance-coverage": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8", "AC-9"],
+  "x-adl-required-commands": {
+    "rust_store": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "conversation_history", "--no-tests=fail"],
+    "runtime_api": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl/Cargo.toml", "--test", "conversation_history_runtime_api", "--no-tests=fail"],
+    "strict_clippy": ["cargo", "clippy", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "conversation_history", "--", "-D", "warnings"],
+    "diff_hygiene": ["git", "diff", "--check"]
+  },
+  "x-adl-browser-command-prefix": ["node", "adl/tools/validate_v092_html_observatory_history.mjs"]
+}

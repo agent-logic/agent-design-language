@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
   "phase": "ready",
-  "generation": 7,
-  "digest": "8ce98898ed7b69291ec7372f7f0faa208add7829fa8ad74e8c89aa08b404331a",
+  "generation": 8,
+  "digest": "789cee2eab82966ada32628418b95505b558d21adb929b9806abf4734f3beff1",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "443b6f82c3e2f7773bfad85dc22038757f708f9959bd1f9c28a6ae73c152f066",
+      "values_digest": "d2b5999ab84c3801d4454f82b4a8e5ddc3bf5a42b612555811f75e89847a0f6a",
       "rendered_digest": "8b8eaae46acbafc0683cfe82c71d1c009b23dfa44fbe80af9647c04fe94925db",
       "ast_digest": "0a2848b22bc8771b4fe994f9691e4d78f56b7b08912981f6db9fc3e7c49bcbed"
     },
     "stp": {
-      "values_digest": "6a8c05b953c862e552bc39e4eed90d9054926bd433d7c87d3f1b4c571299aae6",
+      "values_digest": "1b4b801466c1d8e1a6b10e6d5f5b1659fe4e34fa2a8bf7774543157fa899ca55",
       "rendered_digest": "89cbeaf87a8b741804c4ed4f57d7a36d20bc16043c88248e76f472c30b1d1709",
       "ast_digest": "ad51ebc22f13f41109a8f2b24e5bb1e3c9faef9999dbe3a715b9ad4ab712edf0"
     },
     "spp": {
-      "values_digest": "b81bf4242133627740230886d835e0f6c5081051df715e4f355e48b1f9faac11",
+      "values_digest": "97a965e8cbe8b0de532801ac855abf188bd68af3ada503caf5403a94543d4b28",
       "rendered_digest": "6d6e3271df1ca6752bdfd801b3dd971ffd643f14396f3eed3deb3313f72fe8e6",
       "ast_digest": "ffb4ad94c109b05afcfd5dbd5d7a4f2a04f179336c3f1b368faa246090a04cd4"
     },
     "vpp": {
-      "values_digest": "0b8a021f63b6f87b6e8fb65703a43cfff6417cf44d9ebc84afb4e992a940ce0e",
-      "rendered_digest": "4482be7b18014beaa0ee693048984b94029001eeb05756975b0b5d0be0f1baf3",
-      "ast_digest": "e175337ec822bbbae45f0c6ce90dfead949188ecd735e29bb777c5db6cf61870"
+      "values_digest": "ee69e92ddd16fb528f1931364daa5a127bd2952dbd7d421ba71db9a0fa0b6f90",
+      "rendered_digest": "c62300f3838a05209e404ef5a9053d5881c40cc931540d4822055d60bd8b9f33",
+      "ast_digest": "11ace41f97e8ad07756cfcd69709a9d256c279c8951315ba85ab5a5fe7044d55"
     },
     "srp": {
-      "values_digest": "db606592ea231e43905ae91306d95ea445c0fc3d77b72e3c87f2281752710510",
+      "values_digest": "536b8c24c99a76879c31dd2d16201a579752ef74f0054deb8369bc66cc187bfb",
       "rendered_digest": "cd75e51fc7f81a82723616370addd28c53f0bba7d945238bfde4a26d1d326263",
       "ast_digest": "e31c3cfd5cf288a957f28db764c46b581678cf11cf2ff522f5314800c3078e58"
     },
     "sor": {
-      "values_digest": "d6ef0b9bf5e8383b4d1e090850811cd5d70d6298f266792a34b62f6c5bc04df4",
+      "values_digest": "4fca49d23aefa7d37a81cf0015862389eded9f89eee171aa39f6d8e16ff9ea38",
       "rendered_digest": "138ad7d74de650d36b2b6ed9228b23724284f31f4f080cf8103270164bca97ed",
       "ast_digest": "256a4c79e33435e99293355c8c0b394ad075de4076e9343c697b9ddadc5b1544"
     }
@@ -119,6 +119,13 @@
       "actor": "codex:114-readiness-audit-repair",
       "reason": "state future product outputs as deferred deliverables while retaining only existing preparation files as current validator targets",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Runtime-owned durable conversation history module and narrow module export\",\"Focused conversation history store test target\",\"Authorized Runtime API integration test target\",\"Real Runtime-backed Observatory history validator\",\"Durable conversation history feature contract\",\".csdlc/prepared/issues/114/history-proof-cases.json\",\".csdlc/prepared/issues/114/validate-history-proof.rb\",\"Narrow Runtime API, OpenAPI, and demos/html-observatory/app.js integration\",\"Exact forty-two-case product proof and fresh exact-head independent review\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:114-final-proof-contract-repair",
+      "reason": "Require exact-candidate, separately passing product and review receipts before the exact 42-case denominator may claim AC coverage.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"conversation-history-exact-denominator\",\"proof_role\":\"After #111 and #112 are terminal and ancestral, validate one exact candidate aggregate against history-proof-receipt-schema.v2.json. AC-1 through AC-9 coverage may be emitted only when the canonical 42 unique ordered cases all pass and six separate, ordered, nonduplicate receipts for the Rust store target, Runtime API target, real Runtime-backed browser validator, strict Clippy, diff hygiene, and fresh independent review each bind the same resolved candidate SHA, are structurally complete, and pass. Test selection, an aggregate status, a stale review, or any missing receipt is insufficient.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":21600,\"budget_tokens\":100000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/114/validate-history-proof.rb\",\"--repo\",\".\",\"--candidate-sha\",\"HEAD\",\"--manifest\",\".csdlc/prepared/issues/114/history-proof-cases.json\",\"--schema\",\".csdlc/prepared/issues/114/history-proof-receipt-schema.v2.json\",\"--results\",\".csdlc/evidence/114/conversation-history-proof-receipts.v2.json\"],\"parallel_group\":\"114-history-proof\",\"defer_reason\":\"Deferred until #111 and #112 are terminal through merged PRs ancestral to the selected #114 execution base and all six issue-owned exact-candidate receipts exist. The validator currently fails closed on absent product evidence; preparation records no product implementation, AC pass, dependency completion, review pass, or #83 mutation claim.\"}]}"
     }
   ]
 }

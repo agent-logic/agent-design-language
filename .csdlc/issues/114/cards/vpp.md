@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/114/diagram.mmd
 [
   {
     "lane": "conversation-history-exact-denominator",
-    "proof_role": "After #111 and #112 are terminal and ancestral, require issue #114 product execution to produce one machine-readable receipt from the exact owned Runtime store test, Runtime API test, strict clippy target, real Runtime-backed browser validator, and diff-hygiene checks. The issue-owned validator must then prove exactly the canonical 42 named cases from history-proof-cases.json appear once, in order, with no hidden subdenominator and every status passed; nonzero test selection alone is never sufficient.",
+    "proof_role": "After #111 and #112 are terminal and ancestral, validate one exact candidate aggregate against history-proof-receipt-schema.v2.json. AC-1 through AC-9 coverage may be emitted only when the canonical 42 unique ordered cases all pass and six separate, ordered, nonduplicate receipts for the Rust store target, Runtime API target, real Runtime-backed browser validator, strict Clippy, diff hygiene, and fresh independent review each bind the same resolved candidate SHA, are structurally complete, and pass. Test selection, an aggregate status, a stale review, or any missing receipt is insufficient.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -44,13 +44,19 @@ Diagram: .csdlc/prepared/issues/114/diagram.mmd
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/114/validate-history-proof.rb",
+      "--repo",
+      ".",
+      "--candidate-sha",
+      "HEAD",
       "--manifest",
       ".csdlc/prepared/issues/114/history-proof-cases.json",
+      "--schema",
+      ".csdlc/prepared/issues/114/history-proof-receipt-schema.v2.json",
       "--results",
-      ".csdlc/evidence/114/conversation-history-case-results.json"
+      ".csdlc/evidence/114/conversation-history-proof-receipts.v2.json"
     ],
     "parallel_group": "114-history-proof",
-    "defer_reason": "Deferred until #111 and #112 are terminal through merged PRs ancestral to the selected #114 execution base and the issue-owned product targets and result receipt exist. The validator currently fails closed on the absent receipt; preparation records no product implementation, product validation pass, dependency completion, or #83 mutation claim."
+    "defer_reason": "Deferred until #111 and #112 are terminal through merged PRs ancestral to the selected #114 execution base and all six issue-owned exact-candidate receipts exist. The validator currently fails closed on absent product evidence; preparation records no product implementation, AC pass, dependency completion, review pass, or #83 mutation claim."
   }
 ]
 
@@ -66,7 +72,7 @@ Tokens: 100000
 
 ## Commands
 
-- `ruby .csdlc/prepared/issues/114/validate-history-proof.rb --manifest .csdlc/prepared/issues/114/history-proof-cases.json --results .csdlc/evidence/114/conversation-history-case-results.json`
+- `ruby .csdlc/prepared/issues/114/validate-history-proof.rb --repo . --candidate-sha HEAD --manifest .csdlc/prepared/issues/114/history-proof-cases.json --schema .csdlc/prepared/issues/114/history-proof-receipt-schema.v2.json --results .csdlc/evidence/114/conversation-history-proof-receipts.v2.json`
 
 ## Failure Semantics
 
