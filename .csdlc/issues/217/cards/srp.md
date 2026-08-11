@@ -8,15 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/evidence/209
-.csdlc/evidence/217
-.csdlc/issues/217
-.csdlc/prepared/issues/217
-.github/workflows/wp14-retained-native-proof.yml
+
 
 ## Prompts
 
@@ -40,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Fresh exact-head Linux and macOS GitHub Actions evidence is a mandatory downstream gate and has not yet run; no retention or merge claim is authorized until that packet and its H2/H3 review chain pass.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:b362e8acd63cd392c1fbf4ae44a6f690c430b2af:85712f0e38a551d7d40319a3a2b1c513efbf7426bce2ba57d8e3f05ca8b7fdbb")
+Revision: None
 
-Reviewer: Some("/root/shepherd_pr215_green/review_217_finalized_b362e8a")
+Reviewer: None
 
-Result: pass
+Result: pre_review

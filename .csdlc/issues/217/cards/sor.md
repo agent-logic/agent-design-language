@@ -111,11 +111,11 @@ Restored the exact ten-file #209 native packet as provenance and implemented a f
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

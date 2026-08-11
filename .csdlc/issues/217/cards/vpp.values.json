@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-14 follow-up] Retain native proof and make post-merge validation squash-safe",
     "slug": "wp14-retained-native-proof-merge-safe",
     "version": "v0.92",
-    "generation": 53
+    "generation": 55
   },
   "status": "ready",
   "content": {
@@ -171,7 +171,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on missing or changed packet bytes, digest/provenance mismatch, unconfined paths, incomplete protected inventory, source relationship ambiguity, protected-source drift, stale typed truth, or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/217/design.md",
-      "design_digest": "f37279a9cdaf388669ad06b9df8aefc5d42ed182edfa91fa0c9853522db7cbef",
+      "design_digest": "583a0be5ca1076af6cb215a27d72bc227d1ecf5df8dd556e8fd997eadb09ec0b",
       "diagram_ref": ".csdlc/prepared/issues/217/diagram.mmd",
       "diagram_digest": "9856d5c18f8e886e65224ed8f5cb5ea97bcaec3211a9f490f6fa9b602e629379"
     }
