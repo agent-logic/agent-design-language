@@ -70,11 +70,11 @@ Assembled and locally validated the Sprint 4 first-birthday core findings-first 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
