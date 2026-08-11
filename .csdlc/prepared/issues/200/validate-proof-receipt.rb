@@ -8,7 +8,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/200/v1/"
+PREFIX = ".csdlc/evidence/200/v2/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = [
   "adl-runtime/src/distributed/mod.rs",
@@ -85,11 +85,11 @@ commands.each do |name, command|
 end
 machine = commands.fetch("machine_cases")
 text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(machine.fetch("#{stream}_path"))) }.join
-observed = text.lines.filter_map do |line|
+observed = text.lines.map do |line|
   next unless line.include?(MARKER)
   name, result = line.split(MARKER, 2).fetch(1).strip.split(" ", 2)
   [name, result, Digest::SHA256.hexdigest("#{MARKER}#{name} #{result}")]
-end
+end.compact
 cases = proof.fetch("cases")
 fail_receipt("case order mismatch") unless cases.map { |entry| entry["case"] } == EXPECTED_CASES
 fail_receipt("marker denominator mismatch") unless observed.length == 36 && observed.map(&:first).uniq.length == 36
