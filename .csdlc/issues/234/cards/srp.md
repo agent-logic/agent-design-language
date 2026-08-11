@@ -8,16 +8,15 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.github/workflows
-adl/tools
-docs/tooling
-csdlc-v2
-.csdlc/issues/234
-.csdlc/prepared/issues/234
+.github/workflows/ci.yaml
+.github/workflows/ci-out-of-band.yaml
+adl/tools/validate_ci_workflow_policy.rb
+adl/tools/test_validate_ci_workflow_policy.rb
+adl/tools/test_ci_runtime_contracts.sh
 
 ## Prompts
 
@@ -29,18 +28,7 @@ csdlc-v2
 
 ## Findings
 
-[
-  {
-    "id": "P1-heavy-matrix-cardinality",
-    "severity": "p1",
-    "summary": "The sole heavy-runner job could declare a strategy matrix whose axis plus include expansion was undercounted, violating the one-heavy-runner allocation invariant.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": "Remediate exact 810c0b934 by prohibiting strategy.matrix on adl_ci and adding axis-only, include-only, and combined negative regressions."
-  }
-]
+[]
 
 ## Dispositions
 
@@ -52,8 +40,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ab354119ca3b9e3e372379e8a90b65d57eb1240d:a4b139dfb7611a369fa308a04ba74773889a18b27f09ad87a21f7aaa109671cb")
 
-Reviewer: None
+Reviewer: Some("subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c")
 
-Result: pre_review
+Result: pass

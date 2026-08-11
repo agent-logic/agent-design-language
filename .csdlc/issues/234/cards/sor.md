@@ -198,7 +198,7 @@ Remediated the exact-head review findings by coalescing identical source heads a
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

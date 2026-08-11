@@ -3,25 +3,38 @@
   "issue": 234,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
-  "phase": "implemented",
-  "generation": 28,
-  "digest": "1028f20e4455b023b0ee8c599e7342bd4cceef8c3adf6fe07261b6906c48e060",
+  "phase": "reviewed",
+  "generation": 30,
+  "digest": "66317f9721388ba9ed42efa0b8bdf89a691ddaa1dec686651e793906e0d7d085",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": {
     "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
     "assigned_by": "operator",
-    "revision": "git-blake3:3d6a3b58426e88e7f76f73cd87bc3c281a70e1c4:48e053dcbed74ecc6136b3ffc1aaa97ed7d257ddc38ae328f49daf63f98dfb59",
+    "revision": "git-blake3:ab354119ca3b9e3e372379e8a90b65d57eb1240d:a4b139dfb7611a369fa308a04ba74773889a18b27f09ad87a21f7aaa109671cb",
     "scope": [
-      ".github/workflows",
-      "adl/tools",
-      "docs/tooling",
-      "csdlc-v2",
-      ".csdlc/issues/234",
-      ".csdlc/prepared/issues/234"
+      ".github/workflows/ci.yaml",
+      ".github/workflows/ci-out-of-band.yaml",
+      "adl/tools/validate_ci_workflow_policy.rb",
+      "adl/tools/test_validate_ci_workflow_policy.rb",
+      "adl/tools/test_ci_runtime_contracts.sh"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      ".github/workflows/ci-out-of-band.yaml",
+      "adl/tools/validate_ci_workflow_policy.rb",
+      "adl/tools/test_validate_ci_workflow_policy.rb",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "reviewed_revision": "git-blake3:ab354119ca3b9e3e372379e8a90b65d57eb1240d:a4b139dfb7611a369fa308a04ba74773889a18b27f09ad87a21f7aaa109671cb",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,34 +49,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "643e244bcd1ca6d5186701dce57510ecfd4d2c538d4cb142678cac0dd96c1709",
+      "values_digest": "f36ea92e4806f5a4e2af033e04c03bc8d4149f6a95d732fe92a89e4877baca3e",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "ac553c621fb1852e7d73510909fc7c2888fe5d9151d4e578993700e2932d34b1",
+      "values_digest": "6e235a81cd8199572745e9ec482e2fd0dda9d21782c3d8d8fd49ac609b6ac021",
       "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
       "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "f4f913d484c077b1647cfb1bdeaec6c5708c3aa317aa7a52ccec422777407038",
+      "values_digest": "9f24dbaa018df82bd2eebdd9e669955c32488df418d78570045c281dd609294a",
       "rendered_digest": "4aefac7b866c381e05080459460429c537d4ef79b16a3d8d1207c2d93aa5c2f8",
       "ast_digest": "4275040bf85db61f054c1978dcb59027ff4817fc3e9cad80287eaea38385c582"
     },
     "vpp": {
-      "values_digest": "92b2d2e10356882cbb44fb13b958fcd10ba94c272a4e1336b17f984a7bba79c9",
+      "values_digest": "14cad2f16df705e229c88dafa61b92ce32a12cce3bcfb2c544588d8dfbacd887",
       "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "7d5a46e512035c8d2594b323628f1ebab147a4481640a404cd585f02afc58b11",
-      "rendered_digest": "e7a6bb16da6cab76e4bbf2532fcc8b6dde72cd4eb82fb1ef3713e5114b085176",
-      "ast_digest": "3ff4d3a8fea73fae00cfcaa76ff0f85d11b20bef2fc85c8399258c1060b29aea"
+      "values_digest": "f9256a801f729f8213c5a7e13710bb28f93fab72ecb25d5ca6339a29b87cc210",
+      "rendered_digest": "459c98fd08e6991edc482215e7bfb069157571114998938bd328a629e86db43f",
+      "ast_digest": "e7ff2af160bf9b645767d62783bd9b46518b765e914f22b0d20e148b153d4588"
     },
     "sor": {
-      "values_digest": "7d81ca43e2f01fab26f2484289d950d54bbba90032da7866a25373ed1f9ac069",
-      "rendered_digest": "8dd6d35674d7072d751578d0f97fca496b2c7df201623cb5727854b225c324b3",
-      "ast_digest": "ee045f6e7aa547cc8b4b61f4364e31618375e91ffcb3dcaf295cf0791e90e9b0"
+      "values_digest": "6d5a4bf91fbac50bccd0c86a67813ccdc31c522b8618d40a60a0993fd1a04ee8",
+      "rendered_digest": "ea579bcab9005b6da48c55cb5499fb1502f8c551d97cc383bbaf2b006ab292ee",
+      "ast_digest": "2c05c9d8788087f841eb6cae9542321bc9452a872c1ce5f18ae539f3c39396ff"
     }
   },
   "transitions": [
@@ -87,6 +100,13 @@
       "to": "implemented",
       "actor": "codex:234-systemic-ci-cost-control",
       "reason": "The bounded CI fanout controls and all declared local proof lanes are complete; exact-head independent review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:234-final-review-record",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -313,6 +333,27 @@
       "actor": "codex:234-final-remediation",
       "reason": "Record the exact-head P1 that matrix cardinality undercounted combined axes and include entries.",
       "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"P1-heavy-matrix-cardinality\",\"severity\":\"p1\",\"summary\":\"The sole heavy-runner job could declare a strategy matrix whose axis plus include expansion was undercounted, violating the one-heavy-runner allocation invariant.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":\"Remediate exact 810c0b934 by prohibiting strategy.matrix on adl_ci and adding axis-only, include-only, and combined negative regressions.\"}}"
+    },
+    {
+      "sequence": 33,
+      "generation": 29,
+      "actor": "codex:234-final-review-record",
+      "reason": "Replace the superseded pre-remediation assignment with the operator-confirmed independent review of exact substantive revision ab354119ca3b9e3e372379e8a90b65d57eb1240d.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 29,
+      "actor": "operator",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 30,
+      "actor": "codex:234-final-review-record",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
