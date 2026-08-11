@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
     "slug": "wp18c05-governed-multi-agent-rooms-routing",
     "version": "v0.92",
-    "generation": 3
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,8 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "rooms-runtime-contract",
-          "proof_role": "Use the existing exact nonzero control integration target as the ready-phase denominator for authenticated room routes, exact participants and recipients, deterministic delivery events, refusal, reconnect, replay, and OpenAPI behavior added during #115 execution; execution must add the dedicated conversation_rooms target through typed VPP replan.",
+          "lane": "conversation-rooms-runtime-contract",
+          "proof_role": "Run the exact issue-owned conversation_rooms Rust integration target with a nonzero-test requirement to prove bounded room membership revisions, exact frozen recipient sets, whole-set authorization before dispatch, deterministic fan-out and aggregate outcomes, attributed responses, replay and reorder rejection, revocation, timeout, cancellation, reconnect, and restart behavior.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -39,11 +39,11 @@
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
             "--test",
-            "control",
+            "conversation_rooms",
             "--no-tests=fail"
           ],
           "parallel_group": "runtime",
-          "defer_reason": null
+          "defer_reason": "Deferred and fail closed during preparation: #111, #112, and #113 must be terminal, merged, ancestral, and handed off before issue #115 implements adl-runtime-kernel/tests/conversation_rooms.rs; missing or zero selected tests must fail."
         },
         {
           "lane": "acip-routing-input-contract",
@@ -100,8 +100,8 @@
           "defer_reason": null
         },
         {
-          "lane": "html-observatory-contract",
-          "proof_role": "Run the checked-in executable HTML Observatory Runtime v3 contract; execution must add the dedicated live room browser validator through typed VPP replan once #111-#113 outputs are available.",
+          "lane": "rooms-browser-validator",
+          "proof_role": "Run the dedicated issue-owned rooms browser validator against live Runtime truth and require nonzero room assertions for authenticated room transport, exact room and participant lists, frozen recipients, transcript and attributed responses, composer behavior, delivery and partial-delivery states, refusal and failure states, disconnect, reconnect, and accessible UI projection.",
           "acceptance_ids": [
             "AC-2",
             "AC-4",
@@ -115,10 +115,11 @@
           "budget_seconds": 300,
           "budget_tokens": 3000,
           "argv": [
-            "adl/tools/test_html_observatory.sh"
+            "node",
+            "adl/tools/validate_v092_html_observatory_rooms.mjs"
           ],
           "parallel_group": "browser-contract",
-          "defer_reason": null
+          "defer_reason": "Deferred and fail closed during preparation: #111, #112, and #113 must be terminal, merged, ancestral, and handed off before issue #115 implements the dedicated validator; a missing validator, unavailable live room surface, or zero room assertions must fail."
         },
         {
           "lane": "rooms-focused-clippy",

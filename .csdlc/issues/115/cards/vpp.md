@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/115/diagram.mmd
 
 [
   {
-    "lane": "rooms-runtime-contract",
-    "proof_role": "Use the existing exact nonzero control integration target as the ready-phase denominator for authenticated room routes, exact participants and recipients, deterministic delivery events, refusal, reconnect, replay, and OpenAPI behavior added during #115 execution; execution must add the dedicated conversation_rooms target through typed VPP replan.",
+    "lane": "conversation-rooms-runtime-contract",
+    "proof_role": "Run the exact issue-owned conversation_rooms Rust integration target with a nonzero-test requirement to prove bounded room membership revisions, exact frozen recipient sets, whole-set authorization before dispatch, deterministic fan-out and aggregate outcomes, attributed responses, replay and reorder rejection, revocation, timeout, cancellation, reconnect, and restart behavior.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -47,11 +47,11 @@ Diagram: .csdlc/prepared/issues/115/diagram.mmd
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "control",
+      "conversation_rooms",
       "--no-tests=fail"
     ],
     "parallel_group": "runtime",
-    "defer_reason": null
+    "defer_reason": "Deferred and fail closed during preparation: #111, #112, and #113 must be terminal, merged, ancestral, and handed off before issue #115 implements adl-runtime-kernel/tests/conversation_rooms.rs; missing or zero selected tests must fail."
   },
   {
     "lane": "acip-routing-input-contract",
@@ -108,8 +108,8 @@ Diagram: .csdlc/prepared/issues/115/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "html-observatory-contract",
-    "proof_role": "Run the checked-in executable HTML Observatory Runtime v3 contract; execution must add the dedicated live room browser validator through typed VPP replan once #111-#113 outputs are available.",
+    "lane": "rooms-browser-validator",
+    "proof_role": "Run the dedicated issue-owned rooms browser validator against live Runtime truth and require nonzero room assertions for authenticated room transport, exact room and participant lists, frozen recipients, transcript and attributed responses, composer behavior, delivery and partial-delivery states, refusal and failure states, disconnect, reconnect, and accessible UI projection.",
     "acceptance_ids": [
       "AC-2",
       "AC-4",
@@ -123,10 +123,11 @@ Diagram: .csdlc/prepared/issues/115/diagram.mmd
     "budget_seconds": 300,
     "budget_tokens": 3000,
     "argv": [
-      "adl/tools/test_html_observatory.sh"
+      "node",
+      "adl/tools/validate_v092_html_observatory_rooms.mjs"
     ],
     "parallel_group": "browser-contract",
-    "defer_reason": null
+    "defer_reason": "Deferred and fail closed during preparation: #111, #112, and #113 must be terminal, merged, ancestral, and handed off before issue #115 implements the dedicated validator; a missing validator, unavailable live room surface, or zero room assertions must fail."
   },
   {
     "lane": "rooms-focused-clippy",
@@ -186,10 +187,10 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test control --no-tests=fail`
+- `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_rooms --no-tests=fail`
 - `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test protocol_adapters --no-tests=fail`
 - `cargo nextest run --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract --no-tests=fail`
-- `adl/tools/test_html_observatory.sh`
+- `node adl/tools/validate_v092_html_observatory_rooms.mjs`
 - `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib --bin adl-runtime-kernel -- -D warnings`
 - `git diff --check`
 
