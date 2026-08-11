@@ -1,0 +1,88 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 112,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
+  "phase": "initialized",
+  "generation": 3,
+  "digest": "4309fa04f076188fecf8641b71f84a48cbe85917afef0a1248b76c6175d324aa",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/112/design.md",
+  "diagram_path": ".csdlc/prepared/issues/112/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:daniel-explicit-fresh-packet-authorization",
+      "revision": "b72f31882a4d915230c29accc68f7feced2a5dbe442a6768abdefda2d389ff70"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c55fd13e423f3f859697ed20719d2b41714738c4d2533eda057585a53514d63d",
+      "rendered_digest": "e631e0e7e65a9b181bcf0ecb815c3fedbd24448076e13453f3dbd28f0d504d57",
+      "ast_digest": "87ab84dd5e383fbabe66dbc015518b2f16a54837e494a821faa1adfff735f5b2"
+    },
+    "stp": {
+      "values_digest": "a1988b30070489a812dd6d14c0ecc951419161a72ae68dba91ddd0b43a117b4a",
+      "rendered_digest": "56b9c3b247ffcea4bf96a72cc2f43772bafccc68faa1bd7d23fb21617aabfa17",
+      "ast_digest": "130cb6e5e9b3d29a03d05b902e99e404100b0f514086593d7ed6725cdd12068a"
+    },
+    "spp": {
+      "values_digest": "9ed7030a3fd7fdece9e25a4c35a980fb139c8e09000b661940022cb32ecb6c3c",
+      "rendered_digest": "fbd554c2cc039da6ba6ffffc6a9f884894b2b82386239b84703b70e2202c4ed2",
+      "ast_digest": "ecb21072b201ee77c723821b65f14f80bd5c381e38dd3ec4fee97247203cfe4e"
+    },
+    "vpp": {
+      "values_digest": "77641f07b966dd9f0b95eb51da4d28825bb0437dcf00d4ca480ecade808e5f6c",
+      "rendered_digest": "a5b16a7540cf6ea12137c15d35de645295259f648b23a89b5f2490ffa2bd3896",
+      "ast_digest": "48088a3ca2b08436e837ec26842c5185116b925b771a0cfdfdf2f698b1a42443"
+    },
+    "srp": {
+      "values_digest": "d547f4e6b5e7654adc0a2d0bc4e71c3eec75e305c995c20c6b0ee83d21b0cdb2",
+      "rendered_digest": "d341333b95ba542226527e6827a7774dff45f092da6dc89e9c3329b2cc5734c9",
+      "ast_digest": "c9c33a3ad3c8922c375b22d0b49aeaabbc0341d13a33d657a47fd8cc219a542d"
+    },
+    "sor": {
+      "values_digest": "66df9815e9eda907f708647c3bf2cd77d10ceebc308829260e93c24d709059fc",
+      "rendered_digest": "a0564026b2d4a57a1a5cbaa9fa222d0ac661820c43f4871fd9b9dc90ebdd8a47",
+      "ast_digest": "c0065cfecbfe94f68170322c50c2bb26a7b5d3d8335345c1cbcf5b11a985bffd"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:112-layer8-authority-preparation-v2",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:daniel-explicit-fresh-packet-authorization",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:112-layer8-authority-preparation-v2",
+      "reason": "Declare only exact issue-owned product and preparation paths so deferred target readiness is machine-classifiable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:112-layer8-authority-preparation-v2",
+      "reason": "Declare exact deferred issue-owned nextest product targets with nonzero enforcement and no preparation surrogate lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"layer8-authority-contract\",\"proof_role\":\"The exact issue-owned adl-runtime integration-test target proves principal derivation, action-specific capability and policy intersection, fail-closed refusal, replay defense, restart integrity, redacted tamper-evident audit, and nonzero test selection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"layer8_authority\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"112-product-serial-01\",\"defer_reason\":\"Deferred until #83 and #111 are merged and ancestral. The issue-owned temporary #[path = \\\"../src/layer8_authority.rs\\\"] harness in adl-runtime/tests/layer8_authority.rs routes adl-runtime/src/layer8_authority.rs until module registration and fails closed until the exact nonzero target exists.\"},{\"lane\":\"layer8-runtime-api-integration\",\"proof_role\":\"The exact issue-owned adl integration-test target proves authorization and durable audit occur before sequence reservation, provider execution, and delivery while preserving bounded role projections and nonzero test selection.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"112-product-serial-02\",\"defer_reason\":\"Deferred until #83 and #111 are merged and ancestral and issue execution creates adl/tests/layer8_authority_runtime_api.rs; fail closed until the exact nonzero integration target exists.\"}]}"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+flowchart LR
+    Caller["Authenticated caller evidence"] --> Authn["Runtime authentication"]
+    Authn --> Authority["Layer 8 authority decision"]
+    Capability["Action-specific capability"] --> Authority
+    AgentPolicy["Current agent policy"] --> Authority
+    PolisPolicy["Current Polis policy"] --> Authority
+    Replay["Replay and scope guard"] --> Authority
+    Authority -->|"deny"| Refusal["Bounded refusal projection"]
+    Authority -->|"record"| Audit["Redacted tamper-evident audit"]
+    Audit -->|"durable allow only"| Sequence["Sequence reservation"]
+    Sequence --> Provider["Provider execution"]
+    Provider --> Delivery["Delivery"]
+    Gate83["Gate #83 merged and ancestral"] -.-> Authority
+    Gate111["Gate #111 merged and ancestral"] -.-> Authority

@@ -1,0 +1,22 @@
+{
+  "issue": 112,
+  "card": "stp",
+  "expected_generation": 1,
+  "expected_digest": "293b3391f1419abe3daa95df5a84bfb24a489f4d39ea5e0bff4864d7a1c755e4",
+  "actor": "codex:112-layer8-authority-preparation-v2",
+  "reason": "Declare only exact issue-owned product and preparation paths so deferred target readiness is machine-classifiable.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime/src/layer8_authority.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/layer8_authority.rs",
+      "adl/src/csm_runtime_api.rs",
+      "adl/tests/layer8_authority_runtime_api.rs",
+      "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
+      ".csdlc/prepared/issues/112/design.md",
+      ".csdlc/prepared/issues/112/diagram.mmd"
+    ]
+  }
+}
