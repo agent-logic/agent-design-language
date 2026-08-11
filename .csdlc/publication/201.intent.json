@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 201,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/201-authority-protocol-preparation",
+  "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
+  "body": "Closes #201\n\n## Summary\n- commit PrepareAuthority and FinalizeAuthority through production OpenRaft using actual applied log IDs and the exact verified polis, membership epoch, authority cut, and boot generations\n- retain opaque voter signer custody, quorum-signed operation evidence, and runtime-owned per-node journal/CAS publication so apply returns pending until durable local reconciliation\n- validate snapshot installation against runtime-external custody, reject retired legacy authority state, and reverify complete finalized proposal and endorsement evidence before restored publication\n- expose only sealed committed artifact and continuity projections while failing closed on legacy direct authority routes\n- retain merge-safe v7 proof with an exact 86-case result contract\n\n## Validation\n- exact authority and snapshot suite: 83/83 Rust cases\n- semantic denominator: 86 selected = 11 passed, 6 reconciled, 69 rejected\n- production snapshot matrix: 36/36\n- real three-voter OpenRaft prepare/finalize: 1/1\n- legacy public-shape denial: 1/1\n- strict production Clippy with warnings denied\n- full-history, depth-one source-unavailable, and available-divergent validator modes\n- typed validation and doctor PASS\n- independent exact-head review: PASS, no P0-P3 findings",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:c480ec30b86dad7fb44c42f8365a9103eee4425a:8c8ec56c25767df51a07f663069802467d38fb8e5070a6293d267efffc3102b7",
+  "commit_sha": "c480ec30b86dad7fb44c42f8365a9103eee4425a"
+}
