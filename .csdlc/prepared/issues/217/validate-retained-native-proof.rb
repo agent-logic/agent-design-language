@@ -105,6 +105,35 @@ def unsafe_log?(text, root)
   text.include?(root.to_s) || [%r{/(?:users?|home|private)/}i, %r{[a-z]:[\\/]}, %r{\\\\[^\\/\s]+[\\/]}, %r{/volumes/(?:fastwork|home)/}i, %r{/var/folders/}i].any? { |pattern| text.match?(pattern) }
 end
 
+def validate_receipt_metadata(root, payload, platform, expected_proof)
+  expected_os = platform == "macos" ? "Darwin" : "Linux"
+  expected_architectures = platform == "macos" ? %w[arm64 aarch64 x86_64] : %w[x86_64]
+  fail!("receipt issue mismatch") unless payload["issue"] == ISSUE
+  fail!("receipt platform mismatch") unless payload["platform"] == platform
+  fail!("receipt status mismatch") unless payload["status"] == "passed"
+  fail!("receipt source revision malformed") unless payload["source_sha"].to_s.match?(/\A[0-9a-f]{40}\z/)
+  producer_path = ".csdlc/prepared/issues/217/produce-native-receipt.rb"
+  fail!("producer path mismatch") unless payload["producer_path"] == producer_path
+  fail!("producer digest mismatch") unless payload["producer_sha256"] == sha(root.join(producer_path))
+  expected_paths = {
+    "command_output_path" => "#{PLATFORM_ROOT}/#{platform}-nextest.log",
+    "semantic_output_path" => "#{PLATFORM_ROOT}/#{platform}-semantic.json",
+    "source_manifest_path" => "#{PLATFORM_ROOT}/#{platform}-source-manifest.json"
+  }
+  expected_paths.each { |field, expected| fail!("#{field} mismatch") unless payload[field] == expected }
+  fail!("proof manifest mismatch") unless payload["proof_manifest"] == expected_proof
+  runner = payload.fetch("runner")
+  fail!("runner provider mismatch") unless runner["provider"] == "github_actions"
+  fail!("runner repository mismatch") unless runner["repository"] == "agent-logic/agent-design-language"
+  workflow_prefix = "agent-logic/agent-design-language/#{WORKFLOW}@"
+  fail!("runner workflow mismatch") unless runner["workflow_ref"].to_s.start_with?(workflow_prefix) && runner["workflow_ref"].to_s.length > workflow_prefix.length
+  fail!("runner run id mismatch") unless runner["run_id"].to_s.match?(/\A[1-9][0-9]*\z/)
+  fail!("runner attempt mismatch") unless runner["run_attempt"].to_s.match?(/\A[1-9][0-9]*\z/)
+  fail!("runner job mismatch") unless runner["job"] == "produce-native-receipt"
+  fail!("runner OS mismatch") unless runner["os"] == expected_os
+  fail!("runner architecture mismatch") unless expected_architectures.include?(runner["architecture"])
+end
+
 def validate_packet(root, receipt_paths, require_head: nil)
   source_contract, proof_contract, = contract(root)
   source_paths = source_contract.fetch("paths")
@@ -119,14 +148,14 @@ def validate_packet(root, receipt_paths, require_head: nil)
     payload = packet.fetch("payload")
     fail!("receipt schema mismatch") unless packet["schema"] == "adl.native_ci_receipt.v1"
     fail!("payload digest mismatch") unless packet["payload_sha256"] == Digest::SHA256.hexdigest(canonical_json(payload))
+    fail!("receipt path/platform mismatch") unless relative == "#{PLATFORM_ROOT}/#{payload.fetch('platform')}.json"
     fail!("receipt source mismatch") unless require_head.nil? || payload["source_sha"] == require_head
     fail!("source denominator binding mismatch") unless payload["source_denominator_path"] == SOURCE_DENOMINATOR && payload["source_denominator_sha256"] == sha(root.join(SOURCE_DENOMINATOR))
     fail!("proof denominator binding mismatch") unless payload["proof_denominator_path"] == PROOF_DENOMINATOR && payload["proof_denominator_sha256"] == sha(root.join(PROOF_DENOMINATOR))
-    fail!("proof manifest mismatch") unless payload["proof_manifest"] == expected_proof
+    validate_receipt_metadata(root, payload, payload.fetch("platform"), expected_proof)
     fail!("producer command drift") unless payload["test_argv"] == expected_argv
     fail!("test inventory mismatch") unless payload["passed_tests"] == expected_names && payload["tests_run"] == TESTS.length
     runner = payload.fetch("runner")
-    fail!("runner provenance mismatch") unless runner["provider"] == "github_actions" && runner["repository"] == "agent-logic/agent-design-language" && runner["workflow_ref"].to_s.start_with?("agent-logic/agent-design-language/#{WORKFLOW}@")
     %w[command_output semantic_output source_manifest].each do |kind|
       artifact = confined(root, payload.fetch("#{kind}_path"), PLATFORM_ROOT)
       fail!("#{kind} digest mismatch") unless payload["#{kind}_sha256"] == sha(artifact)
@@ -148,6 +177,7 @@ def validate_packet(root, receipt_paths, require_head: nil)
   fail!("platform denominator mismatch") unless payloads.map { |item| item["platform"] }.sort == %w[linux macos]
   fail!("source revision mismatch") unless payloads.map { |item| item["source_sha"] }.uniq.one?
   fail!("run mismatch") unless payloads.map { |item| item.dig("runner", "run_id") }.uniq.one?
+  fail!("run attempt mismatch") unless payloads.map { |item| item.dig("runner", "run_attempt") }.uniq.one?
   fail!("semantic mismatch") unless payloads.map { |item| item["semantic_projection_sha256"] }.uniq.one?
   payloads
 end
@@ -224,6 +254,25 @@ def validate_h2_diff(root, h, h2, evidence_paths, allowlist)
   Digest::SHA256.hexdigest(output)
 end
 
+def validate_h3_diff(root, h2, h3, allowlist)
+  output, available = git(root, "diff", "--name-status", "--find-renames", "--find-copies", h2, h3, allow_failure: true)
+  return nil unless available
+  rows = output.lines.map(&:strip).reject(&:empty?).map { |line| line.split("\t") }
+  fail!("H2-to-H3 duplicate changed path") unless rows.flat_map { |row| row.drop(1) }.uniq.length == rows.flat_map { |row| row.drop(1) }.length
+  fail!("H2-to-H3 forbidden status") unless rows.all? { |row| %w[A M].include?(row.fetch(0)) && row.length == 2 }
+  required = allowlist.fetch("h3_allowed_addition_paths")
+  allowed = required + allowlist.fetch("lifecycle_paths")
+  changed = rows.map { |row| row.fetch(1) }
+  fail!("H2-to-H3 receipt missing") unless (required - changed).empty?
+  fail!("H2-to-H3 unexpected path: #{(changed - allowed).join(', ')}") unless (changed - allowed).empty?
+  Digest::SHA256.hexdigest(output)
+end
+
+def expected_proof_manifest(root)
+  proof = JSON.parse(root.join(PROOF_DENOMINATOR).read)
+  proof.fetch("paths").map { |relative| { "path" => relative, "sha256" => sha(root.join(relative)) } }
+end
+
 def validate_retained(root, denominator_path)
   denominator, files = exact_denominator(root, denominator_path, 10, EVIDENCE_ROOT)
   fail!("denominator exact path set mismatch") unless files.map { |entry| entry.fetch("path") } == TEN_PATHS
@@ -262,15 +311,26 @@ def validate_retained(root, denominator_path)
     payload = receipt.fetch("payload")
     fail!("review receipt schema mismatch") unless receipt["schema"] == "adl.h2_retention_review_receipt.v1"
     fail!("review receipt payload mismatch") unless receipt["payload_sha256"] == Digest::SHA256.hexdigest(canonical_json(payload))
+    fail!("review receipt issue mismatch") unless payload["issue"] == ISSUE && payload["status"] == "passed"
     fail!("review receipt manifest mismatch") unless payload["retained_surface_manifest_sha256"] == sha(root.join(RETAINED_MANIFEST))
+    fail!("review receipt evidence denominator mismatch") unless payload["evidence_denominator_path"] == DENOMINATOR && payload["evidence_denominator_sha256"] == sha(root.join(DENOMINATOR))
+    fail!("review receipt source denominator mismatch") unless payload["source_denominator_path"] == SOURCE_DENOMINATOR && payload["source_denominator_sha256"] == sha(root.join(SOURCE_DENOMINATOR))
+    fail!("review receipt proof denominator mismatch") unless payload["proof_denominator_path"] == PROOF_DENOMINATOR && payload["proof_denominator_sha256"] == sha(root.join(PROOF_DENOMINATOR))
+    fail!("review receipt proof manifest mismatch") unless payload["proof_manifest"] == expected_proof_manifest(root)
     fail!("review result mismatch") unless payload["review_result"] == "passed" && payload["findings"] == []
     fail!("review receipt producer mismatch") unless payload["h"] == h
     fail!("review scope missing") unless payload["reviewer"].to_s.start_with?("/") && !payload["review_scope"].to_s.empty?
+    expected_no_drift = { "h_to_h2_allowlist" => "passed", "h2_to_h3_allowlist" => "passed", "protected_source" => "passed", "proof_contract" => "passed" }
+    fail!("review receipt no-drift mismatch") unless payload["no_drift"] == expected_no_drift
     diff_digest = validate_h2_diff(root, h, payload.fetch("h2"), evidence_paths, allowlist)
     fail!("review receipt diff mismatch") if diff_digest && payload["h_to_h2_name_status_sha256"] != diff_digest
+    h_tree, h_available = git(root, "rev-parse", "#{h}^{tree}", allow_failure: true)
+    fail!("review receipt H tree mismatch") if h_available && payload["h_tree"] != h_tree.strip
     h2_tree, h2_available = git(root, "rev-parse", "#{payload.fetch('h2')}^{tree}", allow_failure: true)
     fail!("review receipt H2 tree mismatch") if h2_available && payload["h2_tree"] != h2_tree.strip
     anchor = receipt_anchor(root, receipt, payload.fetch("h2"))
+    h3_diff_digest = validate_h3_diff(root, payload.fetch("h2"), anchor.fetch("commit"), allowlist)
+    fail!("review receipt H2-to-H3 diff mismatch") if h3_diff_digest && payload["h2_to_h3_name_status_sha256"] != h3_diff_digest
     puts JSON.generate(status: "passed", source_sha: source_sha, receipt_anchor: anchor, relation: "retained_surface")
   elsif ENV["ADL_ALLOW_UNREVIEWED_H2"] == "1"
     head = git(root, "rev-parse", "HEAD").first.strip
@@ -286,6 +346,96 @@ def expect_failure(fragment)
   fail!("expected failure containing: #{fragment}")
 rescue RuntimeError => error
   fail!("wrong failure: #{error.message}") unless error.message.include?(fragment)
+end
+
+def copy_contract_fixture(repo, root)
+  source, proof, = contract(repo)
+  (source.fetch("paths") + proof.fetch("paths")).uniq.each do |relative|
+    destination = root.join(relative)
+    FileUtils.mkdir_p(destination.dirname)
+    FileUtils.cp(repo.join(relative), destination)
+  end
+end
+
+def write_platform_fixture(root, platform, head)
+  FileUtils.mkdir_p(root.join(PLATFORM_ROOT))
+  source, proof, = contract(root)
+  source_manifest = source.fetch("paths").map { |relative| { "path" => relative, "sha256" => sha(root.join(relative)) } }
+  proof_manifest = proof.fetch("paths").map { |relative| { "path" => relative, "sha256" => sha(root.join(relative)) } }
+  semantic = {
+    "schema" => "adl.acip_native_platform_proof.v2", "platform" => platform,
+    "assertions" => ASSERTIONS.map { |name| { "name" => name, "result" => "passed" } }
+  }
+  semantic_path = root.join("#{PLATFORM_ROOT}/#{platform}-semantic.json")
+  source_path = root.join("#{PLATFORM_ROOT}/#{platform}-source-manifest.json")
+  log_path = root.join("#{PLATFORM_ROOT}/#{platform}-nextest.log")
+  semantic_path.write(JSON.pretty_generate(semantic) + "\n")
+  source_path.write(JSON.pretty_generate(source_manifest) + "\n")
+  log_path.write(JSON.generate(type: "suite", event: "ok", passed: 2, failed: 0) + "\n")
+  projection = semantic.reject { |key, _value| key == "platform" }
+  payload = {
+    "issue" => ISSUE, "platform" => platform, "source_sha" => head,
+    "producer_path" => ".csdlc/prepared/issues/217/produce-native-receipt.rb",
+    "producer_sha256" => sha(root.join(".csdlc/prepared/issues/217/produce-native-receipt.rb")),
+    "test_argv" => ["cargo", "nextest", "run", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "production_acip_wss", "--no-tests=fail", "--status-level", "all", "--message-format", "libtest-json-plus"],
+    "tests_run" => 2,
+    "passed_tests" => TESTS.map { |name| "adl-runtime-kernel::production_acip_wss$#{name}" }.sort,
+    "command_output_path" => "#{PLATFORM_ROOT}/#{platform}-nextest.log", "command_output_sha256" => sha(log_path),
+    "semantic_output_path" => "#{PLATFORM_ROOT}/#{platform}-semantic.json", "semantic_output_sha256" => sha(semantic_path),
+    "semantic_projection_sha256" => Digest::SHA256.hexdigest(canonical_json(projection)),
+    "source_manifest_path" => "#{PLATFORM_ROOT}/#{platform}-source-manifest.json", "source_manifest_sha256" => sha(source_path),
+    "source_denominator_path" => SOURCE_DENOMINATOR, "source_denominator_sha256" => sha(root.join(SOURCE_DENOMINATOR)),
+    "proof_denominator_path" => PROOF_DENOMINATOR, "proof_denominator_sha256" => sha(root.join(PROOF_DENOMINATOR)),
+    "proof_manifest" => proof_manifest,
+    "runner" => {
+      "provider" => "github_actions", "repository" => "agent-logic/agent-design-language",
+      "workflow_ref" => "agent-logic/agent-design-language/#{WORKFLOW}@refs/heads/fixture",
+      "run_id" => "100", "run_attempt" => "1", "job" => "produce-native-receipt",
+      "os" => platform == "macos" ? "Darwin" : "Linux", "architecture" => "x86_64"
+    },
+    "status" => "passed"
+  }
+  packet = { "schema" => "adl.native_ci_receipt.v1", "payload" => payload, "payload_sha256" => Digest::SHA256.hexdigest(canonical_json(payload)) }
+  root.join("#{PLATFORM_ROOT}/#{platform}.json").write(JSON.pretty_generate(packet) + "\n")
+end
+
+def build_retained_fixture(repo, root)
+  git(root, "init", "-q")
+  git(root, "config", "user.email", "proof@example.invalid")
+  git(root, "config", "user.name", "Proof Fixture")
+  copy_contract_fixture(repo, root)
+  git(root, "add", ".")
+  git(root, "commit", "-qm", "H")
+  h = git(root, "rev-parse", "HEAD").first.strip
+  write_platform_fixture(root, "linux", h)
+  write_platform_fixture(root, "macos", h)
+  receipts = ["#{PLATFORM_ROOT}/macos.json", "#{PLATFORM_ROOT}/linux.json"]
+  write_aggregate(root, receipts)
+  git(root, "add", ".")
+  git(root, "commit", "-qm", "H2")
+  h2 = git(root, "rev-parse", "HEAD").first.strip
+  allowlist = JSON.parse(root.join(ALLOWLIST).read)
+  h_to_h2 = validate_h2_diff(root, h, h2, TEN_PATHS, allowlist)
+  payload = {
+    "issue" => ISSUE, "status" => "passed", "h" => h,
+    "h_tree" => git(root, "rev-parse", "#{h}^{tree}").first.strip,
+    "h2" => h2, "h2_tree" => git(root, "rev-parse", "#{h2}^{tree}").first.strip,
+    "h_to_h2_name_status_sha256" => h_to_h2,
+    "h2_to_h3_name_status_sha256" => Digest::SHA256.hexdigest("A\t#{REVIEW_RECEIPT}\n"),
+    "retained_surface_manifest_sha256" => sha(root.join(RETAINED_MANIFEST)),
+    "evidence_denominator_path" => DENOMINATOR, "evidence_denominator_sha256" => sha(root.join(DENOMINATOR)),
+    "source_denominator_path" => SOURCE_DENOMINATOR, "source_denominator_sha256" => sha(root.join(SOURCE_DENOMINATOR)),
+    "proof_denominator_path" => PROOF_DENOMINATOR, "proof_denominator_sha256" => sha(root.join(PROOF_DENOMINATOR)),
+    "proof_manifest" => expected_proof_manifest(root),
+    "reviewer" => "/fixture/independent-reviewer", "review_scope" => "exact H2 retained proof",
+    "review_result" => "passed", "findings" => [],
+    "no_drift" => { "h_to_h2_allowlist" => "passed", "h2_to_h3_allowlist" => "passed", "protected_source" => "passed", "proof_contract" => "passed" }
+  }
+  receipt = { "schema" => "adl.h2_retention_review_receipt.v1", "payload" => payload, "payload_sha256" => Digest::SHA256.hexdigest(canonical_json(payload)) }
+  root.join(REVIEW_RECEIPT).write(JSON.pretty_generate(receipt) + "\n")
+  git(root, "add", ".")
+  git(root, "commit", "-qm", "H3")
+  [h, h2]
 end
 
 def self_test(repo)
@@ -362,6 +512,142 @@ def self_test(repo)
     git(root, "commit", "-qm", "unexpected source")
     bad = git(root, "rev-parse", "HEAD").first.strip
     expect_failure("unexpected path") { validate_h2_diff(root, h, bad, TEN_PATHS, { "lifecycle_paths" => [] }) }
+  end
+
+  Dir.mktmpdir("adl-217-full-") do |directory|
+    root = Pathname.new(directory).join("origin")
+    FileUtils.mkdir_p(root)
+    _h, h2 = build_retained_fixture(repo, root)
+    validate_retained(root, DENOMINATOR)
+
+    shallow = Pathname.new(directory).join("later")
+    git(root, "clone", "-q", "--depth", "1", "file://#{root}", shallow.to_s)
+    validate_retained(shallow, DENOMINATOR)
+    receipt_paths = ["#{PLATFORM_ROOT}/macos.json", "#{PLATFORM_ROOT}/linux.json"]
+
+    source_path = JSON.parse(shallow.join(SOURCE_DENOMINATOR).read).fetch("paths").first
+    source_bytes = shallow.join(source_path).read
+    shallow.join(source_path).write(source_bytes + "tamper\n")
+    expect_failure("source manifest mismatch") { validate_retained(shallow, DENOMINATOR) }
+    shallow.join(source_path).write(source_bytes)
+
+    workflow_bytes = shallow.join(WORKFLOW).read
+    shallow.join(WORKFLOW).write(workflow_bytes + "# tamper\n")
+    expect_failure("proof manifest mismatch") { validate_retained(shallow, DENOMINATOR) }
+    shallow.join(WORKFLOW).write(workflow_bytes)
+
+    linux_receipt_path = shallow.join("#{PLATFORM_ROOT}/linux.json")
+    linux_semantic_path = shallow.join("#{PLATFORM_ROOT}/linux-semantic.json")
+    receipt_bytes = linux_receipt_path.read
+    semantic_bytes = linux_semantic_path.read
+    semantic = JSON.parse(semantic_bytes)
+    semantic.fetch("assertions").first["result"] = "failed"
+    linux_semantic_path.write(JSON.pretty_generate(semantic) + "\n")
+    packet = JSON.parse(receipt_bytes)
+    packet["payload"]["semantic_output_sha256"] = sha(linux_semantic_path)
+    projection = semantic.reject { |key, _value| key == "platform" }
+    packet["payload"]["semantic_projection_sha256"] = Digest::SHA256.hexdigest(canonical_json(projection))
+    packet["payload_sha256"] = Digest::SHA256.hexdigest(canonical_json(packet["payload"]))
+    linux_receipt_path.write(JSON.pretty_generate(packet) + "\n")
+    expect_failure("semantic assertion failure") { validate_packet(shallow, receipt_paths) }
+    linux_receipt_path.write(receipt_bytes)
+    linux_semantic_path.write(semantic_bytes)
+
+    metadata_tampers = [
+      [["issue"], 999, "receipt issue mismatch"],
+      [["status"], "failed", "receipt status mismatch"],
+      [["producer_path"], "wrong-producer.rb", "producer path mismatch"],
+      [["producer_sha256"], "0" * 64, "producer digest mismatch"],
+      [["command_output_path"], "#{PLATFORM_ROOT}/wrong.log", "command_output_path mismatch"],
+      [["semantic_output_path"], "#{PLATFORM_ROOT}/wrong-semantic.json", "semantic_output_path mismatch"],
+      [["source_manifest_path"], "#{PLATFORM_ROOT}/wrong-source.json", "source_manifest_path mismatch"],
+      [["runner", "provider"], "other", "runner provider mismatch"],
+      [["runner", "repository"], "other/repository", "runner repository mismatch"],
+      [["runner", "workflow_ref"], "other/workflow", "runner workflow mismatch"],
+      [["runner", "run_id"], "0", "runner run id mismatch"],
+      [["runner", "run_attempt"], "0", "runner attempt mismatch"],
+      [["runner", "job"], "wrong-job", "runner job mismatch"],
+      [["runner", "os"], "WrongOS", "runner OS mismatch"],
+      [["runner", "architecture"], "wrong-arch", "runner architecture mismatch"]
+    ]
+    metadata_tampers.each do |keys, value, failure|
+      packet = JSON.parse(receipt_bytes)
+      target = keys[0...-1].reduce(packet["payload"]) { |document, key| document.fetch(key) }
+      target[keys.last] = value
+      packet["payload_sha256"] = Digest::SHA256.hexdigest(canonical_json(packet["payload"]))
+      linux_receipt_path.write(JSON.pretty_generate(packet) + "\n")
+      expect_failure(failure) { validate_packet(shallow, receipt_paths) }
+    end
+    { "run_id" => ["101", "run mismatch"], "run_attempt" => ["2", "run attempt mismatch"] }.each do |field, (value, failure)|
+      packet = JSON.parse(receipt_bytes)
+      packet["payload"]["runner"][field] = value
+      packet["payload_sha256"] = Digest::SHA256.hexdigest(canonical_json(packet["payload"]))
+      linux_receipt_path.write(JSON.pretty_generate(packet) + "\n")
+      expect_failure(failure) { validate_packet(shallow, receipt_paths) }
+    end
+    linux_receipt_path.write(receipt_bytes)
+
+    retained_bytes = shallow.join(RETAINED_MANIFEST).read
+    review_bytes = shallow.join(REVIEW_RECEIPT).read
+    retained = JSON.parse(retained_bytes)
+    retained["coherent_rewrite"] = true
+    shallow.join(RETAINED_MANIFEST).write(JSON.pretty_generate(retained) + "\n")
+    review = JSON.parse(review_bytes)
+    review["payload"]["retained_surface_manifest_sha256"] = sha(shallow.join(RETAINED_MANIFEST))
+    review["payload_sha256"] = Digest::SHA256.hexdigest(canonical_json(review["payload"]))
+    shallow.join(REVIEW_RECEIPT).write(JSON.pretty_generate(review) + "\n")
+    expect_failure("differs from ancestral anchor") { validate_retained(shallow, DENOMINATOR) }
+    shallow.join(RETAINED_MANIFEST).write(retained_bytes)
+    shallow.join(REVIEW_RECEIPT).write(review_bytes)
+
+    # H is deliberately unavailable in the shallow clone. Exercise the H-tree
+    # binding against the full repository, then use the shallow clone for
+    # bindings that must remain independently checkable without H/H2 objects.
+    full_review_bytes = root.join(REVIEW_RECEIPT).read
+    full_binding_tampers = {
+      "retained_surface_manifest_sha256" => ["0" * 64, "review receipt manifest mismatch"],
+      "evidence_denominator_sha256" => ["0" * 64, "review receipt evidence denominator mismatch"],
+      "source_denominator_sha256" => ["0" * 64, "review receipt source denominator mismatch"],
+      "proof_denominator_sha256" => ["0" * 64, "review receipt proof denominator mismatch"],
+      "proof_manifest" => [[], "review receipt proof manifest mismatch"],
+      "h_to_h2_name_status_sha256" => ["0" * 64, "review receipt diff mismatch"],
+      "h_tree" => ["0" * 40, "review receipt H tree mismatch"],
+      "h2_tree" => ["0" * 40, "review receipt H2 tree mismatch"],
+      "no_drift" => [{}, "review receipt no-drift mismatch"]
+    }
+    full_binding_tampers.each do |field, (value, failure)|
+      review = JSON.parse(full_review_bytes)
+      review["payload"][field] = value
+      review["payload_sha256"] = Digest::SHA256.hexdigest(canonical_json(review["payload"]))
+      root.join(REVIEW_RECEIPT).write(JSON.pretty_generate(review) + "\n")
+      expect_failure(failure) { validate_retained(root, DENOMINATOR) }
+    end
+    root.join(REVIEW_RECEIPT).write(full_review_bytes)
+
+    binding_tampers = {
+      "evidence_denominator_sha256" => ["0" * 64, "review receipt evidence denominator mismatch"],
+      "no_drift" => [{}, "review receipt no-drift mismatch"]
+    }
+    binding_tampers.each do |field, (value, failure)|
+      review = JSON.parse(review_bytes)
+      review["payload"][field] = value
+      review["payload_sha256"] = Digest::SHA256.hexdigest(canonical_json(review["payload"]))
+      shallow.join(REVIEW_RECEIPT).write(JSON.pretty_generate(review) + "\n")
+      expect_failure(failure) { validate_retained(shallow, DENOMINATOR) }
+    end
+    shallow.join(REVIEW_RECEIPT).write(review_bytes)
+
+    unexpected = Pathname.new(directory).join("unexpected")
+    git(root, "clone", "-q", "file://#{root}", unexpected.to_s)
+    git(unexpected, "config", "user.email", "proof@example.invalid")
+    git(unexpected, "config", "user.name", "Proof Fixture")
+    git(unexpected, "checkout", "-q", h2)
+    FileUtils.mkdir_p(unexpected.join(REVIEW_RECEIPT).dirname)
+    unexpected.join(REVIEW_RECEIPT).write(review_bytes)
+    unexpected.join("README-unexpected.md").write("unexpected\n")
+    git(unexpected, "add", ".")
+    git(unexpected, "commit", "-qm", "bad H3")
+    expect_failure("H2-to-H3 unexpected path") { validate_retained(unexpected, DENOMINATOR) }
   end
   puts JSON.generate(status: "passed", check: "retained-native-proof-contract")
 end
