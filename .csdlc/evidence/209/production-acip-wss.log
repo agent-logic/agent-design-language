@@ -1,0 +1,9 @@
+
+running 2 tests
+test canonical_ingress_applies_bounded_pressure ... ok
+test production_binary_acip_wss_produces_observed_receipt ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s
+     Running tests/production_acip_wss.rs (adl-runtime-kernel/target/debug/deps/production_acip_wss-983a25e4bde4d8c8)

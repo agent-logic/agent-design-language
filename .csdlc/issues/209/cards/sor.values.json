@@ -7,16 +7,87 @@
     "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
     "slug": "wp14-production-acip-authority-repair",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Repaired the production kernel ACIP replay authority, typed pressure/error proof, and retained legacy signed-frame replay isolation required before #5834 can cite WP-14.",
+      "actual_changes": [
+        "Scoped production replay state by authenticated credential plus runtime/source domain and rejected terminal, excessive, replayed, and capacity-exhausting advances without eviction.",
+        "Added real production binary dispatch, typed rejection rollback, corrected retry, replay-domain isolation, capacity fail-closed, and bounded canonical-ingress pressure proof.",
+        "Scoped retained legacy signed-frame replay state by credential generation and bounded terminal/excessive progression.",
+        "Aligned current OpenAPI and feature truth and added exact Linux/macOS native receipt surfaces."
+      ],
+      "artifacts": [
+        "adl-runtime-kernel/src/acip.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/tests/production_acip_wss.rs",
+        "adl-runtime/src/runtime_api_auth.rs",
+        "docs/api/runtime-v3/v1/openapi.json",
+        "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
+        ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+        ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+        ".github/workflows/wp14-production-acip-repair.yml"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay",
+            "--lib",
+            "--",
+            "--exact"
+          ],
+          "purpose": "Run the exact legacy admission authority regression.",
+          "outcome": "passed",
+          "evidence_ref": "legacy-signed-replay.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+            "--self-test"
+          ],
+          "purpose": "Run both issue-local receipt contract self-tests.",
+          "outcome": "passed",
+          "evidence_ref": "native-contract-selftests.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "--test",
+            "production_acip_wss",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Reject warning-bearing production changes.",
+          "outcome": "passed",
+          "evidence_ref": "production-acip-clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "production_acip_wss"
+          ],
+          "purpose": "Run the focused production kernel ACIP target.",
+          "outcome": "passed",
+          "evidence_ref": "production-acip-wss.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
