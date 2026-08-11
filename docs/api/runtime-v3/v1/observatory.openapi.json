@@ -25,6 +25,36 @@
     }
   ],
   "paths": {
+    "/v1/agents": {
+      "get": {
+        "operationId": "readAgentRosterPage",
+        "tags": ["observatory"],
+        "summary": "Read one policy-filtered local Runtime roster page",
+        "security": [],
+        "parameters": [
+          {"name": "page_size", "in": "query", "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 50}},
+          {"name": "page_token", "in": "query", "schema": {"type": "string", "maxLength": 1024}},
+          {"name": "filter", "in": "query", "schema": {"type": "string", "maxLength": 64}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Current policy-filtered roster page.",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentPopulationFeed"}}}
+          },
+          "400": {"description": "Invalid, stale, cross-policy, or tampered roster query."},
+          "403": {"$ref": "#/components/responses/OriginForbidden"}
+        }
+      },
+      "options": {
+        "operationId": "agentRosterCorsPreflight",
+        "tags": ["observatory"],
+        "summary": "Validate an allowed roster origin",
+        "responses": {
+          "204": {"description": "Allowed origin preflight."},
+          "403": {"$ref": "#/components/responses/OriginForbidden"}
+        }
+      }
+    },
     "/v1/observatory": {
       "get": {
         "operationId": "readObservatorySnapshot",
@@ -165,7 +195,7 @@
       "SignedControlCommand": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
+      "required": [
           "schema",
           "runtime_instance_id",
           "command_id",
@@ -416,7 +446,8 @@
           "scope",
           "total_count",
           "rendered_sample_count",
-          "has_more",
+        "has_more",
+        "next_page_token",
           "population_complete",
           "sample"
         ],
@@ -440,9 +471,13 @@
             "type": "integer",
             "minimum": 0
           },
-          "has_more": {
-            "type": "boolean"
-          },
+        "has_more": {
+          "type": "boolean"
+        },
+        "next_page_token": {
+          "type": ["string", "null"],
+          "maxLength": 1024
+        },
           "population_complete": {
             "const": false,
             "description": "False until a separately governed distributed projection can prove global completeness."

@@ -507,7 +507,8 @@ impl InProcessOperationExecutor {
             kind,
             state: Arc::new(LocalRuntimeState::new_in(
                 state_dir.into(),
-                Arc::new(RecorderTrustedTime::new(recorder)),
+                Arc::new(RecorderTrustedTime::new(recorder.clone())),
+                recorder,
             )?),
         })
     }
@@ -526,6 +527,7 @@ struct LocalRuntimeState {
     writer_pid: u32,
     writer_lock_path: PathBuf,
     trusted_time: Arc<dyn TrustedTime>,
+    recorder: RuntimeRecorder,
 }
 
 #[derive(Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -536,7 +538,11 @@ struct WriterLockOwner {
 }
 
 impl LocalRuntimeState {
-    fn new_in(state_dir: PathBuf, trusted_time: Arc<dyn TrustedTime>) -> std::io::Result<Self> {
+    fn new_in(
+        state_dir: PathBuf,
+        trusted_time: Arc<dyn TrustedTime>,
+        recorder: RuntimeRecorder,
+    ) -> std::io::Result<Self> {
         if state_dir.as_os_str().is_empty() || !state_dir.is_absolute() {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -564,6 +570,7 @@ impl LocalRuntimeState {
             writer_pid,
             writer_lock_path: lock_path,
             trusted_time,
+            recorder,
         })
     }
 
@@ -755,7 +762,8 @@ pub fn build_production_operation_executors_with_recorder(
 ) -> io::Result<BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>> {
     let state = Arc::new(LocalRuntimeState::new_in(
         state_dir.into(),
-        Arc::new(RecorderTrustedTime::new(recorder)),
+        Arc::new(RecorderTrustedTime::new(recorder.clone())),
+        recorder,
     )?);
     Ok(REQUIRED_OPERATIONAL_ADAPTERS
         .into_iter()
@@ -922,7 +930,24 @@ impl InProcessOperationExecutor {
             .admitted
             .lock()
             .expect("local shepherd state poisoned")
-            .insert(request.idempotency_key.clone());
+            .insert("shepherd".to_owned());
+        if admitted {
+            if !self.state.recorder.record_agent_admission(
+                "shepherd",
+                self.state.trusted_time.now_unix_millis(),
+                env!("ADL_RUNTIME_SOURCE_REVISION"),
+            ) {
+                self.state
+                    .admitted
+                    .lock()
+                    .expect("local shepherd state poisoned")
+                    .remove("shepherd");
+                return Err(adapter_error(
+                    FailureClass::Retryable,
+                    "shepherd admission evidence unavailable",
+                ));
+            }
+        }
         let mut value = self.result(request, if admitted { "admitted" } else { "duplicate" });
         value["admitted"] = admitted.into();
         Ok(value)

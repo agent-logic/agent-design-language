@@ -133,6 +133,13 @@ pub struct RuntimeSnapshot {
     pub observability: ObservabilityHealth,
     pub observability_ready: bool,
     pub observability_pipeline: Option<ObservabilityPipelineSnapshot>,
+    pub agent_admissions: BTreeMap<String, AgentAdmissionEvidence>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct AgentAdmissionEvidence {
+    pub observed_at_unix_millis: u64,
+    pub source_revision: String,
 }
 
 #[derive(Debug)]
@@ -150,6 +157,7 @@ struct RecorderState {
     observability: ObservabilityHealth,
     observability_pipeline: Option<ObservabilityPipelineSnapshot>,
     lifecycle: LifecycleState,
+    agent_admissions: BTreeMap<String, AgentAdmissionEvidence>,
 }
 
 #[derive(Clone, Debug)]
@@ -184,6 +192,7 @@ impl RuntimeRecorder {
                 observability: ObservabilityHealth::Pending,
                 observability_pipeline: None,
                 lifecycle: LifecycleState::Starting,
+                agent_admissions: BTreeMap::new(),
             })),
         }
     }
@@ -325,6 +334,38 @@ impl RuntimeRecorder {
         state.revision += 1;
     }
 
+    pub fn record_agent_admission(
+        &self,
+        agent_id: impl Into<String>,
+        observed_at_unix_millis: u64,
+        source_revision: impl Into<String>,
+    ) -> bool {
+        if observed_at_unix_millis == 0 {
+            return false;
+        }
+        let agent_id = safe_field(&agent_id.into());
+        let source_revision = source_revision.into();
+        if agent_id == "redacted"
+            || source_revision.len() != 40
+            || !source_revision.bytes().all(|byte| byte.is_ascii_hexdigit())
+        {
+            return false;
+        }
+        let mut state = self.state.lock().expect("recorder state mutex poisoned");
+        if state.agent_admissions.contains_key(&agent_id) {
+            return false;
+        }
+        state.agent_admissions.insert(
+            agent_id,
+            AgentAdmissionEvidence {
+                observed_at_unix_millis,
+                source_revision,
+            },
+        );
+        state.revision += 1;
+        true
+    }
+
     pub fn events(&self) -> Vec<BootstrapEvent> {
         let state = self.state.lock().expect("recorder state mutex poisoned");
         if matches!(state.observability, ObservabilityHealth::Pending) {
@@ -372,6 +413,7 @@ impl RuntimeRecorder {
             observability_ready: !matches!(state.observability, ObservabilityHealth::Pending),
             observability: state.observability.clone(),
             observability_pipeline: state.observability_pipeline.clone(),
+            agent_admissions: state.agent_admissions.clone(),
         }
     }
 }

@@ -13,7 +13,7 @@ use axum::{
     body::Bytes,
     extract::{
         ws::{close_code, CloseFrame, Message, WebSocket, WebSocketUpgrade},
-        DefaultBodyLimit, State,
+        DefaultBodyLimit, Query, State,
     },
     http::{header, HeaderMap, HeaderValue, StatusCode},
     response::{IntoResponse, Response},
@@ -28,8 +28,9 @@ use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::{
-    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, ComponentId,
-    DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LifecycleState,
+    decode_acip_envelope, AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy,
+    AgentRosterQuery, AgentRuntimeEvidence, BootstrapEvent, CanonicalIngress, CheckpointManifest,
+    ComponentId, DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LifecycleState,
     LiveContinuity, ObservabilityHealth, RunningState, RuntimeRecorder, RuntimeSnapshot,
     RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA, AGENT_ROSTER_PAGE_SCHEMA,
 };
@@ -699,10 +700,16 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 stale: age_millis > stale_after_millis,
             }
         });
-        let agents = self
-            .agent_population
-            .clone()
-            .with_runtime_snapshot(&snapshot, now);
+        let agents = self.agent_population.clone().with_runtime_snapshot_query(
+            &snapshot,
+            now,
+            *blake3::hash(self.instance_id.as_bytes()).as_bytes(),
+            AgentRosterQuery {
+                page_size: 100,
+                page_token: None,
+                filter: None,
+            },
+        );
         ObservatoryFeed {
             schema: OBSERVATORY_FEED_SCHEMA.to_owned(),
             runtime_instance_id: self.instance_id.clone(),
@@ -778,6 +785,29 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             weather_freshness,
             degraded_reasons,
         }
+    }
+
+    pub fn agent_roster_page(
+        &self,
+        page_size: usize,
+        page_token: Option<String>,
+        filter: Option<String>,
+    ) -> Result<AgentPopulationFeed, ControlError> {
+        let snapshot = self.recorder.snapshot();
+        let now = now_unix_millis();
+        self.agent_population
+            .clone()
+            .try_with_runtime_snapshot_query(
+                &snapshot,
+                now,
+                *blake3::hash(self.instance_id.as_bytes()).as_bytes(),
+                AgentRosterQuery {
+                    page_size,
+                    page_token,
+                    filter,
+                },
+            )
+            .map_err(|_| ControlError::InvalidBounds)
     }
 
     pub async fn execute(
@@ -987,6 +1017,7 @@ pub struct AgentPopulationFeed {
     pub total_count: u64,
     pub rendered_sample_count: u64,
     pub has_more: bool,
+    pub next_page_token: Option<String>,
     pub population_complete: bool,
     pub sample: Vec<AgentSample>,
 }
@@ -1000,6 +1031,7 @@ impl AgentPopulationFeed {
             total_count: 0,
             rendered_sample_count: 0,
             has_more: false,
+            next_page_token: None,
             population_complete: false,
             sample: Vec::new(),
         }
@@ -1028,8 +1060,25 @@ impl AgentPopulationFeed {
         }
     }
 
-    fn with_runtime_snapshot(mut self, snapshot: &RuntimeSnapshot, now_unix_millis: u64) -> Self {
-        self.revision = snapshot.revision;
+    fn with_runtime_snapshot_query(
+        self,
+        snapshot: &RuntimeSnapshot,
+        now_unix_millis: u64,
+        token_key: [u8; 32],
+        query: AgentRosterQuery,
+    ) -> Self {
+        self.clone()
+            .try_with_runtime_snapshot_query(snapshot, now_unix_millis, token_key, query)
+            .unwrap_or_else(|_| Self::empty())
+    }
+
+    fn try_with_runtime_snapshot_query(
+        mut self,
+        snapshot: &RuntimeSnapshot,
+        now_unix_millis: u64,
+        token_key: [u8; 32],
+        query: AgentRosterQuery,
+    ) -> Result<Self, crate::AgentRosterError> {
         let has_runtime_projection = self
             .sample
             .iter()
@@ -1041,58 +1090,147 @@ impl AgentPopulationFeed {
             let Some(state) = snapshot.components.get(&ComponentId::new(&agent.id)) else {
                 return false;
             };
+            let Some(admission) = snapshot.agent_admissions.get(&agent.id) else {
+                return false;
+            };
             let (presence, health, availability, eligible, detail) = match state {
                 RunningState::Running => (
-                    "ready",
+                    AgentPresence::Ready,
                     "healthy",
                     "available",
                     true,
                     "Production Runtime component is running",
                 ),
                 RunningState::Starting | RunningState::Ready => (
-                    "unknown",
+                    AgentPresence::Unknown,
                     "starting",
                     "unavailable",
                     false,
                     "Production Runtime component is starting",
                 ),
                 RunningState::Restarting => (
-                    "migrating",
+                    AgentPresence::Migrating,
                     "recovering",
                     "unavailable",
                     false,
                     "Production Runtime component is restarting",
                 ),
                 RunningState::Degraded => (
-                    "degraded",
+                    AgentPresence::Degraded,
                     "degraded",
                     "unavailable",
                     false,
                     "Production Runtime component is degraded",
                 ),
                 RunningState::Stopping | RunningState::Stopped | RunningState::Failed => (
-                    "unreachable",
+                    AgentPresence::Unreachable,
                     "unhealthy",
                     "unavailable",
                     false,
                     "Production Runtime component is not running",
                 ),
             };
-            agent.state = presence.to_owned();
+            agent.state = serde_json::to_value(presence)
+                .ok()
+                .and_then(|value| value.as_str().map(str::to_owned))
+                .unwrap_or_else(|| "unknown".to_owned());
             agent.health = health.to_owned();
             agent.availability = availability.to_owned();
             agent.communication_eligible = eligible;
             agent.detail = detail.to_owned();
-            agent.observed_at_unix_millis = now_unix_millis;
-            agent.freshness_deadline_unix_millis = now_unix_millis.saturating_add(5_000);
-            agent.source_revision = snapshot.revision.to_string();
+            agent.observed_at_unix_millis = admission.observed_at_unix_millis;
+            agent.freshness_deadline_unix_millis =
+                admission.observed_at_unix_millis.saturating_add(5_000);
+            agent.source_revision = admission.source_revision.clone();
             true
         });
         if has_runtime_projection {
-            self.total_count = self.sample.len() as u64;
-            self.rendered_sample_count = self.sample.len() as u64;
+            let evidence = self
+                .sample
+                .iter()
+                .map(AgentRuntimeEvidence::from)
+                .collect::<Vec<_>>();
+            let visible = evidence
+                .iter()
+                .map(|item| item.agent_id.clone())
+                .collect::<BTreeSet<_>>();
+            let Ok(roster) = AgentRoster::new(snapshot.revision.max(1), false, evidence, token_key)
+            else {
+                return Ok(Self::empty());
+            };
+            let page = roster.page(
+                &AgentRosterPolicy {
+                    policy_subject: "public-observatory".to_owned(),
+                    visible_agent_ids: visible,
+                    reveal_capabilities: true,
+                    reveal_location: true,
+                },
+                query,
+                now_unix_millis,
+            )?;
+            self.revision = page.revision;
+            self.total_count = page.visible_count;
+            self.rendered_sample_count = page.page_count;
+            self.has_more = page.has_more;
+            self.next_page_token = page.next_page_token;
+            self.sample = page.agents.into_iter().map(AgentSample::from).collect();
         }
-        self
+        Ok(self)
+    }
+}
+
+impl From<&AgentSample> for AgentRuntimeEvidence {
+    fn from(agent: &AgentSample) -> Self {
+        Self {
+            agent_id: agent.id.clone(),
+            display_name: agent.label.clone(),
+            public_role: agent.role.clone(),
+            presence: match agent.state.as_str() {
+                "ready" => AgentPresence::Ready,
+                "busy" => AgentPresence::Busy,
+                "sleeping" => AgentPresence::Sleeping,
+                "degraded" => AgentPresence::Degraded,
+                "unreachable" => AgentPresence::Unreachable,
+                "migrating" => AgentPresence::Migrating,
+                _ => AgentPresence::Unknown,
+            },
+            health: agent.health.clone(),
+            availability: agent.availability.clone(),
+            activity: agent.activity.clone(),
+            capabilities: agent.capabilities.clone(),
+            location: agent.location.clone(),
+            communication_eligible: agent.communication_eligible,
+            observed_at_unix_millis: agent.observed_at_unix_millis,
+            freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
+            source_revision: agent.source_revision.clone(),
+            provenance: agent.provenance.clone(),
+        }
+    }
+}
+
+impl From<AgentRosterEntry> for AgentSample {
+    fn from(agent: AgentRosterEntry) -> Self {
+        let state = serde_json::to_value(agent.presence)
+            .ok()
+            .and_then(|value| value.as_str().map(str::to_owned))
+            .unwrap_or_else(|| "unknown".to_owned());
+        Self {
+            id: agent.id,
+            label: agent.label,
+            role: agent.role,
+            state,
+            detail: "Runtime-authorized local roster projection".to_owned(),
+            health: agent.health,
+            availability: agent.availability,
+            activity: agent.activity,
+            capabilities: agent.capabilities,
+            location: agent.location,
+            communication_eligible: agent.communication_eligible,
+            observed_at_unix_millis: agent.observed_at_unix_millis,
+            freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
+            source_revision: agent.source_revision,
+            provenance: agent.provenance,
+        }
     }
 }
 
@@ -1236,6 +1374,10 @@ where
         .route(
             "/v1/observatory",
             get(observatory_feed_handler::<C>).options(observatory_preflight_handler::<C>),
+        )
+        .route(
+            "/v1/agents",
+            get(agent_roster_handler::<C>).options(observatory_preflight_handler::<C>),
         )
         .route(OBSERVATORY_WS_PATH, get(observatory_ws_handler::<C>))
         .route(
@@ -1407,6 +1549,41 @@ async fn observatory_feed_handler<C: LifecycleControl + 'static>(
         return StatusCode::FORBIDDEN.into_response();
     }
     observatory_json(StatusCode::OK, service.observatory_feed(), allowed_origin)
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AgentRosterHttpQuery {
+    #[serde(default = "default_roster_page_size")]
+    page_size: usize,
+    page_token: Option<String>,
+    filter: Option<String>,
+}
+
+fn default_roster_page_size() -> usize {
+    50
+}
+
+async fn agent_roster_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    Query(query): Query<AgentRosterHttpQuery>,
+    headers: HeaderMap,
+) -> Response {
+    let allowed_origin = allowed_origin(&service, &headers);
+    if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+    match service.agent_roster_page(query.page_size, query.page_token, query.filter) {
+        Ok(page) => observatory_json(StatusCode::OK, page, allowed_origin),
+        Err(_) => observatory_json(
+            StatusCode::BAD_REQUEST,
+            serde_json::json!({
+                "schema": "adl.runtime_v3.agent_roster_error.v1",
+                "code": "invalid_roster_query"
+            }),
+            allowed_origin,
+        ),
+    }
 }
 
 async fn observatory_ws_handler<C: LifecycleControl + 'static>(

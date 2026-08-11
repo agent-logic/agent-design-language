@@ -14,11 +14,12 @@ use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly,
     build_production_operation_executors_with_recorder, generate_runtime_instance_id,
     load_control_tls, monitor_until_stop, serve_control_listener_until_ready,
-    validate_production_operation_executors, verifying_key_from_hex, AgentPopulationFeed,
-    CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy, ControlAuthority,
-    ControlCapability, ControlService, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
+    validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
+    AgentPopulationFeed, CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy,
+    ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit, LiveBindings,
+    LiveContinuity, LiveKernelSnapshot, OperationRequest, RsntpTimeSampleSource, RuntimeInitConfig,
+    RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource,
+    TrustedControlKey, OPERATION_REQUEST_SCHEMA,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -159,6 +160,10 @@ async fn main() -> ExitCode {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
             }
+            let resident_shepherd_executor = operation_executors
+                .get(&AdapterKind::Shepherd)
+                .cloned()
+                .expect("validated production assembly contains Shepherd adapter");
             let operation_key_text = match read_trimmed_config_file(
                 &init.credentials.operation_public_key_path,
                 "runtime operation permit key",
@@ -442,6 +447,24 @@ async fn main() -> ExitCode {
                     return ExitCode::from(70);
                 }
             };
+            let shepherd_admission = OperationRequest {
+                schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                request_id: format!("{instance_id}:resident-shepherd-admission"),
+                idempotency_key: "resident-shepherd-admission".to_owned(),
+                principal: "runtime-bootstrap".to_owned(),
+                payload: br#"{"schema":"adl.runtime.local_shepherd_admission.v1","admit":true}"#
+                    .to_vec(),
+                permit: None,
+            };
+            if let Err(error) = resident_shepherd_executor
+                .execute(&shepherd_admission)
+                .await
+            {
+                eprintln!("runtime resident Shepherd admission failed: {error}");
+                let _ = handle.shutdown(kernel_shutdown_grace).await;
+                let _ = observability.shutdown().await;
+                return ExitCode::from(70);
+            }
             let (ready_sender, ready_receiver) = tokio::sync::oneshot::channel();
             let mut api = tokio::spawn(serve_control_listener_until_ready(
                 service.clone(),

@@ -1,9 +1,10 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use adl_runtime_kernel::{
-    AgentPresence, AgentRoster, AgentRosterError, AgentRosterPolicy, AgentRosterQuery,
-    AgentRuntimeEvidence, ComponentId, ControlAuthority, ControlService, KernelExit,
-    LifecycleControl, RunningState, RuntimeRecorder,
+    build_production_operation_executors_with_recorder, AdapterKind, AgentPresence, AgentRoster,
+    AgentRosterError, AgentRosterPolicy, AgentRosterQuery, AgentRuntimeEvidence, ClockAuthority,
+    ComponentId, ControlAuthority, ControlService, KernelExit, LifecycleControl, OperationRequest,
+    RunningState, RuntimeRecorder, OPERATION_REQUEST_SCHEMA,
 };
 
 struct NoopLifecycle;
@@ -289,17 +290,93 @@ fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
     assert!(!absent.agents.population_complete);
 
     recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Running);
+    let merely_running = service.observatory_feed();
+    assert_eq!(merely_running.agents.total_count, 0);
+    assert!(merely_running.agents.sample.is_empty());
+
+    let admitted_at = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    let source_revision = "0123456789abcdef0123456789abcdef01234567";
+    assert!(recorder.record_agent_admission("shepherd", admitted_at, source_revision));
     let running = service.observatory_feed();
     assert_eq!(running.agents.total_count, 1);
     assert_eq!(running.agents.sample[0].id, "shepherd");
     assert_eq!(running.agents.sample[0].state, "ready");
     assert_eq!(running.agents.sample[0].health, "healthy");
     assert!(running.agents.sample[0].communication_eligible);
+    assert_eq!(
+        running.agents.sample[0].observed_at_unix_millis,
+        admitted_at
+    );
+    assert_eq!(running.agents.sample[0].source_revision, source_revision);
     let stable_id = running.agents.sample[0].id.clone();
+
+    let polled_again = service.observatory_feed();
+    assert_eq!(
+        polled_again.agents.sample[0].observed_at_unix_millis, admitted_at,
+        "polling must not renew admission freshness"
+    );
+    assert_eq!(
+        polled_again.agents.sample[0].freshness_deadline_unix_millis,
+        admitted_at + 5_000
+    );
 
     recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Restarting);
     let restarting = service.observatory_feed();
     assert_eq!(restarting.agents.sample[0].id, stable_id);
     assert_eq!(restarting.agents.sample[0].state, "migrating");
     assert!(!restarting.agents.sample[0].communication_eligible);
+}
+
+#[tokio::test]
+async fn production_shepherd_operation_is_the_admission_authority() {
+    let recorder = RuntimeRecorder::new(16);
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    recorder.set_clock_authority(ClockAuthority::Authoritative {
+        source: "test-qualified-clock".to_owned(),
+        unix_millis: now,
+    });
+    recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Running);
+    let root = tempfile::tempdir().unwrap();
+    let executors = build_production_operation_executors_with_recorder(
+        root.path().join("operation-state"),
+        recorder.clone(),
+    )
+    .unwrap();
+    let request = OperationRequest {
+        schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+        request_id: "admit-shepherd".to_owned(),
+        idempotency_key: "admit-shepherd-once".to_owned(),
+        principal: "runtime-bootstrap".to_owned(),
+        payload: br#"{"schema":"adl.runtime.local_shepherd_admission.v1","admit":true}"#.to_vec(),
+        permit: None,
+    };
+    executors[&AdapterKind::Shepherd]
+        .execute(&request)
+        .await
+        .unwrap();
+
+    let service = ControlService::new_with_observatory_config_and_agents(
+        "runtime-instance",
+        recorder,
+        NoopLifecycle,
+        ControlAuthority::new(BTreeMap::new()),
+        8,
+        std::iter::empty(),
+        adl_runtime_kernel::AgentPopulationFeed::resident_shepherd(),
+    );
+    let feed = service.observatory_feed();
+    assert_eq!(feed.agents.sample.len(), 1);
+    assert_eq!(feed.agents.sample[0].id, "shepherd");
+    assert_eq!(feed.agents.sample[0].state, "ready");
+    assert_eq!(feed.agents.sample[0].source_revision.len(), 40);
+    assert!(feed.agents.sample[0]
+        .source_revision
+        .bytes()
+        .all(|byte| byte.is_ascii_hexdigit()));
 }

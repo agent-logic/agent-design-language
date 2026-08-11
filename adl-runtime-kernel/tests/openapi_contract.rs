@@ -232,7 +232,7 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
     let mut routes = BTreeSet::new();
     for route in literal_routes_from_control_rs() {
         match route.as_str() {
-            "/v1/observatory" | "/v1/ready" => {
+            "/v1/agents" | "/v1/observatory" | "/v1/ready" => {
                 routes.insert(("get".to_owned(), route.clone()));
                 routes.insert(("options".to_owned(), route));
             }
@@ -263,6 +263,7 @@ fn literal_routes_from_control_rs() -> BTreeSet<String> {
         "/v1/ready",
         "/v1/metrics",
         "/v1/acip/ws",
+        "/v1/agents",
         "/v1/observatory",
         "/v1/control",
     ] {
