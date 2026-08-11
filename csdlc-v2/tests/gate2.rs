@@ -2322,8 +2322,68 @@ fn prebind_operator_constraints_correction_is_exact_and_fail_closed() {
                 result.expect_err("bound correction must fail").code,
                 csdlc_v2::ErrorCode::InvalidTransition
             );
+            let executed = edit_issue(
+                &store,
+                EditRequest {
+                    issue: 42,
+                    card: CardKind::Sor,
+                    expected_generation: current.generation,
+                    expected_digest: current.digest,
+                    actor: "operator".into(),
+                    reason: "create later-phase rejection fixture".into(),
+                    operation: SemanticOperation::RecordExecution {
+                        summary: "implemented fixture".into(),
+                        changes: vec!["csdlc-v2/tests/gate2.rs".into()],
+                        artifacts: vec!["fixture".into()],
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect("record later-phase execution");
+            let implemented = edit_issue(
+                &store,
+                EditRequest {
+                    issue: 42,
+                    card: CardKind::Sor,
+                    expected_generation: executed.generation,
+                    expected_digest: executed.digest,
+                    actor: "operator".into(),
+                    reason: "advance later-phase fixture".into(),
+                    operation: SemanticOperation::AdvancePhase {
+                        phase: LifecyclePhase::Implemented,
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect("advance later-phase fixture");
+            assert_eq!(
+                direct_edit(
+                    &store,
+                    &implemented,
+                    CardKind::Sip,
+                    operation.clone(),
+                    false,
+                )
+                .expect_err("implemented correction must fail")
+                .code,
+                csdlc_v2::ErrorCode::InvalidTransition
+            );
         } else {
-            assert!(result.is_ok(), "ready correction must succeed");
+            let corrected = result.expect("ready correction must succeed");
+            let approved = csdlc_v2::store::approve_design(
+                &store,
+                csdlc_v2::store::ApproveDesignRequest {
+                    issue: 42,
+                    expected_generation: corrected.generation,
+                    expected_digest: corrected.digest,
+                    reviewer: "post-correction-reviewer".into(),
+                },
+            )
+            .expect("reapprove corrected ready design");
+            assert!(matches!(
+                approved.design_review,
+                csdlc_v2::DesignReview::Approved { .. }
+            ));
         }
     }
 }
