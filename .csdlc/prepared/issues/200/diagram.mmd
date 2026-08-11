@@ -1,0 +1,27 @@
+flowchart LR
+  T["Opaque finalized #201 operation token"] --> P["Pending: journal exact plan before any step"]
+  R["Private sealed adapter registry"] --> P
+  P --> X["Reconciling: one idempotent step and opaque receipt at a time"]
+  X --> S["Durable exact step-receipt prefix"]
+  S --> C["Checkpointed: result cache plus external node-local CAS"]
+  C --> M["Local checkpoint marker"]
+  M --> V["Atomic published reconciliation generation"]
+  V --> Q["Private lineage generation and action-scoped permit"]
+  Q --> RV["Revalidate live view and no newer Pending on every use"]
+  CR["Cached exact result"] --> RR["Resume checkpoint marker and view reconciliation"]
+  RR --> C
+  RR --> M
+  RR --> V
+  V --> RET["Only Published returns retained result"]
+  CLK["Local pre-step NotReady or Unsafe"] -. "no effect receipt result or phase advance" .-> X
+  P -. "pending" .-> D["Authority-restoring reads and mutations denied"]
+  X -. "partial" .-> D
+  C -. "not yet published" .-> D
+  P -. "crash or exact retry" .-> Z["Reconcile journal state result checkpoint and view"]
+  X -. "crash or exact retry" .-> Z
+  C -. "crash or exact retry" .-> Z
+  Z --> P
+  Z --> X
+  Z --> C
+  Z --> V
+  Z -. "conflict rollback corruption ambiguity" .-> F["Fail closed with no permit"]

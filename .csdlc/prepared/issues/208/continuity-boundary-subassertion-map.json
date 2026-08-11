@@ -1,0 +1,188 @@
+{
+  "schema": "adl.guardian-kernel-continuity-boundary-map.v1",
+  "issue": 208,
+  "case_count": 56,
+  "boundary_row_count": 8,
+  "subassertion_count": 64,
+  "marker_format": "<outcome>:<boundary>:<subassertion>",
+  "case_marker_format": "proved:case:<case>",
+  "cases": [
+    {"ordinal": 1, "name": "internal_listener_config_valid", "outcome": "proved", "marker": "proved:case:internal_listener_config_valid"},
+    {"ordinal": 2, "name": "nonloopback_bind_rejected", "outcome": "proved", "marker": "proved:case:nonloopback_bind_rejected"},
+    {"ordinal": 3, "name": "unsafe_root_config_rejected", "outcome": "proved", "marker": "proved:case:unsafe_root_config_rejected"},
+    {"ordinal": 4, "name": "guardian_identity_distinct", "outcome": "proved", "marker": "proved:case:guardian_identity_distinct"},
+    {"ordinal": 5, "name": "guardian_mtls_authorized", "outcome": "proved", "marker": "proved:case:guardian_mtls_authorized"},
+    {"ordinal": 6, "name": "unknown_client_certificate_denied", "outcome": "proved", "marker": "proved:case:unknown_client_certificate_denied"},
+    {"ordinal": 7, "name": "invalid_client_eku_denied", "outcome": "proved", "marker": "proved:case:invalid_client_eku_denied"},
+    {"ordinal": 8, "name": "stale_certificate_denied", "outcome": "proved", "marker": "proved:case:stale_certificate_denied"},
+    {"ordinal": 9, "name": "bearer_only_denied", "outcome": "proved", "marker": "proved:case:bearer_only_denied"},
+    {"ordinal": 10, "name": "agent_control_identity_denied", "outcome": "proved", "marker": "proved:case:agent_control_identity_denied"},
+    {"ordinal": 11, "name": "wrong_trust_domain_denied", "outcome": "proved", "marker": "proved:case:wrong_trust_domain_denied"},
+    {"ordinal": 12, "name": "wrong_polis_denied", "outcome": "proved", "marker": "proved:case:wrong_polis_denied"},
+    {"ordinal": 13, "name": "wrong_node_denied", "outcome": "proved", "marker": "proved:case:wrong_node_denied"},
+    {"ordinal": 14, "name": "wrong_guardian_denied", "outcome": "proved", "marker": "proved:case:wrong_guardian_denied"},
+    {"ordinal": 15, "name": "replay_rejected", "outcome": "proved", "marker": "proved:case:replay_rejected"},
+    {"ordinal": 16, "name": "conflicting_duplicate_rejected", "outcome": "proved", "marker": "proved:case:conflicting_duplicate_rejected"},
+    {"ordinal": 17, "name": "reordered_request_rejected", "outcome": "proved", "marker": "proved:case:reordered_request_rejected"},
+    {"ordinal": 18, "name": "wrong_kernel_instance_denied", "outcome": "proved", "marker": "proved:case:wrong_kernel_instance_denied"},
+    {"ordinal": 19, "name": "durable_channel_restart_retry", "outcome": "proved", "marker": "proved:case:durable_channel_restart_retry"},
+    {"ordinal": 20, "name": "certificate_succession_retry", "outcome": "proved", "marker": "proved:case:certificate_succession_retry"},
+    {"ordinal": 21, "name": "stale_channel_epoch_denied", "outcome": "proved", "marker": "proved:case:stale_channel_epoch_denied"},
+    {"ordinal": 22, "name": "real_quiesce_checkpoint", "outcome": "proved", "marker": "proved:case:real_quiesce_checkpoint"},
+    {"ordinal": 23, "name": "partial_quiesce_rollback", "outcome": "proved", "marker": "proved:case:partial_quiesce_rollback"},
+    {"ordinal": 24, "name": "signed_bundle_export", "outcome": "proved", "marker": "proved:case:signed_bundle_export"},
+    {"ordinal": 25, "name": "export_bounds", "outcome": "proved", "marker": "proved:case:export_bounds"},
+    {"ordinal": 26, "name": "export_exact_retry", "outcome": "proved", "marker": "proved:case:export_exact_retry"},
+    {"ordinal": 27, "name": "source_resume", "outcome": "proved", "marker": "proved:case:source_resume"},
+    {"ordinal": 28, "name": "source_resume_exact_retry", "outcome": "proved", "marker": "proved:case:source_resume_exact_retry"},
+    {"ordinal": 29, "name": "isolated_stage", "outcome": "proved", "marker": "proved:case:isolated_stage"},
+    {"ordinal": 30, "name": "isolated_import_validate", "outcome": "proved", "marker": "proved:case:isolated_import_validate"},
+    {"ordinal": 31, "name": "wrong_manifest_signature", "outcome": "proved", "marker": "proved:case:wrong_manifest_signature"},
+    {"ordinal": 32, "name": "wrong_generation", "outcome": "proved", "marker": "proved:case:wrong_generation"},
+    {"ordinal": 33, "name": "wrong_predecessor", "outcome": "proved", "marker": "proved:case:wrong_predecessor"},
+    {"ordinal": 34, "name": "wrong_accepted_prefix", "outcome": "proved", "marker": "proved:case:wrong_accepted_prefix"},
+    {"ordinal": 35, "name": "wrong_topology", "outcome": "proved", "marker": "proved:case:wrong_topology"},
+    {"ordinal": 36, "name": "wrong_config", "outcome": "proved", "marker": "proved:case:wrong_config"},
+    {"ordinal": 37, "name": "wrong_service_set", "outcome": "proved", "marker": "proved:case:wrong_service_set"},
+    {"ordinal": 38, "name": "wrong_service_schema", "outcome": "proved", "marker": "proved:case:wrong_service_schema"},
+    {"ordinal": 39, "name": "corrupt_content", "outcome": "proved", "marker": "proved:case:corrupt_content"},
+    {"ordinal": 40, "name": "oversized_bundle", "outcome": "proved", "marker": "proved:case:oversized_bundle"},
+    {"ordinal": 41, "name": "caller_path_rejected", "outcome": "proved", "marker": "proved:case:caller_path_rejected"},
+    {"ordinal": 42, "name": "symlink_path_rejected", "outcome": "proved", "marker": "proved:case:symlink_path_rejected"},
+    {"ordinal": 43, "name": "deadline_before_effect", "outcome": "proved", "marker": "proved:case:deadline_before_effect"},
+    {"ordinal": 44, "name": "cancellation_no_partial", "outcome": "proved", "marker": "proved:case:cancellation_no_partial"},
+    {"ordinal": 45, "name": "restart_after_accept", "outcome": "proved", "marker": "proved:case:restart_after_accept"},
+    {"ordinal": 46, "name": "crash_after_bundle_commit", "outcome": "proved", "marker": "proved:case:crash_after_bundle_commit"},
+    {"ordinal": 47, "name": "target_discard", "outcome": "proved", "marker": "proved:case:target_discard"},
+    {"ordinal": 48, "name": "discard_exact_retry", "outcome": "proved", "marker": "proved:case:discard_exact_retry"},
+    {"ordinal": 49, "name": "validated_target_discard", "outcome": "proved", "marker": "proved:case:validated_target_discard"},
+    {"ordinal": 50, "name": "zero_residue", "outcome": "proved", "marker": "proved:case:zero_residue"},
+    {"ordinal": 51, "name": "dual_open", "outcome": "proved", "marker": "proved:case:dual_open"},
+    {"ordinal": 52, "name": "opened_handle_replacement", "outcome": "proved", "marker": "proved:case:opened_handle_replacement"},
+    {"ordinal": 53, "name": "evidence_redaction", "outcome": "proved", "marker": "proved:case:evidence_redaction"},
+    {"ordinal": 54, "name": "public_surface_absent", "outcome": "proved", "marker": "proved:case:public_surface_absent"},
+    {"ordinal": 55, "name": "guardian_initialization_live", "outcome": "proved", "marker": "proved:case:guardian_initialization_live"},
+    {"ordinal": 56, "name": "participant_registry_complete", "outcome": "proved", "marker": "proved:case:participant_registry_complete"}
+  ],
+  "lifecycle_subassertion_count": 12,
+  "lifecycle_subassertions": [
+    {"id": "cleanup_permit_survives_expiry", "case": "deadline_before_effect", "outcome": "accepted", "marker": "accepted:lifecycle:cleanup_permit_survives_expiry"},
+    {"id": "cleanup_permit_survives_cancellation", "case": "cancellation_no_partial", "outcome": "accepted", "marker": "accepted:lifecycle:cleanup_permit_survives_cancellation"},
+    {"id": "cleanup_permit_restart_reconciled", "case": "restart_after_accept", "outcome": "accepted", "marker": "accepted:lifecycle:cleanup_permit_restart_reconciled"},
+    {"id": "source_resume_receipt_restart_reconciled", "case": "source_resume_exact_retry", "outcome": "accepted", "marker": "accepted:lifecycle:source_resume_receipt_restart_reconciled"},
+    {"id": "discard_receipt_restart_reconciled", "case": "discard_exact_retry", "outcome": "accepted", "marker": "accepted:lifecycle:discard_receipt_restart_reconciled"},
+    {"id": "validated_stage_discardable", "case": "validated_target_discard", "outcome": "accepted", "marker": "accepted:lifecycle:validated_stage_discardable"},
+    {"id": "activation_decision_requires_204", "case": "public_surface_absent", "outcome": "denied", "marker": "denied:lifecycle:activation_decision_requires_204"},
+    {"id": "activation_effect_owned_by_208", "case": "guardian_initialization_live", "outcome": "accepted", "marker": "accepted:lifecycle:activation_effect_owned_by_208"},
+    {"id": "activation_receipt_durable", "case": "restart_after_accept", "outcome": "accepted", "marker": "accepted:lifecycle:activation_receipt_durable"},
+    {"id": "activation_receipt_exact_retry", "case": "restart_after_accept", "outcome": "accepted", "marker": "accepted:lifecycle:activation_receipt_exact_retry"},
+    {"id": "activation_consumes_cleanup_permit", "case": "target_discard", "outcome": "accepted", "marker": "accepted:lifecycle:activation_consumes_cleanup_permit"},
+    {"id": "activated_stage_discard_denied", "case": "target_discard", "outcome": "denied", "marker": "denied:lifecycle:activated_stage_discard_denied"}
+  ],
+  "boundaries": [
+    {
+      "boundary": "config",
+      "subassertions": [
+        {"id":"ipv4_loopback_accepted","case":"internal_listener_config_valid","outcome":"accepted","marker":"accepted:config:ipv4_loopback_accepted"},
+        {"id":"ipv6_loopback_accepted","case":"internal_listener_config_valid","outcome":"accepted","marker":"accepted:config:ipv6_loopback_accepted"},
+        {"id":"zero_port_denied","case":"nonloopback_bind_rejected","outcome":"denied","marker":"denied:config:zero_port_denied"},
+        {"id":"wildcard_bind_denied","case":"nonloopback_bind_rejected","outcome":"denied","marker":"denied:config:wildcard_bind_denied"},
+        {"id":"duplicate_endpoint_denied","case":"internal_listener_config_valid","outcome":"denied","marker":"denied:config:duplicate_endpoint_denied"},
+        {"id":"overlapping_roots_denied","case":"unsafe_root_config_rejected","outcome":"denied","marker":"denied:config:overlapping_roots_denied"},
+        {"id":"symlinked_root_denied","case":"unsafe_root_config_rejected","outcome":"denied","marker":"denied:config:symlinked_root_denied"},
+        {"id":"missing_bound_denied","case":"internal_listener_config_valid","outcome":"denied","marker":"denied:config:missing_bound_denied"}
+      ]
+    },
+    {
+      "boundary": "tls",
+      "subassertions": [
+        {"id":"tls13_mutual_auth_accepted","case":"guardian_mtls_authorized","outcome":"accepted","marker":"accepted:tls:tls13_mutual_auth_accepted"},
+        {"id":"older_protocol_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:tls:older_protocol_denied"},
+        {"id":"unknown_client_ca_denied","case":"unknown_client_certificate_denied","outcome":"denied","marker":"denied:tls:unknown_client_ca_denied"},
+        {"id":"client_eku_denied","case":"invalid_client_eku_denied","outcome":"denied","marker":"denied:tls:client_eku_denied"},
+        {"id":"server_eku_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:tls:server_eku_denied"},
+        {"id":"client_spki_mismatch_denied","case":"unknown_client_certificate_denied","outcome":"denied","marker":"denied:tls:client_spki_mismatch_denied"},
+        {"id":"stale_leaf_denied","case":"stale_certificate_denied","outcome":"denied","marker":"denied:tls:stale_leaf_denied"},
+        {"id":"tls_exporter_mismatch_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:tls:tls_exporter_mismatch_denied"}
+      ]
+    },
+    {
+      "boundary": "identity",
+      "subassertions": [
+        {"id":"logical_guardian_accepted","case":"guardian_identity_distinct","outcome":"accepted","marker":"accepted:identity:logical_guardian_accepted"},
+        {"id":"agent_identity_denied","case":"agent_control_identity_denied","outcome":"denied","marker":"denied:identity:agent_identity_denied"},
+        {"id":"voter_identity_denied","case":"agent_control_identity_denied","outcome":"denied","marker":"denied:identity:voter_identity_denied"},
+        {"id":"shepherd_identity_denied","case":"agent_control_identity_denied","outcome":"denied","marker":"denied:identity:shepherd_identity_denied"},
+        {"id":"authority_identity_denied","case":"agent_control_identity_denied","outcome":"denied","marker":"denied:identity:authority_identity_denied"},
+        {"id":"public_control_identity_denied","case":"agent_control_identity_denied","outcome":"denied","marker":"denied:identity:public_control_identity_denied"},
+        {"id":"wrong_guardian_denied","case":"wrong_guardian_denied","outcome":"denied","marker":"denied:identity:wrong_guardian_denied"},
+        {"id":"wrong_kernel_denied","case":"wrong_kernel_instance_denied","outcome":"denied","marker":"denied:identity:wrong_kernel_denied"}
+      ]
+    },
+    {
+      "boundary": "domain",
+      "subassertions": [
+        {"id":"canonical_rfc8785_accepted","case":"guardian_mtls_authorized","outcome":"accepted","marker":"accepted:domain:canonical_rfc8785_accepted"},
+        {"id":"duplicate_keys_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:duplicate_keys_denied"},
+        {"id":"noncanonical_encoding_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:noncanonical_encoding_denied"},
+        {"id":"unknown_fields_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:unknown_fields_denied"},
+        {"id":"nan_infinity_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:nan_infinity_denied"},
+        {"id":"trailing_bytes_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:trailing_bytes_denied"},
+        {"id":"decode_reencode_mismatch_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:decode_reencode_mismatch_denied"},
+        {"id":"unknown_operation_kind_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:unknown_operation_kind_denied"}
+      ]
+    },
+    {
+      "boundary": "generation",
+      "subassertions": [
+        {"id":"durable_epoch_restart_preserved","case":"durable_channel_restart_retry","outcome":"accepted","marker":"accepted:generation:durable_epoch_restart_preserved"},
+        {"id":"stale_epoch_denied","case":"stale_channel_epoch_denied","outcome":"denied","marker":"denied:generation:stale_epoch_denied"},
+        {"id":"future_epoch_denied","case":"stale_channel_epoch_denied","outcome":"denied","marker":"denied:generation:future_epoch_denied"},
+        {"id":"guardian_restart_generation_preserved","case":"durable_channel_restart_retry","outcome":"accepted","marker":"accepted:generation:guardian_restart_generation_preserved"},
+        {"id":"kernel_restart_generation_preserved","case":"durable_channel_restart_retry","outcome":"accepted","marker":"accepted:generation:kernel_restart_generation_preserved"},
+        {"id":"successor_leaf_retry_accepted","case":"certificate_succession_retry","outcome":"accepted","marker":"accepted:generation:successor_leaf_retry_accepted"},
+        {"id":"predecessor_leaf_retry_only","case":"certificate_succession_retry","outcome":"accepted","marker":"accepted:generation:predecessor_leaf_retry_only"},
+        {"id":"predecessor_leaf_new_operation_denied","case":"stale_certificate_denied","outcome":"denied","marker":"denied:generation:predecessor_leaf_new_operation_denied"}
+      ]
+    },
+    {
+      "boundary": "prefix",
+      "subassertions": [
+        {"id":"accepted_prefix_exact","case":"isolated_import_validate","outcome":"accepted","marker":"accepted:prefix:accepted_prefix_exact"},
+        {"id":"accepted_prefix_mismatch_denied","case":"wrong_accepted_prefix","outcome":"denied","marker":"denied:prefix:accepted_prefix_mismatch_denied"},
+        {"id":"snapshot_generation_exact","case":"isolated_import_validate","outcome":"accepted","marker":"accepted:prefix:snapshot_generation_exact"},
+        {"id":"snapshot_generation_mismatch_denied","case":"wrong_generation","outcome":"denied","marker":"denied:prefix:snapshot_generation_mismatch_denied"},
+        {"id":"predecessor_exact","case":"isolated_import_validate","outcome":"accepted","marker":"accepted:prefix:predecessor_exact"},
+        {"id":"predecessor_mismatch_denied","case":"wrong_predecessor","outcome":"denied","marker":"denied:prefix:predecessor_mismatch_denied"},
+        {"id":"topology_and_config_exact","case":"isolated_import_validate","outcome":"accepted","marker":"accepted:prefix:topology_and_config_exact"},
+        {"id":"service_and_content_exact","case":"isolated_import_validate","outcome":"accepted","marker":"accepted:prefix:service_and_content_exact"}
+      ]
+    },
+    {
+      "boundary": "path",
+      "subassertions": [
+        {"id":"caller_path_absent","case":"caller_path_rejected","outcome":"denied","marker":"denied:path:caller_path_absent"},
+        {"id":"opaque_handle_root_fixed","case":"isolated_stage","outcome":"accepted","marker":"accepted:path:opaque_handle_root_fixed"},
+        {"id":"parent_symlink_denied","case":"symlink_path_rejected","outcome":"denied","marker":"denied:path:parent_symlink_denied"},
+        {"id":"leaf_symlink_denied","case":"symlink_path_rejected","outcome":"denied","marker":"denied:path:leaf_symlink_denied"},
+        {"id":"traversal_filename_denied","case":"caller_path_rejected","outcome":"denied","marker":"denied:path:traversal_filename_denied"},
+        {"id":"duplicate_filename_denied","case":"isolated_import_validate","outcome":"denied","marker":"denied:path:duplicate_filename_denied"},
+        {"id":"opened_inode_replacement_denied","case":"opened_handle_replacement","outcome":"denied","marker":"denied:path:opened_inode_replacement_denied"},
+        {"id":"discard_zero_entries","case":"zero_residue","outcome":"accepted","marker":"accepted:path:discard_zero_entries"}
+      ]
+    },
+    {
+      "boundary": "size",
+      "subassertions": [
+        {"id":"frame_n_accepted","case":"export_bounds","outcome":"accepted","marker":"accepted:size:frame_n_accepted"},
+        {"id":"frame_n_plus_1_denied","case":"export_bounds","outcome":"denied","marker":"denied:size:frame_n_plus_1_denied"},
+        {"id":"blob_n_accepted","case":"export_bounds","outcome":"accepted","marker":"accepted:size:blob_n_accepted"},
+        {"id":"blob_n_plus_1_denied","case":"oversized_bundle","outcome":"denied","marker":"denied:size:blob_n_plus_1_denied"},
+        {"id":"service_count_n_accepted","case":"participant_registry_complete","outcome":"accepted","marker":"accepted:size:service_count_n_accepted"},
+        {"id":"service_count_n_plus_1_denied","case":"participant_registry_complete","outcome":"denied","marker":"denied:size:service_count_n_plus_1_denied"},
+        {"id":"total_bytes_n_accepted","case":"export_bounds","outcome":"accepted","marker":"accepted:size:total_bytes_n_accepted"},
+        {"id":"total_bytes_n_plus_1_denied","case":"oversized_bundle","outcome":"denied","marker":"denied:size:total_bytes_n_plus_1_denied"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 208
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Resolved the PR #230 hosted-CI regressions and subsequently exercised retained-validator defects while preserving mandatory production continuity. The final runtime-coverage regression was a positive Guardian CLI fixture that still emitted a legacy partial init. It now constructs an isolated complete RuntimeInitConfig, dedicated server/client EKUs and roots, exact private continuity bounds and roots, distinct #204 key custody, and a live private TLS continuity service; the two sibling negative CLI cases remain fail closed. Fresh v4 evidence at d1d261bea5da89922730ec835d64a261b9ad2f53 retains Runtime 21/21 and kernel 35/35 in two concurrent plus two isolated waves with zero LEAK, Guardian CLI 3/3, production ACIP 2/2, both strict Clippy lanes, selector contract, exact 56/64/12 parity, and diff hygiene. Fresh independent rereview remains required before republishing PR #230.
+
+## Artifacts
+
+- adl/.config/nextest.toml
+- adl-runtime/tests/guardian_cli.rs
+- adl-runtime-kernel/tests/production_acip_wss.rs
+- adl-runtime-kernel/tests/support/runtime_init.rs
+- .csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb
+- .csdlc/prepared/issues/208/produce-proof-receipt.rb
+- .csdlc/prepared/issues/208/validate-proof-receipt.rb
+- .csdlc/evidence/208/v4/execution-proof.json
+
+## Execution
+
+- Extended production and Guardian CLI runtime-init fixtures with isolated private continuity listeners, exact five-participant bounds, dedicated ServerAuth and ClientAuth credentials, trust roots, SPKI pins, distinct migration-decision custody, and actionable readiness behavior.
+- Preserved production mandatory continuity initialization while the real Guardian CLI positive path now reaches a live TLS Status effect and both malformed/missing-kernel negatives remain fail closed.
+- Replaced absent binary-name nextest selectors with the exact ordered 56-case filter and explicitly bound all standalone proof lanes to the tracked fail-on-leak policy.
+- Expanded retained proof with Guardian CLI 3/3, production ACIP 2/2, the workspace/slow-proof selector contract, and four zero-LEAK full waves per package.
+- Repaired final receipt review provenance parsing to require exact canonical JSON token serialization, canonical index equality, exact git-blake3 shape and ancestry, and rejection of malformed or escaped aliases.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--config-file",
+      "adl/.config/nextest.toml",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "guardian_cli",
+      "--no-tests=fail"
+    ],
+    "purpose": "Reproduce the hosted Runtime coverage failure with a real mandatory private-continuity Guardian fixture while preserving sibling denials.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v4/guardian-cli-nextest.stderr.log: 3/3 passed, zero LEAK"
+  },
+  {
+    "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--config-file",
+      "adl/.config/nextest.toml",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "kernel_continuity_client",
+      "--no-tests=fail"
+    ],
+    "purpose": "Prove the exact 21-case Runtime target in two concurrent and two isolated retained waves.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v4/runtime-nextest*.stderr.log: 21/21 in all four waves, zero LEAK"
+  },
+  {
+    "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--config-file",
+      "adl/.config/nextest.toml",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "kernel_continuity_control",
+      "--no-tests=fail"
+    ],
+    "purpose": "Prove the exact 35-case kernel target in two concurrent and two isolated retained waves.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v4/kernel-nextest*.stderr.log: 35/35 in all four waves, zero LEAK"
+  },
+  {
+    "command": [
+      "cargo",
+      "nextest",
+      "run",
+      "--config-file",
+      "adl/.config/nextest.toml",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "production_acip_wss",
+      "--no-tests=fail"
+    ],
+    "purpose": "Reproduce the hosted production ACIP lane with mandatory private continuity initialization.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v4/production-acip-nextest.stderr.log: 2/2 passed"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb"
+    ],
+    "purpose": "Require all eight standalone nextest invocations to load the tracked fail-closed policy without absent binary selectors.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v4/nextest-workspace-contract.stdout.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--bin",
+      "adl-runtime-guardian",
+      "--test",
+      "guardian_cli",
+      "--test",
+      "kernel_continuity_client",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject warnings across Runtime, Guardian, hosted Guardian CLI fixture, and continuity client target.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v4/runtime-clippy.stderr.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "--bin",
+      "adl-runtime-kernel",
+      "--test",
+      "kernel_continuity_control",
+      "--test",
+      "production_acip_wss",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject warnings across kernel effects, persistence, private server, fixture, and tests.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v4/kernel-clippy.stderr.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/208/verify-diff-hygiene.rb"
+    ],
+    "purpose": "Verify exact execution-base-to-source diff hygiene and current-main ancestry.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v4/diff-hygiene.stdout.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
+    ],
+    "purpose": "Produce exact protected-source evidence for 16 commands, 56 cases, 64 boundary assertions, and 12 lifecycle assertions.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/208/v4/execution-proof.json"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

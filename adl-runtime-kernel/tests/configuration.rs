@@ -98,6 +98,9 @@ control_key_id = "operator"
 control_principal = "operator"
 operation_public_key_path = "{}"
 operation_key_id = "runtime-operations"
+migration_decision_public_key_path = "{}"
+migration_decision_key_id = "runtime-migration-decisions"
+migration_decision_key_generation = 1
 continuity_signing_key_path = "{}"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "{}"
@@ -168,6 +171,7 @@ snapshot_concurrency = 4
         toml_path(&kernel),
         toml_path(&credentials.join("control-public-key.hex")),
         toml_path(&credentials.join("operation-public-key.hex")),
+        toml_path(&credentials.join("migration-decision-public-key.hex")),
         toml_path(&credentials.join("continuity-signing-key.hex")),
         toml_path(&credentials.join("observatory-token.txt")),
         toml_path(&credentials.join("acip-write-token.txt")),
@@ -455,6 +459,18 @@ fn runtime_init_file_defines_local_and_remote_access_intent() {
         state_root.join("credentials/control-public-key.hex")
     );
     assert_eq!(
+        init.credentials.migration_decision_public_key_path,
+        state_root.join("credentials/migration-decision-public-key.hex")
+    );
+    assert_ne!(
+        init.credentials.migration_decision_public_key_path,
+        init.credentials.operation_public_key_path
+    );
+    assert_ne!(
+        init.credentials.migration_decision_key_id,
+        init.credentials.operation_key_id
+    );
+    assert_eq!(
         init.credentials.observatory_token_path,
         state_root.join("credentials/observatory-token.txt")
     );
@@ -468,6 +484,34 @@ fn runtime_init_file_defines_local_and_remote_access_intent() {
         Path::new("durable/master.log.jsonl")
     );
     assert!(!init.socket_addrs().unwrap().is_empty());
+}
+
+#[test]
+fn runtime_init_rejects_migration_decision_key_aliases() {
+    let directory = config_test_root();
+    let state_root = directory.path().join("state");
+    std::fs::create_dir_all(&state_root).unwrap();
+    let state_root = state_root.canonicalize().unwrap();
+    let valid = valid_runtime_init_toml(&state_root);
+    for aliased in [
+        valid.replace(
+            "migration_decision_public_key_path = \"",
+            "migration_decision_public_key_path = \"__ALIAS__",
+        ),
+        valid.replace(
+            "migration_decision_key_id = \"runtime-migration-decisions\"",
+            "migration_decision_key_id = \"runtime-operations\"",
+        ),
+    ] {
+        let aliased = aliased.replace(
+            &format!(
+                "__ALIAS__{}",
+                toml_path(&state_root.join("credentials/migration-decision-public-key.hex"))
+            ),
+            &toml_path(&state_root.join("credentials/operation-public-key.hex")),
+        );
+        assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&aliased).is_err());
+    }
 }
 
 #[test]

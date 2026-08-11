@@ -135,8 +135,8 @@ lifecycle authority, and states the declared serial and parallel boundaries.
 | 6 | Memory, capability, and cognitive profile | Memory grounding, capability envelope, ACP/cognitive profile, and redacted review boundaries. |
 | 7 | Adaptive learning and ACIP/A2A readiness | Adaptive Learning DAG queue plus reconciled protocol semantics, protobuf schema, public catalog, JSON projection, and authenticated full-duplex WSS proof. |
 | 8 | Witness and integrated review packet | Birth witness set, receipt, and reviewer packet. |
-| 9 | Demos, consumers, and handoff | First-birthday demo, Observatory/Unity integration, provider-neutral multi-agent proof, governance handoff, and proof matrix. |
-| 10 | Cleanup and release tail | Repository reduction, Rust refactoring, quality, docs, article and podcast finalization, reviews, remediation, next-milestone planning, closeout planning, and ceremony. |
+| 9 | Demos, consumers, and handoff | First-birthday demo, Observatory/Unity integration, provider-neutral multi-agent proof, and governance handoff. |
+| 10 | Cleanup and release tail | Demo matrix, AEE proof, proof coverage, repository reduction, Rust refactoring, quality, docs, article and podcast finalization, reviews, remediation, next-milestone planning, closeout planning, and ceremony. |
 
 ## Dependencies To Check Before WP-01
 

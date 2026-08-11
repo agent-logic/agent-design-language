@@ -1,0 +1,335 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 225,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "2c2539d70d91f701387359b5176d8f0797988aec3b5745e78e295d6bcf53e1c4",
+  "phase": "published",
+  "generation": 22,
+  "digest": "9f2c6221e468f2c0e6d3ae5448dd8d525ec59bb47cdbd47e96a0ba44915f4ff0",
+  "branch": "codex/225-bounded-card-review-repair",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-225-bounded-card-review-repair",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "Bernoulli:019fefc0-cd6b-7072-84d5-9fc5b78de4d5",
+    "scope": [
+      ".csdlc/evidence/225",
+      ".csdlc/issues/225",
+      ".csdlc/prepared/issues/225",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ],
+    "reviewed_revision": "git-blake3:120455414b9a457f735a6f177742780d185a3b8b:1d6d41964c0fcc493d39f18f757d1025118c8f9f40da751808c01e492a3abeb9",
+    "findings": [
+      {
+        "id": "225-review-p1-recovery-actor",
+        "severity": "p1",
+        "summary": "Review recovery accepted a blank actor; actor and reason are now both required before mutation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:120455414b9a457f735a6f177742780d185a3b8b:1d6d41964c0fcc493d39f18f757d1025118c8f9f40da751808c01e492a3abeb9",
+        "route": null
+      },
+      {
+        "id": "225-review-p1-retained-sor-state",
+        "severity": "p1",
+        "summary": "Pre-bind correction did not reject every retained SOR lifecycle state; integration, publication, merge, and closeout state are now all guarded.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:120455414b9a457f735a6f177742780d185a3b8b:1d6d41964c0fcc493d39f18f757d1025118c8f9f40da751808c01e492a3abeb9",
+        "route": null
+      },
+      {
+        "id": "225-review-p2-proof-matrix",
+        "severity": "p2",
+        "summary": "The declared proof matrix omitted six authorization boundaries; Gate 2 and Gate 5 now prove every accepted and rejected case explicitly.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:120455414b9a457f735a6f177742780d185a3b8b:1d6d41964c0fcc493d39f18f757d1025118c8f9f40da751808c01e492a3abeb9",
+        "route": null
+      },
+      {
+        "id": "225-review-p2-plan-truth",
+        "severity": "p2",
+        "summary": "SPP execution steps lagged implementation truth; all four steps are now reconciled through typed edits.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:120455414b9a457f735a6f177742780d185a3b8b:1d6d41964c0fcc493d39f18f757d1025118c8f9f40da751808c01e492a3abeb9",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The two correction operations are intentionally field-specific; any future correction surface requires its own typed authorization contract."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 225,
+    "pull_request": 227,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/227",
+    "base": "main",
+    "head": "codex/225-bounded-card-review-repair",
+    "revision": "git-blake3:e814a687e4f895bd6883909ce1b758842efa84b7:6b008227c91f7cf88de2839ffd3c48d81570d78780c4aad3dc16c02b64de74be",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/225/design.md",
+  "diagram_path": ".csdlc/prepared/issues/225/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:lorentz-019fefab",
+      "revision": "a80c5320b725b320199840ac97071c113a66856de8ebbb740f4772db558d4a11"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "d7c6ebb7a65f5347468848d982c2b5bec28672e99374874ae051eaeef07d5400",
+      "rendered_digest": "9f38b68f225883c5296d0930f90a0bd45b5d3fdfbc79b9e2eb784c83f1be0027",
+      "ast_digest": "80936f9bc8d37273b594570a048d63acc5befe735e1ed02d3e188eec4b50430f"
+    },
+    "stp": {
+      "values_digest": "091b75446ce5fea32fa17060e1216424c96d7cfd7858141d9223a893bf8e677c",
+      "rendered_digest": "4b480f8134f03a8df280641a44c7466ac2427aaacdcad4f4bb09a40f9dfd65dc",
+      "ast_digest": "98229242cbbc08bd4320f8997bf7a53d4c41945051bf846790c8b8e750b4e697"
+    },
+    "spp": {
+      "values_digest": "cc974eebfbdc138f82c7aa28617e7ea55968f7cb3a063c4120c5e2ff117a7f25",
+      "rendered_digest": "581ec08597db7ed52f8891edbde7a0e653083ac4d6d828e82bfa4293a4617296",
+      "ast_digest": "c42351901df588a1dc8fe8be566846f7d4c48a92e4292383b5fff5e9b64168df"
+    },
+    "vpp": {
+      "values_digest": "479411913f0dc204277132c4982f1f0bad2d5130fab0e4113740c97bfbc12e67",
+      "rendered_digest": "b11d0c53253aa8d670c14bdb6c2c21cad2f0a63147079d96a1e1d3b5888ca1b4",
+      "ast_digest": "c6630cd1b261473cb656a38b6b5a47350843e9ee08ef5ada14e48a97043f2d12"
+    },
+    "srp": {
+      "values_digest": "2925ef176f742a51396e1889a9fc4519acfc31eb479627debab6cfe70cfbdf24",
+      "rendered_digest": "f4781610b73861cec10be4e1c058b3c0f6d057b9a86974d71ed8b87ffe2991b7",
+      "ast_digest": "a6a5fbb9f98b8131f76f12feafda176be73461f11e1808e22e69a7d6d26fa662"
+    },
+    "sor": {
+      "values_digest": "8fd764b553bbb5df9798c12c3f07599c2e4bff8d34acc842451b7f99200f50a5",
+      "rendered_digest": "c10844ec4e88c6f213853c2e3d4e68507eb4e3e98ae69b03c2057b53460ed33b",
+      "ast_digest": "80a42dcdcc7a75f73a574615dc9337e619e07c56b0aa5486459a0ba0b9c46d88"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "The independently reviewed design and complete typed planning packet are ready for binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "The bounded implementation and all declared focused validation lanes are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "Bernoulli:019fefc0-cd6b-7072-84d5-9fc5b78de4d5",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Declare exact repository-owned implementation and proof paths for readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/issues/225\",\".csdlc/prepared/issues/225\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Use existing Gate 2 and Gate 5 binaries as truthful pre-implementation proof denominators.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-sip-correction\",\"proof_role\":\"The complete Gate 2 binary proves initialized/ready unbound card repair and will contain the focused SIP operator-constraint regression.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"225-serial-01\",\"defer_reason\":null},{\"lane\":\"recovered-spp-correction\",\"proof_role\":\"The complete Gate 5 binary proves review recovery and will contain the focused recovered SPP summary regression.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"parallel_group\":\"225-serial-02\",\"defer_reason\":null},{\"lane\":\"focused-clippy\",\"proof_role\":\"Reject type, exhaustiveness, and editor owner regressions.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--bin\",\"csdlc-edit\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"225-serial-03\",\"defer_reason\":null},{\"lane\":\"format\",\"proof_role\":\"Require canonical Rust formatting.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"225-serial-04\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and patch defects across the committed branch range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"225-serial-05\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Resolve independent design-review findings by tightening provenance, drift, migration, and input guards.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/225/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/225/diagram.mmd\",\"new_design_digest\":\"0705683746755d039a15e5abb37922b7477040c830be19d4b9c25df086fc7ad8\",\"new_diagram_digest\":\"92cdb7af07ad5966b68f4a331c8e26c2bcba95b142f3a5f515d26d1912f05070\",\"old_design_digest\":\"c6e2eb19dc80c076d34116fba976730dea4aeb23d87ae58c4a3fecb53afac72e\",\"old_diagram_digest\":\"c827e554a7aa14540af5a4a0885a041b8d86a4750b0a653fae4da2e1768dd0ae\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Recovered implemented SPP plan_summary correction succeeds only after the latest relevant review audit event is exactly recover_review with stale lifecycle truth cleared\",\"AC-2: Initialized/ready unbound SIP operator_constraints correction succeeds only without migration or authored design/diagram drift and without granting bind or execution authority\",\"AC-3: Both operations enforce nonempty values, actor, and reason plus card ownership, lifecycle phase, topology, CAS, provenance, migration, drift, and retained-truth guards\",\"AC-4: Audit truth retains complete previous and replacement values plus validated actor and reason\",\"AC-5: Values, Markdown, AST, cross-card identity, generation, digest, and design-review truth remain coherent and atomic\",\"AC-6: Wrong phase/card, stale or transition-only recovery, stale CAS, empty input/actor/reason, migration, authored drift, retained truth, and partial-write cases fail without mutation\",\"AC-7: Focused tests, strict Clippy, formatting, typed validation, diff hygiene, and independent exact-head review pass\"]}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Make the focused proof matrix explicitly cover every reviewed authorization guard.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-sip-correction\",\"proof_role\":\"The complete Gate 2 binary proves initialized/ready unbound SIP correction, including migration and authored-drift rejection plus empty actor/reason zero-mutation proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"225-serial-01\",\"defer_reason\":null},{\"lane\":\"recovered-spp-correction\",\"proof_role\":\"The complete Gate 5 binary proves exact recover_review audit provenance, rejects stale or transition-only provenance, and proves empty actor/reason zero-mutation behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"parallel_group\":\"225-serial-02\",\"defer_reason\":null},{\"lane\":\"focused-clippy\",\"proof_role\":\"Reject type, exhaustiveness, and editor owner regressions.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--bin\",\"csdlc-edit\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"225-serial-03\",\"defer_reason\":null},{\"lane\":\"format\",\"proof_role\":\"Require canonical Rust formatting.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"225-serial-04\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and patch defects across the committed branch range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"225-serial-05\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Refresh the reviewed authored proof contract while preserving the exact acceptance denominator.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/225/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/225/diagram.mmd\",\"new_design_digest\":\"a80c5320b725b320199840ac97071c113a66856de8ebbb740f4772db558d4a11\",\"new_diagram_digest\":\"92cdb7af07ad5966b68f4a331c8e26c2bcba95b142f3a5f515d26d1912f05070\",\"old_design_digest\":\"0705683746755d039a15e5abb37922b7477040c830be19d4b9c25df086fc7ad8\",\"old_diagram_digest\":\"92cdb7af07ad5966b68f4a331c8e26c2bcba95b142f3a5f515d26d1912f05070\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Recovered implemented SPP plan_summary correction succeeds only after the latest relevant review audit event is exactly recover_review with stale lifecycle truth cleared\",\"AC-2: Initialized/ready unbound SIP operator_constraints correction succeeds only without migration or authored design/diagram drift and without granting bind or execution authority\",\"AC-3: Both operations enforce nonempty values, actor, and reason plus card ownership, lifecycle phase, topology, CAS, provenance, migration, drift, and retained-truth guards\",\"AC-4: Audit truth retains complete previous and replacement values plus validated actor and reason\",\"AC-5: Values, Markdown, AST, cross-card identity, generation, digest, and design-review truth remain coherent and atomic\",\"AC-6: Wrong phase/card, stale or transition-only recovery, stale CAS, empty input/actor/reason, migration, authored drift, retained truth, and partial-write cases fail without mutation\",\"AC-7: Focused tests, strict Clippy, formatting, typed validation, diff hygiene, and independent exact-head review pass\"]}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Complete Gate 5 coverage for every accepted and rejected recovery-provenance combination.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-sip-correction\",\"proof_role\":\"The complete Gate 2 binary proves initialized/ready unbound SIP correction, including migration and authored-drift rejection plus empty actor/reason zero-mutation proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"225-serial-01\",\"defer_reason\":null},{\"lane\":\"recovered-spp-correction\",\"proof_role\":\"The complete Gate 5 binary proves reviewed, published, and merge-ready recovery; exact recover_review audit plus qualifying transition correspondence; rejection of stale, transition-only, and audit-only provenance; and empty actor/reason zero-mutation behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"parallel_group\":\"225-serial-02\",\"defer_reason\":null},{\"lane\":\"focused-clippy\",\"proof_role\":\"Reject type, exhaustiveness, and editor owner regressions.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--bin\",\"csdlc-edit\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"225-serial-03\",\"defer_reason\":null},{\"lane\":\"format\",\"proof_role\":\"Require canonical Rust formatting.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"225-serial-04\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and patch defects across the committed branch range.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"225-serial-05\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "subagent:lorentz-019fefab",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "The independently reviewed design and complete typed planning packet are ready for binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Record the bounded implementation before exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added two field-specific semantic editor operations with exact lifecycle, provenance, topology, migration, drift, input, audit, and atomicity guards.\",\"changes\":[\"Correct recovered implemented SPP plan_summary only after corresponding typed review recovery.\",\"Correct initialized or ready unbound SIP operator_constraints without absorbing authored design drift.\",\"Make retained merge-ready review recovery executable and add complete Gate 2 and Gate 5 regression proof.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/evidence/225/validation-summary.json\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Record complete Gate 2 regression proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove the complete initialized, ready, bind, and pre-bind correction surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/225/validation-summary.json\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Record complete Gate 5 regression proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"purpose\":\"Prove review recovery, provenance, summary correction, audit, and rejection boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/225/validation-summary.json\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Record strict editor Clippy proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--bin\",\"csdlc-edit\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject type, exhaustiveness, and warning regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/225/validation-summary.json\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Record canonical formatting proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Require canonical Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/225/validation-summary.json\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Record diff-hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/225/validation-summary.json\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "The bounded implementation and all declared focused validation lanes are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "The design review and binding contract are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Both bounded semantic operations are implemented through the canonical transaction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "The complete Gate 2 and Gate 5 accepted and fail-closed regression sequences pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "Focused validation is complete and independent exact-head re-review is in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "All focused validation lanes and the independent exact-head review passed with no remaining findings.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "Bernoulli:019fefc0-cd6b-7072-84d5-9fc5b78de4d5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

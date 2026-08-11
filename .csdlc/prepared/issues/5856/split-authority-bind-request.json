@@ -1,0 +1,7 @@
+{
+  "issue": 5856,
+  "base_branch": "main",
+  "branch": "codex/5856-quality-release-tail",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5856-quality-release-tail",
+  "code_repository": "agent-logic/agent-design-language"
+}

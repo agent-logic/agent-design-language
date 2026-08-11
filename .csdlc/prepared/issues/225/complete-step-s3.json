@@ -1,0 +1,13 @@
+{
+  "issue": 225,
+  "card": "spp",
+  "expected_generation": 17,
+  "expected_digest": "71f04eab17b5c70daa6a4ac4134d59c049d461c135c533da492f06e419962ca1",
+  "actor": "codex:225-bounded-card-review-repair",
+  "reason": "The complete Gate 2 and Gate 5 accepted and fail-closed regression sequences pass.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S3",
+    "status": "completed"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "issue": 201,
+  "card": "srp",
+  "expected_generation": 23,
+  "expected_digest": "c24df10897530b2d0627c9ac2fee4d9295724521b6aa94ff342c0c5510283c8a",
+  "actor": "codex:/root/resolve_201_208_findings",
+  "reason": "Keep independent review truth aligned with the exact forty-seven-case lineage and source checkpoint and bundle handle proof denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "review_prompts",
+    "values": [
+      "Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?",
+      "Does the existing private artifact view retain byte-identical committed signed bytes only for sealed #199/#200/#203 consumers without replacement or digest-only reconstruction?",
+      "Can only an exact finalized continuity-transfer variant produce the separate sealed #210 ContinuityTransferGrantProjection, with wrong consumer and wrong variant denied?",
+      "Does the #210 projection bind exact lineage, SourceCheckpointHandle identity, byte-identical bundle-handle identity, source, target, route/membership/certificate/boot cuts, exact signed bundle/catalog bytes and digests, entry/chunk/range bounds, deadline, and cleanup identity while rejecting wrong lineage or either wrong handle before source access and exposing no constructor, generic conversion, signing, transport, filesystem, migration, fence, activation, serving, or store-effect authority?",
+      "Does replicated apply consume only committed deterministic time, membership, and artifact evidence, including skew and uncertainty boundaries?",
+      "Do initialization, exact retry, artifact retention, projection retention, result-cache, and external-checkpoint crash windows reconcile without false publication, substitution, or rollback acceptance?",
+      "Are all legacy direct authority commands retired or explicitly versioned fail-closed across apply, log replay, and snapshot restore?",
+      "Does exact proof bind all forty-seven machine cases, protected-source drift, immutable evidence, strict Clippy, and merge topology?"
+    ]
+  }
+}
