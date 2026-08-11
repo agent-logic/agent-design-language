@@ -9,7 +9,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/200/v3/"
+PREFIX = ".csdlc/evidence/200/v4/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_200_CASE_V1 "
@@ -23,6 +23,10 @@ PROTECTED = [
   "adl-runtime/tests/distributed_authority_reconciliation.rs",
   ".csdlc/prepared/issues/200/produce-proof-receipt.rb",
   ".csdlc/prepared/issues/200/validate-proof-receipt.rb"
+].freeze
+PORTABLE_TEST_PATHS = [
+  "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
+  "adl-runtime/tests/distributed_authority_reconciliation.rs"
 ].freeze
 EXPECTED_CASES = %w[
   happy_single_step happy_multi_step exact_retry_cached_result pending_blocks_read
@@ -96,6 +100,9 @@ PROTECTED.each do |relative|
   committed, committed_status = Open3.capture2("git", "show", "#{source}:#{relative}", chdir: ROOT.to_s)
   fail_proof("protected path absent at source: #{relative}") unless committed_status.success?
   fail_proof("protected path dirty: #{relative}") unless Digest::SHA256.hexdigest(committed) == Digest::SHA256.file(path).hexdigest
+end
+PORTABLE_TEST_PATHS.each do |relative|
+  fail_proof("machine-local /private/tmp fixture remains: #{relative}") if File.binread(ROOT.join(relative)).include?("/private/tmp")
 end
 FileUtils.mkdir_p(OUTPUT, mode: 0o700)
 

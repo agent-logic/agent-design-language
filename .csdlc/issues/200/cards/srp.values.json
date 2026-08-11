@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
     "slug": "crash-safe-authority-reconciliation-barrier",
     "version": "v0.92",
-    "generation": 12
+    "generation": 13
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/200\n.csdlc/prepared/issues/200\n.csdlc/evidence/200\nadl-runtime/src/distributed/authority_protocol.rs\nadl-runtime/src/distributed/authority_reconciliation.rs\nadl-runtime/src/distributed/authority_reconciliation/tests.rs\nadl-runtime/src/distributed/mod.rs\nadl-runtime/src/distributed/polis_runtime.rs\nadl-runtime/tests/distributed_authority_reconciliation.rs",
-      "review_revision": "git-blake3:19a0c1e5e8bfc81cdfc0e4404bdd39aa320a265c:efcc31c37bbff3b4811e8ed1912bd14ff30e1d6ef5a4bf33fbb7a02d6730c404",
-      "reviewer": "codex:/root/review_200_impl_19a0",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any caller, raw token, adapter object, closure, receipt, boolean, legacy command, or local history create a plan, result, or permit?",
         "Does every durable phase reconcile exact old/new checkpoint outcomes without duplicating steps or losing completed authority?",
@@ -25,10 +25,8 @@
         "Does the exact proof bind all thirty-six cases and avoid claiming #203/#204 concrete behavior?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Hosted CI and live GitHub merge state remain pending until exact-head publication."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -21,7 +21,8 @@ struct TempDir;
 
 impl TempDir {
     fn new() -> std::io::Result<tempfile::TempDir> {
-        tempfile::TempDir::new_in("/private/tmp")
+        let root = std::env::current_dir()?.canonicalize()?;
+        tempfile::TempDir::new_in(root)
     }
 }
 

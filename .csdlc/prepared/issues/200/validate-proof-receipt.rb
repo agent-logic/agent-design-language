@@ -8,7 +8,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/200/v3/"
+PREFIX = ".csdlc/evidence/200/v4/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = [
   "adl-runtime/src/distributed/mod.rs",
@@ -19,6 +19,10 @@ EXPECTED_PROTECTED = [
   "adl-runtime/tests/distributed_authority_reconciliation.rs",
   ".csdlc/prepared/issues/200/produce-proof-receipt.rb",
   ".csdlc/prepared/issues/200/validate-proof-receipt.rb"
+].freeze
+PORTABLE_TEST_PATHS = [
+  "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
+  "adl-runtime/tests/distributed_authority_reconciliation.rs"
 ].freeze
 EXPECTED_CASES = %w[
   happy_single_step happy_multi_step exact_retry_cached_result pending_blocks_read
@@ -85,6 +89,9 @@ protected = proof.fetch("protected_files")
 fail_receipt("protected denominator mismatch") unless protected.map { |entry| entry["path"] } == EXPECTED_PROTECTED
 protected.each do |entry|
   fail_receipt("protected digest drift: #{entry['path']}") unless Digest::SHA256.file(ordinary(entry.fetch("path"))).hexdigest == entry.fetch("sha256")
+end
+PORTABLE_TEST_PATHS.each do |relative|
+  fail_receipt("machine-local /private/tmp fixture remains: #{relative}") if File.binread(ordinary(relative)).include?("/private/tmp")
 end
 fail_receipt("test summary mismatch") unless proof["test_summary"] == { "selected" => 36, "passed" => 36, "skipped" => 0 }
 fail_receipt("result summary mismatch") unless proof["result_summary"] == { "passed" => 4, "reconciled" => 5, "rejected" => 27 }

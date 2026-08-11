@@ -3,45 +3,14 @@
   "issue": 200,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
-  "phase": "published",
-  "generation": 12,
-  "digest": "01f0cd15c0a665836ac21f58c800cdfae3e4bc40e9a6afb3232eb1bb656cc4cc",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "0761d9e644f875ced9ac63df620d090b01759a6a19d6e5367edb25bb60efaa63",
   "branch": "codex/200-concrete-authority-reconciliation-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-200-concrete-authority-reconciliation-preparation",
   "review_assignment": null,
-  "review": {
-    "reviewer": "codex:/root/review_200_impl_19a0",
-    "scope": [
-      ".csdlc/issues/200",
-      ".csdlc/prepared/issues/200",
-      ".csdlc/evidence/200",
-      "adl-runtime/src/distributed/authority_protocol.rs",
-      "adl-runtime/src/distributed/authority_reconciliation.rs",
-      "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
-      "adl-runtime/src/distributed/mod.rs",
-      "adl-runtime/src/distributed/polis_runtime.rs",
-      "adl-runtime/tests/distributed_authority_reconciliation.rs"
-    ],
-    "reviewed_revision": "git-blake3:19a0c1e5e8bfc81cdfc0e4404bdd39aa320a265c:efcc31c37bbff3b4811e8ed1912bd14ff30e1d6ef5a4bf33fbb7a02d6730c404",
-    "findings": [],
-    "residual_risks": [
-      "Hosted CI and live GitHub merge state remain pending until exact-head publication."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 200,
-    "pull_request": 231,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/231",
-    "base": "main",
-    "head": "codex/200-concrete-authority-reconciliation-preparation",
-    "revision": "git-blake3:46513d3b9383c215095ccf55563225ea17cbd03f:6a1786176906abf5af22121c67ccbfb075b9a59e07f91ea3e3a246f3d85d3a01",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -55,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f2ee271ed78c160674bcd4f362dc124e4c076f7d9962628a2f66c1037e376be5",
+      "values_digest": "071578d618bd39dd5d9141f83e218c8d71404cddb9481a6a7a7f7ebe19954c37",
       "rendered_digest": "2bf7b8cfacd8ddd000f15d512793721dd8a66a41495705e6eea0e4720f11b449",
       "ast_digest": "923d2e83e0be4ba4a7d60955f63d16ee37ccd6f57575b3d316923eec9d5a102c"
     },
     "stp": {
-      "values_digest": "768ffa52e6f15cd626dbd08cc5993b41d8a84b9a4a42ba4a944136134c99e1ce",
+      "values_digest": "ff5c1882da14aa921e4531fb00cb7a94d06983b6ebe6cf83ba0a459eb43e9cf6",
       "rendered_digest": "b57d439d1570e4d0f8228d5c1801e852b4ef66b058757c8f52598b0191fdc466",
       "ast_digest": "ed3f711248a7c94c706cb3ef8eba0be4f78f4cb1890030f4e03aa319a4dc9fae"
     },
     "spp": {
-      "values_digest": "f9bf082574ae6b80b94b19234750c81135b4d76d75efbb2983fc68838793cbb4",
+      "values_digest": "fa658055c5b3d2da435887053c0e86136d9e050c79f0e5682de70fb2aedbd4ee",
       "rendered_digest": "463d42373389c9b38afd2186ceea1e293e9e6ddf5168f01c0b5e02619a502e68",
       "ast_digest": "96803f5ab0254cb9acbd5e3278f7a0065f10e72344dce3fab24f755267af92f6"
     },
     "vpp": {
-      "values_digest": "0c2bfad43d28d65e9d48ee8bd7e4f3a3e5bb600b566615840e243b4099b5ac0b",
+      "values_digest": "b58c18f6a9e561fcb6a59f1304958179edc7c0b8663410d7d899100bfa80cc81",
       "rendered_digest": "b19adcd318fa48f408a267f17c2a1f74c54cc933155eb4f1c75c9edaff1413b7",
       "ast_digest": "af01edb6ae4e6432d48e99719f6c2eec6f31c3afbd0c0ae7d0e33c079cf9e479"
     },
     "srp": {
-      "values_digest": "0f62fa0eef0caad2789bc160bab5edabf1de31eabbba378e4599c49b8478d106",
-      "rendered_digest": "2024e5b9cedde821a7907051ee2aeced0a7200f76ad3b6bd9b4e6871946ba0fe",
-      "ast_digest": "f99ea453e01564979f31c0eb17635a1c1db41bd3b808950c5b5ac54f19689381"
+      "values_digest": "956b85aace7a505ab1671714fd0ce3cc95ae374f6fa9ad4b01e89466b47367e2",
+      "rendered_digest": "79b745015647e53a89d72550c999b47163e55e9efc7fd229bee8819732e72f50",
+      "ast_digest": "eb134f8926f936f6b01425a01def31ffcec5ae04ff6ec1a93e8443527baa94dc"
     },
     "sor": {
-      "values_digest": "241cf2b9e06609183c02feba7dbd8c524102b81521b5723113860c0f95cd7ab8",
-      "rendered_digest": "0326f1820042992f69a40bc5de70b68fd75c2702bcb631ea222feb328ed83378",
-      "ast_digest": "52e34f2ffae7dd06706a12ca8ec5bc8139d6a1c8d0fc14cda6b522c33e15845b"
+      "values_digest": "cc3d2fa1695c62c0d0bdc9101e32659dfcfa2022c0aa6a059a80980df9c00b83",
+      "rendered_digest": "0f41f1f9992c51dab93137b99d31109522c15593eb26a751ea14f6e7c312d153",
+      "ast_digest": "0744db1d82670ddef795d1adeb52c8a8197e0924de8c9b237609ddea5ffb23d8"
     }
   },
   "transitions": [
@@ -120,6 +89,13 @@
       "to": "published",
       "actor": "codex:/root/advance_200_after_201",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Hosted Runtime coverage exposed that the issue-200 test fixtures hard-code the macOS-only /private/tmp root, causing 17 immediate NotFound failures on Linux. Recover published review truth for a bounded portable symlink-safe test-root repair, regenerated exact proof, typed execution truth, and fresh independent review."
     }
   ],
   "audit": [
@@ -220,6 +196,13 @@
       "actor": "codex:/root/advance_200_after_201",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Hosted Runtime coverage exposed that the issue-200 test fixtures hard-code the macOS-only /private/tmp root, causing 17 immediate NotFound failures on Linux. Recover published review truth for a bounded portable symlink-safe test-root repair, regenerated exact proof, typed execution truth, and fresh independent review.",
+      "operation": "recover_review"
     }
   ]
 }

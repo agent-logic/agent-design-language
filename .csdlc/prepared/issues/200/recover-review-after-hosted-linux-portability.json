@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 200,
+  "expected_generation": 12,
+  "expected_digest": "01f0cd15c0a665836ac21f58c800cdfae3e4bc40e9a6afb3232eb1bb656cc4cc",
+  "actor": "codex:/root/advance_200_after_201",
+  "reason": "Hosted Runtime coverage exposed that the issue-200 test fixtures hard-code the macOS-only /private/tmp root, causing 17 immediate NotFound failures on Linux. Recover published review truth for a bounded portable symlink-safe test-root repair, regenerated exact proof, typed execution truth, and fresh independent review."
+}

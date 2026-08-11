@@ -45,9 +45,16 @@ fn identity() -> AuthorityReconciliationIdentity {
     }
 }
 
+fn temp_root() -> tempfile::TempDir {
+    let root = std::env::current_dir()
+        .and_then(std::fs::canonicalize)
+        .expect("current test directory must have a canonical symlink-free path");
+    tempfile::TempDir::new_in(root).expect("portable repository-local test root")
+}
+
 #[test]
 fn authority_reconciliation_missing_201_token() {
-    let root = tempfile::TempDir::new_in("/private/tmp").unwrap();
+    let root = temp_root();
     let barrier = AuthorityReconciliationBarrier::open(
         root.path(),
         identity(),
@@ -60,7 +67,7 @@ fn authority_reconciliation_missing_201_token() {
 
 #[test]
 fn authority_reconciliation_public_token_forgery_denied() {
-    let root = tempfile::TempDir::new_in("/private/tmp").unwrap();
+    let root = temp_root();
     let barrier = AuthorityReconciliationBarrier::open(
         root.path(),
         identity(),
