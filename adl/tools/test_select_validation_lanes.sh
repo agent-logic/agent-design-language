@@ -6,7 +6,14 @@ SCRIPT="$ROOT/adl/tools/select_validation_lanes.sh"
 MANAGER="$ROOT/adl/tools/validation_manager.sh"
 TMP="$(mktemp -d)"
 UNTRACKED_FIXTURE="$ROOT/docs/architecture/__selector_untracked_fixture__.md"
-trap 'rm -rf "$TMP" "$UNTRACKED_FIXTURE"' EXIT
+JAVASCRIPT_VALIDATOR_FIXTURE=""
+cleanup() {
+  rm -rf "$TMP" "$UNTRACKED_FIXTURE"
+  if [[ -n "$JAVASCRIPT_VALIDATOR_FIXTURE" ]]; then
+    rm -f "$JAVASCRIPT_VALIDATOR_FIXTURE"
+  fi
+}
+trap cleanup EXIT
 
 assert_has() {
   local file="$1"
@@ -33,20 +40,22 @@ assert_not_has() {
 assert_observatory_tooling_run() {
   local report="$1"
   local expected_path="$2"
-  python3 - <<'PY' "$report" "$expected_path"
+  local expected_lane="$3"
+  python3 - <<'PY' "$report" "$expected_path" "$expected_lane"
 import json
 import sys
 
 plan = json.load(open(sys.argv[1]))
 expected_path = sys.argv[2]
+expected_lane = sys.argv[3]
 selected = sorted(
     lane_id
     for lane_id, lane in plan["lanes"].items()
     if lane["status"] == "selected"
 )
-lane = plan["lanes"]["html_observatory_tooling_syntax"]
+lane = plan["lanes"][expected_lane]
 assert plan["run_status"] == "passed", json.dumps(plan, indent=2, sort_keys=True)
-assert selected == ["html_observatory_tooling_syntax"], selected
+assert selected == [expected_lane], selected
 assert lane["matched_paths"] == [expected_path], lane["matched_paths"]
 assert lane["resource_class"] == "tiny", lane["resource_class"]
 assert lane["run_status"] == "passed", lane
@@ -186,20 +195,39 @@ bash "$SCRIPT" --changed-files "$shell_tool" --run \
   >"$TMP/html-observatory-shell-tool-run.out"
 assert_observatory_tooling_run \
   "$TMP/html-observatory-shell-tool-run.json" \
-  "adl/tools/test_html_observatory.sh"
+  "adl/tools/test_html_observatory.sh" \
+  "html_observatory_tooling_syntax"
 
 javascript_tool="$TMP/html-observatory-javascript-tool.txt"
 printf 'M\tadl/tools/validate_v092_html_observatory_roster.mjs\n' >"$javascript_tool"
 bash "$SCRIPT" --changed-files "$javascript_tool" >"$TMP/html-observatory-javascript-tool.out"
-assert_has "$TMP/html-observatory-javascript-tool.out" "html_observatory_tooling_syntax status=selected"
+assert_has "$TMP/html-observatory-javascript-tool.out" "html_observatory_roster_javascript_syntax status=selected"
 assert_has "$TMP/html-observatory-javascript-tool.out" "node --check adl/tools/validate_v092_html_observatory_roster.mjs"
 assert_not_has "$TMP/html-observatory-javascript-tool.out" "html_observatory_v0917_runtime_surface status=selected"
+javascript_validator="$ROOT/adl/tools/validate_v092_html_observatory_roster.mjs"
+javascript_validator_created=false
+if [[ ! -e "$javascript_validator" ]]; then
+  printf 'export const observatoryRosterValidator = true;\n' >"$javascript_validator"
+  javascript_validator_created=true
+  JAVASCRIPT_VALIDATOR_FIXTURE="$javascript_validator"
+fi
 bash "$SCRIPT" --changed-files "$javascript_tool" --run \
   --report-out "$TMP/html-observatory-javascript-tool-run.json" \
   >"$TMP/html-observatory-javascript-tool-run.out"
 assert_observatory_tooling_run \
   "$TMP/html-observatory-javascript-tool-run.json" \
-  "adl/tools/validate_v092_html_observatory_roster.mjs"
+  "adl/tools/validate_v092_html_observatory_roster.mjs" \
+  "html_observatory_roster_javascript_syntax"
+if [[ "$javascript_validator_created" == true ]]; then
+  rm "$javascript_validator"
+  JAVASCRIPT_VALIDATOR_FIXTURE=""
+  if bash "$SCRIPT" --changed-files "$javascript_tool" --run \
+    --report-out "$TMP/html-observatory-javascript-tool-missing.json" \
+    >"$TMP/html-observatory-javascript-tool-missing.out" 2>&1; then
+    echo "expected a deleted Observatory JavaScript validator to fail closed" >&2
+    exit 1
+  fi
+fi
 
 printf 'if then\n' >"$TMP/invalid-observatory-tool.sh"
 if bash -n "$TMP/invalid-observatory-tool.sh" >/dev/null 2>&1; then
