@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "774ca04350cdf785cc8bd0364c3ebcea1d0eba5053e52e9d29b361b12fcb5305",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "59c43730677105987d380c75eb28d3b8c841591509a22986946bfb3a4b5f355f",
+  "generation": 2,
+  "digest": "9b975f2baf07c11d36ffe7e542d50f8bcced29fb729de9bf33ef7cc387160d1b",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "96655ee01acd3e1c8dcc089654b70be7925e269c84509c6f6f30c361040cdd91",
+      "values_digest": "ef79f8a0be3b9ff80d5c0b994d89f959bb27fa3e895a6af959c709d144cd3668",
       "rendered_digest": "a60e051ab76b7e2c14b312d41b49f0ca1126b95c135ab29a8c4be905a85297e4",
       "ast_digest": "4063d55bddde1674f2f8428041b237a3945a27ba55bdbfbe7fd37a480644d974"
     },
     "stp": {
-      "values_digest": "ae7bf17ad4b554b9894e39d53e9a034a5f77fba0f178948aa23639fa076b0985",
-      "rendered_digest": "06f71cc51c299002147a49a71abdf741a9e8e51d5cf0db9e0183538f3eb1152e",
-      "ast_digest": "d8f3fbaa12918eb780261174bf544ad0e0bda3f36863188bb1507cadeedd0760"
+      "values_digest": "8bb375be98c5dad60a4c188b238d3597e2447581ea617c40dae2f07a06447944",
+      "rendered_digest": "643c89c51df13de7bca9675ee929655c57d89f76c96f14f3505819f9306d2411",
+      "ast_digest": "675edc77ac19ccaecd4f6cea59332ca9be73fb6b88194eb6dafdf8a7ae713028"
     },
     "spp": {
-      "values_digest": "efc17b50f10ebd06ccc3c5d5ceaa564ae3f28418f2dc4c6a9a3139fb4503c069",
+      "values_digest": "612502a02d46b713313a999e7fff9a5d681d62fd97b851761a9f2963b4934ea8",
       "rendered_digest": "b438ea924d970b45bb992f7c4e97c34879d0c4c69bb528d99142be1752a6f650",
       "ast_digest": "a1cb963b86313df959241200d5193df2e8a06d093e84606eac5d84c2cfe4354e"
     },
     "vpp": {
-      "values_digest": "76a4592eee92846b25aaf947d2d988169318c5848726d609c41b770a3a03caf5",
-      "rendered_digest": "e82f6652f6a5a2edf4d65dd309fbb6f6362284f09be74f6831b018c48bb6e0b5",
-      "ast_digest": "569cb71cb129c67a425d06bb2185c98142e350dfb059c1b285d211e6f404f4a2"
+      "values_digest": "191a503d8268847bf34ae1283db47311fcd224e9e2530cc8b469506eb7e7e777",
+      "rendered_digest": "6a1bfea17420b528a02d8e941e6d07f6daa768b2a0385026724ef2320bb0a82a",
+      "ast_digest": "cab2cbf6cdb4fcc987533fb43ac1c7d3486ee984f32a8eb406d2ef39078f3ed7"
     },
     "srp": {
-      "values_digest": "a68722b301749547fc853e11a1b7fe16e0171a52a578f95b048eaf8e8b93c5d8",
+      "values_digest": "367276fc436ef05c797d50508e5cf0f5cce0b633fc87d520a54172e05d27e49f",
       "rendered_digest": "3ebf382ba5b3471dc14cefc26110c52ad055ee603ae3a930e2f6af2a555dd243",
       "ast_digest": "767b96e556d6cba818e2ea71184d4f43dcd126d5c7ce08c981ed14df2555db10"
     },
     "sor": {
-      "values_digest": "6ee39656ea4d9187463dcfe110e77570896738e8dcae388588b595fff001ddc2",
+      "values_digest": "55f57a2f3d0a91be4fa5098c029d24e1852513e143be02dcb6a396885196090c",
       "rendered_digest": "3b76e487b5000da5c68d56af5001f9a23b07fdcabd02c09af8a7698089a234a7",
       "ast_digest": "57731f65564bf158d2cc7dfa5ff39d3eb2fa70d1b090a7ffcfe897c308d46695"
     }
@@ -62,6 +62,20 @@
       "actor": "codex:116-operator-attention-preparation",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:116-readiness-repair",
+      "reason": "repair issue-specific validation ownership before readiness",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"attention-exact-child-tests\",\"proof_role\":\"Exact nonzero issue-owned target proves lifecycle, schema, authorization, queue bounds, deduplication, expiry, overload, spoofing, restart, reconnect, recovery, projection, and operator outcome invariants.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"operator_attention\",\"--no-tests=fail\"],\"parallel_group\":\"attention-runtime\",\"defer_reason\":\"The issue-owned temporary #[path = \\\"../src/operator_attention.rs\\\"] harness in adl-runtime/tests/operator_attention.rs will route adl-runtime/src/operator_attention.rs until integration registration; --no-tests=fail preserves the nonzero requirement.\"},{\"lane\":\"attention-api-browser-validator\",\"proof_role\":\"Run the dedicated issue-owned API/browser validator against live Runtime truth and require nonzero attention-inbox assertions for authorized listing, unread projection, filters, deep links, acknowledge, reply, defer, resolve, refuse, notification preferences, refusal and degradation, restart, reconnect, stale cache, and duplicate suppression.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"bash\",\"adl/tools/test_v092_operator_attention_inbox.sh\"],\"parallel_group\":\"attention-api-browser\",\"defer_reason\":\"Deferred and fail closed during preparation: #111, #112, and #114 must be terminal, merged, ancestral, and handed off before issue #116 implements this exact validator target; a missing validator, unavailable live Runtime API/browser surface, skipped proof, or zero attention-inbox assertions must fail.\"},{\"lane\":\"attention-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before exact-head review.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"attention-static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:116-readiness-repair",
+      "reason": "declare the dedicated deferred API/browser validator as an issue deliverable",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/operator_attention.rs\",\"adl-runtime/tests/operator_attention.rs\",\"Typed attention request, lifecycle, projection, policy decision, and receipt schemas\",\"Observatory inbox integration with accessible operator outcomes and explicit failure states\",\"adl/tools/test_v092_operator_attention_inbox.sh\",\"Focused deterministic positive, adversarial, restart, reconnect, recovery, browser, and exact-head review proof\"]}"
     }
   ]
 }

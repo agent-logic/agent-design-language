@@ -53,23 +53,25 @@ Diagram: .csdlc/prepared/issues/116/diagram.mmd
     "defer_reason": "The issue-owned temporary #[path = \"../src/operator_attention.rs\"] harness in adl-runtime/tests/operator_attention.rs will route adl-runtime/src/operator_attention.rs until integration registration; --no-tests=fail preserves the nonzero requirement."
   },
   {
-    "lane": "html-observatory-existing-contract",
-    "proof_role": "Preserve the checked-in HTML Observatory Runtime v3 feed, event, signed-control, endpoint-selection, and browser rejection baseline before the dedicated #116 browser validator is added through typed VPP replan after bind.",
+    "lane": "attention-api-browser-validator",
+    "proof_role": "Run the dedicated issue-owned API/browser validator against live Runtime truth and require nonzero attention-inbox assertions for authorized listing, unread projection, filters, deep links, acknowledge, reply, defer, resolve, refuse, notification preferences, refusal and degradation, restart, reconnect, stale cache, and duplicate suppression.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
+      "AC-5",
       "AC-6",
       "AC-7"
     ],
     "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 3000,
+    "resource_profile": "medium",
+    "budget_seconds": 1200,
+    "budget_tokens": 12000,
     "argv": [
-      "adl/tools/test_html_observatory.sh"
+      "bash",
+      "adl/tools/test_v092_operator_attention_inbox.sh"
     ],
-    "parallel_group": "attention-browser-contract",
-    "defer_reason": null
+    "parallel_group": "attention-api-browser",
+    "defer_reason": "Deferred and fail closed during preparation: #111, #112, and #114 must be terminal, merged, ancestral, and handed off before issue #116 implements this exact validator target; a missing validator, unavailable live Runtime API/browser surface, skipped proof, or zero attention-inbox assertions must fail."
   },
   {
     "lane": "attention-diff-hygiene",
@@ -104,7 +106,7 @@ Tokens: 50000
 ## Commands
 
 - `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test operator_attention --no-tests=fail`
-- `adl/tools/test_html_observatory.sh`
+- `bash adl/tools/test_v092_operator_attention_inbox.sh`
 - `git diff --check`
 
 ## Failure Semantics

@@ -20,6 +20,7 @@ Preparation now; later implementation only after serial gates. Own the attention
 - adl-runtime/tests/operator_attention.rs
 - Typed attention request, lifecycle, projection, policy decision, and receipt schemas
 - Observatory inbox integration with accessible operator outcomes and explicit failure states
+- adl/tools/test_v092_operator_attention_inbox.sh
 - Focused deterministic positive, adversarial, restart, reconnect, recovery, browser, and exact-head review proof
 
 ## Acceptance
