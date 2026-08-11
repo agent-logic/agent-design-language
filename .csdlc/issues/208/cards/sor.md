@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved all five actionable findings from the latest independent #208 review. Guardian restart now securely restores exact TargetCleanupPermit custody and rejects missing, corrupt, conflicting, or relabeled journal state; retained source state rejects root-generation relabel; source resume and every participant/admission reopen effect remain behind one absolute-deadline and cancellation guard; a real ProductionPolisRuntime crosses the private TLS listener into actual source_checkpoint_210 and activate_target_204 kernel effects across restart; and deterministic test teardown removes the prior no-LEAK race. Fresh v4 evidence at 8ad54ad7c40dd3553c0fc2e00463b2c2b18d1d30 proves 21/21 Runtime tests, repeated 35/35 kernel tests without LEAK, both strict Clippy lanes, exact 56/64/12 parity, and clean exact-range diff. Distinct exact-head rereview remains pending; publication and merge remain untouched.
+Resolved the three actionable findings from the independent review of #208. Participant resume and final admission effects now remain cancellation- and absolute-deadline-bound while awaiting live locks; Guardian bootstrap reconstructs cleanup-permit custody solely from canonical ordered StageTarget, ActivateTarget, and DiscardTarget history and rejects missing, extra, conflicting, or corrupt custody; and fixture teardown explicitly proves zero residue. Fresh v4 evidence at 0840e1517b430a21069c29d7fc5e485e7a6b5959 proves 21/21 Runtime tests, repeated 35/35 kernel tests, repeated isolated and concurrent zero-LEAK lanes, both strict Clippy lanes, exact 56/64/12 parity, current-main ancestry, and clean exact-range diff. Distinct exact-head rereview remains pending; publication and merge remain untouched.
 
 ## Artifacts
 
@@ -38,14 +38,11 @@ Resolved all five actionable findings from the latest independent #208 review. G
 
 ## Execution
 
-- Made ProductionPolisRuntime the production owner and caller of sealed #210 source/transfer and #204 activation/resume/discard continuity effects, with a distinct boot-trusted migration-decision key.
-- Connected ingress, accepted-prefix, governance, all operational factories, and reasoning mutation to durable live quiesce/checkpoint/reverse-resume effects, retaining exact retry and fail-closed conflict semantics.
-- Persisted TargetCleanupPermit custody in the Guardian client journal, atomically reconciled it with stage, root, catalog, channel, activation, and discard state on restart, and rejected missing, corrupt, rollback, alias, and conflict forms.
-- Persisted and compared retained source root_generation so restart cannot relabel a durable source generation.
-- Threaded one absolute deadline and cancellation guard through ResumeSource, every participant reopen effect, and final admission reopen so no effect commits after the boundary.
-- Kept restart reconciliation exact for signed catalogs, opaque handles, cleanup and chunk receipts, trusted generations, decisions, and active-target state while using descriptor-relative no-follow durable I/O.
-- Added a real production Runtime through private TLS into actual source_checkpoint_210 and activate_target_204 kernel effects, including restart restoration and corruption/conflict rejection.
-- Moved kernel evidence scanning after all fixture-owned resources drop, eliminating the discard_exact_retry/general teardown LEAK race without sleeps or hidden routing policy.
+- Bounded every live operation-factory resume and the reasoning/final-ingress resume path by the remaining absolute deadline and cancellation selection, dropping pending lock/effect futures at the boundary so they cannot reopen later.
+- Added during-await cancellation and expiry regressions that retain the admission lock across the boundary, then prove releasing it cannot cause a late reopen.
+- Upgraded the Guardian client journal to retain each exact canonical command and reconstruct expected cleanup-permit custody from contiguous ordered accepted history, validating operation keys, command digests, completed response digests, stage creation, activation, and discard before accepting persisted custody.
+- Added restart corruption proof for semantically missing permits, self-consistent extra permits, corrupt and aliased permits, and resurrection of custody already consumed by terminal activation history.
+- Made both behavior harnesses explicitly close their temporary roots after all fixture-owned resources drop, surfacing any teardown residue immediately and proving repeated isolated and concurrent full lanes without LEAK.
 
 ## Validation
 
@@ -62,7 +59,7 @@ Resolved all five actionable findings from the latest independent #208 review. G
       "kernel_continuity_client",
       "--no-tests=fail"
     ],
-    "purpose": "Prove the production Runtime continuity owner, real private TLS-to-kernel effects, durable cleanup custody, and exact denominator.",
+    "purpose": "Prove the production Runtime continuity owner, private TLS-to-kernel effects, reconstructed cleanup custody, restart corruption rejection, explicit teardown, and exact denominator.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/runtime-nextest.stderr.log: 21 passed"
   },
@@ -78,7 +75,7 @@ Resolved all five actionable findings from the latest independent #208 review. G
       "kernel_continuity_control",
       "--no-tests=fail"
     ],
-    "purpose": "Prove live participant continuity, bounded resume, restart reconciliation, exact retries, filesystem safety, and deterministic no-LEAK teardown.",
+    "purpose": "Prove live participant continuity, in-flight bounded resume, restart reconciliation, exact retries, filesystem safety, explicit teardown, and exact denominator.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/kernel-nextest.stderr.log: 35 passed"
   },
@@ -98,7 +95,7 @@ Resolved all five actionable findings from the latest independent #208 review. G
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings across the production Runtime, Guardian, sealed role ports, and behavioral TLS tests.",
+    "purpose": "Reject warnings across the production Runtime, Guardian, sealed role ports, journal reconstruction, and behavioral TLS tests.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/runtime-clippy.stderr.log"
   },
@@ -118,7 +115,7 @@ Resolved all five actionable findings from the latest independent #208 review. G
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings across kernel effects, persistence, private server, and behavior tests.",
+    "purpose": "Reject warnings across kernel effects, bounded resume, persistence, private server, and behavior tests.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/kernel-clippy.stderr.log"
   },
@@ -127,7 +124,7 @@ Resolved all five actionable findings from the latest independent #208 review. G
       "ruby",
       ".csdlc/prepared/issues/208/verify-diff-hygiene.rb"
     ],
-    "purpose": "Verify exact execution-base-to-source diff hygiene and ancestry.",
+    "purpose": "Verify exact execution-base-to-source diff hygiene and current-main ancestry.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/diff-hygiene.stdout.log"
   },
@@ -136,7 +133,7 @@ Resolved all five actionable findings from the latest independent #208 review. G
       "ruby",
       ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
     ],
-    "purpose": "Produce fresh canonical behavior evidence with exact 56/64/12 parity and no LEAK.",
+    "purpose": "Produce fresh canonical behavior evidence with exact 56/64/12 parity and no LEAK sentinel.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/208/v4/execution-proof.json"
   }
