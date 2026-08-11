@@ -3,13 +3,15 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
+use adl_runtime::distributed::polis_runtime::PolisRuntimeContinuityCapability;
 use adl_runtime_kernel::{
     decode_canonical, sha256, BeginOperation, CertificateSuccession, ContinuityCommand,
     ContinuityControlBounds, ContinuityControlError, ContinuityControlInitConfig,
     ContinuityControlTlsConfig, ContinuityEnvelope, ContinuityOperation, ContinuityOperationKind,
     ContinuityReply, ContinuityResponse, ContinuityResultState, DurableContinuityJournal,
-    CONTROL_REQUEST_SCHEMA,
+    RuntimeInitConfig, CONTROL_REQUEST_SCHEMA,
 };
+use base64::{engine::general_purpose::STANDARD as BASE64, Engine as _};
 use tempfile::TempDir;
 
 use rcgen::{
@@ -142,6 +144,7 @@ fn assert_denied(result: Result<BeginOperation, ContinuityControlError>) {
 struct TlsLeaf {
     certificate: CertificateDer<'static>,
     private_key: Vec<u8>,
+    spki_sha256: String,
 }
 
 fn tls_ca() -> CertifiedIssuer<'static, KeyPair> {
@@ -167,10 +170,71 @@ fn tls_leaf(
     params.extended_key_usages = vec![eku];
     let key = KeyPair::generate_for(&PKCS_ED25519).unwrap();
     let certificate = params.signed_by(&key, issuer).unwrap().der().clone();
+    let public_key_pem = key.public_key_pem();
+    let public_key_der = BASE64
+        .decode(
+            public_key_pem
+                .lines()
+                .filter(|line| !line.starts_with("-----"))
+                .collect::<String>(),
+        )
+        .unwrap();
     TlsLeaf {
         certificate,
         private_key: key.serialize_der(),
+        spki_sha256: sha256(&public_key_der),
     }
+}
+
+fn pem(label: &str, der: &[u8]) -> String {
+    format!(
+        "-----BEGIN {label}-----\n{}\n-----END {label}-----\n",
+        BASE64.encode(der)
+    )
+}
+
+async fn actual_production_capability_init(root: &Path) {
+    let authority = tls_ca();
+    let guardian = tls_leaf(
+        &authority,
+        "guardian-logical",
+        ExtendedKeyUsagePurpose::ClientAuth,
+    );
+    let tls_root = root.join("live-init-tls");
+    std::fs::create_dir_all(&tls_root).unwrap();
+    let guardian_cert = tls_root.join("guardian.pem");
+    let guardian_key = tls_root.join("guardian.key");
+    let roots = tls_root.join("roots.pem");
+    std::fs::write(
+        &guardian_cert,
+        pem("CERTIFICATE", guardian.certificate.as_ref()),
+    )
+    .unwrap();
+    std::fs::write(&guardian_key, pem("PRIVATE KEY", &guardian.private_key)).unwrap();
+    std::fs::write(&roots, pem("CERTIFICATE", authority.der().as_ref())).unwrap();
+
+    let mut init: RuntimeInitConfig =
+        toml::from_str(include_str!("../../infra/runtime-v3/runtime-init.toml")).unwrap();
+    init.state_root = root.to_path_buf();
+    let mut continuity = config(root);
+    for directory in [
+        &continuity.guardian_state_dir,
+        &continuity.state_dir,
+        &continuity.staging_dir,
+    ] {
+        std::fs::create_dir_all(directory).unwrap();
+    }
+    continuity.tls.guardian_certificate_chain_path = guardian_cert;
+    continuity.tls.guardian_private_key_path = guardian_key;
+    continuity.tls.guardian_trust_roots_path = roots;
+    continuity.tls.guardian_spki_sha256 = guardian.spki_sha256;
+    continuity.tls.successor = None;
+    init.continuity_control = Some(continuity);
+    let capability = PolisRuntimeContinuityCapability::from_runtime_init(&init)
+        .await
+        .unwrap();
+    let _transfer = capability.transfer_210();
+    let _migration = capability.migration_204();
 }
 
 fn private_key(bytes: &[u8]) -> PrivateKeyDer<'static> {
@@ -257,9 +321,112 @@ fn actual_tls13_mtls_round_trip() {
             .1
             .export_keying_material(&mut client_exporter, b"issue-208-mtls-proof", None)
             .unwrap();
+        let mut wrong_label_exporter = [0_u8; 32];
+        tls.get_ref()
+            .1
+            .export_keying_material(
+                &mut wrong_label_exporter,
+                b"issue-208-mtls-proof-wrong-label",
+                None,
+            )
+            .unwrap();
+        assert_ne!(client_exporter, wrong_label_exporter);
         tls.write_u8(41).await.unwrap();
         assert_eq!(tls.read_u8().await.unwrap(), 42);
         assert_eq!(server_task.await.unwrap(), client_exporter);
+
+        let valid_guardian = tls_leaf(
+            &authority,
+            "guardian-logical",
+            ExtendedKeyUsagePurpose::ClientAuth,
+        );
+        let older_client = Arc::new(
+            ClientConfig::builder_with_protocol_versions(&[&rustls::version::TLS12])
+                .with_root_certificates(roots.clone())
+                .with_client_auth_cert(
+                    vec![valid_guardian.certificate.clone()],
+                    private_key(&valid_guardian.private_key),
+                )
+                .unwrap(),
+        );
+        let verifier = WebPkiClientVerifier::builder(Arc::new(roots.clone()))
+            .build()
+            .unwrap();
+        let tls13_server = tls_leaf(
+            &authority,
+            "kernel-control",
+            ExtendedKeyUsagePurpose::ServerAuth,
+        );
+        let tls13_server = Arc::new(
+            ServerConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
+                .with_client_cert_verifier(verifier)
+                .with_single_cert(
+                    vec![tls13_server.certificate],
+                    private_key(&tls13_server.private_key),
+                )
+                .unwrap(),
+        );
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let address = listener.local_addr().unwrap();
+        let server_task = tokio::spawn(async move {
+            let (tcp, _) = listener.accept().await.unwrap();
+            tokio_rustls::TlsAcceptor::from(tls13_server)
+                .accept(tcp)
+                .await
+                .is_err()
+        });
+        let tcp = tokio::net::TcpStream::connect(address).await.unwrap();
+        assert!(
+            tokio_rustls::TlsConnector::from(older_client)
+                .connect(ServerName::try_from("localhost").unwrap(), tcp)
+                .await
+                .is_err()
+                || server_task.await.unwrap()
+        );
+
+        let bad_server = tls_leaf(
+            &authority,
+            "kernel-control",
+            ExtendedKeyUsagePurpose::ClientAuth,
+        );
+        let verifier = WebPkiClientVerifier::builder(Arc::new(roots.clone()))
+            .build()
+            .unwrap();
+        let bad_server = Arc::new(
+            ServerConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
+                .with_client_cert_verifier(verifier)
+                .with_single_cert(
+                    vec![bad_server.certificate],
+                    private_key(&bad_server.private_key),
+                )
+                .unwrap(),
+        );
+        let valid_client = Arc::new(
+            ClientConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
+                .with_root_certificates(roots.clone())
+                .with_client_auth_cert(
+                    vec![valid_guardian.certificate],
+                    private_key(&valid_guardian.private_key),
+                )
+                .unwrap(),
+        );
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let address = listener.local_addr().unwrap();
+        let server_task = tokio::spawn(async move {
+            let (tcp, _) = listener.accept().await.unwrap();
+            tokio_rustls::TlsAcceptor::from(bad_server)
+                .accept(tcp)
+                .await
+                .is_err()
+        });
+        let tcp = tokio::net::TcpStream::connect(address).await.unwrap();
+        assert!(
+            tokio_rustls::TlsConnector::from(valid_client)
+                .connect(ServerName::try_from("localhost").unwrap(), tcp)
+                .await
+                .is_err()
+                || server_task.await.unwrap()
+        );
 
         for denied in [server_only, unknown] {
             let client = Arc::new(
@@ -303,10 +470,13 @@ fn actual_tls13_mtls_round_trip() {
                 .await;
             assert!(client_result.is_err() || server_task.await.unwrap());
         }
+        let live_root = TempDir::new().unwrap();
+        let live_root = live_root.path().canonicalize().unwrap();
+        actual_production_capability_init(&live_root).await;
     });
 }
 
-fn emit_case(name: &str, root: &Path) {
+fn emit_case(name: &str, root: &Path, proved_markers: Vec<String>) {
     let map: serde_json::Value = serde_json::from_str(include_str!(
         "../../.csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json"
     ))
@@ -317,19 +487,28 @@ fn emit_case(name: &str, root: &Path) {
         .iter()
         .find(|case| case["name"] == name)
         .expect("case is registered");
-    let mut markers = vec![case["marker"].as_str().unwrap().to_owned()];
+    let mut expected_markers = vec![case["marker"].as_str().unwrap().to_owned()];
     for boundary in map["boundaries"].as_array().unwrap() {
         for assertion in boundary["subassertions"].as_array().unwrap() {
             if assertion["case"] == name {
-                markers.push(assertion["marker"].as_str().unwrap().to_owned());
+                expected_markers.push(assertion["marker"].as_str().unwrap().to_owned());
             }
         }
     }
     for assertion in map["lifecycle_subassertions"].as_array().unwrap() {
         if assertion["case"] == name {
-            markers.push(assertion["marker"].as_str().unwrap().to_owned());
+            expected_markers.push(assertion["marker"].as_str().unwrap().to_owned());
         }
     }
+    let mut markers = proved_markers;
+    markers.sort();
+    markers.dedup();
+    expected_markers.sort();
+    expected_markers.dedup();
+    assert_eq!(
+        markers, expected_markers,
+        "assertion-bound marker drift for {name}"
+    );
     let mut durable = Vec::new();
     collect_durable_witness(root, root, &mut durable);
     durable.sort();
@@ -375,39 +554,124 @@ fn run_case(name: &str) {
     let temp = TempDir::new().unwrap();
     let root = temp.path().canonicalize().unwrap();
     let mut cfg = config(&root);
+    let mut proved_markers = Vec::<String>::new();
     match name {
         "internal_listener_config_valid" => {
             cfg.validate(&root, &["127.0.0.1:32109".parse().unwrap()])
                 .unwrap();
             cfg.address = "[::1]:32108".into();
             cfg.validate(&root, &[]).unwrap();
+            let mut duplicate = cfg.clone();
+            duplicate.address = "127.0.0.1:32109".into();
+            assert!(duplicate
+                .validate(&root, &["127.0.0.1:32109".parse().unwrap()])
+                .is_err());
+            let mut missing_bound = cfg.clone();
+            missing_bound.bounds.max_frame_bytes = 0;
+            assert!(missing_bound.validate(&root, &[]).is_err());
+            proved_markers.extend(
+                [
+                    "proved:case:internal_listener_config_valid",
+                    "accepted:config:ipv4_loopback_accepted",
+                    "accepted:config:ipv6_loopback_accepted",
+                    "denied:config:duplicate_endpoint_denied",
+                    "denied:config:missing_bound_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "nonloopback_bind_rejected" => {
             for address in ["0.0.0.0:32108", "127.0.0.1:0", "192.0.2.1:32108"] {
                 cfg.address = address.into();
                 assert!(cfg.validate(&root, &[]).is_err());
             }
+            proved_markers.extend(
+                [
+                    "proved:case:nonloopback_bind_rejected",
+                    "denied:config:zero_port_denied",
+                    "denied:config:wildcard_bind_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "unsafe_root_config_rejected" => {
             cfg.staging_dir = cfg.state_dir.join("nested");
             assert!(cfg.validate(&root, &[]).is_err());
+            #[cfg(unix)]
+            {
+                let symlink = root.join("symlink-state");
+                std::os::unix::fs::symlink(&cfg.state_dir, &symlink).unwrap();
+                cfg.staging_dir = symlink;
+                assert!(cfg.validate(&root, &[]).is_err());
+            }
+            proved_markers.extend(
+                [
+                    "proved:case:unsafe_root_config_rejected",
+                    "denied:config:overlapping_roots_denied",
+                    "denied:config:symlinked_root_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "guardian_identity_distinct" => {
             cfg.validate(&root, &[]).unwrap();
             cfg.guardian_id = cfg.kernel_control_id.clone();
             assert!(cfg.validate(&root, &[]).is_err());
+            proved_markers.extend(
+                [
+                    "proved:case:guardian_identity_distinct",
+                    "accepted:identity:logical_guardian_accepted",
+                ]
+                .map(str::to_owned),
+            );
         }
         "guardian_mtls_authorized" => {
             actual_tls13_mtls_round_trip();
             let canonical = serde_jcs::to_vec(&ContinuityCommand::Status).unwrap();
             let decoded: ContinuityCommand = decode_canonical(&canonical, 1024).unwrap();
             assert_eq!(decoded, ContinuityCommand::Status);
+            for denied in [
+                br#"{"kind":"status","kind":"status"}"#.as_slice(),
+                br#"{ "kind":"status"}"#.as_slice(),
+                br#"{"kind":"status","unknown":1}"#.as_slice(),
+                br#"{"kind":"status"}x"#.as_slice(),
+                br#"{"kind":"unknown"}"#.as_slice(),
+            ] {
+                assert!(decode_canonical::<ContinuityCommand>(denied, 1024).is_err());
+            }
+            assert!(decode_canonical::<serde_json::Value>(b"{\"v\":NaN}", 1024).is_err());
+            proved_markers.extend(
+                [
+                    "proved:case:guardian_mtls_authorized",
+                    "accepted:tls:tls13_mutual_auth_accepted",
+                    "denied:tls:older_protocol_denied",
+                    "denied:tls:server_eku_denied",
+                    "denied:tls:tls_exporter_mismatch_denied",
+                    "accepted:domain:canonical_rfc8785_accepted",
+                    "denied:domain:duplicate_keys_denied",
+                    "denied:domain:noncanonical_encoding_denied",
+                    "denied:domain:unknown_fields_denied",
+                    "denied:domain:nan_infinity_denied",
+                    "denied:domain:trailing_bytes_denied",
+                    "denied:domain:decode_reencode_mismatch_denied",
+                    "denied:domain:unknown_operation_kind_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "unknown_client_certificate_denied" => {
             let mut journal = DurableContinuityJournal::open(&cfg).unwrap();
             let (mut request, exporter) = envelope(&cfg, 1, name);
             request.leaf_spki_sha256 = "44".repeat(32);
             assert_denied(journal.begin(&cfg, &request, &exporter, 0));
+            proved_markers.extend(
+                [
+                    "proved:case:unknown_client_certificate_denied",
+                    "denied:tls:unknown_client_ca_denied",
+                    "denied:tls:client_spki_mismatch_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "invalid_client_eku_denied" => {
             assert!(decode_canonical::<ContinuityCommand>(
@@ -415,17 +679,33 @@ fn run_case(name: &str) {
                 1024
             )
             .is_err());
+            proved_markers.extend(
+                [
+                    "proved:case:invalid_client_eku_denied",
+                    "denied:tls:client_eku_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "stale_certificate_denied" => {
             let mut journal = DurableContinuityJournal::open(&cfg).unwrap();
             let (mut first, exporter) = envelope(&cfg, 1, name);
             first.operation.sequence = 4;
             assert_denied(journal.begin(&cfg, &first, &exporter, 0));
+            proved_markers.extend(
+                [
+                    "proved:case:stale_certificate_denied",
+                    "denied:tls:stale_leaf_denied",
+                    "denied:generation:predecessor_leaf_new_operation_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "bearer_only_denied" => {
             assert!(
                 decode_canonical::<ContinuityEnvelope>(b"{\"bearer\":\"token\"}", 1024).is_err()
             );
+            proved_markers.push("proved:case:bearer_only_denied".to_owned());
         }
         "agent_control_identity_denied" => {
             for identity in ["agent", "voter", "shepherd", "authority", "public-control"] {
@@ -438,6 +718,17 @@ fn run_case(name: &str) {
                 local.channel_epoch += 1;
                 let _ = local;
             }
+            proved_markers.extend(
+                [
+                    "proved:case:agent_control_identity_denied",
+                    "denied:identity:agent_identity_denied",
+                    "denied:identity:voter_identity_denied",
+                    "denied:identity:shepherd_identity_denied",
+                    "denied:identity:authority_identity_denied",
+                    "denied:identity:public_control_identity_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "wrong_trust_domain_denied"
         | "wrong_polis_denied"
@@ -454,6 +745,12 @@ fn run_case(name: &str) {
                 _ => request.operation.kernel_control_id = "kernel-other".into(),
             }
             assert_denied(journal.begin(&cfg, &request, &exporter, 0));
+            proved_markers.push(format!("proved:case:{name}"));
+            if name == "wrong_guardian_denied" {
+                proved_markers.push("denied:identity:wrong_guardian_denied".to_owned());
+            } else if name == "wrong_kernel_instance_denied" {
+                proved_markers.push("denied:identity:wrong_kernel_denied".to_owned());
+            }
         }
         "replay_rejected" => {
             let mut journal = DurableContinuityJournal::open(&cfg).unwrap();
@@ -466,6 +763,7 @@ fn run_case(name: &str) {
             assert!(
                 matches!(journal.begin(&cfg, &request, &exporter, 0).unwrap(), BeginOperation::Retry(value) if *value == response)
             );
+            proved_markers.push("proved:case:replay_rejected".to_owned());
         }
         "conflicting_duplicate_rejected" => {
             let mut journal = DurableContinuityJournal::open(&cfg).unwrap();
@@ -474,11 +772,13 @@ fn run_case(name: &str) {
             let mut conflict = request.clone();
             conflict.operation.accepted_prefix = 9;
             assert_denied(journal.begin(&cfg, &conflict, &exporter, 0));
+            proved_markers.push("proved:case:conflicting_duplicate_rejected".to_owned());
         }
         "reordered_request_rejected" => {
             let mut journal = DurableContinuityJournal::open(&cfg).unwrap();
             let (request, exporter) = envelope(&cfg, 2, name);
             assert_denied(journal.begin(&cfg, &request, &exporter, 0));
+            proved_markers.push("proved:case:reordered_request_rejected".to_owned());
         }
         "durable_channel_restart_retry" => {
             let (request, exporter) = envelope(&cfg, 1, name);
@@ -490,6 +790,15 @@ fn run_case(name: &str) {
             let mut reopened = DurableContinuityJournal::open(&cfg).unwrap();
             assert!(
                 matches!(reopened.begin(&cfg, &request, &exporter, 0).unwrap(), BeginOperation::Retry(value) if *value == response)
+            );
+            proved_markers.extend(
+                [
+                    "proved:case:durable_channel_restart_retry",
+                    "accepted:generation:durable_epoch_restart_preserved",
+                    "accepted:generation:guardian_restart_generation_preserved",
+                    "accepted:generation:kernel_restart_generation_preserved",
+                ]
+                .map(str::to_owned),
             );
         }
         "certificate_succession_retry" => {
@@ -503,6 +812,14 @@ fn run_case(name: &str) {
                 journal.begin(&cfg, &retry, &exporter, 0).unwrap(),
                 BeginOperation::Reconcile { .. }
             ));
+            proved_markers.extend(
+                [
+                    "proved:case:certificate_succession_retry",
+                    "accepted:generation:successor_leaf_retry_accepted",
+                    "accepted:generation:predecessor_leaf_retry_only",
+                ]
+                .map(str::to_owned),
+            );
         }
         "stale_channel_epoch_denied" => {
             for epoch in [cfg.channel_epoch - 1, cfg.channel_epoch + 1] {
@@ -512,11 +829,19 @@ fn run_case(name: &str) {
                 assert_denied(journal.begin(&cfg, &request, &exporter, 0));
                 drop(journal);
             }
+            proved_markers.extend(
+                [
+                    "proved:case:stale_channel_epoch_denied",
+                    "denied:generation:stale_epoch_denied",
+                    "denied:generation:future_epoch_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         _ => panic!("unknown contract case {name}"),
     }
     assert!(SystemTime::now().duration_since(UNIX_EPOCH).is_ok());
-    emit_case(name, &root);
+    emit_case(name, &root, proved_markers);
 }
 
 macro_rules! cases {

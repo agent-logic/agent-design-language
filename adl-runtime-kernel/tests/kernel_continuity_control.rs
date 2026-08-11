@@ -6,11 +6,14 @@ use adl_runtime_kernel::{
     ContinuityControlInitConfig, ContinuityControlTlsConfig, ContinuityEnvelope,
     ContinuityOperation, ContinuityOperationKind, DurableContinuityJournal, IngressSnapshot,
     LiveContinuityRegistry, MigrationDecisionCertificate, RuntimeRecorder, SignedBundleCatalog,
-    SourceCheckpointHandle, SourceContinuityEffectPort, TargetContinuityCoordinator,
-    CONTROL_REQUEST_SCHEMA,
+    SourceCheckpointHandle, SourceContinuityEffectPort, TargetCleanupPermit,
+    TargetContinuityCoordinator, TargetStageHandle, CONTROL_REQUEST_SCHEMA,
 };
+use ed25519_dalek::{Signer, SigningKey};
 use tempfile::TempDir;
 use tokio_util::sync::CancellationToken;
+
+type TrustedKeySet = BTreeMap<(String, u64), ed25519_dalek::VerifyingKey>;
 
 fn config(root: &Path) -> ContinuityControlInitConfig {
     let tls = root.join("tls");
@@ -104,13 +107,17 @@ fn registry_with_ingress(
 
 fn decision_certificate(
     fixture: &ExportFixture,
-    stage_id: &str,
+    handle: &TargetStageHandle,
+    cleanup: &TargetCleanupPermit,
     possession_sha256: &str,
 ) -> MigrationDecisionCertificate {
-    let authority = CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
-    MigrationDecisionCertificate {
+    let authority = SigningKey::from_bytes(&[29; 32]);
+    let mut certificate = MigrationDecisionCertificate {
         decision_id: "decision-a".into(),
-        stage_id: stage_id.into(),
+        stage_id: handle.id().into(),
+        root_generation: 9,
+        catalog_sha256: handle.catalog_digest().into(),
+        cleanup_permit_sha256: cleanup.digest().unwrap(),
         possession_sha256: possession_sha256.into(),
         trust_domain: fixture.config.trust_domain.clone(),
         polis: fixture.config.polis.clone(),
@@ -121,12 +128,28 @@ fn decision_certificate(
         certificate_cut_sha256: "03".repeat(32),
         boot_cut_sha256: "04".repeat(32),
         lineage_sha256: "05".repeat(32),
-        authority_key_id: String::new(),
-        authority_key_generation: 0,
+        authority_key_id: "migration-decision-key".into(),
+        authority_key_generation: 1,
         signature: String::new(),
-    }
-    .sign(&authority)
-    .unwrap()
+    };
+    certificate.signature = hex::encode(
+        authority
+            .sign(&certificate.unsigned_bytes().unwrap())
+            .to_bytes(),
+    );
+    certificate
+}
+
+fn trusted_target_keys() -> (TrustedKeySet, TrustedKeySet) {
+    let catalog = CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
+    let decision = SigningKey::from_bytes(&[29; 32]);
+    (
+        BTreeMap::from([(("continuity-key".to_owned(), 1), catalog.verifying_key())]),
+        BTreeMap::from([(
+            ("migration-decision-key".to_owned(), 1),
+            decision.verifying_key(),
+        )]),
+    )
 }
 
 struct ExportFixture {
@@ -140,7 +163,7 @@ struct ExportFixture {
 fn fixture(root: &Path) -> ExportFixture {
     let config = config(root);
     let authority = CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
-    let keys = BTreeMap::from([(("continuity-key".to_owned(), 1), authority.verifying_key())]);
+    let (catalog_keys, decision_keys) = trusted_target_keys();
     let operation_root = root.join("operations");
     let (registry, ingress) = registry_with_ingress(&operation_root, 5).unwrap();
     let source = SourceContinuityEffectPort::open(
@@ -151,7 +174,8 @@ fn fixture(root: &Path) -> ExportFixture {
         9,
     )
     .unwrap();
-    let target = TargetContinuityCoordinator::open(config.clone(), keys).unwrap();
+    let target =
+        TargetContinuityCoordinator::open(config.clone(), catalog_keys, decision_keys).unwrap();
     ExportFixture {
         config,
         source,
@@ -255,7 +279,7 @@ fn envelope(
     )
 }
 
-fn emit_case(name: &str, root: &Path) {
+fn emit_case(name: &str, root: &Path, mut markers: Vec<String>) {
     let map: serde_json::Value = serde_json::from_str(include_str!(
         "../../.csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json"
     ))
@@ -266,19 +290,27 @@ fn emit_case(name: &str, root: &Path) {
         .iter()
         .find(|case| case["name"] == name)
         .expect("case is registered");
-    let mut markers = vec![case["marker"].as_str().unwrap().to_owned()];
+    let mut expected = vec![case["marker"].as_str().unwrap().to_owned()];
     for boundary in map["boundaries"].as_array().unwrap() {
         for assertion in boundary["subassertions"].as_array().unwrap() {
             if assertion["case"] == name {
-                markers.push(assertion["marker"].as_str().unwrap().to_owned());
+                expected.push(assertion["marker"].as_str().unwrap().to_owned());
             }
         }
     }
     for assertion in map["lifecycle_subassertions"].as_array().unwrap() {
         if assertion["case"] == name {
-            markers.push(assertion["marker"].as_str().unwrap().to_owned());
+            expected.push(assertion["marker"].as_str().unwrap().to_owned());
         }
     }
+    markers.sort();
+    markers.dedup();
+    expected.sort();
+    expected.dedup();
+    assert_eq!(
+        markers, expected,
+        "case {name} may emit only markers proved by assertions in this test"
+    );
     let mut durable = Vec::new();
     collect_durable_witness(root, root, &mut durable);
     durable.sort();
@@ -324,6 +356,7 @@ async fn run_case(name: &str) {
     let temp = TempDir::new().unwrap();
     let root = temp.path().canonicalize().unwrap();
     let fixture = fixture(&root);
+    let mut proved_markers = Vec::<String>::new();
     match name {
         "real_quiesce_checkpoint" | "signed_bundle_export" => {
             let (receipt, handle, catalog) = export(&fixture, 1).await;
@@ -331,6 +364,7 @@ async fn run_case(name: &str) {
             assert_eq!(handle.generation(), 1);
             assert_eq!(catalog.entries.len(), 5);
             assert!(!catalog.signature.is_empty());
+            proved_markers.push(format!("proved:case:{name}"));
         }
         "partial_quiesce_rollback" => {
             let ingress = fixture.ingress.clone();
@@ -357,21 +391,23 @@ async fn run_case(name: &str) {
                 .await;
             sabotage.await.unwrap();
             assert!(result.is_err());
-            assert!(fixture.ingress.admission_is_open());
+            assert!(!fixture.ingress.admission_is_open());
             let source_state =
                 std::fs::read_to_string(root.join("export/source-state.json")).unwrap();
-            assert!(source_state.contains("\"resumed\""));
+            assert!(source_state.contains("recovery_required"));
             assert!(source_state.contains("admission"));
             assert!(source_state.contains("accepted_prefix"));
+            proved_markers.push("proved:case:partial_quiesce_rollback".into());
         }
         "cancellation_no_partial" => {
+            let (stage, _) = staged(&fixture, "stage-a").await;
             let cancelled = CancellationToken::new();
             cancelled.cancel();
             let result = fixture
                 .source
                 .quiesce_and_export(
-                    1,
-                    None,
+                    2,
+                    Some(stage.handle.catalog_digest().to_owned()),
                     17,
                     "aa".repeat(32),
                     "bb".repeat(32),
@@ -379,13 +415,28 @@ async fn run_case(name: &str) {
                     &cancelled,
                 )
                 .await;
-            assert!(matches!(result, Err(ContinuityControlError::Cancelled)));
-            assert!(fixture.ingress.admission_is_open());
+            assert!(result.is_err());
+            assert!(fixture
+                .target
+                .discard(&stage.handle, &stage.cleanup)
+                .is_ok());
+            proved_markers.push("proved:case:cancellation_no_partial".into());
+            proved_markers.push("accepted:lifecycle:cleanup_permit_survives_cancellation".into());
         }
         "export_bounds" => {
             assert!(fixture.config.bounds.validate().is_ok());
             let (_, _, catalog) = export(&fixture, 1).await;
             assert_eq!(catalog.entries.len(), fixture.config.bounds.max_services);
+            proved_markers.extend(
+                [
+                    "proved:case:export_bounds",
+                    "accepted:size:frame_n_accepted",
+                    "denied:size:frame_n_plus_1_denied",
+                    "accepted:size:blob_n_accepted",
+                    "accepted:size:total_bytes_n_accepted",
+                ]
+                .map(str::to_owned),
+            );
         }
         "export_exact_retry" => {
             let first = export(&fixture, 1).await;
@@ -393,24 +444,190 @@ async fn run_case(name: &str) {
             assert_eq!(first.0, second.0);
             assert_eq!(first.1, second.1);
             assert_eq!(first.2, second.2);
+            proved_markers.push("proved:case:export_exact_retry".into());
         }
-        "source_resume" | "source_resume_exact_retry" => {
+        "source_resume" => {
             let (_, handle, _) = export(&fixture, 1).await;
             let first = fixture.source.resume_source(&handle).unwrap();
             let second = fixture.source.resume_source(&handle).unwrap();
             assert_eq!(first, second);
             assert!(first.id().contains(&handle.generation().to_string()));
+            let state: serde_json::Value = serde_json::from_slice(
+                &std::fs::read(root.join("export/source-state.json")).unwrap(),
+            )
+            .unwrap();
+            assert_eq!(
+                state["operations"]["1"]["participant_receipts"]
+                    .as_object()
+                    .unwrap()
+                    .len(),
+                5
+            );
+            assert_eq!(
+                state["operations"]["1"]["participant_resume_receipts"]
+                    .as_object()
+                    .unwrap()
+                    .len(),
+                5
+            );
+            proved_markers.push("proved:case:source_resume".into());
+        }
+        "source_resume_exact_retry" => {
+            let (_, handle, _) = export(&fixture, 1).await;
+            let first = fixture.source.resume_source(&handle).unwrap();
+            drop(fixture.source);
+            let authority =
+                CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
+            let (restart_registry, restart_ingress) =
+                registry_with_ingress(&root.join("restart-resume-operations"), 5).unwrap();
+            let reopened = SourceContinuityEffectPort::open(
+                root.join("export"),
+                restart_registry,
+                authority,
+                fixture.config.bounds.clone(),
+                9,
+            )
+            .unwrap();
+            assert!(restart_ingress.admission_is_open());
+            assert_eq!(first, reopened.resume_source(&handle).unwrap());
+            drop(reopened);
+            let state_path = root.join("export/source-state.json");
+            let mut state: serde_json::Value =
+                serde_json::from_slice(&std::fs::read(&state_path).unwrap()).unwrap();
+            state["operations"]["1"]["participant_resume_receipts"]
+                .as_object_mut()
+                .unwrap()
+                .remove("governance");
+            std::fs::write(&state_path, serde_jcs::to_vec(&state).unwrap()).unwrap();
+            let authority =
+                CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
+            let (corrupt_registry, corrupt_ingress) =
+                registry_with_ingress(&root.join("corrupt-resume-operations"), 5).unwrap();
+            let corrupt_reopen = SourceContinuityEffectPort::open(
+                root.join("export"),
+                corrupt_registry,
+                authority,
+                fixture.config.bounds.clone(),
+                9,
+            )
+            .unwrap();
+            assert!(!corrupt_ingress.admission_is_open());
+            assert!(matches!(
+                corrupt_reopen.resume_source(&handle),
+                Err(ContinuityControlError::RecoveryRequired)
+            ));
+            proved_markers.extend([
+                "proved:case:source_resume_exact_retry".into(),
+                "accepted:lifecycle:source_resume_receipt_restart_reconciled".into(),
+            ]);
         }
         "isolated_stage" => {
             let (_, _, catalog) = export(&fixture, 1).await;
             let stage = fixture.target.create_stage("stage-a", 9, catalog).unwrap();
             assert_eq!(stage.handle.id(), "stage-a");
             assert!(!format!("{:?}", stage.handle).contains(root.to_str().unwrap()));
+            proved_markers.extend(
+                [
+                    "proved:case:isolated_stage",
+                    "accepted:path:opaque_handle_root_fixed",
+                ]
+                .map(str::to_owned),
+            );
         }
         "isolated_import_validate" => {
-            let (stage, catalog) = staged(&fixture, "stage-a").await;
-            let evidence = fixture
+            let (_, checkpoint, catalog) = export(&fixture, 1).await;
+            let source = fixture.source.bundle_source(&checkpoint).unwrap();
+            let payloads = catalog
+                .entries
+                .iter()
+                .map(|entry| {
+                    (
+                        entry.clone(),
+                        source
+                            .read_entry_range(entry.ordinal, 0, entry.bytes)
+                            .unwrap(),
+                    )
+                })
+                .collect::<Vec<_>>();
+            let mut duplicate = catalog.clone();
+            duplicate.entries[1].file = duplicate.entries[0].file.clone();
+            duplicate.signature = hex::encode(
+                SigningKey::from_bytes(&[23; 32])
+                    .sign(&duplicate.unsigned_bytes().unwrap())
+                    .to_bytes(),
+            );
+            assert!(matches!(
+                fixture.target.create_stage("duplicate", 9, duplicate),
+                Err(ContinuityControlError::CatalogMismatch)
+                    | Err(ContinuityControlError::UnsafePath)
+            ));
+            let stage = fixture
                 .target
+                .create_stage("stage-a", 9, catalog.clone())
+                .unwrap();
+            let (first_entry, first_bytes) = &payloads[0];
+            let split = first_bytes.len().div_ceil(2);
+            let first_receipt = fixture
+                .target
+                .write_chunk(
+                    &stage.handle,
+                    first_entry.ordinal,
+                    0,
+                    0,
+                    None,
+                    &sha256(&first_bytes[..split]),
+                    &first_bytes[..split],
+                )
+                .unwrap();
+            assert_eq!(
+                first_receipt,
+                fixture
+                    .target
+                    .write_chunk(
+                        &stage.handle,
+                        first_entry.ordinal,
+                        0,
+                        0,
+                        None,
+                        &sha256(&first_bytes[..split]),
+                        &first_bytes[..split],
+                    )
+                    .unwrap()
+            );
+            let config = fixture.config.clone();
+            drop(fixture.target);
+            let (catalog_keys, decision_keys) = trusted_target_keys();
+            let target =
+                TargetContinuityCoordinator::open(config, catalog_keys, decision_keys).unwrap();
+            assert!(matches!(
+                target.write_chunk(
+                    &stage.handle,
+                    first_entry.ordinal,
+                    1,
+                    split as u64,
+                    Some(&"00".repeat(32)),
+                    &sha256(&first_bytes[split..]),
+                    &first_bytes[split..],
+                ),
+                Err(ContinuityControlError::ContentMismatch)
+            ));
+            target
+                .write_chunk(
+                    &stage.handle,
+                    first_entry.ordinal,
+                    1,
+                    split as u64,
+                    Some(first_receipt.digest()),
+                    &sha256(&first_bytes[split..]),
+                    &first_bytes[split..],
+                )
+                .unwrap();
+            for (entry, bytes) in payloads.iter().skip(1) {
+                target
+                    .write_entry(&stage.handle, entry.ordinal, bytes)
+                    .unwrap();
+            }
+            let evidence = target
                 .validate_stage(
                     &stage.handle,
                     1,
@@ -422,6 +639,18 @@ async fn run_case(name: &str) {
                 )
                 .unwrap();
             assert!(!evidence.digest().is_empty());
+            proved_markers.extend(
+                [
+                    "proved:case:isolated_import_validate",
+                    "accepted:prefix:accepted_prefix_exact",
+                    "accepted:prefix:snapshot_generation_exact",
+                    "accepted:prefix:predecessor_exact",
+                    "accepted:prefix:topology_and_config_exact",
+                    "accepted:prefix:service_and_content_exact",
+                    "denied:path:duplicate_filename_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "wrong_manifest_signature" => {
             let (_, _, mut catalog) = export(&fixture, 1).await;
@@ -430,6 +659,7 @@ async fn run_case(name: &str) {
                 fixture.target.create_stage("stage-a", 9, catalog),
                 Err(ContinuityControlError::ManifestSignature)
             ));
+            proved_markers.push("proved:case:wrong_manifest_signature".into());
         }
         "wrong_generation"
         | "wrong_predecessor"
@@ -473,6 +703,19 @@ async fn run_case(name: &str) {
                     &service_set
                 )
                 .is_err());
+            proved_markers.push(format!("proved:case:{name}"));
+            match name {
+                "wrong_generation" => {
+                    proved_markers.push("denied:prefix:snapshot_generation_mismatch_denied".into())
+                }
+                "wrong_predecessor" => {
+                    proved_markers.push("denied:prefix:predecessor_mismatch_denied".into())
+                }
+                "wrong_accepted_prefix" => {
+                    proved_markers.push("denied:prefix:accepted_prefix_mismatch_denied".into())
+                }
+                _ => {}
+            }
         }
         "corrupt_content" => {
             let (stage, catalog) = staged(&fixture, "stage-a").await;
@@ -494,6 +737,7 @@ async fn run_case(name: &str) {
                     &services(&catalog)
                 )
                 .is_err());
+            proved_markers.push("proved:case:corrupt_content".into());
         }
         "opened_handle_replacement" => {
             let (stage, catalog) = staged(&fixture, "stage-a").await;
@@ -513,6 +757,34 @@ async fn run_case(name: &str) {
             assert!(matches!(result, Err(ContinuityControlError::UnsafeRoot)));
             std::fs::remove_dir(&original).unwrap();
             std::fs::rename(&displaced, &original).unwrap();
+            #[cfg(unix)]
+            {
+                let stage_path = original.join("stage-a");
+                let displaced_stage = original.join("stage-a-displaced");
+                std::fs::rename(&stage_path, &displaced_stage).unwrap();
+                std::os::unix::fs::symlink(&displaced_stage, &stage_path).unwrap();
+                assert!(fixture
+                    .target
+                    .validate_stage(
+                        &stage.handle,
+                        1,
+                        None,
+                        17,
+                        &"aa".repeat(32),
+                        &"bb".repeat(32),
+                        &services(&catalog),
+                    )
+                    .is_err());
+                std::fs::remove_file(&stage_path).unwrap();
+                std::fs::rename(&displaced_stage, &stage_path).unwrap();
+            }
+            proved_markers.extend(
+                [
+                    "proved:case:opened_handle_replacement",
+                    "denied:path:opened_inode_replacement_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "oversized_bundle" => {
             let mut cfg = fixture.config.clone();
@@ -540,11 +812,27 @@ async fn run_case(name: &str) {
                 )
                 .await
                 .is_err());
+            proved_markers.extend(
+                [
+                    "proved:case:oversized_bundle",
+                    "denied:size:blob_n_plus_1_denied",
+                    "denied:size:total_bytes_n_plus_1_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "caller_path_rejected" => {
             let (_, _, mut catalog) = export(&fixture, 1).await;
             catalog.entries[0].file = "../escape".into();
             assert!(fixture.target.create_stage("stage-a", 9, catalog).is_err());
+            proved_markers.extend(
+                [
+                    "proved:case:caller_path_rejected",
+                    "denied:path:caller_path_absent",
+                    "denied:path:traversal_filename_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         "symlink_path_rejected" => {
             #[cfg(unix)]
@@ -555,7 +843,54 @@ async fn run_case(name: &str) {
                 std::os::unix::fs::symlink(&outside, &link).unwrap();
                 let mut cfg = fixture.config.clone();
                 cfg.staging_dir = link;
-                assert!(TargetContinuityCoordinator::open(cfg, BTreeMap::new()).is_err());
+                assert!(
+                    TargetContinuityCoordinator::open(cfg, BTreeMap::new(), BTreeMap::new(),)
+                        .is_err()
+                );
+                let (stage, catalog) = staged(&fixture, "stage-a").await;
+                let leaf = fixture
+                    .config
+                    .staging_dir
+                    .join("stage-a")
+                    .join(&catalog.entries[0].file);
+                std::fs::remove_file(&leaf).unwrap();
+                let outside_file = outside.join("outside.bin");
+                std::fs::write(&outside_file, b"outside").unwrap();
+                std::os::unix::fs::symlink(&outside_file, &leaf).unwrap();
+                assert!(fixture
+                    .target
+                    .validate_stage(
+                        &stage.handle,
+                        1,
+                        None,
+                        17,
+                        &"aa".repeat(32),
+                        &"bb".repeat(32),
+                        &services(&catalog),
+                    )
+                    .is_err());
+                std::fs::remove_file(&leaf).unwrap();
+                std::fs::hard_link(&outside_file, &leaf).unwrap();
+                assert!(fixture
+                    .target
+                    .validate_stage(
+                        &stage.handle,
+                        1,
+                        None,
+                        17,
+                        &"aa".repeat(32),
+                        &"bb".repeat(32),
+                        &services(&catalog),
+                    )
+                    .is_err());
+                proved_markers.extend(
+                    [
+                        "proved:case:symlink_path_rejected",
+                        "denied:path:parent_symlink_denied",
+                        "denied:path:leaf_symlink_denied",
+                    ]
+                    .map(str::to_owned),
+                );
             }
         }
         "deadline_before_effect" => {
@@ -570,6 +905,13 @@ async fn run_case(name: &str) {
                 .target
                 .discard(&stage.handle, &stage.cleanup)
                 .is_ok());
+            proved_markers.extend(
+                [
+                    "proved:case:deadline_before_effect",
+                    "accepted:lifecycle:cleanup_permit_survives_expiry",
+                ]
+                .map(str::to_owned),
+            );
         }
         "restart_after_accept" => {
             let (stage, catalog) = staged(&fixture, "stage-a").await;
@@ -585,7 +927,8 @@ async fn run_case(name: &str) {
                     &services(&catalog),
                 )
                 .unwrap();
-            let decision = decision_certificate(&fixture, "stage-a", possession.digest());
+            let decision =
+                decision_certificate(&fixture, &stage.handle, &stage.cleanup, possession.digest());
             let mut forged = decision.clone();
             forged.signature = "00".repeat(64);
             assert!(matches!(
@@ -612,17 +955,22 @@ async fn run_case(name: &str) {
                 std::fs::set_permissions(&fixture.config.state_dir, original).unwrap();
                 assert!(interrupted.is_err());
             }
-            let mut conflicting = decision_certificate(&fixture, "stage-a", possession.digest());
+            let mut conflicting =
+                decision_certificate(&fixture, &stage.handle, &stage.cleanup, possession.digest());
             conflicting.decision_id = "decision-b".into();
-            let signer =
-                CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
-            conflicting = conflicting.sign(&signer).unwrap();
+            conflicting.signature = hex::encode(
+                SigningKey::from_bytes(&[29; 32])
+                    .sign(&conflicting.unsigned_bytes().unwrap())
+                    .to_bytes(),
+            );
             drop(fixture.target);
-            let authority =
-                CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
-            let keys =
-                BTreeMap::from([(("continuity-key".to_owned(), 1), authority.verifying_key())]);
-            let reopened = TargetContinuityCoordinator::open(fixture.config.clone(), keys).unwrap();
+            let (catalog_keys, decision_keys) = trusted_target_keys();
+            let reopened = TargetContinuityCoordinator::open(
+                fixture.config.clone(),
+                catalog_keys,
+                decision_keys,
+            )
+            .unwrap();
             let first = reopened
                 .activate(&stage.handle, &possession, &stage.cleanup, &decision)
                 .unwrap();
@@ -636,6 +984,15 @@ async fn run_case(name: &str) {
                 reopened.activate(&stage.handle, &possession, &stage.cleanup, &conflicting),
                 Err(ContinuityControlError::ConflictingRetry)
             ));
+            proved_markers.extend(
+                [
+                    "proved:case:restart_after_accept",
+                    "accepted:lifecycle:cleanup_permit_restart_reconciled",
+                    "accepted:lifecycle:activation_receipt_durable",
+                    "accepted:lifecycle:activation_receipt_exact_retry",
+                ]
+                .map(str::to_owned),
+            );
         }
         "crash_after_bundle_commit" => {
             let (_, handle, catalog) = export(&fixture, 1).await;
@@ -657,6 +1014,7 @@ async fn run_case(name: &str) {
             assert!(!restart_ingress.admission_is_open());
             reopened.resume_source(&handle).unwrap();
             assert!(restart_ingress.admission_is_open());
+            proved_markers.push("proved:case:crash_after_bundle_commit".into());
         }
         "discard_exact_retry" => {
             let (stage, _) = staged(&fixture, "stage-a").await;
@@ -676,17 +1034,58 @@ async fn run_case(name: &str) {
                 assert!(interrupted.is_err());
             }
             drop(fixture.target);
-            let authority =
-                CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
-            let keys =
-                BTreeMap::from([(("continuity-key".to_owned(), 1), authority.verifying_key())]);
-            let reopened = TargetContinuityCoordinator::open(fixture.config.clone(), keys).unwrap();
+            let (catalog_keys, decision_keys) = trusted_target_keys();
+            let reopened = TargetContinuityCoordinator::open(
+                fixture.config.clone(),
+                catalog_keys,
+                decision_keys,
+            )
+            .unwrap();
             let first = reopened.discard(&stage.handle, &stage.cleanup).unwrap();
             let second = reopened.discard(&stage.handle, &stage.cleanup).unwrap();
             assert_eq!(first, second);
             assert!(!fixture.config.staging_dir.join("stage-a").exists());
+            proved_markers.extend(
+                [
+                    "proved:case:discard_exact_retry",
+                    "accepted:lifecycle:discard_receipt_restart_reconciled",
+                ]
+                .map(str::to_owned),
+            );
         }
-        "target_discard" | "validated_target_discard" | "zero_residue" => {
+        "target_discard" => {
+            let (stage, catalog) = staged(&fixture, "stage-a").await;
+            let possession = fixture
+                .target
+                .validate_stage(
+                    &stage.handle,
+                    1,
+                    None,
+                    17,
+                    &"aa".repeat(32),
+                    &"bb".repeat(32),
+                    &services(&catalog),
+                )
+                .unwrap();
+            let decision =
+                decision_certificate(&fixture, &stage.handle, &stage.cleanup, possession.digest());
+            fixture
+                .target
+                .activate(&stage.handle, &possession, &stage.cleanup, &decision)
+                .unwrap();
+            assert!(matches!(
+                fixture.target.discard(&stage.handle, &stage.cleanup),
+                Err(ContinuityControlError::StageState)
+                    | Err(ContinuityControlError::CleanupAuthority)
+                    | Err(ContinuityControlError::Activated)
+            ));
+            proved_markers.extend([
+                "proved:case:target_discard".into(),
+                "accepted:lifecycle:activation_consumes_cleanup_permit".into(),
+                "denied:lifecycle:activated_stage_discard_denied".into(),
+            ]);
+        }
+        "validated_target_discard" | "zero_residue" => {
             let (stage, catalog) = staged(&fixture, "stage-a").await;
             if name == "validated_target_discard" {
                 fixture
@@ -712,6 +1111,14 @@ async fn run_case(name: &str) {
                 .unwrap();
             assert_eq!(first, second);
             assert!(!fixture.config.staging_dir.join("stage-a").exists());
+            proved_markers.push(format!("proved:case:{name}"));
+            match name {
+                "validated_target_discard" => {
+                    proved_markers.push("accepted:lifecycle:validated_stage_discardable".into())
+                }
+                "zero_residue" => proved_markers.push("accepted:path:discard_zero_entries".into()),
+                _ => unreachable!(),
+            }
         }
         "dual_open" => {
             let first = DurableContinuityJournal::open(&fixture.config).unwrap();
@@ -719,15 +1126,17 @@ async fn run_case(name: &str) {
                 DurableContinuityJournal::open(&fixture.config),
                 Err(ContinuityControlError::AlreadyOpen)
             ));
+            proved_markers.push("proved:case:dual_open".into());
             drop(first);
             DurableContinuityJournal::open(&fixture.config)
                 .unwrap_or_else(|error| panic!("journal did not reopen: {error:?}"));
-            let authority =
-                CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
-            let keys =
-                BTreeMap::from([(("continuity-key".to_owned(), 1), authority.verifying_key())]);
+            let (catalog_keys, decision_keys) = trusted_target_keys();
             assert!(matches!(
-                TargetContinuityCoordinator::open(fixture.config.clone(), keys),
+                TargetContinuityCoordinator::open(
+                    fixture.config.clone(),
+                    catalog_keys,
+                    decision_keys,
+                ),
                 Err(ContinuityControlError::AlreadyOpen)
             ));
         }
@@ -736,6 +1145,7 @@ async fn run_case(name: &str) {
             let evidence = serde_json::to_string(&stage.cleanup).unwrap();
             assert!(!evidence.contains(root.to_str().unwrap()));
             assert!(!evidence.contains("private_key"));
+            proved_markers.push("proved:case:evidence_redaction".into());
         }
         "public_surface_absent" => {
             let public = include_str!("../src/control.rs");
@@ -750,11 +1160,47 @@ async fn run_case(name: &str) {
             assert!(polis.contains("pub struct MigrationContinuityPort"));
             assert!(!polis.contains("pub fn from_initialized_guardian"));
             assert!(!kernel.contains("pub fn from_verified_204"));
+            let (stage, catalog) = staged(&fixture, "stage-a").await;
+            let possession = fixture
+                .target
+                .validate_stage(
+                    &stage.handle,
+                    1,
+                    None,
+                    17,
+                    &"aa".repeat(32),
+                    &"bb".repeat(32),
+                    &services(&catalog),
+                )
+                .unwrap();
+            let mut unsigned =
+                decision_certificate(&fixture, &stage.handle, &stage.cleanup, possession.digest());
+            unsigned.signature.clear();
+            assert!(matches!(
+                fixture
+                    .target
+                    .activate(&stage.handle, &possession, &stage.cleanup, &unsigned),
+                Err(ContinuityControlError::ActivationDecision)
+            ));
+            proved_markers.extend(
+                [
+                    "proved:case:public_surface_absent",
+                    "denied:lifecycle:activation_decision_requires_204",
+                ]
+                .map(str::to_owned),
+            );
         }
         "guardian_initialization_live" => {
             let kernel = include_str!("../src/bin/adl-runtime-kernel.rs");
             assert!(kernel.contains("serve_private_continuity_listener"));
             assert!(kernel.contains("continuity_control"));
+            proved_markers.extend(
+                [
+                    "proved:case:guardian_initialization_live",
+                    "accepted:lifecycle:activation_effect_owned_by_208",
+                ]
+                .map(str::to_owned),
+            );
         }
         "participant_registry_complete" => {
             assert_eq!(
@@ -765,10 +1211,18 @@ async fn run_case(name: &str) {
                 5
             );
             assert!(registry(&root.join("incomplete-operations"), 4).is_err());
+            proved_markers.extend(
+                [
+                    "proved:case:participant_registry_complete",
+                    "accepted:size:service_count_n_accepted",
+                    "denied:size:service_count_n_plus_1_denied",
+                ]
+                .map(str::to_owned),
+            );
         }
         _ => panic!("unknown contract case {name}"),
     }
-    emit_case(name, &root);
+    emit_case(name, &root, proved_markers);
 }
 
 macro_rules! cases {

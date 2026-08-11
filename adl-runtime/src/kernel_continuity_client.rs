@@ -2,11 +2,14 @@
 
 use std::{
     collections::BTreeMap,
-    fs::{self, File, OpenOptions},
+    fs::{self, File},
     io::Write,
     path::{Path, PathBuf},
     sync::{Arc, Mutex},
 };
+
+#[cfg(not(unix))]
+use std::fs::OpenOptions;
 
 use adl_runtime_kernel::{
     build_mutual_tls_client_config, decode_canonical, load_identity, load_trust_roots, sha256,
@@ -19,6 +22,7 @@ use fs2::FileExt;
 use rustls::pki_types::ServerName;
 use serde::{Deserialize, Serialize};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio_util::sync::CancellationToken;
 
 const CLIENT_JOURNAL_SCHEMA: &str = "adl.runtime.kernel_continuity.client_journal.v1";
 
@@ -55,16 +59,21 @@ impl ClientJournal {
         if metadata.file_type().is_symlink() || !metadata.is_dir() {
             return Err(ContinuityControlError::UnsafeRoot);
         }
-        let lock_path = config.guardian_state_dir.join("writer.lock");
-        if lock_path.exists() && fs::symlink_metadata(&lock_path)?.file_type().is_symlink() {
-            return Err(ContinuityControlError::UnsafeRoot);
-        }
+        let root_handle = File::open(&config.guardian_state_dir)?;
+        #[cfg(unix)]
+        let lock = open_file_at(
+            &root_handle,
+            "writer.lock",
+            libc::O_CREAT | libc::O_RDWR,
+            0o600,
+        )?;
+        #[cfg(not(unix))]
         let lock = OpenOptions::new()
             .create(true)
             .truncate(false)
             .read(true)
             .write(true)
-            .open(&lock_path)?;
+            .open(config.guardian_state_dir.join("writer.lock"))?;
         lock.try_lock_exclusive().map_err(|error| {
             if error.kind() == std::io::ErrorKind::WouldBlock {
                 ContinuityControlError::AlreadyOpen
@@ -72,10 +81,27 @@ impl ClientJournal {
                 error.into()
             }
         })?;
-        let path = config.guardian_state_dir.join("journal.json");
-        let root_handle = File::open(&config.guardian_state_dir)?;
-        let state = if path.exists() {
-            let value: ClientJournalState = read_state(&path, config.bounds.max_frame_bytes)?;
+        #[cfg(unix)]
+        let existing_state: Option<ClientJournalState> =
+            match read_state_at(&root_handle, "journal.json", config.bounds.max_frame_bytes) {
+                Ok(value) => Some(value),
+                Err(ContinuityControlError::Io(error))
+                    if error.kind() == std::io::ErrorKind::NotFound =>
+                {
+                    None
+                }
+                Err(error) => return Err(error),
+            };
+        #[cfg(not(unix))]
+        let existing_state = {
+            let path = config.guardian_state_dir.join("journal.json");
+            if path.exists() {
+                Some(read_state(&path, config.bounds.max_frame_bytes)?)
+            } else {
+                None
+            }
+        };
+        let state = if let Some(value) = existing_state {
             if value.schema != CLIENT_JOURNAL_SCHEMA
                 || value.channel_epoch != config.channel_epoch
                 || value.accepted.len() > config.bounds.max_journal_entries
@@ -90,7 +116,10 @@ impl ClientJournal {
                 next_sequence: 1,
                 accepted: BTreeMap::new(),
             };
-            write_state(&path, &value)?;
+            #[cfg(unix)]
+            write_state_at(&root_handle, "journal.json", &value)?;
+            #[cfg(not(unix))]
+            write_state(&config.guardian_state_dir.join("journal.json"), &value)?;
             value
         };
         Ok(Self {
@@ -198,7 +227,14 @@ impl ClientJournal {
         if bytes.len() > self.max_frame_bytes {
             return Err(ContinuityControlError::FrameBounds);
         }
-        write_state(&self.root.join("journal.json"), &self.state)
+        #[cfg(unix)]
+        {
+            write_state_at(&self._root_handle, "journal.json", &self.state)
+        }
+        #[cfg(not(unix))]
+        {
+            write_state(&self.root.join("journal.json"), &self.state)
+        }
     }
 }
 
@@ -303,19 +339,21 @@ impl KernelContinuityClient {
         })
     }
 
-    pub(crate) async fn establish_attempt(
+    pub(crate) async fn establish_attempt_with_cancellation(
         &self,
         attempt: u32,
         deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
     ) -> Result<(), ContinuityControlError> {
         let operation_id = format!("startup-status-{}-{attempt}", self.config.channel_epoch);
         loop {
             match self
-                .execute(
+                .run_role_command(
                     &operation_id,
                     ContinuityCommand::Status,
                     0,
                     deadline_unix_millis,
+                    cancellation,
                 )
                 .await
             {
@@ -325,25 +363,53 @@ impl KernelContinuityClient {
                     if error.kind() == std::io::ErrorKind::ConnectionRefused
                         && current_unix_millis()? < deadline_unix_millis =>
                 {
-                    tokio::time::sleep(std::time::Duration::from_millis(10)).await;
+                    tokio::select! {
+                        _ = cancellation.cancelled() => return Err(ContinuityControlError::Cancelled),
+                        _ = tokio::time::sleep(std::time::Duration::from_millis(10)) => {}
+                    }
                 }
                 Err(error) => return Err(error),
             }
         }
     }
 
-    async fn execute(
+    pub(crate) async fn run_role_command(
         &self,
         operation_id: &str,
         command: ContinuityCommand,
         accepted_prefix: u64,
         deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<ContinuityReply, ContinuityControlError> {
+        let remaining = deadline_remaining(deadline_unix_millis)?;
+        tokio::select! {
+            _ = cancellation.cancelled() => Err(ContinuityControlError::Cancelled),
+            result = tokio::time::timeout(remaining, self.execute_inner(
+                operation_id,
+                command,
+                accepted_prefix,
+                deadline_unix_millis,
+                cancellation,
+            )) => result.map_err(|_| ContinuityControlError::Deadline)?,
+        }
+    }
+
+    async fn execute_inner(
+        &self,
+        operation_id: &str,
+        command: ContinuityCommand,
+        accepted_prefix: u64,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
     ) -> Result<ContinuityReply, ContinuityControlError> {
         let _operation_slot = self
             .operation_slots
             .acquire()
             .await
             .map_err(|_| ContinuityControlError::Cancelled)?;
+        if cancellation.is_cancelled() {
+            return Err(ContinuityControlError::Cancelled);
+        }
         if current_unix_millis()? > deadline_unix_millis {
             return Err(ContinuityControlError::Deadline);
         }
@@ -454,6 +520,18 @@ impl KernelContinuityClient {
     }
 }
 
+fn deadline_remaining(
+    deadline_unix_millis: u64,
+) -> Result<std::time::Duration, ContinuityControlError> {
+    let now = current_unix_millis()?;
+    if now > deadline_unix_millis {
+        return Err(ContinuityControlError::Deadline);
+    }
+    Ok(std::time::Duration::from_millis(
+        deadline_unix_millis.saturating_sub(now).max(1),
+    ))
+}
+
 fn current_unix_millis() -> Result<u64, ContinuityControlError> {
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -485,6 +563,130 @@ fn validate_response(
     Ok(())
 }
 
+#[cfg(unix)]
+fn leaf_cstring(value: &str) -> Result<std::ffi::CString, ContinuityControlError> {
+    if value.is_empty() || value.contains('/') || value == "." || value == ".." {
+        return Err(ContinuityControlError::UnsafePath);
+    }
+    std::ffi::CString::new(value.as_bytes()).map_err(|_| ContinuityControlError::UnsafePath)
+}
+
+#[cfg(unix)]
+fn open_file_at(
+    parent: &File,
+    leaf: &str,
+    flags: libc::c_int,
+    mode: libc::mode_t,
+) -> Result<File, ContinuityControlError> {
+    use std::os::fd::{AsRawFd, FromRawFd};
+    let leaf = leaf_cstring(leaf)?;
+    let fd = unsafe {
+        libc::openat(
+            parent.as_raw_fd(),
+            leaf.as_ptr(),
+            flags | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+            mode as libc::c_uint,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    let file = unsafe { File::from_raw_fd(fd) };
+    let metadata = file.metadata()?;
+    if !metadata.is_file() {
+        return Err(ContinuityControlError::UnsafePath);
+    }
+    use std::os::unix::fs::MetadataExt;
+    if metadata.nlink() != 1 {
+        return Err(ContinuityControlError::UnsafePath);
+    }
+    Ok(file)
+}
+
+#[cfg(unix)]
+fn unlink_at(parent: &File, leaf: &str) -> Result<(), ContinuityControlError> {
+    use std::os::fd::AsRawFd;
+    let leaf = leaf_cstring(leaf)?;
+    if unsafe { libc::unlinkat(parent.as_raw_fd(), leaf.as_ptr(), 0) } != 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(unix)]
+fn rename_at(parent: &File, old: &str, new: &str) -> Result<(), ContinuityControlError> {
+    use std::os::fd::AsRawFd;
+    let old = leaf_cstring(old)?;
+    let new = leaf_cstring(new)?;
+    if unsafe {
+        libc::renameat(
+            parent.as_raw_fd(),
+            old.as_ptr(),
+            parent.as_raw_fd(),
+            new.as_ptr(),
+        )
+    } != 0
+    {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(unix)]
+fn write_state_at<T: Serialize>(
+    parent: &File,
+    leaf: &str,
+    value: &T,
+) -> Result<(), ContinuityControlError> {
+    let bytes = serde_jcs::to_vec(value)
+        .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?;
+    let pending = format!(".{leaf}.pending");
+    match open_file_at(parent, &pending, libc::O_RDONLY, 0) {
+        Ok(file) => {
+            use std::os::unix::fs::MetadataExt;
+            if file.metadata()?.nlink() != 1 {
+                return Err(ContinuityControlError::UnsafePath);
+            }
+            drop(file);
+            unlink_at(parent, &pending)?;
+        }
+        Err(ContinuityControlError::Io(error)) if error.kind() == std::io::ErrorKind::NotFound => {}
+        Err(error) => return Err(error),
+    }
+    let mut file = open_file_at(
+        parent,
+        &pending,
+        libc::O_CREAT | libc::O_EXCL | libc::O_WRONLY,
+        0o600,
+    )?;
+    file.write_all(&bytes)?;
+    file.sync_all()?;
+    drop(file);
+    rename_at(parent, &pending, leaf)
+}
+
+#[cfg(unix)]
+fn read_state_at<T: for<'de> Deserialize<'de> + Serialize>(
+    parent: &File,
+    leaf: &str,
+    max_bytes: usize,
+) -> Result<T, ContinuityControlError> {
+    let file = open_file_at(parent, leaf, libc::O_RDONLY, 0)?;
+    let metadata = file.metadata()?;
+    use std::os::unix::fs::MetadataExt;
+    if metadata.nlink() != 1 || metadata.len() == 0 || metadata.len() > max_bytes as u64 {
+        return Err(ContinuityControlError::UnsafePath);
+    }
+    let mut bytes = Vec::new();
+    use std::io::Read as _;
+    file.take(metadata.len().saturating_add(1))
+        .read_to_end(&mut bytes)?;
+    decode_canonical(&bytes, max_bytes)
+}
+
+#[cfg(not(unix))]
 fn write_state<T: Serialize>(path: &Path, value: &T) -> Result<(), ContinuityControlError> {
     let bytes = serde_jcs::to_vec(value)
         .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?;
@@ -516,6 +718,7 @@ fn write_state<T: Serialize>(path: &Path, value: &T) -> Result<(), ContinuityCon
     Ok(())
 }
 
+#[cfg(not(unix))]
 fn read_state<T: for<'de> Deserialize<'de> + Serialize>(
     path: &Path,
     max_bytes: usize,

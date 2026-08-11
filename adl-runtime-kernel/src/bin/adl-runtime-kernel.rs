@@ -249,6 +249,7 @@ async fn main() -> ExitCode {
                 return ExitCode::from(78);
             }
             let operation_key_id = init.credentials.operation_key_id.clone();
+            let migration_decision_key = operation_key;
             let time_source_identity = format!("sntp:{}", init.credentials.sntp_server);
             let time_source: Arc<dyn TimeSampleSource> = Arc::new(RsntpTimeSampleSource::new(
                 init.credentials.sntp_server.clone(),
@@ -328,6 +329,7 @@ async fn main() -> ExitCode {
                     (init.credentials.continuity_key_id.clone(), 1),
                     catalog_verifying_key,
                 )]),
+                BTreeMap::from([((operation_key_id.clone(), 1), migration_decision_key)]),
             ) {
                 Ok(port) => Arc::new(port),
                 Err(error) => {

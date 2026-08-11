@@ -12,7 +12,7 @@ ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 BASE = "4460ec8157da7a53decf28f41e20af8afd19f611"
 MAP_RELATIVE = ".csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json"
 MAP_SHA256 = "9a6d7834557f626487aae3115464ee60f19b06609b7ea9e6a24399a60eec8745"
-PREFIX = ".csdlc/evidence/208/v2/"
+PREFIX = ".csdlc/evidence/208/v3/"
 OUTPUT = ROOT.join(PREFIX)
 PROTECTED = %w[
   adl-runtime-kernel/Cargo.toml adl-runtime-kernel/Cargo.lock
@@ -120,7 +120,7 @@ system("git", "merge-base", "--is-ancestor", main_revision.strip, source, chdir:
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue208.guardian_kernel_continuity_proof.v2", "issue" => 208,
+  "schema" => "adl.issue208.guardian_kernel_continuity_proof.v3", "issue" => 208,
   "execution_base_revision" => BASE, "main_revision" => main_revision.strip,
   "source_revision" => source, "source_tree" => tree.strip,
   "produced_at" => Time.now.utc.iso8601(6),

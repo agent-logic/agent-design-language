@@ -18,6 +18,7 @@ use std::{
     },
 };
 
+use base64::{engine::general_purpose::STANDARD as BASE64, Engine as _};
 use fs2::FileExt;
 use openraft::{
     error::{InstallSnapshotError, NetworkError, RPCError, RaftError, RemoteError},
@@ -45,7 +46,12 @@ use crate::distributed::transport::{
     RuntimeAuthorityInitializer, TransportLimits, TransportResult, VerifiedPolisRouteCut,
 };
 use crate::kernel_continuity_client::KernelContinuityClient;
-use adl_runtime_kernel::{ContinuityControlError, RuntimeInitConfig};
+use adl_runtime_kernel::{
+    sha256, ContinuityCommand, ContinuityControlError, ContinuityReply,
+    MigrationDecisionCertificate, RuntimeInitConfig, SignedBundleCatalog, SourceCheckpointHandle,
+    SourceQuiesceReceipt, SourceResumeReceipt, TargetActivationReceipt, TargetChunkReceipt,
+    TargetCleanupPermit, TargetDiscardReceipt, TargetPossessionEvidence, TargetStageHandle,
+};
 
 const MAX_RPC_BYTES: usize = 16 * 1024 * 1024;
 const MAX_TEXT_BYTES: usize = 256;
@@ -78,12 +84,15 @@ impl PolisRuntimeContinuityCapability {
         init: &RuntimeInitConfig,
     ) -> Result<Self, ContinuityControlError> {
         let client = Arc::new(KernelContinuityClient::from_runtime_init(init).await?);
+        let cleanup_permits = Arc::new(std::sync::Mutex::new(BTreeMap::new()));
         Ok(Self {
             transfer_210: TransferContinuityPort {
                 client: Arc::clone(&client),
+                cleanup_permits: Arc::clone(&cleanup_permits),
             },
             migration_204: MigrationContinuityPort {
                 client: Arc::clone(&client),
+                cleanup_permits,
             },
             client,
         })
@@ -93,44 +102,375 @@ impl PolisRuntimeContinuityCapability {
         &self.client
     }
 
-    pub(crate) fn transfer_210(&self) -> &TransferContinuityPort {
+    pub fn transfer_210(&self) -> &TransferContinuityPort {
         &self.transfer_210
     }
 
-    pub(crate) fn migration_204(&self) -> &MigrationContinuityPort {
+    pub fn migration_204(&self) -> &MigrationContinuityPort {
         &self.migration_204
-    }
-
-    pub(crate) fn validate_role_ports(&self) -> Result<(), ContinuityControlError> {
-        if !self.transfer_210().is_live() || !self.migration_204().is_live() {
-            return Err(ContinuityControlError::ReconcileRequired);
-        }
-        Ok(())
     }
 }
 
-/// Sealed #210 view. Its private field and crate-private methods prevent a
-/// transport caller from constructing it or reaching source resume, target
-/// activation, target discard, or the generic command channel.
+/// The only successful #210 transfer result. Its private fields prevent a
+/// caller from manufacturing verified possession or acquiring cleanup or
+/// activation authority.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct VerifiedTransferPossession {
+    stage: TargetStageHandle,
+    possession: TargetPossessionEvidence,
+}
+
+impl VerifiedTransferPossession {
+    pub fn stage(&self) -> &TargetStageHandle {
+        &self.stage
+    }
+
+    pub fn possession(&self) -> &TargetPossessionEvidence {
+        &self.possession
+    }
+}
+
+/// Sealed #210 view. Its private fields prevent caller construction and its
+/// API omits source resume, target activation, target discard, and the generic
+/// command channel.
 pub struct TransferContinuityPort {
     client: Arc<KernelContinuityClient>,
+    cleanup_permits: Arc<std::sync::Mutex<BTreeMap<String, TargetCleanupPermit>>>,
 }
 
 impl TransferContinuityPort {
-    pub(crate) fn is_live(&self) -> bool {
-        Arc::strong_count(&self.client) > 0
+    #[allow(clippy::too_many_arguments)]
+    pub async fn source_checkpoint(
+        &self,
+        operation_id: &str,
+        generation: u64,
+        predecessor_sha256: Option<String>,
+        accepted_prefix: u64,
+        topology_sha256: String,
+        config_sha256: String,
+        quiesce_millis: u64,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<(SourceQuiesceReceipt, SourceCheckpointHandle), ContinuityControlError> {
+        match self
+            .client
+            .run_role_command(
+                operation_id,
+                ContinuityCommand::QuiesceAndExport {
+                    generation,
+                    predecessor_sha256,
+                    topology_sha256,
+                    config_sha256,
+                    deadline_millis: quiesce_millis,
+                },
+                accepted_prefix,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await?
+        {
+            ContinuityReply::Exported { quiesce, handle } => Ok((quiesce, handle)),
+            _ => Err(ContinuityControlError::ContentMismatch),
+        }
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub async fn read_signed_range(
+        &self,
+        operation_id: &str,
+        handle: SourceCheckpointHandle,
+        ordinal: u32,
+        relative_offset: u64,
+        length: u64,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<Vec<u8>, ContinuityControlError> {
+        match self
+            .client
+            .run_role_command(
+                operation_id,
+                ContinuityCommand::ReadBundleRange {
+                    handle,
+                    ordinal,
+                    relative_offset,
+                    length,
+                },
+                0,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await?
+        {
+            ContinuityReply::BundleRange { bytes_base64 } => BASE64
+                .decode(bytes_base64)
+                .map_err(|_| ContinuityControlError::ContentMismatch),
+            _ => Err(ContinuityControlError::ContentMismatch),
+        }
+    }
+
+    pub async fn create_target_stage(
+        &self,
+        operation_id: &str,
+        stage_id: String,
+        root_generation: u64,
+        catalog: SignedBundleCatalog,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<TargetStageHandle, ContinuityControlError> {
+        match self
+            .client
+            .run_role_command(
+                operation_id,
+                ContinuityCommand::StageTarget {
+                    stage_id,
+                    root_generation,
+                    catalog,
+                },
+                0,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await?
+        {
+            ContinuityReply::StageCreated { handle, cleanup } => {
+                self.cleanup_permits
+                    .lock()
+                    .map_err(|_| ContinuityControlError::CorruptJournal)?
+                    .insert(handle.id().to_owned(), cleanup);
+                Ok(handle)
+            }
+            _ => Err(ContinuityControlError::ContentMismatch),
+        }
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub async fn write_target_chunk(
+        &self,
+        operation_id: &str,
+        handle: TargetStageHandle,
+        ordinal: u32,
+        chunk_index: u32,
+        relative_offset: u64,
+        predecessor_sha256: Option<String>,
+        bytes: &[u8],
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<TargetChunkReceipt, ContinuityControlError> {
+        match self
+            .client
+            .run_role_command(
+                operation_id,
+                ContinuityCommand::WriteTargetChunk {
+                    handle,
+                    ordinal,
+                    chunk_index,
+                    relative_offset,
+                    predecessor_sha256,
+                    chunk_sha256: sha256(bytes),
+                    bytes_base64: BASE64.encode(bytes),
+                },
+                0,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await?
+        {
+            ContinuityReply::ChunkWritten { receipt } => Ok(receipt),
+            _ => Err(ContinuityControlError::ContentMismatch),
+        }
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub async fn verify_target(
+        &self,
+        operation_id: &str,
+        handle: TargetStageHandle,
+        expected_generation: u64,
+        expected_predecessor: Option<String>,
+        expected_prefix: u64,
+        topology_sha256: String,
+        config_sha256: String,
+        service_schemas: BTreeMap<String, String>,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<VerifiedTransferPossession, ContinuityControlError> {
+        match self
+            .client
+            .run_role_command(
+                operation_id,
+                ContinuityCommand::ValidateTarget {
+                    handle: handle.clone(),
+                    expected_generation,
+                    expected_predecessor,
+                    expected_prefix,
+                    topology_sha256,
+                    config_sha256,
+                    service_schemas,
+                },
+                expected_prefix,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await?
+        {
+            ContinuityReply::TargetValidated { possession } => Ok(VerifiedTransferPossession {
+                stage: handle,
+                possession,
+            }),
+            _ => Err(ContinuityControlError::ContentMismatch),
+        }
+    }
+
+    pub async fn request_cleanup(
+        &self,
+        operation_id: &str,
+        handle: TargetStageHandle,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<TargetDiscardReceipt, ContinuityControlError> {
+        let cleanup = self
+            .cleanup_permits
+            .lock()
+            .map_err(|_| ContinuityControlError::CorruptJournal)?
+            .get(handle.id())
+            .cloned()
+            .ok_or(ContinuityControlError::CleanupAuthority)?;
+        let result = match self
+            .client
+            .run_role_command(
+                operation_id,
+                ContinuityCommand::DiscardTarget {
+                    handle: handle.clone(),
+                    cleanup,
+                },
+                0,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await?
+        {
+            ContinuityReply::TargetDiscarded { receipt } => Ok(receipt),
+            _ => Err(ContinuityControlError::ContentMismatch),
+        }?;
+        self.cleanup_permits
+            .lock()
+            .map_err(|_| ContinuityControlError::CorruptJournal)?
+            .remove(handle.id());
+        Ok(result)
     }
 }
 
-/// Sealed #204 view. Only the verified migration adapter in this crate may use
-/// it; #210 and public callers receive no constructor or generic executor.
+/// Sealed #204 view. It is constructible only through production capability
+/// initialization, consumes the unforgeable verified-transfer result for
+/// activation, and exposes no generic executor.
 pub struct MigrationContinuityPort {
     client: Arc<KernelContinuityClient>,
+    cleanup_permits: Arc<std::sync::Mutex<BTreeMap<String, TargetCleanupPermit>>>,
 }
 
 impl MigrationContinuityPort {
-    pub(crate) fn is_live(&self) -> bool {
-        Arc::strong_count(&self.client) > 0
+    pub async fn resume_source(
+        &self,
+        operation_id: &str,
+        handle: SourceCheckpointHandle,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<SourceResumeReceipt, ContinuityControlError> {
+        match self
+            .client
+            .run_role_command(
+                operation_id,
+                ContinuityCommand::ResumeSource { handle },
+                0,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await?
+        {
+            ContinuityReply::SourceResumed { receipt } => Ok(receipt),
+            _ => Err(ContinuityControlError::ContentMismatch),
+        }
+    }
+
+    pub async fn activate_target(
+        &self,
+        operation_id: &str,
+        verified: VerifiedTransferPossession,
+        decision: MigrationDecisionCertificate,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<TargetActivationReceipt, ContinuityControlError> {
+        let cleanup = self
+            .cleanup_permits
+            .lock()
+            .map_err(|_| ContinuityControlError::CorruptJournal)?
+            .get(verified.stage().id())
+            .cloned()
+            .ok_or(ContinuityControlError::CleanupAuthority)?;
+        let handle = verified.stage().clone();
+        let possession = verified.possession().clone();
+        let result = match self
+            .client
+            .run_role_command(
+                operation_id,
+                ContinuityCommand::ActivateTarget {
+                    handle: handle.clone(),
+                    possession,
+                    cleanup,
+                    decision: Box::new(decision),
+                },
+                0,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await?
+        {
+            ContinuityReply::TargetActivated { receipt } => Ok(receipt),
+            _ => Err(ContinuityControlError::ContentMismatch),
+        }?;
+        self.cleanup_permits
+            .lock()
+            .map_err(|_| ContinuityControlError::CorruptJournal)?
+            .remove(handle.id());
+        Ok(result)
+    }
+
+    pub async fn discard_target(
+        &self,
+        operation_id: &str,
+        handle: TargetStageHandle,
+        deadline_unix_millis: u64,
+        cancellation: &CancellationToken,
+    ) -> Result<TargetDiscardReceipt, ContinuityControlError> {
+        let cleanup = self
+            .cleanup_permits
+            .lock()
+            .map_err(|_| ContinuityControlError::CorruptJournal)?
+            .get(handle.id())
+            .cloned()
+            .ok_or(ContinuityControlError::CleanupAuthority)?;
+        let result = match self
+            .client
+            .run_role_command(
+                operation_id,
+                ContinuityCommand::DiscardTarget {
+                    handle: handle.clone(),
+                    cleanup,
+                },
+                0,
+                deadline_unix_millis,
+                cancellation,
+            )
+            .await?
+        {
+            ContinuityReply::TargetDiscarded { receipt } => Ok(receipt),
+            _ => Err(ContinuityControlError::ContentMismatch),
+        }?;
+        self.cleanup_permits
+            .lock()
+            .map_err(|_| ContinuityControlError::CorruptJournal)?
+            .remove(handle.id());
+        Ok(result)
     }
 }
 

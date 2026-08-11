@@ -40,6 +40,7 @@ const REQUIRED_PARTICIPANTS: [&str; 5] = [
     "governance",
     "operation_state",
 ];
+const PRIVATE_CONTROL_IO_CAP: std::time::Duration = std::time::Duration::from_secs(5);
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -520,6 +521,12 @@ impl DurableContinuityJournal {
         now_unix_millis: u64,
     ) -> Result<BeginOperation, ContinuityControlError> {
         verify_directory_anchor(&self.root, &self._root_handle)?;
+        // Retirement is durable channel state, not a derived in-memory hint.
+        // Refresh and persist it before the retry lookup so an exact retry can
+        // never be accepted using a predecessor that should already be retired.
+        if self.reconcile_certificate_retirement(now_unix_millis)? {
+            self.persist()?;
+        }
         let operation = &envelope.operation;
         if operation.schema != CONTROL_REQUEST_SCHEMA
             || operation.trust_domain != config.trust_domain
@@ -683,16 +690,16 @@ impl DurableContinuityJournal {
     fn reconcile_certificate_retirement(
         &mut self,
         now_unix_millis: u64,
-    ) -> Result<(), ContinuityControlError> {
+    ) -> Result<bool, ContinuityControlError> {
         let Some(succession) = self.state.succession.as_mut() else {
-            return Ok(());
+            return Ok(false);
         };
         let retirement_unix_millis = succession
             .retirement_unix_millis
             .parse::<u64>()
             .map_err(|_| ContinuityControlError::InvalidSuccession)?;
         if succession.retired || !succession.activated || now_unix_millis < retirement_unix_millis {
-            return Ok(());
+            return Ok(false);
         }
         let predecessor_pending = self.state.journal.accepted.values().any(|accepted| {
             accepted.certificate_generation == succession.predecessor_generation
@@ -700,8 +707,9 @@ impl DurableContinuityJournal {
         });
         if !predecessor_pending {
             succession.retired = true;
+            return Ok(true);
         }
-        Ok(())
+        Ok(false)
     }
 }
 
@@ -729,6 +737,14 @@ struct ParticipantPrepareReceipt {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ParticipantResumeReceipt {
+    participant: String,
+    prepare_receipt_sha256: String,
+    receipt_sha256: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 enum SourceOperationPhase {
     Preparing,
@@ -745,6 +761,8 @@ struct SourceOperationState {
     accepted_prefix: u64,
     phase: SourceOperationPhase,
     participant_receipts: BTreeMap<String, ParticipantPrepareReceipt>,
+    #[serde(default)]
+    participant_resume_receipts: BTreeMap<String, ParticipantResumeReceipt>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     checkpoint: Option<SourceCheckpointHandle>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -849,7 +867,7 @@ impl LiveContinuityRegistry {
         }
     }
 
-    pub fn resume(&self, receipt_id: impl Into<String>) -> SourceResumeReceipt {
+    fn reopen_after_exact_resume(&self, receipt_id: impl Into<String>) -> SourceResumeReceipt {
         self.ingress.reopen();
         SourceResumeReceipt::new(receipt_id)
     }
@@ -998,6 +1016,12 @@ impl SourceContinuityEffectPort {
             else {
                 return Err(ContinuityControlError::UnsafeRoot);
             };
+            #[cfg(unix)]
+            let catalog: SignedBundleCatalog = {
+                let generation_root = open_directory_at(&export_root_handle, &name)?;
+                read_canonical_at(&generation_root, "catalog.json", bounds.max_frame_bytes)?
+            };
+            #[cfg(not(unix))]
             let catalog: SignedBundleCatalog =
                 read_canonical_file(&entry.path().join("catalog.json"), bounds.max_frame_bytes)?;
             validate_catalog(&catalog, &bounds)?;
@@ -1007,9 +1031,30 @@ impl SourceContinuityEffectPort {
             }
             retained.insert(generation, catalog);
         }
+        #[cfg(not(unix))]
         let state_path = export_root.join("source-state.json");
-        let mut source_state = if state_path.exists() {
-            read_canonical_file(&state_path, bounds.max_frame_bytes)?
+        #[cfg(unix)]
+        let existing_source_state = match read_canonical_at(
+            &export_root_handle,
+            "source-state.json",
+            bounds.max_frame_bytes,
+        ) {
+            Ok(state) => Some(state),
+            Err(ContinuityControlError::Io(error))
+                if error.kind() == std::io::ErrorKind::NotFound =>
+            {
+                None
+            }
+            Err(error) => return Err(error),
+        };
+        #[cfg(not(unix))]
+        let existing_source_state = if state_path.exists() {
+            Some(read_canonical_file(&state_path, bounds.max_frame_bytes)?)
+        } else {
+            None
+        };
+        let mut source_state = if let Some(state) = existing_source_state {
+            state
         } else {
             DurableSourceState {
                 schema: SOURCE_STATE_SCHEMA.to_owned(),
@@ -1023,27 +1068,21 @@ impl SourceContinuityEffectPort {
         }
         for operation in source_state.operations.values_mut() {
             if let Some(catalog) = retained.get(&operation.generation) {
-                if operation.participant_receipts.len() == REQUIRED_PARTICIPANTS.len()
-                    && operation.participant_receipts.values().all(|receipt| {
-                        receipt.accepted_prefix == operation.accepted_prefix
-                            && receipt.receipt_sha256
-                                == participant_receipt_digest(
-                                    &receipt.participant,
-                                    receipt.accepted_prefix,
-                                    &receipt.snapshot_sha256,
-                                )
-                    })
-                {
+                if exact_prepare_receipts(operation) {
                     operation.checkpoint = Some(SourceCheckpointHandle {
                         generation: operation.generation,
                         root_generation,
                         catalog_sha256: catalog.digest()?,
                         bundle_sha256: bundle_digest(catalog)?,
                     });
-                    operation.phase = SourceOperationPhase::Committed;
+                    if operation.phase == SourceOperationPhase::Preparing {
+                        operation.phase = SourceOperationPhase::Committed;
+                    }
                 } else {
                     operation.phase = SourceOperationPhase::RecoveryRequired;
                 }
+            } else if operation.phase == SourceOperationPhase::Preparing {
+                operation.phase = SourceOperationPhase::RecoveryRequired;
             }
             match operation.phase {
                 SourceOperationPhase::Committed | SourceOperationPhase::RecoveryRequired => {
@@ -1051,18 +1090,19 @@ impl SourceContinuityEffectPort {
                 }
                 SourceOperationPhase::Preparing | SourceOperationPhase::Resuming => {
                     registry.ingress.close();
-                    if operation.participant_receipts.values().all(|receipt| {
-                        receipt.accepted_prefix == operation.accepted_prefix
-                            && receipt.receipt_sha256
-                                == participant_receipt_digest(
-                                    &receipt.participant,
-                                    receipt.accepted_prefix,
-                                    &receipt.snapshot_sha256,
-                                )
-                    }) {
-                        let receipt = registry.resume(format!(
-                            "source-restart-resumed:{}:{}",
-                            operation.generation, operation.accepted_prefix
+                    if exact_prepare_receipts(operation)
+                        && (operation.participant_resume_receipts.is_empty()
+                            || exact_resume_receipts(operation))
+                    {
+                        if operation.participant_resume_receipts.is_empty() {
+                            operation.participant_resume_receipts =
+                                build_participant_resume_receipts(operation)?;
+                        }
+                        let receipt = registry.reopen_after_exact_resume(format!(
+                            "source-restart-resumed:{}:{}:{}",
+                            operation.generation,
+                            operation.accepted_prefix,
+                            resume_receipts_digest(operation)?
                         ));
                         operation.resume_receipt = Some(receipt);
                         operation.phase = SourceOperationPhase::Resumed;
@@ -1070,9 +1110,20 @@ impl SourceContinuityEffectPort {
                         operation.phase = SourceOperationPhase::RecoveryRequired;
                     }
                 }
-                SourceOperationPhase::Resumed => {}
+                SourceOperationPhase::Resumed => {
+                    if !exact_prepare_receipts(operation)
+                        || !exact_resume_receipts(operation)
+                        || operation.resume_receipt.is_none()
+                    {
+                        registry.ingress.close();
+                        operation.phase = SourceOperationPhase::RecoveryRequired;
+                    }
+                }
             }
         }
+        #[cfg(unix)]
+        write_canonical_at(&export_root_handle, "source-state.json", &source_state)?;
+        #[cfg(not(unix))]
         write_canonical_file(&state_path, &source_state)?;
         Ok(Self {
             export_root,
@@ -1141,14 +1192,9 @@ impl SourceContinuityEffectPort {
             return Err(ContinuityControlError::ReconcileRequired);
         }
         let started = tokio::time::Instant::now();
-        let actual_prefix = self
-            .registry
-            .prepare_admission(deadline, cancellation)
-            .await?;
-        if actual_prefix != accepted_prefix {
-            self.registry.resume("source-resumed-after-prefix-mismatch");
-            return Err(ContinuityControlError::AcceptedPrefix);
-        }
+        // Persist the exact source intent before admission is closed. A crash
+        // can therefore never leave a closed admission gate with no durable
+        // operation identity to reconcile.
         {
             let mut state = self
                 .source_state
@@ -1161,11 +1207,24 @@ impl SourceContinuityEffectPort {
                     accepted_prefix,
                     phase: SourceOperationPhase::Preparing,
                     participant_receipts: BTreeMap::new(),
+                    participant_resume_receipts: BTreeMap::new(),
                     checkpoint: None,
                     resume_receipt: None,
                 },
             );
             self.persist_source_state(&state)?;
+        }
+        let actual_prefix = match self
+            .registry
+            .prepare_admission(deadline, cancellation)
+            .await
+        {
+            Ok(prefix) => prefix,
+            Err(error) => return self.mark_source_recovery_required(generation, error),
+        };
+        if actual_prefix != accepted_prefix {
+            return self
+                .mark_source_recovery_required(generation, ContinuityControlError::AcceptedPrefix);
         }
         let mut snapshots = BTreeMap::new();
         for participant in REQUIRED_PARTICIPANTS {
@@ -1215,17 +1274,26 @@ impl SourceContinuityEffectPort {
         if snapshots.len() > self.bounds.max_services {
             return self.rollback_source_prepare(generation, ContinuityControlError::InvalidBounds);
         }
-        let pending = self
-            .export_root
-            .join(format!(".generation-{generation}.pending"));
-        let committed = self.export_root.join(format!("generation-{generation}"));
-        if pending.exists() || committed.exists() {
-            return self
-                .rollback_source_prepare(generation, ContinuityControlError::ConflictingRetry);
-        }
-        if let Err(error) = fs::create_dir(&pending) {
-            return self.rollback_source_prepare(generation, error.into());
-        }
+        let pending_name = format!(".generation-{generation}.pending");
+        let committed_name = format!("generation-{generation}");
+        #[cfg(unix)]
+        let pending_root = match create_directory_at(&self._export_root_handle, &pending_name) {
+            Ok(handle) => handle,
+            Err(error) => return self.rollback_source_prepare(generation, error),
+        };
+        #[cfg(not(unix))]
+        let pending_root = {
+            let pending = self.export_root.join(&pending_name);
+            let committed = self.export_root.join(&committed_name);
+            if pending.exists() || committed.exists() {
+                return self
+                    .rollback_source_prepare(generation, ContinuityControlError::ConflictingRetry);
+            }
+            if let Err(error) = fs::create_dir(&pending) {
+                return self.rollback_source_prepare(generation, error.into());
+            }
+            File::open(pending)?
+        };
         let result = (|| {
             let mut entries = Vec::with_capacity(snapshots.len());
             let mut offset = 0_u64;
@@ -1243,7 +1311,10 @@ impl SourceContinuityEffectPort {
                 let ordinal = (index as u32).saturating_add(1);
                 let file = format!("{ordinal:04}-{service}.bin");
                 validate_leaf_name(&file)?;
-                write_new_synced(&pending.join(&file), &bytes)?;
+                #[cfg(unix)]
+                write_new_synced_at(&pending_root, &file, &bytes)?;
+                #[cfg(not(unix))]
+                write_new_synced(&self.export_root.join(&pending_name).join(&file), &bytes)?;
                 entries.push(BundleEntry {
                     ordinal,
                     service,
@@ -1270,16 +1341,34 @@ impl SourceContinuityEffectPort {
             };
             self.authority.sign(&mut catalog)?;
             validate_catalog(&catalog, &self.bounds)?;
-            write_canonical_file(&pending.join("catalog.json"), &catalog)?;
-            sync_dir(&pending)?;
-            fs::rename(&pending, &committed)?;
-            sync_dir(&self.export_root)?;
+            #[cfg(unix)]
+            {
+                write_canonical_at(&pending_root, "catalog.json", &catalog)?;
+                pending_root.sync_all()?;
+                drop(pending_root);
+                rename_at(
+                    &self._export_root_handle,
+                    &pending_name,
+                    &self._export_root_handle,
+                    &committed_name,
+                )?;
+            }
+            #[cfg(not(unix))]
+            {
+                let pending = self.export_root.join(&pending_name);
+                let committed = self.export_root.join(&committed_name);
+                write_canonical_file(&pending.join("catalog.json"), &catalog)?;
+                sync_dir(&pending)?;
+                fs::rename(&pending, &committed)?;
+                sync_dir(&self.export_root)?;
+            }
             Ok(catalog)
         })();
         let catalog = match result {
             Ok(catalog) => catalog,
             Err(error) => {
-                let _ = fs::remove_dir_all(&pending);
+                // Leave an anchored pending generation for explicit recovery;
+                // never chase a replaced path recursively during error cleanup.
                 return self.rollback_source_prepare(generation, error);
             }
         };
@@ -1334,9 +1423,15 @@ impl SourceContinuityEffectPort {
             return Err(ContinuityControlError::ConflictingRetry);
         }
         Ok(ContinuityBundleSourcePort {
+            #[cfg(not(unix))]
             generation_root: self
                 .export_root
                 .join(format!("generation-{}", handle.generation)),
+            #[cfg(unix)]
+            generation_root_handle: open_directory_at(
+                &self._export_root_handle,
+                &format!("generation-{}", handle.generation),
+            )?,
             handle: handle.clone(),
             catalog,
             bounds: self.bounds.clone(),
@@ -1376,16 +1471,30 @@ impl SourceContinuityEffectPort {
         if operation.phase != SourceOperationPhase::Committed {
             return Err(ContinuityControlError::RecoveryRequired);
         }
+        if !exact_prepare_receipts(operation) {
+            operation.phase = SourceOperationPhase::RecoveryRequired;
+            self.persist_source_state(&state)?;
+            return Err(ContinuityControlError::RecoveryRequired);
+        }
         operation.phase = SourceOperationPhase::Resuming;
+        operation.participant_resume_receipts = build_participant_resume_receipts(operation)?;
         self.persist_source_state(&state)?;
-        let receipt = self.registry.resume(format!(
-            "source-resumed:{}:{}:{}",
-            handle.generation, handle.catalog_sha256, handle.bundle_sha256
-        ));
         let operation = state
             .operations
             .get_mut(&handle.generation)
             .ok_or(ContinuityControlError::CorruptJournal)?;
+        if !exact_resume_receipts(operation) {
+            operation.phase = SourceOperationPhase::RecoveryRequired;
+            self.persist_source_state(&state)?;
+            return Err(ContinuityControlError::RecoveryRequired);
+        }
+        let receipt = self.registry.reopen_after_exact_resume(format!(
+            "source-resumed:{}:{}:{}:{}",
+            handle.generation,
+            handle.catalog_sha256,
+            handle.bundle_sha256,
+            resume_receipts_digest(operation)?
+        ));
         operation.resume_receipt = Some(receipt.clone());
         operation.phase = SourceOperationPhase::Resumed;
         self.persist_source_state(&state)?;
@@ -1427,19 +1536,36 @@ impl SourceContinuityEffectPort {
                 .operations
                 .get_mut(&generation)
                 .ok_or(ContinuityControlError::RecoveryRequired)?;
+            if !exact_prepare_receipts(operation) {
+                operation.phase = SourceOperationPhase::RecoveryRequired;
+                self.persist_source_state(&state)
+                    .map_err(|_| ContinuityControlError::RecoveryRequired)?;
+                return Err(ContinuityControlError::RecoveryRequired);
+            }
             operation.phase = SourceOperationPhase::Resuming;
+            operation.participant_resume_receipts = build_participant_resume_receipts(operation)
+                .map_err(|_| ContinuityControlError::RecoveryRequired)?;
             operation.accepted_prefix
         };
         self.persist_source_state(&state)
             .map_err(|_| ContinuityControlError::RecoveryRequired)?;
-        let receipt = self.registry.resume(format!(
-            "source-rollback-resumed:{}:{}",
-            generation, accepted_prefix
-        ));
         let operation = state
             .operations
             .get_mut(&generation)
             .ok_or(ContinuityControlError::RecoveryRequired)?;
+        if !exact_resume_receipts(operation) {
+            operation.phase = SourceOperationPhase::RecoveryRequired;
+            self.persist_source_state(&state)
+                .map_err(|_| ContinuityControlError::RecoveryRequired)?;
+            return Err(ContinuityControlError::RecoveryRequired);
+        }
+        let receipt = self.registry.reopen_after_exact_resume(format!(
+            "source-rollback-resumed:{}:{}:{}",
+            generation,
+            accepted_prefix,
+            resume_receipts_digest(operation)
+                .map_err(|_| ContinuityControlError::RecoveryRequired)?
+        ));
         operation.resume_receipt = Some(receipt);
         operation.phase = SourceOperationPhase::Resumed;
         self.persist_source_state(&state)
@@ -1447,11 +1573,38 @@ impl SourceContinuityEffectPort {
         Err(error)
     }
 
+    fn mark_source_recovery_required<T>(
+        &self,
+        generation: u64,
+        _cause: ContinuityControlError,
+    ) -> Result<T, ContinuityControlError> {
+        let mut state = self
+            .source_state
+            .lock()
+            .map_err(|_| ContinuityControlError::RecoveryRequired)?;
+        let operation = state
+            .operations
+            .get_mut(&generation)
+            .ok_or(ContinuityControlError::RecoveryRequired)?;
+        operation.phase = SourceOperationPhase::RecoveryRequired;
+        self.registry.ingress.close();
+        self.persist_source_state(&state)
+            .map_err(|_| ContinuityControlError::RecoveryRequired)?;
+        Err(ContinuityControlError::RecoveryRequired)
+    }
+
     fn persist_source_state(
         &self,
         state: &DurableSourceState,
     ) -> Result<(), ContinuityControlError> {
-        write_canonical_file(&self.export_root.join("source-state.json"), state)
+        #[cfg(unix)]
+        {
+            write_canonical_at(&self._export_root_handle, "source-state.json", state)
+        }
+        #[cfg(not(unix))]
+        {
+            write_canonical_file(&self.export_root.join("source-state.json"), state)
+        }
     }
 
     fn verify_export_root_anchor(&self) -> Result<(), ContinuityControlError> {
@@ -1467,8 +1620,93 @@ fn participant_receipt_digest(
     sha256(format!("{participant}\0{accepted_prefix}\0{snapshot_sha256}").as_bytes())
 }
 
+fn exact_prepare_receipts(operation: &SourceOperationState) -> bool {
+    operation.participant_receipts.len() == REQUIRED_PARTICIPANTS.len()
+        && REQUIRED_PARTICIPANTS.iter().all(|participant| {
+            operation
+                .participant_receipts
+                .get(*participant)
+                .is_some_and(|receipt| {
+                    receipt.participant == *participant
+                        && receipt.accepted_prefix == operation.accepted_prefix
+                        && receipt.receipt_sha256
+                            == participant_receipt_digest(
+                                participant,
+                                receipt.accepted_prefix,
+                                &receipt.snapshot_sha256,
+                            )
+                })
+        })
+}
+
+fn participant_resume_receipt_digest(participant: &str, prepare_receipt_sha256: &str) -> String {
+    sha256(format!("resume\0{participant}\0{prepare_receipt_sha256}").as_bytes())
+}
+
+fn build_participant_resume_receipts(
+    operation: &SourceOperationState,
+) -> Result<BTreeMap<String, ParticipantResumeReceipt>, ContinuityControlError> {
+    if !exact_prepare_receipts(operation) {
+        return Err(ContinuityControlError::RecoveryRequired);
+    }
+    Ok(REQUIRED_PARTICIPANTS
+        .iter()
+        .map(|participant| {
+            let prepare = operation
+                .participant_receipts
+                .get(*participant)
+                .expect("exact prepare set checked above");
+            let receipt = ParticipantResumeReceipt {
+                participant: (*participant).to_owned(),
+                prepare_receipt_sha256: prepare.receipt_sha256.clone(),
+                receipt_sha256: participant_resume_receipt_digest(
+                    participant,
+                    &prepare.receipt_sha256,
+                ),
+            };
+            ((*participant).to_owned(), receipt)
+        })
+        .collect())
+}
+
+fn exact_resume_receipts(operation: &SourceOperationState) -> bool {
+    operation.participant_resume_receipts.len() == REQUIRED_PARTICIPANTS.len()
+        && REQUIRED_PARTICIPANTS.iter().all(|participant| {
+            let Some(prepare) = operation.participant_receipts.get(*participant) else {
+                return false;
+            };
+            operation
+                .participant_resume_receipts
+                .get(*participant)
+                .is_some_and(|receipt| {
+                    receipt.participant == *participant
+                        && receipt.prepare_receipt_sha256 == prepare.receipt_sha256
+                        && receipt.receipt_sha256
+                            == participant_resume_receipt_digest(
+                                participant,
+                                &prepare.receipt_sha256,
+                            )
+                })
+        })
+}
+
+fn resume_receipts_digest(
+    operation: &SourceOperationState,
+) -> Result<String, ContinuityControlError> {
+    if !exact_resume_receipts(operation) {
+        return Err(ContinuityControlError::RecoveryRequired);
+    }
+    Ok(sha256(
+        &serde_jcs::to_vec(&operation.participant_resume_receipts)
+            .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?,
+    ))
+}
+
 pub struct ContinuityBundleSourcePort {
+    #[cfg(not(unix))]
     generation_root: PathBuf,
+    #[cfg(unix)]
+    generation_root_handle: File,
     handle: SourceCheckpointHandle,
     catalog: SignedBundleCatalog,
     bounds: ContinuityControlBounds,
@@ -1500,10 +1738,15 @@ impl ContinuityBundleSourcePort {
         if length == 0 || end > entry.bytes || length > self.bounds.max_blob_bytes {
             return Err(ContinuityControlError::InvalidBounds);
         }
-        let path = self.generation_root.join(&entry.file);
-        validate_regular_single_link_file(&path, entry.bytes)?;
+        #[cfg(unix)]
+        let mut file = open_file_at(&self.generation_root_handle, &entry.file, libc::O_RDONLY, 0)?;
+        #[cfg(not(unix))]
+        let mut file = {
+            let path = self.generation_root.join(&entry.file);
+            validate_regular_single_link_file(&path, entry.bytes)?;
+            File::open(&path)?
+        };
         use std::io::{Seek, SeekFrom};
-        let mut file = File::open(&path)?;
         file.seek(SeekFrom::Start(relative_offset))?;
         let mut bytes = Vec::new();
         file.take(length.saturating_add(1))
@@ -1607,6 +1850,12 @@ impl TargetCleanupPermit {
     pub fn stage_id(&self) -> &str {
         &self.stage_id
     }
+
+    pub fn digest(&self) -> Result<String, ContinuityControlError> {
+        Ok(sha256(&serde_jcs::to_vec(self).map_err(|error| {
+            ContinuityControlError::Encoding(error.to_string())
+        })?))
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -1620,6 +1869,9 @@ pub struct StageCreated {
 struct FinalizedMigrationDecision {
     decision_id: String,
     stage_id: String,
+    root_generation: u64,
+    catalog_sha256: String,
+    cleanup_permit_sha256: String,
     possession_sha256: String,
     trust_domain: String,
     polis: String,
@@ -1640,6 +1892,9 @@ struct FinalizedMigrationDecision {
 pub struct MigrationDecisionCertificate {
     pub decision_id: String,
     pub stage_id: String,
+    pub root_generation: u64,
+    pub catalog_sha256: String,
+    pub cleanup_permit_sha256: String,
     pub possession_sha256: String,
     pub trust_domain: String,
     pub polis: String,
@@ -1656,27 +1911,11 @@ pub struct MigrationDecisionCertificate {
 }
 
 impl MigrationDecisionCertificate {
-    fn unsigned_bytes(&self) -> Result<Vec<u8>, ContinuityControlError> {
+    pub fn unsigned_bytes(&self) -> Result<Vec<u8>, ContinuityControlError> {
         let mut unsigned = self.clone();
         unsigned.signature.clear();
         serde_jcs::to_vec(&unsigned)
             .map_err(|error| ContinuityControlError::Encoding(error.to_string()))
-    }
-
-    pub fn sign(
-        mut self,
-        authority: &CatalogSigningAuthority,
-    ) -> Result<Self, ContinuityControlError> {
-        self.authority_key_id = authority.key_id.clone();
-        self.authority_key_generation = authority.key_generation;
-        self.signature.clear();
-        self.signature = hex::encode(
-            authority
-                .signing_key
-                .sign(&self.unsigned_bytes()?)
-                .to_bytes(),
-        );
-        Ok(self)
     }
 }
 
@@ -1708,6 +1947,10 @@ pub enum ContinuityCommand {
     WriteTargetChunk {
         handle: TargetStageHandle,
         ordinal: u32,
+        chunk_index: u32,
+        relative_offset: u64,
+        predecessor_sha256: Option<String>,
+        chunk_sha256: String,
         bytes_base64: String,
     },
     ValidateTarget {
@@ -1765,7 +2008,9 @@ pub enum ContinuityReply {
         handle: TargetStageHandle,
         cleanup: TargetCleanupPermit,
     },
-    ChunkWritten,
+    ChunkWritten {
+        receipt: TargetChunkReceipt,
+    },
     TargetValidated {
         possession: TargetPossessionEvidence,
     },
@@ -1796,7 +2041,8 @@ struct TargetStageState {
     cleanup: TargetCleanupPermit,
     catalog: SignedBundleCatalog,
     status: TargetStageStatus,
-    received: BTreeMap<u32, String>,
+    #[serde(default)]
+    received: BTreeMap<String, TargetChunkReceipt>,
     possession: Option<TargetPossessionEvidence>,
     discard: Option<TargetDiscardReceipt>,
     activation: Option<TargetActivationReceipt>,
@@ -1804,6 +2050,24 @@ struct TargetStageState {
     activation_decision_sha256: Option<String>,
     #[serde(default)]
     cleanup_consumed: bool,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TargetChunkReceipt {
+    ordinal: u32,
+    chunk_index: u32,
+    relative_offset: u64,
+    bytes: u64,
+    chunk_sha256: String,
+    predecessor_sha256: Option<String>,
+    receipt_sha256: String,
+}
+
+impl TargetChunkReceipt {
+    pub fn digest(&self) -> &str {
+        &self.receipt_sha256
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1819,30 +2083,54 @@ struct ActiveTargetRecord {
 
 const ACTIVE_TARGET_SCHEMA: &str = "adl.runtime.kernel_continuity.active_target.v1";
 
-pub struct TargetContinuityCoordinator {
+/// Kernel-owned target effect port. It performs filesystem effects but owns no
+/// migration policy and cannot mint a #204 decision.
+pub struct TargetContinuityEffectPort {
     config: ContinuityControlInitConfig,
     _lock: File,
     _staging_root_handle: File,
-    trusted_keys: BTreeMap<(String, u64), VerifyingKey>,
+    _state_root_handle: File,
+    _terminal_root_handle: File,
+    trusted_catalog_keys: BTreeMap<(String, u64), VerifyingKey>,
+    trusted_decision_keys: BTreeMap<(String, u64), VerifyingKey>,
     stages: Mutex<BTreeMap<String, TargetStageState>>,
 }
 
-impl TargetContinuityCoordinator {
+impl TargetContinuityEffectPort {
     pub fn open(
         config: ContinuityControlInitConfig,
-        trusted_keys: BTreeMap<(String, u64), VerifyingKey>,
+        trusted_catalog_keys: BTreeMap<(String, u64), VerifyingKey>,
+        trusted_decision_keys: BTreeMap<(String, u64), VerifyingKey>,
     ) -> Result<Self, ContinuityControlError> {
+        if trusted_catalog_keys.is_empty()
+            || trusted_decision_keys.is_empty()
+            || trusted_catalog_keys.values().any(|catalog| {
+                trusted_decision_keys
+                    .values()
+                    .any(|decision| catalog == decision)
+            })
+        {
+            return Err(ContinuityControlError::ActivationDecision);
+        }
         fs::create_dir_all(&config.staging_dir)?;
         validate_existing_directory(&config.staging_dir)?;
         fs::create_dir_all(&config.state_dir)?;
         validate_existing_directory(&config.state_dir)?;
-        let lock_path = config.state_dir.join("target-writer.lock");
+        let state_root_handle = File::open(&config.state_dir)?;
+        #[cfg(unix)]
+        let lock = open_file_at(
+            &state_root_handle,
+            "target-writer.lock",
+            libc::O_CREAT | libc::O_RDWR,
+            0o600,
+        )?;
+        #[cfg(not(unix))]
         let lock = OpenOptions::new()
             .create(true)
             .truncate(false)
             .read(true)
             .write(true)
-            .open(&lock_path)?;
+            .open(config.state_dir.join("target-writer.lock"))?;
         lock.try_lock_exclusive().map_err(|error| {
             if error.kind() == std::io::ErrorKind::WouldBlock {
                 ContinuityControlError::AlreadyOpen
@@ -1852,14 +2140,33 @@ impl TargetContinuityCoordinator {
         })?;
         let staging_root_handle = File::open(&config.staging_dir)?;
         let terminal_root = config.state_dir.join("target-results");
-        fs::create_dir_all(&terminal_root)?;
-        validate_existing_directory(&terminal_root)?;
+        #[cfg(unix)]
+        let terminal_root_handle = match open_directory_at(&state_root_handle, "target-results") {
+            Ok(handle) => handle,
+            Err(ContinuityControlError::Io(error))
+                if error.kind() == std::io::ErrorKind::NotFound =>
+            {
+                create_directory_at(&state_root_handle, "target-results")?
+            }
+            Err(error) => return Err(error),
+        };
+        #[cfg(not(unix))]
+        let terminal_root_handle = {
+            fs::create_dir_all(&terminal_root)?;
+            validate_existing_directory(&terminal_root)?;
+            File::open(&terminal_root)?
+        };
         let mut stages = BTreeMap::new();
         for entry in fs::read_dir(&terminal_root)? {
             let entry = entry?;
             if entry.file_type()?.is_symlink() || !entry.file_type()?.is_file() {
                 return Err(ContinuityControlError::UnsafeRoot);
             }
+            let leaf = entry.file_name().to_string_lossy().into_owned();
+            #[cfg(unix)]
+            let state: TargetStageState =
+                read_canonical_at(&terminal_root_handle, &leaf, config.bounds.max_frame_bytes)?;
+            #[cfg(not(unix))]
             let state: TargetStageState =
                 read_canonical_file(&entry.path(), config.bounds.max_frame_bytes)?;
             if state.schema != STAGE_STATE_SCHEMA
@@ -1877,10 +2184,17 @@ impl TargetContinuityCoordinator {
             if entry.file_type()?.is_symlink() || !entry.file_type()?.is_dir() {
                 return Err(ContinuityControlError::UnsafeRoot);
             }
-            let state_path = entry.path().join("stage.json");
-            let state: TargetStageState =
-                read_canonical_file(&state_path, config.bounds.max_frame_bytes)?;
             let entry_name = entry.file_name().to_string_lossy().into_owned();
+            #[cfg(unix)]
+            let stage_root = open_directory_at(&staging_root_handle, &entry_name)?;
+            #[cfg(unix)]
+            let state: TargetStageState =
+                read_canonical_at(&stage_root, "stage.json", config.bounds.max_frame_bytes)?;
+            #[cfg(not(unix))]
+            let state: TargetStageState = read_canonical_file(
+                &entry.path().join("stage.json"),
+                config.bounds.max_frame_bytes,
+            )?;
             let expected_stage_name = entry_name.strip_prefix(".discard-").unwrap_or(&entry_name);
             if state.schema != STAGE_STATE_SCHEMA || state.handle.stage_id != expected_stage_name {
                 return Err(ContinuityControlError::CorruptStage);
@@ -1894,12 +2208,36 @@ impl TargetContinuityCoordinator {
                     .ok_or(ContinuityControlError::CorruptStage)?;
                 state.status = TargetStageStatus::Discarded;
                 state.discard = Some(receipt);
+                #[cfg(unix)]
+                write_canonical_at(
+                    &terminal_root_handle,
+                    &format!("{}.json", state.handle.stage_id),
+                    &state,
+                )?;
+                #[cfg(not(unix))]
                 write_canonical_file(
                     &terminal_root.join(format!("{}.json", state.handle.stage_id)),
                     &state,
                 )?;
-                fs::remove_dir_all(entry.path())?;
-                sync_dir(&config.staging_dir)?;
+                #[cfg(unix)]
+                {
+                    for catalog_entry in &state.catalog.entries {
+                        match unlink_at(&stage_root, &catalog_entry.file, false) {
+                            Ok(()) => {}
+                            Err(ContinuityControlError::Io(error))
+                                if error.kind() == std::io::ErrorKind::NotFound => {}
+                            Err(error) => return Err(error),
+                        }
+                    }
+                    unlink_at(&stage_root, "stage.json", false)?;
+                    drop(stage_root);
+                    unlink_at(&staging_root_handle, &entry_name, true)?;
+                }
+                #[cfg(not(unix))]
+                {
+                    fs::remove_dir_all(entry.path())?;
+                    sync_dir(&config.staging_dir)?;
+                }
             } else if state.status == TargetStageStatus::Activating {
                 let decision_sha256 = state
                     .activation_decision_sha256
@@ -1917,13 +2255,28 @@ impl TargetContinuityCoordinator {
                     decision_sha256,
                     receipt,
                 };
+                #[cfg(unix)]
+                write_canonical_at(&state_root_handle, "active-target.json", &active)?;
+                #[cfg(not(unix))]
                 write_canonical_file(&config.state_dir.join("active-target.json"), &active)?;
                 state.status = TargetStageStatus::Activated;
-                write_canonical_file(&entry.path().join("stage.json"), &state)?;
-                write_canonical_file(
-                    &terminal_root.join(format!("{}.json", state.handle.stage_id)),
-                    &state,
-                )?;
+                #[cfg(unix)]
+                {
+                    write_canonical_at(&stage_root, "stage.json", &state)?;
+                    write_canonical_at(
+                        &terminal_root_handle,
+                        &format!("{}.json", state.handle.stage_id),
+                        &state,
+                    )?;
+                }
+                #[cfg(not(unix))]
+                {
+                    write_canonical_file(&entry.path().join("stage.json"), &state)?;
+                    write_canonical_file(
+                        &terminal_root.join(format!("{}.json", state.handle.stage_id)),
+                        &state,
+                    )?;
+                }
             }
             if let Some(terminal) = stages.get(&state.handle.stage_id) {
                 if terminal != &state && terminal.status != TargetStageStatus::Discarded {
@@ -1937,7 +2290,10 @@ impl TargetContinuityCoordinator {
             config,
             _lock: lock,
             _staging_root_handle: staging_root_handle,
-            trusted_keys,
+            _state_root_handle: state_root_handle,
+            _terminal_root_handle: terminal_root_handle,
+            trusted_catalog_keys,
+            trusted_decision_keys,
             stages: Mutex::new(stages),
         })
     }
@@ -1952,7 +2308,7 @@ impl TargetContinuityCoordinator {
         if !safe_identity(stage_id) || root_generation == 0 {
             return Err(ContinuityControlError::InvalidIdentity);
         }
-        catalog.verify(&self.trusted_keys)?;
+        catalog.verify(&self.trusted_catalog_keys)?;
         validate_catalog(&catalog, &self.config.bounds)?;
         let catalog_sha256 = catalog.digest()?;
         let handle = TargetStageHandle {
@@ -1984,11 +2340,17 @@ impl TargetContinuityCoordinator {
             }
             return Err(ContinuityControlError::ConflictingRetry);
         }
-        let path = self.stage_path(stage_id);
-        if path.exists() {
-            return Err(ContinuityControlError::CorruptStage);
-        }
-        fs::create_dir(&path)?;
+        #[cfg(unix)]
+        let stage_root = create_directory_at(&self._staging_root_handle, stage_id)?;
+        #[cfg(not(unix))]
+        let stage_root = {
+            let path = self.stage_path(stage_id);
+            if path.exists() {
+                return Err(ContinuityControlError::CorruptStage);
+            }
+            fs::create_dir(&path)?;
+            File::open(path)?
+        };
         let state = TargetStageState {
             schema: STAGE_STATE_SCHEMA.to_owned(),
             handle: handle.clone(),
@@ -2002,19 +2364,39 @@ impl TargetContinuityCoordinator {
             activation_decision_sha256: None,
             cleanup_consumed: false,
         };
-        write_canonical_file(&path.join("stage.json"), &state)?;
-        sync_dir(&self.config.staging_dir)?;
+        #[cfg(unix)]
+        write_canonical_at(&stage_root, "stage.json", &state)?;
+        #[cfg(not(unix))]
+        write_canonical_file(&self.stage_path(stage_id).join("stage.json"), &state)?;
+        self._staging_root_handle.sync_all()?;
         stages.insert(stage_id.to_owned(), state);
         Ok(StageCreated { handle, cleanup })
     }
 
-    pub fn write_entry(
+    #[allow(clippy::too_many_arguments)]
+    pub fn write_chunk(
         &self,
         handle: &TargetStageHandle,
         ordinal: u32,
+        chunk_index: u32,
+        relative_offset: u64,
+        predecessor_sha256: Option<&str>,
+        chunk_sha256: &str,
         bytes: &[u8],
-    ) -> Result<(), ContinuityControlError> {
+    ) -> Result<TargetChunkReceipt, ContinuityControlError> {
         self.verify_staging_root_anchor()?;
+        let max_chunk_bytes = self.config.bounds.max_frame_bytes.saturating_div(2).max(1);
+        if bytes.is_empty()
+            || bytes.len() > max_chunk_bytes
+            || bytes.len() as u64 > self.config.bounds.max_blob_bytes
+            || sha256(bytes) != chunk_sha256
+        {
+            return Err(ContinuityControlError::FrameBounds);
+        }
+        validate_digest(chunk_sha256)?;
+        if let Some(predecessor) = predecessor_sha256 {
+            validate_digest(predecessor)?;
+        }
         let mut stages = self
             .stages
             .lock()
@@ -2032,20 +2414,107 @@ impl TargetContinuityCoordinator {
             .iter()
             .find(|entry| entry.ordinal == ordinal)
             .ok_or(ContinuityControlError::CatalogMismatch)?;
-        if bytes.len() as u64 != entry.bytes || sha256(bytes) != entry.sha256 {
+        let end = relative_offset
+            .checked_add(bytes.len() as u64)
+            .ok_or(ContinuityControlError::InvalidBounds)?;
+        if end > entry.bytes {
+            return Err(ContinuityControlError::InvalidBounds);
+        }
+        let key = target_chunk_key(ordinal, chunk_index);
+        let expected_predecessor = if chunk_index == 0 {
+            if relative_offset != 0 {
+                return Err(ContinuityControlError::ContentMismatch);
+            }
+            None
+        } else {
+            let previous = state
+                .received
+                .get(&target_chunk_key(ordinal, chunk_index - 1))
+                .ok_or(ContinuityControlError::ContentMismatch)?;
+            if previous.relative_offset.saturating_add(previous.bytes) != relative_offset {
+                return Err(ContinuityControlError::ContentMismatch);
+            }
+            Some(previous.receipt_sha256.as_str())
+        };
+        if expected_predecessor != predecessor_sha256 {
             return Err(ContinuityControlError::ContentMismatch);
         }
-        if state.received.contains_key(&ordinal) {
-            if state.received.get(&ordinal) == Some(&entry.sha256) {
-                return Ok(());
+        let receipt_sha256 = target_chunk_receipt_digest(
+            ordinal,
+            chunk_index,
+            relative_offset,
+            bytes.len() as u64,
+            chunk_sha256,
+            predecessor_sha256,
+        );
+        let receipt = TargetChunkReceipt {
+            ordinal,
+            chunk_index,
+            relative_offset,
+            bytes: bytes.len() as u64,
+            chunk_sha256: chunk_sha256.to_owned(),
+            predecessor_sha256: predecessor_sha256.map(str::to_owned),
+            receipt_sha256,
+        };
+        if let Some(existing) = state.received.get(&key) {
+            if existing == &receipt {
+                return Ok(existing.clone());
             }
             return Err(ContinuityControlError::ConflictingRetry);
         }
-        let path = self.stage_path(&handle.stage_id).join(&entry.file);
         validate_leaf_name(&entry.file)?;
-        write_new_synced(&path, bytes)?;
-        state.received.insert(ordinal, entry.sha256.clone());
-        self.persist_stage(state)
+        #[cfg(unix)]
+        let mut file = {
+            let stage_root = open_directory_at(&self._staging_root_handle, &handle.stage_id)?;
+            open_file_at(
+                &stage_root,
+                &entry.file,
+                libc::O_CREAT | libc::O_RDWR,
+                0o600,
+            )?
+        };
+        #[cfg(not(unix))]
+        let mut file = OpenOptions::new()
+            .create(true)
+            .read(true)
+            .write(true)
+            .open(self.stage_path(&handle.stage_id).join(&entry.file))?;
+        let metadata = file.metadata()?;
+        if !metadata.is_file() {
+            return Err(ContinuityControlError::UnsafePath);
+        }
+        use std::io::{Seek, SeekFrom};
+        match metadata.len() {
+            len if len == relative_offset => {
+                file.seek(SeekFrom::Start(relative_offset))?;
+                file.write_all(bytes)?;
+                file.sync_all()?;
+            }
+            len if len == end => {
+                file.seek(SeekFrom::Start(relative_offset))?;
+                let mut existing = vec![0_u8; bytes.len()];
+                file.read_exact(&mut existing)?;
+                if existing != bytes {
+                    return Err(ContinuityControlError::ConflictingRetry);
+                }
+            }
+            _ => return Err(ContinuityControlError::RecoveryRequired),
+        }
+        state.received.insert(key, receipt.clone());
+        self.persist_stage(state)?;
+        Ok(receipt)
+    }
+
+    /// Convenience used only by local callers that already hold one bounded
+    /// complete entry. Production transport uses `write_chunk` explicitly.
+    pub fn write_entry(
+        &self,
+        handle: &TargetStageHandle,
+        ordinal: u32,
+        bytes: &[u8],
+    ) -> Result<(), ContinuityControlError> {
+        self.write_chunk(handle, ordinal, 0, 0, None, &sha256(bytes), bytes)
+            .map(|_| ())
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -2089,13 +2558,56 @@ impl TargetContinuityCoordinator {
             .iter()
             .map(|entry| (entry.service.clone(), entry.schema.clone()))
             .collect::<BTreeMap<_, _>>();
-        if &expected != service_schemas || state.received.len() != state.catalog.entries.len() {
+        if &expected != service_schemas {
             return Err(ContinuityControlError::CatalogMismatch);
         }
         for entry in &state.catalog.entries {
-            let path = self.stage_path(&handle.stage_id).join(&entry.file);
-            validate_regular_single_link_file(&path, entry.bytes)?;
-            let bytes = read_bounded(&path, entry.bytes)?;
+            let mut next_offset = 0_u64;
+            let mut next_index = 0_u32;
+            let mut predecessor: Option<String> = None;
+            loop {
+                let Some(chunk) = state
+                    .received
+                    .get(&target_chunk_key(entry.ordinal, next_index))
+                else {
+                    break;
+                };
+                if chunk.relative_offset != next_offset
+                    || chunk.predecessor_sha256 != predecessor
+                    || chunk.receipt_sha256
+                        != target_chunk_receipt_digest(
+                            chunk.ordinal,
+                            chunk.chunk_index,
+                            chunk.relative_offset,
+                            chunk.bytes,
+                            &chunk.chunk_sha256,
+                            chunk.predecessor_sha256.as_deref(),
+                        )
+                {
+                    return Err(ContinuityControlError::CatalogMismatch);
+                }
+                next_offset = next_offset
+                    .checked_add(chunk.bytes)
+                    .ok_or(ContinuityControlError::InvalidBounds)?;
+                predecessor = Some(chunk.receipt_sha256.clone());
+                next_index = next_index
+                    .checked_add(1)
+                    .ok_or(ContinuityControlError::InvalidBounds)?;
+            }
+            if next_offset != entry.bytes {
+                return Err(ContinuityControlError::CatalogMismatch);
+            }
+            #[cfg(unix)]
+            let bytes = {
+                let stage_root = open_directory_at(&self._staging_root_handle, &handle.stage_id)?;
+                read_bounded_at(&stage_root, &entry.file, entry.bytes)?
+            };
+            #[cfg(not(unix))]
+            let bytes = {
+                let path = self.stage_path(&handle.stage_id).join(&entry.file);
+                validate_regular_single_link_file(&path, entry.bytes)?;
+                read_bounded(&path, entry.bytes)?
+            };
             if sha256(&bytes) != entry.sha256 {
                 return Err(ContinuityControlError::ContentMismatch);
             }
@@ -2144,20 +2656,48 @@ impl TargetContinuityCoordinator {
         state.status = TargetStageStatus::Discarding;
         state.discard = Some(receipt.clone());
         self.persist_stage(state)?;
-        let path = self.stage_path(&handle.stage_id);
-        let tombstone = self
-            .config
-            .staging_dir
-            .join(format!(".discard-{}", handle.stage_id));
-        if tombstone.exists() {
-            return Err(ContinuityControlError::RecoveryRequired);
+        let tombstone_name = format!(".discard-{}", handle.stage_id);
+        #[cfg(unix)]
+        {
+            rename_at(
+                &self._staging_root_handle,
+                &handle.stage_id,
+                &self._staging_root_handle,
+                &tombstone_name,
+            )?;
         }
-        fs::rename(&path, &tombstone)?;
-        sync_dir(&self.config.staging_dir)?;
+        #[cfg(not(unix))]
+        {
+            let path = self.stage_path(&handle.stage_id);
+            let tombstone = self.config.staging_dir.join(&tombstone_name);
+            if tombstone.exists() {
+                return Err(ContinuityControlError::RecoveryRequired);
+            }
+            fs::rename(&path, &tombstone)?;
+            sync_dir(&self.config.staging_dir)?;
+        }
         state.status = TargetStageStatus::Discarded;
         self.persist_terminal(state)?;
-        fs::remove_dir_all(&tombstone)?;
-        sync_dir(&self.config.staging_dir)?;
+        #[cfg(unix)]
+        {
+            let tombstone = open_directory_at(&self._staging_root_handle, &tombstone_name)?;
+            for entry in &state.catalog.entries {
+                match unlink_at(&tombstone, &entry.file, false) {
+                    Ok(()) => {}
+                    Err(ContinuityControlError::Io(error))
+                        if error.kind() == std::io::ErrorKind::NotFound => {}
+                    Err(error) => return Err(error),
+                }
+            }
+            unlink_at(&tombstone, "stage.json", false)?;
+            drop(tombstone);
+            unlink_at(&self._staging_root_handle, &tombstone_name, true)?;
+        }
+        #[cfg(not(unix))]
+        {
+            fs::remove_dir_all(self.config.staging_dir.join(&tombstone_name))?;
+            sync_dir(&self.config.staging_dir)?;
+        }
         Ok(receipt)
     }
 
@@ -2196,6 +2736,9 @@ impl TargetContinuityCoordinator {
             || state.possession.as_ref() != Some(possession)
             || &state.cleanup != cleanup
             || decision.stage_id != handle.stage_id
+            || decision.root_generation != handle.root_generation
+            || decision.catalog_sha256 != handle.catalog_sha256
+            || decision.cleanup_permit_sha256 != cleanup.digest()?
             || decision.possession_sha256 != possession.digest()
             || decision.trust_domain != self.config.trust_domain
             || decision.polis != self.config.polis
@@ -2230,6 +2773,9 @@ impl TargetContinuityCoordinator {
             decision_sha256,
             receipt: receipt.clone(),
         };
+        #[cfg(unix)]
+        write_canonical_at(&self._state_root_handle, "active-target.json", &active)?;
+        #[cfg(not(unix))]
         write_canonical_file(&self.config.state_dir.join("active-target.json"), &active)?;
         state.status = TargetStageStatus::Activated;
         self.persist_stage(state)?;
@@ -2249,6 +2795,8 @@ impl TargetContinuityCoordinator {
             return Err(ContinuityControlError::ActivationDecision);
         }
         for digest in [
+            &certificate.catalog_sha256,
+            &certificate.cleanup_permit_sha256,
             &certificate.possession_sha256,
             &certificate.route_cut_sha256,
             &certificate.membership_cut_sha256,
@@ -2266,7 +2814,7 @@ impl TargetContinuityCoordinator {
             return Err(ContinuityControlError::ActivationDecision);
         }
         let key = self
-            .trusted_keys
+            .trusted_decision_keys
             .get(&(
                 certificate.authority_key_id.clone(),
                 certificate.authority_key_generation,
@@ -2281,6 +2829,9 @@ impl TargetContinuityCoordinator {
         Ok(FinalizedMigrationDecision {
             decision_id: certificate.decision_id.clone(),
             stage_id: certificate.stage_id.clone(),
+            root_generation: certificate.root_generation,
+            catalog_sha256: certificate.catalog_sha256.clone(),
+            cleanup_permit_sha256: certificate.cleanup_permit_sha256.clone(),
             possession_sha256: certificate.possession_sha256.clone(),
             trust_domain: certificate.trust_domain.clone(),
             polis: certificate.polis.clone(),
@@ -2294,24 +2845,38 @@ impl TargetContinuityCoordinator {
         })
     }
 
+    #[cfg(not(unix))]
     fn stage_path(&self, stage_id: &str) -> PathBuf {
         self.config.staging_dir.join(stage_id)
     }
 
     fn persist_stage(&self, state: &TargetStageState) -> Result<(), ContinuityControlError> {
-        let path = self.stage_path(&state.handle.stage_id);
-        write_canonical_file(&path.join("stage.json"), state)?;
-        sync_dir(&path)
+        #[cfg(unix)]
+        {
+            let stage_root = open_directory_at(&self._staging_root_handle, &state.handle.stage_id)?;
+            write_canonical_at(&stage_root, "stage.json", state)
+        }
+        #[cfg(not(unix))]
+        {
+            let path = self.stage_path(&state.handle.stage_id);
+            write_canonical_file(&path.join("stage.json"), state)?;
+            sync_dir(&path)
+        }
     }
 
     fn persist_terminal(&self, state: &TargetStageState) -> Result<(), ContinuityControlError> {
-        let terminal_root = self.config.state_dir.join("target-results");
-        fs::create_dir_all(&terminal_root)?;
-        write_canonical_file(
-            &terminal_root.join(format!("{}.json", state.handle.stage_id)),
-            state,
-        )?;
-        sync_dir(&terminal_root)
+        let leaf = format!("{}.json", state.handle.stage_id);
+        #[cfg(unix)]
+        {
+            write_canonical_at(&self._terminal_root_handle, &leaf, state)
+        }
+        #[cfg(not(unix))]
+        {
+            let terminal_root = self.config.state_dir.join("target-results");
+            fs::create_dir_all(&terminal_root)?;
+            write_canonical_file(&terminal_root.join(leaf), state)?;
+            sync_dir(&terminal_root)
+        }
     }
 
     fn verify_staging_root_anchor(&self) -> Result<(), ContinuityControlError> {
@@ -2319,17 +2884,20 @@ impl TargetContinuityCoordinator {
     }
 }
 
-impl Drop for TargetContinuityCoordinator {
+impl Drop for TargetContinuityEffectPort {
     fn drop(&mut self) {
         let _ = FileExt::unlock(&self._lock);
     }
 }
 
+/// Compatibility name for callers that predate the role-specific port name.
+pub type TargetContinuityCoordinator = TargetContinuityEffectPort;
+
 pub struct ContinuityControlService {
     config: ContinuityControlInitConfig,
     journal: Mutex<DurableContinuityJournal>,
     source: Arc<SourceContinuityEffectPort>,
-    target: Arc<TargetContinuityCoordinator>,
+    target: Arc<TargetContinuityEffectPort>,
     effect_slots: Arc<tokio::sync::Semaphore>,
 }
 
@@ -2338,7 +2906,7 @@ impl ContinuityControlService {
         config: ContinuityControlInitConfig,
         journal: DurableContinuityJournal,
         source: Arc<SourceContinuityEffectPort>,
-        target: Arc<TargetContinuityCoordinator>,
+        target: Arc<TargetContinuityEffectPort>,
     ) -> Self {
         let effect_slots = Arc::new(tokio::sync::Semaphore::new(config.bounds.max_open_handles));
         Self {
@@ -2357,9 +2925,14 @@ impl ContinuityControlService {
         now_unix_millis: u64,
         cancellation: &CancellationToken,
     ) -> Result<ContinuityResponse, ContinuityControlError> {
+        let permit_window = remaining_effect_window(envelope.operation.deadline_unix_millis)?;
         let _effect_slot = tokio::select! {
             _ = cancellation.cancelled() => return Err(ContinuityControlError::Cancelled),
-            permit = self.effect_slots.acquire() => permit.map_err(|_| ContinuityControlError::Cancelled)?,
+            permit = tokio::time::timeout(permit_window, self.effect_slots.acquire()) => {
+                permit
+                    .map_err(|_| ContinuityControlError::Deadline)?
+                    .map_err(|_| ContinuityControlError::Cancelled)?
+            },
         };
         check_effect_window(envelope.operation.deadline_unix_millis, cancellation)?;
         let begin = self
@@ -2387,6 +2960,9 @@ impl ContinuityControlService {
                 if deadline_millis == 0 {
                     return Err(ContinuityControlError::Deadline);
                 }
+                let remaining = remaining_effect_window(effect_deadline)?;
+                let inner_deadline =
+                    std::time::Duration::from_millis(deadline_millis).min(remaining);
                 let (quiesce, handle) = self
                     .source
                     .quiesce_and_export(
@@ -2395,7 +2971,7 @@ impl ContinuityControlService {
                         accepted_prefix,
                         topology_sha256,
                         config_sha256,
-                        std::time::Duration::from_millis(deadline_millis),
+                        inner_deadline,
                         cancellation,
                     )
                     .await?;
@@ -2437,14 +3013,29 @@ impl ContinuityControlService {
             ContinuityCommand::WriteTargetChunk {
                 handle,
                 ordinal,
+                chunk_index,
+                relative_offset,
+                predecessor_sha256,
+                chunk_sha256,
                 bytes_base64,
             } => {
                 check_effect_window(effect_deadline, cancellation)?;
+                if bytes_base64.len() > self.config.bounds.max_frame_bytes {
+                    return Err(ContinuityControlError::FrameBounds);
+                }
                 let bytes = BASE64
                     .decode(bytes_base64)
                     .map_err(|_| ContinuityControlError::ContentMismatch)?;
-                self.target.write_entry(&handle, ordinal, &bytes)?;
-                ContinuityReply::ChunkWritten
+                let receipt = self.target.write_chunk(
+                    &handle,
+                    ordinal,
+                    chunk_index,
+                    relative_offset,
+                    predecessor_sha256.as_deref(),
+                    &chunk_sha256,
+                    &bytes,
+                )?;
+                ContinuityReply::ChunkWritten { receipt }
             }
             ContinuityCommand::ValidateTarget {
                 handle,
@@ -2526,8 +3117,13 @@ pub async fn serve_private_continuity_listener(
                 let (stream, _) = accepted?;
                 let permit = tokio::select! {
                     _ = shutdown.cancelled() => return Ok(()),
-                    permit = Arc::clone(&connection_slots).acquire_owned() => {
-                        permit.map_err(|_| ContinuityControlError::Cancelled)?
+                    permit = tokio::time::timeout(
+                        PRIVATE_CONTROL_IO_CAP,
+                        Arc::clone(&connection_slots).acquire_owned(),
+                    ) => {
+                        permit
+                            .map_err(|_| ContinuityControlError::Deadline)?
+                            .map_err(|_| ContinuityControlError::Cancelled)?
                     }
                 };
                 let acceptor = acceptor.clone();
@@ -2535,7 +3131,16 @@ pub async fn serve_private_continuity_listener(
                 let connection_shutdown = shutdown.child_token();
                 tokio::spawn(async move {
                     let _permit = permit;
-                    let Ok(stream) = acceptor.accept(stream).await else { return; };
+                    let stream = tokio::select! {
+                        _ = connection_shutdown.cancelled() => return,
+                        accepted = tokio::time::timeout(
+                            PRIVATE_CONTROL_IO_CAP,
+                            acceptor.accept(stream),
+                        ) => match accepted {
+                            Ok(Ok(stream)) => stream,
+                            _ => return,
+                        },
+                    };
                     let _ = serve_private_connection(stream, service, connection_shutdown).await;
                 });
             }
@@ -2554,6 +3159,18 @@ fn check_effect_window(
         return Err(ContinuityControlError::Deadline);
     }
     Ok(())
+}
+
+fn remaining_effect_window(
+    deadline_unix_millis: u64,
+) -> Result<std::time::Duration, ContinuityControlError> {
+    let now = unix_millis()?;
+    if now > deadline_unix_millis {
+        return Err(ContinuityControlError::Deadline);
+    }
+    Ok(std::time::Duration::from_millis(
+        deadline_unix_millis.saturating_sub(now).max(1),
+    ))
 }
 
 async fn serve_private_connection(
@@ -2588,7 +3205,8 @@ async fn serve_private_connection(
         let mut length = [0_u8; 4];
         tokio::select! {
             _ = shutdown.cancelled() => return Ok(()),
-            result = stream.read_exact(&mut length) => {
+            result = tokio::time::timeout(PRIVATE_CONTROL_IO_CAP, stream.read_exact(&mut length)) => {
+                let result = result.map_err(|_| ContinuityControlError::Deadline)?;
                 if let Err(error) = result {
                     if error.kind() == std::io::ErrorKind::UnexpectedEof { return Ok(()); }
                     return Err(error.into());
@@ -2600,9 +3218,15 @@ async fn serve_private_connection(
             return Err(ContinuityControlError::FrameBounds);
         }
         let mut bytes = vec![0_u8; length];
-        stream.read_exact(&mut bytes).await?;
+        tokio::select! {
+            _ = shutdown.cancelled() => return Ok(()),
+            result = tokio::time::timeout(PRIVATE_CONTROL_IO_CAP, stream.read_exact(&mut bytes)) => {
+                result.map_err(|_| ContinuityControlError::Deadline)??;
+            }
+        }
         let envelope: ContinuityEnvelope =
             decode_canonical(&bytes, service.config.bounds.max_frame_bytes)?;
+        let response_deadline = envelope.operation.deadline_unix_millis;
         let reply = if envelope.leaf_spki_sha256 != leaf_spki_sha256 {
             ContinuityWireReply::Denied {
                 code: "certificate_identity".to_owned(),
@@ -2625,11 +3249,17 @@ async fn serve_private_connection(
         if bytes.len() > service.config.bounds.max_frame_bytes {
             return Err(ContinuityControlError::FrameBounds);
         }
-        stream
-            .write_all(&(bytes.len() as u32).to_be_bytes())
-            .await?;
-        stream.write_all(&bytes).await?;
-        stream.flush().await?;
+        let write_window = remaining_effect_window(response_deadline)?.min(PRIVATE_CONTROL_IO_CAP);
+        tokio::select! {
+            _ = shutdown.cancelled() => return Ok(()),
+            result = tokio::time::timeout(write_window, async {
+                stream.write_all(&(bytes.len() as u32).to_be_bytes()).await?;
+                stream.write_all(&bytes).await?;
+                stream.flush().await
+            }) => {
+                result.map_err(|_| ContinuityControlError::Deadline)??;
+            }
+        }
     }
 }
 
@@ -2642,6 +3272,27 @@ fn validate_handle(
     } else {
         Ok(())
     }
+}
+
+fn target_chunk_key(ordinal: u32, chunk_index: u32) -> String {
+    format!("{ordinal:010}:{chunk_index:010}")
+}
+
+fn target_chunk_receipt_digest(
+    ordinal: u32,
+    chunk_index: u32,
+    relative_offset: u64,
+    bytes: u64,
+    chunk_sha256: &str,
+    predecessor_sha256: Option<&str>,
+) -> String {
+    sha256(
+        format!(
+            "target-chunk\0{ordinal}\0{chunk_index}\0{relative_offset}\0{bytes}\0{chunk_sha256}\0{}",
+            predecessor_sha256.unwrap_or("")
+        )
+        .as_bytes(),
+    )
 }
 
 fn validate_catalog(
@@ -2765,6 +3416,226 @@ fn validate_leaf_name(value: &str) -> Result<(), ContinuityControlError> {
     Ok(())
 }
 
+#[cfg(unix)]
+fn leaf_cstring(value: &str) -> Result<std::ffi::CString, ContinuityControlError> {
+    validate_leaf_name(value)?;
+    std::ffi::CString::new(value.as_bytes()).map_err(|_| ContinuityControlError::UnsafePath)
+}
+
+#[cfg(unix)]
+fn open_directory_at(parent: &File, leaf: &str) -> Result<File, ContinuityControlError> {
+    use std::os::fd::{AsRawFd, FromRawFd};
+    let leaf = leaf_cstring(leaf)?;
+    let fd = unsafe {
+        libc::openat(
+            parent.as_raw_fd(),
+            leaf.as_ptr(),
+            libc::O_RDONLY | libc::O_DIRECTORY | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    let file = unsafe { File::from_raw_fd(fd) };
+    if !file.metadata()?.is_dir() {
+        return Err(ContinuityControlError::UnsafePath);
+    }
+    Ok(file)
+}
+
+#[cfg(not(unix))]
+fn open_directory_at(_parent: &File, _leaf: &str) -> Result<File, ContinuityControlError> {
+    Err(ContinuityControlError::UnsafePath)
+}
+
+#[cfg(unix)]
+fn create_directory_at(parent: &File, leaf: &str) -> Result<File, ContinuityControlError> {
+    use std::os::fd::AsRawFd;
+    let leaf_c = leaf_cstring(leaf)?;
+    let result = unsafe { libc::mkdirat(parent.as_raw_fd(), leaf_c.as_ptr(), 0o700) };
+    if result != 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    parent.sync_all()?;
+    open_directory_at(parent, leaf)
+}
+
+#[cfg(not(unix))]
+fn create_directory_at(_parent: &File, _leaf: &str) -> Result<File, ContinuityControlError> {
+    Err(ContinuityControlError::UnsafePath)
+}
+
+#[cfg(unix)]
+fn open_file_at(
+    parent: &File,
+    leaf: &str,
+    flags: libc::c_int,
+    mode: libc::mode_t,
+) -> Result<File, ContinuityControlError> {
+    use std::os::fd::{AsRawFd, FromRawFd};
+    let leaf = leaf_cstring(leaf)?;
+    let fd = unsafe {
+        libc::openat(
+            parent.as_raw_fd(),
+            leaf.as_ptr(),
+            flags | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+            mode as libc::c_uint,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    let file = unsafe { File::from_raw_fd(fd) };
+    let metadata = file.metadata()?;
+    if !metadata.is_file() {
+        return Err(ContinuityControlError::UnsafePath);
+    }
+    use std::os::unix::fs::MetadataExt;
+    if metadata.nlink() != 1 {
+        return Err(ContinuityControlError::UnsafePath);
+    }
+    Ok(file)
+}
+
+#[cfg(unix)]
+fn unlink_at(parent: &File, leaf: &str, directory: bool) -> Result<(), ContinuityControlError> {
+    use std::os::fd::AsRawFd;
+    let leaf = leaf_cstring(leaf)?;
+    let flags = if directory { libc::AT_REMOVEDIR } else { 0 };
+    let result = unsafe { libc::unlinkat(parent.as_raw_fd(), leaf.as_ptr(), flags) };
+    if result != 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(unix)]
+fn rename_at(
+    old_parent: &File,
+    old_leaf: &str,
+    new_parent: &File,
+    new_leaf: &str,
+) -> Result<(), ContinuityControlError> {
+    use std::os::fd::AsRawFd;
+    use std::os::unix::fs::MetadataExt;
+    let old_leaf = leaf_cstring(old_leaf)?;
+    let new_leaf = leaf_cstring(new_leaf)?;
+    let result = unsafe {
+        libc::renameat(
+            old_parent.as_raw_fd(),
+            old_leaf.as_ptr(),
+            new_parent.as_raw_fd(),
+            new_leaf.as_ptr(),
+        )
+    };
+    if result != 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    old_parent.sync_all()?;
+    if old_parent.metadata()?.ino() != new_parent.metadata()?.ino() {
+        new_parent.sync_all()?;
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+fn write_new_synced_at(
+    parent: &File,
+    leaf: &str,
+    bytes: &[u8],
+) -> Result<(), ContinuityControlError> {
+    let mut file = open_file_at(
+        parent,
+        leaf,
+        libc::O_WRONLY | libc::O_CREAT | libc::O_EXCL,
+        0o600,
+    )?;
+    file.write_all(bytes)?;
+    file.sync_all()?;
+    parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(unix)]
+fn write_canonical_at<T: Serialize>(
+    parent: &File,
+    leaf: &str,
+    value: &T,
+) -> Result<(), ContinuityControlError> {
+    let bytes = serde_jcs::to_vec(value)
+        .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?;
+    let pending = format!(".{leaf}.pending");
+    match open_file_at(parent, &pending, libc::O_RDONLY, 0) {
+        Ok(file) => {
+            #[cfg(unix)]
+            {
+                use std::os::unix::fs::MetadataExt;
+                if file.metadata()?.nlink() != 1 {
+                    return Err(ContinuityControlError::UnsafePath);
+                }
+            }
+            drop(file);
+            unlink_at(parent, &pending, false)?;
+        }
+        Err(ContinuityControlError::Io(error)) if error.kind() == std::io::ErrorKind::NotFound => {}
+        Err(error) => return Err(error),
+    }
+    write_new_synced_at(parent, &pending, &bytes)?;
+    rename_at(parent, &pending, parent, leaf)
+}
+
+#[cfg(unix)]
+fn read_bounded_at(
+    parent: &File,
+    leaf: &str,
+    expected_bytes: u64,
+) -> Result<Vec<u8>, ContinuityControlError> {
+    let file = open_file_at(parent, leaf, libc::O_RDONLY, 0)?;
+    let metadata = file.metadata()?;
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::MetadataExt;
+        if metadata.nlink() != 1 {
+            return Err(ContinuityControlError::UnsafePath);
+        }
+    }
+    if metadata.len() != expected_bytes {
+        return Err(ContinuityControlError::ContentMismatch);
+    }
+    let mut bytes = Vec::new();
+    file.take(expected_bytes.saturating_add(1))
+        .read_to_end(&mut bytes)?;
+    if bytes.len() as u64 != expected_bytes {
+        return Err(ContinuityControlError::ContentMismatch);
+    }
+    Ok(bytes)
+}
+
+#[cfg(unix)]
+fn read_canonical_at<T: DeserializeOwned + Serialize>(
+    parent: &File,
+    leaf: &str,
+    max_bytes: usize,
+) -> Result<T, ContinuityControlError> {
+    let file = open_file_at(parent, leaf, libc::O_RDONLY, 0)?;
+    let metadata = file.metadata()?;
+    if metadata.len() == 0 || metadata.len() > max_bytes as u64 {
+        return Err(ContinuityControlError::UnsafePath);
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::MetadataExt;
+        if metadata.nlink() != 1 {
+            return Err(ContinuityControlError::UnsafePath);
+        }
+    }
+    let mut bytes = Vec::new();
+    file.take(metadata.len().saturating_add(1))
+        .read_to_end(&mut bytes)?;
+    decode_canonical(&bytes, max_bytes)
+}
+
 fn validate_private_root(state_root: &Path, path: &Path) -> Result<(), ContinuityControlError> {
     if !state_root.is_absolute()
         || !path.is_absolute()
@@ -2830,6 +3701,7 @@ fn verify_directory_anchor(path: &Path, handle: &File) -> Result<(), ContinuityC
     Ok(())
 }
 
+#[cfg(not(unix))]
 fn validate_regular_single_link_file(
     path: &Path,
     expected_bytes: u64,
@@ -2880,6 +3752,7 @@ fn read_bounded(path: &Path, expected_bytes: u64) -> Result<Vec<u8>, ContinuityC
     Ok(bytes)
 }
 
+#[cfg(not(unix))]
 fn write_new_synced(path: &Path, bytes: &[u8]) -> Result<(), ContinuityControlError> {
     validate_absolute_nonsymlink_path(path)?;
     let mut file = OpenOptions::new().create_new(true).write(true).open(path)?;

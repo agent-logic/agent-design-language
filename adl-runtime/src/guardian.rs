@@ -337,18 +337,6 @@ async fn run_guardian_internal(
         let mut lease_finished = false;
 
         if let Some(continuity) = &continuity {
-            if continuity.validate_role_ports().is_err() {
-                lease_shutdown.cancel();
-                let _ = await_lease_task(&mut lease_task).await;
-                let _ = child.force_shutdown();
-                return Ok(outcome(
-                    &config,
-                    GuardianTerminalState::SpawnFailed,
-                    attempts,
-                    restarts,
-                    attempts_detail,
-                ));
-            }
             let now = std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
                 .map(|duration| duration.as_millis() as u64)
@@ -356,7 +344,9 @@ async fn run_guardian_internal(
             let deadline = now.saturating_add(config.lease_auth_timeout_ms);
             let readiness = timeout(
                 Duration::from_millis(config.lease_auth_timeout_ms),
-                continuity.client().establish_attempt(attempts, deadline),
+                continuity
+                    .client()
+                    .establish_attempt_with_cancellation(attempts, deadline, &shutdown),
             )
             .await;
             if !matches!(readiness, Ok(Ok(()))) {
