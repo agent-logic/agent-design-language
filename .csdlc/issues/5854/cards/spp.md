@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, and #5839 to separate FastWork sessions, treat WP-20 #5840 as the first child of final release-tail sprint #5856, treat WP-24A as an independent out-of-band stream, and synthesize one integrated Sprint 5 review after the four operative children complete.
+Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, and #5839 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated Sprint 5 review after the four operative children complete.
 
 ## Plan
 

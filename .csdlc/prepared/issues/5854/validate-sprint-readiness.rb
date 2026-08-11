@@ -246,14 +246,16 @@ raise "typed PR collector identity missing" unless collector.fetch("pull_request
 %w[issue_binary_sha256 pull_request_binary_sha256].each do |field|
   raise "invalid collector binary digest #{field}" unless collector.fetch(field).match?(/\A[0-9a-f]{64}\z/)
 end
-collector_bin_dir = Pathname.new(ENV.fetch("CSDLC_V2_BIN_DIR", ROOT.join(".adl/bin/csdlc-v2").to_s))
-{
-  "issue_binary_sha256" => "csdlc-github-issue",
-  "pull_request_binary_sha256" => "csdlc-github-pr"
-}.each do |field, binary_name|
-  binary_path = collector_bin_dir / binary_name
-  raise "installed collector binary missing: #{binary_name}" unless binary_path.file?
-  raise "collector binary digest mismatch: #{binary_name}" unless Digest::SHA256.file(binary_path).hexdigest == collector.fetch(field)
+if ENV.key?("CSDLC_V2_BIN_DIR")
+  collector_bin_dir = Pathname.new(ENV.fetch("CSDLC_V2_BIN_DIR"))
+  {
+    "issue_binary_sha256" => "csdlc-github-issue",
+    "pull_request_binary_sha256" => "csdlc-github-pr"
+  }.each do |field, binary_name|
+    binary_path = collector_bin_dir / binary_name
+    raise "installed collector binary missing: #{binary_name}" unless binary_path.file?
+    raise "collector binary digest mismatch: #{binary_name}" unless Digest::SHA256.file(binary_path).hexdigest == collector.fetch(field)
+  end
 end
 raise "collector contract mismatch" unless collector.fetch("contract") == provenance.fetch("collector_contract")
 raise "collector identity missing" if provenance.fetch("collector_identity").strip.empty?

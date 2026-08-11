@@ -1,8 +1,8 @@
 {
   "issue": 5854,
   "card": "spp",
-  "expected_generation": 54,
-  "expected_digest": "080041d50040ae434416fa06c37e0cc44763a15ad8c81b07c7a594d88f2d35e8",
+  "expected_generation": 56,
+  "expected_digest": "ca02142fa50ceae5466cefe66c3665f6b0608134bb61ed91e1543292ae2c97b6",
   "actor": "codex:5854-pr224-review-remediation",
   "reason": "Reconcile the operative Sprint 5 SPP with the approved four-child wave after moving WP-20 to final sprint #5856.",
   "operation": {
