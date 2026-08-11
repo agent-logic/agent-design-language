@@ -16,48 +16,45 @@ After WP-04.16a merges, bind and implement the bounded committed authority proto
 
 ## Plan
 
-Revision 18
+Revision 19
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Preserve actual OpenRaft apply IDs, exact verified route custody, opaque runtime signer custody, pending finalize response, and runtime-owned publication context without reopening prior bypasses.",
+    "action": "Preserve production OpenRaft apply-index authority, opaque signer custody, pending finalize response, and runtime-owned publication without reopening prior bypasses.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5",
       "AC-7"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Keep trusted custody outside snapshot-replaceable state and validate current plus every prepared custody and empty legacy authority fields before snapshot install.",
+    "action": "Split snapshot-replicated current authority into stable polis, epoch, membership, configuration, and voter truth only; keep the current trusted boot cut runtime-external, require exact canonical equality for every Prepare, freeze each prepared operation's historical boot vector and digest, and never mutate stable current authority during Prepare.",
     "acceptance_ids": [
       "AC-5",
       "AC-6"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Retain complete finalized proposal and endorsement evidence and rerun live quorum, signature, certificate, boot, time, operation, prepare-index, and finalize-index verification during install; implement every exact snapshot case named in AC-8.",
+    "action": "Prove boot-rotated reopen can immediately build and install a snapshot, stale cuts reject without mutation, current cuts succeed, historical prepared/finalized custody remains valid, and duplicate, reordered, zero, or non-JCS wire cuts fail closed; obtain independent approval of the corrected design digest.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6"
+      "AC-4"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Replace the superseded 47-case v6 packet with one immutable v7 proof binding the exact ordered 86 names, results, and ADL_ISSUE_201_CASE_V2 marker hashes; require ancestry whenever source exists, prove available-divergent rejection and unavailable depth-one fallback, then obtain fresh exact-head review and stop before publication.",
+    "action": "After design approval, replace stale v7 evidence with one exact current-source packet binding the 86 semantic cases, truthful 230-test runtime lane, strict Clippy, real three-voter OpenRaft, validator modes, and fresh independent implementation review; stop before publication.",
     "acceptance_ids": [
       "AC-8"
     ],

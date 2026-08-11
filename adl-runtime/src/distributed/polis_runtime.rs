@@ -177,6 +177,22 @@ fn decode_boot_generations(
     Ok(decoded)
 }
 
+fn validate_boot_generations_for_authority(
+    authority: &AuthorityMembership,
+    boot_generations: &BTreeMap<Vec<u8>, u64>,
+) -> Result<(), PolisRuntimeError> {
+    let canonical = canonical_boot_generations(boot_generations);
+    let decoded = decode_boot_generations(&canonical)?;
+    if decoded.len() != authority.voters.len()
+        || decoded
+            .keys()
+            .any(|guardian| !authority.voters.contains_key(guardian))
+    {
+        return Err(PolisRuntimeError::AuthorityDenied);
+    }
+    Ok(())
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct PolisResponse {
@@ -211,6 +227,7 @@ pub struct PolisApplicationState {
 struct ReplicatedPreparedAuthority {
     intent: PrepareAuthorityIntent,
     authority: ReplicatedAuthorityCustody,
+    boot_generations: Vec<AuthorityBootGeneration>,
     custody_sha256: String,
 }
 
@@ -224,7 +241,6 @@ struct ReplicatedAuthorityCustody {
     committed_log_index: u64,
     configs: Vec<BTreeSet<Vec<u8>>>,
     voters: Vec<VoterAuthority>,
-    boot_generations: Vec<(Vec<u8>, u64)>,
 }
 
 impl ReplicatedAuthorityCustody {
@@ -242,7 +258,6 @@ impl ReplicatedAuthorityCustody {
         polis_id: &str,
         membership_epoch: u64,
         authority: &AuthorityMembership,
-        boot_generations: &BTreeMap<Vec<u8>, u64>,
     ) -> Result<Self, PolisRuntimeError> {
         validate_text(polis_id)?;
         if membership_epoch == 0 {
@@ -277,21 +292,14 @@ impl ReplicatedAuthorityCustody {
             committed_log_index: authority.committed_log_index,
             configs,
             voters: authority.voters.values().cloned().collect(),
-            boot_generations: boot_generations
-                .iter()
-                .map(|(guardian, generation)| (guardian.clone(), *generation))
-                .collect(),
         };
-        let (roundtrip_authority, roundtrip_boots) = custody.to_authority()?;
-        if roundtrip_authority != *authority || roundtrip_boots != *boot_generations {
+        if custody.to_authority()? != *authority {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
         Ok(custody)
     }
 
-    fn to_authority(
-        &self,
-    ) -> Result<(AuthorityMembership, BTreeMap<Vec<u8>, u64>), PolisRuntimeError> {
+    fn to_authority(&self) -> Result<AuthorityMembership, PolisRuntimeError> {
         let authority = AuthorityMembership::new(
             self.trust_domain_id.clone(),
             self.voter_set_generation,
@@ -300,20 +308,15 @@ impl ReplicatedAuthorityCustody {
             self.voters.clone(),
         )
         .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
-        let boot_generations = self
-            .boot_generations
-            .iter()
-            .cloned()
-            .collect::<BTreeMap<_, _>>();
-        if boot_generations.len() != authority.voters.len()
-            || boot_generations.iter().any(|(guardian, generation)| {
-                *generation == 0 || !authority.voters.contains_key(guardian)
-            })
-        {
-            return Err(PolisRuntimeError::AuthorityDenied);
-        }
-        Ok((authority, boot_generations))
+        Ok(authority)
     }
+}
+
+fn prepared_custody_sha256(
+    authority: &ReplicatedAuthorityCustody,
+    boot_generations: &[AuthorityBootGeneration],
+) -> Result<String, PolisRuntimeError> {
+    canonical_sha256(&(authority, boot_generations))
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -329,14 +332,9 @@ impl PolisApplicationState {
         polis_id: &str,
         membership_epoch: u64,
         authority: AuthorityMembership,
-        boot_generations: BTreeMap<Vec<u8>, u64>,
     ) -> Result<(), PolisRuntimeError> {
-        let authority = ReplicatedAuthorityCustody::from_authority(
-            polis_id,
-            membership_epoch,
-            &authority,
-            &boot_generations,
-        )?;
+        let authority =
+            ReplicatedAuthorityCustody::from_authority(polis_id, membership_epoch, &authority)?;
         if let Some(current) = self.current_authority.as_ref() {
             return if current == &authority {
                 Ok(())
@@ -369,6 +367,7 @@ impl PolisApplicationState {
         index: u64,
         command: &PolisCommand,
         trusted_custody: Option<&ReplicatedAuthorityCustody>,
+        trusted_boot_generations: Option<&BTreeMap<Vec<u8>, u64>>,
     ) -> Result<bool, PolisRuntimeError> {
         if index <= self.committed_index {
             return Err(PolisRuntimeError::StateRegression);
@@ -400,23 +399,19 @@ impl PolisApplicationState {
                 if !current.same_committed_authority(trusted) {
                     return Err(PolisRuntimeError::AuthorityDenied);
                 }
-                let (authority, _) = current.to_authority()?;
+                let authority = current.to_authority()?;
                 let boot_generations = decode_boot_generations(boot_generations)?;
-                let command_custody = ReplicatedAuthorityCustody::from_authority(
-                    &current.polis_id,
-                    current.membership_epoch,
-                    &authority,
-                    &boot_generations,
-                )?;
-                if &command_custody != trusted {
+                let trusted_boot_generations =
+                    trusted_boot_generations.ok_or(PolisRuntimeError::AuthorityDenied)?;
+                if &boot_generations != trusted_boot_generations {
                     return Err(PolisRuntimeError::AuthorityDenied);
                 }
                 accepted = (|| {
                     let intent = proposal
                         .commit_at(
                             index,
-                            &command_custody.polis_id,
-                            command_custody.membership_epoch,
+                            &current.polis_id,
+                            current.membership_epoch,
                             &authority,
                         )
                         .map_err(|_| PolisRuntimeError::AuthorityDenied)?;
@@ -425,14 +420,16 @@ impl PolisApplicationState {
                     {
                         return Err(PolisRuntimeError::Replay);
                     }
-                    let prepared_authority = command_custody.clone();
-                    let custody_sha256 = canonical_sha256(&prepared_authority)?;
-                    self.current_authority = Some(command_custody.clone());
+                    let prepared_authority = current.clone();
+                    let frozen_boot_generations = canonical_boot_generations(&boot_generations);
+                    let custody_sha256 =
+                        prepared_custody_sha256(&prepared_authority, &frozen_boot_generations)?;
                     self.prepared_authority.insert(
                         intent.operation_id.clone(),
                         ReplicatedPreparedAuthority {
                             intent,
                             authority: prepared_authority,
+                            boot_generations: frozen_boot_generations,
                             custody_sha256,
                         },
                     );
@@ -452,7 +449,8 @@ impl PolisApplicationState {
                     {
                         return Err(PolisRuntimeError::Replay);
                     }
-                    let (authority, boot_generations) = prepared.authority.to_authority()?;
+                    let authority = prepared.authority.to_authority()?;
+                    let boot_generations = decode_boot_generations(&prepared.boot_generations)?;
                     verify_replicated_finalization(
                         &prepared.intent,
                         proposal,
@@ -1052,6 +1050,7 @@ pub struct PolisStateMachineStore {
     durable: Arc<CheckpointedJson<PersistedStateMachineStorage>>,
     inner: Arc<RwLock<DurableEnvelope<PersistedStateMachineStorage>>>,
     trusted_custody: Option<ReplicatedAuthorityCustody>,
+    trusted_boot_generations: Option<BTreeMap<Vec<u8>, u64>>,
     authority_publication: Option<Arc<AuthorityPublicationContext>>,
 }
 
@@ -1107,6 +1106,10 @@ impl PolisStateMachineStore {
         }
         let mut initial = PersistedStateMachineStorage::default();
         if let Some(bootstrap) = trusted_authority.as_ref() {
+            validate_boot_generations_for_authority(
+                &bootstrap.authority,
+                &bootstrap.boot_generations,
+            )?;
             if bootstrap.publication_identity.polis_id != bootstrap.polis_id
                 || bootstrap.publication_identity.boot_generation
                     != bootstrap
@@ -1128,7 +1131,6 @@ impl PolisStateMachineStore {
                 &bootstrap.polis_id,
                 bootstrap.membership_epoch,
                 bootstrap.authority.clone(),
-                bootstrap.boot_generations.clone(),
             )?;
             initial.snapshot.state = initial.current.clone();
         }
@@ -1146,16 +1148,17 @@ impl PolisStateMachineStore {
                     &bootstrap.polis_id,
                     bootstrap.membership_epoch,
                     &bootstrap.authority,
-                    &bootstrap.boot_generations,
                 )
             })
             .transpose()?;
+        let trusted_boot_generations = trusted_authority
+            .as_ref()
+            .map(|bootstrap| bootstrap.boot_generations.clone());
         let authority_publication = if let Some(bootstrap) = trusted_authority {
             let expected = ReplicatedAuthorityCustody::from_authority(
                 &bootstrap.polis_id,
                 bootstrap.membership_epoch,
                 &bootstrap.authority,
-                &bootstrap.boot_generations,
             )?;
             if !inner
                 .payload
@@ -1178,17 +1181,16 @@ impl PolisStateMachineStore {
         Self::validate_application_authority(
             trusted_custody.as_ref(),
             &inner.payload.current.application,
-            true,
         )?;
         Self::validate_application_authority(
             trusted_custody.as_ref(),
             &inner.payload.snapshot.state.application,
-            true,
         )?;
         Ok(Self {
             durable: Arc::new(durable),
             inner: Arc::new(RwLock::new(inner)),
             trusted_custody,
+            trusted_boot_generations,
             authority_publication,
         })
     }
@@ -1225,15 +1227,17 @@ impl PolisStateMachineStore {
         };
         let (authority, boot_generations) = {
             let state = self.inner.read().await;
-            state
+            let prepared = state
                 .payload
                 .current
                 .application
                 .prepared_authority
                 .get(operation_id)
-                .ok_or(PolisRuntimeError::AuthorityDenied)?
-                .authority
-                .to_authority()?
+                .ok_or(PolisRuntimeError::AuthorityDenied)?;
+            (
+                prepared.authority.to_authority()?,
+                decode_boot_generations(&prepared.boot_generations)?,
+            )
         };
         let verified = verify_replicated_finalization(
             &intent,
@@ -1257,7 +1261,6 @@ impl PolisStateMachineStore {
     fn validate_application_authority(
         trusted_custody: Option<&ReplicatedAuthorityCustody>,
         application: &PolisApplicationState,
-        allow_restart_boot_rotation: bool,
     ) -> Result<(), PolisRuntimeError> {
         let Some(trusted) = trusted_custody else {
             return if application.current_authority.is_none()
@@ -1272,13 +1275,7 @@ impl PolisStateMachineStore {
         let current_matches = application
             .current_authority
             .as_ref()
-            .is_some_and(|current| {
-                if allow_restart_boot_rotation {
-                    current.same_committed_authority(trusted)
-                } else {
-                    current == trusted
-                }
-            });
+            .is_some_and(|current| current.same_committed_authority(trusted));
         if !current_matches
             || !application.fenced_voters.is_empty()
             || application.active_owner.is_some()
@@ -1289,13 +1286,20 @@ impl PolisStateMachineStore {
         {
             return Err(PolisRuntimeError::AuthorityDenied);
         }
-        let (authority, _) = trusted.to_authority()?;
+        let authority = trusted.to_authority()?;
         for (operation_id, prepared) in &application.prepared_authority {
             let custody_matches = prepared.authority.same_committed_authority(trusted);
+            let prepared_boot_generations = decode_boot_generations(&prepared.boot_generations)?;
+            let prepared_authority = prepared.authority.to_authority()?;
             if operation_id != &prepared.intent.operation_id
                 || !custody_matches
                 || validate_sha256(&prepared.custody_sha256).is_err()
-                || canonical_sha256(&prepared.authority)? != prepared.custody_sha256
+                || prepared_custody_sha256(&prepared.authority, &prepared.boot_generations)?
+                    != prepared.custody_sha256
+                || prepared_boot_generations.len() != prepared_authority.voters.len()
+                || prepared_boot_generations
+                    .keys()
+                    .any(|guardian| !prepared_authority.voters.contains_key(guardian))
                 || prepared.intent.polis_id != trusted.polis_id
                 || prepared.intent.membership_epoch != trusted.membership_epoch
                 || prepared.intent.prepare_log_index > application.committed_index
@@ -1317,8 +1321,8 @@ impl PolisStateMachineStore {
             {
                 return Err(PolisRuntimeError::AuthorityDenied);
             }
-            let (prepared_authority, prepared_boot_generations) =
-                prepared.authority.to_authority()?;
+            let prepared_authority = prepared.authority.to_authority()?;
+            let prepared_boot_generations = decode_boot_generations(&prepared.boot_generations)?;
             verify_replicated_finalization(
                 &prepared.intent,
                 &finalized.proposal,
@@ -1421,6 +1425,7 @@ impl RaftStateMachine<PolisTypeConfig> for PolisStateMachineStore {
                             entry.log_id.index,
                             &command,
                             self.trusted_custody.as_ref(),
+                            self.trusted_boot_generations.as_ref(),
                         )
                         .map_err(|error| {
                             StorageError::from_io_error(
@@ -1511,12 +1516,8 @@ impl RaftStateMachine<PolisTypeConfig> for PolisStateMachineStore {
                 ),
             ));
         }
-        Self::validate_application_authority(
-            self.trusted_custody.as_ref(),
-            &current.application,
-            false,
-        )
-        .map_err(|error| {
+        Self::validate_application_authority(self.trusted_custody.as_ref(), &current.application)
+            .map_err(|error| {
             StorageError::from_io_error(
                 ErrorSubject::Snapshot(Some(meta.signature())),
                 ErrorVerb::Read,
@@ -2759,12 +2760,7 @@ mod authority_consensus_tests {
         let (membership, authority, boots, signers) = authority_fixture(17);
         let mut application = PolisApplicationState::default();
         application
-            .install_trusted_authority(
-                "polis-a",
-                membership.epoch(),
-                authority.clone(),
-                boots.clone(),
-            )
+            .install_trusted_authority("polis-a", membership.epoch(), authority.clone())
             .unwrap();
         for (offset, operation_id) in ["snapshot-op-a", "snapshot-op-b"].iter().enumerate() {
             let prepare_index = 20 + (offset as u64 * 2);
@@ -2801,6 +2797,7 @@ mod authority_consensus_tests {
                         boot_generations: canonical_boot_generations(&boots),
                     },
                     None,
+                    Some(&boots),
                 )
                 .unwrap());
             let intent = application
@@ -2836,6 +2833,7 @@ mod authority_consensus_tests {
                     finalize_index,
                     &PolisCommand::FinalizeAuthority { proposal },
                     None,
+                    Some(&boots),
                 )
                 .unwrap());
         }
@@ -2868,14 +2866,7 @@ mod authority_consensus_tests {
                     .unwrap()
                     .voter_set_generation += 1
             }
-            SnapshotCase::CurrentBoot => {
-                application
-                    .current_authority
-                    .as_mut()
-                    .unwrap()
-                    .boot_generations[0]
-                    .1 += 1
-            }
+            SnapshotCase::CurrentBoot => {}
             SnapshotCase::PreparedPolis => application
                 .prepared_authority
                 .get_mut(first)
@@ -2904,9 +2895,8 @@ mod authority_consensus_tests {
                     .prepared_authority
                     .get_mut(first)
                     .unwrap()
-                    .authority
                     .boot_generations[0]
-                    .1 += 1
+                    .generation += 1
             }
             SnapshotCase::LaterPrepared => application
                 .prepared_authority
@@ -3007,6 +2997,10 @@ mod authority_consensus_tests {
         };
         let mut value = serde_json::to_value(&current).unwrap();
         match case {
+            SnapshotCase::CurrentBoot => {
+                value["application"]["current_authority"]["boot_generations"] =
+                    serde_json::to_value(canonical_boot_generations(&boots)).unwrap();
+            }
             SnapshotCase::MissingProposal | SnapshotCase::EvidenceOmitted => {
                 value["application"]["finalized_authority"][first]
                     .as_object_mut()
@@ -3092,7 +3086,7 @@ mod authority_consensus_tests {
                 .iter()
                 .map(|(guardian, generation)| (guardian.clone(), generation + 1))
                 .collect();
-            let reopened = PolisStateMachineStore::open_with_trusted_authority(
+            let mut reopened = PolisStateMachineStore::open_with_trusted_authority(
                 root.path(),
                 1,
                 checkpoint.clone(),
@@ -3105,6 +3099,29 @@ mod authority_consensus_tests {
                 },
             )
             .unwrap();
+            let immediate_snapshot = reopened.build_snapshot().await.unwrap();
+            let immediate_root = root.path().join("immediate-current-peer");
+            std::fs::create_dir(&immediate_root).unwrap();
+            let mut immediate_peer = PolisStateMachineStore::open_with_trusted_authority(
+                &immediate_root,
+                2,
+                Arc::new(MemoryAuthority::default()),
+                TrustedAuthorityBootstrap {
+                    polis_id: "polis-a".into(),
+                    membership_epoch: membership.epoch(),
+                    authority: authority.clone(),
+                    boot_generations: restarted_boots.clone(),
+                    publication_identity: publication_identity(2, &membership, &authority, 18),
+                },
+            )
+            .unwrap();
+            immediate_peer
+                .install_snapshot(
+                    &immediate_snapshot.meta,
+                    Box::new(Cursor::new(immediate_snapshot.snapshot.get_ref().clone())),
+                )
+                .await
+                .unwrap();
             let proposal = AuthorityPrepareProposal::new(
                 "polis-a",
                 &membership,
@@ -3129,7 +3146,6 @@ mod authority_consensus_tests {
                 .unwrap(),
             )
             .unwrap();
-            let mut reopened = reopened;
             let canonical_cut = canonical_boot_generations(&restarted_boots);
             let wire_command = PolisCommand::PrepareAuthority {
                 proposal: Box::new(proposal.clone()),
@@ -3146,6 +3162,27 @@ mod authority_consensus_tests {
             let mut reordered_cut = canonical_cut.clone();
             reordered_cut.swap(0, 1);
             assert!(decode_boot_generations(&reordered_cut).is_err());
+            let mut zero_cut = canonical_cut.clone();
+            zero_cut[0].generation = 0;
+            assert!(decode_boot_generations(&zero_cut).is_err());
+            assert!(decode_bounded_json::<PolisCommand>(
+                &serde_json::to_vec_pretty(&wire_command).unwrap()
+            )
+            .is_err());
+            for invalid_cut in [duplicate_cut, reordered_cut, zero_cut] {
+                let before = reopened.application_state().await;
+                assert!(reopened
+                    .apply([Entry {
+                        log_id: LogId::new(openraft::CommittedLeaderId::new(1, 1), 24),
+                        payload: EntryPayload::Normal(PolisCommand::PrepareAuthority {
+                            proposal: Box::new(proposal.clone()),
+                            boot_generations: invalid_cut,
+                        }),
+                    }])
+                    .await
+                    .is_err());
+                assert_eq!(reopened.application_state().await, before);
+            }
             let responses = reopened
                 .apply([Entry {
                     log_id: LogId::new(openraft::CommittedLeaderId::new(1, 1), 24),
@@ -3157,15 +3194,12 @@ mod authority_consensus_tests {
             let restarted_application = reopened.application_state().await;
             assert_eq!(
                 restarted_application.prepared_authority["snapshot-op-after-restart"]
-                    .authority
                     .boot_generations,
-                restarted_boots.clone().into_iter().collect::<Vec<_>>()
+                canonical_boot_generations(&restarted_boots)
             );
             assert_eq!(
-                restarted_application.prepared_authority["snapshot-op-a"]
-                    .authority
-                    .boot_generations,
-                boots.clone().into_iter().collect::<Vec<_>>()
+                restarted_application.prepared_authority["snapshot-op-a"].boot_generations,
+                canonical_boot_generations(&boots)
             );
             let built = reopened.build_snapshot().await.unwrap();
             let built_meta = built.meta.clone();
@@ -3222,18 +3256,20 @@ mod authority_consensus_tests {
                 .await
                 .is_err());
             assert_eq!(stale_peer.application_state().await, stale_before);
-            assert!(stale_peer
+            stale_peer
                 .install_snapshot(&built_meta, Box::new(Cursor::new(built_bytes.clone())))
                 .await
-                .is_err());
+                .unwrap();
             assert_eq!(
-                stale_peer
-                    .application_state()
-                    .await
-                    .current_authority
-                    .unwrap()
-                    .boot_generations,
-                boots.clone().into_iter().collect::<Vec<_>>()
+                stale_peer.application_state().await.current_authority,
+                Some(
+                    ReplicatedAuthorityCustody::from_authority(
+                        "polis-a",
+                        membership.epoch(),
+                        &authority,
+                    )
+                    .unwrap(),
+                )
             );
 
             let current_root = root.path().join("current-peer");
@@ -3257,14 +3293,19 @@ mod authority_consensus_tests {
                 .unwrap();
             let installed = current_peer.application_state().await;
             assert_eq!(
-                installed.current_authority.unwrap().boot_generations,
-                restarted_boots.into_iter().collect::<Vec<_>>()
+                installed.current_authority,
+                Some(
+                    ReplicatedAuthorityCustody::from_authority(
+                        "polis-a",
+                        membership.epoch(),
+                        &authority,
+                    )
+                    .unwrap(),
+                )
             );
             assert_eq!(
-                installed.prepared_authority["snapshot-op-a"]
-                    .authority
-                    .boot_generations,
-                boots.into_iter().collect::<Vec<_>>()
+                installed.prepared_authority["snapshot-op-a"].boot_generations,
+                canonical_boot_generations(&boots)
             );
             assert!(installed.finalized_authority.contains_key("snapshot-op-a"));
         } else {

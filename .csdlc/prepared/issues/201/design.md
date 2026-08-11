@@ -101,17 +101,30 @@ operation variants and every consumer other than the sealed #210 adapter are
 rejected before a view is returned.
 
 Serialization, snapshot restore, retry-cache load, and checkpoint reconciliation
-all compare both retained bytes and digest. Trusted route custody remains
-runtime configuration outside snapshot-replaceable state. Install requires the
-snapshot's current custody and every prepared custody, including later records,
-to equal the configured polis id, membership epoch, authority membership, and
-boot generations exactly; retired owner, Shepherd, Observatory, fence, and
-demotion fields must all be empty. Each finalized record retains the complete
-finalize proposal and endorsements, and install reruns the same operation,
-quorum, signature, certificate, boot, time-window, committed-prepare-index, and
-finalize-index verification used by live apply before publication is possible.
-Omitted, re-encoded, injected, substituted, or byte/digest-inconsistent custody
-or evidence fails closed.
+all compare both retained bytes and digest. Snapshot-replicated current authority
+contains only the stable polis id, membership epoch, trust domain, voter-set
+generation, committed membership index, exact configuration set, and voter
+records. It never contains the restart-scoped current boot-generation map.
+
+The runtime owns the current trusted boot cut outside snapshot-replaceable state.
+Every new `PrepareAuthorityIntent` must carry the exact full canonical boot vector
+for that runtime cut. Missing or extra voters, stale generations, zero
+generations, duplicate guardians, reordered entries, and non-canonical wire bytes
+fail before any state mutation. Prepare does not rewrite the replicated current
+authority. Instead, each prepared operation freezes its complete canonical boot
+vector beside the stable authority and binds both with a custody digest.
+
+Finalization and publication use only that frozen historical custody. Restore and
+snapshot install reverify the prepared digest, exact historical voter coverage,
+complete finalize proposal, endorsements, quorum, signatures, certificates,
+boot generations, time window, committed prepare index, and finalize index.
+Therefore a runtime may reopen with a newly trusted current boot cut and
+immediately build or install a snapshot before any new Prepare, while older
+prepared and finalized operations remain byte-identical and verifiable under the
+boot cut they actually committed. Retired owner, Shepherd, Observatory, fence,
+and demotion fields must remain empty. Injecting a current boot map into the
+snapshot, or omitting, re-encoding, substituting, or corrupting historical
+custody or evidence, fails closed.
 
 The prepare and finalize entries contain canonical quorum-attested time tokens.
 Replica-local clocks may determine whether a voter is willing to endorse a
@@ -215,6 +228,9 @@ downstream authority stores.
 - Machine evidence binds exact source, commands, a named nonzero denominator,
   strict Clippy, marker parity, protected-source drift, immutable evidence
   introduction, and eventual squash-merge topology.
+- The complete current `adl-runtime` library lane is recorded truthfully as
+  230/230 with zero skipped; this supersedes the earlier 222-test planning
+  expectation without changing the issue-specific 86-case semantic contract.
 
 The replacement denominator is exactly eighty-six cases. Every case emits one
 canonical `ADL_ISSUE_201_CASE_V2` marker; the independent immutable manifest

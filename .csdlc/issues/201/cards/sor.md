@@ -12,23 +12,24 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the approved snapshot trust boundary and retained one v7 receipt at source a629080ce6d4f80812ec0773cd12f212f1483c70: exact selected=86, runner passed=86, semantic results passed=11/reconciled=6/rejected=69, strict production Clippy, real three-voter OpenRaft, legacy denial, full ancestry validation, unavailable depth-one fallback, and available-divergent rejection all pass. Final independent implementation review remains pending and nothing is published or merged.
+Material stable-custody rework is implemented locally and preflight-green, but the prior a629080 v7 packet and review are superseded. Snapshot-replicated current authority is stable-only, runtime current boot custody is external, prepared operations freeze historical boot custody, and fresh independent design approval is required before final evidence or implementation review.
 
 ## Artifacts
 
-- adl-runtime/src/distributed/authority_protocol.rs
-- adl-runtime/src/distributed/authority_protocol_contract_tests.rs
 - adl-runtime/src/distributed/polis_runtime.rs
-- .csdlc/prepared/issues/201/produce-proof-receipt.rb
-- .csdlc/prepared/issues/201/validate-proof-receipt.rb
-- .csdlc/evidence/201/v7/execution-proof.json
+- .csdlc/prepared/issues/201/design.md
+- .csdlc/prepared/issues/201/diagram.mmd
+- .csdlc/issues/201/cards/spp.md
+- .csdlc/issues/201/cards/vpp.md
+- .csdlc/issues/201/cards/srp.md
+- .csdlc/issues/201/cards/sor.md
 
 ## Execution
 
-- Retained trusted route custody outside snapshot-replaceable state and require exact configured current and every prepared custody plus empty legacy authority fields during install and restart.
-- Persisted complete FinalizeAuthorityProposal endorsement evidence and rerun the live quorum, signature, certificate, boot, time, operation, prepare-index, and finalize-index verifier before restored finalization can publish.
-- Added 36 exact production snapshot cases: legitimate multi-prepared/finalized restart plus every named custody, evidence, quorum, encoding, and legacy injection rejection.
-- Replaced v6 with independent v7 constants and canonical V2 marker hashes; source-object availability now requires ancestry and never falls back on divergence.
+- Removed restart-scoped current boot generations from snapshot-replicated current authority; retained only stable polis, epoch, membership, configuration, and voter truth.
+- Required every Prepare to supply the exact canonical runtime-external full boot vector, froze that vector plus stable authority digest per prepared operation, and prevented Prepare from mutating current authority.
+- Reverified historical frozen custody during finalization, publication, restore, and snapshot install; boot-rotated reopen can build and install a snapshot before any new Prepare.
+- Extended the valid snapshot regression to prove stale-cut no-mutation rejection, current-cut success, frozen old prepared/finalized custody, and duplicate, reordered, zero, and non-JCS wire denial.
 
 ## Validation
 
@@ -36,29 +37,36 @@ Implemented the approved snapshot trust boundary and retained one v7 receipt at 
   {
     "command": [
       "cargo",
-      "nextest",
-      "run",
+      "test",
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
       "--lib",
-      "-E",
-      "test(/^distributed::authority_protocol::contract_tests::/) or test(/^distributed::polis_runtime::authority_consensus_tests::snapshot_/)",
-      "--no-tests=fail"
+      "distributed::authority_protocol::contract_tests::",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
     ],
-    "purpose": "Prove 83 Rust cases contributing to exact v7 denominator.",
+    "purpose": "Preflight the retained exact authority protocol semantics.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
+    "evidence_ref": "local:stable-custody-preapproval:47-passed"
   },
   {
     "command": [
-      "ruby",
-      ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
-      "--self-test"
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "distributed::polis_runtime::authority_consensus_tests::snapshot_",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
     ],
-    "purpose": "Prove three validator mode cases and exact V2 markers.",
+    "purpose": "Preflight the corrected stable-current and frozen-historical custody snapshot boundary.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
+    "evidence_ref": "local:stable-custody-preapproval:36-passed"
   },
   {
     "command": [
@@ -73,94 +81,43 @@ Implemented the approved snapshot trust boundary and retained one v7 receipt at 
       "--exact",
       "--nocapture"
     ],
-    "purpose": "Prove real production three-voter OpenRaft flow.",
+    "purpose": "Preflight the production real three-voter OpenRaft route.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
+    "evidence_ref": "local:stable-custody-preapproval:1-passed"
   },
   {
     "command": [
       "cargo",
-      "clippy",
+      "nextest",
+      "run",
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
       "--lib",
-      "--",
-      "-D",
-      "warnings"
+      "--no-tests=fail"
     ],
-    "purpose": "Prove production code is warning-free without test bypasses.",
+    "purpose": "Record the truthful expanded full-runtime denominator before final proof.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_authority_protocol"
-    ],
-    "purpose": "Prove legacy public authority shapes fail closed.",
-    "outcome": "passed",
-    "evidence_ref": "adl-runtime/tests/distributed_authority_protocol.rs"
+    "evidence_ref": "local:stable-custody-preapproval:230-passed"
   },
   {
     "command": [
       "ruby",
-      ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
+      ".csdlc/prepared/issues/201/produce-proof-receipt.rb"
     ],
-    "purpose": "Prove full ancestry, unavailable depth-one fallback, and available-divergent rejection.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
-  },
-  {
-    "command": [
-      "csdlc-validate",
-      "--root",
-      ".",
-      "issue",
-      "--issue",
-      "201"
-    ],
-    "purpose": "Prove typed cards and approved design bindings.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/issues/201/index.json"
-  },
-  {
-    "command": [
-      "csdlc-doctor",
-      "--repo",
-      ".",
-      "--issue",
-      "201"
-    ],
-    "purpose": "Prove implemented rework record health with final review pending.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/issues/201/index.json"
-  },
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check",
-      "origin/main...HEAD"
-    ],
-    "purpose": "Prove branch diff hygiene.",
-    "outcome": "passed",
+    "purpose": "Replace stale v7 evidence only after approved design and final clean source.",
+    "outcome": "deferred",
     "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

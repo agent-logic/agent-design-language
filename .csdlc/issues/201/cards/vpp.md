@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
 [
   {
     "lane": "committed-authority-contract-86",
-    "proof_role": "Require exact ordered ADL_ISSUE_201_CASE_V2 selected=86. Passed=11 exactly for current_three_voter_finalize, exact_retry_returns_cached_result, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, local_clock_skew_apply_parity, exact_store_artifact_bytes_retained, sealed_continuity_transfer_projection, snapshot_valid_multi_prepared_finalized_restart, validator_available_ancestral_passed, validator_unavailable_protected_fallback_passed. Reconciled=6 exactly for node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker. Every other named case defaults rejected, exactly rejected=69; any count, order, name, result, or marker-hash mismatch fails closed.",
+    "proof_role": "Require the unchanged exact ordered ADL_ISSUE_201_CASE_V2 selected=86 semantic contract: passed=11, reconciled=6, rejected=69, with marker name, result, order, and digest parity.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -38,8 +38,8 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 1500,
-    "budget_tokens": 15000,
+    "budget_seconds": 1200,
+    "budget_tokens": 12000,
     "argv": [
       "cargo",
       "nextest",
@@ -56,9 +56,11 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "snapshot-trust-matrix",
-    "proof_role": "Prove the exact 39 added snapshot and validator names in STP AC-8; only the three added passed names pass and all other added names reject.",
+    "lane": "stable-custody-snapshot-matrix",
+    "proof_role": "Prove 36 snapshot cases including boot-rotated reopen before Prepare, immediate build/install, stale-cut no-mutation rejection, current-cut success, frozen historical custody, current-boot-field rejection, and finalized historical revalidation.",
     "acceptance_ids": [
+      "AC-2",
+      "AC-3",
       "AC-4",
       "AC-5",
       "AC-6",
@@ -66,8 +68,8 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 1200,
-    "budget_tokens": 10000,
+    "budget_seconds": 900,
+    "budget_tokens": 8000,
     "argv": [
       "cargo",
       "test",
@@ -85,7 +87,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "production-three-voter-openraft",
-    "proof_role": "Exercise production prepare finalize actual apply IDs route custody pending publication and legitimate snapshot restart through a real three-voter cluster.",
+    "proof_role": "Exercise production Prepare and Finalize through a real three-voter OpenRaft cluster using actual applied indices, runtime-external current boot custody, frozen historical prepared custody, pending publication, and restart reconciliation.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -97,8 +99,8 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 1200,
-    "budget_tokens": 8000,
+    "budget_seconds": 900,
+    "budget_tokens": 7000,
     "argv": [
       "cargo",
       "test",
@@ -115,6 +117,29 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "full-runtime-230",
+    "proof_role": "Run the truthful current complete adl-runtime library denominator; the former 222-test expectation has expanded to exactly 230 tests on this source and all 230 must pass with zero skipped.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 900,
+    "budget_tokens": 7000,
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--no-tests=fail"
+    ],
+    "parallel_group": "201-runtime",
+    "defer_reason": null
+  },
+  {
     "lane": "committed-authority-production-clippy",
     "proof_role": "Reject production warnings and production-selectable authority bypasses.",
     "acceptance_ids": [
@@ -122,8 +147,8 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 900,
-    "budget_tokens": 5000,
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
     "argv": [
       "cargo",
       "clippy",
@@ -139,38 +164,38 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "committed-authority-proof-v7",
-    "proof_role": "Produce one v7 packet binding the exact 86-name 11-passed 6-reconciled 69-rejected marker contract independently of v6.",
+    "lane": "committed-authority-proof-v7-replacement",
+    "proof_role": "Replace the stale a629080 packet with one immutable current-source v7 packet binding exact 86-case semantics plus 230/230 runtime coverage, strict Clippy, and the real three-voter lane.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 1500,
+    "budget_seconds": 1200,
     "budget_tokens": 7000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/201/produce-proof-receipt.rb"
     ],
     "parallel_group": "201-proof",
-    "defer_reason": null
+    "defer_reason": "Deferred until independent approval of the corrected design digest and a clean final source commit."
   },
   {
     "lane": "committed-authority-proof-validator-v7",
-    "proof_role": "Validate v7 ancestry available-divergent rejection and unavailable tree fallback plus exact independent name result count and marker-hash parity.",
+    "proof_role": "Validate current v7 ancestry when the source object exists, exact protected-tree fallback only when absent, available divergence rejection, and exact independent semantic and runtime denominators.",
     "acceptance_ids": [
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "medium",
     "budget_seconds": 300,
-    "budget_tokens": 3000,
+    "budget_tokens": 2500,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
     ],
     "parallel_group": "201-proof",
-    "defer_reason": null
+    "defer_reason": "Deferred until the replacement current-source packet exists."
   }
 ]
 
@@ -189,6 +214,7 @@ Tokens: 50000
 - `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --lib -E test(/^distributed::authority_protocol::contract_tests::|^distributed::polis_runtime::authority_consensus_tests::snapshot_/) --no-tests=fail`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::polis_runtime::authority_consensus_tests::snapshot_ -- --nocapture --test-threads=1`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids -- --exact --nocapture`
+- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --lib --no-tests=fail`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings`
 - `ruby .csdlc/prepared/issues/201/produce-proof-receipt.rb`
 - `ruby .csdlc/prepared/issues/201/validate-proof-receipt.rb`
