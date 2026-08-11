@@ -1,3 +1,1 @@
-    Checking adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-208-kernel-continuity-bridge/adl-runtime-kernel)
-    Checking adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-208-kernel-continuity-bridge/adl-runtime)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.32s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.16s
