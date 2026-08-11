@@ -1,0 +1,50 @@
+{
+  "schema": "adl.h2_retention_allowlist.v1",
+  "issue": 217,
+  "purpose": "Define the complete allowed H-to-H2 changed-path surface. The current evidence denominator supplies the exact ten evidence paths; every other changed path must be one of the lifecycle paths below.",
+  "evidence_denominator_path": ".csdlc/evidence/217/retained-proof-denominator.json",
+  "expected_evidence_file_count": 10,
+  "expected_proof_path_count": 8,
+  "proof_paths": [
+    ".csdlc/prepared/issues/217/historical-c640-denominator.json",
+    ".csdlc/prepared/issues/217/protected-source-denominator.json",
+    ".csdlc/prepared/issues/217/proof-contract-paths.json",
+    ".csdlc/prepared/issues/217/h2-retention-allowlist.json",
+    ".csdlc/prepared/issues/217/verify-historical-c640-packet.rb",
+    ".csdlc/prepared/issues/217/produce-native-receipt.rb",
+    ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
+    ".github/workflows/wp14-retained-native-proof.yml"
+  ],
+  "expected_lifecycle_path_count": 14,
+  "lifecycle_paths": [
+    ".csdlc/issues/217/audit.jsonl",
+    ".csdlc/issues/217/cards/sip.md",
+    ".csdlc/issues/217/cards/sip.values.json",
+    ".csdlc/issues/217/cards/sor.md",
+    ".csdlc/issues/217/cards/sor.values.json",
+    ".csdlc/issues/217/cards/spp.md",
+    ".csdlc/issues/217/cards/spp.values.json",
+    ".csdlc/issues/217/cards/srp.md",
+    ".csdlc/issues/217/cards/srp.values.json",
+    ".csdlc/issues/217/cards/stp.md",
+    ".csdlc/issues/217/cards/stp.values.json",
+    ".csdlc/issues/217/cards/vpp.md",
+    ".csdlc/issues/217/cards/vpp.values.json",
+    ".csdlc/issues/217/index.json"
+  ],
+  "allowed_statuses": [
+    "A",
+    "M"
+  ],
+  "forbidden_statuses": [
+    "D",
+    "R",
+    "C",
+    "T",
+    "U",
+    "X",
+    "B"
+  ],
+  "review_receipt_path": ".csdlc/evidence/217/h2-retention-review-receipt.json",
+  "review_receipt_retention_head": "H3-or-later"
+}

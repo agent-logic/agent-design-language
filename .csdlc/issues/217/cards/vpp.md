@@ -24,11 +24,76 @@ Diagram: .csdlc/prepared/issues/217/diagram.mmd
 
 [
   {
-    "lane": "historical-c640-packet",
-    "proof_role": "Verify the exact ten-path historical denominator, create a detached c640 worktree, overlay evidence, set the original GitHub environment, and run the unchanged #209 validator as provenance-only proof.",
+    "lane": "historical-denominator-contract",
+    "proof_role": "Execute exact ten-path/count/unique/SHA-256 structural validation for the historical denominator.",
     "acceptance_ids": [
       "AC-1",
-      "AC-2"
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 30,
+    "budget_tokens": 250,
+    "argv": [
+      "jq",
+      "-e",
+      ".expected_file_count == 10 and (.files | length) == 10 and ([.files[].path] | unique | length) == 10 and ([.files[].sha256 | test(\"^[0-9a-f]{64}$\")] | all)",
+      ".csdlc/prepared/issues/217/historical-c640-denominator.json"
+    ],
+    "parallel_group": "217-prep",
+    "defer_reason": null
+  },
+  {
+    "lane": "protected-source-denominator-contract",
+    "proof_role": "Execute exact seventeen-path/count/unique validation for the independent protected-source denominator.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-5",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 30,
+    "budget_tokens": 250,
+    "argv": [
+      "jq",
+      "-e",
+      ".expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17",
+      ".csdlc/prepared/issues/217/protected-source-denominator.json"
+    ],
+    "parallel_group": "217-prep",
+    "defer_reason": null
+  },
+  {
+    "lane": "retention-allowlist-contract",
+    "proof_role": "Execute exact proof-contract equality and H2 lifecycle/evidence allowlist count, uniqueness, status, and confinement validation.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4",
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 30,
+    "budget_tokens": 300,
+    "argv": [
+      "jq",
+      "-e",
+      "--slurpfile",
+      "proof",
+      ".csdlc/prepared/issues/217/proof-contract-paths.json",
+      ".expected_evidence_file_count == 10 and ($proof[0].expected_path_count) == 8 and ($proof[0].paths | length) == 8 and ($proof[0].paths | unique | length) == 8 and .expected_proof_path_count == 8 and .proof_paths == ($proof[0].paths) and (.proof_paths | unique | length) == 8 and .expected_lifecycle_path_count == 14 and (.lifecycle_paths | length) == 14 and (.lifecycle_paths | unique | length) == 14 and .allowed_statuses == [\"A\",\"M\"] and .forbidden_statuses == [\"D\",\"R\",\"C\",\"T\",\"U\",\"X\",\"B\"] and (.evidence_denominator_path | startswith(\".csdlc/evidence/217/\")) and ([.lifecycle_paths[] | startswith(\".csdlc/issues/217/\")] | all)",
+      ".csdlc/prepared/issues/217/h2-retention-allowlist.json"
+    ],
+    "parallel_group": "217-prep",
+    "defer_reason": null
+  },
+  {
+    "lane": "historical-c640-packet",
+    "proof_role": "Create a detached c640 worktree, overlay exact historical evidence, set original GitHub environment, and run the unchanged #209 validator as provenance-only proof.",
+    "acceptance_ids": [
+      "AC-1"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -40,13 +105,14 @@ Diagram: .csdlc/prepared/issues/217/diagram.mmd
       ".csdlc/prepared/issues/217/historical-c640-denominator.json"
     ],
     "parallel_group": "217-historical",
-    "defer_reason": "Implemented only after the second independent full-package review passes."
+    "defer_reason": "Implemented only after the fresh second independent full-package review passes."
   },
   {
     "lane": "fresh-native-producer-contract",
-    "proof_role": "Prove the producer consumes the exact seventeen-path denominator and writes confined issue #217 artifacts.",
+    "proof_role": "Prove the producer consumes exact source/proof denominators and writes confined issue #217 artifacts.",
     "acceptance_ids": [
-      "AC-3",
+      "AC-2",
+      "AC-4",
       "AC-5"
     ],
     "deterministic": true,
@@ -59,12 +125,13 @@ Diagram: .csdlc/prepared/issues/217/diagram.mmd
       "--self-test"
     ],
     "parallel_group": "217-contract",
-    "defer_reason": "Implemented only after the second independent full-package review passes."
+    "defer_reason": "Implemented only after the fresh second independent full-package review passes."
   },
   {
     "lane": "fresh-native-linux-macos",
-    "proof_role": "At reviewed producer head H, produce and aggregate the fresh exact Linux/macOS packet; retain only its exact ten-path denominator and evidence in H2 without protected drift or recursive triggering.",
+    "proof_role": "At reviewed H, produce/aggregate the fresh packet; validate exact evidence and proof-contract digests before exact-allowlist H2 retention.",
     "acceptance_ids": [
+      "AC-2",
       "AC-3",
       "AC-4",
       "AC-5",
@@ -80,47 +147,30 @@ Diagram: .csdlc/prepared/issues/217/diagram.mmd
       ".csdlc/evidence/217/retained-proof-denominator.json"
     ],
     "parallel_group": "217-native",
-    "defer_reason": "Runs on GitHub Actions at exact reviewed H after implementation review and publication; missing fresh proof blocks H2 retention and merge."
+    "defer_reason": "Runs on GitHub Actions at exact reviewed H; missing fresh proof blocks H2 retention and merge."
   },
   {
-    "lane": "retained-proof-regressions",
-    "proof_role": "Prove exact ten-path evidence and seventeen-path source denominators, complete provenance, ancestry/equivalence, protected drift, semantic, path-confinement, and tamper behavior.",
+    "lane": "retention-chain-regressions",
+    "proof_role": "Prove H/H2 diff allowlisting, reviewed-H2 receipt/later-head anchoring, and fail-closed protected, unprotected-source, producer, validator, workflow, semantic, provenance, and path drift.",
     "acceptance_ids": [
+      "AC-3",
+      "AC-4",
       "AC-5",
       "AC-6",
-      "AC-7"
+      "AC-7",
+      "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 2500,
+    "budget_seconds": 420,
+    "budget_tokens": 3000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
       "--self-test"
     ],
     "parallel_group": "217-contract",
-    "defer_reason": "Implemented only after the second independent full-package review passes."
-  },
-  {
-    "lane": "preparation-contract",
-    "proof_role": "Validate the two reviewed denominators and reject malformed preparation patches before implementation begins.",
-    "acceptance_ids": [
-      "AC-7",
-      "AC-8"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 60,
-    "budget_tokens": 500,
-    "argv": [
-      "jq",
-      "-e",
-      ".expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17",
-      ".csdlc/prepared/issues/217/protected-source-denominator.json"
-    ],
-    "parallel_group": "217-prep",
-    "defer_reason": null
+    "defer_reason": "Implemented only after the fresh second independent full-package review passes."
   }
 ]
 
@@ -136,11 +186,13 @@ Tokens: 25000
 
 ## Commands
 
+- `jq -e .expected_file_count == 10 and (.files | length) == 10 and ([.files[].path] | unique | length) == 10 and ([.files[].sha256 | test("^[0-9a-f]{64}$")] | all) .csdlc/prepared/issues/217/historical-c640-denominator.json`
+- `jq -e .expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17 .csdlc/prepared/issues/217/protected-source-denominator.json`
+- `jq -e --slurpfile proof .csdlc/prepared/issues/217/proof-contract-paths.json .expected_evidence_file_count == 10 and ($proof[0].expected_path_count) == 8 and ($proof[0].paths | length) == 8 and ($proof[0].paths | unique | length) == 8 and .expected_proof_path_count == 8 and .proof_paths == ($proof[0].paths) and (.proof_paths | unique | length) == 8 and .expected_lifecycle_path_count == 14 and (.lifecycle_paths | length) == 14 and (.lifecycle_paths | unique | length) == 14 and .allowed_statuses == ["A","M"] and .forbidden_statuses == ["D","R","C","T","U","X","B"] and (.evidence_denominator_path | startswith(".csdlc/evidence/217/")) and ([.lifecycle_paths[] | startswith(".csdlc/issues/217/")] | all) .csdlc/prepared/issues/217/h2-retention-allowlist.json`
 - `ruby .csdlc/prepared/issues/217/verify-historical-c640-packet.rb .csdlc/prepared/issues/217/historical-c640-denominator.json`
 - `ruby .csdlc/prepared/issues/217/produce-native-receipt.rb --self-test`
 - `ruby .csdlc/prepared/issues/217/validate-retained-native-proof.rb .csdlc/evidence/217/retained-proof-denominator.json`
 - `ruby .csdlc/prepared/issues/217/validate-retained-native-proof.rb --self-test`
-- `jq -e .expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17 .csdlc/prepared/issues/217/protected-source-denominator.json`
 
 ## Failure Semantics
 

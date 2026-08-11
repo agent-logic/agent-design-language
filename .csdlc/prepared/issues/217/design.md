@@ -58,13 +58,34 @@ The fresh proof has an exact two-head sequence:
 2. GitHub Actions runs against exact `H` and uploads the Linux, macOS, and
    aggregate artifacts without changing the branch.
 3. `H2` adds only the downloaded current evidence, its exact ten-path
-   denominator, and typed evidence/review truth. It changes none of the
-   protected paths.
+   denominator, and the explicitly named issue-lifecycle paths frozen by
+   `.csdlc/prepared/issues/217/h2-retention-allowlist.json`. It changes none of
+   the protected, unprotected-source, proof-contract, design, or workflow
+   paths.
 4. The workflow path filter includes proof tooling/workflow and the protected
    source paths, but excludes `.csdlc/evidence/217` and lifecycle-only paths, so
    pushing evidence-only `H2` cannot recursively launch another native run.
-5. The retained validator at `H2` requires `H` ancestry or complete protected
-   tree equivalence and independently requires zero protected-source drift.
+5. Before parsing proof content, the retained validator compares
+   `git diff --name-status H..H2` with the machine allowlist. The current
+   evidence denominator and its ten unique paths are required; every changed
+   lifecycle path must be one of the fourteen exact paths named by the
+   allowlist. Deletions, renames, copies, unmerged states, duplicate paths, or
+   any other changed path fail closed.
+6. The eight paths in
+   `.csdlc/prepared/issues/217/proof-contract-paths.json` are digest-bound at H
+   and must be byte-identical at H2. This independently freezes the historical
+   wrapper, producer, validator, workflow, both denominators, the proof-path
+   denominator itself, and the H2 allowlist.
+7. An independent reviewer reviews exact H2. A later `H3` (or later head)
+   retains a review receipt, because a receipt cannot truthfully authenticate
+   the review of the same commit that contains it. The receipt binds H, H2,
+   both tree identities, the canonical `name-status` diff digest, both
+   evidence/source denominators, all eight proof-contract path digests,
+   reviewer identity, reviewed scope, result, and no-drift verdict.
+8. The retained validator at H2 and later heads requires H ancestry or complete
+   protected tree equivalence and independently requires zero protected-source
+   drift. At H3 and later it additionally authenticates the reviewed-H2 receipt
+   and anchors H2 through ancestry or complete retained-tree equivalence.
 
 ### 3. Validate retained proof at later heads
 
@@ -92,7 +113,12 @@ point and:
    to the validating HEAD or when the complete protected source manifest is
    digest-equivalent to the validating checkout; and
 7. in both modes, requires every current protected path to equal the proved
-   source manifest so post-proof protected drift always fails closed.
+   source manifest so post-proof protected drift always fails closed;
+8. validates the exact H-to-H2 changed-path/status set and the H-to-H2
+   byte-identity of every proof-contract path; and
+9. at H3 or later, validates the independently created reviewed-H2 receipt and
+   its H/H2/tree/diff/denominator/proof-digest/reviewer bindings before accepting
+   later-head ancestry or complete retained-tree equivalence.
 
 The equivalence mode is merge/squash/rebase-safe because it does not require the
 source commit object to remain locally available. It is not a waiver: complete
@@ -112,7 +138,13 @@ Focused fixtures cover:
 - missing/extra/duplicate path and digest tampering;
 - receipt runner, job, workflow, source, or manifest mismatch;
 - semantic projection or assertion mismatch;
-- protected-source drift; and
+- protected-source drift;
+- arbitrary unprotected-source drift such as a README, lockfile, or unrelated
+  source file;
+- historical-wrapper, producer, validator, proof-denominator, allowlist, or
+  workflow drift;
+- H-to-H2 deletion, rename, copy, unexpected status, or unlisted path;
+- missing, stale, forged, or self-referential H2 review receipt; and
 - unrelated/non-equivalent source failure.
 
 The final #217 VPP/SOR command invokes the retained validator on the fresh #217
@@ -132,8 +164,9 @@ The preparation lifecycle is deliberately serial:
    evidence, publication, or PR changes;
 5. a second independent reviewer passes the complete bound six-card package;
 6. only then may implementation begin, followed by exact-head implementation
-   review, publication, the `H` native run, evidence-only `H2` retention, and a
-   post-native exact-head review.
+   review, publication, the `H` native run, exact-allowlist `H2` retention,
+   independent exact-H2 review, later `H3` receipt retention, and final
+   later-head validation.
 
 Any missing review or unresolved finding stops the sequence. In particular,
 there is no implementation or publication between binding and the second
