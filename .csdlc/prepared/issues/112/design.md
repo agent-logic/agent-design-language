@@ -72,20 +72,16 @@ After both gates pass, issue #112 owns these exact product targets:
 - `adl-runtime/tests/layer8_authority.rs`
 - `adl/src/csm_runtime_api.rs` for the narrow pre-delivery invocation only
 - `adl/tests/layer8_authority_runtime_api.rs`
-- `adl/tools/validate_layer8_authority_observatory_ui.sh`
 - `docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md`
 
 The focused product validation targets are exact and deferred:
 
-- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail --status-level all`
-- `cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail --status-level all`
-- `bash adl/tools/validate_layer8_authority_observatory_ui.sh`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority`
+- `cargo test --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api`
 
-The Rust targets must select and pass nonzero tests at the implementation
-revision, and the browser target must prove the authorized, refused, stale or
-revoked, and disclosure-safe Observatory states. They do not exist as
-preparation proof, and no preparation-text check may stand in for any product
-target.
+Both targets must select and pass nonzero tests at the implementation revision.
+They do not exist as preparation proof, and no preparation-text check may stand
+in for either product target.
 
 ## Preparation Boundary
 

@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 16
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,8 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "issue-112-preparation-hygiene",
-          "proof_role": "Prove all six typed cards, approved design, exact #83 and #111 serial gates, fail-closed validation truth, and pre-execution SRP/SOR truth without claiming product behavior.",
+          "lane": "layer8-authority-contract",
+          "proof_role": "The exact issue-owned adl-runtime integration-test target proves principal derivation, action-specific capability and policy intersection, fail-closed refusal, replay defense, restart integrity, redacted tamper-evident audit, and nonzero test selection.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -28,44 +28,28 @@
             "AC-7"
           ],
           "deterministic": true,
-          "resource_profile": "small",
-          "budget_seconds": 60,
-          "budget_tokens": 1000,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 20000,
           "argv": [
-            "ruby",
-            ".csdlc/prepared/issues/112/validate-preparation.rb"
+            "cargo",
+            "nextest",
+            "run",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "layer8_authority",
+            "--no-tests=fail",
+            "--status-level",
+            "all"
           ],
-          "parallel_group": "112-preparation",
-          "defer_reason": null
+          "parallel_group": "112-product-serial-01",
+          "defer_reason": "Deferred until #83 and #111 are merged and ancestral. The issue-owned temporary #[path = \"../src/layer8_authority.rs\"] harness in adl-runtime/tests/layer8_authority.rs routes adl-runtime/src/layer8_authority.rs until module registration and fails closed until the exact nonzero target exists."
         },
         {
-          "lane": "layer8-authority-contract-plan",
-          "proof_role": "Validate the future product PVF contract cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.",
-          "acceptance_ids": [
-            "AC-1",
-            "AC-2",
-            "AC-3",
-            "AC-4",
-            "AC-5",
-            "AC-6",
-            "AC-7"
-          ],
-          "deterministic": true,
-          "resource_profile": "small",
-          "budget_seconds": 60,
-          "budget_tokens": 1000,
-          "argv": [
-            "ruby",
-            ".csdlc/prepared/issues/112/validate-preparation.rb",
-            "--lane",
-            "authority-contract"
-          ],
-          "parallel_group": "112-preparation",
-          "defer_reason": null
-        },
-        {
-          "lane": "layer8-runtime-api-integration-plan",
-          "proof_role": "Validate the future product PVF contract cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.",
+          "lane": "layer8-runtime-api-integration",
+          "proof_role": "The exact issue-owned adl integration-test target proves authorization and durable audit occur before sequence reservation, provider execution, and delivery while preserving bounded role projections and nonzero test selection.",
           "acceptance_ids": [
             "AC-2",
             "AC-3",
@@ -74,45 +58,50 @@
             "AC-7"
           ],
           "deterministic": true,
-          "resource_profile": "small",
-          "budget_seconds": 60,
-          "budget_tokens": 1000,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 20000,
           "argv": [
-            "ruby",
-            ".csdlc/prepared/issues/112/validate-preparation.rb",
-            "--lane",
-            "runtime-api-integration"
+            "cargo",
+            "nextest",
+            "run",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--test",
+            "layer8_authority_runtime_api",
+            "--no-tests=fail",
+            "--status-level",
+            "all"
           ],
-          "parallel_group": "112-preparation",
-          "defer_reason": null
+          "parallel_group": "112-product-serial-02",
+          "defer_reason": "Deferred until #83 and #111 are merged and ancestral and issue execution creates adl/tests/layer8_authority_runtime_api.rs; fail closed until the exact nonzero integration target exists."
         },
         {
-          "lane": "layer8-observatory-ui-plan",
-          "proof_role": "Validate the future real-browser product PVF contract adl/tools/validate_layer8_authority_observatory_ui.sh for authorized and refused states after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.",
+          "lane": "layer8-observatory-real-browser-ui-contract",
+          "proof_role": "The exact issue-owned real-browser Observatory contract target proves authorized, refused, and stale or revoked authority states render truthfully; refused actions remain unavailable; and every rendered state is disclosure-safe for its audience.",
           "acceptance_ids": [
             "AC-3",
             "AC-5",
             "AC-7"
           ],
           "deterministic": true,
-          "resource_profile": "small",
-          "budget_seconds": 60,
-          "budget_tokens": 1000,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 10000,
           "argv": [
-            "ruby",
-            ".csdlc/prepared/issues/112/validate-preparation.rb",
-            "--lane",
-            "observatory-ui"
+            "bash",
+            "adl/tools/validate_layer8_authority_observatory_ui.sh"
           ],
-          "parallel_group": "112-preparation",
-          "defer_reason": null
+          "parallel_group": "112-product-serial-03",
+          "defer_reason": "Deferred until #83 and #111 are merged and ancestral and implementation replaces the issue-owned fail-closed sentinel with real-browser proof for authorized, refused, stale or revoked, and disclosure-safe Observatory rendering. The sentinel exits nonzero and cannot count as product proof."
         }
       ],
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on serial-gate or ownership drift, unauthenticated or stale identity, capability mismatch, recipient substitution or widening, cross-Polis action, replay, revocation, expiry, policy uncertainty, audit discontinuity or write failure, forbidden-field leakage, zero-test selection, preparation-as-product-proof substitution, or unresolved exact-head findings.",
       "design_ref": ".csdlc/prepared/issues/112/design.md",
-      "design_digest": "0a28fe5d74d729ed13100e75885741adcdf024065c299b26ba5cbf5bd7a518a2",
+      "design_digest": "b72f31882a4d915230c29accc68f7feced2a5dbe442a6768abdefda2d389ff70",
       "diagram_ref": ".csdlc/prepared/issues/112/diagram.mmd",
       "diagram_digest": "8123e40f11131f1474ed236413da4886bf8cdd0022a8148005cfff1302897151"
     }

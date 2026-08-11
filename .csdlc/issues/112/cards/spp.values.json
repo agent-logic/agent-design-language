@@ -7,20 +7,26 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 16
+    "generation": 9
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 5,
+      "plan_revision": 3,
       "summary": "Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, reconcile their concrete contracts, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.",
       "steps": [
         {
           "id": "S1",
           "action": "Hold at pre-bind readiness until #83 and #111 are both terminal, merged, ancestral, and ownership-compatible; then reconcile their exact contracts and replan through typed edits on drift.",
           "acceptance_ids": [
-            "AC-1"
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
           ],
           "status": "pending"
         },
@@ -28,8 +34,11 @@
           "id": "S2",
           "action": "Implement the typed Layer 8 principal, action-specific capability, policy intersection, replay guard, bounded refusal, and hash-chained redacted audit contracts in the issue-owned Runtime module.",
           "acceptance_ids": [
+            "AC-1",
             "AC-2",
-            "AC-3"
+            "AC-3",
+            "AC-4",
+            "AC-6"
           ],
           "status": "pending"
         },
@@ -37,6 +46,8 @@
           "id": "S3",
           "action": "Integrate the authority decision before sequence reservation, provider execution, and delivery while preserving the merged ingress and session ownership boundaries.",
           "acceptance_ids": [
+            "AC-2",
+            "AC-3",
             "AC-4",
             "AC-5"
           ],
@@ -44,8 +55,11 @@
         },
         {
           "id": "S4",
-          "action": "Run the exact issue-owned authority-contract, Runtime API integration, and real-browser Observatory UI targets with nonzero selection where applicable, resolve every actionable exact-head review finding, and only then hand off for publication.",
+          "action": "Run the exact issue-owned authority-contract and Runtime API integration targets with nonzero selection, resolve all actionable exact-head review findings, and only then hand off for publication.",
           "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
             "AC-6",
             "AC-7"
           ],
@@ -61,9 +75,7 @@
         "adl/tools/validate_layer8_authority_observatory_ui.sh",
         "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
         ".csdlc/issues/112",
-        ".csdlc/prepared/issues/112/design.md",
-        ".csdlc/prepared/issues/112/diagram.mmd",
-        ".csdlc/prepared/issues/112/validate-preparation.rb"
+        ".csdlc/prepared/issues/112"
       ],
       "invariants": [
         "Authentication precedes authorization; authorization and durable redacted audit precede sequence reservation, provider execution, and delivery",
@@ -93,7 +105,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/112/design.md",
-      "design_digest": "0a28fe5d74d729ed13100e75885741adcdf024065c299b26ba5cbf5bd7a518a2",
+      "design_digest": "b72f31882a4d915230c29accc68f7feced2a5dbe442a6768abdefda2d389ff70",
       "diagram_ref": ".csdlc/prepared/issues/112/diagram.mmd",
       "diagram_digest": "8123e40f11131f1474ed236413da4886bf8cdd0022a8148005cfff1302897151"
     }

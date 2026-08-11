@@ -3,9 +3,9 @@
   "issue": 112,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
-  "phase": "ready",
-  "generation": 16,
-  "digest": "f2d44e1e878c9250ea1247372ecc1156b057890cf8be2192674661b720a4c8d8",
+  "phase": "initialized",
+  "generation": 9,
+  "digest": "2fabb15931ac7573298ba848ca9ff0db7a32261c6a9d17115b1fc7eef4bf4ed8",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,50 +19,42 @@
   "design_review": {
     "approved": {
       "reviewer": "operator:daniel-explicit-fresh-packet-authorization",
-      "revision": "0a28fe5d74d729ed13100e75885741adcdf024065c299b26ba5cbf5bd7a518a2"
+      "revision": "b72f31882a4d915230c29accc68f7feced2a5dbe442a6768abdefda2d389ff70"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "6a2ea5e61046d346fdb87ea0eb00f844581320cccd0f99c8b72aa456f98c3a21",
+      "values_digest": "cdd73308e7be3d9cb31220483dd3307fd27c618264079d57dcab5f40087e6047",
       "rendered_digest": "b8c33d505a1cd92baf597953ef6b21336be077e8871718bb430a8a4faf53dbb8",
       "ast_digest": "1e920f5a080a8d58bac47d6dca57f7d151f15f9d04e4b2b105d2d0688b9c5283"
     },
     "stp": {
-      "values_digest": "5d4b3effbe7ad736986a56a9a1ee726d43c5d531a2acf515c3bd32f7c104d9c2",
-      "rendered_digest": "0f929fe354af6ee2645f935b02c2b926e8b51a6b43064d4a40800229127cefbf",
-      "ast_digest": "16ef4762d8c07190f624a437164ec54d417e22f12130c16fb3405919ffd6f08e"
+      "values_digest": "878e43fd4867df5889d4f1b4f80be691df3e0b88fae63a2321b411e132f89207",
+      "rendered_digest": "a28ddea762027403f39dfbbc5a1fdf5f6c6e2e325735dad0a34fe83f02e70bab",
+      "ast_digest": "bd5010b53aff6216ae0fbdd09cb21e428a083d5997977fa64a9abd5c223fc9c0"
     },
     "spp": {
-      "values_digest": "64db417c5a1f366ef9270e19eaaa5bc7b74e7c28f5d0ed7943bf5793a5400f84",
-      "rendered_digest": "8578b4e0a775697a792d4d91be7fb31a83e506935d35377e6dee25dba2799b6e",
-      "ast_digest": "f71083c72bbf2cb761e3eaf368047cd9ce87ba7bc596e38bef23ba00653577c7"
+      "values_digest": "576e54e5b49703252c87ce385aa986fb7bc16ea2de2e523cd81511f79b0f26a2",
+      "rendered_digest": "ca49c0e32673a8b9fa9130867a41eef2621096e950eefb4cc286937321ec1b9c",
+      "ast_digest": "399bd1864bcc1b5a5c484d7ca0a70d8fcd7fc1a7c9724acd01d0035508db49b0"
     },
     "vpp": {
-      "values_digest": "de83e9a4ea906d4c9679f25d0f973ce4f3ac25d4ba30af5f9cefad7b9a1ffc3b",
-      "rendered_digest": "7de0943383c2dfad3ab077dcf331f3cfe3e7c48a7d83b45d3f19c0b1d47b284f",
-      "ast_digest": "30d20b65c5bd8f3341a776f9bb06c3ae9a602e69995413f525ba29134d631e3a"
+      "values_digest": "c529ca731a823407e32e7dafc7f350f63dd8c31d1ab0feae2ad23f3236290a65",
+      "rendered_digest": "a2027617ead35cbb1e2555e06fb8336fdd1125a2f0f774baee2c847e9f22bd8f",
+      "ast_digest": "53a8eeed4e3ec2b7007084315c484f27ded4f4a5af9b10de6fee1913ebb99a9e"
     },
     "srp": {
-      "values_digest": "4ac220e9cfb4f2bb4f53e532ba4a22c72c066c89e2ee5a5e795024f69cd449fc",
+      "values_digest": "a0a1b6fa616e5b8c10bbd6321872d8d444b7b12392651586bb363403ad008e87",
       "rendered_digest": "601b2d0d0c0552f995cfc4a9a187aa1b689b4b1e292ec01b26b85850ca016aa1",
       "ast_digest": "6a0a7dfad55bcc06b7d7784c063086769c1f4e879874ef039e7307eadfd44137"
     },
     "sor": {
-      "values_digest": "3f5a82ed2bf1cf2f3bd5654b71e175be11bf8cc9b2738eee509c4e7d8935954b",
+      "values_digest": "10663597dcd7efde94fa24e9d47a7c80273c5429f1c1068fcd1296c1463d5ad0",
       "rendered_digest": "a0564026b2d4a57a1a5cbaa9fa222d0ac661820c43f4871fd9b9dc90ebdd8a47",
       "ast_digest": "c0065cfecbfe94f68170322c50c2bb26a7b5d3d8335345c1cbcf5b11a985bffd"
     }
   },
-  "transitions": [
-    {
-      "sequence": 1,
-      "from": "initialized",
-      "to": "ready",
-      "actor": "codex:wp18c02-prebind-readiness-repair",
-      "reason": "All six typed cards, approved design, shared ACIP authority boundary, and exact preparation lanes are ready for pre-bind validation; product binding remains gated on merged ancestral #83 and #111 only."
-    }
-  ],
+  "transitions": [],
   "audit": [
     {
       "sequence": 1,
@@ -133,55 +125,6 @@
       "actor": "codex:112-layer8-authority-readiness-repair",
       "reason": "Make the pre-bind plan summary name the preserved Rust/API targets and the added Observatory real-browser/UI contract target.",
       "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, reconcile their concrete contracts, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.\"}"
-    },
-    {
-      "sequence": 11,
-      "generation": 10,
-      "actor": "operator:daniel-explicit-fresh-packet-authorization",
-      "reason": "reapprove stale initialized issue design",
-      "operation": "approve_design"
-    },
-    {
-      "sequence": 12,
-      "generation": 11,
-      "actor": "codex:wp18c02-prebind-readiness-repair",
-      "reason": "Require all three exact post-gate product proof targets, including the real-browser Observatory contract, before publication.",
-      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/112/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/112/diagram.mmd\",\"new_design_digest\":\"0a28fe5d74d729ed13100e75885741adcdf024065c299b26ba5cbf5bd7a518a2\",\"new_diagram_digest\":\"8123e40f11131f1474ed236413da4886bf8cdd0022a8148005cfff1302897151\",\"old_design_digest\":\"0a28fe5d74d729ed13100e75885741adcdf024065c299b26ba5cbf5bd7a518a2\",\"old_diagram_digest\":\"8123e40f11131f1474ed236413da4886bf8cdd0022a8148005cfff1302897151\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Hold at pre-bind readiness until #83 and #111 are both terminal, merged, ancestral, and ownership-compatible; then reconcile their exact contracts and replan through typed edits on drift.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"action\":\"Implement the typed Layer 8 principal, action-specific capability, policy intersection, replay guard, bounded refusal, and hash-chained redacted audit contracts in the issue-owned Runtime module.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"action\":\"Integrate the authority decision before sequence reservation, provider execution, and delivery while preserving the merged ingress and session ownership boundaries.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"action\":\"Run the exact issue-owned authority-contract, Runtime API integration, and real-browser Observatory UI targets with nonzero selection where applicable, resolve every actionable exact-head review finding, and only then hand off for publication.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
-    },
-    {
-      "sequence": 13,
-      "generation": 12,
-      "actor": "operator:daniel-explicit-fresh-packet-authorization",
-      "reason": "approve completed issue design",
-      "operation": "approve_design"
-    },
-    {
-      "sequence": 14,
-      "generation": 13,
-      "actor": "codex:wp18c02-prebind-readiness-repair",
-      "reason": "Make the gated pre-bind packet doctor-valid without treating missing product targets as preparation proof; execution must restore all three exact product lanes after #83 and #111 are merged and ancestral.",
-      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-112-preparation-hygiene\",\"proof_role\":\"Prove all six typed cards, approved design, exact #83 and #111 serial gates, fail-closed validation truth, and pre-execution SRP/SOR truth without claiming product behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null},{\"lane\":\"layer8-authority-contract-plan\",\"proof_role\":\"Validate the future product PVF contract cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\",\"--lane\",\"authority-contract\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null},{\"lane\":\"layer8-runtime-api-integration-plan\",\"proof_role\":\"Validate the future product PVF contract cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\",\"--lane\",\"runtime-api-integration\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null},{\"lane\":\"layer8-observatory-ui-plan\",\"proof_role\":\"Validate the future real-browser product PVF contract adl/tools/validate_layer8_authority_observatory_ui.sh for authorized and refused states after #83 and #111 merge; this preparation lane proves plan completeness only, not product behavior.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/112/validate-preparation.rb\",\"--lane\",\"observatory-ui\"],\"parallel_group\":\"112-preparation\",\"defer_reason\":null}]}"
-    },
-    {
-      "sequence": 15,
-      "generation": 14,
-      "actor": "codex:wp18c02-prebind-readiness-repair",
-      "reason": "Describe gated future product outputs without falsely requiring their files before bind, while retaining the preparation validator as the issue-owned pre-bind denominator.",
-      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Runtime-owned Layer 8 principal, authority, refusal, replay, and redacted audit module at the execution-planned source path\",\"Narrow Runtime module export and pre-delivery API integration at the execution-planned source paths\",\"Focused nonzero authority and Runtime API integration test targets required after the serial gate\",\"Dedicated real-browser Observatory authority-state contract required after the serial gate\",\"Feature contract for Layer 8 conversation authority under the v0.92 milestone documentation\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\",\".csdlc/prepared/issues/112/validate-preparation.rb\"]}"
-    },
-    {
-      "sequence": 16,
-      "generation": 15,
-      "actor": "codex:wp18c02-prebind-readiness-repair",
-      "reason": "Own the exact preparation validator path used by the current denominator while preserving every planned product path for post-gate execution.",
-      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\",\".csdlc/issues/112\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\",\".csdlc/prepared/issues/112/validate-preparation.rb\"]}"
-    },
-    {
-      "sequence": 17,
-      "generation": 16,
-      "actor": "codex:wp18c02-prebind-readiness-repair",
-      "reason": "All six typed cards, approved design, shared ACIP authority boundary, and exact preparation lanes are ready for pre-bind validation; product binding remains gated on merged ancestral #83 and #111 only.",
-      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }

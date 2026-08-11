@@ -16,7 +16,7 @@ Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, r
 
 ## Plan
 
-Revision 5
+Revision 3
 
 ## Steps
 
@@ -25,7 +25,13 @@ Revision 5
     "id": "S1",
     "action": "Hold at pre-bind readiness until #83 and #111 are both terminal, merged, ancestral, and ownership-compatible; then reconcile their exact contracts and replan through typed edits on drift.",
     "acceptance_ids": [
-      "AC-1"
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7"
     ],
     "status": "pending"
   },
@@ -33,8 +39,11 @@ Revision 5
     "id": "S2",
     "action": "Implement the typed Layer 8 principal, action-specific capability, policy intersection, replay guard, bounded refusal, and hash-chained redacted audit contracts in the issue-owned Runtime module.",
     "acceptance_ids": [
+      "AC-1",
       "AC-2",
-      "AC-3"
+      "AC-3",
+      "AC-4",
+      "AC-6"
     ],
     "status": "pending"
   },
@@ -42,6 +51,8 @@ Revision 5
     "id": "S3",
     "action": "Integrate the authority decision before sequence reservation, provider execution, and delivery while preserving the merged ingress and session ownership boundaries.",
     "acceptance_ids": [
+      "AC-2",
+      "AC-3",
       "AC-4",
       "AC-5"
     ],
@@ -49,8 +60,11 @@ Revision 5
   },
   {
     "id": "S4",
-    "action": "Run the exact issue-owned authority-contract, Runtime API integration, and real-browser Observatory UI targets with nonzero selection where applicable, resolve every actionable exact-head review finding, and only then hand off for publication.",
+    "action": "Run the exact issue-owned authority-contract and Runtime API integration targets with nonzero selection, resolve all actionable exact-head review findings, and only then hand off for publication.",
     "acceptance_ids": [
+      "AC-3",
+      "AC-4",
+      "AC-5",
       "AC-6",
       "AC-7"
     ],
@@ -86,7 +100,7 @@ Revision 5
 
 .csdlc/prepared/issues/112/design.md
 
-Digest: 0a28fe5d74d729ed13100e75885741adcdf024065c299b26ba5cbf5bd7a518a2
+Digest: b72f31882a4d915230c29accc68f7feced2a5dbe442a6768abdefda2d389ff70
 
 ## Diagram
 
