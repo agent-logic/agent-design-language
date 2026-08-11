@@ -12,30 +12,74 @@ Status: pre_phase
 
 ## Summary
 
-Repaired the production kernel ACIP replay authority, typed pressure/error proof, and retained legacy signed-frame replay isolation required before #5834 can cite WP-14.
+Repaired production ACIP replay authority, transactional pressure rollback, platform-neutral native semantics, and canonical public OpenAPI parity without publishing.
 
 ## Artifacts
 
-- adl-runtime-kernel/src/acip.rs
+- adl-runtime-kernel/src/assembly.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/src/config.rs
 - adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/governed_operations.rs
+- adl-runtime-kernel/tests/assembly.rs
+- adl-runtime-kernel/tests/openapi_contract.rs
 - adl-runtime-kernel/tests/production_acip_wss.rs
-- adl-runtime/src/runtime_api_auth.rs
+- adl-runtime-kernel/tests/support/runtime_init.rs
 - docs/api/runtime-v3/v1/openapi.json
-- docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md
 - .csdlc/prepared/issues/209/produce-native-receipt.rb
 - .csdlc/prepared/issues/209/validate-native-receipts.rb
 - .github/workflows/wp14-production-acip-repair.yml
+- .csdlc/evidence/209/local-validation-manifest.json
 
 ## Execution
 
-- Scoped production replay state by authenticated credential plus runtime/source domain and rejected terminal, excessive, replayed, and capacity-exhausting advances without eviction.
-- Added real production binary dispatch, typed rejection rollback, corrected retry, replay-domain isolation, capacity fail-closed, and bounded canonical-ingress pressure proof.
-- Scoped retained legacy signed-frame replay state by credential generation and bounded terminal/excessive progression.
-- Aligned current OpenAPI and feature truth and added exact Linux/macOS native receipt surfaces.
+- Replaced delimiter-ambiguous global replay state with structured runtime/source domains partitioned by authenticated principal and exact pending rollback.
+- Added production WebSocket saturation rejection, non-reserving typed response, exact retry recovery, and concurrency regressions.
+- Normalized native semantic comparison independently of platform and expanded exact authority source provenance.
+- Aligned the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "production_acip_wss"
+    ],
+    "purpose": "Prove production dispatch plus WebSocket-observed saturation rollback and corrected retry; repeated five times for stability.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/production-acip-wss.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "control::acip_replay_tests"
+    ],
+    "purpose": "Prove structured replay-domain collision resistance, per-principal capacity, and concurrent rollback non-resurrection.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/acip-replay-authority.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "openapi_contract"
+    ],
+    "purpose": "Prove canonical public bearer-authenticated binary OpenAPI parity.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/openapi-contract.log"
+  },
   {
     "command": [
       "cargo",
@@ -47,19 +91,9 @@ Repaired the production kernel ACIP replay authority, typed pressure/error proof
       "--",
       "--exact"
     ],
-    "purpose": "Run the exact legacy admission authority regression.",
+    "purpose": "Prove the retained non-public legacy admission path still rejects unsigned control and terminal replay poisoning.",
     "outcome": "passed",
-    "evidence_ref": "legacy-signed-replay.log"
-  },
-  {
-    "command": [
-      "ruby",
-      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
-      "--self-test"
-    ],
-    "purpose": "Run both issue-local receipt contract self-tests.",
-    "outcome": "passed",
-    "evidence_ref": "native-contract-selftests.log"
+    "evidence_ref": ".csdlc/evidence/209/legacy-signed-replay.log"
   },
   {
     "command": [
@@ -70,32 +104,41 @@ Repaired the production kernel ACIP replay authority, typed pressure/error proof
       "--lib",
       "--test",
       "production_acip_wss",
+      "--test",
+      "openapi_contract",
       "--",
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warning-bearing production changes.",
+    "purpose": "Prove warning-free production source and focused integration surfaces.",
     "outcome": "passed",
-    "evidence_ref": "production-acip-clippy.log"
+    "evidence_ref": ".csdlc/evidence/209/production-acip-clippy.log"
   },
   {
     "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "--test",
-      "production_acip_wss"
+      "ruby",
+      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+      "--self-test"
     ],
-    "purpose": "Run the focused production kernel ACIP target.",
+    "purpose": "Prove native producer authority-source and platform-neutral projection behavior.",
     "outcome": "passed",
-    "evidence_ref": "production-acip-wss.log"
+    "evidence_ref": ".csdlc/evidence/209/native-contract-selftests.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      "--self-test"
+    ],
+    "purpose": "Prove native validator semantic-equivalence, exact provenance, and path-hygiene gates.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/native-contract-selftests.log"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

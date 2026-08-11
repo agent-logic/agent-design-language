@@ -1,1 +1,3 @@
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.30s
+source_revision=f555281d3bf31e5e4adeca89889183be5ff6b74b
+command=cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib --test production_acip_wss --test openapi_contract -- -D warnings
+result=passed

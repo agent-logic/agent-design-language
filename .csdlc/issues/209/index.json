@@ -5,29 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "3819668a1e2dd4b7f3145ae20e4eed1175bee08d3331e68abe8bf6cbe6a671de",
+  "generation": 14,
+  "digest": "5cbbbfe4a22db37004beb54cf6a2a607f7703dffb480436b27cdf0c0626d05e6",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
-  "review_assignment": {
-    "reviewer": "/root/sprint4_5857/review_209_exact_head",
-    "assigned_by": "/root/sprint4_5857",
-    "revision": "git-blake3:ef4e03ca84550a47dcafad996c16f0862811c0f4:67087d3514da441207cb814ba6ccec8d9d23dac9355a480243ba49a79b3679da",
-    "scope": [
-      ".csdlc/issues/209",
-      ".csdlc/prepared/issues/209/design.md",
-      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
-      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
-      ".csdlc/evidence/209",
-      ".github/workflows/wp14-production-acip-repair.yml",
-      "adl-runtime-kernel/src/acip.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/production_acip_wss.rs",
-      "adl-runtime/src/runtime_api_auth.rs",
-      "docs/api/runtime-v3/v1/openapi.json",
-      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -43,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b9f6f682691feb5540a05695e8423a144a7dc185221f58f0bcff3e7c217db151",
+      "values_digest": "a393d068c20454d4f9706b2d6f1835aae03e4eec42be579e40d27284f2a48b87",
       "rendered_digest": "6ab414912da8b10f191cb7cd3eea7784652fb74e3078d62b0910875fce567253",
       "ast_digest": "0aee2bd815b8c6341e8aff6dc3c6cd119dfed378531100564f71b0578fe18f04"
     },
     "stp": {
-      "values_digest": "a4730a81f34678f310752117c72417778aee5c154c28d9b425960187ce0af9b9",
+      "values_digest": "7a78a0d87f601b5108fa517e3986c31081c2733543705bee6d3246a81094d2e6",
       "rendered_digest": "e951f98cdd50987c53b2a86e54705081136876bf7a37371391f5666fc8d69277",
       "ast_digest": "1f3ffc61430a58bd141d682d1f46cee9cb750b4fc7484d1ffdd17668fbba9981"
     },
     "spp": {
-      "values_digest": "d4abeab171c21790955969015b0b5f2216f09ed3ffb1a90f9b04838b229af553",
-      "rendered_digest": "763388a7040eccd667a3d6a586f3fc17d044387f4c8ff484d803aaa9a7f3bf0b",
-      "ast_digest": "bc2303b272682520add4ea18ff5976a128163bb66654984b6b6495e0e3b234a2"
+      "values_digest": "13512cc0aa7150ba5becc9f330ea91911f77712616ab4e31ad7517d57a94253a",
+      "rendered_digest": "65126dd5e86756e71a625179916063764d0b78027945b2653a76eadcbf7b6db5",
+      "ast_digest": "93b187170b51ddd77987e72bd0f5ecc30bfc162be27c358e6944fdf455a710bf"
     },
     "vpp": {
-      "values_digest": "89defde8ac4586a9104b2b340687ecfe9f78b53c3700e269ef6f31513df3efea",
+      "values_digest": "9921bb3becf53b53b7656ca54760708cf56665723513c345aae30f1b4d0b4cde",
       "rendered_digest": "1cf5d053c982cfa3dbb1576026b45f79b6f645d14b06baacfb117fd30e39a4f2",
       "ast_digest": "6b62309165c156b026db20c16e4fa82877f6fa6aa554733e8e5144b69c2f3642"
     },
     "srp": {
-      "values_digest": "531cd4c1f7fb9bb071a883f0b832e45a4f53be4c74c5a93ea460bc3240124136",
-      "rendered_digest": "16d0e5e4824a53f35dade85f2bca3472825d5be24b167cc529f5bb229b599ac9",
-      "ast_digest": "58beed186efe5cafb03cd3bccfe5bb3b558df72decf6a72c2b5a2406457b9258"
+      "values_digest": "3011b70ef3d795e6f95428c23c53a02f24355a9fc7617079a90b50f001ac53ab",
+      "rendered_digest": "ce0e746ee279504a5a62dd63f853913c5fc594bcd05290dedec4c543cb420c71",
+      "ast_digest": "769084b712424270abe146c3a27e4efba8647fda8b7ac75d03f9bbadaa01542e"
     },
     "sor": {
-      "values_digest": "42fc9eeb65b3a72dff26716a5eda9aac9d0560cf3d545b411db8332ced7803cb",
-      "rendered_digest": "51ed1e8940f1e76f8160502aa9750dbe9f122d8b4a1bdddee1e6f39de2eea2d9",
-      "ast_digest": "c80461a72e0df9be4af4d9a93632ed5a8f87e54f857e9d2575fcf59d3e76a4a7"
+      "values_digest": "9700bab60326fdeb5ba458ef4643667f5f82e783973e5fad78e98ec389dbc128",
+      "rendered_digest": "473b3391fb13223ce80cc82b94dd550ff66504e0d776e06272bcb35329e632d5",
+      "ast_digest": "c00bb27ed95e390fd0552f815d01f704a4bec888cfa6ff31b9504246bd480163"
     }
   },
   "transitions": [
@@ -180,6 +162,41 @@
       "actor": "/root/sprint4_5857",
       "reason": "Align proof lanes with the reviewed production WSS pressure transaction, structured replay authority tests, current OpenAPI contract, and retained legacy signature boundary.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"production-acip-wss\",\"proof_role\":\"Prove real production binary dispatch, typed errors, WSS-observed saturation rollback and exact retry.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\",\"--no-tests=fail\"],\"parallel_group\":\"209-core\",\"defer_reason\":null},{\"lane\":\"acip-replay-authority\",\"proof_role\":\"Prove collision-free typed domains, per-principal capacity, and pending/committed concurrent rollback semantics.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"control::acip_replay_tests\"],\"parallel_group\":\"209-core\",\"defer_reason\":null},{\"lane\":\"acip-contract-parity\",\"proof_role\":\"Prove the canonical served OpenAPI bearer/binary dispatch contract and separately retained legacy signed-frame admission boundary.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"209-contract\",\"defer_reason\":null},{\"lane\":\"legacy-signed-admission\",\"proof_role\":\"Prove the non-public retained admission path still rejects unsigned control and terminal replay poisoning.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay\",\"--lib\",\"--\",\"--exact\"],\"parallel_group\":\"209-contract\",\"defer_reason\":null},{\"lane\":\"production-acip-native\",\"proof_role\":\"Retain exact-head Linux/macOS receipts for production dispatch, replay isolation, WSS pressure/errors, path hygiene, platform-neutral semantic equivalence, and source provenance.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/209/validate-native-receipts.rb\",\".csdlc/evidence/209/native-platform/linux.json\",\".csdlc/evidence/209/native-platform/macos.json\"],\"parallel_group\":\"209-native\",\"defer_reason\":\"Runs after reviewed publication on native GitHub Actions Linux and macOS; merge remains blocked until retained proof and fresh post-native review pass.\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "/root/sprint4_5857",
+      "reason": "Recover the non-approved assignment after repairing native semantic parity, structured replay isolation, per-principal capacity, concurrent rollback, production WebSocket pressure proof, and current OpenAPI contract parity.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "/root/sprint4_5857",
+      "reason": "Replace superseded pre-review execution truth with the exact repaired production ACIP authority proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired production ACIP replay authority, transactional pressure rollback, platform-neutral native semantics, and canonical public OpenAPI parity without publishing.\",\"changes\":[\"Replaced delimiter-ambiguous global replay state with structured runtime/source domains partitioned by authenticated principal and exact pending rollback.\",\"Added production WebSocket saturation rejection, non-reserving typed response, exact retry recovery, and concurrency regressions.\",\"Normalized native semantic comparison independently of platform and expanded exact authority source provenance.\",\"Aligned the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"docs/api/runtime-v3/v1/openapi.json\",\".csdlc/prepared/issues/209/produce-native-receipt.rb\",\".csdlc/prepared/issues/209/validate-native-receipts.rb\",\".github/workflows/wp14-production-acip-repair.yml\",\".csdlc/evidence/209/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"production_acip_wss\"],\"purpose\":\"Prove production dispatch plus WebSocket-observed saturation rollback and corrected retry; repeated five times for stability.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/production-acip-wss.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"control::acip_replay_tests\"],\"purpose\":\"Prove structured replay-domain collision resistance, per-principal capacity, and concurrent rollback non-resurrection.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/acip-replay-authority.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"purpose\":\"Prove canonical public bearer-authenticated binary OpenAPI parity.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/openapi-contract.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay\",\"--lib\",\"--\",\"--exact\"],\"purpose\":\"Prove the retained non-public legacy admission path still rejects unsigned control and terminal replay poisoning.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/legacy-signed-replay.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--test\",\"production_acip_wss\",\"--test\",\"openapi_contract\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free production source and focused integration surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/production-acip-clippy.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/209/produce-native-receipt.rb\",\"--self-test\"],\"purpose\":\"Prove native producer authority-source and platform-neutral projection behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/native-contract-selftests.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/209/validate-native-receipts.rb\",\"--self-test\"],\"purpose\":\"Prove native validator semantic-equivalence, exact provenance, and path-hygiene gates.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/209/native-contract-selftests.log\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "/root/sprint4_5857",
+      "reason": "The production dispatch, pressure, replay, and public contract authority surfaces are mapped and retained in the approved design.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "/root/sprint4_5857",
+      "reason": "The bounded production pressure, structured replay, rotation cleanup, and OpenAPI parity repair is implemented at the retained source revision.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "/root/sprint4_5857",
+      "reason": "Focused positive, adversarial, strict, contract, and exact native proof surfaces are implemented and locally validated; native execution remains correctly deferred until reviewed publication.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
     }
   ]
 }

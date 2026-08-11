@@ -1,1 +1,6 @@
+source_revision=f555281d3bf31e5e4adeca89889183be5ff6b74b
+command=ruby .csdlc/prepared/issues/209/produce-native-receipt.rb --self-test
 {"status":"passed","check":"wp14-native-producer"}
+command=ruby .csdlc/prepared/issues/209/validate-native-receipts.rb --self-test
+{"status":"passed","check":"wp14-native-validator"}
+result=passed

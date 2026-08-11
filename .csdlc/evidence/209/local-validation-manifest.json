@@ -1,0 +1,16 @@
+{
+  "schema": "adl.wp14.production-acip.local-validation.v2",
+  "issue": 209,
+  "source_revision": "f555281d3bf31e5e4adeca89889183be5ff6b74b",
+  "source_tree": "1be786816d74407e954db2a76b9d254ef7921c27",
+  "status": "passed",
+  "proof": [
+    {"path": ".csdlc/evidence/209/production-acip-wss.log", "sha256": "618b00cbe489eb2b71202dd509fd522889fd41dad0c12da666bc4b45f519006a"},
+    {"path": ".csdlc/evidence/209/acip-replay-authority.log", "sha256": "5884c774af4e97bdd22b86e47069e56c72f4eeba2d9ec9f22e11ab1a2eca5b1c"},
+    {"path": ".csdlc/evidence/209/openapi-contract.log", "sha256": "aaae2f97a38d0abaa6a1779ed4101ba3b871d7608190c49ae35a32a5d8782347"},
+    {"path": ".csdlc/evidence/209/legacy-signed-replay.log", "sha256": "6ad01246cba4245820d6b23b837b45d850ca4490a59037ea5225ed6a3b96671c"},
+    {"path": ".csdlc/evidence/209/production-acip-clippy.log", "sha256": "1c02b15788550bc0c36e3afb48de474d197f13f1f09dce95da455a570ce774f4"},
+    {"path": ".csdlc/evidence/209/native-contract-selftests.log", "sha256": "1a095cc002a861fea626b055ad71dc661f9fd6489e2d11abf1a960a471fc0007"}
+  ],
+  "native_ci": "deferred_until_reviewed_publication"
+}
