@@ -1,8 +1,8 @@
 {
   "issue": 226,
-  "expected_generation": 14,
-  "expected_digest": "5803c5621ed53f69e0b4a607229c4258db50eb4680d8c83bd51f9c4b5f5c0760",
-  "reviewer": "codex-exec:issue-226-independent-review-3",
+  "expected_generation": 15,
+  "expected_digest": "57f2845d82e8074232c6c538027b069fd7587542e32dce3184aad775f48de48c",
+  "reviewer": "codex-exec:issue-226-independent-review-4",
   "assigned_by": "codex:226-focused-runtime-validation-routing",
   "scope": [
     "adl/config/validation_lane_selector.v0.91.6.json",

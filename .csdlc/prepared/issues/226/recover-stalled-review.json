@@ -1,7 +1,7 @@
 {
   "issue": 226,
-  "expected_generation": 13,
-  "expected_digest": "2a409ef5410a9c6a09da7146ae452ddc202c033b9a61ecc039e610ba2e5d4ca9",
+  "expected_generation": 14,
+  "expected_digest": "34f8dda9c2a5e2b74a5d1fba3e804d83a3b70e8489947781bd5949037b98971e",
   "actor": "codex:226-focused-runtime-validation-routing",
-  "reason": "Replace the stalled reviewer after repeated bounded waits with no verdict; preserve the exact product head for a fresh independent review."
+  "reason": "Replace the reviewer whose read-only sandbox could not access the FastWork worktree; preserve the exact product head for a fresh independent review with repository access."
 }
