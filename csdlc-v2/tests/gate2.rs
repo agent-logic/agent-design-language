@@ -1,8 +1,11 @@
+use std::collections::BTreeMap;
 use std::fs;
 use std::path::Path;
 use std::process::{Command, Output};
 
-use csdlc_v2::cards::{PlanStep, ResourceProfile, StepStatus, ValidationLane};
+use csdlc_v2::cards::{
+    digest, render, CardContent, PlanStep, ResourceProfile, StepStatus, ValidationLane,
+};
 use csdlc_v2::{
     bind_issue, edit_issue, BindRequest, BootstrapRequest, CardKind, EditRequest, InitialCardInput,
     LifecyclePhase, PlanningProfile, SemanticOperation, Store,
@@ -24,6 +27,42 @@ fn must_succeed(output: Output) -> String {
         String::from_utf8_lossy(&output.stderr)
     );
     String::from_utf8(output.stdout).expect("UTF-8 output")
+}
+
+fn assert_only_pending_design_review_diagnostic(repo: &Path, issue: u64) {
+    let output = command(
+        repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &[
+            "--root",
+            &repo.to_string_lossy(),
+            "issue",
+            "--issue",
+            &issue.to_string(),
+        ],
+    );
+    assert!(!output.status.success());
+    let envelope: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("validation error envelope JSON");
+    assert_eq!(envelope["code"], "card_invalid");
+    let report: serde_json::Value = serde_json::from_str(
+        envelope["message"]
+            .as_str()
+            .expect("embedded validation report"),
+    )
+    .expect("embedded validation report JSON");
+    assert_eq!(report["schema"], "csdlc.doctor.report.v1");
+    assert_eq!(report["issue"], issue);
+    assert_eq!(report["status"], "block");
+    assert_eq!(report["ready"], false);
+    assert_eq!(
+        report["findings"],
+        serde_json::json!([{
+            "code": "design_review_missing_or_stale",
+            "message": "design review does not cover the current design digest"
+        }])
+    );
+    assert_eq!(report["next_operation"], "repair_design_readiness");
 }
 
 fn git(root: &Path, args: &[&str]) -> String {
@@ -158,6 +197,254 @@ fn apply_edit(
             &request.to_string_lossy(),
         ],
     ));
+}
+
+fn issue_projection_snapshot(repo: &Path, issue: u64) -> BTreeMap<String, Vec<u8>> {
+    fn collect(root: &Path, current: &Path, snapshot: &mut BTreeMap<String, Vec<u8>>) {
+        for entry in fs::read_dir(current).expect("read projection directory") {
+            let entry = entry.expect("projection entry");
+            if entry.file_type().expect("projection file type").is_dir() {
+                collect(root, &entry.path(), snapshot);
+            } else {
+                snapshot.insert(
+                    entry
+                        .path()
+                        .strip_prefix(root)
+                        .expect("projection relative path")
+                        .to_string_lossy()
+                        .into_owned(),
+                    fs::read(entry.path()).expect("projection bytes"),
+                );
+            }
+        }
+    }
+
+    let root = repo.join(format!(".csdlc/issues/{issue}"));
+    let mut snapshot = BTreeMap::new();
+    collect(&root, &root, &mut snapshot);
+    snapshot
+}
+
+fn restore_issue_projection(repo: &Path, issue: u64, snapshot: &BTreeMap<String, Vec<u8>>) {
+    let root = repo.join(format!(".csdlc/issues/{issue}"));
+    for (relative, bytes) in snapshot {
+        fs::write(root.join(relative), bytes).expect("restore projection bytes");
+    }
+}
+
+fn direct_edit(
+    store: &Store,
+    record: &csdlc_v2::IssueRecord,
+    card: CardKind,
+    operation: SemanticOperation,
+    fail_after_backup: bool,
+) -> csdlc_v2::Result<csdlc_v2::IssueRecord> {
+    edit_issue(
+        store,
+        EditRequest {
+            issue: record.issue,
+            card,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            actor: "test-operator".into(),
+            reason: "prove guarded pre-bind contract repair".into(),
+            operation,
+            fail_after_backup,
+        },
+    )
+}
+
+fn write_consistent_record(repo: &Path, record: &mut csdlc_v2::IssueRecord) {
+    record.digest.clear();
+    record.digest = digest(&serde_json::to_vec(&*record).expect("record digest serialization"));
+    let mut bytes = serde_json::to_vec_pretty(&*record).expect("record projection serialization");
+    bytes.push(b'\n');
+    fs::write(
+        repo.join(format!(".csdlc/issues/{}/index.json", record.issue)),
+        bytes,
+    )
+    .expect("write consistent record projection");
+}
+
+fn write_consistent_card(
+    repo: &Path,
+    record: &mut csdlc_v2::IssueRecord,
+    kind: CardKind,
+    values: &csdlc_v2::CardValues,
+) {
+    let rendered = render(values).expect("render consistent card");
+    let cards = repo.join(format!(".csdlc/issues/{}/cards", record.issue));
+    let mut encoded = serde_json::to_vec_pretty(values).expect("card projection serialization");
+    encoded.push(b'\n');
+    fs::write(cards.join(format!("{kind}.values.json")), encoded)
+        .expect("write consistent card values");
+    fs::write(
+        cards.join(format!("{kind}.md")),
+        rendered.markdown.as_bytes(),
+    )
+    .expect("write consistent rendered card");
+    record.cards.insert(
+        kind,
+        csdlc_v2::model::CardProjection {
+            values_digest: rendered.values_digest,
+            rendered_digest: rendered.rendered_digest,
+            ast_digest: rendered.ast_digest,
+        },
+    );
+    write_consistent_record(repo, record);
+}
+
+fn write_consistent_design_reference(
+    repo: &Path,
+    record: &mut csdlc_v2::IssueRecord,
+    design_ref: &str,
+) {
+    let store = Store::new(repo);
+    let mut cards = store
+        .load_cards(record.issue)
+        .expect("design reference cards");
+    record.design_path = design_ref.to_owned();
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        match &mut cards.get_mut(&kind).expect("design-bearing card").content {
+            CardContent::Spp(values) => values.design_ref = design_ref.to_owned(),
+            CardContent::Vpp(values) => values.design_ref = design_ref.to_owned(),
+            _ => unreachable!("design-bearing card"),
+        }
+        write_consistent_card(repo, record, kind, &cards[&kind]);
+    }
+}
+
+fn assert_single_generation_preserves_lifecycle_shell(
+    before: &csdlc_v2::IssueRecord,
+    after: &csdlc_v2::IssueRecord,
+) {
+    assert_eq!(after.generation, before.generation + 1);
+    assert_eq!(after.issue, before.issue);
+    assert_eq!(after.repository, before.repository);
+    assert_eq!(after.code_repository, before.code_repository);
+    assert_eq!(after.initialization_digest, before.initialization_digest);
+    assert_eq!(after.phase, before.phase);
+    assert_eq!(after.branch, before.branch);
+    assert_eq!(after.worktree, before.worktree);
+    assert_eq!(after.transitions, before.transitions);
+    assert_eq!(after.review_assignment, before.review_assignment);
+    assert_eq!(after.review, before.review);
+    assert_eq!(after.publication, before.publication);
+    assert_eq!(after.readiness, before.readiness);
+    assert_eq!(after.migration, before.migration);
+    assert_eq!(after.terminal, before.terminal);
+    assert_eq!(after.design_path, before.design_path);
+    assert_eq!(after.diagram_path, before.diagram_path);
+    assert_eq!(after.audit.len(), before.audit.len() + 1);
+    assert_eq!(&after.audit[..before.audit.len()], before.audit.as_slice());
+    let event = after.audit.last().expect("new audit event");
+    assert_eq!(event.generation, after.generation);
+    assert_eq!(event.sequence, after.audit.len() as u64);
+}
+
+fn assert_design_bindings_match_authored(
+    repo: &Path,
+    cards: &BTreeMap<CardKind, csdlc_v2::CardValues>,
+) {
+    let (spp_design, spp_diagram) = match &cards[&CardKind::Spp].content {
+        CardContent::Spp(values) => (&values.design_digest, &values.diagram_digest),
+        _ => unreachable!("SPP"),
+    };
+    let (vpp_design, vpp_diagram) = match &cards[&CardKind::Vpp].content {
+        CardContent::Vpp(values) => (&values.design_digest, &values.diagram_digest),
+        _ => unreachable!("VPP"),
+    };
+    assert_eq!(spp_design, vpp_design);
+    assert_eq!(spp_diagram, vpp_diagram);
+    assert_eq!(
+        spp_design,
+        &digest(&fs::read(repo.join("design/issue-42.md")).expect("authored design bytes"))
+    );
+    assert_eq!(
+        spp_diagram,
+        &digest(&fs::read(repo.join("design/issue-42.mmd")).expect("authored diagram bytes"))
+    );
+}
+
+fn spp_design_digests(cards: &BTreeMap<CardKind, csdlc_v2::CardValues>) -> (String, String) {
+    match &cards[&CardKind::Spp].content {
+        CardContent::Spp(values) => (values.design_digest.clone(), values.diagram_digest.clone()),
+        _ => unreachable!("SPP"),
+    }
+}
+
+fn assert_last_audit_operation(record: &csdlc_v2::IssueRecord, expected: &SemanticOperation) {
+    let actual: serde_json::Value =
+        serde_json::from_str(&record.audit.last().expect("new audit event").operation)
+            .expect("audit operation JSON");
+    assert_eq!(
+        actual,
+        serde_json::to_value(expected).expect("expected operation JSON")
+    );
+}
+
+fn assert_last_prebind_audit_operation(
+    record: &csdlc_v2::IssueRecord,
+    expected: &SemanticOperation,
+    old_design_digest: &str,
+    new_design_digest: &str,
+    old_diagram_digest: &str,
+    new_diagram_digest: &str,
+) {
+    let actual: serde_json::Value =
+        serde_json::from_str(&record.audit.last().expect("new audit event").operation)
+            .expect("pre-bind audit operation JSON");
+    assert_eq!(
+        actual,
+        serde_json::json!({
+            "operation": expected,
+            "design_binding_refresh": {
+                "design_ref": "design/issue-42.md",
+                "old_design_digest": old_design_digest,
+                "new_design_digest": new_design_digest,
+                "diagram_ref": "design/issue-42.mmd",
+                "old_diagram_digest": old_diagram_digest,
+                "new_diagram_digest": new_diagram_digest,
+            }
+        })
+    );
+}
+
+fn assert_card_semantics_unchanged(before: &csdlc_v2::CardValues, after: &csdlc_v2::CardValues) {
+    assert_eq!(after.identity.generation, before.identity.generation + 1);
+    assert_eq!(
+        after.identity.schema_version,
+        before.identity.schema_version
+    );
+    assert_eq!(
+        after.identity.template_version,
+        before.identity.template_version
+    );
+    assert_eq!(after.identity.issue, before.identity.issue);
+    assert_eq!(after.identity.repository, before.identity.repository);
+    assert_eq!(after.identity.title, before.identity.title);
+    assert_eq!(after.identity.slug, before.identity.slug);
+    assert_eq!(after.identity.version, before.identity.version);
+    assert_eq!(after.status, before.status);
+    assert_eq!(after.content, before.content);
+}
+
+fn assert_card_identity_advanced(before: &csdlc_v2::CardValues, after: &csdlc_v2::CardValues) {
+    assert_eq!(after.identity.generation, before.identity.generation + 1);
+    assert_eq!(
+        after.identity.schema_version,
+        before.identity.schema_version
+    );
+    assert_eq!(
+        after.identity.template_version,
+        before.identity.template_version
+    );
+    assert_eq!(after.identity.issue, before.identity.issue);
+    assert_eq!(after.identity.repository, before.identity.repository);
+    assert_eq!(after.identity.title, before.identity.title);
+    assert_eq!(after.identity.slug, before.identity.slug);
+    assert_eq!(after.identity.version, before.identity.version);
+    assert_eq!(after.status, before.status);
 }
 
 fn request() -> BootstrapRequest {
@@ -1281,6 +1568,47 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     );
     assert!(!stale_edit.status.success());
 
+    let before_invalid_contract = fs::read(repo.join(".csdlc/issues/42/index.json"))
+        .expect("index before invalid pre-bind contract repair");
+    let invalid_contract_path = temp
+        .path()
+        .join("invalid-initialized-acceptance-repair.json");
+    let index = current_index();
+    fs::write(
+        &invalid_contract_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "card": "stp",
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": "reject changed pre-bind denominator",
+            "operation": {
+                "operation": "replace_acceptance_criteria",
+                "values": ["AC-1: denominator shrink must fail"]
+            }
+        }))
+        .expect("serialize invalid pre-bind contract repair"),
+    )
+    .expect("invalid pre-bind contract repair");
+    let invalid_contract = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &invalid_contract_path.to_string_lossy(),
+        ],
+    );
+    assert!(!invalid_contract.status.success());
+    assert_eq!(
+        fs::read(repo.join(".csdlc/issues/42/index.json"))
+            .expect("index after invalid pre-bind contract repair"),
+        before_invalid_contract
+    );
+
     let non_planning_path = temp.path().join("initialized-non-planning-edit.json");
     let index = current_index();
     fs::write(
@@ -1305,7 +1633,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         .expect("serialize non-planning edit"),
     )
     .expect("non-planning edit");
-    let non_planning = command(
+    must_succeed(command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-edit"),
         &[
@@ -1315,8 +1643,31 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             "--request",
             &non_planning_path.to_string_lossy(),
         ],
-    );
-    assert!(!non_planning.status.success());
+    ));
+    let approve_initialized_path = temp.path().join("approve-initialized-plan-repair.json");
+    let index = current_index();
+    fs::write(
+        &approve_initialized_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "reviewer": "independent-prebind-reviewer"
+        }))
+        .expect("serialize initialized reapproval"),
+    )
+    .expect("initialized reapproval");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "approve-design",
+            "--request",
+            &approve_initialized_path.to_string_lossy(),
+        ],
+    ));
 
     let ready_path = temp.path().join("advance-ready.json");
     let index = current_index();
@@ -1377,6 +1728,77 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             &ready_edit_path.to_string_lossy(),
         ],
     ));
+    fs::write(
+        repo.join("design/issue-42.md"),
+        "# Repaired approved design\n",
+    )
+    .expect("change design before ready AC repair");
+    fs::write(
+        repo.join("design/issue-42.mmd"),
+        "flowchart LR\n  Repair --> Reapprove\n",
+    )
+    .expect("change diagram before ready AC repair");
+    let ready_acceptance_path = temp.path().join("ready-acceptance-repair.json");
+    let index = current_index();
+    fs::write(
+        &ready_acceptance_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "card": "stp",
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": "repair exact ready acceptance contract",
+            "operation": {
+                "operation": "replace_acceptance_criteria",
+                "values": [
+                    "AC-1: issue creation is claim-free",
+                    "AC-2: binding is atomic and idempotent"
+                ]
+            }
+        }))
+        .expect("serialize ready acceptance repair"),
+    )
+    .expect("ready acceptance repair");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &ready_acceptance_path.to_string_lossy(),
+        ],
+    ));
+    let repaired = current_index();
+    assert_eq!(repaired["phase"], "ready");
+    assert_eq!(repaired["design_review"], "pending");
+    assert!(repaired["branch"].is_null());
+    assert!(repaired["worktree"].is_null());
+    let approve_ready_path = temp.path().join("approve-ready-contract-repair.json");
+    fs::write(
+        &approve_ready_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "expected_generation": repaired["generation"],
+            "expected_digest": repaired["digest"],
+            "reviewer": "independent-ready-reviewer"
+        }))
+        .expect("serialize ready reapproval"),
+    )
+    .expect("ready reapproval");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "approve-design",
+            "--request",
+            &approve_ready_path.to_string_lossy(),
+        ],
+    ));
     let ready_diagnosis = must_succeed(command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-doctor"),
@@ -1403,6 +1825,75 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     assert!(!duplicate_result.status.success());
     assert!(!repo.join("generated/duplicate-design.md").exists());
     assert!(!repo.join("generated/duplicate-diagram.mmd").exists());
+    fs::write(repo.join("design/issue-42.md"), "# Approved design\n")
+        .expect("restore committed design after duplicate-create rollback proof");
+    fs::write(
+        repo.join("design/issue-42.mmd"),
+        "flowchart LR\n  Create --> Bind\n",
+    )
+    .expect("restore committed diagram after duplicate-create rollback proof");
+    let restore_binding_path = temp.path().join("restore-ready-design-binding.json");
+    let index = current_index();
+    fs::write(
+        &restore_binding_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "card": "stp",
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": "restore reviewed committed design binding",
+            "operation": {
+                "operation": "replace_acceptance_criteria",
+                "values": [
+                    "AC-1: issue creation is claim-free",
+                    "AC-2: binding is atomic and idempotent"
+                ]
+            }
+        }))
+        .expect("serialize restored binding repair"),
+    )
+    .expect("restored binding repair");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &restore_binding_path.to_string_lossy(),
+        ],
+    ));
+    let restore_approval_path = temp.path().join("approve-restored-ready-binding.json");
+    let index = current_index();
+    fs::write(
+        &restore_approval_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "reviewer": "independent-restored-binding-reviewer"
+        }))
+        .expect("serialize restored binding approval"),
+    )
+    .expect("restored binding approval");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "approve-design",
+            "--request",
+            &restore_approval_path.to_string_lossy(),
+        ],
+    ));
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-doctor"),
+        &["--repo", &repo_text, "--issue", "42"],
+    ));
 
     let bind_request = temp.path().join("bind.json");
     let bind = serde_json::json!({
@@ -1589,6 +2080,1238 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
         &repo,
         &["worktree", "remove", "--force", &worktree.to_string_lossy()],
     );
+}
+
+#[test]
+fn prebind_operator_constraints_correction_is_exact_and_fail_closed() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let repo = temp.path().join("repo");
+    focused_fixture_repo(&repo);
+    let store = Store::new(&repo);
+    let mut record = csdlc_v2::initialize_native_json(
+        &store,
+        &serde_json::to_vec(&request()).expect("serialize bootstrap"),
+    )
+    .expect("bootstrap initialized issue");
+    let initial_snapshot = issue_projection_snapshot(&repo, 42);
+    let replacement = vec!["use only current typed v2 binaries".into()];
+    let operation = SemanticOperation::CorrectOperatorConstraintsBeforeBind {
+        values: replacement.clone(),
+    };
+
+    for (actor, reason) in [("", "reason"), ("actor", " ")] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 42,
+                card: CardKind::Sip,
+                expected_generation: record.generation,
+                expected_digest: record.digest.clone(),
+                actor: actor.into(),
+                reason: reason.into(),
+                operation: operation.clone(),
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("empty actor or reason must fail");
+        assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
+        assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+    }
+
+    let wrong_card = direct_edit(&store, &record, CardKind::Stp, operation.clone(), false)
+        .expect_err("wrong card must fail");
+    assert_eq!(wrong_card.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+
+    for invalid in [Vec::<String>::new(), vec![" ".into()]] {
+        let error = direct_edit(
+            &store,
+            &record,
+            CardKind::Sip,
+            SemanticOperation::CorrectOperatorConstraintsBeforeBind { values: invalid },
+            false,
+        )
+        .expect_err("empty constraints must fail");
+        assert_eq!(error.code, csdlc_v2::ErrorCode::CardInvalid);
+        assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+    }
+    for (generation, digest, expected) in [
+        (
+            record.generation + 1,
+            record.digest.clone(),
+            csdlc_v2::ErrorCode::StaleGeneration,
+        ),
+        (
+            record.generation,
+            "0".repeat(64),
+            csdlc_v2::ErrorCode::StaleDigest,
+        ),
+    ] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 42,
+                card: CardKind::Sip,
+                expected_generation: generation,
+                expected_digest: digest,
+                actor: "operator".into(),
+                reason: "prove stale CAS rejection".into(),
+                operation: operation.clone(),
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("stale CAS must fail");
+        assert_eq!(error.code, expected);
+        assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+    }
+
+    let original_design = fs::read(repo.join("design/issue-42.md")).expect("original design");
+    fs::write(repo.join("design/issue-42.md"), "# unreviewed drift\n").expect("drift design");
+    let drift = direct_edit(&store, &record, CardKind::Sip, operation.clone(), false)
+        .expect_err("authored drift must fail");
+    assert_eq!(drift.code, csdlc_v2::ErrorCode::CardInvalid);
+    assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+    fs::write(repo.join("design/issue-42.md"), original_design).expect("restore design");
+    let original_diagram = fs::read(repo.join("design/issue-42.mmd")).expect("original diagram");
+    fs::write(
+        repo.join("design/issue-42.mmd"),
+        "flowchart LR\n  Drift --> Reject\n",
+    )
+    .expect("drift diagram");
+    let drift = direct_edit(&store, &record, CardKind::Sip, operation.clone(), false)
+        .expect_err("authored diagram drift must fail");
+    assert_eq!(drift.code, csdlc_v2::ErrorCode::CardInvalid);
+    assert_eq!(issue_projection_snapshot(&repo, 42), initial_snapshot);
+    fs::write(repo.join("design/issue-42.mmd"), original_diagram).expect("restore diagram");
+
+    let mut retained_record = record.clone();
+    let mut retained_cards = store.load_cards(42).expect("retained truth cards");
+    let CardContent::Sor(sor) = &mut retained_cards.get_mut(&CardKind::Sor).expect("SOR").content
+    else {
+        panic!("SOR")
+    };
+    sor.integration_state = csdlc_v2::cards::IntegrationState::WorktreeOnly;
+    write_consistent_card(
+        &repo,
+        &mut retained_record,
+        CardKind::Sor,
+        &retained_cards[&CardKind::Sor],
+    );
+    let retained_snapshot = issue_projection_snapshot(&repo, 42);
+    let retained = direct_edit(
+        &store,
+        &retained_record,
+        CardKind::Sip,
+        operation.clone(),
+        false,
+    )
+    .expect_err("retained SOR truth must fail");
+    assert_eq!(retained.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(issue_projection_snapshot(&repo, 42), retained_snapshot);
+    restore_issue_projection(&repo, 42, &initial_snapshot);
+
+    let clean_record = record.clone();
+    record.migration = Some(csdlc_v2::MigrationEvidence {
+        schema: "csdlc.migration.v1".into(),
+        imported_unix_seconds: 1,
+        sunset_unix_seconds: 2,
+        source_digest: "migration-source".into(),
+        authored_sources: BTreeMap::new(),
+        authored_sections: BTreeMap::new(),
+        compatibility_view: "retained".into(),
+    });
+    write_consistent_record(&repo, &mut record);
+    let migrated_snapshot = issue_projection_snapshot(&repo, 42);
+    let migration = direct_edit(&store, &record, CardKind::Sip, operation.clone(), false)
+        .expect_err("migration evidence must fail");
+    assert_eq!(migration.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(issue_projection_snapshot(&repo, 42), migrated_snapshot);
+    restore_issue_projection(&repo, 42, &initial_snapshot);
+    record = clean_record;
+
+    let before_cards = store.load_cards(42).expect("cards before correction");
+    let (design_digest, diagram_digest) = spp_design_digests(&before_cards);
+    let interrupted = direct_edit(&store, &record, CardKind::Sip, operation.clone(), true)
+        .expect_err("injected interruption must fail");
+    assert_eq!(
+        interrupted.code,
+        csdlc_v2::ErrorCode::InterruptedTransaction
+    );
+    let corrected = direct_edit(&store, &record, CardKind::Sip, operation.clone(), false)
+        .expect("correct constraints after transaction recovery");
+    assert_single_generation_preserves_lifecycle_shell(&record, &corrected);
+    assert!(matches!(
+        corrected.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    let after_cards = store.load_cards(42).expect("cards after correction");
+    let (after_design_digest, after_diagram_digest) = spp_design_digests(&after_cards);
+    assert_eq!(after_design_digest, design_digest);
+    assert_eq!(after_diagram_digest, diagram_digest);
+    for kind in [
+        CardKind::Stp,
+        CardKind::Spp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_semantics_unchanged(&before_cards[&kind], &after_cards[&kind]);
+    }
+    let CardContent::Sip(after_sip) = &after_cards[&CardKind::Sip].content else {
+        panic!("SIP")
+    };
+    assert_eq!(after_sip.operator_constraints, replacement);
+    let audit: serde_json::Value =
+        serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
+            .expect("structured correction audit");
+    assert_eq!(
+        audit,
+        serde_json::json!({
+            "operation": "correct_operator_constraints_before_bind",
+            "previous_values": ["no network"],
+            "new_values": ["use only current typed v2 binaries"],
+        })
+    );
+
+    for bind_before_correction in [false, true] {
+        let temp = tempfile::tempdir().expect("ready tempdir");
+        let repo = temp.path().join("repo");
+        focused_fixture_repo(&repo);
+        let store = Store::new(&repo);
+        let initialized = csdlc_v2::initialize_native_json(
+            &store,
+            &serde_json::to_vec(&request()).expect("serialize ready bootstrap"),
+        )
+        .expect("bootstrap ready fixture");
+        let ready = edit_issue(
+            &store,
+            EditRequest {
+                issue: 42,
+                card: CardKind::Sip,
+                expected_generation: initialized.generation,
+                expected_digest: initialized.digest,
+                actor: "operator".into(),
+                reason: "advance ready fixture".into(),
+                operation: SemanticOperation::AdvancePhase {
+                    phase: LifecyclePhase::Ready,
+                },
+                fail_after_backup: false,
+            },
+        )
+        .expect("advance ready fixture");
+        let current = if bind_before_correction {
+            git(&repo, &["switch", "-c", "issue-42"]);
+            bind_issue(
+                &store,
+                BindRequest {
+                    issue: 42,
+                    base_branch: "main".into(),
+                    branch: "issue-42".into(),
+                    worktree: ".".into(),
+                    code_repository: None,
+                },
+            )
+            .expect("bind rejection fixture");
+            store.load_record(42).expect("bound rejection record")
+        } else {
+            ready
+        };
+        let result = direct_edit(&store, &current, CardKind::Sip, operation.clone(), false);
+        if bind_before_correction {
+            assert_eq!(
+                result.expect_err("bound correction must fail").code,
+                csdlc_v2::ErrorCode::InvalidTransition
+            );
+            let executed = edit_issue(
+                &store,
+                EditRequest {
+                    issue: 42,
+                    card: CardKind::Sor,
+                    expected_generation: current.generation,
+                    expected_digest: current.digest,
+                    actor: "operator".into(),
+                    reason: "create later-phase rejection fixture".into(),
+                    operation: SemanticOperation::RecordExecution {
+                        summary: "implemented fixture".into(),
+                        changes: vec!["csdlc-v2/tests/gate2.rs".into()],
+                        artifacts: vec!["fixture".into()],
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect("record later-phase execution");
+            let implemented = edit_issue(
+                &store,
+                EditRequest {
+                    issue: 42,
+                    card: CardKind::Sor,
+                    expected_generation: executed.generation,
+                    expected_digest: executed.digest,
+                    actor: "operator".into(),
+                    reason: "advance later-phase fixture".into(),
+                    operation: SemanticOperation::AdvancePhase {
+                        phase: LifecyclePhase::Implemented,
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect("advance later-phase fixture");
+            assert_eq!(
+                direct_edit(
+                    &store,
+                    &implemented,
+                    CardKind::Sip,
+                    operation.clone(),
+                    false,
+                )
+                .expect_err("implemented correction must fail")
+                .code,
+                csdlc_v2::ErrorCode::InvalidTransition
+            );
+        } else {
+            let corrected = result.expect("ready correction must succeed");
+            let approved = csdlc_v2::store::approve_design(
+                &store,
+                csdlc_v2::store::ApproveDesignRequest {
+                    issue: 42,
+                    expected_generation: corrected.generation,
+                    expected_digest: corrected.digest,
+                    reviewer: "post-correction-reviewer".into(),
+                },
+            )
+            .expect("reapprove corrected ready design");
+            assert!(matches!(
+                approved.design_review,
+                csdlc_v2::DesignReview::Approved { .. }
+            ));
+        }
+    }
+}
+
+#[test]
+fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let repo = temp.path().join("repo");
+    focused_fixture_repo(&repo);
+    let store = Store::new(&repo);
+    let mut record = csdlc_v2::initialize_native_json(
+        &store,
+        &serde_json::to_vec(&request()).expect("serialize bootstrap"),
+    )
+    .expect("bootstrap initialized issue");
+
+    let exact_acceptance = || SemanticOperation::ReplaceAcceptanceCriteria {
+        values: vec![
+            "AC-1: issue creation is claim-free".into(),
+            "AC-2: binding is atomic and idempotent".into(),
+        ],
+    };
+    let plan = |action: &str, acceptance_ids: Vec<&str>, status: StepStatus| {
+        SemanticOperation::ReplacePlanSteps {
+            steps: vec![PlanStep {
+                id: "S1".into(),
+                action: action.into(),
+                acceptance_ids: acceptance_ids.into_iter().map(str::to_owned).collect(),
+                status,
+            }],
+        }
+    };
+    for (name, values) in [
+        (
+            "malformed",
+            vec![
+                "issue creation is claim-free",
+                "AC-2: binding remains exact",
+            ],
+        ),
+        (
+            "reordered",
+            vec![
+                "AC-2: binding remains exact",
+                "AC-1: creation remains exact",
+            ],
+        ),
+        (
+            "renumbered",
+            vec![
+                "AC-1: creation remains exact",
+                "AC-3: binding remains exact",
+            ],
+        ),
+    ] {
+        let before = issue_projection_snapshot(&repo, 42);
+        let error = direct_edit(
+            &store,
+            &record,
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria {
+                values: values.into_iter().map(str::to_owned).collect(),
+            },
+            false,
+        )
+        .expect_err(name);
+        assert_eq!(error.code, csdlc_v2::ErrorCode::CardInvalid);
+        assert_eq!(issue_projection_snapshot(&repo, 42), before);
+    }
+
+    let initialized_before = record.clone();
+    let initialized_cards_before = store
+        .load_cards(42)
+        .expect("initialized cards before repair");
+    fs::write(
+        repo.join("design/issue-42.md"),
+        "# Independently repaired design\n",
+    )
+    .expect("repair design");
+    fs::write(
+        repo.join("design/issue-42.mmd"),
+        "flowchart LR\n  Repair --> Review\n",
+    )
+    .expect("repair diagram");
+    let authored_design_before_initialized_stp =
+        fs::read(repo.join("design/issue-42.md")).expect("design before initialized STP");
+    let authored_diagram_before_initialized_stp =
+        fs::read(repo.join("design/issue-42.mmd")).expect("diagram before initialized STP");
+    let audit_before_acceptance =
+        fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("initial audit");
+    let (old_design_digest, old_diagram_digest) = spp_design_digests(&initialized_cards_before);
+    let initialized_operation = exact_acceptance();
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Stp,
+        initialized_operation.clone(),
+        false,
+    )
+    .expect("initialized acceptance repair");
+    assert_single_generation_preserves_lifecycle_shell(&initialized_before, &record);
+    assert_eq!(record.phase, LifecyclePhase::Initialized);
+    assert!(matches!(
+        record.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    let audit_after_acceptance =
+        fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("repaired audit");
+    assert!(audit_after_acceptance.starts_with(&audit_before_acceptance));
+    let initialized_cards_after = store
+        .load_cards(42)
+        .expect("initialized cards after repair");
+    for kind in [CardKind::Sip, CardKind::Srp, CardKind::Sor] {
+        assert_card_semantics_unchanged(
+            &initialized_cards_before[&kind],
+            &initialized_cards_after[&kind],
+        );
+    }
+    for kind in [
+        CardKind::Sip,
+        CardKind::Stp,
+        CardKind::Spp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_eq!(
+            initialized_cards_after[&kind].status,
+            initialized_cards_before[&kind].status
+        );
+    }
+    for kind in [CardKind::Stp, CardKind::Spp, CardKind::Vpp] {
+        assert_card_identity_advanced(
+            &initialized_cards_before[&kind],
+            &initialized_cards_after[&kind],
+        );
+    }
+    let mut expected_initialized_stp = match &initialized_cards_before[&CardKind::Stp].content {
+        CardContent::Stp(values) => values.clone(),
+        _ => unreachable!("STP"),
+    };
+    let SemanticOperation::ReplaceAcceptanceCriteria { values } = &initialized_operation else {
+        unreachable!("initialized STP operation")
+    };
+    expected_initialized_stp.acceptance_criteria = values.clone();
+    match &initialized_cards_after[&CardKind::Stp].content {
+        CardContent::Stp(values) => assert_eq!(values, &expected_initialized_stp),
+        _ => unreachable!("STP"),
+    }
+    assert_eq!(
+        fs::read(repo.join("design/issue-42.md")).expect("design after initialized STP"),
+        authored_design_before_initialized_stp
+    );
+    assert_eq!(
+        fs::read(repo.join("design/issue-42.mmd")).expect("diagram after initialized STP"),
+        authored_diagram_before_initialized_stp
+    );
+    assert_design_bindings_match_authored(&repo, &initialized_cards_after);
+    let (new_design_digest, new_diagram_digest) = spp_design_digests(&initialized_cards_after);
+    assert_ne!(new_design_digest, old_design_digest);
+    assert_ne!(new_diagram_digest, old_diagram_digest);
+    assert_last_prebind_audit_operation(
+        &record,
+        &initialized_operation,
+        &old_design_digest,
+        &new_design_digest,
+        &old_diagram_digest,
+        &new_diagram_digest,
+    );
+    let clean_initialized_repair = issue_projection_snapshot(&repo, 42);
+    for (name, invalid_design_ref) in [
+        ("absolute", "/tmp/outside-design.md"),
+        ("traversal", "../design/issue-42.md"),
+        ("empty", ""),
+        ("drive-relative", "C:relative.md"),
+        ("backslash", "design\\issue-42.md"),
+        ("dot-segment", "design/./issue-42.md"),
+        ("trailing-separator", "design/issue-42.md/"),
+        ("noncanonical", "design//issue-42.md"),
+    ] {
+        let mut invalid_record = record.clone();
+        write_consistent_design_reference(&repo, &mut invalid_record, invalid_design_ref);
+        let injected = issue_projection_snapshot(&repo, 42);
+
+        let repair_error = direct_edit(
+            &store,
+            &invalid_record,
+            CardKind::Stp,
+            initialized_operation.clone(),
+            false,
+        )
+        .expect_err(name);
+        assert_eq!(repair_error.code, csdlc_v2::ErrorCode::CorruptRecord);
+        assert_eq!(
+            repair_error.message,
+            "authored artifact path must be nonempty, clean, canonical, and repository-relative"
+        );
+        assert_eq!(issue_projection_snapshot(&repo, 42), injected);
+
+        let approval_error = csdlc_v2::store::approve_design(
+            &store,
+            csdlc_v2::store::ApproveDesignRequest {
+                issue: 42,
+                expected_generation: invalid_record.generation,
+                expected_digest: invalid_record.digest.clone(),
+                reviewer: "adversarial-path-reviewer".into(),
+            },
+        )
+        .expect_err(name);
+        assert_eq!(approval_error.code, csdlc_v2::ErrorCode::CorruptRecord);
+        assert_eq!(
+            approval_error.message,
+            "authored artifact path must be nonempty, clean, canonical, and repository-relative"
+        );
+        assert_eq!(issue_projection_snapshot(&repo, 42), injected);
+
+        let diagnosis = command(
+            &repo,
+            env!("CARGO_BIN_EXE_csdlc-doctor"),
+            &["--repo", &repo.to_string_lossy(), "--issue", "42"],
+        );
+        assert!(!diagnosis.status.success(), "{name} doctor succeeded");
+        let diagnosis_stdout = String::from_utf8_lossy(&diagnosis.stdout);
+        assert!(
+            diagnosis_stdout.contains("corrupt_record"),
+            "{name}: {diagnosis_stdout}"
+        );
+        assert!(
+            diagnosis_stdout.contains(
+                "authored artifact path must be nonempty, clean, canonical, and repository-relative"
+            ),
+            "{name}: {diagnosis_stdout}"
+        );
+        assert_eq!(issue_projection_snapshot(&repo, 42), injected);
+
+        let validation = command(
+            &repo,
+            env!("CARGO_BIN_EXE_csdlc-validate"),
+            &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+        );
+        assert!(!validation.status.success(), "{name} validation succeeded");
+        let validation_stdout = String::from_utf8_lossy(&validation.stdout);
+        assert!(
+            validation_stdout.contains("corrupt_record"),
+            "{name}: {validation_stdout}"
+        );
+        assert!(
+            validation_stdout.contains(
+                "authored artifact path must be nonempty, clean, canonical, and repository-relative"
+            ),
+            "{name}: {validation_stdout}"
+        );
+        assert_eq!(issue_projection_snapshot(&repo, 42), injected);
+        restore_issue_projection(&repo, 42, &clean_initialized_repair);
+    }
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        assert!(repo
+            .join(format!(".csdlc/issues/42/cards/{card}.values.json"))
+            .is_file());
+        assert!(repo
+            .join(format!(".csdlc/issues/42/cards/{card}.md"))
+            .is_file());
+    }
+    assert_only_pending_design_review_diagnostic(&repo, 42);
+
+    let initialized_spp_before = record.clone();
+    let initialized_spp_cards_before = store
+        .load_cards(42)
+        .expect("initialized cards before SPP repair");
+    let (old_design_digest, old_diagram_digest) = spp_design_digests(&initialized_spp_cards_before);
+    let initialized_spp_operation = plan(
+        "exercise exact initialized plan repair",
+        vec!["AC-1", "AC-2"],
+        StepStatus::Pending,
+    );
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Spp,
+        initialized_spp_operation.clone(),
+        false,
+    )
+    .expect("initialized SPP repair");
+    assert_single_generation_preserves_lifecycle_shell(&initialized_spp_before, &record);
+    assert!(matches!(
+        record.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    let initialized_spp_cards_after = store
+        .load_cards(42)
+        .expect("initialized cards after SPP repair");
+    for kind in [
+        CardKind::Sip,
+        CardKind::Stp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_semantics_unchanged(
+            &initialized_spp_cards_before[&kind],
+            &initialized_spp_cards_after[&kind],
+        );
+    }
+    assert_card_identity_advanced(
+        &initialized_spp_cards_before[&CardKind::Spp],
+        &initialized_spp_cards_after[&CardKind::Spp],
+    );
+    let mut expected_initialized_spp = match &initialized_spp_cards_before[&CardKind::Spp].content {
+        CardContent::Spp(values) => values.clone(),
+        _ => unreachable!("SPP"),
+    };
+    let SemanticOperation::ReplacePlanSteps { steps } = &initialized_spp_operation else {
+        unreachable!("initialized SPP operation")
+    };
+    expected_initialized_spp.plan_revision += 1;
+    expected_initialized_spp.steps = steps.clone();
+    match &initialized_spp_cards_after[&CardKind::Spp].content {
+        CardContent::Spp(values) => assert_eq!(values, &expected_initialized_spp),
+        _ => unreachable!("SPP"),
+    }
+    assert_design_bindings_match_authored(&repo, &initialized_spp_cards_after);
+    let (new_design_digest, new_diagram_digest) = spp_design_digests(&initialized_spp_cards_after);
+    assert_last_prebind_audit_operation(
+        &record,
+        &initialized_spp_operation,
+        &old_design_digest,
+        &new_design_digest,
+        &old_diagram_digest,
+        &new_diagram_digest,
+    );
+    assert_only_pending_design_review_diagnostic(&repo, 42);
+
+    let wrong_card_before = issue_projection_snapshot(&repo, 42);
+    assert!(direct_edit(&store, &record, CardKind::Spp, exact_acceptance(), false,).is_err());
+    assert_eq!(issue_projection_snapshot(&repo, 42), wrong_card_before);
+
+    let index_path = repo.join(".csdlc/issues/42/index.json");
+    let clean_initialized = issue_projection_snapshot(&repo, 42);
+    let mut later_evidence = record.clone();
+    later_evidence.review_assignment = Some(csdlc_v2::ReviewAssignment {
+        reviewer: "too-early".into(),
+        assigned_by: "test-operator".into(),
+        revision: "0".repeat(40),
+        scope: vec!["later evidence".into()],
+    });
+    write_consistent_record(&repo, &mut later_evidence);
+    let injected_later_evidence = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(
+        &store,
+        &later_evidence,
+        CardKind::Stp,
+        exact_acceptance(),
+        false,
+    )
+    .expect_err("later evidence guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(
+        error.message,
+        "pre-bind contract repair requires unbound topology and no later lifecycle evidence"
+    );
+    assert_eq!(
+        issue_projection_snapshot(&repo, 42),
+        injected_later_evidence
+    );
+    restore_issue_projection(&repo, 42, &clean_initialized);
+
+    let mut reference_drift = record.clone();
+    let mut drifted_spp =
+        store.load_cards(42).expect("cards for reference drift")[&CardKind::Spp].clone();
+    match &mut drifted_spp.content {
+        CardContent::Spp(values) => values.design_ref = "design/wrong.md".into(),
+        _ => unreachable!("SPP"),
+    }
+    write_consistent_card(&repo, &mut reference_drift, CardKind::Spp, &drifted_spp);
+    let injected_reference_drift = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(
+        &store,
+        &reference_drift,
+        CardKind::Stp,
+        exact_acceptance(),
+        false,
+    )
+    .expect_err("reference drift guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::CardInvalid);
+    assert_eq!(
+        error.message,
+        "pre-bind repair design/diagram references disagree with issue authority"
+    );
+    assert_eq!(
+        issue_projection_snapshot(&repo, 42),
+        injected_reference_drift
+    );
+    restore_issue_projection(&repo, 42, &clean_initialized);
+
+    let design_path = repo.join("design/issue-42.md");
+    let design_bytes = fs::read(&design_path).expect("design bytes");
+    fs::remove_file(&design_path).expect("remove design for path drift");
+    fs::create_dir(&design_path).expect("replace design with directory");
+    let path_drift_projection = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false)
+        .expect_err("authored path drift guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert_eq!(
+        error.message,
+        "authored artifact target is not a regular file"
+    );
+    assert_eq!(issue_projection_snapshot(&repo, 42), path_drift_projection);
+    fs::remove_dir(&design_path).expect("remove drifted design directory");
+    fs::write(&design_path, &design_bytes).expect("restore design");
+
+    let mut wrong_identity = record.clone();
+    wrong_identity.issue = 43;
+    wrong_identity.digest.clear();
+    wrong_identity.digest =
+        digest(&serde_json::to_vec(&wrong_identity).expect("wrong identity digest serialization"));
+    let mut wrong_identity_bytes =
+        serde_json::to_vec_pretty(&wrong_identity).expect("wrong identity projection");
+    wrong_identity_bytes.push(b'\n');
+    fs::write(&index_path, wrong_identity_bytes).expect("inject identity drift");
+    let injected_identity_drift = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), false)
+        .expect_err("record identity guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::CorruptRecord);
+    assert_eq!(
+        error.message,
+        "issue projection namespace mismatch: requested 42, embedded 43"
+    );
+    assert_eq!(
+        issue_projection_snapshot(&repo, 42),
+        injected_identity_drift
+    );
+    restore_issue_projection(&repo, 42, &clean_initialized);
+
+    let approval = csdlc_v2::store::approve_design(
+        &store,
+        csdlc_v2::store::ApproveDesignRequest {
+            issue: 42,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            reviewer: "independent-prebind-reviewer".into(),
+        },
+    )
+    .expect("reapprove initialized repair");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+    ));
+    record = direct_edit(
+        &store,
+        &approval,
+        CardKind::Spp,
+        SemanticOperation::AdvancePhase {
+            phase: LifecyclePhase::Ready,
+        },
+        false,
+    )
+    .expect("advance repaired issue to ready");
+
+    let ready_stp_before = record.clone();
+    let ready_stp_cards_before = store.load_cards(42).expect("ready cards before STP repair");
+    let (old_design_digest, old_diagram_digest) = spp_design_digests(&ready_stp_cards_before);
+    let ready_acceptance = vec![
+        "AC-1: ready acceptance repair preserves unbound topology".to_owned(),
+        "AC-2: ready acceptance repair requires reapproval".to_owned(),
+    ];
+    let ready_stp_operation = SemanticOperation::ReplaceAcceptanceCriteria {
+        values: ready_acceptance.clone(),
+    };
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Stp,
+        ready_stp_operation.clone(),
+        false,
+    )
+    .expect("ready STP repair");
+    assert_single_generation_preserves_lifecycle_shell(&ready_stp_before, &record);
+    assert!(matches!(
+        record.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    let ready_stp_cards_after = store.load_cards(42).expect("ready cards after STP repair");
+    for kind in [
+        CardKind::Sip,
+        CardKind::Spp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_semantics_unchanged(
+            &ready_stp_cards_before[&kind],
+            &ready_stp_cards_after[&kind],
+        );
+    }
+    assert_card_identity_advanced(
+        &ready_stp_cards_before[&CardKind::Stp],
+        &ready_stp_cards_after[&CardKind::Stp],
+    );
+    let mut expected_ready_stp = match &ready_stp_cards_before[&CardKind::Stp].content {
+        CardContent::Stp(values) => values.clone(),
+        _ => unreachable!("STP"),
+    };
+    expected_ready_stp.acceptance_criteria = ready_acceptance;
+    match &ready_stp_cards_after[&CardKind::Stp].content {
+        CardContent::Stp(values) => assert_eq!(values, &expected_ready_stp),
+        _ => unreachable!("STP"),
+    }
+    assert_design_bindings_match_authored(&repo, &ready_stp_cards_after);
+    let (new_design_digest, new_diagram_digest) = spp_design_digests(&ready_stp_cards_after);
+    assert_last_prebind_audit_operation(
+        &record,
+        &ready_stp_operation,
+        &old_design_digest,
+        &new_design_digest,
+        &old_diagram_digest,
+        &new_diagram_digest,
+    );
+    assert_only_pending_design_review_diagnostic(&repo, 42);
+
+    for (name, operation) in [
+        (
+            "nonpending",
+            plan(
+                "reject nonpending ready plan",
+                vec!["AC-1", "AC-2"],
+                StepStatus::Completed,
+            ),
+        ),
+        (
+            "duplicate",
+            plan(
+                "reject duplicate ready coverage",
+                vec!["AC-1", "AC-1", "AC-2"],
+                StepStatus::Pending,
+            ),
+        ),
+        (
+            "missing",
+            plan(
+                "reject missing ready coverage",
+                vec!["AC-1"],
+                StepStatus::Pending,
+            ),
+        ),
+        (
+            "extra",
+            plan(
+                "reject extra ready coverage",
+                vec!["AC-1", "AC-2", "AC-3"],
+                StepStatus::Pending,
+            ),
+        ),
+    ] {
+        let before = issue_projection_snapshot(&repo, 42);
+        let error = direct_edit(&store, &record, CardKind::Spp, operation, false).expect_err(name);
+        assert_eq!(error.code, csdlc_v2::ErrorCode::CardInvalid);
+        assert_eq!(issue_projection_snapshot(&repo, 42), before);
+    }
+
+    let audit_before_plan =
+        fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("audit before plan");
+    let ready_before = record.clone();
+    let ready_cards_before = store
+        .load_cards(42)
+        .expect("ready cards before plan repair");
+    let authored_design_before_ready_spp =
+        fs::read(repo.join("design/issue-42.md")).expect("design before ready SPP");
+    let authored_diagram_before_ready_spp =
+        fs::read(repo.join("design/issue-42.mmd")).expect("diagram before ready SPP");
+    let (old_design_digest, old_diagram_digest) = spp_design_digests(&ready_cards_before);
+    let ready_operation = plan(
+        "exercise exact ready plan repair",
+        vec!["AC-1", "AC-2"],
+        StepStatus::Pending,
+    );
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Spp,
+        ready_operation.clone(),
+        false,
+    )
+    .expect("ready plan repair");
+    assert_single_generation_preserves_lifecycle_shell(&ready_before, &record);
+    assert_eq!(record.phase, LifecyclePhase::Ready);
+    assert!(matches!(
+        record.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    let audit_after_plan =
+        fs::read(repo.join(".csdlc/issues/42/audit.jsonl")).expect("audit after plan");
+    assert!(audit_after_plan.starts_with(&audit_before_plan));
+    let ready_cards_after = store.load_cards(42).expect("ready cards after plan repair");
+    for kind in [
+        CardKind::Sip,
+        CardKind::Stp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_semantics_unchanged(&ready_cards_before[&kind], &ready_cards_after[&kind]);
+    }
+    assert_card_identity_advanced(
+        &ready_cards_before[&CardKind::Spp],
+        &ready_cards_after[&CardKind::Spp],
+    );
+    let mut expected_ready_spp = match &ready_cards_before[&CardKind::Spp].content {
+        CardContent::Spp(values) => values.clone(),
+        _ => unreachable!("SPP"),
+    };
+    let SemanticOperation::ReplacePlanSteps { steps } = &ready_operation else {
+        unreachable!("ready SPP operation")
+    };
+    expected_ready_spp.plan_revision += 1;
+    expected_ready_spp.steps = steps.clone();
+    match &ready_cards_after[&CardKind::Spp].content {
+        CardContent::Spp(values) => assert_eq!(values, &expected_ready_spp),
+        _ => unreachable!("SPP"),
+    }
+    assert_eq!(
+        fs::read(repo.join("design/issue-42.md")).expect("design after ready SPP"),
+        authored_design_before_ready_spp
+    );
+    assert_eq!(
+        fs::read(repo.join("design/issue-42.mmd")).expect("diagram after ready SPP"),
+        authored_diagram_before_ready_spp
+    );
+    assert_design_bindings_match_authored(&repo, &ready_cards_after);
+    let (new_design_digest, new_diagram_digest) = spp_design_digests(&ready_cards_after);
+    assert_last_prebind_audit_operation(
+        &record,
+        &ready_operation,
+        &old_design_digest,
+        &new_design_digest,
+        &old_diagram_digest,
+        &new_diagram_digest,
+    );
+    assert_only_pending_design_review_diagnostic(&repo, 42);
+    let clean_ready = issue_projection_snapshot(&repo, 42);
+    let mut ready_with_topology = record.clone();
+    ready_with_topology.branch = Some("premature-ready-branch".into());
+    ready_with_topology.worktree = Some("/tmp/premature-ready-worktree".into());
+    write_consistent_record(&repo, &mut ready_with_topology);
+    let injected_ready_topology = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(
+        &store,
+        &ready_with_topology,
+        CardKind::Spp,
+        plan(
+            "reject ready topology evidence",
+            vec!["AC-1", "AC-2"],
+            StepStatus::Pending,
+        ),
+        false,
+    )
+    .expect_err("ready topology guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(
+        error.message,
+        "pre-bind contract repair requires unbound topology and no later lifecycle evidence"
+    );
+    assert_eq!(
+        issue_projection_snapshot(&repo, 42),
+        injected_ready_topology
+    );
+    restore_issue_projection(&repo, 42, &clean_ready);
+    let audit_len_before_ready_approval = record.audit.len();
+    record = csdlc_v2::store::approve_design(
+        &store,
+        csdlc_v2::store::ApproveDesignRequest {
+            issue: 42,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            reviewer: "independent-ready-reviewer".into(),
+        },
+    )
+    .expect("reapprove ready plan repair");
+    assert_eq!(record.audit.len(), audit_len_before_ready_approval + 1);
+    let ready_approval_event = record.audit.last().expect("ready approval audit event");
+    assert_eq!(ready_approval_event.actor, "independent-ready-reviewer");
+    assert_eq!(
+        ready_approval_event.reason,
+        "reapprove repaired ready issue design"
+    );
+    assert_eq!(ready_approval_event.operation, "approve_design");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+    ));
+
+    let before_interruption = issue_projection_snapshot(&repo, 42);
+    let interrupted = direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), true)
+        .expect_err("injected interruption");
+    assert_eq!(
+        interrupted.code,
+        csdlc_v2::ErrorCode::InterruptedTransaction
+    );
+    let mut stale = record.clone();
+    stale.digest = "0".repeat(64);
+    assert!(direct_edit(&store, &stale, CardKind::Stp, exact_acceptance(), false).is_err());
+    assert_eq!(issue_projection_snapshot(&repo, 42), before_interruption);
+
+    let clean_ready = issue_projection_snapshot(&repo, 42);
+    let mut reviewed = record.clone();
+    let mut from = LifecyclePhase::Ready;
+    for to in [
+        LifecyclePhase::Bound,
+        LifecyclePhase::Implemented,
+        LifecyclePhase::Reviewed,
+    ] {
+        reviewed.transitions.push(csdlc_v2::model::TransitionEvent {
+            sequence: reviewed.transitions.len() as u64 + 1,
+            from,
+            to,
+            actor: "test-operator".into(),
+            reason: "build consistent unsupported-phase fixture".into(),
+        });
+        from = to;
+    }
+    reviewed.phase = LifecyclePhase::Reviewed;
+    reviewed.branch = Some("reviewed-fixture".into());
+    reviewed.worktree = Some("/tmp/reviewed-fixture".into());
+    write_consistent_record(&repo, &mut reviewed);
+    let injected_reviewed = issue_projection_snapshot(&repo, 42);
+    let error = direct_edit(&store, &reviewed, CardKind::Stp, exact_acceptance(), false)
+        .expect_err("unsupported reviewed phase guard");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidTransition);
+    assert_eq!(error.message, "stp mutation is not allowed during reviewed");
+    assert_eq!(issue_projection_snapshot(&repo, 42), injected_reviewed);
+    restore_issue_projection(&repo, 42, &clean_ready);
+
+    git(&repo, &["switch", "-c", "issue-42"]);
+    bind_issue(
+        &store,
+        BindRequest {
+            issue: 42,
+            base_branch: "main".into(),
+            branch: "issue-42".into(),
+            worktree: ".".into(),
+            code_repository: None,
+        },
+    )
+    .expect("bind repaired issue for compatibility proof");
+    record = store.load_record(42).expect("bound record");
+    assert_eq!(record.phase, LifecyclePhase::Bound);
+    assert_eq!(record.branch.as_deref(), Some("issue-42"));
+    let canonical_repo = fs::canonicalize(&repo).expect("canonical fixture repository");
+    assert_eq!(
+        record.worktree.as_deref(),
+        Some(canonical_repo.to_string_lossy().as_ref())
+    );
+
+    let bound_stp_before = record.clone();
+    let bound_stp_cards_before = store.load_cards(42).expect("bound cards before STP repair");
+    let bound_acceptance = vec![
+        "AC-1: bound acceptance repair preserves topology".to_owned(),
+        "AC-2: bound acceptance repair preserves outputs".to_owned(),
+    ];
+    let bound_stp_operation = SemanticOperation::ReplaceAcceptanceCriteria {
+        values: bound_acceptance.clone(),
+    };
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Stp,
+        bound_stp_operation.clone(),
+        false,
+    )
+    .expect("bound STP compatibility edit");
+    assert_single_generation_preserves_lifecycle_shell(&bound_stp_before, &record);
+    assert_eq!(record.design_review, bound_stp_before.design_review);
+    let bound_stp_cards_after = store.load_cards(42).expect("bound cards after STP repair");
+    for kind in [
+        CardKind::Sip,
+        CardKind::Spp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_semantics_unchanged(
+            &bound_stp_cards_before[&kind],
+            &bound_stp_cards_after[&kind],
+        );
+    }
+    assert_card_identity_advanced(
+        &bound_stp_cards_before[&CardKind::Stp],
+        &bound_stp_cards_after[&CardKind::Stp],
+    );
+    let mut expected_bound_stp = match &bound_stp_cards_before[&CardKind::Stp].content {
+        CardContent::Stp(values) => values.clone(),
+        _ => unreachable!("STP"),
+    };
+    expected_bound_stp.acceptance_criteria = bound_acceptance;
+    match &bound_stp_cards_after[&CardKind::Stp].content {
+        CardContent::Stp(values) => assert_eq!(values, &expected_bound_stp),
+        _ => unreachable!("STP"),
+    }
+    assert_design_bindings_match_authored(&repo, &bound_stp_cards_after);
+    assert_last_audit_operation(&record, &bound_stp_operation);
+
+    let compatibility_plan = |action: &str| SemanticOperation::ReplacePlanSteps {
+        steps: vec![PlanStep {
+            id: "S1".into(),
+            action: action.into(),
+            acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+            status: StepStatus::Pending,
+        }],
+    };
+    let bound_spp_before = record.clone();
+    let bound_spp_cards_before = store.load_cards(42).expect("bound cards before SPP repair");
+    let bound_spp_operation = compatibility_plan("prove bound compatibility outputs");
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Spp,
+        bound_spp_operation.clone(),
+        false,
+    )
+    .expect("bound SPP compatibility edit");
+    assert_single_generation_preserves_lifecycle_shell(&bound_spp_before, &record);
+    assert_eq!(record.design_review, bound_spp_before.design_review);
+    let bound_spp_cards_after = store.load_cards(42).expect("bound cards after SPP repair");
+    for kind in [
+        CardKind::Sip,
+        CardKind::Stp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_semantics_unchanged(
+            &bound_spp_cards_before[&kind],
+            &bound_spp_cards_after[&kind],
+        );
+    }
+    assert_card_identity_advanced(
+        &bound_spp_cards_before[&CardKind::Spp],
+        &bound_spp_cards_after[&CardKind::Spp],
+    );
+    let mut expected_bound_spp = match &bound_spp_cards_before[&CardKind::Spp].content {
+        CardContent::Spp(values) => values.clone(),
+        _ => unreachable!("SPP"),
+    };
+    let SemanticOperation::ReplacePlanSteps { steps } = &bound_spp_operation else {
+        unreachable!("bound SPP operation")
+    };
+    expected_bound_spp.plan_revision += 1;
+    expected_bound_spp.steps = steps.clone();
+    match &bound_spp_cards_after[&CardKind::Spp].content {
+        CardContent::Spp(values) => assert_eq!(values, &expected_bound_spp),
+        _ => unreachable!("SPP"),
+    }
+    assert_design_bindings_match_authored(&repo, &bound_spp_cards_after);
+    assert_last_audit_operation(&record, &bound_spp_operation);
+
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Sor,
+        SemanticOperation::RecordExecution {
+            summary: "implemented compatibility fixture".into(),
+            changes: vec!["csdlc-v2/tests/gate2.rs".into()],
+            artifacts: vec!["bound and implemented repair proof".into()],
+        },
+        false,
+    )
+    .expect("record compatibility execution");
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Spp,
+        SemanticOperation::AdvancePhase {
+            phase: LifecyclePhase::Implemented,
+        },
+        false,
+    )
+    .expect("advance compatibility fixture to implemented");
+    let implemented_before = record.clone();
+    let implemented_cards_before = store
+        .load_cards(42)
+        .expect("implemented cards before SPP repair");
+    let implemented_spp_operation = compatibility_plan("prove implemented compatibility outputs");
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Spp,
+        implemented_spp_operation.clone(),
+        false,
+    )
+    .expect("implemented SPP compatibility edit");
+    assert_single_generation_preserves_lifecycle_shell(&implemented_before, &record);
+    assert_eq!(record.phase, LifecyclePhase::Implemented);
+    assert_eq!(record.design_review, implemented_before.design_review);
+    let implemented_cards_after = store
+        .load_cards(42)
+        .expect("implemented cards after SPP repair");
+    for kind in [
+        CardKind::Sip,
+        CardKind::Stp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_semantics_unchanged(
+            &implemented_cards_before[&kind],
+            &implemented_cards_after[&kind],
+        );
+    }
+    assert_card_identity_advanced(
+        &implemented_cards_before[&CardKind::Spp],
+        &implemented_cards_after[&CardKind::Spp],
+    );
+    let mut expected_implemented_spp = match &implemented_cards_before[&CardKind::Spp].content {
+        CardContent::Spp(values) => values.clone(),
+        _ => unreachable!("SPP"),
+    };
+    let SemanticOperation::ReplacePlanSteps { steps } = &implemented_spp_operation else {
+        unreachable!("implemented SPP operation")
+    };
+    expected_implemented_spp.plan_revision += 1;
+    expected_implemented_spp.steps = steps.clone();
+    match &implemented_cards_after[&CardKind::Spp].content {
+        CardContent::Spp(values) => assert_eq!(values, &expected_implemented_spp),
+        _ => unreachable!("SPP"),
+    }
+    assert_design_bindings_match_authored(&repo, &implemented_cards_after);
+    assert_last_audit_operation(&record, &implemented_spp_operation);
 }
 
 #[test]

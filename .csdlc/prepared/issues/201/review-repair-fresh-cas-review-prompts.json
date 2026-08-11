@@ -1,0 +1,23 @@
+{
+  "issue": 201,
+  "card": "srp",
+  "expected_generation": 26,
+  "expected_digest": "5920bcb8f07bb46361e0a25ae346bae180eec9a6a451d4de0055faa7eed81a82",
+  "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6",
+  "reason": "Resolve exact-head review by requiring explicit review of the AC-4 and AC-5 per-voter fresh-CAS exact-once publication sequence.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "review_prompts",
+    "values": [
+      "Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?",
+      "Does the existing private artifact view retain byte-identical committed signed bytes only for sealed #199/#200/#203 consumers without replacement or digest-only reconstruction?",
+      "Can only an exact finalized continuity-transfer variant produce the separate sealed #210 ContinuityTransferGrantProjection, with wrong consumer and wrong variant denied?",
+      "Does the #210 projection bind exact lineage, SourceCheckpointHandle identity, byte-identical bundle-handle identity, source, target, route/membership/certificate/boot cuts, exact signed bundle/catalog bytes and digests, entry/chunk/range bounds, deadline, and cleanup identity while rejecting wrong lineage or either wrong handle before source access and exposing no constructor, generic conversion, signing, transport, filesystem, migration, fence, activation, serving, or store-effect authority?",
+      "Does replicated apply consume only committed deterministic time, membership, and artifact evidence, including skew and uncertainty boundaries?",
+      "Do AC-4 and AC-5 use three independent node-local checkpoint authorities that each record exact expected old and new checkpoints, perform only a fresh compare-and-swap against their own expected old checkpoint, complete only the exact same operation after a proved partial commit, and withhold token, projection, canonical-response, and Raft-apply publication until the canonical result, retry record, and that node-local external checkpoint are durable and agree?",
+      "Do initialization, exact retry, artifact retention, projection retention, result-cache, and every node-local external-checkpoint crash window reconcile without false publication, substitution, rollback acceptance, or one voter publishing for another?",
+      "Are all legacy direct authority commands retired or explicitly versioned fail-closed across apply, log replay, and snapshot restore?",
+      "Does exact proof bind all forty-seven machine cases, protected-source drift, immutable evidence, strict Clippy, and merge topology?"
+    ]
+  }
+}

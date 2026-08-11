@@ -1,0 +1,1 @@
+{"issue":201,"card":"spp","expected_generation":44,"expected_digest":"57c62d2a392eac8be150093755b1b7d5ea44506162dff9eeb7b624c25cef5752","actor":"codex:/root/resolve_201_review_129ea","reason":"Opaque custody and exact signature/apply-index boundary implementation are complete.","operation":{"operation":"update_plan_step","step_id":"S2","status":"completed"}}

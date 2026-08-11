@@ -16,8 +16,9 @@ Review the exact sprint issue record, design, diagram, Sprint Execution Packet, 
 
 ## Prompts
 
-- Does the packet preserve exact child ownership and dependency truth?
-- Are parallel lanes actually independent and are serial gates explicit?
+- Does the packet preserve exact child ownership and dependency truth, including WP-20 as the first final-sprint child?
+- Does WP-20 wait for #5836, #5837, #5838, and #5839 before WP-21 begins?
+- Are the final-sprint serial gates explicit and free of parallel execution claims?
 - Can the umbrella close only after every child has truthful terminal state?
 
 ## Findings

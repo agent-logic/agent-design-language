@@ -3,8 +3,8 @@ version: v0.92
 slug: demonstration-handoff-publication
 status: ready_for_execution
 execution_mode: hybrid
-ordered_issue_numbers: [5835, 5836, 5838, 5839, 5840]
-ordered_work_packages: [WP-17, WP-18, WP-18B, WP-19, WP-20]
+ordered_issue_numbers: [5835, 5836, 5838, 5839]
+ordered_work_packages: [WP-17, WP-18, WP-18B, WP-19]
 completed_legacy_issue_numbers: [5844]
 completed_canonical_issue_numbers: [10]
 completed_work_packages: [WP-24]
@@ -20,14 +20,13 @@ safe_parallel_lanes:
     boundary: Demo and migration planning retain separate child worktrees.
 serial_gates:
   - issue 5835 follows issues 5826, 5827, and 5834
-  - issue 5836 follows issues 5825, 5826, 5827, 5828, 5829, 5830, 5832, 5833, and 5834
-  - issue 5838 follows issues 5832, 5834, and 5836
+  - issue 5836 follows issues 5825, 5826, 5827, 5828, 5829, 5830, canonical issue 209 and PR 215, issue 5833, and issue 5834; legacy issue 5832 is superseded
+  - issue 5838 follows canonical issue 209 and PR 215, issue 5834, and issue 5836
   - issue 5839 follows issues 5834 and 5835 plus the v0.93 allocation
-  - issue 5840 follows issues 5836, 5837, 5838, and 5839
   - final publication claims align only after issue 5843 and explicit operator authorization
 review_path: .csdlc/evidence/5854/sprint-review.md
 activity_log_path: .csdlc/evidence/5854/activity.jsonl
 live_gate_path: .csdlc/evidence/5854/live-gates.json
 split_authority_bind_manifest_path: .csdlc/prepared/issues/5854/split-authority-bind-requests.json
 child_goal_rule: Each unbound child uses its own FastWork worktree, typed split-repository bind request, and issue-bound goal before implementation.
-closeout_rule: Review the five operative child outcomes and publication truth before umbrella closeout; WP-24A is excluded and cannot block closeout.
+closeout_rule: Review the four operative child outcomes and publication truth before umbrella closeout; WP-20 belongs to release-tail sprint #5856, and WP-24A is excluded and cannot block closeout.

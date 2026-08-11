@@ -1,0 +1,23 @@
+{
+  "issue": 201,
+  "card": "srp",
+  "expected_generation": 37,
+  "expected_digest": "742f883af859b95b1a5cfc27081fd27eae597172779e88a1f4a6d574ffc9fbe4",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "Ask independent review about exact route custody, pending apply visibility, and caller-context substitution denial.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "review_prompts",
+    "values": [
+      "Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?",
+      "Does production PrepareAuthority match the state-held verified route cut's exact polis id, membership epoch, authority membership, and boot generations, including negative OpenRaft submissions for relabeled polis and epoch?",
+      "Does the private artifact view retain byte-identical committed signed bytes only for sealed #199/#200/#203 consumers without replacement or digest-only reconstruction?",
+      "Can only an exact finalized continuity-transfer variant produce the separate sealed #210 projection with wrong consumer, variant, lineage, checkpoint handle, and bundle handle denied before source access?",
+      "Does replicated apply consume only committed deterministic time, membership, and artifact evidence, returning a pending response with no token after valid finalize?",
+      "Does runtime reconciliation use only state-held local voter identity, deterministic publication root, and configured checkpoint authority, rejecting fake node, root, checkpoint authority, retry, rollback, and one-voter-for-another publication?",
+      "Are the actual endorsement signature fields stated exactly, with committed prepare index and finalization time bound while the actual finalize apply index is separately verified and recorded?",
+      "Are all legacy direct authority commands retired or versioned fail-closed across apply, log replay, and snapshot restore?",
+      "Does the validator independently enforce the exact ordered forty-seven names, results, and canonical marker hashes, including substitution and reorder rejection in full and shallow history?"
+    ]
+  }
+}

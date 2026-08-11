@@ -1,0 +1,9 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 39,
+  "expected_digest": "c2e8dc441c7422d3b0926e0ef54015ddaeff2bb9ca67338358326d3733527a51",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "Signer custody and cryptographic fields now match the implemented replicated protocol without a false finalize-index claim.",
+  "operation": {"operation": "update_plan_step", "step_id": "S2", "status": "completed"}
+}

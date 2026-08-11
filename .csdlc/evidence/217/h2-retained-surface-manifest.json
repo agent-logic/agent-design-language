@@ -1,0 +1,84 @@
+{
+  "schema": "adl.h2_retained_surface_manifest.v1",
+  "issue": 217,
+  "producer_head": "7e7c23b7c9e338e802dadee53be9c213d64b0456",
+  "expected_entry_count": 19,
+  "entries": [
+    {
+      "path": ".csdlc/evidence/217/retained-proof-denominator.json",
+      "sha256": "6f6bcb1578335097073fa6cba9038546b5f885e8f6626e611231009f45b372a5"
+    },
+    {
+      "path": ".csdlc/evidence/217/native-platform/linux-nextest.log",
+      "sha256": "86ebf8e0a2997b21bd4f6cac06dd74cbd64ba02e7cbc36481851a4449fe84365"
+    },
+    {
+      "path": ".csdlc/evidence/217/native-platform/linux-semantic.json",
+      "sha256": "8474537a1f482af747bd58464448eacd321761c2d2d35144cbb7518cfebaccd5"
+    },
+    {
+      "path": ".csdlc/evidence/217/native-platform/linux-source-manifest.json",
+      "sha256": "98ffb6f3ee0efb2606169ed24ed5fbe12bff0390a66cc9e5c18f10a040cd43bf"
+    },
+    {
+      "path": ".csdlc/evidence/217/native-platform/linux.json",
+      "sha256": "9f840b22c37f7a818d00dfdd40324fe1ed29cdc27319606e5b211fd54cfe2388"
+    },
+    {
+      "path": ".csdlc/evidence/217/native-platform/macos-nextest.log",
+      "sha256": "133e0b8f543c7b1aac826eba133c95815953dd51767f47205ea1a0aaf9409095"
+    },
+    {
+      "path": ".csdlc/evidence/217/native-platform/macos-semantic.json",
+      "sha256": "eb4890a2c91cd10378484eb495e42967caebe13f8a965666b7d71aac40c40135"
+    },
+    {
+      "path": ".csdlc/evidence/217/native-platform/macos-source-manifest.json",
+      "sha256": "98ffb6f3ee0efb2606169ed24ed5fbe12bff0390a66cc9e5c18f10a040cd43bf"
+    },
+    {
+      "path": ".csdlc/evidence/217/native-platform/macos.json",
+      "sha256": "08aaf0d648ad62b89d5f3ef8f076b4e532f10e86176d37f08760daf48743a16b"
+    },
+    {
+      "path": ".csdlc/evidence/217/native-receipts-validation.log",
+      "sha256": "158467a7cfecdeb186e93e4600fbffe74df697078fcb8c8a9a3b99f8aab7fa11"
+    },
+    {
+      "path": ".csdlc/evidence/217/native-validation-manifest.json",
+      "sha256": "4b38ba4a056380d643f829c60c40235ec2ea36f9ef2316a68159b313c17c322e"
+    },
+    {
+      "path": ".csdlc/prepared/issues/217/historical-c640-denominator.json",
+      "sha256": "176e8cc984eb764f4e5bb9f3d72a425ca14021624e91207398ae47c3b21fa411"
+    },
+    {
+      "path": ".csdlc/prepared/issues/217/protected-source-denominator.json",
+      "sha256": "a04248911cb0355f25251d3caf59ac167bfab3964d008a942dccedbf3456b01e"
+    },
+    {
+      "path": ".csdlc/prepared/issues/217/proof-contract-paths.json",
+      "sha256": "fe4e705b8fe35ccbf5f136597b3381b34083a8e4b99d55cff15c815dad4700d6"
+    },
+    {
+      "path": ".csdlc/prepared/issues/217/h2-retention-allowlist.json",
+      "sha256": "e4b5b7c96a24401b762b2cd8f62aec20a3e649acbc35d3d41d379b055412a6d0"
+    },
+    {
+      "path": ".csdlc/prepared/issues/217/verify-historical-c640-packet.rb",
+      "sha256": "35dfa21d668cfc275ee5109aee8071cbcf74b422cf91658a6cf148e6330ec9cf"
+    },
+    {
+      "path": ".csdlc/prepared/issues/217/produce-native-receipt.rb",
+      "sha256": "230a526fd6041e4c92570b8e2ddf7a3ef3ca8c00ee0fcd75bd948a9bb6044b91"
+    },
+    {
+      "path": ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
+      "sha256": "52b4bf716dfe96eebe20a6aeba68eaedf3a1af9bbc2d51bd5b3a196ef698df62"
+    },
+    {
+      "path": ".github/workflows/wp14-retained-native-proof.yml",
+      "sha256": "bfe33b2d9f01c0755009fd36b328c1586238f89332d88374dcf1c7e311b48726"
+    }
+  ]
+}

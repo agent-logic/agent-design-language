@@ -593,7 +593,7 @@ fn authority_topology_with_key_seeds(
             certificate_generation: 1,
             purpose: ControlCertificatePurpose::AuthorityEndorsement,
             not_before_unix_seconds: 1,
-            not_after_unix_seconds: i64::MAX,
+            not_after_unix_seconds: 4_000_000_000,
             revoked: false,
             control_public_key: key.verifying_key().to_bytes(),
         })
