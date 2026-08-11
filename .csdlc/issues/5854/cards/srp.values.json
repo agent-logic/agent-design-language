@@ -7,15 +7,15 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 63
+    "generation": 64
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md\n.csdlc/issues/5840\n.csdlc/issues/5854\n.csdlc/prepared/issues/5854\n.csdlc/prepared/issues/5856/sprint-execution-packet.md\n.csdlc/prepared/issues/5856/sprint-execution-packet.yaml\n.csdlc/prepared/issues/5856/validate-sprint-readiness.rb\ncsdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs",
-      "review_revision": "git-blake3:a8a344b3a7af59f999391bda597056be24e69fa2:fe0e97e03042bf198f1b135d07cdb65e1316d74718ef29ffe01a6156ea016ff4",
-      "reviewer": "subagent:pascal-019ff1eb",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the packet preserve exact operative-child ownership and dependency truth?",
         "Are parallel lanes actually independent and are serial gates explicit?",
@@ -23,11 +23,8 @@
         "Does the live-gate evidence retain sufficient source, request, response, freshness, and ancestry provenance for every claimed external fact?"
       ],
       "findings": [],
-      "residual_risk": [
-        "WP-20 #5840 remains intentionally unbound and may report repository_identity_drift until final sprint #5856 executes its typed bind request.",
-        "The retained live-gate snapshot remains time-bounded; Sprint execution must refresh live dependency truth when its 24-hour window expires."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
