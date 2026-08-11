@@ -12,13 +12,13 @@ ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
 BASE = "4460ec8157da7a53decf28f41e20af8afd19f611"
 MAP_RELATIVE = ".csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json"
 MAP_SHA256 = "9a6d7834557f626487aae3115464ee60f19b06609b7ea9e6a24399a60eec8745"
-PREFIX = ".csdlc/evidence/208/v1/"
+PREFIX = ".csdlc/evidence/208/v2/"
 OUTPUT = ROOT.join(PREFIX)
 PROTECTED = %w[
   adl-runtime-kernel/Cargo.toml adl-runtime-kernel/Cargo.lock
   adl-runtime-kernel/src/continuity_control.rs adl-runtime-kernel/src/assembly.rs
   adl-runtime-kernel/src/bin/adl-runtime-kernel.rs adl-runtime-kernel/src/config.rs
-  adl-runtime-kernel/src/governance.rs adl-runtime-kernel/src/lib.rs
+  adl-runtime-kernel/src/governance.rs adl-runtime-kernel/src/ingress.rs adl-runtime-kernel/src/lib.rs
   adl-runtime-kernel/src/reasoning.rs adl-runtime-kernel/tests/kernel_continuity_control.rs
   adl-runtime/Cargo.toml adl-runtime/Cargo.lock adl-runtime/src/kernel_continuity_client.rs
   adl-runtime/src/bin/adl-runtime-guardian.rs adl-runtime/src/distributed/polis_runtime.rs
@@ -93,17 +93,42 @@ fail_proof("commands failed: #{failed.join(', ')}") unless failed.empty?
 nextest_text = %w[runtime_nextest kernel_nextest].flat_map { |name| %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])) } }.join
 fail_proof("nextest denominator mismatch") unless nextest_text.include?("21 tests run: 21 passed") && nextest_text.include?("35 tests run: 35 passed")
 marker_text = %w[runtime_markers kernel_markers].flat_map { |name| %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands[name]["#{stream}_path"])) } }.join
-markers = marker_text.scan(/(?:proved:case|accepted|denied):[a-z0-9_:-]+/)
+fail_proof("behavior evidence leaked a forbidden LEAK sentinel") if marker_text.include?("LEAK")
+receipts = marker_text.lines.filter_map do |line|
+  payload = line[/BEHAVIOR_RECEIPT (\{.*\})\s*\z/, 1]
+  next unless payload
+  JSON.parse(payload)
+rescue JSON::ParserError
+  fail_proof("malformed behavior receipt")
+end
+fail_proof("behavior receipt denominator mismatch") unless receipts.length == 56 && receipts.map { |receipt| receipt["case"] }.uniq.length == 56
+receipts.each do |receipt|
+  fail_proof("behavior receipt schema/outcome mismatch") unless receipt["schema"] == "adl.issue208.behavior_receipt.v1" && receipt["outcome"] == "passed"
+  behavior = receipt.fetch("behavior")
+  fail_proof("behavior receipt case binding mismatch") unless behavior["case"] == receipt["case"] && behavior["assertion_binding"].to_s.end_with?("::#{receipt['case']}")
+  canonical = receipt.fetch("behavior_canonical")
+  fail_proof("behavior receipt canonical mismatch") unless JSON.parse(canonical) == behavior
+  fail_proof("behavior receipt digest mismatch") unless Digest::SHA256.hexdigest(canonical) == receipt["behavior_sha256"]
+  fail_proof("behavior receipt lacks durable witness") unless behavior["durable_witness"].is_a?(Array) && !behavior["durable_witness"].empty?
+end
+markers = receipts.flat_map { |receipt| receipt.fetch("markers") }
 expected = cases.map { |row| row.fetch("marker") } + boundaries.map { |row| row.fetch("marker") } + lifecycle.map { |row| row.fetch("marker") }
 fail_proof("marker denominator/parity mismatch") unless markers.sort == expected.sort && markers.uniq.length == expected.length
+main_revision, main_status = Open3.capture2("git", "rev-parse", "origin/main", chdir: ROOT.to_s)
+fail_proof("cannot resolve current origin/main") unless main_status.success? && main_revision.strip.match?(/\A[0-9a-f]{40}\z/)
+system("git", "merge-base", "--is-ancestor", main_revision.strip, source, chdir: ROOT.to_s, out: File::NULL, err: File::NULL) || fail_proof("current origin/main is not ancestral to source")
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue208.guardian_kernel_continuity_proof.v1", "issue" => 208,
-  "execution_base_revision" => BASE, "source_revision" => source, "source_tree" => tree.strip,
+  "schema" => "adl.issue208.guardian_kernel_continuity_proof.v2", "issue" => 208,
+  "execution_base_revision" => BASE, "main_revision" => main_revision.strip,
+  "source_revision" => source, "source_tree" => tree.strip,
+  "produced_at" => Time.now.utc.iso8601(6),
   "map" => {"path" => MAP_RELATIVE, "sha256" => MAP_SHA256, "case_count" => 56, "boundary_row_count" => 8, "subassertion_count" => 64, "lifecycle_subassertion_count" => 12},
   "protected_files" => PROTECTED.map { |path| {"path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest} },
-  "commands" => commands, "cases" => cases, "boundary_subassertions" => boundaries, "lifecycle_subassertions" => lifecycle
+  "commands" => commands, "cases" => cases, "boundary_subassertions" => boundaries,
+  "lifecycle_subassertions" => lifecycle,
+  "behavior_receipts" => receipts.sort_by { |receipt| cases.index { |row| row["name"] == receipt["case"] } }
 }
 File.binwrite(OUTPUT.join("execution-proof.json"), JSON.generate(proof) + "\n")
 puts "PASS: produced exact issue #208 56-case/64-boundary/12-lifecycle proof at #{source}"

@@ -8,7 +8,6 @@ use adl_runtime::{
     guardian::{
         run_guardian_with_continuity_and_os_signals, GuardianConfig, GuardianTerminalState,
     },
-    kernel_continuity_client::KernelContinuityClient,
 };
 use adl_runtime_kernel::{RuntimeInitConfig, RuntimeShutdownInitConfig};
 use serde::Deserialize;
@@ -35,14 +34,13 @@ async fn main() -> ExitCode {
             return ExitCode::from(78);
         }
     };
-    let continuity = match KernelContinuityClient::from_runtime_init(&init).await {
-        Ok(client) => std::sync::Arc::new(client),
+    let continuity = match PolisRuntimeContinuityCapability::from_runtime_init(&init).await {
+        Ok(client) => client,
         Err(error) => {
             eprintln!("runtime private continuity client invalid: {error}");
             return ExitCode::from(78);
         }
     };
-    let continuity = PolisRuntimeContinuityCapability::from_initialized_guardian(continuity);
     match run_guardian_with_continuity_and_os_signals(config, continuity).await {
         Ok(outcome) => {
             let terminal = outcome.terminal_state;

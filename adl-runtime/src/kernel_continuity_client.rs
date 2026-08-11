@@ -41,6 +41,7 @@ struct ClientJournalState {
 
 struct ClientJournal {
     root: PathBuf,
+    _root_handle: File,
     _lock: File,
     state: ClientJournalState,
     max_entries: usize,
@@ -72,10 +73,9 @@ impl ClientJournal {
             }
         })?;
         let path = config.guardian_state_dir.join("journal.json");
+        let root_handle = File::open(&config.guardian_state_dir)?;
         let state = if path.exists() {
-            let bytes = fs::read(&path)?;
-            let value: ClientJournalState =
-                decode_canonical(&bytes, config.bounds.max_frame_bytes)?;
+            let value: ClientJournalState = read_state(&path, config.bounds.max_frame_bytes)?;
             if value.schema != CLIENT_JOURNAL_SCHEMA
                 || value.channel_epoch != config.channel_epoch
                 || value.accepted.len() > config.bounds.max_journal_entries
@@ -95,6 +95,7 @@ impl ClientJournal {
         };
         Ok(Self {
             root: config.guardian_state_dir.clone(),
+            _root_handle: root_handle,
             _lock: lock,
             state,
             max_entries: config.bounds.max_journal_entries,
@@ -191,6 +192,7 @@ impl ClientJournal {
     }
 
     fn persist(&self) -> Result<(), ContinuityControlError> {
+        verify_directory_anchor(&self.root, &self._root_handle)?;
         let bytes = serde_jcs::to_vec(&self.state)
             .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?;
         if bytes.len() > self.max_frame_bytes {
@@ -198,6 +200,28 @@ impl ClientJournal {
         }
         write_state(&self.root.join("journal.json"), &self.state)
     }
+}
+
+fn verify_directory_anchor(path: &Path, handle: &File) -> Result<(), ContinuityControlError> {
+    let path_metadata = fs::symlink_metadata(path)?;
+    let handle_metadata = handle.metadata()?;
+    if path_metadata.file_type().is_symlink()
+        || !path_metadata.is_dir()
+        || !handle_metadata.is_dir()
+    {
+        return Err(ContinuityControlError::UnsafeRoot);
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::MetadataExt;
+        if path_metadata.dev() != handle_metadata.dev()
+            || path_metadata.ino() != handle_metadata.ino()
+            || path_metadata.nlink() == 0
+        {
+            return Err(ContinuityControlError::UnsafeRoot);
+        }
+    }
+    Ok(())
 }
 
 impl Drop for ClientJournal {
@@ -209,15 +233,16 @@ impl Drop for ClientJournal {
 /// The only production capability passed from Guardian initialization into the
 /// distributed Runtime.  It contains no signing key, path accessor, or public
 /// HTTP route.
-pub struct KernelContinuityClient {
+pub(crate) struct KernelContinuityClient {
     config: ContinuityControlInitConfig,
     tls: Arc<rustls::ClientConfig>,
     successor_tls: Option<Arc<rustls::ClientConfig>>,
     journal: Mutex<ClientJournal>,
+    operation_slots: Arc<tokio::sync::Semaphore>,
 }
 
 impl KernelContinuityClient {
-    pub async fn from_runtime_init(
+    pub(crate) async fn from_runtime_init(
         init: &RuntimeInitConfig,
     ) -> Result<Self, ContinuityControlError> {
         let config = init
@@ -270,6 +295,7 @@ impl KernelContinuityClient {
         };
         let journal = ClientJournal::open(&config)?;
         Ok(Self {
+            operation_slots: Arc::new(tokio::sync::Semaphore::new(config.bounds.max_open_handles)),
             config,
             tls,
             successor_tls,
@@ -277,11 +303,7 @@ impl KernelContinuityClient {
         })
     }
 
-    pub async fn establish(&self, deadline_unix_millis: u64) -> Result<(), ContinuityControlError> {
-        self.establish_attempt(0, deadline_unix_millis).await
-    }
-
-    pub async fn establish_attempt(
+    pub(crate) async fn establish_attempt(
         &self,
         attempt: u32,
         deadline_unix_millis: u64,
@@ -310,13 +332,21 @@ impl KernelContinuityClient {
         }
     }
 
-    pub async fn execute(
+    async fn execute(
         &self,
         operation_id: &str,
         command: ContinuityCommand,
         accepted_prefix: u64,
         deadline_unix_millis: u64,
     ) -> Result<ContinuityReply, ContinuityControlError> {
+        let _operation_slot = self
+            .operation_slots
+            .acquire()
+            .await
+            .map_err(|_| ContinuityControlError::Cancelled)?;
+        if current_unix_millis()? > deadline_unix_millis {
+            return Err(ContinuityControlError::Deadline);
+        }
         if let Some(response) = self
             .journal
             .lock()
@@ -460,6 +490,17 @@ fn write_state<T: Serialize>(path: &Path, value: &T) -> Result<(), ContinuityCon
         .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?;
     let pending = path.with_extension("pending");
     if pending.exists() {
+        let metadata = fs::symlink_metadata(&pending)?;
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            return Err(ContinuityControlError::UnsafePath);
+        }
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::MetadataExt;
+            if metadata.nlink() != 1 {
+                return Err(ContinuityControlError::UnsafePath);
+            }
+        }
         fs::remove_file(&pending)?;
     }
     {
@@ -473,4 +514,34 @@ fn write_state<T: Serialize>(path: &Path, value: &T) -> Result<(), ContinuityCon
     fs::rename(&pending, path)?;
     File::open(path.parent().ok_or(ContinuityControlError::UnsafePath)?)?.sync_all()?;
     Ok(())
+}
+
+fn read_state<T: for<'de> Deserialize<'de> + Serialize>(
+    path: &Path,
+    max_bytes: usize,
+) -> Result<T, ContinuityControlError> {
+    let mut options = OpenOptions::new();
+    options.read(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.custom_flags(libc::O_NOFOLLOW);
+    }
+    let file = options.open(path)?;
+    let metadata = file.metadata()?;
+    if !metadata.is_file() || metadata.len() == 0 || metadata.len() > max_bytes as u64 {
+        return Err(ContinuityControlError::UnsafePath);
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::MetadataExt;
+        if metadata.nlink() != 1 {
+            return Err(ContinuityControlError::UnsafePath);
+        }
+    }
+    let mut bytes = Vec::with_capacity(metadata.len() as usize);
+    use std::io::Read as _;
+    file.take(metadata.len().saturating_add(1))
+        .read_to_end(&mut bytes)?;
+    decode_canonical(&bytes, max_bytes)
 }

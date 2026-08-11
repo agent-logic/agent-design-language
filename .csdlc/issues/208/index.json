@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "50ca6fd43f5b405ec1d942ed846978798206b1a15480a8d72bdd35cf9667b750",
   "phase": "implemented",
-  "generation": 28,
-  "digest": "4f9ac93bc6df42fa3effa5745dbf5c6123b1fbe61e46827aa38e7759f24ff8b9",
+  "generation": 35,
+  "digest": "900b3a0a20e310f425834be554c2e42895296c3bf9e280ef920eb08cb256da08",
   "branch": "codex/208-authenticated-guardian-kernel-continuity-bridge",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-208-kernel-continuity-bridge",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a16885ef1009b28e484b194dd51441a37ebb2b793f6840c97b12c8b87bfd7620",
+      "values_digest": "6924af8c2ed24987ae8950288e2545ed0972cfee982747c52536f3cf140f1350",
       "rendered_digest": "5b2a673ab5bea5e6dde4d54e7f04b7922b882214032760db3a41deaa16e86323",
       "ast_digest": "0fcdacc0eb8f8218bef0614153064c837cc6aafd75e29eeff95ea5502c341bbf"
     },
     "stp": {
-      "values_digest": "2c310e9a3c0c82501ab6a9e4265a726a0b1e2cd020259100dce0916dc273eb9f",
+      "values_digest": "1a390d76c4bd2659947632f10453fda48f76069342519b270a31739531c8a066",
       "rendered_digest": "78e8b9b9b614a832343bc985bf3eccc25251698f3f11ad95c06c6a0c98557f25",
       "ast_digest": "64ac9a8c5f2efde02f4d0c33baa531952fcf4efecfaff71e9c3fc7de78c38751"
     },
     "spp": {
-      "values_digest": "7fa6bb894a3ecd28549756c3a332f7a6525a2dfa4b64767f5e05f15cacd93b7c",
-      "rendered_digest": "3379350a14829e3956dc7a964cc8c07b14f6869d7b3d8880a0c6a8da788a16e1",
-      "ast_digest": "21aa44f640308a60e7f3df3f2b7329238364b65e175237f857784ff347f32432"
+      "values_digest": "00a67805e5379acaf53a28e5dbb5a00a9153969e9f70cba3867845c663194e4f",
+      "rendered_digest": "062c018a176f121dc7371cd9e781f18a5a44b57fc4707b3daec2f56e4acd45ef",
+      "ast_digest": "f373628457655dbf1e18d3d00eb5660f9b86d07f43300551e71f6a8de815912c"
     },
     "vpp": {
-      "values_digest": "4280780f81521ec4231ff213e8839b4eff1856fe90c81d65e3911d37e26ec882",
-      "rendered_digest": "edf5d11626996065f767fe2ba7a7720c711f3ba75886b37e1fee234bfffdec72",
-      "ast_digest": "65273793e6665f731a959dd813c1b58b65871c6cbd048f853dbf02cc6f242d80"
+      "values_digest": "fac2262ce11e1df451fb823a36ef7d9bd1881d62d912434468b5cfbab62d3866",
+      "rendered_digest": "61ebce4bd91891b849aa0d6605ae175d8551ab8065bd5d42e5204db5f4edd760",
+      "ast_digest": "013010973c9635259aed2bdb2787a2f4c4a550f07d55c9622bf5f86ddc739317"
     },
     "srp": {
-      "values_digest": "3cc9723741ed5185f695a4a0d914c1657cd90d11195d35132bc445eded55a940",
+      "values_digest": "727ecb856a72866f0ac92482fb7fa2811320b707d05df3c315e0c11c10acd54a",
       "rendered_digest": "ee616e4b683f5282eb3ce0c040d8526405ff1e736b2f3b4e63f0c1c2d387e52b",
       "ast_digest": "bc7fe208e028ff2138420faa39a88bbfaceccc4ef441750273f7d91093946d5f"
     },
     "sor": {
-      "values_digest": "22752f515c72cfcc2ff6b14103962a2269e8a6c5c0643d2b143a024fde244e25",
-      "rendered_digest": "04f9c0d6dedcc6b34e24cb5d37496524be33614fc2ba9a9d2c12ab0382dd36da",
-      "ast_digest": "3a85b7c01ef40888ea411f6b560fcb5523a43c0296540dee0b1e2a92bd3ea8b5"
+      "values_digest": "f47d085efa7d91ef9effe200b622463af628dd2c398d274dd91ea455d9f95f6f",
+      "rendered_digest": "4ea239068a4a60c61d81c88db499f7f4c4bd541e3c34ed4a9a3dc42f35271392",
+      "ast_digest": "1cb32210fa704271fc0ea96438fee30cbf593fbb7b91a14651a8112f5754aa9a"
     }
   },
   "transitions": [
@@ -288,6 +288,55 @@
       "actor": "codex:/root/implement_208",
       "reason": "Bind the implemented SOR to the exact retained source and validation packet before review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the production Guardian-to-kernel private continuity bridge with pre-readiness loopback TLS 1.3 mTLS, exporter-bound canonical frames, durable restart and certificate succession, live participant quiesce/export/resume captured at the quiesce cut, signed bounded bundle reads, isolated target effects, persistent cleanup permits, and opaque receipts. Retained exact proof for source 84e2c9135326f311eaf4dbbc0767f41c4cbb8261; publication and merge remain untouched.\",\"changes\":[\"Wired one validated RuntimeInitConfig continuity contract into the production Guardian and kernel binaries before normal readiness.\",\"Added durable exclusively locked client/server journals, strict RFC 8785 decoding, TLS exporter and peer-SPKI binding, ordered replay/conflict protection, and two-generation Guardian certificate succession.\",\"Built the complete live admission, accepted-prefix, reasoning/mutation, governance, and operation-state registry and its quiesce, signed export, exact resume, restart, and bounded source-read paths.\",\"Added fixed-root target stage, signed catalog verification, exact entry validation, persistent cleanup authority, receipt-bearing discard, finalized-#204-bound activation effect, durable retry receipts, and activated-stage discard denial.\",\"Added the exact ordered 56-case integration denominator, 64 boundary subassertions, 12 lifecycle subassertions, diff verifier, producer, validator, and immutable evidence packet.\"],\"artifacts\":[\"adl-runtime-kernel/src/continuity_control.rs\",\"adl-runtime/src/kernel_continuity_client.rs\",\"adl-runtime-kernel/tests/kernel_continuity_control.rs\",\"adl-runtime/tests/kernel_continuity_client.rs\",\".csdlc/evidence/208/v1/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"kernel_continuity_client\",\"--no-tests=fail\"],\"purpose\":\"Prove the Runtime half of the exact continuity contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"21 tests run: 21 passed\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"kernel_continuity_control\",\"--no-tests=fail\"],\"purpose\":\"Prove the kernel half of the exact continuity contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"35 tests run: 35 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-guardian\",\"--test\",\"kernel_continuity_client\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject Runtime and Guardian warnings and API misuse.\",\"outcome\":\"passed\",\"evidence_ref\":\"evidence 208 v1 runtime-clippy streams\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--test\",\"kernel_continuity_control\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject kernel warnings and API misuse.\",\"outcome\":\"passed\",\"evidence_ref\":\"evidence 208 v1 kernel-clippy streams\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/verify-diff-hygiene.rb\"],\"purpose\":\"Verify exact execution-base-to-source ancestry and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"4460ec8157da7a53decf28f41e20af8afd19f611..84e2c9135326f311eaf4dbbc0767f41c4cbb8261\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/produce-proof-receipt.rb\"],\"purpose\":\"Produce exact protected-source and case/boundary/lifecycle evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"56 cases, 64 boundary assertions, 12 lifecycle assertions\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/208/validate-proof-receipt.rb\"],\"purpose\":\"Validate immutable proof structure and protected source binding before review handoff.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS issue 208 exact source proof\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 29,
+      "actor": "codex:/root/resolve_208_review_v2",
+      "reason": "Record the material review-driven repair plan before final proof and rereview.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"After #191 merges ancestrally, bind #208 and freeze the production Guardian/kernel init, private TLS, stable channel epoch, certificate succession, participant registry, journal, stream, root and receipt interfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement validated configuration and startup in both production binaries, construct sealed role-specific #204 migration and #210 transfer capabilities in Guardian initialization, establish the supervised-kernel private session before readiness, and inject only those capabilities into the production polis runtime.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Resolve review findings with durable five-participant prepare/resume receipts and RecoveryRequired reconciliation, restart-persistent source quiesce, crash-safe target stage/validate/discard/activate terminals, atomic channel/journal/certificate succession, hard effect caps and deadlines, descriptor-anchored filesystem effects, and kernel verification of signed #204 decisions.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run serially both exact focused suites and both strict Clippy lanes, then exact diff hygiene and a fresh producer whose 56 cases emit assertion-bound canonical behavior receipts while retaining exact 64-boundary and 12-lifecycle parity.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Obtain fresh independent exact-head subagent review from a reviewer distinct from this resolution owner, fix every actionable finding through a separate resolution owner, and rerun S4 after every source change until clean.\",\"acceptance_ids\":[\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S6\",\"action\":\"After clean review, run the current-main-aware immutable validator, publish a ready PR closing #208, shepherd hosted CI, and wait for operator review and merge authorization.\",\"acceptance_ids\":[\"AC-9\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 30,
+      "actor": "codex:/root/resolve_208_review_v2",
+      "reason": "Restore truthful completed status after typed material replanning.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 31,
+      "actor": "codex:/root/resolve_208_review_v2",
+      "reason": "Restore truthful completed status after typed material replanning.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 34,
+      "generation": 32,
+      "actor": "codex:/root/resolve_208_review_v2",
+      "reason": "Restore truthful completed status after typed material replanning.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 35,
+      "generation": 33,
+      "actor": "codex:/root/resolve_208_review_v2",
+      "reason": "Enter the fresh behavioral proof gate after material review repairs.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 36,
+      "generation": 34,
+      "actor": "codex:/root/resolve_208_review_v2",
+      "reason": "Replace marker-only proof planning with current-main-aware assertion-bound behavioral evidence after the material review repair.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"guardian-continuity-production\",\"proof_role\":\"Prove production Guardian initialization, supervised-kernel private-session readiness, durable channel restart/certificate succession, public-route absence, sealed #210 client ports, and the client half of the exact ordered fifty-six-case denominator, sixty-four boundary subassertions, and twelve cleanup/expiry/cancel/restart/activation lifecycle subassertions.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1500,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"kernel_continuity_client\",\"--no-tests=fail\"],\"parallel_group\":\"208-serial-01-runtime-test\",\"defer_reason\":\"Deferred until #191 merges and the complete production client target exists; fail closed on missing target, zero tests, library-only reachability, generic/caller-constructible ports, or any missing, extra, duplicate, reordered, nonpassing case/result/marker/boundary/lifecycle subassertion.\"},{\"lane\":\"kernel-continuity-production\",\"proof_role\":\"After the Guardian lane, prove production kernel startup, live-participant quiesce/export and rollback, isolated validation/discard, cleanup survival through expiry/cancel/restart, #204-only activation decisions, #208 activation effects and exact-retry receipts, activated-stage discard denial, filesystem/bounds safety, and the server half of the exact ordered fifty-six cases plus sixty-four boundary and twelve lifecycle subassertions.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1500,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"kernel_continuity_control\",\"--no-tests=fail\"],\"parallel_group\":\"208-serial-02-kernel-test\",\"defer_reason\":\"Deferred until the private listener, participant registry, sealed ports, and focused kernel target exist; fail closed on synthetic participants, caller descriptors, expired cleanup authority, missing activation receipt, activated-stage discard success, zero tests, or case/map parity drift.\"},{\"lane\":\"guardian-continuity-clippy\",\"proof_role\":\"After both focused tests, reject warnings and API misuse across the Runtime library, Guardian production binary, client integration test, and sealed #210 client projections.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-guardian\",\"--test\",\"kernel_continuity_client\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"208-serial-03-runtime-clippy\",\"defer_reason\":\"Deferred until the owned Runtime targets exist; fail closed on warnings, missing target, or missing production source.\"},{\"lane\":\"kernel-continuity-clippy\",\"proof_role\":\"After Runtime Clippy, reject warnings and API misuse across the kernel library, production kernel binary, integration test, expected-descriptor verifier, persistent cleanup permit, activation effect, and receipt surface.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--test\",\"kernel_continuity_control\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"208-serial-04-kernel-clippy\",\"defer_reason\":\"Deferred until the owned kernel targets exist; fail closed on warnings, missing target, or missing production source.\"},{\"lane\":\"continuity-diff-hygiene\",\"proof_role\":\"After all source-changing validation, load the recorded execution base and proving source revisions, require both exact Git objects and base ancestry, and run diff whitespace/EOF hygiene over the complete base..source range plus reject dirty protected paths.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/208/verify-diff-hygiene.rb\"],\"parallel_group\":\"208-serial-05-diff\",\"defer_reason\":\"Deferred until implementation records exact execution_base_revision and proving_source_revision and creates the verifier; fail closed on absent/non-object revisions, nonancestry, any base..source whitespace or EOF diagnostic, dirty protected source, or working-tree-only evidence.\"},{\"lane\":\"guardian-kernel-continuity-producer\",\"proof_role\":\"After tests, both Clippy packages and exact-range diff hygiene pass, require every canonical ordered case to emit a canonical assertion-bound behavioral receipt with durable witness digests, preserve exact fifty-six-case, sixty-four-boundary, and twelve-lifecycle parity, bind current HEAD and current origin/main ancestry, and fail on any LEAK marker.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/208/produce-proof-receipt.rb\"],\"parallel_group\":\"208-serial-06-producer\",\"defer_reason\":\"Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty source, stale main ancestry, noncanonical or assertion-free receipts, missing durable witnesses, map parity drift, LEAK, or nonzero status.\"},{\"lane\":\"guardian-kernel-continuity-receipt\",\"proof_role\":\"Only after producer completion and a distinct fresh exact-head review, independently validate current HEAD/current-main ancestry, fresh canonical behavior receipts and durable witnesses, exact protected source and argv, exact 56/64/12 parity, both Clippy lanes, no LEAK, review provenance, and merge/squash-safe proof truth.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/208/validate-proof-receipt.rb\"],\"parallel_group\":\"208-serial-08-validator\",\"defer_reason\":\"Deferred until producer, typed finalize, immutable evidence, and fresh review exist; fail closed until current main ancestry, exact source and witnesses, commands, map parity, no-LEAK scan, and distinct review provenance are bound.\"}]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 35,
+      "actor": "codex:/root/resolve_208_review_v2",
+      "reason": "Replace stale pre-review execution truth with the implemented repair and current pre-producer validation truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved the actionable #208 review findings on current origin/main ancestry. The repaired bridge now exposes only sealed role-specific Runtime capabilities, verifies signed #204 activation decisions in the kernel, durably reconciles five live source participants and every target crash phase, atomically persists channel/journal/certificate succession, applies bounded cancellable effects through descriptor-anchored roots, and emits assertion-bound behavioral receipts. Fresh producer evidence and distinct rereview remain pending; publication and merge remain untouched.\",\"changes\":[\"Replaced the exposed generic client path with production-initialized sealed #204 migration and #210 transfer capabilities stored by the live polis runtime.\",\"Added durable source prepare, commit, resume, and RecoveryRequired state for the exact admission, recorder prefix, reasoning mutation, governance, and operation-state participants.\",\"Added restart-reconciled target staging, validation, discard, and signed-decision activation terminals with exact retry behavior across crash windows.\",\"Unified channel, journal, certificate succession, and retirement persistence and added hard concurrency bounds, deadline/cancellation checks, and descriptor-anchored filesystem safety.\",\"Replaced unconditional marker output with canonical assertion-bound behavior receipts and real restart, crash, TLS, certificate-role, forgery, and filesystem replacement tests; strengthened producer and validator freshness, ancestry, provenance, squash-safety, and no-LEAK checks.\"],\"artifacts\":[\"adl-runtime-kernel/src/continuity_control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime/src/kernel_continuity_client.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime-kernel/tests/kernel_continuity_control.rs\",\"adl-runtime/tests/kernel_continuity_client.rs\",\".csdlc/prepared/issues/208/produce-proof-receipt.rb\",\".csdlc/prepared/issues/208/validate-proof-receipt.rb\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"kernel_continuity_client\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove the repaired Runtime capability and live TLS boundary before immutable evidence production.\",\"outcome\":\"passed\",\"evidence_ref\":\"local pre-producer run: 21 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"kernel_continuity_control\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove durable source and target crash reconciliation before immutable evidence production.\",\"outcome\":\"passed\",\"evidence_ref\":\"local pre-producer run: 35 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-guardian\",\"--test\",\"kernel_continuity_client\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject Runtime API and production wiring warnings.\",\"outcome\":\"passed\",\"evidence_ref\":\"local pre-producer strict Clippy\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--test\",\"kernel_continuity_control\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject kernel effect and persistence warnings.\",\"outcome\":\"passed\",\"evidence_ref\":\"local pre-producer strict Clippy\"}]}"
     }
   ]
 }

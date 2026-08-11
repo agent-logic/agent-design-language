@@ -45,6 +45,7 @@ use crate::distributed::transport::{
     RuntimeAuthorityInitializer, TransportLimits, TransportResult, VerifiedPolisRouteCut,
 };
 use crate::kernel_continuity_client::KernelContinuityClient;
+use adl_runtime_kernel::{ContinuityControlError, RuntimeInitConfig};
 
 const MAX_RPC_BYTES: usize = 16 * 1024 * 1024;
 const MAX_TEXT_BYTES: usize = 256;
@@ -65,15 +66,71 @@ pub type PolisRaft = openraft::Raft<PolisTypeConfig>;
 /// contract and constructed the opaque private client.
 pub struct PolisRuntimeContinuityCapability {
     client: Arc<KernelContinuityClient>,
+    transfer_210: TransferContinuityPort,
+    migration_204: MigrationContinuityPort,
 }
 
 impl PolisRuntimeContinuityCapability {
-    pub fn from_initialized_guardian(client: Arc<KernelContinuityClient>) -> Self {
-        Self { client }
+    /// Production bootstrap is the only public constructor. The returned
+    /// capability contains distinct, sealed #210 transfer and #204 migration
+    /// views; neither view exposes the generic control protocol.
+    pub async fn from_runtime_init(
+        init: &RuntimeInitConfig,
+    ) -> Result<Self, ContinuityControlError> {
+        let client = Arc::new(KernelContinuityClient::from_runtime_init(init).await?);
+        Ok(Self {
+            transfer_210: TransferContinuityPort {
+                client: Arc::clone(&client),
+            },
+            migration_204: MigrationContinuityPort {
+                client: Arc::clone(&client),
+            },
+            client,
+        })
     }
 
     pub(crate) fn client(&self) -> &Arc<KernelContinuityClient> {
         &self.client
+    }
+
+    pub(crate) fn transfer_210(&self) -> &TransferContinuityPort {
+        &self.transfer_210
+    }
+
+    pub(crate) fn migration_204(&self) -> &MigrationContinuityPort {
+        &self.migration_204
+    }
+
+    pub(crate) fn validate_role_ports(&self) -> Result<(), ContinuityControlError> {
+        if !self.transfer_210().is_live() || !self.migration_204().is_live() {
+            return Err(ContinuityControlError::ReconcileRequired);
+        }
+        Ok(())
+    }
+}
+
+/// Sealed #210 view. Its private field and crate-private methods prevent a
+/// transport caller from constructing it or reaching source resume, target
+/// activation, target discard, or the generic command channel.
+pub struct TransferContinuityPort {
+    client: Arc<KernelContinuityClient>,
+}
+
+impl TransferContinuityPort {
+    pub(crate) fn is_live(&self) -> bool {
+        Arc::strong_count(&self.client) > 0
+    }
+}
+
+/// Sealed #204 view. Only the verified migration adapter in this crate may use
+/// it; #210 and public callers receive no constructor or generic executor.
+pub struct MigrationContinuityPort {
+    client: Arc<KernelContinuityClient>,
+}
+
+impl MigrationContinuityPort {
+    pub(crate) fn is_live(&self) -> bool {
+        Arc::strong_count(&self.client) > 0
     }
 }
 

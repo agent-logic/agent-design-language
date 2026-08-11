@@ -16,7 +16,7 @@ After PR #197 merges, bind #208 and implement the complete production Guardian-t
 
 ## Plan
 
-Revision 6
+Revision 7
 
 ## Steps
 
@@ -35,7 +35,7 @@ Revision 6
   },
   {
     "id": "S2",
-    "action": "Implement validated configuration and startup in both production binaries, construct the opaque client in Guardian initialization, establish the supervised-kernel private session before readiness, and inject only that capability into the production polis runtime.",
+    "action": "Implement validated configuration and startup in both production binaries, construct sealed role-specific #204 migration and #210 transfer capabilities in Guardian initialization, establish the supervised-kernel private session before readiness, and inject only those capabilities into the production polis runtime.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -46,7 +46,7 @@ Revision 6
   },
   {
     "id": "S3",
-    "action": "Implement the sealed complete live-participant registry, two-phase quiesce and signed export, partial-quiesce rollback/resume, isolated stage/validate, nonactivated validated-target discard, durable replay/restart/succession and filesystem/bounds safety.",
+    "action": "Resolve review findings with durable five-participant prepare/resume receipts and RecoveryRequired reconciliation, restart-persistent source quiesce, crash-safe target stage/validate/discard/activate terminals, atomic channel/journal/certificate succession, hard effect caps and deadlines, descriptor-anchored filesystem effects, and kernel verification of signed #204 decisions.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
@@ -58,7 +58,7 @@ Revision 6
   },
   {
     "id": "S4",
-    "action": "Run serially the exact Runtime test, kernel test, Runtime Clippy, kernel library/binary Clippy, diff hygiene and producer; require fifty-six cases and byte-for-byte parity with the eight-row sixty-four-subassertion map and its SHA-256.",
+    "action": "Run serially both exact focused suites and both strict Clippy lanes, then exact diff hygiene and a fresh producer whose 56 cases emit assertion-bound canonical behavior receipts while retaining exact 64-boundary and 12-lifecycle parity.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -70,19 +70,19 @@ Revision 6
       "AC-8",
       "AC-9"
     ],
-    "status": "completed"
-  },
-  {
-    "id": "S5",
-    "action": "Obtain fresh independent exact-head subagent review and route every actionable finding to a separate resolution subagent; rerun S4 after every source change until the reviewed source is clean.",
-    "acceptance_ids": [
-      "AC-9"
-    ],
     "status": "in_progress"
   },
   {
+    "id": "S5",
+    "action": "Obtain fresh independent exact-head subagent review from a reviewer distinct from this resolution owner, fix every actionable finding through a separate resolution owner, and rerun S4 after every source change until clean.",
+    "acceptance_ids": [
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
     "id": "S6",
-    "action": "After clean review, run the distinct immutable validator, publish a ready PR closing #208, shepherd hosted CI, and wait for operator review and merge authorization.",
+    "action": "After clean review, run the current-main-aware immutable validator, publish a ready PR closing #208, shepherd hosted CI, and wait for operator review and merge authorization.",
     "acceptance_ids": [
       "AC-9"
     ],

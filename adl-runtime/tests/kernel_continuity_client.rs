@@ -12,6 +12,18 @@ use adl_runtime_kernel::{
 };
 use tempfile::TempDir;
 
+use rcgen::{
+    BasicConstraints, CertificateParams, CertifiedIssuer, ExtendedKeyUsagePurpose, IsCa, KeyPair,
+    KeyUsagePurpose, PKCS_ED25519,
+};
+use rustls::{
+    pki_types::{CertificateDer, PrivateKeyDer, PrivatePkcs8KeyDer, ServerName},
+    server::WebPkiClientVerifier,
+    ClientConfig, RootCertStore, ServerConfig,
+};
+use std::sync::Arc;
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+
 fn config(root: &Path) -> ContinuityControlInitConfig {
     let tls = root.join("tls");
     std::fs::create_dir_all(&tls).unwrap();
@@ -127,7 +139,174 @@ fn assert_denied(result: Result<BeginOperation, ContinuityControlError>) {
     assert!(result.is_err());
 }
 
-fn emit_case(name: &str) {
+struct TlsLeaf {
+    certificate: CertificateDer<'static>,
+    private_key: Vec<u8>,
+}
+
+fn tls_ca() -> CertifiedIssuer<'static, KeyPair> {
+    let mut params = CertificateParams::new(Vec::<String>::new()).unwrap();
+    params.is_ca = IsCa::Ca(BasicConstraints::Unconstrained);
+    params.key_usages = vec![
+        KeyUsagePurpose::KeyCertSign,
+        KeyUsagePurpose::DigitalSignature,
+    ];
+    CertifiedIssuer::self_signed(params, KeyPair::generate().unwrap()).unwrap()
+}
+
+fn tls_leaf(
+    issuer: &CertifiedIssuer<'_, KeyPair>,
+    common_name: &str,
+    eku: ExtendedKeyUsagePurpose,
+) -> TlsLeaf {
+    let mut params = CertificateParams::new(vec!["localhost".to_owned()]).unwrap();
+    params
+        .distinguished_name
+        .push(rcgen::DnType::CommonName, common_name);
+    params.key_usages = vec![KeyUsagePurpose::DigitalSignature];
+    params.extended_key_usages = vec![eku];
+    let key = KeyPair::generate_for(&PKCS_ED25519).unwrap();
+    let certificate = params.signed_by(&key, issuer).unwrap().der().clone();
+    TlsLeaf {
+        certificate,
+        private_key: key.serialize_der(),
+    }
+}
+
+fn private_key(bytes: &[u8]) -> PrivateKeyDer<'static> {
+    PrivatePkcs8KeyDer::from(bytes.to_vec()).into()
+}
+
+fn actual_tls13_mtls_round_trip() {
+    let runtime = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .unwrap();
+    runtime.block_on(async {
+        let authority = tls_ca();
+        let server = tls_leaf(
+            &authority,
+            "kernel-control",
+            ExtendedKeyUsagePurpose::ServerAuth,
+        );
+        let guardian = tls_leaf(
+            &authority,
+            "guardian-logical",
+            ExtendedKeyUsagePurpose::ClientAuth,
+        );
+        let server_only = tls_leaf(
+            &authority,
+            "not-a-guardian",
+            ExtendedKeyUsagePurpose::ServerAuth,
+        );
+        let unknown_authority = tls_ca();
+        let unknown = tls_leaf(
+            &unknown_authority,
+            "unknown-guardian",
+            ExtendedKeyUsagePurpose::ClientAuth,
+        );
+
+        let mut roots = RootCertStore::empty();
+        roots.add(authority.der().clone()).unwrap();
+        let verifier = WebPkiClientVerifier::builder(Arc::new(roots.clone()))
+            .build()
+            .unwrap();
+        let server_config = Arc::new(
+            ServerConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
+                .with_client_cert_verifier(verifier)
+                .with_single_cert(
+                    vec![server.certificate.clone()],
+                    private_key(&server.private_key),
+                )
+                .unwrap(),
+        );
+
+        let client_config = Arc::new(
+            ClientConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
+                .with_root_certificates(roots.clone())
+                .with_client_auth_cert(
+                    vec![guardian.certificate.clone()],
+                    private_key(&guardian.private_key),
+                )
+                .unwrap(),
+        );
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let address = listener.local_addr().unwrap();
+        let server_task = tokio::spawn(async move {
+            let (tcp, _) = listener.accept().await.unwrap();
+            let mut tls = tokio_rustls::TlsAcceptor::from(server_config)
+                .accept(tcp)
+                .await
+                .unwrap();
+            let mut exporter = [0_u8; 32];
+            tls.get_ref()
+                .1
+                .export_keying_material(&mut exporter, b"issue-208-mtls-proof", None)
+                .unwrap();
+            let byte = tls.read_u8().await.unwrap();
+            tls.write_u8(byte.wrapping_add(1)).await.unwrap();
+            exporter
+        });
+        let tcp = tokio::net::TcpStream::connect(address).await.unwrap();
+        let mut tls = tokio_rustls::TlsConnector::from(client_config)
+            .connect(ServerName::try_from("localhost").unwrap(), tcp)
+            .await
+            .unwrap();
+        let mut client_exporter = [0_u8; 32];
+        tls.get_ref()
+            .1
+            .export_keying_material(&mut client_exporter, b"issue-208-mtls-proof", None)
+            .unwrap();
+        tls.write_u8(41).await.unwrap();
+        assert_eq!(tls.read_u8().await.unwrap(), 42);
+        assert_eq!(server_task.await.unwrap(), client_exporter);
+
+        for denied in [server_only, unknown] {
+            let client = Arc::new(
+                ClientConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
+                    .with_root_certificates(roots.clone())
+                    .with_client_auth_cert(
+                        vec![denied.certificate],
+                        private_key(&denied.private_key),
+                    )
+                    .unwrap(),
+            );
+            let verifier = WebPkiClientVerifier::builder(Arc::new(roots.clone()))
+                .build()
+                .unwrap();
+            let server_leaf = tls_leaf(
+                &authority,
+                "kernel-control",
+                ExtendedKeyUsagePurpose::ServerAuth,
+            );
+            let server = Arc::new(
+                ServerConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
+                    .with_client_cert_verifier(verifier)
+                    .with_single_cert(
+                        vec![server_leaf.certificate],
+                        private_key(&server_leaf.private_key),
+                    )
+                    .unwrap(),
+            );
+            let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+            let address = listener.local_addr().unwrap();
+            let server_task = tokio::spawn(async move {
+                let (tcp, _) = listener.accept().await.unwrap();
+                tokio_rustls::TlsAcceptor::from(server)
+                    .accept(tcp)
+                    .await
+                    .is_err()
+            });
+            let tcp = tokio::net::TcpStream::connect(address).await.unwrap();
+            let client_result = tokio_rustls::TlsConnector::from(client)
+                .connect(ServerName::try_from("localhost").unwrap(), tcp)
+                .await;
+            assert!(client_result.is_err() || server_task.await.unwrap());
+        }
+    });
+}
+
+fn emit_case(name: &str, root: &Path) {
     let map: serde_json::Value = serde_json::from_str(include_str!(
         "../../.csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json"
     ))
@@ -138,17 +317,56 @@ fn emit_case(name: &str) {
         .iter()
         .find(|case| case["name"] == name)
         .expect("case is registered");
-    println!("{}", case["marker"].as_str().unwrap());
+    let mut markers = vec![case["marker"].as_str().unwrap().to_owned()];
     for boundary in map["boundaries"].as_array().unwrap() {
         for assertion in boundary["subassertions"].as_array().unwrap() {
             if assertion["case"] == name {
-                println!("{}", assertion["marker"].as_str().unwrap());
+                markers.push(assertion["marker"].as_str().unwrap().to_owned());
             }
         }
     }
     for assertion in map["lifecycle_subassertions"].as_array().unwrap() {
         if assertion["case"] == name {
-            println!("{}", assertion["marker"].as_str().unwrap());
+            markers.push(assertion["marker"].as_str().unwrap().to_owned());
+        }
+    }
+    let mut durable = Vec::new();
+    collect_durable_witness(root, root, &mut durable);
+    durable.sort();
+    let behavior = serde_json::json!({
+        "assertion_binding": format!("kernel_continuity_client::{name}"),
+        "case": name,
+        "durable_witness": durable,
+    });
+    let behavior_canonical = String::from_utf8(serde_jcs::to_vec(&behavior).unwrap()).unwrap();
+    let behavior_sha256 = sha256(behavior_canonical.as_bytes());
+    let receipt = serde_json::json!({
+        "behavior": behavior,
+        "behavior_canonical": behavior_canonical,
+        "behavior_sha256": behavior_sha256,
+        "case": name,
+        "markers": markers,
+        "outcome": "passed",
+        "schema": "adl.issue208.behavior_receipt.v1",
+    });
+    println!(
+        "BEHAVIOR_RECEIPT {}",
+        String::from_utf8(serde_jcs::to_vec(&receipt).unwrap()).unwrap()
+    );
+}
+
+fn collect_durable_witness(root: &Path, path: &Path, output: &mut Vec<String>) {
+    let Ok(entries) = std::fs::read_dir(path) else {
+        return;
+    };
+    for entry in entries.flatten() {
+        let entry_path = entry.path();
+        let relative = entry_path.strip_prefix(root).unwrap().to_string_lossy();
+        if entry_path.is_dir() {
+            collect_durable_witness(root, &entry_path, output);
+        } else if entry_path.is_file() && !relative.ends_with("writer.lock") {
+            let bytes = std::fs::read(&entry_path).unwrap();
+            output.push(format!("{relative}:{}", sha256(&bytes)));
         }
     }
 }
@@ -180,6 +398,7 @@ fn run_case(name: &str) {
             assert!(cfg.validate(&root, &[]).is_err());
         }
         "guardian_mtls_authorized" => {
+            actual_tls13_mtls_round_trip();
             let canonical = serde_jcs::to_vec(&ContinuityCommand::Status).unwrap();
             let decoded: ContinuityCommand = decode_canonical(&canonical, 1024).unwrap();
             assert_eq!(decoded, ContinuityCommand::Status);
@@ -297,7 +516,7 @@ fn run_case(name: &str) {
         _ => panic!("unknown contract case {name}"),
     }
     assert!(SystemTime::now().duration_since(UNIX_EPOCH).is_ok());
-    emit_case(name);
+    emit_case(name, &root);
 }
 
 macro_rules! cases {

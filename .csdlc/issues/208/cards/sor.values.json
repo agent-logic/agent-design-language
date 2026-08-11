@@ -7,59 +7,62 @@
     "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
     "slug": "authenticated-guardian-kernel-continuity-bridge",
     "version": "v0.92",
-    "generation": 28
+    "generation": 35
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented the production Guardian-to-kernel private continuity bridge with pre-readiness loopback TLS 1.3 mTLS, exporter-bound canonical frames, durable restart and certificate succession, live participant quiesce/export/resume captured at the quiesce cut, signed bounded bundle reads, isolated target effects, persistent cleanup permits, and opaque receipts. Retained exact proof for source 84e2c9135326f311eaf4dbbc0767f41c4cbb8261; publication and merge remain untouched.",
+      "summary": "Resolved the actionable #208 review findings on current origin/main ancestry. The repaired bridge now exposes only sealed role-specific Runtime capabilities, verifies signed #204 activation decisions in the kernel, durably reconciles five live source participants and every target crash phase, atomically persists channel/journal/certificate succession, applies bounded cancellable effects through descriptor-anchored roots, and emits assertion-bound behavioral receipts. Fresh producer evidence and distinct rereview remain pending; publication and merge remain untouched.",
       "actual_changes": [
-        "Wired one validated RuntimeInitConfig continuity contract into the production Guardian and kernel binaries before normal readiness.",
-        "Added durable exclusively locked client/server journals, strict RFC 8785 decoding, TLS exporter and peer-SPKI binding, ordered replay/conflict protection, and two-generation Guardian certificate succession.",
-        "Built the complete live admission, accepted-prefix, reasoning/mutation, governance, and operation-state registry and its quiesce, signed export, exact resume, restart, and bounded source-read paths.",
-        "Added fixed-root target stage, signed catalog verification, exact entry validation, persistent cleanup authority, receipt-bearing discard, finalized-#204-bound activation effect, durable retry receipts, and activated-stage discard denial.",
-        "Added the exact ordered 56-case integration denominator, 64 boundary subassertions, 12 lifecycle subassertions, diff verifier, producer, validator, and immutable evidence packet."
+        "Replaced the exposed generic client path with production-initialized sealed #204 migration and #210 transfer capabilities stored by the live polis runtime.",
+        "Added durable source prepare, commit, resume, and RecoveryRequired state for the exact admission, recorder prefix, reasoning mutation, governance, and operation-state participants.",
+        "Added restart-reconciled target staging, validation, discard, and signed-decision activation terminals with exact retry behavior across crash windows.",
+        "Unified channel, journal, certificate succession, and retirement persistence and added hard concurrency bounds, deadline/cancellation checks, and descriptor-anchored filesystem safety.",
+        "Replaced unconditional marker output with canonical assertion-bound behavior receipts and real restart, crash, TLS, certificate-role, forgery, and filesystem replacement tests; strengthened producer and validator freshness, ancestry, provenance, squash-safety, and no-LEAK checks."
       ],
       "artifacts": [
         "adl-runtime-kernel/src/continuity_control.rs",
+        "adl-runtime-kernel/src/ingress.rs",
         "adl-runtime/src/kernel_continuity_client.rs",
+        "adl-runtime/src/distributed/polis_runtime.rs",
         "adl-runtime-kernel/tests/kernel_continuity_control.rs",
         "adl-runtime/tests/kernel_continuity_client.rs",
-        ".csdlc/evidence/208/v1/execution-proof.json"
+        ".csdlc/prepared/issues/208/produce-proof-receipt.rb",
+        ".csdlc/prepared/issues/208/validate-proof-receipt.rb"
       ],
       "actual_validation": [
         {
           "command": [
             "cargo",
-            "nextest",
-            "run",
+            "test",
             "--locked",
             "--manifest-path",
             "adl-runtime/Cargo.toml",
             "--test",
             "kernel_continuity_client",
-            "--no-tests=fail"
+            "--",
+            "--test-threads=1"
           ],
-          "purpose": "Prove the Runtime half of the exact continuity contract.",
+          "purpose": "Prove the repaired Runtime capability and live TLS boundary before immutable evidence production.",
           "outcome": "passed",
-          "evidence_ref": "21 tests run: 21 passed"
+          "evidence_ref": "local pre-producer run: 21 passed"
         },
         {
           "command": [
             "cargo",
-            "nextest",
-            "run",
+            "test",
             "--locked",
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
             "--test",
             "kernel_continuity_control",
-            "--no-tests=fail"
+            "--",
+            "--test-threads=1"
           ],
-          "purpose": "Prove the kernel half of the exact continuity contract.",
+          "purpose": "Prove durable source and target crash reconciliation before immutable evidence production.",
           "outcome": "passed",
-          "evidence_ref": "35 tests run: 35 passed"
+          "evidence_ref": "local pre-producer run: 35 passed"
         },
         {
           "command": [
@@ -77,9 +80,9 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Reject Runtime and Guardian warnings and API misuse.",
+          "purpose": "Reject Runtime API and production wiring warnings.",
           "outcome": "passed",
-          "evidence_ref": "evidence 208 v1 runtime-clippy streams"
+          "evidence_ref": "local pre-producer strict Clippy"
         },
         {
           "command": [
@@ -97,36 +100,9 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Reject kernel warnings and API misuse.",
+          "purpose": "Reject kernel effect and persistence warnings.",
           "outcome": "passed",
-          "evidence_ref": "evidence 208 v1 kernel-clippy streams"
-        },
-        {
-          "command": [
-            "ruby",
-            ".csdlc/prepared/issues/208/verify-diff-hygiene.rb"
-          ],
-          "purpose": "Verify exact execution-base-to-source ancestry and diff hygiene.",
-          "outcome": "passed",
-          "evidence_ref": "4460ec8157da7a53decf28f41e20af8afd19f611..84e2c9135326f311eaf4dbbc0767f41c4cbb8261"
-        },
-        {
-          "command": [
-            "ruby",
-            ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
-          ],
-          "purpose": "Produce exact protected-source and case/boundary/lifecycle evidence.",
-          "outcome": "passed",
-          "evidence_ref": "56 cases, 64 boundary assertions, 12 lifecycle assertions"
-        },
-        {
-          "command": [
-            "ruby",
-            ".csdlc/prepared/issues/208/validate-proof-receipt.rb"
-          ],
-          "purpose": "Validate immutable proof structure and protected source binding before review handoff.",
-          "outcome": "passed",
-          "evidence_ref": "PASS issue 208 exact source proof"
+          "evidence_ref": "local pre-producer strict Clippy"
         }
       ],
       "integration_state": "not_started",

@@ -4,8 +4,8 @@ use adl_runtime_kernel::{
     bootstrap_reasoning_services, sha256, CanonicalIngress, CatalogSigningAuthority,
     CertificateSuccession, ContinuityCommand, ContinuityControlBounds, ContinuityControlError,
     ContinuityControlInitConfig, ContinuityControlTlsConfig, ContinuityEnvelope,
-    ContinuityOperation, ContinuityOperationKind, DurableContinuityJournal,
-    FinalizedMigrationDecision, LiveContinuityRegistry, RuntimeRecorder, SignedBundleCatalog,
+    ContinuityOperation, ContinuityOperationKind, DurableContinuityJournal, IngressSnapshot,
+    LiveContinuityRegistry, MigrationDecisionCertificate, RuntimeRecorder, SignedBundleCatalog,
     SourceCheckpointHandle, SourceContinuityEffectPort, TargetContinuityCoordinator,
     CONTROL_REQUEST_SCHEMA,
 };
@@ -76,32 +76,76 @@ fn registry(
     root: &Path,
     max_services: usize,
 ) -> Result<LiveContinuityRegistry, ContinuityControlError> {
+    registry_with_ingress(root, max_services).map(|(registry, _)| registry)
+}
+
+fn registry_with_ingress(
+    root: &Path,
+    max_services: usize,
+) -> Result<(LiveContinuityRegistry, CanonicalIngress), ContinuityControlError> {
     let recorder = RuntimeRecorder::new(16);
     std::fs::create_dir_all(root)?;
     let reasoning = bootstrap_reasoning_services(recorder.clone())
         .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?;
-    LiveContinuityRegistry::from_production_handles(
-        CanonicalIngress::new(8, recorder.clone(), BTreeMap::new()),
+    let ingress = CanonicalIngress::new(8, recorder.clone(), BTreeMap::new());
+    ingress.restore(IngressSnapshot {
+        accepted_through: 17,
+        completed: BTreeMap::new(),
+    });
+    let registry = LiveContinuityRegistry::from_production_handles(
+        ingress.clone(),
         recorder,
         reasoning,
         root.to_path_buf(),
         max_services,
-    )
+    )?;
+    Ok((registry, ingress))
+}
+
+fn decision_certificate(
+    fixture: &ExportFixture,
+    stage_id: &str,
+    possession_sha256: &str,
+) -> MigrationDecisionCertificate {
+    let authority = CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
+    MigrationDecisionCertificate {
+        decision_id: "decision-a".into(),
+        stage_id: stage_id.into(),
+        possession_sha256: possession_sha256.into(),
+        trust_domain: fixture.config.trust_domain.clone(),
+        polis: fixture.config.polis.clone(),
+        target_node: fixture.config.target_node.clone(),
+        channel_epoch: fixture.config.channel_epoch,
+        route_cut_sha256: "01".repeat(32),
+        membership_cut_sha256: "02".repeat(32),
+        certificate_cut_sha256: "03".repeat(32),
+        boot_cut_sha256: "04".repeat(32),
+        lineage_sha256: "05".repeat(32),
+        authority_key_id: String::new(),
+        authority_key_generation: 0,
+        signature: String::new(),
+    }
+    .sign(&authority)
+    .unwrap()
 }
 
 struct ExportFixture {
     config: ContinuityControlInitConfig,
     source: SourceContinuityEffectPort,
     target: TargetContinuityCoordinator,
+    ingress: CanonicalIngress,
+    operation_root: std::path::PathBuf,
 }
 
 fn fixture(root: &Path) -> ExportFixture {
     let config = config(root);
     let authority = CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
     let keys = BTreeMap::from([(("continuity-key".to_owned(), 1), authority.verifying_key())]);
+    let operation_root = root.join("operations");
+    let (registry, ingress) = registry_with_ingress(&operation_root, 5).unwrap();
     let source = SourceContinuityEffectPort::open(
         root.join("export"),
-        registry(&root.join("operations"), 5).unwrap(),
+        registry,
         authority,
         config.bounds.clone(),
         9,
@@ -112,6 +156,8 @@ fn fixture(root: &Path) -> ExportFixture {
         config,
         source,
         target,
+        ingress,
+        operation_root,
     }
 }
 
@@ -209,7 +255,7 @@ fn envelope(
     )
 }
 
-fn emit_case(name: &str) {
+fn emit_case(name: &str, root: &Path) {
     let map: serde_json::Value = serde_json::from_str(include_str!(
         "../../.csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json"
     ))
@@ -220,17 +266,56 @@ fn emit_case(name: &str) {
         .iter()
         .find(|case| case["name"] == name)
         .expect("case is registered");
-    println!("{}", case["marker"].as_str().unwrap());
+    let mut markers = vec![case["marker"].as_str().unwrap().to_owned()];
     for boundary in map["boundaries"].as_array().unwrap() {
         for assertion in boundary["subassertions"].as_array().unwrap() {
             if assertion["case"] == name {
-                println!("{}", assertion["marker"].as_str().unwrap());
+                markers.push(assertion["marker"].as_str().unwrap().to_owned());
             }
         }
     }
     for assertion in map["lifecycle_subassertions"].as_array().unwrap() {
         if assertion["case"] == name {
-            println!("{}", assertion["marker"].as_str().unwrap());
+            markers.push(assertion["marker"].as_str().unwrap().to_owned());
+        }
+    }
+    let mut durable = Vec::new();
+    collect_durable_witness(root, root, &mut durable);
+    durable.sort();
+    let behavior = serde_json::json!({
+        "assertion_binding": format!("kernel_continuity_control::{name}"),
+        "case": name,
+        "durable_witness": durable,
+    });
+    let behavior_canonical = String::from_utf8(serde_jcs::to_vec(&behavior).unwrap()).unwrap();
+    let behavior_sha256 = sha256(behavior_canonical.as_bytes());
+    let receipt = serde_json::json!({
+        "behavior": behavior,
+        "behavior_canonical": behavior_canonical,
+        "behavior_sha256": behavior_sha256,
+        "case": name,
+        "markers": markers,
+        "outcome": "passed",
+        "schema": "adl.issue208.behavior_receipt.v1",
+    });
+    println!(
+        "BEHAVIOR_RECEIPT {}",
+        String::from_utf8(serde_jcs::to_vec(&receipt).unwrap()).unwrap()
+    );
+}
+
+fn collect_durable_witness(root: &Path, path: &Path, output: &mut Vec<String>) {
+    let Ok(entries) = std::fs::read_dir(path) else {
+        return;
+    };
+    for entry in entries.flatten() {
+        let entry_path = entry.path();
+        let relative = entry_path.strip_prefix(root).unwrap().to_string_lossy();
+        if entry_path.is_dir() {
+            collect_durable_witness(root, &entry_path, output);
+        } else if entry_path.is_file() && !relative.ends_with("writer.lock") {
+            let bytes = std::fs::read(&entry_path).unwrap();
+            output.push(format!("{relative}:{}", sha256(&bytes)));
         }
     }
 }
@@ -247,7 +332,39 @@ async fn run_case(name: &str) {
             assert_eq!(catalog.entries.len(), 5);
             assert!(!catalog.signature.is_empty());
         }
-        "partial_quiesce_rollback" | "cancellation_no_partial" => {
+        "partial_quiesce_rollback" => {
+            let ingress = fixture.ingress.clone();
+            let operation_root = fixture.operation_root.clone();
+            let sabotage = tokio::spawn(async move {
+                while ingress.admission_is_open() {
+                    tokio::task::yield_now().await;
+                }
+                std::fs::remove_dir_all(&operation_root).unwrap();
+                std::fs::write(&operation_root, b"not-a-directory").unwrap();
+            });
+            let token = CancellationToken::new();
+            let result = fixture
+                .source
+                .quiesce_and_export(
+                    1,
+                    None,
+                    17,
+                    "aa".repeat(32),
+                    "bb".repeat(32),
+                    Duration::from_secs(1),
+                    &token,
+                )
+                .await;
+            sabotage.await.unwrap();
+            assert!(result.is_err());
+            assert!(fixture.ingress.admission_is_open());
+            let source_state =
+                std::fs::read_to_string(root.join("export/source-state.json")).unwrap();
+            assert!(source_state.contains("\"resumed\""));
+            assert!(source_state.contains("admission"));
+            assert!(source_state.contains("accepted_prefix"));
+        }
+        "cancellation_no_partial" => {
             let cancelled = CancellationToken::new();
             cancelled.cancel();
             let result = fixture
@@ -263,6 +380,7 @@ async fn run_case(name: &str) {
                 )
                 .await;
             assert!(matches!(result, Err(ContinuityControlError::Cancelled)));
+            assert!(fixture.ingress.admission_is_open());
         }
         "export_bounds" => {
             assert!(fixture.config.bounds.validate().is_ok());
@@ -356,7 +474,7 @@ async fn run_case(name: &str) {
                 )
                 .is_err());
         }
-        "corrupt_content" | "opened_handle_replacement" => {
+        "corrupt_content" => {
             let (stage, catalog) = staged(&fixture, "stage-a").await;
             let path = fixture
                 .config
@@ -376,6 +494,25 @@ async fn run_case(name: &str) {
                     &services(&catalog)
                 )
                 .is_err());
+        }
+        "opened_handle_replacement" => {
+            let (stage, catalog) = staged(&fixture, "stage-a").await;
+            let original = fixture.config.staging_dir.clone();
+            let displaced = root.join("staging-displaced");
+            std::fs::rename(&original, &displaced).unwrap();
+            std::fs::create_dir(&original).unwrap();
+            let result = fixture.target.validate_stage(
+                &stage.handle,
+                1,
+                None,
+                17,
+                &"aa".repeat(32),
+                &"bb".repeat(32),
+                &services(&catalog),
+            );
+            assert!(matches!(result, Err(ContinuityControlError::UnsafeRoot)));
+            std::fs::remove_dir(&original).unwrap();
+            std::fs::rename(&displaced, &original).unwrap();
         }
         "oversized_bundle" => {
             let mut cfg = fixture.config.clone();
@@ -448,47 +585,108 @@ async fn run_case(name: &str) {
                     &services(&catalog),
                 )
                 .unwrap();
-            let decision = FinalizedMigrationDecision::from_verified_204(
-                "decision-a".into(),
-                "stage-a".into(),
-                possession.digest().into(),
-                &fixture.config,
-                std::array::from_fn(|i| format!("{:02x}", i + 1).repeat(32)),
-            )
-            .unwrap();
-            let first = fixture
-                .target
-                .activate(&stage.handle, &possession, &stage.cleanup, &decision)
+            let decision = decision_certificate(&fixture, "stage-a", possession.digest());
+            let mut forged = decision.clone();
+            forged.signature = "00".repeat(64);
+            assert!(matches!(
+                fixture
+                    .target
+                    .activate(&stage.handle, &possession, &stage.cleanup, &forged),
+                Err(ContinuityControlError::ActivationDecision)
+            ));
+            #[cfg(unix)]
+            {
+                use std::os::unix::fs::PermissionsExt;
+                let original = std::fs::metadata(&fixture.config.state_dir)
+                    .unwrap()
+                    .permissions();
+                std::fs::set_permissions(
+                    &fixture.config.state_dir,
+                    std::fs::Permissions::from_mode(0o555),
+                )
                 .unwrap();
+                let interrupted =
+                    fixture
+                        .target
+                        .activate(&stage.handle, &possession, &stage.cleanup, &decision);
+                std::fs::set_permissions(&fixture.config.state_dir, original).unwrap();
+                assert!(interrupted.is_err());
+            }
+            let mut conflicting = decision_certificate(&fixture, "stage-a", possession.digest());
+            conflicting.decision_id = "decision-b".into();
+            let signer =
+                CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
+            conflicting = conflicting.sign(&signer).unwrap();
             drop(fixture.target);
             let authority =
                 CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
             let keys =
                 BTreeMap::from([(("continuity-key".to_owned(), 1), authority.verifying_key())]);
             let reopened = TargetContinuityCoordinator::open(fixture.config.clone(), keys).unwrap();
+            let first = reopened
+                .activate(&stage.handle, &possession, &stage.cleanup, &decision)
+                .unwrap();
             assert_eq!(
                 first,
                 reopened
                     .activate(&stage.handle, &possession, &stage.cleanup, &decision)
                     .unwrap()
             );
+            assert!(matches!(
+                reopened.activate(&stage.handle, &possession, &stage.cleanup, &conflicting),
+                Err(ContinuityControlError::ConflictingRetry)
+            ));
         }
         "crash_after_bundle_commit" => {
             let (_, handle, catalog) = export(&fixture, 1).await;
             drop(fixture.source);
             let authority =
                 CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
+            let (restart_registry, restart_ingress) =
+                registry_with_ingress(&root.join("restart-operations"), 5).unwrap();
             let reopened = SourceContinuityEffectPort::open(
                 root.join("export"),
-                registry(&root.join("restart-operations"), 5).unwrap(),
+                restart_registry,
                 authority,
                 fixture.config.bounds.clone(),
                 9,
             )
             .unwrap();
             assert_eq!(reopened.bundle_source(&handle).unwrap().catalog(), &catalog);
+            assert!(reopened.source_requires_resume(&handle).unwrap());
+            assert!(!restart_ingress.admission_is_open());
+            reopened.resume_source(&handle).unwrap();
+            assert!(restart_ingress.admission_is_open());
         }
-        "target_discard" | "discard_exact_retry" | "validated_target_discard" | "zero_residue" => {
+        "discard_exact_retry" => {
+            let (stage, _) = staged(&fixture, "stage-a").await;
+            #[cfg(unix)]
+            {
+                use std::os::unix::fs::PermissionsExt;
+                let original = std::fs::metadata(&fixture.config.staging_dir)
+                    .unwrap()
+                    .permissions();
+                std::fs::set_permissions(
+                    &fixture.config.staging_dir,
+                    std::fs::Permissions::from_mode(0o555),
+                )
+                .unwrap();
+                let interrupted = fixture.target.discard(&stage.handle, &stage.cleanup);
+                std::fs::set_permissions(&fixture.config.staging_dir, original).unwrap();
+                assert!(interrupted.is_err());
+            }
+            drop(fixture.target);
+            let authority =
+                CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
+            let keys =
+                BTreeMap::from([(("continuity-key".to_owned(), 1), authority.verifying_key())]);
+            let reopened = TargetContinuityCoordinator::open(fixture.config.clone(), keys).unwrap();
+            let first = reopened.discard(&stage.handle, &stage.cleanup).unwrap();
+            let second = reopened.discard(&stage.handle, &stage.cleanup).unwrap();
+            assert_eq!(first, second);
+            assert!(!fixture.config.staging_dir.join("stage-a").exists());
+        }
+        "target_discard" | "validated_target_discard" | "zero_residue" => {
             let (stage, catalog) = staged(&fixture, "stage-a").await;
             if name == "validated_target_discard" {
                 fixture
@@ -522,7 +720,16 @@ async fn run_case(name: &str) {
                 Err(ContinuityControlError::AlreadyOpen)
             ));
             drop(first);
-            assert!(DurableContinuityJournal::open(&fixture.config).is_ok());
+            DurableContinuityJournal::open(&fixture.config)
+                .unwrap_or_else(|error| panic!("journal did not reopen: {error:?}"));
+            let authority =
+                CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
+            let keys =
+                BTreeMap::from([(("continuity-key".to_owned(), 1), authority.verifying_key())]);
+            assert!(matches!(
+                TargetContinuityCoordinator::open(fixture.config.clone(), keys),
+                Err(ContinuityControlError::AlreadyOpen)
+            ));
         }
         "evidence_redaction" => {
             let (stage, _) = staged(&fixture, "stage-a").await;
@@ -534,6 +741,15 @@ async fn run_case(name: &str) {
             let public = include_str!("../src/control.rs");
             assert!(!public.contains("continuity_control"));
             assert!(!public.contains("ActivateTarget"));
+            let client = include_str!("../../adl-runtime/src/kernel_continuity_client.rs");
+            let polis = include_str!("../../adl-runtime/src/distributed/polis_runtime.rs");
+            let kernel = include_str!("../src/continuity_control.rs");
+            assert!(!client.contains("pub async fn execute"));
+            assert!(!client.contains("pub(crate) async fn execute"));
+            assert!(polis.contains("pub struct TransferContinuityPort"));
+            assert!(polis.contains("pub struct MigrationContinuityPort"));
+            assert!(!polis.contains("pub fn from_initialized_guardian"));
+            assert!(!kernel.contains("pub fn from_verified_204"));
         }
         "guardian_initialization_live" => {
             let kernel = include_str!("../src/bin/adl-runtime-kernel.rs");
@@ -552,7 +768,7 @@ async fn run_case(name: &str) {
         }
         _ => panic!("unknown contract case {name}"),
     }
-    emit_case(name);
+    emit_case(name, &root);
 }
 
 macro_rules! cases {
