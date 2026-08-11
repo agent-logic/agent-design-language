@@ -23,8 +23,8 @@ The umbrella coordinates the listed children through their typed v2 lifecycles. 
 | Issue | Role | Current truth | Next action |
 |---|---|---|---|
 | `#5835` | WP-17 | prepared and unbound; `#5826`, `#5827`, and `#5834` are terminal | ready to bind when Sprint 5 execution starts |
-| `#5836` | WP-18 | prepared and unbound; `#5825`-`#5830` and `#5832`-`#5834` are terminal | ready to bind when Sprint 5 execution starts |
-| `#5838` | WP-18B | prepared and unbound; blocked on `#5832`, `#5834`, and `#5836` | preserve the provider-proof gate |
+| `#5836` | WP-18 | prepared and unbound; `#5825`-`#5830`, canonical WP-14 `agent-logic/agent-design-language#209` / PR `#215`, `#5833`, and `#5834` have reviewed ancestral merge proof; legacy `#5832` is superseded | ready to bind when Sprint 5 execution starts |
+| `#5838` | WP-18B | prepared and unbound; canonical WP-14 is complete but `#5836` remains open | preserve the provider-proof gate |
 | `#5839` | WP-19 | prepared and unbound; blocked on `#5834`, `#5835`, and accepted v0.93 allocation | preserve governance boundaries |
 | `#5840` | WP-20 | prepared and unbound; blocked on `#5836`, `#5837`, `#5838`, and `#5839` | run only after all proof producers finish |
 | `#5844` | WP-24 | product/GitHub complete; canonical issue `#10` and PR `#14` are merged; typed closeout remains asynchronous | no further product execution |
@@ -45,7 +45,7 @@ during its pre-mutation diagnosis, and ordinary doctor runs after successful
 binding.
 
 1. Start `#5835` only after `#5826`, `#5827`, and `#5834` are terminal.
-2. Start `#5836` only after `#5825`-`#5830` and `#5832`-`#5834` are terminal.
+2. Start `#5836` only after `#5825`-`#5830`, canonical WP-14 `#209` / PR `#215`, `#5833`, and `#5834` have reviewed ancestral merge proof.
 3. Start `#5838` after `#5836` is terminal and all of its other dependencies are satisfied.
 4. Start `#5839` after `#5835` is terminal and the v0.93 allocation is explicit.
 5. Start `#5840` only after every declared proof producer is terminal.
@@ -85,8 +85,8 @@ binding.
 | Gate | Blocks | Exit condition |
 |---|---|---|
 | migration prerequisites | `#5835` | `#5826`, `#5827`, and `#5834` terminal |
-| birthday prerequisites | `#5836` | `#5825`-`#5830` and `#5832`-`#5834` terminal |
-| provider proof | `#5838` | `#5832`, `#5834`, and `#5836` terminal |
+| birthday prerequisites | `#5836` | WP-16's accepted manifest proves reviewed ancestral merges for `#5825`-`#5830`, canonical WP-14 `#209` / PR `#215`, and `#5833`; `#5834` is terminal |
+| provider proof | `#5838` | canonical WP-14 `#209` / PR `#215`, `#5834`, and `#5836` complete |
 | governance handoff | `#5839` | `#5834` and `#5835` terminal plus explicit v0.93 allocation |
 | proof coverage | `#5840` | `#5836`, `#5837`, `#5838`, and `#5839` terminal |
 | release truth | final public claims | `#5843` terminal plus explicit operator authorization |

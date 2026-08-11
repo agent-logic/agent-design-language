@@ -1,6 +1,6 @@
 {
   "schema": "adl.v092.sprint_5854_live_gate_source.v1",
-  "collected_at": "2026-08-11T05:31:45Z",
+  "collected_at": "2026-08-11T05:45:39Z",
   "collector": {
     "issue_binary": "csdlc-github-issue",
     "issue_binary_sha256": "437e91976fb00153801b18d7b228e53a14f867aaa43ee05f7970200fd9d606c1",
@@ -13,7 +13,7 @@
     "GitHub REST issue read through typed csdlc-github-issue issue_read",
     "GitHub REST pull request/check/linkage read through typed csdlc-github-pr state"
   ],
-  "request_manifest_sha256": "39d9699eedc988d57c82b75beedc9512f379dd428a3977133e1f14386680162e",
+  "request_manifest_sha256": "226dedfa30d916c8cda7ad410c1b6484bffbc17aa44053556e769463054e38b0",
   "issue_results": [
     {
       "request": {
@@ -1131,6 +1131,62 @@
         "repository": "agent-logic/agent-design-language",
         "schema": "csdlc.github_action_result.v1"
       }
+    },
+    {
+      "request": {
+        "repository": "agent-logic/agent-design-language",
+        "action": "issue_read",
+        "operation_key": null,
+        "token_file": null,
+        "issue": 209,
+        "pull_request": null,
+        "title": null,
+        "body": null,
+        "labels": [
+
+        ],
+        "assignees": [
+
+        ],
+        "milestone": null,
+        "state": null,
+        "comment_body": null,
+        "required_checks": [
+
+        ],
+        "require_review": false,
+        "linked_issue": null
+      },
+      "response": {
+        "action": "issue_read",
+        "comment_id": null,
+        "issue": {
+          "assignees": [
+
+          ],
+          "body": "Blocks danielbaustin/agent-design-language#5834. Follow-up to merged danielbaustin/agent-design-language#5832 / PR #76 after fresh retrospective exact-head review of `23df2bab4373434c9020f0c40f772f71aef2917c`.\n\n## Outcome\nClose the three unresolved WP-14 acceptance defects so the Birthday reviewer packet can cite independently reviewed production communication evidence rather than the narrower embedded-listener proof.\n\n## Findings to repair\n1. Production proof currently launches only `RuntimeApiService`, echoes an ACK, and treats oversized-frame rejection as backpressure; it does not establish Guardian/kernel operation dispatch, bounded pressure, or typed error responses.\n2. One admitted `u64::MAX` sequence poisons the policy-wide replay high-water mark across later principals/sessions until service reconstruction.\n3. Public OpenAPI permits a missing/null `control_signature` although runtime admission always rejects it.\n\n## Scope\n- production Guardian/kernel ACIP dispatch proof through the real runtime boundary\n- bounded queue/backpressure behavior and typed error response contract\n- replay state namespaced by authenticated principal and protocol replay domain/session, with bounded progression and expiry/reset semantics\n- OpenAPI/runtime signature parity\n- focused positive and adversarial tests, exact native proof where platform behavior matters, retained evidence, and independent exact-head review\n\n## Acceptance\n- A real production Guardian/kernel operation is dispatched end to end and returns the declared typed success/error contract.\n- Backpressure proof exercises bounded queue pressure rather than only frame-size rejection.\n- `u64::MAX`, reconnect, cross-principal, cross-session, stale, duplicate, and eviction cases cannot poison unrelated traffic or bypass replay denial.\n- Public OpenAPI and runtime admission agree on the required non-null control signature.\n- Exact focused proof and fresh independent exact-head review pass before publication; qualified closing PR and required CI are green before merge.\n- #5834 remains blocked until this repair is merged and ancestral, then refreshes its WP-14 evidence/review binding.\n\n## Non-goals\nReopening or rewriting merged PR #76, modifying #5834 product scope, public birthday publication, broader transport redesign, cloud provisioning, or unrelated Sprint 3 work.\n\n<!-- csdlc-github-operation:v092-wp14-retrospective-authority-repair-v1 -->\n",
+          "closed_at": "2026-08-11T03:02:30Z",
+          "created_at": "2026-08-11T00:55:32Z",
+          "labels": [
+            "track:roadmap",
+            "version:v0.92",
+            "type:bug",
+            "area:runtime"
+          ],
+          "marker_present": false,
+          "milestone": null,
+          "number": 209,
+          "repository": "agent-logic/agent-design-language",
+          "schema": "csdlc.github_issue.v1",
+          "state": "closed",
+          "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract"
+        },
+        "operation_key": null,
+        "pr_state": null,
+        "reconciled": true,
+        "repository": "agent-logic/agent-design-language",
+        "schema": "csdlc.github_action_result.v1"
+      }
     }
   ],
   "pull_request_results": [
@@ -1265,6 +1321,163 @@
         "schema": "csdlc.github_pr_state.v1",
         "state": "closed",
         "url": "https://github.com/agent-logic/agent-design-language/pull/14"
+      }
+    },
+    {
+      "request": {
+        "repository": "agent-logic/agent-design-language",
+        "pull_request": 215,
+        "required_checks": [
+
+        ],
+        "require_review": false,
+        "token_file": null,
+        "linked_issue": 209,
+        "linked_issue_repository": "agent-logic/agent-design-language"
+      },
+      "response": {
+        "base_ref": "main",
+        "body": "Closes #209\n\n## Summary\n- route admitted ACIP requests through the production kernel and prove typed WebSocket pressure rejection, rollback, and corrected retry\n- isolate replay sequencing by authenticated principal and structured runtime/source domain with bounded progression, exact pending rollback, and rotation cleanup\n- align the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression\n- add exact Linux/macOS native receipts with platform-neutral semantic comparison and expanded authority-source provenance\n\n## Validation\n- production ACIP WSS: 2/2 passed, including repeated pressure stability\n- replay authority: 4/4 passed\n- OpenAPI contract: 6/6 passed\n- retained legacy signed admission: 1/1 passed\n- strict Clippy, formatting, native producer/validator self-tests, YAML/JSON, and diff hygiene: passed\n- fresh independent exact-head review: APPROVED with no actionable findings\n- exact native Linux/macOS/aggregate proof remains required after publication before final review and merge\n\n## Non-claims\nThis PR does not modify #5834 product work, PR197, PR191, Sprint 3, or global CI.",
+        "checks": [
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93664440871",
+            "name": "adl-ci",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663061678",
+            "name": "adl-coverage",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013618",
+            "name": "adl-coverage-hosted",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013858",
+            "name": "adl-coverage-runtime-hosted",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663014048",
+            "name": "adl-coverage-workspace-fast-hosted",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013694",
+            "name": "adl-coverage-workspace-hosted (${{ matrix.shard }}/2)",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013946",
+            "name": "adl-demo-proof",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93662968667",
+            "name": "adl-path-policy",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663014011",
+            "name": "adl-runtime-v3-fast",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013952",
+            "name": "adl-rust-fmt-clippy",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013275",
+            "name": "adl-rust-tests",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663014019",
+            "name": "adl-slow-proof",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013813",
+            "name": "adl-spot-ci-and-coverage",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013266",
+            "name": "adl-tooling-contracts",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013630",
+            "name": "adl-v2-standalone",
+            "required": false
+          },
+          {
+            "conclusion": "skipped",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634354/job/93663013797",
+            "name": "csdlc-v2-standalone",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453634265/job/93662882752",
+            "name": "production-acip-linux",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453636709/job/93662892252",
+            "name": "wp14-repair-native-linux",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453636709/job/93662892169",
+            "name": "wp14-repair-native-macos",
+            "required": false
+          },
+          {
+            "conclusion": "success",
+            "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/31453636709/job/93663352429",
+            "name": "wp14-repair-native-receipts-validated",
+            "required": false
+          }
+        ],
+        "classification": "waiting",
+        "draft": false,
+        "head_ref": "codex/209-acip-authority-repair",
+        "head_sha": "c640066f284a915b638add377cc4b0a2e221e6f9",
+        "linkage_source": "github_closing_issues_references",
+        "linked_issue": 209,
+        "merge_commit_sha": "a77519c3fca9f64752af41c9a2ebd396468891f7",
+        "merge_state": "unknown",
+        "merged": true,
+        "pull_request": 215,
+        "repository": "agent-logic/agent-design-language",
+        "required_check_names": [
+
+        ],
+        "review_decision": "pending",
+        "schema": "csdlc.github_pr_state.v1",
+        "state": "closed",
+        "url": "https://github.com/agent-logic/agent-design-language/pull/215"
       }
     }
   ]

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6b554b8bf1e14bfe51db35c853eb74588989147fd1dd3b17660b246cbaa621c",
   "phase": "implemented",
-  "generation": 37,
-  "digest": "86a506dd43c86231a545dee7646af7fa9b562078649402f1ded47da6eee18fa7",
+  "generation": 39,
+  "digest": "f91be03b293b48e5cc9a4d8802489a00d6258977847d473a952311a08e438b23",
   "branch": "codex/5854-sprint5-readiness-current",
   "worktree": "/Volumes/FastWork/adl-standalone-5854",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3c4a59471c495a4be55d8bf4966f04a46ad5da3f1edc4f62532b455b38f31d88",
+      "values_digest": "7f872e73f0c474ad8b0de8e7b5b5cda1d93e4f25d2f3ed675f76d4266a57b8a9",
       "rendered_digest": "736d117ea18341186e50fda1cebe344d0fc95ef90d37f5b7bbaa40a84dcd04e6",
       "ast_digest": "7f4260c9e4cd7426d86876332af57f58a103630bca2b4872f3c48dd28e288d34"
     },
     "stp": {
-      "values_digest": "9cfa80a1a31d8f3a62a6bef488281c83ca3fa5bf5d94a94869d68d681013e081",
+      "values_digest": "18df77f0a8b36abd4a3ee7a7f9e3f731b9fe1fd0eeb5e713b5f84eb06fdd231b",
       "rendered_digest": "44cb2cea999def662671ef6605cc45b621764178c0034deb52b9fa275edab745",
       "ast_digest": "e679cdeae0f2418955ab66ecfc7f29e0dc64a51866217538271519dc2245bc01"
     },
     "spp": {
-      "values_digest": "4b78d78d317b3c649efd5bbb2f7543bb6b85fdc9e097e60fdd613eec8e1f6ddb",
-      "rendered_digest": "25c9743d694a1c4730ae6237ae5932e7acf687b0cb0eb95c660b4187112c279b",
-      "ast_digest": "9ed0abe0672515f3dc72e97bfb0728fcb9e07bc35c0f52837678e3ab8e93e6a8"
+      "values_digest": "00ddf58a7c568678c5f810b1f830aee882a9c999ff1ca494d5c007fe034fdbae",
+      "rendered_digest": "2c6eabd478e1488b15d6a6a7106e5dcf3f08c29241261940111fc8472a758658",
+      "ast_digest": "cdf694f82b1c2e45aff69f0fd692c4418ec3705a4b26c3dc350c88f82ea3ddc7"
     },
     "vpp": {
-      "values_digest": "e8937c67de8f9b8de79c79bad464fd913628ab81c5d5243fca70993671b1b3bd",
+      "values_digest": "a9c88d5e8a8c1321ae8e4f4b461e1d0806995299322b96f4449f7abd2f105656",
       "rendered_digest": "ef9a6f9f2d7cb5126e6761a85a1d4a001ee493b80ecbb2e7292bb3e0a3e99235",
       "ast_digest": "fef0cdf5e711632e18ce1a1493c5543ca09ddc65aa7c8adf82335c56b566ecc4"
     },
     "srp": {
-      "values_digest": "22204d16f2896a482a6087fc579654418bbc7ccb30aab6480cd414a32cb1648e",
+      "values_digest": "c99e01e5da5e405ab765907e369cf0f70df58f8d3d89495876213aa15c7ee4f0",
       "rendered_digest": "cc80b27fa1702b0f994379958027e15a281175d9ee8ecd5ef5e0478620384d77",
       "ast_digest": "cb94b8f8bd3efa95ad2ab46a7377b0dfcbe23f2c1d581f40af43fc664983389c"
     },
     "sor": {
-      "values_digest": "b44326b9ee6d644b409051dcb556e17002ca01e660c6bfee1c83bd24e18c8326",
-      "rendered_digest": "d017d38e154d08bf7cfcc41f362b7d45c11ac347278e1bf5d1304592d0c17402",
-      "ast_digest": "552fa95b0a5108ea1bc853935804b61a91abc8deea72f6536ed01a0cead3fcac"
+      "values_digest": "2e72ca1901733f2f067bd35172279c166370a47ea6566fbaf3f207addcd0ba75",
+      "rendered_digest": "ef6a0c3660b6c2f6c89f034135f2febccb78a4aac089656238742c64b7f6e428",
+      "ast_digest": "e8d5f4be1a32ac1b2947f6d01acff222805cc7cf0effe261f08d3219b33c6d27"
     }
   },
   "transitions": [
@@ -428,6 +428,20 @@
       "actor": "codex:5854-sprint5-readiness-refresh",
       "reason": "Record the refreshed Sprint 5 dependency truth and first-wave readiness before exact-head review.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Refreshed Sprint 5 live dependency evidence and established that #5835 and #5836 are ready to bind while preserving all downstream serial gates.\",\"changes\":[\"Refreshed all retained issue and PR observations through the typed GitHub owner binaries.\",\"Updated the human packet and sprint review to classify #5835 and #5836 as ready to bind.\",\"Kept #5838, #5839, and #5840 blocked behind their declared dependencies and kept WP-24A out of band.\",\"Updated the validator's exact live-state expectations and first-wave classification checks.\"],\"artifacts\":[\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\"]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 38,
+      "actor": "codex:5854-sprint5-readiness-refresh",
+      "reason": "Reconcile the completed Sprint 5 readiness refresh while leaving coordination and closeout pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"readiness\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 43,
+      "generation": 39,
+      "actor": "codex:5854-sprint5-readiness-refresh",
+      "reason": "Record the complete Sprint 5 readiness repair after resolving all exact-head review findings.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Refreshed and hardened Sprint 5 readiness so #5835 and #5836 can bind only from reviewed, merged, ancestral dependency authority while all downstream gates remain closed.\",\"changes\":[\"Refreshed all retained issue and PR observations through the typed GitHub owner binaries.\",\"Replaced superseded legacy WP-14 authority with canonical issue #209, PR #215, and its ancestral merge.\",\"Required the accepted WP-16 manifest to prove every birthday prerequisite has a merged PR, retained exact-head review, typed authority, and current-main ancestry.\",\"Verified retained collector provenance against the installed owner-binary digests.\",\"Updated the human packet and sprint review to classify #5835 and #5836 as ready to bind.\",\"Kept #5838, #5839, and #5840 blocked behind their declared dependencies and kept WP-24A out of band.\",\"Updated the validator's exact live-state expectations and first-wave classification checks.\"],\"artifacts\":[\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\",\".csdlc/issues/5836\",\".csdlc/issues/5838\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\"]}"
     }
   ]
 }

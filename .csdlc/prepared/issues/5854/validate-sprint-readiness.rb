@@ -14,8 +14,8 @@ CARDS = %w[sip stp spp vpp srp sor].freeze
 EXPECTED_CODE_REPOSITORY = "agent-logic/agent-design-language"
 EXPECTED_WAVE_GATES = [
   "WP-17 after #5826, #5827, and #5834",
-  "WP-18 after #5825 through #5830 and #5832 through #5834",
-  "WP-18B after #5832, #5834, and WP-18",
+  "WP-18 after #5825 through #5830, canonical WP-14 #209 / PR #215, #5833, and #5834; legacy #5832 is superseded",
+  "WP-18B after canonical WP-14 #209 / PR #215, #5834, and WP-18",
   "WP-19 after #5834 and WP-17 plus accepted v0.93 allocation",
   "WP-20 after WP-18, WP-18A, WP-18B, and WP-19",
   "WP-24 final claims after WP-23"
@@ -246,6 +246,15 @@ raise "typed PR collector identity missing" unless collector.fetch("pull_request
 %w[issue_binary_sha256 pull_request_binary_sha256].each do |field|
   raise "invalid collector binary digest #{field}" unless collector.fetch(field).match?(/\A[0-9a-f]{64}\z/)
 end
+collector_bin_dir = Pathname.new(ENV.fetch("CSDLC_V2_BIN_DIR", ROOT.join(".adl/bin/csdlc-v2").to_s))
+{
+  "issue_binary_sha256" => "csdlc-github-issue",
+  "pull_request_binary_sha256" => "csdlc-github-pr"
+}.each do |field, binary_name|
+  binary_path = collector_bin_dir / binary_name
+  raise "installed collector binary missing: #{binary_name}" unless binary_path.file?
+  raise "collector binary digest mismatch: #{binary_name}" unless Digest::SHA256.file(binary_path).hexdigest == collector.fetch(field)
+end
 raise "collector contract mismatch" unless collector.fetch("contract") == provenance.fetch("collector_contract")
 raise "collector identity missing" if provenance.fetch("collector_identity").strip.empty?
 raise "collector source operations missing" unless source.fetch("source_operations").length == 2
@@ -305,9 +314,25 @@ expected_states.each do |issue, expected|
 end
 
 raise "WP-17 dependency set is incomplete" unless human.include?("`#5826`, `#5827`, and `#5834`")
-raise "WP-18 dependency set is incomplete" unless human.include?("`#5825`-`#5830` and `#5832`-`#5834`")
+raise "WP-18 canonical dependency set is incomplete" unless human.include?("canonical WP-14 `agent-logic/agent-design-language#209` / PR `#215`") && human.include?("legacy `#5832` is superseded")
 raise "WP-17 is not classified as ready to bind" unless human.include?("| `#5835` | WP-17 | prepared and unbound; `#5826`, `#5827`, and `#5834` are terminal | ready to bind")
-raise "WP-18 is not classified as ready to bind" unless human.include?("| `#5836` | WP-18 | prepared and unbound; `#5825`-`#5830` and `#5832`-`#5834` are terminal | ready to bind")
+raise "WP-18 is not classified as ready to bind" unless human.include?("| `#5836` | WP-18 | prepared and unbound;") && human.include?("reviewed ancestral merge proof")
+
+wp16_validator = [
+  "ruby", ".csdlc/prepared/issues/5834/validate-review-packet.rb",
+  "--packet", "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
+  "--manifest", "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+  "--schema", "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json"
+]
+wp16_stdout, wp16_stderr, wp16_status = Open3.capture3(*wp16_validator, chdir: ROOT.to_s)
+raise "WP-16 dependency authority failed: #{wp16_stderr}#{wp16_stdout}" unless wp16_status.success?
+
+canonical_wp14 = source.fetch("issue_results").find do |entry|
+  issue = entry.fetch("response").fetch("issue")
+  issue.fetch("repository") == EXPECTED_CODE_REPOSITORY && issue.fetch("number") == 209
+end&.fetch("response")&.fetch("issue")
+raise "canonical WP-14 issue #209 observation missing" unless canonical_wp14
+raise "canonical WP-14 issue #209 is not closed" unless canonical_wp14.fetch("state") == "closed"
 
 pr14 = gates.fetch("pull_requests").find { |row| row.fetch("pull_request") == 14 }
 source_pr14 = source.fetch("pull_request_results").first.fetch("response")
@@ -318,6 +343,16 @@ raise "canonical WP-24 merge SHA mismatch" unless pr14&.fetch("merge_sha") == ex
 raise "canonical WP-24 closing relation mismatch" unless pr14&.fetch("closes_issue") == 10
 raise "canonical WP-24 PR projection differs from retained source" unless source_pr14.fetch("repository") == pr14.fetch("repository") && source_pr14.fetch("pull_request") == pr14.fetch("pull_request") && source_pr14.fetch("merged") && source_pr14.fetch("merge_commit_sha") == pr14.fetch("merge_sha") && source_pr14.fetch("linked_issue") == pr14.fetch("closes_issue")
 raise "canonical WP-24 merge is not ancestral to readiness HEAD" unless system("git", "merge-base", "--is-ancestor", expected_wp24_sha, "HEAD", out: File::NULL, err: File::NULL)
+
+pr215 = gates.fetch("pull_requests").find { |row| row.fetch("pull_request") == 215 }
+source_pr215 = source.fetch("pull_request_results").find { |entry| entry.fetch("response").fetch("pull_request") == 215 }&.fetch("response")
+expected_wp14_sha = "a77519c3fca9f64752af41c9a2ebd396468891f7"
+raise "canonical WP-14 PR #215 observation missing" unless source_pr215
+raise "canonical WP-14 PR repository mismatch" unless pr215&.fetch("repository") == EXPECTED_CODE_REPOSITORY
+raise "canonical WP-14 PR is not merged" unless pr215&.fetch("state") == "merged" && source_pr215.fetch("merged")
+raise "canonical WP-14 merge SHA mismatch" unless pr215&.fetch("merge_sha") == expected_wp14_sha && source_pr215.fetch("merge_commit_sha") == expected_wp14_sha
+raise "canonical WP-14 closing relation mismatch" unless pr215&.fetch("closes_issue") == 209 && source_pr215.fetch("linked_issue") == 209
+raise "canonical WP-14 merge is not ancestral to readiness HEAD" unless system("git", "merge-base", "--is-ancestor", expected_wp14_sha, "HEAD", out: File::NULL, err: File::NULL)
 
 wp24a_observation = gates.fetch("out_of_band_observations").find { |row| row.fetch("issue") == 5845 }
 raise "WP-24A out-of-band observation missing" unless wp24a_observation

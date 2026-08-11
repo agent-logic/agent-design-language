@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Refreshed Sprint 5 live dependency evidence and established that #5835 and #5836 are ready to bind while preserving all downstream serial gates.
+Refreshed and hardened Sprint 5 readiness so #5835 and #5836 can bind only from reviewed, merged, ancestral dependency authority while all downstream gates remain closed.
 
 ## Artifacts
 
@@ -34,6 +34,19 @@ Refreshed Sprint 5 live dependency evidence and established that #5835 and #5836
 - .csdlc/evidence/5854/sprint-review.md
 - .csdlc/evidence/5854/activity.jsonl
 - .csdlc/evidence/5854/v092-sprint5-readiness.log
+- .csdlc/prepared/issues/5854/sprint-execution-packet.md
+- .csdlc/prepared/issues/5854/sprint-execution-packet.yaml
+- .csdlc/prepared/issues/5854/split-authority-bind-requests.json
+- .csdlc/prepared/issues/5854/validate-sprint-readiness.rb
+- .csdlc/evidence/5854/live-gates.json
+- .csdlc/evidence/5854/live-gates-source.json
+- .csdlc/evidence/5854/sprint-review.md
+- .csdlc/evidence/5854/activity.jsonl
+- .csdlc/evidence/5854/v092-sprint5-readiness.log
+- .csdlc/issues/5836
+- .csdlc/issues/5838
+- docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
+- .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
 
 ## Execution
 
@@ -42,6 +55,13 @@ Refreshed Sprint 5 live dependency evidence and established that #5835 and #5836
 - Added the complete WP-19 gate and fail-closed pairwise path-overlap validation for every declared parallel lane.
 - Refreshed typed live evidence to prove tooling issue #74 is closed and removed the obsolete sparse-checkout workaround.
 - Refreshed all retained issue and PR observations through the typed GitHub owner binaries.
+- Updated the human packet and sprint review to classify #5835 and #5836 as ready to bind.
+- Kept #5838, #5839, and #5840 blocked behind their declared dependencies and kept WP-24A out of band.
+- Updated the validator's exact live-state expectations and first-wave classification checks.
+- Refreshed all retained issue and PR observations through the typed GitHub owner binaries.
+- Replaced superseded legacy WP-14 authority with canonical issue #209, PR #215, and its ancestral merge.
+- Required the accepted WP-16 manifest to prove every birthday prerequisite has a merged PR, retained exact-head review, typed authority, and current-main ancestry.
+- Verified retained collector provenance against the installed owner-binary digests.
 - Updated the human packet and sprint review to classify #5835 and #5836 as ready to bind.
 - Kept #5838, #5839, and #5840 blocked behind their declared dependencies and kept WP-24A out of band.
 - Updated the validator's exact live-state expectations and first-wave classification checks.

@@ -53,8 +53,8 @@ WP-24A from this session.
 Serial gates:
 
 - #5835 follows #5826, #5827, and #5834.
-- #5836 follows #5825-#5830 and #5832-#5834.
-- #5838 follows #5832, #5834, and #5836.
+- #5836 follows #5825-#5830, canonical WP-14 issue agent-logic/agent-design-language#209 and PR #215, #5833, and #5834; legacy #5832 is superseded.
+- #5838 follows canonical WP-14 issue #209 and PR #215, #5834, and #5836.
 - #5839 follows #5834 and #5835 plus accepted v0.93 allocation.
 - #5840 follows #5836, #5837, #5838, and #5839.
 - Final publication claims align with release truth only after #5843.

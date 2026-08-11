@@ -6,7 +6,7 @@ The Sprint 5 coordination packet is current and ready to start its first executi
 
 ## Current Classification
 
-- Ready and unbound: `#5835` and `#5836`; every dependency in each child STP is terminal.
+- Ready and unbound: `#5835` and `#5836`; WP-16's accepted manifest proves the required reviewed, merged, ancestral dependency set, including canonical WP-14 `agent-logic/agent-design-language#209` / PR `#215`. Legacy `#5832` is superseded.
 - Prepared and blocked: `#5838` waits for `#5836`; `#5839` waits for `#5835` and an accepted v0.93 allocation/owner; `#5840` waits for `#5836`, `#5837`, `#5838`, and `#5839`.
 - Product/GitHub complete and excluded from execution: legacy `#5844`, represented canonically by merged issue `#10` and PR `#14`; typed closeout remains asynchronous.
 - Independent out-of-band stream: `#5845`; it has no Sprint 5 dependency and cannot gate readiness, execution, review, or closeout.
@@ -16,7 +16,7 @@ The Sprint 5 coordination packet is current and ready to start its first executi
 
 The umbrella validator proves packet structure, state classification, safe child ownership, explicit bind-time deferral contracts, and publication boundaries. It does not execute any deferred child validator and does not treat a deferral as evidence.
 
-The live-gate projection is bound to `live-gates-source.json`, which retains the complete normalized results from the installed typed GitHub issue and PR readers, the exact request manifest, collector binary digests, collection time, and the approved default-resolver credential classification. The readiness lane is intentionally nondeterministic because freshness depends on wall-clock time and live GitHub state.
+The live-gate projection is bound to `live-gates-source.json`, which retains the complete normalized results from the installed typed GitHub issue and PR readers, the exact request manifest, collector binary digests, collection time, and the approved credential classification. Validation hashes the installed owner binaries against those recorded digests and separately consumes WP-16's accepted dependency manifest for reviewed revision, merged PR, typed review, and current-main ancestry proof. The readiness lane is intentionally nondeterministic because freshness depends on wall-clock time and live GitHub state.
 
 ## Review Finding Dispositions
 

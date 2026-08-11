@@ -237,8 +237,8 @@ execution_sprints:
         typed_closeout: asynchronous
     serial_gates:
       - "WP-17 after #5826, #5827, and #5834"
-      - "WP-18 after #5825 through #5830 and #5832 through #5834"
-      - "WP-18B after #5832, #5834, and WP-18"
+      - "WP-18 after #5825 through #5830, canonical WP-14 #209 / PR #215, #5833, and #5834; legacy #5832 is superseded"
+      - "WP-18B after canonical WP-14 #209 / PR #215, #5834, and WP-18"
       - "WP-19 after #5834 and WP-17 plus accepted v0.93 allocation"
       - WP-20 after WP-18, WP-18A, WP-18B, and WP-19
       - WP-24 final claims after WP-23

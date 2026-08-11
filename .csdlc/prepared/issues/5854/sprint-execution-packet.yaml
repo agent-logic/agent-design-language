@@ -20,8 +20,8 @@ safe_parallel_lanes:
     boundary: Demo and migration planning retain separate child worktrees.
 serial_gates:
   - issue 5835 follows issues 5826, 5827, and 5834
-  - issue 5836 follows issues 5825, 5826, 5827, 5828, 5829, 5830, 5832, 5833, and 5834
-  - issue 5838 follows issues 5832, 5834, and 5836
+  - issue 5836 follows issues 5825, 5826, 5827, 5828, 5829, 5830, canonical issue 209 and PR 215, issue 5833, and issue 5834; legacy issue 5832 is superseded
+  - issue 5838 follows canonical issue 209 and PR 215, issue 5834, and issue 5836
   - issue 5839 follows issues 5834 and 5835 plus the v0.93 allocation
   - issue 5840 follows issues 5836, 5837, 5838, and 5839
   - final publication claims align only after issue 5843 and explicit operator authorization
