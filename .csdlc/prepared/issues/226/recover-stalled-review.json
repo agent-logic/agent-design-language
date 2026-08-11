@@ -1,7 +1,7 @@
 {
   "issue": 226,
-  "expected_generation": 17,
-  "expected_digest": "dcbaf44451ef941aa441bbe6c58959fd6b12d779de39e7ad51d7230887500ffc",
+  "expected_generation": 20,
+  "expected_digest": "95598be832fe427b71ff554979917f88bce6c0faddd8e67131e11d612226174c",
   "actor": "codex:226-focused-runtime-validation-routing",
-  "reason": "Replace the independent reviewer after three bounded waits produced no verdict; preserve the exact remediated product revision for archive-based review."
+  "reason": "Replace the deletion-fix reviewer after three bounded waits produced no verdict and refresh focused evidence for the split fail-closed lanes."
 }
