@@ -9,7 +9,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/202/v3/"
+PREFIX = ".csdlc/evidence/202/v4/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_202_CASE_V1 "
@@ -136,7 +136,7 @@ fail_proof("subassertion mismatch") unless assertions.sort == EXPECTED_ASSERTION
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue202.authorized_learner_transport_proof.v3", "issue" => 202,
+  "schema" => "adl.issue202.authorized_learner_transport_proof.v4", "issue" => 202,
   "source_revision" => source, "source_tree" => tree.strip, "required_main_ancestor" => MAIN_ANCESTOR,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
   "commands" => commands, "test_summary" => { "private_selected" => 36, "private_passed" => 36, "public_selected" => 13, "public_passed" => 13 },

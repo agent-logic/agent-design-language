@@ -2111,6 +2111,7 @@ pub struct SecurePolisNetworkFactory {
     trusted_membership_epoch: u64,
     trusted_authority: AuthorityMembership,
     trusted_boot_generations: BTreeMap<Vec<u8>, u64>,
+    trusted_node_identities: BTreeMap<Vec<u8>, (String, u64)>,
     local_publication_identity: AuthorityNodeIdentity,
     connections: Arc<RwLock<BTreeMap<NodeId, SecurePeerRoute>>>,
     learner_connections: Arc<RwLock<BTreeMap<NodeId, SecureLearnerRoute>>>,
@@ -2162,6 +2163,17 @@ impl SecurePolisNetworkFactory {
             .authority_node_identity(local)
             .ok_or(PolisRuntimeError::AuthorityDenied)?;
         let trusted_cut_sha256 = learner_route_cut_digest(&cut).map_err(map_learner_error)?;
+        let trusted_node_identities = cut
+            .routes()
+            .keys()
+            .filter_map(|raft_id| {
+                cut.authority_node_identity(*raft_id).map(
+                    |(node_id, guardian_id, boot_generation)| {
+                        (guardian_id.into_bytes(), (node_id, boot_generation))
+                    },
+                )
+            })
+            .collect();
         Ok(Self {
             local,
             trusted_polis_id: cut.polis_id().to_owned(),
@@ -2170,6 +2182,7 @@ impl SecurePolisNetworkFactory {
             trusted_membership_epoch: cut.membership_epoch(),
             trusted_authority: cut.authority_membership().clone(),
             trusted_boot_generations: cut.authority_boot_generations(),
+            trusted_node_identities,
             local_publication_identity: AuthorityNodeIdentity {
                 trust_domain: cut.trust_domain().to_owned(),
                 polis_id: cut.polis_id().to_owned(),
@@ -2611,7 +2624,7 @@ impl SecurePolisNetworkFactory {
                 &self.trusted_polis_id,
                 &self.trusted_trust_domain,
                 &self.trusted_authority,
-                &self.trusted_boot_generations,
+                &self.trusted_node_identities,
             )
     }
 

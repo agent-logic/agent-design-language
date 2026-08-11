@@ -7,7 +7,7 @@ require "open3"
 require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/202/v3/"
+PREFIX = ".csdlc/evidence/202/v4/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/mod.rs adl-runtime/src/distributed/authority_protocol.rs
@@ -30,7 +30,7 @@ end
 proof_path = ROOT.join(PROOF_RELATIVE)
 fail_receipt("missing or unsafe proof") unless proof_path.file? && !proof_path.symlink?
 proof = JSON.parse(File.binread(proof_path))
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue202.authorized_learner_transport_proof.v3" && proof["issue"] == 202
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue202.authorized_learner_transport_proof.v4" && proof["issue"] == 202
 source = proof.fetch("source_revision")
 fail_receipt("source malformed") unless source.match?(/\A[0-9a-f]{40}\z/)
 fail_receipt("ancestry missing") unless system("git", "merge-base", "--is-ancestor", proof.fetch("required_main_ancestor"), source, chdir: ROOT.to_s)

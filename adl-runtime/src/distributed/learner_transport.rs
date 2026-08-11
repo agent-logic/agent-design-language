@@ -366,7 +366,7 @@ impl VerifiedLearnerAdmission {
         polis_id: &str,
         trust_domain: &str,
         authority: &AuthorityMembership,
-        boot_generations: &BTreeMap<Vec<u8>, u64>,
+        node_identities: &BTreeMap<Vec<u8>, (String, u64)>,
     ) -> bool {
         authority.trust_domain_id.as_slice() == trust_domain.as_bytes()
             && self.publication_identity.polis_id == polis_id
@@ -376,8 +376,11 @@ impl VerifiedLearnerAdmission {
                 .get(self.publication_identity.guardian_id.as_bytes())
                 .is_some_and(|voter| {
                     !voter.revoked
-                        && boot_generations.get(self.publication_identity.guardian_id.as_bytes())
-                            == Some(&self.publication_identity.boot_generation)
+                        && node_identities.get(self.publication_identity.guardian_id.as_bytes())
+                            == Some(&(
+                                self.publication_identity.node_id.clone(),
+                                self.publication_identity.boot_generation,
+                            ))
                 })
     }
 }
