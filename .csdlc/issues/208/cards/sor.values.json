@@ -7,18 +7,19 @@
     "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
     "slug": "authenticated-guardian-kernel-continuity-bridge",
     "version": "v0.92",
-    "generation": 51
+    "generation": 52
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Classified and repaired both #208 regressions exposed by PR #230 hosted CI. The shared production runtime fixture now supplies the mandatory private continuity listener, isolated custody roots, exact five-participant bound, separate server/client EKU certificates, trust roots, and SPKI pins; readiness failures retain the child exit status and stderr. The tracked nextest policy now binds the exact 56 issue cases rather than absent binary-name selectors, is explicitly loaded by every standalone proof lane, and keeps a five-second result=fail pipe-closure bound justified by repeated loaded-host false classifications on resource-free cases. Fresh v4 evidence at 24543caa6fc43a5bfb47a12a7884cf3d6a4efda9 retains Runtime 21/21 and kernel 35/35 in two concurrent plus two isolated waves with zero LEAK, production ACIP 2/2, both strict Clippy lanes, exact 56/64/12 behavior parity, current-main ancestry, and clean diff hygiene. Typed recovery cleared stale review/publication truth; distinct exact-head rereview remains required before republishing PR #230.",
+      "summary": "Resolved the PR #230 hosted-CI regressions and the subsequently exercised retained-validator provenance defect. Production test initialization supplies the mandatory isolated private continuity listener, exact five-participant registry, dedicated server/client EKUs, trust roots, and SPKI pins. Nextest uses an exact 56-case filter, explicit standalone config binding, and a five-second result=fail loaded-host EOF bound. The proof validator now parses only canonical typed v2 Option review fields, binds them to the canonical index review, validates exact git-blake3 shape and ancestry, and self-tests malformed, absent, bare, trailing, truncated, and wrong-shape provenance rejection. After incorporating current origin/main, fresh v4 evidence at 146040c47fd64365d2c7eb0670de211855c4156a retains Runtime 21/21 and kernel 35/35 in two concurrent plus two isolated waves with zero LEAK, production ACIP 2/2, both strict Clippy lanes, selector contract, exact 56/64/12 parity, and diff hygiene. Fresh independent rereview remains required before republishing PR #230.",
       "actual_changes": [
-        "Extended the shared production runtime-init fixture with an isolated loopback continuity listener, exact five-participant bound, private state/staging roots, dedicated ServerAuth and ClientAuth certificates, trust roots, and certificate SPKI pins; production readiness disconnects now report the child status and stderr.",
-        "Replaced nextest binary-name overrides with one exact ordered 56-case test filter so workspace and slow-proof selections that lack #208 binaries no longer fail configuration parsing.",
-        "Bound all standalone #208 proof lanes explicitly to the tracked nextest config and retained fail-on-leak semantics with a five-second loaded-host pipe-closure observation window plus the existing shared no-child teardown assertion.",
-        "Expanded the issue-owned producer and validator with the production ACIP 2-test lane and an exact workspace/slow-proof selector contract while retaining repeated isolated and concurrent zero-LEAK denominators."
+        "Extended the production runtime-init fixture with an isolated private continuity listener, exact five-participant bound, dedicated ServerAuth and ClientAuth credentials, trust roots, SPKI pins, and actionable readiness diagnostics.",
+        "Replaced absent binary-name nextest selectors with the exact ordered 56-case filter and explicitly bound all standalone proof lanes to the tracked fail-on-leak policy.",
+        "Expanded retained proof with production ACIP 2/2 and the workspace/slow-proof selector contract while retaining four zero-LEAK full waves per package.",
+        "Repaired the final receipt validator to parse canonical typed v2 Some review fields, compare them with canonical index review truth, and use the embedded review commit for source ancestry and protected-file checks.",
+        "Added fail-closed parser regressions for absent, bare, trailing, unterminated, truncated, and wrong-shape review provenance, then incorporated current origin/main before regenerating proof."
       ],
       "artifacts": [
         "adl/.config/nextest.toml",
@@ -44,7 +45,7 @@
             "kernel_continuity_client",
             "--no-tests=fail"
           ],
-          "purpose": "Prove the exact 21-case Runtime target, shared no-child teardown, and fail-closed classifier policy in two concurrent and two isolated retained waves.",
+          "purpose": "Prove the exact 21-case Runtime target in two concurrent and two isolated retained waves.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/runtime-nextest*.stderr.log: 21/21 in all four waves, zero LEAK"
         },
@@ -80,7 +81,7 @@
             "production_acip_wss",
             "--no-tests=fail"
           ],
-          "purpose": "Reproduce the hosted production ACIP lane with the mandatory private continuity fixture.",
+          "purpose": "Reproduce the hosted production ACIP lane with mandatory private continuity initialization.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/production-acip-nextest.stderr.log: 2/2 passed"
         },
@@ -89,7 +90,7 @@
             "ruby",
             ".csdlc/prepared/issues/208/verify-nextest-workspace-contract.rb"
           ],
-          "purpose": "Reject absent binary-name selectors and require the exact ordered 56-case fail-closed policy plus explicit standalone proof binding.",
+          "purpose": "Reject absent binary-name selectors and require exact fail-closed standalone policy binding.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/nextest-workspace-contract.stdout.log"
         },
@@ -109,7 +110,7 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Reject warnings across the production Runtime, Guardian, exact client tests, and teardown assertion.",
+          "purpose": "Reject warnings across the Runtime, Guardian, client target, and teardown assertion.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/runtime-clippy.stderr.log"
         },
@@ -131,7 +132,7 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Reject warnings across kernel effects, persistence, private server, production fixture, and behavior tests.",
+          "purpose": "Reject warnings across kernel effects, persistence, private server, fixture, and tests.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/kernel-clippy.stderr.log"
         },
@@ -140,7 +141,7 @@
             "ruby",
             ".csdlc/prepared/issues/208/verify-diff-hygiene.rb"
           ],
-          "purpose": "Verify the exact execution-base-to-source diff and current-main ancestry.",
+          "purpose": "Verify exact execution-base-to-source diff hygiene and current-main ancestry.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/diff-hygiene.stdout.log"
         },
@@ -149,7 +150,7 @@
             "ruby",
             ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
           ],
-          "purpose": "Produce the canonical exact 56-case, 64-boundary, 12-lifecycle proof with all hosted-equivalent regressions and zero-LEAK lanes.",
+          "purpose": "Produce exact 56-case, 64-boundary, 12-lifecycle evidence with hosted regressions and zero-LEAK lanes.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/208/v4/execution-proof.json"
         }
