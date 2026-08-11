@@ -31,12 +31,16 @@ was rejected because it destroys provenance and least authority.
 - `docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`
 - `adl-runtime-kernel/src/identity_memory.rs`
 - `adl-runtime-kernel/src/memory_palace.rs`
+- `adl-runtime-kernel/src/capability_envelope.rs`
 
 ## Validation Evidence
 
 - `adl-runtime-kernel/tests/identity_memory.rs`
 - `adl-runtime-kernel/tests/memory_palace.rs`
+- `adl-runtime-kernel/tests/capability_envelope.rs`
 - `.csdlc/evidence/5828/memory_palace-runtime-v3.log`
+- `.csdlc/evidence/5829/capability_envelope-runtime-v3.log`
+- `.csdlc/evidence/5829/native-validation-manifest.json`
 
 ## Supersession Relationships
 
@@ -44,8 +48,10 @@ Refines ADR 0058 and preserves ADR 0015 capability authority.
 
 ## Non-Claims
 
-Does not prove complete autobiographical memory, unrestricted retrieval, or
-authority beyond the explicit capability envelope.
+Does not prove complete autobiographical memory or unrestricted retrieval. The
+envelope does not grant capabilities, invoke providers, models, tools, or
+skills, expose credentials, prove unlimited capacity, or establish birthday
+authority.
 
 ## Approval Boundary
 

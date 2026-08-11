@@ -16,7 +16,7 @@ Bind issue 143, inventory accepted ADRs and landed evidence, correct the stale p
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 

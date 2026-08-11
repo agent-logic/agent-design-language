@@ -2,24 +2,27 @@
 
 ## Status
 
-Status: **Proposed**
+Status: **Deferred**
 
 ## Context
 
-Distributed execution introduces stale membership, duplicate authority,
-partition, lease, relocation, and split-brain risks.
+The distributed-runtime library models stale membership, duplicate authority,
+partition, lease, relocation, and split-brain risks. Production Guardian/kernel
+integration remains the separate open issue #142 boundary.
 
 ## Decision
 
-Guardian-controlled enrollment, certificate identity, membership epochs,
-leases, placement, migration, and fencing determine active authority. A voter
-identity has one effective control key and one authoritative activation.
-Stale, partitioned, replayed, duplicated, or unfenced actors fail closed.
+Defer the operational distributed-runtime architecture decision until issue
+#142 proves real production Guardian/kernel launch and continuity. The landed
+library contract models Guardian-controlled enrollment, certificate identity,
+membership epochs, leases, placement, migration records, and fencing, but its
+in-process guarantees must not be promoted into a live-polis claim.
 
 ## Consequences
 
-Distributed placement does not move governance into cognition or transport and
-cannot silently create two active owners.
+The model remains useful bounded evidence, while production quorum, continuity,
+partition, migration, recovery, Observatory movement, and shutdown claims stay
+with #142.
 
 ## Alternatives Considered
 
@@ -44,9 +47,13 @@ Refines ADR 0011, ADR 0013, and ADR 0054 without replacing Guardian authority.
 
 ## Non-Claims
 
-Does not complete constitutional polis governance, global consensus, or
-unbounded multi-region operation.
+Does not prove production Guardian/kernel launch, authenticated API/WSS
+continuity, live partition, migration, recovery, Observatory movement,
+continued mutation, bounded shutdown, constitutional polis governance, global
+consensus, or unbounded multi-region operation. Those operational claims remain
+blocked on open issue #142.
 
 ## Approval Boundary
 
-Human review must separately promote this candidate into `docs/adr/`.
+Issue #142 must land and receive exact-head human architecture review before
+this record can become Proposed.

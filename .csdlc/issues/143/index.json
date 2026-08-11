@@ -4,81 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "72ac2dc87943a4f4f702b65abca70dde6dceec9065123c6b3c1ec16f243ece85",
-  "phase": "published",
-  "generation": 16,
-  "digest": "9a8afd8ce02907f50dde679c1fc3e5e0fa28fc2fb0d8ea38c5dc50f07cee2090",
+  "phase": "implemented",
+  "generation": 19,
+  "digest": "3c645938e939116ecb5b2e55e8d94827111527ca434a95e9e0b04c08ac791b45",
   "branch": "codex/143-v092-adr-authoring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-143-v092-adrs",
-  "review_assignment": {
-    "reviewer": "subagent:019fed5a-84e9-7ae1-bed2-7b77f285a462",
-    "assigned_by": "codex:143-v092-adr-authoring",
-    "revision": "git-blake3:fda3b101fa20dce11db0f1d7d260e50b574a364e:d1fc429e9742e4641e6fd278e4d232e56c31cf96759605cb4ebed64c54ee3126",
-    "scope": [
-      "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
-      "docs/architecture/adr/README.md",
-      "docs/architecture/adr/V092_ADR_INDEX_143.md",
-      "docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md",
-      "docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md",
-      "docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md",
-      "docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md",
-      "docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md",
-      "docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md",
-      "docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md",
-      "docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md",
-      "docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md",
-      "docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md",
-      "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
-      "docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md",
-      "docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md",
-      ".csdlc/issues/143",
-      ".csdlc/prepared/issues/143",
-      ".csdlc/evidence/143"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fed5a-84e9-7ae1-bed2-7b77f285a462",
-    "scope": [
-      "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
-      "docs/architecture/adr/README.md",
-      "docs/architecture/adr/V092_ADR_INDEX_143.md",
-      "docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md",
-      "docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md",
-      "docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md",
-      "docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md",
-      "docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md",
-      "docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md",
-      "docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md",
-      "docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md",
-      "docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md",
-      "docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md",
-      "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
-      "docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md",
-      "docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md",
-      ".csdlc/issues/143",
-      ".csdlc/prepared/issues/143",
-      ".csdlc/evidence/143"
-    ],
-    "reviewed_revision": "git-blake3:fda3b101fa20dce11db0f1d7d260e50b574a364e:d1fc429e9742e4641e6fd278e4d232e56c31cf96759605cb4ebed64c54ee3126",
-    "findings": [],
-    "residual_risks": [
-      "All thirteen records remain Proposed or Deferred; architecture acceptance requires separate human governance action.",
-      "Operational cross-polis continuity, Observatory runtime consumption, and provider-neutral multi-agent proof remain explicitly unproven and deferred."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 143,
-    "pull_request": 196,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/196",
-    "base": "main",
-    "head": "codex/143-v092-adr-authoring",
-    "revision": "git-blake3:e6abea1b0737013522b9e0017a69764d6af97922:b8c859eaae0b7aba1aa847c863301b0831abb2e1f532b6826dd329fcdfdc6ff6",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -92,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5ae8bbe37a5e7cf105572a6f7d1c8ba84cd7a871c5e7b67b3d0098f848a45cf5",
+      "values_digest": "67e6aa705354c1e81c64d129faf027e868b073b541258691f030f530e68477a3",
       "rendered_digest": "ad6dea616684bb5807185342fe293f0a53209243b3e62171aaaf611376e60a6b",
       "ast_digest": "f34bfa35468a730acf038a4bc7f427d84d1303c4780747f5b30ef145d15dedde"
     },
     "stp": {
-      "values_digest": "72f5cdf570d33f749f7b1782bd52f6a88b3d889089e33b541fd0ea6ecec72dd8",
+      "values_digest": "4641fa34227430b0186dba1dd2f19d8e172d3d44c00d269503f4e1c5474a241a",
       "rendered_digest": "d47a29683c881de78b3f97b649e0d081e78d854b3ef38d8e5aa8a8ee3adb0ae9",
       "ast_digest": "d59b440597105fdb6559ab1d8d25e5cab40995ff170f486561d15b6ea6f6a073"
     },
     "spp": {
-      "values_digest": "edb0adab01fffff8931df0a9043a1ee06c52d132362e5f517b5947a545edc239",
-      "rendered_digest": "5c91bb074696e3af208a7b2f123bb74256f79c958102c5d2e3180bfa013269d1",
-      "ast_digest": "f3dc367d99d5c5d0a1b0e228ef88991e6f4bfde5b62797decada4d83d33d169b"
+      "values_digest": "1dccb922050fb9d27e65cd82bd86fba342d1d228263c4beb6507e6ceee56e850",
+      "rendered_digest": "73b7acf2c3f4f49eceba920775942cf112cdafb7bdfced53f4622697cefcb27d",
+      "ast_digest": "7b7b5d317629ed6d6c3395d0d5786bda096eaab8fbc7a19925fc6f1469661806"
     },
     "vpp": {
-      "values_digest": "9318db407500bf6068e76f676569b8c1d58f881108e678a7d14498fa1a22c07a",
+      "values_digest": "68253fa7a196a6c06081e6d4e51ff287fad483d5d33e7df07db62a08f42ca804",
       "rendered_digest": "ae898e5e72ba0298de4e36e016b737cb7aef0da49ef9e882a4ec4326d4d8903a",
       "ast_digest": "49e4e1d4959f79a42905dea5320ffba1c19c1c0d62d617909ddf04d3967dff0e"
     },
     "srp": {
-      "values_digest": "8c29ccdc5f914990a586f5cce36fef6cc331af4e867dd3d63ccc642fea9d6383",
-      "rendered_digest": "c299113917aa0515146190a4bfc3c0bcbacae28def6ec8d817b23487965031ea",
-      "ast_digest": "028aa4cca17247c8d7b706f8e905a84248ed9096cf28cd4bd204b1e89335b669"
+      "values_digest": "afa731dc73124e697feb9a1a4eac9cacc53c6bc0acb01ae2bfe7912a368792d9",
+      "rendered_digest": "70e4c746c3bceb40d6642d7ce61c40e881b5a57867b4440c6fe115607cc8ca94",
+      "ast_digest": "1806c3c7b882e9610fd3b5504d3fd4b54abd9c4b5da37741f17b2fbc6336a406"
     },
     "sor": {
-      "values_digest": "56c14ce6ef4d801b543f6309d8a22ef9d4947539707f158451001d73856abd54",
-      "rendered_digest": "525f3751f7d06473a106b914a29311cf8fff70fd3c02f1f304a8928fb263e124",
-      "ast_digest": "230603067369881558dd0f91dede5b0a8dc2957ed136fb56d662c508934825d7"
+      "values_digest": "e00d7d513457f02b3fd8101f7c74b5b1f954ebd60a5842d63744f780264a57dd",
+      "rendered_digest": "6de39cc0c883cfb579f7c926372dcac40c73ffdcd01d53d9f27383357b9917e4",
+      "ast_digest": "ad3a355bdc38d243d570e7f8986ecebf9b01a9be717556274c3a62a8625fb7e3"
     }
   },
   "transitions": [
@@ -157,6 +90,13 @@
       "to": "published",
       "actor": "codex:143-v092-adr-authoring",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:143-review-remediation",
+      "reason": "Recover stale review and publication after exact-head review findings and newly ancestral WP-13A and WP-15 evidence changed ADR dispositions."
     }
   ],
   "audit": [
@@ -292,6 +232,27 @@
       "actor": "codex:143-v092-adr-authoring",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:143-review-remediation",
+      "reason": "Recover stale review and publication after exact-head review findings and newly ancestral WP-13A and WP-15 evidence changed ADR dispositions.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:143-review-remediation",
+      "reason": "Add the revision-bound ADR evidence manifest to the exact issue-owned surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/143\",\".csdlc/prepared/issues/143\",\".csdlc/evidence/143\",\".csdlc/evidence/143/adr-evidence-manifest.json\",\".csdlc/prepared/issues/143/validate-v092-adrs.rb\",\"docs/milestones/v0.92/ADR_PLAN_v0.92.md\",\"docs/architecture/adr/README.md\",\"docs/architecture/adr/V092_ADR_INDEX_143.md\",\"docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md\",\"docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md\",\"docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md\",\"docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md\",\"docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md\",\"docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md\",\"docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md\",\"docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md\",\"docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md\",\"docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md\",\"docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md\",\"docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md\",\"docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:143-review-remediation",
+      "reason": "Replace stale ADR disposition and validation truth after exact-head review remediation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Authored and semantically validated the complete v0.92 ADR 0059-0071 candidate packet as nine Proposed and four Deferred records without accepting any ADR.\",\"changes\":[\"Narrowed ADR 0059 to structural candidate validation and separated trusted witness authority into ADR 0062.\",\"Completed ADR 0061 capability-envelope evidence with implementation, focused tests, and retained #5829 native proof.\",\"Advanced ADRs 0062, 0063, and 0064 to Proposed from newly ancestral WP-15, #144 authority-repair, and WP-13A proof.\",\"Deferred ADR 0066 pending open issue #142 production Guardian/kernel and live-polis operational proof.\",\"Added a revision-bound evidence manifest with exact source, validation, outcome, claim-coverage, prerequisite, and blocker truth for all thirteen candidates.\",\"Strengthened the focused validator to enforce semantic section content, exact manifest parity, ancestral revisions, protected evidence blobs, disposition prerequisites, index/plan parity, and exact nine/four totals.\",\"Preserved all candidates as Proposed or Deferred and left docs/adr unchanged.\"],\"artifacts\":[\"docs/milestones/v0.92/ADR_PLAN_v0.92.md\",\"docs/architecture/adr/README.md\",\"docs/architecture/adr/V092_ADR_INDEX_143.md\",\"docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md\",\"docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md\",\"docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md\",\"docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md\",\"docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md\",\"docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md\",\"docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md\",\"docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md\",\"docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md\",\"docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md\",\"docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md\",\"docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md\",\"docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md\",\".csdlc/evidence/143/adr-evidence-manifest.json\",\".csdlc/prepared/issues/143/validate-v092-adrs.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/143/validate-v092-adrs.rb\"],\"purpose\":\"Validate exact candidate and disposition denominator, non-empty semantics, manifest parity, ancestral proof revisions, protected evidence blobs, explicit outcomes and blockers, accepted-file non-mutation, and bounded non-claims.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: v0.92 ADR 0059-0071 packet contract\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace in the exact documentation and lifecycle delta.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff --check passed with no output\"}]}"
     }
   ]
 }

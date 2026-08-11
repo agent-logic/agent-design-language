@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Authored and focused-validated the complete v0.92 ADR 0059-0071 Proposed/Deferred candidate packet without accepting any ADR.
+Authored and semantically validated the complete v0.92 ADR 0059-0071 candidate packet as nine Proposed and four Deferred records without accepting any ADR.
 
 ## Artifacts
 
@@ -32,23 +32,18 @@ Authored and focused-validated the complete v0.92 ADR 0059-0071 Proposed/Deferre
 - docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md
 - docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md
 - docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md
-- .csdlc/prepared/issues/143/validate-v092-adrs.rb
-- docs/milestones/v0.92/ADR_PLAN_v0.92.md
-- docs/architecture/adr/V092_ADR_INDEX_143.md
-- docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md
-- docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md
+- .csdlc/evidence/143/adr-evidence-manifest.json
 - .csdlc/prepared/issues/143/validate-v092-adrs.rb
 
 ## Execution
 
-- Corrected the stale v0.92 ADR plan and replaced obsolete 0029-0033 reservations with the final 0059-0071 catalog.
-- Authored thirteen candidate records with consistent sections, evidence references, supersession boundaries, non-claims, and approval gates.
-- Deferred witness receipts, ACP authority, adaptive learning, governance handoff, Observatory consumer integration, and provider-neutral proof where terminal evidence is missing.
-- Recorded cross-polis continuity as a planning-only Proposed boundary that rejects copying and defers operational migration.
-- Added an exact reviewer index and focused fail-closed packet validator while leaving docs/adr unchanged.
-- Corrected the accepted baseline through ADR 0058 and authored the thirteen candidate records.
-- Grounded seven Proposed dispositions in landed proof and deferred six boundaries with missing or corrective proof.
-- Added an exact index, approval boundaries, non-claims, and a focused packet validator.
+- Narrowed ADR 0059 to structural candidate validation and separated trusted witness authority into ADR 0062.
+- Completed ADR 0061 capability-envelope evidence with implementation, focused tests, and retained #5829 native proof.
+- Advanced ADRs 0062, 0063, and 0064 to Proposed from newly ancestral WP-15, #144 authority-repair, and WP-13A proof.
+- Deferred ADR 0066 pending open issue #142 production Guardian/kernel and live-polis operational proof.
+- Added a revision-bound evidence manifest with exact source, validation, outcome, claim-coverage, prerequisite, and blocker truth for all thirteen candidates.
+- Strengthened the focused validator to enforce semantic section content, exact manifest parity, ancestral revisions, protected evidence blobs, disposition prerequisites, index/plan parity, and exact nine/four totals.
+- Preserved all candidates as Proposed or Deferred and left docs/adr unchanged.
 
 ## Validation
 
@@ -58,7 +53,7 @@ Authored and focused-validated the complete v0.92 ADR 0059-0071 Proposed/Deferre
       "ruby",
       ".csdlc/prepared/issues/143/validate-v092-adrs.rb"
     ],
-    "purpose": "Validate exact numbering, required sections, Proposed/Deferred status, repository evidence, index parity, accepted-file non-mutation, and bounded non-claims.",
+    "purpose": "Validate exact candidate and disposition denominator, non-empty semantics, manifest parity, ancestral proof revisions, protected evidence blobs, explicit outcomes and blockers, accepted-file non-mutation, and bounded non-claims.",
     "outcome": "passed",
     "evidence_ref": "PASS: v0.92 ADR 0059-0071 packet contract"
   },
@@ -71,36 +66,16 @@ Authored and focused-validated the complete v0.92 ADR 0059-0071 Proposed/Deferre
     "purpose": "Reject malformed whitespace in the exact documentation and lifecycle delta.",
     "outcome": "passed",
     "evidence_ref": "git diff --check passed with no output"
-  },
-  {
-    "command": [
-      "/usr/bin/git",
-      "diff",
-      "--check",
-      "origin/main...HEAD"
-    ],
-    "purpose": "Run exact issue diff hygiene.",
-    "outcome": "passed",
-    "evidence_ref": "v092-adr-diff-hygiene.log"
-  },
-  {
-    "command": [
-      "/usr/bin/ruby",
-      ".csdlc/prepared/issues/143/validate-v092-adrs.rb"
-    ],
-    "purpose": "Run the focused issue-owned documentation validator.",
-    "outcome": "passed",
-    "evidence_ref": "v092-adr-packet-contract.log"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

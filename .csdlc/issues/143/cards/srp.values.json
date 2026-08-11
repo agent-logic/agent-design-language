@@ -7,15 +7,15 @@
     "title": "[v0.92][ADR] Author and review the milestone architecture decision record set",
     "slug": "v092-adr-authoring",
     "version": "v0.92",
-    "generation": 16
+    "generation": 19
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/milestones/v0.92/ADR_PLAN_v0.92.md\ndocs/architecture/adr/README.md\ndocs/architecture/adr/V092_ADR_INDEX_143.md\ndocs/architecture/adr/0059-first-true-birthday-evidence-boundary.md\ndocs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md\ndocs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md\ndocs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md\ndocs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md\ndocs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md\ndocs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md\ndocs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md\ndocs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md\ndocs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md\ndocs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md\ndocs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md\ndocs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md\n.csdlc/issues/143\n.csdlc/prepared/issues/143\n.csdlc/evidence/143",
-      "review_revision": "git-blake3:fda3b101fa20dce11db0f1d7d260e50b574a364e:d1fc429e9742e4641e6fd278e4d232e56c31cf96759605cb4ebed64c54ee3126",
-      "reviewer": "subagent:019fed5a-84e9-7ae1-bed2-7b77f285a462",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does every candidate decision follow from cited landed repository evidence rather than forward-looking plans?",
         "Do authority, TLS, replay, mutation, identity, and witness decisions retain fail-closed boundaries and precise non-claims?",
@@ -24,11 +24,8 @@
         "Are numbering, status, supersession, approval, and index relationships complete and collision-free?"
       ],
       "findings": [],
-      "residual_risk": [
-        "All thirteen records remain Proposed or Deferred; architecture acceptance requires separate human governance action.",
-        "Operational cross-polis continuity, Observatory runtime consumption, and provider-neutral multi-agent proof remain explicitly unproven and deferred."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

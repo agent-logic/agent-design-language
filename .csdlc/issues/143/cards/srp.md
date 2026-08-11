@@ -8,29 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-docs/milestones/v0.92/ADR_PLAN_v0.92.md
-docs/architecture/adr/README.md
-docs/architecture/adr/V092_ADR_INDEX_143.md
-docs/architecture/adr/0059-first-true-birthday-evidence-boundary.md
-docs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md
-docs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md
-docs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md
-docs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md
-docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md
-docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md
-docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md
-docs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md
-docs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md
-docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md
-docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md
-docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md
-.csdlc/issues/143
-.csdlc/prepared/issues/143
-.csdlc/evidence/143
+
 
 ## Prompts
 
@@ -50,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- All thirteen records remain Proposed or Deferred; architecture acceptance requires separate human governance action.
-- Operational cross-polis continuity, Observatory runtime consumption, and provider-neutral multi-agent proof remain explicitly unproven and deferred.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:fda3b101fa20dce11db0f1d7d260e50b574a364e:d1fc429e9742e4641e6fd278e4d232e56c31cf96759605cb4ebed64c54ee3126")
+Revision: None
 
-Reviewer: Some("subagent:019fed5a-84e9-7ae1-bed2-7b77f285a462")
+Reviewer: None
 
-Result: pass
+Result: pre_review

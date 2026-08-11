@@ -7,13 +7,13 @@
     "title": "[v0.92][ADR] Author and review the milestone architecture decision record set",
     "slug": "v092-adr-authoring",
     "version": "v0.92",
-    "generation": 16
+    "generation": 19
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Bind issue 143, inventory accepted ADRs and landed evidence, correct the stale plan, author one Proposed or Deferred document per reserved number, build an evidence/disposition index and focused validator, then resolve fresh exact-head review before publishing.",
       "steps": [
         {
@@ -76,6 +76,8 @@
       "affected_areas": [
         ".csdlc/issues/143",
         ".csdlc/prepared/issues/143",
+        ".csdlc/evidence/143",
+        ".csdlc/evidence/143/adr-evidence-manifest.json",
         ".csdlc/prepared/issues/143/validate-v092-adrs.rb",
         "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
         "docs/architecture/adr/README.md",

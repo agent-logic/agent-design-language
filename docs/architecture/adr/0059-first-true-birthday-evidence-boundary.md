@@ -11,16 +11,22 @@ evidence threshold defined for a first true Godel-agent birthday.
 
 ## Decision
 
-A birthday is a deterministic decision over a bounded candidate containing the
-required identity, continuity, memory, capability, witness, and authority
-references. Startup, wake, restore, admission, replay, and copied state are not
-birthday evidence. Missing, stale, duplicated, or contradictory evidence fails
-closed.
+A birthday candidate receives a deterministic structural decision over bounded
+identity, continuity, memory, capability, witness, and authority references.
+The decision verifies required categories, safe repository-relative paths,
+visibility, digest shape, continuity structure, and packet integrity; it does
+not authenticate referenced artifacts, establish trust roots, or prove their
+freshness. Startup, wake, restore, admission, replay, and copied state are not
+birthday evidence. Missing, duplicated, malformed, private, or structurally
+contradictory inputs fail closed. Trusted witness authority and freshness are a
+separate ADR 0062 boundary.
 
 ## Consequences
 
-Birthday consumers can rely on one canonical decision and digest while launch
-claims remain separate from the implemented decision contract.
+Birthday consumers can rely on one canonical structural candidate decision and
+digest. They must perform the separate trusted witness verification before
+treating referenced evidence as authenticated or current, and launch claims
+remain outside this contract.
 
 ## Alternatives Considered
 
@@ -43,8 +49,9 @@ Refines ADR 0016 without superseding its moral-evidence boundary.
 
 ## Non-Claims
 
-Does not prove personhood, consciousness, legal status, citizenship, or an
-externally witnessed birth event.
+Does not authenticate evidence provenance, verify signatures or trust roots, or
+establish evidence freshness. Does not prove personhood, consciousness, legal
+status, citizenship, or an externally witnessed birth event.
 
 ## Approval Boundary
 

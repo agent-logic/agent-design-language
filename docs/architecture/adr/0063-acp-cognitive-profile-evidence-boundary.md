@@ -2,27 +2,29 @@
 
 ## Status
 
-Status: **Deferred**
+Status: **Proposed**
 
 ## Context
 
-ACP has landed profile code and focused tests, but its canonical feature
-contract identifies corrective authority issue #144.
+ACP profile code, focused tests, and corrective authority issue #144 are merged
+and ancestral to this packet.
 
 ## Decision
 
-Defer the architecture decision until #144 resolves profile authority and the
-result is reviewed at an exact revision. ACP should remain an evidence-grounded
-profile projection, not identity or rights authority.
+ACP remains an evidence-grounded profile projection whose authority is anchored
+to runtime-owned identity, continuity, capability, and predecessor evidence.
+Public projection is strictly narrower than the private governed profile and
+does not become identity or rights authority.
 
 ## Consequences
 
-Existing implementation remains usable evidence but does not receive durable
-architecture approval from this packet.
+Consumers receive a canonical, integrity-checked profile and bounded public
+projection without inheriting raw evidence or ambient authority.
 
 ## Alternatives Considered
 
-Ignoring the corrective authority issue was rejected as review-hostile.
+Treating a profile as self-authorizing identity, accepting a caller-nominated
+authority anchor, or projecting private evidence publicly was rejected.
 
 ## Source Evidence
 
@@ -32,17 +34,22 @@ Ignoring the corrective authority issue was rejected as review-hostile.
 ## Validation Evidence
 
 - `adl-runtime-kernel/tests/cognitive_profile.rs`
-- `.csdlc/evidence/5830/cognitive-profile-runtime-v3.log`
+- `adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs`
+- `.csdlc/evidence/144/cognitive-profile-authority.log`
+- `.csdlc/evidence/144/cognitive-profile-public-integration.log`
+- `.csdlc/evidence/144/cognitive-profile-compile-fail.log`
+- `.csdlc/evidence/144/local-validation-manifest.json`
 
 ## Supersession Relationships
 
-May refine ADR 0016 and ADR 0019 after corrective proof.
+Refines ADR 0016 and ADR 0019 without granting their broader moral or social
+authority.
 
 ## Non-Claims
 
-No identity, reputation, consciousness, rights, public standing, or corrected
-authority contract is claimed.
+No reputation, consciousness, rights, personhood, or public standing is
+claimed; the profile is not an identity root or governance decision.
 
 ## Approval Boundary
 
-Issue #144 must land and receive human architecture review before Proposed.
+Human review must separately promote this candidate into `docs/adr/`.
