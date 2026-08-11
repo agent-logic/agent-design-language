@@ -3,9 +3,9 @@
   "issue": 200,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
-  "phase": "bound",
-  "generation": 6,
-  "digest": "67d2546c5d13bef2cbba3f04f5c71d4d1643a8ab562a8d8075162f22f02ed77c",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "3f513b7b6ca373f9b401783e7d5d82027f98d32a0314886d0affe65d87ca0a39",
   "branch": "codex/200-concrete-authority-reconciliation-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-200-concrete-authority-reconciliation-preparation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c7271a898ff4df39c3d13a094da268e2f88830de1bdf4003442dd76fdafb9846",
+      "values_digest": "46afc8f680457bd0f4b90dfc3294c82b90823ea3a2012b82aa9de8e0df206bef",
       "rendered_digest": "2bf7b8cfacd8ddd000f15d512793721dd8a66a41495705e6eea0e4720f11b449",
       "ast_digest": "923d2e83e0be4ba4a7d60955f63d16ee37ccd6f57575b3d316923eec9d5a102c"
     },
     "stp": {
-      "values_digest": "272697661cdf7853f2b5ba07d489c864374ec6f7e22caece5b11b88911b2f8a3",
+      "values_digest": "3f707c8ae61f0b46afde114d3567e5196766189f89a430a87850ec4edcc79862",
       "rendered_digest": "b57d439d1570e4d0f8228d5c1801e852b4ef66b058757c8f52598b0191fdc466",
       "ast_digest": "ed3f711248a7c94c706cb3ef8eba0be4f78f4cb1890030f4e03aa319a4dc9fae"
     },
     "spp": {
-      "values_digest": "029673034040ede4768a6775e217c16d4c5104e322b54a8e7bbc3f3c12038776",
+      "values_digest": "12195b043bc9fd02ce0609a1596eab328c026d6747aa6f426ec8c05e03ebcd2a",
       "rendered_digest": "508f6b091a6b45b5024dcc0f69fecc7b1973b8a9edfa9afc513bdb71b4bdff31",
       "ast_digest": "03a1a0dcd285642ffd452540df5baf516967146a70d6c99dc4bb6e92825b3cb6"
     },
     "vpp": {
-      "values_digest": "bf46f7e2f1c9f14e782507d739bc00fcbb01d8cd1efe1927b08459bba9023952",
+      "values_digest": "b0262761dd0c4a1a5e633f94f6268202046a416a0e920689e4a1d3f73d35a9cd",
       "rendered_digest": "b19adcd318fa48f408a267f17c2a1f74c54cc933155eb4f1c75c9edaff1413b7",
       "ast_digest": "af01edb6ae4e6432d48e99719f6c2eec6f31c3afbd0c0ae7d0e33c079cf9e479"
     },
     "srp": {
-      "values_digest": "1922476704f3cb8a1cff3e9a9d1cc15e8dc7c3733466e5a9f4e67aebfb8f60c0",
+      "values_digest": "7b67cd2335b591dec750734c5271adfb7429e11b022d988ea15f61ac2f95e877",
       "rendered_digest": "4d7083bad3aa26de013aca07967f97d2db2738cd1771028d035a7e8316a2f3bc",
       "ast_digest": "cd1b7f39fc02e2a9acb63111ce8f25eefa9c354685111feeec13080532aa9bd1"
     },
     "sor": {
-      "values_digest": "7208c8d85fbffa62d2481e5997c1c5e3af95b132553a178cc6c0506af86b5d47",
-      "rendered_digest": "f30f60df6721af0736e5a2e444c83f79ef29191bd8d607ba8af55dd8af8b4a83",
-      "ast_digest": "e4517ecca803ffa7e9bbca085fe73d80d878315c9a8fa57b69eef3269503673a"
+      "values_digest": "8c0f1b25d9a6ea2473fc510722ce45a9e51899e1e6fc633ce513bcac2ccf45f2",
+      "rendered_digest": "cdef4d793f69946abe21a28bd18b2a00b4c50e1151e1754cebe302548734bdaf",
+      "ast_digest": "620a0e2d2e1b1f53dbf20097492ce5785e9289f6ebb481ac5934528154d25052"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -126,6 +133,20 @@
       "actor": "codex:/root/advance_200_after_201",
       "reason": "The portable immutable receipt binds the exact 36-case focused lane and strict Clippy to source 977213b66f131c8ff811274ed5293e8814303e02; independent review remains S4.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Record exact branch-only implementation and portable retained proof truth while leaving independent review, publication, merge, and terminal closeout pending.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #200 crash-safe concrete authority reconciliation barrier behind the opaque #201 publication token. The retained portable receipt at source 977213b66f131c8ff811274ed5293e8814303e02 binds exactly 36 focused cases, strict Clippy, immutable source/proof digests, and merge-safe ancestry. The broader runtime library also passes 264/264. SPP S4 independent review remains pending; nothing is published, merged, or closed.\",\"changes\":[\"Added the sealed concrete reconciliation registry with Pending, Reconciling, Checkpointed, and Published durable phases; exact retry caching; bounded canonical journal state; external checkpoint CAS; marker/view publication; and fail-closed lineage-bound read and mutation permits.\",\"Extended the #201 published result with runtime-only node identity and a crate-private projection while preserving the persisted #201 schema and digest, then routed Polis runtime reconciliation through the opaque publication result.\",\"Added a cfg(test)-only deterministic adapter and fault hooks plus 34 module tests and two production integration tests, yielding the exact approved 36-case denominator without exposing a production adapter.\",\"Added portable proof producer and validator scripts with immutable protected-source, stream, case-marker, ancestry, and squash-safe checks; retained v2 proof supersedes the initial host-Ruby-specific v1 attempt.\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_reconciliation.rs\",\"adl-runtime/src/distributed/authority_reconciliation/tests.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_authority_reconciliation.rs\",\".csdlc/prepared/issues/200/produce-proof-receipt.rb\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\",\".csdlc/evidence/200/v2/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--no-tests=fail\",\"-E\",\"test(/authority_reconciliation/)\"],\"purpose\":\"Prove the exact approved unit-plus-integration reconciliation denominator: 36 tests run and 36 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v2/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove production library and public integration target are warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v2/execution-proof.json\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--no-tests=fail\"],\"purpose\":\"Prove the full runtime library remains green after the bounded change: 264 tests run and 264 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/distributed/authority_reconciliation.rs\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\"],\"purpose\":\"Prove portable immutable receipt, exact markers, protected digests, ancestry, and clean proof paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v2/execution-proof.json\"},{\"command\":[\"cargo\",\"fmt\",\"--check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/distributed/authority_reconciliation.rs\"}]}"
     }
   ]
 }

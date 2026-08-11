@@ -1,8 +1,8 @@
 {
   "issue": 200,
   "card": "sor",
-  "expected_generation": 6,
-  "expected_digest": "67d2546c5d13bef2cbba3f04f5c71d4d1643a8ab562a8d8075162f22f02ed77c",
+  "expected_generation": 7,
+  "expected_digest": "56cb4775f0fde6e6a92ccc6d21f29bf1a3e6f7190b5fe344f88650395c99d8ec",
   "actor": "codex:/root/advance_200_after_201",
   "reason": "Record exact branch-only implementation and portable retained proof truth while leaving independent review, publication, merge, and terminal closeout pending.",
   "operation": {
