@@ -5,10 +5,35 @@
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "implemented",
   "generation": 39,
-  "digest": "a2f4ad6fc3b1551aedf3c2c654d04969c8cd029e1135e135d0192555acb099ae",
+  "digest": "a0a086582d61546ca5e05d9991179be52dfc12220a5d64c1eeb949c5854d0636",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+    "assigned_by": "codex:wp18c03-execution",
+    "revision": "git-blake3:5fd382c94203c58a4327dca79ff35824afcc624f:f25e487e18c95cb61848d69d379399e789041dda004eeef9eade6f82e238bf6b",
+    "scope": [
+      "adl-runtime-kernel/build.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      ".csdlc/issues/113"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +69,9 @@
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "cba6b9a1b157d13313aa6adf99ab11eee5f5bfd7203671ea19f39785bf550f5a",
-      "rendered_digest": "d9c26dbd6a36e87a985ca27ac27d1d24770837353ad4f5d42e457812b5fbc9d3",
-      "ast_digest": "9e00c4298c70492257694a1618a4adef8407c5b63b1f0e5b961f468d05b107fb"
+      "values_digest": "6c038d92108df816a137d49ea99101fa3f35655ac02df870b55838d4fae8ab0b",
+      "rendered_digest": "268af559b773b02e500379b1473fc9239e440b68aa1dccb853e3a42791815f56",
+      "ast_digest": "db7bddb18562ea60a2ae83372cb0fa04d836573d0fe91c59fb927fa948e8daed"
     },
     "sor": {
       "values_digest": "4ca1082e676f35ce0a113a2e795c00e5fa9d93191fd2473b202eec3be0d1658b",
@@ -392,6 +417,13 @@
       "actor": "codex:wp18c03-execution",
       "reason": "Resolve the publication-intent findings by excluding mutable operational request JSON from substantive review scope and regenerating its CAS fields only after current review truth exists.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 39,
+      "actor": "codex:wp18c03-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

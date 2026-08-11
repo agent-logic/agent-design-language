@@ -41,3 +41,4 @@
 {"sequence":41,"generation":37,"actor":"codex:wp18c03-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":42,"generation":38,"actor":"subagent:019fef34-1897-7353-96e7-49320ae0043a","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":43,"generation":39,"actor":"codex:wp18c03-execution","reason":"Resolve the publication-intent findings by excluding mutable operational request JSON from substantive review scope and regenerating its CAS fields only after current review truth exists.","operation":"recover_review"}
+{"sequence":44,"generation":39,"actor":"codex:wp18c03-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
