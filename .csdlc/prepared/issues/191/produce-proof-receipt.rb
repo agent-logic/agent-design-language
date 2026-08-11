@@ -110,7 +110,7 @@ end
 mode = ARGV.fetch(0, "produce")
 fail_proof("unsupported mode") unless mode == "produce"
 source = ARGV.fetch(1)
-output_relative = ARGV.fetch(2, ".csdlc/evidence/191/v3")
+output_relative = ARGV.fetch(2, ".csdlc/evidence/191/v4")
 fail_proof("source revision malformed") unless source.match?(/\A[0-9a-f]{40}\z/)
 head, status = Open3.capture2("git", "rev-parse", "HEAD", chdir: ROOT.to_s)
 fail_proof("source must be exact current HEAD") unless status.success? && head.strip == source

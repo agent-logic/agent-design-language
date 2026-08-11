@@ -38,7 +38,7 @@ EXPECTED_CASES = %w[
   unproved_polis_and_oversized_frame
 ].freeze
 EXPECTED_ARGV = {
-  "nextest" => ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_runtime_transport", "--no-tests=fail"],
+  "nextest" => ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_runtime_transport", "--no-tests=fail", "--test-threads=1"],
   "clippy" => ["cargo", "clippy", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_runtime_transport", "--", "-D", "warnings"],
   "workspace_compile" => ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--workspace", "--no-run"],
   "machine_cases" => ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_runtime_transport", "--", "--nocapture", "--test-threads=1"]
@@ -71,7 +71,7 @@ def git_output(*arguments)
   stdout
 end
 
-proof_relative = ARGV.fetch(0, ".csdlc/evidence/191/v3/execution-proof.json")
+proof_relative = ARGV.fetch(0, ".csdlc/evidence/191/v4/execution-proof.json")
 proof_path = ordinary_file(proof_relative, PREFIX)
 proof = JSON.parse(File.binread(proof_path))
 fail_receipt("schema mismatch") unless proof["schema"] == "adl.issue191.secure_raft_proof.v1"
