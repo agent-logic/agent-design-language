@@ -7,7 +7,7 @@
     "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
     "slug": "focused-runtime-validation-routing",
     "version": "v0.92",
-    "generation": 31
+    "generation": 32
   },
   "status": "pre_phase",
   "content": {
@@ -43,8 +43,8 @@
           "evidence_ref": "selector-contract.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

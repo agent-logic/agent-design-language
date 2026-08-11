@@ -4,52 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
-  "phase": "published",
-  "generation": 31,
-  "digest": "13a4c00570a4f361ca983abfebbaffa688526a65862847e10dfa39902eb0ec64",
+  "phase": "implemented",
+  "generation": 32,
+  "digest": "20724f6cc01fe825f42dca23f968c2f27c92aa4aaa0c28781ae5722dfeb8fcb9",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": {
-    "reviewer": "codex-exec:issue-226-corrected-publication-safe-review",
-    "assigned_by": "codex:226-focused-runtime-validation-routing",
-    "revision": "git-blake3:01a28fb8359ee417ce600d53cf97c584d8edce08:bf5f6cf843315f20598367a625783720bf4a3fe379220d4e48d4862a39d885e7",
-    "scope": [
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      ".csdlc/evidence/226",
-      ".csdlc/prepared/issues/226"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-exec:issue-226-corrected-publication-safe-review",
-    "scope": [
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      ".csdlc/evidence/226",
-      ".csdlc/prepared/issues/226"
-    ],
-    "reviewed_revision": "git-blake3:01a28fb8359ee417ce600d53cf97c584d8edce08:bf5f6cf843315f20598367a625783720bf4a3fe379220d4e48d4862a39d885e7",
-    "findings": [],
-    "residual_risks": [
-      "Optional hosted, coverage, soak, slow, and long jobs were intentionally not run."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 226,
-    "pull_request": 233,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/233",
-    "base": "main",
-    "head": "codex/226-focused-runtime-validation-routing",
-    "revision": "git-blake3:4782a2cf982285dfbd250ff254f03f56af25e9a4:5258daab6596005863eb03d229583274c32e3b0af21b691cdccc1493b5a9a7b2",
-    "linkage_mode": "part_of",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -63,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7f7c722e1e75cd745b41b5b3a99e1ce4303a40331375be8cf2af316d3b985d8a",
+      "values_digest": "6916f02c70a4c5a7cf60cfca6de92d9a7d7da71d5dbe219d6e5270b8f2cdca49",
       "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
       "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
     },
     "stp": {
-      "values_digest": "e8d9b9eae1630db743c0d22caafff2c0640253e2da1c7a0d6f25a88879eafce2",
+      "values_digest": "c3546b01d3c4c109718c72d81de5cef2a6f826f317b24b814f91db1fc4b9ae58",
       "rendered_digest": "a6faeaeb82e223d1b0d7ad0414ad40e1b89002e5bea0b8443c885b7af71fee58",
       "ast_digest": "7624a3c03abf3bcca7cac469399714c1e1010189fa7be49366dbc24dbf8b6166"
     },
     "spp": {
-      "values_digest": "20da9d7cc492ccb484ac6634a9b6cbec8d1deafa6535c003b8014a1f557a6500",
+      "values_digest": "ec2dee25cd2ef944796fe78b69915bfd64c501bb2221cb5b2763cb4bfcb161ea",
       "rendered_digest": "b3e191c0cb5d1523edd4ed04a5ff4110124a0b16c58912723c8a0a5aabc0550f",
       "ast_digest": "a0cd926a07e9c1d7518af1efd50f744a2cc49ce7b43c7d50c920e94d0ad9b452"
     },
     "vpp": {
-      "values_digest": "9a78707cb0286e097cf18c82e6b49464fc7deab761f7569f5ad20a055941628e",
+      "values_digest": "3cc17aa793b518ac6132f6aae44c0aa8c606c2243f48b9d6f6b0420b320f74b0",
       "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "a3d047c17699bba5974d7249da8eb7ed252f5cc224a9556f82e7e6f7a9f989eb",
-      "rendered_digest": "377c983d57cfb12d00e72bb1b7b0fe4099c90a904ec38623cb0ea0d6ec8b17b7",
-      "ast_digest": "a031f6f55af85d0bbfbfaca279dc1e9d2b0fcb8d43d12a10497bb35a5635d9f7"
+      "values_digest": "42a82acd6c0259d9991659776b195767cac951bcaf9792ac893142d948d49a45",
+      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
+      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
     },
     "sor": {
-      "values_digest": "7f78f31704332fee77a23e49440d3b78901ad521f26f0133f1978b3ab1e18391",
-      "rendered_digest": "c026ad96cd2b586eba31101cd0616906ccf846edc8f7379535056d9187428f60",
-      "ast_digest": "f581484b8acd0f884e0ad15cfdca04871491b588f5698348c54e089712d37db6"
+      "values_digest": "9a850b70c30b8df434aa9f78d4806402c9ea96d6813c5aeaa1281c7be355000f",
+      "rendered_digest": "50bd38ec524e3785c2da01e6fd2426c164d084b259b4828ded63ab55a6985722",
+      "ast_digest": "bec40a0c58bd803ce0e96adc993cca684734f0e46c86bdf7d2dc487df456113d"
     }
   },
   "transitions": [
@@ -184,6 +146,13 @@
       "to": "published",
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-226-terminal-routing",
+      "reason": "Refresh exact-head review and closing publication truth after transferring the remaining systemic long-test and workflow-fanout scope to #234."
     }
   ],
   "audit": [
@@ -550,6 +519,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 53,
+      "generation": 32,
+      "actor": "codex:issue-226-terminal-routing",
+      "reason": "Refresh exact-head review and closing publication truth after transferring the remaining systemic long-test and workflow-fanout scope to #234.",
+      "operation": "recover_review"
     }
   ]
 }
