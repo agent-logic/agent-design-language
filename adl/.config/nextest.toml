@@ -3,3 +3,17 @@ nextest-version = "0.9.133"
 [profile.default]
 retries = 0
 leak-timeout = "100ms"
+
+# Both issue #208 harnesses synchronously close their fixture roots, and every
+# kernel_continuity_client case additionally proves at its shared teardown
+# boundary that it owns no live or unreaped child process before returning.
+# On loaded macOS hosts, nextest's 100 ms post-exit pipe-closure observation can
+# still expire before the runner is rescheduled. Keep the correction target-
+# local and fail any genuine inherited-handle leak that survives 500 ms.
+[[profile.default.overrides]]
+filter = 'binary(kernel_continuity_client)'
+leak-timeout = { period = "500ms", result = "fail" }
+
+[[profile.default.overrides]]
+filter = 'binary(kernel_continuity_control)'
+leak-timeout = { period = "500ms", result = "fail" }

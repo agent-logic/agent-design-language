@@ -1040,6 +1040,28 @@ fn collect_durable_witness(root: &Path, path: &Path, output: &mut Vec<String>) {
     }
 }
 
+#[cfg(unix)]
+fn assert_no_child_processes(name: &str) {
+    let mut status = 0;
+    // SAFETY: waitpid only writes the supplied status integer. WNOHANG makes
+    // this a bounded ownership assertion rather than a teardown wait.
+    let child = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
+    if child == 0 {
+        panic!("live child process remained at teardown for {name}");
+    }
+    if child > 0 {
+        panic!("unreaped child process {child} remained at teardown for {name}");
+    }
+    assert_eq!(
+        std::io::Error::last_os_error().raw_os_error(),
+        Some(libc::ECHILD),
+        "unexpected child-process audit failure for {name}",
+    );
+}
+
+#[cfg(not(unix))]
+fn assert_no_child_processes(_name: &str) {}
+
 fn run_case(name: &str) {
     let temp = TempDir::new().unwrap();
     let root = temp.path().canonicalize().unwrap();
@@ -1346,6 +1368,7 @@ fn run_case(name: &str) {
     drop(root);
     temp.close()
         .unwrap_or_else(|error| panic!("test root teardown leaked for {name}: {error}"));
+    assert_no_child_processes(name);
 }
 
 macro_rules! cases {
