@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
     "slug": "authenticated-guardian-kernel-continuity-bridge",
     "version": "v0.92",
-    "generation": 22
+    "generation": 27
   },
   "status": "ready",
   "content": {
@@ -65,7 +65,7 @@
             "AC-8",
             "AC-9"
           ],
-          "status": "in_progress"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -73,7 +73,7 @@
           "acceptance_ids": [
             "AC-9"
           ],
-          "status": "pending"
+          "status": "in_progress"
         },
         {
           "id": "S6",
