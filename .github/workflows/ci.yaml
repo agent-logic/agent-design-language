@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.repository }}-${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.event.pull_request.head.ref || github.ref }}
+  group: ${{ github.repository }}:${{ github.workflow }}:${{ github.event.pull_request.base.ref || github.ref_name }}:${{ github.event.pull_request.head.repo.id || github.repository_id }}:${{ github.event.pull_request.head.ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -57,7 +57,6 @@ jobs:
       csdlc_v2_standalone_required: ${{ steps.path-policy.outputs.csdlc_v2_standalone_required }}
       adl_v2_standalone_required: ${{ steps.path-policy.outputs.adl_v2_standalone_required }}
       heavy_ci_backend: ${{ steps.path-policy.outputs.heavy_ci_backend }}
-      heavy_runner_job: ${{ steps.path-policy.outputs.heavy_runner_job }}
       automatic_pr_entrypoint: ${{ steps.path-policy.outputs.automatic_pr_entrypoint }}
       unselected_required_lanes_status: ${{ steps.path-policy.outputs.unselected_required_lanes_status }}
       unselected_required_lanes_reason: ${{ steps.path-policy.outputs.unselected_required_lanes_reason }}
@@ -147,7 +146,7 @@ jobs:
     name: csdlc-v2-standalone
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.csdlc_v2_standalone_required == 'true'
-    runs-on: ${{ needs.adl_path_policy.outputs.heavy_runner_job == 'csdlc_v2_standalone' && (vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core') || 'ubuntu-latest' }}
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     steps:
@@ -179,7 +178,7 @@ jobs:
     name: adl-v2-standalone
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.adl_v2_standalone_required == 'true'
-    runs-on: ${{ needs.adl_path_policy.outputs.heavy_runner_job == 'adl_v2_standalone' && (vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core') || 'ubuntu-latest' }}
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     steps:
@@ -348,7 +347,7 @@ jobs:
     name: adl-runtime-v3-fast
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.runtime_v3_fast_required == 'true'
-    runs-on: ${{ needs.adl_path_policy.outputs.heavy_runner_job == 'adl_runtime_v3_fast' && (vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core') || 'ubuntu-latest' }}
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     steps:
@@ -383,7 +382,7 @@ jobs:
     name: adl-rust-fmt-clippy
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     defaults:
@@ -456,7 +455,7 @@ jobs:
     name: adl-rust-tests
     needs: adl_path_policy
     if: (needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true') && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ needs.adl_path_policy.outputs.heavy_runner_job == 'adl_rust_tests' && (vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core') || 'ubuntu-latest' }}
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     defaults:
@@ -572,7 +571,7 @@ jobs:
     name: adl-demo-proof
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true') && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ needs.adl_path_policy.outputs.heavy_runner_job == 'adl_demo_proof' && (vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core') || 'ubuntu-latest' }}
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     steps:
@@ -810,7 +809,7 @@ jobs:
     name: adl-coverage-runtime-hosted
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.runtime_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ needs.adl_path_policy.outputs.heavy_runner_job == 'adl_coverage_runtime_hosted' && (vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core') || 'ubuntu-latest' }}
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     defaults:
@@ -907,7 +906,7 @@ jobs:
     name: adl-coverage-workspace-fast-hosted
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.workspace_fast_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ needs.adl_path_policy.outputs.heavy_runner_job == 'adl_coverage_workspace_fast_hosted' && (vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core') || 'ubuntu-latest' }}
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     defaults:
@@ -1041,7 +1040,7 @@ jobs:
     name: adl-coverage-workspace-hosted (${{ matrix.shard }}/2)
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.workspace_full_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ needs.adl_path_policy.outputs.heavy_runner_job == 'adl_coverage_workspace_hosted' && (vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core') || 'ubuntu-latest' }}
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
     strategy:
@@ -1175,7 +1174,7 @@ jobs:
       - adl_coverage_workspace_fast_hosted
       - adl_coverage_workspace_hosted
     if: always() && needs.adl_path_policy.outputs.coverage_required == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
       id-token: write
