@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 213,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][blocker] Support truthful initialized-phase acceptance and plan-step repair",
+    "slug": "initialized-card-repair",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #213 exact design, authorize_card_operation change, design-review invalidation, Gate 2 regression proof, lifecycle records, and absence of #205 or broader authority changes.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are only initialized/ready STP replace_acceptance_criteria and SPP replace_plan_steps newly authorized?",
+        "Does either successful repair invalidate design approval without changing phase or granting topology/execution authority?",
+        "Do cross-card coverage, semantic validation, CAS, atomic rendering, generation, and append-only audit remain fail closed?",
+        "Do focused tests prove both phases, both operations, all rejection boundaries, doctor blocking, and reapproval?",
+        "Did the change leave #205 and every publication/merge/terminal boundary untouched?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

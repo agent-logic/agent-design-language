@@ -1,0 +1,122 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 213
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Prepare and review the exact two-operation contract, bind #213, implement the narrow phase authorization plus review invalidation, prove both phases and fail-closed boundaries, independently review, and publish a ready unmerged PR.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Independently review and approve the exact initialized/ready operation, preservation, invalidation, and non-authority design, then bind #213.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Extend only authorize_card_operation for the exact STP/SPP combinations and invalidate design review after either successful initialized/ready repair.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Add focused Gate 2 sequences and rejection fixtures proving both phases, both operations, CAS, ownership, cross-card coverage, atomic regeneration, append-only audit, doctor blocking, and reapproval.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Run formatting, complete Gate 2, strict all-target Clippy, diff hygiene, and truthful typed final validation.",
+    "acceptance_ids": [
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Obtain fresh independent exact-head subagent review, resolve every actionable finding, and publish a ready PR closing #213 without merge.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Pre-bind edits grant no execution or Git topology authority
+- Only the two declared card/operation combinations are widened
+- CAS, card ownership, cross-card coverage, rendering, audit, and transaction atomicity remain fail closed
+- A substantive acceptance or plan-step repair requires fresh design approval
+- #205 remains unchanged until #213 is reviewed and merged ancestrally
+
+## Risks
+
+- Over-broad phase authorization could permit execution-like mutation before bind
+- Review invalidation could be omitted and leave stale approval green
+- Cross-card acceptance coverage could be weakened instead of preserved
+- A regression test could prove only one phase or one operation
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/213/design.md
+
+Digest: a9c23ba8d0ffc3691fba075c3954432ce12958feba5da930a36e77d2ed35ae2d
+
+## Diagram
+
+.csdlc/prepared/issues/213/diagram.mmd
+
+Digest: 11e572a8c38c16b1fece68da808eab9e3a5008a25812fb04e70ee6fc85487824
+
+## Stop Conditions
+
+- The repair requires a raw card/state mutation path
+- The exact operations cannot remain limited to initialized/ready STP/SPP ownership
+- Atomic regeneration or audit preservation would be weakened
+- An actionable independent review finding remains unresolved
+
+## Handoff
+
+Proceed only after doctor readiness.

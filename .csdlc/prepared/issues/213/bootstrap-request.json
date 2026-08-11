@@ -1,0 +1,182 @@
+{
+  "issue": 213,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:213-initialized-card-repair",
+  "design_path": ".csdlc/prepared/issues/213/design.md",
+  "diagram_path": ".csdlc/prepared/issues/213/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92][C-SDLC v2][blocker] Support truthful initialized-phase acceptance and plan-step repair",
+    "slug": "initialized-card-repair",
+    "version": "v0.92",
+    "goal": "Allow an existing unbound initialized or ready issue to repair STP acceptance criteria and SPP plan steps through typed, audited, atomic C-SDLC v2 operations.",
+    "required_outcome": "The typed card owner supports exact initialized/ready acceptance and plan-step replacement, invalidates stale design approval, preserves lifecycle identity and audit truth, and proves the behavior with focused fail-closed regression tests.",
+    "declared_scope": [
+      "Initialized/ready semantic operation authorization",
+      "Design-review invalidation after acceptance or plan-step repair",
+      "Focused Gate 2 regression proof"
+    ],
+    "affected_areas": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/213",
+      ".csdlc/prepared/issues/213"
+    ],
+    "authority_boundary": [
+      "Only csdlc-edit apply owns semantic card mutation",
+      "Only STP replace_acceptance_criteria and SPP replace_plan_steps gain initialized/ready authorization",
+      "The existing store transaction, CAS, cross-card validator, renderer, and audit remain authoritative",
+      "Binding, execution, review, publication, merge, and terminal authority are unchanged"
+    ],
+    "operator_constraints": [
+      "Do not bind or mutate #205 before #213 is reviewed and merged ancestrally",
+      "Never hand-edit rendered cards or values state",
+      "Use the typed C-SDLC v2 lifecycle",
+      "Open a ready PR and stop before merge"
+    ],
+    "task_boundary": "Change only the initialized/ready authorization and review-invalidation behavior for the two existing semantic operations, plus focused tests and issue-local lifecycle evidence.",
+    "deliverables": [
+      "Initialized/ready STP acceptance-criteria repair through csdlc-edit apply",
+      "Initialized/ready SPP plan-step repair through csdlc-edit apply",
+      "Fresh design-review requirement after either repair",
+      "Focused atomicity, CAS, ownership, coverage, regeneration, audit, and reapproval regression proof"
+    ],
+    "acceptance_criteria": [
+      "AC-1: An existing unbound initialized or ready issue can replace STP acceptance criteria through the existing typed semantic operation without deleting or rebootstrapping its record.",
+      "AC-2: An existing unbound initialized or ready issue can replace SPP plan steps through the existing typed semantic operation without deleting or rebootstrapping its record.",
+      "AC-3: Repository, issue, initialization lineage, lifecycle phase, topology, transition history, audit prefix, and every untouched semantic field remain preserved while all six projections regenerate atomically at one new generation.",
+      "AC-4: Either repair invalidates prior design approval and doctor blocks until a fresh exact design approval is recorded; reapproval restores readiness without resetting audit truth.",
+      "AC-5: Stale generation/digest, empty or malformed acceptance criteria, invalid/duplicate plan steps, missing acceptance coverage, wrong card ownership, unsupported phase, and interrupted writes fail closed without partial mutation.",
+      "AC-6: Existing bound and implemented operation behavior remains unchanged, and no execution, review, publication, merge, terminal, or Git-topology authority is added pre-bind.",
+      "AC-7: Focused Gate 2 tests prove the exact initialized and ready sequences, preservation, regeneration, audit, doctor, reapproval, rejection, and atomicity contracts.",
+      "AC-8: Formatting, the complete Gate 2 integration target, strict all-target C-SDLC v2 Clippy, diff hygiene, and fresh independent exact-head review pass before a ready unmerged PR opens."
+    ],
+    "dependencies": [
+      "Issue #213 is the tooling prerequisite for #205's final preparation repair",
+      "No #205 dependency is required to implement this owner-level tooling fix"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "Issue #205 exact preparation head 2ffbaa3c9d59de4a23363c05a3290e3cb5942d26"
+    ],
+    "non_goals": [
+      "Generic JSON Patch, raw values editing, or Markdown mutation",
+      "Record deletion, rebootstrap, or audit reset as repair",
+      "Any #205 product or lifecycle mutation",
+      "Any weakening of dependency, bind, review, publication, merge, or closeout gates"
+    ],
+    "plan_summary": "Prepare and review the exact two-operation contract, bind #213, implement the narrow phase authorization plus review invalidation, prove both phases and fail-closed boundaries, independently review, and publish a ready unmerged PR.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Independently review and approve the exact initialized/ready operation, preservation, invalidation, and non-authority design, then bind #213.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Extend only authorize_card_operation for the exact STP/SPP combinations and invalidate design review after either successful initialized/ready repair.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add focused Gate 2 sequences and rejection fixtures proving both phases, both operations, CAS, ownership, cross-card coverage, atomic regeneration, append-only audit, doctor blocking, and reapproval.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run formatting, complete Gate 2, strict all-target Clippy, diff hygiene, and truthful typed final validation.",
+        "acceptance_ids": ["AC-7", "AC-8"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Obtain fresh independent exact-head subagent review, resolve every actionable finding, and publish a ready PR closing #213 without merge.",
+        "acceptance_ids": ["AC-8"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "Pre-bind edits grant no execution or Git topology authority",
+      "Only the two declared card/operation combinations are widened",
+      "CAS, card ownership, cross-card coverage, rendering, audit, and transaction atomicity remain fail closed",
+      "A substantive acceptance or plan-step repair requires fresh design approval",
+      "#205 remains unchanged until #213 is reviewed and merged ancestrally"
+    ],
+    "risks": [
+      "Over-broad phase authorization could permit execution-like mutation before bind",
+      "Review invalidation could be omitted and leave stale approval green",
+      "Cross-card acceptance coverage could be weakened instead of preserved",
+      "A regression test could prove only one phase or one operation"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The repair requires a raw card/state mutation path",
+      "The exact operations cannot remain limited to initialized/ready STP/SPP ownership",
+      "Atomic regeneration or audit preservation would be weakened",
+      "An actionable independent review finding remains unresolved"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "csdlc-gate2",
+        "proof_role": "The complete Gate 2 integration target proves initialized/ready acceptance and plan-step repair, fail-closed ownership/CAS/coverage/atomicity, regenerated projections, audit preservation, doctor blocking, and exact reapproval while retaining existing lifecycle behavior.",
+        "deterministic": true,
+        "resource_profile": "medium",
+        "parallel_group": "213-serial-01-gate2",
+        "budget_seconds": 1200,
+        "budget_tokens": 12000,
+        "argv": ["cargo", "test", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate2"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"]
+      },
+      {
+        "lane": "csdlc-clippy",
+        "proof_role": "Strict all-target Clippy rejects warnings and unsafe owner-level API changes after Gate 2 passes.",
+        "deterministic": true,
+        "resource_profile": "medium",
+        "parallel_group": "213-serial-02-clippy",
+        "budget_seconds": 1200,
+        "budget_tokens": 10000,
+        "argv": ["cargo", "clippy", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--all-targets", "--", "-D", "warnings"],
+        "acceptance_ids": ["AC-8"]
+      },
+      {
+        "lane": "csdlc-fmt",
+        "proof_role": "Formatting check proves the touched Rust source and test remain canonical.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "213-serial-03-fmt",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["cargo", "fmt", "--manifest-path", "csdlc-v2/Cargo.toml", "--", "--check"],
+        "acceptance_ids": ["AC-8"]
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Diff hygiene rejects whitespace and patch defects before review and publication.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "213-serial-04-diff",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "acceptance_ids": ["AC-8"]
+      }
+    ],
+    "failure_policy": "Fail closed on any phase widening beyond the exact operations, stale CAS, invalid card ownership, broken acceptance coverage, partial generation/audit/projection mutation, stale design approval, or validation/review failure.",
+    "review_prompts": [
+      "Are only initialized/ready STP replace_acceptance_criteria and SPP replace_plan_steps newly authorized?",
+      "Does either successful repair invalidate design approval without changing phase or granting topology/execution authority?",
+      "Do cross-card coverage, semantic validation, CAS, atomic rendering, generation, and append-only audit remain fail closed?",
+      "Do focused tests prove both phases, both operations, all rejection boundaries, doctor blocking, and reapproval?",
+      "Did the change leave #205 and every publication/merge/terminal boundary untouched?"
+    ],
+    "review_scope": "Issue #213 exact design, authorize_card_operation change, design-review invalidation, Gate 2 regression proof, lifecycle records, and absence of #205 or broader authority changes."
+  }
+}

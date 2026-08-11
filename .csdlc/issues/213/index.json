@@ -1,0 +1,62 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 213,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "9a8b4e1ab03c7355846bbd67977bed2f3294b9b59de0330ad36fcc6ae82bfaef",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "560f626945fb4deac56bfa340651a277530abf95c05a04f0da131a8fde03fa10",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/213/design.md",
+  "diagram_path": ".csdlc/prepared/issues/213/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "b3abdc4e65d0ae0415502068d40732d6726e3ea676dd484eaccf394ce1113a7f",
+      "rendered_digest": "d27eeb5ed8080bcd601c3b82a87e8b8434168742477dba732c48d79f0c3a5f6c",
+      "ast_digest": "5e404b4968f156f0ddcacfd78db9a6944ec302dc61ff3333b9240d88be471f6a"
+    },
+    "stp": {
+      "values_digest": "ef31f840cd6314c4ada9ac47a0ef77dd8135ce036a3c29f7b1c43053e1b7edcd",
+      "rendered_digest": "174b008ef33cafde2538f7007c7c33111559673998ea2c775c87fd21a2d2ae33",
+      "ast_digest": "a56e60ba691baa16ef6e35ed5e02549a6b85297c3c5ab06da3f247a0b28ce19d"
+    },
+    "spp": {
+      "values_digest": "41f27a4de577cb8d2b704cc1f75c9cbc4d3430215f98f9d1ce80a2551a8774ac",
+      "rendered_digest": "f160d54745759e5746bce20a14ff66a4f1b4c2d1a2c094bb87bd66f99bdcec3a",
+      "ast_digest": "ab85a1ff9c63e6b8fc8f42549ea777fd6f615a8c5aa95d070cc25601be4dabdf"
+    },
+    "vpp": {
+      "values_digest": "d0c9309602eb0d954b4c00eab42bc4567ea0a05176a0555dd8f0d4297e93a70a",
+      "rendered_digest": "dbbb6a6296a6356bab5d5ca1bb495e44a048f0072b8859953762a4d02e2f5f9e",
+      "ast_digest": "a190495bd0da644309829d17a170f7c46e78b0e1f54acbf8c27f2316a4b63ca2"
+    },
+    "srp": {
+      "values_digest": "9abc3ae8face50717fb8ee9dc9186397426e8616df85a89c4a3f93682ebc95cd",
+      "rendered_digest": "ebb9a3833f054f27731d5b7e092ab00930b7df7c61e4c2a122b2d9ecdbd67f2d",
+      "ast_digest": "df26799619837f30241a4242a343cfb8f79da7a8233bd6ddbc32202790c89b5e"
+    },
+    "sor": {
+      "values_digest": "36d87e630fefb2ae248889cc3c63c7a1769d055ac68a77886182d83c51331b9c",
+      "rendered_digest": "93936dca1ca69adfabd1a0a926cf701bf2acd15d2a700aa8bfaaa5c5fa93b07a",
+      "ast_digest": "f7b337eed50e2b22382c6df8d691261a54bc19fdea0a2c7f3233007b746882b2"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:213-initialized-card-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+stateDiagram-v2
+  [*] --> Initialized
+  Initialized --> DesignPending: replace ACs or plan steps
+  DesignPending --> InitializedApproved: approve design
+  InitializedApproved --> Ready: advance ready
+  Ready --> ReadyDesignPending: replace ACs or plan steps
+  ReadyDesignPending --> Ready: approve design
+  Ready --> Bound: dependency-safe bind
+
