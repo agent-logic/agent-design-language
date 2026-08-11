@@ -6,10 +6,21 @@
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
   "generation": 29,
-  "digest": "de5a47fa3dc20f605428088dd67d5413843562588c259e76f892f02161fa3242",
+  "digest": "f816bec3d8d355804dcb9624932b38bf3ccd4032093cb1be01f9b3f84bed0d0b",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-exec:issue-226-corrected-publication-safe-review",
+    "assigned_by": "codex:226-focused-runtime-validation-routing",
+    "revision": "git-blake3:01a28fb8359ee417ce600d53cf97c584d8edce08:bf5f6cf843315f20598367a625783720bf4a3fe379220d4e48d4862a39d885e7",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/226",
+      ".csdlc/prepared/issues/226"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "2bfe1f5d4a9976a581efd024000603823ef9fbffe4d220e5a8662f23f681a4c2",
-      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
-      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
+      "values_digest": "3f399d4a690a968c2f6b5e2659338966dbc27f383a6ee36919cbb505b663b66d",
+      "rendered_digest": "8f7b3382aaa24788024a4a991bd0c3ad3cba6585cc2c1d9c4838654b5b07bb3d",
+      "ast_digest": "53c8d152aefcd122d4f2edc571a9cc7e7f34e984ed9af92fea003f1b62cc00c4"
     },
     "sor": {
       "values_digest": "135e0c34a3168d31eb68aa5ccdae79f8c92f4255d1cdf1fca13b48d174b058db",
@@ -477,6 +488,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "Correct sequence 45: historical prepared review requests remain tracked evidence; beginning with this recovery, all new review and publication requests stay outside the repository so subsequent publication metadata remains non-substantive.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 29,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

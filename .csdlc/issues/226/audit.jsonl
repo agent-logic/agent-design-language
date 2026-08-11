@@ -47,3 +47,4 @@
 {"sequence":47,"generation":28,"actor":"codex:226-focused-runtime-validation-routing","reason":"Replace stalled publication-safe codex-exec reviewer with the FastWork reviewer who already approved the unchanged exact scope.","operation":"recover_review"}
 {"sequence":48,"generation":28,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":49,"generation":29,"actor":"codex:226-focused-runtime-validation-routing","reason":"Correct sequence 45: historical prepared review requests remain tracked evidence; beginning with this recovery, all new review and publication requests stay outside the repository so subsequent publication metadata remains non-substantive.","operation":"recover_review"}
+{"sequence":50,"generation":29,"actor":"codex:226-focused-runtime-validation-routing","reason":"assign bounded exact-revision review","operation":"assign_review"}
