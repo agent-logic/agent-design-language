@@ -4,6 +4,7 @@
 require "json"
 require "open3"
 require "pathname"
+require "digest"
 
 ROOT = Pathname.new(__dir__).join("../../..").expand_path
 FEATURE = ROOT.join("docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md")
@@ -12,6 +13,8 @@ HANDOFF = ROOT.join("docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md")
 DEPENDENCIES = ROOT.join(".csdlc/evidence/5835/dependency-authority.json")
 REVIEW_INVENTORY = ROOT.join("docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json")
 SPRINT_REVIEW = ROOT.join(".csdlc/evidence/5857/sprint-review.json")
+REJECTED_MATRIX = ROOT.join(".csdlc/evidence/5835/rejected-transfer-matrix.json")
+ROLLBACK_PROOF = ROOT.join(".csdlc/evidence/5835/rollback-proof.json")
 
 EXPECTED_ROWS = [
   "Stable name", "Identity root", "Continuity head", "Memory-grounding references",
@@ -39,6 +42,8 @@ REQUIRED_PATHS = %w[
   adl-runtime-kernel/src/acip.rs
   adl-runtime-kernel/src/birth_witness.rs
   docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json
+  .csdlc/evidence/209/local-validation-manifest.json
+  .csdlc/evidence/209/native-validation-manifest.json
 ].freeze
 
 FORBIDDEN_CLAIMS = [
@@ -77,8 +82,13 @@ def validate_docs(feature, design, handoff)
              "wp04_boundary", "runtime mechanics must remain WP-04")
   check.call(design.include?("Missing governance authority produces\n`defer`, never implicit acceptance."),
              "governance_boundary", "missing v0.93 authority must defer")
-  check.call(handoff.include?("`candidate` is not an admission"),
-             "handoff_boundary", "candidate must not imply governance admission")
+  check.call(design.include?("A proposal cannot add, rotate, or replace an anchor.") &&
+             design.include?("valid signature under a caller-nominated key are insufficient"),
+             "trusted_anchor", "caller claims must not establish source or policy authority")
+  check.call(feature.include?("agent-logic/agent-design-language#209") &&
+             feature.include?("a77519c3fca9f64752af41c9a2ebd396468891f7") &&
+             feature.include?(".csdlc/evidence/209/native-validation-manifest.json"),
+             "acip_authority", "ACIP row must bind replacement issue, PR, merge, and native proof")
   check.call(feature.include?("No production migration or federation is implemented."),
              "nonclaim", "production nonclaim is required")
   combined = [feature, design, handoff].join("\n").downcase
@@ -95,6 +105,8 @@ def validate_dependencies
   packet = JSON.parse(DEPENDENCIES.read)
   review = JSON.parse(REVIEW_INVENTORY.read)
   sprint = JSON.parse(SPRINT_REVIEW.read)
+  rejected = JSON.parse(REJECTED_MATRIX.read)
+  rollback = JSON.parse(ROLLBACK_PROOF.read)
   assert(packet["schema"] == "adl.v092.wp17_dependency_authority.v1", "dependency_schema", packet["schema"])
   assert(packet["dependencies"].map { |item| item["issue"] } == [5826, 5827, 5834],
          "dependency_roster", "expected 5826, 5827, 5834")
@@ -113,6 +125,43 @@ def validate_dependencies
     assert(authority[pr_key] == dependency["pull_request"], "dependency_pr", dependency["issue"])
     assert(authority[merge_key] == dependency["merge_sha"], "dependency_merge", dependency["issue"])
   end
+
+  anchor = packet.fetch("trusted_source_anchor")
+  assert(anchor["issue_repository"] == "danielbaustin/agent-design-language", "anchor_issue_repository", anchor["issue_repository"])
+  assert(anchor["code_repository"] == "agent-logic/agent-design-language", "anchor_code_repository", anchor["code_repository"])
+  [[anchor["birthday_manifest_path"], anchor["birthday_manifest_sha256"]],
+   [anchor["sprint_review_path"], anchor["sprint_review_sha256"]]].each do |path, digest|
+    assert(Digest::SHA256.file(ROOT.join(path)).hexdigest == digest, "anchor_digest", path)
+  end
+
+  acip = packet.fetch("acip_authority")
+  assert(acip.values_at("issue", "pull_request", "head_sha", "merge_sha") ==
+         [209, 215, "c640066f284a915b638add377cc4b0a2e221e6f9", "a77519c3fca9f64752af41c9a2ebd396468891f7"],
+         "acip_identity", "replacement authority mismatch")
+  assert(ancestor?(acip["merge_sha"]), "acip_ancestry", acip["merge_sha"])
+  [[acip["local_manifest_path"], acip["local_manifest_sha256"]],
+   [acip["native_manifest_path"], acip["native_manifest_sha256"]]].each do |path, digest|
+    assert(Digest::SHA256.file(ROOT.join(path)).hexdigest == digest, "acip_digest", path)
+  end
+  local = JSON.parse(ROOT.join(acip["local_manifest_path"]).read)
+  native = JSON.parse(ROOT.join(acip["native_manifest_path"]).read)
+  assert(local["issue"] == 209 && local["status"] == "passed", "acip_local_status", local["status"])
+  assert(native["issue"] == 209 && native["pull_request"] == 215 &&
+         native.dig("jobs", "linux", "status") == "success" &&
+         native.dig("jobs", "macos", "status") == "success" &&
+         native.dig("jobs", "aggregate", "status") == "success" &&
+         native.dig("independent_validation", "status") == "passed",
+         "acip_native_status", "required native authority is incomplete")
+
+  assert(rejected["schema"] == "adl.v092.wp17_rejected_transfer_matrix.v1" &&
+         rejected.fetch("cases").map { |item| item["id"] }.sort ==
+           %w[attacker-corpus competing-heads copied-state missing-governance raw-private-memory superseded-acip].sort,
+         "rollback_matrix", "rejected matrix roster mismatch")
+  assert(rollback["schema"] == "adl.v092.wp17_rollback_proof.v1" && rollback["result"] == "passed",
+         "rollback_proof", "rollback proof missing")
+  rollback.fetch("retained_evidence").each do |path|
+    assert(ROOT.join(path).file?, "rollback_retained_path", path)
+  end
 end
 
 def negative_suite(feature, design, handoff)
@@ -122,7 +171,9 @@ def negative_suite(feature, design, handoff)
     "raw_private" => [feature, design.sub("cannot contain raw memory", "may contain raw memory"), handoff],
     "wp04_capture" => [feature, design.sub("WP-17 does not define or implement:", "WP-17 now implements:"), handoff],
     "governance_default" => [feature, design.sub("Missing governance authority produces\n`defer`, never implicit acceptance.", "Missing governance authority produces implicit acceptance."), handoff],
-    "production_overclaim" => [feature.sub("No production migration or federation is implemented.", "Production migration is implemented."), design, handoff]
+    "production_overclaim" => [feature.sub("No production migration or federation is implemented.", "Production migration is implemented."), design, handoff],
+    "caller_anchor" => [feature, design.sub("A proposal cannot add, rotate, or replace an anchor.", "A proposal may establish its own anchor."), handoff],
+    "superseded_acip" => [feature.sub("agent-logic/agent-design-language#209", "danielbaustin/agent-design-language#5832"), design, handoff]
   }
   outcomes = mutations.transform_values do |texts|
     errors = validate_docs(*texts)
@@ -132,7 +183,7 @@ def negative_suite(feature, design, handoff)
   puts JSON.pretty_generate("schema" => "adl.v092.wp17_negative_validation.v1", "result" => "passed", "mutations" => outcomes)
 end
 
-[FEATURE, DESIGN, HANDOFF, DEPENDENCIES, REVIEW_INVENTORY, SPRINT_REVIEW].each do |path|
+[FEATURE, DESIGN, HANDOFF, DEPENDENCIES, REVIEW_INVENTORY, SPRINT_REVIEW, REJECTED_MATRIX, ROLLBACK_PROOF].each do |path|
   assert(path.file?, "missing_path", path.relative_path_from(ROOT).to_s)
 end
 REQUIRED_PATHS.each { |path| assert(ROOT.join(path).file?, "missing_source", path) }
@@ -150,5 +201,6 @@ validate_dependencies
 puts JSON.pretty_generate(
   "schema" => "adl.v092.wp17_continuity_transfer_validation.v1",
   "result" => "passed", "matrix_rows" => EXPECTED_ROWS.length,
-  "landed_schemas" => EXPECTED_SCHEMAS.length, "dependencies" => [5826, 5827, 5834]
+  "landed_schemas" => EXPECTED_SCHEMAS.length, "dependencies" => [5826, 5827, 5834],
+  "trusted_authorities" => [209], "rollback_cases" => 6
 )

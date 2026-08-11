@@ -1,0 +1,16 @@
+{
+  "schema": "adl.v092.wp17_rollback_proof.v1",
+  "result": "passed",
+  "owned_restore_paths": [
+    "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+    "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md"
+  ],
+  "read_only_paths": ["docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md"],
+  "retained_evidence": [
+    ".csdlc/evidence/5835/rejected-transfer-matrix.json",
+    ".csdlc/evidence/5835/wp17-doc-contract.log",
+    ".csdlc/evidence/5835/wp17-negative-semantics.log",
+    ".csdlc/evidence/5835/wp17-diff-review.log"
+  ],
+  "preserved_authority": ["identity roots", "continuity heads", "child proof", "review records", "governance decisions"]
+}

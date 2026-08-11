@@ -52,7 +52,7 @@ that downstream authority exists.
 | Capability envelope | `adl.capability_envelope.v1`; bind identity and birthday digests, evidence, policy digest, limits, grants, denials, and envelope digest | Candidate: envelope digest plus bounded declarations and denials | Credentials, provider sessions, tool handles, runtime grants, and policy authority | Yes, before granting target-polis authority | Yes, before accepting provider, tool, or skill assertions | Export identifiers, limits, denials, and digest-bound provenance; never secrets | Treat all grants as non-operative on arrival; reject limit escalation, missing denial, stale evidence, or unsupported authority |
 | Cognitive profile | `adl.cognitive_profile.v1` and `adl.cognitive_profile.public.v1`; bind identity, continuity, capability, policy, evidence, revision, and profile digest | Candidate: public projection or governed redacted profile reference | Private evidence fields, authority registry, policy signing material, and inferred traits | Yes, before any standing, reputation, rights, or personhood inference | Yes, before resolving non-public evidence | Prefer public projection; preserve `no_personhood_inference`, `no_reputation_inference`, and `no_rights_inference` | Reject self-authorized policy/evidence, stale revision chains, private-field disclosure, or profile-as-identity claims |
 | Adaptive-learning history | `adl.adaptive_learning.history.v1`; bind profile/capability/policy digests, sequence, prior history, mutation evidence, rollback, and history digest | Defer: digest-bound history reference may be reviewed only after continuity and governance checks | Mutable reasoning graph, pending state, execution cache, grants, and rollback state | Yes, before accepting learned effects in another polis | Yes, including ordering, replay, and principal isolation | Rationale and bounded decision metadata only; private state stays local | Reject copied mutable state, missing predecessor, unauthorized grant, replay, or rollback mismatch; quarantine divergent histories |
-| ACIP transport-readiness proof | `adl.acip_native_platform_proof.v2` plus the public ACIP schema catalog; bind production binary, assertions, negative cases, and proof digest | Defer: schema and proof references only | Live session state, replay table, authenticated principal state, payload contents, and pressure reservations | No governance effect by itself | Yes; v0.92 carrier proof is not cross-polis trust | Schemas may be public; message contents remain governed | Reject carrier-as-authority, unauthenticated source, wrong replay domain, stale proof, or schema/content-access conflation |
+| ACIP transport-readiness proof | Replacement authority `agent-logic/agent-design-language#209` / PR `#215`; bind `.csdlc/evidence/209/local-validation-manifest.json`, `.csdlc/evidence/209/native-validation-manifest.json`, exact merge `a77519c3fca9f64752af41c9a2ebd396468891f7`, and `adl.acip_native_platform_proof.v2` receipts | Defer: exact reviewed/merged proof and public-schema references only | Live session state, replay table, authenticated principal state, payload contents, and pressure reservations | No governance effect by itself | Yes; v0.92 carrier proof is not cross-polis trust | Schemas may be public; message contents remain governed | Reject superseded #5832/PR 76 authority, carrier-as-authority, unauthenticated source, wrong replay domain, stale proof, or schema/content-access conflation |
 | Witness set | `adl.birth_witness.set.v1`; bind candidate, evidence set, roster, policy, attestations, and witness-set digest | Candidate: validated public witness summaries and witness-set digest | Private witness evidence, signing keys, and witness-policy registry | Yes, before a target assigns institutional meaning | Yes, before trusting remote attestations or revocation state | Public summaries only; no private witness material | Reject missing roles, duplicate identity/key/role, signature failure, roster mismatch, or candidate mismatch |
 | Citizen-facing receipt | `adl.birth_witness.citizen_receipt.v1`; bind candidate and witness-set digests, disposition, `birth_event_status`, public evidence, caveats, and receipt digest | Candidate: receipt and its public evidence references | Any non-public evidence behind the receipt | Yes; the receipt grants no citizenship, standing, rights, or personhood | Yes, before remote provenance is trusted | Public evidence and caveats only | Reject a receipt that claims birth authority, omits caveats, exposes private evidence, or mismatches its witness set |
 | WP-16 review inventory | `adl.v092.first-birthday-review-evidence.v1`; bind issue/code repositories, PR, reviewed revision, merge commit, evidence path/digest, and public projection | Candidate: exact inventory entry and packet digest | Reviewer working material and any governed child evidence | Yes, before policy consequences are attached | Yes, before remote retrieval is trusted | Public projection must remain narrower than retained proof | Reject stale digest, nonterminal/unreviewed authority, wrong repository, non-ancestral merge, or publication overclaim |
@@ -62,17 +62,21 @@ that downstream authority exists.
 A future cross-polis design must evaluate one proposed reference as follows:
 
 1. Classify it against exactly one matrix row; unknown types are rejected.
-2. Resolve the repository-relative source path and recompute its digest.
-3. Verify the source schema, canonical record digest, identity root, continuity
+2. Resolve the source repository, revision, authority context, and redaction
+   policy from the trusted anchor set in the detailed design. Caller-supplied
+   values are claims to compare, never authority to establish an anchor.
+3. Resolve the repository-relative source path at that accepted revision and
+   recompute its digest.
+4. Verify the source schema, canonical record digest, identity root, continuity
    head, predecessor chain, and authority context required by that row.
-4. Verify the source issue/PR review and merge ancestry when the reference is a
+5. Verify the source issue/PR review and merge ancestry when the reference is a
    retained work-package proof.
-5. Apply the row's redaction rule before any content leaves the source domain.
-6. Stop with `defer` when transport-security or v0.93 governance authority is
+6. Apply the row's redaction rule before any content leaves the source domain.
+7. Stop with `defer` when transport-security or v0.93 governance authority is
    required but absent.
-7. Place competing heads, contradictory witness sets, or unresolved lineage in
+8. Place competing heads, contradictory witness sets, or unresolved lineage in
    quarantine without choosing a winner.
-8. Emit only an admission decision and evidence digest. Never reconstruct,
+9. Emit only an admission decision and evidence digest. Never reconstruct,
    copy, activate, or mutate source state as part of this design contract.
 
 ## Ambiguity, Copy, And Privacy Rules

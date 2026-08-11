@@ -40,6 +40,11 @@ redaction_policy_sha256
 requested_disposition
 ```
 
+Every field in the proposal is an untrusted claim. The verifier obtains
+repository, revision, authority-context, and redaction-policy truth from the
+trusted anchor set below and requires exact equality before evaluating artifact
+bytes. A proposal cannot add, rotate, or replace an anchor.
+
 The proposal contains references only. It cannot contain raw memory, private
 state, credentials, signing keys, mutable provider sessions, checkpoint bytes,
 or runtime grant handles.
@@ -56,28 +61,54 @@ reject(reason)
 
 No result activates the referenced state in a target polis.
 
+## Trusted Anchor Set
+
+The v0.92 WP-17 verifier is provisioned with, rather than caller-supplied:
+
+- canonical code repository `agent-logic/agent-design-language` and issue
+  repository `danielbaustin/agent-design-language`;
+- accepted merge commits and reviewed evidence entries from the digest-pinned
+  WP-16 manifest and Sprint 4 terminal review named in
+  `.csdlc/evidence/5835/dependency-authority.json`;
+- schema-specific authority-context and redaction-policy digests resolved from
+  the accepted canonical record at the accepted revision; and
+- replacement ACIP authority `agent-logic/agent-design-language#209`, PR `#215`,
+  merge `a77519c3fca9f64752af41c9a2ebd396468891f7`, plus the digest-pinned local and
+  native manifests under `.csdlc/evidence/209/`.
+
+The verifier rejects a repository, revision, signer/authority context, or
+redaction policy that is absent from those anchors. It also rejects an anchor
+rotation unless a separately reviewed authority update adds the predecessor,
+successor, effective boundary, and authorization proof to the trusted set.
+Internal consistency, matching caller-provided digests, public schemas, and a
+valid signature under a caller-nominated key are insufficient.
+
 ## Verification Order
 
 Order is part of the contract. A future implementation must not skip ahead to
 governance or transport when lineage is unresolved.
 
 1. **Shape:** accept only a known schema and repository-relative path.
-2. **Bytes:** recompute the artifact digest at the named source revision.
-3. **Canonical record:** recompute the schema's own record/packet digest.
-4. **Identity:** bind identity root to the verified identity-record digest.
-5. **Continuity:** validate predecessor, ordered cycles, authority context, and
+2. **Trusted source:** resolve repository and accepted revision from the
+   provisioned anchor set; compare proposal claims and reject any mismatch.
+3. **Trusted policy:** resolve signer/authority context and redaction policy
+   from the anchored canonical record or registry; reject caller nomination.
+4. **Bytes:** recompute the artifact digest at the accepted source revision.
+5. **Canonical record:** recompute the schema's own record/packet digest.
+6. **Identity:** bind identity root to the verified identity-record digest.
+7. **Continuity:** validate predecessor, ordered cycles, authority context, and
    continuity head; require the proposed head to match.
-6. **Review authority:** for a work-package proof, verify exact reviewed head,
+8. **Review authority:** for a work-package proof, verify exact reviewed head,
    merged PR, closed issue, and merge ancestry.
-7. **Privacy:** reduce the artifact to the row-authorized public or redacted
+9. **Privacy:** reduce the artifact to the row-authorized public or redacted
    projection before crossing an authority boundary.
-8. **Transport gate:** require authenticated source/target identities,
+10. **Transport gate:** require authenticated source/target identities,
    confidentiality where needed, freshness, replay isolation, authorization,
    and revocation. Otherwise return `defer`.
-9. **Governance gate:** require v0.93 policy for standing, rights, duties,
+11. **Governance gate:** require v0.93 policy for standing, rights, duties,
    institutional recognition, or acceptance of learned effects. Otherwise
    return `defer`.
-10. **Decision:** emit only a digest-bound disposition and audit reference.
+12. **Decision:** emit only a digest-bound disposition and audit reference.
 
 ## Conflict Semantics
 
@@ -159,10 +190,12 @@ or provider session state cannot change the result.
 
 ## Rollback
 
-Rollback removes only WP-17-owned feature/design/handoff wording and restores
-the previous documentation revision. It retains rejected proposals, conflict
-records, and validation evidence. It never rewrites identity roots, continuity
-heads, child proofs, review records, or downstream governance decisions.
+Rollback restores only the WP-17-owned feature and design documents to their
+previous revision. The handoff is read-only and is not part of rollback. It
+retains `.csdlc/evidence/5835/rejected-transfer-matrix.json`, the validation
+logs, and `.csdlc/evidence/5835/rollback-proof.json`. It never rewrites identity
+roots, continuity heads, child proofs, review records, or downstream governance
+decisions.
 
 ## Review Questions
 

@@ -10,9 +10,8 @@ approve v0.93 execution.
 - negative proof distinguishing birth from startup, wake, restore, copy,
   migration, simulation, suspension, and admission
 - reconciled ACIP/A2A contract and authenticated transport evidence
-- the WP-17 continuity-transfer matrix, which classifies digest-bound evidence
-  references as candidate, local-only, deferred, quarantined, or rejected and
-  verifies identity/continuity lineage without moving source state
+- cross-polis continuity semantics that identify what moves, what remains local,
+  and how identity lineage is verified
 - integrated demonstration and provider-neutral proof
 - resolved quality and external-review findings
 
@@ -21,12 +20,6 @@ approve v0.93 execution.
 v0.93 may use those artifacts to design constitutional citizenship, polis
 governance, rights, duties, standing, and institutional review. It must not
 reinterpret missing v0.92 evidence as implicit approval.
-
-For cross-polis inputs specifically, v0.93 may consume only references that
-pass the WP-17 lineage and redaction checks. `candidate` is not an admission,
-standing, citizenship, rights, or capability grant. Conflicting continuity
-heads remain quarantined, capability grants remain non-operative on arrival,
-and receipts remain review surfaces rather than governance authority.
 
 ## Handoff Gate
 

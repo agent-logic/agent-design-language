@@ -3,15 +3,7 @@
   "result": "passed",
   "matrix_rows": 11,
   "landed_schemas": 11,
-  "dependencies": [
-    5826,
-    5827,
-    5834
-  ],
-  "claims": [
-    "reference classification is deterministic",
-    "copied and ambiguous state fails closed",
-    "private state stays local or redacted",
-    "WP-04 mechanics and v0.93 governance remain downstream"
-  ]
+  "dependencies": [5826, 5827, 5834],
+  "trusted_authorities": [209],
+  "rollback_cases": 6
 }
