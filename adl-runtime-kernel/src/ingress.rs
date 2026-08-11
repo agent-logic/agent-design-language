@@ -783,6 +783,8 @@ pub fn verify_signed_identity_message_with_watermark(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::atomic::{AtomicUsize, Ordering};
+
     use crate::{
         verifying_key_from_hex, AdapterKind, AdapterPolicy, AuthorityMode, ExecutorError,
         FailureClass, OperationExecutor, OperationalAdapter,
@@ -804,13 +806,13 @@ mod tests {
     }
 
     struct StartedFatalExecutor {
-        started: Arc<Notify>,
+        invocations: Arc<AtomicUsize>,
     }
 
     #[async_trait]
     impl OperationExecutor for StartedFatalExecutor {
         async fn execute(&self, _request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
-            self.started.notify_one();
+            self.invocations.fetch_add(1, Ordering::SeqCst);
             Err(ExecutorError {
                 class: FailureClass::Fatal,
                 message: "injected operation failure".to_owned(),
@@ -1338,13 +1340,13 @@ mod tests {
         let root = tempfile::tempdir().unwrap();
         let store = Arc::new(KernelDurableState::open(root.path()).unwrap());
         let signing_key = SigningKey::from_bytes(&[98; 32]);
-        let started = Arc::new(Notify::new());
+        let invocations = Arc::new(AtomicUsize::new(0));
         let adapter = Arc::new(
             OperationalAdapter::new(
                 AdapterKind::Agent,
                 test_agent_policy(),
                 Arc::new(StartedFatalExecutor {
-                    started: started.clone(),
+                    invocations: invocations.clone(),
                 }),
             )
             .unwrap(),
@@ -1407,15 +1409,18 @@ mod tests {
             start_component(&factory, recorder.clone());
         factory_ready.await.unwrap();
         assert!(occupied.await.unwrap().is_err());
+        assert_eq!(invocations.load(Ordering::SeqCst), 1);
         assert_eq!(
             ingress
                 .submit(work, "real-saturation-retry".to_owned())
                 .await,
             Err(IngressError::ExecutionFailed)
         );
-        tokio::time::timeout(Duration::from_secs(1), started.notified())
-            .await
-            .expect("retry must reach the real executor");
+        assert_eq!(
+            invocations.load(Ordering::SeqCst),
+            2,
+            "retry must independently reach the real executor"
+        );
         assert_eq!(
             store
                 .communication_inbound_sequences()
