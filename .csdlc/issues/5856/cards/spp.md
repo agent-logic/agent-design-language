@@ -16,7 +16,7 @@ Verify the complete final-sprint child wave, begin with WP-20 only after its pro
 
 ## Plan
 
-Revision 2
+Revision 4
 
 ## Steps
 

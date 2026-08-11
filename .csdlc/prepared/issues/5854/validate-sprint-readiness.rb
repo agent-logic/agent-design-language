@@ -276,7 +276,9 @@ source_umbrella = source.fetch("issue_results").find do |entry|
 end&.fetch("response")&.fetch("issue")
 raise "live source issue #5854 missing" unless source_umbrella
 umbrella_body = source_umbrella.fetch("body")
-raise "live source issue does not name four operative children" unless UNBOUND.all? { |issue| umbrella_body.include?("- ##{issue}") }
+operative_section = umbrella_body.split("## Operative Child Issues", 2).fetch(1).split("\n## ", 2).first
+live_operative_children = operative_section.scan(/^- #(\d+)/).flatten.map(&:to_i)
+raise "live source issue operative-child denominator mismatch" unless live_operative_children == UNBOUND
 raise "live source issue does not route WP-20 to final sprint" unless umbrella_body.include?("#5840") && umbrella_body.include?("#5856")
 raise "live source issue retains the obsolete all-child exit" if umbrella_body.include?("Every child is merged")
 raise "live source issue retains podcast-package exit scope" if umbrella_body.include?("podcast packages")

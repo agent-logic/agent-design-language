@@ -1,12 +1,12 @@
 {
   "schema": "adl.v092.sprint_5854_live_gates.v1",
-  "observed_at": "2026-08-11T06:02:19Z",
+  "observed_at": "2026-08-11T06:12:32Z",
   "issue_repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "provenance": {
     "source_evidence": ".csdlc/evidence/5854/live-gates-source.json",
-    "source_evidence_sha256": "70d7a1365d62b94a1aab36554d522162de16fac4864d9eda39181a747e91e0a7",
-    "request_manifest_sha256": "226dedfa30d916c8cda7ad410c1b6484bffbc17aa44053556e769463054e38b0",
+    "source_evidence_sha256": "6093a1e9f0de14e9ab0e3a84ad1d660ae94f9e4ba611b8a2b5f6c44a6d9790a6",
+    "request_manifest_sha256": "9401c124bccff29057e16ae3077d8cff31068a0e51ed624bdd41c80fee5e5fd1",
     "collector_contract": "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
     "collector_identity": "typed csdlc-github-issue and csdlc-github-pr installed owner binaries"
   },
@@ -115,6 +115,11 @@
       "repository": "agent-logic/agent-design-language",
       "issue": 209,
       "state": "closed"
+    },
+    {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5856,
+      "state": "open"
     }
   ],
   "pull_requests": [

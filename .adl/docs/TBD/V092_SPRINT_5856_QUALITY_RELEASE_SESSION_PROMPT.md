@@ -23,6 +23,13 @@ Startup:
    bundles.
 4. Audit readiness and dependencies without executing out of order.
 
+Before umbrella execution, bind #5856 through the retained split-authority
+request at `.csdlc/prepared/issues/5856/split-authority-bind-request.json`.
+The initialized legacy issue record is expected to report
+`repository_identity_drift` until typed bind records the canonical code
+repository; this expected pre-bind diagnosis does not authorize a manual
+worktree or branch.
+
 WP-01 published the initialized child records under its own temporary publication
 claim. After WP-01 releases that claim, create and register each real child
 worktree, use typed `csdlc-bind --reacquire-request` to acquire the child's exact

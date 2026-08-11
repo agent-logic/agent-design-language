@@ -7,6 +7,7 @@
 - Execution mode: `sequential`
 - Status: `prepared`
 - Machine packet: `.csdlc/prepared/issues/5856/sprint-execution-packet.yaml`
+- Umbrella bind request: `.csdlc/prepared/issues/5856/split-authority-bind-request.json`
 
 ## Sprint Goal
 

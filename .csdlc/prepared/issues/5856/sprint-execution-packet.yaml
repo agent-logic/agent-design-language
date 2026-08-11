@@ -14,5 +14,6 @@ serial_gates:
   - issues 5846 through 5852 execute in dependency order
 review_path: .csdlc/evidence/5856/sprint-review.md
 activity_log_path: .csdlc/evidence/5856/activity.jsonl
+split_authority_bind_request_path: .csdlc/prepared/issues/5856/split-authority-bind-request.json
 child_goal_rule: After WP-01 releases its publication claim, each child session registers its worktree, reacquires the exact issue-local claim, binds, and creates an issue-bound goal before implementation.
 closeout_rule: No release-tail advancement occurs without the preceding child's truthful terminal state.

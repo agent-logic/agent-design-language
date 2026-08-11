@@ -7,13 +7,13 @@
     "title": "Quality and release-tail sprint",
     "slug": "quality-and-release-tail",
     "version": "v0.92",
-    "generation": 6
+    "generation": 9
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 4,
       "summary": "Verify the complete final-sprint child wave, begin with WP-20 only after its proof producers are terminal, preserve the strict WP-20 through WP-30 dependency chain, and synthesize one integrated release-tail review after child completion.",
       "steps": [
         {
@@ -46,7 +46,20 @@
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        ".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md",
+        "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+        "docs/milestones/v0.92/SPRINT_v0.92.md",
+        ".csdlc/issues/5856",
+        ".csdlc/prepared/issues/5856/design.md",
+        ".csdlc/prepared/issues/5856/diagram.mmd",
+        ".csdlc/prepared/issues/5856/sprint-execution-packet.md",
+        ".csdlc/prepared/issues/5856/sprint-execution-packet.yaml",
+        ".csdlc/prepared/issues/5856/split-authority-bind-request.json",
+        ".csdlc/prepared/issues/5856/validate-sprint-readiness.rb",
+        ".csdlc/evidence/5854/live-gates.json",
+        ".csdlc/evidence/5854/live-gates-source.json"
+      ],
       "invariants": [
         "Child issues retain all code and proof authority",
         "No child begins before its declared dependencies",

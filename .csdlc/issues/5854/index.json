@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6b554b8bf1e14bfe51db35c853eb74588989147fd1dd3b17660b246cbaa621c",
   "phase": "implemented",
-  "generation": 46,
-  "digest": "5ed7def7143b30aea34637c72678e79740ea9434e1b85ae72e99ac94547c1e3e",
+  "generation": 48,
+  "digest": "9b282e20677955b69a92dfaf33d2cfc0566250d39909dc768b602665dbb6d155",
   "branch": "codex/5854-sprint5-readiness-current",
   "worktree": "/Volumes/FastWork/adl-standalone-5854",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4fdd41e593a0718b597a3327ff22f13425ab0ef104353b2f354bb16cb05b280f",
+      "values_digest": "ca52363d51dc41d4bf4b5136d1c7acbfd41550f761da9eb6debf847f9d885b71",
       "rendered_digest": "cc54eda02aaacd8b9f27460401a72cff1dbdc8ef515122bd12efb38e28720425",
       "ast_digest": "64ba167e7c17b23699fac119154ed58c1ddd91d7e02c927a2d0721a4de103880"
     },
     "stp": {
-      "values_digest": "a1a7fa6c27e8097b7587ab5f9d8f5e946213e4aff3d191ac46c7256de790988c",
+      "values_digest": "db07d385ae7d87a95ee513cae73cc7358e5d0b379561182a1863359029720b1d",
       "rendered_digest": "85fc3f5565210111cfe2a976195402979e8ba8b69ea6c5eff3f50407003ef2fb",
       "ast_digest": "5adaadbffc36efbce9525095c9bd4c2eea53f5a7b07bb8aba49dc2ebd662a270"
     },
     "spp": {
-      "values_digest": "cfbd7f314f869ab40f7973c7781a0e66ae338c7eb921cbb0f3a440a694dd53fb",
+      "values_digest": "e248cb2fa7e6323ea7dcff318e7020ac79151f05a63831b2b27d3741ffe078d2",
       "rendered_digest": "a82ccc2ce24ce2753f3cc8fdacd4d8dc65cd03d5d43c1a94d9e268c4f5163190",
       "ast_digest": "45665ce1047f93add5f4b004d10daa4c30ad88337537380961324a60d678b305"
     },
     "vpp": {
-      "values_digest": "d47cbb1493674c180eab031ab79cc4edd2e6e89170d2a6924bb42cc3e6d82525",
+      "values_digest": "ad7658ed93e8d1bde03f193b1641b64c016176fd3f14072ee6869d223ac4040c",
       "rendered_digest": "75dc0c1b32a923706c5859da32eac177de6285944cc33183e88e22bc53fcfb50",
       "ast_digest": "24ca3b01d2791450e03e20133ea51743c7a5bdf9e90d4bf16299e1dd0e09193d"
     },
     "srp": {
-      "values_digest": "bbd95e3d94a8505f6faac8dfe041bdee1f09334cf966a51b4f0914314c42a941",
+      "values_digest": "9ca956058377ccf399a2fcc92adb447fdd25bc888de2b7426fa0c82b1c51a4bb",
       "rendered_digest": "b8d06eaae84a777e18be1f0e987bd92c612df99c5cf9bce94e84e4f6a441cdd8",
       "ast_digest": "bff86cd7eade89af750d0822abd6697742de8c00cdeb427dc917801c5b592ecb"
     },
     "sor": {
-      "values_digest": "0e02d383cbf4e6232d3137f0fad65cb6c78efa681962bcb1d4b23f66deb8fc48",
-      "rendered_digest": "0c2d1c01e1db3e7369d4b56eaa76b6be6f5eed1701d534e8c86ec042eba17abe",
-      "ast_digest": "d44d00698402b07d1dd57f853d1a879e292455d0617e6fc50091792fd93257ad"
+      "values_digest": "3652ea31a0793fb9843eda5b38cb11ec9bfc99439346ac4a7df8cba2cfe03b29",
+      "rendered_digest": "d6e85c65a701825ea92de651bbe355c6ad8cadb9cae257b03d9cc84adfff8ef0",
+      "ast_digest": "bb763215c443bae1ca22fe9c7568836583fe710d0fa86cb437a35bdc084e8e54"
     }
   },
   "transitions": [
@@ -491,6 +491,20 @@
       "actor": "codex:5854-sprint5-readiness",
       "reason": "Align the validation proof role with the four-child Sprint 5 denominator and WP-20 release-tail handoff.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v092-sprint5-readiness\",\"proof_role\":\"Prove current Sprint 5 membership, four-child operative closeout scope, WP-20 release-tail handoff, bind-safe child contracts, dependency gates, publication boundaries, umbrella ownership, and digest-bound live GitHub provenance.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\"],\"parallel_group\":\"v092-docs\",\"defer_reason\":\"The contract checks are deterministic over retained inputs, but snapshot freshness depends on wall-clock time and observed GitHub state.\"}]}"
+    },
+    {
+      "sequence": 51,
+      "generation": 47,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Replace accumulated historical execution prose with the current four-child readiness and final-sprint handoff truth after exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Prepared Sprint 5 as a four-child execution wave and moved WP-20 to the first dependency-gated position in final sprint #5856 without starting any child.\",\"changes\":[\"Classified #5835 and #5836 as ready to bind from reviewed, merged, ancestral dependency authority; kept #5838 and #5839 behind their declared gates.\",\"Removed #5840 from Sprint 5 membership, bind requests, watcher set, serial gates, and closeout denominator.\",\"Added #5840 as the first child of final sprint #5856 after #5836, #5837, #5838, and #5839 and before WP-21.\",\"Added a focused final-sprint packet validator and retained typed live readback for both #5854 and #5856.\",\"Updated both live sprint issue bodies through csdlc-github-issue and refreshed digest-bound evidence.\",\"Preserved all WP-20 implementation scope, cards, dependencies, and artifacts; no child was bound or started.\"],\"artifacts\":[\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/prepared/issues/5856/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5856/sprint-execution-packet.md\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\"],\"purpose\":\"Validate exact four-child Sprint 5 membership, four split-authority bind contracts, complete serial gates, WP-20 release-tail handoff, typed live evidence, and publication boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\"--negative-overlap\"],\"purpose\":\"Prove the path-collision guard rejects ancestor/descendant ownership while preserving disjoint sibling paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\"],\"purpose\":\"Validate exact final-sprint membership, WP-20-first serial order, typed child denominator, and retained live #5856 readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/live-gates-source.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5834/validate-review-packet.rb\"],\"purpose\":\"Prove the nine reviewed, merged, ancestral birthday dependency entries consumed by the first Sprint 5 wave.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"5854\"],\"purpose\":\"Validate canonical typed #5854 issue and card projections after reclassification.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5854/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors across the exact readiness diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 48,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Replace accumulated historical execution prose with the current four-child readiness and final-sprint handoff truth after exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Prepared Sprint 5 as a four-child execution wave and moved WP-20 to the first dependency-gated position in final sprint #5856 without starting any child.\",\"changes\":[\"Classified #5835 and #5836 as ready to bind from reviewed, merged, ancestral dependency authority; kept #5838 and #5839 behind their declared gates.\",\"Removed #5840 from Sprint 5 membership, bind requests, watcher set, serial gates, and closeout denominator.\",\"Added #5840 as the first child of final sprint #5856 after #5836, #5837, #5838, and #5839 and before WP-21.\",\"Added a focused final-sprint packet validator, retained split-authority bind request, and typed live readback for both #5854 and #5856.\",\"Updated both live sprint issue bodies through csdlc-github-issue and refreshed digest-bound evidence.\",\"Preserved all WP-20 implementation scope, cards, dependencies, and artifacts; no child was bound or started.\"],\"artifacts\":[\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/prepared/issues/5856/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5856/sprint-execution-packet.md\",\".csdlc/prepared/issues/5856/split-authority-bind-request.json\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\"],\"purpose\":\"Validate exact four-child Sprint 5 membership, four split-authority bind contracts, complete serial gates, WP-20 release-tail handoff, typed live evidence, and publication boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\"--negative-overlap\"],\"purpose\":\"Prove the path-collision guard rejects ancestor/descendant ownership while preserving disjoint sibling paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\"],\"purpose\":\"Validate exact final-sprint membership, WP-20-first serial order, typed child denominator, and retained live #5856 readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/live-gates-source.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5834/validate-review-packet.rb\"],\"purpose\":\"Prove the nine reviewed, merged, ancestral birthday dependency entries consumed by the first Sprint 5 wave.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"5854\"],\"purpose\":\"Validate canonical typed #5854 issue and card projections after reclassification.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5854/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors across the exact readiness diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/diff-hygiene.log\"}]}"
     }
   ]
 }
