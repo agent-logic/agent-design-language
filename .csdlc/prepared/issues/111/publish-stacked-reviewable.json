@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 111,
+  "expected_generation": 55,
+  "expected_digest": "7d955b75f87248ecff7c310751d51b2e0c7b5c969d9072cdd2932128032e0086",
+  "actor": "codex:wp18c01-execution",
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "remote": "origin",
+  "base": "codex/113-wp18c03-roster-presence-preparation",
+  "head": "codex/111-wp18c01-conversation-session-preparation",
+  "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
+  "body": "Closes #111\n\n## Summary\n- add Runtime-owned bounded conversation sessions with recipient binding, deterministic turn ordering, idempotency, timeout, cancellation, and reconnect retrieval\n- dispatch through canonical authenticated ingress and render only Runtime-authoritative correlated outcomes\n- compose conversation eligibility with the live WP-18C.03 roster and recheck eligibility immediately before dispatch\n- replay a pending turn at most once per actual disconnect while allowing recovery across repeated disconnects\n\n## Validation\n- conversation session tests: 1/1 PASS\n- agent roster tests: 10/10 PASS\n- control tests: 24/24 PASS\n- OpenAPI tests: 6/6 PASS\n- Observatory WSS tests: 7/7 PASS\n- browser conversation and combined static Observatory contracts: PASS\n- production-library Clippy with warnings denied, formatting, and diff hygiene: PASS\n\n## Review\n- independent exact-head review by subagent 019fef4f-e98a-7a13-a0dd-e401692cee98: APPROVED with no findings\n- reviewed exact head: a101b23ec21a674e3cb3d7165061d8c83b0aa142\n\n## Boundaries\n- durable cross-restart conversation history remains owned by #114\n- broader multi-agent room and routing semantics remain owned by #115 and #116",
+  "draft": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}

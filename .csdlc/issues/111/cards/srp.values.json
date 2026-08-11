@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 111,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
+    "slug": "wp18c01-canonical-human-agent-conversation-sessions",
+    "version": "v0.92",
+    "generation": 91
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/operations.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/conversation_sessions.rs\nadl-runtime-kernel/tests/parity_b_live_kernel.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/conversation_sessions.test.mjs\n.csdlc/issues/111",
+      "review_revision": "git-blake3:46acdca3492198987ecc509a2895eecc3b052a2b:68b243a0e843a188ed13cd128c41401fed1aa660d7723ad1ea9cc58d3e5b6a1b",
+      "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+      "review_prompts": [
+        "Verify Runtime is the only session/order/outcome authority and the browser cannot synthesize turns, delivery, or replies.",
+        "Probe duplicate submission, sequence gaps, reconnect replay, cancellation/timeout races, late adapter output, saturation, shutdown, and restart behavior.",
+        "Verify recipient eligibility and operator authority consume only the authenticated reachability boundary inherited from #83; #112 remains downstream of #111 and supplies no authority or dependency.",
+        "Verify provider-neutral contracts and public responses cannot expose raw provider payloads, credentials, private cognition, or private agent state.",
+        "Verify every product path in the diff is issue-owned, PVF-classified, and supported by exact-revision proof."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Only required GitHub validation remains to be observed; optional, hosted, soak, slow, coverage, and long jobs are not authorized."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

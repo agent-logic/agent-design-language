@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 111,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/111-wp18c01-conversation-session-preparation",
+  "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
+  "body": "Closes #111\nCloses #113\n\n## Summary\n- add Runtime-owned bounded conversation sessions and integrate the reviewed policy-filtered Runtime roster\n- bind asynchronous responses to exact authentication generations and prevent stale completion races\n- restore the Guardian parity test fixture after its production source gained the distributed continuity dependency\n\n## Focused validation\n- conversation, control, roster, Observatory WSS, OpenAPI, and browser contract tests: PASS\n- parity_b_live_kernel compile target: PASS\n- strict Clippy, formatting, and diff hygiene: PASS\n\n## Review\n- independent assigned review by subagent 019ff210-ff6d-76e0-af5b-bd6bd6cb162c: APPROVED, no findings\n- assigned revision: git-blake3:46acdca3492198987ecc509a2895eecc3b052a2b:68b243a0e843a188ed13cd128c41401fed1aa660d7723ad1ea9cc58d3e5b6a1b\n\n## Stack disposition\n- PR #222 is superseded by this integrated delivery and should close unmerged\n- PR #223 is the historical stacked view; PR #228 is authoritative\n\n## Boundaries\n- durable cross-restart conversation history remains #114\n- broader multi-agent routing remains #115/#116\n- workflow fanout is tracked separately by #234; no optional jobs are authorized for this delivery",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:03d5658d412c46e495b9659c03130bdb08c60940:c5bbe9633cdb4f3b95eba288c19102967ef867af4eec57129021dd07cd0e64f7",
+  "commit_sha": "03d5658d412c46e495b9659c03130bdb08c60940"
+}

@@ -1,0 +1,18 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 71,
+  "expected_digest": "cca275b82f98b82f1f1b8bab25a13f77a6bd577c98232c363feb96f7c9a26cf6",
+  "actor": "codex:wp18c01-fresh-review-remediation",
+  "reason": "Record complete focused proof for deterministic attachment reservation ordering.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["focused conversation, Observatory, control, browser, static, Clippy, format, and diff gates"],
+      "purpose": "Prove attachment-before-ack ordering and preserve all prior conversation authorization, boundedness, and UI contracts.",
+      "outcome": "passed",
+      "evidence_ref": "conversation_sessions 1/1, observatory 7/7, control 25/25 PASS; browser conversation PASS; combined HTML Observatory PASS; strict lib+binary Clippy PASS; cargo fmt and git diff hygiene PASS"
+    }
+  },
+  "fail_after_backup": false
+}

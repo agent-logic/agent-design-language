@@ -119,6 +119,16 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
         ws["binaryAcipAuthority"],
         "authenticated_session_and_canonical_ingress_policy"
     );
+    assert!(ws["clientFrames"]
+        .as_array()
+        .expect("clientFrames array")
+        .iter()
+        .any(|frame| frame["$ref"] == "#/components/schemas/ObservatoryConversationCancel"));
+    assert_eq!(
+        observatory["components"]["schemas"]["ObservatoryConversationResult"]["properties"]
+            ["turn_sequence"]["minimum"],
+        1
+    );
 }
 
 #[test]
