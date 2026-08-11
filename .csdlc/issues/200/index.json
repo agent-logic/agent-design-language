@@ -3,13 +3,33 @@
   "issue": 200,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
-  "phase": "implemented",
-  "generation": 20,
-  "digest": "c55ff3e47a46438ae07d63fa53c33a3e5b5ed787180c57c9d60fcbb6c4ebe433",
+  "phase": "reviewed",
+  "generation": 21,
+  "digest": "8037318d1e337b9d66baf507845c17dad7ef89a38e6fca95c2d2d8d4fcc7bc2a",
   "branch": "codex/200-concrete-authority-reconciliation-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-200-concrete-authority-reconciliation-preparation",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/review_200_post_208_final",
+    "scope": [
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_reconciliation.rs",
+      "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_authority_reconciliation.rs",
+      ".csdlc/prepared/issues/200",
+      ".csdlc/evidence/200/v5",
+      ".csdlc/issues/200"
+    ],
+    "reviewed_revision": "git-blake3:4d59de75c462e90c97768eaa4962d206bffd7b0e:e24edb736c5e67be872b25c06e7947bcbaa25c64dea3580df9d3ac3e870fb950",
+    "findings": [],
+    "residual_risks": [
+      "Replacement exact-head hosted CI remains a required pre-merge gate after rebasing onto issue #208."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3447ac115a81d9c393dca22ad4260334e2458ecb62c2bba952b9799d45503df1",
+      "values_digest": "a55d543dbdc5cb4ca138992bbe9c38d837b5582386bd08edcf76b4d1fd8c2fbc",
       "rendered_digest": "2bf7b8cfacd8ddd000f15d512793721dd8a66a41495705e6eea0e4720f11b449",
       "ast_digest": "923d2e83e0be4ba4a7d60955f63d16ee37ccd6f57575b3d316923eec9d5a102c"
     },
     "stp": {
-      "values_digest": "b35eb6aacd31be503c223e5614d10288010302c0603e73a531480d6f2e9dd8e7",
+      "values_digest": "c7092446b17a23517632e894ae6fd20b6532953a6eee93f2d1d06da79c2258b8",
       "rendered_digest": "b57d439d1570e4d0f8228d5c1801e852b4ef66b058757c8f52598b0191fdc466",
       "ast_digest": "ed3f711248a7c94c706cb3ef8eba0be4f78f4cb1890030f4e03aa319a4dc9fae"
     },
     "spp": {
-      "values_digest": "f4fa04d93fcd2dca842ad637f65fee4324b5c2e6eaee2d44b13c2b472b62b5e4",
+      "values_digest": "4009ad18bbb71abd12632f9e14ca9be9bf16e92dcde09d70ff7bc07819d14deb",
       "rendered_digest": "463d42373389c9b38afd2186ceea1e293e9e6ddf5168f01c0b5e02619a502e68",
       "ast_digest": "96803f5ab0254cb9acbd5e3278f7a0065f10e72344dce3fab24f755267af92f6"
     },
     "vpp": {
-      "values_digest": "a21dce252d276bcb95f6eb1129ed0adee3e450a365ff51a71c6786080b09d36c",
+      "values_digest": "794edd4964c05c19958c418b0d12baa8f2781b64d03e5b7e89e010dee0ceeeae",
       "rendered_digest": "b19adcd318fa48f408a267f17c2a1f74c54cc933155eb4f1c75c9edaff1413b7",
       "ast_digest": "af01edb6ae4e6432d48e99719f6c2eec6f31c3afbd0c0ae7d0e33c079cf9e479"
     },
     "srp": {
-      "values_digest": "f55027ebb68f2d1247a4f6bb500cba9b7e7b1136a88b32c62075d4248994f2b9",
-      "rendered_digest": "79b745015647e53a89d72550c999b47163e55e9efc7fd229bee8819732e72f50",
-      "ast_digest": "eb134f8926f936f6b01425a01def31ffcec5ae04ff6ec1a93e8443527baa94dc"
+      "values_digest": "bfcbcd54d9b95939829f0175c1f54034161930c944127b34baad626095390d4d",
+      "rendered_digest": "7a01e025ae52aaad5e94613160b18e22b82540e8e8a53790984f8767a05ba5ef",
+      "ast_digest": "194f9b31e8106d40ce987904ab4a8df30dec84439c667160979f99605e1aa9af"
     },
     "sor": {
-      "values_digest": "f02153bb93ef9e65806eb524a4c454bc82e621079c01a179c5d8944e8254eca9",
+      "values_digest": "1fa6d1e45b480678427226a5f3dd28e2dba6f96663c409ba30f5e96eb9eba3f0",
       "rendered_digest": "a5838759e3e1f0bb1dbaee3a2a431bd5c1dd8a6eb76cd9c3f2609e64582ec1e6",
       "ast_digest": "46141bb49e719870893c0640f8b6776465168d065c2d159f6625fb25ca1b98b4"
     }
@@ -131,6 +151,13 @@
       "to": "implemented",
       "actor": "codex:/root/advance_200_after_201",
       "reason": "Main advanced to merged issue #208 at 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90 and overlaps issue #200 at protected production path adl-runtime/src/distributed/polis_runtime.rs. Recover publication and review truth for narrow exact-main sync, overlap reconciliation, regenerated protected proof, and fresh independent review before republication."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -287,6 +314,13 @@
       "actor": "codex:/root/advance_200_after_201",
       "reason": "Record exact-main synchronization after #208 and the immutable v5 proof while leaving fresh independent review pending.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Rebased issue #200 onto exact merged-main 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90 after issue #208 changed the shared protected path adl-runtime/src/distributed/polis_runtime.rs. Git reconciled the histories cleanly; the current #200 delta on that file remains the bounded 24-line sealed reconciliation bridge atop #208's continuity work. The immutable v5 receipt at source 3c827d4f6abd909e4ab3b4225cf8e9c8827e8ef6 binds 36/36 cases, 13/13 subassertions, strict Clippy, portable fixture policy, and the exact post-#208 protected digests. Full Runtime remains 264/264. Fresh independent exact-head review is pending; PR #231 is stale and nothing is merged or closed.\",\"changes\":[\"Synchronized the complete #200 history onto exact main 5e25dcceb after #208 merged.\",\"Reconciled the shared polis_runtime.rs path without conflict, preserving #208 continuity behavior and the bounded #200 sealed reconciliation bridge.\",\"Advanced immutable proof evidence from v4 to v5 so protected digests bind the exact post-#208 main ancestry.\"],\"artifacts\":[\"adl-runtime/src/distributed/polis_runtime.rs\",\".csdlc/prepared/issues/200/produce-proof-receipt.rb\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\",\".csdlc/evidence/200/v5/execution-proof.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--no-tests=fail\",\"-E\",\"test(/authority_reconciliation/)\"],\"purpose\":\"Prove the exact post-#208 unit-plus-integration denominator: 36 tests run and 36 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v5/execution-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"authority_reconciliation\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Bind exactly 36 case markers and 13 required subassertion markers after main synchronization.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v5/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--test\",\"distributed_authority_reconciliation\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the reconciled production and test target remains warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v5/execution-proof.json\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--no-tests=fail\"],\"purpose\":\"Prove the full post-#208 Runtime library: 264 tests run and 264 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/distributed/polis_runtime.rs\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/200/validate-proof-receipt.rb\"],\"purpose\":\"Prove exact cases, subassertions, portability, immutable v5 proof, protected digests, and current-main ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/200/v5/execution-proof.json\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
