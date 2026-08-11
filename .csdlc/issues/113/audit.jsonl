@@ -71,3 +71,5 @@
 {"sequence":71,"generation":60,"actor":"subagent:019fefbc-1619-7a21-b27c-8edb01692b23","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":72,"generation":61,"actor":"codex:wp18c03-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":73,"generation":62,"actor":"codex:wp18c-sprint-execution","reason":"Refresh exact-head review and publication truth after required CI exposed and remediation fixed obsolete Guardian ACIP coverage and Linux Shepherd process-test isolation.","operation":"recover_review"}
+{"sequence":74,"generation":62,"actor":"codex:wp18c-sprint-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":75,"generation":63,"actor":"openai-codex:gpt-5:wp18c-required-ci-review:2026-08-11","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

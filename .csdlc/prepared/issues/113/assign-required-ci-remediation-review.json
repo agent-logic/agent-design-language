@@ -1,0 +1,22 @@
+{
+  "issue": 113,
+  "expected_generation": 62,
+  "expected_digest": "303aebada360b851c60b81bc775e73c7fc824560b8197e9b9e8f1f0f142c5e7b",
+  "reviewer": "openai-codex:gpt-5:wp18c-required-ci-review:2026-08-11",
+  "assigned_by": "codex:wp18c-sprint-execution",
+  "scope": [
+    "adl-runtime-kernel/src/agent_roster.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/tests/agent_roster.rs",
+    "adl-runtime-kernel/tests/control.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+    "adl-runtime-kernel/tests/guardian_soak.rs",
+    "adl-runtime-kernel/tests/shepherd.rs",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "demos/html-observatory/app.js",
+    "adl/tools/test_html_observatory.sh",
+    ".csdlc/evidence/113/roster-live-proof-2118c05b3",
+    ".csdlc/issues/113"
+  ]
+}

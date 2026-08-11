@@ -12,7 +12,19 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/agent_roster.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/tests/agent_roster.rs
+adl-runtime-kernel/tests/control.rs
+adl-runtime-kernel/tests/openapi_contract.rs
+adl-runtime-kernel/tests/parity_b_live_kernel.rs
+adl-runtime-kernel/tests/guardian_soak.rs
+adl-runtime-kernel/tests/shepherd.rs
+docs/api/runtime-v3/v1/observatory.openapi.json
+demos/html-observatory/app.js
+adl/tools/test_html_observatory.sh
+.csdlc/evidence/113/roster-live-proof-2118c05b3
+.csdlc/issues/113
 
 ## Prompts
 
@@ -33,12 +45,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.
+- Long-running Runtime and soak-style validation remains out of band under issue #226 and is not coupled to this focused product issue.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:05fa579228dc983ec9a91d8895f19dc8acfb78d9:e0d8a79ab0b8028983766c5b9a45733b337e5c7696c84e99466d845ce62502dd")
 
-Reviewer: None
+Reviewer: Some("openai-codex:gpt-5:wp18c-required-ci-review:2026-08-11")
 
-Result: pre_review
+Result: pass
