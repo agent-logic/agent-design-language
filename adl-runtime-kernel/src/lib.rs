@@ -14,6 +14,7 @@ pub mod cognitive_profile;
 pub mod component;
 pub mod config;
 pub mod continuity;
+pub mod continuity_control;
 pub mod contract;
 pub mod control;
 pub mod durable_state;
@@ -54,6 +55,7 @@ pub use component::{
 };
 pub use config::*;
 pub use continuity::*;
+pub use continuity_control::*;
 pub use contract::*;
 pub use control::*;
 pub use durable_state::*;

@@ -1,0 +1,10 @@
+{
+  "issue": 213,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "ee35a29b96abe6ad1d344610bc5110ff1e7034e4e299b3a691f799e3174e587e",
+  "actor": "codex:/root",
+  "reason": "Independent exact-head design review passed and typed validation reports the tooling repair package ready for bounded implementation.",
+  "operation": {"operation": "advance_phase", "phase": "ready"},
+  "fail_after_backup": false
+}

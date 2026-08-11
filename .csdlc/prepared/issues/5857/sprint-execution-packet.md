@@ -5,7 +5,7 @@
 - Sprint issue: `#5857`
 - Milestone: `v0.92`
 - Execution mode: `hybrid`
-- Status: `prepared`
+- Status: `implemented_pending_review`
 - Machine packet: `.csdlc/prepared/issues/5857/sprint-execution-packet.yaml`
 
 ## Sprint Goal
@@ -28,15 +28,15 @@ Out of scope:
 
 | Issue | Role | Status | Primary surface | Watcher |
 |---|---|---|---|---|
-| `#5825` | WP-08 | initialized | birth contract, disqualifying cases, and negative fixtures | child session owner |
-| `#5826` | WP-09 | initialized | stable-name and identity-root contract | child session owner |
-| `#5827` | WP-10 | initialized | continuity records and bounded-cycle proof | child session owner |
-| `#5828` | WP-11 | initialized | working Memory Palace context topology, bounded working-set materialization, and redaction-safe continuity proof | child session owner |
-| `#5829` | WP-12 | initialized | provider, model, tool, skill, authority, and limit envelope | child session owner |
-| `#5830` | WP-13 | initialized | evidence-grounded cognitive-profile contract | child session owner |
-| `#5831` | WP-13A | initialized | working evaluation bindings, durable adaptation deltas, governed graph mutation, and replay-safe Adaptive Learning DAG execution | child session owner |
-| `#5833` | WP-15 | initialized | witness set and citizen-facing receipt contract | child session owner |
-| `#5834` | WP-16 | initialized | reviewer-facing birthday evidence packet | child session owner |
+| `#5825` | WP-08 | merged / PR 104 | birth contract, disqualifying cases, and negative fixtures | child session owner |
+| `#5826` | WP-09 | merged / PR 118 | stable-name and identity-root contract | child session owner |
+| `#5827` | WP-10 | merged / PR 127 | continuity records and bounded-cycle proof | child session owner |
+| `#5828` | WP-11 | merged / PR 131 | working Memory Palace context topology, bounded working-set materialization, and redaction-safe continuity proof | child session owner |
+| `#5829` | WP-12 | merged / PR 135 | provider, model, tool, skill, authority, and limit envelope | child session owner |
+| `#5830` | WP-13 | merged / PR 139; authority repair PR 147 merged | evidence-grounded cognitive-profile contract | child session owner |
+| `#5831` | WP-13A | merged / PR 195 | working evaluation bindings, durable adaptation deltas, governed graph mutation, and replay-safe Adaptive Learning DAG execution | child session owner |
+| `#5833` | WP-15 | merged / PR 198 | witness set and citizen-facing receipt contract | child session owner |
+| `#5834` | WP-16 | merged / PR 218; WP-14 replacement PR 215 ancestral | reviewer-facing birthday evidence packet | child session owner |
 
 ## Recommended Execution Order
 
@@ -119,7 +119,8 @@ Out of scope:
 ## Sprint Activity Log
 
 - Declared path: `.csdlc/evidence/5857/activity.jsonl`
-- Record child start, bind, validation, review, PR state, terminal state, and any gate change.
+- This umbrella-local log retains only the terminal child merge and corrective-repair merge events observed during sprint synthesis.
+- Child start, bind, validation, review, PR publication, and issue-bound goal truth remain authoritative in each child's typed lifecycle record and retained evidence; the umbrella does not duplicate or reconstruct those events.
 
 ## Sprint-Level Review
 
@@ -132,3 +133,12 @@ Out of scope:
 - Record budget variance only from actual child goal data.
 - Record which parallel lanes were safe, collapsed to serial, blocked, or not attempted.
 - Close the umbrella only after every child has truthful terminal state.
+
+## Observed Execution Outcome
+
+- The planned safe-parallel optimization was not used for acceptance authority; the effective critical path was serialized by dependency and review findings.
+- Every declared child issue is live-closed by its merged implementation PR.
+- Follow-up PR 147 repaired cognitive-profile authority before dependent WP-13A/WP-15/WP-16 acceptance.
+- Follow-up PR 215 replaced superseded WP-14 listener evidence before WP-16 acceptance.
+- The exact roster, completed reviews, live terminal mappings, merge ancestry, integrated WP-16 packet, and non-claims are retained in `.csdlc/evidence/5857/sprint-review.json` and `.csdlc/evidence/5857/sprint-review.md`.
+- Fresh independent umbrella review remains required before publication or closure.

@@ -4,6 +4,8 @@
 //! registration point only; it deliberately does not duplicate or weaken the
 //! validation performed by those authorities.
 
+pub mod authority_protocol;
+pub mod authority_reconciliation;
 pub mod capability_advertisement;
 pub mod certificates;
 pub mod discovery;
@@ -14,6 +16,7 @@ pub mod lease;
 pub mod membership;
 pub mod migration;
 pub mod placement;
+pub mod polis_runtime;
 pub mod projection;
 // The recovery store retains a private compatibility persistence helper for
 // restart-format parity. Registration makes the module production-visible,

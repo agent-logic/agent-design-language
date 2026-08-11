@@ -1,0 +1,6 @@
+{
+  "issue": 213,
+  "base_branch": "main",
+  "branch": "codex/213-initialized-card-repair-preparation",
+  "worktree": "."
+}

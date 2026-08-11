@@ -1,0 +1,294 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 201,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
+    "slug": "quorum-committed-authority-protocol",
+    "version": "v0.92",
+    "generation": 89
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Resolved PR #229's hosted coverage-impact failure without changing the authority runtime or immutable v7 proof. Repeated clean 443-test runs consistently pass the unchanged 80-percent production-file threshold, while retained v2 evidence explicitly treats exact llvm-cov line counts and summary digests as per-run provenance because concurrent scheduling varies the polis_runtime row; another fresh independent review remains pending.",
+      "actual_changes": [
+        "Replicated current authority now contains only stable polis, epoch, membership, configuration, and voter truth; current boot custody remains runtime-external and is validated as an exact full voter cut.",
+        "Every Prepare requires exact canonical current boot-vector equality, never mutates current authority, and freezes its complete historical boot vector plus a digest bound to stable authority.",
+        "Finalization, publication, restore, and snapshot install reverify frozen historical custody, while boot-rotated reopen can immediately build and install a snapshot before a new Prepare.",
+        "The exact snapshot regression rejects stale cuts without mutation, accepts the current cut, preserves old prepared/finalized custody, and rejects duplicate, reordered, zero, missing, extra, non-JCS, and injected current boot vectors.",
+        "The v7 producer and validator now execute and bind the truthful full runtime 230/230 lane in addition to the unchanged exact 86-case semantic contract.",
+        "Classified authority_protocol_contract_tests.rs as test-only because authority_protocol.rs includes it only under cfg(test); no production Rust file is excluded or reclassified.",
+        "Mapped authority_protocol.rs, identity.rs, polis_runtime.rs, and the authority-bound transport bridge to one adl-runtime package coverage lane while preserving the standalone transport mapping.",
+        "Routed that lane to the owning adl-runtime manifest and added fail-closed policy/runner regressions for deduplication, standalone low-coverage rejection, exact expression preservation, and summary production.",
+        "Replaced the falsely exact coverage-summary reproducibility claim with threshold-oriented v2 evidence: three fully retained author runs, two independent review observations, an observed polis_runtime range of 2610-2617/3094, and no claim that exact summary hashes reproduce."
+      ],
+      "artifacts": [
+        "adl-runtime/src/distributed/polis_runtime.rs",
+        ".csdlc/prepared/issues/201/design.md",
+        ".csdlc/prepared/issues/201/diagram.mmd",
+        ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
+        ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
+        ".csdlc/evidence/201/v7/execution-proof.json",
+        ".csdlc/issues/201/cards/stp.md",
+        ".csdlc/issues/201/cards/spp.md",
+        ".csdlc/issues/201/cards/vpp.md",
+        ".csdlc/issues/201/cards/srp.md",
+        ".csdlc/issues/201/cards/sor.md",
+        "adl/tools/check_coverage_impact.sh",
+        "adl/tools/run_pr_fast_coverage_lane.sh",
+        "adl/tools/test_check_coverage_impact.sh",
+        "adl/tools/test_run_pr_fast_coverage_lane.sh",
+        ".csdlc/prepared/issues/201/coverage-impact-result.json"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "nextest",
+            "run",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "-E",
+            "test(/^distributed::authority_protocol::contract_tests::/) or test(/^distributed::polis_runtime::authority_consensus_tests::snapshot_/)",
+            "--no-tests=fail"
+          ],
+          "purpose": "Prove the 83 Rust cases contributing to the exact issue semantic denominator.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
+            "--self-test"
+          ],
+          "purpose": "Prove the three exact validator topology modes and semantic markers.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "nextest",
+            "run",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "--no-tests=fail"
+          ],
+          "purpose": "Prove the truthful complete runtime denominator.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json#runtime_summary=230/230"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids",
+            "--",
+            "--exact",
+            "--nocapture"
+          ],
+          "purpose": "Prove production real three-voter OpenRaft authority flow.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove production authority code is warning-free.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/201/validate-proof-receipt.rb"
+          ],
+          "purpose": "Prove exact source ancestry, protected-tree fallback only when source is absent, available divergence rejection, immutable proof introduction, semantic 86/86, and runtime 230/230.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/201/v7/execution-proof.json"
+        },
+        {
+          "command": [
+            "csdlc-validate",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "201"
+          ],
+          "purpose": "Prove typed card projections and independently approved design bindings.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/issues/201/index.json"
+        },
+        {
+          "command": [
+            "csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "201"
+          ],
+          "purpose": "Prove implemented lifecycle health with fresh review pending.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/issues/201/index.json"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Prove current diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": "git:worktree"
+        },
+        {
+          "command": [
+            "GitHub Actions",
+            "adl-coverage-hosted",
+            "c5ce49147df76cc30f99e61a04c129f317671bed"
+          ],
+          "purpose": "Retain the hosted failure that exposed missing test-only classification and production authority coverage mapping.",
+          "outcome": "failed",
+          "evidence_ref": "https://github.com/agent-logic/agent-design-language/pull/229/checks"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_check_coverage_impact.sh"
+          ],
+          "purpose": "Prove cfg(test) classification, exact authority mapping, deduplication, and fail-closed standalone or combined low-coverage behavior.",
+          "outcome": "passed",
+          "evidence_ref": "adl/tools/test_check_coverage_impact.sh"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_run_pr_fast_coverage_lane.sh"
+          ],
+          "purpose": "Prove the authority filter skips the unrelated ADL workspace, runs against the owning adl-runtime manifest, and emits the expected summary.",
+          "outcome": "passed",
+          "evidence_ref": "adl/tools/test_run_pr_fast_coverage_lane.sh"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/run_pr_fast_coverage_lane.sh",
+            "--filter-expression",
+            "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))"
+          ],
+          "purpose": "Retain the pre-review 443/443 run as one exact observed run; its summary digest and rows are per-run provenance, not a reproducibility contract.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/check_coverage_impact.sh",
+            "--base",
+            "4041053",
+            "--head",
+            "948ba82c2",
+            "--summary",
+            "adl/target/coverage-impact-summary.json",
+            "--require-summary-for-risk"
+          ],
+          "purpose": "Prove the pre-review observed run passed the unchanged 80-percent production-file threshold; exact line counts are not promoted into a cross-run invariant.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/run_pr_fast_coverage_lane.sh",
+            "--filter-expression",
+            "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))"
+          ],
+          "purpose": "Post-review observed run A: 443/443 passed; exact summary 723e1987... recorded only as run provenance, with polis_runtime 2610/3094.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json#author-post-review-a"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/check_coverage_impact.sh",
+            "--base",
+            "4041053",
+            "--head",
+            "9b863c5bd",
+            "--summary",
+            "adl/target/coverage-impact-summary.json",
+            "--require-summary-for-risk"
+          ],
+          "purpose": "Post-review observed run A passed the unchanged 80-percent threshold for every changed production authority file.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json#author-post-review-a"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/run_pr_fast_coverage_lane.sh",
+            "--filter-expression",
+            "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))"
+          ],
+          "purpose": "Post-review observed run B: 443/443 passed; exact summary 36fe4efb... recorded only as run provenance, with polis_runtime 2617/3094.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json#author-post-review-b"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/check_coverage_impact.sh",
+            "--base",
+            "4041053",
+            "--head",
+            "9b863c5bd",
+            "--summary",
+            "adl/target/coverage-impact-summary.json",
+            "--require-summary-for-risk"
+          ],
+          "purpose": "Post-review observed run B passed the unchanged 80-percent threshold for every changed production authority file.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json#author-post-review-b"
+        },
+        {
+          "command": [
+            "jq",
+            "-e",
+            "threshold-oriented coverage variability contract",
+            ".csdlc/prepared/issues/201/coverage-impact-result.json"
+          ],
+          "purpose": "Require no top-level exact summary hash, explicit denial of exact-summary reproducibility, multiple distinct retained run hashes and polis line counts, and every retained production row at or above 80 percent.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

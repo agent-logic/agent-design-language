@@ -1,0 +1,13 @@
+{
+  "issue": 225,
+  "card": "spp",
+  "expected_generation": 18,
+  "expected_digest": "9507014d0ef44394f09b55d018bb23dc1fd913b587bddcff3979cc3291ab3781",
+  "actor": "codex:225-bounded-card-review-repair",
+  "reason": "Focused validation is complete and independent exact-head re-review is in progress.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "in_progress"
+  }
+}

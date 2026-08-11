@@ -1,4 +1,4 @@
-use std::collections::{BTreeSet, VecDeque};
+use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -28,6 +28,7 @@ pub const CSM_RUNTIME_API_GATEWAY_IDENTITY_AUDIENCE: &str = "csm-runtime-api";
 pub const CSM_RUNTIME_API_GATEWAY_IDENTITY_MAX_TTL_SECS: u64 = 300;
 pub const CSM_RUNTIME_API_WSS_MAX_FRAME_BYTES: usize = 64 * 1024;
 pub const CSM_RUNTIME_API_WSS_MAX_REPLAY_ENTRIES: usize = 1024;
+const CSM_RUNTIME_API_WSS_MAX_SEQUENCE_ADVANCE: u64 = 1_000_000;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RuntimeApiWssAdmissionRequest<'a> {
@@ -53,6 +54,11 @@ pub struct RuntimeApiWssAdmission {
 
 #[derive(Debug)]
 struct RuntimeApiWssReplayState {
+    domains: BTreeMap<u64, RuntimeApiWssReplayDomain>,
+}
+
+#[derive(Debug, Default)]
+struct RuntimeApiWssReplayDomain {
     seen: BTreeSet<String>,
     order: VecDeque<String>,
     highest_sequence: Option<u64>,
@@ -108,9 +114,7 @@ impl RuntimeApiWssAdmissionPolicy {
             allowed_capabilities,
             allowed_authorities,
             replay: Mutex::new(RuntimeApiWssReplayState {
-                seen: BTreeSet::new(),
-                order: VecDeque::new(),
-                highest_sequence: None,
+                domains: BTreeMap::new(),
             }),
         })
     }
@@ -163,6 +167,16 @@ impl RuntimeApiWssAdmissionPolicy {
             return Err("replay_id_required");
         }
         let mut replay = self.replay.lock().map_err(|_| "replay_state_unavailable")?;
+        let replay = replay.domains.entry(metadata.generation).or_default();
+        if request.monotonic_sequence == 0 || request.monotonic_sequence == u64::MAX {
+            return Err("sequence_out_of_bounds");
+        }
+        let previous = replay.highest_sequence.unwrap_or(0);
+        if request.monotonic_sequence.saturating_sub(previous)
+            > CSM_RUNTIME_API_WSS_MAX_SEQUENCE_ADVANCE
+        {
+            return Err("sequence_out_of_bounds");
+        }
         if replay.seen.contains(request.replay_id) {
             return Err("replay_refused");
         }
@@ -1317,6 +1331,10 @@ mod tests {
         assert_eq!(
             policy.admit(&store, request("replay-1", 1)),
             Err("replay_refused")
+        );
+        assert_eq!(
+            policy.admit(&store, request("terminal-sequence", u64::MAX)),
+            Err("sequence_out_of_bounds")
         );
         assert_eq!(
             policy.admit(

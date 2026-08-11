@@ -1,0 +1,1 @@
+{"schema":"adl.v092.birthday-review-negative-proof.v1","cases":["stale-digest","missing-roster","private-path","contradictory-status","forbidden-public-claim","publication-ready-overclaim","unreviewed-entry","unknown-manifest-field","forbidden-projection","wrong-issue-repository"],"outcome":"passed"}

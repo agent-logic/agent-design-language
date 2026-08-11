@@ -1,0 +1,29 @@
+flowchart TD
+    GI["Production Guardian initialization"] --> GC["Opaque KernelContinuityClient"]
+    GC --> TLS["TLS 1.3 mutual-auth private loopback listener"]
+    CE["Durable channel epoch and certificate succession"] --> TLS
+    TLS --> CJ["Canonical request plus accepted-operation journal"]
+    CJ --> AG["Close live admission at exact accepted prefix"]
+    AG --> PR["Prepare complete sealed live-participant registry"]
+    PR --> CP["Snapshot same participant handles and commit signed bundle"]
+    PR -->|"failure before commit"| RR["Receipt-bound resume of every applied or uncertain participant"]
+    RR -->|"all receipts reconciled"| AO["Reopen admission"]
+    RR -->|"cannot prove rollback"| RF["Source remains closed: RecoveryRequired"]
+    CP --> BR["Bundle receipt, checkpoint, marker, replayable result"]
+    BR --> SB["ContinuityBundleSourcePort with signed expected ranges"]
+    CJ --> ST["TargetContinuityEffectPort creates TargetStageHandle"]
+    ST --> VT["Signed entry and chunk expectations verified before every write"]
+    VT --> PE["TargetPossessionEvidence after complete validation"]
+    ST --> CL["Separate TargetCleanupPermit survives transfer expiry or cancel"]
+    CL --> DT["#208-owned receipt-bound discard of exact nonactivated target"]
+    DT --> ZR["Durable zero-residue receipt"]
+    PE --> VP["#210 returns VerifiedTransferPossession only"]
+    PE --> AT["#204 decision invokes #208 target activation effect"]
+    AT --> AR["#208 TargetActivationReceipt consumes cleanup permit durably"]
+    AR --> AD["Activated-stage discard denied across retry and restart"]
+    BR --> EX["Opaque sealed ports for downstream #204/#210"]
+    VP --> EX
+    PX["Process restart or reply loss"] --> CE
+    PX --> CJ
+    PUB["Public Runtime, Observatory and agent control"] --> DENY["No continuity route or authority"]
+    EX --> NA["No migration decision, activation, ownership, serving or cloud authority"]

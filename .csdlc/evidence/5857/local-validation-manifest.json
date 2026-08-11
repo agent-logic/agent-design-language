@@ -1,0 +1,19 @@
+{
+  "schema": "adl.sprint_review_local_validation.v1",
+  "issue": 5857,
+  "source_revision": "0eadd38e63ef3aaf8ebf8e1a6ad716cf0dac486b",
+  "source_tree": "eb6d03a5ba3a60fa438efccac1067f659598b2a9",
+  "command": ["ruby", ".csdlc/prepared/issues/5857/validate-sprint-review.rb", "--self-test"],
+  "outcome": "passed",
+  "counts": {"children": 9, "repairs": 2, "negative_cases": 4, "wp16_entries": 9},
+  "files": {
+    ".csdlc/prepared/issues/5857/validate-sprint-review.rb": "ca797632fc920861d54ac2e103495778531e594f7379c83cb7acc48f1faeb76e",
+    ".csdlc/prepared/issues/5857/sprint-execution-packet.md": "d2ce6b1c8d972387fbcf11c3cb8600c209e6423fa157e7376178f166ed2ceb8d",
+    ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml": "635580abd8dc2e2023631d135d3be02b477364fb424606b88419e5665ca1ff40",
+    ".csdlc/evidence/5857/sprint-review.json": "93fe3515d1b54a8179868ad05121067877b0ce3596d8696b96d6c8a82abfdec5",
+    ".csdlc/evidence/5857/sprint-review.md": "a582fafd199366a4ba33d42f40fc74b4edff9334ead15fd620e454e2d4529197",
+    ".csdlc/evidence/5857/activity.jsonl": "43a35e108191f612cfb57df72c34464e7542c202170d05f4a7a7c2f1d5abd02d",
+    ".csdlc/evidence/5857/terminal-mappings.json": "bf8dc516c383f70ba4184bf20a179b7d7853ebce132dace1abf1bd2f1cbe6737"
+  },
+  "non_claims": ["No merge approval", "No public release authorization", "No personhood, citizenship, consciousness, or governance claim"]
+}

@@ -3,6 +3,13 @@
 #[allow(dead_code)]
 #[path = "../src/distributed/certificates.rs"]
 mod certificates;
+#[allow(dead_code)]
+#[path = "../src/distributed/lease.rs"]
+mod lease;
+#[allow(dead_code)]
+#[path = "../src/distributed/membership.rs"]
+mod membership;
+#[allow(dead_code)]
 #[path = "../src/distributed/transport.rs"]
 mod transport;
 

@@ -6,6 +6,7 @@ license = "MIT OR Apache-2.0"
 description = "Independent supervised component runtime kernel proof for ADL"
 
 [dependencies]
+fs2 = "0.4"
 async-trait = "0.1"
 axum = { version = "0.8", features = ["ws"] }
 axum-server = { version = "0.8", features = ["tls-rustls"] }
