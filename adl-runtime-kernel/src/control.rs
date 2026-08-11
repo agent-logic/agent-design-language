@@ -518,7 +518,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         authority: ControlAuthority,
         max_records: usize,
         observatory_allowed_origins: impl IntoIterator<Item = String>,
-        agent_population: AgentPopulationFeed,
+        mut agent_population: AgentPopulationFeed,
     ) -> Self {
         assert!(max_records > 0, "idempotency capacity must be non-zero");
         let instance_id = instance_id.into();
@@ -527,6 +527,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "runtime instance id must be bounded"
         );
         let observatory_allowed_origins = observatory_allowed_origins.into_iter().collect();
+        agent_population
+            .sample
+            .sort_by(|left, right| left.id.cmp(&right.id));
         Self {
             instance_id,
             runtime_incarnation_id: uuid::Uuid::new_v4().to_string(),
@@ -851,7 +854,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 stale: age_millis > stale_after_millis,
             }
         });
-        let agents = self.agent_population.clone().with_runtime_snapshot_query(
+        let agents = self.agent_population.with_runtime_snapshot_query(
             &snapshot,
             now,
             *self
@@ -948,11 +951,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         page_size: usize,
         page_token: Option<String>,
         filter: Option<String>,
+        event_cursor: Option<String>,
     ) -> Result<AgentPopulationFeed, ControlError> {
         let snapshot = self.recorder.snapshot();
         let now = now_unix_millis();
         self.agent_population
-            .clone()
             .try_with_runtime_snapshot_query(
                 &snapshot,
                 now,
@@ -965,6 +968,23 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     page_token,
                     filter,
                 },
+                event_cursor.as_deref(),
+            )
+            .map_err(|_| ControlError::InvalidBounds)
+    }
+
+    pub fn agent_roster_detail(&self, agent_id: &str) -> Result<AgentRosterEntry, ControlError> {
+        let snapshot = self.recorder.snapshot();
+        let now = now_unix_millis();
+        self.agent_population
+            .agent_detail(
+                &snapshot,
+                now,
+                *self
+                    .agent_roster_token_key
+                    .lock()
+                    .expect("agent roster token key mutex poisoned"),
+                agent_id,
             )
             .map_err(|_| ControlError::InvalidBounds)
     }
@@ -1201,6 +1221,7 @@ pub struct AgentPopulationFeed {
     pub rendered_sample_count: u64,
     pub has_more: bool,
     pub next_page_token: Option<String>,
+    pub event_cursor: Option<String>,
     pub population_complete: bool,
     pub sample: Vec<AgentSample>,
     #[serde(skip)]
@@ -1217,6 +1238,7 @@ impl AgentPopulationFeed {
             rendered_sample_count: 0,
             has_more: false,
             next_page_token: None,
+            event_cursor: None,
             population_complete: false,
             sample: Vec::new(),
             public_policy: None,
@@ -1245,8 +1267,8 @@ impl AgentPopulationFeed {
             public_policy: Some(AgentRosterPolicy {
                 policy_subject: "public-observatory".to_owned(),
                 visible_agent_ids: BTreeSet::from(["shepherd".to_owned()]),
-                reveal_capabilities: true,
-                reveal_location: true,
+                reveal_capabilities: false,
+                reveal_location: false,
             }),
             ..Self::empty()
         }
@@ -1258,110 +1280,139 @@ impl AgentPopulationFeed {
     }
 
     fn with_runtime_snapshot_query(
-        self,
+        &self,
         snapshot: &RuntimeSnapshot,
         now_unix_millis: u64,
         token_key: [u8; 32],
         query: AgentRosterQuery,
     ) -> Self {
-        self.clone()
-            .try_with_runtime_snapshot_query(snapshot, now_unix_millis, token_key, query)
+        self.try_with_runtime_snapshot_query(snapshot, now_unix_millis, token_key, query, None)
             .unwrap_or_else(|_| Self::empty())
     }
 
     fn try_with_runtime_snapshot_query(
-        mut self,
+        &self,
         snapshot: &RuntimeSnapshot,
         now_unix_millis: u64,
         token_key: [u8; 32],
         query: AgentRosterQuery,
+        event_cursor: Option<&str>,
     ) -> Result<Self, crate::AgentRosterError> {
-        let has_runtime_projection = self
+        if self.sample.is_empty() {
+            return Ok(Self::empty());
+        }
+        if !self
             .sample
             .iter()
-            .any(|agent| agent.provenance == "runtime_component_state");
-        self.sample.retain_mut(|agent| {
+            .any(|agent| agent.provenance == "runtime_component_state")
+        {
+            return Ok(self.clone());
+        }
+        let Some(public_policy) = self.public_policy.as_ref() else {
+            return Ok(Self::empty());
+        };
+        let evidence = self.sample.iter().filter_map(|agent| {
             if agent.provenance != "runtime_component_state" {
-                return true;
+                return Some(AgentRuntimeEvidence::from(agent));
             }
-            let Some(state) = snapshot.components.get(&ComponentId::new(&agent.id)) else {
-                return false;
-            };
-            let Some(admission) = snapshot.agent_admissions.get(&agent.id) else {
-                return false;
-            };
-            let (presence, health, availability, eligible, detail) = match state {
-                RunningState::Running => (
-                    AgentPresence::Ready,
-                    "healthy",
-                    "available",
-                    true,
-                    "Production Runtime component is running",
-                ),
-                RunningState::Starting | RunningState::Ready => (
-                    AgentPresence::Unknown,
-                    "starting",
-                    "unavailable",
-                    false,
-                    "Production Runtime component is starting",
-                ),
-                RunningState::Restarting => (
-                    AgentPresence::Migrating,
-                    "recovering",
-                    "unavailable",
-                    false,
-                    "Production Runtime component is restarting",
-                ),
-                RunningState::Degraded => (
-                    AgentPresence::Degraded,
-                    "degraded",
-                    "unavailable",
-                    false,
-                    "Production Runtime component is degraded",
-                ),
+            let state = snapshot.components.get(&ComponentId::new(&agent.id))?;
+            let admission = snapshot.agent_admissions.get(&agent.id)?;
+            let (presence, health, availability, eligible) = match state {
+                RunningState::Running => (AgentPresence::Ready, "healthy", "available", true),
+                RunningState::Starting | RunningState::Ready => {
+                    (AgentPresence::Unknown, "starting", "unavailable", false)
+                }
+                RunningState::Restarting => {
+                    (AgentPresence::Migrating, "recovering", "unavailable", false)
+                }
+                RunningState::Degraded => {
+                    (AgentPresence::Degraded, "degraded", "unavailable", false)
+                }
                 RunningState::Stopping | RunningState::Stopped | RunningState::Failed => (
                     AgentPresence::Unreachable,
                     "unhealthy",
                     "unavailable",
                     false,
-                    "Production Runtime component is not running",
                 ),
             };
-            agent.state = serde_json::to_value(presence)
-                .ok()
-                .and_then(|value| value.as_str().map(str::to_owned))
-                .unwrap_or_else(|| "unknown".to_owned());
-            agent.health = health.to_owned();
-            agent.availability = availability.to_owned();
-            agent.communication_eligible = eligible;
-            agent.detail = detail.to_owned();
-            agent.observed_at_unix_millis = admission.observed_at_unix_millis;
-            agent.freshness_deadline_unix_millis = admission.freshness_deadline_unix_millis;
-            agent.source_revision = admission.source_revision.clone();
-            true
+            Some(AgentRuntimeEvidence {
+                agent_id: agent.id.clone(),
+                display_name: agent.label.clone(),
+                public_role: agent.role.clone(),
+                presence,
+                health: health.to_owned(),
+                availability: availability.to_owned(),
+                activity: agent.activity.clone(),
+                capabilities: agent.capabilities.clone(),
+                location: agent.location.clone(),
+                communication_eligible: eligible,
+                observed_at_unix_millis: admission.observed_at_unix_millis,
+                freshness_deadline_unix_millis: admission.freshness_deadline_unix_millis,
+                source_revision: admission.source_revision.clone(),
+                provenance: agent.provenance.clone(),
+            })
         });
-        if has_runtime_projection {
-            let evidence = self
-                .sample
-                .iter()
-                .map(AgentRuntimeEvidence::from)
-                .collect::<Vec<_>>();
-            let Some(public_policy) = self.public_policy.as_ref() else {
-                return Ok(Self::empty());
-            };
-            let Ok(roster) = AgentRoster::new(snapshot.revision.max(1), false, evidence, token_key)
-            else {
-                return Ok(Self::empty());
-            };
-            let page = roster.page(public_policy, query, now_unix_millis)?;
-            self.revision = page.revision;
-            self.total_count = page.visible_count;
-            self.rendered_sample_count = page.page_count;
-            self.has_more = page.has_more;
-            self.next_page_token = page.next_page_token;
-            self.sample = page.agents.into_iter().map(AgentSample::from).collect();
-        }
-        Ok(self)
+        let page = AgentRoster::projection(
+            snapshot.revision.max(self.revision).max(1),
+            false,
+            token_key,
+        )?
+        .page_evidence(
+            evidence,
+            public_policy,
+            query,
+            now_unix_millis,
+            event_cursor,
+        )?;
+        Ok(Self {
+            schema: page.schema,
+            revision: page.revision,
+            scope: page.scope,
+            total_count: page.visible_count,
+            rendered_sample_count: page.page_count,
+            has_more: page.has_more,
+            next_page_token: page.next_page_token,
+            event_cursor: Some(page.event_cursor),
+            population_complete: page.population_complete,
+            sample: page.agents.into_iter().map(AgentSample::from).collect(),
+            public_policy: self.public_policy.clone(),
+        })
+    }
+
+    fn agent_detail(
+        &self,
+        snapshot: &RuntimeSnapshot,
+        now_unix_millis: u64,
+        token_key: [u8; 32],
+        agent_id: &str,
+    ) -> Result<AgentRosterEntry, crate::AgentRosterError> {
+        let projected = self.try_with_runtime_snapshot_query(
+            snapshot,
+            now_unix_millis,
+            token_key,
+            AgentRosterQuery {
+                page_size: 1,
+                page_token: None,
+                filter: Some(agent_id.to_owned()),
+            },
+            None,
+        )?;
+        let sample = projected
+            .sample
+            .into_iter()
+            .find(|agent| agent.id == agent_id)
+            .ok_or(crate::AgentRosterError::NotVisible)?;
+        let policy = self
+            .public_policy
+            .as_ref()
+            .ok_or(crate::AgentRosterError::NotVisible)?;
+        AgentRoster::new(
+            snapshot.revision.max(1),
+            false,
+            [AgentRuntimeEvidence::from(&sample)],
+            token_key,
+        )?
+        .detail(policy, agent_id, now_unix_millis)
     }
 }
 
@@ -1566,6 +1617,10 @@ where
             "/v1/agents",
             get(agent_roster_handler::<C>).options(observatory_preflight_handler::<C>),
         )
+        .route(
+            "/v1/agents/{agent_id}",
+            get(agent_detail_handler::<C>).options(observatory_preflight_handler::<C>),
+        )
         .route(OBSERVATORY_WS_PATH, get(observatory_ws_handler::<C>))
         .route(
             "/v1/control",
@@ -1746,6 +1801,7 @@ struct AgentRosterHttpQuery {
     page_size: usize,
     page_token: Option<String>,
     filter: Option<String>,
+    event_cursor: Option<String>,
 }
 
 fn default_roster_page_size() -> usize {
@@ -1761,13 +1817,40 @@ async fn agent_roster_handler<C: LifecycleControl + 'static>(
     if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
         return StatusCode::FORBIDDEN.into_response();
     }
-    match service.agent_roster_page(query.page_size, query.page_token, query.filter) {
+    match service.agent_roster_page(
+        query.page_size,
+        query.page_token,
+        query.filter,
+        query.event_cursor,
+    ) {
         Ok(page) => observatory_json(StatusCode::OK, page, allowed_origin),
         Err(_) => observatory_json(
             StatusCode::BAD_REQUEST,
             serde_json::json!({
                 "schema": "adl.runtime_v3.agent_roster_error.v1",
                 "code": "invalid_roster_query"
+            }),
+            allowed_origin,
+        ),
+    }
+}
+
+async fn agent_detail_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    axum::extract::Path(agent_id): axum::extract::Path<String>,
+    headers: HeaderMap,
+) -> Response {
+    let allowed_origin = allowed_origin(&service, &headers);
+    if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+    match service.agent_roster_detail(&agent_id) {
+        Ok(agent) => observatory_json(StatusCode::OK, agent, allowed_origin),
+        Err(_) => observatory_json(
+            StatusCode::NOT_FOUND,
+            serde_json::json!({
+                "schema": "adl.runtime_v3.agent_roster_error.v1",
+                "code": "agent_not_visible"
             }),
             allowed_origin,
         ),

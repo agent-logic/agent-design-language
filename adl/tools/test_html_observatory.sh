@@ -215,11 +215,12 @@ const transitionRows = api.buildRuntimeAgentRows({
 assert.deepEqual(Array.from(transitionRows, (agent) => agent.state), transitionStates);
 assert.equal(transitionRows[2].id, "agent-2", "relocation preserves stable identity");
 assert.equal(transitionRows[2].location, "node-b", "relocation projects the new location");
-const cursorSnapshot = (runtimeId, incarnationId, revision) => ({
-  status: { runtime_id: runtimeId, runtime_incarnation_id: incarnationId, agent_population: { revision } }
+const cursorSnapshot = (runtimeId, incarnationId, revision, cursor = `cursor-${runtimeId}-${incarnationId}-${revision}`) => ({
+  status: { runtime_id: runtimeId, runtime_incarnation_id: incarnationId, agent_population: { revision, event_cursor: cursor } }
 });
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 7)), true);
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 7)), false, "duplicate revision rejected");
+assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 8, "cursor-runtime-a-incarnation-a-7")), false, "replayed authenticated cursor rejected");
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 6)), false, "out-of-order revision rejected");
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-a", "incarnation-a", 9)), true, "revision gap triggers full-snapshot resynchronization");
 assert.equal(api.runtimeRosterCursorState().lastResyncReason, "revision_gap");

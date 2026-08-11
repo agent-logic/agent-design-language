@@ -207,6 +207,82 @@ fn page_tokens_bind_revision_policy_filter_and_page_size() {
 }
 
 #[test]
+fn event_cursors_bind_policy_query_and_exact_revision_successor() {
+    let all = policy(&["agent-a"]);
+    let first_roster = AgentRoster::new(
+        20,
+        false,
+        [evidence("agent-a", "Alpha", AgentPresence::Ready)],
+        [11; 32],
+    )
+    .unwrap();
+    let first = first_roster
+        .page(
+            &all,
+            AgentRosterQuery {
+                page_size: 10,
+                page_token: None,
+                filter: None,
+            },
+            1_500,
+        )
+        .unwrap();
+    let next = AgentRoster::new(
+        21,
+        false,
+        [evidence("agent-a", "Alpha", AgentPresence::Ready)],
+        [11; 32],
+    )
+    .unwrap();
+    let query = AgentRosterQuery {
+        page_size: 10,
+        page_token: None,
+        filter: None,
+    };
+    assert!(next
+        .page_after(&all, query.clone(), 1_500, Some(&first.event_cursor))
+        .is_ok());
+    assert_eq!(
+        first_roster.page_after(&all, query.clone(), 1_500, Some(&first.event_cursor)),
+        Err(AgentRosterError::TokenContextMismatch),
+        "a cursor cannot be replayed at the same revision",
+    );
+    let skipped = AgentRoster::new(
+        22,
+        false,
+        [evidence("agent-a", "Alpha", AgentPresence::Ready)],
+        [11; 32],
+    )
+    .unwrap();
+    assert_eq!(
+        skipped.page_after(&all, query.clone(), 1_500, Some(&first.event_cursor)),
+        Err(AgentRosterError::TokenContextMismatch),
+        "revision gaps require a full snapshot resynchronization",
+    );
+    let changed_policy = AgentRosterPolicy {
+        policy_subject: "operator:changed".to_owned(),
+        ..all.clone()
+    };
+    assert_eq!(
+        next.page_after(
+            &changed_policy,
+            query.clone(),
+            1_500,
+            Some(&first.event_cursor)
+        ),
+        Err(AgentRosterError::TokenContextMismatch),
+    );
+    let changed_query = AgentRosterQuery {
+        page_size: 9,
+        ..query
+    };
+    assert_eq!(
+        next.page_after(&all, changed_query, 1_500, Some(&first.event_cursor)),
+        Err(AgentRosterError::TokenContextMismatch),
+    );
+}
+
+#[test]
 fn tampered_tokens_and_unbounded_queries_fail_closed() {
     let roster = AgentRoster::new(
         10,
@@ -271,6 +347,7 @@ fn large_local_roster_remains_page_bounded_and_deterministic() {
         .collect::<Vec<_>>();
     let visible_agent_ids = evidence.iter().map(|item| item.agent_id.clone()).collect();
     let roster = AgentRoster::new(12, false, evidence, [8; 32]).unwrap();
+    let started = std::time::Instant::now();
     let page = roster
         .page(
             &AgentRosterPolicy {
@@ -293,6 +370,10 @@ fn large_local_roster_remains_page_bounded_and_deterministic() {
     assert_eq!(page.agents.last().unwrap().id, "agent-00099");
     assert!(page.has_more);
     assert!(serde_json::to_vec(&page).unwrap().len() < 80_000);
+    assert!(
+        started.elapsed() < std::time::Duration::from_secs(1),
+        "the explicit 10,000-entry scan ceiling must remain operationally bounded",
+    );
 }
 
 #[test]
@@ -441,6 +522,12 @@ fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
         heartbeat_deadline
     );
     assert_eq!(running.agents.sample[0].source_revision, source_revision);
+    let detail = service.agent_roster_detail("shepherd").unwrap();
+    assert_eq!(detail.schema, "adl.runtime_v3.agent_roster_entry.v1");
+    assert_eq!(detail.id, "shepherd");
+    assert!(detail.capabilities.is_empty());
+    assert_eq!(detail.location, None);
+    assert!(service.agent_roster_detail("private-agent").is_err());
     let stable_id = running.agents.sample[0].id.clone();
 
     let polled_again = service.observatory_feed();

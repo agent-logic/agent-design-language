@@ -98,6 +98,7 @@ const rosterUiState = {
   runtimeInstanceId: null,
   runtimeIncarnationId: null,
   revision: 0,
+  eventCursor: null,
   resyncCount: 0,
   lastResyncReason: null
 };
@@ -106,6 +107,7 @@ function publishRosterCursorState() {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
   root.dataset.agentRosterRevision = String(rosterUiState.revision);
+  root.dataset.agentRosterCursorPresent = rosterUiState.eventCursor ? "true" : "false";
   root.dataset.agentRosterResyncCount = String(rosterUiState.resyncCount);
   root.dataset.agentRosterResyncReason = rosterUiState.lastResyncReason || "none";
 }
@@ -116,7 +118,9 @@ function acceptRuntimeRosterSnapshot(snapshot) {
   const runtimeInstanceId = snapshot?.status?.runtime_id || null;
   const runtimeIncarnationId = snapshot?.status?.runtime_incarnation_id || null;
   const revision = Number(snapshot?.status?.agent_population?.revision || 0);
+  const eventCursor = snapshot?.status?.agent_population?.event_cursor;
   if (!runtimeInstanceId || !runtimeIncarnationId || !Number.isSafeInteger(revision) || revision < 0) return false;
+  if (revision > 0 && (typeof eventCursor !== "string" || eventCursor.length === 0)) return false;
   if (
     rosterUiState.runtimeInstanceId !== runtimeInstanceId
     || rosterUiState.runtimeIncarnationId !== runtimeIncarnationId
@@ -124,6 +128,7 @@ function acceptRuntimeRosterSnapshot(snapshot) {
     rosterUiState.runtimeInstanceId = runtimeInstanceId;
     rosterUiState.runtimeIncarnationId = runtimeIncarnationId;
     rosterUiState.revision = revision;
+    rosterUiState.eventCursor = eventCursor || null;
     rosterUiState.selectedId = null;
     rosterUiState.lastResyncReason = "runtime_incarnation_changed";
     rosterUiState.resyncCount += 1;
@@ -131,6 +136,7 @@ function acceptRuntimeRosterSnapshot(snapshot) {
     return true;
   }
   if (revision <= rosterUiState.revision) return false;
+  if (eventCursor === rosterUiState.eventCursor) return false;
   if (revision !== rosterUiState.revision + 1) {
     rosterUiState.lastResyncReason = "revision_gap";
     rosterUiState.resyncCount += 1;
@@ -138,6 +144,7 @@ function acceptRuntimeRosterSnapshot(snapshot) {
     rosterUiState.lastResyncReason = null;
   }
   rosterUiState.revision = revision;
+  rosterUiState.eventCursor = eventCursor;
   rosterUiState.selectedId = null;
   publishRosterCursorState();
   return true;
@@ -806,6 +813,17 @@ async function fetchRuntimeV3AgentRosterPage(apiBase, pageToken) {
     throw new Error("Runtime returned an unsupported roster page");
   }
   return page;
+}
+
+async function fetchRuntimeV3AgentDetail(apiBase, agentId) {
+  const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
+  const response = await fetch(`${base}/v1/agents/${encodeURIComponent(agentId)}`, { method: "GET" });
+  if (!response.ok) throw new Error(`/v1/agents/{agent_id} returned ${response.status}`);
+  const detail = await response.json();
+  if (detail.schema !== "adl.runtime_v3.agent_roster_entry.v1" || detail.id !== agentId) {
+    throw new Error("Runtime returned an incompatible agent detail");
+  }
+  return detail;
 }
 
 async function fetchRuntimeV3Readiness(base) {
@@ -1775,13 +1793,22 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       rosterUiState.sort = rosterSort.value;
       if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
     });
-    rosterList?.addEventListener("click", (event) => {
+    rosterList?.addEventListener("click", async (event) => {
       const row = event.target instanceof Element
         ? event.target.closest("[data-agent-id]")
         : null;
       if (!row) return;
       rosterUiState.selectedId = row.dataset.agentId;
       if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+      try {
+        const detail = await fetchRuntimeV3AgentDetail(getQueryApiBase(), rosterUiState.selectedId);
+        const population = lastPanopticonSnapshot?.status?.agent_population;
+        const selected = asArray(population?.sample).find((agent) => agent.id === detail.id);
+        if (selected) Object.assign(selected, detail, { state: detail.presence });
+        if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+      } catch (error) {
+        await renderLiveError(error);
+      }
     });
     rosterLoadMore?.addEventListener("click", async () => {
       const population = lastPanopticonSnapshot?.status?.agent_population;
@@ -2252,6 +2279,7 @@ globalThis.AdlHtmlObservatory = {
   fetchRuntimeSnapshot,
   fetchRuntimeV3ObservatorySnapshot,
   fetchRuntimeV3AgentRosterPage,
+  fetchRuntimeV3AgentDetail,
   submitRuntimeV3SignedControlCommand,
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,

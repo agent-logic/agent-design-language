@@ -1,4 +1,7 @@
-use std::collections::{BTreeMap, BTreeSet};
+use std::{
+    borrow::Borrow,
+    collections::{BTreeMap, BTreeSet},
+};
 
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -96,6 +99,7 @@ pub struct AgentRosterPage {
     pub page_count: u64,
     pub has_more: bool,
     pub next_page_token: Option<String>,
+    pub event_cursor: String,
     pub population_complete: bool,
     pub agents: Vec<AgentRosterEntry>,
 }
@@ -115,6 +119,14 @@ struct PageToken {
     filter: Option<String>,
     page_size: usize,
     offset: usize,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+struct EventCursor {
+    revision: u64,
+    policy_digest: String,
+    filter: Option<String>,
+    page_size: usize,
 }
 
 #[derive(Debug, Error, Eq, PartialEq)]
@@ -163,6 +175,66 @@ impl AgentRoster {
         query: AgentRosterQuery,
         now_unix_millis: u64,
     ) -> Result<AgentRosterPage, AgentRosterError> {
+        self.page_after(policy, query, now_unix_millis, None)
+    }
+
+    pub fn page_after(
+        &self,
+        policy: &AgentRosterPolicy,
+        query: AgentRosterQuery,
+        now_unix_millis: u64,
+        event_cursor: Option<&str>,
+    ) -> Result<AgentRosterPage, AgentRosterError> {
+        self.page_iter(
+            policy,
+            query,
+            now_unix_millis,
+            event_cursor,
+            self.evidence.values(),
+        )
+    }
+
+    pub fn projection(
+        revision: u64,
+        population_complete: bool,
+        token_key: [u8; 32],
+    ) -> Result<Self, AgentRosterError> {
+        if revision == 0 {
+            return Err(AgentRosterError::InvalidBounds);
+        }
+        Ok(Self {
+            revision,
+            population_complete,
+            evidence: BTreeMap::new(),
+            token_key,
+        })
+    }
+
+    pub fn page_evidence<T>(
+        &self,
+        evidence: impl IntoIterator<Item = T>,
+        policy: &AgentRosterPolicy,
+        query: AgentRosterQuery,
+        now_unix_millis: u64,
+        event_cursor: Option<&str>,
+    ) -> Result<AgentRosterPage, AgentRosterError>
+    where
+        T: Borrow<AgentRuntimeEvidence>,
+    {
+        self.page_iter(policy, query, now_unix_millis, event_cursor, evidence)
+    }
+
+    fn page_iter<T>(
+        &self,
+        policy: &AgentRosterPolicy,
+        query: AgentRosterQuery,
+        now_unix_millis: u64,
+        event_cursor: Option<&str>,
+        evidence: impl IntoIterator<Item = T>,
+    ) -> Result<AgentRosterPage, AgentRosterError>
+    where
+        T: Borrow<AgentRuntimeEvidence>,
+    {
         validate_query(&query)?;
         let filter = query
             .filter
@@ -171,6 +243,16 @@ impl AgentRoster {
             .filter(|value| !value.is_empty())
             .map(str::to_ascii_lowercase);
         let policy_digest = policy.digest();
+        if let Some(cursor) = event_cursor {
+            let decoded: EventCursor = self.decode_signed(cursor)?;
+            if decoded.policy_digest != policy_digest
+                || decoded.filter != filter
+                || decoded.page_size != query.page_size
+                || decoded.revision.checked_add(1) != Some(self.revision)
+            {
+                return Err(AgentRosterError::TokenContextMismatch);
+            }
+        }
         let offset = match query.page_token.as_deref() {
             Some(token) => {
                 let decoded = self.decode_token(token)?;
@@ -186,7 +268,7 @@ impl AgentRoster {
             None => 0,
         };
 
-        let matches = |item: &&AgentRuntimeEvidence| {
+        let matches = |item: &AgentRuntimeEvidence| {
             policy.visible_agent_ids.contains(&item.agent_id)
                 && filter.as_ref().is_none_or(|needle| {
                     item.agent_id.to_ascii_lowercase().contains(needle)
@@ -194,18 +276,26 @@ impl AgentRoster {
                         || item.public_role.to_ascii_lowercase().contains(needle)
                 })
         };
-        let visible_count = self.evidence.values().filter(matches).count();
+        let mut population_count = 0usize;
+        let mut visible_count = 0usize;
+        let mut agents = Vec::with_capacity(query.page_size);
+        for item in evidence {
+            population_count = population_count.saturating_add(1);
+            if population_count > MAX_ROSTER_ENTRIES {
+                return Err(AgentRosterError::InvalidBounds);
+            }
+            let item = item.borrow();
+            validate_evidence(item)?;
+            if matches(item) {
+                if visible_count >= offset && agents.len() < query.page_size {
+                    agents.push(project_entry(item, policy, now_unix_millis));
+                }
+                visible_count = visible_count.saturating_add(1);
+            }
+        }
         if offset > visible_count {
             return Err(AgentRosterError::TokenContextMismatch);
         }
-        let agents = self
-            .evidence
-            .values()
-            .filter(matches)
-            .skip(offset)
-            .take(query.page_size)
-            .map(|item| project_entry(item, policy, now_unix_millis))
-            .collect::<Vec<_>>();
         let end = offset.saturating_add(agents.len());
         let has_more = end < visible_count;
         let next_page_token = has_more
@@ -213,12 +303,18 @@ impl AgentRoster {
                 self.encode_token(&PageToken {
                     revision: self.revision,
                     policy_digest,
-                    filter,
+                    filter: filter.clone(),
                     page_size: query.page_size,
                     offset: end,
                 })
             })
             .transpose()?;
+        let event_cursor = self.encode_signed(&EventCursor {
+            revision: self.revision,
+            policy_digest: policy.digest(),
+            filter: filter.clone(),
+            page_size: query.page_size,
+        })?;
         Ok(AgentRosterPage {
             schema: AGENT_ROSTER_PAGE_SCHEMA.to_owned(),
             revision: self.revision,
@@ -227,6 +323,7 @@ impl AgentRoster {
             page_count: agents.len() as u64,
             has_more,
             next_page_token,
+            event_cursor,
             population_complete: self.population_complete,
             agents,
         })
@@ -248,12 +345,23 @@ impl AgentRoster {
     }
 
     fn encode_token(&self, token: &PageToken) -> Result<String, AgentRosterError> {
+        self.encode_signed(token)
+    }
+
+    fn encode_signed<T: Serialize>(&self, token: &T) -> Result<String, AgentRosterError> {
         let payload = serde_json::to_vec(token).map_err(|_| AgentRosterError::InvalidToken)?;
         let signature = blake3::keyed_hash(&self.token_key, &payload);
         Ok(format!("{}.{}", hex::encode(payload), signature.to_hex()))
     }
 
     fn decode_token(&self, token: &str) -> Result<PageToken, AgentRosterError> {
+        self.decode_signed(token)
+    }
+
+    fn decode_signed<T: for<'de> Deserialize<'de>>(
+        &self,
+        token: &str,
+    ) -> Result<T, AgentRosterError> {
         let (payload, signature) = token
             .split_once('.')
             .ok_or(AgentRosterError::InvalidToken)?;
