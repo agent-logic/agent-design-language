@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a Runtime-owned, policy-filtered, bounded local agent roster with truthful Shepherd admission, presence freshness, stable identity, revision-bound pagination, Runtime reincarnation handling, accessible Observatory selection and navigation, and Guardian-owned asynchronous restart proof. The candidate remains unpushed and unpublished for final independent review.
+Closed all four fresh-session review findings and the restart-continuity defects exposed by retained proof at exact product revision 2118c05b3fe503a0f7c902dcc766a90b9cd9c246.
 
 ## Artifacts
 
@@ -30,6 +30,16 @@ Implemented a Runtime-owned, policy-filtered, bounded local agent roster with tr
 - adl/tools/test_html_observatory.sh
 - adl/tools/validate_v092_html_observatory_roster.mjs
 - exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1
+- adl-runtime-kernel/src/agent_roster.rs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/tests/agent_roster.rs
+- adl-runtime-kernel/tests/control.rs
+- demos/html-observatory/app.js
+- adl/tools/test_html_observatory.sh
+- adl/tools/validate_v092_html_observatory_roster.mjs
+- .csdlc/evidence/113/roster-live-proof-2118c05b3
+- 2118c05b3fe503a0f7c902dcc766a90b9cd9c246
 
 ## Execution
 
@@ -38,6 +48,12 @@ Implemented a Runtime-owned, policy-filtered, bounded local agent roster with tr
 - Integrated bounded roster selection, cursor/incarnation reset, accessible persistent navigation, and responsive browser behavior in the HTML Observatory.
 - Routed restart proof through signed Guardian-owned control and made the public result explicitly asynchronous restart acceptance.
 - Added exact focused, scale, policy, freshness, pagination, reconnect, relocation, status-transition, reincarnation, and browser proof.
+- Replaced production allow-all roster projection with an explicit Runtime-owned public policy that omits unauthorized principals and redacts capabilities and location before serialization.
+- Bound per-request roster projection memory to page size, imposed an explicit 10000-entry population ceiling, and retained deterministic ID ordering and revision-bound continuation tokens.
+- Classified roster revision gaps as machine-readable full-snapshot resynchronizations in the Observatory instead of ordinary updates.
+- Persisted one validated Runtime instance identity in the canonical state root so Guardian restart preserves stable identity while changing process incarnation.
+- Refreshed qualified Runtime readiness after restart so the live Observatory cannot remain visibly degraded after recovery.
+- Retained source-pinned public-TLS JSON proof and desktop/mobile screenshots with a digest manifest under issue evidence.
 
 ## Validation
 
@@ -127,6 +143,14 @@ Implemented a Runtime-owned, policy-filtered, bounded local agent roster with tr
     "purpose": "Reject malformed whitespace and patch artifacts before final independent review.",
     "outcome": "passed",
     "evidence_ref": "Exact product candidate ef1238cd9bca0085d21dc74361308804e91d3ae1 and the lifecycle-only evidence delta both pass git diff --check."
+  },
+  {
+    "command": [
+      "focused issue-113 Runtime, roster, control, OpenAPI, browser, managed-Chrome live restart, lint, format, and diff gates"
+    ],
+    "purpose": "Prove explicit public authorization and redaction, bounded pagination, revision-gap resynchronization, stable Runtime identity, recovered readiness, and retained exact-head evidence.",
+    "outcome": "passed",
+    "evidence_ref": "git:2118c05b3fe503a0f7c902dcc766a90b9cd9c246; agent_roster 13/13; control 25/25; openapi_contract 6/6; HTML Observatory PASS; strict lib+binary Clippy PASS; fmt PASS; diff PASS; managed Chrome public-TLS live proof 22/22 with stable runtime_instance_id, changed incarnation, ready recovery, desktop/mobile screenshots, and digest manifest at .csdlc/evidence/113/roster-live-proof-2118c05b3"
   }
 ]
 
