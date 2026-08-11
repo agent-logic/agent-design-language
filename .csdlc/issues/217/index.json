@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "043cf4baaa244241d04c17933035cff870bc658c4ed2b6a116dd94077e6a85eb",
   "phase": "bound",
-  "generation": 49,
-  "digest": "e7f2524770282d82027f4e8d51beaf35c9c93d672041e0c1cd5d85b86fef5516",
+  "generation": 50,
+  "digest": "096839be1ca1569646a670e9eceee18e14eac0e15f41bcc03cefcdbb0ab85270",
   "branch": "codex/217-wp14-retained-native-proof-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-217-retained-native-proof-preparation",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/217/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "/root/review_217_97dac68",
-      "revision": "8a11ce10e9cc06b3c5bbbeec53378c9f831e813c30052988aaefc50be66d371f"
+      "reviewer": "/root/shepherd_pr215_green/review_217_52e1a68",
+      "revision": "f37279a9cdaf388669ad06b9df8aefc5d42ed182edfa91fa0c9853522db7cbef"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "ef68638742911b2301242f795cd24b195f2da16358f98e7efdfd597ffefca435",
+      "values_digest": "0a8fd7f3857f762d7d9ee1fa114839b43d229c8460ab54060681a611729eed1c",
       "rendered_digest": "a989adca89f39e74d79e1887b76cb8c0bb95a24c196524c48983478eb6ddbb96",
       "ast_digest": "8a432891032c24112f8e5b368214f38d8a57ce71e5397b6cb1c8a54b128d63de"
     },
     "stp": {
-      "values_digest": "abd3c6e576b573d6fea465e79073e823be7c374d0315f6b695a01d723e65dc1c",
+      "values_digest": "7d33a02a150c20781fdbde808a726073c650e373289bf12cd4d7abe6323a193c",
       "rendered_digest": "53d95ab64a5024f4c40aba2686398846dda6f4950ab093add0af6c2d117abd68",
       "ast_digest": "ee038cf01ea390de9e733b41b68b8c8e3f550041c50166eb6cc5b0a9b46c78d5"
     },
     "spp": {
-      "values_digest": "1162fa031806446940afc901ab355f2675d630ba574e5d5a788a77ec6006259d",
-      "rendered_digest": "9b1d3404032c3f616782b40b90b8c580adc34150dcbe1bfe29594e3e19b99af3",
-      "ast_digest": "8e423d3bfd47cad2fe7b7a1dd0dbab3a80fce28c8bfb4f28ae59cc8aa526ee7f"
+      "values_digest": "37065a7b5468680cca344d7cdaa2e1acb0d2d69c11055ed499cb9c35a6ca82a7",
+      "rendered_digest": "ae068b436699cabc6822fd9f90a1c7e76bdb18e498d6a6bc76f709863252f556",
+      "ast_digest": "0d99cdb9ffb71d12174a5c4ee0f3deed3dcf74ccad373ee9948345dfb8ce80cc"
     },
     "vpp": {
-      "values_digest": "03decbe3a42d0cc8dc54f5e0e24c0f10a41924190373c625096f4c6889370f30",
+      "values_digest": "47a06bb9cea1debac1e91e2875cb2a5e7859a452333ddf5167fdf325b5020378",
       "rendered_digest": "be534364373509ad61d27e2c98bf41925fa1102ee38870ee96944299c3e31182",
       "ast_digest": "2205f5677c8b2b063bae71df1270d0118511803fa00d9c9001944b2eb43b7680"
     },
     "srp": {
-      "values_digest": "0f9098bd89add4bc211b108d14aa29d81fb5836ed0cf9440b2cb8a15654434ec",
+      "values_digest": "89dc345f657a1b8e866637a914a1961439f6bf3aef2b8310071292539003d1ce",
       "rendered_digest": "abc6054a9088878dc78f2a9390b26c7024d9376d6d0e278bbb69cebf7d957428",
       "ast_digest": "6bfbd0e833b82cbc0a72c98df948b1946a4e7bdf5f788388059cdc64741a2f58"
     },
     "sor": {
-      "values_digest": "39ce5583bbc99aa417e28d0d92528b623f2ce01cfd1239f12b4e0f8a02f88089",
+      "values_digest": "407efc53d6b35670e005133cd53b4bf15c29f12052eb83733739302c1794c8dc",
       "rendered_digest": "1c281a238160a23ca2d9522f521acc4d55a2dca5e4a72308ce5616c76aa63c59",
       "ast_digest": "2581958855efc1d1ff0b20f11890a11444d91d86ee9caefc9f25135ab9f44f4b"
     }
@@ -427,6 +427,13 @@
       "actor": "/root/shepherd_pr215_green",
       "reason": "Execute both reviewed denominators now and plan machine-enforced H/H2 retention, drift negatives, reviewed-H2 receipt, and later-head anchoring.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"historical-denominator-contract\",\"proof_role\":\"Execute exact ten-path/count/unique/SHA-256 structural validation for the historical denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"jq\",\"-e\",\".expected_file_count == 10 and (.files | length) == 10 and ([.files[].path] | unique | length) == 10 and ([.files[].sha256 | test(\\\"^[0-9a-f]{64}$\\\")] | all)\",\".csdlc/prepared/issues/217/historical-c640-denominator.json\"],\"parallel_group\":\"217-prep\",\"defer_reason\":null},{\"lane\":\"protected-source-denominator-contract\",\"proof_role\":\"Execute exact seventeen-path/count/unique validation for the independent protected-source denominator.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"jq\",\"-e\",\".expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17\",\".csdlc/prepared/issues/217/protected-source-denominator.json\"],\"parallel_group\":\"217-prep\",\"defer_reason\":null},{\"lane\":\"retention-allowlist-contract\",\"proof_role\":\"Execute exact proof-contract equality plus H2/H3 lifecycle, evidence, retained-surface manifest, status, and confinement validation.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":300,\"argv\":[\"jq\",\"-e\",\"--slurpfile\",\"proof\",\".csdlc/prepared/issues/217/proof-contract-paths.json\",\".expected_evidence_file_count == 10 and ($proof[0].expected_path_count) == 8 and ($proof[0].paths | length) == 8 and ($proof[0].paths | unique | length) == 8 and .expected_proof_path_count == 8 and .proof_paths == ($proof[0].paths) and (.proof_paths | unique | length) == 8 and .expected_lifecycle_path_count == 14 and (.lifecycle_paths | length) == 14 and (.lifecycle_paths | unique | length) == 14 and .expected_retained_surface_fixed_path_count == 9 and (.retained_surface_fixed_paths | length) == 9 and (.retained_surface_fixed_paths | unique | length) == 9 and .retained_surface_fixed_paths == ([.evidence_denominator_path] + .proof_paths) and .expected_retained_surface_entry_count == 19 and .retained_surface_dynamic_path_source.expected_count == 10 and .retained_surface_dynamic_path_source.path == .evidence_denominator_path and (.retained_surface_manifest_path | startswith(\\\".csdlc/evidence/217/\\\")) and .retained_surface_manifest_digest_binding == \\\"h3_review_receipt\\\" and .h3_allowed_addition_paths == [.review_receipt_path] and .review_receipt_anchor_policy.kind == \\\"unique_ancestral_introduction_blob\\\" and .review_receipt_anchor_policy.require_unique_first_addition_on_current_head_ancestry == true and .review_receipt_anchor_policy.require_anchor_commit_object == true and .review_receipt_anchor_policy.require_anchor_blob_object == true and .review_receipt_anchor_policy.objects_permitted_missing == [\\\"H2_commit\\\",\\\"H2_tree\\\"] and (.review_receipt_anchor_policy.fail_closed_cases | index(\\\"coherent_receipt_and_manifest_rewrite\\\")) != null and .later_head_policy.requires_h2_git_objects == false and .later_head_policy.requires_receipt_anchor_git_objects == true and .allowed_statuses == [\\\"A\\\",\\\"M\\\"] and .forbidden_statuses == [\\\"D\\\",\\\"R\\\",\\\"C\\\",\\\"T\\\",\\\"U\\\",\\\"X\\\",\\\"B\\\"] and (.evidence_denominator_path | startswith(\\\".csdlc/evidence/217/\\\")) and ([.lifecycle_paths[] | startswith(\\\".csdlc/issues/217/\\\")] | all)\",\".csdlc/prepared/issues/217/h2-retention-allowlist.json\"],\"parallel_group\":\"217-prep\",\"defer_reason\":null},{\"lane\":\"historical-c640-packet\",\"proof_role\":\"Create a detached c640 worktree, overlay exact historical evidence, set original GitHub environment, and run the unchanged #209 validator as provenance-only proof.\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/verify-historical-c640-packet.rb\",\".csdlc/prepared/issues/217/historical-c640-denominator.json\"],\"parallel_group\":\"217-historical\",\"defer_reason\":\"Implemented only after the fresh second independent full-package review passes.\"},{\"lane\":\"fresh-native-producer-contract\",\"proof_role\":\"Prove the producer consumes exact source/proof denominators and writes confined issue #217 artifacts.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/produce-native-receipt.rb\",\"--self-test\"],\"parallel_group\":\"217-contract\",\"defer_reason\":\"Implemented only after the fresh second independent full-package review passes.\"},{\"lane\":\"fresh-native-linux-macos\",\"proof_role\":\"At reviewed H, produce/aggregate the fresh packet and exact nineteen-entry retained-surface manifest; validate evidence and proof-contract digests before exact-allowlist H2 retention.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/validate-retained-native-proof.rb\",\".csdlc/evidence/217/retained-proof-denominator.json\"],\"parallel_group\":\"217-native\",\"defer_reason\":\"Runs on GitHub Actions at exact reviewed H; missing fresh proof blocks H2 retention and merge.\"},{\"lane\":\"retention-chain-regressions\",\"proof_role\":\"Prove H/H2 and H2/H3 allowlisting, retained-surface manifest plus unique ancestral H3/integration receipt-blob anchoring, validation with H2 commit/tree objects unavailable, and fail-closed coherent receipt+manifest rewrite, missing/ambiguous anchor, protected, H-to-H2 unprotected-source, producer, validator, workflow, semantic, provenance, and path drift.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":420,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/validate-retained-native-proof.rb\",\"--self-test\"],\"parallel_group\":\"217-contract\",\"defer_reason\":\"Implemented only after the fresh second independent full-package review passes.\"}]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 50,
+      "actor": "/root/shepherd_pr215_green/review_217_52e1a68",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }
