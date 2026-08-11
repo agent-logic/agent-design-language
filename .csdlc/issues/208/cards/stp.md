@@ -78,6 +78,6 @@ Implement and publish the production Guardian-kernel private continuity bridge, 
 
 ## Non Goals
 
-- Consensus, authority protocol, membership, certificate issuance, lease, fencing, ownership, activation, or serving eligibility
-- Remote bundle transport (#210), migration orchestration (#204), or recovery orchestration (#211)
+- Consensus, authority protocol, membership, certificate issuance, lease, fencing, ownership, activation decisions, or serving eligibility; #204 alone owns the activation decision, while #208 owns only the target activation effect and TargetActivationReceipt invoked through #204's finalized decision
+- Remote bundle transport (#210), migration orchestration and decisions (#204), or recovery orchestration and decisions (#211)
 - Public continuity API, Shepherd/model execution, AWS, live Wuji/AWS qualification, final #142 delivery, merge without operator authorization, or lifecycle closeout

@@ -19,7 +19,8 @@ flowchart TD
     DT --> ZR["Durable zero-residue receipt"]
     PE --> VP["#210 returns VerifiedTransferPossession only"]
     PE --> AT["#204 decision invokes #208 target activation effect"]
-    AT --> AR["TargetActivationReceipt consumes cleanup permit"]
+    AT --> AR["#208 TargetActivationReceipt consumes cleanup permit durably"]
+    AR --> AD["Activated-stage discard denied across retry and restart"]
     BR --> EX["Opaque sealed ports for downstream #204/#210"]
     VP --> EX
     PX["Process restart or reply loss"] --> CE

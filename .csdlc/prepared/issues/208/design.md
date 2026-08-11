@@ -174,6 +174,17 @@ resume, target activate, or target discard. #208 performs those effects and
 returns the opaque receipts. Thus there is exactly one cleanup/effect owner
 (#208), without moving migration policy into this issue.
 
+#204 alone decides whether verified possession may activate. Its sealed adapter
+may invoke #208's `activate_target` effect only with the exact finalized
+migration decision and matching stage, possession, cleanup, route, membership,
+certificate, boot, and lineage bindings. #208 revalidates those bindings,
+atomically consumes the `TargetCleanupPermit`, durably records the activated
+generation, and returns a `TargetActivationReceipt`. Exact retry after process
+restart returns that retained receipt without repeating the effect. A stage with
+an activation receipt is never discardable; any later cleanup or discard request
+for it fails closed. #208 therefore owns the activation effect and receipt, but
+does not own or infer the activation decision.
+
 ## Crash, bounds, and filesystem safety
 
 Both client and server maintain exclusively locked bounded canonical journals
@@ -244,16 +255,27 @@ The denominator is exactly fifty-six named cases:
 `guardian_initialization_live`, and `participant_registry_complete`.
 
 The tracked `continuity-boundary-subassertion-map.json` is part of the proof
-contract. It contains exactly eight boundary rows and sixty-four named
+contract. Its `cases` array is the canonical exact ordered fifty-six-case
+denominator: ordinals are contiguous from 1 through 56, every named case occurs
+exactly once, and every row declares the exact `proved:case:<name>` marker. It
+also contains exactly eight boundary rows and sixty-four named boundary
 subassertions: eight each for config, TLS, identity, domain, generation, prefix,
-path, and size. The domain row binds canonical RFC 8785 acceptance and exact
-rejection markers for duplicate keys, noncanonical encoding, unknown fields,
-NaN/infinity, trailing bytes, decode/re-encode mismatch, and unknown operation
-kind; the TLS row separately retains exporter-mismatch proof. The named domain,
-polis, and node denial cases remain in the fifty-six-case denominator. The
-producer and validator require byte-for-byte map parity, exact expected
+path, and size. A separate exact twelve-row lifecycle subassertion table proves
+cleanup-permit survival across expiry/cancellation, cleanup and source-resume
+restart reconciliation, #204-only activation decision authority, #208-owned
+activation effect and retained receipt, cleanup-permit consumption, and denial
+of discard after activation. These lifecycle assertions refine named cases in
+the same fifty-six-case denominator; they do not inflate it.
+
+The domain row binds canonical RFC 8785 acceptance and exact rejection markers
+for duplicate keys, noncanonical encoding, unknown fields, NaN/infinity,
+trailing bytes, decode/re-encode mismatch, and unknown operation kind; the TLS
+row separately retains exporter-mismatch proof. The named domain, polis, and
+node denial cases remain in the fifty-six-case denominator. The producer and
+validator require byte-for-byte map parity, the exact ordered case names,
+contiguous ordinals, uniqueness, all declared counts, exact expected
 outcomes/markers, and SHA-256
-`cc7a0f9cb8e09840bb977f88a8d1721e0f04348beefca2cfbb6a33a6b4b15ef0`.
+`9a6d7834557f626487aae3115464ee60f19b06609b7ea9e6a24399a60eec8745`.
 Retry/crash proof enumerates
 accepted journal, each participant prepare/resume receipt, admission transition,
 bundle/target effect, result, checkpoint, marker, response cache, certificate
@@ -272,8 +294,9 @@ producer or source-changing validation.
 
 - Consensus, distributed authority issuance, membership, lease/fence policy,
   migration/recovery decisions, ownership, activation decisions, or serving
-  eligibility. The target activation effect remains #208-owned but is callable
-  only after #204's independently verified migration decision.
+  eligibility. #204 owns the activation decision; the target activation effect
+  and `TargetActivationReceipt` remain #208-owned and are callable only through
+  #204's independently verified finalized migration decision.
 - Remote bundle transport (#210) or migration/recovery orchestration (#204/#211).
 - Public continuity routes, Shepherd/model execution, AWS resources, live
   Wuji/AWS qualification, final #142 delivery, merge without operator

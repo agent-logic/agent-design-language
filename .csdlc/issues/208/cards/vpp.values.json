@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
     "slug": "authenticated-guardian-kernel-continuity-bridge",
     "version": "v0.92",
-    "generation": 12
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "guardian-continuity-production",
-          "proof_role": "Prove production Guardian initialization, supervised-kernel private-session readiness, durable channel restart/certificate succession, public-route absence, sealed #210 client ports, and the client half of the exact fifty-six cases plus eight-row sixty-four-subassertion map, including the domain row's exact RFC 8785 markers.",
+          "proof_role": "Prove production Guardian initialization, supervised-kernel private-session readiness, durable channel restart/certificate succession, public-route absence, sealed #210 client ports, and the client half of the exact ordered fifty-six-case denominator, sixty-four boundary subassertions, and twelve cleanup/expiry/cancel/restart/activation lifecycle subassertions.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -43,11 +43,11 @@
             "--no-tests=fail"
           ],
           "parallel_group": "208-serial-01-runtime-test",
-          "defer_reason": "Deferred until #191 merges and the complete production client target exists; fail closed on missing target, zero tests, library-only reachability, generic/caller-constructible #210 ports, or missing, extra, duplicate, reordered, nonpassing case/result/marker/subassertion."
+          "defer_reason": "Deferred until #191 merges and the complete production client target exists; fail closed on missing target, zero tests, library-only reachability, generic/caller-constructible ports, or any missing, extra, duplicate, reordered, nonpassing case/result/marker/boundary/lifecycle subassertion."
         },
         {
           "lane": "kernel-continuity-production",
-          "proof_role": "After the Guardian lane, prove production kernel startup, sealed complete live-participant quiesce/export and rollback, isolated validation/discard, signed expected entry/chunk/range revalidation before #210 stage writes, discard-only cleanup survival after transfer expiry/cancel, filesystem/bounds safety, and the server half of all fifty-six cases and sixty-four mapped subassertions.",
+          "proof_role": "After the Guardian lane, prove production kernel startup, live-participant quiesce/export and rollback, isolated validation/discard, cleanup survival through expiry/cancel/restart, #204-only activation decisions, #208 activation effects and exact-retry receipts, activated-stage discard denial, filesystem/bounds safety, and the server half of the exact ordered fifty-six cases plus sixty-four boundary and twelve lifecycle subassertions.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -75,7 +75,7 @@
             "--no-tests=fail"
           ],
           "parallel_group": "208-serial-02-kernel-test",
-          "defer_reason": "Deferred until the private listener, participant registry, sealed #210 ports, and focused kernel target exist; fail closed on missing target, synthetic participants, caller descriptors, cleanup-authority expiry with transfer authority, zero tests, or any case/map parity drift."
+          "defer_reason": "Deferred until the private listener, participant registry, sealed ports, and focused kernel target exist; fail closed on synthetic participants, caller descriptors, expired cleanup authority, missing activation receipt, activated-stage discard success, zero tests, or case/map parity drift."
         },
         {
           "lane": "guardian-continuity-clippy",
@@ -107,7 +107,7 @@
         },
         {
           "lane": "kernel-continuity-clippy",
-          "proof_role": "After Runtime Clippy, reject warnings and API misuse across the kernel library, production kernel binary, integration test, expected-descriptor verifier, and persistent cleanup permit.",
+          "proof_role": "After Runtime Clippy, reject warnings and API misuse across the kernel library, production kernel binary, integration test, expected-descriptor verifier, persistent cleanup permit, activation effect, and receipt surface.",
           "acceptance_ids": [
             "AC-9"
           ],
@@ -135,7 +135,7 @@
         },
         {
           "lane": "continuity-diff-hygiene",
-          "proof_role": "After all source-changing validation, load the recorded execution base and proving source revisions, require both exact Git objects and base ancestry, and run diff whitespace/EOF hygiene over the complete base..source range plus reject dirty protected paths. A working-tree-only diff is insufficient.",
+          "proof_role": "After all source-changing validation, load the recorded execution base and proving source revisions, require both exact Git objects and base ancestry, and run diff whitespace/EOF hygiene over the complete base..source range plus reject dirty protected paths.",
           "acceptance_ids": [
             "AC-9"
           ],
@@ -152,7 +152,7 @@
         },
         {
           "lane": "guardian-kernel-continuity-producer",
-          "proof_role": "After tests, both Clippy packages and exact-range diff hygiene pass, produce exact Git/source/base/argv/stream/timing/protected-digest evidence for fifty-six cases and byte-for-byte parity with continuity-boundary-subassertion-map.json sha256=cc7a0f9cb8e09840bb977f88a8d1721e0f04348beefca2cfbb6a33a6b4b15ef0, boundary_row_count=8, subassertion_count=64, including exact RFC 8785 and sealed-port/cleanup proof.",
+          "proof_role": "After tests, both Clippy packages and exact-range diff hygiene pass, produce exact Git/source/base/argv/stream/timing/protected-digest evidence for the canonical ordered fifty-six cases and byte-for-byte parity with continuity-boundary-subassertion-map.json sha256=9a6d7834557f626487aae3115464ee60f19b06609b7ea9e6a24399a60eec8745, case_count=56, contiguous ordinals 1..56, boundary_row_count=8, subassertion_count=64, and lifecycle_subassertion_count=12.",
           "acceptance_ids": [
             "AC-9"
           ],
@@ -165,11 +165,11 @@
             ".csdlc/prepared/issues/208/produce-proof-receipt.rb"
           ],
           "parallel_group": "208-serial-06-producer",
-          "defer_reason": "Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty protected source, wrong base/source diff proof, map digest/count/order drift, missing/extra/duplicate/nonpassing evidence, or nonzero status."
+          "defer_reason": "Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty source, wrong diff proof, map digest/count/order/ordinal/name/outcome/marker drift, missing/extra/duplicate/nonpassing evidence, or nonzero status."
         },
         {
           "lane": "guardian-kernel-continuity-receipt",
-          "proof_role": "Only after producer completion and fresh independent exact-head review, independently validate execution-base-to-reviewed-source diff hygiene, exact protected source, argv, fifty-six cases, eight rows, sixty-four mapped subassertions, both Clippy lanes, immutable evidence introduction, review provenance, and squash-merge-safe proof truth.",
+          "proof_role": "Only after producer completion and fresh independent exact-head review, independently validate execution-base-to-reviewed-source diff hygiene, exact protected source and argv, all ordered fifty-six cases, eight boundary rows, sixty-four boundary subassertions, twelve lifecycle subassertions, both Clippy lanes, immutable evidence introduction, review provenance, and squash-merge-safe proof truth.",
           "acceptance_ids": [
             "AC-9"
           ],
@@ -182,7 +182,7 @@
             ".csdlc/prepared/issues/208/validate-proof-receipt.rb"
           ],
           "parallel_group": "208-serial-08-validator",
-          "defer_reason": "Deferred until producer, typed finalize, immutable evidence, and fresh review exist; fail closed until exact source, execution base, map digest/count/order, cases, subassertions, commands, diff range, and review are bound."
+          "defer_reason": "Deferred until producer, typed finalize, immutable evidence, and fresh review exist; fail closed until exact source, base, map digest/count/order/ordinals/cases/subassertions, commands, diff range, and review are bound."
         }
       ],
       "planned_validation_seconds": 7200,

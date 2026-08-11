@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "50ca6fd43f5b405ec1d942ed846978798206b1a15480a8d72bdd35cf9667b750",
   "phase": "initialized",
-  "generation": 12,
-  "digest": "e95e8265e9549894908c1ddd9ff19bc9580f5b5ff00e49d8d2a22eaa6b55dd1f",
+  "generation": 16,
+  "digest": "a4e2aa25769e01279a11092b3b13fb752b97e0afc487a977c93040ba321e3917",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "91c52e3d3462aa36b8636b9c547b5809c5d22729805798c6d3ebdb39519b8d57",
+      "values_digest": "df1f784adec16e64b0a5317bc9b88ae53165075db9c63175083d98103ce526b1",
       "rendered_digest": "5b2a673ab5bea5e6dde4d54e7f04b7922b882214032760db3a41deaa16e86323",
       "ast_digest": "0fcdacc0eb8f8218bef0614153064c837cc6aafd75e29eeff95ea5502c341bbf"
     },
     "stp": {
-      "values_digest": "bfb247a990c724b3a27fd591a47a21bf238a2f5c71f61c6ff7828c029ace2daa",
-      "rendered_digest": "85f786826b9c0448bacfe9adc55f3cb08c1461039d27580220cec3dab80efba2",
-      "ast_digest": "84cafbb6f1ae06a492d7d691907e00d199727bf3a70f92ab3d4a4d37c2b0f6eb"
+      "values_digest": "458ce0173b1b985645249a2be4f51377bcb646b89f81d4ad829cebbd39c5c0f1",
+      "rendered_digest": "d831cee1ed07bfe4bd27eaec218c193ed1a2b20940a40b421b80e1be7b20ac8a",
+      "ast_digest": "6b98095ffc4179539ea408cec670e63ed2c932114efaea55b31b2107192d51f5"
     },
     "spp": {
-      "values_digest": "29ba2bc1674f80a1760c1b636aaebe3ffb71fa6370ce5ddaccfaf7d487c37335",
-      "rendered_digest": "db2ce60fe5a9ef1dee25114c63211f31be3024f95868d23585727e226e084371",
-      "ast_digest": "f5208406982a1801afe54277235063c720b1ed4a019b02eecc09c9883dd2a764"
+      "values_digest": "ee4d3cf6d9b460a7c4df6011dcd08e7e14ca5295983a6ebe0a68fc62dfc0b673",
+      "rendered_digest": "62c2309b00ca404dce36004ecca1ac55339a5b662ca916d1faa9c8785aa994e3",
+      "ast_digest": "71367ac444647a68560e746a08990b7e1a79bd8581ddb706347d87b18f72a034"
     },
     "vpp": {
-      "values_digest": "47de3569040b3bfed4480e54e191db942ee6c5282d0b84a98bc44f26e29fdebd",
-      "rendered_digest": "d18a500039551936947bf4688ea3773500e9adff7247c041c38f7f95c1066af6",
-      "ast_digest": "e35b35ee733b1ceefe243d976d6a10e8689c50cef8e7febe85b4602dd58ae340"
+      "values_digest": "50f5126e38e29cf14b4ac281cea37013a26d44d0befd76bd3a6aa4fe685a56c7",
+      "rendered_digest": "edf5d11626996065f767fe2ba7a7720c711f3ba75886b37e1fee234bfffdec72",
+      "ast_digest": "65273793e6665f731a959dd813c1b58b65871c6cbd048f853dbf02cc6f242d80"
     },
     "srp": {
-      "values_digest": "1500063c9855dde33d4f871b82c3b3a4a3904ba2d4516bffde5f93a6447e094c",
+      "values_digest": "ae94e92c50d3433e7a7523e659a6c2e0d1d73dd984bf3b776a95caeffb72a6b9",
       "rendered_digest": "ee616e4b683f5282eb3ce0c040d8526405ff1e736b2f3b4e63f0c1c2d387e52b",
       "ast_digest": "bc7fe208e028ff2138420faa39a88bbfaceccc4ef441750273f7d91093946d5f"
     },
     "sor": {
-      "values_digest": "5d32b6f7fbec460b0b0ce526cf6039f87473fd5f357f75dadcc0e27966222937",
+      "values_digest": "2999fb66f036258c7f0d9e4ee0c4b49a2f0553f8704d34d712491d54ef442de5",
       "rendered_digest": "71e4cc70af920f2b147de0f31b22d5776caf053d2140b23eb235eb83e41e2b07",
       "ast_digest": "39082939dec27f1e99209667379585cef63a41eab863870d004d35dfb33f4a80"
     }
@@ -141,6 +141,34 @@
       "actor": "codex:210-review-resolution",
       "reason": "Correct the final review prompt to the retained eight-row sixty-four-subassertion map after folding exact codec markers into the domain row.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Do both production binaries construct the private session and live participant registry before readiness, with no library-only or synthetic closure?\",\"Does TLS 1.3 mTLS plus exporter binding reject wrong peers, stale succession, captured sessions, bearer-only input, and every public/distributed identity before dispatch?\",\"Does the exact domain row prove canonical RFC 8785 acceptance and rejection of duplicate keys, noncanonical encoding, unknown fields, NaN/infinity, trailing bytes, decode/re-encode mismatch, and unknown operation kind, while the TLS row separately proves exporter mismatch?\",\"Do SourceContinuityEffectPort, ContinuityBundleSourcePort, and TargetContinuityEffectPort expose only opaque signed exact-effect handles and receipts, with #208 retaining every kernel/filesystem effect?\",\"Does TargetContinuityEffectPort revalidate signed key generation, catalog entry order/schema/range/digest and chunk index/range/digest/predecessor before any stage write, without caller-substitutable descriptors?\",\"Does TargetCleanupPermit remain discard-only and valid after transfer expiry/cancellation until TargetDiscardReceipt or TargetActivationReceipt, with exactly one cleanup owner in #208?\",\"Can #210 return only VerifiedTransferPossession and never delete/activate, while #204 alone owns the migration/control decision adapter and #208 performs the effect?\",\"Do crash/restart/reply-loss/succession/quiesce/stage/validate/activate/discard paths reconcile exact receipts without false no-effect, duplicate effect, or residue?\",\"Does diff hygiene compare the recorded execution base through exact proving source, reject nonancestry and dirty protected paths, and avoid working-tree-only evidence?\",\"Does exact proof bind fifty-six cases, the eight-row sixty-four-subassertion map and SHA-256, serial tests/Clippy/diff/producer/review/validator order, protected-source drift, immutable evidence, and squash topology?\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex:/root/resolve_201_208_findings",
+      "reason": "Resolve independent review by machine-closing the exact ordered proof denominator and the decision/effect activation split.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"After PR #197 merges, bind #208 and implement the complete production Guardian-to-live-kernel path, durable channel succession, sealed participant registry, rollback/discard semantics, and the #208-owned target activation effect and retained receipt callable only from #204's finalized decision; prove the exact ordered fifty-six-case denominator, sixty-four boundary subassertions, and twelve cleanup/expiry/cancel/restart/activation lifecycle subassertions, run Runtime/kernel tests and Clippy plus exact-range diff and producer serially, resolve independent review through subagents, then validate and publish a ready unmerged PR.\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex:/root/resolve_201_208_findings",
+      "reason": "Resolve the reviewed activation contradiction by separating #204 decision authority from #208 effect and receipt ownership.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"Consensus, authority protocol, membership, certificate issuance, lease, fencing, ownership, activation decisions, or serving eligibility; #204 alone owns the activation decision, while #208 owns only the target activation effect and TargetActivationReceipt invoked through #204's finalized decision\",\"Remote bundle transport (#210), migration orchestration and decisions (#204), or recovery orchestration and decisions (#211)\",\"Public continuity API, Shepherd/model execution, AWS, live Wuji/AWS qualification, final #142 delivery, merge without operator authorization, or lifecycle closeout\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 15,
+      "actor": "codex:/root/resolve_201_208_findings",
+      "reason": "Resolve independent review by pinning cleanup survival, restart reconciliation, activation effect, receipt, and activated-discard invariants.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No production readiness is reported until Guardian and kernel share the validated private session and the complete sealed live-participant registry exists\",\"Process restart preserves the durable logical channel epoch; certificate succession changes transport credentials without losing or duplicating an accepted operation\",\"Only TLS 1.3 mTLS authenticates control frames, while the manifest signing key signs content only and no bearer or public identity gains continuity authority\",\"Every RFC 8785 request is rejected before dispatch on duplicate keys, noncanonical encoding, unknown fields, NaN or infinity, trailing bytes, decode/re-encode mismatch, or exporter mismatch, with exact tracked subassertion markers\",\"Every participant prepared for quiesce either contributes to the committed bundle or has an exact reconciled SourceResumeReceipt before admission reopens, including after reply loss or process restart\",\"Source remains quiesced after SourceCheckpointHandle commit until exact SourceResumeReceipt or downstream fence; every nonactivated TargetStageHandle remains exactly discardable\",\"ContinuityBundleSourcePort reads only signed expected ranges from one exact SourceCheckpointHandle and TargetContinuityEffectPort revalidates signed key generation, catalog entry order/schema/range/digest, and chunk index/range/digest/predecessor before any bytes are written\",\"TargetPossessionEvidence exists only after exact complete validation; #210 wraps it with TargetStageHandle as VerifiedTransferPossession but gains no deletion or activation authority\",\"TargetCleanupPermit is a separate discard-only #208 authority bound to the exact stage and survives #210 transfer expiry, cancellation, reply loss, and process restart until verified TargetDiscardReceipt or TargetActivationReceipt\",\"#204 alone owns the activation decision and private decision adapter; #208 alone performs source resume, target activate, target discard, and every other kernel/filesystem effect\",\"#208 activation revalidates the exact finalized #204 decision and stage/possession/cleanup/route/membership/certificate/boot/lineage bindings, atomically consumes TargetCleanupPermit, durably records the activated generation, and returns a retained exact-retry TargetActivationReceipt\",\"A TargetStageHandle with a TargetActivationReceipt is never discardable; cleanup or discard after activation is denied across retry and restart\",\"No caller path, normal-build mock, synthetic snapshot, cached bool, opaque receipt, or redacted evidence creates distributed authority\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 16,
+      "actor": "codex:/root/resolve_201_208_findings",
+      "reason": "Resolve independent review by machine-closing the exact ordered fifty-six-case denominator and twelve lifecycle subassertions.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"guardian-continuity-production\",\"proof_role\":\"Prove production Guardian initialization, supervised-kernel private-session readiness, durable channel restart/certificate succession, public-route absence, sealed #210 client ports, and the client half of the exact ordered fifty-six-case denominator, sixty-four boundary subassertions, and twelve cleanup/expiry/cancel/restart/activation lifecycle subassertions.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1500,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"kernel_continuity_client\",\"--no-tests=fail\"],\"parallel_group\":\"208-serial-01-runtime-test\",\"defer_reason\":\"Deferred until #191 merges and the complete production client target exists; fail closed on missing target, zero tests, library-only reachability, generic/caller-constructible ports, or any missing, extra, duplicate, reordered, nonpassing case/result/marker/boundary/lifecycle subassertion.\"},{\"lane\":\"kernel-continuity-production\",\"proof_role\":\"After the Guardian lane, prove production kernel startup, live-participant quiesce/export and rollback, isolated validation/discard, cleanup survival through expiry/cancel/restart, #204-only activation decisions, #208 activation effects and exact-retry receipts, activated-stage discard denial, filesystem/bounds safety, and the server half of the exact ordered fifty-six cases plus sixty-four boundary and twelve lifecycle subassertions.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1500,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"kernel_continuity_control\",\"--no-tests=fail\"],\"parallel_group\":\"208-serial-02-kernel-test\",\"defer_reason\":\"Deferred until the private listener, participant registry, sealed ports, and focused kernel target exist; fail closed on synthetic participants, caller descriptors, expired cleanup authority, missing activation receipt, activated-stage discard success, zero tests, or case/map parity drift.\"},{\"lane\":\"guardian-continuity-clippy\",\"proof_role\":\"After both focused tests, reject warnings and API misuse across the Runtime library, Guardian production binary, client integration test, and sealed #210 client projections.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-guardian\",\"--test\",\"kernel_continuity_client\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"208-serial-03-runtime-clippy\",\"defer_reason\":\"Deferred until the owned Runtime targets exist; fail closed on warnings, missing target, or missing production source.\"},{\"lane\":\"kernel-continuity-clippy\",\"proof_role\":\"After Runtime Clippy, reject warnings and API misuse across the kernel library, production kernel binary, integration test, expected-descriptor verifier, persistent cleanup permit, activation effect, and receipt surface.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--test\",\"kernel_continuity_control\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"208-serial-04-kernel-clippy\",\"defer_reason\":\"Deferred until the owned kernel targets exist; fail closed on warnings, missing target, or missing production source.\"},{\"lane\":\"continuity-diff-hygiene\",\"proof_role\":\"After all source-changing validation, load the recorded execution base and proving source revisions, require both exact Git objects and base ancestry, and run diff whitespace/EOF hygiene over the complete base..source range plus reject dirty protected paths.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/208/verify-diff-hygiene.rb\"],\"parallel_group\":\"208-serial-05-diff\",\"defer_reason\":\"Deferred until implementation records exact execution_base_revision and proving_source_revision and creates the verifier; fail closed on absent/non-object revisions, nonancestry, any base..source whitespace or EOF diagnostic, dirty protected source, or working-tree-only evidence.\"},{\"lane\":\"guardian-kernel-continuity-producer\",\"proof_role\":\"After tests, both Clippy packages and exact-range diff hygiene pass, produce exact Git/source/base/argv/stream/timing/protected-digest evidence for the canonical ordered fifty-six cases and byte-for-byte parity with continuity-boundary-subassertion-map.json sha256=9a6d7834557f626487aae3115464ee60f19b06609b7ea9e6a24399a60eec8745, case_count=56, contiguous ordinals 1..56, boundary_row_count=8, subassertion_count=64, and lifecycle_subassertion_count=12.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/208/produce-proof-receipt.rb\"],\"parallel_group\":\"208-serial-06-producer\",\"defer_reason\":\"Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty source, wrong diff proof, map digest/count/order/ordinal/name/outcome/marker drift, missing/extra/duplicate/nonpassing evidence, or nonzero status.\"},{\"lane\":\"guardian-kernel-continuity-receipt\",\"proof_role\":\"Only after producer completion and fresh independent exact-head review, independently validate execution-base-to-reviewed-source diff hygiene, exact protected source and argv, all ordered fifty-six cases, eight boundary rows, sixty-four boundary subassertions, twelve lifecycle subassertions, both Clippy lanes, immutable evidence introduction, review provenance, and squash-merge-safe proof truth.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/208/validate-proof-receipt.rb\"],\"parallel_group\":\"208-serial-08-validator\",\"defer_reason\":\"Deferred until producer, typed finalize, immutable evidence, and fresh review exist; fail closed until exact source, base, map digest/count/order/ordinals/cases/subassertions, commands, diff range, and review are bound.\"}]}"
     }
   ]
 }
