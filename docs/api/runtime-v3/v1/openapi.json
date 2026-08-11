@@ -138,7 +138,7 @@
           "acip"
         ],
         "summary": "Open the authenticated bidirectional ACIP WebSocket carrier",
-        "description": "Upgrades over ordinary server-authenticated TLS after bearer authentication. The server sends an authenticated JSON session frame, accepts bounded ACIP Protobuf binary envelopes, dispatches each envelope through canonical ingress, and returns a structured JSON completion or rejection frame. This is the one canonical production ACIP WebSocket endpoint, and it is owned by adl-runtime-kernel.",
+        "description": "Upgrades over ordinary server-authenticated TLS after bearer authentication. The server sends an authenticated JSON session frame, accepts bounded ACIP Protobuf binary envelopes, dispatches each envelope through canonical ingress, and returns a structured JSON completion or rejection frame. Replay sequence state is isolated by the authenticated credential and the envelope runtime/source domain; zero, terminal, replayed, and excessive sequence advances are rejected without reserving the sequence. Canonical-ingress pressure is reported as a structured rejection. This is the one canonical production ACIP WebSocket endpoint, and it is owned by adl-runtime-kernel.",
         "security": [
           {
             "acipWriteBearer": []
@@ -179,6 +179,9 @@
           "bidirectional": true,
           "canonicalEndpoint": true,
           "serviceOwner": "adl-runtime-kernel"
+          ,"replayScope": "authenticated_principal_runtime_source"
+          ,"maximumSequenceAdvance": 1000000
+          ,"terminalSequenceAccepted": false
         }
       }
     },

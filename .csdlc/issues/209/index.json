@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 209,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
-  "phase": "initialized",
-  "generation": 3,
-  "digest": "8c265fae55946bb6579ebfee035be1e5c4b1625c6fe3009c2d238b65d2337919",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 4,
+  "digest": "e583a613b4ce526bc18c818431ff8e4761274151c6e0d5c51a572d73cf7334a0",
+  "branch": "codex/209-acip-authority-repair",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -18,43 +19,58 @@
   "diagram_path": ".csdlc/prepared/issues/209/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator-authorized:209-current-production-surface",
-      "revision": "a0deba7b47bacb85077993e73131c18d26500cc0f1034a58420319c2784773f1"
+      "reviewer": "operator-authorized:209-current-production-contract",
+      "revision": "5fa05f99d2efccc108907ad98c1405023903d802d9caf4d8a59dcc796fc746cc"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "c0e00a0284427b24fea6138b3b42994d5768667f87edb5a056069021361c2593",
+      "values_digest": "37c66f22db5b05448e355627cae08c401c2a2c03394ccdc27020377a70a003c2",
       "rendered_digest": "6ab414912da8b10f191cb7cd3eea7784652fb74e3078d62b0910875fce567253",
       "ast_digest": "0aee2bd815b8c6341e8aff6dc3c6cd119dfed378531100564f71b0578fe18f04"
     },
     "stp": {
-      "values_digest": "9a7fb4a6ebbcd47c8b829b251e5b23010ff564d9f8303d35c298367d2d63aa07",
+      "values_digest": "99783ec4f50108cd0b46b708ac32b7ac4714e289632a07c2ac0fc3e1d261ab1f",
       "rendered_digest": "79f56ef82fe12d87895c86ccae837ef4b17c501cc774f7bd466322f20d032199",
       "ast_digest": "94e37cfee499fc89d83ef4edaf9aa309a14ee1913f16e6b666f71e96cb6681c9"
     },
     "spp": {
-      "values_digest": "ce7ecf2c3dc95adcaa4e04771be81a1dce1f6ed36df324d545b3056e8a796ab4",
-      "rendered_digest": "1d3d25755b6ef0f80ed7b4fecbe3138453815a11bc0aa93db359d5a9b2de10d2",
-      "ast_digest": "92f603d4dbdef78af390e87adcc0e07907e95d525df658aeadc8874a598c56f0"
+      "values_digest": "8565877782ae45227773394d7e238a228d4f0e2895b5ba42a47070a9a1f57ff9",
+      "rendered_digest": "70c90afeea60096acaabdb4721d7130d728c7d45adddd814eb2dbad6734818f2",
+      "ast_digest": "c4374fab729dd5f0661f61a137fc6f2df3b26ce8a2bbbe859fe3f14b35152b31"
     },
     "vpp": {
-      "values_digest": "299c84e4f949933232f31578ffeb7c6822a250ad2f54be6737c37b5b9304f4d0",
+      "values_digest": "0e5cebe586591b6e7b8e11bf61371405eb21144c704ef8449baf33512cf1e505",
       "rendered_digest": "17e64cb4854052c7f8f2bff185a71a5e0e9f8fde40dcae0f439564f70e43e719",
       "ast_digest": "151d846e28b49f0ebcdbb3bbf15386246db6b4d85348b645fd0ad962b5235ccb"
     },
     "srp": {
-      "values_digest": "ab493d6766b976c7dbe59e0fe4799f38c8b545c22193e77f160e0220db77ef09",
+      "values_digest": "5f9a1a03daf81f0ddf6d176db443964a5221b24a6d0e17af386abb37c037db54",
       "rendered_digest": "4509b9bb41fb9f0bc69eacba44a9fbeaa735d81555a8da778e92107c45e4ae0c",
       "ast_digest": "8bf94a34d92f04afa1c12f9b864b31656d6405c02dd03d3dcdd9af1c2d403d07"
     },
     "sor": {
-      "values_digest": "9988d3fe3c5a68185f282c4774230bbc5c7c7bfe14a293226ef3b31e3263e145",
+      "values_digest": "e716b3350b00ab8de5e7a5f66bae8cd90bf298758411df40fc98e618912dda5a",
       "rendered_digest": "5200a724c734a44dff9f290b31f293ca5ba3a18edf04e9561bb71d2f350faed0",
       "ast_digest": "db87af4114c1a662963f52bf855e2712c0dd771c47892ba6d00c126faaf45914"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -83,6 +99,20 @@
       "actor": "codex:209-acip-authority-repair",
       "reason": "Align issue ownership with the current production kernel ACIP surface that superseded the historical embedded-listener paths.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/acip.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime/src/runtime_api_auth.rs\",\"docs/api/runtime-v3/v1/openapi.json\",\"docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md\",\".csdlc/prepared/issues/209\",\".csdlc/evidence/209\",\".github/workflows/wp14-production-acip-repair.yml\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "operator-authorized:209-current-production-contract",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

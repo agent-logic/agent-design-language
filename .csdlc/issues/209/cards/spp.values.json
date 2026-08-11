@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
     "slug": "wp14-production-acip-authority-repair",
     "version": "v0.92",
-    "generation": 3
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -98,7 +98,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/209/design.md",
-      "design_digest": "a0deba7b47bacb85077993e73131c18d26500cc0f1034a58420319c2784773f1",
+      "design_digest": "5fa05f99d2efccc108907ad98c1405023903d802d9caf4d8a59dcc796fc746cc",
       "diagram_ref": ".csdlc/prepared/issues/209/diagram.mmd",
       "diagram_digest": "6cf31b19e67ab3d9b3b5e0570f05943a78d7ee7615d0fcec9fc54c6309c4fe3b"
     }

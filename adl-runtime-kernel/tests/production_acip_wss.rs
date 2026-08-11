@@ -1,6 +1,7 @@
 #![cfg(unix)]
 
 use std::{
+    collections::BTreeMap,
     io::{BufRead, BufReader, Read, Write},
     path::Path,
     process::{Child, Command, Stdio},
@@ -9,7 +10,8 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    encode_acip_envelope, ControlAction, SignedControlCommand, ACIP_WEBSOCKET_SCHEMA,
+    encode_acip_envelope, CanonicalIngress, ControlAction, DomainWork, IngressError,
+    RuntimeRecorder, SignedControlCommand, ACIP_WEBSOCKET_SCHEMA, DOMAIN_WORK_SCHEMA,
 };
 use ed25519_dalek::SigningKey;
 use futures::{SinkExt, StreamExt};
@@ -316,6 +318,154 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
         "evidence": "the production ingress rejected a repeated monotonic sequence"
     }));
 
+    let terminal_sequence = encode_acip_envelope(
+        "production-acip-terminal-sequence",
+        "hostile-proof-client",
+        "runtime",
+        "agent_runtime",
+        &serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [{"op": "blake3", "input": "must not reserve terminal sequence"}]
+        }),
+        u64::MAX,
+    )
+    .unwrap();
+    socket
+        .send(Message::Binary(terminal_sequence.into()))
+        .await
+        .unwrap();
+    let terminal_rejection = next_acip_json(&mut socket).await;
+    assert_eq!(terminal_rejection["status"], "rejected");
+    assert_eq!(
+        terminal_rejection["reason"],
+        "monotonic_sequence_must_advance"
+    );
+
+    let isolated = encode_acip_envelope(
+        "production-acip-isolated-after-terminal",
+        "independent-proof-client",
+        "runtime",
+        "agent_runtime",
+        &serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [{"op": "blake3", "input": "independent replay domain remains live"}]
+        }),
+        1,
+    )
+    .unwrap();
+    socket.send(Message::Binary(isolated.into())).await.unwrap();
+    let isolated_completion = next_acip_json(&mut socket).await;
+    assert_eq!(isolated_completion["status"], "completed");
+    assertions.push(serde_json::json!({
+        "name": "terminal_sequence_rejected_without_cross_domain_poisoning",
+        "class": "negative_case",
+        "result": "passed",
+        "evidence": "u64::MAX was rejected and an independent authenticated replay domain still completed sequence 1"
+    }));
+
+    let unsupported = encode_acip_envelope(
+        "production-acip-retryable",
+        "retry-proof-client",
+        "runtime",
+        "not_allowlisted",
+        &serde_json::json!({"schema": "adl.runtime.unsupported.v1"}),
+        1,
+    )
+    .unwrap();
+    socket
+        .send(Message::Binary(unsupported.into()))
+        .await
+        .unwrap();
+    let typed_error = next_acip_json(&mut socket).await;
+    assert_eq!(typed_error["status"], "rejected");
+    assert_eq!(typed_error["reason"], "domain work kind is not allowlisted");
+    assert_eq!(typed_error["sequence_reserved"], false);
+
+    let retry = encode_acip_envelope(
+        "production-acip-retryable",
+        "retry-proof-client",
+        "runtime",
+        "agent_runtime",
+        &serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [{"op": "blake3", "input": "typed rejection rolled back reservation"}]
+        }),
+        1,
+    )
+    .unwrap();
+    socket.send(Message::Binary(retry.into())).await.unwrap();
+    let retry_completion = next_acip_json(&mut socket).await;
+    assert_eq!(retry_completion["status"], "completed");
+    assertions.push(serde_json::json!({
+        "name": "typed_ingress_error_rolls_back_sequence",
+        "class": "negative_case",
+        "result": "passed",
+        "evidence": "unsupported work produced a structured rejection and corrected work reused the sequence successfully"
+    }));
+
+    for index in 0..61 {
+        let capacity_frame = encode_acip_envelope(
+            &format!("production-acip-domain-{index}"),
+            &format!("capacity-domain-{index}"),
+            "runtime",
+            "agent_runtime",
+            &serde_json::json!({
+                "schema": "adl.runtime.local_agent_work.v1",
+                "tasks": [{"op": "blake3", "input": format!("capacity-{index}")}]
+            }),
+            1,
+        )
+        .unwrap();
+        socket
+            .send(Message::Binary(capacity_frame.into()))
+            .await
+            .unwrap();
+        assert_eq!(next_acip_json(&mut socket).await["status"], "completed");
+    }
+    let capacity_refused = encode_acip_envelope(
+        "production-acip-domain-refused",
+        "capacity-domain-refused",
+        "runtime",
+        "agent_runtime",
+        &serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [{"op": "blake3", "input": "capacity must fail closed"}]
+        }),
+        1,
+    )
+    .unwrap();
+    socket
+        .send(Message::Binary(capacity_refused.into()))
+        .await
+        .unwrap();
+    let capacity_rejection = next_acip_json(&mut socket).await;
+    assert_eq!(capacity_rejection["status"], "rejected");
+    assert_eq!(capacity_rejection["sequence_reserved"], false);
+
+    let retained_domain = encode_acip_envelope(
+        "production-acip-retained-domain",
+        "proof-client",
+        "runtime",
+        "agent_runtime",
+        &serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [{"op": "blake3", "input": "existing replay domain remains authoritative"}]
+        }),
+        2,
+    )
+    .unwrap();
+    socket
+        .send(Message::Binary(retained_domain.into()))
+        .await
+        .unwrap();
+    assert_eq!(next_acip_json(&mut socket).await["status"], "completed");
+    assertions.push(serde_json::json!({
+        "name": "replay_domain_capacity_fails_closed_without_eviction",
+        "class": "negative_case",
+        "result": "passed",
+        "evidence": "a new domain was refused at capacity while an existing domain advanced without replay-state eviction"
+    }));
+
     socket
         .send(Message::Text("not-a-binary-acip-frame".into()))
         .await
@@ -384,4 +534,38 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
         std::fs::create_dir_all(path.parent().unwrap()).unwrap();
         std::fs::write(path, serde_json::to_vec_pretty(&proof).unwrap()).unwrap();
     }
+}
+
+#[tokio::test]
+async fn canonical_ingress_applies_bounded_pressure() {
+    let ingress = CanonicalIngress::new(1, RuntimeRecorder::new(8), BTreeMap::new());
+    let pending_ingress = ingress.clone();
+    let pending = tokio::spawn(async move {
+        pending_ingress
+            .submit(
+                DomainWork {
+                    schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                    work_id: "pressure-pending".to_owned(),
+                    kind: "agent_runtime".to_owned(),
+                    payload: br#"{"schema":"adl.runtime.local_agent_work.v1"}"#.to_vec(),
+                },
+                "pressure-pending".to_owned(),
+            )
+            .await
+    });
+    tokio::task::yield_now().await;
+
+    let saturated = ingress
+        .submit(
+            DomainWork {
+                schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                work_id: "pressure-rejected".to_owned(),
+                kind: "agent_runtime".to_owned(),
+                payload: br#"{"schema":"adl.runtime.local_agent_work.v1"}"#.to_vec(),
+            },
+            "pressure-rejected".to_owned(),
+        )
+        .await;
+    assert_eq!(saturated, Err(IngressError::Saturated));
+    pending.abort();
 }

@@ -5,7 +5,8 @@
 Repair the merged WP-14 contract so authenticated ACIP traffic reaches a real
 production Guardian/kernel dispatch boundary with bounded pressure and typed
 errors, replay state cannot be poisoned across unrelated principals or
-sessions, and the public OpenAPI contract matches runtime signature admission.
+sessions, and both the canonical kernel OpenAPI contract and retained legacy
+signed-frame admission contract match the behavior their runtimes enforce.
 
 ## Owned Paths
 
@@ -34,9 +35,11 @@ duplicate denial after reconnect or eviction. Production dispatch validates
 admission before enqueuing one bounded operation and returns a typed success or
 typed error without echo-only substitution.
 
-The externally published schema requires every field runtime admission
-requires. Negative-test-only unsigned shapes are not advertised as valid
-dispatchable carrier frames.
+The canonical kernel carrier uses authenticated bearer upgrade plus bounded
+Protobuf dispatch and publishes that exact contract. The retained legacy
+signed-frame admission path continues to require its control signature and
+uses credential-generation-scoped replay state; neither path is presented as
+proof for the other.
 
 ## Failure And Transaction Boundary
 

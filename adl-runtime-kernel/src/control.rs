@@ -52,6 +52,7 @@ pub const OBSERVATORY_WS_AUTH_SCHEMA: &str = "adl.runtime_v3.observatory_ws_auth
 pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_ws_control_result.v1";
 pub const CONTROL_MAX_BODY_BYTES: usize = 64 * 1024;
+const ACIP_MAX_SEQUENCE_ADVANCE: u64 = 1_000_000;
 const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
 const OBSERVATORY_OPENAPI_DOCUMENT: &str =
     include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
@@ -308,11 +309,11 @@ struct IdempotencyState {
 }
 
 struct AcipReplayState {
-    sequences_by_source: LruCache<String, u64>,
+    sequences_by_principal_domain: LruCache<String, u64>,
 }
 
 struct AcipSequenceReservation {
-    source: String,
+    principal_domain: String,
     sequence: u64,
     previous: Option<u64>,
 }
@@ -403,7 +404,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 admission_open: true,
             }),
             acip_replay: Mutex::new(AcipReplayState {
-                sequences_by_source: LruCache::unbounded(),
+                sequences_by_principal_domain: LruCache::unbounded(),
             }),
             weather: Mutex::new(None),
             weather_stale_after_millis: Mutex::new(30_000),
@@ -576,26 +577,37 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     fn reserve_acip_sequence(
         &self,
+        principal_digest: &blake3::Hash,
+        runtime_id: &str,
         source: &str,
         sequence: u64,
     ) -> Option<AcipSequenceReservation> {
-        if sequence == 0 {
+        if sequence == 0 || sequence == u64::MAX {
             return None;
         }
+        let principal_domain = format!("{}:{runtime_id}:{source}", principal_digest.to_hex());
         let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
-        let previous = state.sequences_by_source.get(source).copied();
+        let previous = state
+            .sequences_by_principal_domain
+            .get(&principal_domain)
+            .copied();
+        let lower_bound = previous.unwrap_or(0);
         if let Some(previous) = previous {
             if sequence <= previous {
                 return None;
             }
-        } else {
-            while state.sequences_by_source.len() >= self.max_records {
-                state.sequences_by_source.pop_lru();
-            }
         }
-        state.sequences_by_source.put(source.to_owned(), sequence);
+        if sequence - lower_bound > ACIP_MAX_SEQUENCE_ADVANCE {
+            return None;
+        }
+        if previous.is_none() && state.sequences_by_principal_domain.len() >= self.max_records {
+            return None;
+        }
+        state
+            .sequences_by_principal_domain
+            .put(principal_domain.clone(), sequence);
         Some(AcipSequenceReservation {
-            source: source.to_owned(),
+            principal_domain,
             sequence,
             previous,
         })
@@ -603,22 +615,33 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     fn rollback_acip_sequence(&self, reservation: AcipSequenceReservation) {
         let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
-        if state.sequences_by_source.peek(&reservation.source).copied()
+        if state
+            .sequences_by_principal_domain
+            .peek(&reservation.principal_domain)
+            .copied()
             != Some(reservation.sequence)
         {
             return;
         }
         match reservation.previous {
             Some(previous) => {
-                state.sequences_by_source.put(reservation.source, previous);
+                state
+                    .sequences_by_principal_domain
+                    .put(reservation.principal_domain, previous);
             }
             None => {
-                state.sequences_by_source.pop(&reservation.source);
+                state
+                    .sequences_by_principal_domain
+                    .pop(&reservation.principal_domain);
             }
         }
     }
 
-    async fn dispatch_acip_payload(&self, payload: &[u8]) -> serde_json::Value {
+    async fn dispatch_acip_payload(
+        &self,
+        authenticated_principal: &blake3::Hash,
+        payload: &[u8],
+    ) -> serde_json::Value {
         let envelope = match decode_acip_envelope(payload) {
             Ok(envelope) => envelope,
             Err(reason) => {
@@ -639,9 +662,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "sequence_reserved": false
             });
         };
-        let Some(reservation) =
-            self.reserve_acip_sequence(&envelope.source, envelope.monotonic_sequence)
-        else {
+        let Some(reservation) = self.reserve_acip_sequence(
+            authenticated_principal,
+            &envelope.runtime_id,
+            &envelope.source,
+            envelope.monotonic_sequence,
+        ) else {
             return serde_json::json!({
                 "schema": ACIP_WEBSOCKET_SCHEMA,
                 "status": "rejected",
@@ -1261,7 +1287,8 @@ async fn acip_ws_session<C: LifecycleControl + 'static>(
         }
         match message {
             Ok(Message::Binary(payload)) => {
-                let response = service.dispatch_acip_payload(&payload).await;
+                let principal = blake3::hash(bearer_token.as_bytes());
+                let response = service.dispatch_acip_payload(&principal, &payload).await;
                 if socket
                     .send(Message::Text(response.to_string().into()))
                     .await
