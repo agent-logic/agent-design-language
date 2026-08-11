@@ -937,16 +937,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             kind: envelope.route.clone(),
             payload: work_payload,
         };
-        let communication_sequence_before = if secure_route {
-            ingress
-                .snapshot()
-                .communication_sequences
-                .get(&envelope.source)
-                .copied()
-        } else {
-            None
-        };
-        match ingress.submit(work, envelope.correlation_id.clone()).await {
+        let submission = ingress
+            .submit_with_disposition(work, envelope.correlation_id.clone())
+            .await;
+        match submission.result {
             Ok(result) => serde_json::json!({
                 "schema": ACIP_WEBSOCKET_SCHEMA,
                 "status": "completed",
@@ -957,16 +951,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "sequence_reserved": true
             }),
             Err(error) => {
-                let communication_sequence_after = ingress
-                    .snapshot()
-                    .communication_sequences
-                    .get(&envelope.source)
-                    .copied();
-                let sequence_reserved = secure_route
-                    && communication_sequence_before
-                        .is_none_or(|sequence| sequence < envelope.monotonic_sequence)
-                    && communication_sequence_after
-                        .is_some_and(|sequence| sequence >= envelope.monotonic_sequence);
+                let sequence_reserved = submission.communication_sequence_reserved;
                 if !sequence_reserved {
                     self.rollback_acip_sequence(reservation);
                 }
@@ -2446,6 +2431,23 @@ mod tests {
         }
     }
 
+    struct BlockingFatalExecutor {
+        started: Arc<tokio::sync::Notify>,
+        release: Arc<tokio::sync::Notify>,
+    }
+
+    #[async_trait]
+    impl OperationExecutor for BlockingFatalExecutor {
+        async fn execute(&self, _request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+            self.started.notify_one();
+            self.release.notified().await;
+            Err(ExecutorError {
+                class: FailureClass::Fatal,
+                message: "injected cross-carrier failure".to_owned(),
+            })
+        }
+    }
+
     #[test]
     fn restored_layer8_watermark_advances_when_qualified_time_moves_backward() {
         let recorder = RuntimeRecorder::new(4);
@@ -2599,5 +2601,169 @@ mod tests {
         assert_eq!(replay["status"], "rejected", "{replay}");
         assert_eq!(replay["reason"], "monotonic_sequence_must_advance");
         assert_eq!(replay["sequence_reserved"], false, "{replay}");
+    }
+
+    #[tokio::test]
+    async fn secure_dispatch_does_not_claim_another_carriers_sequence_reservation() {
+        let signing_key = SigningKey::from_bytes(&[94; 32]);
+        let now = now_unix_millis();
+        let recorder = RuntimeRecorder::new(4);
+        recorder.set_clock_authority(ClockAuthority::Authoritative {
+            source: "test-qualified-clock".to_owned(),
+            unix_millis: now,
+        });
+        recorder.set_component_state(ComponentId::new("agent_runtime"), RunningState::Running);
+        let started = Arc::new(tokio::sync::Notify::new());
+        let release = Arc::new(tokio::sync::Notify::new());
+        let adapter = Arc::new(
+            OperationalAdapter::new(
+                AdapterKind::Agent,
+                AdapterPolicy {
+                    capacity: 2,
+                    max_in_flight: 2,
+                    shutdown_grace_millis: 1_000,
+                    max_attempts: 1,
+                    idempotency_entries: 4,
+                    authority: AuthorityMode::Internal,
+                },
+                Arc::new(BlockingFatalExecutor {
+                    started: started.clone(),
+                    release: release.clone(),
+                }),
+            )
+            .unwrap(),
+        );
+        let operation = OperationalFactory::new(adapter, Vec::new());
+        let ingress = CanonicalIngress::new_with_communication_keys(
+            2,
+            recorder.clone(),
+            BTreeMap::from([("agent".to_owned(), operation.clone())]),
+            BTreeMap::from([(
+                "agent-0001".to_owned(),
+                CommunicationVerifyingIdentity {
+                    signing_key_id: "agent-0001-key".to_owned(),
+                    verifying_key: signing_key.verifying_key(),
+                },
+            )]),
+        );
+        let population = AgentPopulationFeed {
+            total_count: 2,
+            rendered_sample_count: 2,
+            sample: ["agent-0001", "agent-0002"]
+                .into_iter()
+                .map(|id| AgentSample {
+                    id: id.to_owned(),
+                    label: id.to_owned(),
+                    role: "agent".to_owned(),
+                    state: "running".to_owned(),
+                    detail: "Runtime component state: running".to_owned(),
+                    signing_algorithm: "ed25519".to_owned(),
+                    signing_key_id: format!("{id}-key"),
+                    signing_public_key: hex::encode(signing_key.verifying_key().as_bytes()),
+                })
+                .collect(),
+        };
+        let service = Arc::new(
+            ControlService::new_with_observatory_config_and_agents(
+                "runtime-cross-carrier-test",
+                recorder,
+                NoopLifecycle,
+                ControlAuthority::new(BTreeMap::new()),
+                4,
+                std::iter::empty(),
+                population,
+            )
+            .with_canonical_ingress(ingress.clone()),
+        );
+        let mut registry = crate::ComponentRegistry::new();
+        registry.register(operation);
+        registry.register(ingress.clone());
+        let _kernel = crate::Kernel::new(registry.validate().unwrap(), RuntimeRecorder::new(4))
+            .start()
+            .await
+            .unwrap();
+
+        let signed_message = |nonce: &str| {
+            let mut message = SignedIdentityMessage {
+                schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+                message_kind: "request".to_owned(),
+                sender_id: "agent-0001".to_owned(),
+                recipient_id: "agent-0002".to_owned(),
+                correlation_id: "cross-carrier-correlation-0001".to_owned(),
+                causation_id: "cross-carrier-causation-00001".to_owned(),
+                monotonic_sequence: 1,
+                issued_at_unix_millis: now,
+                expires_at_unix_millis: now + 60_000,
+                nonce: nonce.to_owned(),
+                content: "test cross-carrier reservation ownership".to_owned(),
+                signing_algorithm: "ed25519".to_owned(),
+                signing_key_id: "agent-0001-key".to_owned(),
+                signature: String::new(),
+            };
+            message.signature = hex::encode(
+                signing_key
+                    .sign(&message.signing_bytes().unwrap())
+                    .to_bytes(),
+            );
+            message
+        };
+
+        let direct_message = signed_message("cross-carrier-direct-000000001");
+        let direct_work = DomainWork {
+            schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: direct_message.nonce.clone(),
+            kind: "agent".to_owned(),
+            payload: serde_json::to_vec(&serde_json::json!({
+                "schema": LOCAL_AGENT_WORK_SCHEMA,
+                "tasks": [{"op": LAYER8_MESSAGE_TASK_OP, "message": direct_message}]
+            }))
+            .unwrap(),
+        };
+        let direct_ingress = ingress.clone();
+        let direct = tokio::spawn(async move {
+            direct_ingress
+                .submit(direct_work, "cross-carrier-correlation-0001".to_owned())
+                .await
+        });
+        started.notified().await;
+
+        let acip_message = signed_message("cross-carrier-acip-0000000001");
+        let payload = AcipEnvelope {
+            schema: ACIP_PROTOBUF_SCHEMA.to_owned(),
+            message_id: acip_message.nonce.clone(),
+            source: acip_message.sender_id.clone(),
+            target: acip_message.recipient_id.clone(),
+            route: "agent".to_owned(),
+            payload_json: serde_jcs::to_string(&acip_message).unwrap(),
+            monotonic_sequence: acip_message.monotonic_sequence,
+            protocol_family: ACIP_PROTOCOL_FAMILY.to_owned(),
+            version_major: ACIP_VERSION_MAJOR,
+            version_minor: ACIP_VERSION_MINOR,
+            runtime_id: "runtime-cross-carrier-test".to_owned(),
+            correlation_id: acip_message.correlation_id.clone(),
+            causation_id: acip_message.causation_id.clone(),
+            trace_id: acip_message.correlation_id.clone(),
+            replay_id: "agent-0001:1".to_owned(),
+            capability: "agent".to_owned(),
+            authority: "signed-communication-identity".to_owned(),
+            payload_type: "application/json".to_owned(),
+            acknowledgement_requested: true,
+            error_code: None,
+            required_features: Vec::new(),
+        }
+        .encode_to_vec();
+        let acip_service = service.clone();
+        let acip = tokio::spawn(async move { acip_service.dispatch_acip_payload(&payload).await });
+        tokio::task::yield_now().await;
+        release.notify_one();
+
+        assert_eq!(direct.await.unwrap(), Err(IngressError::ExecutionFailed));
+        let rejected = acip.await.unwrap();
+        assert_eq!(rejected["status"], "rejected", "{rejected}");
+        assert_eq!(
+            rejected["reason"], "monotonic_sequence_must_advance",
+            "{rejected}"
+        );
+        assert_eq!(rejected["sequence_reserved"], false, "{rejected}");
     }
 }

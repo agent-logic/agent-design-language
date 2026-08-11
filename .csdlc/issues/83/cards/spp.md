@@ -16,7 +16,7 @@ Complete the investor-visible Layer 8 chat slice with fresh live capture time an
 
 ## Plan
 
-Revision 21
+Revision 22
 
 ## Steps
 
@@ -76,7 +76,7 @@ Revision 21
   },
   {
     "id": "S6",
-    "action": "Review exact-head behavior and preserve the strict no-publication boundary while legacy issue #5836 remains open.",
+    "action": "Resolve exact-head review and publish issue 83 independently with closing linkage; legacy issue 5836 consumes this result but does not gate it.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"

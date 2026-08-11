@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
     "slug": "v0-92-html-observatory-runtime-v3-client",
     "version": "v0.92",
-    "generation": 64
+    "generation": 66
   },
   "status": "ready",
   "content": {
@@ -78,7 +78,9 @@
             "adl-runtime-kernel/Cargo.toml",
             "--test",
             "assembly",
-            "resident_shepherd_admission_replays_across_process_cycles"
+            "communication_replay_and_ack_sequences_survive_process_cycles_without_snapshot_restore",
+            "--",
+            "--exact"
           ],
           "parallel_group": "local",
           "defer_reason": null

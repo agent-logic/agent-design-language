@@ -71,6 +71,12 @@ pub enum IngressError {
     DrainTimeout,
 }
 
+#[derive(Debug, Eq, PartialEq)]
+pub struct IngressSubmission {
+    pub result: Result<DomainResult, IngressError>,
+    pub communication_sequence_reserved: bool,
+}
+
 struct Envelope {
     work: DomainWork,
     correlation_id: String,
@@ -208,13 +214,44 @@ impl CanonicalIngress {
         work: DomainWork,
         correlation_id: String,
     ) -> Result<DomainResult, IngressError> {
-        validate(&work)?;
-        let _lease = self.begin_admission()?;
-        let signed_identity = validate_signed_identity_work(
+        self.submit_with_disposition(work, correlation_id)
+            .await
+            .result
+    }
+
+    pub async fn submit_with_disposition(
+        &self,
+        work: DomainWork,
+        correlation_id: String,
+    ) -> IngressSubmission {
+        if let Err(error) = validate(&work) {
+            return IngressSubmission {
+                result: Err(error),
+                communication_sequence_reserved: false,
+            };
+        }
+        let _lease = match self.begin_admission() {
+            Ok(lease) => lease,
+            Err(error) => {
+                return IngressSubmission {
+                    result: Err(error),
+                    communication_sequence_reserved: false,
+                };
+            }
+        };
+        let signed_identity = match validate_signed_identity_work(
             &work,
             &self.communication_keys,
             self.recorder.qualified_time_now_unix_millis(),
-        )?;
+        ) {
+            Ok(identity) => identity,
+            Err(error) => {
+                return IngressSubmission {
+                    result: Err(error),
+                    communication_sequence_reserved: false,
+                };
+            }
+        };
         let communication_source_lock = signed_identity
             .as_ref()
             .map(|(sender_id, _)| self.communication_source_lock(sender_id));
@@ -223,7 +260,15 @@ impl CanonicalIngress {
             None => None,
         };
         let communication_reservation = if let Some((sender_id, sequence)) = signed_identity {
-            Some(self.reserve_communication_sequence(sender_id, sequence)?)
+            match self.reserve_communication_sequence(sender_id, sequence) {
+                Ok(reservation) => Some(reservation),
+                Err(error) => {
+                    return IngressSubmission {
+                        result: Err(error),
+                        communication_sequence_reserved: false,
+                    };
+                }
+            }
         } else {
             None
         };
@@ -238,10 +283,13 @@ impl CanonicalIngress {
             .await
         {
             self.rollback_communication_sequence(communication_reservation);
-            return Err(match error {
-                SendError::Full => IngressError::Saturated,
-                SendError::Closed => IngressError::Closed,
-            });
+            return IngressSubmission {
+                result: Err(match error {
+                    SendError::Full => IngressError::Saturated,
+                    SendError::Closed => IngressError::Closed,
+                }),
+                communication_sequence_reserved: false,
+            };
         }
         self.recorder
             .set_queue_health("canonical_ingress", &self.sender.metrics());
@@ -251,31 +299,46 @@ impl CanonicalIngress {
                 // Once dispatch succeeded, a dropped reply is ambiguous: the work may have
                 // executed before the process or worker disappeared. Retain the replay
                 // reservation so a restart cannot execute the signed message twice.
+                let communication_sequence_reserved = communication_reservation.is_some();
                 if let Some((sender_id, sequence, _)) = communication_reservation {
                     self.persist_communication_sequence(sender_id, sequence);
                 }
-                return Err(IngressError::Closed);
+                return IngressSubmission {
+                    result: Err(IngressError::Closed),
+                    communication_sequence_reserved,
+                };
             }
         };
         match outcome {
             DispatchOutcome::Dispatched(Ok(result)) => {
+                let communication_sequence_reserved = communication_reservation.is_some();
                 if let Some((sender_id, sequence, _)) = communication_reservation {
                     self.persist_communication_sequence(sender_id, sequence);
                 }
-                Ok(result)
+                IngressSubmission {
+                    result: Ok(result),
+                    communication_sequence_reserved,
+                }
             }
             DispatchOutcome::Dispatched(Err(error)) => {
                 // The adapter returned or may already have performed side effects. Retain the
                 // durable replay watermark even when result projection or acknowledgement
                 // verification fails.
+                let communication_sequence_reserved = communication_reservation.is_some();
                 if let Some((sender_id, sequence, _)) = communication_reservation {
                     self.persist_communication_sequence(sender_id, sequence);
                 }
-                Err(error)
+                IngressSubmission {
+                    result: Err(error),
+                    communication_sequence_reserved,
+                }
             }
             DispatchOutcome::NotDispatched(error) => {
                 self.rollback_communication_sequence(communication_reservation);
-                Err(error)
+                IngressSubmission {
+                    result: Err(error),
+                    communication_sequence_reserved: false,
+                }
             }
         }
     }

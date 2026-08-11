@@ -86,7 +86,9 @@ Diagram: .csdlc/prepared/issues/83/diagram.mmd
       "adl-runtime-kernel/Cargo.toml",
       "--test",
       "assembly",
-      "resident_shepherd_admission_replays_across_process_cycles"
+      "communication_replay_and_ack_sequences_survive_process_cycles_without_snapshot_restore",
+      "--",
+      "--exact"
     ],
     "parallel_group": "local",
     "defer_reason": null
@@ -257,7 +259,7 @@ Tokens: 25000
 
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib public_layer8_projection_rejects_extra_or_mismatched_executor_fields`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib restored_ingress_rejects_signed_replay_before_dispatch`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test assembly resident_shepherd_admission_replays_across_process_cycles`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test assembly communication_replay_and_ack_sequences_survive_process_cycles_without_snapshot_restore -- --exact`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test production_acip_wss production_binary_acip_wss_produces_observed_receipt`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test configuration`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test control layer8`
