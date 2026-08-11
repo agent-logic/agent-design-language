@@ -1,0 +1,8 @@
+source_revision=2390794997bf216cc3f1826561978a9f716c3a1d
+command=cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib control::acip_replay_tests
+test control::acip_replay_tests::structured_domains_do_not_delimiter_collide ... ok
+test control::acip_replay_tests::domain_capacity_is_partitioned_by_principal ... ok
+test control::acip_replay_tests::failed_concurrent_reservations_never_resurrect ... ok
+test control::acip_replay_tests::rejected_excessive_advances_do_not_consume_domain_capacity ... ok
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 58 filtered out
+result=passed

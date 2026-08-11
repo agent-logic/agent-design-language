@@ -24,13 +24,13 @@ Deliver only the WP-16 integrated reviewer packet, schema/link/digest validator,
 ## Acceptance
 
 1. The WP-16 packet inventories one canonical exact revision/digest for every required WP-08 through WP-15 proof, negative report, caveat, reviewer question, redacted projection, and public non-claim.
-2. All issues #5825 through #5833, including #5831 and #5832, satisfy sprint gate 4 terminal and exact-head evidence requirements before assembly.
+2. Issues #5825 through #5831 and #5833 in danielbaustin/agent-design-language, plus WP-14 repair issue agent-logic/agent-design-language#209, satisfy terminal and retained exact-head review requirements before assembly; superseded #5832/PR 76 is not accepted as production authority.
 3. Implementation is confined to the named WP-16 review packet Markdown, evidence JSON, schema, issue-local validator, WP-16 demo-matrix row, and .csdlc/evidence/5834/.
-4. Schema, link, digest, uniqueness, and completeness validation is reproducible and retained at the exact reviewed revision.
-5. Missing, stale, contradictory, nonterminal, unreviewed, duplicate-digest, private-path, personhood, citizenship, consciousness, governance, or publication-ready inputs produce named blocked failure.
+4. Schema, link, digest, repository identity, uniqueness, completeness, typed review authority, and merge ancestry validation is reproducible and retained at the exact reviewed revision.
+5. Missing, stale, contradictory, nonterminal, unreviewed, wrong-repository, duplicate-digest, private-path, personhood, citizenship, consciousness, governance, or publication-ready inputs produce named blocked failure.
 6. One bounded exact-head SRP review records no unresolved actionable findings.
 7. The implementation PR targets the intended base and includes Closes #5834 without claiming completion of downstream Birthday work.
-8. WP-08/#5825 through WP-15/#5833, including WP-13A/#5831 and WP-14/#5832, are terminal with exact-head evidence before packet assembly.
+8. WP-08/#5825 through WP-13A/#5831, replacement WP-14/agent-logic/agent-design-language#209, and WP-15/#5833 are terminal with retained exact-head review evidence before packet assembly.
 
 ## Dependencies
 

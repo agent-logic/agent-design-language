@@ -1,0 +1,6 @@
+{
+  "issue": 213,
+  "expected_generation": 0,
+  "expected_digest": "8b4514cfd783f389685f6e21fc7bd234c1363130308e01acaeb585ec0d8771b0",
+  "reviewer": "codex:/root/rereview_213_design"
+}

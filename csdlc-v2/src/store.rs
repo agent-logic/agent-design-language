@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 use std::fs::{self, File, OpenOptions};
-use std::io::Write;
+use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 
 use fs2::FileExt;
@@ -1321,6 +1321,14 @@ pub struct ApproveDesignRequest {
 }
 
 pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<IssueRecord> {
+    approve_design_with_hook(store, request, |_| {})
+}
+
+fn approve_design_with_hook(
+    store: &Store,
+    request: ApproveDesignRequest,
+    mut authored_hook: impl FnMut(AuthoredReadStage),
+) -> Result<IssueRecord> {
     let _lock = store.lock(request.issue)?;
     store.recover_if_needed(request.issue)?;
     let mut record = store.load_record(request.issue)?;
@@ -1344,8 +1352,12 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
     }
     let mut cards = store.load_cards(request.issue)?;
     verify_card_projections(store, &record, &cards)?;
-    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    let (design_digest, diagram_digest) = approval_authored_digests_with_hook(
+        store,
+        &record.design_path,
+        &record.diagram_path,
+        &mut authored_hook,
+    )?;
     let initial_approval = record.phase == LifecyclePhase::Initialized
         && matches!(
             record.design_review,
@@ -1364,11 +1376,24 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
                 }
                 _ => unreachable!("design-bearing card"),
             });
+    let ready_reapproval = record.phase == LifecyclePhase::Ready
+        && matches!(
+            record.design_review,
+            DesignReview::Pending | DesignReview::ChangesRequired { .. }
+        )
+        && record.branch.is_none()
+        && record.worktree.is_none()
+        && record.review_assignment.is_none()
+        && record.review.is_none()
+        && record.publication.is_none()
+        && record.readiness.is_none()
+        && record.migration.is_none()
+        && record.terminal.is_none();
     let lifecycle_reapproval = matches!(
         record.phase,
         LifecyclePhase::Bound | LifecyclePhase::Implemented
     );
-    if !initial_approval && !initialized_reapproval && !lifecycle_reapproval {
+    if !initial_approval && !initialized_reapproval && !ready_reapproval && !lifecycle_reapproval {
         return Err(V2Error::new(
             ErrorCode::InvalidTransition,
             "design approval requires pending initialized review, stale initialized approved inputs, or bound/implemented reapproval",
@@ -1399,7 +1424,9 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
         sequence: record.audit.len() as u64 + 1,
         generation: record.generation,
         actor: request.reviewer,
-        reason: if initialized_reapproval {
+        reason: if ready_reapproval {
+            "reapprove repaired ready issue design"
+        } else if initialized_reapproval {
             "reapprove stale initialized issue design"
         } else if lifecycle_reapproval {
             "reapprove changed issue design"
@@ -1433,8 +1460,8 @@ pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Resul
         ));
     }
     let bootstrap_actor = request.actor.clone();
-    let design_digest = digest(&fs::read(store.root.join(&request.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&request.diagram_path))?);
+    let design_digest = authored_digest(store, &request.design_path)?;
+    let diagram_digest = authored_digest(store, &request.diagram_path)?;
     let cards = initial_cards(
         request.issue,
         &request.repository,
@@ -1522,7 +1549,12 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         ));
     }
     let mut cards = store.load_cards(request.issue)?;
-    verify_cards(store, &record, &cards)?;
+    let prebind_contract_repair = is_prebind_contract_repair(&record, &request);
+    if prebind_contract_repair {
+        verify_prebind_contract_repair_inputs(store, &record, &cards)?;
+    } else {
+        verify_cards(store, &record, &cards)?;
+    }
     if matches!(
         record.phase,
         LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
@@ -1556,6 +1588,9 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         }
     } else {
         authorize_card_operation(record.phase, request.card, &request.operation)?;
+    }
+    if prebind_contract_repair {
+        validate_prebind_contract_repair(&cards, &request)?;
     }
     if matches!(
         request.operation,
@@ -1663,6 +1698,11 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    let binding_refresh = if prebind_contract_repair {
+        Some(refresh_prebind_design_bindings(store, &record, &mut cards)?)
+    } else {
+        None
+    };
     let audit_operation = match (&request.operation, replan_before) {
         (SemanticOperation::Replan { field, value }, Some(previous)) => serde_json::json!({
             "operation": "replan",
@@ -1685,6 +1725,21 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "previous_values": stp_deliverables_before
                     .expect("STP deliverable correction snapshot"),
                 "new_values": values,
+            })
+            .to_string()
+        }
+        _ if binding_refresh.is_some() => {
+            let refresh = binding_refresh.as_ref().expect("pre-bind refresh");
+            serde_json::json!({
+                "operation": request.operation,
+                "design_binding_refresh": {
+                    "design_ref": record.design_path,
+                    "old_design_digest": refresh.old_design_digest,
+                    "new_design_digest": refresh.new_design_digest,
+                    "diagram_ref": record.diagram_path,
+                    "old_diagram_digest": refresh.old_diagram_digest,
+                    "new_diagram_digest": refresh.new_diagram_digest,
+                }
             })
             .to_string()
         }
@@ -1715,8 +1770,11 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             record.advance(next, request.actor.clone(), request.reason.clone())?;
         }
     }
-    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    if prebind_contract_repair {
+        record.design_review = DesignReview::Pending;
+    }
+    let design_digest = authored_digest(store, &record.design_path)?;
+    let diagram_digest = authored_digest(store, &record.diagram_path)?;
     validate_cross_card(
         &cards,
         &record.design_path,
@@ -1739,6 +1797,187 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     record.digest = record_digest(&record)?;
     store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
     Ok(record)
+}
+
+#[derive(Debug)]
+struct DesignBindingRefresh {
+    old_design_digest: String,
+    new_design_digest: String,
+    old_diagram_digest: String,
+    new_diagram_digest: String,
+}
+
+fn is_prebind_contract_repair(record: &IssueRecord, request: &EditRequest) -> bool {
+    matches!(
+        record.phase,
+        LifecyclePhase::Initialized | LifecyclePhase::Ready
+    ) && matches!(
+        (request.card, &request.operation),
+        (
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria { .. }
+        ) | (CardKind::Spp, SemanticOperation::ReplacePlanSteps { .. })
+    )
+}
+
+fn validate_prebind_contract_repair(
+    cards: &BTreeMap<CardKind, CardValues>,
+    request: &EditRequest,
+) -> Result<()> {
+    let current_count = match &cards[&CardKind::Stp].content {
+        CardContent::Stp(values) => values.acceptance_criteria.len(),
+        _ => unreachable!("STP"),
+    };
+    match &request.operation {
+        SemanticOperation::ReplaceAcceptanceCriteria { values } => {
+            if values.len() != current_count
+                || values
+                    .iter()
+                    .enumerate()
+                    .any(|(index, value)| !value.starts_with(&format!("AC-{}:", index + 1)))
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "pre-bind acceptance repair must preserve the exact ordered AC-1 through AC-N denominator",
+                ));
+            }
+        }
+        SemanticOperation::ReplacePlanSteps { steps } => {
+            let expected: std::collections::BTreeSet<_> =
+                (1..=current_count).map(|n| format!("AC-{n}")).collect();
+            let mapped_acceptance: Vec<_> = steps
+                .iter()
+                .flat_map(|step| step.acceptance_ids.iter().cloned())
+                .collect();
+            let actual: std::collections::BTreeSet<_> = mapped_acceptance.iter().cloned().collect();
+            if actual != expected
+                || mapped_acceptance.len() != expected.len()
+                || steps.iter().any(|step| step.status != StepStatus::Pending)
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "pre-bind plan repair must remain pending and cover exactly the STP denominator",
+                ));
+            }
+        }
+        _ => unreachable!("pre-bind contract repair operation"),
+    }
+    Ok(())
+}
+
+fn verify_prebind_contract_repair_inputs(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+) -> Result<()> {
+    if record.branch.is_some()
+        || record.worktree.is_some()
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.migration.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "pre-bind contract repair requires unbound topology and no later lifecycle evidence",
+        ));
+    }
+    verify_card_projections(store, record, cards)?;
+    let mut expected_audit = Vec::new();
+    for event in &record.audit {
+        serde_json::to_writer(&mut expected_audit, event)?;
+        expected_audit.push(b'\n');
+    }
+    if fs::read(store.issue_dir(record.issue).join("audit.jsonl"))? != expected_audit {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "audit projection drift",
+        ));
+    }
+    let (spp, vpp) = match (
+        &cards[&CardKind::Spp].content,
+        &cards[&CardKind::Vpp].content,
+    ) {
+        (CardContent::Spp(spp), CardContent::Vpp(vpp)) => (spp, vpp),
+        _ => unreachable!("design-bearing cards"),
+    };
+    if spp.design_ref != record.design_path
+        || vpp.design_ref != record.design_path
+        || spp.diagram_ref != record.diagram_path
+        || vpp.diagram_ref != record.diagram_path
+        || spp.design_digest != vpp.design_digest
+        || spp.diagram_digest != vpp.diagram_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "pre-bind repair design/diagram references disagree with issue authority",
+        ));
+    }
+    Ok(())
+}
+
+fn refresh_prebind_design_bindings(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &mut BTreeMap<CardKind, CardValues>,
+) -> Result<DesignBindingRefresh> {
+    let new_design_digest = authored_digest(store, &record.design_path)?;
+    let new_diagram_digest = authored_digest(store, &record.diagram_path)?;
+    let (old_design_digest, old_diagram_digest) = match &cards[&CardKind::Spp].content {
+        CardContent::Spp(values) => (values.design_digest.clone(), values.diagram_digest.clone()),
+        _ => unreachable!("SPP"),
+    };
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        match &mut cards.get_mut(&kind).expect("design-bearing card").content {
+            CardContent::Spp(values) => {
+                values.design_digest = new_design_digest.clone();
+                values.diagram_digest = new_diagram_digest.clone();
+            }
+            CardContent::Vpp(values) => {
+                values.design_digest = new_design_digest.clone();
+                values.diagram_digest = new_diagram_digest.clone();
+            }
+            _ => unreachable!("design-bearing card"),
+        }
+    }
+    Ok(DesignBindingRefresh {
+        old_design_digest,
+        new_design_digest,
+        old_diagram_digest,
+        new_diagram_digest,
+    })
+}
+
+fn authored_digest(store: &Store, relative: &str) -> Result<String> {
+    authored_digest_with_hook(store, relative, |_| {})
+}
+
+fn authored_digest_with_hook(
+    store: &Store,
+    relative: &str,
+    hook: impl FnMut(AuthoredReadStage),
+) -> Result<String> {
+    let bytes = read_regular_authored_artifact_with_hook(store.root(), Path::new(relative), hook)?
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("authored design artifact is absent: {relative}"),
+            )
+        })?;
+    Ok(digest(&bytes))
+}
+
+fn approval_authored_digests_with_hook(
+    store: &Store,
+    design_path: &str,
+    diagram_path: &str,
+    mut hook: impl FnMut(AuthoredReadStage),
+) -> Result<(String, String)> {
+    let design_digest = authored_digest_with_hook(store, design_path, &mut hook)?;
+    let diagram_digest = authored_digest_with_hook(store, diagram_path, &mut hook)?;
+    Ok((design_digest, diagram_digest))
 }
 
 fn current_text_value(values: &CardValues, field: crate::cards::TextField) -> Result<String> {
@@ -1780,8 +2019,8 @@ pub(crate) fn verify_cards(
             "audit projection drift",
         ));
     }
-    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    let design_digest = authored_digest(store, &record.design_path)?;
+    let diagram_digest = authored_digest(store, &record.diagram_path)?;
     validate_cross_card(
         cards,
         &record.design_path,
@@ -1809,8 +2048,8 @@ pub(crate) fn verify_pre_topology_cards(
             "audit projection drift",
         ));
     }
-    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    let design_digest = authored_digest(store, &record.design_path)?;
+    let diagram_digest = authored_digest(store, &record.diagram_path)?;
     validate_cross_card(
         cards,
         &record.design_path,
@@ -2125,6 +2364,14 @@ fn authorize_card_operation(
         (phase, card, operation),
         (
             LifecyclePhase::Initialized | LifecyclePhase::Ready,
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria { .. },
+        ) | (
+            LifecyclePhase::Initialized | LifecyclePhase::Ready,
+            CardKind::Spp,
+            SemanticOperation::ReplacePlanSteps { .. },
+        ) | (
+            LifecyclePhase::Initialized | LifecyclePhase::Ready,
             CardKind::Sip | CardKind::Stp | CardKind::Spp | CardKind::Vpp,
             SemanticOperation::SetField { .. }
                 | SemanticOperation::AppendReference { .. }
@@ -2280,8 +2527,8 @@ fn validate_updated_cards(
     record: &IssueRecord,
     cards: &BTreeMap<CardKind, CardValues>,
 ) -> Result<()> {
-    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
-    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    let design_digest = authored_digest(store, &record.design_path)?;
+    let diagram_digest = authored_digest(store, &record.diagram_path)?;
     validate_cross_card(
         cards,
         &record.design_path,
@@ -2569,26 +2816,319 @@ pub(crate) fn read_regular_authored_artifact(
     root: &Path,
     relative: &Path,
 ) -> Result<Option<Vec<u8>>> {
-    if !crate::pvf::clean_relative(relative) {
+    read_regular_authored_artifact_with_hook(root, relative, |_| {})
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum AuthoredReadStage {
+    AfterInitialOpen,
+    BetweenReads,
+    BeforeFinalOpen,
+}
+
+fn read_regular_authored_artifact_with_hook(
+    root: &Path,
+    relative: &Path,
+    hook: impl FnMut(AuthoredReadStage),
+) -> Result<Option<Vec<u8>>> {
+    validate_authored_relative_path(relative)?;
+    read_regular_authored_artifact_platform_with_hook(root, relative, hook)
+}
+
+fn validate_authored_relative_path(relative: &Path) -> Result<()> {
+    let value = relative.to_str().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "authored artifact path must be UTF-8",
+        )
+    })?;
+    let segments: Vec<_> = value.split('/').collect();
+    let bytes = value.as_bytes();
+    let has_ascii_drive_prefix =
+        bytes.len() >= 2 && bytes[0].is_ascii_alphabetic() && bytes[1] == b':';
+    if value.is_empty()
+        || value.contains('\\')
+        || has_ascii_drive_prefix
+        || !crate::pvf::clean_relative(relative)
+        || segments.iter().any(|segment| segment.is_empty())
+        || segments
+            .iter()
+            .any(|segment| *segment == "." || *segment == "..")
+    {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
-            "terminal authored artifact path must be clean and repository-relative",
+            "authored artifact path must be nonempty, clean, canonical, and repository-relative",
         ));
     }
-    let path = root.join(relative);
-    let Some(metadata) = canonical_path_metadata_beneath(root, relative)? else {
-        return Ok(None);
-    };
-    if !metadata.is_file() {
+    Ok(())
+}
+
+#[cfg(unix)]
+fn read_regular_authored_artifact_platform_with_hook(
+    root: &Path,
+    relative: &Path,
+    mut hook: impl FnMut(AuthoredReadStage),
+) -> Result<Option<Vec<u8>>> {
+    use std::os::unix::fs::MetadataExt;
+    let root_path_metadata = fs::symlink_metadata(root)?;
+    if root_path_metadata.file_type().is_symlink() || !root_path_metadata.is_dir() {
         return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
+            ErrorCode::UnsafeCheckout,
             format!(
-                "transport target authored path is not a regular file: {}",
-                path.display()
+                "authored artifact root is not a regular directory: {}",
+                root.display()
             ),
         ));
     }
-    Ok(Some(fs::read(path)?))
+    let root_handle = File::open(root)?;
+    let root_handle_metadata = root_handle.metadata()?;
+    if !root_handle_metadata.is_dir()
+        || !same_file_identity(&root_path_metadata, &root_handle_metadata)
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "authored artifact root changed identity while opening",
+        ));
+    }
+    let Some(mut opened) = open_relative_no_follow(&root_handle, relative)? else {
+        return Ok(None);
+    };
+    hook(AuthoredReadStage::AfterInitialOpen);
+    let before = opened.metadata()?;
+    if !before.is_file() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact target is not a regular file",
+        ));
+    }
+    let first = read_exact_current_file(&mut opened, before.len())?;
+    hook(AuthoredReadStage::BetweenReads);
+    let middle = opened.metadata()?;
+    opened.seek(SeekFrom::Start(0))?;
+    let second = read_exact_current_file(&mut opened, middle.len())?;
+    let after = opened.metadata()?;
+    if first != second
+        || !same_file_identity(&before, &middle)
+        || !same_file_identity(&middle, &after)
+        || before.len() != middle.len()
+        || middle.len() != after.len()
+        || before.mtime() != middle.mtime()
+        || before.mtime_nsec() != middle.mtime_nsec()
+        || middle.mtime() != after.mtime()
+        || middle.mtime_nsec() != after.mtime_nsec()
+        || before.ctime() != middle.ctime()
+        || before.ctime_nsec() != middle.ctime_nsec()
+        || middle.ctime() != after.ctime()
+        || middle.ctime_nsec() != after.ctime_nsec()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact changed while reading",
+        ));
+    }
+    hook(AuthoredReadStage::BeforeFinalOpen);
+    let final_file = open_relative_no_follow(&root_handle, relative)?.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact disappeared before final verification",
+        )
+    })?;
+    let final_metadata = final_file.metadata()?;
+    if !final_metadata.is_file()
+        || !same_file_identity(&after, &final_metadata)
+        || after.len() != final_metadata.len()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact path changed identity before final verification",
+        ));
+    }
+    let mut final_file = final_file;
+    let final_bytes = read_exact_current_file(&mut final_file, final_metadata.len())?;
+    let final_after = final_file.metadata()?;
+    if final_bytes != first
+        || !same_file_identity(&final_metadata, &final_after)
+        || final_metadata.len() != final_after.len()
+        || final_metadata.mtime() != final_after.mtime()
+        || final_metadata.mtime_nsec() != final_after.mtime_nsec()
+        || final_metadata.ctime() != final_after.ctime()
+        || final_metadata.ctime_nsec() != final_after.ctime_nsec()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact changed during final verification",
+        ));
+    }
+    Ok(Some(first))
+}
+
+#[cfg(unix)]
+fn open_relative_no_follow(root: &File, relative: &Path) -> Result<Option<File>> {
+    use std::ffi::CString;
+    use std::os::unix::ffi::OsStrExt;
+    use std::os::unix::io::{AsRawFd, FromRawFd};
+
+    let components: Vec<_> = relative.components().collect();
+    let mut directories = Vec::with_capacity(components.len().saturating_sub(1));
+    let mut directory_fd = root.as_raw_fd();
+    for (index, component) in components.iter().enumerate() {
+        let std::path::Component::Normal(name) = component else {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "authored artifact path contains a non-normal component",
+            ));
+        };
+        let name = CString::new(name.as_bytes()).map_err(|_| {
+            V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "authored path contains a NUL byte",
+            )
+        })?;
+        let last = index + 1 == components.len();
+        let flags = libc::O_RDONLY
+            | libc::O_CLOEXEC
+            | libc::O_NOFOLLOW
+            | if last { 0 } else { libc::O_DIRECTORY };
+        // SAFETY: directory_fd is owned by root or a retained directory File;
+        // name is NUL-terminated; a successful descriptor is immediately owned.
+        let descriptor = unsafe { libc::openat(directory_fd, name.as_ptr(), flags) };
+        if descriptor < 0 {
+            let error = std::io::Error::last_os_error();
+            return match error.raw_os_error() {
+                Some(libc::ENOENT) => Ok(None),
+                Some(code) if code == libc::ELOOP || code == libc::ENOTDIR => Err(V2Error::new(
+                    ErrorCode::UnsafeCheckout,
+                    "authored artifact path contains a symlink or non-directory ancestor",
+                )),
+                _ => Err(error.into()),
+            };
+        }
+        // SAFETY: descriptor is a new successful openat result owned here.
+        let opened = unsafe { File::from_raw_fd(descriptor) };
+        if last {
+            return Ok(Some(opened));
+        }
+        if !opened.metadata()?.is_dir() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "authored artifact ancestor is not a directory",
+            ));
+        }
+        directories.push(opened);
+        directory_fd = directories.last().expect("retained directory").as_raw_fd();
+    }
+    Ok(None)
+}
+
+#[cfg(windows)]
+fn read_regular_authored_artifact_platform_with_hook(
+    root: &Path,
+    relative: &Path,
+    mut hook: impl FnMut(AuthoredReadStage),
+) -> Result<Option<Vec<u8>>> {
+    use std::os::windows::fs::{MetadataExt, OpenOptionsExt};
+
+    let path = root.join(relative);
+    let Some(path_metadata) = canonical_path_metadata_beneath(root, relative)? else {
+        return Ok(None);
+    };
+    if !path_metadata.is_file() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact target is not a regular file",
+        ));
+    }
+    let mut file = OpenOptions::new()
+        .read(true)
+        .share_mode(1) // FILE_SHARE_READ: deny concurrent write/delete/rename.
+        .custom_flags(0x0020_0000) // FILE_FLAG_OPEN_REPARSE_POINT.
+        .open(path)?;
+    let before = file.metadata()?;
+    if !before.is_file() || !same_file_identity(&path_metadata, &before) {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact changed identity while opening",
+        ));
+    }
+    hook(AuthoredReadStage::AfterInitialOpen);
+    let first = read_exact_current_file(&mut file, before.len())?;
+    hook(AuthoredReadStage::BetweenReads);
+    file.seek(SeekFrom::Start(0))?;
+    let second = read_exact_current_file(&mut file, before.len())?;
+    let after = file.metadata()?;
+    hook(AuthoredReadStage::BeforeFinalOpen);
+    if first != second
+        || !same_file_identity(&before, &after)
+        || before.len() != after.len()
+        || before.last_write_time() != after.last_write_time()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact changed while reading",
+        ));
+    }
+    Ok(Some(first))
+}
+
+#[cfg(not(any(unix, windows)))]
+fn read_regular_authored_artifact_platform_with_hook(
+    _root: &Path,
+    _relative: &Path,
+    _hook: impl FnMut(AuthoredReadStage),
+) -> Result<Option<Vec<u8>>> {
+    Err(V2Error::new(
+        ErrorCode::UnsafeCheckout,
+        "authored artifact reads require an anchored or mutation-denying platform primitive",
+    ))
+}
+
+fn read_exact_current_file(file: &mut File, expected_len: u64) -> Result<Vec<u8>> {
+    let expected_len = usize::try_from(expected_len).map_err(|_| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact is too large to read safely",
+        )
+    })?;
+    let mut bytes = Vec::with_capacity(expected_len);
+    file.read_to_end(&mut bytes)?;
+    if bytes.len() != expected_len {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact size changed while reading",
+        ));
+    }
+    Ok(bytes)
+}
+
+#[cfg(unix)]
+fn same_file_identity(left: &fs::Metadata, right: &fs::Metadata) -> bool {
+    use std::os::unix::fs::MetadataExt;
+
+    left.dev() == right.dev() && left.ino() == right.ino()
+}
+
+#[cfg(windows)]
+fn same_file_identity(left: &fs::Metadata, right: &fs::Metadata) -> bool {
+    use std::os::windows::fs::MetadataExt;
+
+    match (
+        left.volume_serial_number(),
+        left.file_index(),
+        right.volume_serial_number(),
+        right.file_index(),
+    ) {
+        (Some(left_volume), Some(left_index), Some(right_volume), Some(right_index)) => {
+            left_volume == right_volume && left_index == right_index
+        }
+        _ => false,
+    }
+}
+
+#[cfg(not(any(unix, windows)))]
+fn same_file_identity(_left: &fs::Metadata, _right: &fs::Metadata) -> bool {
+    // No stable file-identity primitive is available on this target. Fail
+    // closed instead of accepting a pathname-only comparison.
+    false
 }
 
 fn canonical_path_metadata_beneath(root: &Path, relative: &Path) -> Result<Option<fs::Metadata>> {
@@ -2616,7 +3156,12 @@ fn canonical_path_metadata_beneath(root: &Path, relative: &Path) -> Result<Optio
     for (index, component) in components.iter().enumerate() {
         match component {
             std::path::Component::Normal(part) => current.push(part),
-            _ => unreachable!("clean_relative accepted a non-normal component"),
+            _ => {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "authored artifact path contains a non-normal component",
+                ));
+            }
         }
         let metadata = match fs::symlink_metadata(&current) {
             Ok(metadata) => metadata,
@@ -2789,6 +3334,183 @@ fn enum_iterator() -> impl Iterator<Item = CardKind> {
 mod edit_authorization_tests {
     use super::*;
 
+    #[cfg(unix)]
+    #[test]
+    fn authored_reader_rejects_non_utf8_path_before_open() {
+        use std::ffi::OsString;
+        use std::os::unix::ffi::OsStringExt;
+
+        let temp = tempfile::tempdir().expect("tempdir");
+        let path = PathBuf::from(OsString::from_vec(vec![
+            b'd', b'e', 0xff, b's', b'i', b'g', b'n',
+        ]));
+        let error = read_regular_authored_artifact(temp.path(), &path)
+            .expect_err("non-UTF authored path must fail closed");
+        assert_eq!(error.code, ErrorCode::CorruptRecord);
+        assert_eq!(error.message, "authored artifact path must be UTF-8");
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn authored_reader_rejects_non_utf8_path_before_open() {
+        use std::ffi::OsString;
+        use std::os::windows::ffi::OsStringExt;
+
+        let temp = tempfile::tempdir().expect("tempdir");
+        let path = PathBuf::from(OsString::from_wide(&[0x0064, 0xd800, 0x006e]));
+        let error = read_regular_authored_artifact(temp.path(), &path)
+            .expect_err("non-UTF authored path must fail closed");
+        assert_eq!(error.code, ErrorCode::CorruptRecord);
+        assert_eq!(error.message, "authored artifact path must be UTF-8");
+    }
+
+    #[test]
+    fn authored_artifact_identity_distinguishes_equal_length_files() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let first = temp.path().join("first.md");
+        let second = temp.path().join("second.md");
+        fs::write(&first, b"same-length").expect("first artifact");
+        fs::write(&second, b"other-byte!").expect("second artifact");
+        let first_metadata = fs::metadata(first).expect("first metadata");
+        let second_metadata = fs::metadata(second).expect("second metadata");
+        assert_eq!(first_metadata.len(), second_metadata.len());
+        assert!(same_file_identity(&first_metadata, &first_metadata));
+        assert!(!same_file_identity(&first_metadata, &second_metadata));
+    }
+
+    #[test]
+    fn approval_hashes_bind_exact_authored_bytes() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design = b"# reviewed design\n";
+        let diagram = b"flowchart LR\n  Review --> Approve\n";
+        fs::write(temp.path().join("design.md"), design).expect("design");
+        fs::write(temp.path().join("diagram.mmd"), diagram).expect("diagram");
+        let store = Store::new(temp.path());
+        let (design_digest, diagram_digest) =
+            approval_authored_digests_with_hook(&store, "design.md", "diagram.mmd", |_| {})
+                .expect("approval digests");
+        assert_eq!(design_digest, digest(design));
+        assert_eq!(diagram_digest, digest(diagram));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn approval_hashing_rejects_symlinked_authored_path() {
+        use std::os::unix::fs::symlink;
+
+        let temp = tempfile::tempdir().expect("tempdir");
+        fs::write(temp.path().join("real-design.md"), b"# design\n").expect("real design");
+        fs::write(temp.path().join("diagram.mmd"), b"flowchart LR\n").expect("diagram");
+        symlink("real-design.md", temp.path().join("design.md")).expect("design symlink");
+        let store = Store::new(temp.path());
+        let error = approval_authored_digests_with_hook(&store, "design.md", "diagram.mmd", |_| {})
+            .expect_err("approval symlink must fail closed");
+        assert_eq!(error.code, ErrorCode::UnsafeCheckout);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn approval_hashing_rejects_hardlink_replacement_during_read() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design_path = temp.path().join("design.md");
+        fs::write(&design_path, vec![b'o'; 32]).expect("design");
+        fs::write(temp.path().join("malicious.md"), vec![b'x'; 32]).expect("malicious");
+        fs::write(temp.path().join("diagram.mmd"), b"flowchart LR\n").expect("diagram");
+        let store = Store::new(temp.path());
+        let error =
+            approval_authored_digests_with_hook(&store, "design.md", "diagram.mmd", |stage| {
+                if stage == AuthoredReadStage::BeforeFinalOpen {
+                    fs::remove_file(&design_path).expect("remove design name");
+                    fs::hard_link(temp.path().join("malicious.md"), &design_path)
+                        .expect("replace design with hardlink");
+                }
+            })
+            .expect_err("approval replacement must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn anchored_authored_read_ignores_ancestor_swap_back_to_hardlink_tree() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let root = temp.path().join("root");
+        let authored = root.join("authored");
+        fs::create_dir_all(&authored).expect("authored directory");
+        let original = vec![b'o'; 32];
+        let malicious = vec![b'x'; 32];
+        fs::write(authored.join("design.md"), &original).expect("original artifact");
+        fs::write(root.join("malicious.md"), &malicious).expect("malicious artifact");
+
+        let bytes = read_regular_authored_artifact_with_hook(
+            &root,
+            Path::new("authored/design.md"),
+            |stage| match stage {
+                AuthoredReadStage::AfterInitialOpen => {
+                    fs::rename(&authored, root.join("retained-authored"))
+                        .expect("move opened ancestor");
+                    fs::create_dir(&authored).expect("replacement ancestor");
+                    fs::hard_link(root.join("malicious.md"), authored.join("design.md"))
+                        .expect("replacement hardlink");
+                }
+                AuthoredReadStage::BeforeFinalOpen => {
+                    fs::remove_file(authored.join("design.md")).expect("remove replacement file");
+                    fs::remove_dir(&authored).expect("remove replacement ancestor");
+                    fs::rename(root.join("retained-authored"), &authored)
+                        .expect("restore original ancestor");
+                }
+                AuthoredReadStage::BetweenReads => {}
+            },
+        )
+        .expect("anchored swap-back read")
+        .expect("authored artifact");
+        assert_eq!(bytes, original);
+        assert_eq!(fs::read(authored.join("design.md")).unwrap(), original);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn anchored_authored_read_rejects_retained_hardlink_replacement() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let root = temp.path().join("root");
+        fs::create_dir_all(root.join("authored")).expect("authored directory");
+        fs::write(root.join("authored/design.md"), vec![b'o'; 32]).expect("original artifact");
+        fs::write(root.join("malicious.md"), vec![b'x'; 32]).expect("malicious artifact");
+        let error = read_regular_authored_artifact_with_hook(
+            &root,
+            Path::new("authored/design.md"),
+            |stage| {
+                if stage == AuthoredReadStage::BeforeFinalOpen {
+                    fs::remove_file(root.join("authored/design.md")).expect("remove original name");
+                    fs::hard_link(root.join("malicious.md"), root.join("authored/design.md"))
+                        .expect("install hardlink replacement");
+                }
+            },
+        )
+        .expect_err("hardlink replacement must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn anchored_authored_read_rejects_same_length_in_place_mutation() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let root = temp.path().join("root");
+        fs::create_dir_all(root.join("authored")).expect("authored directory");
+        let path = root.join("authored/design.md");
+        fs::write(&path, vec![b'o'; 32]).expect("original artifact");
+        let error = read_regular_authored_artifact_with_hook(
+            &root,
+            Path::new("authored/design.md"),
+            |stage| {
+                if stage == AuthoredReadStage::BetweenReads {
+                    fs::write(&path, vec![b'x'; 32]).expect("same-length mutation");
+                }
+            },
+        )
+        .expect_err("same-length mutation must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
     fn replacement_steps() -> Vec<crate::cards::PlanStep> {
         vec![crate::cards::PlanStep {
             id: "review-fix".into(),
@@ -2800,6 +3522,25 @@ mod edit_authorization_tests {
 
     #[test]
     fn implemented_review_remediation_authorizes_only_bounded_operations() {
+        for phase in [LifecyclePhase::Bound, LifecyclePhase::Implemented] {
+            authorize_card_operation(
+                phase,
+                CardKind::Stp,
+                &SemanticOperation::ReplaceAcceptanceCriteria {
+                    values: vec!["AC-1: compatibility repair".into()],
+                },
+            )
+            .expect("bound and implemented STP compatibility remains available");
+            authorize_card_operation(
+                phase,
+                CardKind::Spp,
+                &SemanticOperation::ReplacePlanSteps {
+                    steps: replacement_steps(),
+                },
+            )
+            .expect("bound and implemented SPP compatibility remains available");
+        }
+
         for operation in [
             SemanticOperation::ReplacePlanSteps {
                 steps: replacement_steps(),

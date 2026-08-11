@@ -552,6 +552,7 @@ async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> 
     executors.insert(AdapterKind::Scheduler, scheduler_executor);
     let assembly = build_live_assembly(LiveBindings {
         recorder: recorder.clone(),
+        canonical_ingress_capacity: 64,
         operation_executors: executors,
         permit_keys: BTreeMap::from([("permit".to_owned(), permit_key)]),
         reasoning: bootstrap_reasoning_services(recorder.clone())

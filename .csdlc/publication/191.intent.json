@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 191,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/191-secure-durable-openraft",
+  "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
+  "body": "Closes #191\n\n## Summary\n- register the production Polis runtime through the normal distributed crate surface\n- bind route authority to the trusted deployment bootstrap and exact accepted membership lineage\n- retain failed outbound requests for exact retry and serialize durable replay dispatch across replacement connections\n- isolate replay state by the complete Polis, domain, identity, generation, and membership namespace\n- reject independently configured same-index authority replacement\n- retain merge-safe proof covering compatibility harnesses, 14/14 serial tests, strict Clippy, and the full workspace compile\n\n## Validation\n- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport --no-tests=fail --test-threads=1` (14 passed, 0 skipped)\n- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport -- -D warnings`\n- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --workspace --no-run`\n- canonical issue #191 v5 receipt validator\n- independent exact-head review: APPROVE, no actionable P0-P3 findings\n\nThis PR remains intentionally unmerged pending operator and external review.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:711873c43aa7aa342c21e72ecd5be99953293356:c5fe14f69acba473860f3f3d6ab793d58ee18b2906ac55a614dd6c8454b3080e",
+  "commit_sha": "711873c43aa7aa342c21e72ecd5be99953293356"
+}

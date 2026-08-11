@@ -2,15 +2,81 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5857,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e489915a11df3b89a0864fc0dc5f4f7d5e8af55bf967136e961c4946457d9a97",
-  "phase": "initialized",
-  "generation": 1,
-  "digest": "f37f4d84d582dfcb6443af746487fd269561b2c307e3ea926e07fafa1f05f636",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 11,
+  "digest": "66afcd8df7b95eb69c3b0253e9755677862080beaeca5d2303812c22e886ebe5",
+  "branch": "codex/5857-sprint4-review",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5857-sprint4-review",
+  "review_assignment": {
+    "reviewer": "/root/sprint4_5857/review_5857_exact_head",
+    "assigned_by": "/root/sprint4_5857",
+    "revision": "git-blake3:9a7b96b6aae5831701bf2705942787f26ea79f90:7fe98cb22a45243c3a20962a1d56694006d2bf4727219b53d55ca2fca23c0429",
+    "scope": [
+      ".csdlc/issues/5857",
+      ".csdlc/prepared/issues/5857/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml",
+      ".csdlc/prepared/issues/5857/validate-sprint-review.rb",
+      ".csdlc/evidence/5857",
+      ".csdlc/issues/5825",
+      ".csdlc/issues/5826",
+      ".csdlc/issues/5827",
+      ".csdlc/issues/5828",
+      ".csdlc/issues/5829",
+      ".csdlc/issues/5830",
+      ".csdlc/issues/5831",
+      ".csdlc/issues/5833",
+      ".csdlc/issues/5834",
+      ".csdlc/prepared/issues/5834/validate-review-packet.rb",
+      "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
+      "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+      "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_5857_exact_head",
+    "scope": [
+      ".csdlc/issues/5857",
+      ".csdlc/prepared/issues/5857/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml",
+      ".csdlc/prepared/issues/5857/validate-sprint-review.rb",
+      ".csdlc/evidence/5857",
+      ".csdlc/issues/5825",
+      ".csdlc/issues/5826",
+      ".csdlc/issues/5827",
+      ".csdlc/issues/5828",
+      ".csdlc/issues/5829",
+      ".csdlc/issues/5830",
+      ".csdlc/issues/5831",
+      ".csdlc/issues/5833",
+      ".csdlc/issues/5834",
+      ".csdlc/prepared/issues/5834/validate-review-packet.rb",
+      "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
+      "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+      "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json"
+    ],
+    "reviewed_revision": "git-blake3:9a7b96b6aae5831701bf2705942787f26ea79f90:7fe98cb22a45243c3a20962a1d56694006d2bf4727219b53d55ca2fca23c0429",
+    "findings": [],
+    "residual_risks": [
+      "Administrative child worktree cleanup and historical closeout normalization remain asynchronous and do not authorize runtime, demo, or public-release claims.",
+      "Superseded WP-14 PR 76 remains excluded; agent-logic/agent-design-language#209 and PR 215 are the replacement production authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5857,
+    "pull_request": 220,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/220",
+    "base": "main",
+    "head": "codex/5857-sprint4-review",
+    "revision": "git-blake3:0f16859dbf9b33da7dc18bf581a4d235101fbb9b:ca9f0cd9098e611a1d6bcbb45401a4919dcfbc621820f2bfc42a4e35c50451b9",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,37 +90,73 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "995c205b8d0ddb815f62c3258bdc0b0b1e46730ccf274e03838d87a83263067e",
+      "values_digest": "843c1b05de57cac7f294133e6a0588dea5f9359e77f4c3734ef0313a37e595f8",
       "rendered_digest": "51ab82f4fc086b0ca966e2e3cc4ab142ec9da44bfd35f767228117e71886c9d5",
       "ast_digest": "7318c166b74bb2ab1b5fe72039fead58f3e64e287e7127115f34b2a3a13469b9"
     },
     "stp": {
-      "values_digest": "a7c711fd2cf1d9045ab630ecf36510c6efb637072c012ab59c58e7dcdb82a2ce",
+      "values_digest": "ca444c9b4facce42880b89afaaffb22cc8ded01a8977a6ae04a9076735ab9618",
       "rendered_digest": "f47d3a9d5f37c64d76c52c23037eee7180ae25f815c1e5d4973b76724d53ab86",
       "ast_digest": "f907e1273652d9d8b0e3e335b5c814943deedd5cf057ebc0bbf56eea458fc121"
     },
     "spp": {
-      "values_digest": "8f7ec5a6b8da61acae4a32fb149679346cdcb6f2f520cde6943ed252cd1a80d8",
-      "rendered_digest": "e25128b709add442b1c457229bfddc6ab5e3753a140c0267343e9c3f9ba612a7",
-      "ast_digest": "253627390b4516b5c13e91a9a13f30e6b9cd8b68306d053229571c5caa23892b"
+      "values_digest": "d5e04cbe96da45c86b34bee81154a11da583fb2fca2372351797431c8be5c594",
+      "rendered_digest": "c0ecd5b7d7c408414baa31f7e613d8a76bfd2084b2c471048c139a514d0464e7",
+      "ast_digest": "faa114501aae1fdbdfcb9865eff5c1d01f56e4667774f26397edc5b7877ee624"
     },
     "vpp": {
-      "values_digest": "e4413ef263d013396f2a2f8cb5091499f3b2d9e86775faf6fb94eddc30d1ad8e",
-      "rendered_digest": "30a34871e52fae6bf9e3b4075e9580d7a7e0d05bc4b13761516b4c91523b8eb2",
-      "ast_digest": "ea267ae93226701de9e74580328b0b904d6c73b3ea7d86a113d87083a5314dc9"
+      "values_digest": "18aa5a15c7426958923aa8703c3666c748f5ccd3d33cb5dacfc432da63cac700",
+      "rendered_digest": "85a35e9c9484a5e94ea835c7f8ae7c7f4421f2b035eb3d5c87185cffed5d3859",
+      "ast_digest": "d1319d9e68f30243e33080865594b440614c75bbb4b3334996226323ddb1f8a4"
     },
     "srp": {
-      "values_digest": "7b21b71c0485ead0c0fceaf698dd02d2025c8fbf9e77ab660ff69d538670a2a8",
-      "rendered_digest": "a391b8ba05b259641f15955423ae9118514eb80a6a87eeef4f8b47af0ba76cae",
-      "ast_digest": "7b6c06585692fc2af0e4689e1d27a07fef40f30a876d19b41b0de395bbcf4812"
+      "values_digest": "c081076335c4af2aca34b2d433dacac80cb697e87cf0c377d750919900550aed",
+      "rendered_digest": "1847f4a4f3afd74e4994058184defa72c4ae22d93060ce5196dff2736412c35b",
+      "ast_digest": "9eb5f04aac85ffa0fc7a8e1fed4f035daad2f80dfd17e971d1a01876f27ef46d"
     },
     "sor": {
-      "values_digest": "a3c7284f80689266a81be9624a94397772b3619f6473fbf7ea696d8b85642717",
-      "rendered_digest": "f36da3a10de239b01d10f70a44f0806eb5c2f7a5ce03f88c1fde1f5121beeaa2",
-      "ast_digest": "a33fdd54470df6fd7cfc9142d98f5752cf530c74b563d0cdedb2d7a8a036169b"
+      "values_digest": "b4d51db9d36d813bb387178649883fbd60c2672edb90a6f08cc88175753278e2",
+      "rendered_digest": "82c18d5d7ed08aeaf9468bcaa3a647a59cd1cf51ef00b09b5f9e66151da7821c",
+      "ast_digest": "97e744151f4c1f1f98dbd9f899eaca1f86cb79d34a4ac237717e056fc994657c"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "/root/sprint4_5857",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/sprint4_5857",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "/root/sprint4_5857",
+      "reason": "observed exact PR after current review"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -76,6 +178,97 @@
       "actor": "codex:5857-sprint4-readiness",
       "reason": "Declare the Sprint 4 coordination packet paths as the umbrella issue ownership boundary.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/5857/sprint-execution-packet.md\",\".csdlc/prepared/issues/5857/sprint-execution-packet.yaml\",\".csdlc/evidence/5857\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "/root/sprint4_5857",
+      "reason": "Replace the stale generic Sprint 1 denominator with an issue-owned Sprint 4 review validator that will be authored and executed only after binding.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"sprint4-terminal-review\",\"proof_role\":\"Validate the exact Sprint 4 child roster, qualified issue and PR closure, merge ancestry, retained exact-head reviews, lifecycle truth, review packet completeness, and public non-claims.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5857/validate-sprint-review.rb\"],\"parallel_group\":\"5857-review\",\"defer_reason\":\"Deferred only until the bound umbrella worktree authors the issue-owned validator and retained Sprint 4 review packet; missing or zero-child proof blocks review and closure.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "/root/sprint4_5857",
+      "reason": "Declare the issue-owned Sprint 4 validator and retained findings-first review packet before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/5857/sprint-execution-packet.md\",\".csdlc/prepared/issues/5857/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5857/validate-sprint-review.rb\",\".csdlc/evidence/5857\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "/root/sprint4_5857",
+      "reason": "Clear the Sprint 4 review-validator deferral after the issue-owned exact roster and integrated WP-16 packet validation passed.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"sprint4-terminal-review\",\"proof_role\":\"Validate the exact Sprint 4 child roster, qualified issue and PR closure, merge ancestry, retained exact-head reviews, lifecycle truth, review packet completeness, and public non-claims.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5857/validate-sprint-review.rb\"],\"parallel_group\":\"5857-review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "/root/sprint4_5857",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "/root/sprint4_5857",
+      "reason": "Recover the non-approved assignment to bind exact PR/head/merge mappings, repair review authority, negative cases, and truthful lifecycle activity/plan state.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "/root/sprint4_5857",
+      "reason": "Record completed umbrella and child readiness verification.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"readiness\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "/root/sprint4_5857",
+      "reason": "Record completed child routing through declared serial dependency and review gates.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"coordinate\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "/root/sprint4_5857",
+      "reason": "Record the implemented findings-first Sprint 4 review and exact local validation while preserving review, publication, merge, and closeout as pending.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Assembled and locally validated the Sprint 4 first-birthday core findings-first review across nine merged children and two merged authority repairs without claiming downstream demo, release, governance, personhood, citizenship, or consciousness.\",\"changes\":[\"Reconciled all nine declared children to qualified issue repositories, implementation PRs, exact reviewed revisions, live closure, merge SHAs, and origin/main ancestry.\",\"Retained the corrective authority routes agent-logic/agent-design-language#144/PR147 and #209/PR215 and excluded superseded WP-14 PR76 from production authority.\",\"Added an issue-owned fail-closed validator that binds exact PR/head/merge mappings, verifies completed finding-free child and repair reviews from each merge tree, verifies ancestry, and runs four adversarial mapping/review mutations plus the integrated WP-16 validator.\",\"Updated the sprint execution packet and typed SPP with observed serialized execution, merge-only umbrella activity scope, completed readiness/coordination, and truthful pending review/close state.\"],\"artifacts\":[\".csdlc/prepared/issues/5857/sprint-execution-packet.md\",\".csdlc/prepared/issues/5857/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5857/validate-sprint-review.rb\",\".csdlc/evidence/5857/activity.jsonl\",\".csdlc/evidence/5857/sprint-review.json\",\".csdlc/evidence/5857/terminal-mappings.json\",\".csdlc/evidence/5857/sprint-review.md\",\".csdlc/evidence/5857/local-validation.log\",\".csdlc/evidence/5857/local-validation-manifest.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5857/validate-sprint-review.rb\",\"--self-test\"],\"purpose\":\"Validate exact PR/head/merge mappings, nine child and two repair merge-tree reviews, ancestry, non-claims, four adversarial mutations, and the integrated WP-16 packet.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5857/local-validation.log\"},{\"command\":[\"ruby\",\"-c\",\".csdlc/prepared/issues/5857/validate-sprint-review.rb\"],\"purpose\":\"Verify the issue-owned validator parses before independent review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5857/local-validation-manifest.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify patch hygiene before independent review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5857/local-validation-manifest.json\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "/root/sprint4_5857",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "/root/sprint4_5857",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "/root/sprint4_5857",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

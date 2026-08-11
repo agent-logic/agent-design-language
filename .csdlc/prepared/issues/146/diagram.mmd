@@ -25,8 +25,14 @@ flowchart TD
   C3 --> C4["Replay, observability, and bounded soak"]
   C4 --> C5["Independent proof synthesis"]
 
-  A4 --> R["v0.92.1 integrated review and release gate"]
-  B5 --> R
-  C5 --> R
-
-  R --> N["Next-milestone handoff"]
+  A4 --> D["INT-01 demo convergence"]
+  B5 --> D
+  C5 --> D
+  D --> Q["INT-02 quality gate"]
+  Q --> L["INT-03 docs and review alignment"]
+  L --> I["INT-04 internal review"]
+  I --> E["INT-05 external review"]
+  E --> F["INT-06 remediation and final preflight"]
+  F --> N["INT-07 next-milestone planning"]
+  N --> H["INT-08 next-milestone review"]
+  H --> X["INT-09 release ceremony and lifecycle closeout"]

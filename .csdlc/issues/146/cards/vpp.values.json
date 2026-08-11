@@ -7,7 +7,7 @@
     "title": "[v0.92.1][planning] Create corporate transfer, C-SDLC v3, and distributed Runtime milestone",
     "slug": "v0921-corporate-csdlc-v3-runtime-proof",
     "version": "v0.92.0",
-    "generation": 34
+    "generation": 39
   },
   "status": "ready",
   "content": {
@@ -80,9 +80,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on missing scope, contradictory dependencies, unsupported proof claims, invalid YAML or links, stale source routing, or unresolved independent-review findings.",
       "design_ref": ".csdlc/prepared/issues/146/design.md",
-      "design_digest": "682195f74ce933b2af2412eebdeec544f8b23fcbaae9dc7b1744156b8082b0b7",
+      "design_digest": "3ba7394e3178f4de033d1bdffc16a9df948026065fcd7881bee84cb91060429f",
       "diagram_ref": ".csdlc/prepared/issues/146/diagram.mmd",
-      "diagram_digest": "22f01fd437c2b0721617f40ed9126fe434f678b1d83d8fc82b2d7d0d8244ff0e"
+      "diagram_digest": "fb565622bffab6bb219e9fe5c6b20767164aa2d5fd49056f25f7f1a36c6d0bf2"
     }
   }
 }

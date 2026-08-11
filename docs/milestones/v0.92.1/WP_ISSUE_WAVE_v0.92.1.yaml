@@ -23,7 +23,7 @@ umbrellas:
   status: planned_for_wp01_creation
   creation_owner: WP-01
 - id: INT-U
-  title: Integrated review and release
+  title: Standard milestone closeout tail
   kind: coordination_only
   status: planned_for_wp01_creation
   creation_owner: WP-01
@@ -364,53 +364,86 @@ work_packages:
   status: planned_for_wp01_creation
 - id: INT-01
   lane: integration
-  title: Run integrated independent review and remediation
+  title: Converge milestone demos
   depends_on:
   - CORP-08
   - V3-16
   - DRT-07
-  proof: findings dispositions residual risks and release recommendation
+  proof: exact-revision demo inventory, producer receipts, negative-path outcomes,
+    rerun proof, and non-claim ledger
   creation_owner: WP-01
   status: planned_for_wp01_creation
 - id: INT-02
   lane: integration
-  title: Qualify the release candidate and rehearse rollback
+  title: Run the milestone quality gate
   depends_on:
   - INT-01
-  proof: exact candidate inventory, release qualification, rollback rehearsal, and go-no-go recommendation
+  proof: exact-candidate quality matrix, producer evidence readback, blocker ledger,
+    denominator reconciliation, and fail-closed negatives
   creation_owner: WP-01
   status: planned_for_wp01_creation
 - id: INT-03
   lane: integration
-  title: Prepare the next-milestone handoff
+  title: Align documentation and review truth
   depends_on:
   - INT-02
-  proof: complete downstream planning packet, residual-risk routing, and V3-R01 eligibility gate
+  proof: claim-to-proof crosswalk, stale-text and portability scans, link validation,
+    review packet inventory, and exact-revision readback
   creation_owner: WP-01
   status: planned_for_wp01_creation
 - id: INT-04
   lane: integration
-  title: Independently review the next-milestone handoff
+  title: Conduct internal milestone review
   depends_on:
   - INT-03
-  proof: independent findings, dispositions, accepted handoff, and explicit non-claims
+  proof: exact-head specialist review receipts, coverage ledger, findings denominator,
+    ownership routing, and independence statement
   creation_owner: WP-01
   status: planned_for_wp01_creation
 - id: INT-05
   lane: integration
-  title: Execute the operator-authorized release ceremony
+  title: Conduct external milestone review
   depends_on:
-  - INT-02
   - INT-04
-  proof: operator authorization, release action receipt, tag and notes verification, and immediate post-release checks
+  proof: external packet inventory, exact-revision receipt, redaction audit, findings
+    denominator, and routing ledger
   creation_owner: WP-01
   status: planned_for_wp01_creation
 - id: INT-06
   lane: integration
-  title: Close milestone issues umbrellas records and handoff
+  title: Remediate findings and run final preflight
   depends_on:
   - INT-05
-  proof: terminal child and umbrella census, lifecycle finish receipts, milestone closure, cleanup classification, and accepted handoff
+  proof: finding-disposition census, exact-head re-reviews, final PVF receipts, candidate
+    digest, rollback rehearsal, abort-path proof, and go-no-go record
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
+- id: INT-07
+  lane: integration
+  title: Plan the next milestone
+  depends_on:
+  - INT-06
+  proof: source ancestry, WBS and dependency validation, deferred denominator, owner
+    and proof mapping, standard-tail conformance, and portability checks
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
+- id: INT-08
+  lane: integration
+  title: Independently review the next-milestone plan
+  depends_on:
+  - INT-07
+  proof: exact-head review receipt, WBS conformance check, finding denominator, disposition
+    validation, source-link checks, and accepted handoff decision
+  creation_owner: WP-01
+  status: planned_for_wp01_creation
+- id: INT-09
+  lane: integration
+  title: Execute the release ceremony and close the milestone
+  depends_on:
+  - INT-08
+  proof: authorization readback, candidate digest, release mutation readback, post-release
+    verification, terminal issue and umbrella census, typed finish receipts, handoff
+    linkage, and cleanup classification
   creation_owner: WP-01
   status: planned_for_wp01_creation
 external_dependencies:
@@ -425,9 +458,12 @@ lifecycle_sequence:
 - milestone_planning
 - wp01_issue_wave_opening
 - parallel_lane_execution
-- integrated_review_and_remediation
-- release_qualification
+- demo_convergence
+- quality_gate
+- docs_and_review_alignment
+- internal_review
+- external_review
+- remediation_and_final_preflight
 - next_milestone_planning
-- next_milestone_independent_review
-- operator_authorized_release_ceremony
-- terminal_milestone_closeout
+- next_milestone_review
+- release_ceremony_and_lifecycle_closeout
