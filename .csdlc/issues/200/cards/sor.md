@@ -127,11 +127,11 @@ Resolved the hosted Runtime coverage failure caused by issue-200 tests creating 
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

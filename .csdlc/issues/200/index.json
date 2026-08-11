@@ -3,45 +3,14 @@
   "issue": 200,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "77ab233d0769f2fb4248192668e3de99e3ccb3f57348cca71e27518be668697d",
-  "phase": "published",
-  "generation": 18,
-  "digest": "e2a6dc0833f16396c35c759a144b2505d05bbc9c7eb88c6f841646a8b141f294",
+  "phase": "implemented",
+  "generation": 19,
+  "digest": "707fabd878b4aca26fbb2e1420870323ca5d2d4fb716bd8d3363ac5b9a7ec5e7",
   "branch": "codex/200-concrete-authority-reconciliation-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-200-concrete-authority-reconciliation-preparation",
   "review_assignment": null,
-  "review": {
-    "reviewer": "codex:/root/review_200_publish_hygiene_final",
-    "scope": [
-      "adl-runtime/src/distributed/mod.rs",
-      "adl-runtime/src/distributed/authority_protocol.rs",
-      "adl-runtime/src/distributed/authority_reconciliation.rs",
-      "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
-      "adl-runtime/src/distributed/polis_runtime.rs",
-      "adl-runtime/tests/distributed_authority_reconciliation.rs",
-      ".csdlc/prepared/issues/200",
-      ".csdlc/evidence/200/v4",
-      ".csdlc/issues/200"
-    ],
-    "reviewed_revision": "git-blake3:1e7ab4b1b561554ec270c5ea53da0547e703ee15:794fa71e2b028ff0d9e41febbd35a2af5a0ad4dec17b32685d1e3b149496e083",
-    "findings": [],
-    "residual_risks": [
-      "Replacement hosted Runtime coverage remains a required pre-merge gate for the repaired Linux fixture path."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 200,
-    "pull_request": 231,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/231",
-    "base": "main",
-    "head": "codex/200-concrete-authority-reconciliation-preparation",
-    "revision": "git-blake3:420809d85f7a2d7a05874c4f5ebd7da45cd568d8:bf23c6a30ad34e2175f78d14cf85f8f733bbcdbba9ad124dab4498a96e78a2b4",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -55,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9a17b4b273637fb46c071d345cd5df7bcafe2bbc13fb7e66c1e5deb70cc41393",
+      "values_digest": "fb15cc5571e603888bd0def2b68f66c70b0860972cac06af166b8c6be87eb125",
       "rendered_digest": "2bf7b8cfacd8ddd000f15d512793721dd8a66a41495705e6eea0e4720f11b449",
       "ast_digest": "923d2e83e0be4ba4a7d60955f63d16ee37ccd6f57575b3d316923eec9d5a102c"
     },
     "stp": {
-      "values_digest": "e6662c8dc83bfb6277dd0be7dfdb4d20f03f5f398c51556cf5b45d4c57375d9b",
+      "values_digest": "a84ad45ec97a38830a44834c57e2863dad466aa6338e02efd63778f2fec1baf6",
       "rendered_digest": "b57d439d1570e4d0f8228d5c1801e852b4ef66b058757c8f52598b0191fdc466",
       "ast_digest": "ed3f711248a7c94c706cb3ef8eba0be4f78f4cb1890030f4e03aa319a4dc9fae"
     },
     "spp": {
-      "values_digest": "88e7705a684eb1795b41bf12850b916fa5cd097371b1cb9a1a951218d938a5bc",
+      "values_digest": "77921c85e224563e8bb0d633228de01fadc49870d7f191ffd552e4c19986a15a",
       "rendered_digest": "463d42373389c9b38afd2186ceea1e293e9e6ddf5168f01c0b5e02619a502e68",
       "ast_digest": "96803f5ab0254cb9acbd5e3278f7a0065f10e72344dce3fab24f755267af92f6"
     },
     "vpp": {
-      "values_digest": "91bde6422a7e44bcca1c5d7ff82fdc4715e881ba4f17cf475852ae813678162a",
+      "values_digest": "cba70a61cdca2270209472d4790a8890d10c55002b5116d21c40f57eb37da6c2",
       "rendered_digest": "b19adcd318fa48f408a267f17c2a1f74c54cc933155eb4f1c75c9edaff1413b7",
       "ast_digest": "af01edb6ae4e6432d48e99719f6c2eec6f31c3afbd0c0ae7d0e33c079cf9e479"
     },
     "srp": {
-      "values_digest": "23642194c4283eaca7601de6e0330e61ee4e3fafc2961ebba8833c49ce8917bc",
-      "rendered_digest": "777f23ac750e95ec5d0b32ae2312cb3ac2efbea0531efb39ab4ffcacdc5b4af5",
-      "ast_digest": "916ddba6a086cfa6e84278af50a7821b7c5e42f2fc09cb394db487e18f15e9cc"
+      "values_digest": "321673e2f6579122b3ddc6b7298272055b3d662665a8c2cb5a3fdf98a4757a66",
+      "rendered_digest": "79b745015647e53a89d72550c999b47163e55e9efc7fd229bee8819732e72f50",
+      "ast_digest": "eb134f8926f936f6b01425a01def31ffcec5ae04ff6ec1a93e8443527baa94dc"
     },
     "sor": {
-      "values_digest": "ae806600e7037b6ca25f40878cad3b857aec9babed3616142799bf56fe6ee4e9",
-      "rendered_digest": "46528c56895c9310ffd5a50f80642f9eb54250c96ed8ae2d10478c7d1cf48e04",
-      "ast_digest": "8f9be1e0db0116a9a615f5224b994b573046748833949105264c3fae4ec94268"
+      "values_digest": "a56022cb1fd735d05dfd57ff6f35bfdd51f869bf032503ba32d2ac2728e824e0",
+      "rendered_digest": "39ef0b7ebd6ddc5a3abcb27bea3cffa99eedd5d6df965722cf5888f9a19d7da6",
+      "ast_digest": "d5b1ba72a3010da017e271584cdd841bb1e30ea5936c2391239e7a706bc36b7e"
     }
   },
   "transitions": [
@@ -155,6 +124,13 @@
       "to": "published",
       "actor": "codex:/root/advance_200_after_201",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Main advanced to merged issue #208 at 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90 and overlaps issue #200 at protected production path adl-runtime/src/distributed/polis_runtime.rs. Recover publication and review truth for narrow exact-main sync, overlap reconciliation, regenerated protected proof, and fresh independent review before republication."
     }
   ],
   "audit": [
@@ -297,6 +273,13 @@
       "actor": "codex:/root/advance_200_after_201",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:/root/advance_200_after_201",
+      "reason": "Main advanced to merged issue #208 at 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90 and overlaps issue #200 at protected production path adl-runtime/src/distributed/polis_runtime.rs. Recover publication and review truth for narrow exact-main sync, overlap reconciliation, regenerated protected proof, and fresh independent review before republication.",
+      "operation": "recover_review"
     }
   ]
 }

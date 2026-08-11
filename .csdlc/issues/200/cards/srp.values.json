@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
     "slug": "crash-safe-authority-reconciliation-barrier",
     "version": "v0.92",
-    "generation": 18
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/mod.rs\nadl-runtime/src/distributed/authority_protocol.rs\nadl-runtime/src/distributed/authority_reconciliation.rs\nadl-runtime/src/distributed/authority_reconciliation/tests.rs\nadl-runtime/src/distributed/polis_runtime.rs\nadl-runtime/tests/distributed_authority_reconciliation.rs\n.csdlc/prepared/issues/200\n.csdlc/evidence/200/v4\n.csdlc/issues/200",
-      "review_revision": "git-blake3:1e7ab4b1b561554ec270c5ea53da0547e703ee15:794fa71e2b028ff0d9e41febbd35a2af5a0ad4dec17b32685d1e3b149496e083",
-      "reviewer": "codex:/root/review_200_publish_hygiene_final",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can any caller, raw token, adapter object, closure, receipt, boolean, legacy command, or local history create a plan, result, or permit?",
         "Does every durable phase reconcile exact old/new checkpoint outcomes without duplicating steps or losing completed authority?",
@@ -25,10 +25,8 @@
         "Does the exact proof bind all thirty-six cases and avoid claiming #203/#204 concrete behavior?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Replacement hosted Runtime coverage remains a required pre-merge gate for the repaired Linux fixture path."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
