@@ -7,6 +7,7 @@ brand-new, non-cloned Codex task.
 | Area | Sprint or umbrella | Active issue | Handoff |
 |---|---|---:|---|
 | Observatory / living Polis interface | WP-18C umbrella `#110` | `#112` | [V092_WP18C_UMBRELLA_110_SESSION_HANDOFF.md](V092_WP18C_UMBRELLA_110_SESSION_HANDOFF.md) |
+| Native Unity Observatory | WP-18A Unity | `#84` | [ISSUE_84_UNITY_OBSERVATORY_SESSION_HANDOFF.md](ISSUE_84_UNITY_OBSERVATORY_SESSION_HANDOFF.md) |
 | Distributed Runtime membership remediation | Corporate WP-04.16 umbrella `#142` | `#199` | [V092_WP_04_16_RUNTIME_REMEDIATION_SESSION_HANDOFF.md](V092_WP_04_16_RUNTIME_REMEDIATION_SESSION_HANDOFF.md) |
 | Sprint 5 birthday continuity | Sprint `#5854`, WP-18 `#5836` | `#237` | [V092_SPRINT_5_BIRTHDAY_CONTINUITY_SESSION_HANDOFF.md](V092_SPRINT_5_BIRTHDAY_CONTINUITY_SESSION_HANDOFF.md) |
 | Planning, recovery, runner policy, and storage diagnosis | Cross-sprint coordination | none | [V092_PLANNING_AND_RECOVERY_SESSION_HANDOFF.md](V092_PLANNING_AND_RECOVERY_SESSION_HANDOFF.md) |
