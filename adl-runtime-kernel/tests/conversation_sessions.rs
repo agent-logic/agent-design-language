@@ -118,7 +118,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             recorder.clone(),
             FakeLifecycle,
             ControlAuthority::new(BTreeMap::new()),
-            8,
+            4,
             ["https://observatory.example.test".to_owned()],
         )
         .with_canonical_ingress(ingress.clone()),
@@ -407,6 +407,26 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     ];
     assert!(statuses.contains(&"accepted"));
     assert!(statuses.contains(&"cancelled"));
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-agent-0001",
+                "turn_id": "turn-over-capacity",
+                "recipient_id": "agent-0001",
+                "correlation_id": "44444444444444444444444444444444",
+                "message": "Hello"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let capacity =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(capacity["status"], "failed");
+    assert_eq!(capacity["error"], "conversation_capacity_exhausted");
 
     socket.close(None).await.unwrap();
     server.abort();

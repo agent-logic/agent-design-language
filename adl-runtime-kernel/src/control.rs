@@ -351,6 +351,14 @@ struct ConversationDispatch {
     work_id: String,
 }
 
+enum ConversationAcceptance {
+    Dispatch {
+        accepted: ObservatoryConversationResult,
+        dispatch: ConversationDispatch,
+    },
+    Response(ObservatoryConversationResult),
+}
+
 pub struct ControlService<C> {
     instance_id: String,
     recorder: RuntimeRecorder,
@@ -476,8 +484,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     fn accept_conversation_intent(
         &self,
         intent: &ObservatoryConversationIntent,
-    ) -> Result<(ObservatoryConversationResult, ConversationDispatch), ObservatoryConversationResult>
-    {
+    ) -> ConversationAcceptance {
         let outcome = |status, error, sequence| ObservatoryConversationResult {
             schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
             status,
@@ -498,7 +505,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             || intent.message.trim().is_empty()
             || intent.message.len() > 4_096
         {
-            return Err(outcome("refused", "invalid_conversation_intent", None));
+            return ConversationAcceptance::Response(outcome(
+                "refused",
+                "invalid_conversation_intent",
+                None,
+            ));
         }
         let recipient = self
             .agent_population
@@ -506,24 +517,53 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .iter()
             .find(|agent| agent.id == intent.recipient_id);
         match recipient {
-            None => return Err(outcome("refused", "unknown_recipient", None)),
+            None => {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "unknown_recipient",
+                    None,
+                ))
+            }
             Some(agent) if agent.state != "running" => {
-                return Err(outcome("refused", "recipient_unavailable", None))
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "recipient_unavailable",
+                    None,
+                ))
             }
             Some(_) => {}
         }
         let Some(ingress) = self.canonical_ingress.as_ref() else {
-            return Err(outcome("failed", "conversation_ingress_unavailable", None));
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_ingress_unavailable",
+                None,
+            ));
         };
         let _ = ingress;
         let fingerprint = match serde_json::to_vec(intent) {
             Ok(bytes) => blake3::hash(&bytes).to_hex().to_string(),
-            Err(_) => return Err(outcome("refused", "invalid_conversation_intent", None)),
+            Err(_) => {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "invalid_conversation_intent",
+                    None,
+                ))
+            }
         };
         let mut sessions = self
             .conversation_sessions
             .lock()
             .expect("conversation sessions mutex poisoned");
+        if !sessions.sessions.contains_key(&intent.conversation_id)
+            && sessions.sessions.len() >= self.max_records
+        {
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_capacity_exhausted",
+                None,
+            ));
+        }
         let session = sessions
             .sessions
             .entry(intent.conversation_id.clone())
@@ -533,26 +573,43 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 turns: BTreeMap::new(),
             });
         if session.recipient_id != intent.recipient_id {
-            return Err(outcome("refused", "conversation_recipient_conflict", None));
+            return ConversationAcceptance::Response(outcome(
+                "refused",
+                "conversation_recipient_conflict",
+                None,
+            ));
         }
         if let Some(existing) = session.turns.get(&intent.turn_id) {
             if existing.fingerprint != fingerprint {
-                return Err(outcome(
+                return ConversationAcceptance::Response(outcome(
                     "refused",
                     "conversation_conflict",
                     Some(existing.sequence),
                 ));
             }
-            return Err(existing.terminal.clone().unwrap_or_else(|| {
-                outcome(
-                    "accepted",
-                    "conversation_in_flight",
-                    Some(existing.sequence),
-                )
-            }));
+            return ConversationAcceptance::Response(existing.terminal.clone().unwrap_or_else(
+                || {
+                    outcome(
+                        "accepted",
+                        "conversation_in_flight",
+                        Some(existing.sequence),
+                    )
+                },
+            ));
+        }
+        if session.turns.len() >= self.max_records {
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_capacity_exhausted",
+                None,
+            ));
         }
         let Some(sequence) = session.next_sequence.checked_add(1) else {
-            return Err(outcome("failed", "conversation_sequence_exhausted", None));
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_sequence_exhausted",
+                None,
+            ));
         };
         session.next_sequence = sequence;
         let cancellation = CancellationToken::new();
@@ -585,15 +642,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             &blake3::hash(format!("{}:{}", intent.conversation_id, intent.turn_id).as_bytes())
                 .to_hex()[..32]
         );
-        Ok((
+        ConversationAcceptance::Dispatch {
             accepted,
-            ConversationDispatch {
+            dispatch: ConversationDispatch {
                 intent: intent.clone(),
                 sequence,
                 cancellation,
                 work_id,
             },
-        ))
+        }
     }
 
     async fn complete_conversation_dispatch(
@@ -1799,7 +1856,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                     }
                     if let Ok(intent) = serde_json::from_str::<ObservatoryConversationIntent>(&payload) {
                         let result = if bearer_token.is_none() {
-                            Err(ObservatoryConversationResult {
+                            ConversationAcceptance::Response(ObservatoryConversationResult {
                                 schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
                                 status: "refused",
                                 conversation_id: intent.conversation_id.clone(),
@@ -1815,8 +1872,10 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                             service.accept_conversation_intent(&intent)
                         };
                         let (response, dispatch) = match result {
-                            Ok((accepted, dispatch)) => (accepted, Some(dispatch)),
-                            Err(response) => (response, None),
+                            ConversationAcceptance::Dispatch { accepted, dispatch } => {
+                                (accepted, Some(dispatch))
+                            }
+                            ConversationAcceptance::Response(response) => (response, None),
                         };
                         let attach_to_in_flight = response.status == "accepted"
                             && response.error == Some("conversation_in_flight");
