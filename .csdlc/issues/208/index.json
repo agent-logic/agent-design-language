@@ -2,10 +2,10 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 208,
   "repository": "agent-logic/agent-design-language",
-  "initialization_digest": "81af86021064a5ae610791e29dee3f703873f6fd28a0fb4ef48e6dba1819a8e6",
+  "initialization_digest": "50ca6fd43f5b405ec1d942ed846978798206b1a15480a8d72bdd35cf9667b750",
   "phase": "initialized",
   "generation": 0,
-  "digest": "0057543ef09455062892bd5289c25eb6ab6e03194633cfa48926bba31943a6d6",
+  "digest": "50130528141ef2131ff02e11e8cf93e636bf95bda95e2d435207697e3837b7a7",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,29 +19,29 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "365d15a626de835e275a179cc2eebcdfba1967973e133d12c5293220bc764459",
-      "rendered_digest": "58b0bfbca7d290d6790f7fc135d4d71d3a31a66f3bb2de1ce3d15c8197361ef8",
-      "ast_digest": "01a0c8f8fa38eabcc9bc8582a44287bf0f943864575aed160a58d4290bb2dee2"
+      "values_digest": "2a4b40e652d150a5198fe448d8eec9e4d1cbdac867c89d863256fe2b93787bbf",
+      "rendered_digest": "d767d4131176a522cca5e409d44e97ed13fa85784e7e854055890d7dbdf4ba50",
+      "ast_digest": "a4342aa38a8398584b0f7ca9db5f725acd86fcbf0832905fa85ca39c3ad1e8d5"
     },
     "stp": {
-      "values_digest": "c24c83fb26ac458bea5609c725e06b52291be65fc5c48baa1d15a62563995c20",
-      "rendered_digest": "27801799ae774a1542daf308f43ff931d485394ed33f036d2ba3bb6b2fe7817e",
-      "ast_digest": "a037ae2ec2e2bd4de1d8632645eacc8dd3d1a76cc11634a243cf1b899f9f66c7"
+      "values_digest": "04675ae774cc195200f162185c45881cbdc2c90d0815fee38c5df40b64907589",
+      "rendered_digest": "fda82072134475d5ee9993ee9c18191bc9faa428873aa791101d913c1fd54a35",
+      "ast_digest": "bb716b5c0e7526caf67c6ddcd62b15a3f697dc98aee4d6c43d02ca32e6eb008d"
     },
     "spp": {
-      "values_digest": "fb25d3d132d31bcbe7b139ea27ed419a60b9ce28ca95691f659d05ae4289a97f",
-      "rendered_digest": "b65b1322a05be76bdbdd89360cfe721f15e7e233a8e8e307e7750c7751ad48b7",
-      "ast_digest": "9ca0e18ab795e1ee8bf622cf93c8f6f9967183bb0cba3b18e2c8b20df1f7f19c"
+      "values_digest": "fce559355b8e04d6291908b8fb78f6e6f88c81d0acda56bd749ef7102cb73a20",
+      "rendered_digest": "7156f7eaad7a8923bd144cf7eac805271438f9466782761d6ac9d674a39fc7fc",
+      "ast_digest": "69020fdeaf11aeb6ef71fb9dd83a11afd1eff10b321834d7bd9216e98126f3aa"
     },
     "vpp": {
-      "values_digest": "fa43d20f034613f25a81f3b1013c76e9a496856810b06b3905a25dbbfe0743cc",
-      "rendered_digest": "0da97d8e47e70ca93db1d13527f7e48396e83f95d523ae3d86aa35a9c1704bb1",
-      "ast_digest": "524080b44e8cadc0728de6b6072beb775cb16e0fe358572bc4e18fa3bd46c47f"
+      "values_digest": "92de31b752d95239ebc3646ac42e1e62ea6031a5f7ce36def88af767a0c9787e",
+      "rendered_digest": "545387f8b1cce0876228ac8f2c4b05af763a40f73fd659438dfe6a52cdf18b7f",
+      "ast_digest": "db9924002019dbf1bfb5501032d976c720e4428b4ef667282033c33b6cf304a2"
     },
     "srp": {
-      "values_digest": "41093aa2613caa63d1e2d03801360ca758375401fcc614d96ad8929b5bd119dc",
-      "rendered_digest": "74cc83a6bf66cc031a9d959831bacc182aa06a9f7b81b2e5970705b2d951809d",
-      "ast_digest": "cafc58060b7a8308cfd8948582e0a38d5d0feafc21b5549e002554fdf776862e"
+      "values_digest": "80f20db43436644c5728ad9a30fc3e48744ed012584c471a817f93fd6f9cf89c",
+      "rendered_digest": "d961ad92a6ae55b4a6b2c91a57a6739aea795781ff28c478f00e677e57e4524e",
+      "ast_digest": "bb71f8c097fa1a513a289d90e475144a3ac8862f459f963dd30e2471b7622ce7"
     },
     "sor": {
       "values_digest": "665f9418fdf9bbeece899f745559edb08e40ad3731df1906cbd8a0d162d9729b",
@@ -54,7 +54,7 @@
     {
       "sequence": 1,
       "generation": 0,
-      "actor": "codex:208-kernel-continuity-bridge-preparation",
+      "actor": "codex:208-review-resolution",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
     }

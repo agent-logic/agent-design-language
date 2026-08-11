@@ -14,11 +14,23 @@
     "card_kind": "spp",
     "values": {
       "plan_revision": 1,
-      "summary": "After PR #197 merges, bind #208, implement the private production continuity listener/client and real checkpoint operations, prove thirty-six cases, resolve review through subagents, and publish a ready unmerged PR before #204.",
+      "summary": "After PR #197 merges, bind #208 and implement the complete production Guardian-to-live-kernel path, durable channel succession, sealed participant registry, rollback/discard semantics and exact fifty-six-case/sixty-four-subassertion proof; run Runtime/kernel tests and Clippy plus diff and producer serially, resolve independent review through subagents, then validate and publish a ready unmerged PR.",
       "steps": [
         {
           "id": "S1",
-          "action": "After #191 merges ancestrally, bind #208 and freeze exact config, TLS identity, live continuity, journal, stream, and root interfaces.",
+          "action": "After #191 merges ancestrally, bind #208 and freeze the production Guardian/kernel init, private TLS, stable channel epoch, certificate succession, participant registry, journal, stream, root and receipt interfaces.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement validated configuration and startup in both production binaries, construct the opaque client in Guardian initialization, establish the supervised-kernel private session before readiness, and inject only that capability into the production polis runtime.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -28,26 +40,9 @@
           "status": "pending"
         },
         {
-          "id": "S2",
-          "action": "Implement the loopback mTLS listener, opaque Guardian client, real checkpoint export, isolated staging/validation, resume/discard, replay and persistence.",
-          "acceptance_ids": [
-            "AC-1",
-            "AC-2",
-            "AC-3",
-            "AC-4",
-            "AC-5",
-            "AC-6",
-            "AC-7"
-          ],
-          "status": "pending"
-        },
-        {
           "id": "S3",
-          "action": "Prove exact thirty-six-case behavior, crash/retry/path/bounds/redaction/public-surface denial, strict Clippy, and merge-safe receipt truth.",
+          "action": "Implement the sealed complete live-participant registry, two-phase quiesce and signed export, partial-quiesce rollback/resume, isolated stage/validate, nonactivated validated-target discard, durable replay/restart/succession and filesystem/bounds safety.",
           "acceptance_ids": [
-            "AC-1",
-            "AC-2",
-            "AC-3",
             "AC-4",
             "AC-5",
             "AC-6",
@@ -58,9 +53,33 @@
         },
         {
           "id": "S4",
-          "action": "Resolve fresh exact-head review through a subagent, publish a ready PR closing #208, shepherd hosted CI, and wait for operator review and merge authorization.",
+          "action": "Run serially the exact Runtime test, kernel test, Runtime Clippy, kernel library/binary Clippy, diff hygiene and producer; require fifty-six cases and byte-for-byte parity with the eight-row sixty-four-subassertion map and its SHA-256.",
           "acceptance_ids": [
-            "AC-8"
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Obtain fresh independent exact-head subagent review and route every actionable finding to a separate resolution subagent; rerun S4 after every source change until the reviewed source is clean.",
+          "acceptance_ids": [
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "After clean review, run the distinct immutable validator, publish a ready PR closing #208, shepherd hosted CI, and wait for operator review and merge authorization.",
+          "acceptance_ids": [
+            "AC-9"
           ],
           "status": "pending"
         }
@@ -68,35 +87,50 @@
       "affected_areas": [
         "adl-runtime-kernel/src/continuity_control.rs",
         "adl-runtime-kernel/src/continuity.rs",
+        "adl-runtime-kernel/src/live_continuity.rs",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/ingress.rs",
+        "adl-runtime-kernel/src/reasoning.rs",
+        "adl-runtime-kernel/src/governance.rs",
+        "adl-runtime-kernel/src/operations.rs",
         "adl-runtime-kernel/src/config.rs",
         "adl-runtime-kernel/src/lib.rs",
         "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
         "adl-runtime/src/kernel_continuity_client.rs",
         "adl-runtime/src/config.rs",
+        "adl-runtime/src/guardian.rs",
+        "adl-runtime/src/distributed/mod.rs",
+        "adl-runtime/src/distributed/polis_runtime.rs",
         "adl-runtime/src/lib.rs",
+        "adl-runtime/src/bin/adl-runtime-guardian.rs",
         "adl-runtime/tests/kernel_continuity_client.rs",
+        "adl-runtime-kernel/tests/kernel_continuity_control.rs",
         "adl-runtime-kernel/Cargo.toml",
         "adl-runtime/Cargo.toml",
         "adl-runtime-kernel/Cargo.lock",
         "adl-runtime/Cargo.lock",
+        ".csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json",
         ".csdlc/prepared/issues/208/produce-proof-receipt.rb",
         ".csdlc/prepared/issues/208/validate-proof-receipt.rb",
         ".csdlc/evidence/208",
         ".csdlc/issues/208"
       ],
       "invariants": [
-        "The public Runtime/Observatory service never routes internal continuity operations",
-        "Only the exact configured Guardian/kernel generation pair can use an internal continuity session",
-        "Every returned bundle or possession receipt derives from the live kernel coordinator and exact verified bytes",
-        "Source remains quiesced until exact resume or downstream fencing; target remains isolated until downstream activation",
-        "No caller path, mock, synthetic snapshot, cached bool, or receipt creates distributed authority"
+        "No production readiness is reported until Guardian and kernel share the validated private session and the complete sealed live-participant registry exists",
+        "Process restart preserves the durable logical channel epoch; certificate succession changes transport credentials without losing or duplicating an accepted operation",
+        "Only TLS 1.3 mTLS authenticates control frames, while the manifest signing key signs content only and no bearer or public identity gains continuity authority",
+        "Every participant prepared for quiesce either contributes to the committed bundle or has an exact reconciled resume receipt before admission reopens",
+        "Source remains quiesced after bundle commit until exact resume or downstream fence; every nonactivated Staging or Validated target remains exactly discardable",
+        "No caller path, normal-build mock, synthetic snapshot, cached bool, opaque receipt, or redacted evidence creates distributed authority"
       ],
       "risks": [
-        "An internal listener could accidentally bind publicly or share public trust",
-        "Large bundle transfer could allocate without bounds or accept path traversal",
-        "Cancellation or reply loss could disagree with a committed kernel effect",
-        "A retained replay namespace could survive Guardian/kernel rotation",
-        "The issue could drift into #204 distributed policy or final cloud integration"
+        "A listener/client library could pass tests without either production binary reaching it",
+        "A one-way participant hook could leave early participants quiesced after a later failure",
+        "Boot or certificate generation could accidentally strand an accepted operation after reply loss",
+        "The live assembly could omit a state owner while a synthetic aggregate snapshot appears green",
+        "Validated pre-fence target material could survive cancellation without receipt-bound cleanup",
+        "Large frames or hostile roots could allocate without bounds, traverse paths, race opened handles, or leave residue",
+        "The issue could drift into #210 transport, #204/#211 distributed policy, or final cloud qualification"
       ],
       "execution_estimates": {
         "elapsed_seconds": 43200,
@@ -105,17 +139,19 @@
       },
       "stop_conditions": [
         "Issue #191 / PR #197 is not externally reviewed, merged, and ancestral",
-        "The live continuity coordinator cannot support safe isolated stage/validate without a narrower kernel prerequisite",
-        "The internal listener cannot be proven loopback-only and identity-distinct",
-        "Any normal-build caller can inject a mock, caller path, synthetic checkpoint, or raw authority",
-        "Implementation expands into #204 policy, public Observatory/API, models, AWS, or live qualification",
+        "Production Guardian initialization and kernel startup cannot establish the private session without an additional narrowly tracked prerequisite",
+        "The live assembly cannot enumerate every stateful continuity participant and prove registry completeness before readiness",
+        "Any participant lacks a safe receipt-bound resume path after partial quiesce",
+        "Certificate succession cannot reconcile old accepted work without accepting stale new work",
+        "Any normal-build caller can inject a mock, caller path, synthetic checkpoint, participant, or raw authority",
+        "Implementation expands into remote transfer, migration/recovery decisions, public Observatory/API, models, AWS, or live qualification",
         "Any focused proof or independent review has an unresolved actionable finding"
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/208/design.md",
-      "design_digest": "3b568fa2f3d299fbe5be3b65250f7b0191eb7c36f55c6d460fa3f9f002b844a3",
+      "design_digest": "4f9fc720ef1b19b81a662a7ecb7669c98297567f5d474af30b9014551354c45c",
       "diagram_ref": ".csdlc/prepared/issues/208/diagram.mmd",
-      "diagram_digest": "08144a9e755cf338211914696c5e12a6aedc2afa6d47681e3df79d2f6fe19ca1"
+      "diagram_digest": "ec8c267a8722c9caf32a4efb94afa9b0e6af7dc73f74c4ea9e9b8b4c97b0ee08"
     }
   }
 }

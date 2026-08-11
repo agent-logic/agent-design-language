@@ -13,16 +13,17 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact internal kernel listener and Guardian client, config/TLS identity, live continuity operations, persistence/replay/streams/cleanup, public-surface denial, focused tests/proof/evidence, typed issue truth, and absence of distributed policy or cloud scope.",
+      "review_scope": "Exact production Guardian/kernel startup and reachability, private TLS/canonical channel and succession, complete live participant registry, quiesce/export/rollback, isolated validation/discard, crash/replay/path/bounds/redaction/public denial, fifty-six cases, sixty-four mapped subassertions, both package Clippy lanes, proof/evidence and typed issue truth; exclude remote transfer and distributed migration/recovery policy.",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
-        "Can any non-Guardian identity or public route reach continuity dispatch, or can the internal listener bind beyond loopback?",
-        "Do quiesce/export and stage/validate use the live kernel continuity coordinator and exact bounded signed bytes rather than synthetic proof?",
-        "Do client and server replay, deadlines, cancellation, crash, restart, reply loss, and rotation reconcile without duplicate effects or false results?",
-        "Can any caller choose a path, escape the fixed roots, race an opened handle, overrun bounds, or leave unverifiable residue?",
-        "Are bundle and possession handles opaque and evidence fully redacted?",
-        "Does the exact proof bind all thirty-six cases without claiming #204 policy or final operational/cloud integration?"
+        "Can #208 still close with a library or fixture that is not constructed and reached through both production binaries and the production polis runtime?",
+        "Does the stable logical channel epoch plus explicit certificate succession reconcile reply loss across Guardian/kernel restart without accepting stale new work?",
+        "Does TLS 1.3 mTLS alone authenticate the strict canonical frame exactly as claimed, with the manifest key limited to content signing?",
+        "Does the sealed registry cover every live state owner and use the exact running handles, with fail-closed missing/extra/duplicate detection?",
+        "Can any partial quiesce leave admission or a participant stuck without an exact resume receipt, or falsely report no effect?",
+        "Can every nonactivated Staging or Validated target be exactly discarded with zero residue while activated material remains protected?",
+        "Does the tracked eight-row sixty-four-entry map bind every config/TLS/identity/domain/generation/prefix/path/size boundary and do both package Clippy lanes run serially before proof production?"
       ],
       "findings": [],
       "residual_risk": [],

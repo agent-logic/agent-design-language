@@ -1,17 +1,22 @@
 flowchart TD
-    G["Guardian production initialization"] --> C["Opaque KernelContinuityClient"]
-    C --> M["Loopback-only mTLS continuity listener"]
-    M --> A["Closed typed request and durable replay admission"]
-    A --> J["Accepted operation journal before effect"]
-    J --> Q["Live kernel admission gate and CheckpointCoordinator"]
-    Q --> B["Signed bounded checkpoint bundle under fixed root"]
-    J --> I["Bounded isolated target staging under fixed root"]
-    I --> V["Kernel signature topology schema and content validation"]
-    B --> R["Exact effect receipt result checkpoint and marker"]
-    V --> R
-    R --> O["Opaque bundle or possession evidence"]
-    O --> X["#204 migration and recovery executor"]
-    D["Deadline cancellation crash or reply loss"] --> Y["Exact restart and retry reconciliation"]
-    Y --> J
-    P["Public Runtime Observatory and agent control"] --> N["No continuity route or authority"]
-    O --> Z["No ownership activation serving or cloud authority"]
+    GI["Production Guardian initialization"] --> GC["Opaque KernelContinuityClient"]
+    GC --> TLS["TLS 1.3 mutual-auth private loopback listener"]
+    CE["Durable channel epoch and certificate succession"] --> TLS
+    TLS --> CJ["Canonical request plus accepted-operation journal"]
+    CJ --> AG["Close live admission at exact accepted prefix"]
+    AG --> PR["Prepare complete sealed live-participant registry"]
+    PR --> CP["Snapshot same participant handles and commit signed bundle"]
+    PR -->|"failure before commit"| RR["Receipt-bound resume of every applied or uncertain participant"]
+    RR -->|"all receipts reconciled"| AO["Reopen admission"]
+    RR -->|"cannot prove rollback"| RF["Source remains closed: RecoveryRequired"]
+    CP --> BR["Bundle receipt, checkpoint, marker, replayable result"]
+    CJ --> ST["Bounded opaque target staging"]
+    ST --> VT["Manifest, prefix, topology, config, services and content validation"]
+    VT --> DT["Receipt-bound discard of any nonactivated target"]
+    DT --> ZR["Durable zero-residue receipt"]
+    BR --> EX["Opaque handle for downstream #204/#210"]
+    VT --> EX
+    PX["Process restart or reply loss"] --> CE
+    PX --> CJ
+    PUB["Public Runtime, Observatory and agent control"] --> DENY["No continuity route or authority"]
+    EX --> NA["No migration decision, activation, ownership, serving or cloud authority"]

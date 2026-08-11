@@ -13,53 +13,68 @@
   "content": {
     "card_kind": "stp",
     "values": {
-      "task_boundary": "Implement and publish only the private production continuity listener/client, real kernel checkpoint and isolated validation operations, persistence, cleanup, and focused proof.",
+      "task_boundary": "Implement and publish the complete private production Guardian-kernel continuity path: validated initialization in both binaries, durable TLS-authenticated client/server channel, sealed live-participant quiesce/export and rollback, isolated validation/discard, exact proof and review; do not implement distributed migration/recovery policy or remote transfer.",
       "deliverables": [
         "adl-runtime-kernel/src/continuity_control.rs",
         "adl-runtime-kernel/src/continuity.rs",
+        "adl-runtime-kernel/src/live_continuity.rs",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/ingress.rs",
+        "adl-runtime-kernel/src/reasoning.rs",
+        "adl-runtime-kernel/src/governance.rs",
+        "adl-runtime-kernel/src/operations.rs",
         "adl-runtime-kernel/src/config.rs",
         "adl-runtime-kernel/src/lib.rs",
         "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
         "adl-runtime/src/kernel_continuity_client.rs",
         "adl-runtime/src/config.rs",
+        "adl-runtime/src/guardian.rs",
+        "adl-runtime/src/distributed/mod.rs",
+        "adl-runtime/src/distributed/polis_runtime.rs",
         "adl-runtime/src/lib.rs",
+        "adl-runtime/src/bin/adl-runtime-guardian.rs",
         "adl-runtime/tests/kernel_continuity_client.rs",
+        "adl-runtime-kernel/tests/kernel_continuity_control.rs",
         "adl-runtime-kernel/Cargo.toml",
         "adl-runtime/Cargo.toml",
         "adl-runtime-kernel/Cargo.lock",
         "adl-runtime/Cargo.lock",
+        ".csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json",
         ".csdlc/prepared/issues/208/produce-proof-receipt.rb",
         ".csdlc/prepared/issues/208/validate-proof-receipt.rb",
         ".csdlc/evidence/208",
         ".csdlc/issues/208"
       ],
       "acceptance_criteria": [
-        "AC-1: Configuration rejects non-loopback or unsafe internal listeners, overlapping or symlinked roots, missing identities, duplicate identities, invalid TLS material, zero ports, and unbounded policy before bind.",
-        "AC-2: Mutual TLS plus canonical signed request binding authorizes only the exact configured Guardian identity and rejects bearer-only, agent, public control, voter, Shepherd, unknown, stale, replayed, conflicting, or wrong-kernel requests before dispatch.",
-        "AC-3: Quiesce/export invokes the live kernel admission gate and CheckpointCoordinator over the exact participant set and returns an opaque bounded handle to the committed signed manifest and service blobs, never synthetic checkpoint bytes.",
-        "AC-4: Stage/validate accepts only bounded streamed bytes under a fixed isolated root and verifies exact signature, generation/predecessor, accepted prefix, topology, configuration, service set/schema, file names, sizes, and content before possession evidence.",
-        "AC-5: Resume and discard are exact idempotent operations; failed, cancelled, corrupt, or incomplete work remains isolated and yields independently verifiable zero-residue cleanup evidence.",
-        "AC-6: Client/server accepted journals, replay/results, external checkpoints and markers reconcile every crash/reply-loss window; cache-first retry never duplicates effects and returns only after exact completion.",
-        "AC-7: The public Runtime/Observatory listener and OpenAPI contain no continuity route or operation, and evidence reveals no key, token, raw content, endpoint secret, caller path, or private identity.",
-        "AC-8: Exact thirty-six-case focused proof, strict Clippy, merge-safe immutable receipt validation, diff hygiene, and fresh independent exact-head review pass before a ready unmerged PR opens."
+        "AC-1: Both production binaries consume one validated Runtime init contract: the Guardian constructs the opaque client and establishes the supervised-kernel session before distributed-runtime readiness, while the kernel binds the private listener before public readiness; missing wiring, a standalone library, mock, or fixture cannot satisfy closure.",
+        "AC-2: Configuration rejects non-loopback, wildcard, multicast, public, zero or duplicate ports, overlapping/symlinked/replaceable roots, missing or duplicate identities, invalid TLS material/EKU/trust, and zero or excessive bounds before either listener reports ready.",
+        "AC-3: TLS 1.3 mutual authentication, an RFC 9266 tls-exporter binding on every transient envelope, and strict RFC 8785 canonical operation bodies authorize only the exact logical Guardian and kernel channel; schema/domain/polis/node/identity/epoch/sequence/kind/deadline/prefix/payload bindings reject captured-session replay, bearer-only, agent, voter, Shepherd, public-control, stale, reordered, conflicting, cross-domain, or wrong-peer work before dispatch.",
+        "AC-4: A persisted logical channel identity and epoch survives Guardian/kernel process restart; explicit two-phase certificate succession permits predecessor exact retries and successor reconciliation of accepted work but forbids predecessor new work, skipped epochs, ambiguous lineage, or retirement while accepted work remains.",
+        "AC-5: The live assembly supplies one sealed complete registry for admission, recorder/accepted prefix, reasoning/mutation, governance, and production operation state; startup and checkpoint fail on missing, extra, duplicate, test-only, or replaced participants, and quiesce/export uses those exact live handles rather than synthetic snapshot bytes.",
+        "AC-6: A pre-commit participant failure, deadline, or cancellation triggers receipt-bound resume for every applied or uncertain participant and reopens admission only after all resume receipts reconcile; otherwise the source stays closed with RecoveryRequired. A committed bundle stays quiesced until exact resume or downstream fencing.",
+        "AC-7: Stage/validate accepts only bounded streamed bytes under a fixed isolated root and verifies signature, generation, predecessor, accepted prefix, topology, configuration, service set/schema, canonical file names, sizes, and content; every Staging or Validated nonactivated target can be receipt-bound discarded with durable zero-residue proof and exact retry.",
+        "AC-8: Client/server journals, participant/effect receipts, results, checkpoints, markers, caches, deadlines, restart, reply loss, capacity and opened-handle safety reconcile without duplicate effects, false no-effect claims, arbitrary paths, residue, secrets, or public continuity routes.",
+        "AC-9: Exact fifty-six-case proof and byte-for-byte parity with the tracked eight-row sixty-four-subassertion config/TLS/identity/domain/generation/prefix/path/size map pass, followed serially by Runtime and kernel Clippy, diff hygiene, producer, fresh independent exact-head review, and distinct merge-safe immutable validation before a ready unmerged PR opens."
       ],
       "dependencies": [
         "Issue #191 / PR #197 externally reviewed and merged as an ancestor",
-        "Issue #204 remains blocked until #208 merges",
+        "Issue #210 remote transfer remains blocked until #208 merges",
+        "Issues #204 and #211 migration/recovery execution remain downstream",
         "Final #142 operational integration remains downstream"
       ],
       "repo_inputs": [
         "agent-logic/agent-design-language#208",
-        "adl-runtime-kernel/src/continuity.rs",
-        "adl-runtime-kernel/src/control.rs and public OpenAPI as read-only denial surfaces",
-        "adl-runtime/src/guardian.rs and RuntimeInitConfig",
+        "adl-runtime-kernel/src/continuity.rs and live_continuity.rs",
+        "adl-runtime-kernel/src/assembly.rs, ingress.rs, reasoning.rs, governance.rs, and operations.rs",
+        "adl-runtime-kernel/src/config.rs and bin/adl-runtime-kernel.rs",
+        "adl-runtime/src/guardian.rs, bin/adl-runtime-guardian.rs, and Runtime init surfaces",
         "adl-runtime/src/distributed/polis_runtime.rs from merged #191",
         ".csdlc/issues/142 operational design as read-only umbrella truth"
       ],
       "non_goals": [
-        "Consensus, authority protocol, membership, certificate, lease, fencing, or serving eligibility",
-        "Migration/recovery policy or remote transfer orchestration (#204)",
-        "Shepherd/model execution, AWS, live Wuji/AWS qualification, final #142 delivery, merge without operator authorization, or lifecycle closeout"
+        "Consensus, authority protocol, membership, certificate issuance, lease, fencing, ownership, activation, or serving eligibility",
+        "Remote bundle transport (#210), migration orchestration (#204), or recovery orchestration (#211)",
+        "Public continuity API, Shepherd/model execution, AWS, live Wuji/AWS qualification, final #142 delivery, merge without operator authorization, or lifecycle closeout"
       ]
     }
   }

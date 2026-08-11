@@ -1,0 +1,114 @@
+{
+  "schema": "adl.guardian-kernel-continuity-boundary-map.v1",
+  "issue": 208,
+  "case_count": 56,
+  "boundary_row_count": 8,
+  "subassertion_count": 64,
+  "marker_format": "<outcome>:<boundary>:<subassertion>",
+  "boundaries": [
+    {
+      "boundary": "config",
+      "subassertions": [
+        {"id":"ipv4_loopback_accepted","case":"internal_listener_config_valid","outcome":"accepted","marker":"accepted:config:ipv4_loopback_accepted"},
+        {"id":"ipv6_loopback_accepted","case":"internal_listener_config_valid","outcome":"accepted","marker":"accepted:config:ipv6_loopback_accepted"},
+        {"id":"zero_port_denied","case":"nonloopback_bind_rejected","outcome":"denied","marker":"denied:config:zero_port_denied"},
+        {"id":"wildcard_bind_denied","case":"nonloopback_bind_rejected","outcome":"denied","marker":"denied:config:wildcard_bind_denied"},
+        {"id":"duplicate_endpoint_denied","case":"internal_listener_config_valid","outcome":"denied","marker":"denied:config:duplicate_endpoint_denied"},
+        {"id":"overlapping_roots_denied","case":"unsafe_root_config_rejected","outcome":"denied","marker":"denied:config:overlapping_roots_denied"},
+        {"id":"symlinked_root_denied","case":"unsafe_root_config_rejected","outcome":"denied","marker":"denied:config:symlinked_root_denied"},
+        {"id":"missing_bound_denied","case":"internal_listener_config_valid","outcome":"denied","marker":"denied:config:missing_bound_denied"}
+      ]
+    },
+    {
+      "boundary": "tls",
+      "subassertions": [
+        {"id":"tls13_mutual_auth_accepted","case":"guardian_mtls_authorized","outcome":"accepted","marker":"accepted:tls:tls13_mutual_auth_accepted"},
+        {"id":"older_protocol_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:tls:older_protocol_denied"},
+        {"id":"unknown_client_ca_denied","case":"unknown_client_certificate_denied","outcome":"denied","marker":"denied:tls:unknown_client_ca_denied"},
+        {"id":"client_eku_denied","case":"invalid_client_eku_denied","outcome":"denied","marker":"denied:tls:client_eku_denied"},
+        {"id":"server_eku_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:tls:server_eku_denied"},
+        {"id":"client_spki_mismatch_denied","case":"unknown_client_certificate_denied","outcome":"denied","marker":"denied:tls:client_spki_mismatch_denied"},
+        {"id":"stale_leaf_denied","case":"stale_certificate_denied","outcome":"denied","marker":"denied:tls:stale_leaf_denied"},
+        {"id":"tls_exporter_mismatch_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:tls:tls_exporter_mismatch_denied"}
+      ]
+    },
+    {
+      "boundary": "identity",
+      "subassertions": [
+        {"id":"logical_guardian_accepted","case":"guardian_identity_distinct","outcome":"accepted","marker":"accepted:identity:logical_guardian_accepted"},
+        {"id":"agent_identity_denied","case":"agent_control_identity_denied","outcome":"denied","marker":"denied:identity:agent_identity_denied"},
+        {"id":"voter_identity_denied","case":"agent_control_identity_denied","outcome":"denied","marker":"denied:identity:voter_identity_denied"},
+        {"id":"shepherd_identity_denied","case":"agent_control_identity_denied","outcome":"denied","marker":"denied:identity:shepherd_identity_denied"},
+        {"id":"authority_identity_denied","case":"agent_control_identity_denied","outcome":"denied","marker":"denied:identity:authority_identity_denied"},
+        {"id":"public_control_identity_denied","case":"agent_control_identity_denied","outcome":"denied","marker":"denied:identity:public_control_identity_denied"},
+        {"id":"wrong_guardian_denied","case":"wrong_guardian_denied","outcome":"denied","marker":"denied:identity:wrong_guardian_denied"},
+        {"id":"wrong_kernel_denied","case":"wrong_kernel_instance_denied","outcome":"denied","marker":"denied:identity:wrong_kernel_denied"}
+      ]
+    },
+    {
+      "boundary": "domain",
+      "subassertions": [
+        {"id":"schema_exact","case":"guardian_mtls_authorized","outcome":"accepted","marker":"accepted:domain:schema_exact"},
+        {"id":"wrong_schema_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:wrong_schema_denied"},
+        {"id":"wrong_trust_domain_denied","case":"wrong_trust_domain_denied","outcome":"denied","marker":"denied:domain:wrong_trust_domain_denied"},
+        {"id":"wrong_polis_denied","case":"wrong_polis_denied","outcome":"denied","marker":"denied:domain:wrong_polis_denied"},
+        {"id":"wrong_source_node_denied","case":"wrong_node_denied","outcome":"denied","marker":"denied:domain:wrong_source_node_denied"},
+        {"id":"wrong_target_node_denied","case":"wrong_node_denied","outcome":"denied","marker":"denied:domain:wrong_target_node_denied"},
+        {"id":"cross_polis_replay_denied","case":"replay_rejected","outcome":"denied","marker":"denied:domain:cross_polis_replay_denied"},
+        {"id":"unknown_operation_kind_denied","case":"guardian_mtls_authorized","outcome":"denied","marker":"denied:domain:unknown_operation_kind_denied"}
+      ]
+    },
+    {
+      "boundary": "generation",
+      "subassertions": [
+        {"id":"durable_epoch_restart_preserved","case":"durable_channel_restart_retry","outcome":"accepted","marker":"accepted:generation:durable_epoch_restart_preserved"},
+        {"id":"stale_epoch_denied","case":"stale_channel_epoch_denied","outcome":"denied","marker":"denied:generation:stale_epoch_denied"},
+        {"id":"future_epoch_denied","case":"stale_channel_epoch_denied","outcome":"denied","marker":"denied:generation:future_epoch_denied"},
+        {"id":"guardian_restart_generation_preserved","case":"durable_channel_restart_retry","outcome":"accepted","marker":"accepted:generation:guardian_restart_generation_preserved"},
+        {"id":"kernel_restart_generation_preserved","case":"durable_channel_restart_retry","outcome":"accepted","marker":"accepted:generation:kernel_restart_generation_preserved"},
+        {"id":"successor_leaf_retry_accepted","case":"certificate_succession_retry","outcome":"accepted","marker":"accepted:generation:successor_leaf_retry_accepted"},
+        {"id":"predecessor_leaf_retry_only","case":"certificate_succession_retry","outcome":"accepted","marker":"accepted:generation:predecessor_leaf_retry_only"},
+        {"id":"predecessor_leaf_new_operation_denied","case":"stale_certificate_denied","outcome":"denied","marker":"denied:generation:predecessor_leaf_new_operation_denied"}
+      ]
+    },
+    {
+      "boundary": "prefix",
+      "subassertions": [
+        {"id":"accepted_prefix_exact","case":"isolated_import_validate","outcome":"accepted","marker":"accepted:prefix:accepted_prefix_exact"},
+        {"id":"accepted_prefix_mismatch_denied","case":"wrong_accepted_prefix","outcome":"denied","marker":"denied:prefix:accepted_prefix_mismatch_denied"},
+        {"id":"snapshot_generation_exact","case":"isolated_import_validate","outcome":"accepted","marker":"accepted:prefix:snapshot_generation_exact"},
+        {"id":"snapshot_generation_mismatch_denied","case":"wrong_generation","outcome":"denied","marker":"denied:prefix:snapshot_generation_mismatch_denied"},
+        {"id":"predecessor_exact","case":"isolated_import_validate","outcome":"accepted","marker":"accepted:prefix:predecessor_exact"},
+        {"id":"predecessor_mismatch_denied","case":"wrong_predecessor","outcome":"denied","marker":"denied:prefix:predecessor_mismatch_denied"},
+        {"id":"topology_and_config_exact","case":"isolated_import_validate","outcome":"accepted","marker":"accepted:prefix:topology_and_config_exact"},
+        {"id":"service_and_content_exact","case":"isolated_import_validate","outcome":"accepted","marker":"accepted:prefix:service_and_content_exact"}
+      ]
+    },
+    {
+      "boundary": "path",
+      "subassertions": [
+        {"id":"caller_path_absent","case":"caller_path_rejected","outcome":"denied","marker":"denied:path:caller_path_absent"},
+        {"id":"opaque_handle_root_fixed","case":"isolated_stage","outcome":"accepted","marker":"accepted:path:opaque_handle_root_fixed"},
+        {"id":"parent_symlink_denied","case":"symlink_path_rejected","outcome":"denied","marker":"denied:path:parent_symlink_denied"},
+        {"id":"leaf_symlink_denied","case":"symlink_path_rejected","outcome":"denied","marker":"denied:path:leaf_symlink_denied"},
+        {"id":"traversal_filename_denied","case":"caller_path_rejected","outcome":"denied","marker":"denied:path:traversal_filename_denied"},
+        {"id":"duplicate_filename_denied","case":"isolated_import_validate","outcome":"denied","marker":"denied:path:duplicate_filename_denied"},
+        {"id":"opened_inode_replacement_denied","case":"opened_handle_replacement","outcome":"denied","marker":"denied:path:opened_inode_replacement_denied"},
+        {"id":"discard_zero_entries","case":"zero_residue","outcome":"accepted","marker":"accepted:path:discard_zero_entries"}
+      ]
+    },
+    {
+      "boundary": "size",
+      "subassertions": [
+        {"id":"frame_n_accepted","case":"export_bounds","outcome":"accepted","marker":"accepted:size:frame_n_accepted"},
+        {"id":"frame_n_plus_1_denied","case":"export_bounds","outcome":"denied","marker":"denied:size:frame_n_plus_1_denied"},
+        {"id":"blob_n_accepted","case":"export_bounds","outcome":"accepted","marker":"accepted:size:blob_n_accepted"},
+        {"id":"blob_n_plus_1_denied","case":"oversized_bundle","outcome":"denied","marker":"denied:size:blob_n_plus_1_denied"},
+        {"id":"service_count_n_accepted","case":"participant_registry_complete","outcome":"accepted","marker":"accepted:size:service_count_n_accepted"},
+        {"id":"service_count_n_plus_1_denied","case":"participant_registry_complete","outcome":"denied","marker":"denied:size:service_count_n_plus_1_denied"},
+        {"id":"total_bytes_n_accepted","case":"export_bounds","outcome":"accepted","marker":"accepted:size:total_bytes_n_accepted"},
+        {"id":"total_bytes_n_plus_1_denied","case":"oversized_bundle","outcome":"denied","marker":"denied:size:total_bytes_n_plus_1_denied"}
+      ]
+    }
+  ]
+}
