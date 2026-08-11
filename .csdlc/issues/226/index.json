@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "4d4ff026294d2ad396b1ce3ad49a0f1c9ab5cd38e16feeeec1de7299149aa163",
+  "generation": 23,
+  "digest": "37b0a2afa0c65e29bb1d1ac982b34dafd684705d72d293f6ebff8cdb56ea1b83",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": {
-    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
-    "assigned_by": "codex:226-focused-runtime-validation-routing",
-    "revision": "git-blake3:d2b813469ae744352c109c836d11d8365e6566b0:b96d7eb98a2bbba1af9faf342d435d0fa48161aafe3b34eb3c94291ed4a42dcb",
-    "scope": [
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      ".csdlc/evidence/226",
-      ".csdlc/prepared/issues/226/design.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5726dbe2b3bf855b60af5a5d5500aa3ac55ed41770ca1bdc791645b0038688c5",
+      "values_digest": "3fb428c90cf5b02de41d6648167b41e594bac49334c9e3c0ce9c2d47b71af81c",
       "rendered_digest": "0a6e89d65ce168b171cdd16711ad8e70bb97c3fd6f563f614a94b574d33a1e01",
       "ast_digest": "6758cca7dc0cb5a5619f557b67dd02991a517b5cb6b450a075c6f21c8f2f5a51"
     },
     "stp": {
-      "values_digest": "c2c9a003ca79153dd1a963ebe55a326603d48e5d4df8feba9619b6b4521f3b2e",
+      "values_digest": "65060cf9ffda031d8a27d81218d33d8e44531fb84f50b94c79830f757e977595",
       "rendered_digest": "a6faeaeb82e223d1b0d7ad0414ad40e1b89002e5bea0b8443c885b7af71fee58",
       "ast_digest": "7624a3c03abf3bcca7cac469399714c1e1010189fa7be49366dbc24dbf8b6166"
     },
     "spp": {
-      "values_digest": "d19b94883139f1fc30089e74b529cebb31016591ca5faced6e2b7462afc35948",
+      "values_digest": "c4cf9321493c8b0c5e842e4e88c59d9b6461817806a0d5c8977962e1e9e76f08",
       "rendered_digest": "b3e191c0cb5d1523edd4ed04a5ff4110124a0b16c58912723c8a0a5aabc0550f",
       "ast_digest": "a0cd926a07e9c1d7518af1efd50f744a2cc49ce7b43c7d50c920e94d0ad9b452"
     },
     "vpp": {
-      "values_digest": "0407327682b37d28a992a38e76f4f2add4f57502f4b654ec7304e6b018cf7e0d",
+      "values_digest": "00a19edab415e4d4ded6a0e9f6a129894bcfee4897f8669941797165e15a134f",
       "rendered_digest": "b2ef29041f0a625e010af1107b229901c4ff51840ca5d3d32e1457db624fd2fa",
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "66bf014794812102638cf19a7b50b59b664d604f35a146d18dfd078f1aac1f83",
-      "rendered_digest": "e1ac8934aa11c005160834b5b095a8e83756cf055f48e66c1acf96eebd811a26",
-      "ast_digest": "fccdd8a8cbae10354c4926365995351d865784831b3544d45c5bf0866fd223a3"
+      "values_digest": "02c015d1b4345ca4296821892254a718a54786844af319e29f064fbfb8afe431",
+      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
+      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
     },
     "sor": {
-      "values_digest": "844b13f1512d4a97024adfd17c17cb997aa564b0d24edb26a2bf0fa70e8cd992",
+      "values_digest": "6a1b6052215852e70cd85e8a7fafe657b773a3b93a2b52da55a1fd3402fe28e2",
       "rendered_digest": "50bd38ec524e3785c2da01e6fd2426c164d084b259b4828ded63ab55a6985722",
       "ast_digest": "bec40a0c58bd803ce0e96adc993cca684734f0e46c86bdf7d2dc487df456113d"
     }
@@ -390,6 +379,13 @@
       "actor": "codex:226-focused-runtime-validation-routing",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 23,
+      "actor": "codex:226-focused-runtime-validation-routing",
+      "reason": "Recover review truth after making the JavaScript deletion regression unconditional on branches where the real validator already exists.",
+      "operation": "recover_review"
     }
   ]
 }
