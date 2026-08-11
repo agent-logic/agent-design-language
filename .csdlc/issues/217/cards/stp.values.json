@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-14 follow-up] Retain native proof and make post-merge validation squash-safe",
     "slug": "wp14-retained-native-proof-merge-safe",
     "version": "v0.92",
-    "generation": 41
+    "generation": 49
   },
   "status": "ready",
   "content": {
@@ -35,8 +35,8 @@
         "AC-3: H2 differs from H only by the current evidence denominator, its exact ten evidence paths, the H2 retained-surface manifest, and explicitly named #217 lifecycle paths; no other source, proof tool, workflow, design, or repository path changes.",
         "AC-4: The producer, historical wrapper, retained validator, native workflow, exact seventeen-path source denominator, exact eight-path proof-contract denominator, and exact fourteen-path H2 lifecycle allowlist are byte-identical from H through reviewed H2.",
         "AC-5: The H2 manifest records the exact retained path set and digests for the current denominator, its ten evidence paths, and all eight proof-contract paths; it excludes itself to avoid self-digest recursion, while its own digest is bound by the later independent-review receipt.",
-        "AC-6: Independent review of exact H2 produces a later H3 receipt binding H, H2, available tree identities, exact changed-path/status digest, retained-surface manifest digest, denominators, proof-contract digests, reviewer identity/result/scope, and no-drift result; later heads validate H2 through ancestry when available or exact retained-surface equivalence without requiring H2 commit/tree objects, and always require all seventeen current protected paths to equal the proved source manifest.",
-        "AC-7: H2-to-H3 changes are limited to the review receipt and named #217 lifecycle paths; after H3, unrelated paths may evolve but the retained surface, all proof-contract paths, evidence, receipt, and protected seventeen-path source set remain immutable and any drift fails closed.",
+        "AC-6: Independent review of exact H2 produces a receipt introduced at H3; the validator finds the unique first commit on current-head ancestry that adds the receipt path, retains that H3 or squash/integration anchor object, reads its exact receipt blob, and requires current receipt bytes/blob identity to match before trusting its H, H2, diff, manifest, denominator, proof, reviewer, scope, result, and no-drift bindings.",
+        "AC-7: Only H2 commit/tree objects may be unavailable. H2-to-H3 changes are limited to the anchored review receipt and named #217 lifecycle paths; later heads may evolve unrelated paths but must retain the ancestral receipt anchor and cannot change the receipt, retained surface, proof paths, evidence, or protected seventeen-path source set. Coherent receipt-plus-manifest rewrite and missing, ambiguous, or non-ancestral anchor cases fail closed.",
         "AC-8: Typed #217 VPP/SOR execute the historical ten-file, protected seventeen-path, proof eight-path, and lifecycle fourteen-path preparation contracts and name the fresh retained/receipt validator as terminal proof; fresh exact-head implementation, H2, and receipt reviews have no unresolved findings, no implementation/publication occurs before the second full-package review passes, and the visible green PR links #209/PR #215 and #142 while remaining unmerged pending operator review."
       ],
       "dependencies": [

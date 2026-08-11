@@ -7,18 +7,18 @@
     "title": "[v0.92][WP-14 follow-up] Retain native proof and make post-merge validation squash-safe",
     "slug": "wp14-retained-native-proof-merge-safe",
     "version": "v0.92",
-    "generation": 41
+    "generation": 49
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 13,
-      "summary": "Stop for a different fresh full-package review. Only after PASS: implement and review producer head H; generate fresh Linux/macOS proof; retain exact-allowlist H2 with an exact retained-surface manifest and unchanged eight-path proof contract; independently review H2; retain the manifest-bound review receipt in allowlisted H3; and prove later heads can authenticate the reviewed H2 retained surface without H2 Git objects while always enforcing seventeen-path protected-source equality.",
+      "plan_revision": 16,
+      "summary": "Stop for a different fresh full-package review. Only after PASS: implement and review H; retain fresh evidence plus the exact H2 retained-surface manifest; independently review H2; introduce the manifest-bound receipt at H3; preserve the unique ancestral H3 or squash/integration receipt blob as the immutable trust anchor; and prove later validation succeeds without H2 objects but rejects any receipt, manifest, coherent-rewrite, anchor, proof, evidence, or protected-source drift.",
       "steps": [
         {
           "id": "S1",
-          "action": "Complete typed cards and machine contracts for exact H/H2/H3 path, digest, status, retained-surface, and review-receipt rules; then stop for a different fresh independent full-package review.",
+          "action": "Complete typed cards and machine contracts for exact H/H2/H3 path, digest, status, retained-surface, unique ancestral receipt-blob anchor, and review rules; then stop for a different fresh independent full-package review.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -33,13 +33,14 @@
         },
         {
           "id": "S2",
-          "action": "Only after second-review PASS, restore c640 provenance and implement the historical wrapper, fresh producer/workflow, retained validator, exact diff enforcement, retained-surface manifest, and adversarial fixtures; obtain exact-head implementation review at H.",
+          "action": "Only after second-review PASS, restore c640 provenance and implement the historical wrapper, fresh producer/workflow, retained validator, exact diff enforcement, retained-surface manifest, ancestral receipt-anchor validation, and adversarial fixtures; obtain exact-head implementation review at H.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-4",
             "AC-5",
             "AC-6",
+            "AC-7",
             "AC-8"
           ],
           "status": "pending"
@@ -58,7 +59,7 @@
         },
         {
           "id": "S4",
-          "action": "Independently review exact H2, create H3 with only the H2-review receipt plus named lifecycle changes, and prove later-head receipt and retained-surface validation works even when H2 commit and tree objects are unavailable; shepherd checks without merging.",
+          "action": "Independently review exact H2; introduce the receipt at H3 with only named lifecycle changes; retain the unique ancestral H3 or squash/integration receipt blob; prove later validation with H2 objects absent and coherent receipt-plus-manifest rewrite rejected; shepherd checks without merging.",
           "acceptance_ids": [
             "AC-5",
             "AC-6",
@@ -108,9 +109,10 @@
         "H2 lacks the required retained-surface manifest, denominator, or exact ten evidence paths, or its name/status diff contains any path outside those required files and the exact fourteen lifecycle paths",
         "Any of the exact eight proof-contract paths changes from H through reviewed H2",
         "H2-to-H3 changes include anything except the independently reviewed receipt and exact named lifecycle paths",
-        "The H3 receipt does not bind H, H2, available tree identities, exact H-to-H2 diff/status digest, retained-surface manifest digest, denominator/proof digests, review scope, reviewer identity, result, and no-drift verdict",
-        "Later-head validation requires H2 commit/tree objects instead of reconstructing exact retained-surface equality from the manifest and receipt",
-        "The validator cannot reject retained-surface, receipt, protected-source, arbitrary H-to-H2 unprotected-source, proof-tool, workflow, semantic, provenance, path/status, or unrelated drift",
+        "The receipt path has no unique first-addition commit on current-head ancestry, that H3 or squash/integration anchor object/blob is unavailable, or current receipt bytes/blob identity differ from the anchored receipt",
+        "The anchored H3 receipt does not bind H, H2, available tree identities, exact H-to-H2 diff/status digest, retained-surface manifest digest, denominator/proof digests, review scope, reviewer identity, result, and no-drift verdict",
+        "Anything other than H2 commit/tree objects is missing, or later-head validation cannot reconstruct retained-surface equality from the anchored receipt and manifest",
+        "The validator cannot reject a coherent later receipt-plus-manifest rewrite, missing/ambiguous/non-ancestral anchor, retained-surface drift, protected-source drift, arbitrary H-to-H2 unprotected-source drift, proof/workflow drift, semantic/provenance mismatch, or path/status attacks",
         "Any action would modify terminal #209 truth, use AWS, merge the PR, or close #142"
       ],
       "replan_triggers": [],

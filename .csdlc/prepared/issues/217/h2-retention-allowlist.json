@@ -78,12 +78,42 @@
   ],
   "review_receipt_path": ".csdlc/evidence/217/h2-retention-review-receipt.json",
   "review_receipt_retention_head": "H3-or-later",
+  "review_receipt_anchor_policy": {
+    "kind": "unique_ancestral_introduction_blob",
+    "path": ".csdlc/evidence/217/h2-retention-review-receipt.json",
+    "addition_semantics": "A candidate commit contains the receipt path and every existing parent lacks that path; a normal merge with one receipt-bearing parent is not a second addition.",
+    "acceptable_anchor_roles": [
+      "H3",
+      "squash_or_integration_commit"
+    ],
+    "require_unique_first_addition_on_current_head_ancestry": true,
+    "require_anchor_commit_object": true,
+    "require_anchor_blob_object": true,
+    "current_receipt_must_equal_anchor": [
+      "bytes",
+      "git_blob_oid",
+      "sha256"
+    ],
+    "objects_permitted_missing": [
+      "H2_commit",
+      "H2_tree"
+    ],
+    "fail_closed_cases": [
+      "missing_anchor",
+      "ambiguous_addition_history",
+      "non_ancestral_anchor",
+      "missing_anchor_blob",
+      "current_receipt_blob_mismatch",
+      "coherent_receipt_and_manifest_rewrite"
+    ]
+  },
   "h3_allowed_addition_paths": [
     ".csdlc/evidence/217/h2-retention-review-receipt.json"
   ],
   "h3_optional_lifecycle_paths_source": "lifecycle_paths",
   "later_head_policy": {
     "requires_h2_git_objects": false,
+    "requires_receipt_anchor_git_objects": true,
     "immutable_sets": [
       "retained_surface_manifest_and_all_entries",
       "review_receipt",

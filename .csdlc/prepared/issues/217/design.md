@@ -90,12 +90,24 @@ The fresh proof has an exact two-head sequence:
    retained-surface manifest digest, reviewer identity, reviewed scope, result,
    and no-drift verdict. `H2..H3` may add only that receipt and named lifecycle
    changes.
-9. At H3 and later the validator authenticates the reviewed-H2 receipt and
-   compares the current checkout with every path and digest in the H2 manifest.
+9. The receipt is not trusted merely because its contents are internally
+   consistent. The validator finds the unique commit on current-HEAD ancestry
+   whose tree contains the receipt path while every existing parent lacks it.
+   A normal merge with one receipt-bearing parent is therefore not a second
+   addition. The anchor is H3 for retained branch ancestry or the
+   squash/integration commit when branch commits are not retained. The anchor
+   commit and receipt blob must remain available, and the current receipt must
+   equal the anchored bytes, Git blob identity, and SHA-256 digest. A later
+   coherent receipt-plus-manifest rewrite therefore fails even if all rewritten
+   fields agree with one another.
+10. At H3 and later the validator authenticates the anchored reviewed-H2
+   receipt and compares the current checkout with every path and digest in the
+   H2 manifest.
    This retained-surface equality is reconstructible even when the H2 commit and
-   tree objects are unavailable. H2 ancestry, when available, is additional
-   evidence rather than a prerequisite. Independent current equality for all
-   seventeen protected paths remains mandatory.
+   tree objects are unavailable; only those H2 objects may be missing. The H3
+   or integration anchor objects are mandatory. H2 ancestry, when available, is
+   additional evidence rather than a prerequisite. Independent current equality
+   for all seventeen protected paths remains mandatory.
 
 ### 3. Validate retained proof at later heads
 
@@ -129,7 +141,10 @@ point and:
    retained-surface manifest;
 9. validates that H2-to-H3 adds only the review receipt and named lifecycle
    paths; and
-10. at H3 or later, validates the independent reviewed-H2 receipt, its
+10. locates exactly one ancestral introduction commit for the receipt path,
+   requires its commit/blob objects, and compares current receipt bytes, Git
+   blob identity, and SHA-256 with that anchor; and
+11. at H3 or later, validates the anchored reviewed-H2 receipt, its
    H/H2/tree/diff/manifest/denominator/proof-digest/reviewer bindings, and every
    retained-surface path/digest without requiring H2 commit or tree objects.
 
@@ -159,8 +174,12 @@ Focused fixtures cover:
 - H-to-H2 deletion, rename, copy, unexpected status, or unlisted path;
 - missing, extra, duplicate, or tampered H2 retained-surface entries;
 - missing, stale, forged, or self-referential H2 review receipt;
+- coherent later receipt-plus-manifest rewrite against the retained ancestral
+  receipt blob;
+- missing, ambiguous, non-ancestral, or blob-missing receipt anchor;
 - disallowed H2-to-H3 additions or modifications;
-- a later-head success fixture with H2 refs and objects unavailable; and
+- a later-head success fixture with H2 refs and objects unavailable while the
+  H3 or integration anchor remains; and
 - unrelated/non-equivalent source failure.
 
 The final #217 VPP/SOR command invokes the retained validator on the fresh #217
