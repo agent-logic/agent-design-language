@@ -287,7 +287,7 @@ async fn main() -> ExitCode {
             let continuity_registry = match build_live_continuity_registry(
                 &assembly,
                 recorder.clone(),
-                &continuity_reasoning,
+                continuity_reasoning.clone(),
                 &operation_state_identity,
                 continuity_control_config.bounds.max_services,
             ) {

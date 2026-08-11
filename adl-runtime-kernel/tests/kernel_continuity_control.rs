@@ -1,12 +1,13 @@
 use std::{collections::BTreeMap, path::Path, time::Duration};
 
 use adl_runtime_kernel::{
-    sha256, CanonicalIngress, CatalogSigningAuthority, CertificateSuccession, ContinuityCommand,
-    ContinuityControlBounds, ContinuityControlError, ContinuityControlInitConfig,
-    ContinuityControlTlsConfig, ContinuityEnvelope, ContinuityOperation, ContinuityOperationKind,
-    DurableContinuityJournal, FinalizedMigrationDecision, LiveContinuityRegistry, RuntimeRecorder,
-    SignedBundleCatalog, SourceCheckpointHandle, SourceContinuityEffectPort,
-    TargetContinuityCoordinator, CONTROL_REQUEST_SCHEMA,
+    bootstrap_reasoning_services, sha256, CanonicalIngress, CatalogSigningAuthority,
+    CertificateSuccession, ContinuityCommand, ContinuityControlBounds, ContinuityControlError,
+    ContinuityControlInitConfig, ContinuityControlTlsConfig, ContinuityEnvelope,
+    ContinuityOperation, ContinuityOperationKind, DurableContinuityJournal,
+    FinalizedMigrationDecision, LiveContinuityRegistry, RuntimeRecorder, SignedBundleCatalog,
+    SourceCheckpointHandle, SourceContinuityEffectPort, TargetContinuityCoordinator,
+    CONTROL_REQUEST_SCHEMA,
 };
 use tempfile::TempDir;
 use tokio_util::sync::CancellationToken;
@@ -71,14 +72,19 @@ fn config(root: &Path) -> ContinuityControlInitConfig {
     }
 }
 
-fn registry(max_services: usize) -> Result<LiveContinuityRegistry, ContinuityControlError> {
+fn registry(
+    root: &Path,
+    max_services: usize,
+) -> Result<LiveContinuityRegistry, ContinuityControlError> {
     let recorder = RuntimeRecorder::new(16);
-    LiveContinuityRegistry::from_live_handles(
+    std::fs::create_dir_all(root)?;
+    let reasoning = bootstrap_reasoning_services(recorder.clone())
+        .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?;
+    LiveContinuityRegistry::from_production_handles(
         CanonicalIngress::new(8, recorder.clone(), BTreeMap::new()),
         recorder,
-        br#"{"schema":"reasoning.v1"}"#.to_vec(),
-        br#"{"schema":"governance.v1"}"#.to_vec(),
-        br#"{"schema":"operations.v1"}"#.to_vec(),
+        reasoning,
+        root.to_path_buf(),
         max_services,
     )
 }
@@ -95,7 +101,7 @@ fn fixture(root: &Path) -> ExportFixture {
     let keys = BTreeMap::from([(("continuity-key".to_owned(), 1), authority.verifying_key())]);
     let source = SourceContinuityEffectPort::open(
         root.join("export"),
-        registry(5).unwrap(),
+        registry(&root.join("operations"), 5).unwrap(),
         authority,
         config.bounds.clone(),
         9,
@@ -378,7 +384,7 @@ async fn run_case(name: &str) {
             let authority = CatalogSigningAuthority::from_secret("small", 1, &[7; 32]).unwrap();
             let source = SourceContinuityEffectPort::open(
                 root.join("small-export"),
-                registry(5).unwrap(),
+                registry(&root.join("small-operations"), 5).unwrap(),
                 authority,
                 cfg.bounds,
                 1,
@@ -474,7 +480,7 @@ async fn run_case(name: &str) {
                 CatalogSigningAuthority::from_secret("continuity-key", 1, &[23; 32]).unwrap();
             let reopened = SourceContinuityEffectPort::open(
                 root.join("export"),
-                registry(5).unwrap(),
+                registry(&root.join("restart-operations"), 5).unwrap(),
                 authority,
                 fixture.config.bounds.clone(),
                 9,
@@ -535,8 +541,14 @@ async fn run_case(name: &str) {
             assert!(kernel.contains("continuity_control"));
         }
         "participant_registry_complete" => {
-            assert_eq!(registry(5).unwrap().services().len(), 5);
-            assert!(registry(4).is_err());
+            assert_eq!(
+                registry(&root.join("complete-operations"), 5)
+                    .unwrap()
+                    .services()
+                    .len(),
+                5
+            );
+            assert!(registry(&root.join("incomplete-operations"), 4).is_err());
         }
         _ => panic!("unknown contract case {name}"),
     }

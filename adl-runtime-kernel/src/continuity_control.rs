@@ -24,7 +24,7 @@ use thiserror::Error;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio_util::sync::CancellationToken;
 
-use crate::{CanonicalIngress, RuntimeRecorder};
+use crate::{CanonicalIngress, ReasoningServices, RuntimeRecorder};
 
 pub const CONTROL_REQUEST_SCHEMA: &str = "adl.runtime.kernel_continuity.request.v1";
 pub const CONTINUITY_CONTROL_RESPONSE_SCHEMA: &str = "adl.runtime.kernel_continuity.response.v1";
@@ -626,32 +626,29 @@ impl Drop for DurableContinuityJournal {
 pub struct LiveContinuityRegistry {
     ingress: CanonicalIngress,
     recorder: RuntimeRecorder,
-    snapshots: Arc<Mutex<BTreeMap<String, Vec<u8>>>>,
+    reasoning: Arc<ReasoningServices>,
+    operation_state_root: PathBuf,
 }
 
 impl LiveContinuityRegistry {
-    pub fn from_live_handles(
+    pub fn from_production_handles(
         ingress: CanonicalIngress,
         recorder: RuntimeRecorder,
-        reasoning_snapshot: Vec<u8>,
-        governance_snapshot: Vec<u8>,
-        operation_state_snapshot: Vec<u8>,
+        reasoning: Arc<ReasoningServices>,
+        operation_state_root: PathBuf,
         max_services: usize,
     ) -> Result<Self, ContinuityControlError> {
-        let snapshots = BTreeMap::from([
-            ("reasoning_mutation".to_owned(), reasoning_snapshot),
-            ("governance".to_owned(), governance_snapshot),
-            ("operation_state".to_owned(), operation_state_snapshot),
-        ]);
-        if snapshots.len().saturating_add(2) > max_services || snapshots.values().any(Vec::is_empty)
-        {
+        if REQUIRED_PARTICIPANTS.len() != max_services {
             return Err(ContinuityControlError::ParticipantRegistry);
         }
-        Ok(Self {
+        let registry = Self {
             ingress,
             recorder,
-            snapshots: Arc::new(Mutex::new(snapshots)),
-        })
+            reasoning,
+            operation_state_root,
+        };
+        registry.validate_complete()?;
+        Ok(registry)
     }
 
     pub fn services(&self) -> BTreeSet<String> {
@@ -670,16 +667,12 @@ impl LiveContinuityRegistry {
         {
             return Err(ContinuityControlError::ParticipantRegistry);
         }
-        let snapshots = self
-            .snapshots
-            .lock()
-            .map_err(|_| ContinuityControlError::ParticipantRegistry)?;
-        if !["reasoning_mutation", "governance", "operation_state"]
-            .into_iter()
-            .all(|name| snapshots.get(name).is_some_and(|value| !value.is_empty()))
-        {
-            return Err(ContinuityControlError::ParticipantRegistry);
-        }
+        self.reasoning
+            .continuity_snapshot_bytes()
+            .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?;
+        crate::governance_live_registry_snapshot()
+            .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?;
+        crate::assembly::operation_state_projection(&self.operation_state_root)?;
         Ok(())
     }
 
@@ -700,11 +693,23 @@ impl LiveContinuityRegistry {
             self.ingress.reopen();
             return Err(ContinuityControlError::Cancelled);
         }
-        let mut values = self
-            .snapshots
-            .lock()
-            .map_err(|_| ContinuityControlError::ParticipantRegistry)?
-            .clone();
+        let mut values = BTreeMap::from([
+            (
+                "reasoning_mutation".to_owned(),
+                self.reasoning
+                    .continuity_snapshot_bytes()
+                    .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?,
+            ),
+            (
+                "governance".to_owned(),
+                crate::governance_live_registry_snapshot()
+                    .map_err(|error| ContinuityControlError::Encoding(error.to_string()))?,
+            ),
+            (
+                "operation_state".to_owned(),
+                crate::assembly::operation_state_projection(&self.operation_state_root)?,
+            ),
+        ]);
         values.insert(
             "admission".to_owned(),
             serde_jcs::to_vec(&self.ingress.snapshot())

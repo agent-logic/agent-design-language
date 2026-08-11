@@ -76,27 +76,22 @@ pub struct LiveAssembly {
 pub fn build_live_continuity_registry(
     assembly: &LiveAssembly,
     recorder: RuntimeRecorder,
-    reasoning: &ReasoningServices,
+    reasoning: Arc<ReasoningServices>,
     operation_state_root: &Path,
     max_services: usize,
 ) -> Result<crate::LiveContinuityRegistry, crate::ContinuityControlError> {
-    let reasoning_snapshot = reasoning
-        .continuity_snapshot_bytes()
-        .map_err(|error| crate::ContinuityControlError::Encoding(error.to_string()))?;
-    let governance_snapshot = crate::governance_live_registry_snapshot()
-        .map_err(|error| crate::ContinuityControlError::Encoding(error.to_string()))?;
-    let operation_state_snapshot = operation_state_projection(operation_state_root)?;
-    crate::LiveContinuityRegistry::from_live_handles(
+    crate::LiveContinuityRegistry::from_production_handles(
         assembly.canonical_ingress.clone(),
         recorder,
-        reasoning_snapshot,
-        governance_snapshot,
-        operation_state_snapshot,
+        reasoning,
+        operation_state_root.to_path_buf(),
         max_services,
     )
 }
 
-fn operation_state_projection(root: &Path) -> Result<Vec<u8>, crate::ContinuityControlError> {
+pub(crate) fn operation_state_projection(
+    root: &Path,
+) -> Result<Vec<u8>, crate::ContinuityControlError> {
     let metadata = fs::symlink_metadata(root)?;
     if metadata.file_type().is_symlink() || !metadata.is_dir() {
         return Err(crate::ContinuityControlError::UnsafeRoot);
