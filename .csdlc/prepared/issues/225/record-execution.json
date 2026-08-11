@@ -1,0 +1,24 @@
+{
+  "issue": 225,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "98d552589e8f30469f57c5e885de4c912e59cb440fdb0924133eae5cd92d24e1",
+  "actor": "codex:225-bounded-card-review-repair",
+  "reason": "Record the bounded implementation before exact-head review.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added two field-specific semantic editor operations with exact lifecycle, provenance, topology, migration, drift, input, audit, and atomicity guards.",
+    "changes": [
+      "Correct recovered implemented SPP plan_summary only after corresponding typed review recovery.",
+      "Correct initialized or ready unbound SIP operator_constraints without absorbing authored design drift.",
+      "Make retained merge-ready review recovery executable and add complete Gate 2 and Gate 5 regression proof."
+    ],
+    "artifacts": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/evidence/225/validation-summary.json"
+    ]
+  }
+}

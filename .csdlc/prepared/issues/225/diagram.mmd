@@ -1,0 +1,9 @@
+stateDiagram-v2
+  [*] --> Initialized
+  Initialized --> InitializedDesignPending: correct SIP constraints
+  InitializedDesignPending --> Ready: approve and advance
+  Ready --> ReadyDesignPending: correct SIP constraints
+  Implemented --> Reviewed: exact review
+  Reviewed --> ImplementedRecovered: typed recovery
+  ImplementedRecovered --> ImplementedCorrected: correct SPP summary
+  ImplementedCorrected --> Reviewed: fresh exact review
