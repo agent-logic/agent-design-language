@@ -22,7 +22,7 @@ use super::{
     polis_runtime::GovernedMembershipAuthorityReceipt,
     polis_runtime::{
         AppliedMembershipEntry, CheckpointMetadata, CheckpointMetadataSource, CheckpointedJson,
-        ConsensusCheckpointAuthority, DurableEnvelope,
+        ConsensusCheckpointAuthority, DurableEnvelope, PolisRaft, PolisStateMachineStore,
     },
 };
 
@@ -347,6 +347,49 @@ impl MembershipCoordinator {
 
     pub fn published_generation(&self) -> u64 {
         self.envelope.payload().published_generation
+    }
+
+    pub fn active_phase(&self) -> Option<MembershipCoordinatorPhase> {
+        self.envelope
+            .payload()
+            .active
+            .as_ref()
+            .map(|active| active.phase)
+    }
+
+    pub async fn promote_voter_with_raft(
+        &mut self,
+        promotion: &VerifiedPromoteVoter,
+        current_receipt: &GovernedMembershipAuthorityReceipt,
+        raft: &PolisRaft,
+        state_machine: &PolisStateMachineStore,
+        expected_old: BTreeSet<u64>,
+        expected_target: BTreeSet<u64>,
+    ) -> MembershipCoordinatorResult<()> {
+        self.begin_promotion(promotion)?;
+        self.observe_external_authority(promotion, current_receipt)?;
+        if self.active_phase() == Some(MembershipCoordinatorPhase::ExternalAuthorityObserved) {
+            raft.add_learner(
+                promotion.identity.stable_raft_id,
+                openraft::BasicNode::new(promotion.identity.address.to_string()),
+                true,
+            )
+            .await
+            .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+            self.record_learner_caught_up(promotion.operation_sha256)?;
+        }
+        if self.active_phase() == Some(MembershipCoordinatorPhase::LearnerCaughtUp) {
+            raft.change_membership(expected_target.clone(), false)
+                .await
+                .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+        }
+        let history = state_machine.applied_membership_history().await;
+        self.record_committed_membership_history(
+            promotion.operation_sha256,
+            &history,
+            &expected_old,
+            &expected_target,
+        )
     }
 
     fn advance(
