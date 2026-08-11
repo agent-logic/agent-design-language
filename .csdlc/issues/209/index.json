@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
-  "phase": "implemented",
-  "generation": 28,
-  "digest": "7cc6469297c17766f501d72ba388200644fa03c607cf91d38d9d873cc8bc8e12",
+  "phase": "reviewed",
+  "generation": 29,
+  "digest": "51af8f51bb93983da76aa5a320ce3e9a509bd2137a64b98db918be684502024c",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
   "review_assignment": {
@@ -36,7 +36,49 @@
       "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/sprint4_5857/review_209_exact_head",
+    "scope": [
+      ".csdlc/issues/209",
+      ".csdlc/prepared/issues/209/design.md",
+      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      ".csdlc/evidence/209",
+      ".github/workflows/wp14-production-acip-repair.yml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl/tools/install_vector_component.sh",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:98d6bb3b4063d5115aef21cc5264120b2f3fd883:1a08fb081e7085cbd160da118b6637a5a5cfb692b9193097f6e1245d8f85f31f",
+    "findings": [
+      {
+        "id": "P1-native-semantic-output-path-lock",
+        "severity": "p1",
+        "summary": "Fixed: the producer path-confines the semantic destination, converts it through an explicitly tested absolute-path helper stable under package working directories, and retains repository-relative receipt paths.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:98d6bb3b4063d5115aef21cc5264120b2f3fd883:1a08fb081e7085cbd160da118b6637a5a5cfb692b9193097f6e1245d8f85f31f",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Exact Linux and macOS native receipt execution remains deferred until reviewed publication; merge remains blocked until retained packet validation and fresh post-native review pass."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -51,32 +93,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d9ab0ab212e4f8290eaa046941c790261f85b13612af81817e52d06a1cf79a9e",
+      "values_digest": "acccd57f39de28b536d4cc521f6632c4044265d770e7cb942f6a828f2313a715",
       "rendered_digest": "6ab414912da8b10f191cb7cd3eea7784652fb74e3078d62b0910875fce567253",
       "ast_digest": "0aee2bd815b8c6341e8aff6dc3c6cd119dfed378531100564f71b0578fe18f04"
     },
     "stp": {
-      "values_digest": "68e3a1f37468ab61380006f890c381e1f62adac2f09de5643a27b7c0ba9b4885",
+      "values_digest": "dea85683c4cacf9dffb64e60d32c230171fc9d64a0655c26fec7d2a050c99430",
       "rendered_digest": "e951f98cdd50987c53b2a86e54705081136876bf7a37371391f5666fc8d69277",
       "ast_digest": "1f3ffc61430a58bd141d682d1f46cee9cb750b4fc7484d1ffdd17668fbba9981"
     },
     "spp": {
-      "values_digest": "1ffa1f7ad1d8c77708c61ddb56c2488b94965184a72b3f68c01036cb91bcd30c",
+      "values_digest": "69b920ca73ee11ae8e366cc9d15d4325f35f58402b3110ec2522db89eb0240df",
       "rendered_digest": "65126dd5e86756e71a625179916063764d0b78027945b2653a76eadcbf7b6db5",
       "ast_digest": "93b187170b51ddd77987e72bd0f5ecc30bfc162be27c358e6944fdf455a710bf"
     },
     "vpp": {
-      "values_digest": "95b698779c0a4ea6b9fa3ae762b374a121786d0907a19bbd1d634eeaab1e08b7",
+      "values_digest": "7a03676c7e70bc0759263b0721c3521eda63d015710566c209e2d1764e6422ab",
       "rendered_digest": "1cf5d053c982cfa3dbb1576026b45f79b6f645d14b06baacfb117fd30e39a4f2",
       "ast_digest": "6b62309165c156b026db20c16e4fa82877f6fa6aa554733e8e5144b69c2f3642"
     },
     "srp": {
-      "values_digest": "0019ddeffe7c69cd7839b61543366bc6d8a501fedf66200179f76f4d188c15c3",
-      "rendered_digest": "583661dd1173c5e869d4c227a8735b3f35acf939ff81e3d28022129e10cd5679",
-      "ast_digest": "5d524607a874430d08750ca4b425f538255249e04417490d4ec61b30062cbfdc"
+      "values_digest": "e464cad1b28e435bfb09b69a55ff2aacaf1381566486efea8a31481bbef8d87e",
+      "rendered_digest": "a1fc9e505487bd34a789ea014d598cbbd52a4ad176cf31632b1e7ea027921b03",
+      "ast_digest": "6b50a04b5a5cde381ddb2606516cb3526f1f149eca9b0b8715041130179fafb1"
     },
     "sor": {
-      "values_digest": "c64519e7b9886686910838481b7e5cc72ed936236317a52a9d184f283ce453ff",
+      "values_digest": "2b3c68c30bc8addb1809f5b1af6dcd91e7ccf69a46f491ffd20b846877eccc85",
       "rendered_digest": "cd2a847780ff00b828b51edb0fc1da7c9f003c990db7b41347f105333418a3cd",
       "ast_digest": "e77dac6cca5053f9431758a05f5d738b96d2803161ad96bd7178660145ff9f6f"
     }
@@ -158,6 +200,13 @@
       "to": "implemented",
       "actor": "/root/shepherd_pr215_green/review_pr215_repair",
       "reason": "Recover concurrently recorded stale review truth after adding the requested focused regression that binds semantic proof output to the repository destination under package working directories."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/sprint4_5857",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -419,6 +468,13 @@
       "actor": "/root/sprint4_5857",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 29,
+      "actor": "/root/sprint4_5857",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -43,7 +43,18 @@ docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P1-native-semantic-output-path-lock",
+    "severity": "p1",
+    "summary": "Fixed: the producer path-confines the semantic destination, converts it through an explicitly tested absolute-path helper stable under package working directories, and retains repository-relative receipt paths.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:98d6bb3b4063d5115aef21cc5264120b2f3fd883:1a08fb081e7085cbd160da118b6637a5a5cfb692b9193097f6e1245d8f85f31f",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -51,12 +62,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Exact Linux and macOS native receipt execution remains deferred until reviewed publication; merge remains blocked until retained packet validation and fresh post-native review pass.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:98d6bb3b4063d5115aef21cc5264120b2f3fd883:1a08fb081e7085cbd160da118b6637a5a5cfb692b9193097f6e1245d8f85f31f")
 
-Reviewer: None
+Reviewer: Some("/root/sprint4_5857/review_209_exact_head")
 
-Result: pre_review
+Result: pass
