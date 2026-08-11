@@ -5,10 +5,10 @@
   "issue_repository": "danielbaustin/agent-design-language",
   "base": "main",
   "head": "codex/5854-sprint5-readiness-current",
-  "title": "[v0.92][sprint] Move WP-20 to final release tail",
-  "body": "Part of danielbaustin/agent-design-language#5854\n\n## Summary\n\n- moves WP-20 #5840 out of Sprint 5 and into final release-tail sprint #5856\n- narrows Sprint 5 to WP-17, WP-18, WP-18B, and WP-19\n- makes WP-20 the first final-sprint consumer after its proof-producing prerequisites complete\n- adds focused final-sprint readiness validation and retained split-authority bind input without binding or starting any child\n\n## Validation\n\n- Sprint #5854 readiness validation passed\n- Sprint #5854 negative overlap validation passed\n- Sprint #5856 focused readiness validation passed\n- typed C-SDLC v2 validation for #5854 passed\n- diff hygiene passed\n\n## Review\n\nIndependent exact-head review passed with no actionable findings. This PR does not start Sprint 5, bind any child, merge, or close the umbrella issue.\n",
+  "title": "[v0.92][sprint] Reconcile Sprint 5 and release-tail lifecycle truth",
+  "body": "Part of danielbaustin/agent-design-language#5854\n\n## Summary\n\n- narrows Sprint 5 to the exact four-child denominator: #5835, #5836, #5838, and #5839\n- keeps WP-20 #5840 exclusively in final release-tail sprint #5856\n- removes obsolete claim and reacquire instructions from the final-sprint execution surfaces\n- adds exact fail-closed membership validation and a typed recovered SIP outcome correction\n\n## Validation\n\n- Sprint #5854 readiness validation passed, including blank binary-directory portability\n- Sprint #5854 negative overlap control passed\n- Sprint #5856 readiness validation passed\n- Gate 5 lifecycle suite passed 19/19\n- strict C-SDLC v2 Clippy passed\n- typed C-SDLC v2 validation for #5854 passed\n- diff hygiene passed\n\n## Review\n\nIndependent exact-head review passed with no actionable findings. This PR is a non-closing sprint correction; it does not bind or start children, merge itself, or close the umbrella issue.\n",
   "linkage_mode": "part_of",
   "draft": false,
-  "revision": "git-blake3:518b3e74ed133b0d291e4e0fefcbe54e94766b05:8658cb1a81fb3c28464f387c2d3cef9f4c1f19a907347a5cd0cb1b8ba86511bc",
-  "commit_sha": "518b3e74ed133b0d291e4e0fefcbe54e94766b05"
+  "revision": "git-blake3:26b9e6ce976dfbb7afccdbad35617697bd929410:0fb26ac7841b39d409a8a3d90fee7950ce6de2596e4747ef5e83590939f8e0db",
+  "commit_sha": "26b9e6ce976dfbb7afccdbad35617697bd929410"
 }
