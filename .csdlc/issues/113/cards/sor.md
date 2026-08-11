@@ -132,11 +132,11 @@ Implemented a Runtime-owned, policy-filtered, bounded local agent roster with tr
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
