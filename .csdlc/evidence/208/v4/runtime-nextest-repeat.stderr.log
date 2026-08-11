@@ -1,27 +1,27 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
 ────────────
- Nextest run ID c7e6b1f9-b767-44d7-928d-3f3fdca9d197 with nextest profile: default
+ Nextest run ID caeb7b14-9f78-4cea-911d-89447af5781e with nextest profile: default
     Starting 21 tests across 1 binary
-        PASS [   0.507s] ( 1/21) adl-runtime::kernel_continuity_client guardian_identity_distinct
-        PASS [   0.551s] ( 2/21) adl-runtime::kernel_continuity_client nonloopback_bind_rejected
-        PASS [   0.580s] ( 3/21) adl-runtime::kernel_continuity_client bearer_only_denied
-        PASS [   0.621s] ( 4/21) adl-runtime::kernel_continuity_client internal_listener_config_valid
-        PASS [   0.698s] ( 5/21) adl-runtime::kernel_continuity_client reordered_request_rejected
-        PASS [   0.863s] ( 6/21) adl-runtime::kernel_continuity_client certificate_succession_retry
-        PASS [   0.869s] ( 7/21) adl-runtime::kernel_continuity_client stale_certificate_denied
-        PASS [   0.323s] ( 8/21) adl-runtime::kernel_continuity_client unsafe_root_config_rejected
-        PASS [   0.931s] ( 9/21) adl-runtime::kernel_continuity_client stale_channel_epoch_denied
-        PASS [   0.429s] (10/21) adl-runtime::kernel_continuity_client wrong_guardian_denied
-        PASS [   1.193s] (11/21) adl-runtime::kernel_continuity_client durable_channel_restart_retry
-        PASS [   1.193s] (12/21) adl-runtime::kernel_continuity_client replay_rejected
-        PASS [   1.234s] (13/21) adl-runtime::kernel_continuity_client conflicting_duplicate_rejected
-        PASS [   0.592s] (14/21) adl-runtime::kernel_continuity_client wrong_node_denied
-        PASS [   0.509s] (15/21) adl-runtime::kernel_continuity_client wrong_trust_domain_denied
-        PASS [   0.514s] (16/21) adl-runtime::kernel_continuity_client wrong_polis_denied
-        PASS [   0.977s] (17/21) adl-runtime::kernel_continuity_client wrong_kernel_instance_denied
-        PASS [   1.698s] (18/21) adl-runtime::kernel_continuity_client agent_control_identity_denied
-        PASS [   9.401s] (19/21) adl-runtime::kernel_continuity_client guardian_mtls_authorized
-        PASS [   9.450s] (20/21) adl-runtime::kernel_continuity_client invalid_client_eku_denied
-        PASS [   8.979s] (21/21) adl-runtime::kernel_continuity_client unknown_client_certificate_denied
+        PASS [   0.476s] ( 1/21) adl-runtime::kernel_continuity_client bearer_only_denied
+        PASS [   0.644s] ( 2/21) adl-runtime::kernel_continuity_client nonloopback_bind_rejected
+        PASS [   0.653s] ( 3/21) adl-runtime::kernel_continuity_client guardian_identity_distinct
+        PASS [   0.718s] ( 4/21) adl-runtime::kernel_continuity_client internal_listener_config_valid
+        PASS [   0.810s] ( 5/21) adl-runtime::kernel_continuity_client stale_certificate_denied
+        PASS [   0.912s] ( 6/21) adl-runtime::kernel_continuity_client conflicting_duplicate_rejected
+        PASS [   0.917s] ( 7/21) adl-runtime::kernel_continuity_client certificate_succession_retry
+        PASS [   0.951s] ( 8/21) adl-runtime::kernel_continuity_client reordered_request_rejected
+        PASS [   1.009s] ( 9/21) adl-runtime::kernel_continuity_client stale_channel_epoch_denied
+        PASS [   1.032s] (10/21) adl-runtime::kernel_continuity_client durable_channel_restart_retry
+        PASS [   0.500s] (11/21) adl-runtime::kernel_continuity_client unsafe_root_config_rejected
+        PASS [   0.515s] (12/21) adl-runtime::kernel_continuity_client wrong_guardian_denied
+        PASS [   1.191s] (13/21) adl-runtime::kernel_continuity_client replay_rejected
+        PASS [   0.486s] (14/21) adl-runtime::kernel_continuity_client wrong_kernel_instance_denied
+        PASS [   0.531s] (15/21) adl-runtime::kernel_continuity_client wrong_node_denied
+        PASS [   0.490s] (16/21) adl-runtime::kernel_continuity_client wrong_polis_denied
+        PASS [   0.514s] (17/21) adl-runtime::kernel_continuity_client wrong_trust_domain_denied
+        PASS [   2.103s] (18/21) adl-runtime::kernel_continuity_client agent_control_identity_denied
+        PASS [   9.346s] (19/21) adl-runtime::kernel_continuity_client guardian_mtls_authorized
+        PASS [   9.355s] (20/21) adl-runtime::kernel_continuity_client invalid_client_eku_denied
+        PASS [   8.950s] (21/21) adl-runtime::kernel_continuity_client unknown_client_certificate_denied
 ────────────
-     Summary [   9.486s] 21 tests run: 21 passed, 0 skipped
+     Summary [   9.427s] 21 tests run: 21 passed, 0 skipped

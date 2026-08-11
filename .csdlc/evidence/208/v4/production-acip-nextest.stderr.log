@@ -1,8 +1,8 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
 ────────────
- Nextest run ID b4845a4b-bcb7-4de3-8397-67cf7b4f1791 with nextest profile: default
+ Nextest run ID 13b0a815-8869-42ca-adc5-a8d4ce9a2f6b with nextest profile: default
     Starting 2 tests across 1 binary
-        PASS [   0.014s] (1/2) adl-runtime-kernel::production_acip_wss canonical_ingress_applies_bounded_pressure
-        PASS [   1.492s] (2/2) adl-runtime-kernel::production_acip_wss production_binary_acip_wss_produces_observed_receipt
+        PASS [   0.012s] (1/2) adl-runtime-kernel::production_acip_wss canonical_ingress_applies_bounded_pressure
+        PASS [   1.574s] (2/2) adl-runtime-kernel::production_acip_wss production_binary_acip_wss_produces_observed_receipt
 ────────────
-     Summary [   1.493s] 2 tests run: 2 passed, 0 skipped
+     Summary [   1.574s] 2 tests run: 2 passed, 0 skipped

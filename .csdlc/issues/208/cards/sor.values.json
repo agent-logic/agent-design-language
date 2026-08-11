@@ -7,19 +7,19 @@
     "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
     "slug": "authenticated-guardian-kernel-continuity-bridge",
     "version": "v0.92",
-    "generation": 52
+    "generation": 53
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Resolved the PR #230 hosted-CI regressions and the subsequently exercised retained-validator provenance defect. Production test initialization supplies the mandatory isolated private continuity listener, exact five-participant registry, dedicated server/client EKUs, trust roots, and SPKI pins. Nextest uses an exact 56-case filter, explicit standalone config binding, and a five-second result=fail loaded-host EOF bound. The proof validator now parses only canonical typed v2 Option review fields, binds them to the canonical index review, validates exact git-blake3 shape and ancestry, and self-tests malformed, absent, bare, trailing, truncated, and wrong-shape provenance rejection. After incorporating current origin/main, fresh v4 evidence at 146040c47fd64365d2c7eb0670de211855c4156a retains Runtime 21/21 and kernel 35/35 in two concurrent plus two isolated waves with zero LEAK, production ACIP 2/2, both strict Clippy lanes, selector contract, exact 56/64/12 parity, and diff hygiene. Fresh independent rereview remains required before republishing PR #230.",
+      "summary": "Resolved the PR #230 hosted-CI regressions and the subsequently exercised retained-validator provenance defects. Production test initialization supplies the mandatory isolated private continuity listener, exact five-participant registry, dedicated server/client EKUs, trust roots, and SPKI pins. Nextest uses an exact 56-case filter, explicit standalone config binding, and a five-second result=fail loaded-host EOF bound. The proof validator parses only canonical typed v2 Option review fields, requires each captured JSON token to equal canonical JSON reserialization, binds values to the canonical index review, validates exact git-blake3 shape and ancestry, and rejects malformed or escaped aliases. Fresh v4 evidence at f0d21d2eaa6cb50f1f3903b140381e3e7e5962c8 retains Runtime 21/21 and kernel 35/35 in two concurrent plus two isolated waves with zero LEAK, production ACIP 2/2, both strict Clippy lanes, selector contract, exact 56/64/12 parity, and diff hygiene. Fresh independent rereview remains required before republishing PR #230.",
       "actual_changes": [
         "Extended the production runtime-init fixture with an isolated private continuity listener, exact five-participant bound, dedicated ServerAuth and ClientAuth credentials, trust roots, SPKI pins, and actionable readiness diagnostics.",
         "Replaced absent binary-name nextest selectors with the exact ordered 56-case filter and explicitly bound all standalone proof lanes to the tracked fail-on-leak policy.",
         "Expanded retained proof with production ACIP 2/2 and the workspace/slow-proof selector contract while retaining four zero-LEAK full waves per package.",
-        "Repaired the final receipt validator to parse canonical typed v2 Some review fields, compare them with canonical index review truth, and use the embedded review commit for source ancestry and protected-file checks.",
-        "Added fail-closed parser regressions for absent, bare, trailing, unterminated, truncated, and wrong-shape review provenance, then incorporated current origin/main before regenerating proof."
+        "Repaired the final receipt validator to parse canonical typed v2 Some review fields, require exact canonical JSON token serialization, compare them with canonical index review truth, and use the embedded review commit for source ancestry and protected-file checks.",
+        "Added fail-closed parser regressions for absent, bare, trailing, unterminated, truncated, wrong-shape, escaped revision, escaped-slash reviewer, and Unicode-escaped reviewer provenance before regenerating proof."
       ],
       "artifacts": [
         "adl/.config/nextest.toml",
