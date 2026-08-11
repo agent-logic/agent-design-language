@@ -1,0 +1,14 @@
+{
+  "issue": 226,
+  "card": "spp",
+  "expected_generation": 12,
+  "expected_digest": "fd961bab1f7994926ef61705b5f3fad9d5858db3a5456835bda00b6767dd877b",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Record the completed focused selector and path-policy regression truth identified by final review.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S2",
+    "status": "completed"
+  },
+  "fail_after_backup": false
+}
