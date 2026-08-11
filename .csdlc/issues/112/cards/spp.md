@@ -16,7 +16,7 @@ Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, r
 
 ## Plan
 
-Revision 4
+Revision 3
 
 ## Steps
 

@@ -16,14 +16,15 @@ Prepare and later implement only issue #112 Runtime authority, refusal, replay, 
 
 ## Deliverables
 
-- Runtime-owned Layer 8 principal, authority, refusal, replay, and redacted audit module at the execution-planned source path
-- Narrow Runtime module export and pre-delivery API integration at the execution-planned source paths
-- Focused nonzero authority and Runtime API integration test targets required after the serial gate
-- Dedicated real-browser Observatory authority-state contract required after the serial gate
-- Feature contract for Layer 8 conversation authority under the v0.92 milestone documentation
+- adl-runtime/src/layer8_authority.rs
+- adl-runtime/src/lib.rs
+- adl-runtime/tests/layer8_authority.rs
+- adl/src/csm_runtime_api.rs
+- adl/tests/layer8_authority_runtime_api.rs
+- adl/tools/validate_layer8_authority_observatory_ui.sh
+- docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md
 - .csdlc/prepared/issues/112/design.md
 - .csdlc/prepared/issues/112/diagram.mmd
-- .csdlc/prepared/issues/112/validate-preparation.rb
 
 ## Acceptance
 
