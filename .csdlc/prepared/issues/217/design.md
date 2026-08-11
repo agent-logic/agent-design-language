@@ -64,8 +64,12 @@ The fresh proof has an exact two-head sequence:
    the protected, unprotected-source, proof-contract, design, or workflow
    paths.
 4. The workflow path filter includes proof tooling/workflow and the protected
-   source paths, but excludes `.csdlc/evidence/217` and lifecycle-only paths, so
-   pushing evidence-only `H2` cannot recursively launch another native run.
+   source paths, while a successful classifier evaluates the latest pushed
+   commit range. The native matrix and aggregate run only when that delta
+   touches a protected or proof path. Evidence/lifecycle-only H2/H3 synchronize
+   pushes therefore retain a truthful classifier check without recursively
+   launching another native run; opened, reopened, manual, or unverifiable
+   ranges fail safe by running the native proof.
 5. Before parsing proof content, the retained validator compares
    `git diff --name-status H..H2` with the machine allowlist. The current
    evidence denominator, its ten unique paths, and the retained-surface manifest

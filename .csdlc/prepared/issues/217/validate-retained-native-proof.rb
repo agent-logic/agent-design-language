@@ -273,6 +273,34 @@ def expected_proof_manifest(root)
   proof.fetch("paths").map { |relative| { "path" => relative, "sha256" => sha(root.join(relative)) } }
 end
 
+def classify_native_trigger(root, event_name, action, before, after)
+  return { "status" => "passed", "run_native" => true, "reason" => "workflow_dispatch", "changed_paths" => [] } if event_name == "workflow_dispatch"
+  unless event_name == "pull_request" && action == "synchronize"
+    return { "status" => "passed", "run_native" => true, "reason" => "pull_request_#{action.empty? ? 'unknown' : action}", "changed_paths" => [] }
+  end
+  revisions = [before, after]
+  unless revisions.all? { |revision| revision.to_s.match?(/\A[0-9a-f]{40}\z/) }
+    return { "status" => "passed", "run_native" => true, "reason" => "missing_or_malformed_push_range", "changed_paths" => [] }
+  end
+  available = revisions.all? { |revision| git(root, "cat-file", "-e", "#{revision}^{commit}", allow_failure: true).last }
+  unless available
+    return { "status" => "passed", "run_native" => true, "reason" => "push_range_unavailable", "changed_paths" => [] }
+  end
+  output, ok = git(root, "diff", "--name-only", before, after, allow_failure: true)
+  return { "status" => "passed", "run_native" => true, "reason" => "push_range_diff_failed", "changed_paths" => [] } unless ok
+  changed = output.lines.map(&:strip).reject(&:empty?).uniq.sort
+  source, proof, = contract(root)
+  triggers = (source.fetch("paths") + proof.fetch("paths")).uniq
+  touched = changed & triggers
+  {
+    "status" => "passed",
+    "run_native" => !touched.empty?,
+    "reason" => touched.empty? ? "no_native_trigger_paths" : "native_trigger_paths_changed",
+    "changed_paths" => changed,
+    "trigger_paths" => touched
+  }
+end
+
 def validate_retained(root, denominator_path)
   denominator, files = exact_denominator(root, denominator_path, 10, EVIDENCE_ROOT)
   fail!("denominator exact path set mismatch") unless files.map { |entry| entry.fetch("path") } == TEN_PATHS
@@ -463,6 +491,54 @@ def self_test(repo)
   (source.fetch("paths") + proof.fetch("paths")).each { |path| fail!("workflow trigger omits #{path}") unless workflow_paths.include?(%Q["#{path}"]) }
   fail!("workflow recursively triggers on evidence") if workflow_paths.include?(%Q["#{EVIDENCE_ROOT}])
   fail!("workflow recursively triggers on lifecycle") if workflow_paths.include?(%Q[".csdlc/issues/217/])
+  workflow = repo.join(WORKFLOW).read
+  fail!("workflow classifier job missing") unless workflow.include?("classify-native-proof:")
+  fail!("native producer is not classifier-gated") unless workflow.include?("needs.classify-native-proof.outputs.run_native == 'true'")
+
+  Dir.mktmpdir("adl-217-trigger-") do |directory|
+    root = Pathname.new(directory)
+    git(root, "init", "-q")
+    git(root, "config", "user.email", "proof@example.invalid")
+    git(root, "config", "user.name", "Proof Fixture")
+    copy_contract_fixture(repo, root)
+    git(root, "add", ".")
+    git(root, "commit", "-qm", "base")
+    base = git(root, "rev-parse", "HEAD").first.strip
+
+    product = JSON.parse(root.join(SOURCE_DENOMINATOR).read).fetch("paths").first
+    root.join(product).write(root.join(product).read + "\nproduct-change\n")
+    git(root, "add", product)
+    git(root, "commit", "-qm", "product")
+    product_head = git(root, "rev-parse", "HEAD").first.strip
+    fail!("product delta did not trigger native proof") unless classify_native_trigger(root, "pull_request", "synchronize", base, product_head)["run_native"]
+
+    evidence = root.join("#{EVIDENCE_ROOT}/fixture.json")
+    FileUtils.mkdir_p(evidence.dirname)
+    evidence.write("{}\n")
+    git(root, "add", evidence.relative_path_from(root).to_s)
+    git(root, "commit", "-qm", "evidence")
+    evidence_head = git(root, "rev-parse", "HEAD").first.strip
+    fail!("evidence-only delta triggered native proof") if classify_native_trigger(root, "pull_request", "synchronize", product_head, evidence_head)["run_native"]
+
+    lifecycle = root.join(".csdlc/issues/217/fixture.json")
+    FileUtils.mkdir_p(lifecycle.dirname)
+    lifecycle.write("{}\n")
+    git(root, "add", lifecycle.relative_path_from(root).to_s)
+    git(root, "commit", "-qm", "lifecycle")
+    lifecycle_head = git(root, "rev-parse", "HEAD").first.strip
+    fail!("lifecycle-only delta triggered native proof") if classify_native_trigger(root, "pull_request", "synchronize", evidence_head, lifecycle_head)["run_native"]
+
+    proof_path = JSON.parse(root.join(PROOF_DENOMINATOR).read).fetch("paths").first
+    root.join(proof_path).write(root.join(proof_path).read + "\n")
+    git(root, "add", proof_path)
+    git(root, "commit", "-qm", "proof")
+    proof_head = git(root, "rev-parse", "HEAD").first.strip
+    fail!("proof delta did not trigger native proof") unless classify_native_trigger(root, "pull_request", "synchronize", lifecycle_head, proof_head)["run_native"]
+    %w[opened reopened].each do |pull_request_action|
+      fail!("#{pull_request_action} did not fail safe") unless classify_native_trigger(root, "pull_request", pull_request_action, "", "")["run_native"]
+    end
+    fail!("workflow dispatch did not run") unless classify_native_trigger(root, "workflow_dispatch", "", "", "")["run_native"]
+  end
 
   Dir.mktmpdir("adl-217-anchor-") do |directory|
     root = Pathname.new(directory)
@@ -713,6 +789,9 @@ begin
   root = Pathname.new(git(Pathname.pwd, "rev-parse", "--show-toplevel").first.strip).realpath
   if ARGV == ["--self-test"]
     self_test(root)
+  elsif ARGV.first == "--classify-delta"
+    fail!("classifier requires event, action, before, and after") unless ARGV.length == 5
+    puts JSON.generate(classify_native_trigger(root, *ARGV.drop(1)))
   elsif ARGV.first == "--aggregate"
     fail!("aggregate requires macOS and Linux receipts") unless ARGV.length == 3
     write_aggregate(root, ARGV.drop(1))

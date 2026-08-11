@@ -34,8 +34,32 @@ permissions:
   contents: read
 
 jobs:
+  classify-native-proof:
+    name: wp14-retained-native-classifier
+    runs-on: ubuntu-latest
+    outputs:
+      run_native: ${{ steps.classify.outputs.run_native }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - id: classify
+        name: Classify latest pushed delta
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.event.after }}
+        run: |
+          result="$(ruby .csdlc/prepared/issues/217/validate-retained-native-proof.rb --classify-delta "$EVENT_NAME" "$EVENT_ACTION" "$BEFORE_SHA" "$AFTER_SHA")"
+          printf '%s\n' "$result"
+          printf 'run_native=%s\n' "$(printf '%s' "$result" | jq -r '.run_native')" >> "$GITHUB_OUTPUT"
+
   produce-native-receipt:
     name: wp14-retained-native-${{ matrix.platform }}
+    needs: classify-native-proof
+    if: needs.classify-native-proof.outputs.run_native == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -74,7 +98,8 @@ jobs:
 
   validate-native-receipts:
     name: wp14-retained-native-receipts-validated
-    needs: produce-native-receipt
+    needs: [classify-native-proof, produce-native-receipt]
+    if: needs.classify-native-proof.outputs.run_native == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
