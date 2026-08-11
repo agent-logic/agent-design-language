@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "043cf4baaa244241d04c17933035cff870bc658c4ed2b6a116dd94077e6a85eb",
   "phase": "ready",
-  "generation": 12,
-  "digest": "14c36abddbf4e7f3b66cdf909ed69ff689349c88b6e62b19017285f51a7f1476",
+  "generation": 14,
+  "digest": "5392308a4ecabfc5114c9eade1d359d06602702115804332077f8559a15c4c06",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c3ba582ac8f98be2daa0d29ac63b28e69f8d6aa37475fbabff7b12af7ac10678",
+      "values_digest": "43256be85f65fed71d6d0337fd38d394a9b0f25b6f5aa0de38928a309862d530",
       "rendered_digest": "a989adca89f39e74d79e1887b76cb8c0bb95a24c196524c48983478eb6ddbb96",
       "ast_digest": "8a432891032c24112f8e5b368214f38d8a57ce71e5397b6cb1c8a54b128d63de"
     },
     "stp": {
-      "values_digest": "5a2bcf40d5e47bedff771ed3394cd6d893805818e0f01207ff846c5007e9d2fd",
-      "rendered_digest": "7a6bc8370b9cf73cb46f464d8a56486fab005dadc254f2aea600d57da6ee2108",
-      "ast_digest": "304608a2230cfc1e43c3eef9873a7e7cf86a7b10a49affd684fddf454d461fb3"
+      "values_digest": "e38d60af5b54b030e9252a233fca8e056b6d5485d06e2260415cc70df2554516",
+      "rendered_digest": "aa9f8b11e6031325e26090002c41b61827cda487b1844f0ef1a4c0b6ea13ea66",
+      "ast_digest": "e018215849b57ecf2aada5931b4e3f5f6170cd9207bfd4bfa156ecfd6ce485e0"
     },
     "spp": {
-      "values_digest": "9a82c7c778674bd17337bd810ded88088e203b19cc00a08d6314aced232cb5a1",
+      "values_digest": "819d3e95714074e1bac6a21100a90a933230bb7d1a4a6582e433c2807e61ce94",
       "rendered_digest": "2ee12337e0c19239cf38d92c50428e1ce9e6938e7ab2b2715f798b4c5fc3c93f",
       "ast_digest": "3c8f44f9b8912e3df53e9062c9bc7452865711d2adc3beb61274f23c2a9168f3"
     },
     "vpp": {
-      "values_digest": "308cde59a47449c8abf7dbd55391f08aa0b56cdf9f939001639642ac802e9b36",
-      "rendered_digest": "ba302d661100be8d1ce6b36405c868329eefbe0cf0a6255e29e4a5e1a6ea42d6",
-      "ast_digest": "ca0f4743bdfb4ac2edfa17b130f3886ea2374673fd3e19cba08d72e24593202e"
+      "values_digest": "41914147db9f9194ba26ad09027a779f6ff5ae69f7e06187bfce8f7c33eb8736",
+      "rendered_digest": "073abba829216de753e8e815c419e1242e08a30861974d9a50c9d83f4e79d92d",
+      "ast_digest": "89ca86a348b58c1ef8d2446910eb5ef5706aa52f2430a559db2631d883ef0091"
     },
     "srp": {
-      "values_digest": "422f171c0c2134bc3416facada899ae817d1eb22e95b90933e30e005b48c3c22",
+      "values_digest": "85894323f92b56b1dba69775b9513c822c40431c08e22a8d674c07c824aebc1e",
       "rendered_digest": "1370542e364f694d6e9bd501245c0a5f17bd1d71a6181cd1228ab6093374c909",
       "ast_digest": "a9639ee67355ef0745c3359e955446da5d4c0b41711c28d9ddaab2b12eedadda"
     },
     "sor": {
-      "values_digest": "e8adb64ff087fa1c9f9de3a446868ead325599c2a25f9e57b5e31772ff7e8ea3",
+      "values_digest": "8c6c6b6ab1aeb6a69bf6b9276f26fecb127847c7b55ef72a61d590afcc54c9f2",
       "rendered_digest": "1c281a238160a23ca2d9522f521acc4d55a2dca5e4a72308ce5616c76aa63c59",
       "ast_digest": "2581958855efc1d1ff0b20f11890a11444d91d86ee9caefc9f25135ab9f44f4b"
     }
@@ -154,6 +154,20 @@
       "actor": "/root/shepherd_pr215_green",
       "reason": "Advance the independently approved, mechanically valid preparation packet to ready solely for binding and remaining typed card repair.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Use only executable reviewed preparation denominators before binding; future validator lanes are installed immediately after Bound and before the second review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"historical-denominator-contract\",\"proof_role\":\"Require exactly ten unique historical evidence paths with SHA-256 digests.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"jq\",\"-e\",\".expected_file_count == 10 and (.files | length) == 10 and ([.files[].path] | unique | length) == 10 and ([.files[].sha256 | test(\\\"^[0-9a-f]{64}$\\\")] | all)\",\".csdlc/prepared/issues/217/historical-c640-denominator.json\"],\"parallel_group\":\"217-prep\",\"defer_reason\":null},{\"lane\":\"protected-source-denominator-contract\",\"proof_role\":\"Require exactly seventeen unique protected source paths.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"jq\",\"-e\",\".expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17\",\".csdlc/prepared/issues/217/protected-source-denominator.json\"],\"parallel_group\":\"217-prep\",\"defer_reason\":null},{\"lane\":\"preparation-diff-contract\",\"proof_role\":\"Reject malformed preparation patches or whitespace errors.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"git\",\"diff\",\"--check\",\"--\",\".csdlc/issues/217\",\".csdlc/prepared/issues/217\"],\"parallel_group\":\"217-prep\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Describe not-yet-implemented validators truthfully so Ready binding does not misclassify planned paths as existing executable deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Exact restored ten-file historical packet beneath .csdlc/evidence/209\",\".csdlc/prepared/issues/217/historical-c640-denominator.json\",\".csdlc/prepared/issues/217/protected-source-denominator.json\",\"Issue-owned detached-c640 historical packet verification wrapper\",\"Issue-owned fresh native receipt producer\",\"Issue-owned merge-safe retained native proof validator\",\"Narrow issue-owned GitHub Actions workflow for fresh current-head native proof\",\"Fresh exact ten-file native packet plus machine-consumed denominator beneath .csdlc/evidence/217\",\".csdlc/issues/217 complete typed lifecycle and review evidence\"]}"
     }
   ]
 }

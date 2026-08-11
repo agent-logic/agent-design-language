@@ -19,9 +19,9 @@ Restore and validate only #209's retained native proof contract and typed proof 
 - Exact restored ten-file historical packet beneath .csdlc/evidence/209
 - .csdlc/prepared/issues/217/historical-c640-denominator.json
 - .csdlc/prepared/issues/217/protected-source-denominator.json
-- .csdlc/prepared/issues/217/verify-historical-c640-packet.rb
-- .csdlc/prepared/issues/217/produce-native-receipt.rb
-- .csdlc/prepared/issues/217/validate-retained-native-proof.rb
+- Issue-owned detached-c640 historical packet verification wrapper
+- Issue-owned fresh native receipt producer
+- Issue-owned merge-safe retained native proof validator
 - Narrow issue-owned GitHub Actions workflow for fresh current-head native proof
 - Fresh exact ten-file native packet plus machine-consumed denominator beneath .csdlc/evidence/217
 - .csdlc/issues/217 complete typed lifecycle and review evidence
