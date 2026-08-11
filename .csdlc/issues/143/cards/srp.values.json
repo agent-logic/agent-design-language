@@ -7,15 +7,15 @@
     "title": "[v0.92][ADR] Author and review the milestone architecture decision record set",
     "slug": "v092-adr-authoring",
     "version": "v0.92",
-    "generation": 21
+    "generation": 22
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/143\n.csdlc/prepared/issues/143\n.csdlc/evidence/143\ndocs/milestones/v0.92/ADR_PLAN_v0.92.md\ndocs/architecture/adr/README.md\ndocs/architecture/adr/V092_ADR_INDEX_143.md\ndocs/architecture/adr/0059-first-true-birthday-evidence-boundary.md\ndocs/architecture/adr/0060-stable-identity-name-and-continuity-record-boundary.md\ndocs/architecture/adr/0061-memory-grounding-and-capability-envelope-boundary.md\ndocs/architecture/adr/0062-witness-and-birthday-receipt-authority-boundary.md\ndocs/architecture/adr/0063-acp-cognitive-profile-evidence-boundary.md\ndocs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md\ndocs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md\ndocs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md\ndocs/architecture/adr/0067-runtime-transport-and-tls-stack-boundary.md\ndocs/architecture/adr/0068-birthday-to-governance-handoff-boundary.md\ndocs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md\ndocs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md\ndocs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md",
+      "review_revision": "git-blake3:aa22f78c3bfc0ece577fedf6aa7e6bb43fcca94d:2d15c6a8630cf6015e8eae65de639ce75f82e61c784fef135311d9d4bf097753",
+      "reviewer": "subagent:019fee2e-41b4-7f33-921e-f0c58f6859ca",
       "review_prompts": [
         "Does every candidate decision follow from cited landed repository evidence rather than forward-looking plans?",
         "Do authority, TLS, replay, mutation, identity, and witness decisions retain fail-closed boundaries and precise non-claims?",
@@ -24,8 +24,11 @@
         "Are numbering, status, supersession, approval, and index relationships complete and collision-free?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "ADRs 0065, 0066, 0068, 0069, and 0071 remain Deferred until their named executable proof blockers land.",
+        "Candidate status is not architecture acceptance; no ADR under docs/adr was created or changed."
+      ],
+      "review_result": "pass"
     }
   }
 }
