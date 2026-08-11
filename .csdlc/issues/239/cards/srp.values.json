@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #239 finish.rs reconciliation, gate_finish regression, typed cards, and focused proof.",
+      "review_scope": "csdlc-v2/src/finish.rs\ncsdlc-v2/src/bin/csdlc-finish.rs\ncsdlc-v2/src/cleanup.rs\ncsdlc-v2/tests/gate_finish.rs\n.csdlc/evidence/239/",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

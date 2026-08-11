@@ -6,10 +6,21 @@
   "initialization_digest": "74ac66d5503a454f1b2eb18cd92f8fa7b6c1c4dbaf3046edc3b044a6e0f44993",
   "phase": "implemented",
   "generation": 11,
-  "digest": "283c7c4b4f91d2463c39a70b694e90347dc3574d28f971d70d0a4dd411df462b",
+  "digest": "98c00deaedc3c6c58433886706cd54a486fb026128859ab197a1546633585f33",
   "branch": "codex/239-terminal-envelope-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-239-terminal-envelope-reconciliation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/review_239_exact_head",
+    "assigned_by": "/root/sprint5_5835",
+    "revision": "git-blake3:a89ff0333f4a21844dd0e3504d1bf338908038ac:fdbea6d5a65a9bc094ad33e6a28887d8bf3922efab1d355fe7d865f0f2872b84",
+    "scope": [
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/cleanup.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/evidence/239/"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "e92b2d8fbfc390c866a34ad23c997be354bb3f0f603ec3afb8c3b6ee9f9d38a9"
     },
     "srp": {
-      "values_digest": "8aa460d877bd00a4f5f0dcfcd4c834a7963d065c555f11e517f5c0d7ef87608f",
-      "rendered_digest": "940cb1b661630f8d9d0d1b79218323d4a3d4feede74406a1a8766bd89c7a6133",
-      "ast_digest": "e1f3d23e9a9c574d45764d29442791a2472e2e1edef13e3b1ddafd7f622f5f29"
+      "values_digest": "62f73b3e27bd05bce2bb89d5c107a6c97a35cc5eab22cb9ce63d9a700ad96b2a",
+      "rendered_digest": "18212d3b1e191e9673ce36c3c8417fc4d3ff5de96e73252b7ab3e117bf0176e2",
+      "ast_digest": "8d3edfb38dc4a349da6cd5c2a647c2d0febec2c02b36e4c520c7de718c27c8f8"
     },
     "sor": {
       "values_digest": "82630e79d8470c72adacab9a8c2c408b57394de0e83209e87cb47b3b9a88a935",
@@ -169,6 +180,13 @@
       "actor": "/root/sprint5_5835",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "/root/sprint5_5835",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

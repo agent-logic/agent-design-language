@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Issue #239 finish.rs reconciliation, gate_finish regression, typed cards, and focused proof.
+csdlc-v2/src/finish.rs
+csdlc-v2/src/bin/csdlc-finish.rs
+csdlc-v2/src/cleanup.rs
+csdlc-v2/tests/gate_finish.rs
+.csdlc/evidence/239/
 
 ## Prompts
 
