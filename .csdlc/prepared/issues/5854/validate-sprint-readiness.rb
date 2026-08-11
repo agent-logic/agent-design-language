@@ -246,8 +246,10 @@ raise "typed PR collector identity missing" unless collector.fetch("pull_request
 %w[issue_binary_sha256 pull_request_binary_sha256].each do |field|
   raise "invalid collector binary digest #{field}" unless collector.fetch(field).match?(/\A[0-9a-f]{64}\z/)
 end
-if ENV.key?("CSDLC_V2_BIN_DIR")
-  collector_bin_dir = Pathname.new(ENV.fetch("CSDLC_V2_BIN_DIR"))
+collector_bin_dir_value = ENV.fetch("CSDLC_V2_BIN_DIR", "").strip
+unless collector_bin_dir_value.empty?
+  collector_bin_dir = Pathname.new(collector_bin_dir_value)
+  collector_bin_dir = ROOT / collector_bin_dir unless collector_bin_dir.absolute?
   {
     "issue_binary_sha256" => "csdlc-github-issue",
     "pull_request_binary_sha256" => "csdlc-github-pr"

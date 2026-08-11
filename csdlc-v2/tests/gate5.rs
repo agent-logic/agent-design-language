@@ -1169,6 +1169,88 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
 }
 
 #[test]
+fn recovered_issue_can_correct_only_the_sip_required_outcome() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
+        .expect("review revision");
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: revision,
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record review");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "correct required outcome".into(),
+        },
+    )
+    .expect("recover review");
+    let before_cards = store
+        .load_cards(7)
+        .expect("cards before outcome correction");
+    let replacement = "a corrected four-child outcome".to_string();
+    let corrected = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "align recovered required outcome".into(),
+            operation: SemanticOperation::CorrectRequiredOutcomeAfterRecovery {
+                value: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct recovered required outcome");
+    let after_cards = store.load_cards(7).expect("cards after outcome correction");
+    let csdlc_v2::cards::CardContent::Sip(after_sip) = &after_cards[&CardKind::Sip].content else {
+        panic!("SIP")
+    };
+    assert_eq!(after_sip.required_outcome, replacement);
+    for kind in [
+        CardKind::Stp,
+        CardKind::Spp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_eq!(
+            after_cards[&kind].content, before_cards[&kind].content,
+            "{kind} changed during SIP-only correction"
+        );
+    }
+    let audit: serde_json::Value =
+        serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
+            .expect("structured required-outcome audit");
+    assert_eq!(
+        audit["operation"],
+        "correct_required_outcome_after_recovery"
+    );
+    assert_eq!(audit["new_value"], replacement);
+}
+
+#[test]
 fn recovered_implemented_issue_can_correct_only_stp_deliverables() {
     let (_temp, store, implemented) = implemented_fixture();
     let before_cards = store.load_cards(7).expect("load cards before correction");
