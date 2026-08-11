@@ -74,11 +74,11 @@ Implemented a secure three-voter OpenRaft substrate with authority-derived topol
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
