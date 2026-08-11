@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
     "slug": "wp18c03-live-polis-roster-presence",
     "version": "v0.92",
-    "generation": 21
+    "generation": 22
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Revalidate serial gates and shared-path ownership; freeze the Runtime policy, identity, pagination, presence, freshness, event, and failure contracts; implement the exclusive roster model and serial integration; prove exact Runtime, OpenAPI, large-Polis, browser, reconnect, denial, and rollback behavior; resolve exact-head review; then hand off for separately authorized publication.",
       "steps": [
         {
@@ -79,16 +79,21 @@
         }
       ],
       "affected_areas": [
+        "adl-runtime-kernel/build.rs",
         "adl-runtime-kernel/src/agent_roster.rs",
+        "adl-runtime-kernel/src/assembly.rs",
         "adl-runtime-kernel/src/lib.rs",
         "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/telemetry.rs",
         "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
         "adl-runtime-kernel/tests/agent_roster.rs",
         "adl-runtime-kernel/tests/control.rs",
+        "adl-runtime-kernel/tests/openapi_contract.rs",
         "docs/api/runtime-v3/v1/observatory.openapi.json",
         "demos/html-observatory/app.js",
         "demos/html-observatory/index.html",
         "demos/html-observatory/styles.css",
+        "adl/tools/test_html_observatory.sh",
         "adl/tools/validate_v092_html_observatory_roster.mjs"
       ],
       "invariants": [

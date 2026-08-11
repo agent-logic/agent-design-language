@@ -16,7 +16,7 @@ Revalidate serial gates and shared-path ownership; freeze the Runtime policy, id
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
