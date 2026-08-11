@@ -104,11 +104,11 @@ Added two field-specific semantic editor operations with exact lifecycle, proven
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

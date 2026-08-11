@@ -3,9 +3,9 @@
   "issue": 225,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c2539d70d91f701387359b5176d8f0797988aec3b5745e78e295d6bcf53e1c4",
-  "phase": "reviewed",
-  "generation": 21,
-  "digest": "ee2ab62f867ecc2be0ff8852960c0322ab573d809e638ca16ee06ec944526766",
+  "phase": "published",
+  "generation": 22,
+  "digest": "9f2c6221e468f2c0e6d3ae5448dd8d525ec59bb47cdbd47e96a0ba44915f4ff0",
   "branch": "codex/225-bounded-card-review-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-225-bounded-card-review-repair",
   "review_assignment": null,
@@ -70,7 +70,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 225,
+    "pull_request": 227,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/227",
+    "base": "main",
+    "head": "codex/225-bounded-card-review-repair",
+    "revision": "git-blake3:e814a687e4f895bd6883909ce1b758842efa84b7:6b008227c91f7cf88de2839ffd3c48d81570d78780c4aad3dc16c02b64de74be",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -84,34 +95,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0ed1e10bf674d2ef8319e2e71669c0f9d8bb1902b0101f86a197c979da27d20c",
+      "values_digest": "d7c6ebb7a65f5347468848d982c2b5bec28672e99374874ae051eaeef07d5400",
       "rendered_digest": "9f38b68f225883c5296d0930f90a0bd45b5d3fdfbc79b9e2eb784c83f1be0027",
       "ast_digest": "80936f9bc8d37273b594570a048d63acc5befe735e1ed02d3e188eec4b50430f"
     },
     "stp": {
-      "values_digest": "ec1639a2eacf5261431e5bfe2e04b560cd1cdc1fe5f22d1b026a336c13aaf84e",
+      "values_digest": "091b75446ce5fea32fa17060e1216424c96d7cfd7858141d9223a893bf8e677c",
       "rendered_digest": "4b480f8134f03a8df280641a44c7466ac2427aaacdcad4f4bb09a40f9dfd65dc",
       "ast_digest": "98229242cbbc08bd4320f8997bf7a53d4c41945051bf846790c8b8e750b4e697"
     },
     "spp": {
-      "values_digest": "d63e1c2cd79a63569122cc73c015614c2ee2d877f646fae59307adbf8822a904",
+      "values_digest": "cc974eebfbdc138f82c7aa28617e7ea55968f7cb3a063c4120c5e2ff117a7f25",
       "rendered_digest": "581ec08597db7ed52f8891edbde7a0e653083ac4d6d828e82bfa4293a4617296",
       "ast_digest": "c42351901df588a1dc8fe8be566846f7d4c48a92e4292383b5fff5e9b64168df"
     },
     "vpp": {
-      "values_digest": "5f094137e9e7f0dd10454bf5b986e687a25af54c219d03c04f37373aa4748c0d",
+      "values_digest": "479411913f0dc204277132c4982f1f0bad2d5130fab0e4113740c97bfbc12e67",
       "rendered_digest": "b11d0c53253aa8d670c14bdb6c2c21cad2f0a63147079d96a1e1d3b5888ca1b4",
       "ast_digest": "c6630cd1b261473cb656a38b6b5a47350843e9ee08ef5ada14e48a97043f2d12"
     },
     "srp": {
-      "values_digest": "a511eab8b434e4612483d8d33bc64e64d0c71aaeb2678a29a909a945f9c493e8",
+      "values_digest": "2925ef176f742a51396e1889a9fc4519acfc31eb479627debab6cfe70cfbdf24",
       "rendered_digest": "f4781610b73861cec10be4e1c058b3c0f6d057b9a86974d71ed8b87ffe2991b7",
       "ast_digest": "a6a5fbb9f98b8131f76f12feafda176be73461f11e1808e22e69a7d6d26fa662"
     },
     "sor": {
-      "values_digest": "0e6c0fb2f78e97fb8aca7ccf868c861b929b87b391384b1ede80427bd7aae4ba",
-      "rendered_digest": "4aa8a2e7242000b0c9dce04c74d739d10f8586a4ad5a6331afc82de98724c7fe",
-      "ast_digest": "a3b9314bf67563ad5832c1b7e3346d105b5289d619ada58a9f583f811232c304"
+      "values_digest": "8fd764b553bbb5df9798c12c3f07599c2e4bff8d34acc842451b7f99200f50a5",
+      "rendered_digest": "c10844ec4e88c6f213853c2e3d4e68507eb4e3e98ae69b03c2057b53460ed33b",
+      "ast_digest": "80a42dcdcc7a75f73a574615dc9337e619e07c56b0aa5486459a0ba0b9c46d88"
     }
   },
   "transitions": [
@@ -142,6 +153,13 @@
       "to": "reviewed",
       "actor": "Bernoulli:019fefc0-cd6b-7072-84d5-9fc5b78de4d5",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -305,6 +323,13 @@
       "actor": "Bernoulli:019fefc0-cd6b-7072-84d5-9fc5b78de4d5",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:225-bounded-card-review-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
