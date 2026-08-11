@@ -16,25 +16,25 @@ Revalidate serial gates and shared-path ownership; freeze the Runtime policy, id
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Re-read #83, #110, #122, and #142; require terminal ancestry, reconcile the #110/#122 sequence contradiction, verify no shared-path owner, and bind only after every gate passes.",
+    "action": "Bind #113, reconcile live #110/#113 authority, confirm #83 and deferred work are non-gating, and reserve #142 only for non-local projection.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-4",
       "AC-10"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Implement the Runtime-owned roster/detail model, server-side policy filter, stable identity, presence/freshness derivation, deterministic pagination, and bounded revisioned event contract in the declared paths.",
+    "action": "Implement the Runtime-owned local roster model, policy filter, stable Shepherd identity, presence/freshness derivation, deterministic pagination, and bounded token contract in issue-owned paths.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -43,16 +43,16 @@ Revision 2
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "in_progress"
   },
   {
     "id": "S3",
-    "action": "Integrate authenticated API, WSS, OpenAPI, and HTML Observatory search, filter, sort, selection, detail, status, pagination, reconnect, denial, and accessibility behavior without adding browser authority.",
+    "action": "Integrate the local Shepherd projection with production Runtime and the existing Observatory selection surface in isolated shared-path commits; do not claim distributed projection.",
     "acceptance_ids": [
       "AC-1",
+      "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6",
       "AC-8",
       "AC-9"
     ],
@@ -60,7 +60,7 @@ Revision 2
   },
   {
     "id": "S4",
-    "action": "Run exact Runtime, control/OpenAPI, large-Polis, browser, failure, reconnect, strict-Clippy, diff, and rollback proof at one candidate revision.",
+    "action": "Run exact roster, production Runtime, OpenAPI, browser selection, scale, freshness, policy, strict-Clippy, and diff proof at one candidate revision.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -76,7 +76,7 @@ Revision 2
   },
   {
     "id": "S5",
-    "action": "Resolve independent exact-head review and produce a truthful execution handoff without publishing unless separately authorized.",
+    "action": "Resolve independent exact-head review and leave a truthful unpushed, unpublished execution handoff with shared-path overlap reported.",
     "acceptance_ids": [
       "AC-10"
     ],
@@ -114,7 +114,7 @@ Revision 2
 
 .csdlc/prepared/issues/113/design.md
 
-Digest: 53bb3c3636532b4057df862e78af110e044da09b342e5d14724b14891adf5081
+Digest: ff3228dc05028cccc97d16dbbf1ebb7a9480b19e612096a37c3946347dd6de73
 
 ## Diagram
 

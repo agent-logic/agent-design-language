@@ -3,11 +3,11 @@
   "issue": 113,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
-  "phase": "ready",
-  "generation": 12,
-  "digest": "318d81689d98049c456215c112e0afbcdd4c612e3e19bf5602ece216cbab914f",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 17,
+  "digest": "d51327e93b3a7f978892df0f8a0884e8d2d6f3153ce5acf1dd9516e1c64d9588",
+  "branch": "codex/113-wp18c03-roster-presence-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/113/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:113-live-dependency-design-refresh",
-      "revision": "53bb3c3636532b4057df862e78af110e044da09b342e5d14724b14891adf5081"
+      "reviewer": "codex:113-live-local-roster-authority-replan",
+      "revision": "ff3228dc05028cccc97d16dbbf1ebb7a9480b19e612096a37c3946347dd6de73"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "0d131ed98788703bf8f417a1dc37a94e6814598477bf7288c36da765e8073017",
+      "values_digest": "07435bcb8235750be0bb367d5f7c83a5f03deb4ce12e5e2a1b955782eb382644",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "0c2ddb65b58009a196b3c1b186b42574edec927d3fafef855dc50ec3adb16a5b",
-      "rendered_digest": "990b50067a8730898305c1b178b5a8b57257b8ed1098e242836763345447332c",
-      "ast_digest": "d97cfd507f399fd21c60010307bec0825c98c3ee273d70d738a70afeb4396e51"
+      "values_digest": "b1285d1796abdac939e3e07bc5c71d1a08286cb029079218e2ee0bff47770c37",
+      "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
+      "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "353aeae8fa731cf821d9c3de799e4422f6582d4d35bf5852b78f58ec91515f54",
-      "rendered_digest": "57d3ebc3af7f2d0a09f6ce10dcf0b11bd6596cd5ece2398a05ce4f6e1a555e33",
-      "ast_digest": "d258616f1a37572c21368d8c50ddfaeb99b9410a3d5dd5dc3f04f4ed5f6f368b"
+      "values_digest": "94fe6ac77fa8de427d33fb2507b9f085070f4271409121314700dd7a0ae9ebc8",
+      "rendered_digest": "62268dc6c61c509a641564010aa3a652b1a65aa28afcd74582c317234d227201",
+      "ast_digest": "1866b225118bd666078e04a2e924a7b7b1bcb7ec8ca08a7c8f5370b1dd3565d4"
     },
     "vpp": {
-      "values_digest": "3ca2da98311e6b7470300792f338aae4e946b9e4f21a6fe21aa0cd3fe022cfe1",
+      "values_digest": "ceea18c98a25b5fbd50d6383e3ff7c45e45c66112761db9968ff39d843818cef",
       "rendered_digest": "6f4ee8aaa580cd3f0ffe5367dc2334a6580eedc04fc2381a132bb7eced320bc6",
       "ast_digest": "2b7d4e95f41c68ea5aad2b1dc8c162cb9624b58f3e76b22bf4092c568d52b901"
     },
     "srp": {
-      "values_digest": "efe54192274423d8b5efb4b1f1f89ee4f47cca56697c9851b3fa23d0961b469c",
+      "values_digest": "e8230943ede731700731f3bac97bdfc7284d91eb5b5f9f108bf979a9cb615897",
       "rendered_digest": "0f2ba31fec14441b4f6b9fdbd93f2d31fd1dc2f6d844b4e3caab76d487b207ca",
       "ast_digest": "561ca13091bdccc8b6238cc66bbe339f2a8c55a24ba5d959b9f280752b2e976a"
     },
     "sor": {
-      "values_digest": "119f5a9d6475f160c1fb1648631a6532835b6013d1e502eb5603b04c787ced15",
+      "values_digest": "c09fe420fa703007910553b2d4b6350f42a5e24fdd5e048bc12fed607f19c75e",
       "rendered_digest": "17577983b71aba54172dc1d0442452db27a371c5a5f7083bb86dd5bd81a69739",
       "ast_digest": "113bf745061230af9980cb2729b7fd4efae7a939e0677d9a148c032622e1fd48"
     }
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "codex:113-roster-presence-preparation",
       "reason": "All six issue-specific design-time cards and declared PVF lanes pass typed validation; advance to design-ready while leaving dependency-gated binding unperformed."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -154,6 +161,48 @@
       "actor": "codex:113-final-bind-readiness-repair",
       "reason": "Retain explicit fail-closed issue-owned sentinels, restore the design-required exact control/WSS and OpenAPI parity lanes, and keep independent-review acceptance out of ordinary product and diff proof mappings.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"agent-roster-contract\",\"proof_role\":\"Run the exact nonzero issue-owned agent_roster integration target for deterministic paginated roster and detail projection, stable identity, every declared presence state, freshness deadlines, provenance, policy filtering and redaction, relocation fencing, capability and communication eligibility, token and cursor integrity, reconnect and restart behavior, and large-Polis resource bounds.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":\"The checked-in target is an explicit one-test fail-closed sentinel until #113 implementation replaces it after the #83 and #142 serial gates pass; it must never report product proof from missing or zero selected tests.\"},{\"lane\":\"observatory-control-wss-parity\",\"proof_role\":\"Run the exact control integration target required by the design for authenticated roster and detail routes, WSS revision updates, policy-safe denial, reconnect behavior, and removal of sample-as-complete behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"observatory-openapi-parity\",\"proof_role\":\"Run the exact OpenAPI contract target required by the design for runtime route and schema parity, policy-safe roster and detail descriptions, and absence of invented or duplicate authorities.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\",\"--no-tests=fail\"],\"parallel_group\":\"runtime-contract\",\"defer_reason\":null},{\"lane\":\"observatory-roster-browser\",\"proof_role\":\"Run the exact issue-owned live Runtime-backed roster browser validator for truthful count and pagination, presence and freshness display, server-authoritative visibility and redaction, bounded capability and communication eligibility, revision-bound updates, search, filter, sort, selection, detail, status changes, keyboard operation, denial, disconnect, bounded reconnect without duplicates, bounded DOM rows, responsive layout, and a clean console.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_roster.mjs\"],\"parallel_group\":\"browser\",\"defer_reason\":\"The checked-in validator is an explicit fail-closed sentinel until #113 implementation replaces it after #83 hands off the Observatory paths and #142 lands the required Runtime identity and topology contract; it must never report product proof before the live candidate is exercised.\"},{\"lane\":\"roster-focused-clippy\",\"proof_role\":\"Reject Rust type, ownership, serialization, route, and dead-code regressions across the bounded Runtime kernel library and production binary.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"static\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts; independent exact-head review remains solely review-owned.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"static\",\"defer_reason\":null},{\"lane\":\"independent-exact-head-review\",\"proof_role\":\"Require the independent review owner to guard the exact candidate revision and leave no unresolved actionable findings before publication; this lane alone owns AC-10 acceptance mapping.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-review\",\"guard\",\"--request\",\".git/csdlc-v2/requests/113-review.json\"],\"parallel_group\":\"pre-publication-review\",\"defer_reason\":\"Runs only after the complete #113 candidate and all deterministic product lanes are current; it is independent review proof, not diff hygiene or product validation.\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:113-live-local-roster-authority-replan",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:113-local-roster-execution",
+      "reason": "Reconcile bound execution with newer live #110 and #113 authority: #83 is non-gating and #142 gates only non-local distributed projection.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Current main Runtime v3 admission, component-state, policy, stable local identity, and Observatory contracts\",\"Live agent-logic/agent-design-language#110 and #113 authority: open #83 is preserved source and no longer gates WP-18C execution\",\"Open agent-logic/agent-design-language#142 gates only non-local/distributed roster projection; local resident Shepherd admission and presence proceed without claiming distributed behavior\",\"agent-logic/agent-design-language#122 remains deferred beyond v0.92 and non-gating\",\"Shared #111 overlap is isolated to integration commits and reported explicitly for later rebase\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:113-local-roster-execution",
+      "reason": "Replan the bound issue around the local production Shepherd outcome and isolate shared integration from concurrent #111 work.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Bind #113, reconcile live #110/#113 authority, confirm #83 and deferred work are non-gating, and reserve #142 only for non-local projection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement the Runtime-owned local roster model, policy filter, stable Shepherd identity, presence/freshness derivation, deterministic pagination, and bounded token contract in issue-owned paths.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Integrate the local Shepherd projection with production Runtime and the existing Observatory selection surface in isolated shared-path commits; do not claim distributed projection.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-8\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run exact roster, production Runtime, OpenAPI, browser selection, scale, freshness, policy, strict-Clippy, and diff proof at one candidate revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Resolve independent exact-head review and leave a truthful unpushed, unpublished execution handoff with shared-path overlap reported.\",\"acceptance_ids\":[\"AC-10\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:113-local-roster-execution",
+      "reason": "Binding and live authority reconciliation are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:113-local-roster-execution",
+      "reason": "Begin the issue-owned local roster model and exact proof implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"in_progress\"}"
     }
   ]
 }

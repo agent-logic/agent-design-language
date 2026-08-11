@@ -1,0 +1,13 @@
+{
+  "issue": 113,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "23f6a2812c5cbfaec809374ec1ae01af37c779693f468aae8d26693c5a3227ae",
+  "actor": "codex:113-local-roster-execution",
+  "reason": "Binding and live authority reconciliation are complete.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  }
+}

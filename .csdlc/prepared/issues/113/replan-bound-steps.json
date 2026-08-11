@@ -1,0 +1,43 @@
+{
+  "issue": 113,
+  "card": "spp",
+  "expected_generation": 14,
+  "expected_digest": "d922e69ea807c381071eeb3541903ee96847f632169ea7472f813ba548a3cfa5",
+  "actor": "codex:113-local-roster-execution",
+  "reason": "Replan the bound issue around the local production Shepherd outcome and isolate shared integration from concurrent #111 work.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Bind #113, reconcile live #110/#113 authority, confirm #83 and deferred work are non-gating, and reserve #142 only for non-local projection.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-4", "AC-10"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement the Runtime-owned local roster model, policy filter, stable Shepherd identity, presence/freshness derivation, deterministic pagination, and bounded token contract in issue-owned paths.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Integrate the local Shepherd projection with production Runtime and the existing Observatory selection surface in isolated shared-path commits; do not claim distributed projection.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-5", "AC-8", "AC-9"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run exact roster, production Runtime, OpenAPI, browser selection, scale, freshness, policy, strict-Clippy, and diff proof at one candidate revision.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8", "AC-9"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Resolve independent exact-head review and leave a truthful unpushed, unpublished execution handoff with shared-path overlap reported.",
+        "acceptance_ids": ["AC-10"],
+        "status": "pending"
+      }
+    ]
+  }
+}

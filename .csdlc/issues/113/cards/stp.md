@@ -39,11 +39,11 @@ Implement only the Runtime-owned roster/detail projection, bounded update contra
 
 ## Dependencies
 
-- agent-logic/agent-design-language#83 merged, terminal, ancestral, and shared Observatory paths handed off
-- agent-logic/agent-design-language#142 merged, terminal, and ancestral with operational distributed Polis identity/topology truth
-- agent-logic/agent-design-language#110 remains the read-only umbrella; newer agent-logic/agent-design-language#122 status explicitly defers public exposure beyond v0.92 and is non-gating for local work
-- Closed legacy identity #5863, membership/topology #5867, distributed projection #5877, final integration #5878, and closed workflow #137 remain compatible contract inputs
-- No active issue owns any intended shared integration path
+- Current main Runtime v3 admission, component-state, policy, stable local identity, and Observatory contracts
+- Live agent-logic/agent-design-language#110 and #113 authority: open #83 is preserved source and no longer gates WP-18C execution
+- Open agent-logic/agent-design-language#142 gates only non-local/distributed roster projection; local resident Shepherd admission and presence proceed without claiming distributed behavior
+- agent-logic/agent-design-language#122 remains deferred beyond v0.92 and non-gating
+- Shared #111 overlap is isolated to integration commits and reported explicitly for later rebase
 
 ## Inputs
 

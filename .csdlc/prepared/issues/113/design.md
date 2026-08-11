@@ -8,10 +8,12 @@ a consumer: stable identity, visibility, redaction, presence, health,
 freshness, capability summaries, location, and communication eligibility are
 computed before serialization by Runtime policy and authority.
 
-The production source is the merged distributed Polis identity, membership,
-topology, failure, placement, migration, and projection contracts. Legacy
-issues #5863, #5867, #5877, and #5878 are closed contract inputs, but open issue
-agent-logic/agent-design-language#142 remains the operational production gate.
+The local production source is the current Runtime v3 identity, admission,
+component-state, and policy contracts on `main`. Merged distributed Polis
+identity, membership, topology, failure, placement, migration, and projection
+contracts remain compatible inputs for future non-local projection. Open issue
+agent-logic/agent-design-language#142 gates only that non-local/distributed
+adapter; it does not gate the local resident Shepherd roster outcome.
 
 ## Affected-Area Ownership
 
@@ -21,8 +23,10 @@ Issue #113 exclusively owns these new surfaces during execution:
 - `adl-runtime-kernel/tests/agent_roster.rs`
 - `adl/tools/validate_v092_html_observatory_roster.mjs`
 
-Issue #113 may modify these shared integration surfaces only after #83 and #142
-are merged, terminal, and ancestral to its execution base:
+Issue #113 keeps changes to these shared integration surfaces isolated so they
+can be rebased after concurrent #111 work. Neither open #83 nor open #142 gates
+the local resident Shepherd projection under the current live #110/#113
+authority:
 
 - `adl-runtime-kernel/src/lib.rs`
 - `adl-runtime-kernel/src/control.rs`
@@ -93,23 +97,24 @@ communication authority.
 - Detail lookup for an omitted, revoked, migrated, or unauthorized agent
   returns a policy-safe denial or absence without existence disclosure.
 
-## Serial Gates
+## Execution Gates
 
-Binding and product implementation must not begin until:
+Local resident Shepherd implementation may proceed when:
 
-1. #83 is merged, terminal, and ancestral, establishing the first live roster
-   and selected-agent interaction plus handing off shared Observatory paths.
-2. #142 is merged, terminal, and ancestral, establishing the operational
-   distributed Polis identity/topology source consumed by this projection.
+1. Current `main` exposes the production Runtime v3 admission, component-state,
+   policy, Observatory, and stable local identity inputs required by this
+   projection. Open #83 is preserved source and no longer gates WP-18C.
+2. Non-local/distributed roster projection remains deferred until #142 is
+   terminal and ancestral. This issue must not invent or simulate that adapter
+   while proving the local Shepherd outcome.
 3. #122 remains non-gating for local work under its newer live status, which
    explicitly defers public exposure beyond v0.92. #110 remains a read-only
    umbrella and does not override that issue-local execution boundary.
-4. No active child owns any intended shared path and the execution base still
-   exposes compatible Runtime identity, policy, topology, and Observatory
-   contracts.
+4. Shared-path edits are isolated from the roster model and tests, with exact
+   overlap reported for rebase against concurrent #111 work.
 
-Closed #137 and legacy #5863/#5867/#5877/#5878 are necessary contract evidence,
-not substitutes for #142's live operational proof.
+Closed #137 and legacy #5863/#5867/#5877/#5878 are compatible contract evidence,
+not authority to claim non-local production behavior before #142 completes.
 
 ## Validation Plan
 
