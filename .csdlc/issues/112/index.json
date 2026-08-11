@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 112,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 27,
-  "digest": "66574346ab063b52fd870c8058e42eca666eb2b884fcfc6d207168caba67bbc3",
-  "branch": null,
-  "worktree": null,
+  "digest": "56a53adba34ff06dd2900cde8cf911e4b40eae3adcb89d8a5f0c620788fe25c0",
+  "branch": "codex/112-layer8-authority-preparation-v2",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:wp18c02-live-dependency-repair",
       "reason": "All six typed cards, approved design, shared ACIP authority boundary, and exact preparation lanes are ready for pre-bind validation; product binding remains gated on merged ancestral #111 only."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -259,6 +267,13 @@
       "actor": "operator:daniel-explicit-fresh-packet-authorization",
       "reason": "reapprove repaired ready issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 29,
+      "generation": 27,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
