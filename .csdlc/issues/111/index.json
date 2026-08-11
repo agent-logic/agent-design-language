@@ -6,10 +6,30 @@
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
   "generation": 43,
-  "digest": "20dbec8c9307827eacb5b3a51560c4fe06c2e78d7342583a9c43c2fcee336c04",
+  "digest": "bad615e5c28b8a598bcec0aeb61f415dd69686ed7b50c16f23a00672f488e91a",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
+    "assigned_by": "codex:111-execution",
+    "revision": "git-blake3:4f0f40e378404e95d199be99ace4b63058b85f12:623011134d357c4da77527fbe004107872f97fa5ecde5f6d0877f692580e7f31",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111",
+      ".csdlc/prepared/issues/111"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +65,9 @@
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "d7b5a39bd9c5d030608c6c3d9fa519985563127d53135a576be1b2d7755df36d",
-      "rendered_digest": "e37a0643a47fb863a387964ca9e69e03eea12c6cfb959ebfbc5c60f69ec98b2b",
-      "ast_digest": "998b9887f80c2418e8b940fed6ddaeeeaaa92fbf2c6a08f79884820b30e5dd90"
+      "values_digest": "d91ab43c5c6ce8fc737a92f621526e98b276c96d7d4c9bb161f5b254961ca2b0",
+      "rendered_digest": "9d2bc066d785654a1f9b90bd61c6d82b967b5e29c77672a860d6b2f508e64bf9",
+      "ast_digest": "48c91146a06bba0e8c88340ac67a961a8f24f32e1853d44b27fa8feba5cd8080"
     },
     "sor": {
       "values_digest": "8066f61d668d16db34342f3b89061e9338bb299e44112865dfd6e4d3cba484bc",
@@ -393,6 +413,13 @@
       "actor": "codex:111-execution",
       "reason": "Record exact product-head diff hygiene validation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"058635d7db00cde88714e84c158a5c70bc59411d^\",\"058635d7db00cde88714e84c158a5c70bc59411d\"],\"purpose\":\"Reject malformed whitespace in the independently approved implementation revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; diff hygiene PASS\"}}"
+    },
+    {
+      "sequence": 46,
+      "generation": 43,
+      "actor": "codex:111-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

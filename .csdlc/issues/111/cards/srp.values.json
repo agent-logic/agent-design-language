@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact-head correctness, security, state ownership, ordering, idempotency, cancellation and timeout races, restart truth, redaction, browser non-simulation, affected-path ownership, and validation adequacy for issue #111 only.",
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/operations.rs\nadl-runtime-kernel/tests/conversation_sessions.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/openapi_contract.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/conversation_sessions.test.mjs\n.csdlc/issues/111\n.csdlc/prepared/issues/111",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

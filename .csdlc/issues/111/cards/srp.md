@@ -12,7 +12,20 @@ Status: pre_phase
 
 ## Scope
 
-Exact-head correctness, security, state ownership, ordering, idempotency, cancellation and timeout races, restart truth, redaction, browser non-simulation, affected-path ownership, and validation adequacy for issue #111 only.
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/ingress.rs
+adl-runtime-kernel/src/operations.rs
+adl-runtime-kernel/tests/conversation_sessions.rs
+adl-runtime-kernel/tests/observatory.rs
+adl-runtime-kernel/tests/openapi_contract.rs
+docs/api/runtime-v3/v1/observatory.openapi.json
+demos/html-observatory/app.js
+demos/html-observatory/index.html
+demos/html-observatory/styles.css
+demos/html-observatory/tests/conversation_sessions.test.mjs
+.csdlc/issues/111
+.csdlc/prepared/issues/111
 
 ## Prompts
 
