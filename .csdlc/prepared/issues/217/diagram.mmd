@@ -1,11 +1,19 @@
 flowchart LR
+    DR["First design review PASS"] --> AP["Typed approve and bind only"]
+    AP --> CR["Typed STP SPP VPP repair"]
+    CR --> FR["Second full-package review PASS"]
+    FR --> IMPL["Implementation allowed"]
+
     O["Historical c640 run"] --> HD["Exact ten-path historical denominator"]
     HD --> HC["Detached c640 validator with evidence overlay"]
     HC --> HP["Provenance only"]
 
-    N["Fresh #217 Linux and macOS run"] --> ND["Exact ten-path current denominator"]
+    IMPL --> H["Reviewed producer head H"]
+    H --> N["Fresh #217 Linux and macOS Actions artifacts"]
+    N --> H2["Evidence-only retention head H2"]
+    H2 --> ND["Exact ten-path current denominator"]
     ND --> DV["Digest and provenance validation"]
-    DV --> SM["Complete protected source manifest"]
+    DV --> SM["Exact 17-path protected source manifest"]
     SM --> REL{"Source relation"}
     REL -->|"ancestor"| EQ["Current protected-byte equality"]
     REL -->|"tree digest equivalent"| EQ

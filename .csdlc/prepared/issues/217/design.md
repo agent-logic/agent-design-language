@@ -3,9 +3,12 @@
 ## Context
 
 PR #215 proved the repaired production ACIP/WSS path on Linux and macOS at
-source revision `c640066f284a915b638add377cc4b0a2e221e6f9`. The later commit
-that retained its eight platform files, validation manifest, and validation log
-was not included in squash merge `a77519c3fca9f64752af41c9a2ebd396468891f7`.
+source revision `c640066f284a915b638add377cc4b0a2e221e6f9`. Merge
+`a77519c3fca9f64752af41c9a2ebd396468891f7` is a two-parent merge whose second
+parent is c640, so c640 is ancestral to merged `main`. The later evidence
+retention commit `b27b61597b7e6bc6563d6a7fef6f13ec9c6d3e98` is not ancestral
+and its eight platform files, validation manifest, and validation log were not
+merged.
 
 Those ten artifacts are valid historical evidence, but they are not sufficient
 current proof. Since c640, merged #191 legitimately changed protected path
@@ -49,9 +52,31 @@ No rebaseline is implicit. If a fresh run cannot be obtained, execution stops.
 Any later proposal to approve a scoped rebaseline requires explicit operator
 approval and a new reviewed design revision.
 
+The fresh proof has an exact two-head sequence:
+
+1. `H` is the reviewed producer/workflow/validator implementation head.
+2. GitHub Actions runs against exact `H` and uploads the Linux, macOS, and
+   aggregate artifacts without changing the branch.
+3. `H2` adds only the downloaded current evidence, its exact ten-path
+   denominator, and typed evidence/review truth. It changes none of the
+   protected paths.
+4. The workflow path filter includes proof tooling/workflow and the protected
+   source paths, but excludes `.csdlc/evidence/217` and lifecycle-only paths, so
+   pushing evidence-only `H2` cannot recursively launch another native run.
+5. The retained validator at `H2` requires `H` ancestry or complete protected
+   tree equivalence and independently requires zero protected-source drift.
+
 ### 3. Validate retained proof at later heads
 
-The issue-owned retained validator accepts a denominator as its entry point and:
+The independent machine-consumed denominator
+`.csdlc/prepared/issues/217/protected-source-denominator.json` freezes the exact
+17 protected paths. The producer must emit exactly that set into each source
+manifest; the validator compares each platform manifest and the current tree
+against the same reviewed denominator and rejects a missing, extra, or duplicate
+path before checking content digests.
+
+The issue-owned retained validator accepts an evidence denominator as its entry
+point and:
 
 1. requires exactly ten unique, repository-relative, evidence-confined paths;
 2. verifies every denominator digest before parsing referenced artifacts;
@@ -94,6 +119,26 @@ The final #217 VPP/SOR command invokes the retained validator on the fresh #217
 denominator at the reviewed PR head. The historical c640 lane is separately
 reported as provenance-only proof.
 
+### 4. Tracked stop gate
+
+The preparation lifecycle is deliberately serial:
+
+1. independent review passes this authored design, diagram, historical
+   ten-path denominator, and protected 17-path denominator;
+2. typed design approval is recorded;
+3. typed binding occurs only to unlock the lifecycle-authorized STP acceptance,
+   SPP step, and VPP lane corrections identified by the first review;
+4. those card repairs are applied without product, workflow, validator,
+   evidence, publication, or PR changes;
+5. a second independent reviewer passes the complete bound six-card package;
+6. only then may implementation begin, followed by exact-head implementation
+   review, publication, the `H` native run, evidence-only `H2` retention, and a
+   post-native exact-head review.
+
+Any missing review or unresolved finding stops the sequence. In particular,
+there is no implementation or publication between binding and the second
+full-package review.
+
 ## Boundaries
 
 - No production Rust, ACIP, replay, API, Guardian, kernel, or runtime behavior
@@ -101,6 +146,8 @@ reported as provenance-only proof.
 - No modification of terminal #209 cards or derived terminal state.
 - No AWS or cloud resources.
 - No edits to #142 beyond typed linkage/commentary if required.
+- No implementation or publication before the second independent full-package
+  review passes after typed card repair.
 - Publication requires independent design review and later independent
   exact-head implementation review. Merge remains operator-controlled.
 
