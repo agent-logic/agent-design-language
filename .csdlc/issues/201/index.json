@@ -5,10 +5,26 @@
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "implemented",
   "generation": 77,
-  "digest": "a3b5146199830dbb17c63952842f458eca50260530b23f6164746f37f5c2a1cf",
+  "digest": "a79d4d2c06ee52d4c7970dd008ace558e98a9d32ef0d4842ff1e897953beaa23",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_201_stable_custody_final",
+    "assigned_by": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+    "revision": "git-blake3:53a7ce592cd85fb132ed40314dfe47d312eb7659:4b82414e2e97ce632a55814068f2f4c36bf9f18ecd5e95253a8c0851fff33c9d",
+    "scope": [
+      ".csdlc/issues/201",
+      ".csdlc/prepared/issues/201",
+      ".csdlc/evidence/201/v7",
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_authority_protocol.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +60,9 @@
       "ast_digest": "4a5d5c1c34a6b48c219e67cf99d91b8fe6421b309a3a053832cfc635bcc06982"
     },
     "srp": {
-      "values_digest": "0a1a43b426810fc88d54c8a450c3295dd406f91ce2d4b76ca9efdfaddb2236f3",
-      "rendered_digest": "7842a5b4a31b4c37305c2c84faee2a2d137549db60dfe0aed36c2ef7c025775e",
-      "ast_digest": "27aa8d1db9277ebe055025a0461f01a1750d7d572041cda65f76fda07ac2b1a8"
+      "values_digest": "2e77888881445bfa891e540721dc08381507cefcea9baa253b246effa6a633bb",
+      "rendered_digest": "ff89e4b1ae8fc865ccabac6ce8745c34a2a9c7078a232ab8f8506a25b44e3311",
+      "ast_digest": "58112cd2e76fd29de536936471d3fc78d8ec1d0087ebb48da77748dc28473604"
     },
     "sor": {
       "values_digest": "d96dcbdad945b4d9a19cf4c394593b02b4b0eeec6c975c51a75b91a0ba247687",
@@ -651,6 +667,13 @@
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
       "reason": "Record independent design approval and the exact stable-custody regression matrix plus immutable proof as complete.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 80,
+      "generation": 77,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
