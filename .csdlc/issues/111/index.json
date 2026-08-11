@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "bound",
-  "generation": 27,
-  "digest": "ecbf55a60f3f22158a45f988ce39060317be18b27b8dc13444a4065302ddb908",
+  "generation": 32,
+  "digest": "0604360ce7d05af9feb5cf1ec5422ca992950870f8664cdcb86bc9a5fff204cd",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "72a899d0a762e81dcc344dc3c8132d9564592ba1625db481bbb492158f967d9b",
+      "values_digest": "55858372e5c18a94ad4fd7ca5b89097e956fc53b1a695bf17cd723c66cce0d9a",
       "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
       "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
     },
     "stp": {
-      "values_digest": "0006aa9a40c63efd28ec49e6e5f30f9647f867963da6d3a52b23c63becd7e288",
+      "values_digest": "b498ce70b8defb230a214de637ab670ebe778bebb9f3d69bdd92020e821d5f21",
       "rendered_digest": "0dc18f10d77718299dfddef691b3d73b3eb9df04dfbd7e25d2eaec6d47c417a6",
       "ast_digest": "b52c6837db96414aa8baab28902706e970376b68953bda041d7d402c79afe283"
     },
     "spp": {
-      "values_digest": "5f28469647e78bc03812049800a53846c5a14685cfd137d3b0bf458742fec68d",
-      "rendered_digest": "ebbe74966b965356e56d190e6b427645918f53481ae4820c9dafc19d04a8b5b2",
-      "ast_digest": "401cc7dd13eaa5a0fceeb3d9f94bf7d6bcabd4b607372ac37aff7dfc00110124"
+      "values_digest": "583001fba55cf5703925de462e2b5c937fede569fdeb5886bbd5c1efc703b9e6",
+      "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
+      "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
     },
     "vpp": {
-      "values_digest": "85d544b132d9f75b2580c92f2400c5f5aacab7dfb5ea532be1dbb798fc124362",
+      "values_digest": "008ca473f50a3711670bcb8ce5a01dfc394ed54480f511dc8510cdc2c64cd1bb",
       "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "225e8af735174233be3a1f40b27cde5194cb57b0b4fdfb3c8e10b19f8403a270",
+      "values_digest": "28db25217420f0fab0eaed5b8e4787904403fa9084b8d81f0eea123878b44586",
       "rendered_digest": "e37a0643a47fb863a387964ca9e69e03eea12c6cfb959ebfbc5c60f69ec98b2b",
       "ast_digest": "998b9887f80c2418e8b940fed6ddaeeeaaa92fbf2c6a08f79884820b30e5dd90"
     },
     "sor": {
-      "values_digest": "6300fe8ef4ab63702636b6d0acb607685ed974ad33ac0965e5984206a72a326d",
+      "values_digest": "0ea08c86c89d3870cfa2c2bdad90fee14a255c99599dec759581e656c885e653",
       "rendered_digest": "7e85772a1b45db70e43e5c774ccbd497398a8abcc4c36410055d3abbdbf7e98d",
       "ast_digest": "2b7c8a38e9f8222a78fea737458fba42a8b3696abaf3c65793811bd97261636d"
     }
@@ -274,6 +274,41 @@
       "actor": "codex:111-execution",
       "reason": "Align the authority invariant with live umbrella 110 decomposition and the existing authenticated Runtime reachability boundary.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Runtime alone owns canonical session state, sequence allocation, idempotency, recipient eligibility, and outcome truth\",\"One conversation binds exactly one authenticated operator session and one visible running agent\",\"At most one adapter dispatch and one correlated typed public response occur per accepted turn identifier\",\"Browser reconnect cannot create turns or replay dispatch, and a replayed result without a pending turn cannot render\",\"No provider-specific payload, credential, private cognition, private agent state, acknowledgement, or result hash crosses the public reply projection\",\"#111 uses the existing authenticated Runtime reachability boundary under live #110 authority; #83 is asynchronous reconciliation and downstream #112 supplies no authority or gate\"]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 28,
+      "actor": "codex:111-execution",
+      "reason": "Live authority, binding, source inspection, and typed replanning are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"P1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 29,
+      "actor": "codex:111-execution",
+      "reason": "Canonical conversation contracts, bounded Runtime execution, idempotent turn handling, and explicit outcomes are implemented.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"P2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 30,
+      "actor": "codex:111-execution",
+      "reason": "The provider-neutral agent adapter and private authenticated WSS conversation entrypoint are integrated without adding browser or public helper authority.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"P3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 31,
+      "actor": "codex:111-execution",
+      "reason": "The Observatory selected-agent UI renders only correlated typed reply text and rejects stale, mismatched, refused, empty, and metadata-only frames.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"P4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 34,
+      "generation": 32,
+      "actor": "codex:111-execution",
+      "reason": "Conversation WSS, Observatory integration, OpenAPI, browser behavior, JavaScript syntax, Clippy, card validation, and diff hygiene lanes passed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"P5\",\"status\":\"completed\"}"
     }
   ]
 }

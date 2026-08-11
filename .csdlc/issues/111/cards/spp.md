@@ -28,7 +28,7 @@ Revision 14
       "AC-1",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "P2",
@@ -38,7 +38,7 @@ Revision 14
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "P3",
@@ -48,7 +48,7 @@ Revision 14
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "P4",
@@ -57,7 +57,7 @@ Revision 14
       "AC-1",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "P5",
@@ -69,7 +69,7 @@ Revision 14
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "P6",
