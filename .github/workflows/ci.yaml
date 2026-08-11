@@ -75,6 +75,7 @@ jobs:
         id: path-policy
         env:
           HEAVY_CI_BACKEND: ${{ vars.ADL_HEAVY_CI_BACKEND || 'hosted' }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           bash adl/tools/ci_path_policy.sh \
             --event-name "${{ github.event_name }}" \
@@ -82,7 +83,11 @@ jobs:
             --head "${{ github.event.pull_request.head.sha }}" \
             --ref "${{ github.ref }}" \
             --github-output "$GITHUB_OUTPUT"
-          backend="$(bash adl/tools/resolve_ci_backend.sh "${HEAVY_CI_BACKEND:-hosted}")"
+          if [ "$EVENT_NAME" = pull_request ]; then
+            backend=hosted
+          else
+            backend="$(bash adl/tools/resolve_ci_backend.sh "${HEAVY_CI_BACKEND:-hosted}")"
+          fi
           echo "heavy_ci_backend=$backend" >> "$GITHUB_OUTPUT"
         working-directory: .
 
@@ -1173,7 +1178,7 @@ jobs:
       - adl_coverage_runtime_hosted
       - adl_coverage_workspace_fast_hosted
       - adl_coverage_workspace_hosted
-    if: always() && needs.adl_path_policy.outputs.coverage_required == 'true'
+    if: always() && needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.heavy_ci_backend == 'hosted'
     runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read

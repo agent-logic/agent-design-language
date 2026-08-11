@@ -85,8 +85,11 @@ if slow&.include?("slow_proof_contract_required == 'true'") || slow&.include?("g
 end
 
 coverage = job_block(ci, "adl_coverage_hosted")
-unless coverage&.include?("if: always() && needs.adl_path_policy.outputs.coverage_required == 'true'")
+unless coverage&.include?("if: always() && needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.heavy_ci_backend == 'hosted'")
   errors << "ci.yaml adl_coverage_hosted: heavy aggregation must skip before allocation when coverage is not required"
+end
+unless ci.include?('if [ "$EVENT_NAME" = pull_request ]; then') && ci.include?("backend=hosted")
+  errors << "ci.yaml: pull requests must force the hosted backend before any runner allocation"
 end
 
 required_outputs = {

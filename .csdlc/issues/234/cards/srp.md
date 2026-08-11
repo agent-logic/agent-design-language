@@ -13,9 +13,14 @@ Status: pre_phase
 ## Scope
 
 .github/workflows
-adl/tools
-docs/tooling
-csdlc-v2
+adl/tools/ci_path_policy.sh
+adl/tools/test_ci_path_policy.sh
+adl/tools/test_ci_runtime_contracts.sh
+adl/tools/validate_ci_workflow_policy.rb
+csdlc-v2/src/github.rs
+csdlc-v2/src/finish.rs
+docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md
+.csdlc/evidence/234
 .csdlc/issues/234
 .csdlc/prepared/issues/234
 

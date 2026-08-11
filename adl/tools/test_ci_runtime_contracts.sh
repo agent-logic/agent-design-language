@@ -104,6 +104,8 @@ concurrency_lines = [line for line in workflow.splitlines() if line.strip().star
 expected_concurrency = "group: ${{ github.repository }}:${{ github.workflow }}:${{ github.event.pull_request.base.ref || github.ref_name }}:${{ github.event.pull_request.head.repo.id || github.repository_id }}:${{ github.event.pull_request.head.ref || github.ref }}"
 if not any(expected_concurrency in line for line in concurrency_lines):
     raise SystemExit("CI concurrency must use an unambiguous target/source identity")
+if 'if [ "$EVENT_NAME" = pull_request ]; then' not in workflow or "backend=hosted" not in workflow:
+    raise SystemExit("pull requests must force the hosted backend before runner allocation")
 
 if re.search(r"^\s{2}push:\s*$", workflow, re.MULTILINE):
     raise SystemExit("CI must not run automatically after a merge to main")
@@ -693,7 +695,7 @@ for job, profile in ((runtime_job, "adl-runtime"), (workspace_job, "workspace"),
 
 aggregator_header = hosted_aggregator.split("steps:", 1)[0]
 for required_fragment in (
-    "if: always() && needs.adl_path_policy.outputs.coverage_required == 'true'",
+    "if: always() && needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.heavy_ci_backend == 'hosted'",
     "adl_coverage_runtime_hosted",
     "adl_coverage_workspace_fast_hosted",
     "adl_coverage_workspace_hosted",

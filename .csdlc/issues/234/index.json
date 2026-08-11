@@ -5,18 +5,23 @@
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
   "generation": 32,
-  "digest": "6d0a05d109c9d2c1a69656a73eaebcd2ddbe3c2b2615c14e9b6b90abf07cf71b",
+  "digest": "0331f37f7d96e904e4ecbf5e9d0c2106d1c4330fff686b1ead3b4e9f2c5f9e2f",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": {
-    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
-    "assigned_by": "operator",
-    "revision": "git-blake3:3d6a3b58426e88e7f76f73cd87bc3c281a70e1c4:48e053dcbed74ecc6136b3ffc1aaa97ed7d257ddc38ae328f49daf63f98dfb59",
+    "reviewer": "subagent:019ff295-bb90-7dd2-b121-266e74fd384a",
+    "assigned_by": "codex:234-final-remediation",
+    "revision": "git-blake3:e0f630fd143cd25556032e60cab142f6c7f1843b:929162aaceea23badf0ad1a1161d0972c33e5ad43b613c1b2cdcb0d38ccac4a9",
     "scope": [
       ".github/workflows",
-      "adl/tools",
-      "docs/tooling",
-      "csdlc-v2",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/validate_ci_workflow_policy.rb",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/finish.rs",
+      "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md",
+      ".csdlc/evidence/234",
       ".csdlc/issues/234",
       ".csdlc/prepared/issues/234"
     ]
@@ -56,9 +61,9 @@
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "ef80c5dec51c4be276aea77ea25f49c466423fb6d49d18da6cb91d1bf9bd6401",
-      "rendered_digest": "0eeafc2ec52fc108a85d659a970295e8083c465c8e6e1d4569b5b355b82cc3a7",
-      "ast_digest": "c3e80579cb5abc6c7da556066a1a54e25ac2cf32ac6f0fda170e12a30dce9678"
+      "values_digest": "0b924f3a16ab9d4d8d1eb6142b9f9358b68b3ff19121b8fd03aacd1ce73963a9",
+      "rendered_digest": "611e29a645c86a1f8f8fbb40a3f705e698ecde387a219e1f092d3dc1089d7637",
+      "ast_digest": "0afcd59a88d04e134ac384b1170120a4b07ce18252ab7d1535b8ba781a3a1a4b"
     },
     "sor": {
       "values_digest": "2a023d91cb162572d81acae8c4e59e8d106035dc8ec6a05f06bcb22a5780315d",
@@ -341,6 +346,13 @@
       "actor": "codex:234-final-validation",
       "reason": "Replace the vacuous historical hygiene claim with the exact committed-range and syntax checks actually executed.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-lc\",\"git diff --check origin/main...HEAD && bash -n adl/tools/ci_path_policy.sh adl/tools/test_ci_path_policy.sh adl/tools/test_ci_runtime_contracts.sh && ruby -c adl/tools/validate_ci_workflow_policy.rb && ruby -ryaml -e 'Dir[\\\".github/workflows/*.{yml,yaml}\\\"].each { |path| YAML.safe_load(File.read(path), permitted_classes: [], permitted_symbols: [], aliases: true) }'\"],\"purpose\":\"Prove committed-range whitespace hygiene, all touched shell syntax, validator Ruby syntax, and parsing of every workflow YAML file.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-head-2181870ee:committed-range-syntax-yaml:passed\"}}"
+    },
+    {
+      "sequence": 37,
+      "generation": 32,
+      "actor": "codex:234-final-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
