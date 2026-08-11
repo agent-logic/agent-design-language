@@ -19,13 +19,21 @@ independent review, and explicit operator authorization.
 
 The tail is sequential except where dependencies say otherwise:
 
-1. INT-01 independently reviews all three lanes and drives remediation.
-2. INT-02 qualifies the exact release candidate and rehearses rollback.
-3. INT-03 prepares the next milestone and deferred-work handoff.
-4. INT-04 independently reviews and accepts or rejects that handoff.
-5. INT-05 performs the release ceremony with explicit operator authorization.
-6. INT-06 reconciles and closes children, umbrellas, milestone records, handoff,
-   and cleanup classifications.
+1. INT-01 converges the milestone demos at exact terminal lane revisions.
+2. INT-02 runs the complete milestone quality gate.
+3. INT-03 aligns documentation and review truth with the gated candidate.
+4. INT-04 conducts the internal milestone review.
+5. INT-05 conducts the external milestone review.
+6. INT-06 remediates findings and runs final preflight and rollback rehearsal.
+7. INT-07 prepares the next milestone and deferred-work handoff.
+8. INT-08 independently reviews and accepts or rejects that handoff.
+9. INT-09 performs the operator-authorized release ceremony and terminal
+   lifecycle closeout.
+
+This order is inherited from the canonical tracked implementation in
+`docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md`. Steps may not be
+collapsed, reordered, or treated as parallel without an explicit versioned
+planning decision.
 
 Accepted rescope requires an operator decision and updated release claims.
 Deferral never counts as completion.

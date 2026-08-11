@@ -10,12 +10,17 @@ flowchart LR
   O --> A["Corporate and IP lane"]
   O --> B["C-SDLC v3 lane"]
   O --> C["Distributed Runtime qualification"]
-  A --> R["Integrated review"]
-  B --> R
-  C --> R
-  R --> Q["Release qualification"]
-  Q --> N["Next-milestone planning and review"]
-  N --> X["Release ceremony and terminal closeout"]
+  A --> D["INT-01 Demo convergence"]
+  B --> D
+  C --> D
+  D --> Q["INT-02 Quality gate"]
+  Q --> L["INT-03 Docs and review alignment"]
+  L --> I["INT-04 Internal review"]
+  I --> E["INT-05 External review"]
+  E --> F["INT-06 Remediation and final preflight"]
+  F --> N["INT-07 Next-milestone planning"]
+  N --> H["INT-08 Next-milestone review"]
+  H --> X["INT-09 Release ceremony and lifecycle closeout"]
 ```
 
 ## Milestone Opening
@@ -38,8 +43,8 @@ Lane C consumes terminal `#142` and WP-04.16 production proof. It qualifies exac
 
 ## Integration
 
-Integrated review checks source ancestry, terminal issue evidence, unresolved
-findings, residual risks, and release claims. It cannot substitute one lane's
-evidence for another. The tail then performs release qualification, next-
-milestone planning, independent handoff review, operator-authorized ceremony,
-and terminal issue/umbrella/milestone closeout as separate gates.
+The integration tail follows the standard nine-step sequence: demo convergence,
+quality gate, docs and review alignment, internal review, external review,
+remediation and final preflight, next-milestone planning, next-milestone review,
+and operator-authorized release ceremony with lifecycle closeout. It cannot
+substitute one lane's evidence for another or collapse independent gates.

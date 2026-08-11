@@ -45,12 +45,16 @@
 
 ## Standard Closeout Tail
 
-- [ ] INT-01 independent integrated review and remediation complete.
-- [ ] INT-02 exact release candidate qualified and rollback rehearsed.
-- [ ] INT-03 next-milestone planning and deferred-work routing complete.
-- [ ] INT-04 independent handoff review accepted with no blocker.
-- [ ] INT-05 release ceremony completed under explicit operator authorization.
+- [ ] INT-01 demo convergence complete at exact terminal lane revisions.
+- [ ] INT-02 milestone quality gate complete with an exact criterion denominator.
+- [ ] INT-03 documentation and review truth aligned with the gated candidate.
+- [ ] INT-04 internal milestone review complete and findings routed.
+- [ ] INT-05 external milestone review complete and findings routed.
+- [ ] INT-06 blocking findings remediated, re-reviewed, and final preflight and rollback rehearsal passed.
+- [ ] INT-07 next-milestone planning and deferred-work routing complete.
+- [ ] INT-08 independent next-milestone review accepted with no blocker.
+- [ ] INT-09 release ceremony completed under explicit operator authorization.
 - [ ] Every child has one terminal disposition and every umbrella reconciles its denominator.
 - [ ] Release notes state evidence, non-claims, and residual risks.
-- [ ] INT-06 closes the milestone only after release and handoff truth are terminal.
+- [ ] INT-09 closes the milestone only after release and handoff truth are terminal.
 - [ ] Worktree cleanup is classified separately and preserves dirty or drifted work.
