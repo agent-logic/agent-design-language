@@ -38,6 +38,7 @@ Repaired production ACIP replay authority, transactional pressure rollback, plat
 - Normalized native semantic comparison independently of platform and expanded exact authority source provenance.
 - Aligned the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression.
 - Run 31452115116 failed both native producers because the production kernel test requires the verified Vector component; the issue workflow now installs it before proof, hashes the installer in source provenance, and requires a replacement run.
+- Replacement run 31452684900 passed the Linux production target 2/2 but exposed a package-working-directory semantic path error; the producer now supplies its already-confined semantic destination as an absolute path, with local exact nextest generation proof, and requires another replacement run.
 
 ## Validation
 
