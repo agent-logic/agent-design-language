@@ -7,65 +7,24 @@
     "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
     "slug": "v0-92-wp-17-migration-and-cross-polis-continuity-planning",
     "version": "v0.92",
-    "generation": 44
+    "generation": 45
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5835\n.csdlc/prepared/issues/5835/design.md\n.csdlc/prepared/issues/5835/diagram.mmd\n.csdlc/evidence/5835\ndocs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md\ndocs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md\ndocs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
-      "review_revision": "git-blake3:9a438d9ca893e6afebb1d2505748feffe95f62df:7045903b3b5a34a7d387da7401cc76db717f35f57769f804e71323083e12419b",
-      "reviewer": "/root/sprint5_5835/review_5835_exact_head",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does every movement-semantics row cite landed v0.92 evidence and preserve lineage?",
         "Can copied, ambiguous, or private state be misread as transferable continuity?",
         "Does any text absorb WP-04 infrastructure or v0.93 governance authority?",
         "Are the exact candidate paths and validation artifacts independently usable?"
       ],
-      "findings": [
-        {
-          "id": "P1-owned-path-boundary",
-          "severity": "p1",
-          "summary": "NEXT_MILESTONE_HANDOFF was modified although the approved design marks it read-only.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "P1-self-authorizing-transfer",
-          "severity": "p1",
-          "summary": "Caller-selected repository, revision, authority context, and redaction policy lack trusted anchors.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "P1-acip-remediation-authority",
-          "severity": "p1",
-          "summary": "The ACIP row and validator are not bound to issue #209 and its retained native remediation proof.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "P2-rollback-evidence",
-          "severity": "p2",
-          "summary": "Rollback is recorded completed without a retained rejected matrix or executable rollback proof.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pre_review"
     }
   }
 }

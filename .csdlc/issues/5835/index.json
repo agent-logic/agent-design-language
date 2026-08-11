@@ -5,82 +5,12 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "214155e897000ad4b833bad3f333909588f03629f193b672e5967e62750e2c3f",
   "phase": "implemented",
-  "generation": 44,
-  "digest": "e4f3715c0180a9864c4ca4b4c52441d47862bd9ac5ddae4543505801246501e1",
+  "generation": 45,
+  "digest": "859e7feee50de8472e114d2e75ba8dc3594bd6919269b9b04c8c13cb26399809",
   "branch": "codex/5835-wp17-continuity-migration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5835-wp17-continuity-migration",
-  "review_assignment": {
-    "reviewer": "/root/sprint5_5835/review_5835_exact_head",
-    "assigned_by": "/root/sprint5_5835",
-    "revision": "git-blake3:9a438d9ca893e6afebb1d2505748feffe95f62df:7045903b3b5a34a7d387da7401cc76db717f35f57769f804e71323083e12419b",
-    "scope": [
-      ".csdlc/issues/5835",
-      ".csdlc/prepared/issues/5835/design.md",
-      ".csdlc/prepared/issues/5835/diagram.mmd",
-      ".csdlc/evidence/5835",
-      "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
-      "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
-      "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/sprint5_5835/review_5835_exact_head",
-    "scope": [
-      ".csdlc/issues/5835",
-      ".csdlc/prepared/issues/5835/design.md",
-      ".csdlc/prepared/issues/5835/diagram.mmd",
-      ".csdlc/evidence/5835",
-      "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
-      "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
-      "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md"
-    ],
-    "reviewed_revision": "git-blake3:9a438d9ca893e6afebb1d2505748feffe95f62df:7045903b3b5a34a7d387da7401cc76db717f35f57769f804e71323083e12419b",
-    "findings": [
-      {
-        "id": "P1-owned-path-boundary",
-        "severity": "p1",
-        "summary": "NEXT_MILESTONE_HANDOFF was modified although the approved design marks it read-only.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "P1-self-authorizing-transfer",
-        "severity": "p1",
-        "summary": "Caller-selected repository, revision, authority context, and redaction policy lack trusted anchors.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "P1-acip-remediation-authority",
-        "severity": "p1",
-        "summary": "The ACIP row and validator are not bound to issue #209 and its retained native remediation proof.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "P2-rollback-evidence",
-        "severity": "p2",
-        "summary": "Rollback is recorded completed without a retained rejected matrix or executable rollback proof.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -95,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b35519509c74f7981169354be8cb9e9fea8eb784627214e67f1510ebbd3abd31",
+      "values_digest": "b38fab7072d571f6ebefad69b339dc5a7455a1c4245d1e80d31241457be669bd",
       "rendered_digest": "98b91e73cbc55145e52d5996b6a1dff499805e23a39be6827e4d14bb01ae0f59",
       "ast_digest": "f5a8d8b3f95bdf6ad727783faa7e2a36f70c322317e400ed605c3031df82710a"
     },
     "stp": {
-      "values_digest": "e3d389207d9a2bbb875a2f89a688a49e74439f8dfde64fe358fc103d71473374",
+      "values_digest": "58dfdb2285008c085f7cb275f6a66ea5db093eb6fd5751f1c0179dc0448d4248",
       "rendered_digest": "2baed4c263203eb2e7785025590b0aa94cf8064218eec14f4dfecd9792f1d6a6",
       "ast_digest": "a72a66ab38532060b526774a11801e0ebe6defc280d10f227ae7cafc06862341"
     },
     "spp": {
-      "values_digest": "a6f5ae2701961218fc5cccc2b22c656ae1571ba86eebddc8b93322ed85e0c1e3",
+      "values_digest": "67a5fc71b760bb772c7badb901eefc81d40935aea02d15438fd58f4b4c993a0b",
       "rendered_digest": "dce27ff0439c52ea8bc6b6067c61566c6c3cbb3e3c8383ae50785c18eac9a1c5",
       "ast_digest": "c0eb71ab95123284feb198a9e03da452f24535519a044bfbc63db8ef425816d0"
     },
     "vpp": {
-      "values_digest": "1009a4312d54e3e1f8f3dd78220f5a7f18f826ccc6fc8b1c3743b7d8b1e8e52c",
+      "values_digest": "4df99bc5fe1d9ef97f6425b0d82e67bb86e18fd3c0a2cc7e6fcf64454f0c66f6",
       "rendered_digest": "dcf5fa300522d7f5456f6fff5261cd402539f9dd43696288df2604d0f82559ac",
       "ast_digest": "e3156e7f3ab4a49bca087fbb7c4d8fe09a1386c9e2b7c4610ec3ae10c37768a5"
     },
     "srp": {
-      "values_digest": "a90e655b68fec5f830ad9af9e6188e8f645664d2b1513d42a79778b9b5a9795f",
-      "rendered_digest": "d9aa02edab18bfa1db320927fc2349e6b2e402c600c74085e2768ac58fed26c4",
-      "ast_digest": "b5c909d3cdc95777705db846a3c66e306cc049db6bf9c9fbd30eb09a3416f791"
+      "values_digest": "2f1a044fc57b0ba2f727d8a0c0f063918f2e0478691cdbd7f7bd81741a528573",
+      "rendered_digest": "c7ce82051113de54e05a607615bd5543914646f058ed0aaf19cec69fa0033e85",
+      "ast_digest": "99503b3f7dd25b2b165515334d86c98ba4f7b89b7fbf21150a974bbb83bfecdd"
     },
     "sor": {
-      "values_digest": "a1650c9a572eb4c64f571f17c93de8b0d574c7386a41b7e4417a6c64faa81969",
-      "rendered_digest": "b9f963cba708f3190fe2b4eee34222a32a43ab9bb965aeb7285613be4e25de46",
-      "ast_digest": "6380c4fcb8711509650cb4698a18b6f0b116d67026fc3deb403a2f1fcf1c7c0d"
+      "values_digest": "b9e25a36524a8c0f9fb07dcadfc4bdc51962fb9fed5bc2eafa7c745f6bd27df1",
+      "rendered_digest": "e1279e50e753f50102a148095ebaec7a8efc0f4ef24521b04efd6b2824a1bbdf",
+      "ast_digest": "73e3957fd039a72d24df6accbc3551e3d656a7add48bd101bd86b0b7d411d488"
     }
   },
   "transitions": [
@@ -589,6 +519,13 @@
       "actor": "/root/sprint5_5835",
       "reason": "Correct execution truth while resolving the first exact-head review findings.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the WP-17 documentation-only continuity-transfer contract over landed v0.92 Birthday evidence; first-review authority, scope, ACIP, and rollback findings are under bounded remediation.\",\"changes\":[\"Added an eleven-row field-level transfer matrix covering portability, locality, governance, transport, lineage, redaction, and fail-closed dispositions.\",\"Added trusted repository, revision, authority-context, and redaction-policy anchor requirements that reject caller-established authority.\",\"Bound ACIP transfer-readiness to replacement issue #209, PR #215, exact merge ancestry, and digest-pinned local/native manifests.\",\"Retained a six-case rejected transfer matrix and explicit rollback proof while leaving the v0.93 handoff read-only.\"],\"artifacts\":[\"docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md\",\"docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md\",\".csdlc/evidence/5835/dependency-authority.json\",\".csdlc/evidence/5835/rejected-transfer-matrix.json\",\".csdlc/evidence/5835/rollback-proof.json\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"],\"purpose\":\"Validate the anchored field-level continuity-transfer, ACIP authority, and rollback contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5835/wp17-doc-contract.log\"},{\"command\":[\"ruby\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\",\"--negative\"],\"purpose\":\"Prove copied/conflicting/private/self-authorized/superseded/overclaim mutations fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5835/wp17-negative-semantics.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch formatting defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5835/wp17-diff-review.log\"}]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 45,
+      "actor": "/root/sprint5_5835",
+      "reason": "Recover after fixing all four findings from the exact-head review of 9a438d9ca893e6afebb1d2505748feffe95f62df. The remediation at 10e5bdbc490d29d1f9ee155347e96d0e9589db1c removes the out-of-scope handoff edit, adds immutable trusted anchors, binds replacement ACIP proof, and retains negative and rollback evidence for fresh exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -66,7 +66,7 @@ Implemented the WP-17 documentation-only continuity-transfer contract over lande
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
