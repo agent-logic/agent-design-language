@@ -6,10 +6,31 @@
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
   "generation": 83,
-  "digest": "6ed4053f112402dea672c0d2ce668fb67930aeb2ebb0741f0d1ddcdf977554bc",
+  "digest": "0f7e697b8f587faad9e0cc9f5a692e149f085c9c9e3a9d500768791adc9a341c",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff1ee-694b-7b62-b86d-ebe05224810c",
+    "assigned_by": "codex:issue-111-focused-routing-repair",
+    "revision": "git-blake3:b7970f08cb259090ff9eb600b66c5ed95fab1ec1:f964078c80ee05775bec709cf9477a5a8f81d6b1a095015dffa33048470902a6",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_select_validation_lanes.sh",
+      ".csdlc/issues/111"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +66,9 @@
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "70beeaddb9f227e3fc342645e669bd39a181c5216a72bbe5136405e38bc015e9",
-      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
-      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
+      "values_digest": "683a6ade23f857d907290986fc6c63fea03c04b220c4bd9360a556cf23a21e10",
+      "rendered_digest": "005ac5ea5925cdd0c44eef50bd47f8ba08babafc6096fca8684f258cc95f0382",
+      "ast_digest": "7a7a667a52cfb9003673c5d7dec4e24cd49b4f5c476a2233b8ae7303d9f078d9"
     },
     "sor": {
       "values_digest": "5966952f39ea4572f97f8c25f6ae33434b7b5fde31c89b6249970e229329faf0",
@@ -848,6 +869,13 @@
       "actor": "codex:issue-111-focused-routing-repair",
       "reason": "Recover published lifecycle truth after reviewed focused validation routing repair at fd77ccd5c520568694972d169ad3975d3d3a1cdc.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 97,
+      "generation": 83,
+      "actor": "codex:issue-111-focused-routing-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
