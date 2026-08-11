@@ -189,7 +189,7 @@
           "control"
         ],
         "summary": "Submit a signed Runtime v3 control command",
-        "description": "Executes a signed Ed25519 control command against the current runtime instance. The action may read a snapshot, submit canonical work through live ingress, or request shutdown according to the key capability set. Browser callers receive CORS headers only when their Origin is listed in the Runtime v3 Observatory allowed-origin policy.",
+        "description": "Executes a signed Ed25519 control command against the current runtime instance. The action may read a snapshot, submit canonical work through live ingress, request shutdown, or request an incarnation-bound Guardian restart according to the key capability set. Browser callers receive CORS headers only when their Origin is listed in the Runtime v3 Observatory allowed-origin policy.",
         "security": [],
         "x-adl-authorization": {
           "transport": "server_tls",
@@ -686,6 +686,9 @@
               },
               {
                 "$ref": "#/components/schemas/ControlActionShutdown"
+              },
+              {
+                "$ref": "#/components/schemas/ControlActionRestart"
               }
             ]
           },
@@ -745,6 +748,16 @@
             "minimum": 1,
             "maximum": 60000
           }
+        }
+      },
+      "ControlActionRestart": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "expected_incarnation_id", "grace_millis"],
+        "properties": {
+          "action": { "const": "restart" },
+          "expected_incarnation_id": { "type": "string", "format": "uuid" },
+          "grace_millis": { "type": "integer", "minimum": 1, "maximum": 60000 }
         }
       },
       "DomainWork": {
@@ -808,6 +821,9 @@
               },
               {
                 "$ref": "#/components/schemas/ControlOutcomeShutdown"
+              },
+              {
+                "$ref": "#/components/schemas/ControlOutcomeRestart"
               }
             ]
           }
@@ -862,6 +878,15 @@
               "failed"
             ]
           }
+        }
+      },
+      "ControlOutcomeRestart": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["result", "accepted"],
+        "properties": {
+          "result": { "const": "restart" },
+          "accepted": { "const": true }
         }
       },
       "DomainResult": {

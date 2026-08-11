@@ -1,0 +1,17 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 26,
+  "expected_digest": "58966d207e31197bfa1f3fa4037195530d4973765ab8e0e57bd59f623accdd8e",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Record exact focused roster proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--test", "agent_roster"],
+      "purpose": "Prove Runtime-owned policy filtering, stable identity, freshness, pagination, relocation, and production Shepherd admission.",
+      "outcome": "passed",
+      "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: agent_roster passed 10/10."
+    }
+  }
+}

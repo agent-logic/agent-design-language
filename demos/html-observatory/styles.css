@@ -204,14 +204,12 @@ a {
 }
 
 .hero,
-.panopticon-shell,
 .runtime-grid,
 .evidence-band {
   max-width: none;
   margin: 0 auto;
 }
 
-.panopticon-shell,
 .runtime-grid,
 .evidence-band {
   display: none;
@@ -1076,8 +1074,56 @@ dd {
 }
 
 .panopticon-shell {
+  display: none;
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
+}
+
+.observatory[data-dashboard-surface="agents"] > .hero {
+  display: none;
+}
+
+.observatory[data-dashboard-surface="agents"] > .panopticon-shell {
+  display: block;
+}
+
+.surface-nav {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: -1rem -1rem 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.surface-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.7rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.surface-nav a:hover,
+.surface-nav a:focus-visible,
+.surface-nav a[aria-current="page"] {
+  color: var(--text);
+  background: var(--panel-strong);
+  outline-offset: 2px;
+}
+
+.surface-nav svg {
+  width: 1rem;
+  height: 1rem;
 }
 
 .live-control-strip {
@@ -1203,6 +1249,76 @@ dd {
   display: grid;
   gap: 0.65rem;
   margin-top: 1rem;
+}
+
+.roster-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(8rem, 0.7fr) minmax(7rem, 0.55fr);
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.roster-controls .field span {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.roster-row {
+  width: 100%;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.roster-row[aria-pressed="true"] {
+  border-color: var(--cyan);
+  box-shadow: inset 3px 0 0 var(--cyan);
+}
+
+.roster-row:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.roster-detail {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.85rem;
+}
+
+.roster-load-more {
+  margin-top: 0.75rem;
+}
+
+.roster-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.roster-facts div {
+  min-width: 0;
+}
+
+.roster-facts dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.roster-facts dd {
+  margin: 0.15rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  .roster-controls,
+  .roster-facts {
+    grid-template-columns: 1fr;
+  }
 }
 
 .agent-row,
@@ -1734,7 +1850,6 @@ textarea,
   }
 }
 
-.observatory > .panopticon-shell,
 .observatory > .runtime-grid,
 .observatory > .evidence-band {
   display: none !important;

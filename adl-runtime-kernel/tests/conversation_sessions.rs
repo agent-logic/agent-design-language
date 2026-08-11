@@ -8,13 +8,14 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    serve_control_listener, AdapterKind, AdapterPolicy, AuthorityMode, CanonicalIngress,
-    ComponentRegistry, ControlApiPolicy, ControlAuthority, ControlService, ExecutorError,
-    FailureClass, Kernel, KernelExit, LifecycleControl, OperationExecutor, OperationRequest,
-    OperationalAdapter, OperationalFactory, RuntimeRecorder, OBSERVATORY_FEED_SCHEMA,
-    OBSERVATORY_WS_AUTH_SCHEMA, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
-    OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA, OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-    OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA, OBSERVATORY_WS_PATH,
+    serve_control_listener, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
+    CanonicalIngress, ComponentId, ComponentRegistry, ControlApiPolicy, ControlAuthority,
+    ControlService, ExecutorError, FailureClass, Kernel, KernelExit, LifecycleControl,
+    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, RunningState,
+    RuntimeRecorder, OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA,
+    OBSERVATORY_WS_CONTROL_RESULT_SCHEMA, OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA,
+    OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+    OBSERVATORY_WS_PATH,
 };
 use async_trait::async_trait;
 use futures::{SinkExt, StreamExt};
@@ -120,14 +121,26 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         recorder.clone(),
         BTreeMap::from([("agent_runtime".to_owned(), operation.clone())]),
     );
+    let admitted_at = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Running);
+    assert!(recorder.record_agent_admission(
+        "shepherd",
+        admitted_at,
+        admitted_at + 30_000,
+        "1111111111111111111111111111111111111111",
+    ));
     let service = Arc::new(
-        ControlService::new_with_observatory_config(
+        ControlService::new_with_observatory_config_and_agents(
             "conversation-runtime",
             recorder.clone(),
             FakeLifecycle,
             ControlAuthority::new(BTreeMap::new()),
             8,
             ["https://observatory.example.test".to_owned()],
+            AgentPopulationFeed::resident_shepherd(),
         )
         .with_canonical_ingress(ingress.clone()),
     );
@@ -209,9 +222,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-agent-0001",
+                "conversation_id": "conversation-shepherd",
                 "turn_id": "turn-positive",
-                "recipient_id": "agent-0001",
+                "recipient_id": "shepherd",
                 "correlation_id": "0123456789abcdef0123456789abcdef",
                 "message": "Hello"
             })
@@ -222,12 +235,12 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .unwrap();
     let accepted =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
-    assert_eq!(accepted["status"], "accepted");
+    assert_eq!(accepted["status"], "accepted", "{accepted}");
     assert_eq!(accepted["turn_sequence"], 1);
     let delivered =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(delivered["status"], "delivered");
-    assert_eq!(delivered["reply"], "agent-0001 received your message.");
+    assert_eq!(delivered["reply"], "shepherd received your message.");
     assert!(!delivered.to_string().contains("adapter_secret"));
     assert_eq!(dispatches.load(Ordering::SeqCst), 1);
 
@@ -235,9 +248,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-agent-0001",
+                "conversation_id": "conversation-shepherd",
                 "turn_id": "turn-positive",
-                "recipient_id": "agent-0001",
+                "recipient_id": "shepherd",
                 "correlation_id": "0123456789abcdef0123456789abcdef",
                 "message": "Hello"
             })
@@ -255,9 +268,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-agent-0001",
+                "conversation_id": "conversation-shepherd",
                 "turn_id": "turn-positive",
-                "recipient_id": "agent-0001",
+                "recipient_id": "shepherd",
                 "correlation_id": "0123456789abcdef0123456789abcdef",
                 "message": "Changed payload"
             })
@@ -288,9 +301,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             .send(Message::Text(
                 serde_json::json!({
                     "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                    "conversation_id": "conversation-agent-0001",
+                    "conversation_id": "conversation-shepherd",
                     "turn_id": turn_id,
-                    "recipient_id": "agent-0001",
+                    "recipient_id": "shepherd",
                     "correlation_id": correlation_id,
                     "message": message
                 })
@@ -323,9 +336,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             .send(Message::Text(
                 serde_json::json!({
                     "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                    "conversation_id": "conversation-agent-0001",
+                    "conversation_id": "conversation-shepherd",
                     "turn_id": turn_id,
-                    "recipient_id": "agent-0001",
+                    "recipient_id": "shepherd",
                     "correlation_id": correlation_id,
                     "message": "delay budget"
                 })
@@ -370,9 +383,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-agent-0001",
+                "conversation_id": "conversation-shepherd",
                 "turn_id": "turn-forged-output",
-                "recipient_id": "agent-0001",
+                "recipient_id": "shepherd",
                 "correlation_id": "11111111111111111111111111111111",
                 "message": "forge recipient"
             })
@@ -391,9 +404,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
 
     let delayed_intent = serde_json::json!({
         "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-        "conversation_id": "conversation-agent-0001",
+        "conversation_id": "conversation-shepherd",
         "turn_id": "turn-disconnect",
-        "recipient_id": "agent-0001",
+        "recipient_id": "shepherd",
         "correlation_id": "22222222222222222222222222222222",
         "message": "delay"
     });
@@ -453,9 +466,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-agent-0001",
+                "conversation_id": "conversation-shepherd",
                 "turn_id": "turn-cancel",
-                "recipient_id": "agent-0001",
+                "recipient_id": "shepherd",
                 "correlation_id": "33333333333333333333333333333333",
                 "message": "delay"
             })
@@ -471,7 +484,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA,
-                "conversation_id": "conversation-agent-0001",
+                "conversation_id": "conversation-shepherd",
                 "turn_id": "turn-cancel",
                 "correlation_id": "33333333333333333333333333333333"
             })
@@ -497,9 +510,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-agent-0001",
+                "conversation_id": "conversation-shepherd",
                 "turn_id": "turn-over-capacity",
-                "recipient_id": "agent-0001",
+                "recipient_id": "shepherd",
                 "correlation_id": "44444444444444444444444444444444",
                 "message": "Hello"
             })

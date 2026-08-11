@@ -1,0 +1,28 @@
+{
+  "issue": 113,
+  "expected_generation": 39,
+  "expected_digest": "a2f4ad6fc3b1551aedf3c2c654d04969c8cd029e1135e135d0192555acb099ae",
+  "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+  "assigned_by": "codex:wp18c03-execution",
+  "scope": [
+    "adl-runtime-kernel/build.rs",
+    "adl-runtime-kernel/src/agent_roster.rs",
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/lib.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/telemetry.rs",
+    "adl-runtime-kernel/src/live_continuity.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/tests/agent_roster.rs",
+    "adl-runtime-kernel/tests/control.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "docs/api/runtime-v3/v1/openapi.json",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/index.html",
+    "demos/html-observatory/styles.css",
+    "adl/tools/test_html_observatory.sh",
+    "adl/tools/validate_v092_html_observatory_roster.mjs",
+    ".csdlc/issues/113"
+  ]
+}

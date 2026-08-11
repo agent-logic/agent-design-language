@@ -1,0 +1,13 @@
+{
+  "issue": 113,
+  "card": "spp",
+  "expected_generation": 18,
+  "expected_digest": "4408dc59c124035ba45cc6feaed9072b0585e62b7c89e78cc3993ef770f4f828",
+  "actor": "codex:113-local-roster-execution",
+  "reason": "Production Runtime Shepherd projection and the Observatory selection surface are integrated in isolated shared-path commits without claiming distributed projection.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S3",
+    "status": "completed"
+  }
+}

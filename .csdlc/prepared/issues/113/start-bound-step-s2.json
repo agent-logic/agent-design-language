@@ -1,0 +1,13 @@
+{
+  "issue": 113,
+  "card": "spp",
+  "expected_generation": 16,
+  "expected_digest": "e63a7d6d58ef1de606018a6d59c47daf79d10cbd3603d6825e2ea10d0eca49f0",
+  "actor": "codex:113-local-roster-execution",
+  "reason": "Begin the issue-owned local roster model and exact proof implementation.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S2",
+    "status": "in_progress"
+  }
+}

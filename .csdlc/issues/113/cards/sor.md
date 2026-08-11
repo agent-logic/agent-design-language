@@ -1,0 +1,149 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 113
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implemented a Runtime-owned, policy-filtered, bounded local agent roster with truthful Shepherd admission, presence freshness, stable identity, revision-bound pagination, Runtime reincarnation handling, accessible Observatory selection and navigation, and Guardian-owned asynchronous restart proof. The candidate remains unpushed and unpublished for final independent review.
+
+## Artifacts
+
+- adl-runtime-kernel/src/agent_roster.rs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/live_continuity.rs
+- adl-runtime-kernel/tests/agent_roster.rs
+- adl-runtime-kernel/tests/control.rs
+- adl-runtime-kernel/tests/openapi_contract.rs
+- docs/api/runtime-v3/v1/openapi.json
+- docs/api/runtime-v3/v1/observatory.openapi.json
+- demos/html-observatory/app.js
+- demos/html-observatory/index.html
+- demos/html-observatory/styles.css
+- adl/tools/test_html_observatory.sh
+- adl/tools/validate_v092_html_observatory_roster.mjs
+- exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1
+
+## Execution
+
+- Added the production local roster model, deterministic policy filtering, bounded page tokens, presence/freshness transitions, stable identity, and relocation semantics.
+- Projected admitted Shepherd truth through Runtime v3 and versioned OpenAPI without claiming distributed or global roster completeness.
+- Integrated bounded roster selection, cursor/incarnation reset, accessible persistent navigation, and responsive browser behavior in the HTML Observatory.
+- Routed restart proof through signed Guardian-owned control and made the public result explicitly asynchronous restart acceptance.
+- Added exact focused, scale, policy, freshness, pagination, reconnect, relocation, status-transition, reincarnation, and browser proof.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--test",
+      "agent_roster"
+    ],
+    "purpose": "Prove Runtime-owned policy filtering, stable identity, freshness, pagination, relocation, and production Shepherd admission.",
+    "outcome": "passed",
+    "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: agent_roster passed 10/10."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--test",
+      "control"
+    ],
+    "purpose": "Prove production roster projection, signed restart acceptance, control policy, and Runtime observatory behavior.",
+    "outcome": "passed",
+    "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: control passed 24/24."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--test",
+      "openapi_contract"
+    ],
+    "purpose": "Prove versioned roster and asynchronous restart contracts match production routes.",
+    "outcome": "passed",
+    "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: openapi_contract passed 6/6."
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject production Runtime library warnings across the bounded roster implementation.",
+    "outcome": "passed",
+    "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: production library strict Clippy passed with -D warnings."
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "purpose": "Verify all touched Rust surfaces satisfy canonical formatting.",
+    "outcome": "passed",
+    "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: cargo fmt --all -- --check passed."
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_html_observatory.sh"
+    ],
+    "purpose": "Prove Runtime v3 roster projection, signed control contract, persistent navigation, and static browser bindings.",
+    "outcome": "passed",
+    "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: HTML Observatory Runtime v3, signed command, and roster projection contract passed."
+  },
+  {
+    "command": [
+      "node",
+      "adl/tools/validate_v092_html_observatory_roster.mjs"
+    ],
+    "purpose": "Prove the trusted-TLS Runtime-backed local Shepherd roster, pagination, policy transitions, relocation, cursor handling, accessible navigation, reconnect, and signed Guardian restart through a new healthy Runtime incarnation.",
+    "outcome": "passed",
+    "evidence_ref": "Managed Chrome proof passed at exact Runtime source ef1238cd9bca0085d21dc74361308804e91d3ae1 using https://wuji.agent-logic.ai:33783 and Runtime port 33983; restart returned explicit accepted outcome, Runtime incarnation changed, and the restored Shepherd was ready without duplicate rows."
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject malformed whitespace and patch artifacts before final independent review.",
+    "outcome": "passed",
+    "evidence_ref": "Exact product candidate ef1238cd9bca0085d21dc74361308804e91d3ae1 and the lifecycle-only evidence delta both pass git diff --check."
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

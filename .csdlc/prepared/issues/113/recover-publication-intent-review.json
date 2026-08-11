@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 113,
+  "expected_generation": 36,
+  "expected_digest": "f28f9655ed51187be0b1be6d1382130dbf777df24241869b50cc8af2a4a3d53f",
+  "actor": "codex:wp18c03-execution",
+  "reason": "Refresh exact-head review after adding the typed publication intent; no product or retained validation evidence changed."
+}
