@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "910ae1331278157b827ea7fb02ddaa6f3f990a4e7ad696a14eedf8b32089770a",
   "phase": "implemented",
-  "generation": 20,
-  "digest": "fd6dbacfe2267309548b02f76a4f80d475cffd1a436afbbb7cfb7196614c35e6",
+  "generation": 26,
+  "digest": "8efd187c2dedb5ff4de3ea656d0d4831eb9d21f219a6e22e43af75763af4fb9f",
   "branch": "codex/234-systemic-ci-cost-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-234-systemic-ci-cost-control",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6b1db7b4a46792cbf8681468b2f9b78ce1e960dc681aa98456688a4f929e95ca",
+      "values_digest": "67cd2320a32a7839d402039ed16a77af633e3f60840e571b1439e4ceffa9ca19",
       "rendered_digest": "df055dc5bdb76077f3df8835f64159738c4ba7842b89ffb9d73f237b95fa0299",
       "ast_digest": "6054780bd6e337ba026ed609eca4d72ded9e69dbafb670b5b026297e61fdc954"
     },
     "stp": {
-      "values_digest": "fb6a2757edbbf8d265f05848a915c188d5b1cc7f7888442be35763f52b806f11",
+      "values_digest": "826a6f677072044f229ce5292088f143dc2d708d562635bcbc9b2c80a49798a3",
       "rendered_digest": "78ed7b95424202b8ac8bf4c681af838413cbc1e3bceb3e207f39174cb7077dcc",
       "ast_digest": "d3fed93b0ef0da7e4a582d66fd2700ab3abe379530c9738b368745d6103cb9c5"
     },
     "spp": {
-      "values_digest": "ccd9d2f855cbaf0710deef058af0a9e667b91e9a27aa0b1ee2a3068cdcb13c7c",
+      "values_digest": "49a664281a4a3d559b1d32be6868d09e294fc4857c01824a4eb284a427255f80",
       "rendered_digest": "4aefac7b866c381e05080459460429c537d4ef79b16a3d8d1207c2d93aa5c2f8",
       "ast_digest": "4275040bf85db61f054c1978dcb59027ff4817fc3e9cad80287eaea38385c582"
     },
     "vpp": {
-      "values_digest": "03a14268641020f26a18c1588630a5f0a39045be75d2ad528959251d53c08a84",
+      "values_digest": "7bbb1841355eb2b29708337cef20667b6d967283b4d01c89b4375bc2fe642085",
       "rendered_digest": "f86ff9a9af0a8d303d6786161b46a9fa3352301d76bb8e9e9171d4314c20d2de",
       "ast_digest": "558b7273210278f7d3a05d876ac25d5eac18d737bfafee69ca309ae41e0e8e08"
     },
     "srp": {
-      "values_digest": "03449029cbd0c721502a54c315b520ebd8a152ae3bd6bda406a70aa2c0623af6",
+      "values_digest": "5e08adc9f802688ad8be2cc93dfffc4ec1e725eebac5ced465089ee9a5b4d7f8",
       "rendered_digest": "77626bc721006bed1b02d7f8346dc821491f2814047b76157665a72a250dfa92",
       "ast_digest": "62d954a925d06397d2332035e0ca173f48f78e3547d37b092ffad20f0b4fc9f2"
     },
     "sor": {
-      "values_digest": "fe7d7cf3a21d66f285581dce9164bc8f116df2c5884109dba448afcb581df2bc",
-      "rendered_digest": "9ee8412023199ab9b8fae5004cc4f1b5536980a1f79438e7124d4f6c4068b225",
-      "ast_digest": "34931754d7f6f9d256765a1d523742448af295878a65922f275e3d521bf8ede2"
+      "values_digest": "6e496473e13933d984433ee14d13a8f11f15424d55b6eb2cb585c8c46bd7a13a",
+      "rendered_digest": "71bce633f33219d209c7fd757985b1f973e7d0cdcc345ba343f592e68fdc2626",
+      "ast_digest": "707579aa754e465a6f3d8f2509029eebdbb1b1ef1329cac152a104ba71993782"
     }
   },
   "transitions": [
@@ -231,6 +231,48 @@
       "actor": "subagent:019ff278-d9aa-7bd3-80b0-55c7c3318dc3",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:234-review-fix",
+      "reason": "Record the reviewed correction from impossible SHA-only supersession to source-and-target surface concurrency.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Corrected central CI concurrency to target repository, workflow, and base plus source repository and branch, with cancel-in-progress enabled; this both coalesces duplicate PR objects for one effective surface and cancels an older run when that source branch advances.\",\"changes\":[\"Replaced SHA-only concurrency with stable source-and-target surface identity.\",\"Retained cancel-in-progress so newer commits cancel older in-progress runs.\",\"Updated the policy validator, machine-readable disposition reason, routing regression, procedure, accepted AC-4, design, and diagram.\"],\"artifacts\":[\".github/workflows/ci.yaml\",\"adl/tools/ci_path_policy.sh\",\"adl/tools/test_ci_path_policy.sh\",\"adl/tools/validate_ci_workflow_policy.rb\",\"docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md\",\".csdlc/prepared/issues/234/design.md\",\".csdlc/prepared/issues/234/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:234-validation",
+      "reason": "Record exact-surface workflow policy proof after concurrency correction.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\"adl/tools/validate_ci_workflow_policy.rb\"],\"purpose\":\"Prove all 17 workflow triggers, source-and-target concurrency, cancel-in-progress, heavy-runner gates, manual slow proof, and pre-allocation coverage gating.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-final-workflow-policy:passed\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:234-validation",
+      "reason": "Record exact-surface central CI contract proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Prove selected heavy routing, conditional aggregation, manual slow proof and Codecov, and no post-merge duplicate validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-final-runtime-contracts:passed\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:234-validation",
+      "reason": "Record exact-surface representative routing proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_path_policy.sh\"],\"purpose\":\"Prove ordinary, focused, mixed, fail-closed, schedule, and explicit-dispatch classifications plus optional and soak deferral reasons.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-final-path-policy:passed\"}}"
+    },
+    {
+      "sequence": 27,
+      "generation": 25,
+      "actor": "codex:234-validation",
+      "reason": "Record exact-surface C-SDLC required-check classifier proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove optional canceled checks do not block an otherwise required-green unstable PR while every required-check, review, conflict, and exact-target gate remains fail closed; 67 passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-final-csdlc-lib:67-passed\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 26,
+      "actor": "codex:234-validation",
+      "reason": "Record final syntax, YAML, and diff-hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"purpose\":\"Prove shell and Ruby syntax, all workflow YAML parsing, and clean final patch whitespace.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-234-final-syntax-yaml-diff:passed\"}}"
     }
   ]
 }

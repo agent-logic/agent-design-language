@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Made central ci.yaml the sole automatic PR workflow, isolated optional fanout, coalesced duplicate heads, and changed C-SDLC PR readiness and finish preflight to permit GitHub unstable only when every declared required check and required review is satisfied.
+Corrected central CI concurrency to target repository, workflow, and base plus source repository and branch, with cancel-in-progress enabled; this both coalesces duplicate PR objects for one effective surface and cancels an older run when that source branch advances.
 
 ## Artifacts
 
@@ -58,6 +58,13 @@ Made central ci.yaml the sole automatic PR workflow, isolated optional fanout, c
 - csdlc-v2/src/finish.rs
 - docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md
 - .csdlc/evidence/234/ci-workflow-inventory.json
+- .github/workflows/ci.yaml
+- adl/tools/ci_path_policy.sh
+- adl/tools/test_ci_path_policy.sh
+- adl/tools/validate_ci_workflow_policy.rb
+- docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md
+- .csdlc/prepared/issues/234/design.md
+- .csdlc/prepared/issues/234/diagram.mmd
 
 ## Execution
 
@@ -72,6 +79,9 @@ Made central ci.yaml the sole automatic PR workflow, isolated optional fanout, c
 - Added machine-readable skipped, deferred, soak, and duplicate-head dispositions plus a whole-workflow policy validator.
 - Made csdlc-github-pr ignore canceled or unknown optional checks when merge_state is unstable and all declared required checks succeed.
 - Made csdlc-finish accept unstable only for an exact ready target while retaining conflicts, draft, base drift, head drift, missing checks, failed checks, and review gates.
+- Replaced SHA-only concurrency with stable source-and-target surface identity.
+- Retained cancel-in-progress so newer commits cancel older in-progress runs.
+- Updated the policy validator, machine-readable disposition reason, routing regression, procedure, accepted AC-4, design, and diagram.
 
 ## Validation
 
@@ -126,6 +136,56 @@ Made central ci.yaml the sole automatic PR workflow, isolated optional fanout, c
     "purpose": "Prove optional canceled checks do not gate an otherwise required-green unstable PR, while blocked, behind, dirty, draft, unknown, missing or failed required checks, review failure, and exact-target drift remain fail closed.",
     "outcome": "passed",
     "evidence_ref": "local:issue-234-csdlc-v2-lib:67-passed"
+  },
+  {
+    "command": [
+      "ruby",
+      "adl/tools/validate_ci_workflow_policy.rb"
+    ],
+    "purpose": "Prove all 17 workflow triggers, source-and-target concurrency, cancel-in-progress, heavy-runner gates, manual slow proof, and pre-allocation coverage gating.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-final-workflow-policy:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "purpose": "Prove selected heavy routing, conditional aggregation, manual slow proof and Codecov, and no post-merge duplicate validation.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-final-runtime-contracts:passed"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_path_policy.sh"
+    ],
+    "purpose": "Prove ordinary, focused, mixed, fail-closed, schedule, and explicit-dispatch classifications plus optional and soak deferral reasons.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-final-path-policy:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib"
+    ],
+    "purpose": "Prove optional canceled checks do not block an otherwise required-green unstable PR while every required-check, review, conflict, and exact-target gate remains fail closed; 67 passed.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-final-csdlc-lib:67-passed"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "HEAD"
+    ],
+    "purpose": "Prove shell and Ruby syntax, all workflow YAML parsing, and clean final patch whitespace.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-234-final-syntax-yaml-diff:passed"
   }
 ]
 
