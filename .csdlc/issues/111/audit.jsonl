@@ -104,3 +104,4 @@
 {"sequence":104,"generation":89,"actor":"codex:issue-111-minimum-required-validation","reason":"Remove issue #226 validation-routing changes from issue #111 so only the product-scoped Runtime-fast proof remains required.","operation":"recover_review"}
 {"sequence":105,"generation":89,"actor":"codex:issue-111-minimum-required-validation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":106,"generation":90,"actor":"subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":107,"generation":91,"actor":"codex:issue-111-minimum-required-validation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
