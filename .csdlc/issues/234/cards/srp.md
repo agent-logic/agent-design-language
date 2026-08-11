@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+.github/workflows/ci.yaml
+adl/tools/test_ci_runtime_contracts.sh
+.csdlc/issues/234
 
 ## Prompts
 
@@ -36,8 +38,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b63314b2cd02a668f5ab07c427aa922ca9516c34:47528bcd3c8657705c5d7644b0ce0c9b1d0764e7ed302ec40e165f67e078a363")
 
-Reviewer: None
+Reviewer: Some("provider:gemini-3.1-pro-preview")
 
-Result: pre_review
+Result: pass
