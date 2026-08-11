@@ -4,7 +4,7 @@
 require "json"
 require "pathname"
 
-root = Pathname.new(__dir__).join("../..").cleanpath
+root = Pathname.new(ARGV[0] || Pathname.new(__dir__).join("../..")).cleanpath
 workflow_dir = root.join(".github/workflows")
 workflow_paths = Dir[workflow_dir.join("*.{yml,yaml}").to_s].sort.map { |path| Pathname.new(path) }
 ci_path = workflow_dir.join("ci.yaml")
@@ -36,11 +36,9 @@ workflow_paths.each do |path|
   text = path.read
   events = top_level_events(text)
   relative = path.relative_path_from(root).to_s
-  automatic = events & %w[pull_request push schedule]
-
-  errors << "#{relative}: automatic event #{automatic.join(',')} is not allowed" if path != ci_path && automatic.any?
-  errors << "#{relative}: scheduled CI is optional and must require explicit dispatch" if events.include?("schedule")
-  errors << "#{relative}: push-triggered validation duplicates reviewed PR validation" if events.include?("push")
+  allowed_events = path == ci_path ? %w[pull_request workflow_dispatch] : %w[workflow_dispatch workflow_call]
+  disallowed_events = events - allowed_events
+  errors << "#{relative}: event #{disallowed_events.join(',')} is not allowed" unless disallowed_events.empty?
   if path != ci_path && !events.include?("workflow_dispatch")
     errors << "#{relative}: standalone workflow must remain explicitly dispatchable"
   end
