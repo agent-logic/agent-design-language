@@ -34,7 +34,8 @@
         "parameters": [
           {"name": "page_size", "in": "query", "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 50}},
           {"name": "page_token", "in": "query", "schema": {"type": "string", "maxLength": 1024}},
-          {"name": "filter", "in": "query", "schema": {"type": "string", "maxLength": 64}}
+          {"name": "filter", "in": "query", "schema": {"type": "string", "maxLength": 64}},
+          {"name": "event_cursor", "in": "query", "schema": {"type": "string", "maxLength": 1024}}
         ],
         "responses": {
           "200": {
@@ -49,6 +50,31 @@
         "operationId": "agentRosterCorsPreflight",
         "tags": ["observatory"],
         "summary": "Validate an allowed roster origin",
+        "responses": {
+          "204": {"description": "Allowed origin preflight."},
+          "403": {"$ref": "#/components/responses/OriginForbidden"}
+        }
+      }
+    },
+    "/v1/agents/{agent_id}": {
+      "get": {
+        "operationId": "readAgentDetail",
+        "tags": ["observatory"],
+        "summary": "Read one policy-filtered agent detail projection",
+        "security": [],
+        "parameters": [
+          {"name": "agent_id", "in": "path", "required": true, "schema": {"type": "string", "minLength": 1, "maxLength": 128}}
+        ],
+        "responses": {
+          "200": {"description": "Current policy-filtered agent detail.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentRosterEntry"}}}},
+          "404": {"description": "Agent is absent or not visible under Runtime policy."},
+          "403": {"$ref": "#/components/responses/OriginForbidden"}
+        }
+      },
+      "options": {
+        "operationId": "agentDetailCorsPreflight",
+        "tags": ["observatory"],
+        "summary": "Validate an allowed agent-detail origin",
         "responses": {
           "204": {"description": "Allowed origin preflight."},
           "403": {"$ref": "#/components/responses/OriginForbidden"}
@@ -509,7 +535,8 @@
           "total_count",
           "rendered_sample_count",
         "has_more",
-        "next_page_token",
+          "next_page_token",
+          "event_cursor",
           "population_complete",
           "sample"
         ],
@@ -540,6 +567,11 @@
           "type": ["string", "null"],
           "maxLength": 1024
         },
+        "event_cursor": {
+          "type": ["string", "null"],
+          "maxLength": 1024,
+          "description": "Runtime-authenticated revision, policy, and query cursor for the next first-page update."
+        },
           "population_complete": {
             "const": false,
             "description": "False until a separately governed distributed projection can prove global completeness."
@@ -551,6 +583,27 @@
               "$ref": "#/components/schemas/AgentSample"
             }
           }
+        }
+      },
+      "AgentRosterEntry": {
+        "type": "object",
+        "required": ["schema", "id", "label", "role", "presence", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
+        "properties": {
+          "schema": {"const": "adl.runtime_v3.agent_roster_entry.v1"},
+          "id": {"type": "string"},
+          "label": {"type": "string"},
+          "role": {"type": "string"},
+          "presence": {"type": "string", "enum": ["ready", "busy", "sleeping", "degraded", "unreachable", "migrating", "unknown"]},
+          "health": {"type": "string"},
+          "availability": {"type": "string"},
+          "activity": {"type": ["string", "null"]},
+          "capabilities": {"type": "array", "maxItems": 32, "items": {"type": "string"}},
+          "location": {"type": ["string", "null"]},
+          "communication_eligible": {"type": "boolean"},
+          "observed_at_unix_millis": {"type": "integer", "minimum": 1},
+          "freshness_deadline_unix_millis": {"type": "integer", "minimum": 1},
+          "source_revision": {"type": "string"},
+          "provenance": {"type": "string"}
         }
       },
       "AgentSample": {

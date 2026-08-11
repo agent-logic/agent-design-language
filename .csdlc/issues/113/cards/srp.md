@@ -12,24 +12,15 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/build.rs
 adl-runtime-kernel/src/agent_roster.rs
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/lib.rs
 adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/telemetry.rs
-adl-runtime-kernel/src/live_continuity.rs
-adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
 adl-runtime-kernel/tests/agent_roster.rs
 adl-runtime-kernel/tests/control.rs
 adl-runtime-kernel/tests/openapi_contract.rs
-docs/api/runtime-v3/v1/openapi.json
 docs/api/runtime-v3/v1/observatory.openapi.json
 demos/html-observatory/app.js
-demos/html-observatory/index.html
-demos/html-observatory/styles.css
 adl/tools/test_html_observatory.sh
-adl/tools/validate_v092_html_observatory_roster.mjs
+.csdlc/evidence/113/roster-live-proof-2118c05b3
 .csdlc/issues/113
 
 ## Prompts
@@ -52,12 +43,12 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.
-- Durable conversation history and cross-restart chat restoration remain outside #113 and is owned by issue #114.
+- Long-running Runtime and soak-style validation routing is tracked separately by issue #226 and is non-gating for this focused product issue.
 
 ## Review Result
 
-Revision: Some("git-blake3:52179dc4f49255c4ab3a29726afe7c1e95a22097:504659dac81c77b4a589e859151c81ccda3d9707ff465f8074202fe5d4406357")
+Revision: Some("git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2")
 
-Reviewer: Some("subagent:019fef34-1897-7353-96e7-49320ae0043a")
+Reviewer: Some("subagent:019fefbc-1619-7a21-b27c-8edb01692b23")
 
 Result: pass

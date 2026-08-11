@@ -97,8 +97,20 @@ const rosterUiState = {
   selectedId: null,
   runtimeInstanceId: null,
   runtimeIncarnationId: null,
-  revision: 0
+  revision: 0,
+  eventCursor: null,
+  resyncCount: 0,
+  lastResyncReason: null
 };
+
+function publishRosterCursorState() {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  root.dataset.agentRosterRevision = String(rosterUiState.revision);
+  root.dataset.agentRosterCursorPresent = rosterUiState.eventCursor ? "true" : "false";
+  root.dataset.agentRosterResyncCount = String(rosterUiState.resyncCount);
+  root.dataset.agentRosterResyncReason = rosterUiState.lastResyncReason || "none";
+}
 let lastPanopticonSnapshot = null;
 let lastPanopticonPacket = FALLBACK_PACKET;
 
@@ -106,7 +118,9 @@ function acceptRuntimeRosterSnapshot(snapshot) {
   const runtimeInstanceId = snapshot?.status?.runtime_id || null;
   const runtimeIncarnationId = snapshot?.status?.runtime_incarnation_id || null;
   const revision = Number(snapshot?.status?.agent_population?.revision || 0);
+  const eventCursor = snapshot?.status?.agent_population?.event_cursor;
   if (!runtimeInstanceId || !runtimeIncarnationId || !Number.isSafeInteger(revision) || revision < 0) return false;
+  if (revision > 0 && (typeof eventCursor !== "string" || eventCursor.length === 0)) return false;
   if (
     rosterUiState.runtimeInstanceId !== runtimeInstanceId
     || rosterUiState.runtimeIncarnationId !== runtimeIncarnationId
@@ -114,13 +128,30 @@ function acceptRuntimeRosterSnapshot(snapshot) {
     rosterUiState.runtimeInstanceId = runtimeInstanceId;
     rosterUiState.runtimeIncarnationId = runtimeIncarnationId;
     rosterUiState.revision = revision;
+    rosterUiState.eventCursor = eventCursor || null;
     rosterUiState.selectedId = null;
+    rosterUiState.lastResyncReason = "runtime_incarnation_changed";
+    rosterUiState.resyncCount += 1;
+    publishRosterCursorState();
     return true;
   }
   if (revision <= rosterUiState.revision) return false;
+  if (eventCursor === rosterUiState.eventCursor) return false;
+  if (revision !== rosterUiState.revision + 1) {
+    rosterUiState.lastResyncReason = "revision_gap";
+    rosterUiState.resyncCount += 1;
+  } else {
+    rosterUiState.lastResyncReason = null;
+  }
   rosterUiState.revision = revision;
+  rosterUiState.eventCursor = eventCursor;
   rosterUiState.selectedId = null;
+  publishRosterCursorState();
   return true;
+}
+
+function runtimeRosterCursorState() {
+  return { ...rosterUiState };
 }
 
 function normalizeRuntimeV3Endpoint(value, fallback) {
@@ -770,11 +801,12 @@ async function fetchRuntimeV3ObservatorySnapshot(apiBase) {
   return runtimeV3SnapshotFromFeed(feed, readiness);
 }
 
-async function fetchRuntimeV3AgentRosterPage(apiBase, pageToken) {
+async function fetchRuntimeV3AgentRosterPage(apiBase, pageToken, eventCursor = null, pageSize = 50) {
   const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
   const url = new URL(`${base}/v1/agents`);
-  url.searchParams.set("page_size", "50");
+  url.searchParams.set("page_size", String(pageSize));
   if (pageToken) url.searchParams.set("page_token", pageToken);
+  if (eventCursor) url.searchParams.set("event_cursor", eventCursor);
   const response = await fetch(url, { method: "GET" });
   if (!response.ok) throw new Error(`/v1/agents returned ${response.status}`);
   const page = await response.json();
@@ -782,6 +814,37 @@ async function fetchRuntimeV3AgentRosterPage(apiBase, pageToken) {
     throw new Error("Runtime returned an unsupported roster page");
   }
   return page;
+}
+
+async function authenticateRuntimeRosterSuccessor(apiBase, snapshot) {
+  const population = snapshot?.status?.agent_population;
+  const revision = Number(population?.revision || 0);
+  if (
+    rosterUiState.runtimeInstanceId !== snapshot?.status?.runtime_id
+    || rosterUiState.runtimeIncarnationId !== snapshot?.status?.runtime_incarnation_id
+    || revision !== rosterUiState.revision + 1
+    || !rosterUiState.eventCursor
+  ) return;
+  const authenticated = await fetchRuntimeV3AgentRosterPage(
+    apiBase,
+    null,
+    rosterUiState.eventCursor,
+    100
+  );
+  if (authenticated.revision !== revision || authenticated.event_cursor !== population.event_cursor) {
+    throw new Error("Runtime roster cursor authentication mismatch");
+  }
+}
+
+async function fetchRuntimeV3AgentDetail(apiBase, agentId) {
+  const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
+  const response = await fetch(`${base}/v1/agents/${encodeURIComponent(agentId)}`, { method: "GET" });
+  if (!response.ok) throw new Error(`/v1/agents/{agent_id} returned ${response.status}`);
+  const detail = await response.json();
+  if (detail.schema !== "adl.runtime_v3.agent_roster_entry.v1" || detail.id !== agentId) {
+    throw new Error("Runtime returned an incompatible agent detail");
+  }
+  return detail;
 }
 
 async function fetchRuntimeV3Readiness(base) {
@@ -1732,11 +1795,23 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   let liveStoppedByOperator = false;
   let liveRequestGeneration = 0;
   let runtimeV3Readiness = null;
+  let runtimeV3ReadinessRefresh = null;
   const nextLiveGeneration = () => {
     liveRequestGeneration += 1;
     return liveRequestGeneration;
   };
   const isCurrentLiveGeneration = (generation) => generation === liveRequestGeneration;
+  const fetchCurrentRuntimeV3Readiness = async (base) => {
+    const readiness = await fetchRuntimeV3Readiness(normalizeTrustedRuntimeV3ApiBase(base));
+    return {
+      schema: readiness?.schema,
+      status: readiness?.ready ? "ready" : "degraded",
+      ready: readiness?.ready === true,
+      state: readiness?.ready ? "ready" : "degraded",
+      blocking_reasons: asArray(readiness?.degraded_reasons),
+      weather_freshness: readiness?.weather_freshness
+    };
+  };
   const refs = {
     statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
     healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
@@ -1960,13 +2035,22 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       rosterUiState.sort = rosterSort.value;
       if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
     });
-    rosterList?.addEventListener("click", (event) => {
+    rosterList?.addEventListener("click", async (event) => {
       const row = event.target instanceof Element
         ? event.target.closest("[data-agent-id]")
         : null;
       if (!row) return;
       rosterUiState.selectedId = row.dataset.agentId;
       if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+      try {
+        const detail = await fetchRuntimeV3AgentDetail(getQueryApiBase(), rosterUiState.selectedId);
+        const population = lastPanopticonSnapshot?.status?.agent_population;
+        const selected = asArray(population?.sample).find((agent) => agent.id === detail.id);
+        if (selected) Object.assign(selected, detail, { state: detail.presence });
+        if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+      } catch (error) {
+        await renderLiveError(error);
+      }
     });
     rosterLoadMore?.addEventListener("click", async () => {
       const population = lastPanopticonSnapshot?.status?.agent_population;
@@ -2090,6 +2174,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
       if (snapshot.runtimeSelection === "runtime_v3_explicit_opt_in") {
         runtimeV3Readiness = snapshot.ready || null;
+        await authenticateRuntimeRosterSuccessor(base, snapshot);
       }
       const endpointKeys = ["status", "health", "ready", "metrics", "events"];
       const successfulEndpoints = endpointKeys.filter((key) => snapshot[key]);
@@ -2157,15 +2242,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         socketEndpoint.protocol = "wss:";
         setRuntimeTestStatus("connecting secure stream", `Opening ${socketEndpoint}.`);
         try {
-          const readiness = await fetchRuntimeV3Readiness(normalizeTrustedRuntimeV3ApiBase(base));
-          runtimeV3Readiness = {
-            schema: readiness?.schema,
-            status: readiness?.ready ? "ready" : "degraded",
-            ready: readiness?.ready === true,
-            state: readiness?.ready ? "ready" : "degraded",
-            blocking_reasons: asArray(readiness?.degraded_reasons),
-            weather_freshness: readiness?.weather_freshness
-          };
+          runtimeV3Readiness = await fetchCurrentRuntimeV3Readiness(base);
         } catch (error) {
           runtimeV3Readiness = {
             status: "pending",
@@ -2177,7 +2254,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         let socket;
         socket = connectRuntimeV3ObservatoryWebSocket(
           base,
-          (snapshot) => {
+          async (snapshot) => {
             if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) {
               return;
             }
@@ -2185,9 +2262,27 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             const streamSnapshot = runtimeV3Readiness
               ? { ...snapshot, ready: runtimeV3Readiness }
               : snapshot;
+            try {
+              await authenticateRuntimeRosterSuccessor(base, streamSnapshot);
+            } catch (error) {
+              await renderLiveError(error, requestGeneration);
+              return;
+            }
             if (!acceptRuntimeRosterSnapshot(streamSnapshot)) return;
             renderPanopticon(streamSnapshot, packet);
             updateConversationRoster(streamSnapshot.status?.agent_population);
+            if (runtimeV3Readiness?.ready !== true && !runtimeV3ReadinessRefresh) {
+              runtimeV3ReadinessRefresh = fetchCurrentRuntimeV3Readiness(base)
+                .then((readiness) => {
+                  if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) return;
+                  runtimeV3Readiness = readiness;
+                  renderPanopticon({ ...snapshot, ready: readiness }, packet);
+                })
+                .catch(() => {})
+                .finally(() => {
+                 runtimeV3ReadinessRefresh = null;
+               });
+            }
             liveReconnectAttempt = 0;
             setText("live-status", "live secure stream");
             setText("statusbar-websocket", "connected");
@@ -2481,6 +2576,8 @@ globalThis.AdlHtmlObservatory = {
   fetchRuntimeSnapshot,
   fetchRuntimeV3ObservatorySnapshot,
   fetchRuntimeV3AgentRosterPage,
+  fetchRuntimeV3AgentDetail,
+  authenticateRuntimeRosterSuccessor,
   submitRuntimeV3SignedControlCommand,
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,
@@ -2497,6 +2594,7 @@ globalThis.AdlHtmlObservatory = {
   normalizeTrustedRuntimeV3ApiBase,
   buildRuntimeAgentRows,
   acceptRuntimeRosterSnapshot,
+  runtimeRosterCursorState,
   buildViewModel,
   buildIntegrationViewModel,
   buildPanopticonViewModel,

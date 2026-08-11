@@ -4,64 +4,46 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "582902e5fe794c93c0dd63467b094dd406fddb68b961c68f5bd46786b8dd5e2c",
   "phase": "published",
-  "generation": 43,
-  "digest": "1f6906461fc81034c0f0130d59e7ec41c8ff245150a6f67a82ef892a052a87fe",
+  "generation": 61,
+  "digest": "97dc18e9fac2563b37fcd30aa885cd673a2633fb2b7c74114f3334f0faf17a95",
   "branch": "codex/113-wp18c03-roster-presence-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-113-roster-presence-preparation",
   "review_assignment": {
-    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+    "reviewer": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
     "assigned_by": "codex:wp18c03-execution",
-    "revision": "git-blake3:52179dc4f49255c4ab3a29726afe7c1e95a22097:504659dac81c77b4a589e859151c81ccda3d9707ff465f8074202fe5d4406357",
+    "revision": "git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2",
     "scope": [
-      "adl-runtime-kernel/build.rs",
       "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/lib.rs",
       "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
       "adl-runtime-kernel/tests/agent_roster.rs",
       "adl-runtime-kernel/tests/control.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/openapi.json",
       "docs/api/runtime-v3/v1/observatory.openapi.json",
       "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
       "adl/tools/test_html_observatory.sh",
-      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      ".csdlc/evidence/113/roster-live-proof-2118c05b3",
       ".csdlc/issues/113"
     ]
   },
   "review": {
-    "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+    "reviewer": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
     "scope": [
-      "adl-runtime-kernel/build.rs",
       "adl-runtime-kernel/src/agent_roster.rs",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/lib.rs",
       "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
       "adl-runtime-kernel/tests/agent_roster.rs",
       "adl-runtime-kernel/tests/control.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/openapi.json",
       "docs/api/runtime-v3/v1/observatory.openapi.json",
       "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
       "adl/tools/test_html_observatory.sh",
-      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      ".csdlc/evidence/113/roster-live-proof-2118c05b3",
       ".csdlc/issues/113"
     ],
-    "reviewed_revision": "git-blake3:52179dc4f49255c4ab3a29726afe7c1e95a22097:504659dac81c77b4a589e859151c81ccda3d9707ff465f8074202fe5d4406357",
+    "reviewed_revision": "git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2",
     "findings": [],
     "residual_risks": [
       "Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.",
-      "Durable conversation history and cross-restart chat restoration remain outside #113 and is owned by issue #114."
+      "Long-running Runtime and soak-style validation routing is tracked separately by issue #226 and is non-gating for this focused product issue."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -73,7 +55,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/222",
     "base": "main",
     "head": "codex/113-wp18c03-roster-presence-preparation",
-    "revision": "git-blake3:52179dc4f49255c4ab3a29726afe7c1e95a22097:504659dac81c77b4a589e859151c81ccda3d9707ff465f8074202fe5d4406357",
+    "revision": "git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -91,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5b73194d13ceaa033d8f5ed0ef0a0eb144263abc008e1c2621e6628af5a19bac",
+      "values_digest": "4528210db2a7557bb92dc2f88dbb21b53658fc168850c5045fbaa5aab9edfcfb",
       "rendered_digest": "f6af30b4355709ff5b212042964190b72412088274c91311e8170f588f10fa03",
       "ast_digest": "253520ab31b2ff3ba8ab453c99ed95cc106011214ee0d4f9c60a4f15e26c7bef"
     },
     "stp": {
-      "values_digest": "9d9f00daec693d448c8ef2ab066f99f7b136e82abe38c788c42cf44ff74b2b70",
+      "values_digest": "e3140695b442f95fdfcc97ba62c97b902e6e93975f46d801d6a436c4ded8a439",
       "rendered_digest": "69c3132a7c4d556afcd3aa142b82b1dfb861ef79096238a211250ceb3459acff",
       "ast_digest": "456378f558ab3c9fe9f1127b37a6078a706241aa800dffa0788732f6984665f1"
     },
     "spp": {
-      "values_digest": "68f1cf974ff85777ad19076f88a89573837938224e39e99b10a92e81e0b4b3b1",
+      "values_digest": "9437006b66ac9727e2b770f3600bcac4dcfcc6bdc0bad3c9af390431b0d81265",
       "rendered_digest": "0a87219293ddd139966aaf0c77f56b8c6164f3213687bfda3ad8f4c32d49f1ba",
       "ast_digest": "793ed408d19b5d2ae07fdab2f8c6d13ca845ed5618969a25cc8fbb7b1f1187dc"
     },
     "vpp": {
-      "values_digest": "f7febce698797296f06da5adcb41d8edcb1d36964b2e4c026ae6566adf8c6f32",
+      "values_digest": "035ca0251dc8627ab0c0b7b0109e5204ad9ba22a9ba5bd4ee8fc4d669a670944",
       "rendered_digest": "b7b3eb886e302a677730a28ddb9109253f6504c4f0c833239a66c25381e870ae",
       "ast_digest": "54c767be2f754ffa454bcad0b32ee701eada07934de54008c9d1a737fc086b4e"
     },
     "srp": {
-      "values_digest": "f0a16078987233d27f6581ca535bcfef291c419ae83af76c31da92e6c60aaf11",
-      "rendered_digest": "2bb74ddc2bba2380c66a090c7622692f088c5337f3ee229800aebaa09854483c",
-      "ast_digest": "cf2c83c807311d9a93537f4d13355eb4f9456a88c38c610878849ce296127815"
+      "values_digest": "1f94a7232e5d7a6a94680f69dc2d3b41acc2ab2d789f177052b9622a5e54dd45",
+      "rendered_digest": "d18431fb9d5bb66cc6085aca23309ba1d273ce053113fc5697c2c8ebe3c4f21a",
+      "ast_digest": "3e55b9e366dab983040ec633981ab2dbbc71b26dc242d0fd84247d738086f11e"
     },
     "sor": {
-      "values_digest": "ff55c17c214e18a943ca6166f40a96e49f1ddc6f53e2f63f606728d83fdbc312",
-      "rendered_digest": "207f1bbb7e79d8d21744fdf19a5c7a7c6a5b7cace883c592deb494b97c011c18",
-      "ast_digest": "4cde687955b2c2779eca2779f130c0e21ebcc26179db97cf6a02f06adc1a0622"
+      "values_digest": "54a3e6a04fef6f5edcd60eff675ff848dc10847773b677a5179b123960042e5b",
+      "rendered_digest": "c4fd9c6ac7b269ed709637bbe0186da3be9748b22820e3a56f22b1aa5e07c9e8",
+      "ast_digest": "79b79a71a92b831d0974563ac338a440cde61cf8bb956de5661c36caf660865e"
     }
   },
   "transitions": [
@@ -180,6 +162,41 @@
     },
     {
       "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp18c03-execution",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:wp18c03-fresh-session-review",
+      "reason": "Recover publication and prior inherited-session review truth so PR #222 receives a fresh independently assigned exact-head review before merge."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:wp18c03-execution",
+      "reason": "Atomically refresh review against the committed lifecycle head, then publish without creating another stale review commit."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:wp18c03-execution",
@@ -526,6 +543,167 @@
     {
       "sequence": 49,
       "generation": 43,
+      "actor": "codex:wp18c03-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 50,
+      "generation": 44,
+      "actor": "codex:wp18c03-fresh-session-review",
+      "reason": "Recover publication and prior inherited-session review truth so PR #222 receives a fresh independently assigned exact-head review before merge.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 44,
+      "actor": "codex:wp18c03-fresh-session-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 45,
+      "actor": "subagent:019fef96-7412-7f72-b863-3ecd4bace544",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 46,
+      "actor": "codex:wp18c03-fresh-review-remediation",
+      "reason": "Record remediation of every actionable finding from the fresh-session review of PR #222.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed all four fresh-session review findings and the restart-continuity defects exposed by retained proof at exact product revision 2118c05b3fe503a0f7c902dcc766a90b9cd9c246.\",\"changes\":[\"Replaced production allow-all roster projection with an explicit Runtime-owned public policy that omits unauthorized principals and redacts capabilities and location before serialization.\",\"Bound per-request roster projection memory to page size, imposed an explicit 10000-entry population ceiling, and retained deterministic ID ordering and revision-bound continuation tokens.\",\"Classified roster revision gaps as machine-readable full-snapshot resynchronizations in the Observatory instead of ordinary updates.\",\"Persisted one validated Runtime instance identity in the canonical state root so Guardian restart preserves stable identity while changing process incarnation.\",\"Refreshed qualified Runtime readiness after restart so the live Observatory cannot remain visibly degraded after recovery.\",\"Retained source-pinned public-TLS JSON proof and desktop/mobile screenshots with a digest manifest under issue evidence.\"],\"artifacts\":[\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/control.rs\",\"demos/html-observatory/app.js\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_html_observatory_roster.mjs\",\".csdlc/evidence/113/roster-live-proof-2118c05b3\",\"2118c05b3fe503a0f7c902dcc766a90b9cd9c246\"]}"
+    },
+    {
+      "sequence": 54,
+      "generation": 47,
+      "actor": "codex:wp18c03-fresh-review-remediation",
+      "reason": "Record exact focused and retained live proof for all fresh-session review fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused issue-113 Runtime, roster, control, OpenAPI, browser, managed-Chrome live restart, lint, format, and diff gates\"],\"purpose\":\"Prove explicit public authorization and redaction, bounded pagination, revision-gap resynchronization, stable Runtime identity, recovered readiness, and retained exact-head evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:2118c05b3fe503a0f7c902dcc766a90b9cd9c246; agent_roster 13/13; control 25/25; openapi_contract 6/6; HTML Observatory PASS; strict lib+binary Clippy PASS; fmt PASS; diff PASS; managed Chrome public-TLS live proof 22/22 with stable runtime_instance_id, changed incarnation, ready recovery, desktop/mobile screenshots, and digest manifest at .csdlc/evidence/113/roster-live-proof-2118c05b3\"}}"
+    },
+    {
+      "sequence": 55,
+      "generation": 48,
+      "actor": "codex:wp18c03-execution",
+      "reason": "Recover review readiness after remediating all fresh-session findings, retaining exact-head trusted-TLS browser evidence, and validating the hardened roster projection.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 56,
+      "generation": 49,
+      "actor": "codex:wp18c03-execution",
+      "reason": "Record instrumented coverage for the exact issue-owned roster, control, and OpenAPI targets before final review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"llvm-cov\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"agent_roster\",\"--test\",\"control\",\"--test\",\"openapi_contract\",\"--summary-only\"],\"purpose\":\"Measure the issue-owned Runtime roster and control surfaces under the exact proving tests without substituting unrelated workspace tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact head 6a1abef9aa44682dec2aa489d0300962f76bc155: 44/44 focused tests passed under instrumentation; agent_roster.rs line coverage 93.72%, control.rs line coverage 64.32%, ingress.rs 91.01%, telemetry.rs 88.89%. The broader authoritative lane passed 176/177 adl-runtime tests but was stopped after the unrelated distributed three-voter transport test exceeded eight minutes; full kernel instrumentation separately found an unrelated guardian_soak JSON parse failure, so neither broader run is claimed as a passing gate.\"}}"
+    },
+    {
+      "sequence": 57,
+      "generation": 49,
+      "actor": "codex:wp18c03-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 50,
+      "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 51,
+      "actor": "codex:wp18c03-execution",
+      "reason": "Recover review readiness to remediate all three actionable findings from the assigned independent final review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 52,
+      "actor": "codex:wp18c03-locke-remediation",
+      "reason": "Record remediation of every actionable finding from the assigned final review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed all three assigned final-review findings for the Runtime-owned local roster and Observatory projection.\",\"changes\":[\"Added the versioned policy-filtered /v1/agents/{agent_id} detail route, OpenAPI contract, browser consumption, and negative visibility behavior.\",\"Added MAC-protected event cursors bound to revision, policy, filter, and page size; exact successor updates pass while replay-at-current-revision, gaps, policy drift, and query drift fail closed for full resynchronization.\",\"Removed per-request full-population cloning and BTree reconstruction; Runtime now scans the pre-sorted population once under the explicit 10000-entry ceiling and allocates only the requested page projection.\",\"Made the production public Observatory policy redact capabilities and location before serialization and aligned proof claims to that behavior.\"],\"artifacts\":[\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"adl/tools/test_html_observatory.sh\"]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 53,
+      "actor": "codex:wp18c03-locke-remediation",
+      "reason": "Record focused proof for all assigned final-review remediations.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused issue-113 roster, control, OpenAPI, browser contract, strict Clippy, format, and diff gates\"],\"purpose\":\"Prove the policy-safe detail route, authenticated cursor semantics, page-allocation bound, population scan ceiling, and production redaction behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"agent_roster 14/14; control 25/25; openapi_contract 6/6; HTML Observatory contract PASS; strict library and binary Clippy PASS; cargo fmt PASS; git diff --check PASS. Long-running distributed and soak-style tests are explicitly out-of-band under #226 and are not claimed or coupled to this focused gate.\"}}"
+    },
+    {
+      "sequence": 62,
+      "generation": 53,
+      "actor": "codex:wp18c03-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 54,
+      "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 55,
+      "actor": "codex:wp18c03-execution",
+      "reason": "Recover review readiness to remediate the three concrete defects found in the second assigned review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 56,
+      "actor": "codex:wp18c03-locke-remediation",
+      "reason": "Record remediation and focused proof for every second-review finding.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the exact-ID detail, browser cursor authentication, and population-policy allocation defects.\",\"changes\":[\"Detail lookup now resolves the exact policy-visible ID directly, including 65-128 byte IDs and labels or roles that contain another agent ID.\",\"Every exact-successor browser update returns the prior cursor to Runtime and accepts the snapshot only when Runtime validates the cursor and returns the matching new cursor.\",\"Serialized page results no longer clone the Runtime-owned population visibility policy.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"demos/html-observatory/app.js\",\"adl/tools/test_html_observatory.sh\"]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 57,
+      "actor": "codex:wp18c03-locke-remediation",
+      "reason": "Record focused validation of every second-review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused issue-113 roster, control, OpenAPI, browser contract, strict Clippy, format, and diff gates\"],\"purpose\":\"Prove exact-ID detail lookup, Runtime-authenticated browser cursor exchange, and page-only policy allocation.\",\"outcome\":\"passed\",\"evidence_ref\":\"agent_roster 15/15; control 25/25; openapi_contract 6/6; HTML Observatory contract PASS including cursor return; strict library and binary Clippy PASS; cargo fmt PASS; git diff --check PASS.\"}}"
+    },
+    {
+      "sequence": 67,
+      "generation": 57,
+      "actor": "codex:wp18c03-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 58,
+      "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 69,
+      "generation": 59,
+      "actor": "codex:wp18c03-execution",
+      "reason": "Atomically refresh review against the committed lifecycle head, then publish without creating another stale review commit.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 70,
+      "generation": 59,
+      "actor": "codex:wp18c03-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 71,
+      "generation": 60,
+      "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 72,
+      "generation": 61,
       "actor": "codex:wp18c03-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"

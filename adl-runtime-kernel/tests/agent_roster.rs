@@ -207,6 +207,82 @@ fn page_tokens_bind_revision_policy_filter_and_page_size() {
 }
 
 #[test]
+fn event_cursors_bind_policy_query_and_exact_revision_successor() {
+    let all = policy(&["agent-a"]);
+    let first_roster = AgentRoster::new(
+        20,
+        false,
+        [evidence("agent-a", "Alpha", AgentPresence::Ready)],
+        [11; 32],
+    )
+    .unwrap();
+    let first = first_roster
+        .page(
+            &all,
+            AgentRosterQuery {
+                page_size: 10,
+                page_token: None,
+                filter: None,
+            },
+            1_500,
+        )
+        .unwrap();
+    let next = AgentRoster::new(
+        21,
+        false,
+        [evidence("agent-a", "Alpha", AgentPresence::Ready)],
+        [11; 32],
+    )
+    .unwrap();
+    let query = AgentRosterQuery {
+        page_size: 10,
+        page_token: None,
+        filter: None,
+    };
+    assert!(next
+        .page_after(&all, query.clone(), 1_500, Some(&first.event_cursor))
+        .is_ok());
+    assert_eq!(
+        first_roster.page_after(&all, query.clone(), 1_500, Some(&first.event_cursor)),
+        Err(AgentRosterError::TokenContextMismatch),
+        "a cursor cannot be replayed at the same revision",
+    );
+    let skipped = AgentRoster::new(
+        22,
+        false,
+        [evidence("agent-a", "Alpha", AgentPresence::Ready)],
+        [11; 32],
+    )
+    .unwrap();
+    assert_eq!(
+        skipped.page_after(&all, query.clone(), 1_500, Some(&first.event_cursor)),
+        Err(AgentRosterError::TokenContextMismatch),
+        "revision gaps require a full snapshot resynchronization",
+    );
+    let changed_policy = AgentRosterPolicy {
+        policy_subject: "operator:changed".to_owned(),
+        ..all.clone()
+    };
+    assert_eq!(
+        next.page_after(
+            &changed_policy,
+            query.clone(),
+            1_500,
+            Some(&first.event_cursor)
+        ),
+        Err(AgentRosterError::TokenContextMismatch),
+    );
+    let changed_query = AgentRosterQuery {
+        page_size: 9,
+        ..query
+    };
+    assert_eq!(
+        next.page_after(&all, changed_query, 1_500, Some(&first.event_cursor)),
+        Err(AgentRosterError::TokenContextMismatch),
+    );
+}
+
+#[test]
 fn tampered_tokens_and_unbounded_queries_fail_closed() {
     let roster = AgentRoster::new(
         10,
@@ -271,6 +347,7 @@ fn large_local_roster_remains_page_bounded_and_deterministic() {
         .collect::<Vec<_>>();
     let visible_agent_ids = evidence.iter().map(|item| item.agent_id.clone()).collect();
     let roster = AgentRoster::new(12, false, evidence, [8; 32]).unwrap();
+    let started = std::time::Instant::now();
     let page = roster
         .page(
             &AgentRosterPolicy {
@@ -293,6 +370,56 @@ fn large_local_roster_remains_page_bounded_and_deterministic() {
     assert_eq!(page.agents.last().unwrap().id, "agent-00099");
     assert!(page.has_more);
     assert!(serde_json::to_vec(&page).unwrap().len() < 80_000);
+    assert!(
+        started.elapsed() < std::time::Duration::from_secs(1),
+        "the explicit 10,000-entry scan ceiling must remain operationally bounded",
+    );
+}
+
+#[test]
+fn roster_rejects_population_above_the_explicit_resource_bound() {
+    let evidence = (0..=10_000).map(|index| {
+        let id = format!("agent-{index:05}");
+        evidence(&id, &id, AgentPresence::Ready)
+    });
+    assert!(matches!(
+        AgentRoster::new(13, false, evidence, [9; 32]),
+        Err(AgentRosterError::InvalidBounds)
+    ));
+}
+
+#[test]
+fn first_page_projects_only_the_requested_entries_in_stable_id_order() {
+    let evidence = (0..10_000)
+        .rev()
+        .map(|index| {
+            let id = format!("agent-{index:05}");
+            evidence(&id, &format!("Label {index:05}"), AgentPresence::Ready)
+        })
+        .collect::<Vec<_>>();
+    let visible_agent_ids = evidence.iter().map(|item| item.agent_id.clone()).collect();
+    let roster = AgentRoster::new(14, false, evidence, [10; 32]).unwrap();
+    let page = roster
+        .page(
+            &AgentRosterPolicy {
+                policy_subject: "public-observatory".to_owned(),
+                visible_agent_ids,
+                reveal_capabilities: false,
+                reveal_location: false,
+            },
+            AgentRosterQuery {
+                page_size: 3,
+                page_token: None,
+                filter: None,
+            },
+            1_500,
+        )
+        .unwrap();
+    assert_eq!(page.page_count, 3);
+    assert_eq!(page.agents.len(), 3);
+    assert_eq!(page.agents[0].id, "agent-00000");
+    assert_eq!(page.agents[2].id, "agent-00002");
+    assert!(page.has_more);
 }
 
 #[test]
@@ -395,6 +522,12 @@ fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
         heartbeat_deadline
     );
     assert_eq!(running.agents.sample[0].source_revision, source_revision);
+    let detail = service.agent_roster_detail("shepherd").unwrap();
+    assert_eq!(detail.schema, "adl.runtime_v3.agent_roster_entry.v1");
+    assert_eq!(detail.id, "shepherd");
+    assert!(detail.capabilities.is_empty());
+    assert_eq!(detail.location, None);
+    assert!(service.agent_roster_detail("private-agent").is_err());
     let stable_id = running.agents.sample[0].id.clone();
 
     let polled_again = service.observatory_feed();
@@ -440,6 +573,97 @@ fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
         first_incarnation,
         "a new process incarnation must be distinguishable even when stable instance identity is reused"
     );
+}
+
+#[test]
+fn detail_lookup_uses_exact_policy_visible_id_not_search_filter_semantics() {
+    let recorder = RuntimeRecorder::new(16);
+    let long_id = format!("agent-{}", "x".repeat(80));
+    let mut misleading =
+        adl_runtime_kernel::AgentPopulationFeed::resident_shepherd().sample[0].clone();
+    misleading.id = "agent-a".to_owned();
+    misleading.label = "target-agent helper".to_owned();
+    let mut target = misleading.clone();
+    target.id = "target-agent".to_owned();
+    target.label = "Target".to_owned();
+    let mut long = target.clone();
+    long.id = long_id.clone();
+    long.label = "Long identity".to_owned();
+    for id in [&misleading.id, &target.id, &long.id] {
+        recorder.set_component_state(ComponentId::new(id), RunningState::Running);
+        assert!(recorder.record_agent_admission(
+            id,
+            1_000,
+            u64::MAX,
+            "0123456789abcdef0123456789abcdef01234567",
+        ));
+    }
+    let service = ControlService::new_with_observatory_config_and_agents(
+        "runtime-instance",
+        recorder,
+        NoopLifecycle,
+        ControlAuthority::new(BTreeMap::new()),
+        8,
+        std::iter::empty(),
+        adl_runtime_kernel::AgentPopulationFeed {
+            sample: vec![misleading, target, long],
+            ..adl_runtime_kernel::AgentPopulationFeed::empty()
+        }
+        .with_public_policy(policy(&["agent-a", "target-agent", &long_id])),
+    );
+    assert_eq!(
+        service.agent_roster_detail("target-agent").unwrap().id,
+        "target-agent"
+    );
+    assert_eq!(service.agent_roster_detail(&long_id).unwrap().id, long_id);
+}
+
+#[test]
+fn production_public_projection_omits_configured_but_unauthorized_agents_and_redacts_fields() {
+    let recorder = RuntimeRecorder::new(16);
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    for id in ["shepherd", "private-agent"] {
+        recorder.set_component_state(ComponentId::new(id), RunningState::Running);
+        assert!(recorder.record_agent_admission(
+            id,
+            now,
+            now + 5_000,
+            "0123456789abcdef0123456789abcdef01234567"
+        ));
+    }
+    let mut feed = adl_runtime_kernel::AgentPopulationFeed::resident_shepherd();
+    let mut private = feed.sample[0].clone();
+    private.id = "private-agent".to_owned();
+    private.label = "Private Agent".to_owned();
+    private.capabilities = vec!["private-capability".to_owned()];
+    private.location = Some("private-location".to_owned());
+    feed.sample.push(private);
+    let service = ControlService::new_with_observatory_config_and_agents(
+        "runtime-instance",
+        recorder,
+        NoopLifecycle,
+        ControlAuthority::new(BTreeMap::new()),
+        8,
+        std::iter::empty(),
+        feed.with_public_policy(AgentRosterPolicy {
+            policy_subject: "public-observatory".to_owned(),
+            visible_agent_ids: BTreeSet::from(["shepherd".to_owned()]),
+            reveal_capabilities: false,
+            reveal_location: false,
+        }),
+    );
+    let public = service.observatory_feed();
+    assert_eq!(public.agents.total_count, 1);
+    assert_eq!(public.agents.sample[0].id, "shepherd");
+    assert!(public.agents.sample[0].capabilities.is_empty());
+    assert_eq!(public.agents.sample[0].location, None);
+    let serialized = serde_json::to_string(&public.agents).unwrap();
+    assert!(!serialized.contains("private-agent"));
+    assert!(!serialized.contains("private-capability"));
+    assert!(!serialized.contains("private-location"));
 }
 
 #[tokio::test]

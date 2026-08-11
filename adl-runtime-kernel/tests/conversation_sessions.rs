@@ -1,5 +1,5 @@
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, BTreeSet},
     sync::{
         atomic::{AtomicUsize, Ordering},
         Arc,
@@ -8,8 +8,8 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    serve_control_listener, AdapterKind, AdapterPolicy, AgentPopulationFeed, AgentSample,
-    AuthorityMode, CanonicalIngress, ComponentId, ComponentRegistry, ControlApiPolicy,
+    serve_control_listener, AdapterKind, AdapterPolicy, AgentPopulationFeed, AgentRosterPolicy,
+    AgentSample, AuthorityMode, CanonicalIngress, ComponentId, ComponentRegistry, ControlApiPolicy,
     ControlAuthority, ControlService, ExecutorError, FailureClass, Kernel, KernelExit,
     LifecycleControl, OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory,
     RunningState, RuntimeRecorder, OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA,
@@ -163,6 +163,17 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             provenance: "runtime_component_state".to_owned(),
         });
     }
+    let visible_agent_ids = population
+        .sample
+        .iter()
+        .map(|agent| agent.id.clone())
+        .collect::<BTreeSet<_>>();
+    population = population.with_public_policy(AgentRosterPolicy {
+        policy_subject: "conversation-test".to_owned(),
+        visible_agent_ids,
+        reveal_capabilities: false,
+        reveal_location: false,
+    });
     let service = Arc::new(
         ControlService::new_with_observatory_config_and_agents(
             "conversation-runtime",

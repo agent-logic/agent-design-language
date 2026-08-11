@@ -1584,6 +1584,22 @@ fn runtime_identity_and_shutdown_bounds_are_owned_by_standard_crates() {
 }
 
 #[test]
+fn runtime_instance_identity_is_stable_in_one_state_root_and_distinct_across_roots() {
+    let first_root = tempfile::tempdir().unwrap();
+    let second_root = tempfile::tempdir().unwrap();
+    let first = adl_runtime_kernel::load_or_create_runtime_instance_id(first_root.path()).unwrap();
+    let restored =
+        adl_runtime_kernel::load_or_create_runtime_instance_id(first_root.path()).unwrap();
+    let separate =
+        adl_runtime_kernel::load_or_create_runtime_instance_id(second_root.path()).unwrap();
+    assert_eq!(first, restored);
+    assert_ne!(first, separate);
+
+    std::fs::write(first_root.path().join("runtime-instance-id"), "invalid\n").unwrap();
+    assert!(adl_runtime_kernel::load_or_create_runtime_instance_id(first_root.path()).is_err());
+}
+
+#[test]
 fn ready_event_reports_the_bound_ephemeral_port() {
     let address = std::net::SocketAddr::from(([127, 0, 0, 1], 43_123));
     let event = adl_runtime_kernel::control_ready_event(
