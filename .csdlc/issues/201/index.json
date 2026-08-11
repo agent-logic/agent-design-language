@@ -5,10 +5,30 @@
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "implemented",
   "generation": 87,
-  "digest": "0a9d9d4ddcc1eee7ecd54743e9edf9f1ade1ccaa44a737a0c6793a65c5ff1345",
+  "digest": "db05b9df951c21c60c72e4f7ead1b42d14690d8f67783b7023cc9d7e7d03dcd3",
   "branch": "codex/201-authority-protocol-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-201-authority-protocol-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_201_coverage_truth_final",
+    "assigned_by": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+    "revision": "git-blake3:591d3931a3802fbaeb0123e7b49452944f5564b3:43d7ee352a5a8f32977f43d0cccd9cd310a9e0d9261e6ae672e2a2aeefca581e",
+    "scope": [
+      ".csdlc/issues/201",
+      ".csdlc/prepared/issues/201",
+      ".csdlc/evidence/201/v7",
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_authority_protocol.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +64,9 @@
       "ast_digest": "cdec87441d57fbb78ffbf59fcdb73ab607411bf6437cd20dd96a8c510c5678f6"
     },
     "srp": {
-      "values_digest": "5ae8b1c67d42c73cd9dae99fbdd85250ae0d843656d8c11c796b604578cd4b49",
-      "rendered_digest": "7842a5b4a31b4c37305c2c84faee2a2d137549db60dfe0aed36c2ef7c025775e",
-      "ast_digest": "27aa8d1db9277ebe055025a0461f01a1750d7d572041cda65f76fda07ac2b1a8"
+      "values_digest": "f82c2e29d9f8bb82e7c4ecfa4dd210b5c79bb86d4b4be4f44420020fcbbc2561",
+      "rendered_digest": "688fe081411a14599e29015acac321e53f2d1f84bc9ec29d18f01cd222f207a0",
+      "ast_digest": "d669e8b6c203ca9447eae02421a51da136480268d25b00bf54c872082947546e"
     },
     "sor": {
       "values_digest": "2186ba2ee7fe45e69dd540eea1808ef06da75703f5c9f8f071d7cf0fc82edc38",
@@ -756,6 +776,13 @@
       "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
       "reason": "Record the machine check that exact summary reproducibility is denied while every retained observed run and minimum row passes the unchanged threshold.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"jq\",\"-e\",\"threshold-oriented coverage variability contract\",\".csdlc/prepared/issues/201/coverage-impact-result.json\"],\"purpose\":\"Require no top-level exact summary hash, explicit denial of exact-summary reproducibility, multiple distinct retained run hashes and polis line counts, and every retained production row at or above 80 percent.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/201/coverage-impact-result.json\"}}"
+    },
+    {
+      "sequence": 92,
+      "generation": 87,
+      "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
