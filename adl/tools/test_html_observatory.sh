@@ -223,5 +223,7 @@ grep -q 'id="roster-presence-filter"' "${ROOT_DIR}/demos/html-observatory/index.
 grep -q 'id="roster-sort"' "${ROOT_DIR}/demos/html-observatory/index.html"
 grep -q 'id="roster-detail"' "${ROOT_DIR}/demos/html-observatory/index.html"
 grep -q 'id="roster-load-more"' "${ROOT_DIR}/demos/html-observatory/index.html"
+grep -q 'symbolic-ref", "HEAD' "${ROOT_DIR}/adl-runtime-kernel/build.rs"
+grep -q 'track_git_path(&manifest_dir, &symbolic_ref)' "${ROOT_DIR}/adl-runtime-kernel/build.rs"
 
 echo "PASS: HTML Observatory Runtime v3, signed command, and roster projection contract"
