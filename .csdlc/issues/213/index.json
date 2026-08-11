@@ -3,9 +3,9 @@
   "issue": 213,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d4d23337d701ae03975e437c748d19c827b416bfab581134071172ac1dff340e",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "8b4514cfd783f389685f6e21fc7bd234c1363130308e01acaeb585ec0d8771b0",
+  "phase": "ready",
+  "generation": 2,
+  "digest": "69d354b1fc51c532183e17146e4c53e48081778c9d5187048b5a9afd94878549",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,40 +16,53 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/213/design.md",
   "diagram_path": ".csdlc/prepared/issues/213/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root/rereview_213_design",
+      "revision": "c671ce98f9fc1a009612418d64fa66c91d33540f34af1feea3d34cb454d21b83"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "aa3fecc5bc4d06ce3b86c2d43094fadb1326c005525bfe055a1558d08d01c815",
+      "values_digest": "4603b3652e848096728ffd2f1be06891f89b77abd15c92a399cf9d829b4c2eed",
       "rendered_digest": "7845e1efd5fdd1a037b4832d641194dcd3190bd61232853a6bb700ebee81ab2f",
       "ast_digest": "1d5201f5d1cb0c1a2b3ca4157e6eb842efa06c06da55f7047724724d9d6956c8"
     },
     "stp": {
-      "values_digest": "c0b0fda1c50a415d042a9db38669ad0f9fd9025bfc2d123f576feefba8c592a3",
+      "values_digest": "532bc47b37e7b0c758cce5f9954225ebcc6825b60d1252f501b9fb3cc8e06a02",
       "rendered_digest": "1c5c193f02981508f73b2fb8b782124b046976d7b79c6f65cecd73b2babd161d",
       "ast_digest": "ff8a50b9209d38d9bad1fa0244499f40d78ef6718927fd45c38c01d47c52d227"
     },
     "spp": {
-      "values_digest": "00265bd21fbb940e1632af25d5d4fe9c7f95cfa8b67d84a5b5139b2bbcc8597c",
+      "values_digest": "83de27546f5dfb4644d609a14644d8e4a88c393951de1b4dba410f8cf807ad09",
       "rendered_digest": "00570bb21dd0b90a7deb3b37df2165d60188c46a08d0b9da066264beda55dd59",
       "ast_digest": "edb24db6686635c29a135b13ff21ce7bfee2333799eed0ce7ecc54f2ce316764"
     },
     "vpp": {
-      "values_digest": "bf348533dbfdfe9c5764d59d152d4b426495f707767697b1d5238d8b0394c8fa",
+      "values_digest": "15ee7ef54fb8e5d8577d361d7b7bb0c2d5a60f821c894279baa9c27e21bc16fc",
       "rendered_digest": "7f1dd365af9e3158b4323f59d2d5a9f7590d229e93549dd22f1ff9f73b80f2d3",
       "ast_digest": "c393b4d529ba92a5e38cabf4f3482136ab14300da4c0a500f88d1078b8e90027"
     },
     "srp": {
-      "values_digest": "d170720f6a46e434686a83d93c859834d7984f8cab42b323b2448896cb9bed5d",
+      "values_digest": "2dd27a56caf78b570c5ad58149935bf83ad63db8efa4feaa50f689e50421b3d0",
       "rendered_digest": "3ab3df9529b183fa9b491638305ad9af9447f4e63c676d6846352f5aa059c064",
       "ast_digest": "770881afb2dfd8e797313771991b10ae9bffb980b15b89d046bd8e01159e1ec4"
     },
     "sor": {
-      "values_digest": "36d87e630fefb2ae248889cc3c63c7a1769d055ac68a77886182d83c51331b9c",
+      "values_digest": "9c1dd3333c6178579f83cc3dd28cf2f2f1fb92e24d8b4b9291336bf689aeb004",
       "rendered_digest": "93936dca1ca69adfabd1a0a926cf701bf2acd15d2a700aa8bfaaa5c5fa93b07a",
       "ast_digest": "f7b337eed50e2b22382c6df8d691261a54bc19fdea0a2c7f3233007b746882b2"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Independent exact-head design review passed and typed validation reports the tooling repair package ready for bounded implementation."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -57,6 +70,20 @@
       "actor": "codex:213-initialized-card-repair",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/rereview_213_design",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Independent exact-head design review passed and typed validation reports the tooling repair package ready for bounded implementation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }
