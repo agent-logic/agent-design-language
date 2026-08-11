@@ -46,7 +46,7 @@ Diagram: design/issue-111.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "runtime_core",
-    "defer_reason": "The exact issue-owned conversation_sessions integration target is authored during execution after terminal #83 topology is available; --no-tests=fail forbids an empty proof."
+    "defer_reason": "The sentinel target is intentionally nonzero and failing until WP-18C.01 implements the complete conversation-session denominator."
   },
   {
     "lane": "observatory_wss_integration",
@@ -112,14 +112,31 @@ Diagram: design/issue-111.mmd
       "demos/html-observatory/tests/conversation_sessions.test.mjs"
     ],
     "parallel_group": "client_behavior",
-    "defer_reason": "The exact issue-owned behavioral validator is an issue #111 execution deliverable and remains deferred until the post-#83 client contract is implemented; missing, skipped, zero-assertion, ACK/hash-as-reply, or duplicated-reconnect output cannot pass."
+    "defer_reason": "The sentinel exits nonzero until the exact behavioral assertions are implemented."
+  },
+  {
+    "lane": "conversation_exact_head_review_receipts",
+    "proof_role": "Validate that all required product and hygiene receipts cover the exact candidate revision and that independent SRP review resolved every actionable finding without widening scope.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "node",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "--review-only"
+    ],
+    "parallel_group": "review",
+    "defer_reason": "The issue-owned validator must fail closed until exact-head receipts and independent SRP review evidence exist."
   },
   {
     "lane": "exact_diff_hygiene",
-    "proof_role": "Fast exact-worktree whitespace and conflict-marker hygiene before independent review.",
+    "proof_role": "Fast exact-worktree whitespace and conflict-marker hygiene; this lane does not substitute for independent review.",
     "acceptance_ids": [
-      "AC-5",
-      "AC-6"
+      "AC-5"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -151,6 +168,7 @@ Tokens: 25000
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test observatory`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract`
 - `node demos/html-observatory/tests/conversation_sessions.test.mjs`
+- `node demos/html-observatory/tests/conversation_sessions.test.mjs --review-only`
 - `git diff --check`
 
 ## Failure Semantics
