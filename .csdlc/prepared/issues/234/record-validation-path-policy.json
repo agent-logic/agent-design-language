@@ -1,0 +1,17 @@
+{
+  "issue": 234,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "846caec6eeacc176f7d35c7c25164d4da287bd0aef523bce1eb69bb7ff96ca82",
+  "actor": "codex:234-validation",
+  "reason": "Record representative PR path-routing and optional-work deferral proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", "adl/tools/test_ci_path_policy.sh"],
+      "purpose": "Prove docs, ordinary Rust, runtime, mixed policy, fail-closed, schedule, and explicit-dispatch classifications while keeping optional demo and soak work deferred.",
+      "outcome": "passed",
+      "evidence_ref": "local:issue-234-ci-path-policy:passed"
+    }
+  }
+}

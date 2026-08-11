@@ -9,11 +9,9 @@ on:
       - labeled
       - unlabeled
   workflow_dispatch:
-  schedule:
-    - cron: "17 10 * * *"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.repository }}:${{ github.workflow }}:${{ github.event.pull_request.base.ref || github.ref_name }}:${{ github.event.pull_request.head.repo.id || github.repository_id }}:${{ github.event.pull_request.head.ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -59,6 +57,15 @@ jobs:
       csdlc_v2_standalone_required: ${{ steps.path-policy.outputs.csdlc_v2_standalone_required }}
       adl_v2_standalone_required: ${{ steps.path-policy.outputs.adl_v2_standalone_required }}
       heavy_ci_backend: ${{ steps.path-policy.outputs.heavy_ci_backend }}
+      automatic_pr_entrypoint: ${{ steps.path-policy.outputs.automatic_pr_entrypoint }}
+      unselected_required_lanes_status: ${{ steps.path-policy.outputs.unselected_required_lanes_status }}
+      unselected_required_lanes_reason: ${{ steps.path-policy.outputs.unselected_required_lanes_reason }}
+      optional_workflows_status: ${{ steps.path-policy.outputs.optional_workflows_status }}
+      optional_workflows_reason: ${{ steps.path-policy.outputs.optional_workflows_reason }}
+      soak_workflows_status: ${{ steps.path-policy.outputs.soak_workflows_status }}
+      soak_workflows_reason: ${{ steps.path-policy.outputs.soak_workflows_reason }}
+      duplicate_head_status: ${{ steps.path-policy.outputs.duplicate_head_status }}
+      duplicate_head_reason: ${{ steps.path-policy.outputs.duplicate_head_reason }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -68,6 +75,7 @@ jobs:
         id: path-policy
         env:
           HEAVY_CI_BACKEND: ${{ vars.ADL_HEAVY_CI_BACKEND || 'hosted' }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           bash adl/tools/ci_path_policy.sh \
             --event-name "${{ github.event_name }}" \
@@ -75,8 +83,16 @@ jobs:
             --head "${{ github.event.pull_request.head.sha }}" \
             --ref "${{ github.ref }}" \
             --github-output "$GITHUB_OUTPUT"
-          backend="$(bash adl/tools/resolve_ci_backend.sh "${HEAVY_CI_BACKEND:-hosted}")"
+          if [ "$EVENT_NAME" = pull_request ]; then
+            backend=hosted
+          else
+            backend="$(bash adl/tools/resolve_ci_backend.sh "${HEAVY_CI_BACKEND:-hosted}")"
+          fi
           echo "heavy_ci_backend=$backend" >> "$GITHUB_OUTPUT"
+        working-directory: .
+
+      - name: Enforce whole-workflow dispatch policy
+        run: ruby adl/tools/validate_ci_workflow_policy.rb
         working-directory: .
 
       - name: Validation profile summary (adl-ci)
@@ -99,6 +115,11 @@ jobs:
             echo "| CI path-policy contracts | \`${{ steps.path-policy.outputs.ci_path_policy_contracts_required }}\` |"
             echo "| CI contract toolchain | \`${{ steps.path-policy.outputs.ci_contract_toolchain_required }}\` |"
             echo "| skill author contracts | \`${{ steps.path-policy.outputs.skill_author_contracts_required }}\` |"
+            echo "| automatic PR entrypoint | \`${{ steps.path-policy.outputs.automatic_pr_entrypoint }}\` |"
+            echo "| unselected required lanes | \`${{ steps.path-policy.outputs.unselected_required_lanes_status }}: ${{ steps.path-policy.outputs.unselected_required_lanes_reason }}\` |"
+            echo "| optional workflows | \`${{ steps.path-policy.outputs.optional_workflows_status }}: ${{ steps.path-policy.outputs.optional_workflows_reason }}\` |"
+            echo "| soak workflows | \`${{ steps.path-policy.outputs.soak_workflows_status }}: ${{ steps.path-policy.outputs.soak_workflows_reason }}\` |"
+            echo "| duplicate heads | \`${{ steps.path-policy.outputs.duplicate_head_status }}: ${{ steps.path-policy.outputs.duplicate_head_reason }}\` |"
           } >> "$GITHUB_STEP_SUMMARY"
         working-directory: .
 
@@ -743,7 +764,7 @@ jobs:
 
   adl-slow-proof:
     needs: adl_path_policy
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
@@ -1157,7 +1178,7 @@ jobs:
       - adl_coverage_runtime_hosted
       - adl_coverage_workspace_fast_hosted
       - adl_coverage_workspace_hosted
-    if: always()
+    if: always() && needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.heavy_ci_backend == 'hosted'
     runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
     permissions:
       contents: read
@@ -1423,7 +1444,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload coverage to Codecov
-        if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
+        if: github.event_name == 'workflow_dispatch' && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           use_oidc: true
@@ -1455,6 +1476,11 @@ jobs:
           SPOT_WORK_REQUIRED: ${{ needs.adl_path_policy.outputs.coverage_required == 'true' }}
         run: |
           set -euo pipefail
+          hosted_coverage_result="${{ needs.adl_coverage_hosted.outputs.route_result }}"
+          hosted_coverage_job_result="${{ needs.adl_coverage_hosted.result }}"
+          if [ -z "$hosted_coverage_result" ] && [ "$hosted_coverage_job_result" = "skipped" ]; then
+            hosted_coverage_result="$hosted_coverage_job_result"
+          fi
           python3 adl/tools/verify_ci_backend_route.py \
             --surface adl-coverage \
             --backend "$BACKEND" \
@@ -1465,7 +1491,7 @@ jobs:
             --spot-work-required "$SPOT_WORK_REQUIRED" \
             --path-policy-result "${{ needs.adl_path_policy.result }}" \
             --spot-result "${{ needs.adl_spot_ci_and_coverage.result }}" \
-            --hosted-result "coverage=${{ needs.adl_coverage_hosted.outputs.route_result }}"
+            --hosted-result "coverage=$hosted_coverage_result"
           failed=""
           for lane in \
             "adl_path_policy:${{ needs.adl_path_policy.result }}" \
