@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
     "slug": "quorum-committed-authority-protocol",
     "version": "v0.92",
-    "generation": 4
+    "generation": 11
   },
   "status": "ready",
   "content": {
     "card_kind": "stp",
     "values": {
-      "task_boundary": "Implement and publish only the deterministic committed intent/finalize protocol, opaque voter endorsement authority, quorum-attested time, durable checkpoint/retry state, opaque downstream token, and legacy direct-authority closure required between WP-04.16a and #199/#200.",
+      "task_boundary": "Implement and publish only the deterministic committed intent/finalize protocol, opaque voter endorsement authority, quorum-attested time, durable checkpoint/retry state, a private-field VerifiedAuthorityOperation that retains the exact bounded operation-specific store-native signed artifact bytes plus digest/binding for sealed #199/#200/#203 consumers, and legacy direct-authority closure required between WP-04.16a and downstream integrations; do not execute any downstream store side effect.",
       "deliverables": [
         "adl-runtime/src/distributed/authority_protocol.rs",
         "adl-runtime/src/distributed/polis_runtime.rs",

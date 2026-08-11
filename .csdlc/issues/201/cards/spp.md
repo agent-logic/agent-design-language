@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-After WP-04.16a merges, bind and implement the bounded committed authority protocol, prove deterministic endorsement/time/retry/checkpoint and legacy-closure behavior, retain merge-safe evidence, resolve exact-head review, and publish a ready unmerged PR before releasing #199 and #200.
+After WP-04.16a merges, bind and implement the bounded committed authority protocol, retain a private byte-identical operation-specific store-native signed artifact view in each opaque finalized token for sealed #199/#200/#203 consumers, prove deterministic endorsement/time/retry/checkpoint/artifact and legacy-closure behavior, retain merge-safe evidence, resolve exact-head review, and publish a ready unmerged PR before releasing downstream integrations.
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -74,8 +74,9 @@ Revision 1
 ## Invariants
 
 - No uncommitted proposal, single voter, leader, caller, harness, Shepherd, model, local history, or local clock can mint a verified authority-operation token
-- Every finalized token binds exact polis, domain, membership cut, committed index, operation, payload, time token, and distinct quorum endorsements
-- No token or canonical response is published before protocol result, retry record, and external checkpoint reconcile
+- Every finalized token binds exact polis, domain, membership cut, committed index, operation, bounded store-native signed artifact bytes and digest, time token, and distinct quorum endorsements
+- The private artifact view returns byte-identical retained committed bytes only to sealed #199/#200/#203 consumers; it cannot accept replacement bytes or reconstruct authority from a digest
+- No token, artifact view, or canonical response is published before protocol result, retry record, and external checkpoint reconcile
 - Legacy direct authority commands cannot mint or restore authority
 - One-of-three always halts new authority token finalization
 

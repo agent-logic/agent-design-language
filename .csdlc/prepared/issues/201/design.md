@@ -13,8 +13,10 @@ clock must not self-authorize merely because Raft replicated some bytes.
 Add one deterministic committed-command protocol that consumes the exact
 current `MembershipState` and `AuthorityMembership`, verifies endorsements from
 an opaque local voter authority, durably publishes an exact result and retry
-record through an external checkpoint, and emits an opaque operation token for
-the downstream membership and concrete-store integrations.
+record through an external checkpoint, and emits an opaque operation token whose
+private operation-specific view retains the exact bounded store-native signed
+artifact bytes, their digest, and operation binding for sealed downstream
+membership, reconciliation, and existing-store integrations.
 
 This issue does not apply OpenRaft membership changes or mutate certificate,
 lease, fencing, migration, or recovery stores. Governed membership is #199;
@@ -29,8 +31,11 @@ Every state-changing operation uses two committed entries:
 1. `PrepareAuthorityIntent` commits a canonical, domain-separated intent with
    polis id, trust domain, current membership epoch/index and voter-set digest,
    operation kind, expected prior protocol checkpoint, payload digest,
-   canonical prepare-time token, inclusive finalization deadline, and a unique
-   bounded operation id.
+   canonical prepare-time token, inclusive finalization deadline, a unique
+   bounded operation id, and one bounded operation-specific artifact envelope.
+   The envelope contains the exact store-native signed bytes and their digest;
+   its domain and variant must match the operation kind. A digest without the
+   retained bytes is not a downstream authority input.
 2. Each current voter may endorse only that exact committed intent through an
    opaque `VoterEndorsementAuthority` bound to node, guardian, voter purpose,
    certificate generation, boot generation, and membership index. Each
@@ -43,14 +48,37 @@ Every state-changing operation uses two committed entries:
    committed time policy. This proves that quorum authorization occurred at a
    declared time inside the intent window, and a replay cannot regress or
    replace that signed time.
-4. A durable protocol journal records the finalized token and canonical result.
-   The result becomes readable only after the exact external protocol checkpoint
-   CAS and retry record are durable.
+4. A durable protocol journal records the finalized token, its byte-identical
+   artifact envelope, and canonical result. The result and private artifact view
+   become readable only after the exact external protocol checkpoint CAS and
+   retry record are durable.
 
 Exact retries return the retained canonical result. Conflicting reuse,
 superseded membership, wrong-domain evidence, missing or duplicate voters,
 invalid keys, a declared finalization time outside the inclusive intent window,
-rollback, and reordered finalization fail before protocol publication.
+artifact byte/digest/operation mismatch, rollback, and reordered finalization
+fail before protocol publication.
+
+## Private exact artifact view
+
+`VerifiedAuthorityOperation` has private fields and retains a sealed
+operation-specific `VerifiedAuthorityArtifact` envelope. The envelope stores the
+exact canonical bytes committed by `PrepareAuthorityIntent`, their SHA-256
+digest, the operation class, and the intent digest. It is journaled and replayed
+byte-for-byte; retry never asks a caller to resupply it.
+
+Only sealed consumers for #199, #200, and #203 receive a borrowed read-only view.
+That view exposes the exact bytes and binding needed by the destination's native
+verifier but offers no constructor, replacement setter, raw endorsement, signing
+operation, or generic caller-selected payload conversion. #201 validates the
+bounded envelope and its committed binding; it does not interpret or apply the
+certificate, lease, fencing, or membership effect. #203 remains responsible for
+decoding and verifying the retained bytes through the existing store-native
+signature or quorum path before any concrete effect.
+
+Serialization, snapshot restore, retry-cache load, and checkpoint reconciliation
+all compare both the retained bytes and digest. A record that preserves the
+digest but changes, omits, re-encodes, or substitutes the bytes fails closed.
 
 The prepare and finalize entries contain canonical quorum-attested time tokens.
 Replica-local clocks may determine whether a voter is willing to endorse a
@@ -76,7 +104,8 @@ union-majority endorsement sets fail closed.
   concrete `MembershipState` plus exact `AuthorityMembership` parity. Caller
   route or configuration data is never voter authority.
 - The protocol produces a private-field `VerifiedAuthorityOperation` token.
-  Only #199 and #200 may consume it; public constructors, raw endorsements, and
+  Only sealed #199, #200, and #203 consumers may inspect its read-only exact
+  artifact view; public constructors, replacement bytes, raw endorsements, and
   caller-selected quorum sets are absent.
 - Membership coordination, certificate/lease/fence application, and external
   migration/recovery workflows do not run inside deterministic Raft apply here.
@@ -120,9 +149,11 @@ protocol atomicity, not a transaction over downstream authority stores.
 - #199 consumes membership-operation tokens and implements
   `AuthorizedOld -> LearnerCaughtUp -> JointCommitted -> FinalCommitted ->
   AuthorityParityPublished`, including removal fencing and crash reconciliation.
-- #200 consumes concrete-operation tokens and reconciles existing certificate,
-  lease, fencing, owner, Shepherd, migration-token, and recovery-token
-  authorities without claiming cross-store atomicity.
+- #200 consumes concrete-operation tokens and publishes reconciliation plans
+  without claiming cross-store atomicity.
+- #203 consumes the private exact artifact view through #200's published plan and
+  applies existing certificate, lease, and fencing store effects. #201 never
+  performs or reconstructs those effects.
 - #193 and later children consume those merged authorities for real kernel
   continuity and operational serving. They do not broaden this protocol.
 
@@ -131,17 +162,18 @@ protocol atomicity, not a transaction over downstream authority stores.
 - Real three-voter OpenRaft tests prepare and finalize commands through the core
   protocol and never construct endorsements or verified tokens in the harness.
 - Positive cases cover strict current quorum, canonical committed time,
-  durable token publication, exact retry, and downstream opacity.
+  durable token publication, exact retry, downstream opacity, and byte-identical
+  private store-native artifact retention.
 - Fault cases cover missing/duplicate/wrong-key endorsements, signer
   unavailability and rotation, membership mismatch, local clock skew at the
   endorsement boundary, crash at every journal/checkpoint boundary, rollback,
-  replay conflict, corruption, capacity, symlink paths, and every retired
-  legacy authority command.
+  replay conflict, artifact substitution, corruption, capacity, symlink paths,
+  and every retired legacy authority command.
 - Machine evidence binds exact source, commands, a named nonzero denominator,
   strict Clippy, marker parity, protected-source drift, immutable evidence
   introduction, and eventual squash-merge topology.
 
-The denominator is exactly forty cases, with exact name/result/marker parity:
+The denominator is exactly forty-two cases, with exact name/result/marker parity:
 `current_three_voter_finalize`, `exact_retry_returns_cached_result`,
 `signer_rotation_current_generation`, `joint_majority_each_config`,
 `finalize_at_deadline`, `three_node_checkpoint_restart_reconcile`,
@@ -159,7 +191,9 @@ The denominator is exactly forty cases, with exact name/result/marker parity:
 `capacity_n_plus_one_no_partial`, `state_symlink_rejected`,
 `lock_symlink_rejected`, `legacy_fence_voter_rejected`,
 `legacy_activate_owner_rejected`, `legacy_activate_shepherd_rejected`,
-`legacy_acquire_observatory_rejected`, and `legacy_demote_voter_rejected`.
+`legacy_acquire_observatory_rejected`, `legacy_demote_voter_rejected`,
+`exact_store_artifact_bytes_retained`, and
+`artifact_bytes_digest_substitution_rejected`.
 
 ## Non-goals
 

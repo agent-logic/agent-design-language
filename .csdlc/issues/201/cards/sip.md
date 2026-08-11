@@ -16,7 +16,7 @@ Establish the deterministic quorum-committed authority command, opaque voter-end
 
 ## Required Outcome
 
-Every published authority-operation token is deterministically derived from an exact committed intent, canonical quorum-attested time, and a strict quorum of opaque current-voter endorsements; its result and retry state are externally checkpointed, legacy direct authority commands fail closed, and no downstream membership or concrete-store side effect is claimed here.
+Every published authority-operation token is deterministically derived from an exact committed intent, canonical quorum-attested time, and a strict quorum of opaque current-voter endorsements; its private operation-specific view retains the exact bounded store-native signed artifact bytes plus digest and operation binding for sealed #199/#200/#203 consumers, its result and retry state are externally checkpointed, legacy direct authority commands fail closed, and no downstream membership or concrete-store side effect is claimed here.
 
 ## Scope
 
@@ -32,9 +32,10 @@ Every published authority-operation token is deterministically derived from an e
 
 - Only concrete MembershipState and AuthorityMembership plus opaque distinct current-voter endorsements authorize finalization
 - The leader, caller, runner, model, Shepherd, harness, local history, and replica-local clock are never quorum authority
-- Raw signing keys, caller-produced endorsements, and caller-selected voter sets are rejected
-- #201 emits an opaque verified token but performs no OpenRaft membership or concrete authority-store side effect
-- Governed membership belongs to #199 and concrete authority-store reconciliation belongs to #200
+- Raw signing keys, caller-produced endorsements, caller-selected voter sets, caller-substituted artifact bytes, and digest-only artifact reconstruction are rejected
+- The private-field VerifiedAuthorityOperation retains an operation-specific bounded artifact view containing the exact committed store-native signed bytes, their digest, and operation binding; only sealed #199/#200/#203 consumers can inspect that view
+- #201 emits the opaque verified token and private exact artifact view but performs no OpenRaft membership or concrete authority-store side effect
+- Governed membership belongs to #199, reconciliation publication belongs to #200, and existing certificate/lease/fencing application belongs to #203
 - Kernel continuity, Guardian/API/WSS, models, AWS, live demonstrations, and #142 terminal delivery remain out of scope
 
 ## Assumptions

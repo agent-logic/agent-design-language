@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "39cf177857eab37ab7ffc464cbf0f1bf6a98e7f71aded9992ae0c8e946aa9f84",
   "phase": "initialized",
-  "generation": 4,
-  "digest": "d1e40bde5be2d5425fdf6b7c45e9c5a5c4b68cef016fdfa66c3a4ddfce836be7",
+  "generation": 11,
+  "digest": "9d2071c331b854fb40f4726de531e08281e814a8bbb742719702e81cd769a7f8",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b8bfe4da6c1e8486a30bfb65ee1c39278bdb8e209ab33afbb2e66d9670c55cae",
-      "rendered_digest": "b0059fecc667c9acdc2d366cd8745874312c56343e6a6d3ab0826b992b438e05",
-      "ast_digest": "1dc7deda7386669a8a9bd3bb9c732f332ab33adda21e5fa388dcf59fb62a7dd0"
+      "values_digest": "0b172827108da5bfec7ab26d3074cdba88f3e0ae4efe5d2cd9917fff0545942e",
+      "rendered_digest": "f980b79efefdd650489881122036bae7df7da8ce98f22ba7cc2d3c2b81b113c4",
+      "ast_digest": "d275b3c3a3157cccbe0b96c5dab7effe592b3830963e9884db6173f7772d7960"
     },
     "stp": {
-      "values_digest": "8c3008805dd135e10511a131456dc577d7c5586ecf46251e4ef4d2e885e362bb",
-      "rendered_digest": "7ddd65ec7db23063f7dba55f426eba4c9209fb44d975c7384f66c3adffc78f99",
-      "ast_digest": "73eb73788fdefc09408537e772f45285c3adba3ebf7ad9d391caf0833dd1095d"
+      "values_digest": "5fda9cbe56223fde4826720a2ec75e3640be281fb79fa6a4594480e699b2e089",
+      "rendered_digest": "cb02ebb494c1d3623e820edefa4da9eaa1a6109233a9bb93bbeee7e18d1f8a18",
+      "ast_digest": "5af802b0757383235c0a8da1f690b1efc0a247594c31bf9b169096e271c88bee"
     },
     "spp": {
-      "values_digest": "8f83e0c43e2435c03889ffb1e1c756b6dd66a11d944e6fa6e330705d5fa33e01",
-      "rendered_digest": "71aaae2db7a08dd958e288195870b9de3a1c087a32d5f4bdd0faca2ef5228412",
-      "ast_digest": "e7ecf016f812d2c1c7f43f056968cee57cf84c927209c98b7748dc61618959c6"
+      "values_digest": "8597b99f49ddc2d4d47594cf38bdc811cb305f1526d9db703dfa8f705b1159e4",
+      "rendered_digest": "f20c8d97c021259400df6e84408691930537034e36cdb8d6a72691f73b23e070",
+      "ast_digest": "5a23841ddc152e312cdf19d7af776ac11468c8de4e868ec0d887e6aef3d8c3c0"
     },
     "vpp": {
-      "values_digest": "c7f007d7f90d2e5a2870af34c085044eb94cce3078b6c5bd6e62300a37f3faaf",
-      "rendered_digest": "c8d1ef89ebfab76254e63f4996d0bc896f54ecdb1eb155daac60d466f4b1f78c",
-      "ast_digest": "d579d83096d3faf69850e5a82bee11119dff74c9029c09bb28794046c60cad1e"
+      "values_digest": "4941ba4fa5b63f36c86bfaa9c7a795e4418933a684d6c7b9c9252746f05e2383",
+      "rendered_digest": "c2dfcef09113ec5837805b570c07a0a41704a6d694c0eb820df3c4c697075ae3",
+      "ast_digest": "06366a53f16287d34a62d9b567f9b42b1865443729b3d597d97195b97ece0cd7"
     },
     "srp": {
-      "values_digest": "19b175d2a83003335d3391fe139da41dbc69dac65f96e2f198c618902f62c804",
-      "rendered_digest": "b8ffd8a5373155a22600b976befabe96dc7075cbe8bf2226c6414b074d17ea0e",
-      "ast_digest": "3df3bb36bcb6ecd025ef8a2b06266d124cdd0854fdf4793951f6b54c50ace426"
+      "values_digest": "53a22842f0fa5a1c81851fc7f976484b503769f45d71ee6b2a85618514c2c131",
+      "rendered_digest": "1c7c49e61e5dd4b7b7c0b1bbe13f8797c6befc6f0af72099b986030461ad2339",
+      "ast_digest": "54a63bba887d6f624a35f8c408c063cd13b1c5850eca19191396471ed6ca9ba1"
     },
     "sor": {
-      "values_digest": "9370dc3c2dd8e481ede2da4cec2e1865505ef59e277b854e86a53ecbfa693748",
+      "values_digest": "b02469f3c5fa57f23f36486efd5a45a84cab7aa9821fcc33d3b936439c63bcdb",
       "rendered_digest": "dd074b4fa9e4431fe2d9bec84b129f0ae6f0187e7df563f658756033aa354313",
       "ast_digest": "39cc131d0e4042080ae44500a2d66d4a67ce65a724fd47e2836886ae741db8b7"
     }
@@ -90,6 +90,55 @@
       "actor": "codex:/root/prepare_5875_release:a7ddfc99f",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:203-review-resolution",
+      "reason": "Expose the exact private store-native signed artifact view that the reviewed #203 adapter contract truthfully requires without adding downstream store effects.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"required_outcome\",\"value\":\"Every published authority-operation token is deterministically derived from an exact committed intent, canonical quorum-attested time, and a strict quorum of opaque current-voter endorsements; its private operation-specific view retains the exact bounded store-native signed artifact bytes plus digest and operation binding for sealed #199/#200/#203 consumers, its result and retry state are externally checkpointed, legacy direct authority commands fail closed, and no downstream membership or concrete-store side effect is claimed here.\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:203-review-resolution",
+      "reason": "Pin the private exact signed-artifact consumer boundary without exposing caller-supplied authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Only concrete MembershipState and AuthorityMembership plus opaque distinct current-voter endorsements authorize finalization\",\"The leader, caller, runner, model, Shepherd, harness, local history, and replica-local clock are never quorum authority\",\"Raw signing keys, caller-produced endorsements, caller-selected voter sets, caller-substituted artifact bytes, and digest-only artifact reconstruction are rejected\",\"The private-field VerifiedAuthorityOperation retains an operation-specific bounded artifact view containing the exact committed store-native signed bytes, their digest, and operation binding; only sealed #199/#200/#203 consumers can inspect that view\",\"#201 emits the opaque verified token and private exact artifact view but performs no OpenRaft membership or concrete authority-store side effect\",\"Governed membership belongs to #199, reconciliation publication belongs to #200, and existing certificate/lease/fencing application belongs to #203\",\"Kernel continuity, Guardian/API/WSS, models, AWS, live demonstrations, and #142 terminal delivery remain out of scope\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:203-review-resolution",
+      "reason": "Narrowly amend the initialized task boundary with the private exact signed-artifact interface; acceptance-list mutation remains correctly unavailable before binding.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Implement and publish only the deterministic committed intent/finalize protocol, opaque voter endorsement authority, quorum-attested time, durable checkpoint/retry state, a private-field VerifiedAuthorityOperation that retains the exact bounded operation-specific store-native signed artifact bytes plus digest/binding for sealed #199/#200/#203 consumers, and legacy direct-authority closure required between WP-04.16a and downstream integrations; do not execute any downstream store side effect.\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:203-review-resolution",
+      "reason": "Include the private exact artifact view in initialized implementation-planning truth.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"After WP-04.16a merges, bind and implement the bounded committed authority protocol, retain a private byte-identical operation-specific store-native signed artifact view in each opaque finalized token for sealed #199/#200/#203 consumers, prove deterministic endorsement/time/retry/checkpoint/artifact and legacy-closure behavior, retain merge-safe evidence, resolve exact-head review, and publish a ready unmerged PR before releasing downstream integrations.\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:203-review-resolution",
+      "reason": "Prevent digest-only or caller-substituted downstream artifact authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No uncommitted proposal, single voter, leader, caller, harness, Shepherd, model, local history, or local clock can mint a verified authority-operation token\",\"Every finalized token binds exact polis, domain, membership cut, committed index, operation, bounded store-native signed artifact bytes and digest, time token, and distinct quorum endorsements\",\"The private artifact view returns byte-identical retained committed bytes only to sealed #199/#200/#203 consumers; it cannot accept replacement bytes or reconstruct authority from a digest\",\"No token, artifact view, or canonical response is published before protocol result, retry record, and external checkpoint reconcile\",\"Legacy direct authority commands cannot mint or restore authority\",\"One-of-three always halts new authority token finalization\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:203-review-resolution",
+      "reason": "Extend the exact machine denominator with private byte-retention and substitution-rejection proof required by #203.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"committed-authority-protocol\",\"proof_role\":\"Prove exact forty-two-case denominator: current_three_voter_finalize, exact_retry_returns_cached_result, signer_rotation_current_generation, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, missing_quorum, duplicate_signer, wrong_voter, signer_unavailable, expired_signer_cert, stale_membership, config_digest_mismatch, joint_old_only, joint_new_only, joint_union_majority_only, joint_duplicate_guardian_reuse, declared_finalize_time_after_deadline, finalize_before_prepare_time, replay_with_regressed_finalize_time, local_clock_skew_apply_parity, checkpoint_object_collision, node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker, checkpoint_result_retry_digest_mismatch, coherent_rollback_rejected, corrupt_journal_rejected, corrupt_retry_cache_rejected, capacity_n_plus_one_no_partial, state_symlink_rejected, lock_symlink_rejected, legacy_fence_voter_rejected, legacy_activate_owner_rejected, legacy_activate_shepherd_rejected, legacy_acquire_observatory_rejected, legacy_demote_voter_rejected, exact_store_artifact_bytes_retained, artifact_bytes_digest_substitution_rejected.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--no-tests=fail\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":\"Deferred until PR #197 is merged and this issue creates the focused target; fail closed on a missing target/source, zero tests, any result not mapping exactly once to all forty-two canonical case names, any artifact byte/digest/operation mismatch, or any public/caller-substitutable artifact view.\"},{\"lane\":\"committed-authority-protocol-clippy\",\"proof_role\":\"Reject warnings and API misuse across the same bounded core protocol and private artifact-view surface.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_protocol\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"201-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, or missing source.\"},{\"lane\":\"committed-authority-protocol-producer\",\"proof_role\":\"Produce machine-derived execution artifacts with exact name, result, marker, command, stream, timing, Git source, protected-digest, and private artifact byte/digest parity for all forty-two declared cases.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/produce-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":\"Deferred until the exact producer exists; fail closed on dirty protected source, a case count other than forty-two, any missing/extra/duplicate canonical name, artifact byte/digest mismatch, nonpassing result, or nonzero status.\"},{\"lane\":\"committed-authority-protocol-receipt\",\"proof_role\":\"Bind exact protected source, commands, the exact forty-two-case name/result/marker denominator including retained artifact bytes, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/201/validate-proof-receipt.rb\"],\"parallel_group\":\"201-proof\",\"defer_reason\":\"Deferred until validator and post-finalize immutable evidence exist; fail closed until exact reviewed source, all forty-two names/results/markers, and exact artifact byte/digest parity are bound.\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:203-review-resolution",
+      "reason": "Require independent review of the private exact artifact view and absence of substitution authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or VerifiedAuthorityOperation token?\",\"Does the private operation-specific artifact view retain the exact bounded committed store-native signed bytes, digest, and operation binding for sealed #199/#200/#203 consumers without accepting caller replacement or digest-only reconstruction?\",\"Does replicated apply consume only committed deterministic time, membership, and artifact evidence, including skew and uncertainty boundaries?\",\"Do initialization, exact retry, artifact retention, result-cache, and external-checkpoint crash windows reconcile without false publication, byte substitution, or rollback acceptance?\",\"Are all legacy direct authority commands retired or explicitly versioned fail-closed across apply, log replay, and snapshot restore?\",\"Does implementation stay strictly out of #199 membership transitions, #200 reconciliation effects, and #203 concrete store effects?\",\"Does exact proof bind all forty-two machine cases, protected-source drift, immutable evidence, strict Clippy, and merge topology?\"]}"
     }
   ]
 }

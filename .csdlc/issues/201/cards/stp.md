@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Implement and publish only the deterministic committed intent/finalize protocol, opaque voter endorsement authority, quorum-attested time, durable checkpoint/retry state, opaque downstream token, and legacy direct-authority closure required between WP-04.16a and #199/#200.
+Implement and publish only the deterministic committed intent/finalize protocol, opaque voter endorsement authority, quorum-attested time, durable checkpoint/retry state, a private-field VerifiedAuthorityOperation that retains the exact bounded operation-specific store-native signed artifact bytes plus digest/binding for sealed #199/#200/#203 consumers, and legacy direct-authority closure required between WP-04.16a and downstream integrations; do not execute any downstream store side effect.
 
 ## Deliverables
 
