@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 require "json"
+require "digest"
 require "pathname"
+require "time"
 require "yaml"
 
 ROOT = Pathname.new(File.expand_path("../../../..", __dir__))
@@ -43,7 +45,14 @@ lane = vpp.fetch("lanes").find { |entry| entry.fetch("lane") == "v092-final-spri
 raise "final-sprint readiness lane missing" unless lane
 raise "final-sprint readiness lane targets wrong proof" unless lane.fetch("argv") == ["ruby", ".csdlc/prepared/issues/5856/validate-sprint-readiness.rb"]
 
-source = JSON.parse((ROOT / ".csdlc/evidence/5854/live-gates-source.json").read)
+source_path = ROOT / ".csdlc/evidence/5854/live-gates-source.json"
+gates = JSON.parse((ROOT / ".csdlc/evidence/5854/live-gates.json").read)
+source = JSON.parse(source_path.read)
+raise "live evidence digest mismatch" unless gates.dig("provenance", "source_evidence_sha256") == Digest::SHA256.file(source_path).hexdigest
+raise "live evidence timestamps disagree" unless gates.fetch("observed_at") == source.fetch("collected_at")
+age_seconds = Time.now.utc - Time.iso8601(source.fetch("collected_at"))
+raise "live evidence is from the future" if age_seconds < -300
+raise "live evidence is older than 24 hours" if age_seconds > 86_400
 live = source.fetch("issue_results").find do |entry|
   issue = entry.fetch("response").fetch("issue")
   issue.fetch("repository") == "danielbaustin/agent-design-language" && issue.fetch("number") == ISSUE
