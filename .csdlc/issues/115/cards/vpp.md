@@ -51,7 +51,7 @@ Diagram: .csdlc/prepared/issues/115/diagram.mmd
       "--no-tests=fail"
     ],
     "parallel_group": "runtime",
-    "defer_reason": "Deferred and fail closed during preparation: #111, #112, and #113 must be terminal, merged, ancestral, and handed off before issue #115 implements adl-runtime-kernel/tests/conversation_rooms.rs; missing or zero selected tests must fail."
+    "defer_reason": "Deferred and fail closed during preparation: the checked-in target selects one failing sentinel test until #111, #112, and #113 are terminal, merged, ancestral, and handed off; issue #115 execution must replace the sentinel with nonzero proving tests."
   },
   {
     "lane": "acip-routing-input-contract",
@@ -127,7 +127,7 @@ Diagram: .csdlc/prepared/issues/115/diagram.mmd
       "adl/tools/validate_v092_html_observatory_rooms.mjs"
     ],
     "parallel_group": "browser-contract",
-    "defer_reason": "Deferred and fail closed during preparation: #111, #112, and #113 must be terminal, merged, ancestral, and handed off before issue #115 implements the dedicated validator; a missing validator, unavailable live room surface, or zero room assertions must fail."
+    "defer_reason": "Deferred and fail closed during preparation: the checked-in validator selects one failing sentinel test until #111, #112, and #113 are terminal, merged, ancestral, and handed off; issue #115 execution must replace the sentinel with nonzero live room assertions."
   },
   {
     "lane": "rooms-focused-clippy",
@@ -156,10 +156,9 @@ Diagram: .csdlc/prepared/issues/115/diagram.mmd
   },
   {
     "lane": "issue-diff-hygiene",
-    "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+    "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review without claiming review acceptance.",
     "acceptance_ids": [
-      "AC-9",
-      "AC-10"
+      "AC-9"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -172,6 +171,34 @@ Diagram: .csdlc/prepared/issues/115/diagram.mmd
     ],
     "parallel_group": "static",
     "defer_reason": null
+  },
+  {
+    "lane": "exact-head-review-receipt",
+    "proof_role": "Record the independent security and correctness review for the exact candidate revision through typed csdlc-review; only a current passing SRP receipt with no unresolved actionable findings satisfies AC-10.",
+    "acceptance_ids": [
+      "AC-10"
+    ],
+    "deterministic": false,
+    "resource_profile": "small",
+    "budget_seconds": 900,
+    "budget_tokens": 6000,
+    "argv": [
+      "cargo",
+      "run",
+      "--quiet",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--bin",
+      "csdlc-review",
+      "--",
+      "--root",
+      ".",
+      "record",
+      "--request",
+      ".git/csdlc-v2/requests/115.json"
+    ],
+    "parallel_group": "pre-publication-review",
+    "defer_reason": "Runs only after implementation and all product validation lanes pass at one candidate revision; the typed review record and SRP remain the sole acceptance authority."
   }
 ]
 
@@ -193,6 +220,7 @@ Tokens: 50000
 - `node adl/tools/validate_v092_html_observatory_rooms.mjs`
 - `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib --bin adl-runtime-kernel -- -D warnings`
 - `git diff --check`
+- `cargo run --quiet --manifest-path csdlc-v2/Cargo.toml --bin csdlc-review -- --root . record --request .git/csdlc-v2/requests/115.json`
 
 ## Failure Semantics
 
