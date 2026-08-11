@@ -1,0 +1,19 @@
+{
+  "issue": 112,
+  "actor": "codex:112-layer8-authority-readiness-repair",
+  "card": "sip",
+  "expected_generation": 5,
+  "expected_digest": "c9ce05a050d3e97805e20116e18d0544e9ee10f0c9880e48f04860453f6eb208",
+  "reason": "Declare the real-browser Observatory presentation contract while keeping Runtime authority and disclosure boundaries unchanged.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      "Typed Runtime-owned Layer 8 principal, capability, authority decision, refusal projection, replay guard, and redacted audit contracts",
+      "Least-privilege discovery, contact, continuation, attachment, and exact multi-recipient policy decisions",
+      "Narrow pre-delivery Runtime API integration using authenticated identity and canonical conversation identifiers",
+      "Truthful disclosure-safe Observatory presentation of authorized, refused, and stale or revoked authority states through a dedicated real-browser/UI contract target",
+      "Deterministic positive, negative, restart, tamper, projection, browser/UI, and nonzero-target product proof after both serial gates pass"
+    ]
+  }
+}

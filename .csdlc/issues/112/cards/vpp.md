@@ -84,6 +84,25 @@ Diagram: .csdlc/prepared/issues/112/diagram.mmd
     ],
     "parallel_group": "112-product-serial-02",
     "defer_reason": "Deferred until #83 and #111 are merged and ancestral and issue execution creates adl/tests/layer8_authority_runtime_api.rs; fail closed until the exact nonzero integration target exists."
+  },
+  {
+    "lane": "layer8-observatory-real-browser-ui-contract",
+    "proof_role": "The exact issue-owned real-browser Observatory contract target proves authorized, refused, and stale or revoked authority states render truthfully; refused actions remain unavailable; and every rendered state is disclosure-safe for its audience.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-5",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 10000,
+    "argv": [
+      "bash",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh"
+    ],
+    "parallel_group": "112-product-serial-03",
+    "defer_reason": "Deferred until #83 and #111 are merged and ancestral and implementation replaces the issue-owned fail-closed sentinel with real-browser proof for authorized, refused, stale or revoked, and disclosure-safe Observatory rendering. The sentinel exits nonzero and cannot count as product proof."
   }
 ]
 
@@ -101,6 +120,7 @@ Tokens: 50000
 
 - `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail --status-level all`
 - `cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail --status-level all`
+- `bash adl/tools/validate_layer8_authority_observatory_ui.sh`
 
 ## Failure Semantics
 

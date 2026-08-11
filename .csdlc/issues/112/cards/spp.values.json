@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 3
+    "generation": 9
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Reach typed pre-bind readiness now; after both exact serial gates merge ancestrally, reconcile their concrete contracts, bind separately, implement one Runtime-owned authority and audit module plus narrow API invocation, run the exact nonzero product targets, and obtain exact-head review before publication.",
+      "plan_revision": 3,
+      "summary": "Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, reconcile their concrete contracts, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.",
       "steps": [
         {
           "id": "S1",
@@ -72,6 +72,7 @@
         "adl-runtime/tests/layer8_authority.rs",
         "adl/src/csm_runtime_api.rs",
         "adl/tests/layer8_authority_runtime_api.rs",
+        "adl/tools/validate_layer8_authority_observatory_ui.sh",
         "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
         ".csdlc/issues/112",
         ".csdlc/prepared/issues/112"

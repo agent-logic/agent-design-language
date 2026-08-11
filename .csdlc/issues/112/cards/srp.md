@@ -20,7 +20,8 @@ Issue #112 Runtime-owned Layer 8 authority, refusal, replay, redacted audit, nar
 - Can contact, continuation, attachment, or single-recipient authority widen into another action, conversation, recipient set, room, broadcast, or Polis?
 - Do replay, expiry, rotation, revocation, restart, audit corruption, and concurrent duplicate requests fail before sequence reservation or provider execution?
 - Do all projections omit content, attachment bytes, secrets, private policy, provider payloads, and private cognition?
-- Are #83 and #111 the only serial gates, and are both exact product targets deferred without any preparation surrogate claiming product proof?
+- Does the dedicated real-browser Observatory contract render authorized, refused, and stale or revoked states truthfully, keep refused actions unavailable, and disclose only audience-approved projection fields?
+- Are #83 and #111 the only serial gates, and are all three exact product targets deferred without any preparation surrogate claiming product proof?
 
 ## Findings
 

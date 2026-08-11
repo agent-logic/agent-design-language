@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 3
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -19,7 +19,8 @@
         "Typed Runtime-owned Layer 8 principal, capability, authority decision, refusal projection, replay guard, and redacted audit contracts",
         "Least-privilege discovery, contact, continuation, attachment, and exact multi-recipient policy decisions",
         "Narrow pre-delivery Runtime API integration using authenticated identity and canonical conversation identifiers",
-        "Deterministic positive, negative, restart, tamper, projection, and nonzero-target product proof after both serial gates pass"
+        "Truthful disclosure-safe Observatory presentation of authorized, refused, and stale or revoked authority states through a dedicated real-browser/UI contract target",
+        "Deterministic positive, negative, restart, tamper, projection, browser/UI, and nonzero-target product proof after both serial gates pass"
       ],
       "authority_boundary": [
         "Only authenticated Runtime identity intersected with exact current capability, agent policy, and Polis policy may authorize an action",

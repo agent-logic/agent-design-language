@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "initialized",
-  "generation": 3,
-  "digest": "4309fa04f076188fecf8641b71f84a48cbe85917afef0a1248b76c6175d324aa",
+  "generation": 9,
+  "digest": "2fabb15931ac7573298ba848ca9ff0db7a32261c6a9d17115b1fc7eef4bf4ed8",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c55fd13e423f3f859697ed20719d2b41714738c4d2533eda057585a53514d63d",
-      "rendered_digest": "e631e0e7e65a9b181bcf0ecb815c3fedbd24448076e13453f3dbd28f0d504d57",
-      "ast_digest": "87ab84dd5e383fbabe66dbc015518b2f16a54837e494a821faa1adfff735f5b2"
+      "values_digest": "cdd73308e7be3d9cb31220483dd3307fd27c618264079d57dcab5f40087e6047",
+      "rendered_digest": "b8c33d505a1cd92baf597953ef6b21336be077e8871718bb430a8a4faf53dbb8",
+      "ast_digest": "1e920f5a080a8d58bac47d6dca57f7d151f15f9d04e4b2b105d2d0688b9c5283"
     },
     "stp": {
-      "values_digest": "a1988b30070489a812dd6d14c0ecc951419161a72ae68dba91ddd0b43a117b4a",
-      "rendered_digest": "56b9c3b247ffcea4bf96a72cc2f43772bafccc68faa1bd7d23fb21617aabfa17",
-      "ast_digest": "130cb6e5e9b3d29a03d05b902e99e404100b0f514086593d7ed6725cdd12068a"
+      "values_digest": "878e43fd4867df5889d4f1b4f80be691df3e0b88fae63a2321b411e132f89207",
+      "rendered_digest": "a28ddea762027403f39dfbbc5a1fdf5f6c6e2e325735dad0a34fe83f02e70bab",
+      "ast_digest": "bd5010b53aff6216ae0fbdd09cb21e428a083d5997977fa64a9abd5c223fc9c0"
     },
     "spp": {
-      "values_digest": "9ed7030a3fd7fdece9e25a4c35a980fb139c8e09000b661940022cb32ecb6c3c",
-      "rendered_digest": "fbd554c2cc039da6ba6ffffc6a9f884894b2b82386239b84703b70e2202c4ed2",
-      "ast_digest": "ecb21072b201ee77c723821b65f14f80bd5c381e38dd3ec4fee97247203cfe4e"
+      "values_digest": "576e54e5b49703252c87ce385aa986fb7bc16ea2de2e523cd81511f79b0f26a2",
+      "rendered_digest": "ca49c0e32673a8b9fa9130867a41eef2621096e950eefb4cc286937321ec1b9c",
+      "ast_digest": "399bd1864bcc1b5a5c484d7ca0a70d8fcd7fc1a7c9724acd01d0035508db49b0"
     },
     "vpp": {
-      "values_digest": "77641f07b966dd9f0b95eb51da4d28825bb0437dcf00d4ca480ecade808e5f6c",
-      "rendered_digest": "a5b16a7540cf6ea12137c15d35de645295259f648b23a89b5f2490ffa2bd3896",
-      "ast_digest": "48088a3ca2b08436e837ec26842c5185116b925b771a0cfdfdf2f698b1a42443"
+      "values_digest": "c529ca731a823407e32e7dafc7f350f63dd8c31d1ab0feae2ad23f3236290a65",
+      "rendered_digest": "a2027617ead35cbb1e2555e06fb8336fdd1125a2f0f774baee2c847e9f22bd8f",
+      "ast_digest": "53a8eeed4e3ec2b7007084315c484f27ded4f4a5af9b10de6fee1913ebb99a9e"
     },
     "srp": {
-      "values_digest": "d547f4e6b5e7654adc0a2d0bc4e71c3eec75e305c995c20c6b0ee83d21b0cdb2",
-      "rendered_digest": "d341333b95ba542226527e6827a7774dff45f092da6dc89e9c3329b2cc5734c9",
-      "ast_digest": "c9c33a3ad3c8922c375b22d0b49aeaabbc0341d13a33d657a47fd8cc219a542d"
+      "values_digest": "a0a1b6fa616e5b8c10bbd6321872d8d444b7b12392651586bb363403ad008e87",
+      "rendered_digest": "601b2d0d0c0552f995cfc4a9a187aa1b689b4b1e292ec01b26b85850ca016aa1",
+      "ast_digest": "6a0a7dfad55bcc06b7d7784c063086769c1f4e879874ef039e7307eadfd44137"
     },
     "sor": {
-      "values_digest": "66df9815e9eda907f708647c3bf2cd77d10ceebc308829260e93c24d709059fc",
+      "values_digest": "10663597dcd7efde94fa24e9d47a7c80273c5429f1c1068fcd1296c1463d5ad0",
       "rendered_digest": "a0564026b2d4a57a1a5cbaa9fa222d0ac661820c43f4871fd9b9dc90ebdd8a47",
       "ast_digest": "c0065cfecbfe94f68170322c50c2bb26a7b5d3d8335345c1cbcf5b11a985bffd"
     }
@@ -83,6 +83,48 @@
       "actor": "codex:112-layer8-authority-preparation-v2",
       "reason": "Declare exact deferred issue-owned nextest product targets with nonzero enforcement and no preparation surrogate lane.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"layer8-authority-contract\",\"proof_role\":\"The exact issue-owned adl-runtime integration-test target proves principal derivation, action-specific capability and policy intersection, fail-closed refusal, replay defense, restart integrity, redacted tamper-evident audit, and nonzero test selection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"layer8_authority\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"112-product-serial-01\",\"defer_reason\":\"Deferred until #83 and #111 are merged and ancestral. The issue-owned temporary #[path = \\\"../src/layer8_authority.rs\\\"] harness in adl-runtime/tests/layer8_authority.rs routes adl-runtime/src/layer8_authority.rs until module registration and fails closed until the exact nonzero target exists.\"},{\"lane\":\"layer8-runtime-api-integration\",\"proof_role\":\"The exact issue-owned adl integration-test target proves authorization and durable audit occur before sequence reservation, provider execution, and delivery while preserving bounded role projections and nonzero test selection.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"112-product-serial-02\",\"defer_reason\":\"Deferred until #83 and #111 are merged and ancestral and issue execution creates adl/tests/layer8_authority_runtime_api.rs; fail closed until the exact nonzero integration target exists.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:112-layer8-authority-readiness-repair",
+      "reason": "Declare the exact issue-owned Observatory real-browser/UI validator target without changing the two serial gates or claiming implemented behavior.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:112-layer8-authority-readiness-repair",
+      "reason": "Add the exact Observatory real-browser/UI validator target to the issue-owned affected areas.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\",\".csdlc/issues/112\",\".csdlc/prepared/issues/112\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:112-layer8-authority-readiness-repair",
+      "reason": "Declare the real-browser Observatory presentation contract while keeping Runtime authority and disclosure boundaries unchanged.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"Typed Runtime-owned Layer 8 principal, capability, authority decision, refusal projection, replay guard, and redacted audit contracts\",\"Least-privilege discovery, contact, continuation, attachment, and exact multi-recipient policy decisions\",\"Narrow pre-delivery Runtime API integration using authenticated identity and canonical conversation identifiers\",\"Truthful disclosure-safe Observatory presentation of authorized, refused, and stale or revoked authority states through a dedicated real-browser/UI contract target\",\"Deterministic positive, negative, restart, tamper, projection, browser/UI, and nonzero-target product proof after both serial gates pass\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:112-layer8-authority-readiness-repair",
+      "reason": "Add exact-head review coverage for truthful disclosure-safe Observatory authorization and refusal rendering.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can authentication, browser state, caller claims, content, provider output, or agent self-report authorize any action without an exact current capability and policy intersection?\",\"Can contact, continuation, attachment, or single-recipient authority widen into another action, conversation, recipient set, room, broadcast, or Polis?\",\"Do replay, expiry, rotation, revocation, restart, audit corruption, and concurrent duplicate requests fail before sequence reservation or provider execution?\",\"Do all projections omit content, attachment bytes, secrets, private policy, provider payloads, and private cognition?\",\"Does the dedicated real-browser Observatory contract render authorized, refused, and stale or revoked states truthfully, keep refused actions unavailable, and disclose only audience-approved projection fields?\",\"Are #83 and #111 the only serial gates, and are all three exact product targets deferred without any preparation surrogate claiming product proof?\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:112-layer8-authority-readiness-repair",
+      "reason": "Preserve the Rust and Runtime API lanes and add the exact deferred Observatory real-browser/UI contract lane with a fail-closed preparation sentinel.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"layer8-authority-contract\",\"proof_role\":\"The exact issue-owned adl-runtime integration-test target proves principal derivation, action-specific capability and policy intersection, fail-closed refusal, replay defense, restart integrity, redacted tamper-evident audit, and nonzero test selection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"layer8_authority\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"112-product-serial-01\",\"defer_reason\":\"Deferred until #83 and #111 are merged and ancestral. The issue-owned temporary #[path = \\\"../src/layer8_authority.rs\\\"] harness in adl-runtime/tests/layer8_authority.rs routes adl-runtime/src/layer8_authority.rs until module registration and fails closed until the exact nonzero target exists.\"},{\"lane\":\"layer8-runtime-api-integration\",\"proof_role\":\"The exact issue-owned adl integration-test target proves authorization and durable audit occur before sequence reservation, provider execution, and delivery while preserving bounded role projections and nonzero test selection.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"112-product-serial-02\",\"defer_reason\":\"Deferred until #83 and #111 are merged and ancestral and issue execution creates adl/tests/layer8_authority_runtime_api.rs; fail closed until the exact nonzero integration target exists.\"},{\"lane\":\"layer8-observatory-real-browser-ui-contract\",\"proof_role\":\"The exact issue-owned real-browser Observatory contract target proves authorized, refused, and stale or revoked authority states render truthfully; refused actions remain unavailable; and every rendered state is disclosure-safe for its audience.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"bash\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\"],\"parallel_group\":\"112-product-serial-03\",\"defer_reason\":\"Deferred until #83 and #111 are merged and ancestral and implementation replaces the issue-owned fail-closed sentinel with real-browser proof for authorized, refused, stale or revoked, and disclosure-safe Observatory rendering. The sentinel exits nonzero and cannot count as product proof.\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:112-layer8-authority-readiness-repair",
+      "reason": "Make the pre-bind plan summary name the preserved Rust/API targets and the added Observatory real-browser/UI contract target.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, reconcile their concrete contracts, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.\"}"
     }
   ]
 }

@@ -21,6 +21,7 @@ Prepare and later implement only issue #112 Runtime authority, refusal, replay, 
 - adl-runtime/tests/layer8_authority.rs
 - adl/src/csm_runtime_api.rs
 - adl/tests/layer8_authority_runtime_api.rs
+- adl/tools/validate_layer8_authority_observatory_ui.sh
 - docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md
 - .csdlc/prepared/issues/112/design.md
 - .csdlc/prepared/issues/112/diagram.mmd

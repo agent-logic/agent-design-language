@@ -23,7 +23,8 @@ The Runtime alone decides whether an authenticated human may discover, contact, 
 - Typed Runtime-owned Layer 8 principal, capability, authority decision, refusal projection, replay guard, and redacted audit contracts
 - Least-privilege discovery, contact, continuation, attachment, and exact multi-recipient policy decisions
 - Narrow pre-delivery Runtime API integration using authenticated identity and canonical conversation identifiers
-- Deterministic positive, negative, restart, tamper, projection, and nonzero-target product proof after both serial gates pass
+- Truthful disclosure-safe Observatory presentation of authorized, refused, and stale or revoked authority states through a dedicated real-browser/UI contract target
+- Deterministic positive, negative, restart, tamper, projection, browser/UI, and nonzero-target product proof after both serial gates pass
 
 ## Authority
 

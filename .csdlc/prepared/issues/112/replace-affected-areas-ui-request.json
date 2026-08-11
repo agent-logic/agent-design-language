@@ -1,0 +1,23 @@
+{
+  "issue": 112,
+  "actor": "codex:112-layer8-authority-readiness-repair",
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "90514bd26027cad0bc339d17f24d22bd31a0d753f40dbca39c4074082d9334da",
+  "reason": "Add the exact Observatory real-browser/UI validator target to the issue-owned affected areas.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime/src/layer8_authority.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/layer8_authority.rs",
+      "adl/src/csm_runtime_api.rs",
+      "adl/tests/layer8_authority_runtime_api.rs",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
+      ".csdlc/issues/112",
+      ".csdlc/prepared/issues/112"
+    ]
+  }
+}

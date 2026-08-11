@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 3
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -76,6 +76,25 @@
           ],
           "parallel_group": "112-product-serial-02",
           "defer_reason": "Deferred until #83 and #111 are merged and ancestral and issue execution creates adl/tests/layer8_authority_runtime_api.rs; fail closed until the exact nonzero integration target exists."
+        },
+        {
+          "lane": "layer8-observatory-real-browser-ui-contract",
+          "proof_role": "The exact issue-owned real-browser Observatory contract target proves authorized, refused, and stale or revoked authority states render truthfully; refused actions remain unavailable; and every rendered state is disclosure-safe for its audience.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 10000,
+          "argv": [
+            "bash",
+            "adl/tools/validate_layer8_authority_observatory_ui.sh"
+          ],
+          "parallel_group": "112-product-serial-03",
+          "defer_reason": "Deferred until #83 and #111 are merged and ancestral and implementation replaces the issue-owned fail-closed sentinel with real-browser proof for authorized, refused, stale or revoked, and disclosure-safe Observatory rendering. The sentinel exits nonzero and cannot count as product proof."
         }
       ],
       "planned_validation_seconds": 7200,

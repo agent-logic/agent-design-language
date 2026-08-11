@@ -1,0 +1,49 @@
+{
+  "issue": 112,
+  "actor": "codex:112-layer8-authority-readiness-repair",
+  "card": "vpp",
+  "expected_generation": 7,
+  "expected_digest": "33b08c632b7b6578b45b6dca92879085e8aed1f05a8ebd8325615678ae22794f",
+  "reason": "Preserve the Rust and Runtime API lanes and add the exact deferred Observatory real-browser/UI contract lane with a fail-closed preparation sentinel.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "layer8-authority-contract",
+        "proof_role": "The exact issue-owned adl-runtime integration-test target proves principal derivation, action-specific capability and policy intersection, fail-closed refusal, replay defense, restart integrity, redacted tamper-evident audit, and nonzero test selection.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1800,
+        "budget_tokens": 20000,
+        "argv": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "layer8_authority", "--no-tests=fail", "--status-level", "all"],
+        "parallel_group": "112-product-serial-01",
+        "defer_reason": "Deferred until #83 and #111 are merged and ancestral. The issue-owned temporary #[path = \"../src/layer8_authority.rs\"] harness in adl-runtime/tests/layer8_authority.rs routes adl-runtime/src/layer8_authority.rs until module registration and fails closed until the exact nonzero target exists."
+      },
+      {
+        "lane": "layer8-runtime-api-integration",
+        "proof_role": "The exact issue-owned adl integration-test target proves authorization and durable audit occur before sequence reservation, provider execution, and delivery while preserving bounded role projections and nonzero test selection.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1800,
+        "budget_tokens": 20000,
+        "argv": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl/Cargo.toml", "--test", "layer8_authority_runtime_api", "--no-tests=fail", "--status-level", "all"],
+        "parallel_group": "112-product-serial-02",
+        "defer_reason": "Deferred until #83 and #111 are merged and ancestral and issue execution creates adl/tests/layer8_authority_runtime_api.rs; fail closed until the exact nonzero integration target exists."
+      },
+      {
+        "lane": "layer8-observatory-real-browser-ui-contract",
+        "proof_role": "The exact issue-owned real-browser Observatory contract target proves authorized, refused, and stale or revoked authority states render truthfully; refused actions remain unavailable; and every rendered state is disclosure-safe for its audience.",
+        "acceptance_ids": ["AC-3", "AC-5", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 10000,
+        "argv": ["bash", "adl/tools/validate_layer8_authority_observatory_ui.sh"],
+        "parallel_group": "112-product-serial-03",
+        "defer_reason": "Deferred until #83 and #111 are merged and ancestral and implementation replaces the issue-owned fail-closed sentinel with real-browser proof for authorized, refused, stale or revoked, and disclosure-safe Observatory rendering. The sentinel exits nonzero and cannot count as product proof."
+      }
+    ]
+  }
+}

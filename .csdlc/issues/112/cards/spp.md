@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Reach typed pre-bind readiness now; after both exact serial gates merge ancestrally, reconcile their concrete contracts, bind separately, implement one Runtime-owned authority and audit module plus narrow API invocation, run the exact nonzero product targets, and obtain exact-head review before publication.
+Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, reconcile their concrete contracts, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 

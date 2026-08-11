@@ -1,0 +1,13 @@
+{
+  "issue": 112,
+  "actor": "codex:112-layer8-authority-readiness-repair",
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "fd60a381bc5c0f857e28a3e6df8ec1a17b87588a475069d9f6eda62defc9645f",
+  "reason": "Make the pre-bind plan summary name the preserved Rust/API targets and the added Observatory real-browser/UI contract target.",
+  "operation": {
+    "operation": "set_field",
+    "field": "plan_summary",
+    "value": "Reach typed pre-bind readiness now; after #83 and #111 both merge ancestrally, reconcile their concrete contracts, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication."
+  }
+}
