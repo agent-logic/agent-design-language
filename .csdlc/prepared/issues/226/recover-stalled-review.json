@@ -1,0 +1,7 @@
+{
+  "issue": 226,
+  "expected_generation": 13,
+  "expected_digest": "2a409ef5410a9c6a09da7146ae452ddc202c033b9a61ecc039e610ba2e5d4ca9",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Replace the stalled reviewer after repeated bounded waits with no verdict; preserve the exact product head for a fresh independent review."
+}
