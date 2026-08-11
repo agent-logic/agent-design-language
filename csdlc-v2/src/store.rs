@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 use std::fs::{self, File, OpenOptions};
-use std::io::{Read, Write};
+use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 
 use fs2::FileExt;
@@ -2789,71 +2789,248 @@ pub(crate) fn read_regular_authored_artifact(
             "terminal authored artifact path must be clean and repository-relative",
         ));
     }
-    let path = root.join(relative);
-    let Some(path_metadata_before_open) = canonical_path_metadata_beneath(root, relative)? else {
-        return Ok(None);
-    };
-    if !path_metadata_before_open.is_file() {
+    read_regular_authored_artifact_with_hook(root, relative, |_| {})
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum AuthoredReadStage {
+    AfterInitialOpen,
+    BetweenReads,
+    BeforeFinalOpen,
+}
+
+#[cfg(unix)]
+fn read_regular_authored_artifact_with_hook(
+    root: &Path,
+    relative: &Path,
+    mut hook: impl FnMut(AuthoredReadStage),
+) -> Result<Option<Vec<u8>>> {
+    use std::os::unix::fs::MetadataExt;
+    let root_path_metadata = fs::symlink_metadata(root)?;
+    if root_path_metadata.file_type().is_symlink() || !root_path_metadata.is_dir() {
         return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
+            ErrorCode::UnsafeCheckout,
             format!(
-                "transport target authored path is not a regular file: {}",
-                path.display()
+                "authored artifact root is not a regular directory: {}",
+                root.display()
             ),
         ));
     }
-    let mut file = OpenOptions::new().read(true).open(&path)?;
-    let opened_metadata_before_read = file.metadata()?;
-    if !opened_metadata_before_read.is_file()
-        || !same_file_identity(&path_metadata_before_open, &opened_metadata_before_read)
+    let root_handle = File::open(root)?;
+    let root_handle_metadata = root_handle.metadata()?;
+    if !root_handle_metadata.is_dir()
+        || !same_file_identity(&root_path_metadata, &root_handle_metadata)
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "authored artifact root changed identity while opening",
+        ));
+    }
+    let Some(mut opened) = open_relative_no_follow(&root_handle, relative)? else {
+        return Ok(None);
+    };
+    hook(AuthoredReadStage::AfterInitialOpen);
+    let before = opened.metadata()?;
+    if !before.is_file() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact target is not a regular file",
+        ));
+    }
+    let first = read_exact_current_file(&mut opened, before.len())?;
+    hook(AuthoredReadStage::BetweenReads);
+    let middle = opened.metadata()?;
+    opened.seek(SeekFrom::Start(0))?;
+    let second = read_exact_current_file(&mut opened, middle.len())?;
+    let after = opened.metadata()?;
+    if first != second
+        || !same_file_identity(&before, &middle)
+        || !same_file_identity(&middle, &after)
+        || before.len() != middle.len()
+        || middle.len() != after.len()
+        || before.mtime() != middle.mtime()
+        || before.mtime_nsec() != middle.mtime_nsec()
+        || middle.mtime() != after.mtime()
+        || middle.mtime_nsec() != after.mtime_nsec()
+        || before.ctime() != middle.ctime()
+        || before.ctime_nsec() != middle.ctime_nsec()
+        || middle.ctime() != after.ctime()
+        || middle.ctime_nsec() != after.ctime_nsec()
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            format!(
-                "transport target authored path changed identity while opening: {}",
-                path.display()
-            ),
+            "authored artifact changed while reading",
         ));
     }
-    let expected_len = usize::try_from(opened_metadata_before_read.len()).map_err(|_| {
+    hook(AuthoredReadStage::BeforeFinalOpen);
+    let final_file = open_relative_no_follow(&root_handle, relative)?.ok_or_else(|| {
         V2Error::new(
             ErrorCode::ReconciliationRequired,
-            format!(
-                "transport target authored artifact is too large: {}",
-                path.display()
-            ),
+            "authored artifact disappeared before final verification",
+        )
+    })?;
+    let final_metadata = final_file.metadata()?;
+    if !final_metadata.is_file()
+        || !same_file_identity(&after, &final_metadata)
+        || after.len() != final_metadata.len()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact path changed identity before final verification",
+        ));
+    }
+    let mut final_file = final_file;
+    let final_bytes = read_exact_current_file(&mut final_file, final_metadata.len())?;
+    let final_after = final_file.metadata()?;
+    if final_bytes != first
+        || !same_file_identity(&final_metadata, &final_after)
+        || final_metadata.len() != final_after.len()
+        || final_metadata.mtime() != final_after.mtime()
+        || final_metadata.mtime_nsec() != final_after.mtime_nsec()
+        || final_metadata.ctime() != final_after.ctime()
+        || final_metadata.ctime_nsec() != final_after.ctime_nsec()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact changed during final verification",
+        ));
+    }
+    Ok(Some(first))
+}
+
+#[cfg(unix)]
+fn open_relative_no_follow(root: &File, relative: &Path) -> Result<Option<File>> {
+    use std::ffi::CString;
+    use std::os::unix::ffi::OsStrExt;
+    use std::os::unix::io::{AsRawFd, FromRawFd};
+
+    let components: Vec<_> = relative.components().collect();
+    let mut directories = Vec::with_capacity(components.len().saturating_sub(1));
+    let mut directory_fd = root.as_raw_fd();
+    for (index, component) in components.iter().enumerate() {
+        let std::path::Component::Normal(name) = component else {
+            unreachable!("clean relative path contains only normal components")
+        };
+        let name = CString::new(name.as_bytes()).map_err(|_| {
+            V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "authored path contains a NUL byte",
+            )
+        })?;
+        let last = index + 1 == components.len();
+        let flags = libc::O_RDONLY
+            | libc::O_CLOEXEC
+            | libc::O_NOFOLLOW
+            | if last { 0 } else { libc::O_DIRECTORY };
+        // SAFETY: directory_fd is owned by root or a retained directory File;
+        // name is NUL-terminated; a successful descriptor is immediately owned.
+        let descriptor = unsafe { libc::openat(directory_fd, name.as_ptr(), flags) };
+        if descriptor < 0 {
+            let error = std::io::Error::last_os_error();
+            return match error.raw_os_error() {
+                Some(libc::ENOENT) => Ok(None),
+                Some(code) if code == libc::ELOOP || code == libc::ENOTDIR => Err(V2Error::new(
+                    ErrorCode::UnsafeCheckout,
+                    "authored artifact path contains a symlink or non-directory ancestor",
+                )),
+                _ => Err(error.into()),
+            };
+        }
+        // SAFETY: descriptor is a new successful openat result owned here.
+        let opened = unsafe { File::from_raw_fd(descriptor) };
+        if last {
+            return Ok(Some(opened));
+        }
+        if !opened.metadata()?.is_dir() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "authored artifact ancestor is not a directory",
+            ));
+        }
+        directories.push(opened);
+        directory_fd = directories.last().expect("retained directory").as_raw_fd();
+    }
+    Ok(None)
+}
+
+#[cfg(windows)]
+fn read_regular_authored_artifact_with_hook(
+    root: &Path,
+    relative: &Path,
+    mut hook: impl FnMut(AuthoredReadStage),
+) -> Result<Option<Vec<u8>>> {
+    use std::os::windows::fs::{MetadataExt, OpenOptionsExt};
+
+    let path = root.join(relative);
+    let Some(path_metadata) = canonical_path_metadata_beneath(root, relative)? else {
+        return Ok(None);
+    };
+    if !path_metadata.is_file() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact target is not a regular file",
+        ));
+    }
+    let mut file = OpenOptions::new()
+        .read(true)
+        .share_mode(1) // FILE_SHARE_READ: deny concurrent write/delete/rename.
+        .custom_flags(0x0020_0000) // FILE_FLAG_OPEN_REPARSE_POINT.
+        .open(path)?;
+    let before = file.metadata()?;
+    if !before.is_file() || !same_file_identity(&path_metadata, &before) {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact changed identity while opening",
+        ));
+    }
+    hook(AuthoredReadStage::AfterInitialOpen);
+    let first = read_exact_current_file(&mut file, before.len())?;
+    hook(AuthoredReadStage::BetweenReads);
+    file.seek(SeekFrom::Start(0))?;
+    let second = read_exact_current_file(&mut file, before.len())?;
+    let after = file.metadata()?;
+    hook(AuthoredReadStage::BeforeFinalOpen);
+    if first != second
+        || !same_file_identity(&before, &after)
+        || before.len() != after.len()
+        || before.last_write_time() != after.last_write_time()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact changed while reading",
+        ));
+    }
+    Ok(Some(first))
+}
+
+#[cfg(not(any(unix, windows)))]
+fn read_regular_authored_artifact_with_hook(
+    _root: &Path,
+    _relative: &Path,
+    _hook: impl FnMut(AuthoredReadStage),
+) -> Result<Option<Vec<u8>>> {
+    Err(V2Error::new(
+        ErrorCode::UnsafeCheckout,
+        "authored artifact reads require an anchored or mutation-denying platform primitive",
+    ))
+}
+
+fn read_exact_current_file(file: &mut File, expected_len: u64) -> Result<Vec<u8>> {
+    let expected_len = usize::try_from(expected_len).map_err(|_| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact is too large to read safely",
         )
     })?;
     let mut bytes = Vec::with_capacity(expected_len);
     file.read_to_end(&mut bytes)?;
-    let opened_metadata_after_read = file.metadata()?;
-    let path_metadata_after_read =
-        canonical_path_metadata_beneath(root, relative)?.ok_or_else(|| {
-            V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                format!(
-                    "transport target authored path disappeared while reading: {}",
-                    path.display()
-                ),
-            )
-        })?;
-    if !opened_metadata_after_read.is_file()
-        || !path_metadata_after_read.is_file()
-        || !same_file_identity(&opened_metadata_before_read, &opened_metadata_after_read)
-        || !same_file_identity(&opened_metadata_after_read, &path_metadata_after_read)
-        || opened_metadata_before_read.len() != opened_metadata_after_read.len()
-        || opened_metadata_after_read.len() != path_metadata_after_read.len()
-        || bytes.len() != expected_len
-    {
+    if bytes.len() != expected_len {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            format!(
-                "transport target authored path changed identity or size while reading: {}",
-                path.display()
-            ),
+            "authored artifact size changed while reading",
         ));
     }
-    Ok(Some(bytes))
+    Ok(bytes)
 }
 
 #[cfg(unix)]
@@ -3097,6 +3274,88 @@ mod edit_authorization_tests {
         assert_eq!(first_metadata.len(), second_metadata.len());
         assert!(same_file_identity(&first_metadata, &first_metadata));
         assert!(!same_file_identity(&first_metadata, &second_metadata));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn anchored_authored_read_ignores_ancestor_swap_back_to_hardlink_tree() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let root = temp.path().join("root");
+        let authored = root.join("authored");
+        fs::create_dir_all(&authored).expect("authored directory");
+        let original = vec![b'o'; 32];
+        let malicious = vec![b'x'; 32];
+        fs::write(authored.join("design.md"), &original).expect("original artifact");
+        fs::write(root.join("malicious.md"), &malicious).expect("malicious artifact");
+
+        let bytes = read_regular_authored_artifact_with_hook(
+            &root,
+            Path::new("authored/design.md"),
+            |stage| match stage {
+                AuthoredReadStage::AfterInitialOpen => {
+                    fs::rename(&authored, root.join("retained-authored"))
+                        .expect("move opened ancestor");
+                    fs::create_dir(&authored).expect("replacement ancestor");
+                    fs::hard_link(root.join("malicious.md"), authored.join("design.md"))
+                        .expect("replacement hardlink");
+                }
+                AuthoredReadStage::BeforeFinalOpen => {
+                    fs::remove_file(authored.join("design.md")).expect("remove replacement file");
+                    fs::remove_dir(&authored).expect("remove replacement ancestor");
+                    fs::rename(root.join("retained-authored"), &authored)
+                        .expect("restore original ancestor");
+                }
+                AuthoredReadStage::BetweenReads => {}
+            },
+        )
+        .expect("anchored swap-back read")
+        .expect("authored artifact");
+        assert_eq!(bytes, original);
+        assert_eq!(fs::read(authored.join("design.md")).unwrap(), original);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn anchored_authored_read_rejects_retained_hardlink_replacement() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let root = temp.path().join("root");
+        fs::create_dir_all(root.join("authored")).expect("authored directory");
+        fs::write(root.join("authored/design.md"), vec![b'o'; 32]).expect("original artifact");
+        fs::write(root.join("malicious.md"), vec![b'x'; 32]).expect("malicious artifact");
+        let error = read_regular_authored_artifact_with_hook(
+            &root,
+            Path::new("authored/design.md"),
+            |stage| {
+                if stage == AuthoredReadStage::BeforeFinalOpen {
+                    fs::remove_file(root.join("authored/design.md")).expect("remove original name");
+                    fs::hard_link(root.join("malicious.md"), root.join("authored/design.md"))
+                        .expect("install hardlink replacement");
+                }
+            },
+        )
+        .expect_err("hardlink replacement must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn anchored_authored_read_rejects_same_length_in_place_mutation() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let root = temp.path().join("root");
+        fs::create_dir_all(root.join("authored")).expect("authored directory");
+        let path = root.join("authored/design.md");
+        fs::write(&path, vec![b'o'; 32]).expect("original artifact");
+        let error = read_regular_authored_artifact_with_hook(
+            &root,
+            Path::new("authored/design.md"),
+            |stage| {
+                if stage == AuthoredReadStage::BetweenReads {
+                    fs::write(&path, vec![b'x'; 32]).expect("same-length mutation");
+                }
+            },
+        )
+        .expect_err("same-length mutation must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
     }
 
     fn replacement_steps() -> Vec<crate::cards::PlanStep> {

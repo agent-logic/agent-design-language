@@ -1995,6 +1995,16 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
             "AC-2: binding is atomic and idempotent".into(),
         ],
     };
+    let plan = |action: &str, acceptance_ids: Vec<&str>, status: StepStatus| {
+        SemanticOperation::ReplacePlanSteps {
+            steps: vec![PlanStep {
+                id: "S1".into(),
+                action: action.into(),
+                acceptance_ids: acceptance_ids.into_iter().map(str::to_owned).collect(),
+                status,
+            }],
+        }
+    };
     for (name, values) in [
         (
             "malformed",
@@ -2125,6 +2135,72 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     assert!(String::from_utf8_lossy(&pending_validation.stdout)
         .contains("design_review_missing_or_stale"));
 
+    let initialized_spp_before = record.clone();
+    let initialized_spp_cards_before = store
+        .load_cards(42)
+        .expect("initialized cards before SPP repair");
+    let (old_design_digest, old_diagram_digest) = spp_design_digests(&initialized_spp_cards_before);
+    let initialized_spp_operation = plan(
+        "exercise exact initialized plan repair",
+        vec!["AC-1", "AC-2"],
+        StepStatus::Pending,
+    );
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Spp,
+        initialized_spp_operation.clone(),
+        false,
+    )
+    .expect("initialized SPP repair");
+    assert_single_generation_preserves_lifecycle_shell(&initialized_spp_before, &record);
+    assert!(matches!(
+        record.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    let initialized_spp_cards_after = store
+        .load_cards(42)
+        .expect("initialized cards after SPP repair");
+    for kind in [
+        CardKind::Sip,
+        CardKind::Stp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_semantics_unchanged(
+            &initialized_spp_cards_before[&kind],
+            &initialized_spp_cards_after[&kind],
+        );
+    }
+    assert_card_identity_advanced(
+        &initialized_spp_cards_before[&CardKind::Spp],
+        &initialized_spp_cards_after[&CardKind::Spp],
+    );
+    let mut expected_initialized_spp = match &initialized_spp_cards_before[&CardKind::Spp].content {
+        CardContent::Spp(values) => values.clone(),
+        _ => unreachable!("SPP"),
+    };
+    let SemanticOperation::ReplacePlanSteps { steps } = &initialized_spp_operation else {
+        unreachable!("initialized SPP operation")
+    };
+    expected_initialized_spp.plan_revision += 1;
+    expected_initialized_spp.steps = steps.clone();
+    match &initialized_spp_cards_after[&CardKind::Spp].content {
+        CardContent::Spp(values) => assert_eq!(values, &expected_initialized_spp),
+        _ => unreachable!("SPP"),
+    }
+    assert_design_bindings_match_authored(&repo, &initialized_spp_cards_after);
+    let (new_design_digest, new_diagram_digest) = spp_design_digests(&initialized_spp_cards_after);
+    assert_last_prebind_audit_operation(
+        &record,
+        &initialized_spp_operation,
+        &old_design_digest,
+        &new_design_digest,
+        &old_diagram_digest,
+        &new_diagram_digest,
+    );
+
     let wrong_card_before = issue_projection_snapshot(&repo, 42);
     assert!(direct_edit(&store, &record, CardKind::Spp, exact_acceptance(), false,).is_err());
     assert_eq!(issue_projection_snapshot(&repo, 42), wrong_card_before);
@@ -2203,28 +2279,98 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     )
     .expect("advance repaired issue to ready");
 
-    let plan =
-        |acceptance_ids: Vec<&str>, status: StepStatus| SemanticOperation::ReplacePlanSteps {
-            steps: vec![PlanStep {
-                id: "S1".into(),
-                action: "exercise exact pre-bind plan repair".into(),
-                acceptance_ids: acceptance_ids.into_iter().map(str::to_owned).collect(),
-                status,
-            }],
-        };
+    let ready_stp_before = record.clone();
+    let ready_stp_cards_before = store.load_cards(42).expect("ready cards before STP repair");
+    let (old_design_digest, old_diagram_digest) = spp_design_digests(&ready_stp_cards_before);
+    let ready_acceptance = vec![
+        "AC-1: ready acceptance repair preserves unbound topology".to_owned(),
+        "AC-2: ready acceptance repair requires reapproval".to_owned(),
+    ];
+    let ready_stp_operation = SemanticOperation::ReplaceAcceptanceCriteria {
+        values: ready_acceptance.clone(),
+    };
+    record = direct_edit(
+        &store,
+        &record,
+        CardKind::Stp,
+        ready_stp_operation.clone(),
+        false,
+    )
+    .expect("ready STP repair");
+    assert_single_generation_preserves_lifecycle_shell(&ready_stp_before, &record);
+    assert!(matches!(
+        record.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    let ready_stp_cards_after = store.load_cards(42).expect("ready cards after STP repair");
+    for kind in [
+        CardKind::Sip,
+        CardKind::Spp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_semantics_unchanged(
+            &ready_stp_cards_before[&kind],
+            &ready_stp_cards_after[&kind],
+        );
+    }
+    assert_card_identity_advanced(
+        &ready_stp_cards_before[&CardKind::Stp],
+        &ready_stp_cards_after[&CardKind::Stp],
+    );
+    let mut expected_ready_stp = match &ready_stp_cards_before[&CardKind::Stp].content {
+        CardContent::Stp(values) => values.clone(),
+        _ => unreachable!("STP"),
+    };
+    expected_ready_stp.acceptance_criteria = ready_acceptance;
+    match &ready_stp_cards_after[&CardKind::Stp].content {
+        CardContent::Stp(values) => assert_eq!(values, &expected_ready_stp),
+        _ => unreachable!("STP"),
+    }
+    assert_design_bindings_match_authored(&repo, &ready_stp_cards_after);
+    let (new_design_digest, new_diagram_digest) = spp_design_digests(&ready_stp_cards_after);
+    assert_last_prebind_audit_operation(
+        &record,
+        &ready_stp_operation,
+        &old_design_digest,
+        &new_design_digest,
+        &old_diagram_digest,
+        &new_diagram_digest,
+    );
+
     for (name, operation) in [
         (
             "nonpending",
-            plan(vec!["AC-1", "AC-2"], StepStatus::Completed),
+            plan(
+                "reject nonpending ready plan",
+                vec!["AC-1", "AC-2"],
+                StepStatus::Completed,
+            ),
         ),
         (
             "duplicate",
-            plan(vec!["AC-1", "AC-1", "AC-2"], StepStatus::Pending),
+            plan(
+                "reject duplicate ready coverage",
+                vec!["AC-1", "AC-1", "AC-2"],
+                StepStatus::Pending,
+            ),
         ),
-        ("missing", plan(vec!["AC-1"], StepStatus::Pending)),
+        (
+            "missing",
+            plan(
+                "reject missing ready coverage",
+                vec!["AC-1"],
+                StepStatus::Pending,
+            ),
+        ),
         (
             "extra",
-            plan(vec!["AC-1", "AC-2", "AC-3"], StepStatus::Pending),
+            plan(
+                "reject extra ready coverage",
+                vec!["AC-1", "AC-2", "AC-3"],
+                StepStatus::Pending,
+            ),
         ),
     ] {
         let before = issue_projection_snapshot(&repo, 42);
@@ -2240,7 +2386,11 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         .load_cards(42)
         .expect("ready cards before plan repair");
     let (old_design_digest, old_diagram_digest) = spp_design_digests(&ready_cards_before);
-    let ready_operation = plan(vec!["AC-1", "AC-2"], StepStatus::Pending);
+    let ready_operation = plan(
+        "exercise exact ready plan repair",
+        vec!["AC-1", "AC-2"],
+        StepStatus::Pending,
+    );
     record = direct_edit(
         &store,
         &record,
