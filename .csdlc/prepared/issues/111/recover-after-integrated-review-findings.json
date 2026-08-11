@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 111,
+  "expected_generation": 51,
+  "expected_digest": "6d853580093e3b1452bac10173001bbcdb5c8b0a7a4a51ab25a23ce74a0258fe",
+  "actor": "codex:wp18c01-execution",
+  "reason": "Remediate the exact-head review findings by rechecking recipient eligibility immediately before dispatch and permitting one idempotent pending-turn replay after every actual disconnect."
+}

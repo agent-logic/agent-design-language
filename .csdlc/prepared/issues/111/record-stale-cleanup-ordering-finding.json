@@ -1,0 +1,24 @@
+{
+  "issue": 111,
+  "expected_generation": 68,
+  "expected_digest": "bb032af4123d6a7be9177675551efc9159bdc72be9301a32c5eb81c29fe03da1",
+  "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+  "evidence": {
+    "reviewer": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+    "scope": ["adl-runtime-kernel/src/control.rs", "adl-runtime-kernel/tests/conversation_sessions.rs", "demos/html-observatory/app.js", "demos/html-observatory/tests/conversation_sessions.test.mjs", ".csdlc/issues/111"],
+    "reviewed_revision": "git-blake3:30a9dbca3a87ef881c04e04aca066db312990351:2790093200a79328c84a9c70ae606867a1f8d0308591ad911dd567a39a24a9ca",
+    "findings": [{
+      "id": "final-review-223-p2-attachment-ordering",
+      "severity": "p2",
+      "summary": "Insert the new generation-scoped attachment before sending the accepted in-flight response so response receipt proves attachment-before-release ordering.",
+      "actionable": true,
+      "in_scope": true,
+      "disposition": "open",
+      "fix_revision": null,
+      "route": "adl-runtime-kernel/src/control.rs"
+    }],
+    "residual_risks": ["Trusted public-TLS live browser proof was not rerun.", "Durable cross-restart conversation history remains owned by issue #114."],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
