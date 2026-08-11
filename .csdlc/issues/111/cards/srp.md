@@ -12,21 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/agent_roster.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-adl-runtime-kernel/src/ingress.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/src/operations.rs
-adl-runtime-kernel/tests/agent_roster.rs
-adl-runtime-kernel/tests/conversation_sessions.rs
-demos/html-observatory/app.js
-demos/html-observatory/tests/conversation_sessions.test.mjs
-adl/config/validation_lane_selector.v0.91.6.json
-adl/tools/test_ci_path_policy.sh
-adl/tools/test_select_validation_lanes.sh
-.csdlc/issues/111
+
 
 ## Prompts
 
@@ -46,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Only required GitHub checks remain to be re-observed at the final pushed head; optional and out-of-band jobs are not part of this issue proof.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:b7970f08cb259090ff9eb600b66c5ed95fab1ec1:f964078c80ee05775bec709cf9477a5a8f81d6b1a095015dffa33048470902a6")
+Revision: None
 
-Reviewer: Some("subagent:019ff1ee-694b-7b62-b86d-ebe05224810c")
+Reviewer: None
 
-Result: pass
+Result: pre_review
