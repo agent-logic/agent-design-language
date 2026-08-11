@@ -918,41 +918,27 @@ pub fn classify_pr_state(packet: &PrStatePacket, require_review: bool) -> &'stat
     if packet.draft {
         return "waiting";
     }
-    if packet
-        .checks
-        .iter()
-        .any(|c| c.required && matches!(c.conclusion.as_str(), "failure" | "cancelled"))
-    {
-        return "failed";
-    }
     if packet.merge_state == "behind" {
         return "stale_base";
     }
     if packet.merge_state == "dirty" {
         return "conflicted";
     }
-    if matches!(
-        packet.merge_state.as_str(),
-        "blocked" | "unstable" | "draft" | "unknown"
-    ) {
+    if matches!(packet.merge_state.as_str(), "blocked" | "draft" | "unknown") {
         return "waiting";
     }
-    if packet
-        .required_check_names
-        .iter()
-        .any(|name| !packet.checks.iter().any(|c| &c.name == name))
-    {
+    if packet.merge_state == "unstable" && packet.required_check_names.is_empty() {
         return "waiting";
     }
-    if packet.checks.iter().any(|c| c.conclusion == "unknown") {
-        return "waiting";
-    }
-    if packet
-        .checks
-        .iter()
-        .any(|c| c.required && c.conclusion == "pending")
-    {
-        return "waiting";
+    for name in &packet.required_check_names {
+        let Some(check) = packet.checks.iter().find(|check| &check.name == name) else {
+            return "waiting";
+        };
+        match check.conclusion.as_str() {
+            "success" => {}
+            "failure" | "cancelled" => return "failed",
+            _ => return "waiting",
+        }
     }
     if require_review && packet.review_decision != "approved" {
         return "operator_review";
@@ -1556,7 +1542,7 @@ mod tests {
 
     #[test]
     fn classifies_mergeability_states_without_treating_pending_as_stale() {
-        for state in ["blocked", "unstable", "draft", "unknown"] {
+        for state in ["blocked", "draft", "unknown"] {
             let mut value = packet("success");
             value.merge_state = state.into();
             assert_eq!(classify_pr_state(&value, true), "waiting", "{state}");
@@ -1569,6 +1555,47 @@ mod tests {
         let mut dirty = packet("success");
         dirty.merge_state = "dirty".into();
         assert_eq!(classify_pr_state(&dirty, false), "conflicted");
+    }
+
+    #[test]
+    fn unstable_merge_state_ignores_optional_cancelled_and_unknown_checks() {
+        let mut value = packet("success");
+        value.merge_state = "unstable".into();
+        value.checks.extend([
+            PrCheck {
+                name: "optional-cancelled".into(),
+                required: false,
+                conclusion: "cancelled".into(),
+                details_url: None,
+            },
+            PrCheck {
+                name: "optional-unknown".into(),
+                required: false,
+                conclusion: "unknown".into(),
+                details_url: None,
+            },
+        ]);
+        assert_eq!(classify_pr_state(&value, true), "ready");
+    }
+
+    #[test]
+    fn unstable_merge_state_still_fails_closed_on_declared_required_checks() {
+        let mut failed = packet("failure");
+        failed.merge_state = "unstable".into();
+        assert_eq!(classify_pr_state(&failed, false), "failed");
+
+        let mut missing = packet("success");
+        missing.merge_state = "unstable".into();
+        missing.required_check_names.push("coverage".into());
+        assert_eq!(classify_pr_state(&missing, false), "waiting");
+    }
+
+    #[test]
+    fn unstable_merge_state_requires_at_least_one_declared_required_check() {
+        let mut value = packet("success");
+        value.merge_state = "unstable".into();
+        value.required_check_names.clear();
+        assert_eq!(classify_pr_state(&value, false), "waiting");
     }
 
     #[test]

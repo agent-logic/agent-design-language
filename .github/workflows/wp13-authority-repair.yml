@@ -1,17 +1,6 @@
 name: wp13-authority-repair
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/wp13-authority-repair.yml"
-      - ".csdlc/prepared/issues/144/produce-native-receipt.rb"
-      - ".csdlc/prepared/issues/144/validate-native-receipts.rb"
-      - "adl-runtime-kernel/Cargo.toml"
-      - "adl-runtime-kernel/src/cognitive_profile.rs"
-      - "adl-runtime-kernel/src/lib.rs"
-      - "adl-runtime-kernel/tests/cognitive_profile.rs"
-      - "adl-runtime-kernel/tests/fixtures/cognitive_profile/**"
-      - "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md"
   workflow_dispatch:
 
 permissions:

@@ -1,0 +1,7 @@
+{
+  "issue": 226,
+  "expected_generation": 24,
+  "expected_digest": "9b883960a036d68d60f446d8dd405977b55f8116319c1316ca12ba6dd6e2652e",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Replace the stalled codex-exec reviewer after bounded waits; a FastWork-capable independent reviewer completed the exact db28e8687 scope with no findings."
+}

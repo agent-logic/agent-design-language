@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 226,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
+    "slug": "focused-runtime-validation-routing",
+    "version": "v0.92",
+    "generation": 31
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Map the issue 111 and 113 Observatory and diagram paths to existing focused lanes while preserving unknown-path fail-closed routing.",
+      "actual_changes": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/test_select_validation_lanes.sh",
+        "adl/tools/test_ci_path_policy.sh"
+      ],
+      "artifacts": [
+        ".csdlc/evidence/226/selector-contract.log",
+        ".csdlc/evidence/226/ci-path-policy-contract.log"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_path_policy.sh"
+          ],
+          "purpose": "Prove no slow proof or authoritative full coverage for the issue 111 and 113 path set.",
+          "outcome": "passed",
+          "evidence_ref": "ci-path-policy-contract.log"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_select_validation_lanes.sh"
+          ],
+          "purpose": "Prove exact issue 111 and 113 path routing and unknown-path fail-closed behavior.",
+          "outcome": "passed",
+          "evidence_ref": "selector-contract.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

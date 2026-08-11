@@ -1,0 +1,12 @@
+{
+  "issue": 5854,
+  "card": "sip",
+  "expected_generation": 59,
+  "expected_digest": "735afb50a613ef6fe11979fab56f6ec4878200d04faee70b76bcf6a1b6deaf56",
+  "actor": "codex:5854-pr224-review-remediation",
+  "reason": "Reconcile Sprint 5 required-outcome truth with the exclusive four-child denominator and the approved final-sprint handoff.",
+  "operation": {
+    "operation": "correct_required_outcome_after_recovery",
+    "value": "A reviewed Sprint 5 coordination packet routes only the four prepared children #5835, #5836, #5838, and #5839 without starting them, preserves WP-24 product and GitHub completion while typed closeout remains asynchronous, and records WP-24A as an independent out-of-band stream that cannot gate sprint readiness, execution, review, or closeout."
+  }
+}

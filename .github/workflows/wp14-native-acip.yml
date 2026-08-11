@@ -1,19 +1,6 @@
 name: runtime-tls-production-acip
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/wp14-native-acip.yml"
-      - "adl-runtime-kernel/src/acip.rs"
-      - "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs"
-      - "adl-runtime-kernel/src/config.rs"
-      - "adl-runtime-kernel/src/control.rs"
-      - "adl-runtime-kernel/src/protocol_adapters.rs"
-      - "adl-runtime-kernel/src/tls.rs"
-      - "adl-runtime-kernel/tests/production_acip_wss.rs"
-      - "adl-runtime-kernel/tests/support/runtime_init.rs"
-      - "adl-runtime/schemas/acip/v1/**"
-      - "docs/api/runtime-v3/v1/openapi.json"
   workflow_dispatch:
 
 permissions:
