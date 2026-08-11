@@ -150,6 +150,7 @@ soak_workflows_status="deferred"
 soak_workflows_reason="explicit_dispatch_required"
 duplicate_head_status="canceled"
 duplicate_head_reason="source_branch_concurrency_cancel_in_progress"
+heavy_runner_job="none"
 
 emit() {
   local key="$1"
@@ -1885,6 +1886,28 @@ select_coverage_producers() {
 
 select_coverage_producers
 
+# Exactly one ordinary-PR job may acquire the configured ADL heavy runner.
+# Other selected required jobs remain valid, but execute on the standard runner.
+if [ "$event_name" = "pull_request" ]; then
+  if [ "$csdlc_v2_standalone_required" = true ]; then
+    heavy_runner_job="csdlc_v2_standalone"
+  elif [ "$adl_v2_standalone_required" = true ]; then
+    heavy_runner_job="adl_v2_standalone"
+  elif [ "$runtime_v3_fast_required" = true ]; then
+    heavy_runner_job="adl_runtime_v3_fast"
+  elif [ "$runtime_coverage_required" = true ]; then
+    heavy_runner_job="adl_coverage_runtime_hosted"
+  elif [ "$workspace_fast_coverage_required" = true ]; then
+    heavy_runner_job="adl_coverage_workspace_fast_hosted"
+  elif [ "$workspace_full_coverage_required" = true ]; then
+    heavy_runner_job="adl_coverage_workspace_hosted"
+  elif [ "$rust_required" = true ] || [ "$ci_path_policy_contracts_required" = true ]; then
+    heavy_runner_job="adl_rust_tests"
+  elif [ "$demo_smoke_required" = true ] || [ "$v0913_proof_required" = true ]; then
+    heavy_runner_job="adl_demo_proof"
+  fi
+fi
+
 classify_changed_path() {
   local path="$1"
   case "$path" in
@@ -2008,6 +2031,7 @@ emit "soak_workflows_status" "$soak_workflows_status"
 emit "soak_workflows_reason" "$soak_workflows_reason"
 emit "duplicate_head_status" "$duplicate_head_status"
 emit "duplicate_head_reason" "$duplicate_head_reason"
+emit "heavy_runner_job" "$heavy_runner_job"
 
 printf '\nChanged path policy: %s\n' "$reason"
 printf '  change_class=%s\n' "$change_class"

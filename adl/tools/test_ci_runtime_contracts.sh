@@ -80,6 +80,26 @@ pr_fast_runner = pathlib.Path(sys.argv[4])
 route_verifier = pathlib.Path(sys.argv[5])
 workflow_root = workflow_path.parent
 
+concurrency_lines = [line for line in workflow.splitlines() if line.strip().startswith("group:")]
+if not any("pull_request.head.repo.full_name" in line and "pull_request.head.ref" in line for line in concurrency_lines):
+    raise SystemExit("CI concurrency must coalesce by source repository and head")
+if any("pull_request.base.ref" in line for line in concurrency_lines):
+    raise SystemExit("CI concurrency must coalesce the same head across PR bases")
+
+heavy_jobs = {}
+for match in re.finditer(r"^  ([A-Za-z0-9_-]+):\n(.*?)(?=^  [A-Za-z0-9_-]+:\n|\Z)", workflow, re.MULTILINE | re.DOTALL):
+    job, body = match.group(1), match.group(2)
+    if "vars.ADL_HEAVY_RUNNER" not in body or job == "adl-slow-proof":
+        continue
+    selector = f"needs.adl_path_policy.outputs.heavy_runner_job == '{job}'"
+    if selector not in body:
+        raise SystemExit(f"{job} does not use its exclusive heavy_runner_job selector")
+    heavy_jobs[job] = selector
+if len(heavy_jobs) != len(set(heavy_jobs.values())):
+    raise SystemExit("ordinary PR heavy runner selectors are not mutually exclusive")
+if "heavy_runner_job: ${{ steps.path-policy.outputs.heavy_runner_job }}" not in workflow:
+    raise SystemExit("CI does not export the exclusive heavy runner job")
+
 if re.search(r"^\s{2}push:\s*$", workflow, re.MULTILINE):
     raise SystemExit("CI must not run automatically after a merge to main")
 if "github.event_name == 'push' || github.event_name == 'schedule'" in workflow:
@@ -606,12 +626,16 @@ if "cargo llvm-cov report --lcov" in workspace_job + workspace_fast_job:
     raise SystemExit("workspace workflow must not run detached post-profile lcov commands")
 
 selected_runner = "runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}"
-if selected_runner not in runtime_job or selected_runner not in workspace_job or selected_runner not in workspace_fast_job:
-    raise SystemExit("Rust coverage producers must use the selected 16-core GitHub-hosted runner")
-if selected_runner not in hosted_aggregator:
-    raise SystemExit("heavyweight hosted coverage aggregation must use the selected 16-core GitHub-hosted runner")
-if "runs-on: ubuntu-latest" in hosted_aggregator:
-    raise SystemExit("heavyweight hosted coverage aggregation must not use the standard runner")
+def require_exclusive_heavy_runner(job_name: str, block: str) -> None:
+    expected = f"needs.adl_path_policy.outputs.heavy_runner_job == '{job_name}'"
+    if expected not in block or "vars.ADL_HEAVY_RUNNER" not in block or "'ubuntu-latest'" not in block:
+        raise SystemExit(f"{job_name} must acquire the heavy runner only through its exclusive selector")
+
+require_exclusive_heavy_runner("adl_coverage_runtime_hosted", runtime_job)
+require_exclusive_heavy_runner("adl_coverage_workspace_hosted", workspace_job)
+require_exclusive_heavy_runner("adl_coverage_workspace_fast_hosted", workspace_fast_job)
+if "runs-on: ubuntu-latest" not in hosted_aggregator:
+    raise SystemExit("coverage aggregation must stay off the single heavy-runner allocation")
 if "needs.adl_path_policy.outputs.runtime_coverage_required == 'true'" not in runtime_job.split("runs-on:", 1)[0]:
     raise SystemExit("runtime coverage producer must use its explicit job-level selector")
 if "needs.adl_path_policy.outputs.workspace_full_coverage_required == 'true'" not in workspace_job.split("runs-on:", 1)[0]:
@@ -973,10 +997,7 @@ if workspace_profile_artifact_if != expected_workspace_profile_artifact_if:
     )
 
 rust_test_job = job_block("adl_rust_tests")
-if selected_runner not in rust_test_job:
-    raise SystemExit("adl-rust-tests must use the selected 16-core GitHub-hosted runner")
-if "runs-on: ubuntu-latest" in rust_test_job:
-    raise SystemExit("adl-rust-tests must not silently fall back to the standard runner")
+require_exclusive_heavy_runner("adl_rust_tests", rust_test_job)
 rust_test_condition = rust_test_job.split("runs-on:", 1)[0]
 if "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'" not in rust_test_condition:
     raise SystemExit("CI routing changes must exercise adl-rust-tests on the selected runner")
@@ -994,8 +1015,8 @@ for required_fragment in (
     if required_fragment not in adl_ci_job:
         raise SystemExit(f"adl-ci narrow Rust-test route is missing {required_fragment}")
 
-if workflow.count(selected_runner) != 11:
-    raise SystemExit("all eleven heavy jobs must share the centralized ADL_HEAVY_RUNNER selector")
+if workflow.count("vars.ADL_HEAVY_RUNNER") != len(heavy_jobs) + 1:
+    raise SystemExit("ordinary heavy jobs plus the manual slow proof must be the only heavy-runner references")
 if "runs-on: adl-ubuntu-24.04-16core" in workflow:
     raise SystemExit("heavy runner selection must not be duplicated outside the centralized variable expression")
 
@@ -1026,12 +1047,13 @@ for heavy_job_name in (
     "csdlc_v2_standalone",
     "adl_v2_standalone",
     "adl_runtime_v3_fast",
-    "adl_rust_fmt_clippy",
     "adl_demo_proof",
-    "adl-slow-proof",
 ):
-    if selected_runner not in job_block(heavy_job_name):
-        raise SystemExit(f"{heavy_job_name} must use the selected 16-core GitHub-hosted runner")
+    require_exclusive_heavy_runner(heavy_job_name, job_block(heavy_job_name))
+if selected_runner not in job_block("adl-slow-proof"):
+    raise SystemExit("manual slow proof must retain the configured heavy runner")
+if "runs-on: ubuntu-latest" not in job_block("adl_rust_fmt_clippy"):
+    raise SystemExit("fmt/clippy must stay off the single heavy-runner allocation")
 
 print("PASS test_ci_runtime_contracts")
 PY

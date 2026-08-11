@@ -58,18 +58,28 @@ ci_events = top_level_events(ci)
 errors << ".github/workflows/ci.yaml: pull_request entrypoint is missing" unless ci_events.include?("pull_request")
 errors << ".github/workflows/ci.yaml: explicit full validation is missing" unless ci_events.include?("workflow_dispatch")
 
-concurrency = "group: ${{ github.repository }}-${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.event.pull_request.head.ref || github.ref }}-${{ github.event.pull_request.base.ref || github.ref_name }}"
-errors << ".github/workflows/ci.yaml: concurrency must coalesce source repository/branch and target base" unless ci.include?(concurrency)
+concurrency = "group: ${{ github.repository }}-${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.event.pull_request.head.ref || github.ref }}"
+errors << ".github/workflows/ci.yaml: concurrency must coalesce the same source head across PR bases" unless ci.include?(concurrency)
+errors << ".github/workflows/ci.yaml: ordinary PR concurrency must not split the same head by base" if ci.lines.grep(/group:/).any? { |line| line.include?("pull_request.base.ref") }
 errors << ".github/workflows/ci.yaml: superseded revisions must cancel in progress" unless ci.include?("cancel-in-progress: true")
 
 heavy_selector = "runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}"
+ordinary_heavy_jobs = []
 ci.scan(/^  ([A-Za-z0-9_-]+):\n(.*?)(?=^  [A-Za-z0-9_-]+:\n|\z)/m).each do |job, body|
-  next unless body.include?(heavy_selector)
+  next unless body.include?("vars.ADL_HEAVY_RUNNER")
+
+  next if job == "adl-slow-proof" && body.include?("if: github.event_name == 'workflow_dispatch'")
+
+  ordinary_heavy_jobs << job
+  expected_selection = "needs.adl_path_policy.outputs.heavy_runner_job == '#{job}'"
+  errors << "ci.yaml #{job}: heavy runner selection must be exclusive to its job id" unless body.include?(expected_selection)
 
   header = body.split("runs-on:", 2).first
   errors << "ci.yaml #{job}: required heavy job must depend on adl_path_policy" unless header.include?("adl_path_policy")
   errors << "ci.yaml #{job}: required heavy job must have a job-level selector" unless header.match?(/^    if:/)
 end
+errors << ".github/workflows/ci.yaml: heavy_runner_job output is missing" unless ci.include?("heavy_runner_job: ${{ steps.path-policy.outputs.heavy_runner_job }}")
+errors << ".github/workflows/ci.yaml: ordinary heavy job selectors are duplicated" unless ordinary_heavy_jobs.uniq.length == ordinary_heavy_jobs.length
 
 slow = job_block(ci, "adl-slow-proof")
 unless slow&.include?("if: github.event_name == 'workflow_dispatch'")
@@ -93,6 +103,10 @@ required_outputs = {
   "duplicate_head_reason" => "source_branch_concurrency_cancel_in_progress"
 }
 policy = root.join("adl/tools/ci_path_policy.sh").read
+errors << "ci_path_policy.sh: heavy runner choice is not emitted" unless policy.include?('emit "heavy_runner_job"')
+ordinary_heavy_jobs.each do |job|
+  errors << "ci_path_policy.sh: missing exclusive heavy runner choice #{job}" unless policy.include?("heavy_runner_job=\"#{job}\"")
+end
 required_outputs.each do |key, value|
   errors << "ci_path_policy.sh: missing #{key}=#{value}" unless policy.include?("#{key}=\"#{value}\"")
   errors << "ci_path_policy.sh: #{key} is not emitted" unless policy.include?("emit \"#{key}\"")
