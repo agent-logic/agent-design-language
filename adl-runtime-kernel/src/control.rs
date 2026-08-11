@@ -1139,8 +1139,7 @@ impl AgentPopulationFeed {
             agent.communication_eligible = eligible;
             agent.detail = detail.to_owned();
             agent.observed_at_unix_millis = admission.observed_at_unix_millis;
-            agent.freshness_deadline_unix_millis =
-                admission.observed_at_unix_millis.saturating_add(5_000);
+            agent.freshness_deadline_unix_millis = u64::MAX;
             agent.source_revision = admission.source_revision.clone();
             true
         });

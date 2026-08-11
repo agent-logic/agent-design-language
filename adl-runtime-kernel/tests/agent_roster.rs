@@ -272,6 +272,45 @@ fn large_local_roster_remains_page_bounded_and_deterministic() {
 }
 
 #[test]
+fn relocation_preserves_identity_and_advances_the_authoritative_revision() {
+    let mut before = evidence("agent-7", "Agent Seven", AgentPresence::Ready);
+    before.location = Some("node-a".to_owned());
+    let first = AgentRoster::new(10, false, [before], [8; 32]).unwrap();
+    let first_page = first
+        .page(
+            &policy(&["agent-7"]),
+            AgentRosterQuery {
+                page_size: 1,
+                page_token: None,
+                filter: None,
+            },
+            1_500,
+        )
+        .unwrap();
+    assert_eq!(first_page.agents[0].location.as_deref(), Some("node-a"));
+
+    let mut relocated = evidence("agent-7", "Agent Seven", AgentPresence::Migrating);
+    relocated.location = Some("node-b".to_owned());
+    let second = AgentRoster::new(11, false, [relocated], [8; 32]).unwrap();
+    let second_page = second
+        .page(
+            &policy(&["agent-7"]),
+            AgentRosterQuery {
+                page_size: 1,
+                page_token: None,
+                filter: None,
+            },
+            1_500,
+        )
+        .unwrap();
+    assert_eq!(second_page.agents[0].id, first_page.agents[0].id);
+    assert_eq!(first_page.revision, 10);
+    assert_eq!(second_page.revision, 11);
+    assert_eq!(second_page.agents[0].location.as_deref(), Some("node-b"));
+    assert_eq!(second_page.agents[0].presence, AgentPresence::Migrating);
+}
+
+#[test]
 fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
     let recorder = RuntimeRecorder::new(16);
     let service = ControlService::new_with_observatory_config_and_agents(
@@ -320,7 +359,8 @@ fn production_feed_admits_shepherd_only_from_current_runtime_component_truth() {
     );
     assert_eq!(
         polled_again.agents.sample[0].freshness_deadline_unix_millis,
-        admitted_at + 5_000
+        u64::MAX,
+        "supervisor-owned presence remains current until an explicit state transition"
     );
 
     recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Restarting);
