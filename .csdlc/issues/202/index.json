@@ -3,11 +3,11 @@
   "issue": 202,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 13,
-  "digest": "881448d2c219ea39b558ed1087cb9e47d8e3edad78af4eb21c4b4348bc660bf5",
-  "branch": null,
-  "worktree": null,
+  "digest": "294f31ad3c3be7e60dbe0632fc804bcba3fd26eeb07a583b06f9f6c0d1065a05",
+  "branch": "codex/202-authorized-learner-transport-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-202-authorized-learner-transport-preparation",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +54,22 @@
       "ast_digest": "6e4b1d84fcc54c2d4a2682998e7102ef3cc3e229da4fb56f030b18043c6d703d"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -153,6 +168,13 @@
       "actor": "codex:/root/review_202_design_a8dc",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
