@@ -6,10 +6,32 @@
   "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
   "phase": "implemented",
   "generation": 86,
-  "digest": "4f18acbbccb9ddac54f172476378c7e7205fd6935f282d83e62008f3893df9d1",
+  "digest": "e3fff8deb9c5921b849a0e2d07b2bdbe914fa05ac98eeda2c81242227bb1475f",
   "branch": "codex/111-wp18c01-conversation-session-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+    "assigned_by": "codex:issue-111-required-runtime-compile-repair",
+    "revision": "git-blake3:7a0eb7e60259fe37a83e02016c7c9bfa8dbbb1dd:2f0559f45e649e4af9f52aa5e9bda51a5e74b97b37e464c182205e72ae4785c4",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_select_validation_lanes.sh",
+      ".csdlc/issues/111"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +67,9 @@
       "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
     },
     "srp": {
-      "values_digest": "b2f70db9526d248d9abc17ef165b63277468fb7efee74f112a73bf6720afa755",
-      "rendered_digest": "e37c41051fa734cd66e96756716f1faea333bd919b3c3c943c747e1791561161",
-      "ast_digest": "b8133e2bdb89d432dc00397c6b51a61b51e2cb8a6c30292ce2fd923c857db52d"
+      "values_digest": "75d419a8dea3360422f64a2b9741240d1c919219cde63d68d779df88a293b9ca",
+      "rendered_digest": "e505f3d54341193ac4753298c4b94b40c252339bbd1ad664bb8b3c36f4011fd0",
+      "ast_digest": "b9dee4edc9cdca5711a743e468dc4e0bf40c6ff77b4599c91d1dae1b3db77101"
     },
     "sor": {
       "values_digest": "8745b44bee69e995bdf712255c1922b1008fcc76611edda324ca1c6765c5ab2f",
@@ -897,6 +919,13 @@
       "actor": "codex:issue-111-required-runtime-compile-repair",
       "reason": "Recover review and publication truth after the required Runtime-fast lane exposed a test-only Guardian parity fixture compile break fixed at 7186c3051.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 101,
+      "generation": 86,
+      "actor": "codex:issue-111-required-runtime-compile-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
