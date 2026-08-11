@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
     "slug": "v0-92-wp-17-migration-and-cross-polis-continuity-planning",
     "version": "v0.92",
-    "generation": 57
+    "generation": 58
   },
   "status": "pre_phase",
   "content": {
@@ -59,8 +59,8 @@
           "evidence_ref": ".csdlc/evidence/5835/wp17-diff-review.log"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
