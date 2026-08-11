@@ -12,16 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/agent_roster.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/tests/agent_roster.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-docs/api/runtime-v3/v1/observatory.openapi.json
-demos/html-observatory/app.js
-adl/tools/test_html_observatory.sh
-.csdlc/evidence/113/roster-live-proof-2118c05b3
-.csdlc/issues/113
+
 
 ## Prompts
 
@@ -42,13 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.
-- Long-running Runtime and soak-style validation routing is tracked separately by issue #226 and is non-gating for this focused product issue.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2")
+Revision: None
 
-Reviewer: Some("subagent:019fefbc-1619-7a21-b27c-8edb01692b23")
+Reviewer: None
 
-Result: pass
+Result: pre_review
