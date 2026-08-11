@@ -6,10 +6,20 @@
   "initialization_digest": "97bd057ffae0edf553659a0f59907e5ba55d362db8e3f29d64546307cc183e45",
   "phase": "implemented",
   "generation": 32,
-  "digest": "20724f6cc01fe825f42dca23f968c2f27c92aa4aaa0c28781ae5722dfeb8fcb9",
+  "digest": "3e8c95e6f2ad1d3e7f6d53f997d00154841888520d3699efb4022b5ae3746ae4",
   "branch": "codex/226-focused-runtime-validation-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-226-focused-runtime-validation-routing",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019ff1ee-4633-7cd3-99ac-99aa7a04dafa",
+    "assigned_by": "codex:issue-226-terminal-routing",
+    "revision": "git-blake3:665bcf9869a516d5b169d2d1f7d3e338a4bb49a4:0b45115464920fbb3c4b7bf2b43a23cf02ac5c8a7c4b95b4ecd2c87c7221e5b8",
+    "scope": [
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/issues/226"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +55,9 @@
       "ast_digest": "29c3d1bf5414c7cf33dbf942a3673a933954cbf0312341e519d9aa5189823528"
     },
     "srp": {
-      "values_digest": "42a82acd6c0259d9991659776b195767cac951bcaf9792ac893142d948d49a45",
-      "rendered_digest": "5138052b549a88c8778f09d77c622bc2caa35a142dc6ef3405ee362860b15fc7",
-      "ast_digest": "19131b6e93c0cec9a31ec6d1f75f796ad729b79266bc4a71fd9c295ac6365c88"
+      "values_digest": "870f37ec1a4546fb0a32eba7f71457b9ff5f1ca1814e6f1fa8350904ea49bf9a",
+      "rendered_digest": "3bfe362daf997c1860596d94bd8e6d59402efb47d71f09c8dd9dca07b12e8e42",
+      "ast_digest": "af2fc40056610e31922a4f8edcb2990c48da2d670db5b3e80c53b71fe89d1a4b"
     },
     "sor": {
       "values_digest": "9a850b70c30b8df434aa9f78d4806402c9ea96d6813c5aeaa1281c7be355000f",
@@ -526,6 +536,13 @@
       "actor": "codex:issue-226-terminal-routing",
       "reason": "Refresh exact-head review and closing publication truth after transferring the remaining systemic long-test and workflow-fanout scope to #234.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 32,
+      "actor": "codex:issue-226-terminal-routing",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
