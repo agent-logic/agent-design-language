@@ -8,7 +8,8 @@ use sha2::{Digest, Sha256};
 
 use crate::{
     birthday_identity::record_digest as identity_record_digest, candidate_digest, decide_birthday,
-    BirthdayCandidate, BirthdayIdentityRecord, BIRTHDAY_IDENTITY_RECORD_SCHEMA,
+    BirthdayCandidate, BirthdayIdentityRecord, VerifiedBirthdayContinuity,
+    BIRTHDAY_IDENTITY_RECORD_SCHEMA,
 };
 
 pub const CAPABILITY_ENVELOPE_INPUT_SCHEMA: &str = "adl.capability_envelope.input.v1";
@@ -131,6 +132,7 @@ pub enum CapabilityEnvelopeRejection {
     IdentityEvidenceInvalid,
     IdentityEvidenceMismatch,
     IdentityRootMismatch,
+    ContinuityBindingMismatch,
     MissingEvidence { kind: CapabilityEvidenceKind },
     UnknownEvidence { fingerprint: String },
     StaleEvidence { fingerprint: String },
@@ -203,6 +205,17 @@ pub fn build_capability_envelope(
     Ok(envelope)
 }
 
+pub fn build_capability_envelope_with_continuity(
+    birthday: &BirthdayCandidate,
+    identity: &BirthdayIdentityRecord,
+    continuity: &VerifiedBirthdayContinuity,
+    input: &CapabilityEnvelopeInput,
+    policy: &CapabilityEnvelopePolicy,
+) -> Result<CapabilityEnvelope, Vec<CapabilityEnvelopeRejection>> {
+    validate_verified_continuity(birthday, identity, continuity)?;
+    build_capability_envelope(birthday, identity, input, policy)
+}
+
 /// Revalidates every exported field against the original authorities and
 /// provisioned policy. Re-hashing a forged packet is insufficient to pass.
 pub fn validate_capability_envelope(
@@ -243,6 +256,34 @@ pub fn validate_capability_envelope(
     } else {
         Err(errors.into_iter().collect())
     }
+}
+
+pub fn validate_capability_envelope_with_continuity(
+    envelope: &CapabilityEnvelope,
+    birthday: &BirthdayCandidate,
+    identity: &BirthdayIdentityRecord,
+    continuity: &VerifiedBirthdayContinuity,
+    policy: &CapabilityEnvelopePolicy,
+) -> Result<(), Vec<CapabilityEnvelopeRejection>> {
+    validate_verified_continuity(birthday, identity, continuity)?;
+    validate_capability_envelope(envelope, birthday, identity, policy)
+}
+
+fn validate_verified_continuity(
+    birthday: &BirthdayCandidate,
+    identity: &BirthdayIdentityRecord,
+    continuity: &VerifiedBirthdayContinuity,
+) -> Result<(), Vec<CapabilityEnvelopeRejection>> {
+    let record = continuity.record();
+    if birthday.identity_root != record.identity_root
+        || identity.identity_root != record.identity_root
+        || identity.record_sha256 != record.identity_record_sha256
+        || birthday.continuity_head != continuity.identity_checkpoint_head()
+        || identity.continuity.head_sha256 != continuity.identity_checkpoint_head()
+    {
+        return Err(vec![CapabilityEnvelopeRejection::ContinuityBindingMismatch]);
+    }
+    Ok(())
 }
 
 pub fn envelope_digest(

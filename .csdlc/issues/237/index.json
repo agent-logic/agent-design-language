@@ -1,0 +1,146 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 237,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
+  "phase": "bound",
+  "generation": 8,
+  "digest": "014c19cef86dd9f8036daad170be9f60685b29f3a7c930448c158b007aed77ca",
+  "branch": "codex/237-continuity-binding-reconciliation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/237/design.md",
+  "diagram_path": ".csdlc/prepared/issues/237/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-subagent:issue237-design-review",
+      "revision": "a4fad40162d5d0a30a9d5ac2e35539f42f7dfe2ec173ea7b2b0fcc8e2f856a27"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "914df198e716e4777282ed66b688e06deac3e32dc6ab0f18ef527f1d12aa1115",
+      "rendered_digest": "0f6629e693297f8a2eb8e4e029f507657271276795d4b5bbd81755940bb86c8a",
+      "ast_digest": "f46556d73fa2c09d0c6e681dc9740a8184e284e33ba7babeeebffb1d729a8123"
+    },
+    "stp": {
+      "values_digest": "2c9d95d48160a021ed462a98631f3221baa9b83f24e0b2135758286683cac14f",
+      "rendered_digest": "f7a8004785b409a2efe1ac3ab53bdec813b55e2935ec1ba16dbc28347e9f67a1",
+      "ast_digest": "166322a3cc6ed81aec67904d218571f122e03eb6b0ace1c165e6fb98c5f8aed3"
+    },
+    "spp": {
+      "values_digest": "3368d3f9b31966e49d0c03a49e2f8fa2bb26143196b16e06e2d73c738c730aa6",
+      "rendered_digest": "680b972af44674334df8f06f0d3761a0232d70d2e170d4afa8cd7e830b8792fc",
+      "ast_digest": "3a804355133000a5a7abb426832b80fce36f270daa0c37ea36f822f192923f0c"
+    },
+    "vpp": {
+      "values_digest": "e9e7cb0fd11d937dd3bff682fd96beac6313738b7aee33f2fc8fddf95b0249a7",
+      "rendered_digest": "7fd22e56394321c6175230790652edb77d2c21ec815c3792cb14e0c9e2bc7cf5",
+      "ast_digest": "56c3a382c9ac8f716a7d5707810ee036340ff647da1cafb83e081eadb8bfa593"
+    },
+    "srp": {
+      "values_digest": "3a6229f66b5f1e4244b4546edd34896b1291eb24e8290fa41f153a9e13fe05ec",
+      "rendered_digest": "4340d086b4d31ff2b76b8f68eecb140c3a5050d592f5a5c88175f31e549f445e",
+      "ast_digest": "19cc69689f68bc2986045a9343b708c9097827fd95ca78abb132734b0a68b639"
+    },
+    "sor": {
+      "values_digest": "b87ec5ac4b475469d53938a3280484b0e14fa4533c6dc6e65019253717137255",
+      "rendered_digest": "b6e51a4f365db8f533c1c260b2b80f6ceb1d4f12118b49f3e5dff4a8d7189a98",
+      "ast_digest": "15a150728225bead3db526d0cdda4e1f77d65dc3b46ce0f709102f9a5da2d9ae"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Refresh pre-bind design bindings after independent review required an opaque verified-continuity token and adversarial self-consistent substitution proof.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/237/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/237/diagram.mmd\",\"new_design_digest\":\"a4fad40162d5d0a30a9d5ac2e35539f42f7dfe2ec173ea7b2b0fcc8e2f856a27\",\"new_diagram_digest\":\"de70aa704d6ea25e29f332a8c43efa25420c260d48c22c393e3d08c48349c5cc\",\"old_design_digest\":\"5c1a976c6d9ed782f0545e4421d425e0b1cc115ca5e1c8ef60eeda7f1769db08\",\"old_diagram_digest\":\"de70aa704d6ea25e29f332a8c43efa25420c260d48c22c393e3d08c48349c5cc\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Capability and cognitive validation bind the same verified BirthdayContinuityRecord.\",\"AC-2: Real signed identity, continuity, capability, and governed cognition compose successfully.\",\"AC-3: Substituted record, head, identity root, and identity-record digest each fail with typed rejection.\",\"AC-4: Existing invalid-authority and privacy negatives remain green.\",\"AC-5: No public trust constructor or caller-nominated authority input is added.\",\"AC-6: Fresh exact-head independent review and the one required CI lane pass before merge.\"]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Use the existing crate-internal cognitive authority test target so design readiness can bind before source implementation while retaining access to crate-private trust constructors.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-composition-focused\",\"proof_role\":\"Prove real signed composition, all substitutions, retained authority/privacy negatives, and the exact reviewed source accepted by required CI.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"cognitive_profile::authority_tests::real_continuity_composes_through_capability_and_cognition\"],\"parallel_group\":\"required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Use the existing crate-internal cognitive authority test target so design readiness can bind before source implementation while retaining access to crate-private trust constructors.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-composition-focused\",\"proof_role\":\"Prove real signed composition, all substitutions, retained authority/privacy negatives, and the exact reviewed source accepted by required CI.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"parallel_group\":\"required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Refresh pre-bind design bindings after independent review required an opaque verified-continuity token and adversarial self-consistent substitution proof.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/237/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/237/diagram.mmd\",\"new_design_digest\":\"a4fad40162d5d0a30a9d5ac2e35539f42f7dfe2ec173ea7b2b0fcc8e2f856a27\",\"new_diagram_digest\":\"5cfcdecfc7cf13d3a56ebf2d905ea63c4a59781cbff3c3b9b839e8c78780c9b4\",\"old_design_digest\":\"a4fad40162d5d0a30a9d5ac2e35539f42f7dfe2ec173ea7b2b0fcc8e2f856a27\",\"old_diagram_digest\":\"de70aa704d6ea25e29f332a8c43efa25420c260d48c22c393e3d08c48349c5cc\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Capability and cognitive validation bind the same verified BirthdayContinuityRecord.\",\"AC-2: Real signed identity, continuity, capability, and governed cognition compose successfully.\",\"AC-3: Substituted record, head, identity root, and identity-record digest each fail with typed rejection.\",\"AC-4: Existing invalid-authority and privacy negatives remain green.\",\"AC-5: No public trust constructor or caller-nominated authority input is added.\",\"AC-6: Fresh exact-head independent review and the one required CI lane pass before merge.\"]}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Align the operative plan with the independently reviewed opaque continuity-token implementation paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\".csdlc/issues/237\",\".csdlc/evidence/237\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Use the existing crate-internal cognitive authority test target so design readiness can bind before source implementation while retaining access to crate-private trust constructors.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-composition-focused\",\"proof_role\":\"Prove real signed composition, all substitutions, retained authority/privacy negatives, and the exact reviewed source accepted by required CI.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--all-targets\"],\"parallel_group\":\"required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex-subagent:issue237-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Use the existing crate-internal cognitive authority test target so design readiness can bind before source implementation while retaining access to crate-private trust constructors.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-composition-focused\",\"proof_role\":\"Prove the updated public capability API, continuity substitutions, and exact reviewed source in the one required CI job.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"parallel_group\":\"required\",\"defer_reason\":null},{\"lane\":\"continuity-cognitive-authority\",\"proof_role\":\"In the same required CI job, prove real signed composition plus retained cognitive authority and privacy negatives.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"parallel_group\":\"required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

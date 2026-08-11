@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 237,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
+    "slug": "birthday-continuity-binding-reconciliation",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #237 continuity-binding contract, all callers, focused real composition and substitution tests, and retained authority/privacy behavior.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does capability verify the actual BirthdayContinuityRecord rather than trust a caller digest?",
+        "Can any substituted head or identity binding pass?",
+        "Did the change weaken authority signatures, policy/evidence digests, or privacy?",
+        "Is the real positive free of fixtures and cached proof?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 237,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
+    "slug": "birthday-continuity-binding-reconciliation",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "continuity-composition-focused",
+          "proof_role": "Prove the updated public capability API, continuity substitutions, and exact reviewed source in the one required CI job.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--locked",
+            "--test",
+            "capability_envelope"
+          ],
+          "parallel_group": "required",
+          "defer_reason": null
+        },
+        {
+          "lane": "continuity-cognitive-authority",
+          "proof_role": "In the same required CI job, prove real signed composition plus retained cognitive authority and privacy negatives.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--locked",
+            "--lib"
+          ],
+          "parallel_group": "required",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on any unverified continuity record, identity mismatch, digest substitution, authority drift, privacy regression, missing exact review, or non-green required CI.",
+      "design_ref": ".csdlc/prepared/issues/237/design.md",
+      "design_digest": "a4fad40162d5d0a30a9d5ac2e35539f42f7dfe2ec173ea7b2b0fcc8e2f856a27",
+      "diagram_ref": ".csdlc/prepared/issues/237/diagram.mmd",
+      "diagram_digest": "5cfcdecfc7cf13d3a56ebf2d905ea63c4a59781cbff3c3b9b839e8c78780c9b4"
+    }
+  }
+}
