@@ -27,8 +27,11 @@ def ordinary(relative)
   path
 end
 def typed_option(line, label)
-  match = line&.match(/\A#{Regexp.escape(label)}: Some\(("(?:\\.|[^"\\])*")\)\z/)
-  match && JSON.parse(match[1])
+  token = line&.match(/\A#{Regexp.escape(label)}: Some\(("(?:\\.|[^"\\])*")\)\z/)&.[](1)
+  return nil unless token
+
+  value = JSON.parse(token)
+  value if value.is_a?(String) && JSON.generate(value) == token
 rescue JSON::ParserError
   nil
 end
@@ -44,8 +47,11 @@ fail_receipt("typed review provenance parser regression") unless
     "Revision: None",
     "Revision: #{'a' * 40}",
     "Revision: Some(\"#{parser_revision}\"), trailing",
+    %q{Revision: Some("\u0067it-blake3:} + ('a' * 40) + ':' + ('b' * 64) + %q{")},
     'Reviewer: None',
     'Reviewer: codex:/root/reviewer',
+    %q{Reviewer: Some("codex:\/root\/reviewer")},
+    %q{Reviewer: Some("\u0063odex:/root/reviewer")},
     'Reviewer: Some("unterminated)'
   ].all? { |line| typed_option(line, line.start_with?("Revision:") ? "Revision" : "Reviewer").nil? } &&
   typed_review_revision?(parser_revision) &&
