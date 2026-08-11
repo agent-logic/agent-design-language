@@ -6,10 +6,37 @@
   "initialization_digest": "dd642e2a72cdb740631db639865831084c46b8216ff46059074897b4987817a8",
   "phase": "implemented",
   "generation": 31,
-  "digest": "f819072d0aa4660264c6a73fc1f5c7b72d9aca904fd88762002c4933a9f03ee6",
+  "digest": "315098149d10e6ac4d43ac5daa461b2fcd0103f41d3b91e52abd4161d159ae7a",
   "branch": "codex/209-acip-authority-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-209-acip-authority-repair",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/shepherd_pr215_green/rereview_pr215_semantic_path",
+    "assigned_by": "/root/shepherd_pr215_green",
+    "revision": "git-blake3:f8ccbd4b5f245a2d82cb9dfa421e5d1441954c15:7d943700a84dfa2b9d603382d4d82b4a0ab69b8d3ce4b3803bd55f947c4a8d14",
+    "scope": [
+      ".csdlc/issues/209",
+      ".csdlc/prepared/issues/209/design.md",
+      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      ".csdlc/evidence/209",
+      ".github/workflows/wp14-production-acip-repair.yml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl/tools/install_vector_component.sh",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +72,9 @@
       "ast_digest": "6b62309165c156b026db20c16e4fa82877f6fa6aa554733e8e5144b69c2f3642"
     },
     "srp": {
-      "values_digest": "67f811402ca876effdece03a8d1cdf0ef86032f6c18a0ec3bf949e05d78f605e",
-      "rendered_digest": "ce0e746ee279504a5a62dd63f853913c5fc594bcd05290dedec4c543cb420c71",
-      "ast_digest": "769084b712424270abe146c3a27e4efba8647fda8b7ac75d03f9bbadaa01542e"
+      "values_digest": "62e43b3bd0400fe2f563e7d1f9697b3055d4cc04b7d5002ede2fd6fcbed3cc4f",
+      "rendered_digest": "055317f2b0566eec015d66a6afac28879dafebdd26675730e8b621d7b1b74dd5",
+      "ast_digest": "5e52e5474fe5fdabe1055b064e173975a5dcc00f610003d3d85c2cb424f2b554"
     },
     "sor": {
       "values_digest": "1bcfc558805b9f0d683696777686c5a0181a8f0710b50d439a062bdcdae7d8c3",
@@ -435,6 +462,13 @@
       "actor": "/root/shepherd_pr215_green",
       "reason": "Recover the final review record because its current reviewer attribution names the earlier assignment rather than the fresh independent reviewer that actually passed exact head 2275b59607dcbe3a8220746861a8bd71f73aaac6. Preserve the earlier assignment as historical audit evidence, then record the actual reviewer identity.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 31,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
