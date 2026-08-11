@@ -58,11 +58,11 @@ Resolved all four generation-38 production review findings on exact current orig
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

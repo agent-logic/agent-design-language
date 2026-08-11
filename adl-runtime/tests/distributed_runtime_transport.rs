@@ -1139,7 +1139,7 @@ async fn route_replacement_retries_exact_sequence_after_peer_restart_and_certifi
         rotated_right.initiate_polis_session(rotated_right_pending, &restarted_keys[&2]),
     );
     left_factory
-        .replace_route(2, rotated_left, rotated_left_session.unwrap())
+        .install_route(2, rotated_left, rotated_left_session.unwrap())
         .await
         .unwrap();
     let rotated_responder = tokio::spawn(async move {

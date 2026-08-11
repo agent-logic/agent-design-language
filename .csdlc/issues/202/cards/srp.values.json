@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
     "slug": "authenticated-governed-learner-transport",
     "version": "v0.92",
-    "generation": 45
+    "generation": 46
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/authority_protocol.rs\nadl-runtime/src/distributed/mod.rs\nadl-runtime/src/distributed/transport.rs\nadl-runtime/src/distributed/transport/core.rs\nadl-runtime/src/distributed/transport/root.rs\nadl-runtime/src/distributed/transport/governed/learner_transport.rs\nadl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\nadl-runtime/src/distributed/transport/governed/polis_runtime.rs\nadl-runtime/tests/distributed_authorized_learner_transport.rs\nadl-runtime/tests/distributed_runtime_transport.rs\n.csdlc/issues/202\n.csdlc/prepared/issues/202\n.csdlc/evidence/202",
-      "review_revision": "git-blake3:4b55f2e4a40ce03e1612aaf4da7c129962f3369e:ab1400a4186baadad114ad90a481162360ea7b9c2555264c5117b4d2518850c8",
-      "reviewer": "codex:/root/review_202_v7_production_final",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does SecureLearnerNetworkFactory provide a real learner-owned production path with its own durable transport instance, peer pins, TransportAuthorityOwner, ProductionLearnerAuthority, and live nonextractable boot custody rather than a voter factory or cfg(test) scalar/key substitute?",
         "Does the real four-node proof complete a two-factory signed handshake over Quinn, force snapshot catch-up, apply a later append in the fourth PolisRaft, retain voters exactly 1,2,3, and prove learner-owned expiry waits through an actual Raft effect plus response?",
@@ -30,7 +30,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }

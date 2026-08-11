@@ -7,7 +7,7 @@ require "open3"
 require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/202/v7/"
+PREFIX = ".csdlc/evidence/202/v8/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/mod.rs adl-runtime/src/distributed/authority_protocol.rs
@@ -19,6 +19,7 @@ EXPECTED_PROTECTED = %w[
   adl-runtime/tests/distributed_authorized_learner_transport.rs
   adl-runtime/tests/distributed_transport.rs adl-runtime/tests/distributed_discovery.rs
   adl-runtime/tests/distributed_runtime_transport.rs
+  adl/tools/check_coverage_impact.sh adl/tools/test_check_coverage_impact.sh
   .csdlc/prepared/issues/202/produce-proof-receipt.rb .csdlc/prepared/issues/202/validate-proof-receipt.rb
 ].freeze
 
@@ -34,7 +35,7 @@ end
 proof_path = ROOT.join(PROOF_RELATIVE)
 fail_receipt("missing or unsafe proof") unless proof_path.file? && !proof_path.symlink?
 proof = JSON.parse(File.binread(proof_path))
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue202.authorized_learner_transport_proof.v7" && proof["issue"] == 202
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue202.authorized_learner_transport_proof.v8" && proof["issue"] == 202
 source = proof.fetch("source_revision")
 fail_receipt("source malformed") unless source.match?(/\A[0-9a-f]{40}\z/)
 fail_receipt("proof is not bound to exact current origin/main") unless git("rev-parse", "refs/remotes/origin/main").strip == proof.fetch("required_main_ancestor")
@@ -64,7 +65,7 @@ fail_receipt("source not ancestral") unless system("git", "merge-base", "--is-an
 fail_receipt("source tree mismatch") unless git("rev-parse", "#{source}^{tree}").strip == proof.fetch("source_tree")
 fail_receipt("protected source changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED).empty?
 fail_receipt("immutable proof changed") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PREFIX).empty?
-%w[private_cases public_cases transport_compile discovery_compile runtime_compile clippy_lib clippy_public].each do |name|
+%w[private_cases public_cases transport_compile discovery_compile runtime_compile runtime_route_rotation coverage_contract clippy_lib clippy_public].each do |name|
   fail_receipt("required command missing #{name}") unless proof.fetch("commands").key?(name)
 end
-puts "PASS: issue #202 v7 proof binds exact 36 semantic / 42 runner + 13 public / 31 assertions, three integration compiles, strict library/public Clippy, and exact current origin/main ancestry"
+puts "PASS: issue #202 v8 proof binds exact 36 semantic / 42 runner + 13 public / 31 assertions, three integration compiles, coverage routing, route rotation, strict library/public Clippy, and exact current origin/main ancestry"

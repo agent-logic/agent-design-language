@@ -3,47 +3,14 @@
   "issue": 202,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bbd3bfc000ef4551a0aedeee1a2fc216ec4eeeeb8435d98167768477c85e78be",
-  "phase": "published",
-  "generation": 45,
-  "digest": "b0e596b424e980af641e483b0b5984af832d008d915ab6163f16921f4d3fd43b",
+  "phase": "implemented",
+  "generation": 46,
+  "digest": "75c5f220a8cefc6a953ee4c8385ea9112a8d52e9afa0186cdc91c2fb7ff49967",
   "branch": "codex/202-authorized-learner-transport-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-202-authorized-learner-transport-preparation",
   "review_assignment": null,
-  "review": {
-    "reviewer": "codex:/root/review_202_v7_production_final",
-    "scope": [
-      "adl-runtime/src/distributed/authority_protocol.rs",
-      "adl-runtime/src/distributed/mod.rs",
-      "adl-runtime/src/distributed/transport.rs",
-      "adl-runtime/src/distributed/transport/core.rs",
-      "adl-runtime/src/distributed/transport/root.rs",
-      "adl-runtime/src/distributed/transport/governed/learner_transport.rs",
-      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
-      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
-      "adl-runtime/tests/distributed_authorized_learner_transport.rs",
-      "adl-runtime/tests/distributed_runtime_transport.rs",
-      ".csdlc/issues/202",
-      ".csdlc/prepared/issues/202",
-      ".csdlc/evidence/202"
-    ],
-    "reviewed_revision": "git-blake3:4b55f2e4a40ce03e1612aaf4da7c129962f3369e:ab1400a4186baadad114ad90a481162360ea7b9c2555264c5117b4d2518850c8",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 202,
-    "pull_request": 236,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/236",
-    "base": "main",
-    "head": "codex/202-authorized-learner-transport-preparation",
-    "revision": "git-blake3:f1c353d052151c3142d46ec73069e1ad7628de87:022fa1934533a126f76609807cf8a3408882b7ac24c67a49fcc71f7043a91684",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -57,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9878f5a6cd693a24ed210c0cceed2274841a271ba5576c0331a5bf2308858c6c",
+      "values_digest": "176f1121f5d76554902c7543f7148335e10f30ecba8be39fd7036ae4063ec449",
       "rendered_digest": "69a805a23892f34aeda5bc6c018c4b6d3425674b3472f433c95fa96c01aa8830",
       "ast_digest": "004791ead09b105cebf8ab0978301127312b0ae5a7c0c34cebf6291fa33a196d"
     },
     "stp": {
-      "values_digest": "2e402ee00632ae441e1073cb31b0b6965c77043c60353e92e26a33ada0571690",
+      "values_digest": "9216159b3f1c48e25d682ed65a9b9642d211ddaa0a728bcecefa81c770cd0744",
       "rendered_digest": "dfddaeadcb4d739c0c3331bc30dbfd94b4b57d0d9ad9f9a74ab81174a9dcee43",
       "ast_digest": "1614c5e31e990ab93563b802b9a8d59738cb7f5b68caede9b9107241152d43fc"
     },
     "spp": {
-      "values_digest": "e1aaa9c4a4123ff83446c6563c4c49978204501a9f664c869ea09d6666f1542f",
+      "values_digest": "e161a67324863cbf5215274983f7d1065ae5d9d5dfd6572d2315fb86450031c3",
       "rendered_digest": "093cc6780f5a2d975bf7b1b164fe4eba33825f122f62fb3d4f5f7c50b181d5bb",
       "ast_digest": "bdf56b18f8b8a4ad50b131b2c6d134a634c810789f2a69f6e75593fbacb827bc"
     },
     "vpp": {
-      "values_digest": "6bcceb1b28c72e1d375f8967825d0509121c8e7d4f6901f4e623acfdad49d958",
+      "values_digest": "65f8fd37a8b0d669c46c940af798f594260575ecb559d973d57ebd05a8e9dc21",
       "rendered_digest": "c74cd2a0cd12e9d5e7f5c9e886b7dd9554cabaca9a094ebeebff969134bdfa6e",
       "ast_digest": "42807c43a59d8a6f30a7eade0a6f10c32eaa068bc919ec502c161890b6751b29"
     },
     "srp": {
-      "values_digest": "24c37bef02258ad1833085467d6a37110f5739354738b85ee0f15ebfc0bac5d7",
-      "rendered_digest": "b68d8c91ee72f17514a9df8ed984bce1afe294bb3ba9bbc83db25845d0aa1717",
-      "ast_digest": "4140e8073f9502882a7c456bfc3c811da2557d51ebcc779dd8cd72b8683d9a77"
+      "values_digest": "6aff37716d1d008451ac85aa203fb8c3f7a41a02b213744ef387843ef6eea181",
+      "rendered_digest": "d0b42a8d0f670a1ac2893b87ff7407c0ecf0cc6698d2910e6a4cf8e8414d29b1",
+      "ast_digest": "3b633767e24f419fbee6f7bc2181423cddf1369fed91219a81ddccf852436cab"
     },
     "sor": {
-      "values_digest": "6ceacf4571249053d37ca221c5cab4525ae6ea0933a88757ee2ff9927c47f466",
-      "rendered_digest": "acc4dc1abd9b877ad1ca55e884405c9fdd344a987f487bcef39446d058d87a04",
-      "ast_digest": "9caea089a73ce5e4a0d13593e847842b572e9a3cf7efb797ef3f8819f16dbde4"
+      "values_digest": "2eb97b54bb7fb13e50f5f99d33705476526ad170b182fa05bf3d2f1645261ed5",
+      "rendered_digest": "b7bc141f0567db13d2fac0f4ea7fd1e6883f25ad162604eb6842943a858ad6ed",
+      "ast_digest": "2e9f3d356f947e00def4f1c14b9b328427d21a7cad6f5fd35bba864fa42b2adf"
     }
   },
   "transitions": [
@@ -122,6 +89,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover published review truth before applying the bounded coverage-impact mapping repair required by exact-head CI after the transport module split."
     }
   ],
   "audit": [
@@ -467,6 +441,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 50,
+      "generation": 46,
+      "actor": "codex:/root",
+      "reason": "Recover published review truth before applying the bounded coverage-impact mapping repair required by exact-head CI after the transport module split.",
+      "operation": "recover_review"
     }
   ]
 }

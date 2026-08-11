@@ -12,19 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/distributed/authority_protocol.rs
-adl-runtime/src/distributed/mod.rs
-adl-runtime/src/distributed/transport.rs
-adl-runtime/src/distributed/transport/core.rs
-adl-runtime/src/distributed/transport/root.rs
-adl-runtime/src/distributed/transport/governed/learner_transport.rs
-adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
-adl-runtime/src/distributed/transport/governed/polis_runtime.rs
-adl-runtime/tests/distributed_authorized_learner_transport.rs
-adl-runtime/tests/distributed_runtime_transport.rs
-.csdlc/issues/202
-.csdlc/prepared/issues/202
-.csdlc/evidence/202
+
 
 ## Prompts
 
@@ -53,8 +41,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:4b55f2e4a40ce03e1612aaf4da7c129962f3369e:ab1400a4186baadad114ad90a481162360ea7b9c2555264c5117b4d2518850c8")
+Revision: None
 
-Reviewer: Some("codex:/root/review_202_v7_production_final")
+Reviewer: None
 
-Result: pass
+Result: pre_review

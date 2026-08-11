@@ -9,7 +9,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/202/v7/"
+PREFIX = ".csdlc/evidence/202/v8/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_202_CASE_V1 "
@@ -28,6 +28,8 @@ PROTECTED = %w[
   adl-runtime/tests/distributed_transport.rs
   adl-runtime/tests/distributed_discovery.rs
   adl-runtime/tests/distributed_runtime_transport.rs
+  adl/tools/check_coverage_impact.sh
+  adl/tools/test_check_coverage_impact.sh
   .csdlc/prepared/issues/202/produce-proof-receipt.rb
   .csdlc/prepared/issues/202/validate-proof-receipt.rb
 ].freeze
@@ -159,6 +161,8 @@ commands["public_cases"] = run_command("public-cases", %w[cargo test --locked --
 commands["transport_compile"] = run_command("transport-compile", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_transport --no-run])
 commands["discovery_compile"] = run_command("discovery-compile", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_discovery --no-run])
 commands["runtime_compile"] = run_command("runtime-compile", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport --no-run])
+commands["runtime_route_rotation"] = run_command("runtime-route-rotation", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_runtime_transport route_replacement_retries_exact_sequence_after_peer_restart_and_certificate_rotation -- --exact --nocapture])
+commands["coverage_contract"] = run_command("coverage-contract", %w[bash adl/tools/test_check_coverage_impact.sh])
 commands["clippy_lib"] = run_command("clippy-lib", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings])
 commands["clippy_public"] = run_command("clippy-public", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authorized_learner_transport -- -D warnings])
 fail_proof("command failed") unless commands.values.all? { |command| command["exit_code"] == 0 }
@@ -180,7 +184,7 @@ fail_proof("subassertion mismatch") unless assertions.sort == EXPECTED_ASSERTION
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue202.authorized_learner_transport_proof.v7", "issue" => 202,
+  "schema" => "adl.issue202.authorized_learner_transport_proof.v8", "issue" => 202,
   "source_revision" => source, "source_tree" => tree.strip, "required_main_ancestor" => MAIN_ANCESTOR,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
   "commands" => commands, "test_summary" => { "semantic_cases" => 36, "private_runner_selected" => 42, "private_runner_passed" => 42, "public_selected" => 13, "public_passed" => 13, "named_subassertions" => 31 },
@@ -188,4 +192,4 @@ proof = {
   "subassertions" => EXPECTED_ASSERTIONS.map { |case_name, name| { "case" => case_name, "assertion" => name, "marker_sha256" => Digest::SHA256.hexdigest("#{ASSERTION_MARKER}#{case_name} #{name}") } }
 }
 File.binwrite(PROOF, JSON.generate(proof) + "\n")
-puts "PASS: produced issue #202 exact 36 semantic / 42 runner + 13 public / 31 assertion v7 proof at #{source}"
+puts "PASS: produced issue #202 exact 36 semantic / 42 runner + 13 public / 31 assertion v8 proof with coverage-routing and route-rotation regressions at #{source}"
