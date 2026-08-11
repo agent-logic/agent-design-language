@@ -177,10 +177,11 @@ protected.each do |entry|
   fail_receipt("protected digest drift: #{entry['path']}") unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
 end
 fail_receipt("test summary mismatch") unless proof["test_summary"] == { "selected" => 86, "passed" => 86, "skipped" => 0 }
+fail_receipt("runtime summary mismatch") unless proof["runtime_summary"] == { "selected" => 230, "passed" => 230, "skipped" => 0 }
 fail_receipt("result summary mismatch") unless proof["result_summary"] == { "passed" => 11, "reconciled" => 6, "rejected" => 69 }
 cases = proof.fetch("cases")
 commands = proof.fetch("commands")
-fail_receipt("command denominator mismatch") unless commands.keys.sort == %w[clippy machine_cases nextest openraft snapshot_cases validator_modes]
+fail_receipt("command denominator mismatch") unless commands.keys.sort == %w[clippy full_runtime machine_cases nextest openraft snapshot_cases validator_modes]
 commands.each do |name, command|
   fail_receipt("#{name} failed") unless command.fetch("exit_code") == 0
   fail_receipt("#{name} stream normalization mismatch") unless command.fetch("stream_normalization") == "trailing_blank_lines_removed"
@@ -191,6 +192,10 @@ commands.each do |name, command|
     fail_receipt("#{name} #{stream} digest mismatch") unless Digest::SHA256.file(ordinary(relative)).hexdigest == command.fetch("#{stream}_sha256")
   end
 end
+full_runtime_text = %w[stdout stderr].map do |stream|
+  File.binread(ROOT.join(commands.fetch("full_runtime").fetch("#{stream}_path")))
+end.join
+fail_receipt("full runtime log denominator mismatch") unless full_runtime_text.match?(/230 tests run: 230 passed, 0 skipped/)
 machine = commands.fetch("machine_cases")
 snapshot_cases = commands.fetch("snapshot_cases")
 validator_modes = commands.fetch("validator_modes")
@@ -235,4 +240,4 @@ end
 fail_receipt("protected source changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED).empty?
 fail_receipt("immutable proof changed after introduction") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PROOF_PREFIX).empty?
 fail_receipt("protected/proof worktree dirty") unless git("status", "--porcelain=v1", "--untracked-files=all", "--", *EXPECTED_PROTECTED, PROOF_PREFIX).empty?
-puts "PASS: issue #201 merge-safe proof binds exact source, strict Clippy, and ordered 86/86 case evidence"
+puts "PASS: issue #201 merge-safe proof binds exact source, strict Clippy, ordered 86/86 cases, and full runtime 230/230"

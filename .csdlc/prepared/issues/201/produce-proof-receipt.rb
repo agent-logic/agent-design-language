@@ -127,6 +127,11 @@ fail_proof("focused nextest failed") unless commands["nextest"]["exit_code"] == 
 nextest_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["nextest"]["#{stream}_path"])) }.join
 fail_proof("nextest denominator mismatch") unless nextest_text.match?(/83 tests run: 83 passed, \d+ skipped/)
 
+commands["full_runtime"] = run_command("full-runtime", %w[cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --lib --no-tests=fail])
+fail_proof("full runtime lane failed") unless commands["full_runtime"]["exit_code"] == 0
+full_runtime_text = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands["full_runtime"]["#{stream}_path"])) }.join
+fail_proof("full runtime denominator mismatch") unless full_runtime_text.match?(/230 tests run: 230 passed, 0 skipped/)
+
 commands["clippy"] = run_command("clippy", %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings])
 fail_proof("strict Clippy failed") unless commands["clippy"]["exit_code"] == 0
 commands["machine_cases"] = run_command("machine-cases", %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::authority_protocol::contract_tests:: -- --nocapture --test-threads=1])
@@ -160,9 +165,11 @@ proof = {
   "schema" => "adl.issue201.committed_authority_proof.v2", "issue" => 201,
   "source_revision" => source, "source_tree" => tree.strip,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
-  "commands" => commands, "test_summary" => { "selected" => 86, "passed" => 86, "skipped" => 0 },
+  "commands" => commands,
+  "test_summary" => { "selected" => 86, "passed" => 86, "skipped" => 0 },
+  "runtime_summary" => { "selected" => 230, "passed" => 230, "skipped" => 0 },
   "result_summary" => { "passed" => 11, "reconciled" => 6, "rejected" => 69 },
   "cases" => EXPECTED_CASES.map { |name| result, digest = observed_by_name.fetch(name); { "case" => name, "result" => result, "observed_line_sha256" => digest } }
 }
 File.binwrite(OUTPUT.join("execution-proof.json"), JSON.generate(proof) + "\n")
-puts "PASS: produced exact issue #201 86-case proof at source #{source}"
+puts "PASS: produced exact issue #201 86-case proof plus full runtime 230/230 at source #{source}"
