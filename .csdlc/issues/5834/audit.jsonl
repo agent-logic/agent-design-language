@@ -85,3 +85,4 @@
 {"sequence":85,"generation":61,"actor":"/root/sprint4_5857","reason":"Recover the undispatched assignment to include the corrected prepared live issue body in the exact review scope.","operation":"recover_review"}
 {"sequence":86,"generation":61,"actor":"/root/sprint4_5857","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":87,"generation":62,"actor":"/root/sprint4_5857","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":88,"generation":63,"actor":"/root/sprint4_5857","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

@@ -81,11 +81,11 @@ Assembled and locally proved WP-16's exact-digest reviewer packet across the mer
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
