@@ -272,12 +272,23 @@ The added thirty-nine names are:
 `validator_available_ancestral_passed`, and
 `validator_unavailable_protected_fallback_passed`.
 
-The existing declared positive and reconciled results remain unchanged.
+Result `passed` is required exactly for these eleven names:
+`current_three_voter_finalize`, `exact_retry_returns_cached_result`,
+`joint_majority_each_config`, `finalize_at_deadline`,
+`three_node_checkpoint_restart_reconcile`, `local_clock_skew_apply_parity`,
+`exact_store_artifact_bytes_retained`,
+`sealed_continuity_transfer_projection`,
 `snapshot_valid_multi_prepared_finalized_restart`,
 `validator_available_ancestral_passed`, and
-`validator_unavailable_protected_fallback_passed` have result `passed`;
-`validator_available_divergent_rejected` and every other added negative have
-result `rejected`.
+`validator_unavailable_protected_fallback_passed`.
+
+Result `reconciled` is required exactly for these six names:
+`node_a_local_before_cas`, `node_a_cas_before_final_marker`,
+`node_b_local_before_cas`, `node_b_cas_before_final_marker`,
+`node_c_local_before_cas`, and `node_c_cas_before_final_marker`.
+Every other named case defaults to result `rejected`, producing exact totals
+`passed=11`, `reconciled=6`, `rejected=69`, and `selected=86` without reference
+to any superseded proof script or receipt.
 
 ## Non-goals
 

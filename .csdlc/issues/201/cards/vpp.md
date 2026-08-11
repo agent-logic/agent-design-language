@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
 [
   {
     "lane": "committed-authority-contract-86",
-    "proof_role": "Prove the exact ordered 86 names in STP AC-8 with one canonical ADL_ISSUE_201_CASE_V2 marker per case; declared positive/reconciled cases pass and every named negative rejects.",
+    "proof_role": "Require exact ordered ADL_ISSUE_201_CASE_V2 selected=86. Passed=11 exactly for current_three_voter_finalize, exact_retry_returns_cached_result, joint_majority_each_config, finalize_at_deadline, three_node_checkpoint_restart_reconcile, local_clock_skew_apply_parity, exact_store_artifact_bytes_retained, sealed_continuity_transfer_projection, snapshot_valid_multi_prepared_finalized_restart, validator_available_ancestral_passed, validator_unavailable_protected_fallback_passed. Reconciled=6 exactly for node_a_local_before_cas, node_a_cas_before_final_marker, node_b_local_before_cas, node_b_cas_before_final_marker, node_c_local_before_cas, node_c_cas_before_final_marker. Every other named case defaults rejected, exactly rejected=69; any count, order, name, result, or marker-hash mismatch fails closed.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -57,11 +57,12 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "snapshot-trust-matrix",
-    "proof_role": "Prove by exact name the valid multi-operation restart; current and prepared polis epoch membership boot mismatches including a later record; five legacy-field injections; eleven finalized-evidence failures; ten custody/evidence encoding and substitution failures. Only the valid restart passes; all others reject before publication.",
+    "proof_role": "Prove the exact 39 added snapshot and validator names in STP AC-8; only the three added passed names pass and all other added names reject.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
-      "AC-6"
+      "AC-6",
+      "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "large",
@@ -84,7 +85,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "production-three-voter-openraft",
-    "proof_role": "Exercise production prepare finalize actual apply IDs route custody pending publication and legitimate snapshot restart through a real three-voter OpenRaft cluster.",
+    "proof_role": "Exercise production prepare finalize actual apply IDs route custody pending publication and legitimate snapshot restart through a real three-voter cluster.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -115,7 +116,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "committed-authority-production-clippy",
-    "proof_role": "Reject production warnings and any production-selectable test authority bypass.",
+    "proof_role": "Reject production warnings and production-selectable authority bypasses.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -139,7 +140,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "committed-authority-proof-v7",
-    "proof_role": "Produce one v7 packet whose independent immutable manifest binds the exact ordered 86 names results and marker hashes.",
+    "proof_role": "Produce one v7 packet binding the exact 86-name 11-passed 6-reconciled 69-rejected marker contract independently of v6.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -156,7 +157,7 @@ Diagram: .csdlc/prepared/issues/201/diagram.mmd
   },
   {
     "lane": "committed-authority-proof-validator-v7",
-    "proof_role": "Require ancestry for validator_available_ancestral_passed reject validator_available_divergent_rejected and allow tree fallback only for validator_unavailable_protected_fallback_passed.",
+    "proof_role": "Validate v7 ancestry available-divergent rejection and unavailable tree fallback plus exact independent name result count and marker-hash parity.",
     "acceptance_ids": [
       "AC-8"
     ],
