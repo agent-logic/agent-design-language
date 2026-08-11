@@ -338,19 +338,24 @@ fn reserve_replay_sequence(
     sequence: u64,
 ) -> Option<AcipSequenceReservation> {
     let domains = state.sequences_by_principal.entry(principal).or_default();
+    let high_water = domains
+        .get(&domain)
+        .map(|domain_state| {
+            domain_state
+                .pending_sequences
+                .last()
+                .copied()
+                .unwrap_or(domain_state.committed_sequence)
+                .max(domain_state.committed_sequence)
+        })
+        .unwrap_or(0);
+    if sequence <= high_water || sequence - high_water > ACIP_MAX_SEQUENCE_ADVANCE {
+        return None;
+    }
     if !domains.contains_key(&domain) && domains.len() >= max_records {
         return None;
     }
     let domain_state = domains.entry(domain.clone()).or_default();
-    let high_water = domain_state
-        .pending_sequences
-        .last()
-        .copied()
-        .unwrap_or(domain_state.committed_sequence)
-        .max(domain_state.committed_sequence);
-    if sequence <= high_water || sequence - high_water > ACIP_MAX_SEQUENCE_ADVANCE {
-        return None;
-    }
     domain_state.pending_sequences.insert(sequence);
     Some(AcipSequenceReservation {
         principal,
@@ -1893,6 +1898,25 @@ mod acip_replay_tests {
         );
         assert!(
             reserve_replay_sequence(&mut state, 1, [2; 32], domain("runtime", "two"), 1).is_some()
+        );
+    }
+
+    #[test]
+    fn rejected_excessive_advances_do_not_consume_domain_capacity() {
+        let mut state = replay_state();
+        for index in 0..4 {
+            assert!(reserve_replay_sequence(
+                &mut state,
+                1,
+                [1; 32],
+                domain("runtime", &format!("rejected-{index}")),
+                ACIP_MAX_SEQUENCE_ADVANCE + 1,
+            )
+            .is_none());
+        }
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "valid"), 1)
+                .is_some()
         );
     }
 
