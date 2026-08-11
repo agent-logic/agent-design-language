@@ -3,11 +3,11 @@
   "issue": 217,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "043cf4baaa244241d04c17933035cff870bc658c4ed2b6a116dd94077e6a85eb",
-  "phase": "ready",
-  "generation": 14,
-  "digest": "5392308a4ecabfc5114c9eade1d359d06602702115804332077f8559a15c4c06",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 22,
+  "digest": "0bc4610d19da765496eab07e51fdab1b0693b18aab8073ca6d45c75e5e69bd73",
+  "branch": "codex/217-wp14-retained-native-proof-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-217-retained-native-proof-preparation",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "43256be85f65fed71d6d0337fd38d394a9b0f25b6f5aa0de38928a309862d530",
+      "values_digest": "d08bdf06f9bd56e5e50985740aafff659aab3bf58b7e807caa33736c7bcde9fc",
       "rendered_digest": "a989adca89f39e74d79e1887b76cb8c0bb95a24c196524c48983478eb6ddbb96",
       "ast_digest": "8a432891032c24112f8e5b368214f38d8a57ce71e5397b6cb1c8a54b128d63de"
     },
     "stp": {
-      "values_digest": "e38d60af5b54b030e9252a233fca8e056b6d5485d06e2260415cc70df2554516",
-      "rendered_digest": "aa9f8b11e6031325e26090002c41b61827cda487b1844f0ef1a4c0b6ea13ea66",
-      "ast_digest": "e018215849b57ecf2aada5931b4e3f5f6170cd9207bfd4bfa156ecfd6ce485e0"
+      "values_digest": "9cc02844b97ebe54fd456469cc87d129836b1389eb31ffef5168543cfe827b80",
+      "rendered_digest": "1498bcd1ec19596c7dcbf719be14d71b9695849a943399607ec176a4f27b94c8",
+      "ast_digest": "912322f6c25bfdacefe551534cd2d2348857ad2a4381cf50e32e5a18f9e604bc"
     },
     "spp": {
-      "values_digest": "819d3e95714074e1bac6a21100a90a933230bb7d1a4a6582e433c2807e61ce94",
-      "rendered_digest": "2ee12337e0c19239cf38d92c50428e1ce9e6938e7ab2b2715f798b4c5fc3c93f",
-      "ast_digest": "3c8f44f9b8912e3df53e9062c9bc7452865711d2adc3beb61274f23c2a9168f3"
+      "values_digest": "be5f5f9eecfeb2d0ef19a19046d6d8b7b24a29186af71ce66b049dc0f58935ed",
+      "rendered_digest": "99c76d8e8fdf4cff3649e42f361c262d0443d57cdae66573e0f036a9c6e08743",
+      "ast_digest": "689d205b74087f294238483cda9c82862d9d75ae2633363602e401428e173527"
     },
     "vpp": {
-      "values_digest": "41914147db9f9194ba26ad09027a779f6ff5ae69f7e06187bfce8f7c33eb8736",
-      "rendered_digest": "073abba829216de753e8e815c419e1242e08a30861974d9a50c9d83f4e79d92d",
-      "ast_digest": "89ca86a348b58c1ef8d2446910eb5ef5706aa52f2430a559db2631d883ef0091"
+      "values_digest": "3f585ca0f9cc8cd9d6bb2122ed05f01afe60b63871cdf7fe3916c24b6e0348b2",
+      "rendered_digest": "ee5ad8ce75f3a1df2bc86b2a68b3841a0b0d5c8af218efede1e4a26a7311bf81",
+      "ast_digest": "868424d46c9c4d75b8a1c14f8ff384e816faadfd48f9f9cb6d12c3e3cd330ce6"
     },
     "srp": {
-      "values_digest": "85894323f92b56b1dba69775b9513c822c40431c08e22a8d674c07c824aebc1e",
-      "rendered_digest": "1370542e364f694d6e9bd501245c0a5f17bd1d71a6181cd1228ab6093374c909",
-      "ast_digest": "a9639ee67355ef0745c3359e955446da5d4c0b41711c28d9ddaab2b12eedadda"
+      "values_digest": "7dcc64535496bd73eda77b827a1d3a0600a6c89e759ceff420929394dab01e8e",
+      "rendered_digest": "d2886e241c9cfab91814a63b23e644497892003879917686ab94d6007a88be99",
+      "ast_digest": "765e6f63e4b7ec2444600df68645263aab9849373781dd84731a85e627078d1d"
     },
     "sor": {
-      "values_digest": "8c6c6b6ab1aeb6a69bf6b9276f26fecb127847c7b55ef72a61d590afcc54c9f2",
+      "values_digest": "1a69c784ef41baebe49eabc83d845bbe047bbf696f7a0c418fbfe90d12e51f6a",
       "rendered_digest": "1c281a238160a23ca2d9522f521acc4d55a2dca5e4a72308ce5616c76aa63c59",
       "ast_digest": "2581958855efc1d1ff0b20f11890a11444d91d86ee9caefc9f25135ab9f44f4b"
     }
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "/root/shepherd_pr215_green",
       "reason": "Advance the independently approved, mechanically valid preparation packet to ready solely for binding and remaining typed card repair."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -168,6 +175,69 @@
       "actor": "/root/shepherd_pr215_green",
       "reason": "Describe not-yet-implemented validators truthfully so Ready binding does not misclassify planned paths as existing executable deliverables.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Exact restored ten-file historical packet beneath .csdlc/evidence/209\",\".csdlc/prepared/issues/217/historical-c640-denominator.json\",\".csdlc/prepared/issues/217/protected-source-denominator.json\",\"Issue-owned detached-c640 historical packet verification wrapper\",\"Issue-owned fresh native receipt producer\",\"Issue-owned merge-safe retained native proof validator\",\"Narrow issue-owned GitHub Actions workflow for fresh current-head native proof\",\"Fresh exact ten-file native packet plus machine-consumed denominator beneath .csdlc/evidence/217\",\".csdlc/issues/217 complete typed lifecycle and review evidence\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Remove the obsolete no-new-native-run posture and preserve the reviewed fresh-proof requirement.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"Production Rust, ACIP, replay, API, Guardian, kernel, or runtime behavior changes\",\"Implicit or unreviewed rebaseline of legitimate post-c640 protected-source drift\",\"AWS, cloud provisioning, or broader distributed-runtime execution\",\"Modification of terminal #209 cards, derived terminal state, or historical artifact bytes\",\"Implementation or publication before the second independent full-package review passes\",\"Merging before operator review or closing #142\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Align acceptance with the independently reviewed historical provenance, fresh H proof, evidence-only H2 retention, and second-review stop gate.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The exact historical ten-path set from #209 run 31453636709 is restored unchanged and matches the machine-consumed historical denominator byte-for-byte.\",\"AC-2: An issue-owned wrapper overlays the historical evidence into a detached c640 worktree, supplies the original GitHub Actions environment, and the unchanged #209 source validator passes there without claiming current qualification.\",\"AC-3: A fresh workflow run at reviewed producer head H produces a separate exact ten-file #217 Linux/macOS packet; absence of fresh proof fails closed unless a later reviewed design records explicit operator rebaseline approval.\",\"AC-4: Evidence-only head H2 retains the fresh packet and its exact ten-path denominator without modifying any of the independently frozen seventeen protected paths or recursively triggering the native workflow.\",\"AC-5: The retained validator verifies exactly ten unique confined evidence paths, the exact seventeen protected paths, every denominator/internal digest, runner/job/workflow/source provenance, source manifests, semantics, assertions, and path hygiene.\",\"AC-6: A later head passes only through proved source ancestry or complete protected-tree digest equivalence; missing, extra, duplicate, tampered, drifted, semantically mismatched, provenance-mismatched, and unrelated packets fail closed.\",\"AC-7: Typed #217 VPP/SOR name the fresh denominator validator as terminal proof, distinguish c640 as provenance-only, and no implementation/publication occurs before the second independent full-package review passes.\",\"AC-8: Fresh exact-head implementation and post-native reviews have no unresolved actionable findings; the visible qualified PR links #209/PR #215 and #142, stays unmerged pending operator review, and is green before terminal delivery.\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Encode the mandatory second full-package review before implementation and the exact H to Actions to evidence-only H2 sequence.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Complete typed STP/SPP/VPP repair after approved binding, then stop for a second independent full-package review.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Only after second-review PASS, restore historical evidence and implement the detached-c640 wrapper, fresh producer/workflow, and retained validator without production changes.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Obtain exact-head implementation review at H, publish, run fresh Linux/macOS Actions at H, and retain only evidence/typed truth in nonrecursive H2.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Validate retained proof at H2, resolve post-native exact-head review, and shepherd every required check without merging.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Make second full-package review and fresh native proof explicit fail-closed execution gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Second independent full-package review is missing, stale, or has any unresolved actionable finding\",\"Any product, workflow, validator, evidence, or publication change occurs before that second review passes\",\"Historical restored bytes differ from the exact ten-path denominator\",\"Fresh native proof at exact reviewed producer head H is unavailable or fails\",\"Evidence-only H2 modifies any of the exact seventeen protected paths or recursively triggers the native workflow\",\"The retained validator cannot reject missing, extra, duplicate, drifted, tampered, or unrelated proof inputs\",\"Any action would modify terminal #209 truth, use AWS, merge the PR, or close #142\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Install the independently reviewed detached-c640, fresh-H, evidence-only-H2, and retained-proof lanes before the second full-package review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"historical-c640-packet\",\"proof_role\":\"Verify the exact ten-path historical denominator, create a detached c640 worktree, overlay evidence, set the original GitHub environment, and run the unchanged #209 validator as provenance-only proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/verify-historical-c640-packet.rb\",\".csdlc/prepared/issues/217/historical-c640-denominator.json\"],\"parallel_group\":\"217-historical\",\"defer_reason\":\"Implemented only after the second independent full-package review passes.\"},{\"lane\":\"fresh-native-producer-contract\",\"proof_role\":\"Prove the producer consumes the exact seventeen-path denominator and writes confined issue #217 artifacts.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/produce-native-receipt.rb\",\"--self-test\"],\"parallel_group\":\"217-contract\",\"defer_reason\":\"Implemented only after the second independent full-package review passes.\"},{\"lane\":\"fresh-native-linux-macos\",\"proof_role\":\"At reviewed producer head H, produce and aggregate the fresh exact Linux/macOS packet; retain only its exact ten-path denominator and evidence in H2 without protected drift or recursive triggering.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/validate-retained-native-proof.rb\",\".csdlc/evidence/217/retained-proof-denominator.json\"],\"parallel_group\":\"217-native\",\"defer_reason\":\"Runs on GitHub Actions at exact reviewed H after implementation review and publication; missing fresh proof blocks H2 retention and merge.\"},{\"lane\":\"retained-proof-regressions\",\"proof_role\":\"Prove exact ten-path evidence and seventeen-path source denominators, complete provenance, ancestry/equivalence, protected drift, semantic, path-confinement, and tamper behavior.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/217/validate-retained-native-proof.rb\",\"--self-test\"],\"parallel_group\":\"217-contract\",\"defer_reason\":\"Implemented only after the second independent full-package review passes.\"},{\"lane\":\"preparation-contract\",\"proof_role\":\"Validate the two reviewed denominators and reject malformed preparation patches before implementation begins.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"jq\",\"-e\",\".expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17\",\".csdlc/prepared/issues/217/protected-source-denominator.json\"],\"parallel_group\":\"217-prep\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Make the second full-package review test the exact historical/current proof split and implementation stop gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Do the historical denominator and detached-c640 lane freeze and validate exactly ten artifacts with the original GitHub environment while making no current-proof claim?\",\"Does the independent protected-source denominator contain exactly the reviewed seventeen paths, with missing, extra, and duplicate paths rejected by producer and validator?\",\"Is fresh native proof mandatory at exact reviewed head H, followed only by evidence/typed-truth H2 with no protected drift or recursive workflow trigger?\",\"Does retained validation require ancestry or complete tree equivalence plus unconditional current protected-byte equality?\",\"Do STP, SPP, and VPP stop all implementation/publication until this second full-package review passes and preserve no-production-change, no-AWS, and no-merge boundaries?\",\"Are #209, PR #215, and blocker #142 linked truthfully without modifying terminal #209 lifecycle truth?\"]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Summarize the reviewed two-stage gate and H-to-H2 proof sequence truthfully.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Stop for second full-package review after typed card repair; only after PASS restore c640 provenance, implement issue-owned proof tooling, review producer head H, run fresh Linux/macOS proof at H, retain evidence-only H2, validate ancestry or exact seventeen-path tree equivalence with no drift, and shepherd the visible PR without merging.\",\"operation\":\"replan\",\"previous_value\":\"Freeze the retained-proof contract, restore the exact source packet, implement a merge-safe validator with adversarial fixtures, correct typed proof commands, obtain fresh reviews, and publish without merging.\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "/root/shepherd_pr215_green",
+      "reason": "Bind the second review to every preparation card and both machine denominators before implementation begins.",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\".csdlc/issues/217\\n.csdlc/prepared/issues/217/design.md\\n.csdlc/prepared/issues/217/diagram.mmd\\n.csdlc/prepared/issues/217/historical-c640-denominator.json\\n.csdlc/prepared/issues/217/protected-source-denominator.json\\nRead-only #209 producer/validator and b27 retained packet identity\\nNo implementation, workflow, fresh evidence, publication, or product diff exists yet\",\"operation\":\"replan\",\"previous_value\":\"Issue #217 design, six preparation cards, exact #209 evidence inventory, retained-validator contract, merge/squash authority boundary, typed proof-command plan, and publication non-claims.\"}"
     }
   ]
 }

@@ -12,51 +12,60 @@ Status: ready
 
 ## Summary
 
-Freeze the retained-proof contract, restore the exact source packet, implement a merge-safe validator with adversarial fixtures, correct typed proof commands, obtain fresh reviews, and publish without merging.
+Stop for second full-package review after typed card repair; only after PASS restore c640 provenance, implement issue-owned proof tooling, review producer head H, run fresh Linux/macOS proof at H, retain evidence-only H2, validate ancestry or exact seventeen-path tree equivalence with no drift, and shepherd the visible PR without merging.
 
 ## Plan
 
-Revision 3
+Revision 6
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Independently review and approve the retained-proof design, exact artifact inventory, and ancestry/equivalence authority boundary.",
+    "action": "Complete typed STP/SPP/VPP repair after approved binding, then stop for a second independent full-package review.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-7"
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Restore the exact ten-file packet and implement the confined retained-proof validator without production changes.",
+    "action": "Only after second-review PASS, restore historical evidence and implement the detached-c640 wrapper, fresh producer/workflow, and retained validator without production changes.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
-      "AC-4"
+      "AC-5",
+      "AC-6",
+      "AC-7"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Add focused positive/adversarial validation and update typed VPP/SOR final-head proof truth.",
+    "action": "Obtain exact-head implementation review at H, publish, run fresh Linux/macOS Actions at H, and retain only evidence/typed truth in nonrecursive H2.",
     "acceptance_ids": [
+      "AC-3",
+      "AC-4",
       "AC-5",
-      "AC-6"
+      "AC-8"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Resolve independent exact-head review, publish the visible qualified PR, and shepherd checks without merging.",
+    "action": "Validate retained proof at H2, resolve post-native exact-head review, and shepherd every required check without merging.",
     "acceptance_ids": [
+      "AC-5",
+      "AC-6",
       "AC-7",
       "AC-8"
     ],
@@ -102,11 +111,13 @@ Digest: 296185d2d19ae92d242f357b658f462130b520af52c5dfc2a1eedbcca33a87f0
 
 ## Stop Conditions
 
-- Any required artifact differs from the independently validated run 31453636709 packet
-- The validator cannot reject protected-source drift without changing production code
-- Typed card routes cannot express the truthful final-head command without rewriting history
-- Independent design or implementation review finds unresolved P1/P2 defects
-- Any action would merge the PR or mutate main outside typed bootstrap/binding
+- Second independent full-package review is missing, stale, or has any unresolved actionable finding
+- Any product, workflow, validator, evidence, or publication change occurs before that second review passes
+- Historical restored bytes differ from the exact ten-path denominator
+- Fresh native proof at exact reviewed producer head H is unavailable or fails
+- Evidence-only H2 modifies any of the exact seventeen protected paths or recursively triggers the native workflow
+- The retained validator cannot reject missing, extra, duplicate, drifted, tampered, or unrelated proof inputs
+- Any action would modify terminal #209 truth, use AWS, merge the PR, or close #142
 
 ## Handoff
 

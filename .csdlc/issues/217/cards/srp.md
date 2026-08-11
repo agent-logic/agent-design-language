@@ -12,15 +12,22 @@ Status: pre_phase
 
 ## Scope
 
-Issue #217 design, six preparation cards, exact #209 evidence inventory, retained-validator contract, merge/squash authority boundary, typed proof-command plan, and publication non-claims.
+.csdlc/issues/217
+.csdlc/prepared/issues/217/design.md
+.csdlc/prepared/issues/217/diagram.mmd
+.csdlc/prepared/issues/217/historical-c640-denominator.json
+.csdlc/prepared/issues/217/protected-source-denominator.json
+Read-only #209 producer/validator and b27 retained packet identity
+No implementation, workflow, fresh evidence, publication, or product diff exists yet
 
 ## Prompts
 
-- Does the design authenticate all ten retained files and every receipt/manifest provenance field rather than only source manifests?
-- Can squash/rebase-equivalent protected bytes pass without requiring the source commit to remain ancestral or locally available?
-- Does ancestry mode still reject every protected-source change after the proving revision?
-- Do fixtures prove missing, tampered, drifted, unrelated, and semantic-mismatch failures without machine-local assumptions?
-- Are #209, PR #215, and blocker #142 linked truthfully with no production behavior claim?
+- Do the historical denominator and detached-c640 lane freeze and validate exactly ten artifacts with the original GitHub environment while making no current-proof claim?
+- Does the independent protected-source denominator contain exactly the reviewed seventeen paths, with missing, extra, and duplicate paths rejected by producer and validator?
+- Is fresh native proof mandatory at exact reviewed head H, followed only by evidence/typed-truth H2 with no protected drift or recursive workflow trigger?
+- Does retained validation require ancestry or complete tree equivalence plus unconditional current protected-byte equality?
+- Do STP, SPP, and VPP stop all implementation/publication until this second full-package review passes and preserve no-production-change, no-AWS, and no-merge boundaries?
+- Are #209, PR #215, and blocker #142 linked truthfully without modifying terminal #209 lifecycle truth?
 
 ## Findings
 

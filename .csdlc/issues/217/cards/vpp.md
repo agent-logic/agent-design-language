@@ -24,65 +24,100 @@ Diagram: .csdlc/prepared/issues/217/diagram.mmd
 
 [
   {
-    "lane": "historical-denominator-contract",
-    "proof_role": "Require exactly ten unique historical evidence paths with SHA-256 digests.",
+    "lane": "historical-c640-packet",
+    "proof_role": "Verify the exact ten-path historical denominator, create a detached c640 worktree, overlay evidence, set the original GitHub environment, and run the unchanged #209 validator as provenance-only proof.",
     "acceptance_ids": [
       "AC-1",
       "AC-2"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 30,
-    "budget_tokens": 250,
+    "budget_seconds": 180,
+    "budget_tokens": 1500,
     "argv": [
-      "jq",
-      "-e",
-      ".expected_file_count == 10 and (.files | length) == 10 and ([.files[].path] | unique | length) == 10 and ([.files[].sha256 | test(\"^[0-9a-f]{64}$\")] | all)",
+      "ruby",
+      ".csdlc/prepared/issues/217/verify-historical-c640-packet.rb",
       ".csdlc/prepared/issues/217/historical-c640-denominator.json"
     ],
-    "parallel_group": "217-prep",
-    "defer_reason": null
+    "parallel_group": "217-historical",
+    "defer_reason": "Implemented only after the second independent full-package review passes."
   },
   {
-    "lane": "protected-source-denominator-contract",
-    "proof_role": "Require exactly seventeen unique protected source paths.",
+    "lane": "fresh-native-producer-contract",
+    "proof_role": "Prove the producer consumes the exact seventeen-path denominator and writes confined issue #217 artifacts.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/217/produce-native-receipt.rb",
+      "--self-test"
+    ],
+    "parallel_group": "217-contract",
+    "defer_reason": "Implemented only after the second independent full-package review passes."
+  },
+  {
+    "lane": "fresh-native-linux-macos",
+    "proof_role": "At reviewed producer head H, produce and aggregate the fresh exact Linux/macOS packet; retain only its exact ten-path denominator and evidence in H2 without protected drift or recursive triggering.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6"
+      "AC-8"
+    ],
+    "deterministic": false,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 3000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
+      ".csdlc/evidence/217/retained-proof-denominator.json"
+    ],
+    "parallel_group": "217-native",
+    "defer_reason": "Runs on GitHub Actions at exact reviewed H after implementation review and publication; missing fresh proof blocks H2 retention and merge."
+  },
+  {
+    "lane": "retained-proof-regressions",
+    "proof_role": "Prove exact ten-path evidence and seventeen-path source denominators, complete provenance, ancestry/equivalence, protected drift, semantic, path-confinement, and tamper behavior.",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6",
+      "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 30,
-    "budget_tokens": 250,
+    "budget_seconds": 300,
+    "budget_tokens": 2500,
     "argv": [
-      "jq",
-      "-e",
-      ".expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17",
-      ".csdlc/prepared/issues/217/protected-source-denominator.json"
+      "ruby",
+      ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
+      "--self-test"
     ],
-    "parallel_group": "217-prep",
-    "defer_reason": null
+    "parallel_group": "217-contract",
+    "defer_reason": "Implemented only after the second independent full-package review passes."
   },
   {
-    "lane": "preparation-diff-contract",
-    "proof_role": "Reject malformed preparation patches or whitespace errors.",
+    "lane": "preparation-contract",
+    "proof_role": "Validate the two reviewed denominators and reject malformed preparation patches before implementation begins.",
     "acceptance_ids": [
       "AC-7",
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 30,
-    "budget_tokens": 250,
+    "budget_seconds": 60,
+    "budget_tokens": 500,
     "argv": [
-      "git",
-      "diff",
-      "--check",
-      "--",
-      ".csdlc/issues/217",
-      ".csdlc/prepared/issues/217"
+      "jq",
+      "-e",
+      ".expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17",
+      ".csdlc/prepared/issues/217/protected-source-denominator.json"
     ],
     "parallel_group": "217-prep",
     "defer_reason": null
@@ -101,9 +136,11 @@ Tokens: 25000
 
 ## Commands
 
-- `jq -e .expected_file_count == 10 and (.files | length) == 10 and ([.files[].path] | unique | length) == 10 and ([.files[].sha256 | test("^[0-9a-f]{64}$")] | all) .csdlc/prepared/issues/217/historical-c640-denominator.json`
+- `ruby .csdlc/prepared/issues/217/verify-historical-c640-packet.rb .csdlc/prepared/issues/217/historical-c640-denominator.json`
+- `ruby .csdlc/prepared/issues/217/produce-native-receipt.rb --self-test`
+- `ruby .csdlc/prepared/issues/217/validate-retained-native-proof.rb .csdlc/evidence/217/retained-proof-denominator.json`
+- `ruby .csdlc/prepared/issues/217/validate-retained-native-proof.rb --self-test`
 - `jq -e .expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17 .csdlc/prepared/issues/217/protected-source-denominator.json`
-- `git diff --check -- .csdlc/issues/217 .csdlc/prepared/issues/217`
 
 ## Failure Semantics
 

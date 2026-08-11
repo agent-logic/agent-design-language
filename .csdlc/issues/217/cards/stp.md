@@ -28,14 +28,14 @@ Restore and validate only #209's retained native proof contract and typed proof 
 
 ## Acceptance
 
-1. AC-1: The exact eight platform files plus native-validation-manifest.json and native-receipts-validation.log from #209 run 31453636709 are retained with their original verified digests.
-2. AC-2: The existing source-run validator still authenticates the source packet at c640066f284a915b638add377cc4b0a2e221e6f9.
-3. AC-3: The retained validator verifies every packet digest, runner/job provenance field, source manifest, semantic projection, assertion inventory, and path-hygiene rule.
-4. AC-4: A later final head passes only through proved source ancestry or protected-tree digest equivalence, and both modes reject any current protected-source drift.
-5. AC-5: Focused regressions reject missing files, digest tampering, runner/source mismatch, semantic mismatch, protected-source drift, and unrelated non-equivalent source history while accepting squash-equivalent history.
-6. AC-6: VPP and SOR name the retained-proof validator as the final-head command and that command passes on the reviewed PR head.
-7. AC-7: Fresh independent design and exact-head implementation reviews have no unresolved actionable findings.
-8. AC-8: A visible qualified PR links #209/PR #215 and blocker #142, remains unmerged until operator review, and is green before terminal delivery.
+1. AC-1: The exact historical ten-path set from #209 run 31453636709 is restored unchanged and matches the machine-consumed historical denominator byte-for-byte.
+2. AC-2: An issue-owned wrapper overlays the historical evidence into a detached c640 worktree, supplies the original GitHub Actions environment, and the unchanged #209 source validator passes there without claiming current qualification.
+3. AC-3: A fresh workflow run at reviewed producer head H produces a separate exact ten-file #217 Linux/macOS packet; absence of fresh proof fails closed unless a later reviewed design records explicit operator rebaseline approval.
+4. AC-4: Evidence-only head H2 retains the fresh packet and its exact ten-path denominator without modifying any of the independently frozen seventeen protected paths or recursively triggering the native workflow.
+5. AC-5: The retained validator verifies exactly ten unique confined evidence paths, the exact seventeen protected paths, every denominator/internal digest, runner/job/workflow/source provenance, source manifests, semantics, assertions, and path hygiene.
+6. AC-6: A later head passes only through proved source ancestry or complete protected-tree digest equivalence; missing, extra, duplicate, tampered, drifted, semantically mismatched, provenance-mismatched, and unrelated packets fail closed.
+7. AC-7: Typed #217 VPP/SOR name the fresh denominator validator as terminal proof, distinguish c640 as provenance-only, and no implementation/publication occurs before the second independent full-package review passes.
+8. AC-8: Fresh exact-head implementation and post-native reviews have no unresolved actionable findings; the visible qualified PR links #209/PR #215 and #142, stays unmerged pending operator review, and is green before terminal delivery.
 
 ## Dependencies
 
@@ -55,8 +55,9 @@ Restore and validate only #209's retained native proof contract and typed proof 
 
 ## Non Goals
 
-- Production Rust, ACIP, replay, API, Guardian, kernel, or runtime changes
-- A new native run unless the retained source evidence cannot be authenticated
+- Production Rust, ACIP, replay, API, Guardian, kernel, or runtime behavior changes
+- Implicit or unreviewed rebaseline of legitimate post-c640 protected-source drift
 - AWS, cloud provisioning, or broader distributed-runtime execution
-- Rewriting #209 history or silently treating its missing retained proof as passed
+- Modification of terminal #209 cards, derived terminal state, or historical artifact bytes
+- Implementation or publication before the second independent full-package review passes
 - Merging before operator review or closing #142
