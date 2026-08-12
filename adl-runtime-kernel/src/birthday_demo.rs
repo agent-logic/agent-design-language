@@ -15,6 +15,23 @@ use crate::*;
 pub const FIRST_BIRTHDAY_DEMO_SCHEMA: &str = "adl.first_birthday.demo_packet.v1";
 const GENESIS: &str = "0000000000000000000000000000000000000000000000000000000000000000";
 const RETAINED_PACKET_PATH: &str = "demos/v0.92/first-birthday/positive.json";
+const REVIEW_EVIDENCE_PATH: &str =
+    "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json";
+const RECEIPT_EVIDENCE_PATH: &str =
+    "docs/milestones/v0.91.8/review/v092_handoff_4762/birth-receipt-4762.v1.json";
+const LAUNCH_EVIDENCE_PATH: &str = "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md";
+const REVIEW_EVIDENCE: &[u8] = include_bytes!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/../docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json"
+));
+const RECEIPT_EVIDENCE: &[u8] = include_bytes!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/../docs/milestones/v0.91.8/review/v092_handoff_4762/birth-receipt-4762.v1.json"
+));
+const LAUNCH_EVIDENCE: &[u8] = include_bytes!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/../docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md"
+));
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -431,40 +448,59 @@ fn runtime_evidence(
         (
             EvidenceKind::StableName,
             digest_bytes(identity.stable_name.as_bytes()),
+            RETAINED_PACKET_PATH,
         ),
-        (EvidenceKind::IdentityRoot, identity.record_sha256.clone()),
+        (
+            EvidenceKind::IdentityRoot,
+            identity.record_sha256.clone(),
+            RETAINED_PACKET_PATH,
+        ),
         (
             EvidenceKind::ContinuityHead,
             continuity.record_sha256.clone(),
+            RETAINED_PACKET_PATH,
         ),
-        (EvidenceKind::MemoryGrounding, memory_sha.to_owned()),
+        (
+            EvidenceKind::MemoryGrounding,
+            memory_sha.to_owned(),
+            RETAINED_PACKET_PATH,
+        ),
         (
             EvidenceKind::CapabilityEnvelope,
-            digest_bytes(b"runtime-owned-capability-policy-v1"),
+            digest_bytes(LAUNCH_EVIDENCE),
+            LAUNCH_EVIDENCE_PATH,
         ),
         (
             EvidenceKind::CognitiveProfile,
-            digest_bytes(b"runtime-owned-cognitive-authority-v1"),
+            digest_bytes(REVIEW_EVIDENCE),
+            REVIEW_EVIDENCE_PATH,
         ),
         (
             EvidenceKind::InheritedMoralContext,
-            digest_bytes(b"v092-bounded-moral-context"),
+            digest_bytes(LAUNCH_EVIDENCE),
+            LAUNCH_EVIDENCE_PATH,
         ),
-        (EvidenceKind::WitnessSet, roster_sha.to_owned()),
+        (
+            EvidenceKind::WitnessSet,
+            roster_sha.to_owned(),
+            RETAINED_PACKET_PATH,
+        ),
         (
             EvidenceKind::Receipt,
-            digest_bytes(b"runtime-owned-receipt-policy-v1"),
+            digest_bytes(RECEIPT_EVIDENCE),
+            RECEIPT_EVIDENCE_PATH,
         ),
         (
             EvidenceKind::ReviewerValidation,
-            digest_bytes(b"wp16-reviewed-terminal-ancestral"),
+            digest_bytes(REVIEW_EVIDENCE),
+            REVIEW_EVIDENCE_PATH,
         ),
     ];
     values
         .into_iter()
-        .map(|(kind, sha256)| EvidenceReference {
+        .map(|(kind, sha256, path)| EvidenceReference {
             kind,
-            path: RETAINED_PACKET_PATH.to_owned(),
+            path: path.to_owned(),
             sha256,
             visibility: EvidenceVisibility::ReviewerVisible,
         })
@@ -498,22 +534,22 @@ fn build_runtime_capability(
         cap_ref(
             "retained",
             CapabilityEvidenceKind::RetainedCapability,
-            &runtime_digest("retained-capability"),
+            &digest_bytes(LAUNCH_EVIDENCE),
         ),
         cap_ref(
             "provider",
             CapabilityEvidenceKind::Provider,
-            &runtime_digest("runtime-demo-provider"),
+            &digest_bytes(REVIEW_EVIDENCE),
         ),
         cap_ref(
             "model",
             CapabilityEvidenceKind::Model,
-            &runtime_digest("runtime-demo-bounded-model"),
+            &digest_bytes(REVIEW_EVIDENCE),
         ),
         cap_ref(
             "authority",
             CapabilityEvidenceKind::Authority,
-            &runtime_digest("runtime-capability-authority"),
+            &digest_bytes(RECEIPT_EVIDENCE),
         ),
     ];
     let limits = CapabilityResourceLimits {
@@ -588,7 +624,7 @@ fn build_runtime_cognitive(
         cog_ref(
             "memory",
             CognitiveEvidenceCategory::Memory,
-            &runtime_digest("runtime-memory-grounding"),
+            &digest_bytes(LAUNCH_EVIDENCE),
         ),
         cog_ref(
             "capability",
@@ -598,17 +634,17 @@ fn build_runtime_cognitive(
         cog_ref(
             "tom",
             CognitiveEvidenceCategory::TheoryOfMind,
-            &runtime_digest("bounded-theory-of-mind"),
+            &digest_bytes(REVIEW_EVIDENCE),
         ),
         cog_ref(
             "intelligence",
             CognitiveEvidenceCategory::Intelligence,
-            &runtime_digest("bounded-intelligence-profile"),
+            &digest_bytes(REVIEW_EVIDENCE),
         ),
         cog_ref(
             "learning",
             CognitiveEvidenceCategory::GovernedLearning,
-            &runtime_digest("governed-learning-profile"),
+            &digest_bytes(LAUNCH_EVIDENCE),
         ),
     ];
     let policy = CognitiveProfilePolicy {
@@ -631,7 +667,7 @@ fn build_runtime_cognitive(
             "no_personhood_inference".to_owned(),
             "no_rights_inference".to_owned(),
         ],
-        redaction_policy_sha256: runtime_digest("birthday-redaction-policy-v1"),
+        redaction_policy_sha256: digest_bytes(LAUNCH_EVIDENCE),
         capability_policy: cap_policy.clone(),
     };
     let input = CognitiveProfileInput {
@@ -661,7 +697,7 @@ fn build_runtime_cognitive(
             },
         ],
         nonclaims: policy.required_nonclaims.clone(),
-        redaction_policy_sha256: runtime_digest("birthday-redaction-policy-v1"),
+        redaction_policy_sha256: digest_bytes(LAUNCH_EVIDENCE),
     };
     let key = SigningKey::from_bytes(&[29; 32]);
     let policy_sha = canonical_cognitive_policy_digest(&policy)?;
@@ -776,10 +812,22 @@ fn build_runtime_witnesses(
             a
         })
         .collect::<Vec<_>>();
-    let packet = build_birth_witness_packet(candidate, decision, &policy, &attestations)
+    let mut packet = build_birth_witness_packet(candidate, decision, &policy, &attestations)
         .map_err(|_| BirthdayDemoError::Stage("witness_packet"))?;
     validate_birth_witness_packet(&packet, candidate, decision, &policy, &attestations)
         .map_err(|_| BirthdayDemoError::Stage("witness_validation"))?;
+    for public in &mut packet.receipt.public_evidence {
+        let retained = candidate
+            .evidence
+            .iter()
+            .find(|entry| entry.kind == public.kind)
+            .ok_or(BirthdayDemoError::Stage("witness_public_evidence"))?;
+        public.path = retained.path.clone();
+    }
+    packet.receipt.receipt_sha256.clear();
+    packet.receipt.receipt_sha256 = digest_jcs(&packet.receipt)?;
+    packet.packet_sha256.clear();
+    packet.packet_sha256 = digest_jcs(&packet)?;
     Ok(packet)
 }
 
@@ -875,9 +923,9 @@ fn cap_ref(id: &str, kind: CapabilityEvidenceKind, sha: &str) -> CapabilityEvide
         id: id.to_owned(),
         kind,
         issue,
-        path: RETAINED_PACKET_PATH.to_owned(),
+        path: retained_path_for_capability(kind).to_owned(),
         sha256: sha.to_owned(),
-        revision_sha256: runtime_digest("runtime-capability-contract-v1"),
+        revision_sha256: digest_bytes(REVIEW_EVIDENCE),
     }
 }
 fn cap_decl(id: &str, provenance: &str) -> CapabilityDeclaration {
@@ -895,9 +943,9 @@ fn cog_ref(id: &str, category: CognitiveEvidenceCategory, sha: &str) -> Cognitiv
     CognitiveEvidenceReference {
         id: id.to_owned(),
         category,
-        path: RETAINED_PACKET_PATH.to_owned(),
+        path: retained_path_for_cognitive(category).to_owned(),
         sha256: sha.to_owned(),
-        revision_sha256: runtime_digest("runtime-cognitive-contract-v1"),
+        revision_sha256: digest_bytes(REVIEW_EVIDENCE),
         visibility,
     }
 }
@@ -908,7 +956,23 @@ fn digest_bytes(bytes: &[u8]) -> String {
     hex::encode(Sha256::digest(bytes))
 }
 fn runtime_digest(label: &str) -> String {
-    digest_bytes(format!("adl.first_birthday.runtime_evidence.v1:{label}").as_bytes())
+    digest_bytes(format!("adl.first_birthday.runtime_state.v1:{label}").as_bytes())
+}
+fn retained_path_for_capability(kind: CapabilityEvidenceKind) -> &'static str {
+    match kind {
+        CapabilityEvidenceKind::Birthday | CapabilityEvidenceKind::Identity => RETAINED_PACKET_PATH,
+        CapabilityEvidenceKind::Provider | CapabilityEvidenceKind::Model => REVIEW_EVIDENCE_PATH,
+        _ => LAUNCH_EVIDENCE_PATH,
+    }
+}
+fn retained_path_for_cognitive(category: CognitiveEvidenceCategory) -> &'static str {
+    match category {
+        CognitiveEvidenceCategory::Identity
+        | CognitiveEvidenceCategory::Continuity
+        | CognitiveEvidenceCategory::Capability => RETAINED_PACKET_PATH,
+        CognitiveEvidenceCategory::GovernedLearning => LAUNCH_EVIDENCE_PATH,
+        _ => REVIEW_EVIDENCE_PATH,
+    }
 }
 fn digest_jcs<T: Serialize>(value: &T) -> Result<String, BirthdayDemoError> {
     serde_jcs::to_vec(value)

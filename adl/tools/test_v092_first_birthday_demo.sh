@@ -23,6 +23,40 @@ case "${1:-}" in
     actual="$(uname -s | tr '[:upper:]' '[:lower:]')"
     case "$platform:$actual" in macos:darwin|linux:linux) ;; *) echo "requested native $platform proof on $actual" >&2; exit 65 ;; esac
     "$0" --positive
+    architecture="$(uname -m)"
+    source_revision="$(git -C "$repo_root" rev-parse HEAD)"
+    packet_sha256="$(shasum -a 256 "$repo_root/demos/v0.92/first-birthday/positive.json" | awk '{print $1}')"
+    receipt="$repo_root/.csdlc/evidence/5836/native-${platform}-receipt.json"
+    python3 - "$receipt" "$platform" "$actual" "$architecture" "$source_revision" "$packet_sha256" <<'PY'
+import json
+import pathlib
+import sys
+
+receipt, platform, kernel, architecture, revision, packet_sha256 = sys.argv[1:]
+payload = {
+    "schema": "adl.first_birthday.native_receipt.v1",
+    "platform": platform,
+    "host_class": f"native-{kernel}-{architecture}",
+    "source_revision": revision,
+    "argv": [
+        "bash",
+        "adl/tools/test_v092_first_birthday_demo.sh",
+        "--native-platform",
+        platform,
+    ],
+    "result": "passed",
+    "packet": "demos/v0.92/first-birthday/positive.json",
+    "packet_sha256": packet_sha256,
+    "allowed_nondeterminism": [
+        "transient_runtime_directory",
+        "native_host_class_recorded_outside_semantic_packet",
+    ],
+}
+path = pathlib.Path(receipt)
+path.parent.mkdir(parents=True, exist_ok=True)
+path.write_text(json.dumps(payload, indent=2) + "\n")
+print(json.dumps(payload, separators=(",", ":")))
+PY
     ;;
   *)
     echo "usage: $0 --positive|--negative|--native-platform macos|linux" >&2

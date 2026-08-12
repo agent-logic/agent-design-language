@@ -46,6 +46,36 @@ def revision_covers?(root, receipt, paths)
   status.success?
 end
 
+def packet_evidence_valid?(root, packet)
+  evidence = packet.dig("candidate", "evidence")
+  return false unless evidence.is_a?(Array) && evidence.length == 10
+  by_kind = evidence.to_h { |entry| [entry["kind"], entry] }
+  return false unless by_kind.length == 10
+  packet_path = "demos/v0.92/first-birthday/positive.json"
+  expected_packet_digests = {
+    "stable_name" => Digest::SHA256.hexdigest(packet.dig("identity", "stable_name").to_s),
+    "identity_root" => packet.dig("identity", "record_sha256"),
+    "continuity_head" => packet.dig("continuity", "record_sha256"),
+    "memory_grounding" => packet.dig("identity", "continuity", "reference", "sha256"),
+    "witness_set" => packet.dig("witness_packet", "witness_set", "roster_sha256")
+  }
+  valid = by_kind.all? do |kind, entry|
+    path = entry["path"].to_s
+    digest = entry["sha256"].to_s
+    if path == packet_path
+      digest == expected_packet_digests[kind]
+    else
+      root.join(path).file? && digest == Digest::SHA256.file(root.join(path)).hexdigest
+    end
+  end
+  public_evidence = packet.dig("witness_packet", "receipt", "public_evidence")
+  valid && public_evidence.is_a?(Array) && public_evidence.length == evidence.length &&
+    public_evidence.all? do |entry|
+      retained = by_kind[entry["kind"]]
+      retained && entry["path"] == retained["path"] && entry["sha256"] == retained["sha256"]
+    end
+end
+
 positive_path = "demos/v0.92/first-birthday/positive.json"
 positive = read_json(root, positive_path)
 positive_valid = valid_packet?(positive, "complete") &&
@@ -53,7 +83,8 @@ positive_valid = valid_packet?(positive, "complete") &&
   positive.dig("witness_packet", "receipt", "disposition") == "witnesses_accepted" &&
   positive.dig("witness_packet", "receipt", "receipt_sha256").to_s.match?(/\A[0-9a-f]{64}\z/) &&
   positive.dig("witness_packet", "witness_set", "witnesses").is_a?(Array) &&
-  positive.dig("witness_packet", "witness_set", "witnesses").length == 4
+  positive.dig("witness_packet", "witness_set", "witnesses").length == 4 &&
+  packet_evidence_valid?(root, positive)
 
 lifecycle_cases = {
   "startup" => "process_startup", "wake" => "wake_or_resume",
@@ -93,11 +124,28 @@ platform_valid = {"macos" => macos, "linux" => linux}.all? do |platform, receipt
 end
 
 head, head_status = Open3.capture2("git", "rev-parse", "HEAD", chdir: root.to_s)
+status_text, status_status = Open3.capture2("git", "status", "--porcelain", chdir: root.to_s)
 index = read_json(root, ".csdlc/issues/5836/index.json")
 review_revision = index&.dig("review", "reviewed_revision").to_s
 review_sha = review_revision.match(/\Agit-blake3:([0-9a-f]{40}):[0-9a-f]{64}\z/)&.captures&.first
-review_valid = head_status.success? && index&.dig("review", "completed") == true &&
-  index&.dig("review", "findings") == [] && review_sha == head.strip
+reviewed_paths = implementation_paths + [
+  ".csdlc/evidence/5836",
+  "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+  "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
+  "docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md",
+  "docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md"
+]
+review_covers_head = review_sha && begin
+  _out, ancestor = Open3.capture2("git", "merge-base", "--is-ancestor", review_sha, "HEAD", chdir: root.to_s)
+  _out, unchanged = Open3.capture2("git", "diff", "--quiet", review_sha, "HEAD", "--", *reviewed_paths, chdir: root.to_s)
+  ancestor.success? && unchanged.success?
+end
+common_dir, common_status = Open3.capture2("git", "rev-parse", "--git-common-dir", chdir: root.to_s)
+doctor = common_status.success? ? Pathname.new(common_dir.strip).cleanpath.parent.join(".adl/bin/csdlc-v2/csdlc-doctor") : nil
+doctor_output, doctor_status = doctor&.executable? ? Open3.capture2(doctor.to_s, "--repo", root.to_s, "--issue", "5836") : ["", nil]
+doctor_pass = doctor_status&.success? && JSON.parse(doctor_output)["status"] == "pass" rescue false
+review_valid = head_status.success? && status_status.success? && status_text.empty? && doctor_pass &&
+  index&.dig("review", "completed") == true && index&.dig("review", "findings") == [] && review_covers_head
 
 docs = [
   "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
@@ -105,16 +153,18 @@ docs = [
   "docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md",
   "docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md"
 ]
+required_doc_boundaries = {
+  docs[1] => "does not claim the birthday has been publicly accepted or launched",
+  docs[2] => "public launch approval exists without operator authorization",
+  docs[3] => "operator"
+}
 unsupported_claims_resolved = docs.all? { |path| root.join(path).file? } &&
+  required_doc_boundaries.all? { |path, phrase| root.join(path).read.downcase.include?(phrase) } &&
   positive["non_claims"].is_a?(Array) && positive["non_claims"].include?("no_publication_authorization")
 
-gate = read_json(root, ".csdlc/evidence/5836/publication-gate.json") || {}
-authorization_path = gate.dig("operator_publication_authorization", "evidence").to_s
-authorization = authorization_path.empty? ? nil : read_json(root, authorization_path)
-operator_authorized = authorization &&
-  authorization["schema"] == "adl.first_birthday.operator_publication_authorization.v1" &&
-  authorization["issue"] == 5836 && authorization["authorized"] == true &&
-  authorization["revision"] == head.strip
+# WP-18 cannot grant publication authority. That remains an external operator
+# gate owned by the release tail, so this check-only validator always blocks it.
+operator_authorized = false
 
 checks = {
   "missing_accepted_witness_receipt_proof" => positive_valid,
