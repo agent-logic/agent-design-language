@@ -24,7 +24,8 @@ use crate::distributed::{
     },
     membership_coordinator::{
         membership_set_sha256, stable_map_sha256, verify_authorized_transition_inputs,
-        AuthorizedMembershipTransition, MembershipCoordinator, PromoteVoterArtifact,
+        AuthorizedMembershipTransition, GovernedMembershipRuntime, MembershipCoordinator,
+        MembershipCoordinatorError, MembershipCoordinatorPhase, PromoteVoterArtifact,
         VerifiedPromoteVoter,
     },
     polis_runtime::{
@@ -1300,11 +1301,19 @@ async fn real_four_node_learner_replication() {
     };
     let coordinator_root = raft_root.path().join("membership-coordinator");
     fs::create_dir(&coordinator_root).unwrap();
-    let mut coordinator = MembershipCoordinator::open(
+    let coordinator = MembershipCoordinator::open(
         &coordinator_root,
         Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
     )
     .unwrap();
+    let mut runtime = GovernedMembershipRuntime::new(
+        coordinator,
+        factory.clone(),
+        nodes[&leader].clone(),
+        machines[&leader].clone(),
+        published_membership,
+        published_authority,
+    );
     for message_kind in ["vote", "generic", "unknown"] {
         assert_eq!(
             factory.request_bytes(4, message_kind, b"{}".to_vec()).await,
@@ -1313,24 +1322,16 @@ async fn real_four_node_learner_replication() {
     }
     let published = tokio::time::timeout(
         Duration::from_secs(20),
-        coordinator.promote_voter_to_published(
-            &promotion,
-            &factory,
-            &nodes[&leader],
-            &machines[&leader],
-            &transition,
-            &mut published_membership,
-            &mut published_authority,
-            candidate_authority,
-        ),
+        runtime.promote(&promotion, &transition, candidate_authority),
     )
     .await
     .expect("governed promotion timed out")
     .unwrap();
     assert_ne!(published, [0; 32]);
-    assert_eq!(coordinator.published_generation(), 1);
+    assert_eq!(runtime.coordinator().published_generation(), 1);
     assert_eq!(
-        published_membership
+        runtime
+            .membership()
             .member(&admission.identity().node_id)
             .unwrap()
             .role,
@@ -1442,7 +1443,7 @@ async fn real_four_node_learner_replication() {
     assert_eq!(voters.len(), 3);
     assert!(!voters.contains_key(&4));
 
-    let removal_old_stable_ids = published_authority.raft_ids.clone();
+    let removal_old_stable_ids = runtime.authority().raft_ids.clone();
     let mut removal_target_stable_ids = removal_old_stable_ids.clone();
     removal_target_stable_ids.remove(removal_identity.guardian_id.as_bytes());
     let removal_old_membership = removal_old_stable_ids
@@ -1485,34 +1486,65 @@ async fn real_four_node_learner_replication() {
         old_membership: removal_old_membership,
         target_membership: removal_target_membership,
     };
-    let current_authority = published_authority.clone();
     let removed = tokio::time::timeout(
         Duration::from_secs(20),
-        coordinator.remove_voter_to_published(
+        runtime.remove(
             &removal_result,
             &removal_identity,
             voter_cut_sha256,
             now,
-            &factory,
-            &nodes[&leader],
-            &machines[&leader],
             &removal_transition,
-            &current_authority,
-            &mut published_membership,
-            &mut published_authority,
         ),
     )
     .await
     .expect("governed removal timed out")
     .unwrap();
     assert_ne!(removed, [0; 32]);
-    assert_eq!(coordinator.published_generation(), 2);
-    assert!(published_membership
+    assert_eq!(runtime.coordinator().published_generation(), 2);
+    assert!(runtime
+        .membership()
         .member(&removal_identity.node_id)
         .is_none());
-    assert!(!published_authority
+    assert!(!runtime
+        .authority()
         .raft_ids
         .contains_key(removal_identity.guardian_id.as_bytes()));
+    nodes[&3].shutdown().await.unwrap();
+    let rejoin_node_root = raft_root.path().join("node-3-rejoin");
+    fs::create_dir(&rejoin_node_root).unwrap();
+    let rejoin_checkpoint: Arc<dyn ConsensusCheckpointAuthority> =
+        Arc::new(MemoryCheckpoint::default());
+    let rejoin_log =
+        PolisLogStore::open(&rejoin_node_root, 3, Arc::clone(&rejoin_checkpoint)).unwrap();
+    let rejoin_machine =
+        PolisStateMachineStore::open(&rejoin_node_root, 3, rejoin_checkpoint).unwrap();
+    let rejoin_configuration = Arc::new(
+        openraft::Config {
+            cluster_name: "adl-authorized-rejoin-test".to_owned(),
+            heartbeat_interval: 50,
+            election_timeout_min: 30_000,
+            election_timeout_max: 31_000,
+            ..Default::default()
+        }
+        .validate()
+        .unwrap(),
+    );
+    let rejoin_raft = PolisRaft::new(
+        3,
+        rejoin_configuration,
+        AuthorizedLearnerMemoryNetwork {
+            local: 3,
+            peers: Arc::clone(&peers),
+            learner_factories: Arc::clone(&learner_factories),
+        },
+        rejoin_log,
+        rejoin_machine.clone(),
+    )
+    .await
+    .unwrap();
+    nodes.insert(3, rejoin_raft);
+    machines.insert(3, rejoin_machine);
+    *peers.write().unwrap() = nodes.clone();
 
     let mut recovered = removal_identity.clone();
     recovered.node_id = "node-3-recovered".to_owned();
@@ -1549,32 +1581,27 @@ async fn real_four_node_learner_replication() {
         now,
     )
     .unwrap();
-    let enrollment_log_index = published_membership.committed_log_index() + 1;
+    let enrollment_log_index = runtime.membership().committed_log_index() + 1;
     factory
         .expire_learner_admission(admission.deadline_unix_seconds)
         .await
         .unwrap();
-    let enrolled = coordinator
-        .enroll_non_voting_to_published(
-            &recovery_admission,
-            &factory,
-            now,
-            enrollment_log_index,
-            &mut published_membership,
-        )
+    let enrolled = runtime
+        .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
         .await
         .unwrap();
     assert_ne!(enrolled, [0; 32]);
-    assert_eq!(coordinator.published_generation(), 3);
+    assert_eq!(runtime.coordinator().published_generation(), 3);
     assert_eq!(
-        published_membership
+        runtime
+            .membership()
             .member(&recovered.node_id)
             .unwrap()
             .role,
         MemberRole::NonVoting
     );
 
-    let rejoin_old_stable_ids = published_authority.raft_ids.clone();
+    let rejoin_old_stable_ids = runtime.authority().raft_ids.clone();
     let mut rejoin_target_stable_ids = rejoin_old_stable_ids.clone();
     rejoin_target_stable_ids.insert(recovered.guardian_id.as_bytes().to_vec(), 3);
     let rejoin_old_membership = rejoin_old_stable_ids
@@ -1601,7 +1628,7 @@ async fn real_four_node_learner_replication() {
         admission.deadline_unix_seconds,
     )
     .unwrap();
-    let rejoin_authority_index = removal_authority_index + 200;
+    let rejoin_authority_index = enrollment_log_index;
     let rejoin_result = test_published_reconciliation_token(
         authority_identity(),
         "real-four-node-rejoin-promote-3",
@@ -1638,8 +1665,104 @@ async fn real_four_node_learner_replication() {
         ),
         Ok(())
     );
-    assert_eq!(coordinator.published_generation(), 3);
-    println!("ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_and_promotion_authority_required");
+    let recovered_authority = VoterAuthority {
+        guardian_id: recovered.guardian_id.as_bytes().to_vec(),
+        trust_domain_id: recovered.trust_domain.as_bytes().to_vec(),
+        certificate_generation: recovered.certificate_generation,
+        purpose: ControlCertificatePurpose::AuthorityEndorsement,
+        not_before_unix_seconds: now - 1,
+        not_after_unix_seconds: admission.deadline_unix_seconds,
+        revoked: false,
+        control_public_key: recovered.guardian_control_public_key,
+    };
+    runtime.inject_crash_after_membership_change();
+    let rejoined_result = tokio::time::timeout(
+        Duration::from_secs(20),
+        runtime.promote(&rejoin, &rejoin_transition, recovered_authority.clone()),
+    )
+    .await
+    .expect("governed rejoin timed out");
+    let rejoined = match rejoined_result {
+        Ok(result) => result,
+        Err(MembershipCoordinatorError::StateRegression)
+            if runtime.coordinator().active_phase()
+                == Some(MembershipCoordinatorPhase::LearnerCaughtUp) =>
+        {
+            assert_eq!(runtime.coordinator().published_generation(), 3);
+            assert_eq!(
+                runtime
+                    .membership()
+                    .member(&recovered.node_id)
+                    .unwrap()
+                    .role,
+                MemberRole::NonVoting,
+                "local membership must not become visible before durable publication"
+            );
+            assert!(!runtime.authority().raft_ids.values().any(|id| *id == 3));
+            nodes[&1].trigger().elect().await.unwrap();
+            tokio::time::timeout(Duration::from_secs(10), async {
+                loop {
+                    if nodes[&1].metrics().borrow().current_leader == Some(1) {
+                        break;
+                    }
+                    tokio::time::sleep(Duration::from_millis(25)).await;
+                }
+            })
+            .await
+            .expect("rejoin resume election timed out");
+            tokio::time::timeout(Duration::from_secs(10), async {
+                loop {
+                    let history = machines[&1].applied_membership_history().await;
+                    if history.iter().any(|entry| {
+                        entry.log_id.index > rejoin_authority_index
+                            && entry.joint_configs == vec![BTreeSet::from([1, 2, 3, 4])]
+                    }) {
+                        break;
+                    }
+                    tokio::time::sleep(Duration::from_millis(25)).await;
+                }
+            })
+            .await
+            .expect("rejoin committed history did not replicate");
+            runtime.resume_consensus(nodes[&1].clone(), machines[&1].clone());
+            runtime
+                .promote(&rejoin, &rejoin_transition, recovered_authority.clone())
+                .await
+                .unwrap()
+        }
+        Err(error) => panic!("unexpected rejoin error: {error:?}"),
+    };
+    assert_ne!(rejoined, [0; 32]);
+    assert_eq!(runtime.coordinator().published_generation(), 4);
+    assert_eq!(
+        runtime
+            .promote(&rejoin, &rejoin_transition, recovered_authority.clone(),)
+            .await
+            .unwrap(),
+        rejoined,
+        "exact published retry must return the durable result without another transition"
+    );
+    assert_eq!(runtime.coordinator().published_generation(), 4);
+    assert_eq!(
+        runtime
+            .membership()
+            .member(&recovered.node_id)
+            .unwrap()
+            .role,
+        MemberRole::Voter
+    );
+    assert!(runtime
+        .authority()
+        .raft_membership
+        .voter_ids()
+        .any(|voter| voter == 3));
+    assert!(machines[&1]
+        .applied_membership_history()
+        .await
+        .iter()
+        .any(|entry| entry.joint_configs
+            == vec![BTreeSet::from([1, 2, 4]), BTreeSet::from([1, 2, 3, 4])]));
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication");
     for raft in nodes.values() {
         raft.shutdown().await.unwrap();
     }

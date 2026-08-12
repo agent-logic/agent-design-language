@@ -142,6 +142,129 @@ impl CheckpointMetadataSource for MembershipCoordinatorState {
 pub struct MembershipCoordinator {
     store: CheckpointedJson<MembershipCoordinatorState>,
     envelope: DurableEnvelope<MembershipCoordinatorState>,
+    #[cfg(test)]
+    crash_after_membership_change: bool,
+}
+
+/// Runtime-owned production aggregate. Callers submit governed operations to
+/// this owner rather than composing coordinator phases or publication pieces.
+pub struct GovernedMembershipRuntime {
+    coordinator: MembershipCoordinator,
+    factory: SecurePolisNetworkFactory,
+    raft: PolisRaft,
+    state_machine: PolisStateMachineStore,
+    membership: MembershipState,
+    authority: AuthorityMembership,
+}
+
+impl GovernedMembershipRuntime {
+    pub fn new(
+        coordinator: MembershipCoordinator,
+        factory: SecurePolisNetworkFactory,
+        raft: PolisRaft,
+        state_machine: PolisStateMachineStore,
+        membership: MembershipState,
+        authority: AuthorityMembership,
+    ) -> Self {
+        Self {
+            coordinator,
+            factory,
+            raft,
+            state_machine,
+            membership,
+            authority,
+        }
+    }
+
+    pub async fn promote(
+        &mut self,
+        promotion: &VerifiedPromoteVoter,
+        transition: &AuthorizedMembershipTransition,
+        candidate: VoterAuthority,
+    ) -> MembershipCoordinatorResult<[u8; 32]> {
+        self.coordinator
+            .promote_voter_to_published(
+                promotion,
+                &self.factory,
+                &self.raft,
+                &self.state_machine,
+                transition,
+                &mut self.membership,
+                &mut self.authority,
+                candidate,
+            )
+            .await
+    }
+
+    /// Resume the same durable owner after a leader change. Operation identity
+    /// remains in the coordinator journal; only the live consensus handles are
+    /// replaced.
+    pub fn resume_consensus(&mut self, raft: PolisRaft, state_machine: PolisStateMachineStore) {
+        self.raft = raft;
+        self.state_machine = state_machine;
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub async fn remove(
+        &mut self,
+        result: &PublishedAuthorityResult,
+        expected_identity: &LearnerIdentity,
+        expected_voter_cut_sha256: [u8; 32],
+        now_unix_seconds: i64,
+        transition: &AuthorizedMembershipTransition,
+    ) -> MembershipCoordinatorResult<[u8; 32]> {
+        let current = self.authority.clone();
+        self.coordinator
+            .remove_voter_to_published(
+                result,
+                expected_identity,
+                expected_voter_cut_sha256,
+                now_unix_seconds,
+                &self.factory,
+                &self.raft,
+                &self.state_machine,
+                transition,
+                &current,
+                &mut self.membership,
+                &mut self.authority,
+            )
+            .await
+    }
+
+    pub async fn enroll_non_voting(
+        &mut self,
+        admission: &VerifiedLearnerAdmission,
+        now_unix_seconds: i64,
+        membership_event_log_index: u64,
+    ) -> MembershipCoordinatorResult<[u8; 32]> {
+        self.coordinator
+            .enroll_non_voting_to_published(
+                admission,
+                &self.factory,
+                now_unix_seconds,
+                membership_event_log_index,
+                &mut self.membership,
+            )
+            .await
+    }
+
+    pub fn membership(&self) -> &MembershipState {
+        &self.membership
+    }
+
+    pub fn authority(&self) -> &AuthorityMembership {
+        &self.authority
+    }
+
+    #[cfg(test)]
+    pub(crate) fn coordinator(&self) -> &MembershipCoordinator {
+        &self.coordinator
+    }
+
+    #[cfg(test)]
+    pub(crate) fn inject_crash_after_membership_change(&mut self) {
+        self.coordinator.inject_crash_after_membership_change();
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -155,14 +278,14 @@ pub struct AuthorizedMembershipTransition {
 /// Canonical, validated observation of the local membership and authority
 /// projections.  Its fields are intentionally private: completion APIs accept
 /// this evidence rather than caller-selected digests.
-pub struct ObservedMembershipParity {
+struct ObservedMembershipParity {
     membership_sha256: [u8; 32],
     authority_sha256: [u8; 32],
     committed_log_index: u64,
 }
 
 impl ObservedMembershipParity {
-    pub fn observe(
+    fn observe(
         membership: &MembershipState,
         authority: &AuthorityMembership,
         transition: &AuthorizedMembershipTransition,
@@ -228,10 +351,15 @@ impl MembershipCoordinator {
             checkpoint,
         )
         .map_err(|_| MembershipCoordinatorError::Storage)?;
-        Ok(Self { store, envelope })
+        Ok(Self {
+            store,
+            envelope,
+            #[cfg(test)]
+            crash_after_membership_change: false,
+        })
     }
 
-    pub fn begin_promotion(
+    fn begin_promotion(
         &mut self,
         promotion: &VerifiedPromoteVoter,
     ) -> MembershipCoordinatorResult<()> {
@@ -326,6 +454,9 @@ impl MembershipCoordinator {
         let mut next = self.envelope.payload().clone();
         let active = exact_active_mut(&mut next, removal.operation_sha256())?;
         set_receipt_once(&mut active.external_receipt, projection)?;
+        if active.phase != MembershipCoordinatorPhase::AuthorizedOld {
+            return Ok(());
+        }
         advance_phase(
             active,
             MembershipCoordinatorPhase::ExternalAuthorityObserved,
@@ -333,7 +464,7 @@ impl MembershipCoordinator {
         self.commit(next)
     }
 
-    pub fn observe_external_authority(
+    fn observe_external_authority(
         &mut self,
         promotion: &VerifiedPromoteVoter,
         receipt: &GovernedMembershipAuthorityReceipt,
@@ -348,6 +479,9 @@ impl MembershipCoordinator {
             }
         } else {
             active.external_receipt = Some(projection);
+        }
+        if active.phase != MembershipCoordinatorPhase::AuthorizedOld {
+            return Ok(());
         }
         advance_phase(
             active,
@@ -444,6 +578,7 @@ impl MembershipCoordinator {
             Some(_) => {}
             None => active.final_membership_log_index = Some(final_entry.log_id.index),
         }
+        next.committed_log_index = final_entry.log_id.index;
         self.commit(next)
     }
 
@@ -522,7 +657,7 @@ impl MembershipCoordinator {
             .map(|active| active.phase)
     }
 
-    pub async fn promote_voter_with_raft(
+    async fn promote_voter_with_raft(
         &mut self,
         promotion: &VerifiedPromoteVoter,
         current_receipt: &GovernedMembershipAuthorityReceipt,
@@ -550,9 +685,26 @@ impl MembershipCoordinator {
             self.record_learner_caught_up(promotion.operation_sha256)?;
         }
         if self.active_phase() == Some(MembershipCoordinatorPhase::LearnerCaughtUp) {
+            let history = state_machine.applied_membership_history().await;
+            if self
+                .record_committed_membership_history(
+                    promotion.operation_sha256,
+                    &history,
+                    &transition.old_membership,
+                    &transition.target_membership,
+                )
+                .is_ok()
+            {
+                return Ok(());
+            }
             raft.change_membership(transition.target_membership.clone(), false)
                 .await
                 .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+            #[cfg(test)]
+            if self.crash_after_membership_change {
+                self.crash_after_membership_change = false;
+                return Err(MembershipCoordinatorError::StateRegression);
+            }
         }
         let history = state_machine.applied_membership_history().await;
         self.record_committed_membership_history(
@@ -566,7 +718,7 @@ impl MembershipCoordinator {
     /// Governed non-voting enrollment and rejoin entrypoint. Exact retries
     /// re-observe the #202 generation, idempotently repair the local Join
     /// event, and return the same durable published result.
-    pub async fn enroll_non_voting_to_published(
+    async fn enroll_non_voting_to_published(
         &mut self,
         admission: &VerifiedLearnerAdmission,
         factory: &SecurePolisNetworkFactory,
@@ -580,11 +732,20 @@ impl MembershipCoordinator {
             .published_operation_sha256
             .is_some_and(|operation| operation == admission.operation_sha256())
         {
-            return self
+            let result = self
                 .envelope
                 .payload()
                 .published_result_sha256
-                .ok_or(MembershipCoordinatorError::StateRegression);
+                .ok_or(MembershipCoordinatorError::StateRegression)?;
+            if membership.member(&admission.identity().node_id).is_none() {
+                apply_local_membership_event(
+                    membership,
+                    admission.operation_sha256(),
+                    self.envelope.payload().committed_log_index,
+                    enrollment_operation(admission),
+                )?;
+            }
+            return Ok(result);
         }
         if self.envelope.payload().active.is_some() {
             return Err(MembershipCoordinatorError::StateRegression);
@@ -618,8 +779,9 @@ impl MembershipCoordinator {
         if activated != observed {
             return Err(MembershipCoordinatorError::ReceiptMismatch);
         }
+        let mut staged_membership = membership.clone();
         let identity = admission.identity();
-        match membership.member(&identity.node_id) {
+        match staged_membership.member(&identity.node_id) {
             Some(member)
                 if member.guardian_id == identity.guardian_id
                     && member.identity_generation == identity.certificate_generation
@@ -628,21 +790,13 @@ impl MembershipCoordinator {
                     && member.role == MemberRole::NonVoting => {}
             Some(_) => return Err(MembershipCoordinatorError::WrongIdentity),
             None => apply_local_membership_event(
-                membership,
+                &mut staged_membership,
                 admission.operation_sha256(),
                 membership_event_log_index,
-                MembershipOperation::Join {
-                    member: Member {
-                        node_id: identity.node_id.clone(),
-                        guardian_id: identity.guardian_id.clone(),
-                        identity_generation: identity.certificate_generation,
-                        guardian_control_public_key: identity.guardian_control_public_key,
-                        role: MemberRole::NonVoting,
-                    },
-                },
+                enrollment_operation(admission),
             )?,
         }
-        let membership_bytes = membership
+        let membership_bytes = staged_membership
             .snapshot()
             .map_err(|_| MembershipCoordinatorError::StateRegression)?;
         let result_sha256 = <[u8; 32]>::from(Sha256::digest(
@@ -662,6 +816,7 @@ impl MembershipCoordinator {
         next.published_operation_sha256 = Some(admission.operation_sha256());
         next.published_result_sha256 = Some(result_sha256);
         self.commit(next)?;
+        *membership = staged_membership;
         Ok(result_sha256)
     }
 
@@ -669,7 +824,7 @@ impl MembershipCoordinator {
     /// observations from the #202 factory itself, executes the standard Raft
     /// path, validates concrete local parity, checkpoints, and publishes.
     #[allow(clippy::too_many_arguments)]
-    pub async fn promote_voter_to_published(
+    async fn promote_voter_to_published(
         &mut self,
         promotion: &VerifiedPromoteVoter,
         factory: &SecurePolisNetworkFactory,
@@ -680,6 +835,42 @@ impl MembershipCoordinator {
         authority: &mut AuthorityMembership,
         candidate_authority: VoterAuthority,
     ) -> MembershipCoordinatorResult<[u8; 32]> {
+        verify_authorized_transition_inputs(
+            promotion,
+            &transition.old_stable_ids,
+            &transition.target_stable_ids,
+            &transition.old_membership,
+            &transition.target_membership,
+        )?;
+        if self
+            .envelope
+            .payload()
+            .published_operation_sha256
+            .is_some_and(|operation| operation == promotion.operation_sha256)
+        {
+            let result = self
+                .envelope
+                .payload()
+                .published_result_sha256
+                .ok_or(MembershipCoordinatorError::StateRegression)?;
+            if ObservedMembershipParity::observe(membership, authority, transition).is_ok() {
+                return Ok(result);
+            }
+            observe_old_parity(membership, authority, transition)?;
+            let mut staged_membership = membership.clone();
+            let mut staged_authority = authority.clone();
+            self.reconcile_promotion_states(
+                promotion,
+                transition,
+                &mut staged_membership,
+                &mut staged_authority,
+                candidate_authority,
+            )?;
+            ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
+            *membership = staged_membership;
+            *authority = staged_authority;
+            return Ok(result);
+        }
         observe_old_parity(membership, authority, transition)?;
         let receipt = factory
             .observe_learner_admission_receipt(promotion.enrollment_operation_sha256)
@@ -688,11 +879,13 @@ impl MembershipCoordinator {
             .ok_or(MembershipCoordinatorError::ReceiptMismatch)?;
         self.promote_voter_with_raft(promotion, &receipt, raft, state_machine, transition)
             .await?;
+        let mut staged_membership = membership.clone();
+        let mut staged_authority = authority.clone();
         self.reconcile_promotion_states(
             promotion,
             transition,
-            membership,
-            authority,
+            &mut staged_membership,
+            &mut staged_authority,
             candidate_authority,
         )?;
         let current = factory
@@ -700,8 +893,12 @@ impl MembershipCoordinator {
             .await
             .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?
             .ok_or(MembershipCoordinatorError::ReceiptMismatch)?;
-        let parity = ObservedMembershipParity::observe(membership, authority, transition)?;
-        self.publish_observed_parity(promotion.operation_sha256, &current, parity)
+        let parity =
+            ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
+        let result = self.publish_observed_parity(promotion.operation_sha256, &current, parity)?;
+        *membership = staged_membership;
+        *authority = staged_authority;
+        Ok(result)
     }
 
     /// Production removal entrypoint. Pending exclusion is activated through
@@ -709,7 +906,7 @@ impl MembershipCoordinator {
     /// publication requires the exact still-current exclusion receipt and
     /// concrete local parity.
     #[allow(clippy::too_many_arguments)]
-    pub async fn remove_voter_to_published(
+    async fn remove_voter_to_published(
         &mut self,
         result: &PublishedAuthorityResult,
         expected_identity: &LearnerIdentity,
@@ -739,6 +936,40 @@ impl MembershipCoordinator {
         {
             return Err(MembershipCoordinatorError::WrongStableMap);
         }
+        if self
+            .envelope
+            .payload()
+            .published_operation_sha256
+            .is_some_and(|operation| operation == removal.operation_sha256())
+        {
+            let result = self
+                .envelope
+                .payload()
+                .published_result_sha256
+                .ok_or(MembershipCoordinatorError::StateRegression)?;
+            if ObservedMembershipParity::observe(
+                published_membership,
+                published_authority,
+                transition,
+            )
+            .is_ok()
+            {
+                return Ok(result);
+            }
+            observe_old_parity(published_membership, current_authority, transition)?;
+            let mut staged_membership = published_membership.clone();
+            let mut staged_authority = published_authority.clone();
+            self.reconcile_removal_states(
+                &removal,
+                transition,
+                &mut staged_membership,
+                &mut staged_authority,
+            )?;
+            ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
+            *published_membership = staged_membership;
+            *published_authority = staged_authority;
+            return Ok(result);
+        }
         observe_old_parity(published_membership, current_authority, transition)?;
         self.begin_removal(&removal, transition)?;
         let receipt = factory
@@ -756,9 +987,20 @@ impl MembershipCoordinator {
             self.record_learner_caught_up(removal.operation_sha256())?;
         }
         if self.active_phase() == Some(MembershipCoordinatorPhase::LearnerCaughtUp) {
-            raft.change_membership(transition.target_membership.clone(), false)
-                .await
-                .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+            let history = state_machine.applied_membership_history().await;
+            if self
+                .record_committed_membership_history(
+                    removal.operation_sha256(),
+                    &history,
+                    &transition.old_membership,
+                    &transition.target_membership,
+                )
+                .is_err()
+            {
+                raft.change_membership(transition.target_membership.clone(), false)
+                    .await
+                    .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+            }
         }
         let history = state_machine.applied_membership_history().await;
         self.record_committed_membership_history(
@@ -767,35 +1009,43 @@ impl MembershipCoordinator {
             &transition.old_membership,
             &transition.target_membership,
         )?;
+        let mut staged_membership = published_membership.clone();
+        let mut staged_authority = published_authority.clone();
         self.reconcile_removal_states(
             &removal,
             transition,
-            published_membership,
-            published_authority,
+            &mut staged_membership,
+            &mut staged_authority,
         )?;
         let current = factory
             .observe_pending_exclusion_receipt(removal.operation_sha256())
             .await
             .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?
             .ok_or(MembershipCoordinatorError::ReceiptMismatch)?;
-        let parity = ObservedMembershipParity::observe(
-            published_membership,
-            published_authority,
-            transition,
-        )?;
-        self.publish_observed_parity(removal.operation_sha256(), &current, parity)
+        let parity =
+            ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
+        let result = self.publish_observed_parity(removal.operation_sha256(), &current, parity)?;
+        *published_membership = staged_membership;
+        *published_authority = staged_authority;
+        Ok(result)
     }
 
     fn final_membership_log_index(
         &self,
         operation_sha256: [u8; 32],
     ) -> MembershipCoordinatorResult<u64> {
-        self.envelope
-            .payload()
+        let state = self.envelope.payload();
+        state
             .active
             .as_ref()
             .filter(|active| active.operation_sha256 == operation_sha256)
             .and_then(|active| active.final_membership_log_index)
+            .or_else(|| {
+                state
+                    .published_operation_sha256
+                    .filter(|published| *published == operation_sha256)
+                    .map(|_| state.committed_log_index)
+            })
             .ok_or(MembershipCoordinatorError::StateRegression)
     }
 
@@ -869,7 +1119,7 @@ impl MembershipCoordinator {
     /// Complete publication only from concrete local projections that have
     /// already been checked for exact voter, stable-id, key, certificate,
     /// configuration, and committed-index parity.
-    pub fn publish_observed_parity(
+    fn publish_observed_parity(
         &mut self,
         operation_sha256: [u8; 32],
         observed_receipt: &GovernedMembershipAuthorityReceipt,
@@ -913,6 +1163,11 @@ impl MembershipCoordinator {
             .map_err(|_| MembershipCoordinatorError::Storage)?;
         Ok(())
     }
+
+    #[cfg(test)]
+    fn inject_crash_after_membership_change(&mut self) {
+        self.crash_after_membership_change = true;
+    }
 }
 
 fn apply_local_membership_event(
@@ -938,14 +1193,32 @@ fn apply_local_membership_event(
         .map_err(|_| MembershipCoordinatorError::StateRegression)
 }
 
+fn enrollment_operation(admission: &VerifiedLearnerAdmission) -> MembershipOperation {
+    let identity = admission.identity();
+    MembershipOperation::Join {
+        member: Member {
+            node_id: identity.node_id.clone(),
+            guardian_id: identity.guardian_id.clone(),
+            identity_generation: identity.certificate_generation,
+            guardian_control_public_key: identity.guardian_control_public_key,
+            role: MemberRole::NonVoting,
+        },
+    }
+}
+
 fn observe_old_parity(
     membership: &MembershipState,
     authority: &AuthorityMembership,
     transition: &AuthorizedMembershipTransition,
 ) -> MembershipCoordinatorResult<ObservedMembershipParity> {
+    if authority.committed_log_index > membership.committed_log_index() {
+        return Err(MembershipCoordinatorError::StateRegression);
+    }
+    let mut comparable_authority = authority.clone();
+    comparable_authority.committed_log_index = membership.committed_log_index();
     ObservedMembershipParity::observe(
         membership,
-        authority,
+        &comparable_authority,
         &AuthorizedMembershipTransition {
             old_stable_ids: transition.old_stable_ids.clone(),
             target_stable_ids: transition.old_stable_ids.clone(),
