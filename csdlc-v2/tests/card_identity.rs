@@ -326,6 +326,49 @@ fn destination_collision_cleans_stage_and_retry_succeeds() {
     assert_eq!(recovered.generation, record.generation + 1);
 }
 
+#[cfg(unix)]
+#[test]
+fn journal_owned_inode_prevents_identical_byte_replacement_deletion() {
+    use std::os::unix::fs::MetadataExt;
+    let temp = tempfile::tempdir().unwrap();
+    assert!(std::process::Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(temp.path())
+        .status()
+        .unwrap()
+        .success());
+    let record = bootstrap_at(
+        temp.path(),
+        299,
+        ".csdlc/prepared/legacy/design.md",
+        ".csdlc/prepared/legacy/diagram.mmd",
+    );
+    let destination = temp.path().join("docs/issues/299/design.md");
+    fs::create_dir_all(destination.parent().unwrap()).unwrap();
+    fs::write(&destination, b"design bytes").unwrap();
+    let owned = fs::metadata(&destination).unwrap();
+    fs::remove_file(&destination).unwrap();
+    fs::write(&destination, b"design bytes").unwrap();
+    let common = String::from_utf8(
+        std::process::Command::new("git")
+            .args(["rev-parse", "--path-format=absolute", "--git-common-dir"])
+            .current_dir(temp.path())
+            .output()
+            .unwrap()
+            .stdout,
+    )
+    .unwrap();
+    let journal_dir = std::path::Path::new(common.trim()).join("csdlc-v2/recovery-journals");
+    fs::create_dir_all(&journal_dir).unwrap();
+    fs::write(journal_dir.join("299.json"), serde_json::to_vec(&serde_json::json!({"schema":"csdlc.initialized_design_envelope_recovery_journal.v1","issue":299,"pre_generation":record.generation,"pre_digest":record.digest,"post_generation":record.generation+1,"old_design_path":record.design_path,"old_diagram_path":record.diagram_path,"new_design_path":"docs/issues/299/design.md","new_diagram_path":"docs/issues/299/diagram.mmd","design_digest":blake3::hash(b"design bytes").to_hex().to_string(),"diagram_digest":blake3::hash(b"diagram bytes").to_hex().to_string(),"design_identity":[owned.dev(),owned.ino()],"diagram_identity":null,"phase":"design_installed"})).unwrap()).unwrap();
+    assert!(recover_initialized_design_envelope(
+        &Store::new(temp.path()),
+        recovery_request(&record)
+    )
+    .is_err());
+    assert_eq!(fs::read(destination).unwrap(), b"design bytes");
+}
+
 #[test]
 fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
     let temp = tempfile::tempdir().unwrap();
@@ -372,6 +415,11 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
     );
     fs::create_dir_all(linked.join("docs/issues/297")).unwrap();
     fs::write(linked.join("docs/issues/297/design.md"), b"design bytes").unwrap();
+    fs::hard_link(
+        linked.join("docs/issues/297/design.md"),
+        linked.join("docs/issues/297/.design.md.csdlc-stage"),
+    )
+    .unwrap();
     let common = String::from_utf8(
         std::process::Command::new("git")
             .args(["rev-parse", "--path-format=absolute", "--git-common-dir"])

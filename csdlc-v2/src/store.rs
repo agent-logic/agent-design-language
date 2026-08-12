@@ -1366,6 +1366,14 @@ struct DesignEnvelopeRecoveryJournal {
     new_diagram_path: String,
     design_digest: String,
     diagram_digest: String,
+    #[serde(default)]
+    design_identity: Option<(u64, u64)>,
+    #[serde(default)]
+    diagram_identity: Option<(u64, u64)>,
+    #[serde(default)]
+    post_state_digest: Option<String>,
+    #[serde(default)]
+    audit_sequence: Option<u64>,
     phase: String,
 }
 
@@ -1484,30 +1492,48 @@ pub fn recover_initialized_design_envelope(
         new_diagram_path: request.new_diagram_path.clone(),
         design_digest: old_design_digest.clone(),
         diagram_digest: old_diagram_digest.clone(),
+        design_identity: None,
+        diagram_identity: None,
+        post_state_digest: None,
+        audit_sequence: None,
         phase: "prepared".into(),
     };
     write_recovery_journal(store.root(), &journal)?;
-    stage_and_install_authored(
+    journal.design_identity = Some(stage_and_install_authored(
         store.root(),
         Path::new(&request.new_design_path),
         &design_bytes,
-    )?;
+    )?);
     journal.phase = "design_installed".into();
     write_recovery_journal(store.root(), &journal)?;
-    if let Err(error) = stage_and_install_authored(
+    cleanup_stage(
+        store.root(),
+        Path::new(&request.new_design_path),
+        &old_design_digest,
+    )?;
+    match stage_and_install_authored(
         store.root(),
         Path::new(&request.new_diagram_path),
         &diagram_bytes,
     ) {
-        let _ = remove_authored_if_digest(
-            store.root(),
-            Path::new(&request.new_design_path),
-            &old_design_digest,
-        );
-        return Err(error);
+        Ok(identity) => journal.diagram_identity = Some(identity),
+        Err(error) => {
+            let _ = remove_authored_if_owned(
+                store.root(),
+                Path::new(&request.new_design_path),
+                &old_design_digest,
+                journal.design_identity,
+            );
+            return Err(error);
+        }
     }
     journal.phase = "artifacts_installed".into();
     write_recovery_journal(store.root(), &journal)?;
+    cleanup_stage(
+        store.root(),
+        Path::new(&request.new_diagram_path),
+        &old_diagram_digest,
+    )?;
     let mut cards = store.load_cards(request.issue)?;
     verify_card_projections(store, &record, &cards)?;
     for kind in [CardKind::Spp, CardKind::Vpp] {
@@ -1561,6 +1587,10 @@ pub fn recover_initialized_design_envelope(
     let mut operation_value: serde_json::Value = serde_json::from_str(operation)?;
     operation_value["post_state_digest"] = serde_json::Value::String(post_state_digest);
     *operation = operation_value.to_string();
+    journal.post_state_digest = Some(canonical_recovery_post_state_digest(&record)?);
+    journal.audit_sequence = record.audit.last().map(|event| event.sequence);
+    journal.phase = "state_prepared".into();
+    write_recovery_journal(store.root(), &journal)?;
     record.digest = record_digest(&record)?;
     if let Err(error) = store.commit(request.issue, &record, &cards, false) {
         if store.load_record(request.issue).is_ok_and(|installed| {
@@ -1569,15 +1599,17 @@ pub fn recover_initialized_design_envelope(
             let _ = remove_recovery_journal(store.root(), request.issue);
             return Ok(record);
         }
-        let _ = remove_authored_if_digest(
+        let _ = remove_authored_if_owned(
             store.root(),
             Path::new(&request.new_design_path),
             &old_design_digest,
+            journal.design_identity,
         );
-        let _ = remove_authored_if_digest(
+        let _ = remove_authored_if_owned(
             store.root(),
             Path::new(&request.new_diagram_path),
             &old_diagram_digest,
+            journal.diagram_identity,
         );
         return Err(error);
     }
@@ -1636,10 +1668,21 @@ fn recovery_post_state_matches(
         && record.design_path == journal.new_design_path
         && record.diagram_path == journal.new_diagram_path
         && matches!(record.design_review, DesignReview::Pending)
+        && journal.post_state_digest.as_ref().is_some_and(|expected| {
+            canonical_recovery_post_state_digest(record).is_ok_and(|actual| &actual == expected)
+        })
         && record.audit.last().is_some_and(|event| {
-            event
-                .operation
-                .contains("recover_initialized_design_envelope")
+            Some(event.sequence) == journal.audit_sequence
+                && serde_json::from_str::<serde_json::Value>(&event.operation)
+                    .ok()
+                    .and_then(|value| {
+                        value
+                            .get("operation")
+                            .and_then(|v| v.as_str())
+                            .map(str::to_owned)
+                    })
+                    .as_deref()
+                    == Some("recover_initialized_design_envelope")
         })
 }
 
@@ -1688,15 +1731,17 @@ fn reconcile_design_envelope_journal(store: &Store, record: &IssueRecord) -> Res
         && record.design_path == journal.old_design_path
         && record.diagram_path == journal.old_diagram_path
     {
-        remove_authored_if_digest(
+        remove_authored_if_owned(
             store.root(),
             Path::new(&journal.new_design_path),
             &journal.design_digest,
+            journal.design_identity,
         )?;
-        remove_authored_if_digest(
+        remove_authored_if_owned(
             store.root(),
             Path::new(&journal.new_diagram_path),
             &journal.diagram_digest,
+            journal.diagram_identity,
         )?;
         return remove_recovery_journal(store.root(), record.issue);
     }
@@ -1719,29 +1764,34 @@ fn require_authored_digest(root: &Path, relative: &str, expected: &str) -> Resul
 }
 
 #[cfg(unix)]
-fn stage_and_install_authored(root: &Path, relative: &Path, bytes: &[u8]) -> Result<()> {
+fn staged_authored_path(relative: &Path) -> Result<PathBuf> {
     let file_name = relative.file_name().ok_or_else(|| {
         V2Error::new(
             ErrorCode::InvalidInput,
             "authored destination file name missing",
         )
     })?;
-    let staged = relative.with_file_name(format!(".{}.csdlc-stage", file_name.to_string_lossy()));
+    Ok(relative.with_file_name(format!(".{}.csdlc-stage", file_name.to_string_lossy())))
+}
+
+#[cfg(unix)]
+fn cleanup_stage(root: &Path, relative: &Path, expected: &str) -> Result<()> {
+    unlink_anchored(root, &staged_authored_path(relative)?, Some(expected))
+}
+
+#[cfg(unix)]
+fn stage_and_install_authored(root: &Path, relative: &Path, bytes: &[u8]) -> Result<(u64, u64)> {
+    let staged = staged_authored_path(relative)?;
     write_authored_exclusive(root, &staged, bytes)?;
     if let Err(error) = link_no_replace_anchored(root, &staged, relative) {
         let _ = unlink_anchored(root, &staged, Some(&digest(bytes)));
         return Err(error);
     }
-    if let Err(error) = unlink_anchored(root, &staged, Some(&digest(bytes))) {
-        let _ = unlink_anchored(root, relative, Some(&digest(bytes)));
-        let _ = unlink_anchored(root, &staged, Some(&digest(bytes)));
-        return Err(error);
-    }
-    Ok(())
+    file_identity_no_follow(root, relative)
 }
 
 #[cfg(not(unix))]
-fn stage_and_install_authored(_root: &Path, _relative: &Path, _bytes: &[u8]) -> Result<()> {
+fn stage_and_install_authored(_root: &Path, _relative: &Path, _bytes: &[u8]) -> Result<(u64, u64)> {
     Err(V2Error::new(
         ErrorCode::UnsafeCheckout,
         "safe authored artifact installation requires anchored platform primitives",
@@ -1962,11 +2012,13 @@ fn unlink_anchored(root: &Path, relative: &Path, expected_digest: Option<&str>) 
         }
         use std::os::unix::fs::MetadataExt;
         let quarantine = relative.with_file_name(format!(
-            ".{}.csdlc-delete",
+            ".{}.csdlc-delete-{}-{}",
             relative
                 .file_name()
                 .expect("cleanup file name")
-                .to_string_lossy()
+                .to_string_lossy(),
+            opened.dev(),
+            opened.ino()
         ));
         rename_no_replace_anchored(root, relative, &quarantine)?;
         let quarantined = match read_opened_metadata_no_follow(root, &quarantine) {
@@ -2011,6 +2063,13 @@ fn read_opened_metadata_no_follow(root: &Path, relative: &Path) -> Result<std::f
         return Err(std::io::Error::last_os_error().into());
     }
     Ok(unsafe { File::from_raw_fd(fd) }.metadata()?)
+}
+
+#[cfg(unix)]
+fn file_identity_no_follow(root: &Path, relative: &Path) -> Result<(u64, u64)> {
+    use std::os::unix::fs::MetadataExt;
+    let metadata = read_opened_metadata_no_follow(root, relative)?;
+    Ok((metadata.dev(), metadata.ino()))
 }
 
 #[cfg(target_os = "macos")]
@@ -2075,7 +2134,66 @@ fn write_authored_exclusive(_root: &Path, _relative: &Path, _bytes: &[u8]) -> Re
     ))
 }
 
-fn remove_authored_if_digest(root: &Path, relative: &Path, expected: &str) -> Result<()> {
+fn remove_authored_if_owned(
+    root: &Path,
+    relative: &Path,
+    expected: &str,
+    identity: Option<(u64, u64)>,
+) -> Result<()> {
+    let Some(identity) = identity else {
+        // A crash before the journal identity update leaves the retained stage
+        // as the ownership witness for the installed hard link.
+        let stage = staged_authored_path(relative)?;
+        let stage_identity = match file_identity_no_follow(root, &stage) {
+            Ok(value) => value,
+            Err(_) => {
+                if read_regular_authored_artifact_with_hook(root, relative, |_| {})?.is_none() {
+                    return Ok(());
+                }
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "recovery artifact ownership is unproven",
+                ));
+            }
+        };
+        if file_identity_no_follow(root, relative)? != stage_identity {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "recovery destination is not linked to its owned stage",
+            ));
+        }
+        unlink_anchored(root, relative, Some(expected))?;
+        return unlink_anchored(root, &stage, Some(expected));
+    };
+    let quarantine = relative.with_file_name(format!(
+        ".{}.csdlc-delete-{}-{}",
+        relative
+            .file_name()
+            .expect("cleanup file name")
+            .to_string_lossy(),
+        identity.0,
+        identity.1
+    ));
+    if let Ok(quarantine_identity) = file_identity_no_follow(root, &quarantine) {
+        if quarantine_identity != identity {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "quarantined cleanup inode drifted",
+            ));
+        }
+        unlink_anchored(root, &quarantine, Some(expected))?;
+    }
+    let current_identity = match file_identity_no_follow(root, relative) {
+        Ok(value) => value,
+        Err(error) if error.message.contains("No such file") => return Ok(()),
+        Err(error) => return Err(error),
+    };
+    if current_identity != identity {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "cleanup target is not the journal-owned inode",
+        ));
+    }
     match read_regular_authored_artifact_with_hook(root, relative, |_| {})? {
         Some(bytes) if digest(&bytes) == expected => {
             unlink_anchored(root, relative, Some(expected))
