@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5912,
+  "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "7607073d7ba9e8235645ccf9fd3f55d27fe86ad5c4e2148afa330bcec8953e64",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "9ec8d302915bdb187c6722a7830a1cea20ce8655724a0c012cfe414243024c22",
+  "branch": "codex/5912-runtime-birth-witness",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5912-runtime-birth-witness",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5912/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5912/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-authorized-followup",
+      "revision": "ef9a5c90f5bd38565ef962e36c0d863024be35c84af3da6fc575e6c3042f4a2b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c8e6c1059e97651a82da6aacaea61354ef3e3a34edce9970fd79352794e0f0f7",
+      "rendered_digest": "91eab6869cb804874c22497f8c1d473cbefda583e397409a42203dba41b49c9c",
+      "ast_digest": "7d6bc05c963875f2d4ce7eeb358121a8b1e3bf87338cfe00ef17007d190df0e4"
+    },
+    "stp": {
+      "values_digest": "8bb51bf6abdc32e1ee365fe9b28fa1603ee82b6c4c92a6d9e2caf463395cb869",
+      "rendered_digest": "c672c8d61d27aed70c8b7d7c27df460bb9a0389a801be3830e0077f086c500c4",
+      "ast_digest": "622b534250f3e071a19601e6495d872c34ceddc5fc0d09b1b9ddcfa6da9402ea"
+    },
+    "spp": {
+      "values_digest": "9cdc6899186d869874e96b03938733e4f3f4996144eecb4adf3004019936dbea",
+      "rendered_digest": "994a7042ad28d11831d2ce4f0831abcc3b2598d1a8b3ae1a58246401ed0d7599",
+      "ast_digest": "83af666aacb2e1c157a9c84568de2ccf61e4ba0047ff27d6764e722e76f4f188"
+    },
+    "vpp": {
+      "values_digest": "2c9a39623f67c330cd5afe8a158c1eb379bda6c32861c41641e56725fe6f7f9f",
+      "rendered_digest": "90c74684a044cf49f56a5d7fda3d0a2fbbd40c30cefd400faa97b86d2805f4c5",
+      "ast_digest": "65db1fcd7113863997e16ae9b309fe6b967cdbacef1f09a5f49f9225af3f998e"
+    },
+    "srp": {
+      "values_digest": "76aacfbbb8ed2098b3ac69428e03c0d3dcbfea592e179717b1b8403c3db30300",
+      "rendered_digest": "0b29b421c9a5ac7e569d598db34418da24e528f1a7d6323478cae95d3aea2a38",
+      "ast_digest": "6c4530c9fff99ec08b4f0f865cfa1c98d3df1bd3d78d7a75b7ca050d6a7092d7"
+    },
+    "sor": {
+      "values_digest": "5902517d546107b908600c5eac203314ba2c8e901b883b18e56777da7b37cd30",
+      "rendered_digest": "12eb0779cca342b67f63c5b3a4bef860f1c607bdcb06d621467cfb90b4068be0",
+      "ast_digest": "5adb0d26366e4252fe4c6a503f8e35ba71f85e10d0bc20f9e7652c0d01d082b2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Use the existing external birth_witness integration target as the production-path proof surface so readiness validates before implementation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-birth-witness-production-path\",\"proof_role\":\"focused production-path integration proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birth_witness\"],\"parallel_group\":\"runtime-focused\",\"defer_reason\":null},{\"lane\":\"runtime-birth-witness-clippy\",\"proof_role\":\"strict compile and lint proof\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Declare an issue-owned focused runner as the validation denominator while retaining the exact external integration target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-birth-witness-production-path\",\"proof_role\":\"focused production-path integration proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\"],\"parallel_group\":\"runtime-focused\",\"defer_reason\":null},{\"lane\":\"runtime-birth-witness-clippy\",\"proof_role\":\"strict compile and lint proof\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Declare the issue-local focused runner as an owned validation surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

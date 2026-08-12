@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5912,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Add production birth-witness policy provisioning and invocation boundary",
+    "slug": "runtime-birth-witness-boundary",
+    "version": "1.0.0",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact issue diff for Runtime-owned policy construction, validated invocation/emission, and production-path tests.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can an external caller forge or bypass trusted birth-witness authority?",
+        "Can any receipt be emitted before successful validation?",
+        "Does the integration test exercise a non-test production consumer?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
