@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "implemented",
-  "generation": 46,
-  "digest": "811f09b1a21cf472cb24038910505987e7b3241e5a46bcb7322fb3e58b6c8f19",
+  "generation": 47,
+  "digest": "c4d38ab1191215df99865599e89f4581f35369ad6a19d24b4b841cd33ed6fab3",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
   "review_assignment": {
@@ -44,34 +44,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a137576b5bdec395195d6adf7b66a22ee1ad4358f20047414f821bcc0c84840e",
+      "values_digest": "1ec7ad2c350064a4733fd406f76999c66e2c79b2ba42b5d8c584132a001b1e5a",
       "rendered_digest": "c359833435b3fec371ee4fb3e06c059405db392529200e79f667ddf634f49dd9",
       "ast_digest": "1550fcf3865ee5b7fdd70c7d721016ca49bc28929bea299bc58bdddb875263ed"
     },
     "stp": {
-      "values_digest": "c2610ab2219d7ea4dc7e9392bed151ba8c19552a830905a37e5d79b9bb88c005",
+      "values_digest": "ee979e26cc6542a7b21a4d69643a7e193fda5c34bf5012a80a0176c95309a91e",
       "rendered_digest": "3588e7b7788a694807dea7951395d85c31f864ed1597ddfd1d91d1beaf42c82e",
       "ast_digest": "08f33d476eb7a97037dd49bef15b348c84c8058bcb805723e9b9d23e20bc1800"
     },
     "spp": {
-      "values_digest": "92272771ca44ea352bf395247c418aac745eaa21b48511b0234d732565bf2764",
+      "values_digest": "1eccf8c1b7139361134039dd62515f87d0695478cbb01d8d993a18ef1e118794",
       "rendered_digest": "5c0633102bdcc5d9b7a65d4ccc56bdd5de7ae64fa5aa25cecc21a43dad621c6c",
       "ast_digest": "263dd8e4881899dd339f16e6f7ed0f76fa473ec53f926a99c6deef421f67892f"
     },
     "vpp": {
-      "values_digest": "e174e827155fd6cb2da5ba0615c1a742ff0cd59fa4dba1f22016326d6394336c",
+      "values_digest": "bec2e3eebcb085bdbacef10889c3369e01ba9723fc617f0f8133768b4eabbf1b",
       "rendered_digest": "8e4a5e36226ea2826280259b657935fd64f5a392c64e916fd297b3b12b8f841b",
       "ast_digest": "0b5d959bd7a0ef072eda1088bfdae6c1c07ef5e70e12171072987aae06338eee"
     },
     "srp": {
-      "values_digest": "4dce9e5349e2abadd2dee7f7978f892ef598eae5afc2348f13c6af4f69c84e30",
+      "values_digest": "842a24d9ed89e928c08c825e7f7205f35737cc318db0613b26e781ea63d94573",
       "rendered_digest": "c37be524704f6044409554512c01e69b6c948c0f95f14030b9699a49072e2abf",
       "ast_digest": "8824563aff2cc8b5af4a926d990f8e7665d4f7ed40dd37eb7f463258e9754305"
     },
     "sor": {
-      "values_digest": "12391a69e81e6d39ffad326279b5367269a83483c4600b989c36e95f645cb5d2",
-      "rendered_digest": "f3c258ca06cadce7e95efc9264a5a8721a13ea3bc0ac14e4be356744ea27f981",
-      "ast_digest": "f86a1c0be77955920eb6ca25b74ba78f6f9ed9a0e550f1569aad5fa717bfce38"
+      "values_digest": "9c60c838241f7ddf77414bf4fbf1631f4ce19411a914caccf9444ba46571e03b",
+      "rendered_digest": "5f3e678de60c03f501d0dfd0d1c721b09cd595d47e824e8769708d335d359de6",
+      "ast_digest": "71c9bbee462420129168310a67d44680d8990322acf1a9d871a47eef824b64c0"
     }
   },
   "transitions": [
@@ -517,6 +517,13 @@
       "actor": "codex-session-112",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 47,
+      "actor": "codex-session-112",
+      "reason": "Record post-decomposition Layer 8 authority implementation and refreshed focused validation evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; pre-dispatch recipient identity validity; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; exact-current issue 244 integration; and decomposed authority internals into audit, exchange, and identity modules without changing the public authority contract.\",\"changes\":[\"Load current identity evidence, pre-existing capabilities, and separate agent and Polis policies from an external authority profile instead of constructing request-shaped authority.\",\"Keep only recipient public keys in the control authority; preflight the configured recipient communication identity before canonical ingress dispatch and require the recipient agent execution boundary to sign and return the acknowledgement before delivery.\",\"Bind action, conversation, recipient, replay, and correlation outer fields to the verified signed request and require exact acknowledgement replay identity.\",\"Bind the verified sender principal, polis, signing-key id, and public verification key bytes to independently loaded Runtime identity evidence before capability and policy evaluation, refusing same-label untrusted keys.\",\"Carry the configured recipient signing-key id inside the authenticated signed request so the agent acknowledgement boundary does not rely on a naming convention.\",\"Serialize simultaneous audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.\",\"Keep retryable policy refusals from consuming replay identities and preflight conversation capacity before durable authorization.\",\"Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation.\",\"Split Layer 8 authority internals into policy facade, audit store, signed exchange, and identity modules to reduce the central runtime file while preserving behavior.\"],\"artifacts\":[\"adl-runtime-kernel/src/layer8_authority/mod.rs\",\"adl-runtime-kernel/src/layer8_authority/audit.rs\",\"adl-runtime-kernel/src/layer8_authority/exchange.rs\",\"adl-runtime-kernel/src/layer8_authority/identity.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Run the exact-current production conversation boundary after issue 244's test-module migration, including revoked recipient identity preflight before canonical ingress dispatch.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-production-conversation-boundary.log (1 passed)\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"layer8_authority\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, and refusal proof after module decomposition.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-contract.log (12 passed)\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Run the Runtime API signed request, recipient identity preflight, and exact acknowledgement integration proof after module decomposition.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-runtime-api-integration.log (5 passed)\"},{\"command\":[\"bash\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\"],\"purpose\":\"Run the real-browser Observatory disclosure and authority-state proof with the configured local Playwright and Chrome runtimes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-observatory-ui.log (PASS; retained from exact-current browser evidence)\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Enforce strict lint hygiene for the production Runtime source and tests after module decomposition.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-kernel-clippy.log (PASS)\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Enforce strict lint hygiene for the Runtime API integration target after module decomposition.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-runtime-api-clippy.log (PASS)\"}]}"
     }
   ]
 }

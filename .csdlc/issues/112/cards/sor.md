@@ -12,11 +12,14 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; pre-dispatch recipient identity validity; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; and exact-current issue 244 integration.
+Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; pre-dispatch recipient identity validity; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; exact-current issue 244 integration; and decomposed authority internals into audit, exchange, and identity modules without changing the public authority contract.
 
 ## Artifacts
 
-- adl-runtime-kernel/src/layer8_authority.rs
+- adl-runtime-kernel/src/layer8_authority/mod.rs
+- adl-runtime-kernel/src/layer8_authority/audit.rs
+- adl-runtime-kernel/src/layer8_authority/exchange.rs
+- adl-runtime-kernel/src/layer8_authority/identity.rs
 - adl-runtime-kernel/src/control.rs
 - adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
 - adl-runtime-kernel/src/conversation_sessions_tests.rs
@@ -39,6 +42,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
 - Serialize simultaneous audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.
 - Keep retryable policy refusals from consuming replay identities and preflight conversation capacity before durable authorization.
 - Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation.
+- Split Layer 8 authority internals into policy facade, audit store, signed exchange, and identity modules to reduce the central runtime file while preserving behavior.
 
 ## Validation
 
@@ -73,7 +77,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "--status-level",
       "all"
     ],
-    "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, and refusal proof.",
+    "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, and refusal proof after module decomposition.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-authority-contract.log (12 passed)"
   },
@@ -91,7 +95,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "--status-level",
       "all"
     ],
-    "purpose": "Run the Runtime API signed request, recipient identity preflight, and exact acknowledgement integration proof.",
+    "purpose": "Run the Runtime API signed request, recipient identity preflight, and exact acknowledgement integration proof after module decomposition.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-integration.log (5 passed)"
   },
@@ -102,7 +106,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
     ],
     "purpose": "Run the real-browser Observatory disclosure and authority-state proof with the configured local Playwright and Chrome runtimes.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-observatory-ui.log (PASS)"
+    "evidence_ref": ".csdlc/evidence/112/layer8-observatory-ui.log (PASS; retained from exact-current browser evidence)"
   },
   {
     "command": [
@@ -116,9 +120,9 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "-D",
       "warnings"
     ],
-    "purpose": "Enforce strict lint hygiene for the production Runtime source and tests.",
+    "purpose": "Enforce strict lint hygiene for the production Runtime source and tests after module decomposition.",
     "outcome": "passed",
-    "evidence_ref": "terminal: kernel strict clippy PASS"
+    "evidence_ref": ".csdlc/evidence/112/layer8-kernel-clippy.log (PASS)"
   },
   {
     "command": [
@@ -133,9 +137,9 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "-D",
       "warnings"
     ],
-    "purpose": "Enforce strict lint hygiene for the Runtime API integration target.",
+    "purpose": "Enforce strict lint hygiene for the Runtime API integration target after module decomposition.",
     "outcome": "passed",
-    "evidence_ref": "terminal: API strict clippy PASS"
+    "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-clippy.log (PASS)"
   }
 ]
 

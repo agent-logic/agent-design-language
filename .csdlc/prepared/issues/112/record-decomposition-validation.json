@@ -1,25 +1,29 @@
 {
   "issue": 112,
   "card": "sor",
-  "expected_generation": 41,
-  "expected_digest": "d78c3bca7e22072270b82f18f00faf803819ac5088667126eefccd5c8c070118",
+  "expected_generation": 46,
+  "expected_digest": "811f09b1a21cf472cb24038910505987e7b3241e5a46bcb7322fb3e58b6c8f19",
   "actor": "codex-session-112",
-  "reason": "Record exact-current execution after binding authenticated verification keys and carrying the configured recipient signing-key id to the agent acknowledgement boundary.",
+  "reason": "Record post-decomposition Layer 8 authority implementation and refreshed focused validation evidence.",
   "operation": {
     "operation": "replace_execution",
-    "summary": "Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; and exact-current issue 244 integration.",
+    "summary": "Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; pre-dispatch recipient identity validity; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; exact-current issue 244 integration; and decomposed authority internals into audit, exchange, and identity modules without changing the public authority contract.",
     "changes": [
       "Load current identity evidence, pre-existing capabilities, and separate agent and Polis policies from an external authority profile instead of constructing request-shaped authority.",
-      "Keep only recipient public keys in the control authority; require the recipient agent execution boundary to sign and return the acknowledgement through canonical ingress before delivery.",
+      "Keep only recipient public keys in the control authority; preflight the configured recipient communication identity before canonical ingress dispatch and require the recipient agent execution boundary to sign and return the acknowledgement before delivery.",
       "Bind action, conversation, recipient, replay, and correlation outer fields to the verified signed request and require exact acknowledgement replay identity.",
       "Bind the verified sender principal, polis, signing-key id, and public verification key bytes to independently loaded Runtime identity evidence before capability and policy evaluation, refusing same-label untrusted keys.",
       "Carry the configured recipient signing-key id inside the authenticated signed request so the agent acknowledgement boundary does not rely on a naming convention.",
       "Serialize simultaneous audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.",
       "Keep retryable policy refusals from consuming replay identities and preflight conversation capacity before durable authorization.",
-      "Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation."
+      "Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation.",
+      "Split Layer 8 authority internals into policy facade, audit store, signed exchange, and identity modules to reduce the central runtime file while preserving behavior."
     ],
     "artifacts": [
-      "adl-runtime-kernel/src/layer8_authority.rs",
+      "adl-runtime-kernel/src/layer8_authority/mod.rs",
+      "adl-runtime-kernel/src/layer8_authority/audit.rs",
+      "adl-runtime-kernel/src/layer8_authority/exchange.rs",
+      "adl-runtime-kernel/src/layer8_authority/identity.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
       "adl-runtime-kernel/src/conversation_sessions_tests.rs",
@@ -45,7 +49,7 @@
           "--",
           "--exact"
         ],
-        "purpose": "Run the exact-current production conversation boundary after issue 244's test-module migration.",
+        "purpose": "Run the exact-current production conversation boundary after issue 244's test-module migration, including revoked recipient identity preflight before canonical ingress dispatch.",
         "outcome": "passed",
         "evidence_ref": ".csdlc/evidence/112/layer8-production-conversation-boundary.log (1 passed)"
       },
@@ -63,7 +67,7 @@
           "--status-level",
           "all"
         ],
-        "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, and refusal proof.",
+        "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, and refusal proof after module decomposition.",
         "outcome": "passed",
         "evidence_ref": ".csdlc/evidence/112/layer8-authority-contract.log (12 passed)"
       },
@@ -81,9 +85,9 @@
           "--status-level",
           "all"
         ],
-        "purpose": "Run the Runtime API signed request and exact acknowledgement integration proof.",
+        "purpose": "Run the Runtime API signed request, recipient identity preflight, and exact acknowledgement integration proof after module decomposition.",
         "outcome": "passed",
-        "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-integration.log (4 passed)"
+        "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-integration.log (5 passed)"
       },
       {
         "command": [
@@ -92,7 +96,7 @@
         ],
         "purpose": "Run the real-browser Observatory disclosure and authority-state proof with the configured local Playwright and Chrome runtimes.",
         "outcome": "passed",
-        "evidence_ref": ".csdlc/evidence/112/layer8-observatory-ui.log (PASS)"
+        "evidence_ref": ".csdlc/evidence/112/layer8-observatory-ui.log (PASS; retained from exact-current browser evidence)"
       },
       {
         "command": [
@@ -101,16 +105,14 @@
           "--locked",
           "--manifest-path",
           "adl-runtime-kernel/Cargo.toml",
-          "--lib",
-          "--bin",
-          "adl-runtime-kernel",
+          "--all-targets",
           "--",
           "-D",
           "warnings"
         ],
-        "purpose": "Enforce strict lint hygiene for the production Runtime source.",
+        "purpose": "Enforce strict lint hygiene for the production Runtime source and tests after module decomposition.",
         "outcome": "passed",
-        "evidence_ref": "terminal: kernel strict clippy PASS"
+        "evidence_ref": ".csdlc/evidence/112/layer8-kernel-clippy.log (PASS)"
       },
       {
         "command": [
@@ -125,9 +127,9 @@
           "-D",
           "warnings"
         ],
-        "purpose": "Enforce strict lint hygiene for the Runtime API integration target.",
+        "purpose": "Enforce strict lint hygiene for the Runtime API integration target after module decomposition.",
         "outcome": "passed",
-        "evidence_ref": "terminal: API strict clippy PASS"
+        "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-clippy.log (PASS)"
       }
     ]
   }
