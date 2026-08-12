@@ -5,10 +5,21 @@
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
   "phase": "implemented",
   "generation": 29,
-  "digest": "cb44cb727235b3a2bee6902a42661667b0f44dc8d5c526614e2897f2263a82ae",
+  "digest": "fc93ae325489928e81376ece11ce0b7a5a9efa420ccfd3d4dff0e301153f93b5",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:491a1511-ce9c-4552-be98-6e51ed00dc51",
+    "assigned_by": "planning-1:pr119-janitor",
+    "revision": "git-blake3:bba3419c87ac44cb4eeb3a408d069aede6d4bafa:28ed31d02e1bc4b29f2fea5c6f47cfcdb54c7b65810bec77587ba6cd84630781",
+    "scope": [
+      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md",
+      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
+      ".csdlc/evidence/109/focused-srp-contract.log",
+      ".csdlc/issues/109"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +55,9 @@
       "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
     },
     "srp": {
-      "values_digest": "0103cec15c140d422401d00adb0a2b7ab75c90f67b5fa992f161f81bd16a27fb",
-      "rendered_digest": "1cef0442070327593b6f41e5c0c35abfcbb2b8dece5603e4956372297399c363",
-      "ast_digest": "c654880138d226f4ca831fb2f41bcc8bd7d2e85e75e1d0f5446f3045c52ab92c"
+      "values_digest": "449bfbdd388794270b703381dfcd1de2e0be1bab62034cbf04f6e784cf31f8e6",
+      "rendered_digest": "866fd0496974f5c9edcee9084064c6372f6facbeb535ee1da02b073d69bf493f",
+      "ast_digest": "67ecd956fdc20e527fceabcdfb4887c047bfd9c11911555a2b89ab11e07532d0"
     },
     "sor": {
       "values_digest": "c40dc9881a0cf4d573a59ac72f09d1a38ff648a9d1d2a0353b98b4439334f13c",
@@ -392,6 +403,13 @@
       "actor": "planning-1:pr119-janitor",
       "reason": "Remove the obsolete two-argument PASS claim before fresh review; the governed three-revision proof runs only after exact review and publication metadata exist.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"documented standard SRP handoff to a fresh external review session\",\"changes\":[\"updated existing review skill\",\"added bounded operator runbook\",\"added focused contract validator\"],\"artifacts\":[\"csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\",\"docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md\"],\"validation\":[{\"command\":[\"/bin/bash\",\".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\",\"081988dfe4632e27062f3acc72b7c5d226cd0802\",\"363ecba5b47bfc4ed8b30e1f6c572fc0fd537807\",\"614dc3319c7c043355796505e50074ff9b650993\"],\"purpose\":\"truthfully verify the three-revision validator fails closed before fresh review evidence exists\",\"outcome\":\"failed\",\"evidence_ref\":\".csdlc/evidence/109/focused-srp-contract.log\"}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 29,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
