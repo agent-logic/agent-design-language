@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/301
+.csdlc/prepared/issues/301
+.csdlc/evidence/301
+csdlc-v2/src/github.rs
+csdlc-v2/tests/gate_github_actions.rs
 
 ## Prompts
 
