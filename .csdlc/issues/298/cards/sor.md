@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Derive completed recovery candidates from the authorized PREPARED prior projection and audit transform
+Fail closed on every recovery attempt inventory entry and prove post-terminal non-regular rejection
 
 ## Artifacts
 
@@ -75,6 +75,9 @@ Derive completed recovery candidates from the authorized PREPARED prior projecti
 - csdlc-v2/src/store.rs
 - csdlc-v2/src/schema.rs
 - csdlc-v2/src/bin/csdlc-issue.rs
+- csdlc-v2/tests/gate5.rs
+- .csdlc/evidence/298/preserved-projection-recovery.log
+- csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 - .csdlc/evidence/298/preserved-projection-recovery.log
 
@@ -290,6 +293,12 @@ Derive completed recovery candidates from the authorized PREPARED prior projecti
 - Allowed later ordinary generations after the recovered terminal generation without requiring canonical files to remain at the recovered generation
 - Added coherent candidate-chain forgery and malformed request classification fail-closed proof
 - Recorded refreshed focused recovery proof with 15 passing tests
+- Enumerated every recovery attempt entry without dropping read or type errors
+- Required exactly the 13 named regular authority receipts
+- Classified only operation-owned rejected, displaced, and exact node ledger directories as allowed workspace state
+- Rejected symlink, directory, non-regular, unknown, and malformed post-terminal entries
+- Added regular-file, symlink, and directory post-terminal rejection regressions
+- Validated the 19-test focused recovery lane
 
 ## Validation
 
