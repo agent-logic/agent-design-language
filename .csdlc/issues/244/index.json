@@ -3,9 +3,9 @@
   "issue": 244,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
-  "phase": "reviewed",
-  "generation": 36,
-  "digest": "2d34d45a025cdfc2ffefd95cf21221f5ae167c8169b9c0dc7754d58475f6949a",
+  "phase": "published",
+  "generation": 37,
+  "digest": "e81b61d91dec9079d3740067009399bb38f146f1f1f422c24ea739c47f8ca498",
   "branch": "codex/244-conversation-cleanup-race",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
   "review_assignment": {
@@ -35,7 +35,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 244,
+    "pull_request": 247,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/247",
+    "base": "main",
+    "head": "codex/244-conversation-cleanup-race",
+    "revision": "git-blake3:c4dca1b35f5a7e76caa152b687f62ec608198ec7:326f7bc334562f4da20c775424a7afd43b53b4b63ae8852f2cc52e20b682d726",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -49,34 +60,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a611721e5ea93879194ee1c7761a4f50c9328cf4304223d35f6dd029b0563ac3",
+      "values_digest": "405020b7a28c61cde878678d008956ee0a13d134a1be81927618b33d050b611a",
       "rendered_digest": "a7a3fdffde72a8ccd84f303fd9461422089748d7cca2286b450c0616ae3f63b7",
       "ast_digest": "1f3222725b44556758d3036806a3817fdeb58c6bbf437698b7d71d7510b446dc"
     },
     "stp": {
-      "values_digest": "38f998bf353087662bd7877b90257237a584cb8e8b3168defd69b6d6ed2b8e38",
+      "values_digest": "088a2fdf03d2341c266acad3cedeed506f387c0f1c329c3069a71a2858e82010",
       "rendered_digest": "eb188e0abb8bcfed05a216770117422eb93ead3e8e416be888002ad29221716a",
       "ast_digest": "326ed86deaf78bc55b60c81607d0068ad3b1095c56de7aa454808bb21ec07f42"
     },
     "spp": {
-      "values_digest": "1fa63a265da2946405059165d9a1ceaf081db77fed6ea72c6aeef473312892bd",
+      "values_digest": "e0d5e94bee33dbdc3b1226239588202fc843b68c20b4c2a106aa4d931d52dfb3",
       "rendered_digest": "bda7b8a781de64772e815f705e1cc5df733078088b4b151eee30cf87a8b4125b",
       "ast_digest": "39a64663e4cd08a747ac125db95bf0a24014cc92967f026964514147acfcea85"
     },
     "vpp": {
-      "values_digest": "aac3bc96f15a604bf31de10009d79d6d0e71f9cd2a49b44d8ae0057ccfcf6aca",
+      "values_digest": "c3cc1fe4c860ab063e2265b5250f8890f560dc6dca9cae34436b1dae1edc0c53",
       "rendered_digest": "755ba3d37f4acaced6bdebe8e344c69a3f58795363c3c920ea368f1c61f38617",
       "ast_digest": "0189f64d89be4ccec8ab470ba92464ca02e881e26e51642eb41da69221c241b6"
     },
     "srp": {
-      "values_digest": "fa34b01336cc3c36b9d14ecb2b3b678ac24bbd0a0ccf1b3a0995ea418c561d4c",
+      "values_digest": "929f1d54655d4a46196738917ebd54b279f7b97421d4cb3387a68c8f387663b7",
       "rendered_digest": "afdd7396b56ec996e5063fc3c038b2a6db722b73ca2ee805d5b3af6db8ad94d1",
       "ast_digest": "ab579e82cc6630f0b60d1c45fdab3ae8a3e6f0e03b81e8af8508bf2d98514eef"
     },
     "sor": {
-      "values_digest": "43f45e1e8484abde9a351c7cd1cc85fdea4a806cb5175262cb0db5edb195fdbb",
-      "rendered_digest": "c1ed87bc23a02737a05c24587fae0767d33b08ca4ebaa66925368cec426948e6",
-      "ast_digest": "2e4b897b69b7d06e39a96e5b41d0c8187dac2c11343c56e6f0efbc0c788cb16f"
+      "values_digest": "aab1d035aeadbfcc1051c292b27b29964f87a4dcf7d3f6b84f7dd386feddd19b",
+      "rendered_digest": "b6fb71f258f522f530bfdaff646a92c6e1c8ebe2d18b7ef62e267b4b272e8c14",
+      "ast_digest": "a63e0baa04ba7a2111c14d661acd5b51b0916ba0ad722aa67916e9de449db452"
     }
   },
   "transitions": [
@@ -184,6 +195,13 @@
       "to": "reviewed",
       "actor": "codex:244-server-hook-repair",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:244-server-hook-repair",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -473,6 +491,13 @@
       "actor": "codex:244-server-hook-repair",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 37,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
