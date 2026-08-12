@@ -10,3 +10,4 @@
 {"sequence":10,"generation":8,"actor":"codex:/root","reason":"implementation commit 12bac0094 exists in the bound issue worktree","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":11,"generation":8,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":12,"generation":9,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":13,"generation":10,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

@@ -76,11 +76,11 @@ Eliminated repeated hosted workspace coverage compilation by making the full wor
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
