@@ -7,16 +7,55 @@
     "title": "[v0.92][C-SDLC][defect] Persist provenance for title-only issue updates",
     "slug": "title-only-issue-update-operation-provenance",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Bind durable provenance to title-only GitHub issue updates without rewriting issue bodies.",
+      "actual_changes": [
+        "Canonical operation-key-to-request fingerprint receipts",
+        "Single title-only PATCH with byte-identical body verification",
+        "Idempotent same-fingerprint retry and conflicting same-key rejection",
+        "Fail-closed pre-receipt and final-readback body drift detection",
+        "Body-bearing update compatibility"
+      ],
+      "artifacts": [
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/tests/gate_github_actions.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_github_actions",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict all-target and all-feature Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "strict-clippy-github-owner.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_github_actions"
+          ],
+          "purpose": "Run the focused scripted GitHub owner tests.",
+          "outcome": "passed",
+          "evidence_ref": "title-only-github-issue-update.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

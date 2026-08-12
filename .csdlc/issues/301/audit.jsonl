@@ -4,3 +4,4 @@
 {"sequence":4,"generation":3,"actor":"fresh-session:b1ead642-26d7-4a52-a7a2-934848c29bf4","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":5,"generation":4,"actor":"codex:issue-301-design-remediation","reason":"Doctor reports #301 design and card packet ready after fresh design approval; enter ready phase before binding.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
 {"sequence":6,"generation":4,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":7,"generation":5,"actor":"codex:issue-301","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
