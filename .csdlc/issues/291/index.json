@@ -4,11 +4,20 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f4bdffa4c5866878b425b124bbcf92e725fa7d41b4088de0b7384a1028b4f0c1",
   "phase": "implemented",
-  "generation": 30,
-  "digest": "65f017d0bfa0aad333f9a59c8814954bc5acf99e34de203c79694d3a11b285b8",
+  "generation": 31,
+  "digest": "e1eea5bf249deed3ac037cb674fdb4684cf9d776a175338af96036cfb40c9cbb",
   "branch": "codex/291-initialized-decomposition-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-291-initialized-decomposition-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a730ec10-229b-43a7-99ba-e87c10abdbc5",
+    "assigned_by": "codex:worker-5-issue-291",
+    "revision": "git-blake3:e0f7210a9f86af43e56b80100cc9071c0649eb20:9ece3673fd7b967c91eac9eb38349475d6a69d707247f1a6b46afdd112bcb7a6",
+    "scope": [
+      ".csdlc/issues/291",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/initialized_decomposition_recovery.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -24,32 +33,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c1797b716f15986f75891cedfdcc1d2a8b46c18b8585560af6d07c880292401f",
+      "values_digest": "61d27fad73c35e6a4960fdcfa0536045c82a2cfbdb3bcbc1ecfa59c602717233",
       "rendered_digest": "5e6b75f2edd95305ae5c60d2129cdd46efb423e366d51856953be59a19f6d51e",
       "ast_digest": "878510ea9c721f863a414266a09a4635184761f0c093330a6792d27ec93d4f22"
     },
     "stp": {
-      "values_digest": "fe98b24b18c48ae91369e77a1dadbd3b401dab8e15c5ca7d43181c31589b7889",
+      "values_digest": "30108be8e9e98b7d6b02cbb26cad7db1e57f0e3566ad9ede41c9a33810391274",
       "rendered_digest": "adbb5fea036d4fb0cd6c361bdcfc838d2ed32b01d1d56baaaa6049b37a68dead",
       "ast_digest": "64c95bddac521ac40a42494cc41a909d0fdfa17c225b09d5c16a1c697de7591c"
     },
     "spp": {
-      "values_digest": "18641c6be3eed84bfe5f901cd95d08638eb6a0ef15d89ea74df79bf7f99f4643",
+      "values_digest": "a78a2a578b34c39577dd8559f051f8aa394bfe348b27ac433462ec72f2ee65b2",
       "rendered_digest": "6af66c1d7e11b214d246e55195ec80230590c08d722ddf7a58279ee596ec2d8f",
       "ast_digest": "7c2910854d5813026f09028e35ee334a36ec5294d578d7b884f1c1e24921e140"
     },
     "vpp": {
-      "values_digest": "dfb31991b1eb5b7ca844dfa92b4402b0c336a01a3bc93964e6cdd6b9f1ab6b2e",
+      "values_digest": "fc1b3057f8e034f9efc546370552842431e86e48e48daca389871bcb15a7ebc8",
       "rendered_digest": "9c90a6b3fbb9fd9a203db91d4b30f74eda7275fc8cf1e0d00188f1b12eb043f4",
       "ast_digest": "36b64c7cd2ff65b1d5704736e0cc8973c661c0e4a186546dc722f9aa5d0640e1"
     },
     "srp": {
-      "values_digest": "ee9c9ecb67800ffec62017114df7320379387646563fed1e92490095a7638367",
-      "rendered_digest": "37ab2d56de65312b802dbbf7497eabd8c050f79b4d200d8d080655002b55c91b",
-      "ast_digest": "b059e0d2e20a79e3ca99a62ef5acaa27d429e079e77064907629ca00a9456b77"
+      "values_digest": "fbb8c13cf233c36da11531b593505039f09a7ef3e37c6c343c46c4bad1b38fad",
+      "rendered_digest": "b90ca8384e4b36b53083b6a7420b0be0c1f91259d2e3a254757083effbceb0ca",
+      "ast_digest": "7a59dec501d7a7a5c8c2e757119f077e4b75952645a7e32a0a12eb2b71351fd3"
     },
     "sor": {
-      "values_digest": "d62c40afba98e81100c5784ab44bebb32c507177883778e1bf1ecc355549a09b",
+      "values_digest": "5e6c3c6fb2d7d09ca63731d37bec0307a486e1816339e3878bbe3600c916f4b7",
       "rendered_digest": "70502482f9c9836e08fdc44abbcf45c4277372247087ddecbf201b2988932078",
       "ast_digest": "b6e4846a67520c3ef5fb8479bd0e587d1af5a0f2ed8723cbb8bb67b6fc657a0e"
     }
@@ -322,6 +331,27 @@
       "actor": "codex:issue-291-final-fix",
       "reason": "Recover the completed exact-head review assignment before applying its sole actionable P2 finding: validate_decomposition_graph accepts duplicate directed edges. Add fail-closed directed-edge identity rejection and one focused duplicate-edge negative while preserving parent, reachability, and history invariants.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 30,
+      "actor": "codex:worker-5-issue-291",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 31,
+      "actor": "codex:worker-5-issue-291",
+      "reason": "Recover noncanonical reviewer assignment fresh-session:worker-291-post-p2-e0f7210a before any review activity; reviewer identifiers must use canonical fresh-session:<lowercase UUID> form for independent #119 review authority.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 31,
+      "actor": "codex:worker-5-issue-291",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
