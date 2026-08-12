@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5839,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "10b57804d863de9ac5cda1e29dd5aeee90e4b00bd8f1569549bc8a878b5c5d6c",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 34,
-  "digest": "510858d531b99eb76154488de6f8e4ec7bcc0530336e19c168ec430aa496e19a",
-  "branch": null,
-  "worktree": null,
+  "digest": "3a15174e4d0c7b8aa1f90a42bc5a3c99bacad9af5a6b05705f6efa703f74787b",
+  "branch": "codex/5839-birthday-governance-handoff",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5839-birthday-governance-handoff",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -413,6 +428,13 @@
       "actor": "codex:5854-sprint5-readiness",
       "reason": "Replace sunset claim language with current typed C-SDLC v2 Git topology authority.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"WP-19 owns the evidence map and ADR planning update\",\"v0.93 owns citizenship, standing, rights, duties, and governance implementation\",\"WP-23/WP-30 own final milestone handoff after quality and ceremony\",\"Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.\",\"Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.\"]}"
+    },
+    {
+      "sequence": 49,
+      "generation": 34,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
