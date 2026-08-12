@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Require explicit STATX_MNT_ID authority before accepting Linux retained mount identity.
+Removed the cfg-Linux needless return rejected by hosted strict Clippy.
 
 ## Artifacts
 
@@ -24,6 +24,10 @@ Require explicit STATX_MNT_ID authority before accepting Linux retained mount id
 - csdlc-v2/src/schema.rs
 - csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate5.rs
+- csdlc-v2/src/projection_recovery.rs
+- .csdlc/evidence/298/preserved-projection-recovery.log
+- .csdlc/evidence/298/csdlc-v2-lib.log
+- .csdlc/evidence/298/csdlc-v2-strict-clippy.log
 
 ## Execution
 
@@ -296,6 +300,8 @@ Require explicit STATX_MNT_ID authority before accepting Linux retained mount id
 - Reject successful statx results whose stx_mask omits STATX_MNT_ID
 - Return the exact kernel-provided mount ID only when its authority bit is present
 - Add Linux-focused helper proof for missing-bit rejection and exact returned mount ID
+- Removed only the unnecessary return from the Linux statx mount-ID branch
+- Refreshed governed focused recovery, library, and strict all-target Clippy evidence after the correction
 
 ## Validation
 
