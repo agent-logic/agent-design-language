@@ -4,13 +4,55 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7607073d7ba9e8235645ccf9fd3f55d27fe86ad5c4e2148afa330bcec8953e64",
-  "phase": "implemented",
-  "generation": 19,
-  "digest": "09fb0e1c3e764d3b5f5ad50fa6a7d8079583d3cfe93b075df4d009a3e399e1b0",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "971e7acdc56e16fb2de61d7f69d76d108a06f0faffcf2f5cbb1f642f0313cc67",
   "branch": "codex/5912-runtime-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5912-runtime-birth-witness",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
+    "assigned_by": "codex:5912-runtime-birth-witness",
+    "revision": "git-blake3:751b9dff86fec02428ed932f50391a5e2efa0238:0ac992afa842597046c35f9610d54e81785e2bc666acdf8d941de2a51316e078",
+    "scope": [
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/tests/guardian_cli.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      ".csdlc/prepared/issues/5912",
+      ".csdlc/evidence/5912",
+      ".csdlc/issues/5912"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
+    "scope": [
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/tests/guardian_cli.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      ".csdlc/prepared/issues/5912",
+      ".csdlc/evidence/5912",
+      ".csdlc/issues/5912"
+    ],
+    "reviewed_revision": "git-blake3:751b9dff86fec02428ed932f50391a5e2efa0238:0ac992afa842597046c35f9610d54e81785e2bc666acdf8d941de2a51316e078",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains pending after republication.",
+      "Lifecycle soak was compile-checked rather than executed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +67,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6cb613491b47958668e990fd274901fb4bcf3828416473e3fd7376d08d101f3e",
+      "values_digest": "c8854965d4a72a613258477093bea6db3d635ad3a3e818cf076f2a8f19c61ed1",
       "rendered_digest": "91eab6869cb804874c22497f8c1d473cbefda583e397409a42203dba41b49c9c",
       "ast_digest": "7d6bc05c963875f2d4ce7eeb358121a8b1e3bf87338cfe00ef17007d190df0e4"
     },
     "stp": {
-      "values_digest": "27b6437ab848cfd040e2b6d5b275345b1be1442895566892c89b52434e72bb89",
+      "values_digest": "ebea1a828257fdb61f5e48a5b519f9eff2a44b2e0d0d8ad4c573c11fe0f0b1f6",
       "rendered_digest": "c672c8d61d27aed70c8b7d7c27df460bb9a0389a801be3830e0077f086c500c4",
       "ast_digest": "622b534250f3e071a19601e6495d872c34ceddc5fc0d09b1b9ddcfa6da9402ea"
     },
     "spp": {
-      "values_digest": "a4c5adc72388a766d418ab59cefab1ad613adcc607ab3f305e4473570aa64b8d",
+      "values_digest": "54982b0988dff034fa4ca03d0ee5d3e57b25f0097c99b0ee045c695917025051",
       "rendered_digest": "06056e59aebebc44a1a461289f70a8d8979e1c97a3ccbd63c795aec2756e68c1",
       "ast_digest": "9f2897c0cb6226274f69ba3b8b694dc6600f55084beeea3dbe7bbf1a4807d780"
     },
     "vpp": {
-      "values_digest": "ec1d663460eeb88a67ca5737049acc8ea77acd47b6d60a3e547475af9668682e",
+      "values_digest": "375830dc01a8d92bf0bcf59446cecad824b3fb3c6fac7dea36651780b7e04df5",
       "rendered_digest": "90c74684a044cf49f56a5d7fda3d0a2fbbd40c30cefd400faa97b86d2805f4c5",
       "ast_digest": "65db1fcd7113863997e16ae9b309fe6b967cdbacef1f09a5f49f9225af3f998e"
     },
     "srp": {
-      "values_digest": "5df484219a1720324de0e6357a5230e5aaf65a9a2e3e6b8f30257609112d23f6",
-      "rendered_digest": "3309365bfd9d526bc143a98c60423451c64bf6be81c2965d2636f237aa96e2c1",
-      "ast_digest": "2253f48af3549e7e430f15f40ee35190c412821f89be0a5640158e939c7220cd"
+      "values_digest": "93eebb43e6a5823bd84c135de2f283663080f7242ed8047e345e11d9e5063988",
+      "rendered_digest": "0f82de96e61f9bf527fc1325735f36035874300368483121e921c45e4f996bd8",
+      "ast_digest": "bfc2919dd136e4655fd0fccaeee51f485c62a521a81a39605f494404fcf71406"
     },
     "sor": {
-      "values_digest": "6515d8682e3576c44c7a318e77d5130301dcc5879abcacf86c156d910e1ebdf5",
+      "values_digest": "1fd54318e403939c10353149ecde7b5c63023766f2cde055df9bcaea7b84b722",
       "rendered_digest": "3e9d2bd838a92b544b024d4bff73c8747befbd4ed73b77a88dfde73f84dd92a7",
       "ast_digest": "f0537769efc4dc1fd2170be5398ca3baa3c6cd70c8fcbf4c2199974a64ece6d3"
     }
@@ -118,6 +160,13 @@
       "to": "implemented",
       "actor": "codex:5912-runtime-birth-witness",
       "reason": "Recover stale review and publication truth so merged Runtime cleanup fix 8ecbeb88fd2a8293d06a9ae7c518e45b2689cfc4 can become ancestral before fresh proof and review."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -309,6 +358,20 @@
       "actor": "codex:5912-runtime-birth-witness",
       "reason": "Recover stale review and publication truth so merged Runtime cleanup fix 8ecbeb88fd2a8293d06a9ae7c518e45b2689cfc4 can become ancestral before fresh proof and review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
