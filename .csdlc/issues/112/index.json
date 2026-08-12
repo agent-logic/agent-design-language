@@ -6,13 +6,13 @@
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "implemented",
   "generation": 45,
-  "digest": "8b96c14cda3b4be24fd43176d9e792427b1e6c9a4b70a330ea7d6315be26b863",
+  "digest": "abf60d96cde5a1bd510dc59df147b3a03ba8940eac31dea53fc2f7af57568581",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
   "review_assignment": {
-    "reviewer": "fresh-subagent-112-post-merge-final-wide",
+    "reviewer": "fresh-subagent-112-final-mainline",
     "assigned_by": "codex-session-112",
-    "revision": "git-blake3:799427f7a0d6058ddafbfe3d22028d4a29b7d9a6:88ed0c3fec5c885aeafe269ba26c721c586d2e80986fa37d9b87710a835ffdf4",
+    "revision": "git-blake3:da9da7a1161e435a5f20f19434372c6906e01295:73d93b88e053abc17f2d6237715856ead613199ef2ea0868d1a24a625e1d2717",
     "scope": [
       "adl-runtime-kernel/src",
       "adl-runtime/src",
@@ -485,6 +485,13 @@
     },
     {
       "sequence": 54,
+      "generation": 45,
+      "actor": "codex-session-112",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 55,
       "generation": 45,
       "actor": "codex-session-112",
       "reason": "assign bounded exact-revision review",
