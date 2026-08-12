@@ -38,3 +38,4 @@
 {"sequence":38,"generation":25,"actor":"codex:issue-294","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":39,"generation":26,"actor":"codex:issue-294","reason":"authorized immutable-ledger redesign incomplete: real typed bind before/after and deterministic S0-S6/race failpoint fixtures absent","operation":"recover_review"}
 {"sequence":40,"generation":26,"actor":"codex:issue-294","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":41,"generation":27,"actor":"codex:issue-294","reason":"mandatory real bind_issue linked-worktree unsafe-before/recovery+fresh-approval/success-after fixture absent; linked fixture is recovery-only","operation":"recover_review"}

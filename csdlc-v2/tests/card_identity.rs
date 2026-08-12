@@ -5,8 +5,9 @@ use csdlc_v2::cards::{
     SemanticOperation, StepStatus, ValidationLane,
 };
 use csdlc_v2::{
-    initialize_native_json, recover_initialized_design_envelope,
-    recover_initialized_design_envelope_with_hook, DesignRecoveryFailpoint,
+    approve_design, bind_issue, edit_issue, initialize_native_json,
+    recover_initialized_design_envelope, recover_initialized_design_envelope_with_hook,
+    ApproveDesignRequest, BindRequest, DesignRecoveryFailpoint, EditRequest,
     RecoverInitializedDesignEnvelopeRequest, Store,
 };
 use csdlc_v2::{CardKind, PlanningProfile};
@@ -35,7 +36,7 @@ fn input() -> InitialCardInput {
             acceptance_ids: vec!["AC-1".into()],
             status: StepStatus::Pending,
         }],
-        affected_areas: vec!["csdlc-v2/tests/card_identity.rs".into()],
+        affected_areas: vec!["tests/card_identity.rs".into()],
         invariants: vec!["one version".into()],
         risks: vec![],
         planning_profile: PlanningProfile::Small,
@@ -48,9 +49,14 @@ fn input() -> InitialCardInput {
             resource_profile: ResourceProfile::Small,
             budget_seconds: 120,
             budget_tokens: 1000,
-            argv: vec!["cargo".into(), "test".into()],
+            argv: vec![
+                "cargo".into(),
+                "test".into(),
+                "--test".into(),
+                "card_identity".into(),
+            ],
             parallel_group: "identity".into(),
-            defer_reason: None,
+            defer_reason: Some("fixture lane is explicitly deferred".into()),
         }],
         failure_policy: "fail closed".into(),
         review_prompts: vec!["identity".into()],
@@ -152,10 +158,18 @@ fn bootstrap_at(
         include_bytes!("../operator/native-card-shape.json"),
     )
     .unwrap();
+    fs::create_dir_all(root.join("csdlc-v2/tests")).unwrap();
+    fs::write(
+        root.join("csdlc-v2/tests/card_identity.rs"),
+        b"// fixture target\n",
+    )
+    .unwrap();
+    fs::create_dir_all(root.join("tests")).unwrap();
+    fs::write(root.join("tests/card_identity.rs"), b"// fixture target\n").unwrap();
     fs::create_dir_all(root.join(std::path::Path::new(design).parent().unwrap())).unwrap();
     fs::create_dir_all(root.join(std::path::Path::new(diagram).parent().unwrap())).unwrap();
     fs::write(root.join(design), b"design bytes").unwrap();
-    fs::write(root.join(diagram), b"diagram bytes").unwrap();
+    fs::write(root.join(diagram), b"flowchart TD\n  A --> B\n").unwrap();
     let request = serde_json::json!({
         "issue": issue, "repository":"example/repo", "actor":"test",
         "design_path":design,"diagram_path":diagram,"design_reviewer":"fresh-session:019ff5eb-c6ed-7f83-9d6c-87b7a661eb8b","design_approved":true,
@@ -174,7 +188,9 @@ fn initialized_design_envelope_recovery_relocates_and_invalidates_approval() {
         ".csdlc/prepared/legacy/diagram.mmd",
     );
     let design_digest = blake3::hash(b"design bytes").to_hex().to_string();
-    let diagram_digest = blake3::hash(b"diagram bytes").to_hex().to_string();
+    let diagram_digest = blake3::hash(b"flowchart TD\n  A --> B\n")
+        .to_hex()
+        .to_string();
     let recovered = recover_initialized_design_envelope(
         &Store::new(temp.path()),
         RecoverInitializedDesignEnvelopeRequest {
@@ -229,7 +245,9 @@ fn recovery_request(record: &csdlc_v2::IssueRecord) -> RecoverInitializedDesignE
         expected_design_path: record.design_path.clone(),
         expected_diagram_path: record.diagram_path.clone(),
         expected_design_digest: blake3::hash(b"design bytes").to_hex().to_string(),
-        expected_diagram_digest: blake3::hash(b"diagram bytes").to_hex().to_string(),
+        expected_diagram_digest: blake3::hash(b"flowchart TD\n  A --> B\n")
+            .to_hex()
+            .to_string(),
         new_design_path: format!("docs/issues/{}/design.md", record.issue),
         new_diagram_path: format!("docs/issues/{}/diagram.mmd", record.issue),
         prior_reviewer: "fresh-session:019ff5eb-c6ed-7f83-9d6c-87b7a661eb8b".into(),
@@ -611,6 +629,21 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
         ".csdlc/prepared/legacy/design.md",
         ".csdlc/prepared/legacy/diagram.mmd",
     );
+    let bind_target = temp.path().join("bound-297");
+    let before_bind = bind_issue(
+        &Store::new(&linked),
+        BindRequest {
+            issue: 297,
+            base_branch: "main".into(),
+            branch: "issue-297-bound".into(),
+            worktree: bind_target.to_string_lossy().into_owned(),
+            code_repository: None,
+        },
+    );
+    assert!(
+        before_bind.is_err(),
+        "dirty/unsafe pre-recovery source must not bind"
+    );
     fs::create_dir_all(linked.join("docs/issues/297")).unwrap();
     fs::write(linked.join("docs/issues/297/design.md"), b"design bytes").unwrap();
     fs::hard_link(
@@ -640,6 +673,73 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
         linked.join(".git").is_file(),
         "fixture is a linked worktree"
     );
+    let approved = approve_design(
+        &Store::new(&linked),
+        ApproveDesignRequest {
+            issue: 297,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            reviewer: "fresh-session:11111111-1111-4111-8111-111111111111".into(),
+        },
+    )
+    .unwrap();
+    assert!(matches!(
+        approved.design_review,
+        csdlc_v2::DesignReview::Approved { .. }
+    ));
+    let ready = edit_issue(
+        &Store::new(&linked),
+        EditRequest {
+            issue: 297,
+            card: CardKind::Sip,
+            expected_generation: approved.generation,
+            expected_digest: approved.digest,
+            actor: "test".into(),
+            reason: "fixture ready after recovery".into(),
+            operation: SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Ready,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .unwrap();
+    assert_eq!(ready.phase, csdlc_v2::LifecyclePhase::Ready);
+    assert!(std::process::Command::new("git")
+        .args(["add", "."])
+        .current_dir(&linked)
+        .status()
+        .unwrap()
+        .success());
+    assert!(std::process::Command::new("git")
+        .args([
+            "-c",
+            "user.name=test",
+            "-c",
+            "user.email=test@example.com",
+            "commit",
+            "-qm",
+            "recover issue 297"
+        ])
+        .current_dir(&linked)
+        .status()
+        .unwrap()
+        .success());
+    let after_bind = bind_issue(
+        &Store::new(&linked),
+        BindRequest {
+            issue: 297,
+            base_branch: "issue-297".into(),
+            branch: "issue-297-bound".into(),
+            worktree: bind_target.to_string_lossy().into_owned(),
+            code_repository: None,
+        },
+    );
+    assert!(
+        after_bind.is_ok(),
+        "approved safe recovery should bind: {after_bind:?}; doctor={:?}",
+        csdlc_v2::diagnose(&Store::new(&linked), 297)
+    );
+    assert!(bind_target.join("docs/issues/297/design.md").is_file());
 }
 
 #[test]
