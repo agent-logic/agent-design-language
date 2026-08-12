@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import hashlib
 import json
 import pathlib
 import sys
@@ -19,8 +20,16 @@ def main() -> None:
         fail("unsupported schema")
     if packet.get("status") != args.expect:
         fail(f"expected {args.expect}, got {packet.get('status')}")
-    if not packet.get("packet_sha256"):
+    recorded_digest = packet.get("packet_sha256")
+    if not recorded_digest:
         fail("missing packet digest")
+    canonical = dict(packet)
+    canonical["packet_sha256"] = ""
+    expected_digest = hashlib.sha256(
+        json.dumps(canonical, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    ).hexdigest()
+    if recorded_digest != expected_digest:
+        fail("packet digest mismatch")
     encoded = json.dumps(packet, sort_keys=True).lower()
     for forbidden in ("runtime-private-state-not-exported", "/users/", "/home/", "/private/", "github_pat_", "bearer "):
         if forbidden in encoded:

@@ -1,6 +1,7 @@
 //! PVF: deterministic-core, release-gating WP-18 Runtime orchestration proof.
 
 use adl_runtime_kernel::*;
+use sha2::Digest;
 
 #[tokio::test]
 async fn runtime_owned_positive_is_complete_replay_stable_and_redacted() {
@@ -16,6 +17,14 @@ async fn runtime_owned_positive_is_complete_replay_stable_and_redacted() {
     assert!(first.capability.is_some());
     assert!(first.cognitive_profile.is_some());
     assert!(first.witness_packet.is_some());
+    let mut digest_input = first.clone();
+    digest_input.packet_sha256.clear();
+    assert_eq!(
+        first.packet_sha256,
+        hex::encode(sha2::Sha256::digest(
+            serde_jcs::to_vec(&digest_input).unwrap()
+        ))
+    );
     let encoded = serde_json::to_string(&first).unwrap().to_ascii_lowercase();
     for forbidden in [
         "runtime-private-state-not-exported",
