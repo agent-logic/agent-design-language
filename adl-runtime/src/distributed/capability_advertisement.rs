@@ -9,7 +9,16 @@ use ed25519_dalek::{Signature, Signer, SigningKey, VerifyingKey};
 use redb::{Database, Durability, ReadableTable, ReadableTableMetadata, TableDefinition};
 use serde::{Deserialize, Serialize};
 
-use super::certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore};
+#[cfg(not(test))]
+use super::authority_store_adapters::AuthorityBoundCertificateStore;
+#[cfg(test)]
+use super::certificates::DistributedCertificateStore;
+use super::certificates::{AuthorityCertificate, CertificatePurpose};
+
+#[cfg(not(test))]
+pub type CapabilityCertificateStore = AuthorityBoundCertificateStore;
+#[cfg(test)]
+pub type CapabilityCertificateStore = DistributedCertificateStore;
 
 pub const CAPABILITY_ADVERTISEMENT_SCHEMA: &str = "adl.distributed.capability_advertisement.v1";
 const SIGNING_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-CAPABILITY-ADVERTISEMENT-V1\0";
@@ -268,7 +277,7 @@ impl CapabilityAdvertisementPolicy {
 }
 
 pub struct CapabilityAdvertisementVerifier {
-    certificate_store: Arc<DistributedCertificateStore>,
+    certificate_store: Arc<CapabilityCertificateStore>,
     policy: CapabilityAdvertisementPolicy,
     replay_database: Database,
 }
@@ -281,7 +290,7 @@ struct ReplayState {
 
 impl CapabilityAdvertisementVerifier {
     pub fn open(
-        certificate_store: Arc<DistributedCertificateStore>,
+        certificate_store: Arc<CapabilityCertificateStore>,
         policy: CapabilityAdvertisementPolicy,
         replay_database_path: impl AsRef<Path>,
     ) -> AdvertisementResult<Self> {
