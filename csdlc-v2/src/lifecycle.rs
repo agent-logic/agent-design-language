@@ -33,6 +33,38 @@ pub struct BindResult {
     pub worktree: String,
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct WorktreePolicy {
+    schema: String,
+    required_parent: String,
+}
+
+fn enforce_worktree_policy(root: &Path, requested: &Path) -> Result<()> {
+    let policy_path = root.join(".adl/worktree-policy.json");
+    if !policy_path.is_file() {
+        return Ok(());
+    }
+    let policy: WorktreePolicy = serde_json::from_slice(&fs::read(&policy_path)?)?;
+    if policy.schema != "adl.worktree_policy.v1" {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "unsupported ADL worktree policy schema",
+        ));
+    }
+    let parent = requested_worktree(root, &policy.required_parent)?;
+    if requested == parent || !requested.starts_with(&parent) {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!(
+                "worktree must be a child of the required parent {}",
+                parent.display()
+            ),
+        ));
+    }
+    Ok(())
+}
+
 fn clean_relative(value: &str) -> bool {
     !value.is_empty()
         && Path::new(value)
@@ -562,6 +594,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         ));
     }
     let wanted = requested_worktree(store.root(), &request.worktree)?;
+    enforce_worktree_policy(store.root(), &wanted)?;
     let wanted_text = wanted.to_string_lossy().into_owned();
     let current_root = store.root().canonicalize()?;
     let issue_local = wanted.exists()
@@ -787,4 +820,43 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         branch: request.branch,
         worktree: wanted_text,
     })
+}
+
+#[cfg(test)]
+mod fastwork_policy_tests {
+    use super::enforce_worktree_policy;
+    use std::fs;
+    use std::path::Path;
+
+    fn policy_root() -> tempfile::TempDir {
+        let root = tempfile::tempdir().expect("policy root");
+        fs::create_dir_all(root.path().join(".adl")).expect("policy directory");
+        fs::write(
+            root.path().join(".adl/worktree-policy.json"),
+            r#"{"schema":"adl.worktree_policy.v1","required_parent":"/Volumes/FastWork/adl-worktrees"}"#,
+        )
+        .expect("policy file");
+        root
+    }
+
+    #[test]
+    fn fastwork_policy_accepts_child_of_required_parent() {
+        let root = policy_root();
+        enforce_worktree_policy(
+            root.path(),
+            Path::new("/Volumes/FastWork/adl-worktrees/adl-issue-5911"),
+        )
+        .expect("FastWork child should pass");
+    }
+
+    #[test]
+    fn fastwork_policy_refuses_other_parent() {
+        let root = policy_root();
+        let error = enforce_worktree_policy(
+            root.path(),
+            Path::new("/Users/example/git/agent-design-language/.worktrees/adl-issue-5911"),
+        )
+        .expect_err("local-disk worktree should fail");
+        assert!(error.message.contains("/Volumes/FastWork/adl-worktrees"));
+    }
 }

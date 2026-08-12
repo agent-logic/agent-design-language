@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5911,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Archive local Codex transcripts to FastWork and recover disk space",
+    "slug": "fastwork-transcript-archive-worktree-policy",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue 5911 typed bind policy, focused tests/docs, and non-destructive archive evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Check path containment and canonicalization bypasses.",
+        "Check that rejection occurs before Git mutation.",
+        "Check archive privacy, completeness, and checksum verification.",
+        "Confirm no deletion or existing-worktree relocation occurred."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5911,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "eba116b5732a4b5f497dadabca6e906a6f9eb9dcd393ae704780074f01a773fe",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "aa40fad249950a8ec1f1c83cd0857505fd2ed304f6e88638b371f1aeeab7b730",
+  "branch": "codex/5911-fastwork-storage-policy",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5911-fastwork-storage-policy",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5911/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5911/design.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-approved issue scope",
+      "revision": "d1c9aa19f2fe9852933e714905eb7ee5d03620078721157ccdafdb9b286d1991"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "35167c328a198ef1f7d7148160a0c3aa13d43574e94a8012f46eb1d6a4f6b274",
+      "rendered_digest": "50d8426892e02179c4580c314aea63c6a17ea525229f22acb5707e52d60a46c7",
+      "ast_digest": "3eb3ea1e6498c50e443dcec5bf981178d93caf68b11349f56efe7137e9e3732c"
+    },
+    "stp": {
+      "values_digest": "8fdb9393e19885a05d6ca1bc5f5133ed8670a2d1b25d8008e585b172e5308211",
+      "rendered_digest": "b633f7279064086c2b1e2a2cf7925433018552a9dd81ae45d213068ed69ffdbd",
+      "ast_digest": "f68cd50f666c2f83f3fcb83b350475373e86b9d411a8340d42fdd0005126b67b"
+    },
+    "spp": {
+      "values_digest": "47723e711b6a61e590fbb120f39e8a336598bbd9b9feb7082ed1ef2a05c85ea4",
+      "rendered_digest": "e3089ea1391a438363d1e822e7fe9974fa51a07b46a7989044628cb37f289614",
+      "ast_digest": "9aa0d83d579b98aad4f9eaa43ff5ad9f4dbbe032044223cf16794c085a85d51b"
+    },
+    "vpp": {
+      "values_digest": "5eb5f042ffbf5524dd76651e6c1603d6d20cf3a110c530d157f401469df6da4e",
+      "rendered_digest": "ad598da03554ca6c21d30e1ede3b9347b5eca25e83bef632b3c22fa4d169c098",
+      "ast_digest": "4de37a210dbdf1dc001805264267e8e8345bfd6013e202592f9caa6905b9da2f"
+    },
+    "srp": {
+      "values_digest": "1e3c979b40af4912bb80803834609d7b75582904132c602a043d3d3630e9a41d",
+      "rendered_digest": "032762b88fec9d4f4f746f6ef5422009021fd5d92ea6abd997a2b2053778a1a3",
+      "ast_digest": "a3097fb475a27bf72f6b8a604ef83f48decfe080535cbe5a35afc90128b0bdf3"
+    },
+    "sor": {
+      "values_digest": "b44f6da541124dd9dbe8fafe83514edcde953e9dee43b6093fab7795c1e69916",
+      "rendered_digest": "96883761ec1d93bcae92ef9d7bf156c488e06281fc8dba194584e73686cf3df3",
+      "ast_digest": "ec38c0929233c1bcfff12d3db08267659de8755cc399053495c5a15f8f721060"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "doctor passed with no findings; advance the prepared issue to execution-ready"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "route pre-bind archive validation through an existing governed archive test target; issue-specific manifest verification remains required execution evidence",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-bind-fastwork-policy\",\"proof_role\":\"Focused Rust tests prove allowed FastWork binding and refusal outside the canonical parent.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"fastwork\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"transcript-archive-verification\",\"proof_role\":\"Governed archive tests plus issue execution evidence prove manifest generation, digest verification, and source preservation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":3000,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_archive_run_artifacts.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "declare the existing governed archive validation target in the issue planning surface",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"AGENTS.md\",\"docs/tooling\",\"adl/tools/test_archive_run_artifacts.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "doctor passed with no findings; advance the prepared issue to execution-ready",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}
