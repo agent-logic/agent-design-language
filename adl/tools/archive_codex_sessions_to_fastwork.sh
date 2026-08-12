@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set -C
 umask 077
 
 usage() {
@@ -55,11 +56,12 @@ destination_parent="$(cd "$destination_parent" && pwd -P)"
   exit 2
 }
 destination="$destination_parent/$(basename "$destination")"
-if [[ -e "$destination" && ! -d "$destination" ]]; then
-  echo "destination exists and is not a directory" >&2
+if [[ -e "$destination" || -L "$destination" ]]; then
+  echo "destination must not already exist" >&2
   exit 2
 fi
-mkdir -p "$destination/data"
+mkdir "$destination"
+mkdir "$destination/data"
 destination="$(cd "$destination" && pwd -P)"
 [[ "$destination" == /Volumes/FastWork/* ]] || {
   echo "canonical destination must be beneath /Volumes/FastWork" >&2

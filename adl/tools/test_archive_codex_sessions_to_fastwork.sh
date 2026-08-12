@@ -37,6 +37,16 @@ if "$repo_root/adl/tools/archive_codex_sessions_to_fastwork.sh" \
 fi
 test ! -e /Users/daniel/archive-must-not-exist
 
+mkdir "$fixture/preexisting"
+ln -s /Users/daniel "$fixture/preexisting/data"
+if "$repo_root/adl/tools/archive_codex_sessions_to_fastwork.sh" \
+  --source "$fixture/source" \
+  --destination "$fixture/preexisting" \
+  --min-age-days 0 >/dev/null 2>&1; then
+  echo "expected pre-existing destination refusal" >&2
+  exit 1
+fi
+
 if "$repo_root/adl/tools/archive_codex_sessions_to_fastwork.sh" \
   --source "$fixture/source" \
   --destination "/Users/daniel/adl-archive-policy-must-refuse" \

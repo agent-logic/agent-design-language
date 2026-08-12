@@ -72,6 +72,22 @@ fn enforce_worktree_policy(root: &Path, requested: &Path, required: bool) -> Res
     Ok(())
 }
 
+fn existing_bound_issue_local(
+    phase: crate::LifecyclePhase,
+    stored_branch: Option<&str>,
+    requested: &Path,
+    current_root: &Path,
+    current_branch: &str,
+    requested_branch: &str,
+    stored_worktree: Option<&Path>,
+) -> bool {
+    requested == current_root
+        && current_branch == requested_branch
+        && matches!(phase, crate::LifecyclePhase::Bound)
+        && stored_branch == Some(requested_branch)
+        && stored_worktree == Some(requested)
+}
+
 fn clean_relative(value: &str) -> bool {
     !value.is_empty()
         && Path::new(value)
@@ -604,18 +620,22 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     let wanted_text = wanted.to_string_lossy().into_owned();
     let current_root = store.root().canonicalize()?;
     let current_record = store.load_record(request.issue)?;
+    let stored_worktree = current_record
+        .worktree
+        .as_deref()
+        .map(|value| requested_worktree(store.root(), value))
+        .transpose()?;
     let issue_local = wanted.exists()
         && wanted.canonicalize().ok().as_ref() == Some(&current_root)
-        && git::current_branch(store.root())? == request.branch
-        && matches!(current_record.phase, crate::LifecyclePhase::Bound)
-        && current_record.branch.as_deref() == Some(request.branch.as_str())
-        && current_record
-            .worktree
-            .as_deref()
-            .map(|value| requested_worktree(store.root(), value))
-            .transpose()?
-            .as_ref()
-            == Some(&wanted);
+        && existing_bound_issue_local(
+            current_record.phase,
+            current_record.branch.as_deref(),
+            &wanted,
+            &current_root,
+            &git::current_branch(store.root())?,
+            &request.branch,
+            stored_worktree.as_deref(),
+        );
     let policy_required = current_record.repository == "agent-logic/agent-design-language";
     if !issue_local {
         enforce_worktree_policy(store.root(), &wanted, policy_required)?;
@@ -844,7 +864,8 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
 
 #[cfg(test)]
 mod fastwork_policy_tests {
-    use super::enforce_worktree_policy;
+    use super::{enforce_worktree_policy, existing_bound_issue_local};
+    use crate::LifecyclePhase;
     use std::fs;
     use std::path::Path;
 
@@ -892,5 +913,33 @@ mod fastwork_policy_tests {
         )
         .expect_err("missing mandatory policy should fail");
         assert!(error.message.contains("missing .adl/worktree-policy.json"));
+    }
+
+    #[test]
+    fn ready_issue_local_checkout_cannot_bypass_policy() {
+        let path = Path::new("/Users/example/adl-5911");
+        assert!(!existing_bound_issue_local(
+            LifecyclePhase::Ready,
+            Some("codex/5911"),
+            path,
+            path,
+            "codex/5911",
+            "codex/5911",
+            Some(path),
+        ));
+    }
+
+    #[test]
+    fn matching_legacy_bound_topology_is_idempotent() {
+        let path = Path::new("/Users/example/adl-5911");
+        assert!(existing_bound_issue_local(
+            LifecyclePhase::Bound,
+            Some("codex/5911"),
+            path,
+            path,
+            "codex/5911",
+            "codex/5911",
+            Some(path),
+        ));
     }
 }
