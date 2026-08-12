@@ -5,10 +5,25 @@
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
   "phase": "implemented",
   "generation": 14,
-  "digest": "38edf96ed0054623b2b64d1e5c6de847381792019352c874e15d093bfce27dbb",
+  "digest": "1fc7dc3546fea00d49c8d762d53c41ca5099c36f7fb6322d5c27fc5f4e793680",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:70f2092e-82a4-4df9-b6ef-af5e91c8cc29",
+    "assigned_by": "codex:issue-297",
+    "revision": "git-blake3:2d84616d5b309f0f4bd8d1a21dfc82bf907a8812:8b5e559303ebed42c99d43b592848797cbef8633394f21cbcf33e538831e1470",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/297",
+      ".csdlc/prepared/issues/297",
+      ".csdlc/evidence/297"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "8e95b4571cde6288076cbf1bb565d27344aaa3b7fa0025ab19ec504023e44f56"
     },
     "srp": {
-      "values_digest": "82758a4e85351d6bc50c0f3609ff31d50f8566d6354fee605dd9ae213861da7e",
-      "rendered_digest": "6f4e38ac2a97a50f90551b3dce814fd74affdc11bb3fc116e971cce08a0617e9",
-      "ast_digest": "8f81d0ff47d5b8e65b630310d435d18d4f3965c7486a36fbeabe916e37ba8c33"
+      "values_digest": "c971cc040a3e289309e9a84e210ed5521b96f8c3b9e620d5667fbf7a800899dd",
+      "rendered_digest": "d303d95f5736a89a1232696a77bf87cd4dc56ce4d79bcb09b4601952bd4ede64",
+      "ast_digest": "cf678bbc03e8647457f58863be77485dcf8b9c3e1ee54632f5ab7d73723e925c"
     },
     "sor": {
       "values_digest": "c1627431d50f7ee1308ecc97e294d795921f472023f194f8a52c4a73563e914e",
@@ -189,6 +204,13 @@
       "actor": "codex:issue-297",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:issue-297",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

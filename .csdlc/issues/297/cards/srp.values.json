@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "All #297 typed contracts, issue-store recovery namespace behavior, CLI/schema exposure, immutable recovery receipts, and real integration/failpoint tests; code, security, test, and evidence coverage required.",
+      "review_scope": "csdlc-v2/src/bin/csdlc-issue.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/projection_recovery.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/297\n.csdlc/prepared/issues/297\n.csdlc/evidence/297",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

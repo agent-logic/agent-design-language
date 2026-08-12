@@ -12,7 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-All #297 typed contracts, issue-store recovery namespace behavior, CLI/schema exposure, immutable recovery receipts, and real integration/failpoint tests; code, security, test, and evidence coverage required.
+csdlc-v2/src/bin/csdlc-issue.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/src/schema.rs
+csdlc-v2/src/store.rs
+csdlc-v2/src/projection_recovery.rs
+csdlc-v2/tests/gate5.rs
+.csdlc/issues/297
+.csdlc/prepared/issues/297
+.csdlc/evidence/297
 
 ## Prompts
 
