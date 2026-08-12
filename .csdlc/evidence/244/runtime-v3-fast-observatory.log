@@ -1,9 +1,9 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
-     Running tests/control.rs (adl-runtime-kernel/target/debug/deps/control-8e21af7c5cd0cbe5)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running tests/control.rs (adl-runtime-kernel/target/debug/deps/control-f9e8f949fbdb8103)
 adl_event schema=adl.runtime.event.v1 sequence=0 component=runtime_api event=state:Running correlation_id=none
 adl_event schema=adl.runtime.event.v1 sequence=1 component=none event=clock_authority_updated correlation_id=none
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
-     Running tests/observatory.rs (adl-runtime-kernel/target/debug/deps/observatory-60819d783f73624c)
+     Running tests/observatory.rs (adl-runtime-kernel/target/debug/deps/observatory-b52a90f1a590f9db)
 adl_event schema=adl.runtime.event.v1 sequence=0 component=canonical_ingress event=state:Starting correlation_id=none
 adl_event schema=adl.runtime.event.v1 sequence=1 component=canonical_ingress event=state:Running correlation_id=none
 adl_event schema=adl.runtime.event.v1 sequence=2 component=acip event=state:Starting correlation_id=none

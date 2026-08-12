@@ -7,13 +7,13 @@
     "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
     "slug": "conversation-cleanup-race-deadline",
     "version": "1.0.0",
-    "generation": 30
+    "generation": 35
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Separate admission acknowledgement from bounded execution timing, prove the cleanup race repeatedly, run the required Runtime lane, and obtain exact-head review before publication.",
       "steps": [
         {
@@ -45,7 +45,9 @@
         }
       ],
       "affected_areas": [
-        "adl-runtime-kernel/tests/conversation_sessions.rs",
+        "adl-runtime-kernel/src/control.rs cfg(test)-only instrumentation",
+        "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+        "adl-runtime-kernel/src/lib.rs cfg(test) module registration",
         ".csdlc/evidence/244"
       ],
       "invariants": [

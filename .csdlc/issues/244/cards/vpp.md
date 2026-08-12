@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/244/diagram.mmd
 [
   {
     "lane": "conversation-cleanup-race-focused",
-    "proof_role": "focused cleanup-race integration proof; session preflight repeated this target twenty times",
+    "proof_role": "cfg(test)-only server-hook cleanup-race proof repeated thirty times with bounded scheduler pressure",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -34,22 +34,24 @@ Diagram: .csdlc/prepared/issues/244/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 200,
+    "budget_seconds": 240,
     "budget_tokens": 2500,
     "argv": [
       "cargo",
       "test",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
-      "--test",
-      "conversation_sessions"
+      "--lib",
+      "conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress",
+      "--",
+      "--exact"
     ],
     "parallel_group": "runtime-focused",
     "defer_reason": null
   },
   {
     "lane": "runtime-v3-fast-tests",
-    "proof_role": "required Runtime focused test surface matching CI",
+    "proof_role": "required Runtime test surface matching CI",
     "acceptance_ids": [
       "AC-4",
       "AC-5"
@@ -105,7 +107,7 @@ Tokens: 10000
 
 ## Commands
 
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_sessions`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress -- --exact`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml`
 - `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings`
 

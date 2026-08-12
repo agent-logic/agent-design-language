@@ -7,15 +7,15 @@
     "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
     "slug": "conversation-cleanup-race-deadline",
     "version": "1.0.0",
-    "generation": 30
+    "generation": 35
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/Cargo.toml\nadl-runtime-kernel/tests/conversation_sessions.rs\n.csdlc/evidence/244\n.csdlc/issues/244",
-      "review_revision": "git-blake3:b0383b06ccd782f0d32ba9d0c1bb9336ea3b884a:415831f8e539fcd90e9102ebef92a6d5ffd63d2f927312b70e00c6bf9bedc0f7",
-      "reviewer": "subagent:review_244_cleanup_race",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does queuing the duplicate behind re-authentication preserve server frame order and the authentication-generation transition?",
         "Does the test attach to the existing in-flight turn before its existing deadline without changing production behavior?",
@@ -23,7 +23,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }
