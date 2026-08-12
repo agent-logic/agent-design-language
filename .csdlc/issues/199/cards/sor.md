@@ -12,21 +12,21 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and review-remediated governed membership coordination. Authorization now binds the exact old and target stable maps plus target membership before Raft effects; history reconciliation requires joint/final entries newer than the authority operation; proof v4 replaces the misleading name facade with twelve behavior-specific cases and seven production assertions.
+Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoin, concrete authority parity, durable checkpoint/publication, crash recovery, and bounded exact retries. Retained v8 proof binds twelve behavior cases and eight production assertions to the exact protected source revision.
 
 ## Artifacts
 
-- .csdlc/evidence/199/v4/execution-proof.json
+- .csdlc/evidence/199/v8/execution-proof.json
 - .csdlc/prepared/issues/199/produce-proof-receipt.rb
 - .csdlc/prepared/issues/199/validate-proof-receipt.rb
 
 ## Execution
 
-- Bound caller transition inputs byte-for-byte to the sealed PromoteVoter stable-map and target-membership digests before add_learner or change_membership
-- Rejected retained membership-history entries at or before the active authority log index and required final history after the current joint entry
-- Replaced thirty-six substituted public names with twelve behavior-specific public cases
-- Expanded coordinator proof to seven cases covering authorized target binding and stale-history denial
-- Retained v4 exact proof after strict library and integration Clippy
+- Sealed phase completion behind the GovernedMembershipRuntime owner and bound exact stable maps and target membership before Raft effects
+- Staged local membership and authority projections until durable publication and repaired projections on exact published retries
+- Journaled enrollment before external activation and retained a bounded durable multi-operation result cache
+- Classified failed membership changes using the applied OpenRaft configuration, preserving ambiguous joint outcomes and retrying proven no-effect attempts
+- Proved real removal, separate enrollment, fresh-node rejoin promotion, parity publication, and immediate crash recovery
 
 ## Validation
 
@@ -36,18 +36,18 @@ Implemented and review-remediated governed membership coordination. Authorizatio
       "ruby",
       ".csdlc/prepared/issues/199/produce-proof-receipt.rb"
     ],
-    "purpose": "Produce exact review-remediated evidence with behavior-specific and production-assertion denominators",
+    "purpose": "Produce exact v8 protected-source evidence with twelve behavior cases and eight production assertions",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v4/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/199/v8/execution-proof.json"
   },
   {
     "command": [
       "ruby",
       ".csdlc/prepared/issues/199/validate-proof-receipt.rb"
     ],
-    "purpose": "Validate exact argv, 12 public cases, seven production assertions, protected source, immutable introduction, and current-main ancestry",
+    "purpose": "Validate exact argv, denominators, protected source, immutable introduction, and current-main ancestry",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v4/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/199/v8/execution-proof.json"
   },
   {
     "command": [
@@ -63,7 +63,7 @@ Implemented and review-remediated governed membership coordination. Authorizatio
     ],
     "purpose": "Reject warnings across the production Runtime library",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v4/clippy-lib.stderr.log"
+    "evidence_ref": ".csdlc/evidence/199/v8/clippy-lib.stderr.log"
   },
   {
     "command": [
@@ -78,9 +78,9 @@ Implemented and review-remediated governed membership coordination. Authorizatio
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings across the behavior-specific public target",
+    "purpose": "Reject warnings across the exact public transition target",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v4/clippy-integration.stderr.log"
+    "evidence_ref": ".csdlc/evidence/199/v8/clippy-integration.stderr.log"
   }
 ]
 
