@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "bound",
-  "generation": 31,
-  "digest": "4dddb30ab891c7541ba358791fa9283922936bc15fd397c5f7416dbb0998d228",
+  "generation": 32,
+  "digest": "5b03b8600eebd71a2d011ae7ae7fd9247c5d3a664c108bb90103e88b3447b0e8",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "06bb8ecedc7847d6496dc8e101a4d7cc1be7c8685c00b97808fc1444e176a3b6",
+      "values_digest": "9af557d2d71cea3aad5aba4bd8c36ba2d3e66f0a1a47059b92683c3c6c72d4d0",
       "rendered_digest": "c359833435b3fec371ee4fb3e06c059405db392529200e79f667ddf634f49dd9",
       "ast_digest": "1550fcf3865ee5b7fdd70c7d721016ca49bc28929bea299bc58bdddb875263ed"
     },
     "stp": {
-      "values_digest": "36f44cb55e9fe07194508d36adfdc74668e3ebff3e2e66177f8ddc8a62074f49",
-      "rendered_digest": "ac5947529d584f93f30572c7c724820fb62045bd9787a09d853fd87f4eff4bd9",
-      "ast_digest": "28032a1ffc47c6d6459ae1327b0c2042ab0c9a82dbdf971073fa972d79217aa3"
+      "values_digest": "d7b399dca7da6ccb6589a2bbf5f953d77eabf88014a59fd220ad4e56ff558d58",
+      "rendered_digest": "3588e7b7788a694807dea7951395d85c31f864ed1597ddfd1d91d1beaf42c82e",
+      "ast_digest": "08f33d476eb7a97037dd49bef15b348c84c8058bcb805723e9b9d23e20bc1800"
     },
     "spp": {
-      "values_digest": "393f75f0697f75bb7178afaf8b47c36c8ec400f8e590f39a80a04348dc84736a",
+      "values_digest": "78bc28785232354ae01ca8af8721114581e06baf78f65337ef847b0dcd45c0ff",
       "rendered_digest": "5c0633102bdcc5d9b7a65d4ccc56bdd5de7ae64fa5aa25cecc21a43dad621c6c",
       "ast_digest": "263dd8e4881899dd339f16e6f7ed0f76fa473ec53f926a99c6deef421f67892f"
     },
     "vpp": {
-      "values_digest": "53ad8ffd729a58c3bca55865643f9004b1e3a841ec906e2b8c6ddf8ff63f413f",
+      "values_digest": "dc6857cdc370d93afc882c9e2d60a6bc90b26cc28a6bd9ef4a0b7de0666193d0",
       "rendered_digest": "e6d7d27fc6120db3cd30b6b49a3dd3a3bd532e68c4debbe599f4ce2b020ce3e4",
       "ast_digest": "d4cf166260ee47b20d861b149176a64567e35251180d2c25156e13bbfc3377b7"
     },
     "srp": {
-      "values_digest": "d7d23321a4bbd69bb31fce1dca675895f951708dee04cb66bd23618a3ede02db",
+      "values_digest": "0a6bf69fbadbe55a11ebd861082dd63340767f1328228c6cc76a3c90dfc8f7e7",
       "rendered_digest": "2cd40ee68347d1da9e597b44f113efbb4a7a084d33601afb7f78aef350a73547",
       "ast_digest": "c39e15dc8ca48abd1c026f67c273e12132af658af93c09a36bcfab69ba683559"
     },
     "sor": {
-      "values_digest": "f3fe6b8c41bb8e058ac876f6d7fd38a165b394f5685de92aea760dfbf5a80217",
+      "values_digest": "bf2394c8e8133602c3f4a77fc9cb2debc57f3c31fbe88bd514d6b4cdcd56d1e7",
       "rendered_digest": "a0564026b2d4a57a1a5cbaa9fa222d0ac661820c43f4871fd9b9dc90ebdd8a47",
       "ast_digest": "c0065cfecbfe94f68170322c50c2bb26a7b5d3d8335345c1cbcf5b11a985bffd"
     }
@@ -302,6 +302,13 @@
       "actor": "codex:112-execution",
       "reason": "Include the narrow Observatory navigation and visibility repair exposed by the exact real-browser lane after merged #113.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/layer8_authority.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\",\".csdlc/issues/112\",\".csdlc/prepared/issues/112\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 32,
+      "actor": "codex:112-execution",
+      "reason": "Replace the obsolete preparation sentinel with the actual bound implementation and proof deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Runtime-owned Layer 8 principal, least-privilege authority, refusal, replay, and redacted audit module\",\"One canonical signed ACIP identity-message contract for human-agent and direct agent-agent delivery using externally held per-principal keys\",\"Recipient-signed acknowledgement verification with exact sender, recipient, conversation, correlation, causation, replay, rotation, revocation, and expiry binding\",\"Production conversation-boundary and narrow Runtime API integration before provider delivery\",\"Reachable disclosure-safe Observatory communication surface and exact real-browser authority-state proof\",\"Focused nonzero production conversation, authority and signed-message, Runtime API, and browser validation targets\",\"Feature contract for Layer 8 conversation authority under v0.92\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\"]}"
     }
   ]
 }

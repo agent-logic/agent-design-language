@@ -16,14 +16,15 @@ Prepare and later implement only issue #112 Runtime authority, refusal, replay, 
 
 ## Deliverables
 
-- Runtime-owned Layer 8 principal, authority, refusal, replay, and redacted audit module at the execution-planned source path
-- Narrow Runtime module export and pre-delivery API integration at the execution-planned source paths
-- Focused nonzero authority and Runtime API integration test targets required after #111
-- Dedicated real-browser Observatory authority-state contract required after #111
+- Runtime-owned Layer 8 principal, least-privilege authority, refusal, replay, and redacted audit module
+- One canonical signed ACIP identity-message contract for human-agent and direct agent-agent delivery using externally held per-principal keys
+- Recipient-signed acknowledgement verification with exact sender, recipient, conversation, correlation, causation, replay, rotation, revocation, and expiry binding
+- Production conversation-boundary and narrow Runtime API integration before provider delivery
+- Reachable disclosure-safe Observatory communication surface and exact real-browser authority-state proof
+- Focused nonzero production conversation, authority and signed-message, Runtime API, and browser validation targets
 - Feature contract for Layer 8 conversation authority under v0.92
 - .csdlc/prepared/issues/112/design.md
 - .csdlc/prepared/issues/112/diagram.mmd
-- .csdlc/prepared/issues/112/validate-preparation.rb
 
 ## Acceptance
 
