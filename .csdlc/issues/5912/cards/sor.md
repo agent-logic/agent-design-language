@@ -58,11 +58,11 @@ Added a Runtime-owned service that provisions opaque birth-witness policy, build
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

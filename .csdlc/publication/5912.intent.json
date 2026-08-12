@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5912,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5912-runtime-birth-witness",
+  "title": "[v0.92][runtime][birth-witness] Add production policy and receipt boundary",
+  "body": "Closes danielbaustin/agent-design-language#5912\n\n## Summary\n- add a Runtime-owned service that provisions the opaque four-role birth-witness policy from trusted configuration\n- add one production path that builds, validates, canonically serializes, prepares, and commits a caveated receipt\n- use a two-phase sink contract so preparation failures cannot commit receipt side effects\n- add external integration proof for successful canonical emission, invalid-witness pre-sink rejection, and sink-preparation failure\n\n## Validation\n- focused production-path validator: 1 passed\n- external birth_witness integration target: 2 passed\n- retained birth-witness authority suite: 13 passed\n- strict all-target Clippy and diff hygiene: passed\n- independent exact-head review: PASS; one P2 fixed and no actionable findings remain\n\n## Non-claims\nThis PR does not alter the witness algorithm or receipt schema and does not claim birth, citizenship, governance, legal, or launch authority.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:58847b2c4bfdc1fca7174ecc6457bc949d5ec6d8:1fadf90330b2629beb9d65880877a909acacb230f235f5221dda2bdd7ca0c719",
+  "commit_sha": "58847b2c4bfdc1fca7174ecc6457bc949d5ec6d8"
+}
