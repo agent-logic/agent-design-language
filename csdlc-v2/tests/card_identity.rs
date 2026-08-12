@@ -368,9 +368,10 @@ fn journal_owned_inode_prevents_identical_byte_replacement_deletion() {
             .stdout,
     )
     .unwrap();
-    let journal_dir = std::path::Path::new(common.trim()).join("csdlc-v2/recovery-journals");
+    let journal_dir =
+        std::path::Path::new(common.trim()).join("csdlc-v2/recovery-journals/299/fixture");
     fs::create_dir_all(&journal_dir).unwrap();
-    fs::write(journal_dir.join("299.json"), serde_json::to_vec(&serde_json::json!({"schema":"csdlc.initialized_design_envelope_recovery_journal.v1","issue":299,"pre_generation":record.generation,"pre_digest":record.digest,"post_generation":record.generation+1,"old_design_path":record.design_path,"old_diagram_path":record.diagram_path,"new_design_path":"docs/issues/299/design.md","new_diagram_path":"docs/issues/299/diagram.mmd","design_digest":blake3::hash(b"design bytes").to_hex().to_string(),"diagram_digest":blake3::hash(b"diagram bytes").to_hex().to_string(),"design_identity":[owned.dev(),owned.ino()],"diagram_identity":null,"phase":"design_installed"})).unwrap()).unwrap();
+    fs::write(journal_dir.join("010-design_installed.json"), serde_json::to_vec(&serde_json::json!({"schema":"csdlc.initialized_design_envelope_recovery_journal.v1","issue":299,"pre_generation":record.generation,"pre_digest":record.digest,"post_generation":record.generation+1,"old_design_path":record.design_path,"old_diagram_path":record.diagram_path,"new_design_path":"docs/issues/299/design.md","new_diagram_path":"docs/issues/299/diagram.mmd","design_digest":blake3::hash(b"design bytes").to_hex().to_string(),"diagram_digest":blake3::hash(b"diagram bytes").to_hex().to_string(),"design_identity":[owned.dev(),owned.ino()],"diagram_identity":null,"phase":"design_installed","attempt_id":"fixture","sequence":10})).unwrap()).unwrap();
     assert!(recover_initialized_design_envelope(
         &Store::new(temp.path()),
         recovery_request(&record)
@@ -430,9 +431,11 @@ fn restart_reconciles_interrupted_owned_delete_quarantine() {
     fs::rename(&destination, &owned).unwrap();
     let stage = destination.parent().unwrap().join(".design.md.csdlc-stage");
     fs::hard_link(&owned, &stage).unwrap();
-    let common = temp.path().join(".git/csdlc-v2/recovery-journals");
+    let common = temp
+        .path()
+        .join(".git/csdlc-v2/recovery-journals/304/fixture");
     fs::create_dir_all(&common).unwrap();
-    fs::write(common.join("304.json"), serde_json::to_vec(&serde_json::json!({"schema":"csdlc.initialized_design_envelope_recovery_journal.v1","issue":304,"pre_generation":record.generation,"pre_digest":record.digest,"post_generation":record.generation+1,"old_design_path":record.design_path,"old_diagram_path":record.diagram_path,"new_design_path":"docs/issues/304/design.md","new_diagram_path":"docs/issues/304/diagram.mmd","design_digest":blake3::hash(b"design bytes").to_hex().to_string(),"diagram_digest":blake3::hash(b"diagram bytes").to_hex().to_string(),"design_identity":null,"diagram_identity":null,"phase":"design_installed"})).unwrap()).unwrap();
+    fs::write(common.join("010-design_installed.json"), serde_json::to_vec(&serde_json::json!({"schema":"csdlc.initialized_design_envelope_recovery_journal.v1","issue":304,"pre_generation":record.generation,"pre_digest":record.digest,"post_generation":record.generation+1,"old_design_path":record.design_path,"old_diagram_path":record.diagram_path,"new_design_path":"docs/issues/304/design.md","new_diagram_path":"docs/issues/304/diagram.mmd","design_digest":blake3::hash(b"design bytes").to_hex().to_string(),"diagram_digest":blake3::hash(b"diagram bytes").to_hex().to_string(),"design_identity":null,"diagram_identity":null,"phase":"design_installed","attempt_id":"fixture","sequence":10})).unwrap()).unwrap();
     let recovered =
         recover_initialized_design_envelope(&Store::new(temp.path()), recovery_request(&record))
             .unwrap();
@@ -493,7 +496,7 @@ fn recovery_rejects_hardlinked_source_alias_before_journaling() {
     )
     .unwrap();
     assert!(!std::path::Path::new(common.trim())
-        .join("csdlc-v2/recovery-journals/302.json")
+        .join("csdlc-v2/recovery-journals/302")
         .exists());
 }
 
@@ -585,14 +588,15 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
             .stdout,
     )
     .unwrap();
-    let journal_dir = std::path::Path::new(common.trim()).join("csdlc-v2/recovery-journals");
+    let journal_dir =
+        std::path::Path::new(common.trim()).join("csdlc-v2/recovery-journals/297/fixture");
     fs::create_dir_all(&journal_dir).unwrap();
-    fs::write(journal_dir.join("297.json"), serde_json::to_vec(&serde_json::json!({"schema":"csdlc.initialized_design_envelope_recovery_journal.v1","issue":297,"pre_generation":record.generation,"pre_digest":record.digest,"post_generation":record.generation+1,"old_design_path":record.design_path,"old_diagram_path":record.diagram_path,"new_design_path":"docs/issues/297/design.md","new_diagram_path":"docs/issues/297/diagram.mmd","design_digest":blake3::hash(b"design bytes").to_hex().to_string(),"diagram_digest":blake3::hash(b"diagram bytes").to_hex().to_string(),"phase":"design_installed"})).unwrap()).unwrap();
+    fs::write(journal_dir.join("010-design_installed.json"), serde_json::to_vec(&serde_json::json!({"schema":"csdlc.initialized_design_envelope_recovery_journal.v1","issue":297,"pre_generation":record.generation,"pre_digest":record.digest,"post_generation":record.generation+1,"old_design_path":record.design_path,"old_diagram_path":record.diagram_path,"new_design_path":"docs/issues/297/design.md","new_diagram_path":"docs/issues/297/diagram.mmd","design_digest":blake3::hash(b"design bytes").to_hex().to_string(),"diagram_digest":blake3::hash(b"diagram bytes").to_hex().to_string(),"phase":"design_installed","attempt_id":"fixture","sequence":10})).unwrap()).unwrap();
     let recovered =
         recover_initialized_design_envelope(&Store::new(&linked), recovery_request(&record))
             .unwrap();
     assert_eq!(recovered.design_path, "docs/issues/297/design.md");
-    assert!(!journal_dir.join("297.json").exists());
+    assert!(journal_dir.join("010-design_installed.json").exists());
     assert!(
         linked.join(".git").is_file(),
         "fixture is a linked worktree"
