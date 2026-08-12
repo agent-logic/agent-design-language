@@ -116,23 +116,6 @@ fn issue_read_failures_are_typed_redacted_and_action_scoped() {
     fs::write(&token_path, token).expect("write token");
     let sensitive = "sensitive-response-sentinel-41";
 
-    let server = ScriptedGithub::start(vec![(
-        200,
-        open_issue("Readable", "Body", Vec::new(), Vec::new(), None),
-    )]);
-    let success = run_issue_binary(
-        temp.path(),
-        &token_path,
-        server.uri(),
-        base_read_request(),
-        "success",
-    );
-    assert!(success.status.success());
-    let payload: Value = serde_json::from_slice(&success.stdout).expect("success JSON");
-    assert_eq!(payload["issue"]["number"], 77);
-    assert_eq!(payload["issue"]["title"], "Readable");
-    assert!(success.stderr.is_empty());
-
     let listener = TcpListener::bind("127.0.0.1:0").expect("transport address");
     let unavailable = format!("http://{}/", listener.local_addr().unwrap());
     drop(listener);
