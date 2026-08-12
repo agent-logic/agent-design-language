@@ -5,10 +5,24 @@
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
   "generation": 22,
-  "digest": "8b5cd6ce843d6d8174a8e2e52146b7a56e28cdb462b266718bae82624f2e2e06",
+  "digest": "4a5ef266465cf5c03b4b48e795a53b148810dc127437b8897d11cf2816e8b3de",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:6c2350b3-1208-4718-82ca-173ee393c209",
+    "assigned_by": "codex:issue-294",
+    "revision": "git-blake3:50b187d1084cc473328d31316447525f91b5565f:eb8f538bf6f58449ea10277414455cffb45358c5a42682ec0a53ae21447fbe33",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/294",
+      ".csdlc/prepared/issues/294",
+      ".csdlc/evidence/294"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +58,9 @@
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "6718d52c33368c5ead780fe701d03f52dfeab37ed847bd9f72a35371d28e79b0",
-      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
-      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
+      "values_digest": "106944713dc1940ca89752831b37dca9bc4b7900b3c3d0d752014fa13a5e9410",
+      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
+      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
     },
     "sor": {
       "values_digest": "5bcb763ab8d684ee106bb0ee7723cb5426938f4a2f7439f06fa78db1a8064c4c",
@@ -294,6 +308,13 @@
       "actor": "codex:issue-294",
       "reason": "Recover failed r7 exact-head assignment at substantive 2ef4d35d2af8c64150dd63f1cf97f02ed7f0fa28: the pre-journal-identity crash branch proves destination-stage hardlink ownership then performs digest-only unlink, allowing identical-byte replacement between check and deletion; AC-8/AC-9 proof still lacks actual typed bind-before/after, later lifecycle/history state, and deterministic interruption/unlink race fixtures",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
+      "actor": "codex:issue-294",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
