@@ -12,7 +12,20 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/birthday_continuity.rs
+adl-runtime-kernel/src/capability_envelope.rs
+adl-runtime-kernel/src/cognitive_profile.rs
+adl-runtime-kernel/tests/capability_envelope.rs
+adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs
+adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs
+adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/conversation_sessions_tests.rs
+adl-runtime-kernel/src/parity.rs
+adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs
+adl-runtime-kernel/tests/parity.rs
+.csdlc/issues/237
 
 ## Prompts
 
