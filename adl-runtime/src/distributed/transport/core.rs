@@ -22,8 +22,9 @@ use tokio_util::sync::CancellationToken;
 #[cfg(test)]
 use super::lease::VoterAuthority;
 use super::{
-    authority_store_adapters::AuthorityBoundCertificateStore,
-    certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
+    certificates::{
+        AuthorityCertificate, CertificatePurpose, DistributedCertificateStore, VerifiedCertificate,
+    },
     lease::{AuthorityMembership, ControlCertificatePurpose},
     membership::{MemberRole, MembershipPolicy, MembershipState},
 };
@@ -848,10 +849,20 @@ struct VerifiedRouteAuthority {
 ///
 /// Route and polis verification consume this handle rather than accepting a
 /// caller-nominated `AuthorityMembership` at the authorization boundary.
+pub trait RuntimeCertificateAuthority: Send + Sync {
+    fn authorize_runtime_certificate(
+        &self,
+        holder_id: &str,
+        purpose: CertificatePurpose,
+        generation: u64,
+        now_unix_seconds: u64,
+    ) -> Result<VerifiedCertificate, ()>;
+}
+
 #[derive(Clone)]
 enum CertificateAuthorityHandle {
     Raw(Arc<DistributedCertificateStore>),
-    Bound(AuthorityBoundCertificateStore),
+    Bound(Arc<dyn RuntimeCertificateAuthority>),
 }
 
 impl CertificateAuthorityHandle {
@@ -861,14 +872,13 @@ impl CertificateAuthorityHandle {
         purpose: CertificatePurpose,
         generation: u64,
         now_unix_seconds: u64,
-    ) -> Result<super::certificates::VerifiedCertificate, ()> {
+    ) -> Result<VerifiedCertificate, ()> {
         match self {
             Self::Raw(store) => store
                 .authorize(holder_id, purpose, generation, now_unix_seconds)
                 .map_err(|_| ()),
             Self::Bound(store) => store
-                .authorize(holder_id, purpose, generation, now_unix_seconds)
-                .map_err(|_| ()),
+                .authorize_runtime_certificate(holder_id, purpose, generation, now_unix_seconds),
         }
     }
 }
@@ -913,7 +923,7 @@ impl RuntimeAuthorityInitializer {
     }
 
     pub(crate) fn restore_bound(
-        certificate_store: AuthorityBoundCertificateStore,
+        certificate_store: Arc<dyn RuntimeCertificateAuthority>,
         membership_policy: MembershipPolicy,
         membership_snapshot: &[u8],
         trusted_membership_commitment: [u8; 32],
@@ -1691,7 +1701,7 @@ impl TransportAuthorization {
     }
 
     pub fn new_authority_bound(
-        store: AuthorityBoundCertificateStore,
+        store: Arc<dyn RuntimeCertificateAuthority>,
         certificate: &AuthorityCertificate,
     ) -> TransportResult<Self> {
         Self::new_with_handle(CertificateAuthorityHandle::Bound(store), certificate)

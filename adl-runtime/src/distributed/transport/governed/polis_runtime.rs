@@ -602,7 +602,7 @@ impl PolisRuntimeAuthorityBootstrap {
     ) -> TransportResult<Self> {
         Ok(Self {
             initializer: RuntimeAuthorityInitializer::restore_bound(
-                certificate_store,
+                Arc::new(certificate_store),
                 membership_policy,
                 membership_snapshot,
                 trusted_membership_commitment,
