@@ -23,6 +23,25 @@ const REVOCATIONS: TableDefinition<&str, &[u8]> =
 const FENCES: TableDefinition<&str, &[u8]> =
     TableDefinition::new("distributed_certificate_fences_v1");
 
+mod raw_access {
+    #[derive(Clone, Copy, Debug)]
+    pub struct CertificateStoreAccess {
+        _private: (),
+    }
+
+    pub(crate) const AUTHORITY_BOUND: CertificateStoreAccess =
+        CertificateStoreAccess { _private: () };
+
+    #[cfg(debug_assertions)]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: CertificateStoreAccess = CertificateStoreAccess { _private: () };
+}
+
+pub use raw_access::CertificateStoreAccess;
+pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_CERTIFICATE_ACCESS;
+#[cfg(debug_assertions)]
+pub use raw_access::TEST_FIXTURE as TEST_CERTIFICATE_STORE_ACCESS;
+
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum CertificatePurpose {
@@ -398,6 +417,7 @@ pub struct DistributedCertificateStore {
 
 impl DistributedCertificateStore {
     pub fn open(
+        _access: &CertificateStoreAccess,
         database_path: impl AsRef<Path>,
         policy: CertificatePolicy,
     ) -> CertificateResult<Self> {
@@ -430,6 +450,7 @@ impl DistributedCertificateStore {
 
     pub fn activate(
         &self,
+        _access: &CertificateStoreAccess,
         certificate: &AuthorityCertificate,
         now_unix_secs: u64,
     ) -> CertificateResult<ActivationOutcome> {
@@ -517,6 +538,7 @@ impl DistributedCertificateStore {
 
     pub fn authorize(
         &self,
+        _access: &CertificateStoreAccess,
         holder_id: &str,
         purpose: CertificatePurpose,
         generation: u64,
@@ -566,6 +588,7 @@ impl DistributedCertificateStore {
 
     pub fn revoke(
         &self,
+        _access: &CertificateStoreAccess,
         certificate_id: &str,
         now_unix_secs: u64,
         reason: RevocationReason,

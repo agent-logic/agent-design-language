@@ -22,6 +22,24 @@ const STATE_LOCK_FILE: &str = ".fencing-state.lock";
 const MAX_IDENTITY_BYTES: usize = 128;
 const MAX_REQUEST_ID_BYTES: usize = 128;
 
+mod raw_access {
+    #[derive(Clone, Copy, Debug)]
+    pub struct FencingStoreAccess {
+        _private: (),
+    }
+
+    pub(crate) const AUTHORITY_BOUND: FencingStoreAccess = FencingStoreAccess { _private: () };
+
+    #[cfg(debug_assertions)]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: FencingStoreAccess = FencingStoreAccess { _private: () };
+}
+
+pub use raw_access::FencingStoreAccess;
+pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_FENCING_ACCESS;
+#[cfg(debug_assertions)]
+pub use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum FencingError {
     InvalidPolicy,
@@ -264,6 +282,7 @@ struct PersistOutcome {
 
 impl FencingStore {
     pub fn create(
+        _access: &FencingStoreAccess,
         root: impl AsRef<Path>,
         policy: FencingPolicy,
         checkpoint_authority: Arc<dyn FencingCheckpointAuthority>,
@@ -293,6 +312,7 @@ impl FencingStore {
     }
 
     pub fn open(
+        _access: &FencingStoreAccess,
         root: impl AsRef<Path>,
         policy: FencingPolicy,
         checkpoint_authority: Arc<dyn FencingCheckpointAuthority>,
@@ -439,7 +459,11 @@ impl FencingStore {
         outcome.post_commit_error.map_or(Ok(()), Err)
     }
 
-    pub fn commit(&mut self, request: FenceCommit<'_>) -> FencingResult<FenceReceipt> {
+    pub fn commit(
+        &mut self,
+        _access: &FencingStoreAccess,
+        request: FenceCommit<'_>,
+    ) -> FencingResult<FenceReceipt> {
         if request.request_id.is_empty()
             || request.request_id.len() > MAX_REQUEST_ID_BYTES
             || !valid_identity(&request.current_lease.lineage_id)
@@ -617,9 +641,7 @@ impl FencingStore {
                 }
             }
         }
-        if check.now_unix_millis >= check.lease.deadline_unix_millis
-            || check.now_elapsed_millis >= check.lease.deadline_elapsed_millis
-        {
+        if check.now_unix_millis >= check.lease.deadline_unix_millis {
             return Err(FencingError::LeaseExpired);
         }
         verify_activation_possession(&body, check.lease, check.activation_proof)?;

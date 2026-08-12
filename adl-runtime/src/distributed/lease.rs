@@ -25,6 +25,24 @@ const MAX_CERTIFICATE_BYTES: usize = 1024 * 1024;
 const SHA256_BYTES: usize = 32;
 const SIGNATURE_BYTES: usize = 64;
 
+mod raw_access {
+    #[derive(Clone, Copy, Debug)]
+    pub struct LeaseStoreAccess {
+        _private: (),
+    }
+
+    pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess { _private: () };
+
+    #[cfg(debug_assertions)]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess { _private: () };
+}
+
+pub use raw_access::LeaseStoreAccess;
+pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_LEASE_ACCESS;
+#[cfg(debug_assertions)]
+pub use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(u32)]
 pub enum OperationClass {
@@ -128,6 +146,10 @@ pub struct MutationAuthorizationPayloadV1 {
     pub mutation_sha256: Vec<u8>,
     #[prost(bytes = "vec", tag = "7")]
     pub certificate_sha256: Vec<u8>,
+    #[prost(int64, tag = "8")]
+    pub now_unix_seconds: i64,
+    #[prost(uint32, tag = "9")]
+    pub now_unix_nanos: u32,
 }
 
 #[derive(Clone, PartialEq, Message, Serialize, Deserialize)]
@@ -363,8 +385,6 @@ pub struct LeaseState {
     pub committed_log_index: u64,
     pub epoch: u64,
     pub certificate_generation: u64,
-    pub activated_elapsed_millis: u64,
-    pub deadline_elapsed_millis: u64,
     pub deadline_unix_millis: u64,
     pub certificate_bytes: Vec<u8>,
     pub revoked: bool,
@@ -393,6 +413,8 @@ pub struct MutationAuthorization<'a> {
     pub lineage_id: &'a [u8],
     pub holder_guardian_id: &'a [u8],
     pub epoch: u64,
+    pub now_unix_seconds: i64,
+    pub now_unix_nanos: u32,
     pub now_elapsed_millis: u64,
     pub applied_log_index: u64,
     pub sequence: u64,
@@ -547,6 +569,8 @@ pub fn activation_signature(body: &AuthorityCertificateBodyV1, key: &SigningKey)
 
 pub fn mutation_signature(
     lease: &LeaseState,
+    now_unix_seconds: i64,
+    now_unix_nanos: u32,
     applied_log_index: u64,
     sequence: u64,
     mutation_sha256: [u8; 32],
@@ -554,6 +578,8 @@ pub fn mutation_signature(
 ) -> [u8; 64] {
     key.sign(&mutation_authorization_digest(
         lease,
+        now_unix_seconds,
+        now_unix_nanos,
         applied_log_index,
         sequence,
         mutation_sha256,
@@ -563,6 +589,8 @@ pub fn mutation_signature(
 
 fn mutation_authorization_digest(
     lease: &LeaseState,
+    now_unix_seconds: i64,
+    now_unix_nanos: u32,
     applied_log_index: u64,
     sequence: u64,
     mutation_sha256: [u8; 32],
@@ -575,6 +603,8 @@ fn mutation_authorization_digest(
         sequence,
         mutation_sha256: mutation_sha256.to_vec(),
         certificate_sha256: Sha256::digest(&lease.certificate_bytes).to_vec(),
+        now_unix_seconds,
+        now_unix_nanos,
     };
     domain_digest(MUTATION_DOMAIN, &payload.encode_to_vec())
 }
@@ -770,7 +800,7 @@ impl RedactedLeaseSnapshot {
 }
 
 impl AuthorityLedger {
-    pub fn new(policy: LeasePolicy) -> AuthorityResult<Self> {
+    pub fn new(_access: &LeaseStoreAccess, policy: LeasePolicy) -> AuthorityResult<Self> {
         policy.validate()?;
         Ok(Self {
             policy,
@@ -801,7 +831,7 @@ impl AuthorityLedger {
         &self,
         expected_revision: LeaseAuthorityRevision,
         membership: &AuthorityMembership,
-        now_elapsed_millis: u64,
+        now_unix_millis: u64,
     ) -> AuthorityResult<RedactedLeaseSnapshot> {
         let revision = self.authority_revision()?;
         if revision != expected_revision {
@@ -821,7 +851,7 @@ impl AuthorityLedger {
             .map(|lease| {
                 let health = if lease.revoked {
                     RedactedLeaseHealth::Revoked
-                } else if now_elapsed_millis >= lease.deadline_elapsed_millis {
+                } else if now_unix_millis >= lease.deadline_unix_millis {
                     RedactedLeaseHealth::Expired
                 } else {
                     RedactedLeaseHealth::Active
@@ -880,6 +910,7 @@ impl AuthorityLedger {
 
     pub fn apply(
         &mut self,
+        _access: &LeaseStoreAccess,
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
         application: AuthorityApplication<'_>,
@@ -980,12 +1011,10 @@ impl AuthorityLedger {
                         return Err(AuthorityError::LeaseExpired);
                     }
                 } else {
-                    let safety_deadline = previous
-                        .deadline_elapsed_millis
-                        .checked_add(self.policy.max_clock_uncertainty_millis)
-                        .and_then(|value| {
-                            value.checked_add(self.policy.message_delay_margin_millis)
-                        })
+                    let safety_deadline = self
+                        .policy
+                        .max_clock_uncertainty_millis
+                        .checked_add(self.policy.message_delay_margin_millis)
                         .ok_or(AuthorityError::ResourceExhausted)?;
                     if application.now_elapsed_millis < safety_deadline {
                         return Err(AuthorityError::LeaseExpired);
@@ -1002,7 +1031,7 @@ impl AuthorityLedger {
                 {
                     return Err(AuthorityError::HolderMismatch);
                 }
-                if application.now_elapsed_millis >= previous.deadline_elapsed_millis {
+                if now_unix_millis >= previous.deadline_unix_millis {
                     return Err(AuthorityError::LeaseExpired);
                 }
             }
@@ -1052,7 +1081,7 @@ impl AuthorityLedger {
                 {
                     return Err(AuthorityError::HolderMismatch);
                 }
-                if application.now_elapsed_millis >= previous.deadline_elapsed_millis {
+                if now_unix_millis >= previous.deadline_unix_millis {
                     return Err(AuthorityError::LeaseExpired);
                 }
             }
@@ -1084,34 +1113,23 @@ impl AuthorityLedger {
             }
             OperationClass::LeaseGrant
             | OperationClass::Activate
-            | OperationClass::LeaseRenewal => {
-                let remaining_millis = certificate_deadline_unix_millis
-                    .checked_sub(now_unix_millis)
-                    .ok_or(AuthorityError::LeaseExpired)?;
-                let deadline = application
-                    .now_elapsed_millis
-                    .checked_add(remaining_millis)
-                    .ok_or(AuthorityError::ResourceExhausted)?;
-                LeaseState {
-                    lineage_id: body.lineage_id.clone(),
-                    holder_node_id: body.holder_node_id.clone(),
-                    holder_guardian_id: body.holder_guardian_id.clone(),
-                    activation_public_key: application.activation_public_key,
-                    raft_term: body.raft_term,
-                    committed_log_index: body.committed_log_index,
-                    epoch: body.epoch,
-                    certificate_generation: body.voter_set_generation,
-                    activated_elapsed_millis: application.now_elapsed_millis,
-                    deadline_elapsed_millis: deadline,
-                    deadline_unix_millis: certificate_deadline_unix_millis,
-                    certificate_bytes: certificate_bytes.to_vec(),
-                    revoked: false,
-                    last_mutation_sequence: current
-                        .as_ref()
-                        .filter(|previous| previous.epoch == body.epoch)
-                        .map_or(0, |previous| previous.last_mutation_sequence),
-                }
-            }
+            | OperationClass::LeaseRenewal => LeaseState {
+                lineage_id: body.lineage_id.clone(),
+                holder_node_id: body.holder_node_id.clone(),
+                holder_guardian_id: body.holder_guardian_id.clone(),
+                activation_public_key: application.activation_public_key,
+                raft_term: body.raft_term,
+                committed_log_index: body.committed_log_index,
+                epoch: body.epoch,
+                certificate_generation: body.voter_set_generation,
+                deadline_unix_millis: certificate_deadline_unix_millis,
+                certificate_bytes: certificate_bytes.to_vec(),
+                revoked: false,
+                last_mutation_sequence: current
+                    .as_ref()
+                    .filter(|previous| previous.epoch == body.epoch)
+                    .map_or(0, |previous| previous.last_mutation_sequence),
+            },
         };
         let mut prospective_leases = self.leases.clone();
         prospective_leases.insert(body.lineage_id.clone(), state);
@@ -1148,6 +1166,7 @@ impl AuthorityLedger {
 
     pub fn authorize_mutation(
         &mut self,
+        _access: &LeaseStoreAccess,
         authorization: MutationAuthorization<'_>,
     ) -> AuthorityResult<()> {
         let lease = self
@@ -1167,7 +1186,14 @@ impl AuthorityLedger {
         {
             return Err(AuthorityError::StaleAppliedIndex);
         }
-        if authorization.now_elapsed_millis >= lease.deadline_elapsed_millis {
+        let now_unix_millis = u64::try_from(authorization.now_unix_seconds)
+            .ok()
+            .and_then(|seconds| seconds.checked_mul(1_000))
+            .and_then(|millis| {
+                millis.checked_add(u64::from(authorization.now_unix_nanos) / 1_000_000)
+            })
+            .ok_or(AuthorityError::ClockUncertain)?;
+        if now_unix_millis >= lease.deadline_unix_millis {
             return Err(AuthorityError::LeaseExpired);
         }
         let expected_sequence = lease
@@ -1184,6 +1210,8 @@ impl AuthorityLedger {
         key.verify_strict(
             &mutation_authorization_digest(
                 lease,
+                authorization.now_unix_seconds,
+                authorization.now_unix_nanos,
                 authorization.applied_log_index,
                 authorization.sequence,
                 authorization.mutation_sha256,
@@ -1331,7 +1359,6 @@ fn validate_snapshot_lease(
         && lease.committed_log_index <= applied_log_index
         && lease.epoch > 0
         && lease.certificate_generation > 0
-        && lease.deadline_elapsed_millis >= lease.activated_elapsed_millis
         && lease.deadline_unix_millis == certificate_deadline_unix_millis(&body)?
         && body.policy_sha256 == policy.sha256().ok()?.as_slice()
         && body.lineage_id == lease.lineage_id

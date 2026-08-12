@@ -21,8 +21,10 @@ use tokio_util::sync::CancellationToken;
 
 #[cfg(test)]
 use super::lease::VoterAuthority;
+#[cfg(test)]
+use super::certificates::{DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS};
 use super::{
-    certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
+    certificates::{AuthorityCertificate, CertificatePurpose, VerifiedCertificate},
     lease::{AuthorityMembership, ControlCertificatePurpose},
     membership::{MemberRole, MembershipPolicy, MembershipState},
 };
@@ -847,11 +849,53 @@ struct VerifiedRouteAuthority {
 ///
 /// Route and polis verification consume this handle rather than accepting a
 /// caller-nominated `AuthorityMembership` at the authorization boundary.
+pub(crate) trait RuntimeCertificateAuthority: Send + Sync {
+    fn authorize_runtime_certificate(
+        &self,
+        holder_id: &str,
+        purpose: CertificatePurpose,
+        generation: u64,
+        now_unix_seconds: u64,
+    ) -> Result<VerifiedCertificate, ()>;
+}
+
+#[derive(Clone)]
+enum CertificateAuthorityHandle {
+    #[cfg(test)]
+    Raw(Arc<DistributedCertificateStore>),
+    Bound(Arc<dyn RuntimeCertificateAuthority>),
+}
+
+impl CertificateAuthorityHandle {
+    fn authorize(
+        &self,
+        holder_id: &str,
+        purpose: CertificatePurpose,
+        generation: u64,
+        now_unix_seconds: u64,
+    ) -> Result<VerifiedCertificate, ()> {
+        match self {
+            #[cfg(test)]
+            Self::Raw(store) => store
+                .authorize(
+                    &TEST_CERTIFICATE_STORE_ACCESS,
+                    holder_id,
+                    purpose,
+                    generation,
+                    now_unix_seconds,
+                )
+                .map_err(|_| ()),
+            Self::Bound(store) => store
+                .authorize_runtime_certificate(holder_id, purpose, generation, now_unix_seconds),
+        }
+    }
+}
+
 #[derive(Clone)]
 pub struct EstablishedRuntimeAuthority {
     membership: MembershipState,
     authority: AuthorityMembership,
-    certificate_store: Arc<DistributedCertificateStore>,
+    certificate_store: CertificateAuthorityHandle,
     guardian_certificates: BTreeMap<Vec<u8>, String>,
     authorization_deadline_unix_seconds: u64,
 }
@@ -864,10 +908,11 @@ pub struct EstablishedRuntimeAuthority {
 /// issuer roots for this Runtime instance.
 pub(crate) struct RuntimeAuthorityInitializer {
     membership: MembershipState,
-    certificate_store: Arc<DistributedCertificateStore>,
+    certificate_store: CertificateAuthorityHandle,
 }
 
 impl RuntimeAuthorityInitializer {
+    #[cfg(test)]
     pub(crate) fn restore(
         certificate_store: Arc<DistributedCertificateStore>,
         membership_policy: MembershipPolicy,
@@ -882,7 +927,25 @@ impl RuntimeAuthorityInitializer {
         .map_err(|_| TransportError::InvalidSessionBinding)?;
         Ok(Self {
             membership,
-            certificate_store,
+            certificate_store: CertificateAuthorityHandle::Raw(certificate_store),
+        })
+    }
+
+    pub(crate) fn restore_bound(
+        certificate_store: Arc<dyn RuntimeCertificateAuthority>,
+        membership_policy: MembershipPolicy,
+        membership_snapshot: &[u8],
+        trusted_membership_commitment: [u8; 32],
+    ) -> TransportResult<Self> {
+        let membership = MembershipState::restore(
+            membership_policy,
+            membership_snapshot,
+            trusted_membership_commitment,
+        )
+        .map_err(|_| TransportError::InvalidSessionBinding)?;
+        Ok(Self {
+            membership,
+            certificate_store: CertificateAuthorityHandle::Bound(certificate_store),
         })
     }
 
@@ -895,7 +958,7 @@ impl RuntimeAuthorityInitializer {
         EstablishedRuntimeAuthority::accept(
             &self.membership,
             authority,
-            Arc::clone(&self.certificate_store),
+            self.certificate_store.clone(),
             guardian_certificates,
             now_unix_seconds,
         )
@@ -906,7 +969,7 @@ impl EstablishedRuntimeAuthority {
     fn accept(
         membership: &MembershipState,
         authority: &AuthorityMembership,
-        certificate_store: Arc<DistributedCertificateStore>,
+        certificate_store: CertificateAuthorityHandle,
         guardian_certificates: &BTreeMap<Vec<u8>, AuthorityCertificate>,
         now_unix_seconds: u64,
     ) -> TransportResult<Self> {
@@ -1630,7 +1693,7 @@ impl PeerBinding {
 
 #[derive(Clone)]
 pub struct TransportAuthorization {
-    store: Arc<DistributedCertificateStore>,
+    store: CertificateAuthorityHandle,
     holder_id: String,
     trust_domain: String,
     generation: u64,
@@ -1639,8 +1702,17 @@ pub struct TransportAuthorization {
 }
 
 impl TransportAuthorization {
-    pub fn new(
+    #[cfg(test)]
+    pub(crate) fn new(
         store: Arc<DistributedCertificateStore>,
+        certificate: &AuthorityCertificate,
+    ) -> TransportResult<Self> {
+        Self::new_with_handle(CertificateAuthorityHandle::Raw(store), certificate)
+    }
+
+    #[cfg(test)]
+    fn new_with_handle(
+        store: CertificateAuthorityHandle,
         certificate: &AuthorityCertificate,
     ) -> TransportResult<Self> {
         let body = &certificate.body;
