@@ -1041,10 +1041,22 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "{}:{}:{}:{}",
             self.instance_id, intent.conversation_id, intent.turn_id, credential_generation
         );
+        let recipient_signing_key_id =
+            match signed_exchange.recipient_verifying_identity(&intent.recipient_id) {
+                Ok(identity) => identity.signing_key_id,
+                Err(_) => {
+                    return ConversationAcceptance::Response(outcome(
+                        "refused",
+                        "conversation_recipient_identity_unavailable",
+                        None,
+                    ))
+                }
+            };
         let payload_json = match serde_jcs::to_string(&serde_json::json!({
             "action": action,
             "message": intent.message,
             "recipient_id": intent.recipient_id,
+            "recipient_signing_key_id": recipient_signing_key_id,
         })) {
             Ok(payload) => payload,
             Err(_) => {

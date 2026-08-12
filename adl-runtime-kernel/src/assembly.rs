@@ -1194,10 +1194,17 @@ fn return_output(
     let key_root = std::env::var_os("ADL_LAYER8_RECIPIENT_KEY_DIR")
         .map(std::path::PathBuf::from)
         .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_recipient_signing_unavailable"))?;
+    let payload: serde_json::Value = serde_json::from_str(&signed_request.payload_json)
+        .map_err(|_| adapter_error(FailureClass::Fatal, "agent_recipient_signing_unavailable"))?;
+    let signing_key_id = payload
+        .get("recipient_signing_key_id")
+        .and_then(serde_json::Value::as_str)
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_recipient_signing_unavailable"))?;
     let descriptor = crate::layer8_authority::CommunicationKeyDescriptor {
         principal_id: recipient_id.to_owned(),
         polis_id: signed_request.polis_id.clone(),
-        signing_key_id: format!("{recipient_id}-key"),
+        signing_key_id: signing_key_id.to_owned(),
         private_key_file: key_root.join(format!("{recipient_id}.key")),
         not_before_epoch_secs: 0,
         expires_at_epoch_secs: u64::MAX,
