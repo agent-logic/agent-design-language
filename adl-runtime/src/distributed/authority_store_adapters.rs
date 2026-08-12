@@ -17,8 +17,8 @@ use super::{
         DistributedCertificateStore, RevocationReason, VerifiedCertificate,
     },
     fencing::{
-        ActiveLeaseCheck, FenceCommit, FenceReceipt, FencingError, FencingStore,
-        RedactedFencingSnapshot,
+        ActiveLeaseCheck, FenceCommit, FenceReceipt, FencingAuthorityRevision, FencingError,
+        FencingStore, RedactedFencingSnapshot,
     },
     lease::{
         AuthorityApplication, AuthorityError, AuthorityLedger, AuthorityMembership,
@@ -336,6 +336,15 @@ pub struct AuthorityBoundFencingStore {
 }
 
 impl AuthorityBoundFencingStore {
+    pub fn authority_revision(&self) -> AuthorityStoreAdapterResult<FencingAuthorityRevision> {
+        self.require_read()?;
+        self.store
+            .lock()
+            .map_err(|_| AuthorityStoreAdapterError::LockPoisoned)?
+            .authority_revision()
+            .map_err(Into::into)
+    }
+
     pub fn commit(&self, request: FenceCommit<'_>) -> AuthorityStoreAdapterResult<FenceReceipt> {
         self.require_mutation(FENCING_COMMIT)?;
         self.store
@@ -359,7 +368,7 @@ impl AuthorityBoundFencingStore {
 
     pub fn redacted_snapshot_at(
         &self,
-        expected_revision: super::fencing::FencingAuthorityRevision,
+        expected_revision: FencingAuthorityRevision,
         membership: &AuthorityMembership,
     ) -> AuthorityStoreAdapterResult<RedactedFencingSnapshot> {
         self.require_read()?;
@@ -408,6 +417,8 @@ mod tests {
             AuthorityReconciliationArtifact, AuthorityReconciliationIdentity,
         },
         certificates::{CertificateBody, CertificatePolicy, CertificateValidity},
+        fencing::{FencingCheckpoint, FencingCheckpointAuthority, FencingPolicy},
+        lease::LeasePolicy,
         polis_runtime::{ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisRuntimeError},
     };
 
@@ -435,6 +446,48 @@ mod tests {
             }
             values.insert(candidate.object.clone(), candidate.clone());
             Ok(())
+        }
+    }
+
+    #[derive(Debug, Default)]
+    struct MemoryFencingCheckpoint(Mutex<Option<FencingCheckpoint>>);
+
+    impl FencingCheckpointAuthority for MemoryFencingCheckpoint {
+        fn current(&self) -> Result<Option<FencingCheckpoint>, FencingError> {
+            Ok(*self.0.lock().unwrap())
+        }
+
+        fn compare_and_swap(
+            &self,
+            expected: Option<FencingCheckpoint>,
+            next: FencingCheckpoint,
+        ) -> Result<(), FencingError> {
+            let mut current = self.0.lock().unwrap();
+            if *current != expected {
+                return Err(FencingError::Rollback);
+            }
+            *current = Some(next);
+            Ok(())
+        }
+    }
+
+    fn lease_policy() -> LeasePolicy {
+        LeasePolicy {
+            max_lease_duration_millis: 2_000,
+            max_clock_uncertainty_millis: 10,
+            message_delay_margin_millis: 5,
+            max_lineages: 64,
+            max_snapshot_bytes: 1024 * 1024,
+        }
+    }
+
+    fn fencing_policy() -> FencingPolicy {
+        FencingPolicy {
+            max_lineages: 64,
+            max_receipts: 64,
+            max_state_bytes: 1024 * 1024,
+            max_clock_uncertainty_millis: 10,
+            message_delay_margin_millis: 5,
         }
     }
 
@@ -556,5 +609,73 @@ mod tests {
 
         assert_eq!(verified.holder_id, "node-a");
         assert_eq!(verified.purpose, CertificatePurpose::Transport);
+    }
+
+    #[test]
+    fn lease_and_fencing_handles_require_published_200_barrier() {
+        let root = std::env::current_dir()
+            .and_then(std::fs::canonicalize)
+            .unwrap();
+        let unpublished_temp = tempfile::TempDir::new_in(&root).unwrap();
+        let unpublished = AuthorityStoreAdapterRegistry::new(Arc::new(
+            AuthorityReconciliationBarrier::open(
+                unpublished_temp.path(),
+                reconciliation_identity(),
+                Arc::new(MemoryCheckpoint::default()),
+            )
+            .unwrap(),
+        ));
+        let ledger = Arc::new(Mutex::new(AuthorityLedger::new(lease_policy()).unwrap()));
+        let fencing_root = unpublished_temp.path().join("fencing");
+        std::fs::create_dir(&fencing_root).unwrap();
+        let fencing = Arc::new(Mutex::new(
+            FencingStore::create(
+                &fencing_root,
+                fencing_policy(),
+                Arc::new(MemoryFencingCheckpoint::default()),
+            )
+            .unwrap(),
+        ));
+
+        assert!(matches!(
+            unpublished.lease_ledger("lineage-a", Arc::clone(&ledger)),
+            Err(AuthorityStoreAdapterError::Reconciliation(
+                AuthorityReconciliationError::ReconciliationRequired
+            ))
+        ));
+        assert!(matches!(
+            unpublished.fencing_store("lineage-a", Arc::clone(&fencing)),
+            Err(AuthorityStoreAdapterError::Reconciliation(
+                AuthorityReconciliationError::ReconciliationRequired
+            ))
+        ));
+
+        let published_temp = tempfile::TempDir::new_in(root).unwrap();
+        let published = AuthorityStoreAdapterRegistry::new(publish_lineage(
+            published_temp.path(),
+            "lineage-a",
+            "lease_apply",
+        ));
+        let bound_ledger = published
+            .lease_ledger("lineage-a", Arc::clone(&ledger))
+            .unwrap();
+        let bound_fencing = published
+            .fencing_store("lineage-a", Arc::clone(&fencing))
+            .unwrap();
+
+        assert_eq!(
+            bound_ledger
+                .authority_revision()
+                .unwrap()
+                .applied_log_index(),
+            0
+        );
+        assert_eq!(
+            bound_fencing
+                .authority_revision()
+                .unwrap()
+                .checkpoint_generation(),
+            0
+        );
     }
 }
