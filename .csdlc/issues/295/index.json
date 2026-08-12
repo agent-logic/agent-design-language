@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "fac2f3813ee2fdd38d5296d837adfe17d5f0021a495521292465c4319e394bd1",
+  "generation": 17,
+  "digest": "182de1aa3e17ca2b5f1c0c4b199eac804fb440048324ce125f899c808dd67385",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "52736161efa510a478f216edf31a435504a5f38df4e433327bcc9bb8f1a56267",
+      "values_digest": "6256db121a55dfa03acb904b5fdaef83c601e74e12bbf07c6906d2f53c51aca6",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "acae91e8331ba9d6bc704173988446bcceaff77d235123138191c89de955e6c1",
+      "values_digest": "c4d6edf38bf46070208b56a7f43d4b75932cafabe2b6fa2aea02991cbc3ca328",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "707dff935744d8f75a8570b23ad89681da01ff20ebba6f27f4be504c40167ab0",
+      "values_digest": "7ed45a94f5992d374a1973fc76dd9caa4b5a45e99058ee8ea843777b052c2121",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "ca255f84cd5727c65b05e15450a0192e3e560714520fcbd6e7fbfc6574fc3cb1",
+      "values_digest": "dd1444d11f58794c41368b83543cbf1efa42d5fe759170b565e71c9e6574b341",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "eae9bc29ae29ca2326f88576578f16b2dfb6ad71235c9107ab14b37da14e7979",
+      "values_digest": "59a9f96d2fe0fa9151636cdf428b1c4d3f22f4bf4b68ffb5e47bddcc6a0e8bfe",
       "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
       "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
     },
     "sor": {
-      "values_digest": "d56cc98448f21f3053d85f08b512619545cccd716118d47bbda764d23bf90873",
+      "values_digest": "13a9ec3934c6e1457431950d369d8e55c591741e344b51ceac3c3100706729d7",
       "rendered_digest": "7890843305e0189dd6c5bf89c42b1befe767012fcce21892be6e988d0126be85",
       "ast_digest": "1c158c0e91d0771d1b963322c32325dd27e0f2644c66893fff40fcc602dc693e"
     }
@@ -237,6 +237,20 @@
       "generation": 16,
       "actor": "codex:issue-295",
       "reason": "reviewer interrupted before verdict; no review authority",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:issue-295",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:issue-295",
+      "reason": "reviewer fresh-session:e233a4a4-35ad-4fbe-8b7a-667bcddd48e9 was interrupted before verdict; no review authority",
       "operation": "recover_review"
     }
   ]
