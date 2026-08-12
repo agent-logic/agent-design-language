@@ -1,6 +1,6 @@
 {
   "schema": "adl.first_birthday.publication_gate.v1",
-  "source_revision": "7615b9089993799c25de28c45868078b99b7b9a0",
+  "source_revision": "63e297f329149e07fb49fb38d40e79859f1bf550",
   "accepted_witness_receipt_proof": {
     "passed": true,
     "evidence": "docs/milestones/v0.91.8/review/v092_handoff_4762/"

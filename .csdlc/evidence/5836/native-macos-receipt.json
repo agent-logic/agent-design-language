@@ -2,7 +2,7 @@
   "schema": "adl.first_birthday.native_receipt.v1",
   "platform": "macos",
   "host_class": "native-darwin-arm64",
-  "source_revision": "7615b9089993799c25de28c45868078b99b7b9a0",
+  "source_revision": "63e297f329149e07fb49fb38d40e79859f1bf550",
   "argv": [
     "bash",
     "adl/tools/test_v092_first_birthday_demo.sh",
@@ -11,7 +11,7 @@
   ],
   "result": "passed",
   "packet": "demos/v0.92/first-birthday/positive.json",
-  "packet_sha256": "99abf4a9d60347372e0f3b3666010bcfbd00a8f1c9722ab8e993908bc1f2a3cf",
+  "packet_sha256": "1c9827a8e232a5049d0c69a44cc25a480ef02f3da3a263659d314590ecc11a1f",
   "allowed_nondeterminism": [
     "transient_runtime_directory",
     "native_host_class_recorded_outside_semantic_packet"
