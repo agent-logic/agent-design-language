@@ -1,6 +1,6 @@
 //! PVF: deterministic public serialization boundary for WP-15.
 
-use std::fs;
+use std::{cell::RefCell, fs};
 
 use adl_runtime_kernel::{
     candidate_digest, decide_birthday, reviewed_evidence_set_digest, witness_signing_bytes,
@@ -93,10 +93,12 @@ fn runtime_service_builds_validates_and_emits_receipt() {
         .collect::<Vec<_>>();
 
     let decision = decide_birthday(&candidate);
-    let mut emitted = Vec::new();
+    let emitted = RefCell::new(Vec::new());
+    let emitted_ref = &emitted;
     let packet = service
         .build_validate_and_emit(&candidate, &decision, &attestations, |receipt| {
-            emitted.extend_from_slice(receipt);
+            let receipt = receipt.to_vec();
+            Ok(move || emitted_ref.borrow_mut().extend_from_slice(&receipt))
         })
         .expect("build, validate, and emit receipt");
 
@@ -105,10 +107,10 @@ fn runtime_service_builds_validates_and_emits_receipt() {
         BirthEventStatus::NotClaimed
     );
     assert_eq!(
-        emitted,
+        *emitted.borrow(),
         serde_jcs::to_vec(&packet.receipt).expect("canonical receipt")
     );
-    assert!(!emitted.is_empty());
+    assert!(!emitted.borrow().is_empty());
 
     let mut invalid = attestations.clone();
     invalid[0].signature = "0".repeat(128);
@@ -116,6 +118,7 @@ fn runtime_service_builds_validates_and_emits_receipt() {
     let error = service
         .build_validate_and_emit(&candidate, &decision, &invalid, |_| {
             invalid_sink_calls += 1;
+            Ok(|| {})
         })
         .expect_err("invalid witness must fail before emission");
     assert_eq!(
@@ -123,4 +126,19 @@ fn runtime_service_builds_validates_and_emits_receipt() {
         adl_runtime_kernel::BirthWitnessError::InvalidSignature
     );
     assert_eq!(invalid_sink_calls, 0);
+
+    let failed_sink_commits = 0;
+    let error = service
+        .build_validate_and_emit(
+            &candidate,
+            &decision,
+            &attestations,
+            |_| Err::<fn(), ()>(()),
+        )
+        .expect_err("sink preparation failure must be reported");
+    assert_eq!(
+        error,
+        adl_runtime_kernel::BirthWitnessError::ReceiptEmission
+    );
+    assert_eq!(failed_sink_commits, 0);
 }

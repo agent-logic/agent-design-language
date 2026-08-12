@@ -208,21 +208,23 @@ impl RuntimeBirthWitnessService {
         self.policy.policy_sha256()
     }
 
-    pub fn build_validate_and_emit<F>(
+    pub fn build_validate_and_emit<F, C>(
         &self,
         candidate: &BirthdayCandidate,
         decision: &BirthdayDecision,
         attestations: &[BirthWitnessAttestation],
-        mut emit_receipt: F,
+        prepare_receipt: F,
     ) -> Result<BirthWitnessPacket, BirthWitnessError>
     where
-        F: FnMut(&[u8]),
+        F: FnOnce(&[u8]) -> Result<C, ()>,
+        C: FnOnce(),
     {
         let packet = build_birth_witness_packet(candidate, decision, &self.policy, attestations)?;
         validate_birth_witness_packet(&packet, candidate, decision, &self.policy, attestations)?;
         let receipt =
             serde_jcs::to_vec(&packet.receipt).map_err(|_| BirthWitnessError::Encoding)?;
-        emit_receipt(&receipt);
+        let commit = prepare_receipt(&receipt).map_err(|()| BirthWitnessError::ReceiptEmission)?;
+        commit();
         Ok(packet)
     }
 }
@@ -334,6 +336,8 @@ pub enum BirthWitnessError {
     Encoding,
     #[error("packet does not reconstruct canonically")]
     PacketMismatch,
+    #[error("validated receipt emission could not be prepared")]
+    ReceiptEmission,
 }
 
 #[derive(Serialize)]
