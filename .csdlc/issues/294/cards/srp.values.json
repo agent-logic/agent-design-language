@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 294,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover initialized design identity and artifact paths before bind",
+    "slug": "initialized-design-envelope-recovery",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "All #294 changed code, contracts, and tests; code, security, test, and evidence coverage required.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Review every acceptance criterion with special attention to lifecycle authority, path traversal/symlink safety, append-only audit integrity, atomicity, and linked-worktree regression proof."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -31,6 +31,7 @@ use crate::review::{
 };
 use crate::runner_preflight::{RunnerPreflightPacket, RunnerPreflightRequest};
 use crate::store::ApproveDesignRequest;
+use crate::store::RecoverInitializedDesignEnvelopeRequest;
 use crate::store::{BootstrapRequest, EditRequest};
 
 pub fn public_schema_bundle() -> Value {
@@ -43,6 +44,7 @@ pub fn public_schema_bundle() -> Value {
         "terminal_census_report": schemars::schema_for!(TerminalCensusReport),
         "bootstrap_request": schemars::schema_for!(BootstrapRequest),
         "approve_design_request": schemars::schema_for!(ApproveDesignRequest),
+        "recover_initialized_design_envelope_request": schemars::schema_for!(RecoverInitializedDesignEnvelopeRequest),
         "edit_request": schemars::schema_for!(EditRequest),
         "bind_request": schemars::schema_for!(BindRequest),
         "bind_result": schemars::schema_for!(BindResult),

@@ -1,0 +1,10 @@
+flowchart LR
+  A["Initialized and unbound issue"] --> B["Typed recovery request with CAS"]
+  B --> C{"Validate phase, history, reviewer proof, paths, and digests"}
+  C -->|"fail"| D["No mutation; typed error"]
+  C -->|"pass"| E["Atomically relocate byte-identical artifacts"]
+  E --> F["Record prior reviewer provenance and invalidate approval"]
+  F --> G["Append old/new audit envelope"]
+  G --> H["Initialized and unbound; new generation and digest"]
+  H --> I["Mandatory fresh design review and approval"]
+  I --> J["Normal typed bind"]

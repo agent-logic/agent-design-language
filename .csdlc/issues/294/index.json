@@ -1,0 +1,187 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 294,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
+  "phase": "bound",
+  "generation": 14,
+  "digest": "173872133869dbd9ad347af6d85c716a6ca9d51e55328cae49a0cd08988298d1",
+  "branch": "codex/294-initialized-design-envelope-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/294/design.md",
+  "diagram_path": ".csdlc/prepared/issues/294/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:8a4ab27f-1366-4f5a-a7b4-e6df6bb49d68",
+      "revision": "b516c4d844e9f383baa1fae14b1fed9cfc2242a6a5ce86a5bf02b0b7c10494f7"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4a5f5616c17f27113b5b3ad9d8fb0086fee35846c1529c992b28d8ea4524bf68",
+      "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
+      "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
+    },
+    "stp": {
+      "values_digest": "731088a3b772803e197fb0cdad85bec2fad67458f5cf29d8f2105a0b29cd4dfa",
+      "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
+      "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
+    },
+    "spp": {
+      "values_digest": "2b69eec909d2f5a3d249b50a35a3ca1418561568243a651f46d1131c3a41f2b5",
+      "rendered_digest": "818c831b4006e6cba1fae7fd705b517025fdb4dffebcdd5ed63c77e88dd8e9ee",
+      "ast_digest": "fe2b4a198e777d6d1184d8db1e169a565f0425a9c547b1f1252c24a7410e2c5e"
+    },
+    "vpp": {
+      "values_digest": "92ff339e5ec3690069bd77b10ea16931142bbe98ccf5b5f5fe6130912acc4bf2",
+      "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
+      "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
+    },
+    "srp": {
+      "values_digest": "c3f8dada3c939a9851bb5ed30038cc96629c1f7bd99392fbc4663d4563fe2ef3",
+      "rendered_digest": "bb7bc95141483f56767a9bd9dc2508bca452dc7ab8047e9e5a1c3692407ba34f",
+      "ast_digest": "f4f52a322a401a0d85b0a3eaa90b5682b16aafce71191f424e3e3ce0e9ea6ad0"
+    },
+    "sor": {
+      "values_digest": "797a85e3a1144a4cb5923afecf00f6fb4d468517e62e151a8db79ee352462e91",
+      "rendered_digest": "7c39415f478bb792b3149a2d791cd314bf8f5302f0cbfccc35c3eaaee93c91d4",
+      "ast_digest": "1d0e83b8ab44cc04c7ae7edf6f52d8837a5dddaf0570adb36f6b9707c28ae2d8"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-294",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-294",
+      "reason": "Use the existing focused card_identity integration target as the issue-owned pre-bind validation denominator",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"initialized-design-envelope-recovery\",\"proof_role\":\"Focused unit, linked-worktree, and prerequisite-blocking proof for AC-1 through AC-10\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-294",
+      "reason": "Refresh design bindings after resolving independent design-review findings without changing the acceptance denominator",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/294/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/294/diagram.mmd\",\"new_design_digest\":\"6f6cb39c3edb1289dd72a11e9318f4b6e01fc3190b2bfc10d605a68515d0f1d3\",\"new_diagram_digest\":\"23b4dd8e0d705f3dc0efedb51529d072940c12e183f2c3356a6bb366954841c3\",\"old_design_digest\":\"d3b9490be3c2866833cb6bbbe81393f671fd98762b689243d4d6513ea53c7eb7\",\"old_diagram_digest\":\"23b4dd8e0d705f3dc0efedb51529d072940c12e183f2c3356a6bb366954841c3\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Define typed initialized recovery request, validation, atomic state update, and audit.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Reject unsafe authored paths during bootstrap.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"action\":\"Add focused unit and linked-worktree regression fixtures.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-10\"],\"action\":\"Validate, independently review, and publish without merge; keep #292 blocked pending terminal ancestry observation.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-294",
+      "reason": "Separate local AC-1 through AC-9 proof from deferred terminal-ancestry observation for AC-10",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"initialized-design-envelope-recovery\",\"proof_role\":\"Focused unit and linked-worktree proof for AC-1 through AC-9\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-292-terminal-ancestry-observation\",\"proof_role\":\"Read-only post-terminal shepherd observation proving #292 remains blocked until #294 is terminal and ancestral\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"csdlc-shepherd\",\"--input\",\".csdlc/prepared/issues/294/ac10-shepherd-input.json\"],\"parallel_group\":\"post-terminal\",\"defer_reason\":\"Runs only after #294 is terminal; merge and closeout are outside this session authority\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-294",
+      "reason": "Declare the exact issue-owned focused integration target used by doctor readiness",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src\",\"csdlc-v2/tests/card_identity.rs\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:issue-294",
+      "reason": "Separate local AC-1 through AC-9 proof from deferred terminal-ancestry observation for AC-10",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"initialized-design-envelope-recovery\",\"proof_role\":\"Focused unit and linked-worktree proof for AC-1 through AC-9\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-292-terminal-ancestry-observation\",\"proof_role\":\"Post-terminal fixture plus read-only shepherd observation proving #292 remains blocked until #294 is terminal and ancestral\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\",\"issue_292_waits_for_terminal_ancestral_294\"],\"parallel_group\":\"post-terminal\",\"defer_reason\":\"Fixture is authored in this issue; live observation runs only after #294 is terminal because merge and closeout are outside this session authority\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:issue-294",
+      "reason": "Refresh design bindings after resolving independent design-review findings without changing the acceptance denominator",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/294/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/294/diagram.mmd\",\"new_design_digest\":\"72bf8b972e8b2784482b1a69288a6a8215a65d320703a6f1eb64c324c71e0d51\",\"new_diagram_digest\":\"23b4dd8e0d705f3dc0efedb51529d072940c12e183f2c3356a6bb366954841c3\",\"old_design_digest\":\"6f6cb39c3edb1289dd72a11e9318f4b6e01fc3190b2bfc10d605a68515d0f1d3\",\"old_diagram_digest\":\"23b4dd8e0d705f3dc0efedb51529d072940c12e183f2c3356a6bb366954841c3\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Define typed initialized recovery request, validation, atomic state update, and audit.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Reject unsafe authored paths during bootstrap.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"action\":\"Add focused unit and linked-worktree regression fixtures.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-10\"],\"action\":\"Validate, independently review, and publish without merge; keep #292 blocked pending terminal ancestry observation.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:issue-294",
+      "reason": "Separate local AC-1 through AC-9 proof from deferred terminal-ancestry observation for AC-10",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"initialized-design-envelope-recovery\",\"proof_role\":\"Focused unit and linked-worktree proof for AC-1 through AC-9\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-292-terminal-ancestry-observation\",\"proof_role\":\"Read-only typed shepherd observation proving #292 remains blocked until #294 is terminal and ancestral\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\".adl/bin/csdlc-v2/csdlc-shepherd\",\"--input\",\".csdlc/prepared/issues/294/ac10-shepherd-input.json\"],\"parallel_group\":\"post-terminal\",\"defer_reason\":\"Input is populated from typed live observations only after #294 is terminal; merge and closeout are outside this session authority\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:issue-294",
+      "reason": "Refresh design bindings after resolving independent design-review findings without changing the acceptance denominator",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/294/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/294/diagram.mmd\",\"new_design_digest\":\"6eabd6144f7a78ffab6dfb58e40eb5c19abe066e453ea3956eab8b7485c50b33\",\"new_diagram_digest\":\"23b4dd8e0d705f3dc0efedb51529d072940c12e183f2c3356a6bb366954841c3\",\"old_design_digest\":\"72bf8b972e8b2784482b1a69288a6a8215a65d320703a6f1eb64c324c71e0d51\",\"old_diagram_digest\":\"23b4dd8e0d705f3dc0efedb51529d072940c12e183f2c3356a6bb366954841c3\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Define typed initialized recovery request, validation, atomic state update, and audit.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Reject unsafe authored paths during bootstrap.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"action\":\"Add focused unit and linked-worktree regression fixtures.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-10\"],\"action\":\"Validate, independently review, and publish without merge; keep #292 blocked pending terminal ancestry observation.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:issue-294",
+      "reason": "Separate local AC-1 through AC-9 proof from deferred terminal-ancestry observation for AC-10",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"initialized-design-envelope-recovery\",\"proof_role\":\"Focused unit and linked-worktree proof for AC-1 through AC-9\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-292-terminal-ancestry-gate\",\"proof_role\":\"Local dependency-gate fixture; live terminal receipt and origin/main ancestry observation remain deferred to closeout\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\",\"issue_292_waits_for_terminal_ancestral_294\"],\"parallel_group\":\"local\",\"defer_reason\":\"Live terminal and ancestry evidence can exist only after merge/finish, outside this session authority\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:issue-294",
+      "reason": "Refresh design bindings after resolving independent design-review findings without changing the acceptance denominator",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/294/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/294/diagram.mmd\",\"new_design_digest\":\"30575f7123e4ff4c4a962d9806af99ccaab9072f43bfc8ad7e77da49a40a82a6\",\"new_diagram_digest\":\"beac856b22f305cbf45a3fcd48de11fc8b92637cef77c24fa81c22f834709450\",\"old_design_digest\":\"6eabd6144f7a78ffab6dfb58e40eb5c19abe066e453ea3956eab8b7485c50b33\",\"old_diagram_digest\":\"23b4dd8e0d705f3dc0efedb51529d072940c12e183f2c3356a6bb366954841c3\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Define typed initialized recovery request, validation, atomic state update, and audit.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Reject unsafe authored paths during bootstrap.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"action\":\"Add focused unit and linked-worktree regression fixtures.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-10\"],\"action\":\"Validate, independently review, and publish without merge; keep #292 blocked pending terminal ancestry observation.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:issue-294",
+      "reason": "Separate local AC-1 through AC-9 proof from deferred terminal-ancestry observation for AC-10",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"initialized-design-envelope-recovery\",\"proof_role\":\"Focused unit and linked-worktree proof for AC-1 through AC-9\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-292-terminal-ancestry-gate\",\"proof_role\":\"Local dependency-gate fixture; live csdlc-finish terminal receipt, typed issue read, and origin/main ancestry observation remain deferred to closeout\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\",\"issue_292_waits_for_terminal_ancestral_294\"],\"parallel_group\":\"local\",\"defer_reason\":\"All three live observations can exist only after merge/finish, outside this session authority\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:issue-294",
+      "reason": "Refresh design bindings after resolving independent design-review findings without changing the acceptance denominator",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/294/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/294/diagram.mmd\",\"new_design_digest\":\"1578a17509f198ab74201d012a413a5462bfeeb9d957f1b2330d934d557c92e4\",\"new_diagram_digest\":\"beac856b22f305cbf45a3fcd48de11fc8b92637cef77c24fa81c22f834709450\",\"old_design_digest\":\"30575f7123e4ff4c4a962d9806af99ccaab9072f43bfc8ad7e77da49a40a82a6\",\"old_diagram_digest\":\"beac856b22f305cbf45a3fcd48de11fc8b92637cef77c24fa81c22f834709450\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Define typed initialized recovery request, validation, atomic state update, and audit.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Reject unsafe authored paths during bootstrap.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"action\":\"Add focused unit and linked-worktree regression fixtures.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-10\"],\"action\":\"Validate, independently review, and publish without merge; keep #292 blocked pending terminal ancestry observation.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex:issue-294",
+      "reason": "Refresh design bindings after resolving independent design-review findings without changing the acceptance denominator",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/294/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/294/diagram.mmd\",\"new_design_digest\":\"b516c4d844e9f383baa1fae14b1fed9cfc2242a6a5ce86a5bf02b0b7c10494f7\",\"new_diagram_digest\":\"beac856b22f305cbf45a3fcd48de11fc8b92637cef77c24fa81c22f834709450\",\"old_design_digest\":\"1578a17509f198ab74201d012a413a5462bfeeb9d957f1b2330d934d557c92e4\",\"old_diagram_digest\":\"beac856b22f305cbf45a3fcd48de11fc8b92637cef77c24fa81c22f834709450\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Define typed initialized recovery request, validation, atomic state update, and audit.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Reject unsafe authored paths during bootstrap.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"action\":\"Add focused unit and linked-worktree regression fixtures.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-10\"],\"action\":\"Validate, independently review, and publish without merge; keep #292 blocked pending terminal ancestry observation.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "fresh-session:8a4ab27f-1366-4f5a-a7b4-e6df6bb49d68",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

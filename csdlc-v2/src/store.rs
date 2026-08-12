@@ -1329,6 +1329,240 @@ pub struct ApproveDesignRequest {
     pub reviewer: String,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct RecoverInitializedDesignEnvelopeRequest {
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub expected_design_path: String,
+    pub expected_diagram_path: String,
+    pub expected_design_digest: String,
+    pub expected_diagram_digest: String,
+    pub new_design_path: String,
+    pub new_diagram_path: String,
+    pub prior_reviewer: String,
+    pub canonical_reviewer: String,
+    pub reviewer_session_uuid: String,
+    pub reviewer_turn_uuid: String,
+    pub spawned_task: String,
+    pub thread_source: String,
+    pub fork_turns: String,
+    pub reviewed_generation: u64,
+    pub reviewed_digest: String,
+}
+
+pub fn recover_initialized_design_envelope(
+    store: &Store,
+    request: RecoverInitializedDesignEnvelopeRequest,
+) -> Result<IssueRecord> {
+    let _lock = store.lock(request.issue)?;
+    store.recover_if_needed(request.issue)?;
+    let mut record = store.load_record(request.issue)?;
+    if record.phase != LifecyclePhase::Initialized
+        || record.branch.is_some()
+        || record.worktree.is_some()
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.migration.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(ErrorCode::InvalidTransition, "design-envelope recovery requires an initialized unbound issue without later lifecycle evidence"));
+    }
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "design-envelope recovery generation is stale",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "design-envelope recovery digest is stale",
+        ));
+    }
+    if record.design_path != request.expected_design_path
+        || record.diagram_path != request.expected_diagram_path
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact source paths drifted",
+        ));
+    }
+    validate_recovery_provenance(&request)?;
+    validate_safe_authored_destination(&request.new_design_path)?;
+    validate_safe_authored_destination(&request.new_diagram_path)?;
+    if request.new_design_path == request.new_diagram_path
+        || request.new_design_path == request.expected_design_path
+        || request.new_design_path == request.expected_diagram_path
+        || request.new_diagram_path == request.expected_design_path
+        || request.new_diagram_path == request.expected_diagram_path
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "design-envelope recovery paths must be pairwise distinct",
+        ));
+    }
+    let design_bytes = read_regular_authored_artifact_with_hook(
+        store.root(),
+        Path::new(&record.design_path),
+        |_| {},
+    )?
+    .ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored design artifact is absent",
+        )
+    })?;
+    let diagram_bytes = read_regular_authored_artifact_with_hook(
+        store.root(),
+        Path::new(&record.diagram_path),
+        |_| {},
+    )?
+    .ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored diagram artifact is absent",
+        )
+    })?;
+    let old_design_digest = digest(&design_bytes);
+    let old_diagram_digest = digest(&diagram_bytes);
+    if old_design_digest != request.expected_design_digest
+        || old_diagram_digest != request.expected_diagram_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "authored artifact digest drifted",
+        ));
+    }
+    let new_design = store.root().join(&request.new_design_path);
+    let new_diagram = store.root().join(&request.new_diagram_path);
+    for path in [&new_design, &new_diagram] {
+        if path.exists() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "authored artifact destination already exists",
+            ));
+        }
+        if let Some(parent) = path.parent() {
+            fs::create_dir_all(parent)?;
+        }
+    }
+    require_canonical_parent_beneath(store.root(), Path::new(&request.new_design_path))?;
+    require_canonical_parent_beneath(store.root(), Path::new(&request.new_diagram_path))?;
+    use std::io::Write;
+    let write_new = |path: &Path, bytes: &[u8]| -> Result<()> {
+        let mut options = fs::OpenOptions::new();
+        options.write(true).create_new(true);
+        let mut file = options.open(path)?;
+        file.write_all(bytes)?;
+        file.sync_all()?;
+        Ok(())
+    };
+    write_new(&new_design, &design_bytes)?;
+    if let Err(error) = write_new(&new_diagram, &diagram_bytes) {
+        let _ = fs::remove_file(&new_design);
+        return Err(error);
+    }
+    let mut cards = store.load_cards(request.issue)?;
+    verify_card_projections(store, &record, &cards)?;
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        match &mut cards.get_mut(&kind).expect("design card").content {
+            CardContent::Spp(values) => {
+                values.design_ref = request.new_design_path.clone();
+                values.design_digest = old_design_digest.clone();
+                values.diagram_ref = request.new_diagram_path.clone();
+                values.diagram_digest = old_diagram_digest.clone();
+            }
+            CardContent::Vpp(values) => {
+                values.design_ref = request.new_design_path.clone();
+                values.design_digest = old_design_digest.clone();
+                values.diagram_ref = request.new_diagram_path.clone();
+                values.diagram_digest = old_diagram_digest.clone();
+            }
+            _ => unreachable!(),
+        }
+    }
+    let old_review = record.design_review.clone();
+    record.design_path = request.new_design_path.clone();
+    record.diagram_path = request.new_diagram_path.clone();
+    record.design_review = DesignReview::Pending;
+    record.generation += 1;
+    for values in cards.values_mut() {
+        values.identity.generation = record.generation;
+    }
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor,
+        reason: "recover initialized design envelope and require fresh approval".into(),
+        operation: serde_json::json!({
+            "operation":"recover_initialized_design_envelope",
+            "old_reviewer":request.prior_reviewer,"new_reviewer":request.canonical_reviewer,
+            "old_design_path":request.expected_design_path,"new_design_path":request.new_design_path,
+            "old_diagram_path":request.expected_diagram_path,"new_diagram_path":request.new_diagram_path,
+            "old_design_digest":old_design_digest,"new_design_digest":old_design_digest,
+            "old_diagram_digest":old_diagram_digest,"new_diagram_digest":old_diagram_digest,
+            "reviewed_generation":request.reviewed_generation,"reviewed_digest":request.reviewed_digest,
+            "reviewer_session_uuid":request.reviewer_session_uuid,"reviewer_turn_uuid":request.reviewer_turn_uuid,
+            "spawned_task":request.spawned_task,"thread_source":request.thread_source,"fork_turns":request.fork_turns,
+            "old_design_review":old_review,"approval_disposition":"invalidated_pending_reapproval"
+        }).to_string(),
+    });
+    hydrate_projections(&mut record, &cards)?;
+    record.digest = record_digest(&record)?;
+    if let Err(error) = store.commit(request.issue, &record, &cards, false) {
+        let _ = fs::remove_file(&new_design);
+        let _ = fs::remove_file(&new_diagram);
+        return Err(error);
+    }
+    Ok(record)
+}
+
+fn validate_recovery_provenance(request: &RecoverInitializedDesignEnvelopeRequest) -> Result<()> {
+    let uuid = |value: &str| {
+        let parts: Vec<_> = value.split('-').collect();
+        parts.iter().map(|part| part.len()).eq([8, 4, 4, 4, 12])
+            && value.bytes().all(|b| b == b'-' || b.is_ascii_hexdigit())
+    };
+    if !uuid(&request.reviewer_session_uuid)
+        || !uuid(&request.reviewer_turn_uuid)
+        || request.canonical_reviewer != format!("fresh-session:{}", request.reviewer_session_uuid)
+        || request.spawned_task.trim().is_empty()
+        || request.thread_source != "subagent"
+        || request.fork_turns != "none"
+        || request.prior_reviewer.trim().is_empty()
+        || request.reviewed_digest.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "complete canonical projectless reviewer provenance is required",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_safe_authored_destination(value: &str) -> Result<()> {
+    let path = Path::new(value);
+    if !crate::pvf::clean_relative(path)
+        || path
+            .components()
+            .next()
+            .is_some_and(|c| c.as_os_str() == ".git")
+        || value.starts_with(".csdlc/issues/")
+        || value.starts_with(".csdlc/locks/")
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "authored artifact destination is unsafe",
+        ));
+    }
+    Ok(())
+}
+
 pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<IssueRecord> {
     approve_design_with_hook(store, request, |_| {})
 }
@@ -1536,6 +1770,14 @@ pub(crate) fn validate_bootstrap_request(request: &BootstrapRequest) -> Result<(
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
             "bootstrap actor/reviewer invariants are incomplete",
+        ));
+    }
+    validate_safe_authored_destination(&request.design_path)?;
+    validate_safe_authored_destination(&request.diagram_path)?;
+    if request.design_path == request.diagram_path {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "design and diagram paths must be distinct",
         ));
     }
     Ok(())
