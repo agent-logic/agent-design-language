@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "bound",
-  "generation": 5,
-  "digest": "d452d62001c699aa706581d9a82d8dafe2b31df7cccec49b23dec6ca81dc42ce",
+  "generation": 6,
+  "digest": "c10b917f84e764aa985915f5717ca025683da3adf45c65fb6c47cf0667b9bbaa",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f66157fea2f65ac94c6dbb02074e09f8bc38f49a0d7169ddca00584cdd74d653",
+      "values_digest": "ff075a5f9a0391bbb4b01955a61728daeaf83f38bf217ce41b908d16e951af8e",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "0cb1e2bbcc99d052c62087afb43fd9a58b0b386f03d5df547365d065202db4d8",
+      "values_digest": "d9cfba71378b4651797ca78745aabad28c3ebf44a3faa1d23c876085a5616220",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "8a540ed38a0213567489ea990ef164cdf8626adf3ccce36bc74160f219c679af",
-      "rendered_digest": "a491c63f36f9f17b85840add444115de51a2570e9b94191dba900a7ff29fd175",
-      "ast_digest": "9f07627b47fb1782e7cd93a8dce7d031f0d746738967b78b18053c10eae74e09"
+      "values_digest": "90042cfe130ac548483e0d1e4d882be277a51e7c1b0901b37f2fa72b925e8d74",
+      "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
+      "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "21747c19996005add0a2c0d20f25707f2bd33494fa1116506808a5752691d0d6",
+      "values_digest": "697ed80d4461340523e152f9946c4e461774f5db369d66f67b7683d5ed295cf6",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "1bee9709d941de8848c83e18db3ee548c7deeeef1eee081d8b1615f705d08523",
+      "values_digest": "c67899ff7e79e9cbb4c4a8f25b8ee462ae9bfd75d2169ebff75eecc2dd11d445",
       "rendered_digest": "943ffd99c620a9aa1a4f3ac8db989ee2385171bafb46cf25d17a144c830e6432",
       "ast_digest": "77111e7548269e4ccfdc8cbccb0fa96aa571ed04c1ba62fc85b77b9a8bc6f3b4"
     },
     "sor": {
-      "values_digest": "bacd99039fb441f9e50445fff19dcb97335925922fd7470657034ec6b9307034",
+      "values_digest": "64bb3df5ffa50122dd417a38a8e72f40bc64bd5f201627f913670ddd4a7d3c0f",
       "rendered_digest": "2c5002f295a98f21b423dd6448637a73a06d509931241c8ab9b0df51f43842e1",
       "ast_digest": "4e1e4766531db463712839f1312e6a00a53ff242870ace0f4f2489e015d645be"
     }
@@ -119,6 +119,13 @@
       "actor": "codex:issue-295",
       "reason": "Declare final deterministic small-resource PR validation lanes, their proof roles, and explicit non-authoritative release-gate boundary.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"mechanical-compile-fallout-classifier\",\"proof_role\":\"Lane class cli_workflow: deterministic parser, mapping, receipt, negative, and end-to-end threshold integration proof; small resource; PR validation only and explicitly non-authoritative for release coverage.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"parallel_group\":\"coverage-policy\",\"defer_reason\":null},{\"lane\":\"coverage-impact-regression\",\"proof_role\":\"Lane class cli_workflow: existing deterministic changed-source and authoritative-routing contract regression; small resource; preserves the 80 percent release gate and does not treat PR-fast evidence as authority.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"coverage-policy\",\"defer_reason\":null},{\"lane\":\"validation-selector-pvf\",\"proof_role\":\"Lane class cli_workflow: deterministic PVF selector inventory and route contract proof; small resource; records release gate status as non_authoritative_pr_validation.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"parallel_group\":\"coverage-policy\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-295",
+      "reason": "Include the existing selector validator invoked by the final declared PVF lane.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/tools/mechanical_coverage_fallout.py\",\"adl/config/mechanical_coverage_fallout.v1.json\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\",\"docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md\",\".csdlc/issues/295\",\".csdlc/prepared/issues/295\"]}"
     }
   ]
 }

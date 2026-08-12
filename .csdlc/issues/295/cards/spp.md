@@ -16,7 +16,7 @@ Bootstrap and bind #295, implement the exact classifier and receipt contract, ad
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
