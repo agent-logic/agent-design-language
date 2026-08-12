@@ -153,10 +153,21 @@ impl OperationExecutor for ConversationExecutor {
             class: FailureClass::Fatal,
             message: error.to_string(),
         })?;
+        let signed_payload: serde_json::Value = serde_json::from_str(&signed_request.payload_json)
+            .map_err(|error| ExecutorError {
+                class: FailureClass::Fatal,
+                message: error.to_string(),
+            })?;
+        let signing_key_id = signed_payload["recipient_signing_key_id"]
+            .as_str()
+            .ok_or_else(|| ExecutorError {
+                class: FailureClass::Fatal,
+                message: "missing recipient signing key id".to_owned(),
+            })?;
         let recipient_signing = CommunicationKeyDescriptor {
             principal_id: recipient_id.to_owned(),
             polis_id: "conversation-runtime".to_owned(),
-            signing_key_id: format!("{recipient_id}-key"),
+            signing_key_id: signing_key_id.to_owned(),
             private_key_file: self.recipient_key_file.clone(),
             not_before_epoch_secs: 0,
             expires_at_epoch_secs: u64::MAX,
@@ -374,7 +385,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
                     .map(|recipient| CommunicationVerifyingDescriptor {
                         principal_id: recipient.clone(),
                         polis_id: "conversation-runtime".to_owned(),
-                        signing_key_id: format!("{recipient}-key"),
+                        signing_key_id: format!("configured-ack-key-for-{recipient}-v7"),
                         verifying_key_hex: hex::encode(
                             ed25519_dalek::SigningKey::from_bytes(&[8_u8; 32])
                                 .verifying_key()

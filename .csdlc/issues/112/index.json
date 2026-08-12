@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "implemented",
-  "generation": 42,
-  "digest": "4c46a97dd03e05e8123a859654b63151f6930d9d6b91e48694c295e906d8ad5a",
+  "generation": 43,
+  "digest": "323deef0ab7401218f8395c34ff9c2a6f23b4eaf1064b79bbfae60a6503c5fa5",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fa5c0f8b5007eb19b0c0d50439035cad66a31d202ef0ef11dd8f02931dbc99a2",
+      "values_digest": "c7a0b2b02fc3d7e90ef6e41072cf32aef6bcacd4d0a3e9e8b435dd9a9a84f8da",
       "rendered_digest": "c359833435b3fec371ee4fb3e06c059405db392529200e79f667ddf634f49dd9",
       "ast_digest": "1550fcf3865ee5b7fdd70c7d721016ca49bc28929bea299bc58bdddb875263ed"
     },
     "stp": {
-      "values_digest": "b796ac88dfafbfdc1430161ac1d0a131b01d1b6c2c521a18852c35e20eb620b4",
+      "values_digest": "e018835dc0ffbf4e8074c69edeb43dcf16705f06e360c5e02825a17b56b504c8",
       "rendered_digest": "3588e7b7788a694807dea7951395d85c31f864ed1597ddfd1d91d1beaf42c82e",
       "ast_digest": "08f33d476eb7a97037dd49bef15b348c84c8058bcb805723e9b9d23e20bc1800"
     },
     "spp": {
-      "values_digest": "b71df34ffa9f06a2ee6766224a59a3f5538e2ec36bc37d7da2b2856562624a50",
+      "values_digest": "1e4b37c5796956308b1d403ba1e577d52d334892a525ef43e2a3a66536d688b7",
       "rendered_digest": "5c0633102bdcc5d9b7a65d4ccc56bdd5de7ae64fa5aa25cecc21a43dad621c6c",
       "ast_digest": "263dd8e4881899dd339f16e6f7ed0f76fa473ec53f926a99c6deef421f67892f"
     },
     "vpp": {
-      "values_digest": "12f4e74ddc21a48593c6ee1a894d6d43c9057c3626a4eed060cecffd0aea8e13",
+      "values_digest": "8700427dd79b2afa43a852d61f6546278d6be6fe0316df7da006a4e3cbcc78c8",
       "rendered_digest": "8e4a5e36226ea2826280259b657935fd64f5a392c64e916fd297b3b12b8f841b",
       "ast_digest": "0b5d959bd7a0ef072eda1088bfdae6c1c07ef5e70e12171072987aae06338eee"
     },
     "srp": {
-      "values_digest": "90c1d40425a25c5ef44c3604a9d94468bba3c97ef7e6d7032650edc6432d7ae1",
+      "values_digest": "4219be8bd7b153910b63749cbf98e3205929c38c04b85efe5417cee963bf5ded",
       "rendered_digest": "ecb8e7f30268ee85b94904ac382a74e43451f2d3382bed9abf8c7e1d1cf7468e",
       "ast_digest": "26a0990ebe405b9c201a236b20840bd2ee96da79d4dad3b846acd63d9738cfd5"
     },
     "sor": {
-      "values_digest": "d77410c525927a81c1ad8cc43bd59604d3059df743ec13b1c0d4bae2adb8f09d",
+      "values_digest": "e658581b910a3c940eadc329b1ccc1ab9189b73dd986a2131bb67860e263d5ef",
       "rendered_digest": "edd35ad326c8433c6c45cac7b89b21edff7f2bf99f5d3d8703c89cd8800d4083",
       "ast_digest": "db6e9bf518433559a3c3569853aa9b79ee19f69b3ff3984461aba8bb7a216dab"
     }
@@ -407,6 +407,20 @@
       "actor": "codex-session-112",
       "reason": "Record exact-current execution after binding authenticated verification keys and carrying the configured recipient signing-key id to the agent acknowledgement boundary.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; and exact-current issue 244 integration.\",\"changes\":[\"Load current identity evidence, pre-existing capabilities, and separate agent and Polis policies from an external authority profile instead of constructing request-shaped authority.\",\"Keep only recipient public keys in the control authority; require the recipient agent execution boundary to sign and return the acknowledgement through canonical ingress before delivery.\",\"Bind action, conversation, recipient, replay, and correlation outer fields to the verified signed request and require exact acknowledgement replay identity.\",\"Bind the verified sender principal, polis, signing-key id, and public verification key bytes to independently loaded Runtime identity evidence before capability and policy evaluation, refusing same-label untrusted keys.\",\"Carry the configured recipient signing-key id inside the authenticated signed request so the agent acknowledgement boundary does not rely on a naming convention.\",\"Serialize simultaneous audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.\",\"Keep retryable policy refusals from consuming replay identities and preflight conversation capacity before durable authorization.\",\"Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation.\"],\"artifacts\":[\"adl-runtime-kernel/src/layer8_authority.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Run the exact-current production conversation boundary after issue 244's test-module migration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-production-conversation-boundary.log (1 passed)\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"layer8_authority\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, and refusal proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-contract.log (12 passed)\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Run the Runtime API signed request and exact acknowledgement integration proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-runtime-api-integration.log (4 passed)\"},{\"command\":[\"bash\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\"],\"purpose\":\"Run the real-browser Observatory disclosure and authority-state proof with the configured local Playwright and Chrome runtimes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-observatory-ui.log (PASS)\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Enforce strict lint hygiene for the production Runtime source.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: kernel strict clippy PASS\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Enforce strict lint hygiene for the Runtime API integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: API strict clippy PASS\"}]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 42,
+      "actor": "codex-session-112",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 43,
+      "actor": "codex-session-112",
+      "reason": "Assigned revision failed because its production fixture retained the removed key-id convention; superseded by a non-derived configured key id consumed from the authenticated payload.",
+      "operation": "recover_review"
     }
   ]
 }
