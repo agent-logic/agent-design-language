@@ -1,0 +1,173 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 297,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
+  "phase": "bound",
+  "generation": 12,
+  "digest": "76636eb4dea62de0c7b5ce52d3d38e102e492112e03d7b9f242c6981fc76f3e1",
+  "branch": "codex/297-preserved-failed-projection-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/297/design.md",
+  "diagram_path": ".csdlc/prepared/issues/297/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:6e164732-d2c4-46a7-a531-2b2a7394ea5d",
+      "revision": "fa657fb40b9571fd0ff37b0099de2546405dbe7fc836ebabd264a8096d305978"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a17620923b00a26f07f8ec044a9d80ba4ea164a24c40879df8748ce5f85972a9",
+      "rendered_digest": "df823d86637cd9489e801629df7a5212ac8097bc372257554eaec7c9a9d0660e",
+      "ast_digest": "1bc768342db5a416f8bb25942901fb3f59ba10dc488a47dea6f0ef806aabb7e0"
+    },
+    "stp": {
+      "values_digest": "725d3e38efdfb5ee5f7b5c3bfeabc6ccf9cef09a332f1379b300315d9d23a05f",
+      "rendered_digest": "97ad2e897d196aba11055627fae7c5e07537626d42ad815337c564dffb664688",
+      "ast_digest": "9a54ff529a22712e2dcb9f5efb93efb1ca9fd290304b932f98ab76803bc6ae26"
+    },
+    "spp": {
+      "values_digest": "5bcb4725a5c19d336e2d77b26d83e89d17d00b62024f9907a60f660a53baa8f6",
+      "rendered_digest": "4e76e66487c3fc2fe933bd08cef3d1402afd52047034a8012e313925a73f1c35",
+      "ast_digest": "0840d7be9036b9e08927f71421e21b62df630f5cb21946bd6cf204c00d24729d"
+    },
+    "vpp": {
+      "values_digest": "56d4d63ea7c3effa112544cb204f1382d1840608c82135a14c96b5fa2c54a7b9",
+      "rendered_digest": "0b69dc6c07901591ea965a1a35f8607a2c96f9233eb74689d814f5384df20ca1",
+      "ast_digest": "8e95b4571cde6288076cbf1bb565d27344aaa3b7fa0025ab19ec504023e44f56"
+    },
+    "srp": {
+      "values_digest": "71c54c8eb8bb839e3571c94a924287144c9e1d1d07a923abe308135c49e9d1d8",
+      "rendered_digest": "6f4e38ac2a97a50f90551b3dce814fd74affdc11bb3fc116e971cce08a0617e9",
+      "ast_digest": "8f81d0ff47d5b8e65b630310d435d18d4f3965c7486a36fbeabe916e37ba8c33"
+    },
+    "sor": {
+      "values_digest": "76bd65554197a33b0b4cd055ecc6780284bf2da75c29403031a15052aadde31e",
+      "rendered_digest": "d6c98886b5a9df63aca6b5529993b2887584d88a599659d7e272d5a4aa2711c3",
+      "ast_digest": "7744a980b6a31a16e82cffa50bf30ca4d85bfb6f87bddb7ebd1c08903386bcef"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-297",
+      "reason": "advance design-approved issue 297 to ready before typed bind"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-297",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-297",
+      "reason": "refresh revised crash-recovery design bindings after fresh design review r1 findings",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/297/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/297/diagram.mmd\",\"new_design_digest\":\"00f0910e640f849962abfa8703cb5d27bedb3baa14a4c6f8b34afbd232a58ca6\",\"new_diagram_digest\":\"94ccde7733abd0114632e1606e444a34aab2108852f93cc14783dbceea804353\",\"old_design_digest\":\"8d483a8bbb6b95fc38afac7f05e756c408c4303132eaa2911d6c54db8bb88a3b\",\"old_diagram_digest\":\"74c4d93a48f23af87b1bf53a5e5c7db2d886d7dff7f8d5b1f2e9a6bc43c1db2b\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"action\":\"Review and approve the namespace, identity, immutable-ledger, restart, and cleanup protocol.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"action\":\"Implement typed classify, recover, restart, audit, and separate cleanup operations under the issue lock.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Add real projection integration, failpoint, collision, race, corruption, topology, CAS, idempotency, and regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently exact-head review, publish ready, and shepherd required CI without merge.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-297",
+      "reason": "refresh revised r2 design bindings before typed VPP proof correction",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/297/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/297/diagram.mmd\",\"new_design_digest\":\"3ca64d9e6a54ba480de4876aa62933a3c5b2313d363ae22dce978dde1170c32f\",\"new_diagram_digest\":\"435fc0d906a7909037644f1363a8e00410ea960fad5604bc063eb91ac3531e0f\",\"old_design_digest\":\"00f0910e640f849962abfa8703cb5d27bedb3baa14a4c6f8b34afbd232a58ca6\",\"old_diagram_digest\":\"94ccde7733abd0114632e1606e444a34aab2108852f93cc14783dbceea804353\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"action\":\"Review and approve the namespace, identity, immutable-ledger, restart, and cleanup protocol.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"action\":\"Implement typed classify, recover, restart, audit, and separate cleanup operations under the issue lock.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Add real projection integration, failpoint, collision, race, corruption, topology, CAS, idempotency, and regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently exact-head review, publish ready, and shepherd required CI without merge.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-297",
+      "reason": "tighten r2 proof truth for mount identity, mutation intents, crash adoption, cleanup placeholders, and namespace permissions",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preserved-projection-recovery\",\"proof_role\":\"Real typed classify/recover/cleanup and later ordinary commit proof; exact tagged-CAS permissions; anchored no-follow per-node identity with device and platform mount identity, uid/gid/mode/link policy; pre-mutation intent and exact post-state adoption; every recovery and cleanup receipt, rename/exchange, file fsync, parent fsync, unlink/rmdir, partial-tree restart, collision/replacement, and placeholder disposal failpoint; corruption/ambiguity/topology/CAS negatives; initialized/ready and #291 regression for AC-1 through AC-9\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"preserved_projection_recovery\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-297",
+      "reason": "final paired design and diagram binding after r2 protocol and VPP remediation",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/297/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/297/diagram.mmd\",\"new_design_digest\":\"3ca64d9e6a54ba480de4876aa62933a3c5b2313d363ae22dce978dde1170c32f\",\"new_diagram_digest\":\"435fc0d906a7909037644f1363a8e00410ea960fad5604bc063eb91ac3531e0f\",\"old_design_digest\":\"3ca64d9e6a54ba480de4876aa62933a3c5b2313d363ae22dce978dde1170c32f\",\"old_diagram_digest\":\"435fc0d906a7909037644f1363a8e00410ea960fad5604bc063eb91ac3531e0f\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"action\":\"Review and approve the namespace, identity, immutable-ledger, restart, and cleanup protocol.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"action\":\"Implement typed classify, recover, restart, audit, and separate cleanup operations under the issue lock.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Add real projection integration, failpoint, collision, race, corruption, topology, CAS, idempotency, and regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently exact-head review, publish ready, and shepherd required CI without merge.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:issue-297-design-remediation-r3",
+      "reason": "Refresh the paired design and diagram binding after remediating r3 create-intent crash ownership findings.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/297/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/297/diagram.mmd\",\"new_design_digest\":\"89777c46a64eddc2f931b37a038af713b05998bb0d9517f1f11ebe678e8d192a\",\"new_diagram_digest\":\"8e65aebc30906328d788786c3609a846b0534ab7c8e4a3a6f9d17563a85ec812\",\"old_design_digest\":\"3ca64d9e6a54ba480de4876aa62933a3c5b2313d363ae22dce978dde1170c32f\",\"old_diagram_digest\":\"435fc0d906a7909037644f1363a8e00410ea960fad5604bc063eb91ac3531e0f\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"action\":\"Review and approve the namespace, identity, immutable-ledger, restart, and cleanup protocol.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"action\":\"Implement typed classify, recover, restart, audit, and separate cleanup operations under the issue lock.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Add real projection integration, failpoint, collision, race, corruption, topology, CAS, idempotency, and regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently exact-head review, publish ready, and shepherd required CI without merge.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:issue-297-design-remediation-r3",
+      "reason": "Refresh the final paired r3 design and diagram binding after aligning creation-state labels and restart routing.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/297/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/297/diagram.mmd\",\"new_design_digest\":\"89777c46a64eddc2f931b37a038af713b05998bb0d9517f1f11ebe678e8d192a\",\"new_diagram_digest\":\"30b6b64361341c4dfbfaa75a48aa530e410248dc7deaa0f17c09b7a265075de5\",\"old_design_digest\":\"89777c46a64eddc2f931b37a038af713b05998bb0d9517f1f11ebe678e8d192a\",\"old_diagram_digest\":\"8e65aebc30906328d788786c3609a846b0534ab7c8e4a3a6f9d17563a85ec812\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"action\":\"Review and approve the namespace, identity, immutable-ledger, restart, and cleanup protocol.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"action\":\"Implement typed classify, recover, restart, audit, and separate cleanup operations under the issue lock.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Add real projection integration, failpoint, collision, race, corruption, topology, CAS, idempotency, and regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently exact-head review, publish ready, and shepherd required CI without merge.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:issue-297-design-remediation-r4",
+      "reason": "Refresh paired design and diagram bindings after splitting cleanup private-directory and root-placeholder creation states.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/297/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/297/diagram.mmd\",\"new_design_digest\":\"dad642820159cc87bd0a044a9faf6e2d8b54815db9fa7301d29a92e9a4fbc05b\",\"new_diagram_digest\":\"0d958e97a3954d81d2df0e52b8f1fa369f3b538937ff75efb93c1195ac0fb4da\",\"old_design_digest\":\"89777c46a64eddc2f931b37a038af713b05998bb0d9517f1f11ebe678e8d192a\",\"old_diagram_digest\":\"30b6b64361341c4dfbfaa75a48aa530e410248dc7deaa0f17c09b7a265075de5\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"action\":\"Review and approve the namespace, identity, immutable-ledger, restart, and cleanup protocol.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"action\":\"Implement typed classify, recover, restart, audit, and separate cleanup operations under the issue lock.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Add real projection integration, failpoint, collision, race, corruption, topology, CAS, idempotency, and regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently exact-head review, publish ready, and shepherd required CI without merge.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:issue-297-design-remediation-r5",
+      "reason": "Refresh paired design and diagram bindings after separating cleanup ledger authority from the private delete namespace and specifying exact placeholder-disposal counterpart ownership and restart states.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/297/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/297/diagram.mmd\",\"new_design_digest\":\"d2eb314cfe93a9ed0c3ea91b7d848c0ff140a696780d5b31477deb6a74d1506a\",\"new_diagram_digest\":\"7f5bb896c71b68ae1559db0088828eec645a524bca791ec40feb5326a12bb8ef\",\"old_design_digest\":\"dad642820159cc87bd0a044a9faf6e2d8b54815db9fa7301d29a92e9a4fbc05b\",\"old_diagram_digest\":\"0d958e97a3954d81d2df0e52b8f1fa369f3b538937ff75efb93c1195ac0fb4da\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"action\":\"Review and approve the namespace, identity, immutable-ledger, restart, and cleanup protocol.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"action\":\"Implement typed classify, recover, restart, audit, and separate cleanup operations under the issue lock.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Add real projection integration, failpoint, collision, race, corruption, topology, CAS, idempotency, and regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently exact-head review, publish ready, and shepherd required CI without merge.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:issue-297-design-remediation-r7",
+      "reason": "Strengthen cleanup proof planning for type-matched directory and regular-file placeholder disposal plus exact crash adoption after each removal and parent-fsync boundary.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preserved-projection-recovery\",\"proof_role\":\"Real typed classify/recover/cleanup and later ordinary commit proof; exact tagged-CAS permissions; anchored no-follow per-node identity with device and platform mount identity, uid/gid/mode/link policy; pre-mutation intent and exact post-state adoption; every recovery and cleanup receipt, rename/exchange, file fsync, parent fsync, regular-file unlink, empty-directory rmdir, partial-tree restart, collision/replacement, type-matched placeholder counterpart creation, original-placeholder removal, counterpart capture/removal, and both absent-after-removal restart-adoption windows; corruption/ambiguity/topology/CAS negatives; initialized/ready and #291 regression for AC-1 through AC-9\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"preserved_projection_recovery\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:issue-297-design-remediation-r7",
+      "reason": "Refresh paired design and diagram bindings after making placeholder disposal type-correct and specifying exact removal, fsync, receipt, and restart-adoption states for both placeholder identities.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/297/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/297/diagram.mmd\",\"new_design_digest\":\"fa657fb40b9571fd0ff37b0099de2546405dbe7fc836ebabd264a8096d305978\",\"new_diagram_digest\":\"8fea8524f0be5ce3b0cf19b9034a9721dcf92bb3afda875df661679494fc816a\",\"old_design_digest\":\"d2eb314cfe93a9ed0c3ea91b7d848c0ff140a696780d5b31477deb6a74d1506a\",\"old_diagram_digest\":\"7f5bb896c71b68ae1559db0088828eec645a524bca791ec40feb5326a12bb8ef\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"action\":\"Review and approve the namespace, identity, immutable-ledger, restart, and cleanup protocol.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"action\":\"Implement typed classify, recover, restart, audit, and separate cleanup operations under the issue lock.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Add real projection integration, failpoint, collision, race, corruption, topology, CAS, idempotency, and regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently exact-head review, publish ready, and shepherd required CI without merge.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "fresh-session:6e164732-d2c4-46a7-a531-2b2a7394ea5d",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:issue-297",
+      "reason": "advance design-approved issue 297 to ready before typed bind",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

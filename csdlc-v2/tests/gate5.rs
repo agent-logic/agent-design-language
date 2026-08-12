@@ -1,12 +1,92 @@
 use csdlc_v2::cards::{FindingDisposition, FindingSeverity, PublicationState};
 use csdlc_v2::model::TransitionEvent;
 use csdlc_v2::{
-    assign_review, bind_issue, edit_issue, evaluate_publication_review,
-    evaluate_publication_review_in_repo, record_review, BindRequest, BootstrapRequest, CardKind,
-    EditRequest, ErrorCode, InitialCardInput, LifecyclePhase, NonSubstantiveProof, PlanningProfile,
+    assign_review, bind_issue, classify_preserved_projection, edit_issue,
+    evaluate_publication_review, evaluate_publication_review_in_repo, record_review, BindRequest,
+    BootstrapRequest, CardKind, EditRequest, ErrorCode, InitialCardInput, LifecyclePhase,
+    NonSubstantiveProof, PlanningProfile, ProjectionCasAnchor, ProjectionClassifyRequest,
     ReviewAssignmentRequest, ReviewEvidence, ReviewFindingEvidence, ReviewRecordRequest,
     ReviewRecoveryRequest, SemanticOperation, Store,
 };
+
+#[test]
+fn preserved_projection_recovery_classifies_without_mutation_and_rejects_symlink() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    std::fs::rename(store.issue_dir(7), &preserved).expect("preserve canonical fixture");
+    std::fs::create_dir_all(store.issue_dir(7)).expect("replacement canonical");
+    std::fs::write(store.issue_dir(7).join("index.json"), b"{}\n").expect("invalid canonical");
+    let canonical_meta = std::fs::symlink_metadata(store.issue_dir(7)).expect("canonical meta");
+    use std::os::unix::fs::MetadataExt;
+    let request = ProjectionClassifyRequest {
+        issue: 7,
+        anchor: ProjectionCasAnchor::ExactObservedInvalid {
+            canonical_identity: csdlc_v2::NodeIdentity {
+                device: canonical_meta.dev(),
+                mount_id: format!("dev:{}", canonical_meta.dev()),
+                inode: canonical_meta.ino(),
+                ctime_seconds: canonical_meta.ctime(),
+                ctime_nanoseconds: canonical_meta.ctime_nsec(),
+                links: canonical_meta.nlink(),
+                uid: canonical_meta.uid(),
+                gid: canonical_meta.gid(),
+                mode: canonical_meta.mode(),
+                node_type: "directory".into(),
+            },
+            manifest_digest: String::new(),
+        },
+        actor: "test".into(),
+        reason: "classify".into(),
+    };
+    let err = classify_preserved_projection(&store, request).expect_err("empty manifest CAS stale");
+    assert_eq!(err.code, ErrorCode::StaleGeneration);
+    assert!(
+        preserved.is_dir(),
+        "classification mutated preserved evidence"
+    );
+    assert!(
+        store.issue_dir(7).is_dir(),
+        "classification mutated canonical"
+    );
+
+    std::fs::remove_dir_all(store.issue_dir(7)).expect("remove invalid fixture");
+    std::os::unix::fs::symlink(&preserved, store.issue_dir(7)).expect("symlink canonical");
+    let request = ProjectionClassifyRequest {
+        issue: 7,
+        anchor: ProjectionCasAnchor::VerifiedCanonical {
+            generation: record.generation,
+            record_digest: record.digest,
+        },
+        actor: "test".into(),
+        reason: "reject symlink".into(),
+    };
+    assert!(classify_preserved_projection(&store, request).is_err());
+}
+
+#[test]
+fn preserved_projection_recovery_blocks_ordinary_commit_until_typed_recovery() {
+    let (_temp, store, record) = implemented_fixture();
+    std::fs::create_dir_all(store.rollback_preserved(7)).expect("preserved marker");
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            actor: "test".into(),
+            reason: "must block".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "blocked".into(),
+                changes: vec!["none".into()],
+                artifacts: vec!["none".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("ordinary commit must fail closed");
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+}
 
 fn install_native_authority(root: &std::path::Path) {
     let registry = root.join("docs/templates/prompts/current.json");

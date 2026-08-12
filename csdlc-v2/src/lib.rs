@@ -16,6 +16,7 @@ pub mod migration;
 pub mod model;
 pub mod operator;
 pub mod output;
+pub mod projection_recovery;
 pub mod proof;
 pub mod publication;
 pub mod pvf;
@@ -87,6 +88,12 @@ pub use operator::{
     CoexistenceInventory, InstallReceipt, SkillManifest,
 };
 pub use output::write_json_stdout;
+pub use projection_recovery::{
+    classify_preserved_projection, cleanup_preserved_projection, recover_preserved_projection,
+    CandidateObservation, ManifestEntry, NodeIdentity, ProjectionCasAnchor,
+    ProjectionClassification, ProjectionClassifyRequest, ProjectionCleanupRequest,
+    ProjectionCleanupResult, ProjectionRecoverRequest, ProjectionRecoveryResult,
+};
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
     prepare_publication, reconcile_action, record_publication, PublicationAction,

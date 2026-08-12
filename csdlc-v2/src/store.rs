@@ -65,6 +65,12 @@ impl Store {
             .join(format!(".{issue}.backup"))
     }
 
+    pub fn rollback_preserved(&self, issue: u64) -> PathBuf {
+        self.root
+            .join(".csdlc/issues")
+            .join(format!(".{issue}.rollback-preserved"))
+    }
+
     fn staging_dir(&self, issue: u64) -> PathBuf {
         self.root
             .join(".csdlc/issues")
@@ -273,6 +279,12 @@ impl Store {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
         let backup = self.interrupted_backup(issue);
+        if self.rollback_preserved(issue).symlink_metadata().is_ok() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "preserved failed projection requires typed classification and recovery",
+            ));
+        }
         if staging.exists() {
             fs::remove_dir_all(&staging)?;
         }
@@ -383,6 +395,41 @@ impl Store {
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
+    }
+
+    pub(crate) fn append_projection_recovery_audit_locked(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        actor: String,
+        reason: String,
+        operation: String,
+    ) -> Result<IssueRecord> {
+        self.recover_if_needed(issue)?;
+        let mut record = self.load_record(issue)?;
+        if record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "record changed before recovery audit commit",
+            ));
+        }
+        let mut cards = self.load_cards(issue)?;
+        verify_cards(self, &record, &cards)?;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor,
+            reason,
+            operation,
+        });
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(issue, &record, &cards, false)?;
+        Ok(record)
     }
 
     pub(crate) fn replace_pre_topology_record_locked(

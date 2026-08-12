@@ -1,0 +1,58 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 297,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover and classify preserved failed issue projections",
+    "slug": "preserved-failed-projection-recovery",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preserved-projection-recovery",
+          "proof_role": "Real typed classify/recover/cleanup and later ordinary commit proof; exact tagged-CAS permissions; anchored no-follow per-node identity with device and platform mount identity, uid/gid/mode/link policy; pre-mutation intent and exact post-state adoption; every recovery and cleanup receipt, rename/exchange, file fsync, parent fsync, regular-file unlink, empty-directory rmdir, partial-tree restart, collision/replacement, type-matched placeholder counterpart creation, original-placeholder removal, counterpart capture/removal, and both absent-after-removal restart-adoption windows; corruption/ambiguity/topology/CAS negatives; initialized/ready and #291 regression for AC-1 through AC-9",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 900,
+          "budget_tokens": 7000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "preserved_projection_recovery"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed without mutation on unsafe node type, alias, identity drift, corrupt or mismatched projection, ambiguous lineage, stale CAS/topology, incomplete receipt chain, collision/race, validation failure, or stale review; preserve every failure artifact.",
+      "design_ref": ".csdlc/prepared/issues/297/design.md",
+      "design_digest": "fa657fb40b9571fd0ff37b0099de2546405dbe7fc836ebabd264a8096d305978",
+      "diagram_ref": ".csdlc/prepared/issues/297/diagram.mmd",
+      "diagram_digest": "8fea8524f0be5ce3b0cf19b9034a9721dcf92bb3afda875df661679494fc816a"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 297,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover and classify preserved failed issue projections",
+    "slug": "preserved-failed-projection-recovery",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "All #297 typed contracts, issue-store recovery namespace behavior, CLI/schema exposure, immutable recovery receipts, and real integration/failpoint tests; code, security, test, and evidence coverage required.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Review every acceptance criterion with code, security, test, and evidence coverage, emphasizing crash consistency, immutable receipt ordering, inode ownership, symlink/hardlink and rename races, exact cleanup authority, topology/CAS enforcement, no evidence loss, and subsequent ordinary-commit behavior."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
