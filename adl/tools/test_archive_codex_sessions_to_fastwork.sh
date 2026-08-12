@@ -23,6 +23,16 @@ test "$(jq -r '.files' "$fixture/archive/summary.json")" = "2"
 test "$(jq -r '.source_deleted' "$fixture/archive/summary.json")" = "false"
 cmp "$fixture/archive/source.sha256" "$fixture/archive/manifest.sha256"
 
+ln -s /Users/daniel "$fixture/escaped-parent"
+if "$repo_root/adl/tools/archive_codex_sessions_to_fastwork.sh" \
+  --source "$fixture/source" \
+  --destination "$fixture/escaped-parent/archive-must-not-exist" \
+  --min-age-days 0 >/dev/null 2>&1; then
+  echo "expected symlink-escaped destination refusal" >&2
+  exit 1
+fi
+test ! -e /Users/daniel/archive-must-not-exist
+
 if "$repo_root/adl/tools/archive_codex_sessions_to_fastwork.sh" \
   --source "$fixture/source" \
   --destination "/Users/daniel/adl-archive-policy-must-refuse" \

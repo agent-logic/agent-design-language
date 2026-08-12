@@ -43,7 +43,27 @@ done
   exit 2
 }
 
+destination_parent="$(dirname "$destination")"
+[[ -d "$destination_parent" ]] || {
+  echo "destination parent must already exist" >&2
+  exit 2
+}
+destination_parent="$(cd "$destination_parent" && pwd -P)"
+[[ "$destination_parent" == /Volumes/FastWork/* ]] || {
+  echo "canonical destination parent must be beneath /Volumes/FastWork" >&2
+  exit 2
+}
+destination="$destination_parent/$(basename "$destination")"
+if [[ -e "$destination" && ! -d "$destination" ]]; then
+  echo "destination exists and is not a directory" >&2
+  exit 2
+fi
 mkdir -p "$destination/data"
+destination="$(cd "$destination" && pwd -P)"
+[[ "$destination" == /Volumes/FastWork/* ]] || {
+  echo "canonical destination must be beneath /Volumes/FastWork" >&2
+  exit 2
+}
 file_list="$destination/files.null"
 source_manifest="$destination/source.sha256"
 archive_manifest="$destination/manifest.sha256"

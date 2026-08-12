@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5911/design.mmd
 [
   {
     "lane": "csdlc-bind-fastwork-policy",
-    "proof_role": "Focused Rust tests prove allowed FastWork binding and refusal outside the canonical parent.",
+    "proof_role": "Focused Rust unit tests prove allowed FastWork binding, outside-parent refusal, and missing-policy refusal.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
@@ -40,16 +40,15 @@ Diagram: .csdlc/prepared/issues/5911/design.mmd
       "test",
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate2",
-      "fastwork"
+      "--lib",
+      "fastwork_policy"
     ],
     "parallel_group": "local",
     "defer_reason": null
   },
   {
     "lane": "transcript-archive-verification",
-    "proof_role": "Governed archive tests plus issue execution evidence prove manifest generation, digest verification, and source preservation.",
+    "proof_role": "Issue-owned archive tests prove manifest generation, digest verification, source preservation, and canonical FastWork containment.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -62,7 +61,7 @@ Diagram: .csdlc/prepared/issues/5911/design.mmd
     "budget_tokens": 1000,
     "argv": [
       "bash",
-      "adl/tools/test_archive_run_artifacts.sh"
+      "adl/tools/test_archive_codex_sessions_to_fastwork.sh"
     ],
     "parallel_group": "local",
     "defer_reason": null
@@ -81,8 +80,8 @@ Tokens: 25000
 
 ## Commands
 
-- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate2 fastwork`
-- `bash adl/tools/test_archive_run_artifacts.sh`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --lib fastwork_policy`
+- `bash adl/tools/test_archive_codex_sessions_to_fastwork.sh`
 
 ## Failure Semantics
 

@@ -3,9 +3,9 @@
   "issue": 5911,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "eba116b5732a4b5f497dadabca6e906a6f9eb9dcd393ae704780074f01a773fe",
-  "phase": "bound",
-  "generation": 3,
-  "digest": "aa40fad249950a8ec1f1c83cd0857505fd2ed304f6e88638b371f1aeeab7b730",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "38ec62721a031f9e6c301cfa0f2eb5397c97f596ffb343596d93ec8965400432",
   "branch": "codex/5911-fastwork-storage-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5911-fastwork-storage-policy",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "35167c328a198ef1f7d7148160a0c3aa13d43574e94a8012f46eb1d6a4f6b274",
+      "values_digest": "ccb6045bf479e8735a705f839a73db91734d2cb0101d22f17cfa1625d4ae865b",
       "rendered_digest": "50d8426892e02179c4580c314aea63c6a17ea525229f22acb5707e52d60a46c7",
       "ast_digest": "3eb3ea1e6498c50e443dcec5bf981178d93caf68b11349f56efe7137e9e3732c"
     },
     "stp": {
-      "values_digest": "8fdb9393e19885a05d6ca1bc5f5133ed8670a2d1b25d8008e585b172e5308211",
+      "values_digest": "2fd0f1451af2804848dc7b8740c12a69347b6a7039ddc6f982fb2b2bbac70d0f",
       "rendered_digest": "b633f7279064086c2b1e2a2cf7925433018552a9dd81ae45d213068ed69ffdbd",
       "ast_digest": "f68cd50f666c2f83f3fcb83b350475373e86b9d411a8340d42fdd0005126b67b"
     },
     "spp": {
-      "values_digest": "47723e711b6a61e590fbb120f39e8a336598bbd9b9feb7082ed1ef2a05c85ea4",
+      "values_digest": "0db0976dbddeb061406ae542971ca9bb192016880c7576bc9ed3f7c528088ec5",
       "rendered_digest": "e3089ea1391a438363d1e822e7fe9974fa51a07b46a7989044628cb37f289614",
       "ast_digest": "9aa0d83d579b98aad4f9eaa43ff5ad9f4dbbe032044223cf16794c085a85d51b"
     },
     "vpp": {
-      "values_digest": "5eb5f042ffbf5524dd76651e6c1603d6d20cf3a110c530d157f401469df6da4e",
-      "rendered_digest": "ad598da03554ca6c21d30e1ede3b9347b5eca25e83bef632b3c22fa4d169c098",
-      "ast_digest": "4de37a210dbdf1dc001805264267e8e8345bfd6013e202592f9caa6905b9da2f"
+      "values_digest": "6dc09b18ce9a3d751a219e905c1d20b62df3edb2bfe7bb104da1cb6e50daf14e",
+      "rendered_digest": "3f0e1b5e4e5196f52e2f044cabdd524f0fde2543e59488c361d42226289dd81a",
+      "ast_digest": "5c0bdf606ccdc6cdbcc82118a27eba132592456448db816c6c4b202e3e019007"
     },
     "srp": {
-      "values_digest": "1e3c979b40af4912bb80803834609d7b75582904132c602a043d3d3630e9a41d",
+      "values_digest": "0648336c48c2a3eeeb28efb62ca61e07a93500497009a6aab0f123d93a6343b7",
       "rendered_digest": "032762b88fec9d4f4f746f6ef5422009021fd5d92ea6abd997a2b2053778a1a3",
       "ast_digest": "a3097fb475a27bf72f6b8a604ef83f48decfe080535cbe5a35afc90128b0bdf3"
     },
     "sor": {
-      "values_digest": "b44f6da541124dd9dbe8fafe83514edcde953e9dee43b6093fab7795c1e69916",
-      "rendered_digest": "96883761ec1d93bcae92ef9d7bf156c488e06281fc8dba194584e73686cf3df3",
-      "ast_digest": "ec38c0929233c1bcfff12d3db08267659de8755cc399053495c5a15f8f721060"
+      "values_digest": "8fdc6385400181a62fb5ee677b8e5a6c30e46f287e55e6468406932daab94fbd",
+      "rendered_digest": "12d83cec9de21c5d7fafa512730f32c4611194aa41bf8dc9d383e705932237da",
+      "ast_digest": "7489a856ecaea93dc92b7c8ca67c9994142fd86a166957e0feffb1ac34eabf7c"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "implementation and all declared focused validation lanes completed without destructive cleanup"
     }
   ],
   "audit": [
@@ -105,6 +112,55 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "resolve exact-head review finding by routing both validation lanes to the issue-owned tests",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-bind-fastwork-policy\",\"proof_role\":\"Focused Rust unit tests prove allowed FastWork binding, outside-parent refusal, and missing-policy refusal.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"fastwork_policy\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"transcript-archive-verification\",\"proof_role\":\"Issue-owned archive tests prove manifest generation, digest verification, source preservation, and canonical FastWork containment.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":3000,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "record completed issue implementation, verified non-destructive archive, and focused proof",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Enforced the canonical FastWork worktree parent in typed binding, archived 6,454 inactive Codex transcript files totaling 131,750,498,984 bytes to FastWork, verified equal source/archive SHA-256 manifests and an independent archive-side check, and retained all source files pending separate deletion approval.\",\"changes\":[\"Added tracked .adl/worktree-policy.json with /Volumes/FastWork/adl-worktrees as the mandatory parent.\",\"Made canonical ADL binding fail closed when policy is missing or a new worktree resolves outside FastWork while preserving idempotent legacy issue-local binds.\",\"Added a non-destructive archive/verification tool and focused tests including symlink-escape refusal.\",\"Archived the stable older-than-one-day transcript set; no source transcript or existing worktree was deleted.\"],\"artifacts\":[\".adl/worktree-policy.json\",\"adl/tools/archive_codex_sessions_to_fastwork.sh\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\",\"/Volumes/FastWork/adl-archives/codex-sessions/issue-5911-20260811/summary.json\",\"/Volumes/FastWork/adl-archives/codex-sessions/issue-5911-20260811/manifest.sha256\",\"/Volumes/FastWork/adl-archives/codex-sessions/issue-5911-20260811/deletion-proposal.json\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "record focused FastWork bind policy proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"fastwork_policy\"],\"purpose\":\"Prove allowed FastWork placement, outside-parent refusal, and missing-policy refusal.\",\"outcome\":\"passed\",\"evidence_ref\":\"local issue worktree output: 3 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "record issue-owned archive tool proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\"],\"purpose\":\"Prove manifest generation, source preservation, path refusal, and symlink-escape refusal.\",\"outcome\":\"passed\",\"evidence_ref\":\"local issue worktree output: PASS archive_codex_sessions_to_fastwork\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "record live 121 GiB FastWork archive verification",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"adl/tools/archive_codex_sessions_to_fastwork.sh\",\"--verify-only\",\"/Volumes/FastWork/adl-archives/codex-sessions/issue-5911-20260811/manifest.sha256\"],\"purpose\":\"Independently verify all 6,454 archived transcript digests on FastWork.\",\"outcome\":\"passed\",\"evidence_ref\":\"/Volumes/FastWork/adl-archives/codex-sessions/issue-5911-20260811/summary.json\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "record strict lint proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint proof for the changed v2 lifecycle library.\",\"outcome\":\"passed\",\"evidence_ref\":\"local issue worktree output\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "implementation and all declared focused validation lanes completed without destructive cleanup",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

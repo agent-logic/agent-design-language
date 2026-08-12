@@ -40,10 +40,17 @@ struct WorktreePolicy {
     required_parent: String,
 }
 
-fn enforce_worktree_policy(root: &Path, requested: &Path) -> Result<()> {
+fn enforce_worktree_policy(root: &Path, requested: &Path, required: bool) -> Result<()> {
     let policy_path = root.join(".adl/worktree-policy.json");
     if !policy_path.is_file() {
-        return Ok(());
+        return if required {
+            Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "canonical ADL repository is missing .adl/worktree-policy.json",
+            ))
+        } else {
+            Ok(())
+        };
     }
     let policy: WorktreePolicy = serde_json::from_slice(&fs::read(&policy_path)?)?;
     if policy.schema != "adl.worktree_policy.v1" {
@@ -594,12 +601,16 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         ));
     }
     let wanted = requested_worktree(store.root(), &request.worktree)?;
-    enforce_worktree_policy(store.root(), &wanted)?;
     let wanted_text = wanted.to_string_lossy().into_owned();
     let current_root = store.root().canonicalize()?;
     let issue_local = wanted.exists()
         && wanted.canonicalize().ok().as_ref() == Some(&current_root)
         && git::current_branch(store.root())? == request.branch;
+    let policy_required =
+        store.load_record(request.issue)?.repository == "agent-logic/agent-design-language";
+    if !issue_local {
+        enforce_worktree_policy(store.root(), &wanted, policy_required)?;
+    }
 
     let _lock = store.binding_lock()?;
     let _issue_lock = store.authority_projection_lock(request.issue)?;
@@ -845,6 +856,7 @@ mod fastwork_policy_tests {
         enforce_worktree_policy(
             root.path(),
             Path::new("/Volumes/FastWork/adl-worktrees/adl-issue-5911"),
+            true,
         )
         .expect("FastWork child should pass");
     }
@@ -855,8 +867,21 @@ mod fastwork_policy_tests {
         let error = enforce_worktree_policy(
             root.path(),
             Path::new("/Users/example/git/agent-design-language/.worktrees/adl-issue-5911"),
+            true,
         )
         .expect_err("local-disk worktree should fail");
         assert!(error.message.contains("/Volumes/FastWork/adl-worktrees"));
+    }
+
+    #[test]
+    fn fastwork_policy_fails_closed_when_required_policy_is_missing() {
+        let root = tempfile::tempdir().expect("policy root");
+        let error = enforce_worktree_policy(
+            root.path(),
+            Path::new("/Volumes/FastWork/adl-worktrees/adl-issue-5911"),
+            true,
+        )
+        .expect_err("missing mandatory policy should fail");
+        assert!(error.message.contains("missing .adl/worktree-policy.json"));
     }
 }
