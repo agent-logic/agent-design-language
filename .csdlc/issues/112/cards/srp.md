@@ -24,6 +24,7 @@ docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md
 .csdlc/evidence/112
 .csdlc/issues/112
 .csdlc/prepared/issues/112
+.csdlc/locks/112.lock
 
 ## Prompts
 

@@ -1,9 +1,9 @@
 {
   "schema": "csdlc.review_assignment_request.v1",
   "issue": 112,
-  "expected_generation": 46,
-  "expected_digest": "a160c187273170bbeeaa94532e2ffc9dde00d39a107f7548adfc29638b3a0409",
-  "reviewer": "codex-fresh-session:issue-112-final-layer8-authority",
+  "expected_generation": 52,
+  "expected_digest": "80f71483641ec1d21c6c5ca302161567e7cc2aa60500d6ad88c2b4ea53efe4f6",
+  "reviewer": "codex-fresh-session:issue-112-final-layer8-authority-e22f7c26",
   "assigned_by": "codex-session-112",
   "scope": [
     "adl-runtime-kernel/src",
