@@ -12,10 +12,11 @@ Status: pre_phase
 
 ## Summary
 
-Remediated the third exact-review findings with a constrained Rust callsite grammar and clean Git-object proof snapshots.
+Remediated fourth-review findings by binding imports and control inputs to exact identities and strictly parsing the bounded Git unified-diff form.
 
 ## Artifacts
 
+- adl/config/mechanical_coverage_fallout.v1.json
 - adl/tools/mechanical_coverage_fallout.py
 - adl/tools/check_coverage_impact.sh
 - adl/tools/test_mechanical_coverage_fallout.sh
@@ -24,10 +25,10 @@ Remediated the third exact-review findings with a constrained Rust callsite gram
 
 ## Execution
 
-- Reject comment, string, macro, operator, and unrelated-call callee decoys with a fail-closed callsite grammar.
-- Execute governed commands in a clean archive of the exact commit, overlaying only the classified diff for worktree authoring mode.
-- Exclude all unrelated mutable and untracked source or test files from proof inputs.
-- Add decoy and dirty unrelated proof-command negatives while preserving the 80 percent and nightly/full authority gates.
+- Bind the governed token to the configured exact Rust module path and reject stable wrong-prefix imports.
+- Load classifier and mapping from the clean exact-revision archive and verify both control digests after execution.
+- Validate exact single-file diff headers, optional index header, hunk ranges and line counts, body prefixes, and EOF with no trailing content.
+- Add wrong-module, dirty classifier/mapping, malformed header/count/body/trailing-content negatives while retaining the 80 percent and nightly/full gates.
 
 ## Validation
 
@@ -37,7 +38,7 @@ Remediated the third exact-review findings with a constrained Rust callsite gram
       "bash",
       "adl/tools/test_mechanical_coverage_fallout.sh"
     ],
-    "purpose": "Prove syntax-constrained callee binding and immutable proof execution, including decoy and dirty unrelated input negatives.",
+    "purpose": "Prove exact import identity, immutable controls, strict diff parsing, negatives, and threshold integration.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/mechanical-compile-fallout-classifier.log"
   },
@@ -46,7 +47,7 @@ Remediated the third exact-review findings with a constrained Rust callsite gram
       "bash",
       "adl/tools/test_check_coverage_impact.sh"
     ],
-    "purpose": "Prove the existing changed-source 80 percent and authoritative coverage routing remain intact.",
+    "purpose": "Prove unchanged 80 percent and authoritative coverage policy.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/coverage-impact-regression.log"
   },
@@ -55,7 +56,7 @@ Remediated the third exact-review findings with a constrained Rust callsite gram
       "bash",
       "adl/tools/test_select_validation_lanes.sh"
     ],
-    "purpose": "Prove PVF selector inventory and PR-fast non-authoritative routing.",
+    "purpose": "Prove PVF selector and non-authoritative PR routing.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/validation-selector-pvf.log"
   }
