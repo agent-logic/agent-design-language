@@ -11,18 +11,22 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 #[cfg(not(test))]
-use super::authority_store_adapters::AuthorityBoundCertificateStore;
+use super::authority_store_adapters::{AuthorityBoundCertificateStore, AuthorityBoundFencingStore};
 #[cfg(test)]
 use super::certificates::DistributedCertificateStore;
-use super::{
-    certificates::{AuthorityCertificate, CertificatePurpose},
-    fencing::{ActiveLeaseCheck, FencingStore},
-};
+use super::certificates::{AuthorityCertificate, CertificatePurpose};
+use super::fencing::ActiveLeaseCheck;
+#[cfg(test)]
+use super::fencing::FencingStore;
 
 #[cfg(not(test))]
 pub type SnapshotCertificateStore = AuthorityBoundCertificateStore;
 #[cfg(test)]
 pub type SnapshotCertificateStore = DistributedCertificateStore;
+#[cfg(not(test))]
+pub type SnapshotFencingStore = AuthorityBoundFencingStore;
+#[cfg(test)]
+pub type SnapshotFencingStore = FencingStore;
 
 pub const SNAPSHOT_CATALOG_SCHEMA: &str = "adl.distributed.snapshot_catalog_entry.v1";
 pub const TRANSFER_MANIFEST_SCHEMA: &str = "adl.distributed.snapshot_transfer_manifest.v1";
@@ -536,7 +540,7 @@ impl SnapshotCatalogVerifier {
     pub fn decode_catalog_and_verify(
         &self,
         bytes: &[u8],
-        fencing: &FencingStore,
+        fencing: &SnapshotFencingStore,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotCatalogEntry> {
         if bytes.is_empty() || bytes.len() > self.policy.max_encoded_bytes {
@@ -552,7 +556,7 @@ impl SnapshotCatalogVerifier {
     pub fn verify_catalog(
         &self,
         entry: &SignedSnapshotCatalogEntry,
-        fencing: &FencingStore,
+        fencing: &SnapshotFencingStore,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotCatalogEntry> {
         if catalog_bytes(entry)?.len() > self.policy.max_encoded_bytes {
@@ -588,7 +592,7 @@ impl SnapshotCatalogVerifier {
         encoded_catalog: &[u8],
         chunks: &[Vec<u8>],
         expected_target_id: &[u8],
-        fencing: &FencingStore,
+        fencing: &SnapshotFencingStore,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotTransfer> {
         if encoded_manifest.is_empty()
@@ -621,7 +625,7 @@ impl SnapshotCatalogVerifier {
         catalog: &SignedSnapshotCatalogEntry,
         chunks: &[Vec<u8>],
         expected_target_id: &[u8],
-        fencing: &FencingStore,
+        fencing: &SnapshotFencingStore,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotTransfer> {
         if manifest_bytes(manifest)?.len() > self.policy.max_encoded_bytes
@@ -876,7 +880,7 @@ fn active_time(check: &ActiveLeaseCheck<'_>) -> SnapshotResult<u64> {
 
 fn verify_live_authority(
     snapshot: &SnapshotDescriptor,
-    fencing: &FencingStore,
+    fencing: &SnapshotFencingStore,
     check: ActiveLeaseCheck<'_>,
 ) -> SnapshotResult<()> {
     let lease = check.lease;

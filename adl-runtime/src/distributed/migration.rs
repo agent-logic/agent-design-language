@@ -18,7 +18,7 @@ use super::{
         OperationClass,
     },
     placement::{PlacementClock, PlacementInputs, PlacementRequest, PlacementService},
-    snapshot_catalog::SnapshotCatalogVerifier,
+    snapshot_catalog::{SnapshotCatalogVerifier, SnapshotFencingStore},
 };
 
 pub const MIGRATION_STATE_SCHEMA: &str = "adl.distributed.migration_state.v1";
@@ -719,7 +719,7 @@ impl MigrationStore {
         migration_id: &[u8],
         encoded_catalog: &[u8],
         verifier: &SnapshotCatalogVerifier,
-        fencing: &FencingStore,
+        fencing: &SnapshotFencingStore,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
@@ -764,7 +764,7 @@ impl MigrationStore {
         encoded_catalog: &[u8],
         chunks: &[Vec<u8>],
         verifier: &SnapshotCatalogVerifier,
-        fencing: &FencingStore,
+        fencing: &SnapshotFencingStore,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
