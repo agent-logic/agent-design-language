@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
     "slug": "governed-voter-membership-transitions",
     "version": "v0.92",
-    "generation": 71
+    "generation": 72
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/199\n.csdlc/prepared/issues/199\n.csdlc/evidence/199/v19\nadl-runtime/src/distributed/lease.rs\nadl-runtime/src/distributed/membership_coordinator.rs\nadl-runtime/src/distributed/membership_coordinator/tests.rs\nadl-runtime/src/distributed/mod.rs\nadl-runtime/src/distributed/transport/governed/learner_transport.rs\nadl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\nadl-runtime/src/distributed/transport/governed/polis_runtime.rs\nadl-runtime/tests/distributed_membership_transition.rs",
+      "review_revision": "git-blake3:fa52b97ec95b55ccefcd9fc2660f5823de9eb9d9:6f58a93e3f46f4d54927709e40ef0a2047f45e3103f88c5019c8df31471e8a86",
+      "reviewer": "/root/review_issue_199_v19_fresh",
       "review_prompts": [
         "Does every operation require coarse AuthorityOperationKind::Membership plus the exact sealed issue-local artifact, with wrong coarse kind and wrong discriminator denied separately?",
         "Are exact old and target stable maps plus target membership bound before any learner or Raft membership effect?",
@@ -29,8 +29,10 @@
         "Does retained v19 proof bind twelve behavior-specific cases, nine production assertions including the exhaustive real-node crash matrix, protected-source drift, immutable evidence, strict Clippy, and current-main ancestry?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI and live GitHub merge state remain pending until publication of the exact reviewed implementation."
+      ],
+      "review_result": "pass"
     }
   }
 }

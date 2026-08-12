@@ -12,7 +12,17 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/199
+.csdlc/prepared/issues/199
+.csdlc/evidence/199/v19
+adl-runtime/src/distributed/lease.rs
+adl-runtime/src/distributed/membership_coordinator.rs
+adl-runtime/src/distributed/membership_coordinator/tests.rs
+adl-runtime/src/distributed/mod.rs
+adl-runtime/src/distributed/transport/governed/learner_transport.rs
+adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
+adl-runtime/src/distributed/transport/governed/polis_runtime.rs
+adl-runtime/tests/distributed_membership_transition.rs
 
 ## Prompts
 
@@ -37,12 +47,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI and live GitHub merge state remain pending until publication of the exact reviewed implementation.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:fa52b97ec95b55ccefcd9fc2660f5823de9eb9d9:6f58a93e3f46f4d54927709e40ef0a2047f45e3103f88c5019c8df31471e8a86")
 
-Reviewer: None
+Reviewer: Some("/root/review_issue_199_v19_fresh")
 
-Result: pre_review
+Result: pass
