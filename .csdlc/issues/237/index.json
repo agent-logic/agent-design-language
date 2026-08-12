@@ -6,10 +6,30 @@
   "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
   "phase": "implemented",
   "generation": 32,
-  "digest": "09239f3f63b8675b0deee333209a70a1917676796dde021963e90f5cc43eb402",
+  "digest": "edfc3bdaa6e5e5e440c9ab137494ea8a08b045b16f77e20bbc9524aee655b054",
   "branch": "codex/237-continuity-binding-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/fix_5833_birth_witness_runtime/review_237_fresh_integrated",
+    "assigned_by": "/root/fix_5833_birth_witness_runtime",
+    "revision": "git-blake3:7ce5852bcae2cb1f7c418a0d833c788841c0f0f1:bd1b292b3a57c60f7c940f9eac61f8cbb91d3b886fcf3fd0655d601318b017a4",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/birthday_continuity.rs",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
+      "adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/parity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs",
+      "adl-runtime-kernel/tests/parity.rs",
+      ".csdlc/issues/237"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +65,9 @@
       "ast_digest": "5e92538817ea1029ad69966a60af6f0bde2d8d2e49d9d44b3417095573fbfb3f"
     },
     "srp": {
-      "values_digest": "0838504d1a44026a1a4ae3af0637975b67fe1d8aa14b22807e93f3f460239ab3",
-      "rendered_digest": "73e3a45137d9fa80b09504c4438ad098af6c21af0a3b6034c95905b5c1d1efb8",
-      "ast_digest": "9826ba27c212418af607a6e63d1dd36b52533885b603103ca717ec2709e7bb82"
+      "values_digest": "8f312498648a716656617840886cb5d3632d190e52a58d50bd7a1e61f2816fee",
+      "rendered_digest": "1ff7096ce7d3072a954c16f0eb7adfbe1a73597cd67f758d3cf341905331fa9c",
+      "ast_digest": "8ab78481531d5c05efbd72180bcbfa20ee269f46bb61e876d909fe11151484e9"
     },
     "sor": {
       "values_digest": "475da230935e0cb69d5b972235f072c5c1cc44dd57ce44afed782b851ea97a8c",
@@ -379,6 +399,13 @@
       "actor": "/root/fix_5833_birth_witness_runtime",
       "reason": "Recover invalid backfilled review assignment before assigning the complete scope to a genuinely fresh reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 32,
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
