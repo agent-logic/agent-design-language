@@ -241,7 +241,7 @@ Raft ids.
   joint history write, final history write, each voter reconcile, voter
   checkpoint/result, and voter visible-view flip.
 - The retained proof uses twelve behavior-specific public cases rather than a
-  substituted name facade. Eight production assertions separately bind the
+  substituted name facade. Nine production assertions separately bind the
   governed receipt, exact authorized cuts, current-operation history, durable
   crash/retry classification, real removal and fresh-node rejoin, checkpoint,
   parity, publication, and strict Clippy surfaces.

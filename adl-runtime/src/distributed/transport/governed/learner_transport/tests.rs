@@ -25,8 +25,8 @@ use crate::distributed::{
     membership_coordinator::{
         membership_set_sha256, stable_map_sha256, verify_authorized_transition_inputs,
         AuthorizedMembershipTransition, GovernedMembershipRuntime, MembershipCoordinator,
-        MembershipCoordinatorError, MembershipCoordinatorPhase, PromoteVoterArtifact,
-        VerifiedPromoteVoter,
+        MembershipCoordinatorError, MembershipCoordinatorPhase, MembershipCrashBoundary,
+        PromoteVoterArtifact, VerifiedPromoteVoter,
     },
     polis_runtime::{
         serve_authorized_learner_connection, ConsensusCheckpoint, ConsensusCheckpointAuthority,
@@ -1486,6 +1486,28 @@ async fn real_four_node_learner_replication() {
         old_membership: removal_old_membership,
         target_membership: removal_target_membership,
     };
+    for boundary in [
+        MembershipCrashBoundary::BeforeExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityObservation,
+        MembershipCrashBoundary::AfterJointFinalObservation,
+        MembershipCrashBoundary::AfterLocalProjectionPrepared,
+    ] {
+        runtime.inject_crash_boundary(boundary);
+        assert_eq!(
+            runtime
+                .remove(
+                    &removal_result,
+                    &removal_identity,
+                    voter_cut_sha256,
+                    now,
+                    &removal_transition,
+                )
+                .await,
+            Err(MembershipCoordinatorError::StateRegression),
+            "removal boundary {boundary:?} must fail closed"
+        );
+    }
     let removed = tokio::time::timeout(
         Duration::from_secs(20),
         runtime.remove(
@@ -1586,14 +1608,23 @@ async fn real_four_node_learner_replication() {
         .expire_learner_admission(admission.deadline_unix_seconds)
         .await
         .unwrap();
-    runtime.inject_crash_after_enrollment_activation();
-    assert_eq!(
-        runtime
-            .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
-            .await,
-        Err(MembershipCoordinatorError::StateRegression)
-    );
-    assert_eq!(runtime.coordinator().published_generation(), 2);
+    for boundary in [
+        MembershipCrashBoundary::BeforeExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityObservation,
+        MembershipCrashBoundary::AfterLocalProjectionPrepared,
+        MembershipCrashBoundary::AfterCheckpoint,
+    ] {
+        runtime.inject_crash_boundary(boundary);
+        assert_eq!(
+            runtime
+                .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
+                .await,
+            Err(MembershipCoordinatorError::StateRegression),
+            "enrollment boundary {boundary:?} must fail closed"
+        );
+    }
+    assert_eq!(runtime.coordinator().published_generation(), 3);
     assert!(runtime.membership().member(&recovered.node_id).is_none());
     let enrolled = runtime
         .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
@@ -1684,6 +1715,22 @@ async fn real_four_node_learner_replication() {
         revoked: false,
         control_public_key: recovered.guardian_control_public_key,
     };
+    for boundary in [
+        MembershipCrashBoundary::BeforeExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityObservation,
+        MembershipCrashBoundary::BeforeLearnerEffect,
+        MembershipCrashBoundary::AfterLearnerEffect,
+    ] {
+        runtime.inject_crash_boundary(boundary);
+        assert_eq!(
+            runtime
+                .promote(&rejoin, &rejoin_transition, recovered_authority.clone())
+                .await,
+            Err(MembershipCoordinatorError::StateRegression),
+            "promotion boundary {boundary:?} must fail closed"
+        );
+    }
     runtime.inject_membership_change_no_effect_failure();
     assert_eq!(
         runtime
@@ -1724,6 +1771,22 @@ async fn real_four_node_learner_replication() {
             // coordinator wait for exact history instead of repeating the
             // membership-change effect.
             runtime.resume_consensus(nodes[&1].clone(), machines[&1].clone());
+            for boundary in [
+                MembershipCrashBoundary::AfterJointFinalObservation,
+                MembershipCrashBoundary::AfterLocalProjectionPrepared,
+                MembershipCrashBoundary::AfterParityReconciliation,
+                MembershipCrashBoundary::AfterCheckpoint,
+                MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility,
+            ] {
+                runtime.inject_crash_boundary(boundary);
+                assert_eq!(
+                    runtime
+                        .promote(&rejoin, &rejoin_transition, recovered_authority.clone(),)
+                        .await,
+                    Err(MembershipCoordinatorError::StateRegression),
+                    "promotion boundary {boundary:?} must fail closed"
+                );
+            }
             runtime
                 .promote(&rejoin, &rejoin_transition, recovered_authority.clone())
                 .await
@@ -1772,6 +1835,7 @@ async fn real_four_node_learner_replication() {
         .any(|entry| entry.joint_configs
             == vec![BTreeSet::from([1, 2, 4]), BTreeSet::from([1, 2, 3, 4])]));
     println!("ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication");
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=crash_phase_matrix assertion=enrollment_removal_promotion_boundaries_retry_without_duplicate_visibility");
     for raft in nodes.values() {
         raft.shutdown().await.unwrap();
     }

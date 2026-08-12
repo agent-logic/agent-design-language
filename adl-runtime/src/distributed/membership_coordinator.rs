@@ -167,9 +167,23 @@ pub struct MembershipCoordinator {
     #[cfg(test)]
     crash_after_membership_change: bool,
     #[cfg(test)]
-    crash_after_enrollment_activation: bool,
-    #[cfg(test)]
     fail_membership_change_before_submit: bool,
+    #[cfg(test)]
+    crash_boundary: Option<MembershipCrashBoundary>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub(crate) enum MembershipCrashBoundary {
+    BeforeExternalAuthorityCall,
+    AfterExternalAuthorityCall,
+    AfterExternalAuthorityObservation,
+    BeforeLearnerEffect,
+    AfterLearnerEffect,
+    AfterJointFinalObservation,
+    AfterLocalProjectionPrepared,
+    AfterParityReconciliation,
+    AfterCheckpoint,
+    AfterDurablePublicationBeforeVisibility,
 }
 
 /// Runtime-owned production aggregate. Callers submit governed operations to
@@ -298,14 +312,14 @@ impl GovernedMembershipRuntime {
     }
 
     #[cfg(test)]
-    pub(crate) fn inject_crash_after_enrollment_activation(&mut self) {
-        self.coordinator.inject_crash_after_enrollment_activation();
-    }
-
-    #[cfg(test)]
     pub(crate) fn inject_membership_change_no_effect_failure(&mut self) {
         self.coordinator
             .inject_membership_change_no_effect_failure();
+    }
+
+    #[cfg(test)]
+    pub(crate) fn inject_crash_boundary(&mut self, boundary: MembershipCrashBoundary) {
+        self.coordinator.crash_boundary = Some(boundary);
     }
 }
 
@@ -399,9 +413,9 @@ impl MembershipCoordinator {
             #[cfg(test)]
             crash_after_membership_change: false,
             #[cfg(test)]
-            crash_after_enrollment_activation: false,
-            #[cfg(test)]
             fail_membership_change_before_submit: false,
+            #[cfg(test)]
+            crash_boundary: None,
         })
     }
 
@@ -771,7 +785,19 @@ impl MembershipCoordinator {
         )?;
         self.begin_promotion(promotion)?;
         self.observe_external_authority(promotion, current_receipt)?;
+        self.crash_at(MembershipCrashBoundary::AfterExternalAuthorityObservation)?;
+        if matches!(
+            self.active_phase(),
+            Some(
+                MembershipCoordinatorPhase::FinalCommitted
+                    | MembershipCoordinatorPhase::AuthorityParityReconciled
+                    | MembershipCoordinatorPhase::Checkpointed
+            )
+        ) {
+            return Ok(());
+        }
         if self.active_phase() == Some(MembershipCoordinatorPhase::ExternalAuthorityObserved) {
+            self.crash_at(MembershipCrashBoundary::BeforeLearnerEffect)?;
             raft.add_learner(
                 promotion.identity.stable_raft_id,
                 openraft::BasicNode::new(promotion.identity.address.to_string()),
@@ -780,6 +806,7 @@ impl MembershipCoordinator {
             .await
             .map_err(|_| MembershipCoordinatorError::StateRegression)?;
             self.record_learner_caught_up(promotion.operation_sha256)?;
+            self.crash_at(MembershipCrashBoundary::AfterLearnerEffect)?;
         }
         if self.active_phase() == Some(MembershipCoordinatorPhase::LearnerCaughtUp) {
             let history = state_machine.applied_membership_history().await;
@@ -890,6 +917,7 @@ impl MembershipCoordinator {
                 self.commit(next)?;
             }
         }
+        self.crash_at(MembershipCrashBoundary::BeforeExternalAuthorityCall)?;
         let activated = if let Some(existing) = factory
             .observe_learner_admission_receipt(admission.operation_sha256())
             .await
@@ -919,16 +947,12 @@ impl MembershipCoordinator {
                 }
             }
         };
+        self.crash_at(MembershipCrashBoundary::AfterExternalAuthorityCall)?;
         let observed = factory
             .observe_learner_admission_receipt(admission.operation_sha256())
             .await
             .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?
             .ok_or(MembershipCoordinatorError::ReceiptMismatch)?;
-        #[cfg(test)]
-        if self.crash_after_enrollment_activation {
-            self.crash_after_enrollment_activation = false;
-            return Err(MembershipCoordinatorError::StateRegression);
-        }
         if activated != observed {
             return Err(MembershipCoordinatorError::ReceiptMismatch);
         }
@@ -947,6 +971,7 @@ impl MembershipCoordinator {
             None => active_enrollment.external_receipt = Some(projection),
         }
         self.commit(observed_state)?;
+        self.crash_at(MembershipCrashBoundary::AfterExternalAuthorityObservation)?;
         let mut staged_membership = membership.clone();
         let identity = admission.identity();
         match staged_membership.member(&identity.node_id) {
@@ -964,6 +989,7 @@ impl MembershipCoordinator {
                 enrollment_operation(admission),
             )?,
         }
+        self.crash_at(MembershipCrashBoundary::AfterLocalProjectionPrepared)?;
         let membership_bytes = staged_membership
             .snapshot()
             .map_err(|_| MembershipCoordinatorError::StateRegression)?;
@@ -994,6 +1020,7 @@ impl MembershipCoordinator {
         );
         next.active_enrollment = None;
         self.commit(next)?;
+        self.crash_at(MembershipCrashBoundary::AfterCheckpoint)?;
         *membership = staged_membership;
         Ok(result_sha256)
     }
@@ -1046,13 +1073,16 @@ impl MembershipCoordinator {
             return Ok(published.result_sha256);
         }
         observe_old_parity(membership, authority, transition)?;
+        self.crash_at(MembershipCrashBoundary::BeforeExternalAuthorityCall)?;
         let receipt = factory
             .observe_learner_admission_receipt(promotion.enrollment_operation_sha256)
             .await
             .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?
             .ok_or(MembershipCoordinatorError::ReceiptMismatch)?;
+        self.crash_at(MembershipCrashBoundary::AfterExternalAuthorityCall)?;
         self.promote_voter_with_raft(promotion, &receipt, raft, state_machine, transition)
             .await?;
+        self.crash_at(MembershipCrashBoundary::AfterJointFinalObservation)?;
         let mut staged_membership = membership.clone();
         let mut staged_authority = authority.clone();
         self.reconcile_promotion_states(
@@ -1062,6 +1092,7 @@ impl MembershipCoordinator {
             &mut staged_authority,
             candidate_authority,
         )?;
+        self.crash_at(MembershipCrashBoundary::AfterLocalProjectionPrepared)?;
         let current = factory
             .observe_learner_admission_receipt(promotion.enrollment_operation_sha256)
             .await
@@ -1070,6 +1101,7 @@ impl MembershipCoordinator {
         let parity =
             ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
         let result = self.publish_observed_parity(promotion.operation_sha256, &current, parity)?;
+        self.crash_at(MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility)?;
         *membership = staged_membership;
         *authority = staged_authority;
         Ok(result)
@@ -1145,6 +1177,7 @@ impl MembershipCoordinator {
         }
         observe_old_parity(published_membership, current_authority, transition)?;
         self.begin_removal(&removal, transition)?;
+        self.crash_at(MembershipCrashBoundary::BeforeExternalAuthorityCall)?;
         let receipt = factory
             .activate_pending_exclusion(
                 result,
@@ -1155,7 +1188,9 @@ impl MembershipCoordinator {
             )
             .await
             .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?;
+        self.crash_at(MembershipCrashBoundary::AfterExternalAuthorityCall)?;
         self.observe_removal_authority(&removal, &receipt)?;
+        self.crash_at(MembershipCrashBoundary::AfterExternalAuthorityObservation)?;
         if self.active_phase() == Some(MembershipCoordinatorPhase::ExternalAuthorityObserved) {
             self.record_learner_caught_up(removal.operation_sha256())?;
         }
@@ -1219,6 +1254,7 @@ impl MembershipCoordinator {
                 &transition.target_membership,
             )?;
         }
+        self.crash_at(MembershipCrashBoundary::AfterJointFinalObservation)?;
         let mut staged_membership = published_membership.clone();
         let mut staged_authority = published_authority.clone();
         self.reconcile_removal_states(
@@ -1227,6 +1263,7 @@ impl MembershipCoordinator {
             &mut staged_membership,
             &mut staged_authority,
         )?;
+        self.crash_at(MembershipCrashBoundary::AfterLocalProjectionPrepared)?;
         let current = factory
             .observe_pending_exclusion_receipt(removal.operation_sha256())
             .await
@@ -1235,6 +1272,7 @@ impl MembershipCoordinator {
         let parity =
             ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
         let result = self.publish_observed_parity(removal.operation_sha256(), &current, parity)?;
+        self.crash_at(MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility)?;
         *published_membership = staged_membership;
         *published_authority = staged_authority;
         Ok(result)
@@ -1343,13 +1381,19 @@ impl MembershipCoordinator {
         if parity.committed_log_index != final_index {
             return Err(MembershipCoordinatorError::StateRegression);
         }
-        self.reconcile_authority_parity(
-            operation_sha256,
-            observed_receipt,
-            parity.membership_sha256,
-            parity.authority_sha256,
-        )?;
-        self.checkpoint(operation_sha256)?;
+        if self.active_phase() == Some(MembershipCoordinatorPhase::FinalCommitted) {
+            self.reconcile_authority_parity(
+                operation_sha256,
+                observed_receipt,
+                parity.membership_sha256,
+                parity.authority_sha256,
+            )?;
+        }
+        self.crash_at(MembershipCrashBoundary::AfterParityReconciliation)?;
+        if self.active_phase() == Some(MembershipCoordinatorPhase::AuthorityParityReconciled) {
+            self.checkpoint(operation_sha256)?;
+        }
+        self.crash_at(MembershipCrashBoundary::AfterCheckpoint)?;
         self.publish(operation_sha256)
     }
 
@@ -1377,13 +1421,19 @@ impl MembershipCoordinator {
     }
 
     #[cfg(test)]
-    fn inject_crash_after_enrollment_activation(&mut self) {
-        self.crash_after_enrollment_activation = true;
-    }
-
-    #[cfg(test)]
     fn inject_membership_change_no_effect_failure(&mut self) {
         self.fail_membership_change_before_submit = true;
+    }
+
+    fn crash_at(&mut self, boundary: MembershipCrashBoundary) -> MembershipCoordinatorResult<()> {
+        #[cfg(test)]
+        if self.crash_boundary == Some(boundary) {
+            self.crash_boundary = None;
+            return Err(MembershipCoordinatorError::StateRegression);
+        }
+        #[cfg(not(test))]
+        let _ = boundary;
+        Ok(())
     }
 }
 

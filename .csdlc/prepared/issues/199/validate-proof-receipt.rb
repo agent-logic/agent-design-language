@@ -8,7 +8,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/199/v9/"
+PREFIX = ".csdlc/evidence/199/v10/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/mod.rs adl-runtime/src/distributed/authority_protocol.rs
@@ -37,7 +37,8 @@ EXPECTED_ASSERTIONS = [
   %w[conflicting_retry conflicting_operation_and_receipt_denied_before_effect],
   %w[old_cut_mismatch authorized_stable_maps_and_target_membership_bound_before_raft_effect],
   %w[leader_change_resume membership_history_entries_newer_than_authority_log_index_required],
-  %w[remove_rejoin_real_nodes exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication]
+  %w[remove_rejoin_real_nodes exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication],
+  %w[crash_phase_matrix enrollment_removal_promotion_boundaries_retry_without_duplicate_visibility]
 ].freeze
 EXPECTED_COMMANDS = {
   "integration_cases" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_membership_transition -- --nocapture --test-threads=1],
@@ -84,7 +85,7 @@ end
 
 proof = JSON.parse(File.binread(ordinary(PROOF_RELATIVE)))
 fail_receipt("top-level key mismatch") unless proof.keys.sort == %w[assertions cases commands issue protected_files required_main_ancestor schema source_revision source_tree subassertions test_summary]
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue199.governed_membership_transition_proof.v9" && proof["issue"] == 199
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue199.governed_membership_transition_proof.v10" && proof["issue"] == 199
 source = proof.fetch("source_revision")
 source_tree = proof.fetch("source_tree")
 main = proof.fetch("required_main_ancestor")
@@ -98,7 +99,7 @@ protected.each do |entry|
   fail_receipt("protected digest malformed") unless entry.fetch("sha256").match?(/\A[0-9a-f]{64}\z/)
   fail_receipt("protected digest drift #{entry['path']}") unless Digest::SHA256.file(ordinary(entry.fetch("path"))).hexdigest == entry.fetch("sha256")
 end
-fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "integration_cases" => 12, "integration_passed" => 12, "internal_test_counts" => EXPECTED_TEST_COUNTS, "discriminator_subassertions" => 1, "source_assertions" => 8 }
+fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "integration_cases" => 12, "integration_passed" => 12, "internal_test_counts" => EXPECTED_TEST_COUNTS, "discriminator_subassertions" => 1, "source_assertions" => 9 }
 cases = proof.fetch("cases")
 fail_receipt("case denominator/order mismatch") unless cases.length == 12 && cases.map { |entry| entry["case"] } == EXPECTED_CASES && cases.map { |entry| entry["case"] }.uniq.length == 12
 cases.each do |entry|
@@ -155,7 +156,7 @@ observed_assertions = all_text.lines.map do |line|
   fail_receipt("malformed observed assertion marker") unless match
   [match[1], match[2]]
 end.compact
-fail_receipt("observed assertion denominator/substitution mismatch") unless observed_assertions.length == 8 && observed_assertions.uniq.length == 8 && observed_assertions.sort == EXPECTED_ASSERTIONS.sort
+fail_receipt("observed assertion denominator/substitution mismatch") unless observed_assertions.length == 9 && observed_assertions.uniq.length == 9 && observed_assertions.sort == EXPECTED_ASSERTIONS.sort
 introductions = git("log", "--format=%H", "--diff-filter=A", "--", PROOF_RELATIVE).lines.map(&:strip).reject(&:empty?)
 fail_receipt("proof requires immutable introduction") if introductions.empty?
 introduction = introductions.first
@@ -168,4 +169,4 @@ end
 fail_receipt("protected source changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED).empty?
 fail_receipt("immutable proof changed after introduction") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PREFIX).empty?
 fail_receipt("worktree must be exactly clean") unless git("status", "--porcelain=v1", "--untracked-files=all").empty?
-puts "PASS: issue #199 proof binds exact argv, 12 behavior-specific cases, discriminator denial, eight production assertions, protected implementation/design/proof source, immutable evidence, and exact current origin/main ancestry"
+puts "PASS: issue #199 proof binds exact argv, 12 behavior-specific cases, discriminator denial, nine production assertions, protected implementation/design/proof source, immutable evidence, and exact current origin/main ancestry"
