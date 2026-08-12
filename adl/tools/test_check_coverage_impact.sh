@@ -587,6 +587,24 @@ bash "$SCRIPT" \
 grep -F "Coverage-impact preflight passed for changed Rust source files" \
   /tmp/coverage-impact-runtime-qualification-harness.out >/dev/null
 
+distributed_lease_changed="$TMP/distributed-lease-changed.txt"
+printf 'M\tadl-runtime/src/distributed/lease.rs\n' >"$distributed_lease_changed"
+distributed_lease_filters="$TMP/distributed-lease-filters.txt"
+bash "$SCRIPT" --changed-files "$distributed_lease_changed" --print-risk-filters >"$distributed_lease_filters"
+grep -Fx "runtime_v3_distributed_projection" "$distributed_lease_filters" >/dev/null
+distributed_lease_expression="$(bash "$SCRIPT" --changed-files "$distributed_lease_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl-runtime::distributed_projection)" <<<"$distributed_lease_expression" >/dev/null
+distributed_lease_summary="$TMP/distributed-lease-summary.json"
+distributed_lease_out="$TMP/coverage-impact-distributed-lease.out"
+make_summary "adl-runtime/src/distributed/lease.rs" 80 100 "$distributed_lease_summary"
+bash "$SCRIPT" \
+  --changed-files "$distributed_lease_changed" \
+  --summary "$distributed_lease_summary" \
+  --threshold 80 \
+  >"$distributed_lease_out"
+grep -F "Coverage-impact preflight passed for changed Rust source files" \
+  "$distributed_lease_out" >/dev/null
+
 gws_live_changed="$TMP/gws-live-changed.txt"
 cat >"$gws_live_changed" <<'EOF'
 A	adl/src/gws_live_capability_execution_surface.rs

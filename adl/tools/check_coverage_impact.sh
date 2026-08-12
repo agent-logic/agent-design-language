@@ -292,6 +292,9 @@ candidate_filter_for_path() {
     adl-runtime/src/distributed/authority_protocol.rs|adl-runtime/src/distributed/identity.rs|adl-runtime/src/distributed/polis_runtime.rs)
       printf 'runtime_v3_authority_protocol'
       ;;
+    adl-runtime/src/distributed/lease.rs)
+      printf 'runtime_v3_distributed_projection'
+      ;;
     adl-runtime/src/runtime_api_auth.rs)
       printf 'runtime_v3_auth'
       ;;
@@ -453,6 +456,9 @@ nextest_expression_for_filter() {
       ;;
     runtime_v3_distributed_transport)
       printf 'binary_id(adl-runtime::distributed_transport)'
+      ;;
+    runtime_v3_distributed_projection)
+      printf 'binary_id(adl-runtime::distributed_projection)'
       ;;
     runtime_v3_authority_protocol)
       printf 'package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))'

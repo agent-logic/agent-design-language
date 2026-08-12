@@ -1,0 +1,69 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 199
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Implement and publish only governed learner catch-up, OpenRaft joint/final transition orchestration, exact membership/route parity publication, pending removal exclusion, governed rejoin, and crash reconciliation using merged #201 authority and, after its merge, #202 transport contracts while treating merged #200 stores as out of scope.
+
+## Deliverables
+
+- adl-runtime/src/distributed/membership_coordinator.rs
+- adl-runtime/src/distributed/transport/governed/polis_runtime.rs
+- adl-runtime/src/distributed/transport/governed/learner_transport.rs
+- adl-runtime/src/distributed/authority_protocol.rs
+- adl-runtime/src/distributed/membership.rs
+- adl-runtime/src/distributed/lease.rs
+- adl-runtime/src/distributed/mod.rs
+- adl-runtime/tests/distributed_membership_transition.rs
+- .csdlc/prepared/issues/199/produce-proof-receipt.rb
+- .csdlc/prepared/issues/199/validate-proof-receipt.rb
+- .csdlc/evidence/199
+- .csdlc/issues/199
+
+## Acceptance
+
+1. AC-1: A transition starts only from a durably published #201 coarse AuthorityOperationKind::Membership token whose sealed canonical artifact validates the exact issue-local EnrollNonVoting, PromoteVoter, or RemoveVoter discriminator, plus exact current MembershipState, AuthorityMembership, verified route cut, and durable OpenRaft membership parity.
+2. AC-2: Add, promote, and rejoin enroll the authorized candidate only as a learner; #199 invokes only merged #202 governed factory ports, journals their exact durable operation and generation receipts, and proves committed-log or canonical-snapshot catch-up before voting transition.
+3. AC-3: The coordinator invokes the standard OpenRaft membership API and durably observes both the exact joint configuration and exact final uniform target before local authority publication.
+4. AC-4: Final local publication occurs only after exact current #202 admission or exclusion generation observation and makes MembershipState, AuthorityMembership, Raft ids, voter identities, keys, certificate generations, configurations, and final committed index agree; #199 never stages or mutates #202 private state.
+5. AC-5: The shared durable pending-exclusion authority from #202 immediately excludes the target from ordinary endorsement, voter route, renewal, mutation, Shepherd, and Observatory authority while permitting only the exact governed recovery learner; #199 records the external exclusion receipt and emits a pending-exclusion receipt for #200 without claiming atomic cross-authority publication or FencingStore mutation.
+6. AC-6: A removed or restarted node cannot self-promote from local state; governed rejoin requires new coarse Membership operations with exact sealed enrollment and promotion discriminators, current identity and certificate, learner catch-up, joint/final commitment, and parity publication.
+7. AC-7: An exclusive bounded canonical journal, exact retry cache, and node-local external checkpoint reconcile leader change, before/after #202 calls and generation observations, every local transition phase, rollback, corruption, capacity, and unsafe paths without duplicate effects.
+8. AC-8: Exact focused real-node tests split wrong coarse operation kind from wrong issue-local discriminator, prove the external-generation saga and crash windows, and pass strict Clippy, merge-safe receipt validation, diff hygiene, and fresh independent exact-head review before publication.
+
+## Dependencies
+
+- Issue #191 / PR #197 externally reviewed and merged as an ancestor
+- Issue #201 quorum-committed authority protocol externally reviewed and merged as an ancestor
+- Serial stop: issue #202 authority-verified learner route and shared pending-exclusion consultation must be externally reviewed, merged, and ancestral before #199 binds or edits product source
+- After #202 merges, resync #199 onto the resulting origin/main and rerun typed csdlc-validate and csdlc-doctor before any bind
+- Current MembershipState, AuthorityMembership, certificate identity, verified route cut, and secure OpenRaft APIs
+- Issue #199 live GitHub contract
+- Issue #200 is already merged; it is an existing concrete-authority consumer boundary, not work gated for release by #199
+
+## Inputs
+
+- agent-logic/agent-design-language#199
+- adl-runtime/src/distributed/polis_runtime.rs from merged #191 and #201
+- adl-runtime/src/distributed/membership.rs
+- adl-runtime/src/distributed/lease.rs
+- adl-runtime/src/distributed/transport.rs and authority_protocol.rs from merged #202 learner/exclusion prerequisite
+- adl-runtime/tests/distributed_runtime_transport.rs
+- .csdlc/issues/142 operational design as read-only umbrella truth
+
+## Non Goals
+
+- Creating or verifying #201 endorsements or VerifiedAuthorityOperation tokens
+- Certificate, lease, FencingStore, owner, Shepherd, Observatory, migration, or recovery side effects (#200)
+- Kernel continuity export/import or snapshot catalog materialization
+- Guardian/API/WSS or Observatory listener integration
+- Models, AWS, live demonstrations, final #142 delivery, merge without operator authorization, or lifecycle closeout

@@ -47,8 +47,8 @@ use super::learner_transport::{
     establish_learner_voter_sessions, establish_voter_learner_sessions,
     route_cut_digest as learner_route_cut_digest, EstablishedLearnerSession,
     LearnerBootAttestationCustody, LearnerIdentity, LearnerRpcKind, LearnerTransportError,
-    LearnerVoterBinding, PendingExclusionSnapshot, ProductionLearnerAuthority,
-    VerifiedLearnerAdmission,
+    LearnerVoterBinding, MembershipReceiptParts, PendingExclusionSnapshot,
+    ProductionLearnerAuthority, VerifiedLearnerAdmission,
 };
 use crate::distributed::authority_protocol::{
     verify_replicated_finalization, AuthorityFinalizeProposal, AuthorityIntentEndorsement,
@@ -1018,7 +1018,23 @@ pub fn validate_authority_command_boundary(
 struct PersistedStateMachine {
     last_applied_log: Option<LogId<NodeId>>,
     last_membership: StoredMembership<NodeId, BasicNode>,
+    #[serde(default)]
+    membership_history: Vec<AppliedMembershipEntry>,
     application: PolisApplicationState,
+}
+
+const MAX_APPLIED_MEMBERSHIP_HISTORY: usize = 64;
+
+/// One durably applied OpenRaft membership entry.
+///
+/// Joint configuration order is retained exactly as committed. Each
+/// configuration is a `BTreeSet`, making member order canonical without
+/// erasing the joint-consensus boundary between configurations.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AppliedMembershipEntry {
+    pub log_id: LogId<NodeId>,
+    pub joint_configs: Vec<BTreeSet<NodeId>>,
 }
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
@@ -1701,6 +1717,17 @@ impl PolisStateMachineStore {
         self.inner.read().await.payload.current.application.clone()
     }
 
+    /// Returns the bounded, durable OpenRaft membership-apply history.
+    pub async fn applied_membership_history(&self) -> Vec<AppliedMembershipEntry> {
+        self.inner
+            .read()
+            .await
+            .payload
+            .current
+            .membership_history
+            .clone()
+    }
+
     pub async fn reconcile_authority_publication(
         &self,
         operation_id: &str,
@@ -1930,6 +1957,21 @@ impl RaftStateMachine<PolisTypeConfig> for PolisStateMachineStore {
             let (accepted, reason_code) = match entry.payload {
                 EntryPayload::Blank => (true, "raft_internal"),
                 EntryPayload::Membership(membership) => {
+                    candidate
+                        .current
+                        .membership_history
+                        .push(AppliedMembershipEntry {
+                            log_id: entry.log_id,
+                            joint_configs: membership.get_joint_config().to_vec(),
+                        });
+                    let overflow = candidate
+                        .current
+                        .membership_history
+                        .len()
+                        .saturating_sub(MAX_APPLIED_MEMBERSHIP_HISTORY);
+                    if overflow != 0 {
+                        candidate.current.membership_history.drain(..overflow);
+                    }
                     candidate.current.last_membership =
                         StoredMembership::new(Some(entry.log_id), membership);
                     (true, "raft_internal")
@@ -2120,6 +2162,50 @@ pub struct SecurePolisNetworkFactory {
     learner_authority: ProductionLearnerAuthority,
     transport_owner: Arc<tokio::sync::Mutex<TransportAuthorityOwner>>,
     authority_transition: Arc<tokio::sync::Mutex<()>>,
+}
+
+/// Opaque durable observation returned by the governed membership authority.
+/// Callers may journal this projection, but only the factory can construct it.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct GovernedMembershipAuthorityReceipt {
+    operation_sha256: [u8; 32],
+    generation: u64,
+    published_state_sha256: [u8; 32],
+}
+
+impl GovernedMembershipAuthorityReceipt {
+    fn from_parts(parts: MembershipReceiptParts) -> Self {
+        Self {
+            operation_sha256: parts.operation_sha256,
+            generation: parts.generation,
+            published_state_sha256: parts.published_state_sha256,
+        }
+    }
+
+    pub fn operation_sha256(&self) -> [u8; 32] {
+        self.operation_sha256
+    }
+
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+
+    pub fn published_state_sha256(&self) -> [u8; 32] {
+        self.published_state_sha256
+    }
+
+    #[cfg(test)]
+    pub(crate) fn for_membership_coordinator_test(
+        operation_sha256: [u8; 32],
+        generation: u64,
+        published_state_sha256: [u8; 32],
+    ) -> Self {
+        Self {
+            operation_sha256,
+            generation,
+            published_state_sha256,
+        }
+    }
 }
 
 #[derive(Clone)]
@@ -2863,7 +2949,7 @@ impl SecurePolisNetworkFactory {
         &self,
         admission: &VerifiedLearnerAdmission,
         now_unix_seconds: i64,
-    ) -> Result<(), PolisRuntimeError> {
+    ) -> Result<GovernedMembershipAuthorityReceipt, PolisRuntimeError> {
         let _transition = self.authority_transition.lock().await;
         if !admission.is_live_at(now_unix_seconds)
             || !self.admission_matches_trusted_cut(admission).await
@@ -2872,10 +2958,32 @@ impl SecurePolisNetworkFactory {
         }
         let owner = self.transport_owner.lock().await;
         let mut lease = owner.write_lease().await;
-        self.learner_authority
+        let snapshot = self
+            .learner_authority
             .governed_activate_admission(&mut lease, admission)
-            .map(|_| ())
+            .map_err(map_learner_error)?;
+        snapshot
+            .membership_receipt_parts()
+            .map_err(map_learner_error)?
+            .filter(|parts| parts.operation_sha256 == admission.operation_sha256())
+            .map(GovernedMembershipAuthorityReceipt::from_parts)
+            .ok_or(PolisRuntimeError::AuthorityDenied)
+    }
+
+    pub async fn observe_learner_admission_receipt(
+        &self,
+        operation_sha256: [u8; 32],
+    ) -> Result<Option<GovernedMembershipAuthorityReceipt>, PolisRuntimeError> {
+        self.learner_authority
+            .admission_snapshot()
+            .map_err(map_learner_error)?
+            .membership_receipt_parts()
             .map_err(map_learner_error)
+            .map(|parts| {
+                parts
+                    .filter(|parts| parts.operation_sha256 == operation_sha256)
+                    .map(GovernedMembershipAuthorityReceipt::from_parts)
+            })
     }
 
     pub async fn stage_learner_successor(
@@ -2958,7 +3066,7 @@ impl SecurePolisNetworkFactory {
         expected_voter_cut_sha256: [u8; 32],
         expected_target_membership_sha256: [u8; 32],
         now_unix_seconds: i64,
-    ) -> Result<(), PolisRuntimeError> {
+    ) -> Result<GovernedMembershipAuthorityReceipt, PolisRuntimeError> {
         let _transition = self.authority_transition.lock().await;
         let routes = self
             .connections
@@ -3063,7 +3171,28 @@ impl SecurePolisNetworkFactory {
         drop(learners);
         drop(dispatch_guards);
         drop(learner_dispatch_guards);
-        Ok(())
+        snapshot
+            .membership_receipt_parts()
+            .map_err(map_learner_error)?
+            .filter(|parts| parts.operation_sha256 == result.result_sha256())
+            .map(GovernedMembershipAuthorityReceipt::from_parts)
+            .ok_or(PolisRuntimeError::AuthorityDenied)
+    }
+
+    pub async fn observe_pending_exclusion_receipt(
+        &self,
+        operation_sha256: [u8; 32],
+    ) -> Result<Option<GovernedMembershipAuthorityReceipt>, PolisRuntimeError> {
+        self.learner_authority
+            .exclusion_snapshot()
+            .map_err(map_learner_error)?
+            .membership_receipt_parts()
+            .map_err(map_learner_error)
+            .map(|parts| {
+                parts
+                    .filter(|parts| parts.operation_sha256 == operation_sha256)
+                    .map(GovernedMembershipAuthorityReceipt::from_parts)
+            })
     }
 
     async fn admission_matches_trusted_cut(&self, admission: &VerifiedLearnerAdmission) -> bool {
@@ -4756,6 +4885,7 @@ mod authority_consensus_tests {
         let current = PersistedStateMachine {
             last_applied_log: Some(LogId::new(openraft::CommittedLeaderId::new(1, 1), 23)),
             last_membership: StoredMembership::default(),
+            membership_history: Vec::new(),
             application,
         };
         let mut value = serde_json::to_value(&current).unwrap();
@@ -5579,6 +5709,61 @@ mod authority_consensus_tests {
         for raft in nodes.values() {
             let _ = raft.shutdown().await;
         }
+    }
+
+    #[tokio::test]
+    async fn membership_history_retains_joint_and_uniform_entries_from_one_apply_batch() {
+        let root = tempfile::Builder::new()
+            .prefix("membership-history-")
+            .tempdir_in(std::env::current_dir().unwrap())
+            .unwrap();
+        let checkpoint: Arc<dyn ConsensusCheckpointAuthority> =
+            Arc::new(MemoryAuthority::default());
+        let mut machine = PolisStateMachineStore::open(root.path(), 1, checkpoint.clone()).unwrap();
+        let nodes = (1..=4)
+            .map(|node| (node, BasicNode::new(format!("memory://{node}"))))
+            .collect::<BTreeMap<_, _>>();
+        let old = [1, 2, 3].into_iter().collect::<BTreeSet<_>>();
+        let target = [2, 3, 4].into_iter().collect::<BTreeSet<_>>();
+        let joint_log = LogId::new(openraft::CommittedLeaderId::new(7, 2), 41);
+        let uniform_log = LogId::new(openraft::CommittedLeaderId::new(7, 2), 42);
+
+        machine
+            .apply([
+                Entry {
+                    log_id: joint_log,
+                    payload: EntryPayload::Membership(openraft::Membership::new(
+                        vec![old.clone(), target.clone()],
+                        nodes.clone(),
+                    )),
+                },
+                Entry {
+                    log_id: uniform_log,
+                    payload: EntryPayload::Membership(openraft::Membership::new(
+                        vec![target.clone()],
+                        nodes,
+                    )),
+                },
+            ])
+            .await
+            .unwrap();
+
+        let expected = vec![
+            AppliedMembershipEntry {
+                log_id: joint_log,
+                joint_configs: vec![old, target.clone()],
+            },
+            AppliedMembershipEntry {
+                log_id: uniform_log,
+                joint_configs: vec![target],
+            },
+        ];
+        assert_eq!(machine.applied_membership_history().await, expected);
+        drop(machine);
+
+        let reopened = PolisStateMachineStore::open(root.path(), 1, checkpoint).unwrap();
+        assert_eq!(reopened.applied_membership_history().await, expected);
+        println!("ADL_ISSUE_199_ASSERTION_V1 case=add_learner_joint_final_publish assertion=same_batch_joint_and_uniform_history_survives_restart");
     }
 
     #[test]

@@ -95,7 +95,7 @@ impl From<PolisRuntimeError> for LearnerTransportError {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
-enum MembershipDiscriminator {
+pub enum MembershipDiscriminator {
     EnrollNonVoting,
     RemoveVoter,
 }
@@ -115,7 +115,7 @@ pub struct LearnerIdentity {
 }
 
 impl LearnerIdentity {
-    fn validate(&self) -> Result<(), LearnerTransportError> {
+    pub(crate) fn validate(&self) -> Result<(), LearnerTransportError> {
         if [
             self.trust_domain.as_str(),
             self.polis_id.as_str(),
@@ -233,12 +233,57 @@ impl LearnerMembershipArtifact {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-struct VerifiedMembershipArtifact {
+pub struct VerifiedMembershipArtifact {
     payload: CanonicalMembershipArtifact,
     publication_identity: AuthorityNodeIdentity,
     operation_sha256: [u8; 32],
     operation_id: String,
     committed_log_index: u64,
+}
+
+impl VerifiedMembershipArtifact {
+    pub fn from_published(
+        result: &PublishedAuthorityResult,
+        discriminator: MembershipDiscriminator,
+    ) -> Result<Self, LearnerTransportError> {
+        consume_published_membership(result, discriminator)
+    }
+
+    pub fn discriminator(&self) -> MembershipDiscriminator {
+        self.payload.discriminator
+    }
+
+    pub fn identity(&self) -> &LearnerIdentity {
+        &self.payload.identity
+    }
+
+    pub fn voter_cut_sha256(&self) -> [u8; 32] {
+        self.payload.voter_cut_sha256
+    }
+
+    pub fn target_membership_sha256(&self) -> [u8; 32] {
+        self.payload.target_membership_sha256
+    }
+
+    pub fn deadline_unix_seconds(&self) -> i64 {
+        self.payload.deadline_unix_seconds
+    }
+
+    pub fn operation_sha256(&self) -> [u8; 32] {
+        self.operation_sha256
+    }
+
+    pub fn operation_id(&self) -> &str {
+        &self.operation_id
+    }
+
+    pub fn committed_log_index(&self) -> u64 {
+        self.committed_log_index
+    }
+
+    pub fn publication_identity(&self) -> &AuthorityNodeIdentity {
+        &self.publication_identity
+    }
 }
 
 fn consume_published_membership(
@@ -1640,6 +1685,12 @@ pub struct LearnerAdmissionSnapshot {
     current: Option<VerifiedLearnerAdmission>,
 }
 
+pub(in crate::distributed::transport) struct MembershipReceiptParts {
+    pub operation_sha256: [u8; 32],
+    pub generation: u64,
+    pub published_state_sha256: [u8; 32],
+}
+
 impl LearnerAdmissionSnapshot {
     pub fn generation(&self) -> u64 {
         self.generation
@@ -1647,6 +1698,31 @@ impl LearnerAdmissionSnapshot {
 
     pub fn current(&self) -> Option<&VerifiedLearnerAdmission> {
         self.current.as_ref()
+    }
+
+    pub(in crate::distributed::transport) fn membership_receipt_parts(
+        &self,
+    ) -> Result<Option<MembershipReceiptParts>, LearnerTransportError> {
+        self.current
+            .as_ref()
+            .map(|current| {
+                let published_state_sha256 = <[u8; 32]>::from(Sha256::digest(
+                    serde_jcs::to_vec(&(
+                        "adl.governed-membership-authority.admission.v1",
+                        self.generation,
+                        current.operation_sha256,
+                        current.target_membership_sha256,
+                        current.committed_log_index,
+                    ))
+                    .map_err(|_| LearnerTransportError::Storage)?,
+                ));
+                Ok(MembershipReceiptParts {
+                    operation_sha256: current.operation_sha256,
+                    generation: self.generation,
+                    published_state_sha256,
+                })
+            })
+            .transpose()
     }
 }
 
@@ -1808,6 +1884,31 @@ pub struct PendingExclusionSnapshot {
 impl PendingExclusionSnapshot {
     pub fn generation(&self) -> u64 {
         self.generation
+    }
+
+    pub(in crate::distributed::transport) fn membership_receipt_parts(
+        &self,
+    ) -> Result<Option<MembershipReceiptParts>, LearnerTransportError> {
+        self.published
+            .as_ref()
+            .map(|published| {
+                let published_state_sha256 = <[u8; 32]>::from(Sha256::digest(
+                    serde_jcs::to_vec(&(
+                        "adl.governed-membership-authority.exclusion.v1",
+                        self.generation,
+                        published.operation_sha256,
+                        published.target_membership_sha256,
+                        published.committed_log_index,
+                    ))
+                    .map_err(|_| LearnerTransportError::Storage)?,
+                ));
+                Ok(MembershipReceiptParts {
+                    operation_sha256: published.operation_sha256,
+                    generation: self.generation,
+                    published_state_sha256,
+                })
+            })
+            .transpose()
     }
     pub(crate) fn transport_identity(&self) -> Option<(String, String)> {
         self.published.as_ref().map(|published| {
