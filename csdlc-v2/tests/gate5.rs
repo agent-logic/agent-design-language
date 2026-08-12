@@ -99,6 +99,21 @@ fn rewrite_receipt_payload_and_rechain(
     }
 }
 
+fn rewrite_single_receipt_payload(
+    attempt: &std::path::Path,
+    seq: u32,
+    state: &str,
+    payload: serde_json::Value,
+) {
+    let path = receipt_path(attempt, seq, state);
+    let mut envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&path).expect("receipt")).expect("receipt json");
+    envelope["payload"] = payload;
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("receipt bytes");
+    bytes.push(b'\n');
+    std::fs::write(path, bytes).expect("write forged receipt");
+}
+
 fn rewrite_observation_index(observation: &mut serde_json::Value, index_bytes: &[u8]) {
     let entries = observation["entries"]
         .as_array_mut()
@@ -879,6 +894,62 @@ fn preserved_projection_recovery_rejects_coherent_candidate_chain_forgery() {
         error.message,
         "candidate-created receipt does not match authorized recovery transform"
     );
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_forged_candidate_created_resume_before_install() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "active candidate forgery fixture".into(),
+        },
+    )
+    .unwrap();
+    let mut request = recovery_request(&store, &record, &classify, "active-candidate-forgery");
+    request.fail_after = Some("candidate_created".into());
+    let interrupted = csdlc_v2::recover_preserved_projection(&store, request.clone())
+        .expect_err("candidate-created failpoint interrupts");
+    assert_eq!(interrupted.code, ErrorCode::InterruptedTransaction);
+
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/active-candidate-forgery");
+    let candidate_path = receipt_path(&attempt, 5, "candidate-created");
+    let mut candidate: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&candidate_path).unwrap()).unwrap();
+    let mut forged_record: csdlc_v2::IssueRecord =
+        serde_json::from_value(candidate["payload"]["record"].clone()).unwrap();
+    forged_record.repository = "forged/repository".into();
+    forged_record.digest.clear();
+    forged_record.digest = csdlc_v2::cards::digest(&serde_json::to_vec(&forged_record).unwrap());
+    let mut forged_index = serde_json::to_vec_pretty(&forged_record).unwrap();
+    forged_index.push(b'\n');
+    std::fs::write(attempt.join("candidate/index.json"), &forged_index).unwrap();
+    let mut candidate_observation = candidate["payload"]["candidate"].clone();
+    candidate_observation["record_digest"] = serde_json::json!(forged_record.digest);
+    rewrite_observation_index(&mut candidate_observation, &forged_index);
+    candidate["payload"]["record"] = serde_json::to_value(&forged_record).unwrap();
+    candidate["payload"]["candidate"] = candidate_observation;
+    rewrite_single_receipt_payload(
+        &attempt,
+        5,
+        "candidate-created",
+        candidate["payload"].clone(),
+    );
+
+    request.fail_after = None;
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("forged active candidate receipt must fail before install");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert!(!receipt_path(&attempt, 8, "canonical-installed").exists());
 }
 
 #[test]

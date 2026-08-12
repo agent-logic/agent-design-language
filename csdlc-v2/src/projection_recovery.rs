@@ -2073,6 +2073,52 @@ pub fn recover_preserved_projection(
             "recovery candidate verification failed",
         ));
     }
+    let candidate_prior_source = if prior_path.symlink_metadata().is_ok()
+        && exact_observation(prior_path, &prior_observation, request.issue)?
+    {
+        prior_path
+    } else if displaced.symlink_metadata().is_ok()
+        && same_moved_observation(&displaced, &prior_observation, request.issue)?
+    {
+        &displaced
+    } else if candidate.symlink_metadata().is_ok()
+        && same_moved_observation(&candidate, &prior_observation, request.issue)?
+    {
+        &candidate
+    } else {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authorized recovery prior source is unavailable",
+        ));
+    };
+    let (derived_record, derived_files) = store.projection_recovery_candidate_files_locked(
+        request.issue,
+        candidate_prior_source,
+        prior_observation.record_digest.as_deref().ok_or_else(|| {
+            V2Error::new(ErrorCode::CorruptRecord, "verified prior digest missing")
+        })?,
+        request.actor.clone(),
+        request.reason.clone(),
+        audit_payload.to_string(),
+    )?;
+    if candidate_record != derived_record {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "candidate-created receipt does not match authorized recovery transform",
+        ));
+    }
+    if candidate.symlink_metadata().is_ok()
+        && exact_observation(&candidate, &candidate_observation, request.issue)?
+    {
+        for (relative, expected) in derived_files {
+            if fs::read(candidate.join(&relative))? != expected {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "candidate artifact does not match authorized recovery transform",
+                ));
+            }
+        }
+    }
 
     receipt(
         &attempt,
