@@ -1029,6 +1029,11 @@ impl MembershipCoordinator {
         }
         validate_enrollment_old_parity(membership, authority, raft)?;
         let identity = admission.identity();
+        validate_enrollment_candidate(membership, identity)?;
+        validate_registry_preserves_authority(
+            &self.envelope.payload().stable_id_registry,
+            authority,
+        )?;
         let old_stable_ids = if self.envelope.payload().stable_id_registry.is_empty() {
             authority.raft_ids.clone()
         } else {
@@ -1730,6 +1735,43 @@ fn validate_enrollment_old_parity(
         })
     {
         return Err(MembershipCoordinatorError::WrongIdentity);
+    }
+    Ok(())
+}
+
+fn validate_enrollment_candidate(
+    membership: &MembershipState,
+    identity: &LearnerIdentity,
+) -> MembershipCoordinatorResult<()> {
+    match membership.member(&identity.node_id) {
+        None => Ok(()),
+        Some(member)
+            if member.guardian_id == identity.guardian_id
+                && member.identity_generation == identity.certificate_generation
+                && member.guardian_control_public_key == identity.guardian_control_public_key
+                && member.role == MemberRole::NonVoting =>
+        {
+            Ok(())
+        }
+        Some(_) => Err(MembershipCoordinatorError::WrongIdentity),
+    }
+}
+
+fn validate_registry_preserves_authority(
+    registry: &[(Vec<u8>, u64)],
+    authority: &AuthorityMembership,
+) -> MembershipCoordinatorResult<()> {
+    if registry.is_empty() {
+        return Ok(());
+    }
+    let registry = registry.iter().cloned().collect::<BTreeMap<_, _>>();
+    stable_map_sha256(&registry)?;
+    if authority
+        .raft_ids
+        .iter()
+        .any(|(guardian, raft_id)| registry.get(guardian) != Some(raft_id))
+    {
+        return Err(MembershipCoordinatorError::WrongStableMap);
     }
     Ok(())
 }
