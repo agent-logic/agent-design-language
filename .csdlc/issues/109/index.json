@@ -5,10 +5,18 @@
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
   "phase": "implemented",
   "generation": 25,
-  "digest": "7fbe2a85fcc55753042d0a26f17b43d3aeada0b0799cec0d267c35cfcd8af1cc",
+  "digest": "c984e17836da5aca03b40cd4a1bdec0b8f846e1467af46674699617187dda84a",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_pr119_fix",
+    "assigned_by": "planning-1:pr119-janitor",
+    "revision": "git-blake3:b7097223844554f0eb4015ef210e389679135196:b684a903e0c6ecffeb043bf8c133a1892ab28d715883aef5eb03758989ff6b7e",
+    "scope": [
+      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
+      ".csdlc/issues/109"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +52,9 @@
       "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
     },
     "srp": {
-      "values_digest": "ba5cc902c221c2a9ee2cfc77b3a855e37a2e72e61e555d66e7530eadb994f176",
-      "rendered_digest": "1cef0442070327593b6f41e5c0c35abfcbb2b8dece5603e4956372297399c363",
-      "ast_digest": "c654880138d226f4ca831fb2f41bcc8bd7d2e85e75e1d0f5446f3045c52ab92c"
+      "values_digest": "b7874a64d15cd0698b93572d3a06542644c4b2ef1e114da0cab1bb9b1b9b0ba9",
+      "rendered_digest": "f870ce171120644425078716bbcbd80b9182f8af719f6b19d9e60aedfee42b6b",
+      "ast_digest": "1d02c9269f6085339a32437823b1bb60ff8856fb91b1e412c07d25907e48dd80"
     },
     "sor": {
       "values_digest": "673b8e9493cc46eeb6b91b83d7d7e69df7b8d4b07123d461182ed13b73d44c9d",
@@ -336,6 +344,13 @@
       "actor": "planning-1:pr119-janitor",
       "reason": "Recover stale review and publication truth after the exact-head validator repair; require fresh independent review at f188d89f4ef98ab3605a686f1ee4a29be1f6b77a.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

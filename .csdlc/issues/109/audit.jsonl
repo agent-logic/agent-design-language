@@ -29,3 +29,4 @@
 {"sequence":29,"generation":23,"actor":"codex","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":30,"generation":24,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":31,"generation":25,"actor":"planning-1:pr119-janitor","reason":"Recover stale review and publication truth after the exact-head validator repair; require fresh independent review at f188d89f4ef98ab3605a686f1ee4a29be1f6b77a.","operation":"recover_review"}
+{"sequence":32,"generation":25,"actor":"planning-1:pr119-janitor","reason":"assign bounded exact-revision review","operation":"assign_review"}

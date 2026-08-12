@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\n.csdlc/issues/109",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
