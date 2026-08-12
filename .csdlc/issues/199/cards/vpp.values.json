@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
     "slug": "governed-voter-membership-transitions",
     "version": "v0.92",
-    "generation": 33
+    "generation": 34
   },
   "status": "ready",
   "content": {
@@ -254,7 +254,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on missing or invalid #201 token, authority-cut drift, learner lag/divergence, joint/final mismatch, stale or removed voter authority, unstable Raft ids, incomplete parity, checkpoint ambiguity, rollback, retry conflict, corruption, unsafe paths, zero-test proof, source drift, or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/199/design.md",
-      "design_digest": "2593a7bc6d4f9fd17c9a280a3b3a15e2709872fa3d57a2cc1f416110cbd93e75",
+      "design_digest": "2f586106b23edf6709f77f9065e5df5afca1dbfcfdf10700154d81d5e743fdb9",
       "diagram_ref": ".csdlc/prepared/issues/199/diagram.mmd",
       "diagram_digest": "b193376447764581c50ca5906de1c770a3bfa4d3aabac113444595588c349eda"
     }
