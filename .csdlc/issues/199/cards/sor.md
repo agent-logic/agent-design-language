@@ -12,11 +12,11 @@ Status: pre_phase
 
 ## Summary
 
-Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoin, concrete authority parity, durable checkpoint/publication, crash recovery, and bounded exact retries. Retained v18 proof binds twelve behavior cases and nine production assertions to the exact protected source revision.
+Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoin, concrete authority parity, durable checkpoint/publication, crash recovery, and bounded exact retries. Retained v19 proof binds twelve behavior cases and nine production assertions to the exact protected source revision.
 
 ## Artifacts
 
-- .csdlc/evidence/199/v18/execution-proof.json
+- .csdlc/evidence/199/v19/execution-proof.json
 - .csdlc/prepared/issues/199/produce-proof-receipt.rb
 - .csdlc/prepared/issues/199/validate-proof-receipt.rb
 
@@ -36,6 +36,7 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
 - Rejected conflicting candidate identity and stale durable registry mappings before enrollment journal or #202 activation
 - Preflighted the complete MembershipState Join and required candidate identity absence before journal/#202 effects; rejected duplicate durable registry entries
 - Serialized durable enrollment publication and local visibility repair, blocking all later membership operations until the exact projection is installed
+- Serialized durable publication and local projection visibility repair for enrollment, promotion, and removal; required exact durable registry equality with current authority.
 
 ## Validation
 
@@ -45,9 +46,9 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
       "ruby",
       ".csdlc/prepared/issues/199/produce-proof-receipt.rb"
     ],
-    "purpose": "Produce exact v18 protected-source evidence with twelve behavior cases and nine production assertions",
+    "purpose": "Produce exact v19 protected-source evidence with twelve behavior cases and nine production assertions",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v18/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/199/v19/execution-proof.json"
   },
   {
     "command": [
@@ -56,7 +57,7 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
     ],
     "purpose": "Validate exact argv, denominators, protected source, immutable introduction, and current-main ancestry",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v18/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/199/v19/execution-proof.json"
   },
   {
     "command": [
@@ -72,7 +73,7 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
     ],
     "purpose": "Reject warnings across the production Runtime library",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v18/clippy-lib.stderr.log"
+    "evidence_ref": ".csdlc/evidence/199/v19/clippy-lib.stderr.log"
   },
   {
     "command": [
@@ -89,7 +90,7 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
     ],
     "purpose": "Reject warnings across the exact public transition target",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v18/clippy-integration.stderr.log"
+    "evidence_ref": ".csdlc/evidence/199/v19/clippy-integration.stderr.log"
   }
 ]
 

@@ -25,7 +25,7 @@ Status: draft
 - Does restart recovery distinguish proven no-effect membership errors from joint/target applied configurations and avoid duplicate ambiguous effects?
 - Does the bounded durable result cache return exact results for current and older retained operations without re-entering effects?
 - Does the real four-node proof execute removal, separate enrollment, fresh-node rejoin promotion, catch-up, joint/final commitment, parity publication, and crash recovery?
-- Does retained v18 proof bind twelve behavior-specific cases, nine production assertions including the exhaustive real-node crash matrix, protected-source drift, immutable evidence, strict Clippy, and current-main ancestry?
+- Does retained v19 proof bind twelve behavior-specific cases, nine production assertions including the exhaustive real-node crash matrix, protected-source drift, immutable evidence, strict Clippy, and current-main ancestry?
 
 ## Findings
 
