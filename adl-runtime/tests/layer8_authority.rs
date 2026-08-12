@@ -171,6 +171,12 @@ fn identity(principal: &str, key_id: &str, key: &SigningKey) -> CommunicationVer
     }
 }
 
+fn write_key(temp: &TempDir, name: &str, seed: [u8; 32]) -> std::path::PathBuf {
+    let path = temp.path().join(name);
+    std::fs::write(&path, hex::encode(seed)).unwrap();
+    path
+}
+
 #[test]
 fn human_and_agent_senders_share_one_signed_identity_message_contract() {
     for (seed, sender, key_id) in [
@@ -190,6 +196,92 @@ fn human_and_agent_senders_share_one_signed_identity_message_contract() {
         verify_signed_identity_message(&message, &identity(sender, key_id, &key), "agent-b", 120)
             .unwrap();
     }
+}
+
+#[test]
+fn signed_exchange_rejects_cross_polis_recipients_for_sign_and_verify() {
+    let temp = TempDir::new().unwrap();
+    let sender_key = SigningKey::from_bytes(&[98_u8; 32]);
+    let recipient_key = SigningKey::from_bytes(&[44_u8; 32]);
+    let exchange = Layer8SignedExchange::load(ConversationSigningProfile {
+        sender: CommunicationKeyDescriptor {
+            principal_id: "human-1".to_owned(),
+            polis_id: "polis-1".to_owned(),
+            signing_key_id: "human-1-key".to_owned(),
+            private_key_file: write_key(&temp, "sender.key", [98_u8; 32]),
+            not_before_epoch_secs: 50,
+            expires_at_epoch_secs: 250,
+        },
+        recipients: vec![CommunicationVerifyingDescriptor {
+            principal_id: "agent-b".to_owned(),
+            polis_id: "polis-2".to_owned(),
+            signing_key_id: "agent-b-key".to_owned(),
+            verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
+            revoked: false,
+            not_before_epoch_secs: 50,
+            expires_at_epoch_secs: 250,
+        }],
+    })
+    .unwrap();
+
+    assert_eq!(
+        exchange.signed_request(
+            "agent-b",
+            "conversation-7",
+            "correlation-1",
+            "replay-1",
+            r#"{"text":"hello"}"#.to_owned(),
+            120,
+        ),
+        Err(RefusalReason::InvalidRequest)
+    );
+
+    let request = signed_message(
+        "human-1",
+        "agent-b",
+        IdentityMessageKind::Request,
+        "turn-1",
+        1,
+        "human-1-key",
+        &sender_key,
+    );
+    assert_eq!(
+        exchange.verify_request(&request, 120),
+        Err(RefusalReason::InvalidRequest)
+    );
+}
+
+#[test]
+fn recipient_acknowledgement_signing_rejects_expired_descriptor() {
+    let temp = TempDir::new().unwrap();
+    let sender_key = SigningKey::from_bytes(&[43_u8; 32]);
+    let request = signed_message(
+        "agent-a",
+        "agent-b",
+        IdentityMessageKind::Request,
+        "turn-1",
+        1,
+        "agent-a-communication-v1",
+        &sender_key,
+    );
+    let descriptor = CommunicationKeyDescriptor {
+        principal_id: "agent-b".to_owned(),
+        polis_id: "polis-1".to_owned(),
+        signing_key_id: "agent-b-communication-v1".to_owned(),
+        private_key_file: write_key(&temp, "recipient.key", [44_u8; 32]),
+        not_before_epoch_secs: 50,
+        expires_at_epoch_secs: 100,
+    };
+
+    assert_eq!(
+        sign_recipient_acknowledgement(
+            &request,
+            &descriptor,
+            r#"{"status":"delivered"}"#.to_owned(),
+            120,
+        ),
+        Err(RefusalReason::IdentityExpired)
+    );
 }
 
 #[test]
@@ -387,6 +479,7 @@ fn refusal_is_bounded_and_contains_no_private_inputs() {
     let (mut request, capability, agent, polis) = fixture(Layer8Action::Continue);
     request.evidence.authenticated = false;
     request.evidence.principal_id = "private-principal".into();
+    request.correlation_id = "secret-correlation-token".into();
     let AuthorityDecision::Refused(refusal) =
         decide(store(&temp), request, capability, agent, polis)
     else {
@@ -394,8 +487,10 @@ fn refusal_is_bounded_and_contains_no_private_inputs() {
     };
     let projection = serde_json::to_string(&refusal).unwrap();
     assert_eq!(refusal.reason, RefusalReason::IdentityUnavailable);
+    assert_eq!(refusal.correlation_id.len(), 64);
     for forbidden in [
         "private-principal",
+        "secret-correlation-token",
         "polis-1",
         "conversation-7",
         "cap-1",

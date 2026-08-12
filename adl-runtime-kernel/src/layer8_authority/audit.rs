@@ -354,11 +354,7 @@ fn hash_recipients(recipients: &BTreeSet<String>) -> String {
 }
 
 fn bounded_correlation(value: &str) -> String {
-    if value.len() <= 128 && !value.chars().any(char::is_control) {
-        value.to_string()
-    } else {
-        hash_text(value)
-    }
+    hash_text(value)
 }
 
 fn refused(reason: RefusalReason, correlation_id: String) -> AuthorityDecision {

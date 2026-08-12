@@ -15,14 +15,23 @@ use adl_runtime::layer8_authority::{
 
 struct TestRoot(PathBuf);
 
+static TEST_ROOT_COUNTER: AtomicUsize = AtomicUsize::new(0);
+
 impl TestRoot {
     fn new() -> Self {
         let nonce = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .unwrap()
             .as_nanos();
-        let path = std::env::temp_dir().join(format!(
-            "adl-layer8-runtime-api-{}-{nonce}",
+        let counter = TEST_ROOT_COUNTER.fetch_add(1, Ordering::SeqCst);
+        let repo_tmp_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .expect("adl crate lives under the repository root")
+            .join(".adl")
+            .join("tmp");
+        std::fs::create_dir_all(&repo_tmp_root).unwrap();
+        let path = repo_tmp_root.join(format!(
+            "adl-layer8-runtime-api-{}-{counter}-{nonce}",
             std::process::id()
         ));
         std::fs::create_dir_all(&path).unwrap();
@@ -335,7 +344,7 @@ fn runtime_api_bounds_correlation_on_boundary_refusals() {
     let authority = authority(root.path());
     let (exchange, _) = exchange(root.path());
     let mut delivery_request = request(&exchange, "shepherd", "request-long-correlation");
-    delivery_request.correlation_id = "x".repeat(200);
+    delivery_request.correlation_id = "secret-correlation-token".to_owned();
 
     let refusal = authorize_layer8_runtime_delivery(
         &authority,
@@ -345,5 +354,6 @@ fn runtime_api_bounds_correlation_on_boundary_refusals() {
     .unwrap_err();
 
     assert_eq!(refusal.reason, RefusalReason::InvalidRequest);
-    assert_eq!(refusal.correlation_id.len(), 96);
+    assert_eq!(refusal.correlation_id.len(), 64);
+    assert_ne!(refusal.correlation_id, "secret-correlation-token");
 }

@@ -68,6 +68,9 @@ pub fn sign_recipient_acknowledgement(
     if descriptor.principal_id != request.recipient_id || descriptor.polis_id != request.polis_id {
         return Err(RefusalReason::IdentityUnavailable);
     }
+    if now < descriptor.not_before_epoch_secs || now >= descriptor.expires_at_epoch_secs {
+        return Err(RefusalReason::IdentityExpired);
+    }
     let encoded = std::fs::read_to_string(&descriptor.private_key_file)
         .map_err(|_| RefusalReason::IdentityUnavailable)?;
     let bytes = hex::decode(encoded.trim()).map_err(|_| RefusalReason::IdentityUnavailable)?;
@@ -163,6 +166,10 @@ impl Layer8SignedExchange {
         payload_json: String,
         now: u64,
     ) -> Result<SignedIdentityMessage, RefusalReason> {
+        let recipient = self.active_recipient_verifying_identity(recipient_id, now)?;
+        if recipient.polis_id != self.sender.descriptor.polis_id {
+            return Err(RefusalReason::InvalidRequest);
+        }
         self.sign(
             &self.sender,
             IdentityMessageKind::Request,
@@ -196,6 +203,10 @@ impl Layer8SignedExchange {
         now: u64,
     ) -> Result<(), RefusalReason> {
         if request.message_kind != IdentityMessageKind::Request {
+            return Err(RefusalReason::InvalidRequest);
+        }
+        let recipient = self.active_recipient_verifying_identity(&request.recipient_id, now)?;
+        if recipient.polis_id != request.polis_id {
             return Err(RefusalReason::InvalidRequest);
         }
         verify_signed_identity_message(

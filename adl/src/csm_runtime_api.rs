@@ -11,6 +11,7 @@ use axum::{
 };
 use chrono::{DateTime, Utc};
 use serde_json::{json, Map, Value};
+use sha2::{Digest, Sha256};
 use std::env;
 use std::fs::{self, OpenOptions};
 use std::io::{Read, Seek, SeekFrom, Write};
@@ -172,7 +173,10 @@ fn bounded_layer8_correlation(value: &str) -> String {
     if trimmed.is_empty() {
         "unavailable".to_owned()
     } else {
-        trimmed.chars().take(96).collect()
+        Sha256::digest(trimmed.as_bytes())
+            .iter()
+            .map(|byte| format!("{byte:02x}"))
+            .collect()
     }
 }
 

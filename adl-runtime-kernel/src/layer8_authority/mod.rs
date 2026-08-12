@@ -4,6 +4,7 @@ use std::collections::BTreeSet;
 
 use ed25519_dalek::VerifyingKey;
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 mod audit;
 mod exchange;
@@ -203,7 +204,7 @@ impl Layer8ConversationAuthority {
                 authorized: false,
                 reason: RefusalReason::IdentityUnavailable,
                 retryable: false,
-                correlation_id,
+                correlation_id: public_correlation_id(&correlation_id),
             });
         }
         let request = AuthorityRequest {
@@ -243,6 +244,13 @@ impl Layer8ConversationAuthority {
         self.store
             .authorize(request, capability, agent_policy, polis_policy)
     }
+}
+
+fn public_correlation_id(value: &str) -> String {
+    Sha256::digest(value.as_bytes())
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect()
 }
 
 fn candidate_matches(
