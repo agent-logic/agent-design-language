@@ -1013,6 +1013,7 @@ impl MembershipCoordinator {
         let target_stable_ids = prepared_stable_ids.target;
         let old_stable_map_sha256 = prepared_stable_ids.old_sha256;
         let target_stable_map_sha256 = prepared_stable_ids.target_sha256;
+        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         self.crash_at(MembershipCrashBoundary::BeforeEnrollmentJournal)?;
         match self.envelope.payload().active_enrollment.as_ref() {
             Some(active)
@@ -1100,7 +1101,6 @@ impl MembershipCoordinator {
         }
         self.commit(observed_state)?;
         self.crash_at(MembershipCrashBoundary::AfterExternalAuthorityObservation)?;
-        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         let mut staged_membership = membership.clone();
         match staged_membership.member(&identity.node_id) {
             Some(member)
@@ -1223,7 +1223,6 @@ impl MembershipCoordinator {
             &mut staged_authority,
             candidate_authority,
         )?;
-        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         self.crash_at(MembershipCrashBoundary::AfterLocalProjectionPrepared)?;
         let current = factory
             .observe_learner_admission_receipt(promotion.enrollment_operation_sha256)
@@ -1411,7 +1410,6 @@ impl MembershipCoordinator {
             &mut staged_membership,
             &mut staged_authority,
         )?;
-        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         self.crash_at(MembershipCrashBoundary::AfterLocalProjectionPrepared)?;
         let current = factory
             .observe_pending_exclusion_receipt(removal.operation_sha256())
@@ -1433,7 +1431,7 @@ impl MembershipCoordinator {
     }
 
     fn final_membership_log_index(
-        &self,
+        &mut self,
         operation_sha256: [u8; 32],
     ) -> MembershipCoordinatorResult<u64> {
         let state = self.envelope.payload();
@@ -1449,7 +1447,7 @@ impl MembershipCoordinator {
     }
 
     fn reconcile_promotion_states(
-        &self,
+        &mut self,
         promotion: &VerifiedPromoteVoter,
         transition: &AuthorizedMembershipTransition,
         membership: &mut MembershipState,
@@ -1473,6 +1471,7 @@ impl MembershipCoordinator {
         let mut voters = authority.voters.values().cloned().collect::<Vec<_>>();
         voters.push(candidate);
         let next_authority = build_uniform_authority(authority, transition, voters, final_index)?;
+        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         apply_local_membership_event(
             membership,
             promotion.operation_sha256,
@@ -1486,7 +1485,7 @@ impl MembershipCoordinator {
     }
 
     fn reconcile_removal_states(
-        &self,
+        &mut self,
         removal: &VerifiedMembershipArtifact,
         transition: &AuthorizedMembershipTransition,
         membership: &mut MembershipState,
@@ -1503,6 +1502,7 @@ impl MembershipCoordinator {
             .cloned()
             .collect();
         let next_authority = build_uniform_authority(authority, transition, voters, final_index)?;
+        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         apply_local_membership_event(
             membership,
             removal.operation_sha256(),
