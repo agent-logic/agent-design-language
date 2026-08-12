@@ -851,6 +851,7 @@ impl MembershipCoordinator {
             .ok_or(MembershipCoordinatorError::StateRegression)?;
         next.published_operation_sha256 = Some(operation_sha256);
         next.published_result_sha256 = Some(result_sha256);
+        next.pending_visibility_operation_sha256 = Some(operation_sha256);
         next.stable_id_registry = target_stable_ids
             .iter()
             .map(|(guardian, raft_id)| (guardian.clone(), *raft_id))
@@ -1250,6 +1251,11 @@ impl MembershipCoordinator {
         )?;
         if let Some(published) = retained {
             if ObservedMembershipParity::observe(membership, authority, transition).is_ok() {
+                if self.envelope.payload().pending_visibility_operation_sha256
+                    == Some(promotion.operation_sha256)
+                {
+                    self.clear_pending_visibility(promotion.operation_sha256)?;
+                }
                 return Ok(published.result_sha256);
             }
             observe_old_parity(membership, authority, transition)?;
@@ -1265,6 +1271,7 @@ impl MembershipCoordinator {
             ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
             *membership = staged_membership;
             *authority = staged_authority;
+            self.clear_pending_visibility(promotion.operation_sha256)?;
             return Ok(published.result_sha256);
         }
         observe_old_parity(membership, authority, transition)?;
@@ -1304,6 +1311,7 @@ impl MembershipCoordinator {
         self.crash_at(MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility)?;
         *membership = staged_membership;
         *authority = staged_authority;
+        self.clear_pending_visibility(promotion.operation_sha256)?;
         Ok(result)
     }
 
@@ -1359,6 +1367,11 @@ impl MembershipCoordinator {
             )
             .is_ok()
             {
+                if self.envelope.payload().pending_visibility_operation_sha256
+                    == Some(removal.operation_sha256())
+                {
+                    self.clear_pending_visibility(removal.operation_sha256())?;
+                }
                 return Ok(published.result_sha256);
             }
             observe_old_parity(published_membership, current_authority, transition)?;
@@ -1373,6 +1386,7 @@ impl MembershipCoordinator {
             ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
             *published_membership = staged_membership;
             *published_authority = staged_authority;
+            self.clear_pending_visibility(removal.operation_sha256())?;
             return Ok(published.result_sha256);
         }
         observe_old_parity(published_membership, current_authority, transition)?;
@@ -1491,6 +1505,7 @@ impl MembershipCoordinator {
         self.crash_at(MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility)?;
         *published_membership = staged_membership;
         *published_authority = staged_authority;
+        self.clear_pending_visibility(removal.operation_sha256())?;
         Ok(result)
     }
 
@@ -1796,11 +1811,7 @@ fn validate_registry_preserves_authority(
         return Err(MembershipCoordinatorError::WrongStableMap);
     }
     stable_map_sha256(&registry)?;
-    if authority
-        .raft_ids
-        .iter()
-        .any(|(guardian, raft_id)| registry.get(guardian) != Some(raft_id))
-    {
+    if registry != authority.raft_ids {
         return Err(MembershipCoordinatorError::WrongStableMap);
     }
     Ok(())
