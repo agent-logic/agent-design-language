@@ -8,7 +8,9 @@ use std::{
 };
 
 use adl_runtime_kernel::layer8_authority::{
-    ConversationAuthorityProfile, Layer8Action, Layer8AuthorityStore, Layer8ConversationAuthority,
+    AuthorityScope, CommunicationKeyDescriptor, ConversationAuthorityProfile,
+    ConversationSigningProfile, Layer8Action, Layer8AuthorityStore, Layer8Capability,
+    Layer8ConversationAuthority, Layer8Policy, Layer8SignedExchange, RuntimeIdentityEvidence,
 };
 use adl_runtime_kernel::{
     serve_control_listener, AdapterKind, AdapterPolicy, AgentPopulationFeed, AgentRosterPolicy,
@@ -196,17 +198,58 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let authority_root = tempfile::tempdir().unwrap();
     let layer8_authority = Layer8ConversationAuthority::new(
         Layer8AuthorityStore::open(authority_root.path().join("audit.jsonl")).unwrap(),
-        ConversationAuthorityProfile {
-            principal_id: "layer8-operator".to_owned(),
-            polis_id: "conversation-runtime".to_owned(),
-            current_credential_generation: 1,
-            identity_expires_at_epoch_secs: u64::MAX,
-            identity_revoked: false,
-            policy_epoch: 1,
-            agent_policy_available: true,
-            polis_policy_available: true,
-            allowed_actions: BTreeSet::from([Layer8Action::Contact, Layer8Action::Continue]),
-            allowed_recipients,
+        {
+            let scopes =
+                [Layer8Action::Contact, Layer8Action::Continue].map(|action| AuthorityScope {
+                    polis_id: "conversation-runtime".to_owned(),
+                    action,
+                    conversation_id: None,
+                    recipients: allowed_recipients.clone(),
+                    attachment_id: None,
+                });
+            ConversationAuthorityProfile {
+                evidence: RuntimeIdentityEvidence {
+                    principal_id: "layer8-operator".to_owned(),
+                    polis_id: "conversation-runtime".to_owned(),
+                    credential_generation: 1,
+                    current_credential_generation: 1,
+                    expires_at_epoch_secs: u64::MAX,
+                    revoked: false,
+                    authenticated: true,
+                },
+                capabilities: scopes
+                    .iter()
+                    .enumerate()
+                    .map(|(index, scope)| Layer8Capability {
+                        capability_id: format!("conversation-{index}"),
+                        principal_id: "layer8-operator".to_owned(),
+                        scope: scope.clone(),
+                        epoch: 1,
+                        expires_at_epoch_secs: u64::MAX,
+                        revoked: false,
+                    })
+                    .collect(),
+                agent_policies: scopes
+                    .iter()
+                    .enumerate()
+                    .map(|(index, scope)| Layer8Policy {
+                        policy_id: format!("agent-{index}"),
+                        available: true,
+                        scope: scope.clone(),
+                        epoch: 1,
+                    })
+                    .collect(),
+                polis_policies: scopes
+                    .iter()
+                    .enumerate()
+                    .map(|(index, scope)| Layer8Policy {
+                        policy_id: format!("polis-{index}"),
+                        available: true,
+                        scope: scope.clone(),
+                        epoch: 1,
+                    })
+                    .collect(),
+            }
         },
     )
     .unwrap();
@@ -221,7 +264,37 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             population,
         )
         .with_canonical_ingress(ingress.clone())
-        .with_layer8_authority(layer8_authority),
+        .with_layer8_authority(layer8_authority)
+        .with_layer8_signed_exchange({
+            let sender_key = authority_root.path().join("sender.key");
+            let recipient_key = authority_root.path().join("recipient.key");
+            std::fs::write(&sender_key, hex::encode([7_u8; 32])).unwrap();
+            std::fs::write(&recipient_key, hex::encode([8_u8; 32])).unwrap();
+            let descriptor = |principal_id: &str, signing_key_id: &str, private_key_file| {
+                CommunicationKeyDescriptor {
+                    principal_id: principal_id.to_owned(),
+                    polis_id: "conversation-runtime".to_owned(),
+                    signing_key_id: signing_key_id.to_owned(),
+                    private_key_file,
+                    not_before_epoch_secs: 0,
+                    expires_at_epoch_secs: u64::MAX,
+                }
+            };
+            Layer8SignedExchange::load(ConversationSigningProfile {
+                sender: descriptor("layer8-operator", "operator-key", sender_key),
+                recipients: visible_agent_ids
+                    .iter()
+                    .map(|recipient| {
+                        descriptor(
+                            recipient,
+                            &format!("{recipient}-key"),
+                            recipient_key.clone(),
+                        )
+                    })
+                    .collect(),
+            })
+            .unwrap()
+        }),
     );
     service.set_observatory_bearer_token(TOKEN).unwrap();
     service
