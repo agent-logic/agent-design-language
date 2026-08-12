@@ -591,21 +591,50 @@ fn fd_identity(file: &File) -> Result<NodeIdentity> {
 }
 
 fn fd_mount_id(file: &File) -> Result<String> {
-    use std::mem::MaybeUninit;
     use std::os::fd::AsRawFd;
+    #[cfg(target_os = "linux")]
+    {
+        use std::mem::MaybeUninit;
+        let mut statx = MaybeUninit::<libc::statx>::zeroed();
+        let empty = b"\0";
+        if unsafe {
+            libc::statx(
+                file.as_raw_fd(),
+                empty.as_ptr().cast(),
+                libc::AT_EMPTY_PATH | libc::AT_NO_AUTOMOUNT,
+                libc::STATX_MNT_ID,
+                statx.as_mut_ptr(),
+            )
+        } != 0
+        {
+            return Err(std::io::Error::last_os_error().into());
+        }
+        let statx = unsafe { statx.assume_init() };
+        return Ok(format!("mnt:{}", statx.stx_mnt_id));
+    }
+    #[cfg(not(target_os = "linux"))]
+    use std::mem::MaybeUninit;
+    #[cfg(not(target_os = "linux"))]
     let mut stat = MaybeUninit::<libc::statfs>::uninit();
+    #[cfg(not(target_os = "linux"))]
     if unsafe { libc::fstatfs(file.as_raw_fd(), stat.as_mut_ptr()) } != 0 {
         return Err(std::io::Error::last_os_error().into());
     }
+    #[cfg(not(target_os = "linux"))]
     let stat = unsafe { stat.assume_init() };
     #[cfg(any(target_os = "macos", target_os = "ios", target_os = "freebsd"))]
     {
         let words: [i32; 2] = unsafe { std::mem::transmute_copy(&stat.f_fsid) };
         Ok(format!("{}:{}", words[0], words[1]))
     }
-    #[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "freebsd")))]
+    #[cfg(not(any(
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "freebsd"
+    )))]
     {
-        Ok(format!("dev:{}", stat.f_fsid.__val[0]))
+        Ok(format!("dev:{}", file.metadata()?.dev()))
     }
 }
 
