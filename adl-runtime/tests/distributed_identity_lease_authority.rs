@@ -1,10 +1,15 @@
-use std::{collections::BTreeMap, sync::Mutex};
+use std::{
+    collections::BTreeMap,
+    sync::{Arc, Mutex},
+};
 
 use adl_runtime::distributed::{
     authority_reconciliation::{AuthorityReconciliationBarrier, AuthorityReconciliationIdentity},
     authority_store_adapters::{AuthorityStoreAdapterError, AuthorityStoreAdapterRegistry},
+    certificates::{CertificatePolicy, DistributedCertificateStore},
     polis_runtime::{ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisRuntimeError},
 };
+use ed25519_dalek::SigningKey;
 
 // PVF: lane=identity-lease-fencing-authority; proof=initial #203 fail-closed
 // adapter gate; deterministic=true; resource_profile=small; release_gate=false.
@@ -57,10 +62,10 @@ fn authority_store_adapter_denies_unpublished_lineage() {
     let barrier = AuthorityReconciliationBarrier::open(
         root.path(),
         identity(),
-        std::sync::Arc::new(MemoryCheckpoint::default()),
+        Arc::new(MemoryCheckpoint::default()),
     )
     .unwrap();
-    let registry = AuthorityStoreAdapterRegistry::new(std::sync::Arc::new(barrier));
+    let registry = AuthorityStoreAdapterRegistry::new(Arc::new(barrier));
 
     assert!(matches!(
         registry.published_view("lineage-a"),
@@ -70,4 +75,30 @@ fn authority_store_adapter_denies_unpublished_lineage() {
     ));
 
     println!("ADL_ISSUE_203_CASE_V1 unpublished_lineage_denied");
+}
+
+#[test]
+fn authority_store_adapter_refuses_certificate_handle_without_publication() {
+    let root = repo_local_root();
+    let barrier = AuthorityReconciliationBarrier::open(
+        root.path(),
+        identity(),
+        Arc::new(MemoryCheckpoint::default()),
+    )
+    .unwrap();
+    let registry = AuthorityStoreAdapterRegistry::new(Arc::new(barrier));
+    let signing_root = SigningKey::from_bytes(&[41; 32]);
+    let policy = CertificatePolicy::new("runtime-prod", [signing_root.verifying_key()]).unwrap();
+    let store = Arc::new(
+        DistributedCertificateStore::open(root.path().join("certificates.redb"), policy).unwrap(),
+    );
+
+    assert!(matches!(
+        registry.certificate_store("lineage-a", store),
+        Err(AuthorityStoreAdapterError::Reconciliation(
+            adl_runtime::distributed::authority_reconciliation::AuthorityReconciliationError::ReconciliationRequired
+        ))
+    ));
+
+    println!("ADL_ISSUE_203_CASE_V1 unpublished_certificate_handle_denied");
 }
