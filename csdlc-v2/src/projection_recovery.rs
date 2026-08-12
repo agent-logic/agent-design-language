@@ -610,7 +610,7 @@ fn fd_mount_id(file: &File) -> Result<String> {
             return Err(std::io::Error::last_os_error().into());
         }
         let statx = unsafe { statx.assume_init() };
-        return Ok(format!("mnt:{}", statx.stx_mnt_id));
+        return linux_mount_id_from_statx(statx.stx_mask, statx.stx_mnt_id);
     }
     #[cfg(not(target_os = "linux"))]
     use std::mem::MaybeUninit;
@@ -636,6 +636,17 @@ fn fd_mount_id(file: &File) -> Result<String> {
     {
         Ok(format!("dev:{}", file.metadata()?.dev()))
     }
+}
+
+#[cfg(target_os = "linux")]
+fn linux_mount_id_from_statx(mask: u32, mount_id: u64) -> Result<String> {
+    if mask & libc::STATX_MNT_ID == 0 {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "retained descriptor does not expose a Linux mount identity",
+        ));
+    }
+    Ok(format!("mnt:{mount_id}"))
 }
 
 fn open_root_no_follow(path: &Path) -> Result<File> {
@@ -3953,6 +3964,23 @@ fn classify_preserved_projection_unlocked(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn linux_mount_identity_requires_statx_mount_id_bit() {
+        let error = linux_mount_id_from_statx(0, 41)
+            .expect_err("missing mount-id authority must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn linux_mount_identity_uses_returned_statx_mount_id() {
+        assert_eq!(
+            linux_mount_id_from_statx(libc::STATX_MNT_ID, 41).expect("mount-id authority"),
+            "mnt:41"
+        );
+    }
 
     #[cfg(unix)]
     #[test]
