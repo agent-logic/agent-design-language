@@ -1,0 +1,19 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 70,
+  "expected_digest": "0c03946fc808640c78ac2a06d1125333a143cdcfc6faf07cd891ce6b7208523c",
+  "actor": "codex:wp18c01-fresh-review-remediation",
+  "reason": "Record the deterministic attachment reservation ordering fix.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Closed the attachment-before-release ordering finding in the production WSS path.",
+    "changes": [
+      "Reserve a generation-scoped dispatch or in-flight attachment before sending its accepted response.",
+      "Keep executor and waiter task spawning after the response, preserving accepted-before-terminal frame ordering.",
+      "Make receipt of conversation_in_flight a deterministic proof that the newer attachment already exists before the test releases the old completion."
+    ],
+    "artifacts": ["adl-runtime-kernel/src/control.rs", "adl-runtime-kernel/tests/conversation_sessions.rs"]
+  },
+  "fail_after_backup": false
+}

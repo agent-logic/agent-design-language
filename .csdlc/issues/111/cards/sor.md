@@ -1,0 +1,308 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 111
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Closed the attachment-before-release ordering finding in the production WSS path.
+
+## Artifacts
+
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/ingress.rs
+- adl-runtime-kernel/src/operations.rs
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- demos/html-observatory/app.js
+- demos/html-observatory/tests/conversation_sessions.test.mjs
+- docs/api/runtime-v3/v1/observatory.openapi.json
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- demos/html-observatory/app.js
+- demos/html-observatory/tests/conversation_sessions.test.mjs
+- exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- demos/html-observatory/app.js
+- demos/html-observatory/tests/conversation_sessions.test.mjs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- fb4003c15a1eefd9daf780bf5c397dd887185b75
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- demos/html-observatory/app.js
+- 17044db84
+- adl-runtime-kernel/tests/conversation_sessions.rs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/conversation_sessions.rs
+
+## Execution
+
+- Added Runtime-owned bounded conversation and turn state with explicit sequence-gated dispatch and exact duplicate handling.
+- Propagated cancellation through canonical ingress and the queued operational factory into the existing adapter executor cancellation boundary.
+- Added correlated accepted, delivered, refused, failed, timed_out, and cancelled WSS outcomes plus OpenAPI contracts.
+- Updated the Observatory to render only fully correlated Runtime-authoritative turns and to recover exact pending intents once after reconnect.
+- Added focused ordering, timeout, cancellation, reconnect, capacity, forgery, OpenAPI, and browser regressions.
+- Merged the complete #113 Runtime roster, presence, navigation, OpenAPI, and signed Guardian restart surface beneath #111.
+- Changed conversation recipient admission to use the same live Runtime-projected roster and fail-closed communication eligibility authority exposed to the Observatory.
+- Changed the browser recipient selector to use communication_eligible instead of the obsolete literal running state.
+- Added integrated Shepherd admission proof while preserving ordering, idempotency, timeout, cancellation, reconnect, and bounded rendering behavior.
+- Refused a queued conversation turn with recipient_unavailable when its recipient loses communication eligibility before canonical dispatch.
+- Reused one shared live roster eligibility helper at acceptance and immediately before dispatch.
+- Allowed one idempotent pending-turn retrieval after each distinct disconnect while preventing duplicate replay within one connection cycle.
+- Added focused regressions for recipient degradation behind an ordered turn and two separate reconnect cycles.
+- Bound every asynchronous conversation terminal result to the digest of the exact Observatory credential that accepted it, revalidated current authorization immediately before delivery, and discarded results when the session credential changed.
+- Traversed the Runtime roster through revision-bound continuation pages with a finite population-derived bound so eligible recipients beyond the first 100 entries are resolved without bypassing policy projection.
+- Added authenticated production-WSS regressions for in-flight credential rotation across reauthentication and successful conversation delivery to agent-0100 on the second roster page.
+- Bound every asynchronous conversation result to a monotonically increasing authentication generation as well as credential digest, preventing same-token reauthentication and rotate-away/rotate-back from reviving an earlier session.
+- Replaced the unbounded result channel with a bounded 32-frame channel and retained at most one terminal attachment per authentication generation, conversation, and turn.
+- Made stale completion cleanup generation-aware so an old result cannot remove a newer attachment.
+- Integrated the final Runtime-authenticated roster cursor and exact detail contract; conversation eligibility now resolves the exact policy-visible recipient rather than reconstructing or bypassing paginated public state.
+- Added focused production-WSS regressions for same-token reauthentication, credential rotation back to old bytes, a 64-request duplicate flood, and a visible recipient beyond the first roster page.
+- Added an executor barrier that proves the old-generation operation has started but cannot complete until explicitly released.
+- Reauthenticated with the same credential and attached the same conversation turn under the newer generation before releasing the old completion.
+- Proved the old completion cannot remove the newer attachment and exactly one current-generation delivered result is emitted.
+- Reserve a generation-scoped dispatch or in-flight attachment before sending its accepted response.
+- Keep executor and waiter task spawning after the response, preserving accepted-before-terminal frame ordering.
+- Make receipt of conversation_in_flight a deterministic proof that the newer attachment already exists before the test releases the old completion.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "conversation_sessions"
+    ],
+    "purpose": "Prove Runtime-owned session identity, ordered dispatch, duplicate handling, one absolute timeout budget, cancellation, reconnect retrieval, and bounded capacity behavior.",
+    "outcome": "passed",
+    "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; independent-review:019fef02-f7cd-7c11-bea0-4d1bf0ddb133"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "observatory"
+    ],
+    "purpose": "Prove authenticated Observatory WSS conversation routing and correlated Runtime-authoritative outcomes.",
+    "outcome": "passed",
+    "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; 7 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "openapi_contract"
+    ],
+    "purpose": "Prove checked-in conversation and cancellation OpenAPI parity.",
+    "outcome": "passed",
+    "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; independent exact-head review confirmed pass"
+  },
+  {
+    "command": [
+      "node",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs"
+    ],
+    "purpose": "Prove Runtime-authoritative rendering, correlation checks, cancellation state, and bounded reconnect replay without browser-synthesized delivery truth.",
+    "outcome": "passed",
+    "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; browser contract PASS"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject production-library warnings on the bounded conversation implementation.",
+    "outcome": "passed",
+    "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; strict lib Clippy PASS"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      ".",
+      "issue",
+      "--issue",
+      "111"
+    ],
+    "purpose": "Validate the complete typed issue-111 lifecycle card set and projections.",
+    "outcome": "passed",
+    "evidence_ref": "typed-validation:issue-111:generation-36:passed"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "058635d7db00cde88714e84c158a5c70bc59411d^",
+      "058635d7db00cde88714e84c158a5c70bc59411d"
+    ],
+    "purpose": "Reject malformed whitespace in the independently approved implementation revision.",
+    "outcome": "passed",
+    "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; diff hygiene PASS"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "conversation_sessions",
+      "--test",
+      "agent_roster",
+      "--test",
+      "control",
+      "--test",
+      "openapi_contract"
+    ],
+    "purpose": "Prove canonical conversations and the live roster/presence authority compose across Runtime admission, control, ordering, cancellation, reconnect, pagination, and OpenAPI boundaries.",
+    "outcome": "passed",
+    "evidence_ref": "git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; conversation_sessions 1/1, agent_roster 10/10, control 24/24, openapi_contract 6/6 PASS"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "observatory",
+      "&&",
+      "node",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "&&",
+      "bash",
+      "adl/tools/test_html_observatory.sh"
+    ],
+    "purpose": "Prove authenticated WSS authority, token rotation, reconnect, Runtime-correlated rendering, live roster eligibility selection, and the combined Observatory static contract.",
+    "outcome": "passed",
+    "evidence_ref": "git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; observatory 7/7, conversation browser contract PASS, combined HTML Observatory contract PASS"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings",
+      "&&",
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--all",
+      "--",
+      "--check",
+      "&&",
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject production-library warnings, Rust formatting drift, malformed whitespace, and unresolved merge artifacts at the integrated candidate.",
+    "outcome": "passed",
+    "evidence_ref": "git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; strict library Clippy, cargo fmt check, and diff hygiene PASS"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      ".",
+      "issue",
+      "--issue",
+      "111"
+    ],
+    "purpose": "Prove all six issue cards and implemented lifecycle truth are structurally current after roster integration.",
+    "outcome": "passed",
+    "evidence_ref": "issue 111 generation 49: status pass, zero findings"
+  },
+  {
+    "command": [
+      "focused WP-18C.01 Runtime, browser, static, lint, format, and diff gates"
+    ],
+    "purpose": "Prove recipient eligibility is fail-closed at dispatch, reconnect replay is bounded per disconnect, and the complete integrated issue surface remains green.",
+    "outcome": "passed",
+    "evidence_ref": "conversation_sessions 1/1; agent_roster 10/10; control 24/24; openapi_contract 6/6; observatory 7/7; browser conversation PASS; HTML static PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS"
+  },
+  {
+    "command": [
+      "focused issue-111 Runtime, WSS, roster, control, OpenAPI, browser, static, lint, format, and diff gates"
+    ],
+    "purpose": "Prove exact-credential terminal-result binding, immediate pre-send revocation enforcement, bounded continuation-page recipient resolution, and preservation of the complete conversation and roster contract.",
+    "outcome": "passed",
+    "evidence_ref": "git:fb4003c15a1eefd9daf780bf5c397dd887185b75; conversation_sessions 1/1; agent_roster 10/10; control 24/24; observatory 7/7; openapi_contract 6/6; browser conversation PASS; HTML Observatory PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS"
+  },
+  {
+    "command": [
+      "focused WP-18C.01 Runtime, WSS, browser, OpenAPI, lint, format, diff, and issue-owned coverage gates"
+    ],
+    "purpose": "Prove generation-bound result authorization, bounded duplicate handling, exact policy-visible recipient resolution, and preservation of the integrated conversation and roster contracts.",
+    "outcome": "passed",
+    "evidence_ref": "git:17044db84; conversation_sessions 1/1, control 25/25, observatory 7/7, openapi_contract 6/6 PASS; conversation browser contract PASS; combined HTML Observatory contract PASS; strict lib+binary Clippy PASS; cargo fmt and diff hygiene PASS; exact conversation_sessions llvm-cov PASS with control.rs 42.94%, ingress.rs 76.66%, operations.rs 48.44%, telemetry.rs 65.06%. Long-running validation remains out of band under #226."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "conversation_sessions"
+    ],
+    "purpose": "Prove the newer authentication-generation attachment exists before the old completion is released and remains the only deliverable terminal result.",
+    "outcome": "passed",
+    "evidence_ref": "conversation_sessions 1/1 PASS with barrier-controlled stale cleanup race; cargo fmt check PASS; git diff --check PASS"
+  },
+  {
+    "command": [
+      "focused conversation, Observatory, control, browser, static, Clippy, format, and diff gates"
+    ],
+    "purpose": "Prove attachment-before-ack ordering and preserve all prior conversation authorization, boundedness, and UI contracts.",
+    "outcome": "passed",
+    "evidence_ref": "conversation_sessions 1/1, observatory 7/7, control 25/25 PASS; browser conversation PASS; combined HTML Observatory PASS; strict lib+binary Clippy PASS; cargo fmt and git diff hygiene PASS"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

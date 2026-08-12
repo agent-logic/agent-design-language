@@ -1,0 +1,18 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 52,
+  "expected_digest": "c2828f9339f12af6214e2878807802afda84838f6590b9c054f2dfde79c78f41",
+  "actor": "codex:wp18c03-locke-remediation",
+  "reason": "Record focused proof for all assigned final-review remediations.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["focused issue-113 roster, control, OpenAPI, browser contract, strict Clippy, format, and diff gates"],
+      "purpose": "Prove the policy-safe detail route, authenticated cursor semantics, page-allocation bound, population scan ceiling, and production redaction behavior.",
+      "outcome": "passed",
+      "evidence_ref": "agent_roster 14/14; control 25/25; openapi_contract 6/6; HTML Observatory contract PASS; strict library and binary Clippy PASS; cargo fmt PASS; git diff --check PASS. Long-running distributed and soak-style tests are explicitly out-of-band under #226 and are not claimed or coupled to this focused gate."
+    }
+  },
+  "fail_after_backup": false
+}

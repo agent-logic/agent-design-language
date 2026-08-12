@@ -13,15 +13,16 @@ mod observability;
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly, build_live_continuity_registry,
     build_mutual_tls_server_config, build_production_operation_executors_with_recorder,
-    generate_runtime_instance_id, load_control_tls, load_identity, load_trust_roots,
+    load_control_tls, load_identity, load_or_create_runtime_instance_id, load_trust_roots,
     monitor_until_stop, serve_control_listener_until_ready, serve_private_continuity_listener,
-    validate_production_operation_executors, verifying_key_from_hex, AgentPopulationFeed,
-    CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl,
+    validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
+    AgentPopulationFeed, CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl,
     ContinuityControlService, ControlApiPolicy, ControlAuthority, ControlCapability,
     ControlService, DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource,
-    TlsIdentityPaths, TrustedControlKey, PRIVATE_ALPN,
+    LiveKernelSnapshot, OperationRequest, RecorderTrustedTime, RsntpTimeSampleSource, RunningState,
+    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, TargetContinuityCoordinator,
+    TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths, TrustedControlKey, TrustedTime,
+    AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -199,8 +200,15 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let instance_id = generate_runtime_instance_id();
+            let instance_id = match load_or_create_runtime_instance_id(&operation_state_identity) {
+                Ok(instance_id) => instance_id,
+                Err(error) => {
+                    eprintln!("runtime instance identity invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let recorder = RuntimeRecorder::new(init.kernel.recorder_capacity);
+            let roster_trusted_time = RecorderTrustedTime::new(recorder.clone());
             let reasoning = match bootstrap_reasoning_services(recorder.clone()) {
                 Ok(reasoning) => reasoning,
                 Err(error) => {
@@ -223,6 +231,10 @@ async fn main() -> ExitCode {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
             }
+            let resident_shepherd_executor = operation_executors
+                .get(&AdapterKind::Shepherd)
+                .cloned()
+                .expect("validated production assembly contains Shepherd adapter");
             let operation_key_text = match read_trimmed_config_file(
                 &init.credentials.operation_public_key_path,
                 "runtime operation permit key",
@@ -496,10 +508,14 @@ async fn main() -> ExitCode {
                     authority,
                     init.kernel.control_history_capacity,
                     init.observatory_allowed_origins(),
-                    AgentPopulationFeed::single(),
+                    AgentPopulationFeed::resident_shepherd(),
                 )
                 .with_canonical_ingress(assembly.canonical_ingress.clone()),
             );
+            service.set_agent_roster_token_key(blake3::derive_key(
+                "adl.runtime_v3.agent_roster.page_token.continuity.v1",
+                &continuity_secret,
+            ));
             let api_policy = ControlApiPolicy::new(
                 api_drain_timeout,
                 std::time::Duration::from_millis(init.api.websocket_auth_timeout_millis),
@@ -613,6 +629,24 @@ async fn main() -> ExitCode {
                     return ExitCode::from(70);
                 }
             };
+            let shepherd_admission = OperationRequest {
+                schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                request_id: format!("{instance_id}:resident-shepherd-admission"),
+                idempotency_key: "resident-shepherd-admission".to_owned(),
+                principal: "runtime-bootstrap".to_owned(),
+                payload: br#"{"schema":"adl.runtime.local_shepherd_admission.v1","admit":true}"#
+                    .to_vec(),
+                permit: None,
+            };
+            if let Err(error) = resident_shepherd_executor
+                .execute(&shepherd_admission)
+                .await
+            {
+                eprintln!("runtime resident Shepherd admission failed: {error}");
+                let _ = handle.shutdown(kernel_shutdown_grace).await;
+                let _ = observability.shutdown().await;
+                return ExitCode::from(70);
+            }
             let mut private_api = tokio::spawn(serve_private_continuity_listener(
                 private_listener,
                 private_tls,
@@ -650,6 +684,9 @@ async fn main() -> ExitCode {
             let mut pressure_retry_at = None;
             let mut observability_tick = tokio::time::interval(observability_poll);
             observability_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+            let mut shepherd_heartbeat =
+                tokio::time::interval(std::time::Duration::from_millis(1_000));
+            shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let serve_result = 'serve: loop {
                 if let Err(error) = observability.poll_health() {
                     recorder.set_observability_pipeline(observability.snapshot());
@@ -683,6 +720,24 @@ async fn main() -> ExitCode {
                             eprintln!("runtime observability pipeline failed: {error}");
                         }
                         recorder.set_observability_pipeline(observability.snapshot());
+                    },
+                    _ = shepherd_heartbeat.tick() => {
+                        let snapshot = recorder.snapshot();
+                        if snapshot.components.get(&adl_runtime_kernel::ComponentId::new("shepherd"))
+                            == Some(&RunningState::Running)
+                        {
+                            let observed_at = roster_trusted_time.now_unix_millis();
+                            if let Some(deadline) = observed_at
+                                .checked_add(AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS)
+                                .filter(|_| observed_at > 0)
+                            {
+                                let _ = recorder.record_agent_heartbeat(
+                                    "shepherd",
+                                    observed_at,
+                                    deadline,
+                                );
+                            }
+                        }
                     },
                     signal = shutdown_signal.recv() => {
                         if let Err(error) = signal {
@@ -808,12 +863,17 @@ async fn main() -> ExitCode {
 
                 api_shutdown.cancel();
                 let shutdown = handle.shutdown(grace).await;
+                let restart_requested = request.as_ref().is_some_and(|request| request.restart);
                 let terminal = match shutdown {
                     Ok(exit) => {
                         if let Some(request) = request.take() {
                             request.respond(Ok(exit.clone()));
                         }
-                        process_exit(exit)
+                        if restart_requested {
+                            ExitCode::from(75)
+                        } else {
+                            process_exit(exit)
+                        }
                     }
                     Err(error) => {
                         eprintln!("runtime {label} shutdown failed: {error}");

@@ -1,0 +1,13 @@
+{
+  "issue": 113,
+  "card": "spp",
+  "expected_generation": 17,
+  "expected_digest": "d51327e93b3a7f978892df0f8a0884e8d2d6f3153ce5acf1dd9516e1c64d9588",
+  "actor": "codex:113-local-roster-execution",
+  "reason": "The issue-owned Runtime roster model, policy filtering, stable identity, freshness, deterministic pagination, and exact focused tests are implemented.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S2",
+    "status": "completed"
+  }
+}

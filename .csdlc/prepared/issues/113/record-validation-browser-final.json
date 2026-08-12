@@ -1,0 +1,17 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 32,
+  "expected_digest": "7e6758d2638d36c25822204df4dec4616d16ba23c1385e5fdbe2659c8716ec0b",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Record the exact-head managed Chrome and signed Guardian reincarnation proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["node", "adl/tools/validate_v092_html_observatory_roster.mjs"],
+      "purpose": "Prove the trusted-TLS Runtime-backed local Shepherd roster, pagination, policy transitions, relocation, cursor handling, accessible navigation, reconnect, and signed Guardian restart through a new healthy Runtime incarnation.",
+      "outcome": "passed",
+      "evidence_ref": "Managed Chrome proof passed at exact Runtime source ef1238cd9bca0085d21dc74361308804e91d3ae1 using https://wuji.agent-logic.ai:33783 and Runtime port 33983; restart returned explicit accepted outcome, Runtime incarnation changed, and the restored Shepherd was ready without duplicate rows."
+    }
+  }
+}

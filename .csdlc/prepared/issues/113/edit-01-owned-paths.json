@@ -1,0 +1,25 @@
+{
+  "issue": 113,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "3c7e60e60e8e7449018fe605253c3e5b5d1e421970e09e25e8172f155050bd25",
+  "actor": "codex:113-roster-presence-preparation",
+  "reason": "Express affected-area ownership as exact safe repository paths for typed readiness validation.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_html_observatory_roster.mjs"
+    ]
+  }
+}

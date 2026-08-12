@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 113,
+  "expected_generation": 38,
+  "expected_digest": "5b9091654457c2cfcbe7226f468a01363a400d7717bd4a77df68126f7d0d3014",
+  "actor": "codex:wp18c03-execution",
+  "reason": "Resolve the publication-intent findings by excluding mutable operational request JSON from substantive review scope and regenerating its CAS fields only after current review truth exists."
+}

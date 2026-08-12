@@ -1,0 +1,75 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 113
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Implement only the Runtime-owned roster/detail projection, bounded update contract, and HTML Observatory roster experience after dependencies hand off shared paths; do not implement conversation history, rooms, inbox, public deployment, or distributed Runtime authority.
+
+## Deliverables
+
+- adl-runtime-kernel/tests/agent_roster.rs
+- adl/tools/validate_v092_html_observatory_roster.mjs
+- Versioned paginated Runtime roster and policy-safe agent-detail projections
+- Deterministic presence, health, availability, freshness, provenance, relocation, capability, and communication-eligibility model
+- Opaque revision-bound pagination and bounded reconnect/event update contract
+- Search, filter, sort, selection, and status-change Observatory UI
+- Exact positive, negative, scale, browser, OpenAPI, reconnect, and rollback proof
+
+## Acceptance
+
+1. AC-1: Pagination reports truthful visible-count and continuation state, preserves deterministic ordering, and never presents a bounded sample as the complete Polis
+2. AC-2: Stable agent identity survives reconnect, Runtime restart, and bounded relocation while stale or split ownership fails closed
+3. AC-3: Presence distinguishes ready, busy, sleeping, degraded, unreachable, migrating, and unknown with observed time, freshness deadline, source revision, and provenance
+4. AC-4: Unauthorized agents and private fields are omitted or redacted by Runtime policy before serialization, without browser or CSS authority
+5. AC-5: Capability, location, activity, availability, and communication eligibility remain bounded, provenance-bearing, and policy-safe
+6. AC-6: Opaque page tokens and event cursors reject tamper, replay, cross-policy use, stale revisions, gaps, and incompatible query changes without partial or duplicate state
+7. AC-7: Large-Polis tests prove bounded response size, memory, latency, pagination, event queues, reconnect, and DOM row counts
+8. AC-8: The Observatory supports accessible keyboard search, filter, sort, pagination, selection, detail, status changes, reconnect, denial, and explicit failure states against live Runtime truth
+9. AC-9: Runtime routes, WSS updates, OpenAPI, browser behavior, strict focused Clippy, diff hygiene, and rollback proof pass at the exact candidate revision
+10. AC-10: Exact-head independent review has no unresolved actionable findings
+
+## Dependencies
+
+- Current main Runtime v3 admission, component-state, policy, stable local identity, and Observatory contracts
+- Live agent-logic/agent-design-language#110 and #113 authority: open #83 is preserved source and no longer gates WP-18C execution
+- Open agent-logic/agent-design-language#142 gates only non-local/distributed roster projection; local resident Shepherd admission and presence proceed without claiming distributed behavior
+- agent-logic/agent-design-language#122 remains deferred beyond v0.92 and non-gating
+- Shared #111 overlap is isolated to integration commits and reported explicitly for later rebase
+
+## Inputs
+
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/tests/control.rs
+- adl-runtime/src/distributed/identity.rs
+- adl-runtime/src/distributed/membership.rs
+- adl-runtime/src/distributed/projection.rs
+- adl-runtime/tests/distributed_identity.rs
+- adl-runtime/tests/distributed_membership.rs
+- adl-runtime/tests/distributed_projection.rs
+- docs/api/runtime-v3/v1/observatory.openapi.json
+- demos/html-observatory/app.js
+- demos/html-observatory/index.html
+- demos/html-observatory/styles.css
+- agent-logic/agent-design-language#83
+- agent-logic/agent-design-language#110
+- agent-logic/agent-design-language#122
+- agent-logic/agent-design-language#142
+
+## Non Goals
+
+- Conversation persistence or canonical multi-turn session implementation
+- Private cognition, secrets, credentials, raw provider output, or unauthorized agent existence disclosure
+- Browser-defined identity, health, visibility, capability, location, or communication authority
+- Multi-agent rooms, attention inbox, intervention workflow, or integrated production hardening
+- Public AWS deployment, Route53, ACM, distributed Runtime implementation, or Unity work
+- Mutation of #83 or any other WP-18C child during preparation or execution

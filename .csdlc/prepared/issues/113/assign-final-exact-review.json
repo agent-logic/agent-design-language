@@ -1,0 +1,29 @@
+{
+  "issue": 113,
+  "expected_generation": 35,
+  "expected_digest": "e0568fa6f4868898f68b1fb7e7be72d499f9982834d77ce714d7449089f39fe4",
+  "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+  "assigned_by": "codex:113-execution",
+  "scope": [
+    "adl-runtime-kernel/build.rs",
+    "adl-runtime-kernel/src/agent_roster.rs",
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/lib.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/telemetry.rs",
+    "adl-runtime-kernel/src/live_continuity.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/tests/agent_roster.rs",
+    "adl-runtime-kernel/tests/control.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "docs/api/runtime-v3/v1/openapi.json",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/index.html",
+    "demos/html-observatory/styles.css",
+    "adl/tools/test_html_observatory.sh",
+    "adl/tools/validate_v092_html_observatory_roster.mjs",
+    ".csdlc/issues/113",
+    ".csdlc/prepared/issues/113"
+  ]
+}

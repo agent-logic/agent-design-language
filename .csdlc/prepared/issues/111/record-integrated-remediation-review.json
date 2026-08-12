@@ -1,0 +1,32 @@
+{
+  "issue": 111,
+  "expected_generation": 54,
+  "expected_digest": "aa13d74ceeec7ef425b7bd02108cde5d2666c2168325a987c2b6e098d14130d9",
+  "actor": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+  "evidence": {
+    "reviewer": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ],
+    "reviewed_revision": "git-blake3:a101b23ec21a674e3cb3d7165061d8c83b0aa142:b45d622e263c4cf33ef0ffe68fbb78b707cbe11de791c1ad53508a60c06233af",
+    "findings": [],
+    "residual_risks": [
+      "Durable cross-restart conversation history remains owned by downstream issue #114.",
+      "Broader multi-agent room and routing semantics remain owned by downstream issues #115 and #116."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "issue": 113,
+  "card": "spp",
+  "expected_generation": 23,
+  "expected_digest": "2e8a246d635e880ad27d52b1072719ac199c902040feba8329ddce96033af581",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Exact-head focused and managed-browser validation completed at ef1238cd9bca0085d21dc74361308804e91d3ae1.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "completed"
+  }
+}
