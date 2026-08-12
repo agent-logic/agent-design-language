@@ -116,7 +116,7 @@ fn preserved_projection_recovery_archives_builds_installs_and_is_idempotent() {
         first.canonical_generation
     );
     let recovered_record = store.load_record(7).expect("record for later commit");
-    edit_issue(
+    let after_first_commit = edit_issue(
         &store,
         EditRequest {
             issue: 7,
@@ -134,6 +134,24 @@ fn preserved_projection_recovery_archives_builds_installs_and_is_idempotent() {
         },
     )
     .expect("ordinary typed commit after complete recovery");
+    edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: after_first_commit.generation,
+            expected_digest: after_first_commit.digest,
+            actor: "test".into(),
+            reason: "second ordinary commit after recovery".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "second post recovery".into(),
+                changes: vec!["none".into()],
+                artifacts: vec!["none".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("second ordinary typed commit after complete recovery");
 }
 
 #[test]

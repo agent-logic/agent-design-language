@@ -901,6 +901,23 @@ pub(crate) fn validate_completed_recovery_attempt(
             "PREPARED request digest invalid",
         ));
     }
+    let prepared_request: ProjectionRecoverRequest =
+        serde_json::from_value(prepared.get("request").cloned().ok_or_else(|| {
+            V2Error::new(ErrorCode::CorruptRecord, "PREPARED typed request missing")
+        })?)?;
+    if prepared_request.issue != issue
+        || prepared_request.operation_id
+            != attempt
+                .file_name()
+                .and_then(|v| v.to_str())
+                .unwrap_or_default()
+        || request_authority_digest(&prepared_request)? != request_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "PREPARED typed request authority invalid",
+        ));
+    }
     let result: ProjectionRecoveryResult =
         receipt_payload(&receipt_path(attempt, 13, "recovered"))?;
     let operation = attempt
@@ -934,14 +951,20 @@ pub(crate) fn validate_completed_recovery_attempt(
             "terminal recovery result self-digest invalid",
         ));
     }
-    let canonical = observe(&store.issue_dir(issue), "canonical", issue);
-    if !canonical.valid_projection
-        || canonical.generation != Some(result.canonical_generation)
-        || canonical.record_digest.as_deref() != Some(&result.canonical_digest)
-    {
+    let canonical_record = validate_projection(&store.issue_dir(issue), issue)?;
+    let audit_bound = canonical_record.audit.iter().any(|event| {
+        event.operation.contains("recover_preserved_projection")
+            && event
+                .operation
+                .contains(&format!("\"operation_id\":\"{}\"", result.operation_id))
+            && event
+                .operation
+                .contains(&prepared_request.classify_receipt_digest)
+    });
+    if canonical_record.generation < result.canonical_generation || !audit_bound {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            "completed recovery is not bound to canonical projection",
+            "completed recovery is not durably bound to canonical recovery audit",
         ));
     }
     Ok(result)
@@ -988,6 +1011,27 @@ struct AnchoredName {
     parent: File,
     name: std::ffi::CString,
 }
+
+fn anchored_root_identity_matches(
+    anchor: &AnchoredName,
+    expected: &CandidateObservation,
+) -> Result<bool> {
+    let Some(root) = expected.entries.iter().find(|entry| entry.path == ".") else {
+        return Ok(false);
+    };
+    let actual = fd_identity(&open_child_no_follow(&anchor.parent, &anchor.name, true)?)?;
+    Ok(actual.device == root.identity.device
+        && actual.mount_id == root.identity.mount_id
+        && actual.inode == root.identity.inode
+        && actual.ctime_seconds == root.identity.ctime_seconds
+        && actual.ctime_nanoseconds == root.identity.ctime_nanoseconds
+        && actual.links == root.identity.links
+        && actual.uid == root.identity.uid
+        && actual.gid == root.identity.gid
+        && actual.mode == root.identity.mode
+        && actual.node_type == root.identity.node_type)
+}
+
 fn anchored_name(path: &Path) -> Result<AnchoredName> {
     use std::ffi::CString;
     use std::os::unix::ffi::OsStrExt;
@@ -1520,7 +1564,7 @@ pub fn recover_preserved_projection(
             &attempt,
             1,
             "prepared",
-            &serde_json::json!({"request_digest":request_digest,"classification":classification,"lineage":request.failed_operation_lineage}),
+            &serde_json::json!({"request_digest":request_digest,"request":request,"classification":classification,"lineage":request.failed_operation_lineage}),
         )?;
         failpoint(&request, "prepared")?;
         classification
@@ -1568,7 +1612,15 @@ pub fn recover_preserved_projection(
                     "rejected source identity drifted before archive",
                 ));
             }
-            rename_no_replace(&anchored_name(rejected_path)?, &anchored_name(&archive)?)?;
+            let rejected_anchor = anchored_name(rejected_path)?;
+            if !anchored_root_identity_matches(&rejected_anchor, &rejected_observation)? {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "rejected source identity drifted at archive mutation boundary",
+                ));
+            }
+            let archive_anchor = anchored_name(&archive)?;
+            rename_no_replace(&rejected_anchor, &archive_anchor)?;
             failpoint(&request, "archive_renamed")?;
         } else if rejected_path.symlink_metadata().is_err() && archive.symlink_metadata().is_ok() {
             if !same_moved_observation(&archive, &rejected_observation, request.issue)? {
@@ -1691,10 +1743,17 @@ pub fn recover_preserved_projection(
                 && exact_observation(&candidate, &candidate_observation, request.issue)?
                 && exact_observation(&canonical_path, &prior_observation, request.issue)?
             {
-                exchange(
-                    &anchored_name(&candidate)?,
-                    &anchored_name(&canonical_path)?,
-                )?;
+                let candidate_anchor = anchored_name(&candidate)?;
+                let canonical_anchor = anchored_name(&canonical_path)?;
+                if !anchored_root_identity_matches(&candidate_anchor, &candidate_observation)?
+                    || !anchored_root_identity_matches(&canonical_anchor, &prior_observation)?
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "canonical exchange identity drifted at mutation boundary",
+                    ));
+                }
+                exchange(&candidate_anchor, &canonical_anchor)?;
                 failpoint(&request, "install_exchanged")?;
             } else if candidate_here
                 && canonical_here
@@ -1709,7 +1768,21 @@ pub fn recover_preserved_projection(
             }
         } else {
             if prior_path.symlink_metadata().is_ok() && displaced.symlink_metadata().is_err() {
-                rename_no_replace(&anchored_name(prior_path)?, &anchored_name(&displaced)?)?;
+                if !exact_observation(prior_path, &prior_observation, request.issue)? {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "prior source identity drifted before displacement",
+                    ));
+                }
+                let prior_anchor = anchored_name(prior_path)?;
+                if !anchored_root_identity_matches(&prior_anchor, &prior_observation)? {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "prior source identity drifted at displacement boundary",
+                    ));
+                }
+                let displaced_anchor = anchored_name(&displaced)?;
+                rename_no_replace(&prior_anchor, &displaced_anchor)?;
                 sync(&issue_parent(store))?;
                 sync(&attempt)?;
             } else if !(prior_path.symlink_metadata().is_err()
@@ -1722,10 +1795,21 @@ pub fn recover_preserved_projection(
                 ));
             }
             if candidate.symlink_metadata().is_ok() && canonical_path.symlink_metadata().is_err() {
-                rename_no_replace(
-                    &anchored_name(&candidate)?,
-                    &anchored_name(&canonical_path)?,
-                )?;
+                if !exact_observation(&candidate, &candidate_observation, request.issue)? {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "candidate identity drifted before install",
+                    ));
+                }
+                let candidate_anchor = anchored_name(&candidate)?;
+                if !anchored_root_identity_matches(&candidate_anchor, &candidate_observation)? {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "candidate identity drifted at install boundary",
+                    ));
+                }
+                let canonical_anchor = anchored_name(&canonical_path)?;
+                rename_no_replace(&candidate_anchor, &canonical_anchor)?;
                 failpoint(&request, "candidate_installed")?;
             } else if !(candidate.symlink_metadata().is_err()
                 && canonical_path.symlink_metadata().is_ok()
