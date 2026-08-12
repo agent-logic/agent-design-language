@@ -97,7 +97,6 @@ fn runtime_service_builds_validates_and_emits_receipt() {
     let packet = service
         .build_validate_and_emit(&candidate, &decision, &attestations, |receipt| {
             emitted.extend_from_slice(receipt);
-            Ok(())
         })
         .expect("build, validate, and emit receipt");
 
@@ -110,4 +109,18 @@ fn runtime_service_builds_validates_and_emits_receipt() {
         serde_jcs::to_vec(&packet.receipt).expect("canonical receipt")
     );
     assert!(!emitted.is_empty());
+
+    let mut invalid = attestations.clone();
+    invalid[0].signature = "0".repeat(128);
+    let mut invalid_sink_calls = 0;
+    let error = service
+        .build_validate_and_emit(&candidate, &decision, &invalid, |_| {
+            invalid_sink_calls += 1;
+        })
+        .expect_err("invalid witness must fail before emission");
+    assert_eq!(
+        error,
+        adl_runtime_kernel::BirthWitnessError::InvalidSignature
+    );
+    assert_eq!(invalid_sink_calls, 0);
 }
