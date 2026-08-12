@@ -1,0 +1,128 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 237,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
+    "slug": "birthday-continuity-binding-reconciliation",
+    "version": "v0.92",
+    "generation": 34
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "continuity-public-api-target",
+          "proof_role": "In the one required CI job, execute the issue-owned public-boundary target and prove the verified-continuity capability and governed-cognition entrypoints remain exported.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--locked",
+            "--test",
+            "capability_envelope"
+          ],
+          "parallel_group": "required",
+          "defer_reason": null
+        },
+        {
+          "lane": "continuity-authority-lib",
+          "proof_role": "In the one required CI job, prove real signed continuity composition, self-consistent substitutions, token mismatch and replay rejection, and retained authority/privacy negatives.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--locked",
+            "--lib"
+          ],
+          "parallel_group": "required",
+          "defer_reason": null
+        },
+        {
+          "lane": "continuity-public-boundary-doc",
+          "proof_role": "In the same required CI job, prove direct callers cannot import the retired raw public capability or governed-cognition APIs.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--locked",
+            "--doc"
+          ],
+          "parallel_group": "required",
+          "defer_reason": null
+        },
+        {
+          "lane": "continuity-strict-lib-clippy",
+          "proof_role": "In the same required CI job, reject warnings in the changed library surface without claiming the unrelated pre-existing TLS all-target lint.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--locked",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "required",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on any unverified continuity record, identity mismatch, digest substitution, authority drift, privacy regression, missing exact review, or non-green required CI.",
+      "design_ref": ".csdlc/prepared/issues/237/design.md",
+      "design_digest": "6e6e122d1b8ed8399e47793e9aab12131f107bb66ebba8a573482bc750992c9d",
+      "diagram_ref": ".csdlc/prepared/issues/237/diagram.mmd",
+      "diagram_digest": "5cfcdecfc7cf13d3a56ebf2d905ea63c4a59781cbff3c3b9b839e8c78780c9b4"
+    }
+  }
+}

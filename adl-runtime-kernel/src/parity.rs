@@ -374,7 +374,7 @@ impl ProcessBackend {
                 let _ = stdout_task.await;
                 let _ = stderr_task.await;
                 // A file-backed child can hit RLIMIT_FSIZE at the same time as
-                // its execution deadline.  Arbitrate after termination, while
+                // its execution deadline. Arbitrate after termination, while
                 // the bounded output is still observable: reaching the limit
                 // is more specific than the otherwise generic timeout.
                 if self.output == ProcessOutput::FileJson

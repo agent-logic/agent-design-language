@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 109,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Use fresh sessions for standard SRP review",
+    "slug": "fresh-session-standard-srp-review",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "focused-srp-contract",
+          "proof_role": "prove fresh-session standard SRP instructions and retained exact-revision review truth",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 100,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
+            "<immutable-base-sha>",
+            "<exact-final-head-sha>",
+            "<exact-reviewed-substantive-sha>"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing SRP authority, fresh-session handoff, exact-head repeat, or read-only reviewer boundaries.",
+      "design_ref": ".csdlc/prepared/issues/109/design.md",
+      "design_digest": "57095ceeb0de2c8e74d473f78c657972794346d68ba427dc61e4503d0b828a2d",
+      "diagram_ref": ".csdlc/prepared/issues/109/diagram.mmd",
+      "diagram_digest": "9e63fc68ff3e4c13300440792a894601a21b64d1dcab69eb2ccd9ef80b1719e2"
+    }
+  }
+}
