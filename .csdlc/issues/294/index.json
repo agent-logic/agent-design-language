@@ -5,10 +5,24 @@
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
   "generation": 15,
-  "digest": "114072eeea7c7984e5d94b40ff7f2203576cf80f1a7395d5c235221af6db9f8f",
+  "digest": "3db574817c41bca5607c82cdba1550cda28e79f3ef6d545d7941c446e2954eb6",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:4c4c0db8-f4e4-42af-aecf-324ce3ba9f1c",
+    "assigned_by": "codex:issue-294",
+    "revision": "git-blake3:01a8122af0be4cf2772f901ea5925c348b63b96e:fdc8106cb4048acbad11ec1db01a740e33bf97fb7650dc1dce27803b895b0022",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/294",
+      ".csdlc/prepared/issues/294",
+      ".csdlc/evidence/294"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +58,9 @@
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "8931d0a8e4f345225fcfd99e9952f9538dceae73d5adca6faad9d93f2e65ff9a",
-      "rendered_digest": "bb7bc95141483f56767a9bd9dc2508bca452dc7ab8047e9e5a1c3692407ba34f",
-      "ast_digest": "f4f52a322a401a0d85b0a3eaa90b5682b16aafce71191f424e3e3ce0e9ea6ad0"
+      "values_digest": "cb4f3b665dfc847578c5abf92bcbfb9865c988b7bfe3ff5fb96289b0dfe7efb2",
+      "rendered_digest": "9eeb784a3b5fbd2cebac1f7a158b00f3b9334f935643856de5edb5bc565ddbd3",
+      "ast_digest": "6899b56cdfe8cc33d281236f5b7942333aad2ade5a2344d2e026216836694723"
     },
     "sor": {
       "values_digest": "6fa321845396dbd7e08818891488f50936d450f12bbfc19206dca5d02a1c2dd5",
@@ -196,6 +210,13 @@
       "actor": "codex:issue-294",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:issue-294",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
