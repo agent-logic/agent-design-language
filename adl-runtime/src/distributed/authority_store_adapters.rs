@@ -39,7 +39,7 @@ use super::{
         LeaseAuthorityRevision, LeaseState, MutationAuthorization, RedactedLeaseSnapshot,
         AUTHORITY_BOUND_LEASE_ACCESS,
     },
-    transport::RuntimeCertificateAuthority,
+    transport::{RuntimeCertificateAuthority, TransportAuthorization, TransportError},
 };
 
 const CERTIFICATE_ACTIVATE: &str = "certificate_activate";
@@ -223,8 +223,10 @@ impl AuthorityStoreAdapterRegistry {
 
 fn published_view_action_class(mutation_kind: &str) -> Option<&'static str> {
     match mutation_kind {
-        FENCING_COMMIT => Some(PUBLISHED_VIEW_ACTION_FENCE),
-        LEASE_MUTATION => Some(PUBLISHED_VIEW_ACTION_OWNER_COMMIT),
+        CERTIFICATE_ACTIVATE | CERTIFICATE_REVOKE | LEASE_APPLY | LEASE_MUTATION => {
+            Some(PUBLISHED_VIEW_ACTION_OWNER_COMMIT)
+        }
+        FENCING_COMMIT | FENCING_ACTIVE_LEASE => Some(PUBLISHED_VIEW_ACTION_FENCE),
         _ => None,
     }
 }
@@ -357,6 +359,14 @@ impl AuthorityBoundCertificateStore {
                 reason,
             )
             .map_err(Into::into)
+    }
+
+    #[cfg(debug_assertions)]
+    pub fn transport_authorization(
+        &self,
+        certificate: &AuthorityCertificate,
+    ) -> Result<TransportAuthorization, TransportError> {
+        TransportAuthorization::new_authority_bound(Arc::new(self.clone()), certificate)
     }
 
     fn require_read(&self) -> AuthorityStoreAdapterResult<()> {
@@ -802,6 +812,41 @@ mod tests {
 
         assert_eq!(verified.holder_id, "node-a");
         assert_eq!(verified.purpose, CertificatePurpose::Transport);
+    }
+
+    #[test]
+    fn published_view_exposes_all_store_authority_kinds() {
+        let root = std::env::current_dir()
+            .and_then(std::fs::canonicalize)
+            .unwrap();
+        let expected = [
+            (CERTIFICATE_ACTIVATE, PUBLISHED_VIEW_ACTION_OWNER_COMMIT),
+            (CERTIFICATE_REVOKE, PUBLISHED_VIEW_ACTION_OWNER_COMMIT),
+            (LEASE_APPLY, PUBLISHED_VIEW_ACTION_OWNER_COMMIT),
+            (LEASE_MUTATION, PUBLISHED_VIEW_ACTION_OWNER_COMMIT),
+            (FENCING_COMMIT, PUBLISHED_VIEW_ACTION_FENCE),
+            (FENCING_ACTIVE_LEASE, PUBLISHED_VIEW_ACTION_FENCE),
+        ];
+
+        for (mutation_kind, action_class) in expected {
+            let temp = tempfile::TempDir::new_in(&root).unwrap();
+            let lineage_id = format!("lineage-{mutation_kind}");
+            let registry = AuthorityStoreAdapterRegistry::new(publish_lineage(
+                temp.path(),
+                &lineage_id,
+                mutation_kind,
+            ));
+            let view = registry.published_view(&lineage_id).unwrap();
+
+            assert_eq!(view.lineage_id(), lineage_id);
+            assert_eq!(view.operation_id(), "issue-203-operation");
+            assert_eq!(view.action_class(), action_class);
+            assert_eq!(view.adapter_kind(), "adl.test.deterministic-authority");
+            assert_eq!(view.adapter_version(), 1);
+            assert_eq!(view.generation(), 1);
+            assert_ne!(view.receipt_sha256(), [0; 32]);
+            assert_ne!(view.result_sha256(), [0; 32]);
+        }
     }
 
     #[test]

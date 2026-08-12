@@ -450,7 +450,6 @@ async fn revocation_closes_an_established_authorized_session() {
     store
         .revoke(
             &TEST_CERTIFICATE_STORE_ACCESS,
-            &TEST_CERTIFICATE_STORE_ACCESS,
             &client_certificate_id,
             now(),
             RevocationReason::OperatorRevoked,

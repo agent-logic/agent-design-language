@@ -133,7 +133,6 @@ fn body_for_lineage(
         lease_duration_millis: MIN_TEST_CERTIFICATE_DURATION_MILLIS,
         policy_sha256: lease_policy.sha256().unwrap().to_vec(),
         signing_algorithm: SIGNING_ALGORITHM_ED25519,
-        TEST_LEASE_STORE_ACCESS,
     }
 }
 
@@ -447,7 +446,6 @@ fn copied_and_superseded_domain_signatures_never_authorize() {
             signer_guardian_id: fixture.ids[0].clone(),
             certificate_generation: 7,
             signing_algorithm: SIGNING_ALGORITHM_ED25519,
-            TEST_LEASE_STORE_ACCESS,
             signature: legacy_signature.to_bytes().to_vec(),
         },
         endorse(&body, fixture.ids[1].clone(), 7, &fixture.keys[1]),

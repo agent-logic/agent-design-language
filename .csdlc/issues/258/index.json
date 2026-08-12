@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "9fcc16cdb4f3e796808430d15f3ef20e090fac0b9b9bd52557a87a657c25f3e4",
+  "generation": 7,
+  "digest": "edefe714196521e225b06e7257ad1dc9f85ff5070ff8c4cc99ef8e33f7341f2c",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "96dc200feaff19f5b7bfd8b10659498c118575cff74639caeaf2cd624a82b3eb",
+      "values_digest": "291d0c262310a6cdd515cba5a875b86658238f5d26e973c89ee582b77a21dcc6",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "d6cb98dfadd959e9d742f556dbda5755e2760863834983485813538e6ac4b28d",
+      "values_digest": "3cb57dd716c2f3bdb58d14bd92ad2548ac3587972930acb95738fad7fadecbcb",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "d409cace88b5e0c3d0791a627dd5db7fd78296bb9ce84fa87d3b4119d8010c08",
+      "values_digest": "b54777720110a3a82089529d763719c305ba711c99bb33a535c2c763bdcb1759",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "e2771fa35b9b1514d33b6fa15b8d980679755b264feddf1b7e0f1e195e51bcb5",
+      "values_digest": "1cb802ba1bb74fc456b10a9bdbb02d08eee91125267f4acca6f384f06c05c7a4",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "97f11cc8dc7d08ab17ca4c18bfb5f18f1e2e8f45cef155320cea3862809cf92e",
+      "values_digest": "b16f827c8b8341e8d6a73dc7bb30b21f13cf8e19af04e0b1160c52e86fde4b12",
       "rendered_digest": "401ca159d18394d47b2393e628460a1e8e2ce799ec3bb5beafa936840e7235cb",
       "ast_digest": "ed47a4ec667169e28c4a9babe0dc287132f782f8f489bea4f9ba5b091379cc51"
     },
     "sor": {
-      "values_digest": "d1b8c1dc1c401963f7876ac013f9db9c0db6a0ed48e014b54eec97efa8e09e88",
-      "rendered_digest": "2c841b6cceb9e24c1e7a237cd32a52fbdfb4d247719c60d95b3aefc997f1fb1e",
-      "ast_digest": "488d516ab471ce0e90accf141a8edc72ef13714002d0f34c9dd0eae74e138e0a"
+      "values_digest": "bc988377e06e2332d1a471dea91f2a95f2e86d4ff8ad5ac7588b9616852f8053",
+      "rendered_digest": "b570bef45d03e349013e2e5834cf8c028a32a09b54410ec042b4eb98279ee694",
+      "ast_digest": "b1d54dddfb410911d0d2705416006570ced3d5f0672bf1b52bd2890cd514e129"
     }
   },
   "transitions": [
@@ -134,6 +134,13 @@
       "actor": "codex:/root",
       "reason": "record focused local validation evidence for #258 implementation",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; updated compile-required fixture callers without touching #203 sibling transport or migration scope.\",\"changes\":[\"Added authority store access-token gates for certificate, lease, and fencing raw store APIs.\",\"Added authority-bound store adapter facade and published receipt view metadata for the #258 boundary slice.\",\"Updated focused runtime tests and compile-required fixture callers to use explicit test access tokens.\"],\"artifacts\":[\".csdlc/evidence/258/cargo-check-adl-runtime.log\",\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority.log\",\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority.log\",\".csdlc/evidence/258/cargo-test-distributed-projection-no-run.log\",\".csdlc/evidence/258/cargo-test-distributed-resource-weather-no-run.log\",\".csdlc/evidence/258/cargo-test-distributed-discovery-no-run.log\",\".csdlc/evidence/258/cargo-test-distributed-placement-no-run.log\"],\"validation\":[{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Compile-check the touched runtime crate after sealing raw authority store APIs.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-check-adl-runtime.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Exercise the focused #258 authority-store boundary guardrails.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the focused #258 authority-store boundary test target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_projection\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for raw-store token fixture fallout in distributed_projection.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-projection-no-run.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_resource_weather\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for raw-store token fixture fallout in distributed_resource_weather.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-resource-weather-no-run.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for raw-store token fixture fallout in distributed_discovery.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-discovery-no-run.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_placement\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for raw-store token fixture fallout in distributed_placement.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-placement-no-run.log\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "record #258 exact-head review P1 fix and post-fix validation evidence",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; updated compile-required fixture callers without touching #203 sibling transport or migration scope. A fresh exact-head review found the published receipt view rejected valid store mutation kinds; this was fixed by classifying all in-scope certificate, lease, and fencing published operation kinds and proving the positive published view.\",\"changes\":[\"Added authority store access-token gates for certificate, lease, and fencing raw store APIs.\",\"Added authority-bound store adapter facade and published receipt view metadata for the #258 boundary slice.\",\"Mapped certificate_activate, certificate_revoke, lease_apply, lease_mutation, fencing_commit, and fencing_active_lease into the published receipt view action classes.\",\"Added a positive unit proof that published_view exposes lineage, operation, action class, adapter metadata, generation, receipt digest, and result digest for every in-scope published store operation kind.\",\"Updated focused runtime tests and compile-required fixture callers to use explicit test access tokens.\"],\"artifacts\":[\".csdlc/evidence/258/cargo-check-adl-runtime-rereview-fix.log\",\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-rereview-fix.log\",\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-rereview-fix.log\",\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-rereview-fix.log\",\".csdlc/evidence/258/cargo-test-distributed-projection-no-run-rereview-fix.log\",\".csdlc/evidence/258/cargo-test-distributed-resource-weather-no-run-rereview-fix.log\",\".csdlc/evidence/258/cargo-test-distributed-discovery-no-run-rereview-fix.log\",\".csdlc/evidence/258/cargo-test-distributed-placement-no-run-rereview-fix.log\",\".csdlc/evidence/258/cargo-test-distributed-runtime-transport-no-run-rereview-fix.log\",\".csdlc/evidence/258/cargo-test-distributed-transport-no-run-rereview-fix.log\",\".csdlc/evidence/258/cargo-test-distributed-lease-no-run-rereview-fix.log\"],\"validation\":[{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Compile-check the touched runtime crate after the published-view classifier fix.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-check-adl-runtime-rereview-fix.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Exercise the focused #258 authority-store boundary guardrails after the review fix.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-rereview-fix.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"distributed::authority_store_adapters::tests::published_view_exposes_all_store_authority_kinds\",\"--\",\"--nocapture\"],\"purpose\":\"Prove published_view accepts and exposes all in-scope published store operation kinds.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-rereview-fix.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the focused #258 authority-store boundary test target after the review fix.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-rereview-fix.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_projection\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for raw-store token fixture fallout in distributed_projection.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-projection-no-run-rereview-fix.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_resource_weather\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for raw-store token fixture fallout in distributed_resource_weather.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-resource-weather-no-run-rereview-fix.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for raw-store token fixture fallout in distributed_discovery.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-discovery-no-run-rereview-fix.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_placement\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for raw-store token fixture fallout in distributed_placement.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-placement-no-run-rereview-fix.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for sealed certificate authority fixture fallout in distributed_runtime_transport.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-runtime-transport-no-run-rereview-fix.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for sealed certificate authority fixture fallout in distributed_transport.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-transport-no-run-rereview-fix.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-run\"],\"purpose\":\"Compile-only regression guard for sealed lease authority fixture fallout in distributed_lease.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-lease-no-run-rereview-fix.log\"}]}"
     }
   ]
 }

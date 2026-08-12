@@ -1710,7 +1710,15 @@ impl TransportAuthorization {
         Self::new_with_handle(CertificateAuthorityHandle::Raw(store), certificate)
     }
 
-    #[cfg(test)]
+    #[cfg(debug_assertions)]
+    pub(crate) fn new_authority_bound(
+        store: Arc<dyn RuntimeCertificateAuthority>,
+        certificate: &AuthorityCertificate,
+    ) -> TransportResult<Self> {
+        Self::new_with_handle(CertificateAuthorityHandle::Bound(store), certificate)
+    }
+
+    #[cfg(debug_assertions)]
     fn new_with_handle(
         store: CertificateAuthorityHandle,
         certificate: &AuthorityCertificate,

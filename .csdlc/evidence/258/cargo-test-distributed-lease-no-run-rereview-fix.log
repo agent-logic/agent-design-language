@@ -1,0 +1,131 @@
+warning: field `now_elapsed_millis` is never read
+   --> tests/../src/distributed/lease.rs:420:9
+    |
+414 | pub struct MutationAuthorization<'a> {
+    |            --------------------- field in this struct
+...
+420 |     pub now_elapsed_millis: u64,
+    |         ^^^^^^^^^^^^^^^^^^
+    |
+    = note: `MutationAuthorization` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variant `RevisionDrift` is never constructed
+   --> tests/../src/distributed/lease.rs:457:5
+    |
+428 | pub enum AuthorityError {
+    |          -------------- variant in this enum
+...
+457 |     RevisionDrift,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `AuthorityError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: struct `LeaseAuthorityRevision` is never constructed
+   --> tests/../src/distributed/lease.rs:716:12
+    |
+716 | pub struct LeaseAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `applied_log_index` and `state_sha256` are never used
+   --> tests/../src/distributed/lease.rs:722:12
+    |
+721 | impl LeaseAuthorityRevision {
+    | --------------------------- methods in this implementation
+722 |     pub fn applied_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^
+...
+726 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: enum `RedactedLeaseHealth` is never used
+   --> tests/../src/distributed/lease.rs:732:10
+    |
+732 | pub enum RedactedLeaseHealth {
+    |          ^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedLeaseRow` is never constructed
+   --> tests/../src/distributed/lease.rs:739:12
+    |
+739 | pub struct RedactedLeaseRow {
+    |            ^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/lease.rs:750:12
+    |
+749 | impl RedactedLeaseRow {
+    | --------------------- methods in this implementation
+750 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+754 |     pub fn holder_node_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^^^^
+...
+758 |     pub fn holder_guardian_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+762 |     pub fn epoch(&self) -> u64 {
+    |            ^^^^^
+...
+766 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+770 |     pub fn certificate_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+...
+774 |     pub fn health(&self) -> RedactedLeaseHealth {
+    |            ^^^^^^
+...
+778 |     pub fn revoked(&self) -> bool {
+    |            ^^^^^^^
+
+warning: struct `RedactedLeaseSnapshot` is never constructed
+   --> tests/../src/distributed/lease.rs:784:12
+    |
+784 | pub struct RedactedLeaseSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/lease.rs:791:12
+    |
+790 | impl RedactedLeaseSnapshot {
+    | -------------------------- methods in this implementation
+791 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+795 |     pub fn revision(&self) -> LeaseAuthorityRevision {
+    |            ^^^^^^^^
+...
+799 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedLeaseRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_lease_for_snapshot_test` are never used
+   --> tests/../src/distributed/lease.rs:824:12
+    |
+804 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+824 |     pub fn authority_revision(&self) -> AuthorityResult<LeaseAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+832 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+885 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/lease.rs:1308:4
+     |
+1308 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: constant `AUTHORITY_BOUND` is never used
+  --> tests/../src/distributed/lease.rs:34:22
+   |
+34 |     pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess { _private: () };
+   |                      ^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_lease") generated 12 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+  Executable tests/distributed_lease.rs (adl-runtime/target/debug/deps/distributed_lease-be8da1affb4b50f0)
