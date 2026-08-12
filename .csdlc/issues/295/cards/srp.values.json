@@ -7,13 +7,13 @@
     "title": "[v0.92][CI][coverage][defect] Classify mechanical compile-fallout without weakening changed-source coverage",
     "slug": "mechanical-compile-fallout-coverage",
     "version": "v0.92",
-    "generation": 7
+    "generation": 8
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "All #295 changed tooling, mappings, tests, and PVF/authority records; code, security, test, and evidence coverage required.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

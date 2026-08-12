@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-All #295 changed tooling, mappings, tests, and PVF/authority records; code, security, test, and evidence coverage required.
+
 
 ## Prompts
 

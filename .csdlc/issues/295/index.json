@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "eacad8cb54e3debffd72c37ea2fa883aa894bec6ccffbf371b21987f8c3d6699",
+  "generation": 8,
+  "digest": "f90e04dc96302491faf886c58d7c04b64c1a8cc61c83365c2a5e99f5ffe20541",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d2c8d35bbc0715d788c5ff6330e376164cf690264d592551919c8893676f112c",
+      "values_digest": "23669ec108a53454b8a579e10fb65932af57f90f5e0f86850cc1b08de01429e6",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "59eb902b10dfe5c5ca3c3bda40458c6007e1c745bd410ec6a28329c84ff6d3b0",
+      "values_digest": "5685353f96a22e54b681238644dbce9d3a5ee393c3593078e24721f4e2726399",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "02837d730ae19dc3a528da3dc5f9fb2f9b1d310d1a35d9288967aa7a5f64719d",
+      "values_digest": "aab59bfd04f069b51822e1e1411728442b459682270b73c3dba9d56107c84645",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "70335f1d55ebf58f1141d6c959613724050695060b4ead6da91fdb844c2f5d79",
+      "values_digest": "8ec18842d297af22eed6e51bd262de16dbedbc7d28d81a1906952152dab726ea",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "ef003502e55c61a1267d805c6b125e23f805d30384a7b91d3aae869f37a97f8f",
-      "rendered_digest": "943ffd99c620a9aa1a4f3ac8db989ee2385171bafb46cf25d17a144c830e6432",
-      "ast_digest": "77111e7548269e4ccfdc8cbccb0fa96aa571ed04c1ba62fc85b77b9a8bc6f3b4"
+      "values_digest": "869b2045dec4b8fa6bf76d82c8a5eafb42fbe140b19ab8ae20a6e2b8e7e5cf83",
+      "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
+      "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
     },
     "sor": {
-      "values_digest": "6d1de59597195764642b4d9143f7d6f24722935474226a6bc2635fb532586e61",
-      "rendered_digest": "3ad9a0da9a383b453dfa6493c69f383d89f3d366d72a2517e4f19a257da2968c",
-      "ast_digest": "be71b2a7455c858892ad5c91a75a968ef0b2bf7bcb2c90fef8503a5e7da4e6ad"
+      "values_digest": "01ff9cfb7640427606cc868c4acaa4bdc50f5510174a6c67bf4f0a5b37171801",
+      "rendered_digest": "8c2513d7db7fddac103a2f215a9e222d1c9627a8343c33be6ce31f435242821b",
+      "ast_digest": "9d4cf213302657f9a4487b77bd8231af076eed887198622bb646f141e75d72c8"
     }
   },
   "transitions": [
@@ -140,6 +140,20 @@
       "actor": "codex:issue-295",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-295",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:issue-295",
+      "reason": "Exact review at 66c09d173 found three P1 issues: import grammar can accept semantic import rewrites, proof trusts caller-declared passed strings instead of verified artifacts, and receipts omit immutable base/head/diff/mapping/proof/result/content bindings. Recover before remediation and require a different fresh reviewer.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -641,17 +641,23 @@ mechanical_fallout_receipt_for_path() {
   local classifier="$ROOT/adl/tools/mechanical_coverage_fallout.py"
   local mapping="$ROOT/adl/config/mechanical_coverage_fallout.v1.json"
   [ -f "$classifier" ] && [ -f "$mapping" ] && [ -f "$MECHANICAL_PROOF" ] || return 1
-  local diff_file receipt_file
+  local diff_file receipt_file base_revision head_revision diff_digest
   diff_file="$(mktemp)"
   receipt_file="$MECHANICAL_RECEIPT_DIR/${path//\//__}.json"
   if [ "$INCLUDE_WORKTREE" = true ]; then
     git -C "$ROOT" diff "$BASE" -- "$path" >"$diff_file"
+    base_revision="$(git -C "$ROOT" rev-parse "$BASE")" || return 1
+    diff_digest="$(shasum -a 256 "$diff_file" | awk '{print $1}')"
+    head_revision="worktree:${diff_digest}"
   else
     git -C "$ROOT" diff "$BASE...$HEAD" -- "$path" >"$diff_file" 2>/dev/null ||
       git -C "$ROOT" diff "$BASE" "$HEAD" -- "$path" >"$diff_file"
+    base_revision="$(git -C "$ROOT" merge-base "$BASE" "$HEAD")" || return 1
+    head_revision="$(git -C "$ROOT" rev-parse "$HEAD")" || return 1
   fi
   if python3 "$classifier" --diff "$diff_file" --mapping "$mapping" \
-      --proof "$MECHANICAL_PROOF" --receipt "$receipt_file" >/dev/null; then
+      --proof "$MECHANICAL_PROOF" --receipt "$receipt_file" \
+      --base-revision "$base_revision" --head-revision "$head_revision" >/dev/null; then
     rm -f "$diff_file"
     echo "coverage-impact: accepted exact mechanical compile fallout for ${path}; receipt ${receipt_file}"
     return 0

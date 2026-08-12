@@ -65,7 +65,7 @@ Added fail-closed exact mechanical compile-fallout classification with complete 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

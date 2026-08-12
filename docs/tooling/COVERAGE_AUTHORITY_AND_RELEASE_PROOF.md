@@ -25,6 +25,11 @@ did not apply to that exact diff; it does not lower the 80% threshold,
 allowlist a path, exclude a file from nightly/full coverage, or convert PR-fast
 evidence into release proof. Any malformed, semantic, unmapped, or incompletely
 proved diff fails closed through the ordinary changed-source coverage gate.
+An accepted receipt binds the exact base and head identities, unified-diff and
+mapping digests, changed hunk content, proof-manifest digest, and the digests of
+verified compile and behavioral result/evidence artifacts. Caller-authored
+`passed` strings are not proof, and replaying or substituting any revision,
+diff, mapping, result, evidence log, or hunk content is rejected.
 
 The nightly workflow currently sets `EXCLUDE_FROM_FILE_FLOOR_REGEX` to `^$`.
 That means the report does not silently exempt active source files from the
