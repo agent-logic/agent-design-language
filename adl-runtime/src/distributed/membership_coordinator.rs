@@ -1049,6 +1049,14 @@ impl MembershipCoordinator {
         let old_stable_map_sha256 = prepared_stable_ids.old_sha256;
         let target_stable_map_sha256 = prepared_stable_ids.target_sha256;
         self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
+        let mut staged_membership = membership.clone();
+        apply_local_membership_event(
+            &mut staged_membership,
+            admission.operation_sha256(),
+            membership_event_log_index,
+            enrollment_operation(admission),
+        )?;
+        self.crash_at(MembershipCrashBoundary::AfterLocalProjectionPrepared)?;
         self.crash_at(MembershipCrashBoundary::BeforeEnrollmentJournal)?;
         match self.envelope.payload().active_enrollment.as_ref() {
             Some(active)
@@ -1136,23 +1144,6 @@ impl MembershipCoordinator {
         }
         self.commit(observed_state)?;
         self.crash_at(MembershipCrashBoundary::AfterExternalAuthorityObservation)?;
-        let mut staged_membership = membership.clone();
-        match staged_membership.member(&identity.node_id) {
-            Some(member)
-                if member.guardian_id == identity.guardian_id
-                    && member.identity_generation == identity.certificate_generation
-                    && member.guardian_control_public_key
-                        == identity.guardian_control_public_key
-                    && member.role == MemberRole::NonVoting => {}
-            Some(_) => return Err(MembershipCoordinatorError::WrongIdentity),
-            None => apply_local_membership_event(
-                &mut staged_membership,
-                admission.operation_sha256(),
-                membership_event_log_index,
-                enrollment_operation(admission),
-            )?,
-        }
-        self.crash_at(MembershipCrashBoundary::AfterLocalProjectionPrepared)?;
         let membership_bytes = staged_membership
             .snapshot()
             .map_err(|_| MembershipCoordinatorError::StateRegression)?;
@@ -1761,7 +1752,11 @@ fn validate_registry_preserves_authority(
     if registry.is_empty() {
         return Ok(());
     }
+    let entry_count = registry.len();
     let registry = registry.iter().cloned().collect::<BTreeMap<_, _>>();
+    if registry.len() != entry_count {
+        return Err(MembershipCoordinatorError::WrongStableMap);
+    }
     stable_map_sha256(&registry)?;
     if authority
         .raft_ids
