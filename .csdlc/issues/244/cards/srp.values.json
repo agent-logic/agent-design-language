@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 244,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
+    "slug": "conversation-cleanup-race-deadline",
+    "version": "1.0.0",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact issue diff for conversation admission acknowledgement, per-generation deadline behavior, and cleanup-race proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does accepted mean admission rather than execution success?",
+        "Can cleanup or re-authentication reuse a stale deadline?",
+        "Are cancellation, timeout, duplicate attachment, and exactly-once terminal semantics preserved?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

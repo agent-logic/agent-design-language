@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 244,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
+    "slug": "conversation-cleanup-race-deadline",
+    "version": "1.0.0",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make cleanup-race admission and execution deadlines deterministic so the required Runtime lane and PR #242 can proceed.",
+      "required_outcome": "A newly admitted conversation generation is acknowledged before bounded execution, does not inherit a stale deadline, and emits exactly one terminal result.",
+      "declared_scope": [
+        "Runtime conversation admission acknowledgement",
+        "per-generation execution deadline semantics",
+        "cleanup-race regression proof"
+      ],
+      "authority_boundary": [
+        "Only the existing Runtime conversation owner admits and executes turns.",
+        "Authentication and token rotation semantics remain unchanged.",
+        "The follow-on does not alter #237 capability authority."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Keep #237 and PR #242 unchanged.",
+        "Use typed C-SDLC v2 lifecycle owners and an issue-bound FastWork worktree.",
+        "Run only focused repeated proof and the required Runtime lane."
+      ]
+    }
+  }
+}

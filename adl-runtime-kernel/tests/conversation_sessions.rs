@@ -797,13 +797,18 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         ))
         .await
         .unwrap();
-    let authenticated =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
-    assert_eq!(authenticated["status"], "authenticated");
+    // Queue the attachment behind re-authentication without spending the
+    // conversation execution window on a client-side authentication round
+    // trip. The server still processes these frames in order, so the proof
+    // retains the generation transition while deterministically attaching to
+    // the barrier-held turn before its bounded execution deadline.
     socket
         .send(Message::Text(cleanup_race.to_string().into()))
         .await
         .unwrap();
+    let authenticated =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(authenticated["status"], "authenticated");
     let attached =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(attached["status"], "accepted", "{attached}");
