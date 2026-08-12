@@ -17,6 +17,13 @@ No. This surface implements the launch documentation and external review copy.
 until the v0.92 birthday packet consumes that proof at an exact result, passes
 validation, and receives operator publication approval.
 
+WP-18 now retains a locally accepted Runtime-produced candidate packet and a
+typed negative/interruption matrix, indexed at
+`.csdlc/evidence/5836/reviewer-index.md`. That advances engineering evidence
+but does not satisfy native Linux, current exact-head review, or operator
+publication authorization, so the public answer remains **not yet
+established**.
+
 ### What did this issue implement?
 
 It implemented the repository launch surface: public-copy drafts, reviewer

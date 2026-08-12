@@ -44,12 +44,12 @@ requirements once implementation exists.
 
 | Demo ID | Candidate demo | Milestone claim | Primary proof surface | Status |
 | --- | --- | --- | --- | --- |
-| D1 | First birthday rehearsal | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and [`FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md`](review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md). | Reviewer packet assembled by WP-16; runtime demo remains planned |
-| D2 | Not-a-birthday negative suite | Startup, wake, snapshot, admission, and copied state are not birth. | Negative fixtures and validation report. | Planned candidate |
-| D3 | Continuity across bounded cycles | Identity persists across multiple bounded cycles with evidence. | Cycle artifacts, continuity record, witness links. | Planned candidate |
-| D4 | Memory grounding proof | Birth references witnessed memory artifacts without exposing raw private memory. | Memory-grounding fixture and redacted packet. | Planned candidate |
-| D5 | Capability envelope proof | The birth record declares provider, model, tool, skill, authority, and limit context. | #4761 capability envelope and fail-closed validation report. | Pre-v0.92 envelope input available; demo still planned |
-| D6 | ACP / cognitive profile proof | Birth packet includes a bounded profile record grounded in evidence. | ACP/profile fixture, update rationale, redacted reviewer packet, and validation report. | Planned candidate |
+| D1 | First birthday rehearsal | A named identity can cross the birth boundary with required evidence. | `bash adl/tools/test_v092_first_birthday_demo.sh --positive`; `demos/v0.92/first-birthday/positive.json`; `.csdlc/evidence/5836/reviewer-index.md`. | Local Runtime packet and focused validation pass at `7615b9089`; native Linux and exact-head review remain pending. |
+| D2 | Not-a-birthday negative suite | Startup, wake, snapshot, admission, and copied state are not birth. | `bash adl/tools/test_v092_first_birthday_demo.sh --negative`; rejected packets under `demos/v0.92/first-birthday/`. | Local negative and interruption matrix passes; retained packets are non-positive evidence. |
+| D3 | Continuity across bounded cycles | Identity persists across multiple bounded cycles with evidence. | Runtime-produced continuity record embedded in `positive.json`; #237 opaque continuity authority. | Local integrated proof passes; no cross-host claim. |
+| D4 | Memory grounding proof | Birth references witnessed memory artifacts without exposing raw private memory. | `positive.json`; redaction assertions in `adl-runtime-kernel/tests/birthday_demo.rs`. | Local redaction proof passes; raw private state is omitted. |
+| D5 | Capability envelope proof | The birth record declares provider, model, tool, skill, authority, and limit context. | LiveAssembly-provisioned capability authority and envelope in `positive.json`. | Local integrated proof passes against merged #237; no provider-performance claim. |
+| D6 | ACP / cognitive profile proof | Birth packet includes a bounded profile record grounded in evidence. | Governed cognitive profile and redacted public projection in `positive.json`. | Local integrated proof passes; no consciousness, reputation, or governance claim. |
 | D7A | Adaptive Learning DAG execution proof | v0.92 executes evaluated adaptation and policy-governed graph mutation with durable deltas and deterministic replay. | Runtime execution packet, evaluation bindings, accepted and rejected graph deltas, and negative replay cases. | Planned |
 | D7 | ACIP binary schema and WebSocket carrier proof | Binary ACIP remains inspectable through public schemas while message contents remain governed. | ACIP `.proto`, schema catalog fixture, JSON projection report, denied-access case, and authenticated full-duplex Runtime WebSocket trace. | Planned |
 | D8 | Birthday-to-governance handoff | v0.93 governance can consume v0.92 identity evidence without redefining birth. | Handoff packet mapping identity evidence to future governance. | Planned candidate |
@@ -217,13 +217,19 @@ all tell one consistent story.
 
 ## Determinism Evidence
 
-Determinism evidence is pending implementation. Final demos should record
-commands, fixtures, expected outputs, and any allowed nondeterminism.
+The local replay test runs the Runtime entrypoint twice and requires semantic
+equality of both packets. The packet declares only transient runtime directory
+and separately recorded native host class as allowed nondeterminism. Native
+Linux evidence and exact-head review remain pending.
 
 ## Reviewer Sign-Off Surface
 
 Reviewers should receive the birthday packet, demo outputs, validation logs,
 negative-case report, and residual-risk notes.
+
+The bounded index is `.csdlc/evidence/5836/reviewer-index.md`. It records exact
+commands, retained artifacts, the implementation revision, and explicit
+non-claims; it is not review approval.
 
 ## Exit Criteria
 

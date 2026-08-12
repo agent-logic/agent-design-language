@@ -106,9 +106,12 @@ Key capabilities:
 
 ### Demo
 
-- Demo script(s): final command pending v0.92 implementation.
-- Expected behavior: valid birthday packet is accepted; not-a-birthday cases
-  are rejected.
+- Demo command: `bash adl/tools/demo_v092_first_birthday.sh`.
+- Direct proof commands: `bash adl/tools/test_v092_first_birthday_demo.sh
+  --positive` and `bash adl/tools/test_v092_first_birthday_demo.sh --negative`.
+- Expected behavior: the Runtime produces one accepted complete packet; every
+  named ordinary lifecycle, missing-evidence, and interruption case remains
+  rejected or incomplete with typed reasons.
 
 ### Deterministic / Replay
 
@@ -162,3 +165,12 @@ Key capabilities:
 
 This feature is where the birthday becomes visible to reviewers. It must be
 clear, boring, repeatable, and hard to misread.
+
+## WP-18 Evidence Status
+
+At implementation revision `7615b9089`, focused Runtime tests, the positive
+packet lane, the complete local negative/interruption matrix, and strict
+focused Clippy pass. Retained evidence is indexed at
+`.csdlc/evidence/5836/reviewer-index.md`. Native Linux proof, current exact-head
+review, and operator publication authorization remain required; this section
+does not claim the birthday has been publicly accepted or launched.

@@ -122,6 +122,13 @@ witness/receipt package, but the birthday claim is not yet final. Until v0.92
 validation and operator publication approval pass, the correct claim is
 readiness of the launch documentation surface, not completion of the birthday.
 
+Current WP-18 review evidence is indexed at
+`.csdlc/evidence/5836/reviewer-index.md`. The locally generated packet at
+`demos/v0.92/first-birthday/positive.json` is implementation evidence, not
+publication authority. Native Linux proof, current exact-head review, and an
+explicit operator decision are still pending, so only this pending variant is
+eligible for review use.
+
 ## Forbidden Claims
 
 Do not publish text that says or implies:

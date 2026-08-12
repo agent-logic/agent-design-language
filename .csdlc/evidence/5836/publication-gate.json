@@ -1,0 +1,24 @@
+{
+  "schema": "adl.first_birthday.publication_gate.v1",
+  "source_revision": "7615b9089993799c25de28c45868078b99b7b9a0",
+  "accepted_witness_receipt_proof": {
+    "passed": true,
+    "evidence": "docs/milestones/v0.91.8/review/v092_handoff_4762/"
+  },
+  "current_exact_head_review": {
+    "passed": false,
+    "evidence": null
+  },
+  "unsupported_claims_resolved": {
+    "passed": true,
+    "evidence": "docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md"
+  },
+  "negative_suite_complete": {
+    "passed": true,
+    "evidence": "demos/v0.92/first-birthday/"
+  },
+  "operator_publication_authorization": {
+    "passed": false,
+    "evidence": null
+  }
+}
