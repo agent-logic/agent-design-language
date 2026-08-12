@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
     "slug": "implemented-authored-design-refresh",
     "version": "v0.92",
-    "generation": 10
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,8 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "implemented-authored-design-refresh",
-          "proof_role": "Deterministic typed lifecycle, CAS, artifact safety, paired revalidation, approval invalidation, append-only history, and regression proof",
+          "lane": "implemented-authored-design-refresh-end-to-end",
+          "proof_role": "Deterministic linked-worktree integration proof for assignment, typed recovery, stale CAS rejection, paired refresh, atomic card/history update, exact tuple approval, and reassignment across AC-1 through AC-8.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -38,42 +38,64 @@
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
             "--test",
-            "card_identity",
-            "implemented_authored_design_refresh"
+            "gate5",
+            "implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated"
           ],
           "parallel_group": "local",
           "defer_reason": null
         },
         {
-          "lane": "implemented-authored-design-refresh-linked-worktree",
-          "proof_role": "Deterministic canonical registered-worktree, Git-common lock, wrong-worktree, alias, and concurrent linked-worktree negative proof",
+          "lane": "implemented-authored-design-refresh-retained-handles",
+          "proof_role": "Deterministic unit proof that paired authored artifact handles retain inode/path identity through the final commit-boundary verification and reject replacement.",
           "acceptance_ids": [
-            "AC-1",
             "AC-2",
+            "AC-3",
             "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib",
+            "implemented_authored_design_refresh_retains_handle_identity_until_commit_boundary"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-gate5-review-assignment-regression",
+          "proof_role": "Deterministic complete Gate 5 integration suite covering clean/dirty assignment, linked-worktree topology, exact revision, recovery, atomic history, and review authority regressions; no claim of scheduler-level race injection.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
             "AC-6",
             "AC-7",
             "AC-8"
           ],
           "deterministic": true,
-          "resource_profile": "small",
-          "budget_seconds": 600,
-          "budget_tokens": 5000,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 7000,
           "argv": [
             "cargo",
             "test",
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
             "--test",
-            "card_identity",
-            "implemented_authored_design_refresh_linked_worktree"
+            "gate5"
           ],
           "parallel_group": "local",
           "defer_reason": null
         },
         {
           "lane": "issue-294-terminal-ancestry-observation",
-          "proof_role": "Deferred live observation that #296 is terminal and ancestral before #294 resumes; not implementation validation proof",
+          "proof_role": "Deferred live observation that issue 296 is terminal and ancestral before issue 294 resumes; not implementation proof.",
           "acceptance_ids": [
             "AC-9"
           ],
@@ -91,7 +113,7 @@
             "issue_294_waits_for_terminal_ancestral_296"
           ],
           "parallel_group": "post-terminal",
-          "defer_reason": "Run only after #296 is terminal; until then #294 remains blocked and AC-9 is not green."
+          "defer_reason": "Run only after issue 296 is terminal; until then issue 294 remains blocked and AC-9 is not green."
         }
       ],
       "planned_validation_seconds": 3600,

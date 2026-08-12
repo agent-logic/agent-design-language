@@ -1,4 +1,4 @@
-use csdlc_v2::cards::{FindingDisposition, FindingSeverity, PublicationState};
+use csdlc_v2::cards::{digest, FindingDisposition, FindingSeverity, PublicationState};
 use csdlc_v2::model::TransitionEvent;
 use csdlc_v2::{
     assign_review, bind_issue, edit_issue, evaluate_publication_review,
@@ -43,6 +43,108 @@ fn finding(id: &str) -> ReviewFindingEvidence {
         fix_revision: Some("rev-2".into()),
         route: None,
     }
+}
+
+#[test]
+fn implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let assigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "first-reviewer".into(),
+            assigned_by: "agent".into(),
+            scope: vec!["src".into()],
+        },
+    )
+    .expect("initial assignment");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "agent".into(),
+            reason: "authored design changed after implementation".into(),
+        },
+    )
+    .expect("typed recovery");
+    std::fs::write(store.root().join("docs/design.md"), "# refreshed design\n").unwrap();
+    std::fs::write(
+        store.root().join("docs/diagram.mmd"),
+        "flowchart LR\n B-->C\n",
+    )
+    .unwrap();
+    let stale = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: recovered.generation - 1,
+            expected_digest: recovered.digest.clone(),
+            actor: "agent".into(),
+            reason: "stale refresh".into(),
+            operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("stale CAS must fail");
+    assert_eq!(stale.code, ErrorCode::StaleGeneration);
+    let refreshed = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "agent".into(),
+            reason: "refresh paired authored tuple".into(),
+            operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+            fail_after_backup: false,
+        },
+    )
+    .expect("atomic authored refresh");
+    assert_eq!(refreshed.phase, LifecyclePhase::Implemented);
+    assert!(refreshed.review_assignment.is_none());
+    assert!(refreshed
+        .audit
+        .last()
+        .unwrap()
+        .operation
+        .contains("refresh_authored_design_after_recovery"));
+    let spp = store.load_cards(7).unwrap().remove(&CardKind::Spp).unwrap();
+    let csdlc_v2::cards::CardContent::Spp(values) = spp.content else {
+        panic!("SPP")
+    };
+    assert_eq!(values.design_digest, digest(b"# refreshed design\n"));
+    assert_eq!(values.diagram_digest, digest(b"flowchart LR\n B-->C\n"));
+
+    git(store.root(), &["add", "."]);
+    git(store.root(), &["commit", "-m", "refresh authored tuple"]);
+    let approved = csdlc_v2::approve_design(
+        &store,
+        csdlc_v2::ApproveDesignRequest {
+            issue: 7,
+            expected_generation: refreshed.generation,
+            expected_digest: refreshed.digest,
+            reviewer: "fresh-session:11111111-1111-1111-1111-111111111111".into(),
+        },
+    )
+    .expect("approve refreshed tuple");
+    assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: approved.generation,
+            expected_digest: approved.digest,
+            reviewer: "replacement-reviewer".into(),
+            assigned_by: "agent".into(),
+            scope: vec!["src".into()],
+        },
+    )
+    .expect("assignment after exact tuple approval");
 }
 
 fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {

@@ -4,24 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "959b44fd61ec0393ad471311d39b13f254c41ca7f6e910dc8b5256529409cb2d",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "1a535a315ab3784e5088c68cf6afcb3b4149388fa80804836738eeeb03ef79ea",
+  "generation": 13,
+  "digest": "d93620b4b508a25bc815ef5af75deb6440a570650b90e2a612921d11da8e0514",
   "branch": "codex/296-implemented-authored-design-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-296-implemented-authored-design-refresh",
-  "review_assignment": {
-    "reviewer": "fresh-session:f5bd80a5-a932-4d84-a8a9-cebc02ebbb4c",
-    "assigned_by": "codex:issue-296",
-    "revision": "git-blake3:c28dfe5ca3bbdcf955fcefcf85d62af3ac935d46:448512af73a452bb32458bfe2006908e0b2e3e94a323ceac53620194f63f122b",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/review.rs",
-      "csdlc-v2/tests/card_identity.rs",
-      ".csdlc/issues/296",
-      ".csdlc/prepared/issues/296",
-      ".csdlc/evidence/296"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8721b735cee770d7dda1c63da95c739209c6c7d1ac0a1d99e4c778f3387ac144",
+      "values_digest": "778782d724ff179714e81394cb955989716eef6f1c56cff22adac6b68e70bd2f",
       "rendered_digest": "57c636d2e2f6070a237866654cd4127dbe7a4fc5f191741e071ab2535642984d",
       "ast_digest": "6461b0f59b4c2a6f6dd2f9f13bacb203b861d859e8d58f33bd7ed07b42bb5c79"
     },
     "stp": {
-      "values_digest": "eec4ebefedd3d66139d936b28c0d6d8e9cb60b3577427f31effb06704cbe3366",
+      "values_digest": "18226c29e159e424f2576505057b7779532b516ea9d0fbf3cab4fe4b578149fc",
       "rendered_digest": "11159f0d7f9983633a92db76cd8c7649cdf3e4810b7c6a017d81f64ce614aa8a",
       "ast_digest": "95e8ab9c66e490f856cc459c14f4eb65807a2bd7ec63956cacf2d5441087e983"
     },
     "spp": {
-      "values_digest": "7720e701cc5d1416a6bc18c226eb622f76294febcc079b4d8923cd6abb98a68a",
+      "values_digest": "77d2df8f24d24fffc5fb988ba23760b6a760d493d157e0e0fb5e207dd097de1d",
       "rendered_digest": "a4d0b4299567ee7fee32a6bfa3ff8a9613f985311842df815ae5cc7c4d74c274",
       "ast_digest": "a90a4d80862cdfe7a6a938432ac9b0c93be84e046765dcbc5964a24f01ffb8b3"
     },
     "vpp": {
-      "values_digest": "b40679e78362b99ef5e1c02e6c548caa0719df359ce4e97816d447ef09650410",
-      "rendered_digest": "c2e24aec5d0ff65705ea50a27284298e083838466cd1a06bb86c9b5016662d8a",
-      "ast_digest": "6b6c3b83f2cfd75e99355f2a9551710c4814ce8cf3823e410065a783e2ccfb82"
+      "values_digest": "510f9cc4e16e737ddb69c798797c362ac4b5e38b2abbf578b1519bdc9caef773",
+      "rendered_digest": "ef94c71df6fa5bcbdbdd8cc26f70692e8176da606c057e7e1dfccd26785c1a61",
+      "ast_digest": "53e72a739711beefdfa10f3552b6148630ef10dc0e2a8338076caf806bde71b3"
     },
     "srp": {
-      "values_digest": "2b8170713008e1b157ec216c301345e865714465ade22ca7347fc910aacfdc7e",
-      "rendered_digest": "6e2dee44ae5146e273d1a10518b2396609cac3e77a8d63fd2f225605846ecb84",
-      "ast_digest": "632bcaf2f6e29ef9cef3f89cf937ef8c533c70f1cf761a948fee19c02abdc307"
+      "values_digest": "5e62c8b182bd0decb356c57e47473cbd5dc0dcc4d196ed63d5e7fa468a523ec6",
+      "rendered_digest": "9f6660015a337ab5724deb53bfc4a3eba76a277311ca093069379d433ad43416",
+      "ast_digest": "0d52b7027fcaa160851a266410a5d41e8281dc86a753e3f06672bf3c1e7e4ad0"
     },
     "sor": {
-      "values_digest": "184a3b73780db8e2a1cf3d4404b80f79ffe4a7d784d84b29e9149cdb107181ae",
-      "rendered_digest": "9c7a21249a505974d8ac918f7382f4df9fd2bf83030b321481c770d6c6a13f67",
-      "ast_digest": "dc87f6f1487cb935547ff255ed2b9d33ce730225e846740d182f2295e09aee24"
+      "values_digest": "675fafe9851be417dcf090f4bffba8f466cbbc9ad424d753b80f464384e6b679",
+      "rendered_digest": "eeabb542803f205d8924e071a45eb9b098687cd3f4f199f695d3ec3907ba9bd6",
+      "ast_digest": "315505e788c0fe5f4a064e34b8991fdaa1a0c1e4328944b4f8301ced76d87c63"
     }
   },
   "transitions": [
@@ -188,6 +175,27 @@
       "actor": "codex:issue-296",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:issue-296",
+      "reason": "Exact r2 review failed: authored design and diagram validation/commit must retain paired artifact handles and identities through the commit boundary; AC-1 through AC-8 require real integration, linked-worktree, concurrency, end-to-end refresh, CAS, atomicity, history, and review-assignment tests reflected exactly in VPP/SOR rather than superficial filtered tests; review assignment must perform a final locked registered-worktree, branch, HEAD, and substantive-revision recheck immediately before commit and cover assignment races. Recover before remediation and require a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:issue-296",
+      "reason": "Replace superficial filtered lanes with the exact real end-to-end, retained-handle, and complete Gate 5 proving commands used for r2 remediation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"implemented-authored-design-refresh-end-to-end\",\"proof_role\":\"Deterministic linked-worktree integration proof for assignment, typed recovery, stale CAS rejection, paired refresh, atomic card/history update, exact tuple approval, and reassignment across AC-1 through AC-8.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"implemented-authored-design-refresh-retained-handles\",\"proof_role\":\"Deterministic unit proof that paired authored artifact handles retain inode/path identity through the final commit-boundary verification and reject replacement.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"implemented_authored_design_refresh_retains_handle_identity_until_commit_boundary\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-gate5-review-assignment-regression\",\"proof_role\":\"Deterministic complete Gate 5 integration suite covering clean/dirty assignment, linked-worktree topology, exact revision, recovery, atomic history, and review authority regressions; no claim of scheduler-level race injection.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-294-terminal-ancestry-observation\",\"proof_role\":\"Deferred live observation that issue 296 is terminal and ancestral before issue 294 resumes; not implementation proof.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\",\"issue_294_waits_for_terminal_ancestral_296\"],\"parallel_group\":\"post-terminal\",\"defer_reason\":\"Run only after issue 296 is terminal; until then issue 294 remains blocked and AC-9 is not green.\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:issue-296",
+      "reason": "Record exact r2 remediation and executed validation without claiming unexecuted scheduler race injection.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated r2 with paired retained authored artifact handles, a functional linked-worktree refresh route, final locked assignment topology/revision checks, and real end-to-end proof.\",\"changes\":[\"Retain design and diagram descriptors, bytes, inode identities, link counts, timestamps, and anchored paths through the immediate canonical commit boundary.\",\"Permit only the typed recovered refresh operation to reconcile stale authored bytes while retaining projection and audit integrity checks.\",\"Recheck registered worktree, branch, HEAD, clean substantive revision, approved tuple, and exact scope inside the serialized assignment commit boundary.\",\"Add real linked-worktree end-to-end CAS, atomic card/history, approval, and reassignment proof plus retained-handle replacement rejection.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/review.rs\",\"csdlc-v2/tests/gate5.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"implemented_authored_design_refresh_retains_handle_identity_until_commit_boundary\"],\"purpose\":\"Prove a retained paired artifact handle rejects path replacement at the final commit boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r2-retained-handle\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated\"],\"purpose\":\"Prove linked-worktree recovery, stale CAS, paired refresh, atomic history/cards, approval, and reassignment end to end.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r2-end-to-end\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"purpose\":\"Prove complete review assignment and recovery regression behavior including dirty-tree and exact-revision gates.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r2-gate5\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove complete library regression including authored artifact race negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r2-lib\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict all-target lint cleanliness.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r2-clippy\"}]}"
     }
   ]
 }

@@ -12,20 +12,20 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the typed authored-design refresh and fixed r1 final hardlink/ctime revalidation, Git-common serialized registered-worktree review assignment, and nonzero declared focused tests.
+Remediated r2 with paired retained authored artifact handles, a functional linked-worktree refresh route, final locked assignment topology/revision checks, and real end-to-end proof.
 
 ## Artifacts
 
-- csdlc-v2/src/cards.rs
 - csdlc-v2/src/store.rs
 - csdlc-v2/src/review.rs
-- csdlc-v2/tests/card_identity.rs
+- csdlc-v2/tests/gate5.rs
 
 ## Execution
 
-- Reject final-open and final-read artifacts unless nlink remains one and ctime/identity remain stable.
-- Serialize review assignment with the Git-common binding lock and reject noncanonical registered worktrees.
-- Add the exact declared implemented_authored_design_refresh and linked_worktree filtered integration tests.
+- Retain design and diagram descriptors, bytes, inode identities, link counts, timestamps, and anchored paths through the immediate canonical commit boundary.
+- Permit only the typed recovered refresh operation to reconcile stale authored bytes while retaining projection and audit integrity checks.
+- Recheck registered worktree, branch, HEAD, clean substantive revision, approved tuple, and exact scope inside the serialized assignment commit boundary.
+- Add real linked-worktree end-to-end CAS, atomic card/history, approval, and reassignment proof plus retained-handle replacement rejection.
 
 ## Validation
 
@@ -36,13 +36,12 @@ Implemented the typed authored-design refresh and fixed r1 final hardlink/ctime 
       "test",
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
-      "--test",
-      "card_identity",
-      "implemented_authored_design_refresh"
+      "--lib",
+      "implemented_authored_design_refresh_retains_handle_identity_until_commit_boundary"
     ],
-    "purpose": "Run the exact declared typed operation filter and prove it executes nonzero tests.",
+    "purpose": "Prove a retained paired artifact handle rejects path replacement at the final commit boundary.",
     "outcome": "passed",
-    "evidence_ref": "local:r1-remediation"
+    "evidence_ref": "local:r2-retained-handle"
   },
   {
     "command": [
@@ -51,12 +50,25 @@ Implemented the typed authored-design refresh and fixed r1 final hardlink/ctime 
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
       "--test",
-      "card_identity",
-      "implemented_authored_design_refresh_linked_worktree"
+      "gate5",
+      "implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated"
     ],
-    "purpose": "Run the exact declared linked-worktree/schema filter and prove it executes nonzero tests.",
+    "purpose": "Prove linked-worktree recovery, stale CAS, paired refresh, atomic history/cards, approval, and reassignment end to end.",
     "outcome": "passed",
-    "evidence_ref": "local:r1-remediation"
+    "evidence_ref": "local:r2-end-to-end"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5"
+    ],
+    "purpose": "Prove complete review assignment and recovery regression behavior including dirty-tree and exact-revision gates.",
+    "outcome": "passed",
+    "evidence_ref": "local:r2-gate5"
   },
   {
     "command": [
@@ -66,9 +78,9 @@ Implemented the typed authored-design refresh and fixed r1 final hardlink/ctime 
       "csdlc-v2/Cargo.toml",
       "--lib"
     ],
-    "purpose": "Run the complete library suite including late hardlink and phase/card authority negatives.",
+    "purpose": "Prove complete library regression including authored artifact race negatives.",
     "outcome": "passed",
-    "evidence_ref": "local:r1-remediation"
+    "evidence_ref": "local:r2-lib"
   },
   {
     "command": [
@@ -83,7 +95,7 @@ Implemented the typed authored-design refresh and fixed r1 final hardlink/ctime 
     ],
     "purpose": "Prove strict all-target lint cleanliness.",
     "outcome": "passed",
-    "evidence_ref": "local:r1-remediation"
+    "evidence_ref": "local:r2-clippy"
   }
 ]
 

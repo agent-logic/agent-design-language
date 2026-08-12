@@ -1098,6 +1098,36 @@ impl Store {
                 "review assignment requires current approved authored design tuple at commit",
             ));
         }
+        let registered = record.worktree.as_ref().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "review assignment lost registered worktree at commit",
+            )
+        })?;
+        let branch = record.branch.as_ref().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "review assignment lost registered branch at commit",
+            )
+        })?;
+        if fs::canonicalize(self.root())? != fs::canonicalize(registered)?
+            || crate::git::current_branch(self.root())? != *branch
+        {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "review assignment topology changed before commit",
+            ));
+        }
+        let final_head = crate::git::run(self.root(), &["rev-parse", "HEAD"])?.stdout;
+        let final_revision = crate::git::substantive_revision(self.root(), &assignment.scope)?;
+        if final_revision != assignment.revision
+            || final_revision != crate::git::clean_commit_revision(&final_head)
+        {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "review assignment HEAD or substantive revision changed before commit",
+            ));
+        }
         let actor = assignment.assigned_by.clone();
         let srp = match &mut cards.get_mut(&CardKind::Srp).expect("SRP").content {
             CardContent::Srp(values) => values,
@@ -1650,7 +1680,9 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             SemanticOperation::CorrectOperatorConstraintsBeforeBind { .. }
         )
     );
-    if prebind_contract_repair {
+    if implemented_design_refresh {
+        verify_cards_without_authored_tuple(store, &record, &cards)?;
+    } else if prebind_contract_repair {
         verify_prebind_contract_repair_inputs(store, &record, &cards)?;
     } else {
         verify_cards(store, &record, &cards)?;
@@ -1658,10 +1690,12 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if prebind_operator_constraints_correction {
         validate_prebind_operator_constraints_correction(&record, &cards, &request)?;
     }
+    let mut retained_refresh_artifacts = None;
     let design_refresh = if implemented_design_refresh {
-        Some(prepare_implemented_design_refresh(
-            store, &record, &cards, &request,
-        )?)
+        let (refresh, design_artifact, diagram_artifact) =
+            prepare_implemented_design_refresh(store, &record, &cards, &request)?;
+        retained_refresh_artifacts = Some((design_artifact, diagram_artifact));
+        Some(refresh)
     } else {
         None
     };
@@ -1995,8 +2029,11 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         record.design_review = DesignReview::Pending;
     }
     if implemented_design_refresh {
-        let final_design_digest = authored_digest(store, &record.design_path)?;
-        let final_diagram_digest = authored_digest(store, &record.diagram_path)?;
+        let (design_artifact, diagram_artifact) = retained_refresh_artifacts
+            .as_mut()
+            .expect("implemented refresh retains paired artifacts");
+        let final_design_digest = design_artifact.verify()?;
+        let final_diagram_digest = diagram_artifact.verify()?;
         let refresh = design_refresh.as_ref().expect("implemented design refresh");
         if final_design_digest != refresh.new_design_digest
             || final_diagram_digest != refresh.new_diagram_digest
@@ -2029,6 +2066,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     });
     hydrate_projections(&mut record, &cards)?;
     record.digest = record_digest(&record)?;
+    if let Some((design_artifact, diagram_artifact)) = retained_refresh_artifacts.as_mut() {
+        let refresh = design_refresh.as_ref().expect("retained refresh binding");
+        if design_artifact.verify()? != refresh.new_design_digest
+            || diagram_artifact.verify()? != refresh.new_diagram_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "paired authored artifact handles changed at commit boundary",
+            ));
+        }
+    }
     store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
     Ok(record)
 }
@@ -2039,6 +2087,77 @@ struct DesignBindingRefresh {
     new_design_digest: String,
     old_diagram_digest: String,
     new_diagram_digest: String,
+}
+
+#[cfg(unix)]
+struct RetainedAuthoredArtifact {
+    root: File,
+    relative: PathBuf,
+    file: File,
+    bytes: Vec<u8>,
+    identity: std::fs::Metadata,
+}
+
+#[cfg(unix)]
+impl RetainedAuthoredArtifact {
+    fn verify(&mut self) -> Result<String> {
+        use std::os::unix::fs::MetadataExt;
+        let current = self.file.metadata()?;
+        self.file.seek(SeekFrom::Start(0))?;
+        let bytes = read_exact_current_file(&mut self.file, current.len())?;
+        let path_file = open_relative_no_follow(&self.root, &self.relative)?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "retained authored artifact path disappeared",
+            )
+        })?;
+        let path_meta = path_file.metadata()?;
+        if current.nlink() != 1
+            || path_meta.nlink() != 1
+            || !same_file_identity(&self.identity, &current)
+            || !same_file_identity(&current, &path_meta)
+            || current.len() != self.identity.len()
+            || current.mtime() != self.identity.mtime()
+            || current.mtime_nsec() != self.identity.mtime_nsec()
+            || current.ctime() != self.identity.ctime()
+            || current.ctime_nsec() != self.identity.ctime_nsec()
+            || bytes != self.bytes
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "retained authored artifact changed before commit",
+            ));
+        }
+        Ok(digest(&bytes))
+    }
+}
+
+#[cfg(unix)]
+fn retain_authored_artifact(root: &Path, relative: &Path) -> Result<RetainedAuthoredArtifact> {
+    validate_authored_relative_path(relative)?;
+    let root_file = File::open(root)?;
+    let mut file = open_relative_no_follow(&root_file, relative)?.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact is absent",
+        )
+    })?;
+    let identity = file.metadata()?;
+    use std::os::unix::fs::MetadataExt;
+    if !identity.is_file() || identity.nlink() != 1 {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact must be a regular single-link file",
+        ));
+    }
+    let bytes = read_exact_current_file(&mut file, identity.len())?;
+    Ok(RetainedAuthoredArtifact {
+        root: root_file,
+        relative: relative.to_path_buf(),
+        file,
+        bytes,
+        identity,
+    })
 }
 
 fn is_prebind_contract_repair(record: &IssueRecord, request: &EditRequest) -> bool {
@@ -2253,7 +2372,11 @@ fn prepare_implemented_design_refresh(
     record: &IssueRecord,
     cards: &BTreeMap<CardKind, CardValues>,
     request: &EditRequest,
-) -> Result<DesignBindingRefresh> {
+) -> Result<(
+    DesignBindingRefresh,
+    RetainedAuthoredArtifact,
+    RetainedAuthoredArtifact,
+)> {
     if request.card != CardKind::Spp
         || record.phase != LifecyclePhase::Implemented
         || request.actor.trim().is_empty()
@@ -2288,20 +2411,28 @@ fn prepare_implemented_design_refresh(
         CardContent::Spp(values) => (values.design_digest.clone(), values.diagram_digest.clone()),
         _ => unreachable!("SPP"),
     };
-    let new_design_digest = authored_digest(store, &record.design_path)?;
-    let new_diagram_digest = authored_digest(store, &record.diagram_path)?;
+    let mut design_artifact =
+        retain_authored_artifact(store.root(), Path::new(&record.design_path))?;
+    let mut diagram_artifact =
+        retain_authored_artifact(store.root(), Path::new(&record.diagram_path))?;
+    let new_design_digest = design_artifact.verify()?;
+    let new_diagram_digest = diagram_artifact.verify()?;
     if new_design_digest == old_design_digest && new_diagram_digest == old_diagram_digest {
         return Err(V2Error::new(
             ErrorCode::InvalidTransition,
             "authored design refresh is a no-op",
         ));
     }
-    Ok(DesignBindingRefresh {
-        old_design_digest,
-        new_design_digest,
-        old_diagram_digest,
-        new_diagram_digest,
-    })
+    Ok((
+        DesignBindingRefresh {
+            old_design_digest,
+            new_design_digest,
+            old_diagram_digest,
+            new_diagram_digest,
+        },
+        design_artifact,
+        diagram_artifact,
+    ))
 }
 
 fn require_registered_worktree(store: &Store, record: &IssueRecord) -> Result<()> {
@@ -2406,6 +2537,26 @@ pub(crate) fn verify_cards(
         &record.diagram_path,
         &diagram_digest,
     )?;
+    Ok(())
+}
+
+fn verify_cards_without_authored_tuple(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+) -> Result<()> {
+    verify_card_projections(store, record, cards)?;
+    let mut expected_audit = Vec::new();
+    for event in &record.audit {
+        serde_json::to_writer(&mut expected_audit, event)?;
+        expected_audit.push(b'\n');
+    }
+    if fs::read(store.issue_dir(record.issue).join("audit.jsonl"))? != expected_audit {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "audit projection drift",
+        ));
+    }
     Ok(())
 }
 
@@ -3854,6 +4005,22 @@ mod edit_authorization_tests {
             },
         )
         .expect_err("late hardlink alias must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_retains_handle_identity_until_commit_boundary() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design = temp.path().join("design.md");
+        fs::write(&design, b"# design\n").expect("design");
+        let mut retained = retain_authored_artifact(temp.path(), Path::new("design.md"))
+            .expect("retain artifact handle");
+        fs::rename(&design, temp.path().join("old-design.md")).expect("move original");
+        fs::write(&design, b"# replacement\n").expect("replace path");
+        let error = retained
+            .verify()
+            .expect_err("replacement must fail final identity check");
         assert_eq!(error.code, ErrorCode::ReconciliationRequired);
     }
 

@@ -58,7 +58,6 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
         ));
     }
     require_registered_worktree(store, &record)?;
-    require_current_design_approval(store, &record)?;
     if request.reviewer.trim().is_empty()
         || request.assigned_by.trim().is_empty()
         || request.scope.is_empty()
@@ -77,6 +76,7 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
             "review assignment requires a clean substantive commit",
         ));
     }
+    require_current_design_approval(store, &record)?;
     let assignment = ReviewAssignment {
         reviewer: request.reviewer,
         assigned_by: request.assigned_by.clone(),

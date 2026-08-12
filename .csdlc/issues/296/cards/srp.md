@@ -12,13 +12,7 @@ Status: draft
 
 ## Scope
 
-csdlc-v2/src/cards.rs
-csdlc-v2/src/store.rs
-csdlc-v2/src/review.rs
-csdlc-v2/tests/card_identity.rs
-.csdlc/issues/296
-.csdlc/prepared/issues/296
-.csdlc/evidence/296
+
 
 ## Prompts
 
