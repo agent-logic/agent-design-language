@@ -41,32 +41,60 @@ async fn runtime_owned_positive_is_complete_replay_stable_and_redacted() {
 #[tokio::test]
 async fn every_declared_negative_has_a_typed_reason() {
     let cases = [
-        BirthdayDemoCase::Startup,
-        BirthdayDemoCase::Wake,
-        BirthdayDemoCase::Restore,
-        BirthdayDemoCase::Snapshot,
-        BirthdayDemoCase::Admission,
-        BirthdayDemoCase::CopiedState,
-        BirthdayDemoCase::Simulation,
-        BirthdayDemoCase::NamedFixture,
-        BirthdayDemoCase::MissingEvidence(EvidenceKind::IdentityRoot),
-        BirthdayDemoCase::MissingEvidence(EvidenceKind::ContinuityHead),
-        BirthdayDemoCase::MissingEvidence(EvidenceKind::MemoryGrounding),
-        BirthdayDemoCase::MissingEvidence(EvidenceKind::CapabilityEnvelope),
-        BirthdayDemoCase::MissingEvidence(EvidenceKind::CognitiveProfile),
-        BirthdayDemoCase::MissingEvidence(EvidenceKind::WitnessSet),
-        BirthdayDemoCase::MissingEvidence(EvidenceKind::Receipt),
-        BirthdayDemoCase::MissingEvidence(EvidenceKind::ReviewerValidation),
+        (BirthdayDemoCase::Startup, LifecycleEvent::ProcessStartup),
+        (BirthdayDemoCase::Wake, LifecycleEvent::WakeOrResume),
+        (
+            BirthdayDemoCase::Restore,
+            LifecycleEvent::RestoreFromCheckpoint,
+        ),
+        (BirthdayDemoCase::Snapshot, LifecycleEvent::SnapshotCreation),
+        (
+            BirthdayDemoCase::Admission,
+            LifecycleEvent::TestEnvironmentAdmission,
+        ),
+        (BirthdayDemoCase::CopiedState, LifecycleEvent::CopiedState),
+        (BirthdayDemoCase::Simulation, LifecycleEvent::SimulationRun),
+        (
+            BirthdayDemoCase::NamedFixture,
+            LifecycleEvent::NamedTestFixture,
+        ),
     ];
-    for case in cases {
+    for (case, event) in cases {
         let packet = run_first_birthday_demo(case).await.unwrap();
         assert_eq!(packet.status, BirthdayDemoStatus::Rejected);
         assert!(!packet.decision.accepted);
-        assert!(!packet.rejections.is_empty());
+        assert_eq!(
+            packet.rejections,
+            vec![BirthdayDemoRejection::Birthday {
+                rejection: BirthdayRejection::LifecycleLookalike { event }
+            }]
+        );
         assert!(
             packet.capability.is_none()
                 && packet.cognitive_profile.is_none()
                 && packet.witness_packet.is_none()
+        );
+    }
+
+    for kind in [
+        EvidenceKind::IdentityRoot,
+        EvidenceKind::ContinuityHead,
+        EvidenceKind::MemoryGrounding,
+        EvidenceKind::CapabilityEnvelope,
+        EvidenceKind::CognitiveProfile,
+        EvidenceKind::WitnessSet,
+        EvidenceKind::Receipt,
+        EvidenceKind::ReviewerValidation,
+    ] {
+        let packet = run_first_birthday_demo(BirthdayDemoCase::MissingEvidence(kind))
+            .await
+            .unwrap();
+        assert_eq!(packet.status, BirthdayDemoStatus::Rejected);
+        assert_eq!(
+            packet.rejections,
+            vec![BirthdayDemoRejection::Birthday {
+                rejection: BirthdayRejection::MissingEvidence { kind }
+            }]
         );
     }
 }

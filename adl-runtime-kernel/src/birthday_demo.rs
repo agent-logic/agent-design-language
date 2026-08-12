@@ -13,9 +13,8 @@ use thiserror::Error;
 use crate::*;
 
 pub const FIRST_BIRTHDAY_DEMO_SCHEMA: &str = "adl.first_birthday.demo_packet.v1";
-const H: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-const R: &str = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 const GENESIS: &str = "0000000000000000000000000000000000000000000000000000000000000000";
+const RETAINED_PACKET_PATH: &str = "demos/v0.92/first-birthday/positive.json";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -290,7 +289,7 @@ fn build_runtime_identity(
         schema: BIRTHDAY_IDENTITY_CANDIDATE_SCHEMA.to_owned(),
         basis: IdentityBasis::OriginEvidence,
         stable_name: "Aster".to_owned(),
-        identity_root: H.to_owned(),
+        identity_root: runtime_digest("identity-root-seed"),
         aliases: vec![AliasBinding {
             name: "Aster One".to_owned(),
             provenance_id: "alias-one".to_owned(),
@@ -301,7 +300,7 @@ fn build_runtime_identity(
             reference: identity_ref("origin-binding", evidence.binding_sha256()),
         },
         continuity: ContinuityBinding {
-            identity_root: H.to_owned(),
+            identity_root: runtime_digest("identity-root-seed"),
             head_sha256: evidence.checkpoint_head().to_owned(),
             reference: identity_ref("continuity-checkpoint", evidence.checkpoint_sha256()),
         },
@@ -340,7 +339,13 @@ async fn build_runtime_continuity(
     std::fs::create_dir_all(&root).map_err(|_| BirthdayDemoError::Stage("continuity_root"))?;
     let recorder = RuntimeRecorder::new(16);
     recorder.set_lifecycle(LifecycleState::Running);
-    let snapshot = LiveKernelSnapshot::new(H, R, BTreeMap::new());
+    let state_sha256 = runtime_digest("live-kernel-state");
+    let runtime_revision_sha256 = runtime_digest("runtime-v3-birthday-revision");
+    let snapshot = LiveKernelSnapshot::new(
+        state_sha256.clone(),
+        runtime_revision_sha256.clone(),
+        BTreeMap::new(),
+    );
     let mut live =
         LiveContinuity::new(&root, "runtime-birthday-continuity", &[19; 32], snapshot, 0);
     let first = live
@@ -360,8 +365,8 @@ async fn build_runtime_continuity(
         "runtime-birthday-continuity",
         identity,
         identity_evidence,
-        H,
-        R,
+        &state_sha256,
+        &runtime_revision_sha256,
         LIVE_KERNEL_CHECKPOINT_SCHEMA,
         1,
         None,
@@ -459,7 +464,7 @@ fn runtime_evidence(
         .into_iter()
         .map(|(kind, sha256)| EvidenceReference {
             kind,
-            path: format!("runtime-generated/{kind:?}.json").to_ascii_lowercase(),
+            path: RETAINED_PACKET_PATH.to_owned(),
             sha256,
             visibility: EvidenceVisibility::ReviewerVisible,
         })
@@ -490,10 +495,26 @@ fn build_runtime_capability(
             CapabilityEvidenceKind::Identity,
             &identity.record_sha256,
         ),
-        cap_ref("retained", CapabilityEvidenceKind::RetainedCapability, H),
-        cap_ref("provider", CapabilityEvidenceKind::Provider, H),
-        cap_ref("model", CapabilityEvidenceKind::Model, H),
-        cap_ref("authority", CapabilityEvidenceKind::Authority, H),
+        cap_ref(
+            "retained",
+            CapabilityEvidenceKind::RetainedCapability,
+            &runtime_digest("retained-capability"),
+        ),
+        cap_ref(
+            "provider",
+            CapabilityEvidenceKind::Provider,
+            &runtime_digest("runtime-demo-provider"),
+        ),
+        cap_ref(
+            "model",
+            CapabilityEvidenceKind::Model,
+            &runtime_digest("runtime-demo-bounded-model"),
+        ),
+        cap_ref(
+            "authority",
+            CapabilityEvidenceKind::Authority,
+            &runtime_digest("runtime-capability-authority"),
+        ),
     ];
     let limits = CapabilityResourceLimits {
         max_prompt_tokens: 4096,
@@ -564,15 +585,31 @@ fn build_runtime_cognitive(
             CognitiveEvidenceCategory::Continuity,
             &c.record().record_sha256,
         ),
-        cog_ref("memory", CognitiveEvidenceCategory::Memory, H),
+        cog_ref(
+            "memory",
+            CognitiveEvidenceCategory::Memory,
+            &runtime_digest("runtime-memory-grounding"),
+        ),
         cog_ref(
             "capability",
             CognitiveEvidenceCategory::Capability,
             &cap.envelope_sha256,
         ),
-        cog_ref("tom", CognitiveEvidenceCategory::TheoryOfMind, H),
-        cog_ref("intelligence", CognitiveEvidenceCategory::Intelligence, H),
-        cog_ref("learning", CognitiveEvidenceCategory::GovernedLearning, H),
+        cog_ref(
+            "tom",
+            CognitiveEvidenceCategory::TheoryOfMind,
+            &runtime_digest("bounded-theory-of-mind"),
+        ),
+        cog_ref(
+            "intelligence",
+            CognitiveEvidenceCategory::Intelligence,
+            &runtime_digest("bounded-intelligence-profile"),
+        ),
+        cog_ref(
+            "learning",
+            CognitiveEvidenceCategory::GovernedLearning,
+            &runtime_digest("governed-learning-profile"),
+        ),
     ];
     let policy = CognitiveProfilePolicy {
         schema: COGNITIVE_PROFILE_POLICY_SCHEMA.to_owned(),
@@ -594,7 +631,7 @@ fn build_runtime_cognitive(
             "no_personhood_inference".to_owned(),
             "no_rights_inference".to_owned(),
         ],
-        redaction_policy_sha256: H.to_owned(),
+        redaction_policy_sha256: runtime_digest("birthday-redaction-policy-v1"),
         capability_policy: cap_policy.clone(),
     };
     let input = CognitiveProfileInput {
@@ -624,7 +661,7 @@ fn build_runtime_cognitive(
             },
         ],
         nonclaims: policy.required_nonclaims.clone(),
-        redaction_policy_sha256: H.to_owned(),
+        redaction_policy_sha256: runtime_digest("birthday-redaction-policy-v1"),
     };
     let key = SigningKey::from_bytes(&[29; 32]);
     let policy_sha = canonical_cognitive_policy_digest(&policy)?;
@@ -807,7 +844,7 @@ fn lifecycle_for_case(case: &BirthdayDemoCase) -> LifecycleEvent {
 fn identity_ref(id: &str, sha256: &str) -> IdentityReference {
     IdentityReference {
         id: id.to_owned(),
-        path: format!("runtime-generated/identity/{id}.json"),
+        path: RETAINED_PACKET_PATH.to_owned(),
         sha256: sha256.to_owned(),
     }
 }
@@ -838,9 +875,9 @@ fn cap_ref(id: &str, kind: CapabilityEvidenceKind, sha: &str) -> CapabilityEvide
         id: id.to_owned(),
         kind,
         issue,
-        path: format!("runtime-generated/capability/{id}.json"),
+        path: RETAINED_PACKET_PATH.to_owned(),
         sha256: sha.to_owned(),
-        revision_sha256: R.to_owned(),
+        revision_sha256: runtime_digest("runtime-capability-contract-v1"),
     }
 }
 fn cap_decl(id: &str, provenance: &str) -> CapabilityDeclaration {
@@ -858,9 +895,9 @@ fn cog_ref(id: &str, category: CognitiveEvidenceCategory, sha: &str) -> Cognitiv
     CognitiveEvidenceReference {
         id: id.to_owned(),
         category,
-        path: format!("runtime-generated/cognitive/{id}.json"),
+        path: RETAINED_PACKET_PATH.to_owned(),
         sha256: sha.to_owned(),
-        revision_sha256: R.to_owned(),
+        revision_sha256: runtime_digest("runtime-cognitive-contract-v1"),
         visibility,
     }
 }
@@ -869,6 +906,9 @@ fn transient_root() -> PathBuf {
 }
 fn digest_bytes(bytes: &[u8]) -> String {
     hex::encode(Sha256::digest(bytes))
+}
+fn runtime_digest(label: &str) -> String {
+    digest_bytes(format!("adl.first_birthday.runtime_evidence.v1:{label}").as_bytes())
 }
 fn digest_jcs<T: Serialize>(value: &T) -> Result<String, BirthdayDemoError> {
     serde_jcs::to_vec(value)
