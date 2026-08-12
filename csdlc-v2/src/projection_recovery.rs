@@ -610,7 +610,7 @@ fn fd_mount_id(file: &File) -> Result<String> {
             return Err(std::io::Error::last_os_error().into());
         }
         let statx = unsafe { statx.assume_init() };
-        return linux_mount_id_from_statx(statx.stx_mask, statx.stx_mnt_id);
+        linux_mount_id_from_statx(statx.stx_mask, statx.stx_mnt_id)
     }
     #[cfg(not(target_os = "linux"))]
     use std::mem::MaybeUninit;
