@@ -1915,6 +1915,7 @@ pub fn recover_preserved_projection(
     receipt(&attempt, 13, "recovered", &serde_json::to_value(&out)?)?;
     Ok(out)
 }
+
 fn classify_preserved_projection_unlocked(
     store: &Store,
     request: &ProjectionRecoverRequest,
@@ -1952,4 +1953,22 @@ fn classify_preserved_projection_unlocked(
     };
     v.receipt_digest = blake3::hash(&serde_json::to_vec(&v)?).to_hex().to_string();
     Ok(v)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn anchored_identity_check_rejects_name_swap_after_anchor_creation() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let child = temp.path().join("candidate");
+        fs::create_dir(&child).expect("candidate dir");
+        fs::write(child.join("index.json"), "{}").expect("candidate file");
+        let expected = observe(&child, "candidate", 298);
+        let anchor = anchored_name(&child).expect("anchor");
+        assert!(anchored_root_identity_matches(&anchor, &expected).expect("initial identity"));
+        fs::rename(&child, temp.path().join("candidate.old")).expect("displace candidate");
+        fs::create_dir(&child).expect("replacement candidate dir");
+        assert!(!anchored_root_identity_matches(&anchor, &expected).expect("swapped identity"));
+    }
 }
