@@ -80,7 +80,7 @@ Stabilized the cleanup-race proof by queueing the duplicate attachment immediate
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

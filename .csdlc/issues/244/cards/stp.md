@@ -16,16 +16,16 @@ Correct only the cleanup-race admission/deadline behavior introduced by PR #228.
 
 ## Deliverables
 
-- Bounded Runtime admission/deadline correction
-- deterministic cleanup-race regression proof
+- deterministic cleanup-race regression sequencing
+- repeated focused cleanup-race proof
 - required Runtime lane evidence
 
 ## Acceptance
 
-1. AC-1: Initial accepted acknowledgement does not wait for dispatch-gate or ingress completion.
-2. AC-2: A new session generation cannot consume or inherit a stale predecessor deadline.
+1. AC-1: Initial accepted acknowledgement remains before dispatch-gate or ingress completion.
+2. AC-2: Re-authentication and duplicate attachment are queued in server processing order without consuming the active turn's existing deadline on a client round trip.
 3. AC-3: Cleanup-race proof deterministically observes accepted, in-flight attachment, and exactly one delivered terminal result.
-4. AC-4: Cancellation, timeout, ordering, capacity, and token-rotation semantics remain green.
+4. AC-4: Cancellation, timeout, ordering, capacity, and token-rotation semantics remain green and production behavior is unchanged.
 5. AC-5: Required Runtime fast lane passes at the reviewed exact revision.
 
 ## Dependencies

@@ -16,7 +16,7 @@ Separate admission acknowledgement from bounded execution timing, prove the clea
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
@@ -52,7 +52,8 @@ Revision 1
 
 ## Invariants
 
-- Authentication remains required.
+- Authentication remains required and server frame order is preserved.
+- Production admission and execution deadline behavior is unchanged.
 - Each active turn produces at most one terminal result.
 - Active turns are not evicted to admit new work.
 - Explicit cancellation and timeout remain fail-closed.

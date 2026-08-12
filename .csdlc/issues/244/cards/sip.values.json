@@ -7,7 +7,7 @@
     "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
     "slug": "conversation-cleanup-race-deadline",
     "version": "1.0.0",
-    "generation": 6
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -16,9 +16,9 @@
       "goal": "Make cleanup-race admission and execution deadlines deterministic so the required Runtime lane and PR #242 can proceed.",
       "required_outcome": "A newly admitted conversation generation is acknowledged before bounded execution, does not inherit a stale deadline, and emits exactly one terminal result.",
       "declared_scope": [
-        "Runtime conversation admission acknowledgement",
-        "per-generation execution deadline semantics",
-        "cleanup-race regression proof"
+        "cleanup-race client-frame ordering in the regression test",
+        "existing in-flight attachment and exactly-once terminal proof",
+        "required Runtime lane evidence"
       ],
       "authority_boundary": [
         "Only the existing Runtime conversation owner admits and executes turns.",

@@ -8,17 +8,17 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact issue diff for conversation admission acknowledgement, per-generation deadline behavior, and cleanup-race proof.
+
 
 ## Prompts
 
-- Does accepted mean admission rather than execution success?
-- Can cleanup or re-authentication reuse a stale deadline?
-- Are cancellation, timeout, duplicate attachment, and exactly-once terminal semantics preserved?
+- Does queuing the duplicate behind re-authentication preserve server frame order and the authentication-generation transition?
+- Does the test attach to the existing in-flight turn before its existing deadline without changing production behavior?
+- Are duplicate attachment and exactly-once terminal semantics preserved, with no #112 authority changes?
 
 ## Findings
 

@@ -20,9 +20,9 @@ A newly admitted conversation generation is acknowledged before bounded executio
 
 ## Scope
 
-- Runtime conversation admission acknowledgement
-- per-generation execution deadline semantics
-- cleanup-race regression proof
+- cleanup-race client-frame ordering in the regression test
+- existing in-flight attachment and exactly-once terminal proof
+- required Runtime lane evidence
 
 ## Authority
 

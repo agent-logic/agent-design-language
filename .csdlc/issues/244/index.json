@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "afe4e861f691a6e31f958fb7c410b5d3e9ed0e4fe1dd86f385eb80a82dc9d76d",
+  "generation": 14,
+  "digest": "72c5aaedd54016494afa5b8710204d118835417dfaba19d56bc2ef4adf75d8b2",
   "branch": "codex/244-conversation-cleanup-race",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "37b5e9d6c142e6a352a393f3c36fff3285e5710fba6a7e44d4cce7759eedc805",
-      "rendered_digest": "c67262a9c3b85302894b1e06cfa6bd114f0b33e24c3e058675276f9fad619d58",
-      "ast_digest": "c051bdf056a591bc1db0808da9ed1e0413bb94dc35e588674f7ad03cb1e64f85"
+      "values_digest": "631aa05fa44b854ca88cf7999489c82b46880b1789539a7ffc3677bff2fcb048",
+      "rendered_digest": "7a62a44849b3ee47c6d315d9ae860e38c7c9f401b082ff6c10b51e07ea83d10c",
+      "ast_digest": "a674fc18f6ee0f0e5bd3b16927f94ff295859296335f60b994861f61e4b8f480"
     },
     "stp": {
-      "values_digest": "a3141712c16e099a82bdf166e5527a00353051865c566ab982a22eaf0ed22009",
-      "rendered_digest": "8a915442b927fdc41bc454e8cbab6561247c49b3be5d05b9d42c75a5e0753e17",
-      "ast_digest": "c045d6082095cbd37dd74085ddc3b86d92b7434920942147c341b3c02d777b81"
+      "values_digest": "c2e7137193c0eda36a769fe751efcfd6370a507ac437baafc8aac7bc77d17e94",
+      "rendered_digest": "eb188e0abb8bcfed05a216770117422eb93ead3e8e416be888002ad29221716a",
+      "ast_digest": "326ed86deaf78bc55b60c81607d0068ad3b1095c56de7aa454808bb21ec07f42"
     },
     "spp": {
-      "values_digest": "4e1876735e4d24f7fa5f583a53db641df0dac4ac9d2eed50c8c13e15be1c258b",
-      "rendered_digest": "79c49632400fbbf429fb8dc9992ec454bdc481258a82d0dffb6fed5b283d4a50",
-      "ast_digest": "d51cf6f4181dcde874fb51ebe37cfaf3146946a43f5fccf34e54a265232b0c2d"
+      "values_digest": "d93d1493467f461e2a97064f8c2f03303494e9b1e715260be5d629f61f07c97e",
+      "rendered_digest": "81978cbb3dfdd1de1a83497165879cab700128b49ade354cc668bb235a476c34",
+      "ast_digest": "52b86689ec5153ac35615f555085adc964584e6a9fbb5b9fe4438be11d1143ad"
     },
     "vpp": {
-      "values_digest": "f56c21cce18748a188778dbf9692c6db91cd90ba372409a499a0cb0784563ba9",
+      "values_digest": "b17bef7726254e874337f3ec18dbbd00d08119325678b012f6dba19d2052172f",
       "rendered_digest": "b1f0e4cabc691a213f24184bd7f17d1ce8bb6876b4ebc31d45ae2d1291418074",
       "ast_digest": "37327f5026d7e84602ac9dba51b9790a75681342c9a0600c179f6f99090fc7f0"
     },
     "srp": {
-      "values_digest": "bd8d8a183576c5ed866edb8e19e0012ebc38761739ae5c0281c2d4677ced161c",
-      "rendered_digest": "862eda5d433173544050594f554278d9a1243ee6072a974652977151f672eaee",
-      "ast_digest": "8910e46db8a4a00668494fd5f31823a651229b620902a282c28f6cd1d73c4586"
+      "values_digest": "198f894ec0170ada1c1312a8063b0185e2a895c9a030b3d472748b4e4928b4e1",
+      "rendered_digest": "9fdfc4ebbab88ffd71d310ad577f2bc179ab5c194aa6d461bac005661792eaef",
+      "ast_digest": "53d7dbf8eef992e76d36b5742a3ed29b9315d6f20f1595e5ec22d3d4bb66920c"
     },
     "sor": {
-      "values_digest": "d85716920093641eeaabacaad7240965ff3c5ae955acf5fbe9a861dd88e22243",
-      "rendered_digest": "a515c71957625fbf6b6a32ce97d0d985b022bd06acccb2a79c0ff3ce3fe57feb",
-      "ast_digest": "81ec549b0ac0ee4a1e8fc5599e2f7097c8c28bbc8a23711930b6e6d307aa7683"
+      "values_digest": "208ba3a0b4fe0cfdf4523bfd2f9c5f9abea3db44ef628f8e371c73d7e40ac87b",
+      "rendered_digest": "7ce801156172218ca7a70c37f28ddc9645672a7ab9e9f0e949e424d3e73dad24",
+      "ast_digest": "fc5fd5e72bc9348d0685d86d9b09445fe178bfebd5e1436f0784ba382f7f2413"
     }
   },
   "transitions": [
@@ -133,6 +133,62 @@
       "actor": "planning-1-review-p2-disposition",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:244-cleanup-race",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Recover the independently confirmed P2 lifecycle-truth finding for typed card correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 after typed review recovery.",
+      "operation": "{\"new_values\":[\"cleanup-race client-frame ordering in the regression test\",\"existing in-flight attachment and exactly-once terminal proof\",\"required Runtime lane evidence\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"Runtime conversation admission acknowledgement\",\"per-generation execution deadline semantics\",\"cleanup-race regression proof\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 after typed review recovery.",
+      "operation": "{\"new_values\":[\"deterministic cleanup-race regression sequencing\",\"repeated focused cleanup-race proof\",\"required Runtime lane evidence\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Bounded Runtime admission/deadline correction\",\"deterministic cleanup-race regression proof\",\"required Runtime lane evidence\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 by aligning acceptance to the test-only proof.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Initial accepted acknowledgement remains before dispatch-gate or ingress completion.\",\"AC-2: Re-authentication and duplicate attachment are queued in server processing order without consuming the active turn's existing deadline on a client round trip.\",\"AC-3: Cleanup-race proof deterministically observes accepted, in-flight attachment, and exactly one delivered terminal result.\",\"AC-4: Cancellation, timeout, ordering, capacity, and token-rotation semantics remain green and production behavior is unchanged.\",\"AC-5: Required Runtime fast lane passes at the reviewed exact revision.\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 by limiting affected areas to the actual test and evidence surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/tests/conversation_sessions.rs\",\".csdlc/evidence/244\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 by explicitly preserving production semantics.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Authentication remains required and server frame order is preserved.\",\"Production admission and execution deadline behavior is unchanged.\",\"Each active turn produces at most one terminal result.\",\"Active turns are not evicted to admit new work.\",\"Explicit cancellation and timeout remain fail-closed.\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 by aligning review prompts to the actual proof surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does queuing the duplicate behind re-authentication preserve server frame order and the authentication-generation transition?\",\"Does the test attach to the existing in-flight turn before its existing deadline without changing production behavior?\",\"Are duplicate attachment and exactly-once terminal semantics preserved, with no #112 authority changes?\"]}"
     }
   ]
 }

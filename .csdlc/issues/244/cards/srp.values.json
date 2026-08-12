@@ -7,19 +7,19 @@
     "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
     "slug": "conversation-cleanup-race-deadline",
     "version": "1.0.0",
-    "generation": 6
+    "generation": 14
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact issue diff for conversation admission acknowledgement, per-generation deadline behavior, and cleanup-race proof.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
-        "Does accepted mean admission rather than execution success?",
-        "Can cleanup or re-authentication reuse a stale deadline?",
-        "Are cancellation, timeout, duplicate attachment, and exactly-once terminal semantics preserved?"
+        "Does queuing the duplicate behind re-authentication preserve server frame order and the authentication-generation transition?",
+        "Does the test attach to the existing in-flight turn before its existing deadline without changing production behavior?",
+        "Are duplicate attachment and exactly-once terminal semantics preserved, with no #112 authority changes?"
       ],
       "findings": [],
       "residual_risk": [],
