@@ -12,7 +12,15 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/bin/csdlc-issue.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/src/schema.rs
+csdlc-v2/src/store.rs
+csdlc-v2/src/projection_recovery.rs
+csdlc-v2/tests/gate5.rs
+.csdlc/issues/298
+.csdlc/prepared/issues/298
+.csdlc/evidence/298
 
 ## Prompts
 

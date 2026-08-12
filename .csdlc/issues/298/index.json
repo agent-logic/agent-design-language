@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 47,
-  "digest": "cf0d7d567676630b86c2a036a4a20775fea0ed2e1a210480f5abb6e61552d7f5",
+  "digest": "db4d7a44e56ba487b2264cdacad22fe0e4dc084a6cde2869f1241c06d43ec4f5",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:c90f5e9f-a6bf-4291-94c0-59d2049102a5",
+    "assigned_by": "codex:issue-298",
+    "revision": "git-blake3:8a3223fbf8ac045f956cc40babd8d29ee667759b:257914cfc6de77c3b983cc85f43264249a190241cdccd6894adad7d30f2a9187",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "ebd94b7c732bf8a2e9c5016ae261d6f6932744e0b1672c91c547f1abc0927621",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "5d4eab0652d83a4b2f92f3821d20aa6798b551cc3cbae885939b33820d34f53b",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "fa2ee9e6b40962d34c12691d3cbc84a76307dfaeb51280476adab85ecd708f7f",
@@ -567,6 +582,13 @@
       "actor": "codex:issue-298",
       "reason": "record retained recovery directory authority remediation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Retain and bind recovery root and attempt directory authority across classification, recovery, receipt, and commit-gate operations\",\"changes\":[\"Opened recovery roots and attempts with O_DIRECTORY, O_NOFOLLOW, and O_CLOEXEC and retained the resulting directory descriptors\",\"Validated retained directory mode, owner, group, device, mount, inode, and pathname binding before evidence mutation\",\"Enumerated recovery roots and attempts descriptor-relative and created attempt directories with mkdirat\",\"Opened and created immutable receipts descriptor-relative with openat while preserving all prior regular-file, link, owner, device, mode, and digest guards\",\"Anchored archive, candidate, and displacement rename destinations to the retained attempt directory descriptor\",\"Applied retained directory authority to classification, completed-attempt validation, and ordinary-commit recovery inventory\",\"Added deterministic post-open recovery-root and recovery-attempt substitution tests proving fail-closed binding before evidence mutation\",\"Validated 35 focused preserved-recovery tests, 54 full Gate5 tests, 78 library tests, strict all-target Clippy, formatting, and diff hygiene\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 68,
+      "generation": 47,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
