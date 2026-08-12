@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "implemented",
-  "generation": 68,
-  "digest": "dccb6a0706370fdc433318269acbbafca59af7e14e7d58d8ff864f974dd2a255",
+  "generation": 69,
+  "digest": "b449e97d4b332c7c43527d58e3a3b2ad0c5c6bc475aaac7ab1cba89582eac2e4",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d0d6d2ce40d7367a70ce924bc72d8e50c04e4c9e20734176a8ce550029f16e53",
+      "values_digest": "ecc0271b8e913f0b3df506c4219c99b24ff7700ded7f894a1f31f5418e27d66f",
       "rendered_digest": "763f72e23eca9a11445e9b4d220d9cc981c5fa377d95e42c1b0d7e8eb68ed3d5",
       "ast_digest": "0aaa623967e2a41df9806dc44b09a94c7a8072f348027f43f8529596dffae49d"
     },
     "stp": {
-      "values_digest": "f2f63a35d8681e9f550dd083c5543cb6b1b4138cfa9f2c315437e87d503a25c6",
+      "values_digest": "61cb6e04fa646a00ba17c4e1ffed278f700bb756e452383d8a43cbb67ce12a71",
       "rendered_digest": "c24d9c4cfc7d3c15ecade4c460f46c246bb94c466fc3a70d158f614fef3a855e",
       "ast_digest": "c55db8df8b630ef9fcc4a3327f4bf4ca6ea2c641b1f7a67c1cbc1554a3db63c9"
     },
     "spp": {
-      "values_digest": "bdab4adc6f0ead2f2978afdbc3adbef7ca7dd65124da44ad665e984cc30944c9",
+      "values_digest": "9185f4bcbb5dbd074764776b04476ed893bb959764af69456c3726bf863b1396",
       "rendered_digest": "91450569b5db0092712cd5eefd062ca05d6d17c47e19ea84c2ec4e326529d5a0",
       "ast_digest": "66b7110872a3513f90e21b9cc29181a2b864e78702542a9011fefdd25ff52406"
     },
     "vpp": {
-      "values_digest": "42136bd4ad14f2d263c9a45ad50d25274de7683d971c330a547c502e9bd4b4e4",
+      "values_digest": "76a797333c29cfb75071d4c297a7f4681f4bcf1cc5ad215189146bf3b904e8da",
       "rendered_digest": "f958b2a97bf3fe647bcb71a2182d49b0410700c6d5f32de5c41795fc1bb8a18d",
       "ast_digest": "2aaa83f4c7517a477ad4df28797069476a90610bea53d15d8d8b565978c70783"
     },
     "srp": {
-      "values_digest": "b66c0fa89a3aa5d13165dc01d955848856a4ab922d7648969911aa29b90dd36b",
+      "values_digest": "12f4d05dd07f89e49bda26a5ddb8958c357445e5b04eabddfe29b3b76aaf32d3",
       "rendered_digest": "ffad1abe27504799460e66a2250c2cb18a905279f32aa689113c1bc8d79ae449",
       "ast_digest": "5fdc0376fb859469f30455c3dd580055edfcafda99da1178ef13470bcd0c1402"
     },
     "sor": {
-      "values_digest": "b292d13a35c882a89b3e463623d79cfd83f9618402aa4e2e549d10b1ecc2cfdd",
+      "values_digest": "11c8b8e5ea2e3f462cd484d34aa4184a8c7ec299e825afa391acf77cebfd6f96",
       "rendered_digest": "ac1ff9acc6fbeef2e661c08b2e9d22aed128239787fd4fae526e0e2ea6e61c7b",
       "ast_digest": "558d1860a9143a43332f9d1ee76a2805b94494e5a73053563755f0b79c4500df"
     }
@@ -694,6 +694,20 @@
       "actor": "codex-session-112",
       "reason": "record replay persistence and lifecycle truth review fixes",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Forward-recovered the authoritative bound #112 branch to the decomposed Layer 8 signed authority core and remediated fresh exact-head findings: all audited attempts now consume replay identities, refused replay survives restart and cannot later authorize, expanded core tests prove that case, and current SOR artifacts no longer claim the removed stale preparation validator.\",\"changes\":[\"Cleared stale review assignment through typed csdlc-review recover after the 5742c1c46 exact-head review findings.\",\"Changed audit replay restoration to retain replay hashes from every valid audit record, authorized or refused.\",\"Changed current authorization to insert replay hashes after every appended audit record, authorized or refused.\",\"Added focused proof that a scope-denied refused request consumes its replay identity, a restarted authority reloads that replay from the audit chain, and an otherwise valid request with the same replay is refused.\",\"Revalidated the four-test core matrix covering replay, audited identity precheck refusals, capability/policy/audit failures, canonical signed-message behavior, request tamper, and acknowledgement substitution.\",\"Confirmed .csdlc/prepared/issues/112/validate-preparation.rb is removed from current artifacts; older API/UI/cumulative evidence remains historical only and is not current product/proof truth.\",\"Attempted typed STP task_boundary correction; v2 owner rejected implemented-phase STP mutation, so current publication title/body must use the narrowed SIP declared scope, STP deliverables/ACs, VPP, SRP, and SOR rather than stale pre-decomposition task_boundary prose.\"],\"artifacts\":[\"adl-runtime-kernel/src/layer8_authority/audit.rs\",\"adl-runtime-kernel/src/layer8_authority/mod.rs\",\"adl-runtime-kernel/tests/layer8_authority.rs\",\".csdlc/issues/112\",\".csdlc/evidence/112/layer8-authority-core-tests-forward.log\",\".csdlc/evidence/112/layer8-authority-core-fmt-forward.log\",\".csdlc/evidence/112/layer8-authority-core-clippy-forward.log\",\".csdlc/evidence/112/layer8-authority-core-diff-check-forward.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"layer8_authority\",\"--\",\"--nocapture\"],\"purpose\":\"Run the focused Layer 8 authority core integration target covering replay persistence across refused attempts and restart, audited precheck refusals, capability/policy/audit failure, signature/payload tamper, acknowledgement substitution, and known-recipient behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-tests-forward.log (4 passed)\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Verify runtime-kernel Rust formatting for the replay review-fix diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-fmt-forward.log (empty output; exit 0)\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Enforce strict warning-free clippy for the runtime-kernel crate and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-clippy-forward.log (exit 0)\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace and conflict-marker hygiene for the replay review-fix diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-diff-check-forward.log (empty output; exit 0)\"}]}"
+    },
+    {
+      "sequence": 87,
+      "generation": 68,
+      "actor": "codex-session-112",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 88,
+      "generation": 69,
+      "actor": "codex-session-112",
+      "reason": "recover invalid noncanonical review assignment before #119-compliant fresh-session review",
+      "operation": "recover_review"
     }
   ]
 }
