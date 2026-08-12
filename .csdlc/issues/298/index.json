@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 44,
-  "digest": "ee8355aa0061a8a7290ab0e6ee3ec310c2981250d5b61eafc440d0c64c0725c5",
+  "generation": 45,
+  "digest": "5a55e311a5143ce7968733672f41d003e5cb4ef0f23b57ec9e70592de0de1e59",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:ae7f63d4-5339-4d28-98cb-ecf5e4cfe1bb",
-    "assigned_by": "codex:issue-298",
-    "revision": "git-blake3:ada3f603f038912e216578e7cc5fbb4567f27b7e:c6f750e994a86126634fd19a4fc6b091ff49a54927142897b2dc85461625286f",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4c7d4bd480155282afb5f2b10efef7af95ecac9d43b511e8c05f87854f3b2a42",
+      "values_digest": "5a59a39adf51a0f6e36f3ac169c39538b6d21ea3e19d3da1d01ad959322a9b45",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "02d3fe5c66849dcba343f0e3d15a6665a937a8719f5c659422b0b4af2fe0a621",
+      "values_digest": "fdf0e98dc81fb823fc49ebb74010715c8851ce10af509d51269109d120603b3a",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "e46e952fcc7fd10a63d74d6239f78d6118384d700d70a45b0de068809bdf9fd4",
+      "values_digest": "9ac69b063e313d0fea249a2e5fa82e02cbeb67fd2f774218b9d48284ae2ad785",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "f7cd837b0b4891272f4ccb9cadd246d98b9fcc109793c01ca09f1b2e1e76ff8a",
+      "values_digest": "8327b07ab7da9d261498cd599bf774dc3186768a1495d21b886fb8943a31288e",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "5c250fcebc8c43cdc760bef059d38073670339eee060be38304f11cf5c583101",
-      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
-      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
+      "values_digest": "c967843a4824864032f3280cf472196fb61b7be6fac6f759df1d209d2f10df63",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "1ee20231573d60e45b4e68765964de3faa0681d9be09a3f490568b25cefef6f4",
+      "values_digest": "1d8d50dfc829e4941212ad6a36c57f244a853db4ce8930cc0a27574282a5c0ce",
       "rendered_digest": "5d170c57c690612ff595af209cf543d606faf4764db87c07cb851b85c99f949a",
       "ast_digest": "de128631897ed5a0fbd24ad3f32c3233686526603339111087671fbe8a8104a9"
     }
@@ -554,6 +539,13 @@
       "actor": "codex:issue-298",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 45,
+      "actor": "codex:issue-298",
+      "reason": "Recover failed exact review r16 at ada3f603: receipt regular-file validation checks metadata and then reopens by pathname, leaving current, predecessor, and idempotent restart reads vulnerable to a symlink or nonregular pathname swap; require O_NOFOLLOW same-handle validation and deterministic swap regressions.",
+      "operation": "recover_review"
     }
   ]
 }

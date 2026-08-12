@@ -8,6 +8,7 @@ use csdlc_v2::{
     ProjectionClassifyRequest, ProjectionRecoverRequest, ReviewAssignmentRequest, ReviewEvidence,
     ReviewFindingEvidence, ReviewRecordRequest, ReviewRecoveryRequest, SemanticOperation, Store,
 };
+use std::os::unix::fs::PermissionsExt;
 
 fn copy_tree(source: &std::path::Path, destination: &std::path::Path) {
     std::fs::create_dir(destination).expect("create copied projection root");
@@ -777,6 +778,69 @@ fn preserved_projection_recovery_rejects_symlinked_partial_receipt_before_resume
         preserved.is_dir(),
         "resume must fail before archiving preserved evidence"
     );
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_symlinked_recovery_root() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let external = store.root().join("external-recovery-root");
+    std::fs::create_dir(&external).expect("external recovery root");
+    std::os::unix::fs::symlink(&external, store.root().join(".csdlc/issues/.7.recovery"))
+        .expect("symlink recovery root");
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "symlinked recovery root fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "symlinked-root");
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("symlinked recovery root must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert!(
+        preserved.is_dir(),
+        "symlinked root must fail before archiving preserved evidence"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_hardlinked_terminal_receipt() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "hardlinked-receipt");
+    std::fs::hard_link(
+        receipt_path(&attempt, 13, "recovered"),
+        store.root().join("hardlinked-recovered-receipt.json"),
+    )
+    .expect("hardlink terminal receipt");
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("hardlinked receipt must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_permissive_terminal_receipt() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "permissive-receipt");
+    let receipt = receipt_path(&attempt, 13, "recovered");
+    let mut permissions = std::fs::metadata(&receipt)
+        .expect("receipt metadata")
+        .permissions();
+    permissions.set_mode(0o644);
+    std::fs::set_permissions(&receipt, permissions).expect("chmod receipt");
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("permissive receipt must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
 }
 
 #[test]

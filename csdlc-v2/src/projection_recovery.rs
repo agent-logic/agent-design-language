@@ -63,13 +63,7 @@ pub struct ManifestEntry {
 }
 
 fn receipt_payload<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
-    let metadata = fs::symlink_metadata(path)?;
-    if !metadata.is_file() || metadata.file_type().is_symlink() {
-        return Err(V2Error::new(
-            ErrorCode::CorruptRecord,
-            "recovery receipt is not a regular file",
-        ));
-    }
+    let bytes = read_receipt_file(path)?;
     let name = path.file_name().and_then(|v| v.to_str()).ok_or_else(|| {
         V2Error::new(ErrorCode::CorruptRecord, "recovery receipt name is invalid")
     })?;
@@ -85,7 +79,7 @@ fn receipt_payload<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
             "recovery receipt sequence is invalid",
         )
     })?;
-    let value: serde_json::Value = serde_json::from_slice(&fs::read(path)?)?;
+    let value: serde_json::Value = serde_json::from_slice(&bytes)?;
     let object = value.as_object().ok_or_else(|| {
         V2Error::new(
             ErrorCode::CorruptRecord,
@@ -132,15 +126,8 @@ fn receipt_payload<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
                 "recovery receipt chain predecessor is ambiguous",
             ));
         }
-        let prior_metadata = prior[0].path().symlink_metadata()?;
-        if !prior_metadata.is_file() || prior_metadata.file_type().is_symlink() {
-            return Err(V2Error::new(
-                ErrorCode::CorruptRecord,
-                "recovery receipt predecessor is not a regular file",
-            ));
-        }
         Some(
-            blake3::hash(&fs::read(prior[0].path())?)
+            blake3::hash(&read_receipt_file(&prior[0].path())?)
                 .to_hex()
                 .to_string(),
         )
@@ -235,6 +222,81 @@ fn issue_parent(store: &Store) -> PathBuf {
 }
 fn recovery_root(store: &Store, issue: u64) -> PathBuf {
     issue_parent(store).join(format!(".{issue}.recovery"))
+}
+
+fn validate_private_recovery_dir(path: &Path, label: &str) -> Result<()> {
+    let metadata = fs::symlink_metadata(path)?;
+    if !metadata.is_dir() || metadata.file_type().is_symlink() || metadata.mode() & 0o777 != 0o700 {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            format!("{label} is not a private non-symlink directory"),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_receipt_metadata(
+    metadata: &fs::Metadata,
+    parent_metadata: &fs::Metadata,
+) -> Result<()> {
+    if !metadata.is_file() || metadata.nlink() != 1 || metadata.mode() & 0o777 != 0o600 {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt is not a private regular file",
+        ));
+    }
+    if metadata.uid() != parent_metadata.uid()
+        || metadata.gid() != parent_metadata.gid()
+        || metadata.dev() != parent_metadata.dev()
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt owner or device does not match its ledger",
+        ));
+    }
+    Ok(())
+}
+
+fn read_receipt_file(path: &Path) -> Result<Vec<u8>> {
+    read_receipt_file_after_open(path, || Ok(()))
+}
+
+fn read_receipt_file_after_open<F>(path: &Path, after_open: F) -> Result<Vec<u8>>
+where
+    F: FnOnce() -> Result<()>,
+{
+    use std::ffi::CString;
+    use std::os::unix::ffi::OsStrExt;
+    let parent_path = path
+        .parent()
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "recovery receipt has no ledger"))?;
+    let parent = open_root_no_follow(parent_path).map_err(|_| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt ledger cannot be opened without following links",
+        )
+    })?;
+    let name = path.file_name().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt has no file name",
+        )
+    })?;
+    let name = CString::new(name.as_bytes())
+        .map_err(|_| V2Error::new(ErrorCode::CorruptRecord, "receipt name contains NUL"))?;
+    let mut file = open_child_no_follow(&parent, &name, false).map_err(|_| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt cannot be opened without following links",
+        )
+    })?;
+    after_open()?;
+    let metadata = file.metadata()?;
+    let parent_metadata = parent.metadata()?;
+    validate_receipt_metadata(&metadata, &parent_metadata)?;
+    let mut bytes = Vec::new();
+    file.read_to_end(&mut bytes)?;
+    Ok(bytes)
 }
 
 fn validate_operation_id(value: &str) -> Result<()> {
@@ -824,15 +886,8 @@ fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Resu
                 "recovery receipt chain predecessor is missing or ambiguous",
             ));
         }
-        let prior_metadata = prior[0].path().symlink_metadata()?;
-        if !prior_metadata.is_file() || prior_metadata.file_type().is_symlink() {
-            return Err(V2Error::new(
-                ErrorCode::CorruptRecord,
-                "recovery receipt predecessor is not a regular file",
-            ));
-        }
         Some(
-            blake3::hash(&fs::read(prior[0].path())?)
+            blake3::hash(&read_receipt_file(&prior[0].path())?)
                 .to_hex()
                 .to_string(),
         )
@@ -846,14 +901,8 @@ fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Resu
     });
     let mut bytes = serde_json::to_vec_pretty(&envelope)?;
     bytes.push(b'\n');
-    if let Ok(metadata) = p.symlink_metadata() {
-        if !metadata.is_file() || metadata.file_type().is_symlink() {
-            return Err(V2Error::new(
-                ErrorCode::CorruptRecord,
-                "recovery receipt is not a regular file",
-            ));
-        }
-        let existing = fs::read(&p)?;
+    if p.symlink_metadata().is_ok() {
+        let existing = read_receipt_file(&p)?;
         if existing == bytes {
             return Ok(blake3::hash(&bytes).to_hex().to_string());
         }
@@ -894,6 +943,7 @@ fn validate_receipt_inventory(dir: &Path) -> Result<usize> {
             )
         })?;
         if file_type.is_file() {
+            let _ = read_receipt_file(&entry.path())?;
             receipts.push(entry);
             continue;
         }
@@ -992,6 +1042,7 @@ fn validate_exact_receipt_files(dir: &Path, states: &[&str], label: &str) -> Res
                 format!("{label} receipt inventory contains a non-regular entry"),
             ));
         }
+        let _ = read_receipt_file(&entry.path())?;
         receipts.push(entry);
     }
     receipts.sort_by_key(|entry| entry.file_name());
@@ -2318,20 +2369,19 @@ pub fn recover_preserved_projection(
     if root.symlink_metadata().is_err() {
         private_dir(&root)?;
     }
+    validate_private_recovery_dir(&root, "recovery root")?;
     let attempt = root.join(&request.operation_id);
-    if root.is_dir() {
-        for entry in fs::read_dir(&root)? {
-            let entry = entry?;
-            if entry.file_name() != request.operation_id.as_str()
-                && entry.file_type()?.is_dir()
-                && !fs::read_dir(entry.path())?.any(|item| {
-                    item.ok().is_some_and(|item| {
-                        item.file_name()
-                            .to_string_lossy()
-                            .ends_with("-recovered.json")
-                    })
+    for entry in fs::read_dir(&root)? {
+        let entry = entry?;
+        if entry.file_name() != request.operation_id.as_str() && entry.file_type()?.is_dir() {
+            validate_private_recovery_dir(&entry.path(), "recovery attempt")?;
+            if !fs::read_dir(entry.path())?.any(|item| {
+                item.ok().is_some_and(|item| {
+                    item.file_name()
+                        .to_string_lossy()
+                        .ends_with("-recovered.json")
                 })
-            {
+            }) {
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
                     "a different incomplete recovery attempt already exists",
@@ -2356,7 +2406,8 @@ pub fn recover_preserved_projection(
         &request.classify_receipt_digest,
         request.issue,
     )?;
-    let classification = if attempt.exists() {
+    let classification = if attempt.symlink_metadata().is_ok() {
+        validate_private_recovery_dir(&attempt, "recovery attempt")?;
         if !prepared_path.is_file() {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
@@ -2426,6 +2477,7 @@ pub fn recover_preserved_projection(
             ));
         }
         private_dir(&attempt)?;
+        validate_private_recovery_dir(&attempt, "recovery attempt")?;
         let request_digest = request_authority_digest(&request)?;
         receipt(
             &attempt,
@@ -2892,6 +2944,36 @@ fn classify_preserved_projection_unlocked(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[cfg(unix)]
+    #[test]
+    fn receipt_read_keeps_opened_regular_file_authority_after_path_swap() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let receipt = temp.path().join("001-prepared.json");
+        let displaced = temp.path().join("001-prepared.original.json");
+        let replacement = temp.path().join("replacement.json");
+        let expected = b"opened receipt authority\n";
+        fs::write(&receipt, expected).expect("receipt");
+        fs::set_permissions(&receipt, fs::Permissions::from_mode(0o600)).expect("receipt mode");
+        fs::write(&replacement, b"replacement authority\n").expect("replacement");
+        fs::set_permissions(&replacement, fs::Permissions::from_mode(0o600))
+            .expect("replacement mode");
+
+        let bytes = read_receipt_file_after_open(&receipt, || {
+            fs::rename(&receipt, &displaced)?;
+            std::os::unix::fs::symlink(&replacement, &receipt)?;
+            Ok(())
+        })
+        .expect("read retained receipt handle");
+
+        assert_eq!(bytes, expected);
+        assert!(receipt
+            .symlink_metadata()
+            .expect("replacement metadata")
+            .file_type()
+            .is_symlink());
+    }
+
     #[test]
     fn anchored_identity_check_rejects_name_swap_after_anchor_creation() {
         let temp = tempfile::tempdir().expect("tempdir");
