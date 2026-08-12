@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 252,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c918bb9636465a8c8eaafa40fb2850a329c51ecb0c7fa000392e82004b33eb01",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "bdd9c2368ed15202154f5071b04ef082bc66d89d574b106564a87f1f17b92978",
+  "branch": "codex/252-guardian-hosted-spawn-flake",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-252-guardian-hosted-spawn-flake",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/252/design.md",
+  "diagram_path": ".csdlc/prepared/issues/252/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:bounded-follow-on-directive",
+      "revision": "618969e8355ffa07062849f5120390f7edf94bfea4a1d54cf91b4eb31edb3461"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "391bf9749ed9dc33af218f8674cfb377493e0661564cfff762e37ded74f7a78e",
+      "rendered_digest": "8d495ba3d16dc3181f2a2d3ce6769ef4303f713591405dc2d9b9134fb0a9c68a",
+      "ast_digest": "cae194592e2c9407460f1853c8cab08d3149b0d7f2612ceaa7ca8c5d8dc7429d"
+    },
+    "stp": {
+      "values_digest": "9efe4f931afbadaeca68f03613b2425798d2822f33fc1bb4989f1cabf5ade4bb",
+      "rendered_digest": "76b75912e55fb272675cbd868e608ced5a7213d7b6a230ddb05036aacca67842",
+      "ast_digest": "8e481c6242952de2ed1a4a022d2ab3d97ec5a5a1f85173a17b4a98503d23297a"
+    },
+    "spp": {
+      "values_digest": "076f327e0f5a885c3f28b773071e3c43f52803b2487634686d57eb946dd27e3e",
+      "rendered_digest": "0d7ca74556b4e3b88aef2f126fa85bc3d3a5396f3fab1a806ddc365196def216",
+      "ast_digest": "0f7a696319609f841ae04a1a76d6289f359048de9671c42938efc3179a4d9bd0"
+    },
+    "vpp": {
+      "values_digest": "ec3bfb9a824d09f944a4eb6ad1d1dc5bf1121a88822dda684591cd2ae1fb2350",
+      "rendered_digest": "0dfbd2b92e106b92926dc8154436675448936528ff36559a102644319e8e94c1",
+      "ast_digest": "1c9fe52e3b83bb390150522900188bcc23838d49b62e6f50f6ac211ace9bc59d"
+    },
+    "srp": {
+      "values_digest": "ff158dd6257b8fb6801ad2af3729a623874f87a4f4feb420be0ffee50047eae2",
+      "rendered_digest": "6101659440adca20a174a1aa2b4659ef7f572d4d2c89169bbfd208869aca11f4",
+      "ast_digest": "0b069fa08f7a3a73c97e942a072dff89c3be4889285a8c2df14df413e9be91fe"
+    },
+    "sor": {
+      "values_digest": "dd7d60652af66df1c934b9cad5a7db44ba85a21825ad6c78aaea018205ab6f6c",
+      "rendered_digest": "55f3a7a06c2c3134bb82dff6f00335a02c53ecba73ffbd9be6e1ae15315d7af5",
+      "ast_digest": "d2dac9defe87017878924e3b53e77d930680bc8503490ac1d2b2914a0640059f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "Advance the operator-approved, typed-validator-ready remediation packet to ready for binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:bounded-follow-on-directive",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "Replace the shell wrapper with its governed required Runtime Cargo boundary so readiness remains executable through typed validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"guardian-parity-focused\",\"proof_role\":\"Prove the exact parity_b_live_kernel target containing both observed Guardian regressions and genuine SpawnFailed coverage.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"parity_b_live_kernel\"],\"parallel_group\":\"runtime-local\",\"defer_reason\":null},{\"lane\":\"runtime-required-local\",\"proof_role\":\"Run the same complete Runtime-kernel Cargo test boundary used by the hosted Runtime v3 focused-tests step.\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-local\",\"defer_reason\":null},{\"lane\":\"runtime-strict-clippy\",\"proof_role\":\"Prove warning-free Runtime kernel production and test targets before exact-head review.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "Advance the operator-approved, typed-validator-ready remediation packet to ready for binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

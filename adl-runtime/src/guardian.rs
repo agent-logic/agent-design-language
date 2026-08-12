@@ -54,6 +54,13 @@ pub const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS
 pub const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
 pub const GUARDIAN_REQUIRED_ENV: &str = "ADL_RUNTIME_GUARDIAN_REQUIRED";
 
+// Integration targets include this module directly and run its process-heavy
+// tests in parallel. Serialize Guardian invocations only in test builds so a
+// constrained hosted runner cannot turn lease, pipe, or child allocation
+// pressure into an unrelated `SpawnFailed` terminal result.
+#[cfg(test)]
+static GUARDIAN_TEST_PROCESS_LOCK: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GuardianConfig {
     pub program: PathBuf,
@@ -253,6 +260,8 @@ async fn run_guardian_internal(
     shutdown: CancellationToken,
     polis_runtime: Option<ProductionPolisRuntime>,
 ) -> Result<GuardianOutcome, GuardianConfigError> {
+    #[cfg(test)]
+    let _test_process_guard = GUARDIAN_TEST_PROCESS_LOCK.lock().await;
     config.validate()?;
     let mut attempts_detail = Vec::new();
     let mut attempts = 0_u32;

@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 252,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Runtime: eliminate hosted Guardian executable spawn flake",
+    "slug": "guardian-hosted-spawn-flake",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Guardian executable resolution/invocation, parity_b_live_kernel regressions, fail-closed terminal semantics, and exact validation evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the correction address the shared deterministic cause rather than mask SpawnFailed?",
+        "Can parallel tests still collide on a child executable or path?",
+        "Do missing programs retain fail-closed behavior?",
+        "Do focused and full Runtime proofs cover both hosted failures?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
