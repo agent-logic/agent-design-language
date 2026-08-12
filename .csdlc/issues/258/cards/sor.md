@@ -198,11 +198,11 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

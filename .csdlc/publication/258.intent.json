@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 258,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/258-authority-store-boundary",
+  "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
+  "body": "Closes #258\n\n## Summary\n- seal raw certificate, lease, and fencing store access behind explicit authority/test access tokens\n- add the governed authority store adapter facade and published receipt view metadata for the #258 slice\n- map certificate_activate, certificate_revoke, lease_apply, lease_mutation, fencing_commit, and fencing_active_lease into published-view action classes\n- add a positive proof that published_view exposes lineage, operation, action class, adapter metadata, generation, receipt digest, and result digest for all in-scope store operation kinds\n- update focused runtime tests and compile-required fixture callers without absorbing #203 sibling transport or migration scope\n\n## Validation\n- `cargo check --manifest-path adl-runtime/Cargo.toml` — PASS\n- `cargo test --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- --nocapture --test-threads=1` — PASS\n- `cargo test --manifest-path adl-runtime/Cargo.toml distributed::authority_store_adapters::tests::published_view_exposes_all_store_authority_kinds -- --nocapture` — PASS\n- `cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- -D warnings` — PASS\n- compile-only fixture fallout checks recorded for distributed_projection, distributed_resource_weather, distributed_discovery, distributed_placement, distributed_runtime_transport, distributed_transport, and distributed_lease — PASS\n- `csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary issue --issue 258` — PASS\n- `csdlc-doctor --repo /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary --issue 258` — PASS\n- `git diff --check` — PASS\n- independent exact-head review at `3e9f9d10a04ce3803e4edead2882979ef7f0cd72` — PASS; review metadata recorded in typed SRP\n\n## Non-claims\n- No merge authority; stop before merge.\n- No #112, #114, #203 parent/sibling, #205, cloud deployment, hosted proof, coverage, or broad CI scope is included.\n- GitHub CI remains the remote integration gate after publication.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:f32e907200ae3caf4a4fe9d190b49a234e357a1d:d4385fb1a802b42b7a0eb737d5106ccd8495a7b24747dad018e7be5f90ed6da2",
+  "commit_sha": "f32e907200ae3caf4a4fe9d190b49a234e357a1d"
+}
