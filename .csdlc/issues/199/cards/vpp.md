@@ -165,7 +165,7 @@ Diagram: .csdlc/prepared/issues/199/diagram.mmd
       "--manifest-path",
       "adl-runtime/Cargo.toml",
       "--lib",
-      "distributed::transport::governed::polis_runtime::tests::membership_history_retains_joint_and_uniform_entries_from_one_apply_batch",
+      "distributed::transport::governed::polis_runtime::authority_consensus_tests::membership_history_retains_joint_and_uniform_entries_from_one_apply_batch",
       "--",
       "--exact",
       "--nocapture",
@@ -275,7 +275,7 @@ Tokens: 50000
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::membership_coordinator::tests -- --nocapture --test-threads=1`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication -- --exact --nocapture --test-threads=1`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::transport::governed::learner_transport::tests::excluded_node_recovery_learner -- --exact --nocapture --test-threads=1`
-- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::transport::governed::polis_runtime::tests::membership_history_retains_joint_and_uniform_entries_from_one_apply_batch -- --exact --nocapture --test-threads=1`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::transport::governed::polis_runtime::authority_consensus_tests::membership_history_retains_joint_and_uniform_entries_from_one_apply_batch -- --exact --nocapture --test-threads=1`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_membership_transition -- -D warnings`
 - `ruby .csdlc/prepared/issues/199/produce-proof-receipt.rb`

@@ -47,9 +47,16 @@ EXPECTED_COMMANDS = {
   "coordinator_lib" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::membership_coordinator::tests -- --nocapture --test-threads=1],
   "admission_receipt" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication -- --exact --nocapture --test-threads=1],
   "exclusion_receipt" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::transport::governed::learner_transport::tests::excluded_node_recovery_learner -- --exact --nocapture --test-threads=1],
-  "membership_history_restart" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::transport::governed::polis_runtime::tests::membership_history_retains_joint_and_uniform_entries_from_one_apply_batch -- --exact --nocapture --test-threads=1],
+  "membership_history_restart" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib distributed::transport::governed::polis_runtime::authority_consensus_tests::membership_history_retains_joint_and_uniform_entries_from_one_apply_batch -- --exact --nocapture --test-threads=1],
   "clippy_lib" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings],
   "clippy_integration" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_membership_transition -- -D warnings]
+}.freeze
+EXPECTED_TEST_COUNTS = {
+  "integration_cases" => 36,
+  "coordinator_lib" => 5,
+  "admission_receipt" => 1,
+  "exclusion_receipt" => 1,
+  "membership_history_restart" => 1
 }.freeze
 
 def fail_receipt(message)
@@ -94,7 +101,7 @@ protected.each do |entry|
   fail_receipt("protected digest malformed") unless entry.fetch("sha256").match?(/\A[0-9a-f]{64}\z/)
   fail_receipt("protected digest drift #{entry['path']}") unless Digest::SHA256.file(ordinary(entry.fetch("path"))).hexdigest == entry.fetch("sha256")
 end
-fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "integration_cases" => 36, "integration_passed" => 36, "discriminator_subassertions" => 1, "source_assertions" => 5 }
+fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "integration_cases" => 36, "integration_passed" => 36, "internal_test_counts" => EXPECTED_TEST_COUNTS, "discriminator_subassertions" => 1, "source_assertions" => 5 }
 cases = proof.fetch("cases")
 fail_receipt("case denominator/order mismatch") unless cases.length == 36 && cases.map { |entry| entry["case"] } == EXPECTED_CASES && cases.map { |entry| entry["case"] }.uniq.length == 36
 cases.each do |entry|
@@ -123,28 +130,34 @@ commands.each do |name, command|
     fail_receipt("stream digest mismatch") unless Digest::SHA256.file(ordinary(relative)).hexdigest == command.fetch("#{stream}_sha256")
   end
 end
+EXPECTED_TEST_COUNTS.each do |name, expected|
+  output = %w[stdout stderr].map { |stream| File.binread(ordinary(commands.fetch(name).fetch("#{stream}_path"))) }.join
+  running = output.scan(/^running (\d+) tests?$/).flatten.map(&:to_i)
+  summaries = output.scan(/^test result: ok\. (\d+) passed; (\d+) failed;/).map { |passed, failed| [passed.to_i, failed.to_i] }
+  fail_receipt("test denominator mismatch #{name}") unless running == [expected] && summaries == [[expected, 0]]
+end
 integration = %w[stdout stderr].map { |stream| File.binread(ordinary(commands.fetch("integration_cases").fetch("#{stream}_path"))) }.join
-observed_cases = integration.lines.filter_map do |line|
+observed_cases = integration.lines.map do |line|
   next unless line.include?("ADL_ISSUE_199_CASE_V1 ")
   match = line.split("ADL_ISSUE_199_CASE_V1 ", 2).fetch(1).strip.match(/\Acase=([^ ]+) result=pass detail=([^ ]+)\z/)
   fail_receipt("malformed observed case marker") unless match
   match[1]
-end
+end.compact
 fail_receipt("observed case denominator/substitution mismatch") unless observed_cases.length == 36 && observed_cases.uniq.length == 36 && observed_cases.sort == EXPECTED_CASES.sort
-observed_subassertions = integration.lines.filter_map do |line|
+observed_subassertions = integration.lines.map do |line|
   next unless line.include?("ADL_ISSUE_199_SUBASSERTION_V1 ")
   match = line.split("ADL_ISSUE_199_SUBASSERTION_V1 ", 2).fetch(1).strip.match(/\Aname=([^ ]+) result=pass boundary=([^ ]+)\z/)
   fail_receipt("malformed observed discriminator marker") unless match
   [match[1], match[2]]
-end
+end.compact
 fail_receipt("observed discriminator substitution") unless observed_subassertions == [["wrong_artifact_discriminator", "sealed_publication_consumer"]]
 all_text = commands.values.flat_map { |command| %w[stdout stderr].map { |stream| File.binread(ordinary(command.fetch("#{stream}_path"))) } }.join
-observed_assertions = all_text.lines.filter_map do |line|
+observed_assertions = all_text.lines.map do |line|
   next unless line.include?("ADL_ISSUE_199_ASSERTION_V1 ")
   match = line.split("ADL_ISSUE_199_ASSERTION_V1 ", 2).fetch(1).strip.match(/\Acase=([^ ]+) assertion=([^ ]+)\z/)
   fail_receipt("malformed observed assertion marker") unless match
   [match[1], match[2]]
-end
+end.compact
 fail_receipt("observed assertion denominator/substitution mismatch") unless observed_assertions.length == 5 && observed_assertions.uniq.length == 5 && observed_assertions.sort == EXPECTED_ASSERTIONS.sort
 introductions = git("log", "--format=%H", "--diff-filter=A", "--", PROOF_RELATIVE).lines.map(&:strip).reject(&:empty?)
 fail_receipt("proof requires immutable introduction") if introductions.empty?
