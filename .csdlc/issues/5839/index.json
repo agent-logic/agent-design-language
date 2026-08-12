@@ -2,15 +2,55 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5839,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "10b57804d863de9ac5cda1e29dd5aeee90e4b00bd8f1569549bc8a878b5c5d6c",
-  "phase": "initialized",
-  "generation": 34,
-  "digest": "510858d531b99eb76154488de6f8e4ec7bcc0530336e19c168ec430aa496e19a",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 38,
+  "digest": "93a28ce3d40b0eb0444c1c7d011401856db489075da1cbf6221f45a74546fa7e",
+  "branch": "codex/5839-birthday-governance-handoff",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5839-birthday-governance-handoff",
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5839_final_clean",
+    "assigned_by": "codex:sprint5-5839-governance-handoff",
+    "revision": "git-blake3:1f8d0b21a36496af5c1c7c211e8daab4554e71b7:fb33fd05b51a0b1e360796f3de3491b65a5e486caa2e9cac57caa1e51ec2b76b",
+    "scope": [
+      "docs/milestones/v0.92/review/V092_TO_V093_GOVERNANCE_EVIDENCE_MAP.md",
+      "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
+      "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+      ".csdlc/evidence/5839",
+      ".csdlc/issues/5839"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_5839_final_clean",
+    "scope": [
+      "docs/milestones/v0.92/review/V092_TO_V093_GOVERNANCE_EVIDENCE_MAP.md",
+      "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
+      "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+      ".csdlc/evidence/5839",
+      ".csdlc/issues/5839"
+    ],
+    "reviewed_revision": "git-blake3:1f8d0b21a36496af5c1c7c211e8daab4554e71b7:fb33fd05b51a0b1e360796f3de3491b65a5e486caa2e9cac57caa1e51ec2b76b",
+    "findings": [],
+    "residual_risks": [
+      "#5836 remains blocked_with_evidence and is not consumed as terminal birthday-demo evidence.",
+      "The v0.93 issue wave remains candidate; #5839 names the accepted v0.93 planning package as consumer, not an opened implementation owner."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5839,
+    "pull_request": 289,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/289",
+    "base": "main",
+    "head": "codex/5839-birthday-governance-handoff",
+    "revision": "git-blake3:d5915b818f3a1dfb8454358569435406ad5aa663:b640d97f81985a02cb58d3887eb5040304894364f47a03e8dd2a6dc15162ebb1",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +64,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8648f6cddaa160bedaee36f142ac806519a115ca42b4f8602fbeac7ed86ab8a9",
+      "values_digest": "f34bbb03240c8f8e6fe25d56e924d5c39e5f88c97acc38112a924b3532266e00",
       "rendered_digest": "298487afa295477c0400521f553f7ed31573b0671f95ffbfd0bfd1054098c8d1",
       "ast_digest": "87836c3014dc412fa3f1b71b80b8800c45763b3f2f49f97987512b36c8ddaa90"
     },
     "stp": {
-      "values_digest": "1c55d356abceb3073ebac6e754be58ca16b5c8f1383ed8e92461d3623a81d172",
+      "values_digest": "e14ac5c529e281d2ee00af7331a46f1c87de6f60f3fa309ad7e72751f7ad0aee",
       "rendered_digest": "cd634b96271dcdcba08d3b0b35891255c1186495471317fa18832624054e68fc",
       "ast_digest": "06699cd33d7bc7c3e119cad4a2695129887e8221619efbb808cb4c2168b9980f"
     },
     "spp": {
-      "values_digest": "40357622cb672cd09e9ebe424d22adcb98088dd3bfda0f1d01cda53020e39e3e",
+      "values_digest": "c64e5b7ca5b179b1bf109a81ab8380bf34af0f48d61d7a55d9ff7e76445afc65",
       "rendered_digest": "ab0f7ce5caf89a97d8678356663e2042777ffe655970c77b57a5b15f89c1378f",
       "ast_digest": "8338e68478d4a5996f610569f6b5f60bf6265c09b3df939acf9a9f96fa536538"
     },
     "vpp": {
-      "values_digest": "7411de42d3bbb1c90ce68a971c827a7fd8cced27b76f7c01c2d4dec9b5cdd93d",
+      "values_digest": "cb9398fe379dc3cc37ad6caf30b889b930e1ceed2c84293dcd6e8d271bc20bcf",
       "rendered_digest": "e80b4c3ff60b1fdbc5ac6f5dc4b5c52037ef6bec365d05f25902ec3a1bc8d49b",
       "ast_digest": "85160aa1e168e75333635d2d9ef8511f8051725fe928b0c4ea7b043589e5d9ef"
     },
     "srp": {
-      "values_digest": "6521ec28ac9b62c16b27d7a53c5ab4f133e499a8307deb0bc99b1e84ce9a5b6b",
-      "rendered_digest": "1ba628e8a13f4d92eb6cb2adea05136d85f96d239d48caa5d10698ae326124f8",
-      "ast_digest": "797664cb3acec61fcabcd329021db6bfcec0b8da2df735a399e444e351b81a07"
+      "values_digest": "73efa8b5bbf78af02ac0ddbef34fa1c6feb9907a64a22134da1d6d9ae4486823",
+      "rendered_digest": "ed537f3b2257d99beafd6d0039ea81ec16a141e1eb30803c964d87109fbae612",
+      "ast_digest": "dbece931a32e13790158b5b430ac03c0fe3ab1b6d28d4e262f65b9474e2bc505"
     },
     "sor": {
-      "values_digest": "c073697911f5116ec1b84ecdb039de7c0d3aea721a7954f3d1391dc59c7fab0f",
-      "rendered_digest": "d829c572fae3ca6425298b5e8895b59ced47f8d7c4f18114a0e936cede751417",
-      "ast_digest": "84b8dcf3c18a0f039f1665cdde6bcae35da4a42984f3a4505cacbdfb7175612a"
+      "values_digest": "364fe3f28d9b9fe3ead3791d79597a6e3833d10da1604b207a8013ff2e92ba4f",
+      "rendered_digest": "6c7dd1da820f42ec4c4e53429486b24698f627571a8a637d619038c796b21010",
+      "ast_digest": "457041db58302230a43c5e7f49f76107abf222bdc591289fb9977f39d9732757"
     }
   },
   "transitions": [
@@ -75,6 +115,41 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:sprint5-5839-governance-handoff",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_5839_final_clean",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -413,6 +488,55 @@
       "actor": "codex:5854-sprint5-readiness",
       "reason": "Replace sunset claim language with current typed C-SDLC v2 Git topology authority.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"WP-19 owns the evidence map and ADR planning update\",\"v0.93 owns citizenship, standing, rights, duties, and governance implementation\",\"WP-23/WP-30 own final milestone handoff after quality and ceremony\",\"Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.\",\"Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.\"]}"
+    },
+    {
+      "sequence": 49,
+      "generation": 34,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 50,
+      "generation": 35,
+      "actor": "codex:sprint5-5839-governance-handoff",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 51,
+      "generation": 35,
+      "actor": "codex:sprint5-5839-governance-handoff",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 35,
+      "actor": "codex:sprint5-5839-governance-handoff",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 36,
+      "actor": "subagent:/root/review_5839_final_clean",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 37,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 55,
+      "generation": 38,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
