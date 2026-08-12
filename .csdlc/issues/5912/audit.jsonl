@@ -8,3 +8,4 @@
 {"sequence":8,"generation":5,"actor":"subagent:review-5912","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":9,"generation":6,"actor":"codex:5912-runtime-birth-witness","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":10,"generation":7,"actor":"codex:5912-runtime-birth-witness","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":11,"generation":8,"actor":"codex:5912-runtime-birth-witness","reason":"Recover stale review and publication truth before integrating current main at 7d41ed0413864a902a133e2e02346a1777d77ef1; require focused revalidation and fresh independent exact-head review before republishing PR #243.","operation":"recover_review"}

@@ -4,59 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7607073d7ba9e8235645ccf9fd3f55d27fe86ad5c4e2148afa330bcec8953e64",
-  "phase": "published",
-  "generation": 7,
-  "digest": "fecba900a9664c6f229ddc098a938be8f5805419d46b8e32d3153ff94889a940",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "32051ca099314446b0fc6af3481075a6c2cc3c99562720ab1a7c03b972d880a6",
   "branch": "codex/5912-runtime-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5912-runtime-birth-witness",
-  "review_assignment": {
-    "reviewer": "subagent:review-5912",
-    "assigned_by": "codex:5912-runtime-birth-witness",
-    "revision": "git-blake3:bd30f84445e23b0cd13d9b4da3e4f37913771bbc:256cc8bbbd8254a0ff15ff9c14d4cf9f2b64316fef2492d43dbb261e307430d5",
-    "scope": [
-      "adl-runtime-kernel/src/birth_witness.rs",
-      "adl-runtime-kernel/tests/birth_witness.rs",
-      ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:review-5912",
-    "scope": [
-      "adl-runtime-kernel/src/birth_witness.rs",
-      "adl-runtime-kernel/tests/birth_witness.rs",
-      ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh"
-    ],
-    "reviewed_revision": "git-blake3:bd30f84445e23b0cd13d9b4da3e4f37913771bbc:256cc8bbbd8254a0ff15ff9c14d4cf9f2b64316fef2492d43dbb261e307430d5",
-    "findings": [
-      {
-        "id": "P2-sink-error-atomicity",
-        "severity": "p2",
-        "summary": "Resolved: receipt emission now uses fallible preparation followed by an infallible commit, and tests prove invalid witnesses and preparation failure do not invoke commit.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:bd30f84445e23b0cd13d9b4da3e4f37913771bbc:256cc8bbbd8254a0ff15ff9c14d4cf9f2b64316fef2492d43dbb261e307430d5",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Concrete Runtime sinks must preserve the infallible commit contract once preparation succeeds."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5912,
-    "pull_request": 243,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/243",
-    "base": "main",
-    "head": "codex/5912-runtime-birth-witness",
-    "revision": "git-blake3:435e23253c26087fa0f469211f7fedd3bc5d5b02:72a5842bd024de1352712d16b2b923c3c8de9d05fd5b4735e676d51eaf78e8ed",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -70,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bfbdf6ba7b0c9324394776271ae289c3c7b785e528922b36b740549d223f3be6",
+      "values_digest": "e3f1f424f16537a7b8f5fd47770b66d1922d40d6c45c1cef8c3d1e035863a9d6",
       "rendered_digest": "91eab6869cb804874c22497f8c1d473cbefda583e397409a42203dba41b49c9c",
       "ast_digest": "7d6bc05c963875f2d4ce7eeb358121a8b1e3bf87338cfe00ef17007d190df0e4"
     },
     "stp": {
-      "values_digest": "e944005165bfae710ef63fb978e7a7e9337f6f73d001b48af29d3706470ba881",
+      "values_digest": "c1a8b3b57a39b3436664005bc8f047d61581cb0e4f0df56d349e077bbe2bae95",
       "rendered_digest": "c672c8d61d27aed70c8b7d7c27df460bb9a0389a801be3830e0077f086c500c4",
       "ast_digest": "622b534250f3e071a19601e6495d872c34ceddc5fc0d09b1b9ddcfa6da9402ea"
     },
     "spp": {
-      "values_digest": "33de4a7b9c3c3c77ce7f9075a96ad2b77c1043c9b28c5ea75dca8f4492fda5d6",
+      "values_digest": "017d6161f8ab44d7e55e27881289c49e0a2bba0b54a436eca198de48409223cd",
       "rendered_digest": "994a7042ad28d11831d2ce4f0831abcc3b2598d1a8b3ae1a58246401ed0d7599",
       "ast_digest": "83af666aacb2e1c157a9c84568de2ccf61e4ba0047ff27d6764e722e76f4f188"
     },
     "vpp": {
-      "values_digest": "da5d64c63333d23ac96b6f25c5836abd441b91bc963934c0e9f2fc7418c269c6",
+      "values_digest": "17d0f72e8e8a3af917790c10d819e6b407359a9101efdb598962ca564eb76ebf",
       "rendered_digest": "90c74684a044cf49f56a5d7fda3d0a2fbbd40c30cefd400faa97b86d2805f4c5",
       "ast_digest": "65db1fcd7113863997e16ae9b309fe6b967cdbacef1f09a5f49f9225af3f998e"
     },
     "srp": {
-      "values_digest": "763ddd791fc518a455cda97d7d529dcaee9c41c25062d03ec9fc07522e32949b",
-      "rendered_digest": "8f65fb783106affa2ff6a40b14f5b51eaab618896c6165c9fab6d97826b159f6",
-      "ast_digest": "07435b084093df67a4030c0ee28f98386443f7b63bb49a04da06204cdffe00a8"
+      "values_digest": "856cec26bd34b80643c6f6bd292ec5bb06a2b562ddf14239de849bf4b8351303",
+      "rendered_digest": "3309365bfd9d526bc143a98c60423451c64bf6be81c2965d2636f237aa96e2c1",
+      "ast_digest": "2253f48af3549e7e430f15f40ee35190c412821f89be0a5640158e939c7220cd"
     },
     "sor": {
-      "values_digest": "91c90d1a6d450f7185bc0e63c21fd0a2c34e10836cbd7904348feccd0ddac3ee",
-      "rendered_digest": "e89755a63264097a3dbf38c02c711699d10c93180984fe0c658537841d5e2520",
-      "ast_digest": "c332c59964f534dc1b6b14ddbd1341648e67d4a56f9d10989c8b4f61b569bbed"
+      "values_digest": "ca60cc5204f652afaa2de714af5b2cdc25811516b2c9585e36251651b2447870",
+      "rendered_digest": "232427c9ec843fc999464f5ec19f63d1a8992d2274fa5c3aaeed8125f3222fed",
+      "ast_digest": "27060e6e8d2b9df0e4562f6d871f7ca53f49f1e719a90bcb7c5e540a0a79772f"
     }
   },
   "transitions": [
@@ -135,6 +90,13 @@
       "to": "published",
       "actor": "codex:5912-runtime-birth-witness",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Recover stale review and publication truth before integrating current main at 7d41ed0413864a902a133e2e02346a1777d77ef1; require focused revalidation and fresh independent exact-head review before republishing PR #243."
     }
   ],
   "audit": [
@@ -207,6 +169,13 @@
       "actor": "codex:5912-runtime-birth-witness",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Recover stale review and publication truth before integrating current main at 7d41ed0413864a902a133e2e02346a1777d77ef1; require focused revalidation and fresh independent exact-head review before republishing PR #243.",
+      "operation": "recover_review"
     }
   ]
 }
