@@ -236,6 +236,7 @@ fn complete_args(kernel: &str, root: &std::path::Path) -> (Vec<String>, Continui
     let continuity_key = credentials_root.join("continuity-signing-key.hex");
     let observatory_token = credentials_root.join("observatory-token.txt");
     let acip_token = credentials_root.join("acip-write-token.txt");
+    let birth_witness_trust = credentials_root.join("birth-witness-trust.json");
     for (path, value) in [
         (&control_key, "11".repeat(32)),
         (&operation_key, "22".repeat(32)),
@@ -246,6 +247,26 @@ fn complete_args(kernel: &str, root: &std::path::Path) -> (Vec<String>, Continui
     ] {
         fs::write(path, value).unwrap();
     }
+    let authorities = ["identity_continuity", "memory_capability", "negative_case_guard", "handoff_consumer"]
+        .into_iter()
+        .enumerate()
+        .map(|(index, role)| serde_json::json!({
+            "witness_id": format!("witness-{}", index + 1),
+            "role": role,
+            "signing_key_id": format!("witness-key-{}", index + 1),
+            "verifying_key": hex::encode(ed25519_dalek::SigningKey::from_bytes(&[u8::try_from(index + 1).unwrap(); 32]).verifying_key().as_bytes()),
+        }))
+        .collect::<Vec<_>>();
+    fs::write(
+        &birth_witness_trust,
+        serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.birth_witness_trust.v1",
+            "authority_context": "runtime-v3-birth-witness-authority",
+            "authorities": authorities,
+        }))
+        .unwrap(),
+    )
+    .unwrap();
 
     let mut init: RuntimeInitConfig =
         toml::from_str(include_str!("../../infra/runtime-v3/runtime-init.toml")).unwrap();
@@ -264,6 +285,7 @@ fn complete_args(kernel: &str, root: &std::path::Path) -> (Vec<String>, Continui
     init.credentials.continuity_signing_key_path = continuity_key;
     init.credentials.observatory_token_path = observatory_token;
     init.credentials.acip_write_token_path = acip_token;
+    init.rebase_birth_witness_trust_manifest();
     init.observability_pipeline.vector_binary_path = PathBuf::from(kernel);
     init.shutdown.checkpoint_deadline_millis = 100;
     init.shutdown.kernel_grace_millis = 100;

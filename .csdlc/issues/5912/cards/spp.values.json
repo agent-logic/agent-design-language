@@ -1,0 +1,87 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5912,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Add production birth-witness policy provisioning and invocation boundary",
+    "slug": "runtime-birth-witness-boundary",
+    "version": "1.0.0",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 5,
+      "summary": "Add a narrow Runtime service around the existing opaque policy and builder/validator, prove it through an external integration test, then run focused review and publication.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Add Runtime-owned policy provisioning and invocation service.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Add external production-path integration proof.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run focused tests, strict Clippy, and exact-head review.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime-kernel/src/birth_witness.rs",
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/tests/birth_witness.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        "adl-runtime-kernel/tests/support/runtime_init.rs",
+        "adl-runtime/tests/guardian_cli.rs",
+        "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+        "infra/runtime-v3/runtime-init.toml",
+        ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh",
+        ".csdlc/evidence/5912"
+      ],
+      "invariants": [
+        "Policy internals remain opaque.",
+        "Receipt emission occurs only after successful build and validation.",
+        "Existing deterministic security and privacy semantics remain unchanged."
+      ],
+      "risks": [
+        "A convenience constructor could accidentally expose caller-forgeable authority.",
+        "Emission could occur before validation if sequencing is not explicit."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Implementation requires exposing mutable or caller-forgeable policy internals.",
+        "The existing #5833 contract must change rather than be integrated.",
+        "The focused proof requires broad downstream Birthday orchestration."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/5912/design.md",
+      "design_digest": "ef9a5c90f5bd38565ef962e36c0d863024be35c84af3da6fc575e6c3042f4a2b",
+      "diagram_ref": ".csdlc/prepared/issues/5912/diagram.mmd",
+      "diagram_digest": "cbf66d33c9338b8bbb53485c40f275668134d8f70a4fbcf32b39193a5dfa713c"
+    }
+  }
+}
