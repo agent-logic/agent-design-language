@@ -7,16 +7,35 @@
     "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
     "slug": "governed-voter-membership-transitions",
     "version": "v0.92",
-    "generation": 25
+    "generation": 26
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Implemented governed learner, joint, final, removal, and rejoin membership coordination with exact external receipt observation, durable OpenRaft membership history, crash reconciliation, and lifecycle-safe immutable proof.",
+      "actual_changes": [
+        "Added durable governed membership coordination and sealed operation artifacts",
+        "Bound standard OpenRaft learner and membership transitions to exact governed receipts and durable history",
+        "Added an exact 36-case public integration target and focused production assertion markers",
+        "Hardened proof production against zero-test lanes and generated lifecycle projection drift"
+      ],
+      "artifacts": [
+        ".csdlc/evidence/199/v3/execution-proof.json",
+        ".csdlc/prepared/issues/199/produce-proof-receipt.rb",
+        ".csdlc/prepared/issues/199/validate-proof-receipt.rb"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/199/validate-proof-receipt.rb"
+          ],
+          "purpose": "Finalize issue 199 from its retained lifecycle-safe immutable v2 receipt.",
+          "outcome": "passed",
+          "evidence_ref": "governed-membership-proof-validator.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
