@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 258,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "4ff474d59540216539372008dbdbf8eab42b4f86ac069b5c0ec419151356cfb1",
+  "branch": "codex/258-authority-store-boundary",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/258/design.md",
+  "diagram_path": ".csdlc/prepared/issues/258/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "gemini:gemini-3.1-pro-preview+codex-split-review",
+      "revision": "7111b0edd969a6bda2e853f665ba8a86d249ed43597b60a5ad4f2008f0285439"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5fe7889cad8b2ea4dcd455b2dd88d2acdc1c2f31d5f5f44e477ab9759aaeb955",
+      "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
+      "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
+    },
+    "stp": {
+      "values_digest": "69ab4cb62e7568842ee6ed29e19e8ed63436354619682427f20208099baf32a6",
+      "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
+      "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
+    },
+    "spp": {
+      "values_digest": "af017850d386d3484043739aae6800d48596c451559f4cfdd71a13de8823391c",
+      "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
+      "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
+    },
+    "vpp": {
+      "values_digest": "89d4518a7ef8d67dd2e17d5dbcc7f9eee53570c9df15ea11aee486aa1bf4f97e",
+      "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
+      "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
+    },
+    "srp": {
+      "values_digest": "19911600dfb2e758f545c1db6d25626b72c7dcf3dd4bd419406a461b082d9523",
+      "rendered_digest": "401ca159d18394d47b2393e628460a1e8e2ce799ec3bb5beafa936840e7235cb",
+      "ast_digest": "ed47a4ec667169e28c4a9babe0dc287132f782f8f489bea4f9ba5b091379cc51"
+    },
+    "sor": {
+      "values_digest": "ab012a3ea417affa2875e534606d75b63967f287ea929d4ac875783f7e961f3d",
+      "rendered_digest": "842a030461491e5feefbf2bfa33077ac670dc204088855c6b4a0d2b62d2bbd2e",
+      "ast_digest": "a2929dd759b7c1f89e94cd29ba5239da5290a3c1c6b0d0908f2034333d457864"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "split issue is execution-ready in reviewed slice worktree"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "gemini:gemini-3.1-pro-preview+codex-split-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "split issue is execution-ready in reviewed slice worktree",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "declare exact issue-owned focused validator target for readiness denominator",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed\",\"adl-runtime/tests\",\"adl-runtime/tests/distributed_identity_lease_authority.rs\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

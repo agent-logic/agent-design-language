@@ -1,0 +1,5 @@
+{"sequence":1,"generation":0,"actor":"codex:/root","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"gemini:gemini-3.1-pro-preview+codex-split-review","reason":"approve completed issue design","operation":"approve_design"}
+{"sequence":3,"generation":2,"actor":"codex:/root","reason":"split issue is execution-ready in reviewed slice worktree","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
+{"sequence":4,"generation":3,"actor":"codex:/root","reason":"declare exact issue-owned focused validator target for readiness denominator","operation":"{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed\",\"adl-runtime/tests\",\"adl-runtime/tests/distributed_identity_lease_authority.rs\"]}"}
+{"sequence":5,"generation":3,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
