@@ -1,0 +1,10 @@
+flowchart TD
+    A["adl-path-policy requires full coverage"] --> B["Azure heavy producer: adl-coverage-runtime-hosted"]
+    A --> C["Azure heavy producer: adl-coverage-workspace-hosted"]
+    B --> D["runtime summary artifact"]
+    C --> E["workspace summary artifact"]
+    D --> F["light aggregate: adl-coverage-hosted on ubuntu-latest"]
+    E --> F
+    F --> G["verify provenance"]
+    F --> H["merge summaries"]
+    H --> I["changed-source coverage gate"]
