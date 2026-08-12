@@ -7,21 +7,23 @@
     "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
     "slug": "issue-203-authority-store-boundary-slice1",
     "version": "v0.92",
-    "generation": 28
+    "generation": 29
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/tests/distributed_identity_lease_authority.rs\n.csdlc/issues/258\n.csdlc/evidence/258",
+      "review_revision": "git-blake3:9a56d573099d905c6782e623b6e284649d9926a3:d24dda0a21ccb40e10975cccd56b2fce783e7f0126987e4a1f8be2b12418446e",
+      "reviewer": "fresh-session:97eaa7bd-b9ce-46bc-8bce-b5b55c56993c",
       "review_prompts": [
         "Review whether raw store access is sealed and whether published receipt view is sufficient for the authority-serving boundary."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Required ordinary GitHub checks adl-path-policy, adl-ci, and adl-coverage must be observed after republication before merge authorization."
+      ],
+      "review_result": "pass"
     }
   }
 }
