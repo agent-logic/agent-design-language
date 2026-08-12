@@ -100,11 +100,11 @@ Implemented typed initialized-phase post-decomposition card recovery in csdlc-ed
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

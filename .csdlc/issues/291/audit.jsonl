@@ -37,3 +37,4 @@
 {"sequence":37,"generation":31,"actor":"codex:worker-5-issue-291","reason":"Recover noncanonical reviewer assignment fresh-session:worker-291-post-p2-e0f7210a before any review activity; reviewer identifiers must use canonical fresh-session:<lowercase UUID> form for independent #119 review authority.","operation":"recover_review"}
 {"sequence":38,"generation":31,"actor":"codex:worker-5-issue-291","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":39,"generation":32,"actor":"codex:worker-5-issue-291","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":40,"generation":33,"actor":"codex:worker-5-issue-291","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
