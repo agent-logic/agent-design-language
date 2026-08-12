@@ -808,11 +808,12 @@ impl MembershipCoordinator {
                     self.clear_no_effect_membership_change_submission(promotion.operation_sha256)?;
                     return Err(MembershipCoordinatorError::StateRegression);
                 }
-                if let Err(error) = raft
+                if raft
                     .change_membership(transition.target_membership.clone(), false)
                     .await
+                    .is_err()
                 {
-                    if error.api_error().is_some() {
+                    if raft_membership_is_exact_old(raft, &transition.old_membership) {
                         self.clear_no_effect_membership_change_submission(
                             promotion.operation_sha256,
                         )?;
@@ -1181,11 +1182,12 @@ impl MembershipCoordinator {
                         )?;
                         return Err(MembershipCoordinatorError::StateRegression);
                     }
-                    if let Err(error) = raft
+                    if raft
                         .change_membership(transition.target_membership.clone(), false)
                         .await
+                        .is_err()
                     {
-                        if error.api_error().is_some() {
+                        if raft_membership_is_exact_old(raft, &transition.old_membership) {
                             self.clear_no_effect_membership_change_submission(
                                 removal.operation_sha256(),
                             )?;
@@ -1500,6 +1502,13 @@ fn published_result(
         result_sha256: state.published_result_sha256?,
         committed_log_index: state.committed_log_index,
     })
+}
+
+fn raft_membership_is_exact_old(raft: &PolisRaft, expected_old: &BTreeSet<u64>) -> bool {
+    let metrics = raft.metrics();
+    let observed = metrics.borrow();
+    let configs = observed.membership_config.membership().get_joint_config();
+    configs.len() == 1 && configs[0] == *expected_old
 }
 
 fn record_published_result(
