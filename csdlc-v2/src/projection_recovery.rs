@@ -2274,8 +2274,8 @@ fn validate_completed_recovery_attempt_retained(
 ) -> Result<ProjectionRecoveryResult> {
     let operation = operation.to_owned();
     let attempt_path = recovery_root(store, issue).join(&operation);
-    let node_ledger_count = validate_receipt_inventory_at(&retained_attempt)?;
-    let prepared: serde_json::Value = receipt_payload_at(&retained_attempt, 1, "prepared")?;
+    let node_ledger_count = validate_receipt_inventory_at(retained_attempt)?;
+    let prepared: serde_json::Value = receipt_payload_at(retained_attempt, 1, "prepared")?;
     let request_digest = prepared
         .get("request_digest")
         .and_then(|v| v.as_str())
@@ -2343,13 +2343,7 @@ fn validate_completed_recovery_attempt_retained(
         serde_json::json!({"source":rejected_observation,"destination":"rejected"}),
         "archive intent receipt does not match typed recovery sources",
     )?;
-    let archived = observe_child(
-        &retained_attempt,
-        "rejected",
-        store.root(),
-        "archive",
-        issue,
-    )?;
+    let archived = observe_child(retained_attempt, "rejected", store.root(), "archive", issue)?;
     require_receipt_payload_at(
         retained_attempt,
         3,
@@ -2422,11 +2416,11 @@ fn validate_completed_recovery_attempt_retained(
             "recovery node ledger inventory does not match the authorized candidate",
         ));
     }
-    validate_directory_node_ledger(&retained_attempt, &candidate_observation, ".", 0)?;
-    validate_directory_node_ledger(&retained_attempt, &candidate_observation, "cards", 1)?;
+    validate_directory_node_ledger(retained_attempt, &candidate_observation, ".", 0)?;
+    validate_directory_node_ledger(retained_attempt, &candidate_observation, "cards", 1)?;
     for (index, (relative, contents)) in derived_files.iter().enumerate() {
         validate_file_node_ledger(
-            &retained_attempt,
+            retained_attempt,
             &attempt_path,
             &candidate_observation,
             relative,
@@ -2483,7 +2477,7 @@ fn validate_completed_recovery_attempt_retained(
         "displace intent receipt does not match typed prior source",
     )?;
     let displaced = observe_child(
-        &retained_attempt,
+        retained_attempt,
         "displaced",
         store.root(),
         "displaced",
