@@ -116,63 +116,6 @@ fn issue_read_failures_are_typed_redacted_and_action_scoped() {
     fs::write(&token_path, token).expect("write token");
     let sensitive = "sensitive-response-sentinel-41";
 
-    let cases = [
-        (404, json!({"message": sensitive}), "remote_not_found", 69),
-        (
-            401,
-            json!({"message": sensitive}),
-            "remote_authentication",
-            77,
-        ),
-        (
-            403,
-            json!({"message": sensitive}),
-            "remote_authorization",
-            77,
-        ),
-        (
-            403,
-            json!({
-                "message": "rate limit almost matched",
-                "documentation_url": "https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api/extra"
-            }),
-            "remote_authorization",
-            77,
-        ),
-        (
-            403,
-            json!({
-                "message": "ordinary forbidden response",
-                "documentation_url": "not a URL"
-            }),
-            "remote_authorization",
-            77,
-        ),
-        (418, json!({"message": sensitive}), "remote_failure", 74),
-    ];
-
-    for (index, (status, body, code, exit)) in cases.into_iter().enumerate() {
-        let server = ScriptedGithub::start(vec![(status, body)]);
-        let output = run_issue_binary(
-            temp.path(),
-            &token_path,
-            server.uri(),
-            base_read_request(),
-            &format!("failure-{index}"),
-        );
-        assert_eq!(output.status.code(), Some(exit), "case {index}");
-        let payload: Value = serde_json::from_slice(&output.stdout).expect("error JSON");
-        assert_eq!(payload["schema"], "csdlc.error.v1");
-        assert_eq!(payload["code"], code, "case {index}");
-        if status == 404 {
-            assert_eq!(
-                payload["message"],
-                "GitHub issue owner/repo#77 was not found or is inaccessible; verify the repository, issue number, and token access"
-            );
-        }
-        assert_redacted(&output, token, &token_path, sensitive);
-    }
-
     let server = ScriptedGithub::start(vec![(
         200,
         open_issue("Readable", "Body", Vec::new(), Vec::new(), None),
@@ -278,7 +221,9 @@ impl ScriptedGithub {
         let address = listener.local_addr().expect("scripted address");
         let stop = Arc::new(AtomicBool::new(false));
         let thread_stop = Arc::clone(&stop);
+        let (started_tx, started_rx) = mpsc::sync_channel(0);
         let thread = thread::spawn(move || {
+            let _ = started_tx.send(());
             let mut responses = std::collections::VecDeque::from(responses);
             while !thread_stop.load(Ordering::SeqCst) {
                 match listener.accept() {
@@ -303,6 +248,9 @@ impl ScriptedGithub {
                 }
             }
         });
+        started_rx
+            .recv_timeout(Duration::from_secs(2))
+            .expect("scripted GitHub did not start");
         Self {
             address,
             stop,

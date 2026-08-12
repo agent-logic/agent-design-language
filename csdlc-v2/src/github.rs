@@ -809,38 +809,15 @@ fn classify_issue_read_error(
     use crate::ErrorCode;
 
     let (code, message) = match error {
-        octocrab::Error::GitHub { source, .. } => match source.status_code.as_u16() {
-            404 => (
-                ErrorCode::RemoteNotFound,
-                format!(
-                    "GitHub issue {repository}#{number} was not found or is inaccessible; verify the repository, issue number, and token access"
-                ),
-            ),
-            401 => (
-                ErrorCode::RemoteAuthentication,
-                format!("Authentication failed while reading {repository}#{number}"),
-            ),
-            403 if github_error_is_rate_limited(&source) => (
-                ErrorCode::RemoteRateLimited,
-                format!("GitHub rate limit prevented reading {repository}#{number}"),
-            ),
-            403 => (
-                ErrorCode::RemoteAuthorization,
-                format!("Authorization failed while reading {repository}#{number}"),
-            ),
-            429 => (
-                ErrorCode::RemoteRateLimited,
-                format!("GitHub rate limit prevented reading {repository}#{number}"),
-            ),
-            500..=599 => (
-                ErrorCode::RemoteServer,
-                format!("GitHub server failure prevented reading {repository}#{number}"),
-            ),
-            _ => (
-                ErrorCode::RemoteFailure,
-                format!("GitHub observation failed while reading {repository}#{number}"),
-            ),
-        },
+        octocrab::Error::GitHub { source, .. } => {
+            return classify_github_issue_read_status(
+                source.status_code.as_u16(),
+                &source.message,
+                source.documentation_url.as_deref(),
+                repository,
+                number,
+            );
+        }
         octocrab::Error::Http { .. }
         | octocrab::Error::Hyper { .. }
         | octocrab::Error::Service { .. }
@@ -857,8 +834,45 @@ fn classify_issue_read_error(
     crate::V2Error::new(code, message)
 }
 
-fn github_error_is_rate_limited(error: &octocrab::GitHubError) -> bool {
-    github_rate_limit_signal(&error.message, error.documentation_url.as_deref())
+fn classify_github_issue_read_status(
+    status: u16,
+    remote_message: &str,
+    documentation_url: Option<&str>,
+    repository: &str,
+    number: u64,
+) -> crate::V2Error {
+    use crate::ErrorCode;
+    let (code, message) = match status {
+        404 => (
+            ErrorCode::RemoteNotFound,
+            format!("GitHub issue {repository}#{number} was not found or is inaccessible; verify the repository, issue number, and token access"),
+        ),
+        401 => (
+            ErrorCode::RemoteAuthentication,
+            format!("Authentication failed while reading {repository}#{number}"),
+        ),
+        403 if github_rate_limit_signal(remote_message, documentation_url) => (
+            ErrorCode::RemoteRateLimited,
+            format!("GitHub rate limit prevented reading {repository}#{number}"),
+        ),
+        403 => (
+            ErrorCode::RemoteAuthorization,
+            format!("Authorization failed while reading {repository}#{number}"),
+        ),
+        429 => (
+            ErrorCode::RemoteRateLimited,
+            format!("GitHub rate limit prevented reading {repository}#{number}"),
+        ),
+        500..=599 => (
+            ErrorCode::RemoteServer,
+            format!("GitHub server failure prevented reading {repository}#{number}"),
+        ),
+        _ => (
+            ErrorCode::RemoteFailure,
+            format!("GitHub observation failed while reading {repository}#{number}"),
+        ),
+    };
+    crate::V2Error::new(code, message)
 }
 
 fn github_rate_limit_signal(message: &str, documentation_url: Option<&str>) -> bool {
@@ -1617,6 +1631,26 @@ mod tests {
             "rate limit almost matched",
             Some("https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api/extra")
         ));
+        for (status, expected) in [
+            (404, crate::ErrorCode::RemoteNotFound),
+            (401, crate::ErrorCode::RemoteAuthentication),
+            (403, crate::ErrorCode::RemoteAuthorization),
+            (429, crate::ErrorCode::RemoteRateLimited),
+            (500, crate::ErrorCode::RemoteServer),
+            (418, crate::ErrorCode::RemoteFailure),
+        ] {
+            assert_eq!(
+                classify_github_issue_read_status(
+                    status,
+                    "ordinary message",
+                    None,
+                    "owner/repo",
+                    77,
+                )
+                .code,
+                expected
+            );
+        }
     }
 
     fn packet(state: &str) -> PrStatePacket {
