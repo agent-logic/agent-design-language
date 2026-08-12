@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 29,
-  "digest": "ab3c27e3bf8921b11df7d30795e2b0a6b39c332b3fc5c1952aa67f4ee6ca6885",
+  "generation": 30,
+  "digest": "f078698c8423ee525226485cd5bf1e653a2917e32ba0e725083130acffcaa0d6",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:6a0fcd27-12da-405b-a90a-5a58594c6e1a",
-    "assigned_by": "codex:issue-298",
-    "revision": "git-blake3:0f067bdc420b0f838e8ae86fb27291c3771eaea4:407599e7662811f44ad48e9ca28be8058054030a61159f1c2dca28013c835f8e",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e666335b30dbefb67921d18e250ff0e40dd87c7e917707e9cddc341deeb33cbd",
+      "values_digest": "eb9f516df5aac01ce429eb7b8aebdf5e247f0607c7db90fed5dbea74254495a3",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "8b4ef87878b8fbca0d9e1e26af0542a444f4e4be4a1ddfce9ea2041101b3e3ab",
+      "values_digest": "a79ff17758692e62a909127f989b91b89718df9fb354ace119b7b3b02ccb24b6",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "820f79c2c562e14cb6fdc94c5deb981941d9933c1fc099970ae903e519afd986",
+      "values_digest": "1f4dd7a130756b222685126dbe318ffdf4aaf2bde8c4da27b1846714126fe795",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "3b0d18484b3c7bc57ce19f2e3b7609e984502bc57466cb1472c23a1f413bd658",
+      "values_digest": "59ee03819b0bc8f6394b6142098b5f601645672f76ffc1fea1008e3c69fdf614",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "641f200b657e0e92dab41644781c4e7b2ae6eadd7c2a287bc8a2e93545c1c159",
-      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
-      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
+      "values_digest": "6b92d9b62e812016fa7dad49bdc0774a606ce1f8a99b26ca7ee553ab79a2e059",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "1766366590bc26612403a375c3aee5a5debcc7890e638cf659b3f04e8828c332",
+      "values_digest": "40cdf48ea4d854f9f548c0e83a6a94b3f90ae2e6966765763f169d4e9d93d6e5",
       "rendered_digest": "a61ffe5d85c3dbac7d5bc419087fbc02e01d7fd69a3c91360182b1423ca4c730",
       "ast_digest": "ef2523cf967fd5f86c9558de39ba02c623edac2bbf53fee6f21a9d0c82a2a621"
     }
@@ -379,6 +364,13 @@
       "actor": "codex:issue-298",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 30,
+      "actor": "codex:issue-298",
+      "reason": "Recover failed exact review r9: completed recovery validation derived no candidate record/files from the PREPARED prior projection plus authorized recovery audit transformation, so a coherently rewritten candidate/canonical chain could remain internally consistent while not proving the authorized recovery transform.",
+      "operation": "recover_review"
     }
   ]
 }
