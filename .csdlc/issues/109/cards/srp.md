@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md
+docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md
+.csdlc/prepared/issues/109/validate-fresh-session-srp.sh
+.csdlc/evidence/109/focused-srp-contract.log
+.csdlc/issues/109
 
 ## Prompts
 

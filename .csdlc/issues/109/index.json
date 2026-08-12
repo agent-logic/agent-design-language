@@ -5,10 +5,21 @@
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
   "phase": "implemented",
   "generation": 30,
-  "digest": "dea89e714c0fda3224e935666aedfe3f8feb02ec821e2b8943032f01b69c3350",
+  "digest": "8889e76cf21d51c7580a628a6efced6e3bad99e079741c8248547ceb79c6b685",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:0cc6ff8e-7fbc-43d0-b674-3f2958076954",
+    "assigned_by": "planning-1:pr119-janitor",
+    "revision": "git-blake3:99f796620e21291803f312e182b8ae666f42db41:65fa2614ebdfe5b6f5148d7165f2f8b79398dfb3e28eaf0d3a9889927cccc498",
+    "scope": [
+      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md",
+      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
+      ".csdlc/evidence/109/focused-srp-contract.log",
+      ".csdlc/issues/109"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +55,9 @@
       "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
     },
     "srp": {
-      "values_digest": "7f900bfa5f14bf1a0f1096da21f9fda9860e37675ab9ba5c95797f84ed241634",
-      "rendered_digest": "1cef0442070327593b6f41e5c0c35abfcbb2b8dece5603e4956372297399c363",
-      "ast_digest": "c654880138d226f4ca831fb2f41bcc8bd7d2e85e75e1d0f5446f3045c52ab92c"
+      "values_digest": "4e62b089d0a064aeab5d2869422504b28686520d9d488c36632c88e820dc01d1",
+      "rendered_digest": "866fd0496974f5c9edcee9084064c6372f6facbeb535ee1da02b073d69bf493f",
+      "ast_digest": "67ecd956fdc20e527fceabcdfb4887c047bfd9c11911555a2b89ab11e07532d0"
     },
     "sor": {
       "values_digest": "2aa41f0f04d6a13badf0b5644ad1a922b5ac1b8dd040c905ddc9f813ed8908da",
@@ -406,6 +417,13 @@
       "actor": "planning-1:pr119-janitor",
       "reason": "Recover assigned review to bind every consumed card blob to exact HEAD and enforce canonical UUID syntax.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 30,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
