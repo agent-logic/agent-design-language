@@ -2243,8 +2243,8 @@ fn remove_authored_if_owned(
                 "recovery destination is not linked to its owned stage",
             ));
         }
-        unlink_anchored(root, relative, Some(expected))?;
-        return unlink_anchored(root, &stage, Some(expected));
+        unlink_owned_anchored(root, relative, expected, stage_identity)?;
+        return unlink_owned_anchored(root, &stage, expected, stage_identity);
     };
     let quarantine = relative.with_file_name(format!(
         ".{}.csdlc-delete-{}-{}",

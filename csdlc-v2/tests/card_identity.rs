@@ -465,6 +465,34 @@ fn recovery_rejects_hardlinked_source_alias_before_journaling() {
 }
 
 #[test]
+fn recovery_rejects_tampered_later_history_without_artifact_mutation() {
+    let temp = tempfile::tempdir().unwrap();
+    let record = bootstrap_at(
+        temp.path(),
+        303,
+        ".csdlc/prepared/legacy/design.md",
+        ".csdlc/prepared/legacy/diagram.mmd",
+    );
+    let index_path = temp.path().join(".csdlc/issues/303/index.json");
+    let mut index: serde_json::Value =
+        serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+    index["phase"] = serde_json::Value::String("bound".into());
+    index["branch"] = serde_json::Value::String("codex/303-later".into());
+    fs::write(&index_path, serde_json::to_vec_pretty(&index).unwrap()).unwrap();
+    let before_design = fs::read(temp.path().join(&record.design_path)).unwrap();
+    assert!(recover_initialized_design_envelope(
+        &Store::new(temp.path()),
+        recovery_request(&record)
+    )
+    .is_err());
+    assert_eq!(
+        fs::read(temp.path().join(&record.design_path)).unwrap(),
+        before_design
+    );
+    assert!(!temp.path().join("docs/issues/303/design.md").exists());
+}
+
+#[test]
 fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
     let temp = tempfile::tempdir().unwrap();
     assert!(std::process::Command::new("git")
