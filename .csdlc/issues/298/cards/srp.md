@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/projection_recovery.rs
+.csdlc/issues/298
+.csdlc/evidence/298
 
 ## Prompts
 

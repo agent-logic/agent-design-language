@@ -5,10 +5,19 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 65,
-  "digest": "efc95273dd78de5361901e0d686a0cb702fd712af382bfe94e731164280089e7",
+  "digest": "a7b0104aee31f5fc14c9d053ee67cdf3b604c3a86b0f9325f309609929122d4d",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a406a2fd-622c-4698-9d47-09580b436742",
+    "assigned_by": "codex:issue-298-r24-ci-remediation",
+    "revision": "git-blake3:c4d330b2244f82dd7325fdef0565d0554a474033:6810958269637258862c5405e607f750077118a8187397d082bf6b14e919d35d",
+    "scope": [
+      "csdlc-v2/src/projection_recovery.rs",
+      ".csdlc/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +53,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "4ed2f0ec51d3470d8918e8dcec3dd19c298fdcb2b44707b23dcf11d014b1b6a6",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "501b35d3fbeb6cd34f5acc1d467994f9e9f4676419b6cae7afee6dde9197d914",
+      "rendered_digest": "5d9685b807ef21b0996c6937a675792b2336ceb33e9e277c454795de150a5b1c",
+      "ast_digest": "d7d1af222ef26cfe9cde9bc3872ead8f4a6adb8210d22c21660faf6ed63eabf4"
     },
     "sor": {
       "values_digest": "7be0ce1e93175bc63c28f23ca741fe3220eecae2b0db70287b22c9ffe82a6c36",
@@ -784,6 +793,13 @@
       "actor": "codex:issue-298-r24-ci-remediation",
       "reason": "Record bounded Linux strict-Clippy remediation with refreshed governed evidence.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed the cfg-Linux needless return rejected by hosted strict Clippy.\",\"changes\":[\"Removed only the unnecessary return from the Linux statx mount-ID branch\",\"Refreshed governed focused recovery, library, and strict all-target Clippy evidence after the correction\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\".csdlc/evidence/298/preserved-projection-recovery.log\",\".csdlc/evidence/298/csdlc-v2-lib.log\",\".csdlc/evidence/298/csdlc-v2-strict-clippy.log\"]}"
+    },
+    {
+      "sequence": 93,
+      "generation": 65,
+      "actor": "codex:issue-298-r24-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
