@@ -132,6 +132,20 @@ fn append_extra_terminal_receipt(attempt: &std::path::Path) {
         .expect("write extra terminal receipt");
 }
 
+#[cfg(unix)]
+fn append_extra_terminal_symlink(attempt: &std::path::Path) {
+    std::os::unix::fs::symlink(
+        receipt_path(attempt, 13, "recovered"),
+        receipt_path(attempt, 14, "post-terminal"),
+    )
+    .expect("create extra terminal symlink");
+}
+
+fn append_extra_terminal_directory(attempt: &std::path::Path) {
+    std::fs::create_dir(receipt_path(attempt, 14, "post-terminal"))
+        .expect("create extra terminal directory");
+}
+
 fn rewrite_observation_index(observation: &mut serde_json::Value, index_bytes: &[u8]) {
     let entries = observation["entries"]
         .as_array_mut()
@@ -747,6 +761,65 @@ fn preserved_projection_recovery_rejects_extra_post_terminal_receipt() {
     append_extra_terminal_receipt(&attempt);
     let error = csdlc_v2::recover_preserved_projection(&store, request)
         .expect_err("extra post-terminal receipt must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_extra_post_terminal_symlink() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "extra terminal symlink fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "extra-terminal-symlink");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).expect("recover");
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/extra-terminal-symlink");
+    append_extra_terminal_symlink(&attempt);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra post-terminal symlink must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_extra_post_terminal_directory() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "extra terminal directory fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "extra-terminal-directory");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).expect("recover");
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/extra-terminal-directory");
+    append_extra_terminal_directory(&attempt);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra post-terminal directory must be rejected");
     assert_eq!(error.code, ErrorCode::CorruptRecord);
 }
 

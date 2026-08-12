@@ -827,11 +827,50 @@ fn receipt_path(dir: &Path, seq: u32, state: &str) -> PathBuf {
     dir.join(format!("{seq:03}-{state}.json"))
 }
 
-fn validate_receipt_inventory(dir: &Path) -> Result<()> {
-    let mut receipts: Vec<_> = fs::read_dir(dir)?
-        .filter_map(std::result::Result::ok)
-        .filter(|entry| entry.file_type().is_ok_and(|t| t.is_file()))
-        .collect();
+fn validate_receipt_inventory(dir: &Path) -> Result<usize> {
+    let mut receipts = Vec::new();
+    let mut node_ledgers = Vec::new();
+    for entry in fs::read_dir(dir)? {
+        let entry = entry.map_err(|error| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("recovery receipt inventory cannot be enumerated: {error}"),
+            )
+        })?;
+        let file_type = entry.file_type().map_err(|error| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("recovery receipt type cannot be read: {error}"),
+            )
+        })?;
+        if file_type.is_file() {
+            receipts.push(entry);
+            continue;
+        }
+        let name = entry.file_name();
+        let name = name.to_str().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery workspace entry name is not UTF-8",
+            )
+        })?;
+        if file_type.is_dir() && matches!(name, "displaced" | "rejected") {
+            continue;
+        }
+        let node_ordinal = file_type.is_dir().then(|| {
+            name.strip_prefix("node-")
+                .filter(|suffix| suffix.len() == 3)
+                .and_then(|suffix| suffix.parse::<usize>().ok())
+        });
+        if let Some(Some(ordinal)) = node_ordinal {
+            node_ledgers.push(ordinal);
+        } else {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt inventory contains an unexpected workspace entry",
+            ));
+        }
+    }
     receipts.sort_by_key(|entry| entry.file_name());
     if receipts.len() != RECOVERY_STATES.len() {
         return Err(V2Error::new(
@@ -868,7 +907,18 @@ fn validate_receipt_inventory(dir: &Path) -> Result<()> {
         }
         let _: serde_json::Value = receipt_payload(&entry.path())?;
     }
-    Ok(())
+    node_ledgers.sort_unstable();
+    if node_ledgers
+        .iter()
+        .enumerate()
+        .any(|(expected, actual)| expected != *actual)
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery node ledger inventory is not an exact prefix",
+        ));
+    }
+    Ok(node_ledgers.len())
 }
 
 const RECOVERY_STATES: [&str; 13] = [
@@ -954,7 +1004,7 @@ pub(crate) fn validate_completed_recovery_attempt(
     issue: u64,
     attempt: &Path,
 ) -> Result<ProjectionRecoveryResult> {
-    validate_receipt_inventory(attempt)?;
+    let node_ledger_count = validate_receipt_inventory(attempt)?;
     for (offset, state) in RECOVERY_STATES.iter().enumerate() {
         let path = receipt_path(attempt, offset as u32 + 1, state);
         if !path.is_file() {
@@ -1098,6 +1148,12 @@ pub(crate) fn validate_completed_recovery_attempt(
         prepared_request.reason.clone(),
         audit_commitment.to_string(),
     )?;
+    if node_ledger_count != derived_files.len() + 2 {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery node ledger inventory does not match the authorized candidate",
+        ));
+    }
     if candidate_record != derived_record {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
