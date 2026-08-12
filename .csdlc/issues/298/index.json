@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "3257ae4f981bb6d2e7c4329d92800b75ab2736d4c41fa9957ff572dce56ef3af",
+  "generation": 17,
+  "digest": "74ba978aecddf524a7844daeded25d513aa6f2f54b396702e9a4e4dfc1ae6fee",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:153d9d18-12ab-4c8e-8db4-563a7586469c",
-    "assigned_by": "codex:issue-298",
-    "revision": "git-blake3:466b8cfa5a1a369e7ff0d21930d51f4608bc2905:46447978e6b9804d4cebdca92976ab16ffc1c9e917e8afcd6ba758ba982f1948",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6123ceb076f450dedbc376b32d75e9576122b6cf60e20212f37fad0ce6cffc68",
+      "values_digest": "c9e7ccb21bb2870f33c32d0aa087fcc3fe8a02a75d1e975a22a4a69c5ec200f8",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "b2e7b0e5c376d08ad0df9c6002856de9b6dd63e58eaa7cc6478e165aaf131fb5",
+      "values_digest": "b7d455fffd60cc2e91cb0a0b517681bb60ae239d8dceb8356827d51716d636a6",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "60ef82ea3dc623b33a12c9b369ed0512c99085f18f2e0a36f4293114ced202a4",
+      "values_digest": "3d450f053ec47c24205706e3e0b75fd93535ec4f280251c18c0995ca50c3bd0a",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "4fd5a5858c8d67091673e8b7aa26776933beb730a3896db15fa75ecf203dc551",
+      "values_digest": "e9259699dc625d0f35ac7260915bef22692416d588ef6457f253257c2556ab45",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "30501d2e0f459f7681af0f7c113100e594755688b1e563c28bdd6e6c6c5f38a5",
-      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
-      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
+      "values_digest": "70291a8215a4ae272160fb6fadc4e31d463052af6cdd661a02a106ad95117b92",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "33cc06d26e80224ee07b81fdedb44809f7c2418096b41bd0935d809870764208",
+      "values_digest": "c323163db0a3fd9ff00a88aef467b793642a47e150b9f2834f5dba169122825c",
       "rendered_digest": "e9c962c2efaa270f380bb694de46bfab34b389a1a1c2c31715719426327ff330",
       "ast_digest": "9b0e8addafb82279c36477c6f3708020b8871affe91429969dbebbed1fc7e7cb"
     }
@@ -246,6 +231,13 @@
       "actor": "codex:issue-298",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:issue-298",
+      "reason": "Recover failed exact review r3 at 466b8cfa: completed-attempt validation does not semantically bind PREPARED request authority and all receipt payloads to typed recovery/canonical audit, mutations reopen absolute parents after descriptor walk so ancestor replacement remains possible, and terminal recovery authority is not durable across a second ordinary commit; proof lacks synthesized full-chain forgery, ancestor-swap, and second post-recovery commit cases",
+      "operation": "recover_review"
     }
   ]
 }
