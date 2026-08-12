@@ -12,10 +12,11 @@ Status: pre_phase
 
 ## Summary
 
-Remediated all three exact-review P1 findings with strict import-addition grammar, verified result/evidence artifact bindings, and replay-resistant exact revision/diff/mapping/result/hunk receipts.
+Remediated the second exact-review findings by executing governed proof commands inside the classifier and structurally binding the added token argument to the mapped callee invocation.
 
 ## Artifacts
 
+- adl/config/mechanical_coverage_fallout.v1.json
 - adl/tools/mechanical_coverage_fallout.py
 - adl/tools/check_coverage_impact.sh
 - adl/tools/test_mechanical_coverage_fallout.sh
@@ -24,10 +25,10 @@ Remediated all three exact-review P1 findings with strict import-addition gramma
 
 ## Execution
 
-- Reject semantic import removal, reorder, alias, path, and multiplicity changes.
-- Require digest-verified compile and behavioral result artifacts plus their evidence logs instead of caller-declared passed strings.
-- Bind base, head, diff, mapping, proof manifest, result, evidence, and hunk content digests in each receipt.
-- Preserve the 80 percent threshold, nightly/full policy, and read-only #258 fixture boundary.
+- Execute tracked compile and per-owner behavioral commands directly without accepting caller-authored pass results.
+- Record runner producer, argv, exit code, result digest, evidence digest, base, head, diff, mapping, and changed hunk identities.
+- Require the sole added token argument to immediately follow the mapped governed callee invocation; reject unrelated calls even within the same hunk.
+- Preserve the 80 percent whole-file gate, nightly/full authority policy, and read-only issue 258 fixture boundary.
 
 ## Validation
 
@@ -37,7 +38,7 @@ Remediated all three exact-review P1 findings with strict import-addition gramma
       "bash",
       "adl/tools/test_mechanical_coverage_fallout.sh"
     ],
-    "purpose": "Prove exact grammar, artifact integrity, replay resistance, required negatives, and below-threshold integration.",
+    "purpose": "Prove trusted command execution, mapped-callee binding, exact grammar, negative cases, and below-threshold integration.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/mechanical-compile-fallout-classifier.log"
   },
@@ -46,7 +47,7 @@ Remediated all three exact-review P1 findings with strict import-addition gramma
       "bash",
       "adl/tools/test_check_coverage_impact.sh"
     ],
-    "purpose": "Prove the existing 80 percent and authoritative coverage routing contract remains intact.",
+    "purpose": "Prove the existing 80 percent gate and authoritative coverage routing remain intact.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/coverage-impact-regression.log"
   },
@@ -55,7 +56,7 @@ Remediated all three exact-review P1 findings with strict import-addition gramma
       "bash",
       "adl/tools/test_select_validation_lanes.sh"
     ],
-    "purpose": "Prove PVF selector inventory and non-authoritative PR evidence routing.",
+    "purpose": "Prove PVF selector inventory and PR-fast non-authoritative routing.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/validation-selector-pvf.log"
   }

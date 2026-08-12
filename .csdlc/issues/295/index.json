@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "160262abf70c549e870a2144ea68fe68d10196c0ae93fdaab6969112247d5ad5",
+  "generation": 11,
+  "digest": "1f26557ae0ac0fd55a7b148b8e7a06ea4f48c04f4ef37a58b796a83cce7edefd",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "028eba6c7fbf8f1ee4306fbd0aab5533a3423bad952dd7ccbb279a34e1571db4",
+      "values_digest": "03471d5076d36da0846d99b709de245fa7285ac0fda532318c505d29de3eaa4d",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "56e15b141373695afc87a98bde960b78c058a410b0f2344df73b82847fafacd5",
+      "values_digest": "395fbf8cbb4144bcd56d4ca19912742f12fa52e3011d136c4ea6c92eaa44f915",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "92d09a342b5ae7ed0ed61436892446d5d16d89aef245b9a2dac54579062929d9",
+      "values_digest": "84aa2cfedf684e1316c4723a3ce92a5d183d6738e02a398188291ab7a234af71",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "eb7da4f66382c7e4ce67ab4f49155309db8efa112f4e29ed252706720aab24e0",
+      "values_digest": "db1120c535720c0f2d1e4710db9bd68794682ec963a901b29c317a423ff84f8d",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "291ff30d07d00613fa1daf3d88193c4bb586e20abda4f9e41a4a5b46c96ac75e",
+      "values_digest": "1cff4733079ca4ba8fa781d072fe57bc44412c7a6d04905f477427db2c78a525",
       "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
       "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
     },
     "sor": {
-      "values_digest": "cc7b986e776d113570d36e6fe390dc8dc3a6cd8e06b8a4892d818cef2721230c",
-      "rendered_digest": "56a46bcac65444a249800be52da38d740d89d51a192d422671d2597aedc9e5c9",
-      "ast_digest": "93b37a1c5cf3566e93a2821397d576780955b53cc0bf99fe5dc0e9710ef81075"
+      "values_digest": "f969fd9169d722002f7d272a473816796b5923e75f8c1bea24b384ed47ce34ef",
+      "rendered_digest": "c10411dd190ebf9bbbbc79b59bf71687ef33429a33b8da34496869c99e0c9b06",
+      "ast_digest": "ee603258afbe1eec9a6c1c4591ec304dd2e6ee3fcb0222d5cbc9a9b273736de9"
     }
   },
   "transitions": [
@@ -175,6 +175,13 @@
       "actor": "codex:issue-295",
       "reason": "Exact reviewer fresh-session:ff17a49b-6f75-46cd-99bb-d3652ec6f62d returned FAIL at 05b1af348 before its long-running turn was interrupted: P1 self-authored result/evidence artifacts are accepted without trusted execution provenance; P1 pass-through additions are not structurally tied to a governed mapped call/callee. No PASS was issued. Recover before remediation and require a different fresh reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:issue-295",
+      "reason": "Record the bounded second-review remediation and fresh passing validation before a new exact-head review assignment.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the second exact-review findings by executing governed proof commands inside the classifier and structurally binding the added token argument to the mapped callee invocation.\",\"changes\":[\"Execute tracked compile and per-owner behavioral commands directly without accepting caller-authored pass results.\",\"Record runner producer, argv, exit code, result digest, evidence digest, base, head, diff, mapping, and changed hunk identities.\",\"Require the sole added token argument to immediately follow the mapped governed callee invocation; reject unrelated calls even within the same hunk.\",\"Preserve the 80 percent whole-file gate, nightly/full authority policy, and read-only issue 258 fixture boundary.\"],\"artifacts\":[\"adl/config/mechanical_coverage_fallout.v1.json\",\"adl/tools/mechanical_coverage_fallout.py\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\"docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md\",\".csdlc/evidence/295\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Prove trusted command execution, mapped-callee binding, exact grammar, negative cases, and below-threshold integration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/mechanical-compile-fallout-classifier.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the existing 80 percent gate and authoritative coverage routing remain intact.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/coverage-impact-regression.log\"},{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"purpose\":\"Prove PVF selector inventory and PR-fast non-authoritative routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/validation-selector-pvf.log\"}]}"
     }
   ]
 }
