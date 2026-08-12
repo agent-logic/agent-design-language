@@ -38,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The governed three-revision validator must pass at the exact committed publication head before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:99f796620e21291803f312e182b8ae666f42db41:65fa2614ebdfe5b6f5148d7165f2f8b79398dfb3e28eaf0d3a9889927cccc498")
 
-Reviewer: None
+Reviewer: Some("fresh-session:0cc6ff8e-7fbc-43d0-b674-3f2958076954")
 
-Result: pre_review
+Result: pass
