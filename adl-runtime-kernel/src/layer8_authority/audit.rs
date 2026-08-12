@@ -85,9 +85,7 @@ fn load_store_state(file: &File) -> Result<StoreState, RefusalReason> {
         {
             return Err(RefusalReason::AuditUnavailable);
         }
-        if record.authorized {
-            state.replay_hashes.insert(record.replay_hash.clone());
-        }
+        state.replay_hashes.insert(record.replay_hash.clone());
         state.sequence = record.sequence;
         state.head_hash = record.record_hash;
     }
@@ -185,9 +183,7 @@ impl Layer8AuthorityStore {
         };
         state.sequence = record.sequence;
         state.head_hash = record.record_hash.clone();
-        if authorized {
-            state.replay_hashes.insert(replay_hash);
-        }
+        state.replay_hashes.insert(replay_hash);
         match reason {
             Some(reason) => refused(reason, correlation_id),
             None => AuthorityDecision::Authorized(AuthorizationGrant {

@@ -558,6 +558,43 @@ fn layer8_capability_policy_and_corrupt_audit_fail_closed() {
     ));
     assert_eq!(audit_lines(&policy_root.path().join("audit.jsonl")), 1);
 
+    let replay_root = TestRoot::new("refused-replay");
+    let replay_audit_path = replay_root.path().join("audit.jsonl");
+    let (first_authority, sender) = core_authority(replay_root.path());
+    assert!(matches!(
+        first_authority.authorize(
+            &sender,
+            Layer8Action::Contact,
+            "conversation-1".to_string(),
+            "unapproved-agent".to_string(),
+            "replay-refused-then-valid".to_string(),
+            "correlation-refused-then-valid".to_string(),
+            NOW,
+        ),
+        AuthorityDecision::Refused(PublicRefusal {
+            reason: RefusalReason::ScopeDenied,
+            ..
+        })
+    ));
+    assert_eq!(audit_lines(&replay_audit_path), 1);
+    let (restarted_authority, sender) = core_authority(replay_root.path());
+    assert!(matches!(
+        restarted_authority.authorize(
+            &sender,
+            Layer8Action::Contact,
+            "conversation-1".to_string(),
+            "agent".to_string(),
+            "replay-refused-then-valid".to_string(),
+            "correlation-valid-after-refused-replay".to_string(),
+            NOW,
+        ),
+        AuthorityDecision::Refused(PublicRefusal {
+            reason: RefusalReason::ReplayRefused,
+            ..
+        })
+    ));
+    assert_eq!(audit_lines(&replay_audit_path), 2);
+
     let corrupt_root = TestRoot::new("corrupt-audit");
     let audit_path = corrupt_root.path().join("audit.jsonl");
     std::fs::write(&audit_path, b"{not-json}\n").unwrap();
