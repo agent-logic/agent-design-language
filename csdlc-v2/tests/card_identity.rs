@@ -166,7 +166,12 @@ fn bootstrap_at(
 #[test]
 fn initialized_design_envelope_recovery_relocates_and_invalidates_approval() {
     let temp = tempfile::tempdir().unwrap();
-    let record = bootstrap_at(temp.path(), 294, "legacy/design.md", "legacy/diagram.mmd");
+    let record = bootstrap_at(
+        temp.path(),
+        294,
+        ".csdlc/prepared/legacy/design.md",
+        ".csdlc/prepared/legacy/diagram.mmd",
+    );
     let design_digest = blake3::hash(b"design bytes").to_hex().to_string();
     let diagram_digest = blake3::hash(b"diagram bytes").to_hex().to_string();
     let recovered = recover_initialized_design_envelope(
@@ -176,8 +181,8 @@ fn initialized_design_envelope_recovery_relocates_and_invalidates_approval() {
             expected_generation: record.generation,
             expected_digest: record.digest,
             actor: "test".into(),
-            expected_design_path: "legacy/design.md".into(),
-            expected_diagram_path: "legacy/diagram.mmd".into(),
+            expected_design_path: ".csdlc/prepared/legacy/design.md".into(),
+            expected_diagram_path: ".csdlc/prepared/legacy/diagram.mmd".into(),
             expected_design_digest: design_digest.clone(),
             expected_diagram_digest: diagram_digest,
             new_design_path: "docs/issues/294/design.md".into(),
@@ -189,7 +194,7 @@ fn initialized_design_envelope_recovery_relocates_and_invalidates_approval() {
             spawned_task: "/root/reviewer".into(),
             thread_source: "subagent".into(),
             fork_turns: "none".into(),
-            reviewed_generation: 2,
+            reviewed_generation: record.generation,
             reviewed_digest: design_digest.clone(),
         },
     )
@@ -212,6 +217,133 @@ fn initialized_design_envelope_recovery_relocates_and_invalidates_approval() {
         .unwrap()
         .operation
         .contains("old_design_path"));
+}
+
+fn recovery_request(record: &csdlc_v2::IssueRecord) -> RecoverInitializedDesignEnvelopeRequest {
+    RecoverInitializedDesignEnvelopeRequest {
+        issue: record.issue,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        actor: "test".into(),
+        expected_design_path: record.design_path.clone(),
+        expected_diagram_path: record.diagram_path.clone(),
+        expected_design_digest: blake3::hash(b"design bytes").to_hex().to_string(),
+        expected_diagram_digest: blake3::hash(b"diagram bytes").to_hex().to_string(),
+        new_design_path: format!("docs/issues/{}/design.md", record.issue),
+        new_diagram_path: format!("docs/issues/{}/diagram.mmd", record.issue),
+        prior_reviewer: "fresh-session:019ff5eb-c6ed-7f83-9d6c-87b7a661eb8b".into(),
+        canonical_reviewer: "fresh-session:019ff5eb-c6ed-7f83-9d6c-87b7a661eb8b".into(),
+        reviewer_session_uuid: "019ff5eb-c6ed-7f83-9d6c-87b7a661eb8b".into(),
+        reviewer_turn_uuid: "019ff5eb-c752-7b62-aaeb-b374a6e1b040".into(),
+        spawned_task: "/root/reviewer".into(),
+        thread_source: "subagent".into(),
+        fork_turns: "none".into(),
+        reviewed_generation: record.generation,
+        reviewed_digest: match &record.design_review {
+            csdlc_v2::DesignReview::Approved { revision, .. } => revision.clone(),
+            _ => panic!("approved"),
+        },
+    }
+}
+
+#[test]
+fn recovery_rejects_stale_cas_unsafe_alias_and_missing_provenance_without_mutation() {
+    for case in ["generation", "digest", "alias", "provenance"] {
+        let temp = tempfile::tempdir().unwrap();
+        let record = bootstrap_at(
+            temp.path(),
+            296,
+            ".csdlc/prepared/legacy/design.md",
+            ".csdlc/prepared/legacy/diagram.mmd",
+        );
+        let before = fs::read(temp.path().join(".csdlc/issues/296/index.json")).unwrap();
+        let mut request = recovery_request(&record);
+        match case {
+            "generation" => request.expected_generation += 1,
+            "digest" => request.expected_digest = "stale".into(),
+            "alias" => request.new_diagram_path = request.new_design_path.clone(),
+            "provenance" => request.fork_turns = "all".into(),
+            _ => unreachable!(),
+        }
+        assert!(
+            recover_initialized_design_envelope(&Store::new(temp.path()), request).is_err(),
+            "{case}"
+        );
+        assert_eq!(
+            fs::read(temp.path().join(".csdlc/issues/296/index.json")).unwrap(),
+            before,
+            "{case}"
+        );
+    }
+}
+
+#[test]
+fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
+    let temp = tempfile::tempdir().unwrap();
+    assert!(std::process::Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(temp.path())
+        .status()
+        .unwrap()
+        .success());
+    assert!(std::process::Command::new("git")
+        .args([
+            "-c",
+            "user.name=test",
+            "-c",
+            "user.email=test@example.com",
+            "commit",
+            "--allow-empty",
+            "-qm",
+            "base"
+        ])
+        .current_dir(temp.path())
+        .status()
+        .unwrap()
+        .success());
+    let linked = temp.path().join("linked");
+    assert!(std::process::Command::new("git")
+        .args([
+            "worktree",
+            "add",
+            "-q",
+            "-b",
+            "issue-297",
+            linked.to_str().unwrap()
+        ])
+        .current_dir(temp.path())
+        .status()
+        .unwrap()
+        .success());
+    let record = bootstrap_at(
+        &linked,
+        297,
+        ".csdlc/prepared/legacy/design.md",
+        ".csdlc/prepared/legacy/diagram.mmd",
+    );
+    fs::create_dir_all(linked.join("docs/issues/297")).unwrap();
+    fs::write(linked.join("docs/issues/297/design.md"), b"design bytes").unwrap();
+    let common = String::from_utf8(
+        std::process::Command::new("git")
+            .args(["rev-parse", "--path-format=absolute", "--git-common-dir"])
+            .current_dir(&linked)
+            .output()
+            .unwrap()
+            .stdout,
+    )
+    .unwrap();
+    let journal_dir = std::path::Path::new(common.trim()).join("csdlc-v2/recovery-journals");
+    fs::create_dir_all(&journal_dir).unwrap();
+    fs::write(journal_dir.join("297.json"), serde_json::to_vec(&serde_json::json!({"schema":"csdlc.initialized_design_envelope_recovery_journal.v1","issue":297,"pre_generation":record.generation,"pre_digest":record.digest,"post_generation":record.generation+1,"old_design_path":record.design_path,"old_diagram_path":record.diagram_path,"new_design_path":"docs/issues/297/design.md","new_diagram_path":"docs/issues/297/diagram.mmd","design_digest":blake3::hash(b"design bytes").to_hex().to_string(),"diagram_digest":blake3::hash(b"diagram bytes").to_hex().to_string(),"phase":"design_installed"})).unwrap()).unwrap();
+    let recovered =
+        recover_initialized_design_envelope(&Store::new(&linked), recovery_request(&record))
+            .unwrap();
+    assert_eq!(recovered.design_path, "docs/issues/297/design.md");
+    assert!(!journal_dir.join("297.json").exists());
+    assert!(
+        linked.join(".git").is_file(),
+        "fixture is a linked worktree"
+    );
 }
 
 #[test]
