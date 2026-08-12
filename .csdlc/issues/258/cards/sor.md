@@ -12,10 +12,19 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam. Fresh-session review v3 found that debug_assertions publicly exported TEST_FENCING_STORE_ACCESS, letting ordinary dev-profile non-test callers obtain FencingStoreAccess. This repair removes public debug-profile fencing test-token availability, exposes the raw fencing test token only as cfg(test) pub(crate), preserves the production adapter path with AUTHORITY_BOUND_FENCING_ACCESS, and adds an external rustc compile-fail proof that a non-test dependent cannot import TEST_FENCING_STORE_ACCESS.
+Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam. The branch merged current origin/main with zero changed-path overlap and retained focused post-merge proof. Subsequent fresh reviews found and drove two fencing-boundary repairs: raw FencingStore::authorize_active_lease now requires FencingStoreAccess and the adapter passes AUTHORITY_BOUND_FENCING_ACCESS, and the raw fencing test token is no longer publicly exported in ordinary debug builds. Current SOR truth cumulatively retains both the post-origin/main merge validation and the final fencing-token-seal validation; PR #290 remains held pending fresh review and publication gates.
 
 ## Artifacts
 
+- .csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt
+- .csdlc/evidence/258/main-changed-paths-since-5fd55acd.txt
+- .csdlc/evidence/258/issue-258-changed-paths-since-5fd55acd.txt
+- .csdlc/evidence/258/cargo-check-adl-runtime-post-main-merge.log
+- .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-post-main-merge.log
+- .csdlc/evidence/258/cargo-test-published-view-authority-kinds-post-main-merge.log
+- .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-post-main-merge.log
+- .csdlc/evidence/258/git-diff-check-post-main-merge.log
+- .csdlc/evidence/258/csdlc-validate-post-main-merge.log
 - .csdlc/evidence/258/cargo-check-adl-runtime-test-token-seal.log
 - .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-test-token-seal.log
 - .csdlc/evidence/258/cargo-test-published-view-authority-kinds-test-token-seal.log
@@ -23,6 +32,7 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
 - .csdlc/evidence/258/rg-fencing-test-token-seal.log
 - .csdlc/evidence/258/git-diff-check-test-token-seal.log
 - .csdlc/evidence/258/csdlc-validate-test-token-seal.log
+- .csdlc/evidence/258/csdlc-validate-final-test-token-seal.log
 
 ## Execution
 
@@ -35,10 +45,80 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
 - Added static guard assertions rejecting public debug_assertions fencing token export and preserving positive adapter-token proof.
 - Added an external rustc compile-fail proof that a non-test dependent crate cannot import adl_runtime::distributed::fencing::TEST_FENCING_STORE_ACCESS.
 - Kept migration, recovery, and snapshot catalog production paths on governed adapter calls and did not reopen transport scope.
+- Merged current origin/main after recording zero changed-path overlap with #258 and retained the post-merge validation evidence in this SOR.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "git",
+      "merge-base",
+      "--is-ancestor",
+      "origin/main",
+      "HEAD"
+    ],
+    "purpose": "Confirm current origin/main is ancestral to the #258 branch after the explicit current-main merge.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt"
+  },
+  {
+    "command": [
+      "cargo",
+      "check",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "purpose": "Compile-check the runtime crate at the current-main-merged branch head after the active-lease token repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/cargo-check-adl-runtime-post-main-merge.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_identity_lease_authority",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "purpose": "Exercise focused #258 authority-store boundary guardrails at the current-main-merged branch head, including direct raw active-lease signature denial and positive adapter-token proof.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-post-main-merge.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "distributed::authority_store_adapters::tests::published_view_exposes_all_store_authority_kinds",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Re-prove the preserved published view accepts and exposes all in-scope published store operation kinds at the current-main-merged branch head.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-published-view-authority-kinds-post-main-merge.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_identity_lease_authority",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict-lint the focused #258 authority-store boundary test target at the current-main-merged branch head.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-post-main-merge.log"
+  },
   {
     "command": [
       "cargo",
@@ -127,9 +207,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--issue",
       "258"
     ],
-    "purpose": "Validate typed #258 lifecycle truth after the fresh-review v3 repair.",
+    "purpose": "Validate typed #258 lifecycle truth after cumulative SOR repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-test-token-seal.log"
+    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-final-test-token-seal.log"
   }
 ]
 
