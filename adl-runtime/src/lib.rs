@@ -17,6 +17,7 @@ pub mod distributed;
 pub mod freedom_gate;
 pub mod guardian;
 mod kernel_continuity_client;
+pub mod layer8_authority;
 pub mod networking;
 pub mod observability;
 pub mod reasoning_runtime;

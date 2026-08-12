@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 27
+    "generation": 31
   },
   "status": "ready",
   "content": {
@@ -31,7 +31,9 @@
         "AC-4: Recipient substitution, recipient-set widening, implicit broadcast, action or conversation scope escalation, replay, and cross-Polis attempts are rejected atomically before provider execution.",
         "AC-5: Operator, recipient-agent, reviewer, and public projections expose only audience-allowed decision, refusal, retry, correlation, recipient, conversation, and outcome fields.",
         "AC-6: Restart restores replay and redacted audit integrity before admission; corrupt, truncated, reordered, discontinuous, or unwritable audit state remains unavailable.",
-        "AC-7: All three exact issue-owned authority, Runtime API integration, and real-browser Observatory targets pass at one reviewed implementation revision, with nonzero Rust test selection and no preparation-text substitution."
+        "AC-7: Human-agent and direct agent-agent requests use one canonical signed ACIP identity-message contract with externally held per-principal keys and exact recipient binding.",
+        "AC-8: Recipient-signed acknowledgements bind sender, recipient, conversation, correlation, causation, replay identity, expiry, and the triggering message; signature substitution, stale rotation, revocation, and expiry fail closed.",
+        "AC-9: The production conversation, authority and signed-message, Runtime API integration, and real-browser Observatory targets pass at one reviewed implementation revision with nonzero test selection."
       ],
       "dependencies": [
         "Hard serial gate: #111 must be closed by a merged PR and ancestral to the execution base"

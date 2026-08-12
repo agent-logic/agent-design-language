@@ -33,7 +33,9 @@ Prepare and later implement only issue #112 Runtime authority, refusal, replay, 
 4. AC-4: Recipient substitution, recipient-set widening, implicit broadcast, action or conversation scope escalation, replay, and cross-Polis attempts are rejected atomically before provider execution.
 5. AC-5: Operator, recipient-agent, reviewer, and public projections expose only audience-allowed decision, refusal, retry, correlation, recipient, conversation, and outcome fields.
 6. AC-6: Restart restores replay and redacted audit integrity before admission; corrupt, truncated, reordered, discontinuous, or unwritable audit state remains unavailable.
-7. AC-7: All three exact issue-owned authority, Runtime API integration, and real-browser Observatory targets pass at one reviewed implementation revision, with nonzero Rust test selection and no preparation-text substitution.
+7. AC-7: Human-agent and direct agent-agent requests use one canonical signed ACIP identity-message contract with externally held per-principal keys and exact recipient binding.
+8. AC-8: Recipient-signed acknowledgements bind sender, recipient, conversation, correlation, causation, replay identity, expiry, and the triggering message; signature substitution, stale rotation, revocation, and expiry fail closed.
+9. AC-9: The production conversation, authority and signed-message, Runtime API integration, and real-browser Observatory targets pass at one reviewed implementation revision with nonzero test selection.
 
 ## Dependencies
 

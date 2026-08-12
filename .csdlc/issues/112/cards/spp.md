@@ -16,43 +16,53 @@ Reach typed pre-bind readiness now; after #111 merges ancestrally, reconcile its
 
 ## Plan
 
-Revision 7
+Revision 10
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Hold at pre-bind readiness until #111 is terminal, merged, ancestral, and ownership-compatible; then reconcile its exact conversation contract and replan through typed edits on drift.",
+    "action": "Reconcile merged #111 and #113 contracts and the live #112 signed-message ownership without widening into durability, rooms, or attention workflows.",
     "acceptance_ids": [
-      "AC-1"
+      "AC-1",
+      "AC-7"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement the typed Layer 8 principal, action-specific capability, policy intersection, replay guard, bounded refusal, and hash-chained redacted audit contracts in the issue-owned Runtime module.",
+    "action": "Implement principal authority, policy intersection, replay defense, bounded refusal, redacted audit, one signed ACIP identity-message contract, and recipient-signed acknowledgement verification.",
     "acceptance_ids": [
+      "AC-1",
       "AC-2",
-      "AC-3"
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Integrate the authority decision before sequence reservation, provider execution, and delivery while preserving the merged #111 ingress and session ownership boundaries.",
+    "action": "Integrate authority before conversation reservation and provider delivery while preserving the merged Runtime ingress and externally held private-key boundary.",
     "acceptance_ids": [
+      "AC-2",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-7"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Run the exact issue-owned authority-contract, Runtime API integration, and real-browser Observatory UI targets with nonzero selection where applicable, resolve every actionable exact-head review finding, and only then hand off for publication.",
+    "action": "Run all exact issue-owned validation targets, resolve independent exact-head review findings, and publish only current reviewed truth.",
     "acceptance_ids": [
       "AC-6",
-      "AC-7"
+      "AC-8",
+      "AC-9"
     ],
     "status": "pending"
   }

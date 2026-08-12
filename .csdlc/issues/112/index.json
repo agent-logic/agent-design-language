@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "bound",
-  "generation": 27,
-  "digest": "56a53adba34ff06dd2900cde8cf911e4b40eae3adcb89d8a5f0c620788fe25c0",
+  "generation": 31,
+  "digest": "4dddb30ab891c7541ba358791fa9283922936bc15fd397c5f7416dbb0998d228",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "407b57e6537ec3628718566fe385f7457b96c13a3a38dc802c31fd0b5cb2c605",
+      "values_digest": "06bb8ecedc7847d6496dc8e101a4d7cc1be7c8685c00b97808fc1444e176a3b6",
       "rendered_digest": "c359833435b3fec371ee4fb3e06c059405db392529200e79f667ddf634f49dd9",
       "ast_digest": "1550fcf3865ee5b7fdd70c7d721016ca49bc28929bea299bc58bdddb875263ed"
     },
     "stp": {
-      "values_digest": "552e9d1f11eadbc385c99f3fcd5c21b89e8fe0049f306281ac938f9b3691e46c",
-      "rendered_digest": "23485206f9821e4fc40f0686d8a2cf02cfe49c9a464b2f00865a5d3abb22661d",
-      "ast_digest": "a4a8481091da799851404aaabc50a5f3d2f37ef91b69043bb475b3ae1abb13dc"
+      "values_digest": "36f44cb55e9fe07194508d36adfdc74668e3ebff3e2e66177f8ddc8a62074f49",
+      "rendered_digest": "ac5947529d584f93f30572c7c724820fb62045bd9787a09d853fd87f4eff4bd9",
+      "ast_digest": "28032a1ffc47c6d6459ae1327b0c2042ab0c9a82dbdf971073fa972d79217aa3"
     },
     "spp": {
-      "values_digest": "95fd0b3e6bcdba9a795c107b029b28f2c2fc1d31acb22154a0bbbc15e9409be0",
-      "rendered_digest": "722c5a798fd9449e663f7f46080dcb88e773e2de5f63e48efad8ff30164db2fd",
-      "ast_digest": "fc0e67c1f9b75be540a81f52f055276459ab4637f0c61ed91b98c6e1120579c4"
+      "values_digest": "393f75f0697f75bb7178afaf8b47c36c8ec400f8e590f39a80a04348dc84736a",
+      "rendered_digest": "5c0633102bdcc5d9b7a65d4ccc56bdd5de7ae64fa5aa25cecc21a43dad621c6c",
+      "ast_digest": "263dd8e4881899dd339f16e6f7ed0f76fa473ec53f926a99c6deef421f67892f"
     },
     "vpp": {
-      "values_digest": "334f527d738a6386c55bcc22ec818fd338ec166457663f61026c822e376ef1df",
-      "rendered_digest": "ab054f0ec3b9b81c006214307a096a4ee7158bfe9c9aff48b4705c9c6c746dea",
-      "ast_digest": "6ddfd3f3116bc221ef78cae0c68a34666390b0ee32a619ebbb68df8f3cf0c929"
+      "values_digest": "53ad8ffd729a58c3bca55865643f9004b1e3a841ec906e2b8c6ddf8ff63f413f",
+      "rendered_digest": "e6d7d27fc6120db3cd30b6b49a3dd3a3bd532e68c4debbe599f4ce2b020ce3e4",
+      "ast_digest": "d4cf166260ee47b20d861b149176a64567e35251180d2c25156e13bbfc3377b7"
     },
     "srp": {
-      "values_digest": "5ef5ec385cdb786113a0c10a45473e128250101a0c61058a657d2774e6db715c",
+      "values_digest": "d7d23321a4bbd69bb31fce1dca675895f951708dee04cb66bd23618a3ede02db",
       "rendered_digest": "2cd40ee68347d1da9e597b44f113efbb4a7a084d33601afb7f78aef350a73547",
       "ast_digest": "c39e15dc8ca48abd1c026f67c273e12132af658af93c09a36bcfab69ba683559"
     },
     "sor": {
-      "values_digest": "7e182f3a8fe52ff6d874504b6bd4e495bf7e0454876c1197a5c2efd29ecf2269",
+      "values_digest": "f3fe6b8c41bb8e058ac876f6d7fd38a165b394f5685de92aea760dfbf5a80217",
       "rendered_digest": "a0564026b2d4a57a1a5cbaa9fa222d0ac661820c43f4871fd9b9dc90ebdd8a47",
       "ast_digest": "c0065cfecbfe94f68170322c50c2bb26a7b5d3d8335345c1cbcf5b11a985bffd"
     }
@@ -274,6 +274,34 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 30,
+      "generation": 28,
+      "actor": "codex:wp18c02-post-gate-execution",
+      "reason": "Reconcile the merged #111 production conversation owner before continuing implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/layer8_authority.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\",\".csdlc/issues/112\",\".csdlc/prepared/issues/112\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 29,
+      "actor": "codex:wp18c02-post-gate-execution",
+      "reason": "Replace preparation-only checks with the minimum product proofs required by the merged #111 production boundary.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"layer8-production-conversation-boundary\",\"proof_role\":\"Prove authenticated WSS authority executes before session or turn reservation and provider dispatch, including bounded refusal and duplicate idempotency on the merged #111 production path.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"--no-fail-fast\"],\"parallel_group\":\"112-product-required\",\"defer_reason\":null},{\"lane\":\"layer8-authority-contract\",\"proof_role\":\"Prove principal derivation, action-specific capability and policy intersection, bounded refusal, replay defense, restart integrity, redacted tamper-evident audit, and nonzero test selection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"layer8_authority\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"112-product-required\",\"defer_reason\":null},{\"lane\":\"layer8-runtime-api-integration\",\"proof_role\":\"Prove the narrow CSM API adapter invokes delivery only after the same Runtime authority grant and never invokes it after refusal.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"112-product-required\",\"defer_reason\":null},{\"lane\":\"layer8-observatory-ui\",\"proof_role\":\"Run the actual HTML Observatory in a real local browser and prove authorized, refused, stale or revoked, and disclosure-safe authority presentation without provider, cloud, or soak work.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\"],\"parallel_group\":\"112-product-required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 30,
+      "actor": "codex:112-execution",
+      "reason": "Atomically reconcile the bound plan and proof DAG with live issue ownership of signed ACIP identity messages and recipient acknowledgements.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: Every governed action derives a stable Layer 8 principal only from authenticated, unexpired, non-revoked Runtime evidence bound to one Polis and credential generation.\",\"AC-2: Discovery, contact, continuation, attachment, and exact multi-recipient actions require separate least-privilege capabilities intersected with current agent and Polis policy before sequence reservation or delivery.\",\"AC-3: Identity expiry, rotation, revocation, stale capability epoch, malformed input, policy unavailability, replay ambiguity, and audit failure fail closed without fallback authority.\",\"AC-4: Recipient substitution, recipient-set widening, implicit broadcast, action or conversation scope escalation, replay, and cross-Polis attempts are rejected atomically before provider execution.\",\"AC-5: Operator, recipient-agent, reviewer, and public projections expose only audience-allowed decision, refusal, retry, correlation, recipient, conversation, and outcome fields.\",\"AC-6: Restart restores replay and redacted audit integrity before admission; corrupt, truncated, reordered, discontinuous, or unwritable audit state remains unavailable.\",\"AC-7: Human-agent and direct agent-agent requests use one canonical signed ACIP identity-message contract with externally held per-principal keys and exact recipient binding.\",\"AC-8: Recipient-signed acknowledgements bind sender, recipient, conversation, correlation, causation, replay identity, expiry, and the triggering message; signature substitution, stale rotation, revocation, and expiry fail closed.\",\"AC-9: The production conversation, authority and signed-message, Runtime API integration, and real-browser Observatory targets pass at one reviewed implementation revision with nonzero test selection.\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Reconcile merged #111 and #113 contracts and the live #112 signed-message ownership without widening into durability, rooms, or attention workflows.\",\"acceptance_ids\":[\"AC-1\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement principal authority, policy intersection, replay defense, bounded refusal, redacted audit, one signed ACIP identity-message contract, and recipient-signed acknowledgement verification.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Integrate authority before conversation reservation and provider delivery while preserving the merged Runtime ingress and externally held private-key boundary.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run all exact issue-owned validation targets, resolve independent exact-head review findings, and publish only current reviewed truth.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\",\"AC-9\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"layer8-production-conversation-boundary\",\"proof_role\":\"Prove authenticated WSS authority executes before session or turn reservation and provider dispatch, including bounded refusal and duplicate idempotency on the merged #111 production path.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"--no-fail-fast\"],\"parallel_group\":\"112-product-required\",\"defer_reason\":null},{\"lane\":\"layer8-authority-contract\",\"proof_role\":\"Prove principal derivation, action-specific authority, signed human-agent and agent-agent messages, recipient-signed acknowledgement binding, signature and rotation negatives, replay defense, restart integrity, and redacted audit.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"layer8_authority\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"112-product-required\",\"defer_reason\":null},{\"lane\":\"layer8-runtime-api-integration\",\"proof_role\":\"Prove the narrow CSM API adapter invokes delivery only after the same Runtime authority grant and never invokes it after refusal.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"parallel_group\":\"112-product-required\",\"defer_reason\":null},{\"lane\":\"layer8-observatory-ui\",\"proof_role\":\"Run the actual HTML Observatory in a real local browser and prove authorized, refused, stale or revoked, and disclosure-safe authority presentation without provider, cloud, or soak work.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\"],\"parallel_group\":\"112-product-required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 31,
+      "actor": "codex:112-execution",
+      "reason": "Include the narrow Observatory navigation and visibility repair exposed by the exact real-browser lane after merged #113.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/layer8_authority.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\",\".csdlc/issues/112\",\".csdlc/prepared/issues/112\"]}"
     }
   ]
 }

@@ -40,6 +40,9 @@ use adl_runtime::continuity_history::{
     CheckpointStore, DomainHealth, LifelogStore, CHECKPOINT_DB_FILE, CHECKPOINT_SCHEMA_V1,
     LIFELOG_DB_FILE, LIFELOG_SCHEMA_V1,
 };
+use adl_runtime::layer8_authority::{
+    AuthorityDecision, Layer8Action, Layer8ConversationAuthority, PublicRefusal,
+};
 use adl_runtime::resident_agent::CsmResidentAgentSet;
 use adl_runtime::runtime_api_auth::{
     RuntimeApiAuthDecision, RuntimeApiCredentialStore, VerifiedRuntimeApiGatewayIdentity,
@@ -58,6 +61,36 @@ pub use adl_runtime::runtime_api::{
     CSM_RUNTIME_API_STATUS_SCHEMA,
 };
 pub use api_gateway_bridge::{prove_api_gateway_bridge, ApiGatewayBridgeOptions};
+
+#[derive(Debug, Clone)]
+pub struct Layer8RuntimeDeliveryRequest {
+    pub action: Layer8Action,
+    pub conversation_id: String,
+    pub recipient_id: String,
+    pub replay_id: String,
+    pub correlation_id: String,
+    pub credential_generation: u64,
+    pub now_epoch_secs: u64,
+}
+
+pub fn authorize_layer8_runtime_delivery<T>(
+    authority: &Layer8ConversationAuthority,
+    request: Layer8RuntimeDeliveryRequest,
+    deliver: impl FnOnce() -> T,
+) -> Result<T, PublicRefusal> {
+    match authority.authorize(
+        request.action,
+        request.conversation_id,
+        request.recipient_id,
+        request.replay_id,
+        request.correlation_id,
+        request.credential_generation,
+        request.now_epoch_secs,
+    ) {
+        AuthorityDecision::Authorized(_) => Ok(deliver()),
+        AuthorityDecision::Refused(refusal) => Err(refusal),
+    }
+}
 
 const CSM_RUNTIME_API_ACIP_WS_PATH: &str = "/v1/acip/ws";
 const CSM_RUNTIME_API_ACIP_WS_LEGACY_ALIAS: &str = "/acip/ws";

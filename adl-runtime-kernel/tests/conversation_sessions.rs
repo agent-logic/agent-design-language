@@ -7,6 +7,9 @@ use std::{
     time::Duration,
 };
 
+use adl_runtime_kernel::layer8_authority::{
+    ConversationAuthorityProfile, Layer8Action, Layer8AuthorityStore, Layer8ConversationAuthority,
+};
 use adl_runtime_kernel::{
     serve_control_listener, AdapterKind, AdapterPolicy, AgentPopulationFeed, AgentRosterPolicy,
     AgentSample, AuthorityMode, CanonicalIngress, ComponentId, ComponentRegistry, ControlApiPolicy,
@@ -182,12 +185,26 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .iter()
         .map(|agent| agent.id.clone())
         .collect::<BTreeSet<_>>();
+    let mut allowed_recipients = visible_agent_ids.clone();
+    assert!(allowed_recipients.remove("agent-0099"));
     population = population.with_public_policy(AgentRosterPolicy {
         policy_subject: "conversation-test".to_owned(),
-        visible_agent_ids,
+        visible_agent_ids: visible_agent_ids.clone(),
         reveal_capabilities: false,
         reveal_location: false,
     });
+    let authority_root = tempfile::tempdir().unwrap();
+    let layer8_authority = Layer8ConversationAuthority::new(
+        Layer8AuthorityStore::open(authority_root.path().join("audit.jsonl")).unwrap(),
+        ConversationAuthorityProfile {
+            principal_id: "layer8-operator".to_owned(),
+            polis_id: "conversation-runtime".to_owned(),
+            policy_epoch: 1,
+            allowed_actions: BTreeSet::from([Layer8Action::Contact, Layer8Action::Continue]),
+            allowed_recipients,
+        },
+    )
+    .unwrap();
     let service = Arc::new(
         ControlService::new_with_observatory_config_and_agents(
             "conversation-runtime",
@@ -198,7 +215,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             ["https://observatory.example.test".to_owned()],
             population,
         )
-        .with_canonical_ingress(ingress.clone()),
+        .with_canonical_ingress(ingress.clone())
+        .with_layer8_authority(layer8_authority),
     );
     service.set_observatory_bearer_token(TOKEN).unwrap();
     service
@@ -274,6 +292,29 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let authenticated =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
     assert_eq!(authenticated["status"], "authenticated");
+
+    let dispatches_before_refusal = dispatches.load(Ordering::SeqCst);
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-policy-refusal",
+                "turn_id": "turn-policy-refusal",
+                "recipient_id": "agent-0099",
+                "correlation_id": "20202020202020202020202020202020",
+                "message": "must not dispatch"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let refused =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(refused["status"], "refused", "{refused}");
+    assert_eq!(refused["error"], "conversation_authority_refused");
+    assert_eq!(refused["turn_sequence"], serde_json::Value::Null);
+    assert_eq!(dispatches.load(Ordering::SeqCst), dispatches_before_refusal);
 
     let same_token_reauth = serde_json::json!({
         "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,

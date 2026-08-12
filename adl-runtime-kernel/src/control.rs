@@ -30,6 +30,8 @@ use tokio_util::sync::CancellationToken;
 use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
+use crate::layer8_authority::{AuthorityDecision, Layer8Action, Layer8ConversationAuthority};
+
 use crate::{
     decode_acip_envelope, AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy,
     AgentRosterQuery, AgentRuntimeEvidence, BootstrapEvent, CanonicalIngress, CheckpointManifest,
@@ -624,6 +626,7 @@ pub struct ControlService<C> {
     control_addr: Mutex<SocketAddr>,
     public_base_url: Mutex<String>,
     canonical_ingress: Option<CanonicalIngress>,
+    layer8_authority: Option<Arc<Layer8ConversationAuthority>>,
     agent_roster_token_key: Mutex<[u8; 32]>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
 }
@@ -710,6 +713,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
             public_base_url: Mutex::new("https://localhost".to_owned()),
             canonical_ingress: None,
+            layer8_authority: None,
             agent_roster_token_key: Mutex::new(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.ephemeral.v1",
                 uuid::Uuid::new_v4().as_bytes(),
@@ -744,6 +748,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self
     }
 
+    pub fn with_layer8_authority(mut self, authority: Layer8ConversationAuthority) -> Self {
+        self.layer8_authority = Some(Arc::new(authority));
+        self
+    }
+
     fn conversation_recipient_eligibility(
         &self,
         recipient_id: &str,
@@ -758,6 +767,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     fn accept_conversation_intent(
         &self,
         intent: &ObservatoryConversationIntent,
+        credential_generation: u64,
     ) -> ConversationAcceptance {
         let outcome = |status, error, sequence| ObservatoryConversationResult {
             schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
@@ -820,6 +830,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             ));
         };
         let _ = ingress;
+        let Some(authority) = self.layer8_authority.as_ref() else {
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_authority_unavailable",
+                None,
+            ));
+        };
         let fingerprint = match serde_json::to_vec(intent) {
             Ok(bytes) => blake3::hash(&bytes).to_hex().to_string(),
             Err(_) => {
@@ -834,6 +851,60 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .conversation_sessions
             .lock()
             .expect("conversation sessions mutex poisoned");
+        if let Some(session) = sessions.sessions.get(&intent.conversation_id) {
+            if session.recipient_id != intent.recipient_id {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "conversation_recipient_conflict",
+                    None,
+                ));
+            }
+            if let Some(existing) = session.turns.get(&intent.turn_id) {
+                if existing.fingerprint != fingerprint {
+                    return ConversationAcceptance::Response(outcome(
+                        "refused",
+                        "conversation_conflict",
+                        Some(existing.sequence),
+                    ));
+                }
+                return ConversationAcceptance::Response(existing.terminal.clone().unwrap_or_else(
+                    || {
+                        outcome(
+                            "accepted",
+                            "conversation_in_flight",
+                            Some(existing.sequence),
+                        )
+                    },
+                ));
+            }
+        }
+        let action = if sessions.sessions.contains_key(&intent.conversation_id) {
+            Layer8Action::Continue
+        } else {
+            Layer8Action::Contact
+        };
+        let replay_id = format!(
+            "{}:{}:{}:{}",
+            self.instance_id, intent.conversation_id, intent.turn_id, credential_generation
+        );
+        if !matches!(
+            authority.authorize(
+                action,
+                intent.conversation_id.clone(),
+                intent.recipient_id.clone(),
+                replay_id,
+                intent.correlation_id.clone(),
+                credential_generation,
+                now_unix_millis() / 1_000,
+            ),
+            AuthorityDecision::Authorized(_)
+        ) {
+            return ConversationAcceptance::Response(outcome(
+                "refused",
+                "conversation_authority_refused",
+                None,
+            ));
+        }
         if !sessions.sessions.contains_key(&intent.conversation_id) {
             if !sessions.retain_capacity_for_new_session(self.max_records) {
                 return ConversationAcceptance::Response(outcome(
@@ -2648,7 +2719,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 error: Some("write_authentication_required"),
                             })
                         } else {
-                            service.accept_conversation_intent(&intent)
+                            service.accept_conversation_intent(&intent, authentication_generation)
                         };
                         let (response, dispatch) = match result {
                             ConversationAcceptance::Dispatch { accepted, dispatch } => {

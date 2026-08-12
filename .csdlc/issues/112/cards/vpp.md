@@ -24,8 +24,36 @@ Diagram: .csdlc/prepared/issues/112/diagram.mmd
 
 [
   {
-    "lane": "issue-112-preparation-hygiene",
-    "proof_role": "Prove all six typed cards, approved design, sole #111 serial gate, fail-closed validation truth, and pre-execution SRP/SOR truth without claiming product behavior.",
+    "lane": "layer8-production-conversation-boundary",
+    "proof_role": "Prove authenticated WSS authority executes before session or turn reservation and provider dispatch, including bounded refusal and duplicate idempotency on the merged #111 production path.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 1800,
+    "budget_tokens": 12000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "conversation_sessions",
+      "--no-fail-fast"
+    ],
+    "parallel_group": "112-product-required",
+    "defer_reason": null
+  },
+  {
+    "lane": "layer8-authority-contract",
+    "proof_role": "Prove principal derivation, action-specific authority, signed human-agent and agent-agent messages, recipient-signed acknowledgement binding, signature and rotation negatives, replay defense, restart integrity, and redacted audit.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -33,86 +61,78 @@ Diagram: .csdlc/prepared/issues/112/diagram.mmd
       "AC-4",
       "AC-5",
       "AC-6",
-      "AC-7"
+      "AC-7",
+      "AC-8",
+      "AC-9"
     ],
     "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 60,
-    "budget_tokens": 1000,
+    "resource_profile": "medium",
+    "budget_seconds": 1800,
+    "budget_tokens": 16000,
     "argv": [
-      "ruby",
-      ".csdlc/prepared/issues/112/validate-preparation.rb"
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "layer8_authority",
+      "--no-tests=fail",
+      "--status-level",
+      "all"
     ],
-    "parallel_group": "112-preparation",
+    "parallel_group": "112-product-required",
     "defer_reason": null
   },
   {
-    "lane": "layer8-authority-contract-plan",
-    "proof_role": "Validate the future product PVF contract cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail after #111 merges; this preparation lane proves plan completeness only, not product behavior.",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-7"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 60,
-    "budget_tokens": 1000,
-    "argv": [
-      "ruby",
-      ".csdlc/prepared/issues/112/validate-preparation.rb",
-      "--lane",
-      "authority-contract"
-    ],
-    "parallel_group": "112-preparation",
-    "defer_reason": null
-  },
-  {
-    "lane": "layer8-runtime-api-integration-plan",
-    "proof_role": "Validate the future product PVF contract cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail after #111 merges; this preparation lane proves plan completeness only, not product behavior.",
+    "lane": "layer8-runtime-api-integration",
+    "proof_role": "Prove the narrow CSM API adapter invokes delivery only after the same Runtime authority grant and never invokes it after refusal.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
       "AC-4",
       "AC-5",
-      "AC-7"
+      "AC-7",
+      "AC-9"
     ],
     "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 60,
-    "budget_tokens": 1000,
+    "resource_profile": "medium",
+    "budget_seconds": 1800,
+    "budget_tokens": 16000,
     "argv": [
-      "ruby",
-      ".csdlc/prepared/issues/112/validate-preparation.rb",
-      "--lane",
-      "runtime-api-integration"
+      "cargo",
+      "nextest",
+      "run",
+      "--locked",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--test",
+      "layer8_authority_runtime_api",
+      "--no-tests=fail",
+      "--status-level",
+      "all"
     ],
-    "parallel_group": "112-preparation",
+    "parallel_group": "112-product-required",
     "defer_reason": null
   },
   {
-    "lane": "layer8-observatory-ui-plan",
-    "proof_role": "Validate the future real-browser product PVF contract adl/tools/validate_layer8_authority_observatory_ui.sh for authorized and refused states after #111 merges; this preparation lane proves plan completeness only, not product behavior.",
+    "lane": "layer8-observatory-ui",
+    "proof_role": "Run the actual HTML Observatory in a real local browser and prove authorized, refused, stale or revoked, and disclosure-safe authority presentation without provider, cloud, or soak work.",
     "acceptance_ids": [
       "AC-3",
       "AC-5",
-      "AC-7"
+      "AC-9"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 60,
-    "budget_tokens": 1000,
+    "budget_seconds": 300,
+    "budget_tokens": 3000,
     "argv": [
-      "ruby",
-      ".csdlc/prepared/issues/112/validate-preparation.rb",
-      "--lane",
-      "observatory-ui"
+      "bash",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh"
     ],
-    "parallel_group": "112-preparation",
+    "parallel_group": "112-product-required",
     "defer_reason": null
   }
 ]
@@ -129,10 +149,10 @@ Tokens: 50000
 
 ## Commands
 
-- `ruby .csdlc/prepared/issues/112/validate-preparation.rb`
-- `ruby .csdlc/prepared/issues/112/validate-preparation.rb --lane authority-contract`
-- `ruby .csdlc/prepared/issues/112/validate-preparation.rb --lane runtime-api-integration`
-- `ruby .csdlc/prepared/issues/112/validate-preparation.rb --lane observatory-ui`
+- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_sessions --no-fail-fast`
+- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail --status-level all`
+- `cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail --status-level all`
+- `bash adl/tools/validate_layer8_authority_observatory_ui.sh`
 
 ## Failure Semantics
 

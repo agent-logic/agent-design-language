@@ -10,6 +10,9 @@ use std::{
 #[path = "../observability.rs"]
 mod observability;
 
+use adl_runtime_kernel::layer8_authority::{
+    ConversationAuthorityProfile, Layer8Action, Layer8AuthorityStore, Layer8ConversationAuthority,
+};
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly, build_live_continuity_registry,
     build_mutual_tls_server_config, build_production_operation_executors_with_recorder,
@@ -500,6 +503,30 @@ async fn main() -> ExitCode {
             )]));
             let (lifecycle, mut shutdown_requests) =
                 CheckpointingControl::channel(init.kernel.checkpoint_channel_capacity);
+            let layer8_authority = match Layer8AuthorityStore::open(
+                operation_state_identity.join("authority/layer8-conversation-audit.jsonl"),
+            )
+            .and_then(|store| {
+                Layer8ConversationAuthority::new(
+                    store,
+                    ConversationAuthorityProfile {
+                        principal_id: "layer8-operator".to_owned(),
+                        polis_id: instance_id.clone(),
+                        policy_epoch: 1,
+                        allowed_actions: BTreeSet::from([
+                            Layer8Action::Contact,
+                            Layer8Action::Continue,
+                        ]),
+                        allowed_recipients: BTreeSet::from(["shepherd".to_owned()]),
+                    },
+                )
+            }) {
+                Ok(authority) => authority,
+                Err(error) => {
+                    eprintln!("runtime Layer 8 authority unavailable: {error:?}");
+                    return ExitCode::from(78);
+                }
+            };
             let service = Arc::new(
                 ControlService::new_with_observatory_config_and_agents(
                     instance_id.clone(),
@@ -510,7 +537,8 @@ async fn main() -> ExitCode {
                     init.observatory_allowed_origins(),
                     AgentPopulationFeed::resident_shepherd(),
                 )
-                .with_canonical_ingress(assembly.canonical_ingress.clone()),
+                .with_canonical_ingress(assembly.canonical_ingress.clone())
+                .with_layer8_authority(layer8_authority),
             );
             service.set_agent_roster_token_key(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.continuity.v1",
