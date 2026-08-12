@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Bind exact node temporary and terminal identities across completed recovery receipts
+Reject symlinked and nonregular recovery receipts before partial-attempt resume mutation
 
 ## Artifacts
 
@@ -83,6 +83,8 @@ Bind exact node temporary and terminal identities across completed recovery rece
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 - .csdlc/evidence/298/preserved-projection-recovery.log
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
@@ -324,6 +326,11 @@ Bind exact node temporary and terminal identities across completed recovery rece
 - Proved expected-canonical-absent recovery through the authorized backup source
 - Validated exact seq2 and seq10 filters plus the live 29-test focused lane; retained evidence log was not refreshed because a concurrent stale capture was rejected
 - Validated 75 library tests, strict all-target Clippy, formatting, and diff hygiene
+- Required receipt and predecessor paths to remain regular non-symlink files when reading immutable receipt authority
+- Required existing receipts and predecessors to remain regular non-symlink files during deterministic resume
+- Added a partial PREPARED receipt symlink substitution regression proving failure before preserved evidence mutation
+- Validated the exact regression, the 30-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene
+- Retained evidence log was not refreshed and is not claimed as current
 
 ## Validation
 

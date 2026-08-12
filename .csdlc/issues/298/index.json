@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 43,
-  "digest": "7db6230a2140cf0898d3a9b9ef3d04eddc59f68b1bfa1c97a8f55c927d93273e",
+  "generation": 44,
+  "digest": "29ad63e70e8228862c1714a326b294793bfc56a1960f30a04f71260e4582142b",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "56da386b477fc22a802bb2ac39d59654c75a0c63bdb3f55bb50a96f15173dfaa",
+      "values_digest": "4c7d4bd480155282afb5f2b10efef7af95ecac9d43b511e8c05f87854f3b2a42",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "ba1508838b997dab69773f2fb805501ec02ac8f0129a4e0f50c50747d0dd87c8",
+      "values_digest": "02d3fe5c66849dcba343f0e3d15a6665a937a8719f5c659422b0b4af2fe0a621",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "1df032847359657e9522a5a5c6cdc13dc4f40d12139815c4bad1b86dbed14f22",
+      "values_digest": "e46e952fcc7fd10a63d74d6239f78d6118384d700d70a45b0de068809bdf9fd4",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "5a0cc32e309ddb79b16e7d8be9bd60fa7411df7358634363817bcde20c5e3921",
+      "values_digest": "f7cd837b0b4891272f4ccb9cadd246d98b9fcc109793c01ca09f1b2e1e76ff8a",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "2ceb63bf58aebe5f7f5b3b47f1cdf5e60f313fdf59cf8ed5bdbe677a661735e8",
+      "values_digest": "de6d6c09a7031ac889c7876fd418c934a8c2b0e6f421a549af3c5c428914dee1",
       "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
       "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "114facba8548e2acbe7ab06222380a80e1cda0845cc1fa08e98131ee352a936a",
-      "rendered_digest": "0502d7accb58a5a23a160ed52b4abc3764ac1e700301c6cbf647ddbedd799b61",
-      "ast_digest": "be888f15634741285e28da3adc423f8d00d203de24fc1613888df2cd43ecf3fe"
+      "values_digest": "1ee20231573d60e45b4e68765964de3faa0681d9be09a3f490568b25cefef6f4",
+      "rendered_digest": "5d170c57c690612ff595af209cf543d606faf4764db87c07cb851b85c99f949a",
+      "ast_digest": "de128631897ed5a0fbd24ad3f32c3233686526603339111087671fbe8a8104a9"
     }
   },
   "transitions": [
@@ -525,6 +525,13 @@
       "actor": "codex:issue-298",
       "reason": "Recover stale r15 reviewed publication after stable post-publication substantive drift added fail-closed regular-file validation for partial receipt resume and a symlinked partial-receipt regression outside reviewed revision 058fcbb21; require a new exact implementation head, different fresh reviewer, and PR update before publication truth can be current.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 44,
+      "actor": "codex:issue-298",
+      "reason": "record fail-closed partial receipt remediation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Reject symlinked and nonregular recovery receipts before partial-attempt resume mutation\",\"changes\":[\"Required receipt and predecessor paths to remain regular non-symlink files when reading immutable receipt authority\",\"Required existing receipts and predecessors to remain regular non-symlink files during deterministic resume\",\"Added a partial PREPARED receipt symlink substitution regression proving failure before preserved evidence mutation\",\"Validated the exact regression, the 30-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene\",\"Retained evidence log was not refreshed and is not claimed as current\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
     }
   ]
 }
