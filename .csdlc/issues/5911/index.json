@@ -3,13 +3,33 @@
   "issue": 5911,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "eba116b5732a4b5f497dadabca6e906a6f9eb9dcd393ae704780074f01a773fe",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "8ead8d8495b92236f4413b689b71abe8400230b6df8680c78524549d3cd88fcf",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "6f90db55495b10822e2ece5bb6079241964654d2635c0229c2c34608104bac42",
   "branch": "codex/5911-fastwork-storage-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5911-fastwork-storage-policy",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent-issue-5911-review",
+    "scope": [
+      ".adl/worktree-policy.json",
+      ".csdlc/issues/5911",
+      ".csdlc/prepared/issues/5911/design.md",
+      ".csdlc/prepared/issues/5911/design.mmd",
+      "AGENTS.md",
+      "adl/tools/archive_codex_sessions_to_fastwork.sh",
+      "adl/tools/test_archive_codex_sessions_to_fastwork.sh",
+      "csdlc-v2/src/lifecycle.rs"
+    ],
+    "reviewed_revision": "git-blake3:1a2902545b4392ae28b767959d92f6da5215e1b4:0486381b1cd16436f889ab59a2d8e14d7063ffc9d8c720d90ea00a1214e4a1a4",
+    "findings": [],
+    "residual_risks": [
+      "Local transcript deletion remains deliberately unperformed and requires separate explicit operator approval.",
+      "Existing legacy worktrees outside the canonical parent are not relocated by this issue."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7c90206d979e64c7a4ead58366c1a327cd8df0302891e3a802ee6cc6c27d2be9",
+      "values_digest": "c6b6c13794c02c7493de0b66189ff5a265157bcc43d1c0bf31d9fd802eebe6be",
       "rendered_digest": "50d8426892e02179c4580c314aea63c6a17ea525229f22acb5707e52d60a46c7",
       "ast_digest": "3eb3ea1e6498c50e443dcec5bf981178d93caf68b11349f56efe7137e9e3732c"
     },
     "stp": {
-      "values_digest": "ec0ac6fd2765937eaaaf20c2a2a31e2b615cb0815c37c9335d50e3e8ea8b8af4",
+      "values_digest": "ae024e1c8d5b1557ce3d2b22201c68639dce4375b1167d96ad5eeb41310ce5b3",
       "rendered_digest": "b633f7279064086c2b1e2a2cf7925433018552a9dd81ae45d213068ed69ffdbd",
       "ast_digest": "f68cd50f666c2f83f3fcb83b350475373e86b9d411a8340d42fdd0005126b67b"
     },
     "spp": {
-      "values_digest": "914295318ed6a2d505c94de3ed4bc9457bf70432ac2ea714e6fe736f9cd77162",
+      "values_digest": "774d81590630f23889ff9808b0135ea09ca140893b32a901e96dab16c98b91dd",
       "rendered_digest": "b30508945a2ec5d553839b75fec7a8eab462771538092435b212a23b79461a18",
       "ast_digest": "19be4f70450bb723cc19101cfd65d7024a073ce28270ae531ea3a48dbde59390"
     },
     "vpp": {
-      "values_digest": "f0a4e9eb5d45d0820618fd864bc945d1e540cb92f9319c07c50e17e595b6ac08",
+      "values_digest": "53f0db1ecb334bc6ba17c39feeced60fb5438fd76ff017590c2c89a81443e71b",
       "rendered_digest": "3f0e1b5e4e5196f52e2f044cabdd524f0fde2543e59488c361d42226289dd81a",
       "ast_digest": "5c0bdf606ccdc6cdbcc82118a27eba132592456448db816c6c4b202e3e019007"
     },
     "srp": {
-      "values_digest": "fb7f3eb5329d15cfdc34cd75e058ff363ad96162b563b016232071282e95b4e5",
-      "rendered_digest": "032762b88fec9d4f4f746f6ef5422009021fd5d92ea6abd997a2b2053778a1a3",
-      "ast_digest": "a3097fb475a27bf72f6b8a604ef83f48decfe080535cbe5a35afc90128b0bdf3"
+      "values_digest": "d1247849b967a9ad8594fda825458ccb2265c7371f858bafb689b85cc36debae",
+      "rendered_digest": "85713f8a0f9dad796ce390d31f86248d43fb4217351497d78557231bd2fef562",
+      "ast_digest": "f60570416fd1a4966a3b6f6164ab106e133b0ae88f52bc5ee166ed25e31c3b57"
     },
     "sor": {
-      "values_digest": "d52bda6c9ee0f4ba86425d58e9ffe70bed34b1f55b35149328ac0615a55f06ce",
+      "values_digest": "d1397f7e03ff507f8c58a884b26ff5bc4faaa02c385e99df0ad9ceb7de907622",
       "rendered_digest": "12d83cec9de21c5d7fafa512730f32c4611194aa41bf8dc9d383e705932237da",
       "ast_digest": "7489a856ecaea93dc92b7c8ca67c9994142fd86a166957e0feffb1ac34eabf7c"
     }
@@ -75,6 +95,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "implementation and all declared focused validation lanes completed without destructive cleanup"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -182,6 +209,13 @@
       "actor": "codex",
       "reason": "non-destructive 121 GiB transcript archive and checksum verification completed",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

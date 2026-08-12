@@ -7,15 +7,15 @@
     "title": "Archive local Codex transcripts to FastWork and recover disk space",
     "slug": "fastwork-transcript-archive-worktree-policy",
     "version": "v0.92",
-    "generation": 13
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue 5911 typed bind policy, focused tests/docs, and non-destructive archive evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".adl/worktree-policy.json\n.csdlc/issues/5911\n.csdlc/prepared/issues/5911/design.md\n.csdlc/prepared/issues/5911/design.mmd\nAGENTS.md\nadl/tools/archive_codex_sessions_to_fastwork.sh\nadl/tools/test_archive_codex_sessions_to_fastwork.sh\ncsdlc-v2/src/lifecycle.rs",
+      "review_revision": "git-blake3:1a2902545b4392ae28b767959d92f6da5215e1b4:0486381b1cd16436f889ab59a2d8e14d7063ffc9d8c720d90ea00a1214e4a1a4",
+      "reviewer": "codex-subagent-issue-5911-review",
       "review_prompts": [
         "Check path containment and canonicalization bypasses.",
         "Check that rejection occurs before Git mutation.",
@@ -23,8 +23,11 @@
         "Confirm no deletion or existing-worktree relocation occurred."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Local transcript deletion remains deliberately unperformed and requires separate explicit operator approval.",
+        "Existing legacy worktrees outside the canonical parent are not relocated by this issue."
+      ],
+      "review_result": "pass"
     }
   }
 }
