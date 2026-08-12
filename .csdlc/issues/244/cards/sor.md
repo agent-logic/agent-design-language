@@ -85,11 +85,11 @@ Stabilized the cleanup-race proof with deterministic logical-time synchronizatio
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
