@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam. A canonical fresh-session review then found that raw FencingStore::authorize_active_lease remained callable without FencingStoreAccess even though the adapter classifies FENCING_ACTIVE_LEASE as governed. This repair requires a fencing access token on the raw active-lease method, passes the authority-bound token from the adapter, updates legitimate test-only/raw compile callers to use the test token, and preserves production calls through the governed adapter boundary.
+Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam. A canonical fresh-session review then found that raw FencingStore::authorize_active_lease remained callable without FencingStoreAccess even though the adapter classifies FENCING_ACTIVE_LEASE as governed. This repair requires a fencing access token on the raw active-lease method, passes the authority-bound token from the adapter, updates legitimate test-only/raw compile callers to use the test token, preserves production calls through the governed adapter boundary, and revalidated the branch after merging current origin/main with zero changed-path overlap.
 
 ## Artifacts
 
@@ -25,6 +25,15 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
 - .csdlc/evidence/258/cargo-test-distributed-recovery-no-run-active-lease-token.log
 - .csdlc/evidence/258/cargo-test-distributed-snapshot-catalog-no-run-active-lease-token.log
 - .csdlc/evidence/258/git-diff-check-active-lease-token.log
+- .csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt
+- .csdlc/evidence/258/main-changed-paths-since-5fd55acd.txt
+- .csdlc/evidence/258/issue-258-changed-paths-since-5fd55acd.txt
+- .csdlc/evidence/258/cargo-check-adl-runtime-post-main-merge.log
+- .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-post-main-merge.log
+- .csdlc/evidence/258/cargo-test-published-view-authority-kinds-post-main-merge.log
+- .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-post-main-merge.log
+- .csdlc/evidence/258/git-diff-check-post-main-merge.log
+- .csdlc/evidence/258/csdlc-validate-post-main-merge.log
 
 ## Execution
 
@@ -36,6 +45,7 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
 - Passed AUTHORITY_BOUND_FENCING_ACCESS from AuthorityBoundFencingStore::authorize_active_lease and kept migration, recovery, and snapshot catalog production paths on the governed adapter.
 - Updated legitimate raw test callers and cfg(test) helper paths to pass TEST_FENCING_STORE_ACCESS without reopening transport scope.
 - Added direct static proof that the raw active-lease method requires FencingStoreAccess and the one-argument raw signature is absent, plus positive proof that the adapter passes the authority-bound token.
+- Merged current origin/main after recording zero changed-path overlap with #258 and reran focused post-merge validation.
 
 ## Validation
 
@@ -47,9 +57,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--manifest-path",
       "adl-runtime/Cargo.toml"
     ],
-    "purpose": "Compile-check the runtime crate after requiring a fencing access token on raw active-lease authorization.",
+    "purpose": "Compile-check the runtime crate at the current-main-merged branch head after the active-lease token repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-check-adl-runtime-active-lease-token.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-check-adl-runtime-post-main-merge.log"
   },
   {
     "command": [
@@ -63,9 +73,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--nocapture",
       "--test-threads=1"
     ],
-    "purpose": "Exercise focused #258 authority-store boundary guardrails, including direct raw active-lease signature denial and positive adapter-token proof.",
+    "purpose": "Exercise focused #258 authority-store boundary guardrails at the current-main-merged branch head, including direct raw active-lease signature denial and positive adapter-token proof.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-active-lease-token.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-post-main-merge.log"
   },
   {
     "command": [
@@ -77,9 +87,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--",
       "--nocapture"
     ],
-    "purpose": "Re-prove the preserved published view accepts and exposes all in-scope published store operation kinds.",
+    "purpose": "Re-prove the preserved published view accepts and exposes all in-scope published store operation kinds at the current-main-merged branch head.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-published-view-authority-kinds-active-lease-token.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-published-view-authority-kinds-post-main-merge.log"
   },
   {
     "command": [
@@ -93,65 +103,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "-D",
       "warnings"
     ],
-    "purpose": "Strict-lint the focused #258 authority-store boundary test target after the active-lease token repair.",
+    "purpose": "Strict-lint the focused #258 authority-store boundary test target at the current-main-merged branch head.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-active-lease-token.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_fencing",
-      "--no-run"
-    ],
-    "purpose": "Compile-only guard proving raw fencing test callers use explicit test access after the active-lease signature was sealed.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-fencing-no-run-active-lease-token.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_migration",
-      "--no-run"
-    ],
-    "purpose": "Compile-only guard for migration active-lease authorization helpers after keeping production paths on the governed adapter.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-migration-no-run-active-lease-token.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_recovery",
-      "--no-run"
-    ],
-    "purpose": "Compile-only guard for recovery active-lease authorization helpers after keeping production paths on the governed adapter.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-recovery-no-run-active-lease-token.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_snapshot_catalog",
-      "--no-run"
-    ],
-    "purpose": "Compile-only guard for snapshot catalog active-lease authorization helpers after keeping production paths on the governed adapter.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-snapshot-catalog-no-run-active-lease-token.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-post-main-merge.log"
   },
   {
     "command": [
@@ -159,9 +113,22 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and patch hygiene errors across the active-lease token repair diff.",
+    "purpose": "Reject whitespace and patch hygiene errors across the current-main-merged #258 diff.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/git-diff-check-active-lease-token.log"
+    "evidence_ref": ".csdlc/evidence/258/git-diff-check-post-main-merge.log"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
+      "issue",
+      "--issue",
+      "258"
+    ],
+    "purpose": "Validate typed #258 lifecycle truth after the current-main ancestry merge.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-post-main-merge.log"
   }
 ]
 
