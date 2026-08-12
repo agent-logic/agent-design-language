@@ -5,10 +5,25 @@
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
   "generation": 19,
-  "digest": "c9537ff55fc30445e62616bc393240f59b7658de2806a86b955e1fe31fcf0bd3",
+  "digest": "781dee095aa2641e85c71beaabb21b74e9c0dfdcf50c90b86561bef0febfca9e",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:6d5349d0-e9df-4b4a-8b0d-328d7b178f3c",
+    "assigned_by": "codex:issue-295-remediation",
+    "revision": "git-blake3:81454bae3a36fe695bae28f56d8d4d5a158f2dfb:22d6adde820d4df4adda1c8a19ec474612d019103e876025738e4424219a8e6e",
+    "scope": [
+      "adl/config/mechanical_coverage_fallout.v1.json",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/mechanical_coverage_fallout.py",
+      "adl/tools/test_mechanical_coverage_fallout.sh",
+      "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md",
+      ".csdlc/evidence/295",
+      ".csdlc/issues/295",
+      ".csdlc/prepared/issues/295"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "faa543345d38975fd471dc38251be2e099338417da516d752582bbae58ebe591",
-      "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
-      "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
+      "values_digest": "c7f2d3203c222a22de61d329b49191a7306b44028af8866344c04d84a59489a4",
+      "rendered_digest": "adce6addc13536dc384d027dda84b15d90ee54e7bb347200afff1134d2f00ba4",
+      "ast_digest": "7348f324c90db767261d0e82f9afe172a38b3792e306438f46a1ca0e3baa6b04"
     },
     "sor": {
       "values_digest": "370d6b984ab06e4277a7919d9dd0ad7f0f687c258d6b06d39d769cc5e1a77735",
@@ -273,6 +288,13 @@
       "actor": "codex:issue-295-remediation",
       "reason": "Record the bounded stale-evidence remediation and complete passing declared validation before a different fresh exact-head reviewer is assigned.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated stale mechanical-fallout evidence retention so rejected or failed reruns cannot leave a prior receipt or result set available as current proof.\",\"changes\":[\"Namespace governed proof results by the exact mapped source path while preserving unrelated paths' evidence.\",\"Remove the path's prior receipt and results before each classification attempt and on every classifier or post-execution integrity failure.\",\"Add a success-then-semantic-failure regression in the same receipt directory proving stale receipt and result artifacts are absent.\",\"Preserve the 80 percent coverage threshold, non-authoritative PR evidence boundary, and read-only issue 258 fixture contract.\"],\"artifacts\":[\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\".csdlc/evidence/295\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Prove fail-closed stale receipt/results cleanup, parser, mapping, governed execution, negatives, and threshold integration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/mechanical-compile-fallout-classifier.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the existing 80 percent gate and authoritative coverage routing remain intact.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/coverage-impact-regression.log\"},{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"purpose\":\"Prove PVF selector inventory and PR-fast non-authoritative routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/validation-selector-pvf.log\"}]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 19,
+      "actor": "codex:issue-295-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
