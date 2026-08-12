@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5911,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Archive local Codex transcripts to FastWork and recover disk space",
+    "slug": "fastwork-transcript-archive-worktree-policy",
+    "version": "v0.92",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Recover local disk capacity safely and make FastWork the mandatory parent for future ADL worktrees.",
+      "required_outcome": "Produce a verified FastWork transcript archive without deletion and enforce /Volumes/FastWork/adl-worktrees in typed binding.",
+      "declared_scope": [
+        "local Codex transcript storage diagnosis and verified FastWork archive",
+        "typed C-SDLC v2 worktree-path enforcement",
+        "focused policy documentation and validation"
+      ],
+      "authority_boundary": [
+        "no destructive cleanup without separate operator approval",
+        "typed v2 lifecycle binaries own binding",
+        "Git topology remains issue ownership authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "never inspect or use /private/tmp",
+        "all future ADL worktrees live under /Volumes/FastWork/adl-worktrees",
+        "do not prune or relocate existing worktrees",
+        "do not expose transcript content or secrets"
+      ]
+    }
+  }
+}

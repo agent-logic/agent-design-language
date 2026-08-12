@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5911,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Archive local Codex transcripts to FastWork and recover disk space",
+    "slug": "fastwork-transcript-archive-worktree-policy",
+    "version": "v0.92",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement issue 5911 only; archive and verify but do not delete source transcripts or existing worktrees.",
+      "deliverables": [
+        "typed bind enforcement for the canonical FastWork worktree parent",
+        "focused positive and negative tests",
+        "aligned operator policy documentation",
+        "FastWork transcript archive manifest and verification result",
+        "exact deletion proposal requiring separate approval"
+      ],
+      "acceptance_criteria": [
+        "material local transcript consumers are identified with byte counts",
+        "FastWork archive is complete with a machine-readable checksum manifest",
+        "source and archive checksums verify before any deletion proposal",
+        "every newly bound ADL issue worktree resolves beneath /Volumes/FastWork/adl-worktrees",
+        "typed binding refuses a worktree outside the mandatory FastWork parent",
+        "repo policy and binding guidance name the same canonical parent",
+        "no transcript or existing worktree is deleted"
+      ],
+      "dependencies": [
+        "none"
+      ],
+      "repo_inputs": [
+        ".csdlc/prepared/issues/5911/design.md",
+        "csdlc-v2/src/lifecycle.rs",
+        "csdlc-v2/tests/gate2.rs",
+        "AGENTS.md"
+      ],
+      "non_goals": [
+        "product-code changes unrelated to binding",
+        "automatic relocation or deletion of existing worktrees",
+        "transcript deletion",
+        "use or inspection of /private/tmp"
+      ]
+    }
+  }
+}

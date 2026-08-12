@@ -32,6 +32,18 @@ fn bound_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
         .status()
         .expect("git init")
         .success());
+    assert!(std::process::Command::new("git")
+        .args(["config", "user.email", "test@example.invalid"])
+        .current_dir(temp.path())
+        .status()
+        .expect("git config email")
+        .success());
+    assert!(std::process::Command::new("git")
+        .args(["config", "user.name", "C-SDLC Test"])
+        .current_dir(temp.path())
+        .status()
+        .expect("git config name")
+        .success());
     install_native_authority(temp.path());
     std::fs::create_dir_all(temp.path().join("docs")).unwrap();
     std::fs::write(temp.path().join("docs/design.md"), "# Design\n").unwrap();
@@ -104,22 +116,30 @@ fn bound_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
     )
     .expect("bootstrap");
     assert!(std::process::Command::new("git")
-        .args(["switch", "-q", "-c", "codex/5627"])
+        .args(["add", "."])
         .current_dir(temp.path())
         .status()
-        .expect("git switch")
+        .expect("git add")
         .success());
+    assert!(std::process::Command::new("git")
+        .args(["commit", "-q", "-m", "initialize fixture"])
+        .current_dir(temp.path())
+        .status()
+        .expect("git commit")
+        .success());
+    let worktree = temp.path().join("worktrees/codex-5627");
     bind_issue(
         &store,
         BindRequest {
             issue: 5627,
             base_branch: "main".into(),
             branch: "codex/5627".into(),
-            worktree: ".".into(),
+            worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
         },
     )
     .expect("bind");
+    let store = Store::new(worktree);
     let record = store.load_record(5627).expect("bound record");
     (temp, store, record)
 }
@@ -165,7 +185,8 @@ fn manifest() -> PvfManifest {
 
 #[test]
 fn finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state() {
-    let (temp, store, record) = bound_fixture();
+    let (_temp, store, record) = bound_fixture();
+    let root = store.root();
     let before = std::fs::read(store.issue_dir(5627).join("index.json")).expect("before");
     let request = |executable: &str| FinalizeRequest {
         schema: "csdlc.finalize_request.v1".into(),
@@ -192,12 +213,12 @@ fn finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state() {
                 memory_mib: 8,
                 tokens: 10,
             },
-            root: temp.path().into(),
-            evidence_dir: temp.path().join(".csdlc/evidence/5627"),
+            root: root.into(),
+            evidence_dir: root.join(".csdlc/evidence/5627"),
             cancellation_file: None,
         },
     };
-    let evidence_dir = temp.path().join(".csdlc/evidence/5627");
+    let evidence_dir = root.join(".csdlc/evidence/5627");
     std::fs::create_dir_all(&evidence_dir).expect("prior evidence directory");
     std::fs::write(evidence_dir.join("prior.log"), b"prior evidence\n").expect("prior evidence");
     assert_eq!(
@@ -214,7 +235,7 @@ fn finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state() {
         std::fs::read(evidence_dir.join("prior.log")).expect("prior evidence remains"),
         b"prior evidence\n"
     );
-    assert!(std::fs::read_dir(temp.path().join(".csdlc/evidence"))
+    assert!(std::fs::read_dir(root.join(".csdlc/evidence"))
         .expect("evidence parent")
         .all(|entry| !entry
             .expect("entry")
@@ -222,12 +243,12 @@ fn finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state() {
             .to_string_lossy()
             .starts_with(".csdlc-finalize-")));
     let mut unsafe_request = request("/usr/bin/true");
-    unsafe_request.execution.evidence_dir = temp.path().join("unrelated");
+    unsafe_request.execution.evidence_dir = root.join("unrelated");
     assert_eq!(
         finalize(&store, unsafe_request).unwrap_err().code,
         ErrorCode::UnsafeCheckout
     );
-    std::fs::create_dir_all(temp.path().join("outside")).expect("outside directory");
+    std::fs::create_dir_all(root.join("outside")).expect("outside directory");
     let mut symlink_request = request("/bin/sh");
     symlink_request.execution.manifest.lanes[0].argv = vec![
         "-c".into(),
