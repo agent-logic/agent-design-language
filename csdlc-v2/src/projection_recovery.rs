@@ -1362,6 +1362,7 @@ fn receipt_exists(dir: &Path, seq: u32, state: &str) -> Result<bool> {
     }
 }
 
+#[allow(dead_code)] // Removed with the remaining pathname-based node-ledger validator.
 fn validate_receipt_inventory(dir: &Path) -> Result<usize> {
     let mut receipts = Vec::new();
     let mut node_ledgers = Vec::new();
@@ -1442,6 +1443,88 @@ fn validate_receipt_inventory(dir: &Path) -> Result<usize> {
             ));
         }
         let _: serde_json::Value = receipt_payload(&entry.path())?;
+    }
+    node_ledgers.sort_unstable();
+    if node_ledgers
+        .iter()
+        .enumerate()
+        .any(|(expected, actual)| expected != *actual)
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery node ledger inventory is not an exact prefix",
+        ));
+    }
+    Ok(node_ledgers.len())
+}
+
+fn validate_receipt_inventory_at(dir: &PrivateRecoveryDir) -> Result<usize> {
+    let mut receipt_names = Vec::new();
+    let mut node_ledgers = Vec::new();
+    for name in dir.names()? {
+        let text = name.to_str().map_err(|_| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery workspace entry name is not UTF-8",
+            )
+        })?;
+        if text.ends_with(".json") {
+            let _ = dir.open_regular_child(&name)?;
+            receipt_names.push(text.to_owned());
+            continue;
+        }
+        if matches!(text, "candidate" | "displaced" | "rejected") {
+            let child = open_child_no_follow(&dir.file, &name, true).map_err(|_| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "recovery workspace directory cannot be opened descriptor-relative",
+                )
+            })?;
+            let identity = fd_identity(&child)?;
+            let parent = fd_identity(&dir.file)?;
+            if identity.node_type != "directory"
+                || identity.device != parent.device
+                || identity.mount_id != parent.mount_id
+                || identity.uid != parent.uid
+                || identity.gid != parent.gid
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "recovery workspace directory identity is unsafe",
+                ));
+            }
+            continue;
+        }
+        if let Some(ordinal) = text
+            .strip_prefix("node-")
+            .filter(|suffix| suffix.len() == 3)
+            .and_then(|suffix| suffix.parse::<usize>().ok())
+        {
+            let _ = dir.open_child(&name, "recovery node ledger")?;
+            node_ledgers.push(ordinal);
+            continue;
+        }
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt inventory contains an unexpected workspace entry",
+        ));
+    }
+    receipt_names.sort();
+    if receipt_names.len() != RECOVERY_STATES.len() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt inventory is not the exact terminal sequence",
+        ));
+    }
+    for (index, state) in RECOVERY_STATES.iter().enumerate() {
+        let seq = index as u32 + 1;
+        if receipt_names[index] != format!("{seq:03}-{state}.json") {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt inventory contains an unexpected state",
+            ));
+        }
+        let _: serde_json::Value = receipt_payload_at(dir, seq, state)?;
     }
     node_ledgers.sort_unstable();
     if node_ledgers
@@ -1928,19 +2011,19 @@ pub(crate) fn validate_completed_recovery_attempt(
         V2Error::new(ErrorCode::CorruptRecord, "recovery attempt has no parent")
     })?)?;
     let retained_attempt = open_private_recovery_dir(attempt, "recovery attempt", Some(&parent))?;
+    let operation = attempt
+        .file_name()
+        .and_then(|value| value.to_str())
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "attempt operation identity invalid",
+            )
+        })?
+        .to_owned();
+    let node_ledger_count = validate_receipt_inventory_at(&retained_attempt)?;
+    let prepared: serde_json::Value = receipt_payload_at(&retained_attempt, 1, "prepared")?;
     let attempt = retained_attempt.anchored_path();
-    let node_ledger_count = validate_receipt_inventory(attempt)?;
-    for (offset, state) in RECOVERY_STATES.iter().enumerate() {
-        let path = receipt_path(attempt, offset as u32 + 1, state);
-        if !path.is_file() {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "recovery attempt is not an exact completed state sequence",
-            ));
-        }
-        let _: serde_json::Value = receipt_payload(&path)?;
-    }
-    let prepared: serde_json::Value = receipt_payload(&receipt_path(attempt, 1, "prepared"))?;
     let request_digest = prepared
         .get("request_digest")
         .and_then(|v| v.as_str())
@@ -1956,11 +2039,7 @@ pub(crate) fn validate_completed_recovery_attempt(
             V2Error::new(ErrorCode::CorruptRecord, "PREPARED typed request missing")
         })?)?;
     if prepared_request.issue != issue
-        || prepared_request.operation_id
-            != attempt
-                .file_name()
-                .and_then(|v| v.to_str())
-                .unwrap_or_default()
+        || prepared_request.operation_id != operation
         || request_authority_digest(&prepared_request)? != request_digest
     {
         return Err(V2Error::new(
@@ -2202,15 +2281,6 @@ pub(crate) fn validate_completed_recovery_attempt(
     )?;
     let result: ProjectionRecoveryResult =
         receipt_payload(&receipt_path(attempt, 13, "recovered"))?;
-    let operation = attempt
-        .file_name()
-        .and_then(|v| v.to_str())
-        .ok_or_else(|| {
-            V2Error::new(
-                ErrorCode::CorruptRecord,
-                "attempt operation identity invalid",
-            )
-        })?;
     if result.schema != "csdlc.projection_recovery_result.v1"
         || result.issue != issue
         || result.operation_id != operation
@@ -2838,15 +2908,9 @@ pub fn recover_preserved_projection(
     let issues = open_root_no_follow(&issue_parent(store))?;
     let root_authority = open_private_recovery_dir(&recovery_path, "recovery root", Some(&issues))?;
     root_authority.validate_binding(&recovery_path, "recovery root")?;
-    let root = root_authority.anchored_path().to_path_buf();
     for name in directory_names(&root_authority.file)? {
         if name.to_bytes() != request.operation_id.as_bytes() {
-            let other_path = root.join(std::ffi::OsStr::from_bytes(name.to_bytes()));
-            let other = open_private_recovery_dir(
-                &other_path,
-                "recovery attempt",
-                Some(&root_authority.file),
-            )?;
+            let other = root_authority.open_child(&name, "recovery attempt")?;
             if !directory_names(&other.file)?
                 .iter()
                 .any(|item| item.to_bytes().ends_with(b"-recovered.json"))
