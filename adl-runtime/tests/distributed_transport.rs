@@ -23,6 +23,7 @@ use std::{
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
     CertificateValidity, DistributedCertificateStore, RevocationReason,
+    TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use prost::Message;
@@ -99,9 +100,12 @@ fn authority_store() -> (Arc<DistributedCertificateStore>, SigningKey) {
         .unwrap();
     let directory = tempfile::tempdir().unwrap();
     let canonical_directory = directory.path().canonicalize().unwrap();
-    let store =
-        DistributedCertificateStore::open(canonical_directory.join("certificates.redb"), policy)
-            .unwrap();
+    let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
+        canonical_directory.join("certificates.redb"),
+        policy,
+    )
+    .unwrap();
     let _ = directory.keep();
     (Arc::new(store), root)
 }
@@ -127,7 +131,9 @@ fn activate_authority_with_subject(
         &root.verifying_key(),
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
-    store.activate(&certificate, now()).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, now())
+        .unwrap();
     certificate
 }
 
@@ -443,6 +449,8 @@ async fn revocation_closes_an_established_authorized_session() {
         connected_pair_with_expected_client_node(Duration::from_secs(30), "node-client").await;
     store
         .revoke(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &client_certificate_id,
             now(),
             RevocationReason::OperatorRevoked,

@@ -38,8 +38,10 @@ mod raw_access {
 }
 
 pub use raw_access::CertificateStoreAccess;
+#[allow(unused_imports)]
 pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_CERTIFICATE_ACCESS;
 #[cfg(debug_assertions)]
+#[allow(unused_imports)]
 pub use raw_access::TEST_FIXTURE as TEST_CERTIFICATE_STORE_ACCESS;
 
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]

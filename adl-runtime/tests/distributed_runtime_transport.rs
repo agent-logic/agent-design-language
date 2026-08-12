@@ -4,6 +4,7 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     net::{Ipv4Addr, SocketAddr},
+    path::Path,
     sync::{
         atomic::{AtomicBool, AtomicUsize, Ordering},
         Arc, Mutex,
@@ -18,9 +19,11 @@ use adl_runtime::distributed::polis_runtime::{
     PolisRuntimeError, PolisStateMachineStore, SecurePolisNetworkFactory,
 };
 use adl_runtime::distributed::{
+    authority_reconciliation::AuthorityReconciliationIdentity,
+    authority_store_adapters::authority_bound_certificate_store_for_test_fixture,
     certificates::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-        CertificateValidity, DistributedCertificateStore,
+        CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
     },
     learner_transport::ProductionLearnerAuthority,
     lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
@@ -160,6 +163,13 @@ fn now() -> u64 {
         .as_secs()
 }
 
+fn repo_tempdir() -> tempfile::TempDir {
+    let root = std::env::current_dir()
+        .and_then(std::fs::canonicalize)
+        .unwrap();
+    tempfile::TempDir::new_in(root).unwrap()
+}
+
 fn limits() -> TransportLimits {
     TransportLimits::bounded(
         256 * 1024,
@@ -180,8 +190,9 @@ fn certificate_store() -> (
         .unwrap()
         .with_bounds(3600, 60, 60, 128, 128)
         .unwrap();
-    let directory = tempfile::tempdir().unwrap();
+    let directory = repo_tempdir();
     let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         directory
             .path()
             .canonicalize()
@@ -195,6 +206,7 @@ fn certificate_store() -> (
 
 fn transport_authorization(
     store: &Arc<DistributedCertificateStore>,
+    authority_root: &Path,
     root: &SigningKey,
     node: &str,
     key: VerifyingKey,
@@ -208,14 +220,31 @@ fn transport_authorization(
         generation,
         CertificateValidity {
             issued_at_unix_secs: issued,
-            expires_at_unix_secs: issued + 300,
+            expires_at_unix_secs: issued + 600,
         },
         key,
         &root.verifying_key(),
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
-    store.activate(&certificate, now()).unwrap();
-    TransportAuthorization::new(Arc::clone(store), &certificate).unwrap()
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, now())
+        .unwrap();
+    let bound_store = authority_bound_certificate_store_for_test_fixture(
+        authority_root,
+        AuthorityReconciliationIdentity {
+            trust_domain: DOMAIN.to_owned(),
+            polis_id: POLIS.to_owned(),
+            node_id: node.to_owned(),
+            guardian_id: format!("guardian-{node}"),
+            boot_generation: 1,
+            protocol_instance: "adl.authority-reconciliation.v1".to_owned(),
+        },
+        Arc::new(MemoryCheckpointAuthority::default()),
+        &format!("transport-authority-{node}"),
+        Arc::clone(store),
+    )
+    .unwrap();
+    bound_store.transport_authorization(&certificate).unwrap()
 }
 
 async fn connected_pair() -> (
@@ -280,6 +309,7 @@ async fn connected_pair_with_generations(
     let (store, signing_root, store_dir) = certificate_store();
     let left_authorization = transport_authorization(
         &store,
+        store_dir.path(),
         &signing_root,
         "node-1",
         left_material.subject_public_key,
@@ -287,6 +317,7 @@ async fn connected_pair_with_generations(
     );
     let right_authorization = transport_authorization(
         &store,
+        store_dir.path(),
         &signing_root,
         "node-2",
         right_material.subject_public_key,
@@ -386,6 +417,7 @@ async fn three_node_mesh() -> ThreeNodeMesh {
                 *node,
                 transport_authorization(
                     &store,
+                    store_dir.path(),
                     &signing_root,
                     &format!("node-{node}"),
                     material.subject_public_key,
@@ -701,9 +733,10 @@ fn runtime_authority_initializer(
         .unwrap()
         .with_bounds(3600, 60, 60, 16, 16)
         .unwrap();
-    let directory = tempfile::tempdir().unwrap();
+    let directory = repo_tempdir();
     let store = Arc::new(
         DistributedCertificateStore::open(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             directory
                 .path()
                 .canonicalize()
@@ -734,13 +767,30 @@ fn runtime_authority_initializer(
                 &signing_root,
             )
             .unwrap();
-            store.activate(&certificate, 100).unwrap();
+            store
+                .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, 100)
+                .unwrap();
             (guardian.clone(), certificate)
         })
         .collect::<BTreeMap<_, _>>();
     let snapshot = membership.snapshot().unwrap();
-    let initializer = PolisRuntimeAuthorityBootstrap::restore_configured(
+    let bound_store = authority_bound_certificate_store_for_test_fixture(
+        directory.path(),
+        AuthorityReconciliationIdentity {
+            trust_domain: DOMAIN.to_owned(),
+            polis_id: POLIS.to_owned(),
+            node_id: "node-a".to_owned(),
+            guardian_id: "guardian-a".to_owned(),
+            boot_generation: 1,
+            protocol_instance: "adl.authority-reconciliation.v1".to_owned(),
+        },
+        Arc::new(MemoryCheckpointAuthority::default()),
+        "runtime-transport-authority",
         Arc::clone(&store),
+    )
+    .unwrap();
+    let initializer = PolisRuntimeAuthorityBootstrap::restore_authority_bound(
+        bound_store,
         MembershipPolicy::new(DOMAIN, 8, 16).unwrap(),
         &snapshot,
         membership_commitment(&snapshot),
@@ -1590,8 +1640,9 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
         .unwrap()
         .with_bounds(3600, 60, 60, 16, 16)
         .unwrap();
-    let directory = tempfile::tempdir().unwrap();
+    let directory = repo_tempdir();
     let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         directory
             .path()
             .canonicalize()
@@ -1620,16 +1671,38 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
     };
     let first = make(1, 41);
     let second = make(2, 42);
-    store.activate(&first, 100).unwrap();
-    store.activate(&second, 100).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &first, 100)
+        .unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &second, 100)
+        .unwrap();
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 1, 159)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            1,
+            159
+        )
         .is_ok());
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 1, 160)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            1,
+            160
+        )
         .is_err());
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 2, 160)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            2,
+            160
+        )
         .is_ok());
     eprintln!("ADL_ISSUE_191_CASE certificate_overlap_boundary=passed");
 }
@@ -1752,7 +1825,7 @@ fn durable_store_rejects_symlinked_ancestors_and_oversized_state() {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 6)]
 async fn three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state() {
-    let root = tempfile::tempdir().unwrap();
+    let root = repo_tempdir();
     let root_path = root.path().canonicalize().unwrap();
     let authority = Arc::new(MemoryCheckpointAuthority::default());
     let mesh = three_node_mesh().await;
