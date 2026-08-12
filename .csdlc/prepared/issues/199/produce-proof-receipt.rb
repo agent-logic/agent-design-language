@@ -9,7 +9,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/199/v1/"
+PREFIX = ".csdlc/evidence/199/v2/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_199_CASE_V1 "
@@ -28,14 +28,6 @@ PROTECTED = %w[
   adl-runtime/tests/distributed_membership_transition.rs
   .csdlc/prepared/issues/199/design.md
   .csdlc/prepared/issues/199/diagram.mmd
-  .csdlc/issues/199/cards/sip.md
-  .csdlc/issues/199/cards/sip.values.json
-  .csdlc/issues/199/cards/stp.md
-  .csdlc/issues/199/cards/stp.values.json
-  .csdlc/issues/199/cards/spp.md
-  .csdlc/issues/199/cards/spp.values.json
-  .csdlc/issues/199/cards/vpp.md
-  .csdlc/issues/199/cards/vpp.values.json
   .csdlc/prepared/issues/199/produce-proof-receipt.rb
   .csdlc/prepared/issues/199/validate-proof-receipt.rb
 ].freeze
@@ -153,7 +145,7 @@ fail_proof("assertion denominator or substitution mismatch") unless assertions.l
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue199.governed_membership_transition_proof.v1", "issue" => 199,
+  "schema" => "adl.issue199.governed_membership_transition_proof.v2", "issue" => 199,
   "source_revision" => source, "source_tree" => tree.strip, "required_main_ancestor" => origin_main,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
   "commands" => commands,

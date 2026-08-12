@@ -8,7 +8,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/199/v1/"
+PREFIX = ".csdlc/evidence/199/v2/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/mod.rs adl-runtime/src/distributed/authority_protocol.rs
@@ -19,10 +19,6 @@ EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/transport/governed/polis_runtime.rs
   adl-runtime/tests/distributed_membership_transition.rs
   .csdlc/prepared/issues/199/design.md .csdlc/prepared/issues/199/diagram.mmd
-  .csdlc/issues/199/cards/sip.md .csdlc/issues/199/cards/sip.values.json
-  .csdlc/issues/199/cards/stp.md .csdlc/issues/199/cards/stp.values.json
-  .csdlc/issues/199/cards/spp.md .csdlc/issues/199/cards/spp.values.json
-  .csdlc/issues/199/cards/vpp.md .csdlc/issues/199/cards/vpp.values.json
   .csdlc/prepared/issues/199/produce-proof-receipt.rb .csdlc/prepared/issues/199/validate-proof-receipt.rb
 ].freeze
 EXPECTED_CASES = %w[
@@ -87,7 +83,7 @@ end
 
 proof = JSON.parse(File.binread(ordinary(PROOF_RELATIVE)))
 fail_receipt("top-level key mismatch") unless proof.keys.sort == %w[assertions cases commands issue protected_files required_main_ancestor schema source_revision source_tree subassertions test_summary]
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue199.governed_membership_transition_proof.v1" && proof["issue"] == 199
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue199.governed_membership_transition_proof.v2" && proof["issue"] == 199
 source = proof.fetch("source_revision")
 source_tree = proof.fetch("source_tree")
 main = proof.fetch("required_main_ancestor")
@@ -171,4 +167,4 @@ end
 fail_receipt("protected source changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED).empty?
 fail_receipt("immutable proof changed after introduction") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PREFIX).empty?
 fail_receipt("worktree must be exactly clean") unless git("status", "--porcelain=v1", "--untracked-files=all").empty?
-puts "PASS: issue #199 proof binds exact argv, 36 unique cases, discriminator denial, four source assertions, protected source/cards, immutable evidence, and exact current origin/main ancestry"
+puts "PASS: issue #199 proof binds exact argv, 36 unique cases, discriminator denial, five source assertions, protected implementation/design/proof source, immutable evidence, and exact current origin/main ancestry"
