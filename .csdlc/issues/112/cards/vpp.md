@@ -24,37 +24,8 @@ Diagram: .csdlc/prepared/issues/112/diagram.mmd
 
 [
   {
-    "lane": "layer8-production-conversation-boundary",
-    "proof_role": "Prove authenticated WSS authority executes before session or turn reservation and provider dispatch, including bounded refusal and duplicate idempotency on the merged #111 and #244 production path.",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-9"
-    ],
-    "deterministic": true,
-    "resource_profile": "medium",
-    "budget_seconds": 1800,
-    "budget_tokens": 12000,
-    "argv": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "--lib",
-      "conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress",
-      "--",
-      "--exact"
-    ],
-    "parallel_group": "112-product-required",
-    "defer_reason": null
-  },
-  {
-    "lane": "layer8-authority-contract",
-    "proof_role": "Prove principal derivation, action-specific authority, signed human-agent and agent-agent messages, recipient-signed acknowledgement binding, signature and rotation negatives, replay defense, restart integrity, and redacted audit.",
+    "lane": "layer8-authority-core-tests",
+    "proof_role": "Prove the focused Layer 8 authority integration test target selects and passes.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -68,72 +39,64 @@ Diagram: .csdlc/prepared/issues/112/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 1800,
-    "budget_tokens": 16000,
+    "budget_seconds": 300,
+    "budget_tokens": 4000,
     "argv": [
       "cargo",
-      "nextest",
-      "run",
-      "--locked",
+      "test",
       "--manifest-path",
-      "adl-runtime/Cargo.toml",
+      "adl-runtime-kernel/Cargo.toml",
       "--test",
       "layer8_authority",
-      "--no-tests=fail",
-      "--status-level",
-      "all"
+      "--",
+      "--nocapture"
     ],
-    "parallel_group": "112-product-required",
+    "parallel_group": "112-core",
     "defer_reason": null
   },
   {
-    "lane": "layer8-runtime-api-integration",
-    "proof_role": "Prove the narrow CSM API adapter invokes delivery only after the same Runtime authority grant and exact recipient acknowledgement, and never invokes it after refusal.",
+    "lane": "layer8-authority-core-fmt",
+    "proof_role": "Prove changed runtime-kernel Rust sources are formatted.",
     "acceptance_ids": [
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-7",
-      "AC-9"
-    ],
-    "deterministic": true,
-    "resource_profile": "medium",
-    "budget_seconds": 1800,
-    "budget_tokens": 16000,
-    "argv": [
-      "cargo",
-      "nextest",
-      "run",
-      "--locked",
-      "--manifest-path",
-      "adl/Cargo.toml",
-      "--test",
-      "layer8_authority_runtime_api",
-      "--no-tests=fail",
-      "--status-level",
-      "all"
-    ],
-    "parallel_group": "112-product-required",
-    "defer_reason": null
-  },
-  {
-    "lane": "layer8-observatory-ui",
-    "proof_role": "Run the actual HTML Observatory in a real local browser and prove authorized, refused, stale or revoked, and disclosure-safe authority presentation without provider, cloud, or soak work.",
-    "acceptance_ids": [
-      "AC-3",
-      "AC-5",
       "AC-9"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 3000,
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
     "argv": [
-      "bash",
-      "adl/tools/validate_layer8_authority_observatory_ui.sh"
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--check"
     ],
-    "parallel_group": "112-product-required",
+    "parallel_group": "112-core",
+    "defer_reason": null
+  },
+  {
+    "lane": "layer8-authority-core-clippy",
+    "proof_role": "Prove the changed runtime-kernel crate is warning-clean under clippy.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-6",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 300,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "112-core",
     "defer_reason": null
   }
 ]
@@ -150,10 +113,9 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress -- --exact`
-- `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail --status-level all`
-- `cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail --status-level all`
-- `bash adl/tools/validate_layer8_authority_observatory_ui.sh`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test layer8_authority -- --nocapture`
+- `cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check`
+- `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings`
 
 ## Failure Semantics
 

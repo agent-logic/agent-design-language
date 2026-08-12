@@ -11,7 +11,6 @@ use axum::{
 };
 use chrono::{DateTime, Utc};
 use serde_json::{json, Map, Value};
-use sha2::{Digest, Sha256};
 use std::env;
 use std::fs::{self, OpenOptions};
 use std::io::{Read, Seek, SeekFrom, Write};
@@ -41,11 +40,6 @@ use adl_runtime::continuity_history::{
     CheckpointStore, DomainHealth, LifelogStore, CHECKPOINT_DB_FILE, CHECKPOINT_SCHEMA_V1,
     LIFELOG_DB_FILE, LIFELOG_SCHEMA_V1,
 };
-use adl_runtime::layer8_authority::{
-    verify_recipient_acknowledgement, verify_signed_identity_message, AuthorityDecision,
-    CommunicationVerifyingIdentity, Layer8Action, Layer8ConversationAuthority, PublicRefusal,
-    SignedIdentityMessage,
-};
 use adl_runtime::resident_agent::CsmResidentAgentSet;
 use adl_runtime::runtime_api_auth::{
     RuntimeApiAuthDecision, RuntimeApiCredentialStore, VerifiedRuntimeApiGatewayIdentity,
@@ -64,121 +58,6 @@ pub use adl_runtime::runtime_api::{
     CSM_RUNTIME_API_STATUS_SCHEMA,
 };
 pub use api_gateway_bridge::{prove_api_gateway_bridge, ApiGatewayBridgeOptions};
-
-#[derive(Debug, Clone)]
-pub struct Layer8RuntimeDeliveryRequest {
-    pub action: Layer8Action,
-    pub conversation_id: String,
-    pub recipient_id: String,
-    pub replay_id: String,
-    pub correlation_id: String,
-    pub now_epoch_secs: u64,
-    pub signed_request: SignedIdentityMessage,
-    pub sender_identity: CommunicationVerifyingIdentity,
-    pub recipient_identity: CommunicationVerifyingIdentity,
-}
-
-pub struct Layer8RuntimeDelivery<T> {
-    pub value: T,
-    pub acknowledgement: SignedIdentityMessage,
-    pub recipient_identity: CommunicationVerifyingIdentity,
-}
-
-pub fn authorize_layer8_runtime_delivery<T>(
-    authority: &Layer8ConversationAuthority,
-    request: Layer8RuntimeDeliveryRequest,
-    deliver: impl FnOnce() -> Layer8RuntimeDelivery<T>,
-) -> Result<T, PublicRefusal> {
-    let bounded_correlation = bounded_layer8_correlation(&request.correlation_id);
-    verify_signed_identity_message(
-        &request.signed_request,
-        &request.sender_identity,
-        &request.recipient_id,
-        request.now_epoch_secs,
-    )
-    .map_err(|reason| PublicRefusal {
-        authorized: false,
-        reason,
-        retryable: false,
-        correlation_id: bounded_correlation.clone(),
-    })?;
-    let signed_payload: Value = serde_json::from_str(&request.signed_request.payload_json)
-        .map_err(|_| PublicRefusal {
-            authorized: false,
-            reason: adl_runtime::layer8_authority::RefusalReason::InvalidRequest,
-            retryable: false,
-            correlation_id: bounded_correlation.clone(),
-        })?;
-    let configured_recipient_key = signed_payload
-        .get("recipient_signing_key_id")
-        .and_then(Value::as_str);
-    if request.signed_request.message_kind
-        != adl_runtime::layer8_authority::IdentityMessageKind::Request
-        || request.signed_request.conversation_id != request.conversation_id
-        || request.signed_request.recipient_id != request.recipient_id
-        || request.signed_request.replay_id != request.replay_id
-        || request.signed_request.correlation_id != request.correlation_id
-        || request.recipient_identity.principal_id != request.recipient_id
-        || request.recipient_identity.polis_id != request.signed_request.polis_id
-        || configured_recipient_key != Some(request.recipient_identity.signing_key_id.as_str())
-        || signed_payload.get("action") != serde_json::to_value(&request.action).ok().as_ref()
-    {
-        return Err(PublicRefusal {
-            authorized: false,
-            reason: adl_runtime::layer8_authority::RefusalReason::InvalidRequest,
-            retryable: false,
-            correlation_id: bounded_correlation,
-        });
-    }
-    request
-        .recipient_identity
-        .ensure_valid_at(request.now_epoch_secs)
-        .map_err(|reason| PublicRefusal {
-            authorized: false,
-            reason,
-            retryable: false,
-            correlation_id: bounded_correlation.clone(),
-        })?;
-    match authority.authorize(
-        &request.sender_identity,
-        request.action.clone(),
-        request.conversation_id.clone(),
-        request.recipient_id.clone(),
-        request.replay_id.clone(),
-        request.correlation_id.clone(),
-        request.now_epoch_secs,
-    ) {
-        AuthorityDecision::Authorized(_) => {
-            let delivered = deliver();
-            verify_recipient_acknowledgement(
-                &request.signed_request,
-                &delivered.acknowledgement,
-                &request.recipient_identity,
-                request.now_epoch_secs,
-            )
-            .map_err(|reason| PublicRefusal {
-                authorized: false,
-                reason,
-                retryable: false,
-                correlation_id: bounded_correlation.clone(),
-            })?;
-            Ok(delivered.value)
-        }
-        AuthorityDecision::Refused(refusal) => Err(refusal),
-    }
-}
-
-fn bounded_layer8_correlation(value: &str) -> String {
-    let trimmed = value.trim();
-    if trimmed.is_empty() {
-        "unavailable".to_owned()
-    } else {
-        Sha256::digest(trimmed.as_bytes())
-            .iter()
-            .map(|byte| format!("{byte:02x}"))
-            .collect()
-    }
-}
 
 const CSM_RUNTIME_API_ACIP_WS_PATH: &str = "/v1/acip/ws";
 const CSM_RUNTIME_API_ACIP_WS_LEGACY_ALIAS: &str = "/acip/ws";

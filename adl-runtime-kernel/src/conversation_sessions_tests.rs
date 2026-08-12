@@ -1,6 +1,5 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
-    path::Path,
     sync::{
         atomic::{AtomicUsize, Ordering},
         Arc,
@@ -9,12 +8,6 @@ use std::{
 };
 
 use crate::control::ConversationAttachmentTestHook;
-use crate::layer8_authority::{
-    sign_recipient_acknowledgement, AuthorityScope, CommunicationKeyDescriptor,
-    CommunicationVerifyingDescriptor, ConversationAuthorityProfile, ConversationSigningProfile,
-    Layer8Action, Layer8AuthorityStore, Layer8Capability, Layer8ConversationAuthority,
-    Layer8Policy, Layer8SignedExchange, RuntimeIdentityEvidence, SignedIdentityMessage,
-};
 use crate::{
     serve_control_listener, AdapterKind, AdapterPolicy, AgentPopulationFeed, AgentRosterPolicy,
     AgentSample, AuthorityMode, CanonicalIngress, ComponentId, ComponentRegistry, ControlApiPolicy,
@@ -99,7 +92,6 @@ struct ConversationExecutor {
     completions: Arc<AtomicUsize>,
     barrier_started: Arc<Notify>,
     barrier_release: Arc<Semaphore>,
-    recipient_key_file: std::path::PathBuf,
 }
 
 #[async_trait]
@@ -147,45 +139,6 @@ impl OperationExecutor for ConversationExecutor {
                 .forget();
         }
         self.completions.fetch_add(1, Ordering::SeqCst);
-        let signed_request: SignedIdentityMessage = serde_json::from_value(
-            work["tasks"][0]["signed_request"].clone(),
-        )
-        .map_err(|error| ExecutorError {
-            class: FailureClass::Fatal,
-            message: error.to_string(),
-        })?;
-        let signed_payload: serde_json::Value = serde_json::from_str(&signed_request.payload_json)
-            .map_err(|error| ExecutorError {
-                class: FailureClass::Fatal,
-                message: error.to_string(),
-            })?;
-        let signing_key_id = signed_payload["recipient_signing_key_id"]
-            .as_str()
-            .ok_or_else(|| ExecutorError {
-                class: FailureClass::Fatal,
-                message: "missing recipient signing key id".to_owned(),
-            })?;
-        let recipient_signing = CommunicationKeyDescriptor {
-            principal_id: recipient_id.to_owned(),
-            polis_id: "conversation-runtime".to_owned(),
-            signing_key_id: signing_key_id.to_owned(),
-            private_key_file: self.recipient_key_file.clone(),
-            not_before_epoch_secs: 0,
-            expires_at_epoch_secs: u64::MAX,
-        };
-        let mut acknowledgement = sign_recipient_acknowledgement(
-            &signed_request,
-            &recipient_signing,
-            "{\"status\":\"delivered\"}".to_owned(),
-            signed_request.issued_at_epoch_secs,
-        )
-        .map_err(|error| ExecutorError {
-            class: FailureClass::Fatal,
-            message: format!("{error:?}"),
-        })?;
-        if work["tasks"][0]["input"] == "invalid acknowledgement" {
-            acknowledgement.causation_id = "not-the-triggering-request".to_owned();
-        }
         serde_json::to_vec(&serde_json::json!({
             "schema": "adl.runtime.local_agent_execution.v1",
             "outputs": [{
@@ -193,7 +146,6 @@ impl OperationExecutor for ConversationExecutor {
                 "output": {
                     "recipient_id": projected_recipient,
                     "message": format!("{recipient_id} received your message."),
-                    "acknowledgement": acknowledgement,
                     "adapter_secret": "must-not-cross-public-boundary"
                 }
             }]
@@ -212,18 +164,6 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let completions = Arc::new(AtomicUsize::new(0));
     let barrier_started = Arc::new(Notify::new());
     let barrier_release = Arc::new(Semaphore::new(0));
-    let repo_tmp_root = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .parent()
-        .expect("kernel crate lives under the repository root")
-        .join(".adl")
-        .join("tmp");
-    std::fs::create_dir_all(&repo_tmp_root).unwrap();
-    let authority_root = tempfile::Builder::new()
-        .prefix("layer8-authority-")
-        .tempdir_in(&repo_tmp_root)
-        .unwrap();
-    let recipient_key = authority_root.path().join("recipient.key");
-    std::fs::write(&recipient_key, hex::encode([8_u8; 32])).unwrap();
     let adapter = Arc::new(
         OperationalAdapter::new(
             AdapterKind::Agent,
@@ -240,7 +180,6 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
                 completions: completions.clone(),
                 barrier_started: barrier_started.clone(),
                 barrier_release: barrier_release.clone(),
-                recipient_key_file: recipient_key.clone(),
             }),
         )
         .unwrap(),
@@ -295,77 +234,12 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .iter()
         .map(|agent| agent.id.clone())
         .collect::<BTreeSet<_>>();
-    let mut allowed_recipients = visible_agent_ids.clone();
-    assert!(allowed_recipients.remove("agent-0099"));
     population = population.with_public_policy(AgentRosterPolicy {
         policy_subject: "conversation-test".to_owned(),
-        visible_agent_ids: visible_agent_ids.clone(),
+        visible_agent_ids,
         reveal_capabilities: false,
         reveal_location: false,
     });
-    let layer8_authority = Layer8ConversationAuthority::new(
-        Layer8AuthorityStore::open(authority_root.path().join("audit.jsonl")).unwrap(),
-        {
-            let scopes =
-                [Layer8Action::Contact, Layer8Action::Continue].map(|action| AuthorityScope {
-                    polis_id: "conversation-runtime".to_owned(),
-                    action,
-                    conversation_id: None,
-                    recipients: allowed_recipients.clone(),
-                    attachment_id: None,
-                });
-            ConversationAuthorityProfile {
-                evidence: RuntimeIdentityEvidence {
-                    principal_id: "layer8-operator".to_owned(),
-                    polis_id: "conversation-runtime".to_owned(),
-                    signing_key_id: "operator-key".to_owned(),
-                    verifying_key_hex: hex::encode(
-                        ed25519_dalek::SigningKey::from_bytes(&[7_u8; 32])
-                            .verifying_key()
-                            .to_bytes(),
-                    ),
-                    credential_generation: 1,
-                    current_credential_generation: 1,
-                    expires_at_epoch_secs: u64::MAX,
-                    revoked: false,
-                    authenticated: true,
-                },
-                capabilities: scopes
-                    .iter()
-                    .enumerate()
-                    .map(|(index, scope)| Layer8Capability {
-                        capability_id: format!("conversation-{index}"),
-                        principal_id: "layer8-operator".to_owned(),
-                        scope: scope.clone(),
-                        epoch: 1,
-                        expires_at_epoch_secs: u64::MAX,
-                        revoked: false,
-                    })
-                    .collect(),
-                agent_policies: scopes
-                    .iter()
-                    .enumerate()
-                    .map(|(index, scope)| Layer8Policy {
-                        policy_id: format!("agent-{index}"),
-                        available: true,
-                        scope: scope.clone(),
-                        epoch: 1,
-                    })
-                    .collect(),
-                polis_policies: scopes
-                    .iter()
-                    .enumerate()
-                    .map(|(index, scope)| Layer8Policy {
-                        policy_id: format!("polis-{index}"),
-                        available: true,
-                        scope: scope.clone(),
-                        epoch: 1,
-                    })
-                    .collect(),
-            }
-        },
-    )
-    .unwrap();
     let service = Arc::new(
         ControlService::new_with_observatory_config_and_agents(
             "conversation-runtime",
@@ -376,42 +250,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             ["https://observatory.example.test".to_owned()],
             population,
         )
-        .with_canonical_ingress(ingress.clone())
-        .with_layer8_authority(layer8_authority)
-        .with_layer8_signed_exchange({
-            let sender_key = authority_root.path().join("sender.key");
-            std::fs::write(&sender_key, hex::encode([7_u8; 32])).unwrap();
-            let descriptor = |principal_id: &str, signing_key_id: &str, private_key_file| {
-                CommunicationKeyDescriptor {
-                    principal_id: principal_id.to_owned(),
-                    polis_id: "conversation-runtime".to_owned(),
-                    signing_key_id: signing_key_id.to_owned(),
-                    private_key_file,
-                    not_before_epoch_secs: 0,
-                    expires_at_epoch_secs: u64::MAX,
-                }
-            };
-            Layer8SignedExchange::load(ConversationSigningProfile {
-                sender: descriptor("layer8-operator", "operator-key", sender_key),
-                recipients: visible_agent_ids
-                    .iter()
-                    .map(|recipient| CommunicationVerifyingDescriptor {
-                        principal_id: recipient.clone(),
-                        polis_id: "conversation-runtime".to_owned(),
-                        signing_key_id: format!("configured-ack-key-for-{recipient}-v7"),
-                        verifying_key_hex: hex::encode(
-                            ed25519_dalek::SigningKey::from_bytes(&[8_u8; 32])
-                                .verifying_key()
-                                .to_bytes(),
-                        ),
-                        revoked: recipient == "agent-0098",
-                        not_before_epoch_secs: 0,
-                        expires_at_epoch_secs: u64::MAX,
-                    })
-                    .collect(),
-            })
-            .unwrap()
-        }),
+        .with_canonical_ingress(ingress.clone()),
     );
     service.set_observatory_bearer_token(TOKEN).unwrap();
     service
@@ -487,84 +326,6 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let authenticated =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
     assert_eq!(authenticated["status"], "authenticated");
-
-    let dispatches_before_revoked_recipient = dispatches.load(Ordering::SeqCst);
-    socket
-        .send(Message::Text(
-            serde_json::json!({
-                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-revoked-recipient-identity",
-                "turn_id": "turn-revoked-recipient-identity",
-                "recipient_id": "agent-0098",
-                "correlation_id": "19191919191919191919191919191919",
-                "message": "must not dispatch revoked recipient"
-            })
-            .to_string()
-            .into(),
-        ))
-        .await
-        .unwrap();
-    let revoked_recipient =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
-    assert_eq!(
-        revoked_recipient["status"], "refused",
-        "{revoked_recipient}"
-    );
-    assert_eq!(
-        revoked_recipient["error"],
-        "conversation_recipient_identity_unavailable"
-    );
-    assert_eq!(
-        dispatches.load(Ordering::SeqCst),
-        dispatches_before_revoked_recipient
-    );
-
-    let dispatches_before_refusal = dispatches.load(Ordering::SeqCst);
-    socket
-        .send(Message::Text(
-            serde_json::json!({
-                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-policy-refusal",
-                "turn_id": "turn-policy-refusal",
-                "recipient_id": "agent-0099",
-                "correlation_id": "20202020202020202020202020202020",
-                "message": "must not dispatch"
-            })
-            .to_string()
-            .into(),
-        ))
-        .await
-        .unwrap();
-    let refused =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
-    assert_eq!(refused["status"], "refused", "{refused}");
-    assert_eq!(refused["error"], "conversation_authority_refused");
-    assert_eq!(refused["turn_sequence"], serde_json::Value::Null);
-    assert_eq!(dispatches.load(Ordering::SeqCst), dispatches_before_refusal);
-
-    socket
-        .send(Message::Text(
-            serde_json::json!({
-                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-invalid-recipient-ack",
-                "turn_id": "turn-invalid-recipient-ack",
-                "recipient_id": "shepherd",
-                "correlation_id": "24242424242424242424242424242424",
-                "message": "invalid acknowledgement"
-            })
-            .to_string()
-            .into(),
-        ))
-        .await
-        .unwrap();
-    let accepted =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
-    assert_eq!(accepted["status"], "accepted", "{accepted}");
-    let ack_failed =
-        next_conversation_result_for_turn(&mut socket, "turn-invalid-recipient-ack").await;
-    assert_eq!(ack_failed["status"], "failed", "{ack_failed}");
-    assert_eq!(ack_failed["error"], "recipient_acknowledgement_invalid");
-    assert_ne!(ack_failed["status"], "refused", "{ack_failed}");
 
     let same_token_reauth = serde_json::json!({
         "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
@@ -724,7 +485,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert_eq!(delivered["status"], "delivered");
     assert_eq!(delivered["reply"], "shepherd received your message.");
     assert!(!delivered.to_string().contains("adapter_secret"));
-    assert_eq!(dispatches.load(Ordering::SeqCst), 5);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 4);
 
     socket
         .send(Message::Text(
@@ -748,7 +509,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(delivered["status"], "delivered", "{delivered}");
     assert_eq!(delivered["recipient_id"], "agent-0100");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 6);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 5);
 
     socket
         .send(Message::Text(
@@ -806,7 +567,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let duplicate =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(duplicate["status"], "delivered");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 7);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 6);
 
     socket
         .send(Message::Text(
@@ -827,7 +588,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(conflict["status"], "refused");
     assert_eq!(conflict["error"], "conversation_conflict");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 7);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 6);
 
     for (turn_id, correlation_id, message) in [
         (
@@ -1011,8 +772,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let timed_out =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(timed_out["status"], "timed_out");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 12);
-    assert_eq!(completions.load(Ordering::SeqCst), 10);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 11);
+    assert_eq!(completions.load(Ordering::SeqCst), 9);
 
     socket
         .send(Message::Text(
@@ -1056,7 +817,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert!(statuses.contains(&"accepted"));
     assert!(statuses.contains(&"cancelled"));
     tokio::time::sleep(Duration::from_millis(275)).await;
-    assert_eq!(completions.load(Ordering::SeqCst), 10);
+    assert_eq!(completions.load(Ordering::SeqCst), 9);
 
     let cleanup_race = serde_json::json!({
         "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
@@ -1142,7 +903,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .is_err(),
         "stale completion removed or duplicated the current-generation attachment"
     );
-    assert_eq!(completions.load(Ordering::SeqCst), 11);
+    assert_eq!(completions.load(Ordering::SeqCst), 10);
     for task in scheduling_pressure {
         task.await.unwrap();
     }
@@ -1218,10 +979,15 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             ))
             .await
             .unwrap();
+        let accepted =
+            next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+        assert_eq!(accepted["status"], "accepted", "{accepted}");
+        if index == 0 {
+            tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
+                .await
+                .expect("capacity fixture did not enter in-flight execution");
+        }
     }
-    tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
-        .await
-        .expect("capacity fixture did not enter in-flight execution");
     socket
         .send(Message::Text(
             serde_json::json!({
@@ -1237,24 +1003,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         ))
         .await
         .unwrap();
-    let mut accepted_turns = BTreeSet::new();
-    let capacity = loop {
-        let frame =
-            next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
-        if frame["turn_id"] == "turn-in-flight-over-capacity" {
-            break frame;
-        }
-        if frame["conversation_id"] == "conversation-in-flight-capacity"
-            && frame["status"] == "accepted"
-        {
-            accepted_turns.insert(frame["turn_id"].as_str().unwrap_or_default().to_owned());
-        }
-    };
-    assert_eq!(
-        accepted_turns.len(),
-        8,
-        "all held turns must be accepted before the over-capacity response"
-    );
+    let capacity =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(capacity["status"], "failed", "{capacity}");
     assert_eq!(
         capacity["error"], "conversation_capacity_exhausted",

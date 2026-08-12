@@ -20,18 +20,20 @@ The Runtime alone decides whether an authenticated human may discover, contact, 
 
 ## Scope
 
-- Typed Runtime-owned Layer 8 principal, capability, authority decision, refusal projection, replay guard, and redacted audit contracts
-- Least-privilege discovery, contact, continuation, attachment, and exact multi-recipient policy decisions
-- Narrow pre-delivery Runtime API integration using authenticated identity and canonical conversation identifiers
-- Truthful disclosure-safe Observatory presentation of authorized, refused, and stale or revoked authority states through a dedicated real-browser/UI contract target
-- Deterministic positive, negative, restart, tamper, projection, browser/UI, and nonzero-target product proof after the sole #111 serial gate passes
+- adl-runtime-kernel/src/layer8_authority/audit.rs
+- adl-runtime-kernel/src/layer8_authority/exchange.rs
+- adl-runtime-kernel/src/layer8_authority/identity.rs
+- adl-runtime-kernel/src/layer8_authority/mod.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/layer8_authority.rs
+- issue #112 lifecycle truth for the decomposed Layer 8 authority core
 
 ## Authority
 
-- Only authenticated Runtime identity intersected with exact current capability, agent policy, and Polis policy may authorize an action
-- Authorization and durable redacted audit must complete before sequence reservation, provider execution, or delivery
-- Browser state, caller claims, content, provider output, agent self-report, and private cognition never grant authority
-- Issue #112 owns only its declared authority, audit, narrow Runtime API invocation, focused tests, feature contract, and lifecycle packet
+- Runtime-kernel authority primitives decide only local pre-delivery grant/refusal outcomes for this core issue.
+- A grant requires authenticated current identity evidence, credential generation, capability, agent policy, Polis policy, replay freshness, recipient validity, canonical signatures, and audit availability.
+- Browser state, caller claims, message content, provider output, and agent self-report never grant authority.
+- This core issue does not own Runtime ingress enforcement, served acknowledgement API protocol, Observatory UI, durable history, rooms, roster, presence, or final WP-18C integration.
 
 ## Assumptions
 

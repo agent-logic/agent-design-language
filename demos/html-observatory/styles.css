@@ -1090,19 +1090,6 @@ dd {
   display: block;
 }
 
-.observatory[data-dashboard-surface="communication"] > .hero,
-.observatory[data-dashboard-surface="communication"] > .panopticon-shell {
-  display: none;
-}
-
-.observatory[data-dashboard-surface="communication"] > .runtime-grid {
-  display: grid !important;
-}
-
-.observatory[data-dashboard-surface="communication"] > .runtime-grid > :not(#communication) {
-  display: none;
-}
-
 .surface-nav {
   position: sticky;
   top: 0;

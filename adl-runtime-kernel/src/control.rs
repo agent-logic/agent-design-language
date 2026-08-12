@@ -30,11 +30,6 @@ use tokio_util::sync::CancellationToken;
 use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
-use crate::layer8_authority::{
-    AuthorityDecision, Layer8Action, Layer8ConversationAuthority, Layer8SignedExchange,
-    SignedIdentityMessage,
-};
-
 use crate::{
     decode_acip_envelope, AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy,
     AgentRosterQuery, AgentRuntimeEvidence, BootstrapEvent, CanonicalIngress, CheckpointManifest,
@@ -479,14 +474,6 @@ struct ConversationSession {
 }
 
 impl ConversationSessions {
-    fn can_retain_new_session(&self, max_records: usize) -> bool {
-        self.sessions.len() < max_records
-            || self
-                .sessions
-                .values()
-                .any(|session| session.turns.values().all(|turn| turn.terminal.is_some()))
-    }
-
     fn retain_capacity_for_new_session(&mut self, max_records: usize) -> bool {
         if self.sessions.len() < max_records {
             return true;
@@ -507,10 +494,6 @@ impl ConversationSessions {
 }
 
 impl ConversationSession {
-    fn can_retain_new_turn(&self, max_records: usize) -> bool {
-        self.turns.len() < max_records || self.turns.values().any(|turn| turn.terminal.is_some())
-    }
-
     fn retain_capacity_for_new_turn(&mut self, max_records: usize) -> bool {
         if self.turns.len() < max_records {
             return true;
@@ -612,7 +595,6 @@ struct ConversationDispatch {
     cancellation: CancellationToken,
     dispatch_gate: Arc<ConversationDispatchGate>,
     work_id: String,
-    signed_request: SignedIdentityMessage,
 }
 
 #[cfg(test)]
@@ -702,7 +684,7 @@ impl ConversationAttachmentTestHook {
 enum ConversationAcceptance {
     Dispatch {
         accepted: ObservatoryConversationResult,
-        dispatch: Box<ConversationDispatch>,
+        dispatch: ConversationDispatch,
     },
     Response(ObservatoryConversationResult),
 }
@@ -726,8 +708,6 @@ pub struct ControlService<C> {
     control_addr: Mutex<SocketAddr>,
     public_base_url: Mutex<String>,
     canonical_ingress: Option<CanonicalIngress>,
-    layer8_authority: Option<Arc<Layer8ConversationAuthority>>,
-    layer8_signed_exchange: Option<Arc<Layer8SignedExchange>>,
     agent_roster_token_key: Mutex<[u8; 32]>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
     #[cfg(test)]
@@ -816,8 +796,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
             public_base_url: Mutex::new("https://localhost".to_owned()),
             canonical_ingress: None,
-            layer8_authority: None,
-            layer8_signed_exchange: None,
             agent_roster_token_key: Mutex::new(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.ephemeral.v1",
                 uuid::Uuid::new_v4().as_bytes(),
@@ -879,16 +857,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self
     }
 
-    pub fn with_layer8_authority(mut self, authority: Layer8ConversationAuthority) -> Self {
-        self.layer8_authority = Some(Arc::new(authority));
-        self
-    }
-
-    pub fn with_layer8_signed_exchange(mut self, exchange: Layer8SignedExchange) -> Self {
-        self.layer8_signed_exchange = Some(Arc::new(exchange));
-        self
-    }
-
     fn conversation_recipient_eligibility(
         &self,
         recipient_id: &str,
@@ -903,7 +871,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     fn accept_conversation_intent(
         &self,
         intent: &ObservatoryConversationIntent,
-        credential_generation: u64,
     ) -> ConversationAcceptance {
         let outcome = |status, error, sequence| ObservatoryConversationResult {
             schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
@@ -966,20 +933,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             ));
         };
         let _ = ingress;
-        let Some(authority) = self.layer8_authority.as_ref() else {
-            return ConversationAcceptance::Response(outcome(
-                "failed",
-                "conversation_authority_unavailable",
-                None,
-            ));
-        };
-        let Some(signed_exchange) = self.layer8_signed_exchange.as_ref() else {
-            return ConversationAcceptance::Response(outcome(
-                "failed",
-                "conversation_signing_unavailable",
-                None,
-            ));
-        };
         let fingerprint = match serde_json::to_vec(intent) {
             Ok(bytes) => blake3::hash(&bytes).to_hex().to_string(),
             Err(_) => {
@@ -994,126 +947,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .conversation_sessions
             .lock()
             .expect("conversation sessions mutex poisoned");
-        if let Some(session) = sessions.sessions.get(&intent.conversation_id) {
-            if session.recipient_id != intent.recipient_id {
-                return ConversationAcceptance::Response(outcome(
-                    "refused",
-                    "conversation_recipient_conflict",
-                    None,
-                ));
-            }
-            if let Some(existing) = session.turns.get(&intent.turn_id) {
-                if existing.fingerprint != fingerprint {
-                    return ConversationAcceptance::Response(outcome(
-                        "refused",
-                        "conversation_conflict",
-                        Some(existing.sequence),
-                    ));
-                }
-                return ConversationAcceptance::Response(existing.terminal.clone().unwrap_or_else(
-                    || {
-                        outcome(
-                            "accepted",
-                            "conversation_in_flight",
-                            Some(existing.sequence),
-                        )
-                    },
-                ));
-            }
-        }
-        let action = if sessions.sessions.contains_key(&intent.conversation_id) {
-            Layer8Action::Continue
-        } else {
-            Layer8Action::Contact
-        };
-        let capacity_available = sessions.sessions.get(&intent.conversation_id).map_or_else(
-            || sessions.can_retain_new_session(self.max_records),
-            |session| session.can_retain_new_turn(self.max_records),
-        );
-        if !capacity_available {
-            return ConversationAcceptance::Response(outcome(
-                "failed",
-                "conversation_capacity_exhausted",
-                None,
-            ));
-        }
-        let replay_id = format!(
-            "{}:{}:{}:{}",
-            self.instance_id, intent.conversation_id, intent.turn_id, credential_generation
-        );
-        let now_epoch_secs = now_unix_millis() / 1_000;
-        let recipient_signing_key_id = match signed_exchange
-            .active_recipient_verifying_identity(&intent.recipient_id, now_epoch_secs)
-        {
-            Ok(identity) => identity.signing_key_id,
-            Err(_) => {
-                return ConversationAcceptance::Response(outcome(
-                    "refused",
-                    "conversation_recipient_identity_unavailable",
-                    None,
-                ))
-            }
-        };
-        let payload_json = match serde_jcs::to_string(&serde_json::json!({
-            "action": action,
-            "message": intent.message,
-            "recipient_id": intent.recipient_id,
-            "recipient_signing_key_id": recipient_signing_key_id,
-        })) {
-            Ok(payload) => payload,
-            Err(_) => {
-                return ConversationAcceptance::Response(outcome(
-                    "refused",
-                    "invalid_conversation_intent",
-                    None,
-                ))
-            }
-        };
-        let signed_request = match signed_exchange.signed_request(
-            &intent.recipient_id,
-            &intent.conversation_id,
-            &intent.correlation_id,
-            &replay_id,
-            payload_json,
-            now_epoch_secs,
-        ) {
-            Ok(request) => request,
-            Err(_) => {
-                return ConversationAcceptance::Response(outcome(
-                    "failed",
-                    "conversation_signing_unavailable",
-                    None,
-                ))
-            }
-        };
-        if signed_exchange
-            .verify_request(&signed_request, now_epoch_secs)
-            .is_err()
-        {
-            return ConversationAcceptance::Response(outcome(
-                "refused",
-                "conversation_request_signature_invalid",
-                None,
-            ));
-        }
-        if !matches!(
-            authority.authorize(
-                &signed_exchange.sender_verifying_identity(),
-                action,
-                intent.conversation_id.clone(),
-                intent.recipient_id.clone(),
-                replay_id,
-                intent.correlation_id.clone(),
-                now_epoch_secs,
-            ),
-            AuthorityDecision::Authorized(_)
-        ) {
-            return ConversationAcceptance::Response(outcome(
-                "refused",
-                "conversation_authority_refused",
-                None,
-            ));
-        }
         if !sessions.sessions.contains_key(&intent.conversation_id) {
             if !sessions.retain_capacity_for_new_session(self.max_records) {
                 return ConversationAcceptance::Response(outcome(
@@ -1217,14 +1050,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         );
         ConversationAcceptance::Dispatch {
             accepted,
-            dispatch: Box::new(ConversationDispatch {
+            dispatch: ConversationDispatch {
                 intent: intent.clone(),
                 sequence,
                 cancellation,
                 dispatch_gate: session.dispatch_gate.clone(),
                 work_id,
-                signed_request,
-            }),
+            },
         }
     }
 
@@ -1250,7 +1082,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "op": "conversation_message",
                 "recipient_id": dispatch.intent.recipient_id,
                 "input": dispatch.intent.message,
-                "signed_request": dispatch.signed_request,
             }],
         }));
         let deadline = tokio::time::Instant::now() + self.api_policy().websocket_auth_timeout;
@@ -1316,49 +1147,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                 .and_then(|output| output.get("message"))
                                 .and_then(serde_json::Value::as_str)
                                 .map(str::to_owned);
-                            let acknowledgement = result
-                                .public_output
-                                .as_ref()
-                                .and_then(|output| output.get("acknowledgement"))
-                                .cloned()
-                                .and_then(|value| serde_json::from_value(value).ok());
                             match reply {
-                                Some(reply) => {
-                                    let now = now_unix_millis() / 1_000;
-                                    let verified =
-                                        acknowledgement.as_ref().ok_or(()).and_then(|ack| {
-                                            self.layer8_signed_exchange.as_ref().ok_or(()).and_then(
-                                                |exchange| {
-                                                    exchange
-                                                        .verify_request_and_acknowledgement(
-                                                            &dispatch.signed_request,
-                                                            ack,
-                                                            now,
-                                                        )
-                                                        .map_err(|_| ())
-                                                },
-                                            )
-                                        });
-                                    if verified.is_err() {
-                                        outcome("failed", "recipient_acknowledgement_invalid")
-                                    } else {
-                                        ObservatoryConversationResult {
-                                            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-                                            status: "delivered",
-                                            conversation_id: dispatch
-                                                .intent
-                                                .conversation_id
-                                                .clone(),
-                                            turn_id: dispatch.intent.turn_id.clone(),
-                                            recipient_id: dispatch.intent.recipient_id.clone(),
-                                            correlation_id: dispatch.intent.correlation_id.clone(),
-                                            reply: Some(reply),
-                                            accepted_sequence: Some(result.accepted_sequence),
-                                            turn_sequence: Some(dispatch.sequence),
-                                            error: None,
-                                        }
-                                    }
-                                }
+                                Some(reply) => ObservatoryConversationResult {
+                                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                                    status: "delivered",
+                                    conversation_id: dispatch.intent.conversation_id.clone(),
+                                    turn_id: dispatch.intent.turn_id.clone(),
+                                    recipient_id: dispatch.intent.recipient_id.clone(),
+                                    correlation_id: dispatch.intent.correlation_id.clone(),
+                                    reply: Some(reply),
+                                    accepted_sequence: Some(result.accepted_sequence),
+                                    turn_sequence: Some(dispatch.sequence),
+                                    error: None,
+                                },
                                 None => outcome("failed", "conversation_reply_unavailable"),
                             }
                         }
@@ -2980,7 +2781,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 error: Some("write_authentication_required"),
                             })
                         } else {
-                            service.accept_conversation_intent(&intent, authentication_generation)
+                            service.accept_conversation_intent(&intent)
                         };
                         let (response, dispatch) = match result {
                             ConversationAcceptance::Dispatch { accepted, dispatch } => {
@@ -3025,7 +2826,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 .map(|token| *blake3::hash(token.as_bytes()).as_bytes())
                                 .expect("authenticated conversation dispatch has a bearer token");
                             tokio::spawn(async move {
-                                let result = service.complete_conversation_dispatch(*dispatch).await;
+                                let result = service.complete_conversation_dispatch(dispatch).await;
                                 let _ = results
                                     .send((authorized_generation, authorized_token_digest, result))
                                     .await;

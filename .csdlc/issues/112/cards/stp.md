@@ -16,27 +16,24 @@ Prepare and later implement only issue #112 Runtime authority, refusal, replay, 
 
 ## Deliverables
 
-- Runtime-owned Layer 8 principal, least-privilege authority, refusal, replay, and redacted audit module
-- One canonical signed ACIP identity-message contract for human-agent and direct agent-agent delivery using externally held per-principal keys
-- Recipient-signed acknowledgement verification with exact sender, recipient, conversation, correlation, causation, replay, rotation, revocation, and expiry binding
-- Production conversation-boundary and narrow Runtime API integration before provider delivery
-- Reachable disclosure-safe Observatory communication surface and exact real-browser authority-state proof
-- Focused nonzero production conversation, authority and signed-message, Runtime API, and browser validation targets
-- Feature contract for Layer 8 conversation authority under v0.92
-- .csdlc/prepared/issues/112/design.md
-- .csdlc/prepared/issues/112/diagram.mmd
+- Runtime-kernel Layer 8 authority module
+- Signed identity-message contract with credential-generation binding
+- Recipient acknowledgement verification primitives
+- Redacted hash-chained audit store
+- Focused adversarial and direct exchange tests
+- adl-runtime-kernel/tests/layer8_authority.rs
 
 ## Acceptance
 
-1. AC-1: Every governed action derives a stable Layer 8 principal only from authenticated, unexpired, non-revoked Runtime evidence bound to one Polis and credential generation.
-2. AC-2: Discovery, contact, continuation, attachment, and exact multi-recipient actions require separate least-privilege capabilities intersected with current agent and Polis policy before sequence reservation or delivery.
-3. AC-3: Identity expiry, rotation, revocation, stale capability epoch, malformed input, policy unavailability, replay ambiguity, and audit failure fail closed without fallback authority.
-4. AC-4: Recipient substitution, recipient-set widening, implicit broadcast, action or conversation scope escalation, replay, and cross-Polis attempts are rejected atomically before provider execution.
-5. AC-5: Operator, recipient-agent, reviewer, and public projections expose only audience-allowed decision, refusal, retry, correlation, recipient, conversation, and outcome fields.
-6. AC-6: Restart restores replay and redacted audit integrity before admission; corrupt, truncated, reordered, discontinuous, or unwritable audit state remains unavailable.
-7. AC-7: Human-agent and direct agent-agent requests use one canonical signed ACIP identity-message contract with externally held per-principal keys and exact recipient binding.
-8. AC-8: Recipient-signed acknowledgements bind sender, recipient, conversation, correlation, causation, replay identity, expiry, and the triggering message; signature substitution, stale rotation, revocation, and expiry fail closed.
-9. AC-9: The production conversation, authority and signed-message, Runtime API integration, and real-browser Observatory targets pass at one reviewed implementation revision with nonzero test selection.
+1. AC-1: Stable principals derive only from authenticated, unexpired, non-revoked runtime identity evidence with current credential generation.
+2. AC-2: Core authority decisions require least-privilege capability, current agent policy, and current Polis policy intersection before a grant is returned.
+3. AC-3: Expiry, rotation or stale generation, revocation, stale capability epoch, policy unavailability, malformed input, replay ambiguity, invalid signatures, non-canonical payloads, and audit failure fail closed.
+4. AC-4: Recipient substitution, recipient-set widening, implicit broadcast, action or conversation scope escalation, replay, and cross-Polis attempts are rejected by the core before a grant.
+5. AC-5: Public refusals and audit records expose only bounded decision, refusal, correlation, principal, recipient, conversation, and outcome fields and omit secrets, private cognition, raw provider payloads, private signing keys, and message content.
+6. AC-6: Restart restores replay and redacted audit integrity before core admission; corrupt, truncated, reordered, discontinuous, or unwritable audit state remains unavailable.
+7. AC-7: Human-agent and direct agent-agent requests share one canonical signed identity-message contract with externally held per-principal keys, credential-generation binding, and exact recipient binding.
+8. AC-8: Recipient acknowledgement verification primitives bind sender, recipient, conversation, correlation, causation, replay identity, expiry, and triggering message; signature substitution, stale rotation, revocation, and expiry fail closed.
+9. AC-9: Focused runtime-kernel authority-core tests, formatting, clippy, and diff hygiene pass at the exact implementation revision with nonzero test selection.
 
 ## Dependencies
 

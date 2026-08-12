@@ -545,9 +545,7 @@ const DASHBOARD_FOCUS = {
 function updateDashboardFocus(key = "runtime", extraDetail = "") {
   const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
   const root = document.querySelector(".observatory");
-  if (root) {
-    root.dataset.dashboardSurface = ["agents", "communication"].includes(key) ? key : "runtime";
-  }
+  if (root) root.dataset.dashboardSurface = key === "agents" ? "agents" : "runtime";
   setText("dashboard-focus-kicker", selected.kicker);
   setText("dashboard-focus-title", selected.title);
   setText("dashboard-focus-status", selected.status);

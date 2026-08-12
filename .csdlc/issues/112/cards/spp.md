@@ -16,52 +16,42 @@ Reach typed pre-bind readiness now; after #111 merges ancestrally, reconcile its
 
 ## Plan
 
-Revision 10
+Revision 12
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Reconcile merged #111 and #113 contracts and the live #112 signed-message ownership without widening into durability, rooms, or attention workflows.",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-7"
-    ],
-    "status": "pending"
-  },
-  {
-    "id": "S2",
-    "action": "Implement principal authority, policy intersection, replay defense, bounded refusal, redacted audit, one signed ACIP identity-message contract, and recipient-signed acknowledgement verification.",
+    "action": "Forward-convert the authoritative bound branch to the runtime-kernel Layer 8 authority core, preserving history and removing child-owned Runtime ingress, API, and Observatory product scope.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6",
       "AC-7",
       "AC-8"
     ],
     "status": "pending"
   },
   {
-    "id": "S3",
-    "action": "Integrate authority before conversation reservation and provider delivery while preserving the merged Runtime ingress and externally held private-key boundary.",
+    "id": "S2",
+    "action": "Run focused tests, formatting, clippy, and diff hygiene for the changed runtime-kernel crate.",
     "acceptance_ids": [
-      "AC-2",
+      "AC-3",
       "AC-4",
-      "AC-5",
-      "AC-7"
+      "AC-6",
+      "AC-9"
     ],
     "status": "pending"
   },
   {
-    "id": "S4",
-    "action": "Run all exact issue-owned validation targets, resolve independent exact-head review findings, and publish only current reviewed truth.",
+    "id": "S3",
+    "action": "Record fresh exact-head review on the authoritative bound branch and stop before publication for Planning observation.",
     "acceptance_ids": [
+      "AC-5",
       "AC-6",
-      "AC-8",
       "AC-9"
     ],
     "status": "pending"
@@ -96,13 +86,13 @@ Revision 10
 
 .csdlc/prepared/issues/112/design.md
 
-Digest: 98a528db6b03233108b7780ccb4d1561e49f6aaf95a25d6b45ddb7582f218558
+Digest: 9810b3ddd04eff726b36c9e9b2e3220e11375849bbf67a50ecb3e11ff98e60e1
 
 ## Diagram
 
 .csdlc/prepared/issues/112/diagram.mmd
 
-Digest: 8123e40f11131f1474ed236413da4886bf8cdd0022a8148005cfff1302897151
+Digest: 9193abdd0917530d7c70d7d37aefee04c8f08a9b85331fa0c37106a454360680
 
 ## Stop Conditions
 

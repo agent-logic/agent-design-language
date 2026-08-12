@@ -12,46 +12,32 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; pre-dispatch recipient identity validity; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; exact-current issue 244 integration; decomposed authority internals into audit, exchange, and identity modules; remediated external review findings by closing the raw public authorization surface, adding scoped authorization for multi-recipient and attachment actions, binding recipient acknowledgement identity to the signed configured key id, bounding Runtime API refusal correlation output, classifying invalid post-dispatch recipient acknowledgements as failed delivery rather than policy refusal, merging current origin/main through issue 254, and repairing local proof fixtures so repository-owned temp paths and deterministic in-flight capacity ordering are enforced.
+Forward-recovered the authoritative bound #112 branch to the decomposed Layer 8 authority core: preserved the historical cumulative evidence, removed child-owned Runtime ingress/API/Observatory product scope from the net product diff, aligned the runtime-kernel authority core with reviewed reference commit 613fddc9c017781420cb1854834c7376e96485b0, and validated the focused runtime-kernel core lanes.
 
 ## Artifacts
 
-- adl-runtime-kernel/src/layer8_authority/mod.rs
 - adl-runtime-kernel/src/layer8_authority/audit.rs
 - adl-runtime-kernel/src/layer8_authority/exchange.rs
 - adl-runtime-kernel/src/layer8_authority/identity.rs
-- adl-runtime-kernel/src/control.rs
-- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-- adl-runtime-kernel/src/conversation_sessions_tests.rs
-- adl-runtime/src/layer8_authority.rs
-- adl-runtime/tests/layer8_authority.rs
-- adl/src/csm_runtime_api.rs
-- adl/tests/layer8_authority_runtime_api.rs
-- adl/tools/validate_layer8_authority_observatory_ui.sh
-- demos/html-observatory/app.js
-- demos/html-observatory/styles.css
-- docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md
+- adl-runtime-kernel/src/layer8_authority/mod.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/layer8_authority.rs
+- .csdlc/issues/112
+- .csdlc/prepared/issues/112/design.md
+- .csdlc/prepared/issues/112/diagram.mmd
+- .csdlc/evidence/112/layer8-authority-core-tests-forward.log
+- .csdlc/evidence/112/layer8-authority-core-fmt-forward.log
+- .csdlc/evidence/112/layer8-authority-core-clippy-forward.log
+- .csdlc/evidence/112/layer8-authority-core-diff-check-forward.log
 
 ## Execution
 
-- Load current identity evidence, pre-existing capabilities, and separate agent and Polis policies from an external authority profile instead of constructing request-shaped authority.
-- Keep only recipient public keys in the control authority; preflight the configured recipient communication identity before canonical ingress dispatch and require the recipient agent execution boundary to sign and return the acknowledgement before delivery.
-- Bind action, conversation, recipient, replay, and correlation outer fields to the verified signed request and require exact acknowledgement replay identity.
-- Bind the verified sender principal, polis, signing-key id, and public verification key bytes to independently loaded Runtime identity evidence before capability and policy evaluation, refusing same-label untrusted keys.
-- Carry the configured recipient signing-key id inside the authenticated signed request so the agent acknowledgement boundary does not rely on a naming convention.
-- Serialize simultaneous audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.
-- Keep retryable policy refusals from consuming replay identities and preflight conversation capacity before durable authorization.
-- Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation.
-- Split Layer 8 authority internals into policy facade, audit store, signed exchange, and identity modules to reduce the central runtime file while preserving behavior.
-- Make the raw audit-store authorization method module-internal so public callers must use the identity-bound Layer8ConversationAuthority surface.
-- Add Layer8ConversationAuthority::authorize_scoped so Attach and AddressRecipients carry exact recipient and attachment scope instead of being collapsed to single-recipient delivery.
-- Select capability, agent policy, and Polis policy candidates through the same scope predicate used by the audit validator before falling back to refusal recording.
-- Require the Runtime API recipient identity signing_key_id to match the configured recipient_signing_key_id carried in the signed request payload.
-- Bound correlation ids on Runtime API boundary refusals before returning public refusal projections.
-- Classify invalid post-dispatch recipient acknowledgements as failed delivery rather than refused policy decisions, preserving the distinction between pre-dispatch authority refusal and post-dispatch acknowledgement failure.
-- Merge current origin/main containing issue 254 hosted-coverage CI topology changes into the issue branch without product-surface conflicts.
-- Repair the in-flight capacity fixture to enqueue all held turns before reading admission frames, proving all eight active turns are accepted before the over-capacity failure instead of letting the 100 ms production dispatch deadline establish ordering.
-- Move the Rust test authority temp directory and the Layer 8 Observatory browser proof temp directory under repo-local .adl/tmp, with a containment check for the browser proof.
+- Cleared the superseded cumulative review assignment through typed csdlc-review recover, preserving audit history.
+- Reapproved the core-only design and diagram through typed csdlc-edit approve-design.
+- Restored child-owned Runtime ingress, Runtime API, Observatory, and feature-doc product files to origin/main or removed added child-only files from the net #112 diff.
+- Aligned adl-runtime-kernel/src/layer8_authority/{audit.rs,exchange.rs,identity.rs,mod.rs}, adl-runtime-kernel/src/lib.rs, and adl-runtime-kernel/tests/layer8_authority.rs with the reviewed core reference behavior.
+- Bound signed identity messages and communication identities to credential generation and rejected stale-generation signed messages.
+- Narrowed typed lifecycle declared scope, authority boundary, deliverables, acceptance criteria, plan steps, affected areas, validation lanes, and review prompts to the Layer 8 authority core where supported by the v2 owner binary.
 
 ## Validation
 
@@ -60,62 +46,16 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
     "command": [
       "cargo",
       "test",
-      "--locked",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
-      "--lib",
-      "conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress",
-      "--",
-      "--exact"
-    ],
-    "purpose": "Run the exact-current production conversation boundary after current-main integration and deterministic in-flight capacity fixture repair.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-production-conversation-boundary.log (1 passed)"
-  },
-  {
-    "command": [
-      "cargo",
-      "nextest",
-      "run",
-      "--locked",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
       "--test",
       "layer8_authority",
-      "--no-tests=fail",
-      "--status-level",
-      "all"
+      "--",
+      "--nocapture"
     ],
-    "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, scoped action, and refusal proof after current-main integration.",
+    "purpose": "Run the focused Layer 8 authority core integration test target with nonzero selection.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-authority-contract.log (12 passed)"
-  },
-  {
-    "command": [
-      "cargo",
-      "nextest",
-      "run",
-      "--locked",
-      "--manifest-path",
-      "adl/Cargo.toml",
-      "--test",
-      "layer8_authority_runtime_api",
-      "--no-tests=fail",
-      "--status-level",
-      "all"
-    ],
-    "purpose": "Run the Runtime API signed request, recipient identity preflight, configured recipient key id, bounded refusal correlation, and exact acknowledgement integration proof after current-main integration.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-integration.log (7 passed)"
-  },
-  {
-    "command": [
-      "bash",
-      "adl/tools/validate_layer8_authority_observatory_ui.sh"
-    ],
-    "purpose": "Run the real-browser Observatory disclosure and authority-state proof with the configured local Playwright and Chrome runtimes using repo-local temporary directories.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-observatory-ui.log (PASS; local headless browser permission required outside the macOS sandbox)"
+    "evidence_ref": ".csdlc/evidence/112/layer8-authority-core-tests-forward.log (1 passed)"
   },
   {
     "command": [
@@ -125,15 +65,14 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "adl-runtime-kernel/Cargo.toml",
       "--check"
     ],
-    "purpose": "Verify Rust formatting after the deterministic capacity fixture repair.",
+    "purpose": "Verify runtime-kernel Rust formatting for the core recovery diff.",
     "outcome": "passed",
-    "evidence_ref": "local stdout empty; exit 0"
+    "evidence_ref": ".csdlc/evidence/112/layer8-authority-core-fmt-forward.log (empty output; exit 0)"
   },
   {
     "command": [
       "cargo",
       "clippy",
-      "--locked",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--all-targets",
@@ -141,26 +80,9 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "-D",
       "warnings"
     ],
-    "purpose": "Enforce strict lint hygiene for the production Runtime source and tests after current-main integration.",
+    "purpose": "Enforce strict warning-free clippy for the runtime-kernel crate and tests.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-kernel-clippy.log (PASS)"
-  },
-  {
-    "command": [
-      "cargo",
-      "clippy",
-      "--locked",
-      "--manifest-path",
-      "adl/Cargo.toml",
-      "--test",
-      "layer8_authority_runtime_api",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "purpose": "Enforce strict lint hygiene for the Runtime API integration target after current-main integration.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-clippy.log (PASS)"
+    "evidence_ref": ".csdlc/evidence/112/layer8-authority-core-clippy-forward.log (exit 0)"
   },
   {
     "command": [
@@ -168,9 +90,9 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "diff",
       "--check"
     ],
-    "purpose": "Verify whitespace and conflict-marker hygiene for the current issue diff.",
+    "purpose": "Verify whitespace and conflict-marker hygiene for the forward recovery diff.",
     "outcome": "passed",
-    "evidence_ref": "local stdout empty; exit 0"
+    "evidence_ref": ".csdlc/evidence/112/layer8-authority-core-diff-check-forward.log (empty output; exit 0)"
   }
 ]
 

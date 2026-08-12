@@ -16,12 +16,11 @@ Status: draft
 
 ## Prompts
 
-- Can authentication, browser state, caller claims, content, provider output, or agent self-report authorize any action without an exact current capability and policy intersection?
-- Can contact, continuation, attachment, or single-recipient authority widen into another action, conversation, recipient set, room, broadcast, or Polis?
-- Do replay, expiry, rotation, revocation, restart, audit corruption, and concurrent duplicate requests fail before sequence reservation or provider execution?
-- Do all projections omit content, attachment bytes, secrets, private policy, provider payloads, and private cognition?
-- Does the dedicated real-browser Observatory contract render authorized, refused, and stale or revoked states truthfully, keep refused actions unavailable, and disclose only audience-approved projection fields?
-- Is #111 the sole serial gate, is #83 retained only as preserved source, and are all three exact product targets deferred without preparation surrogate proof?
+- Can any grant bypass authenticated identity, credential generation, capability, agent policy, Polis policy, replay freshness, recipient validity, canonical signatures, or audit availability?
+- Can signed requests or acknowledgements be replayed, substituted, generated for unknown recipients, or accepted across stale identity/key generations?
+- Can recipient substitution, recipient-set widening, action or conversation scope escalation, implicit broadcast, or cross-Polis attempts produce a grant?
+- Can audit records or public refusals leak private keys, content, raw provider payloads, private policy, provider output, or private cognition?
+- Does the exact diff avoid absorbing #265 Runtime ingress, #270 acknowledgement/API protocol, #271 Observatory UI, durable history, rooms, roster, presence, or sibling issue work?
 
 ## Findings
 

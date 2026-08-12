@@ -383,19 +383,10 @@ fn project_public_output(
         .and_then(serde_json::Value::as_str)
         .filter(|value| !value.is_empty() && value.len() <= 4_096)
         .ok_or(IngressError::ExecutionFailed)?;
-    let acknowledgement = output
-        .get("acknowledgement")
-        .cloned()
-        .ok_or(IngressError::ExecutionFailed)?;
-    serde_json::from_value::<crate::layer8_authority::SignedIdentityMessage>(
-        acknowledgement.clone(),
-    )
-    .map_err(|_| IngressError::ExecutionFailed)?;
     Ok(Some(serde_json::json!({
         "schema": "adl.runtime.conversation_reply.v1",
         "recipient_id": recipient_id,
         "message": message,
-        "acknowledgement": acknowledgement,
     })))
 }
 

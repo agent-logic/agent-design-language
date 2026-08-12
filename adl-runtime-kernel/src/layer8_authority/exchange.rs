@@ -36,6 +36,7 @@ pub struct SignedIdentityMessage {
     pub expires_at_epoch_secs: u64,
     pub payload_json: String,
     pub signing_key_id: String,
+    pub credential_generation: u64,
     pub signature: String,
 }
 
@@ -71,6 +72,7 @@ pub fn sign_recipient_acknowledgement(
     if now < descriptor.not_before_epoch_secs || now >= descriptor.expires_at_epoch_secs {
         return Err(RefusalReason::IdentityExpired);
     }
+    require_canonical_payload(&payload_json)?;
     let encoded = std::fs::read_to_string(&descriptor.private_key_file)
         .map_err(|_| RefusalReason::IdentityUnavailable)?;
     let bytes = hex::decode(encoded.trim()).map_err(|_| RefusalReason::IdentityUnavailable)?;
@@ -97,6 +99,7 @@ pub fn sign_recipient_acknowledgement(
         expires_at_epoch_secs: now.saturating_add(60),
         payload_json,
         signing_key_id: descriptor.signing_key_id.clone(),
+        credential_generation: descriptor.credential_generation,
         signature: String::new(),
     };
     acknowledgement.signature = hex::encode(
@@ -134,6 +137,7 @@ impl Layer8SignedExchange {
                 principal_id: descriptor.principal_id,
                 polis_id: descriptor.polis_id,
                 signing_key_id: descriptor.signing_key_id,
+                credential_generation: descriptor.credential_generation,
                 verifying_key: ed25519_dalek::VerifyingKey::from_bytes(&key)
                     .map_err(|_| RefusalReason::IdentityUnavailable)?,
                 revoked: descriptor.revoked,
@@ -206,7 +210,7 @@ impl Layer8SignedExchange {
             return Err(RefusalReason::InvalidRequest);
         }
         let recipient = self.active_recipient_verifying_identity(&request.recipient_id, now)?;
-        if recipient.polis_id != request.polis_id {
+        if recipient.polis_id != self.sender.descriptor.polis_id {
             return Err(RefusalReason::InvalidRequest);
         }
         verify_signed_identity_message(
@@ -246,6 +250,7 @@ impl Layer8SignedExchange {
             principal_id: identity.descriptor.principal_id.clone(),
             polis_id: identity.descriptor.polis_id.clone(),
             signing_key_id: identity.descriptor.signing_key_id.clone(),
+            credential_generation: identity.descriptor.credential_generation,
             verifying_key: identity.signing_key.verifying_key(),
             revoked: false,
             not_before_epoch_secs: identity.descriptor.not_before_epoch_secs,
@@ -266,6 +271,8 @@ impl Layer8SignedExchange {
         payload_json: String,
         now: u64,
     ) -> Result<SignedIdentityMessage, RefusalReason> {
+        identity.descriptor_identity_valid_at(now)?;
+        require_canonical_payload(&payload_json)?;
         let sequence = self
             .sequence
             .fetch_add(1, Ordering::SeqCst)
@@ -287,6 +294,7 @@ impl Layer8SignedExchange {
             expires_at_epoch_secs: now.saturating_add(60),
             payload_json,
             signing_key_id: identity.descriptor.signing_key_id.clone(),
+            credential_generation: identity.descriptor.credential_generation,
             signature: String::new(),
         };
         message.signature = hex::encode(
@@ -307,6 +315,30 @@ impl SignedIdentityMessage {
     }
 }
 
+trait CommunicationSigningDescriptorValidation {
+    fn descriptor_identity_valid_at(&self, now_epoch_secs: u64) -> Result<(), RefusalReason>;
+}
+
+impl CommunicationSigningDescriptorValidation for CommunicationSigningIdentity {
+    fn descriptor_identity_valid_at(&self, now_epoch_secs: u64) -> Result<(), RefusalReason> {
+        if now_epoch_secs < self.descriptor.not_before_epoch_secs
+            || now_epoch_secs >= self.descriptor.expires_at_epoch_secs
+        {
+            return Err(RefusalReason::IdentityExpired);
+        }
+        Ok(())
+    }
+}
+
+fn require_canonical_payload(payload_json: &str) -> Result<(), RefusalReason> {
+    let payload: serde_json::Value =
+        serde_json::from_str(payload_json).map_err(|_| RefusalReason::InvalidRequest)?;
+    if serde_jcs::to_string(&payload).map_err(|_| RefusalReason::InvalidRequest)? != payload_json {
+        return Err(RefusalReason::InvalidRequest);
+    }
+    Ok(())
+}
+
 pub fn verify_signed_identity_message(
     message: &SignedIdentityMessage,
     identity: &CommunicationVerifyingIdentity,
@@ -322,6 +354,7 @@ pub fn verify_signed_identity_message(
         || message.correlation_id.trim().is_empty()
         || message.replay_id.trim().is_empty()
         || message.monotonic_sequence == 0
+        || message.credential_generation == 0
         || message.recipient_id != expected_recipient
     {
         return Err(RefusalReason::InvalidRequest);
@@ -335,16 +368,11 @@ pub fn verify_signed_identity_message(
     if message.sender_id != identity.principal_id
         || message.polis_id != identity.polis_id
         || message.signing_key_id != identity.signing_key_id
+        || message.credential_generation != identity.credential_generation
     {
         return Err(RefusalReason::IdentityUnavailable);
     }
-    let payload: serde_json::Value =
-        serde_json::from_str(&message.payload_json).map_err(|_| RefusalReason::InvalidRequest)?;
-    if serde_jcs::to_string(&payload).map_err(|_| RefusalReason::InvalidRequest)?
-        != message.payload_json
-    {
-        return Err(RefusalReason::InvalidRequest);
-    }
+    require_canonical_payload(&message.payload_json)?;
     let signature_bytes =
         hex::decode(&message.signature).map_err(|_| RefusalReason::InvalidRequest)?;
     let signature =

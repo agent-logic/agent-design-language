@@ -1039,14 +1039,7 @@ impl InProcessOperationExecutor {
                             "agent_conversation_bound",
                         ));
                     }
-                    let signed_request = serde_json::from_value(task["signed_request"].clone())
-                        .map_err(|_| {
-                            adapter_error(
-                                FailureClass::Fatal,
-                                "agent_conversation_signature_malformed",
-                            )
-                        })?;
-                    return_output(recipient_id, &signed_request)?
+                    return_output(recipient_id)
                 }
                 _ => return Err(adapter_error(FailureClass::Fatal, "agent_work_unknown")),
             };
@@ -1274,40 +1267,11 @@ impl InProcessOperationExecutor {
     }
 }
 
-fn return_output(
-    recipient_id: &str,
-    signed_request: &crate::layer8_authority::SignedIdentityMessage,
-) -> Result<serde_json::Value, ExecutorError> {
-    let key_root = std::env::var_os("ADL_LAYER8_RECIPIENT_KEY_DIR")
-        .map(std::path::PathBuf::from)
-        .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_recipient_signing_unavailable"))?;
-    let payload: serde_json::Value = serde_json::from_str(&signed_request.payload_json)
-        .map_err(|_| adapter_error(FailureClass::Fatal, "agent_recipient_signing_unavailable"))?;
-    let signing_key_id = payload
-        .get("recipient_signing_key_id")
-        .and_then(serde_json::Value::as_str)
-        .filter(|value| !value.is_empty())
-        .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_recipient_signing_unavailable"))?;
-    let descriptor = crate::layer8_authority::CommunicationKeyDescriptor {
-        principal_id: recipient_id.to_owned(),
-        polis_id: signed_request.polis_id.clone(),
-        signing_key_id: signing_key_id.to_owned(),
-        private_key_file: key_root.join(format!("{recipient_id}.key")),
-        not_before_epoch_secs: 0,
-        expires_at_epoch_secs: u64::MAX,
-    };
-    let acknowledgement = crate::layer8_authority::sign_recipient_acknowledgement(
-        signed_request,
-        &descriptor,
-        "{\"status\":\"delivered\"}".to_owned(),
-        signed_request.issued_at_epoch_secs,
-    )
-    .map_err(|_| adapter_error(FailureClass::Fatal, "agent_recipient_signing_unavailable"))?;
-    Ok(serde_json::json!({
+fn return_output(recipient_id: &str) -> serde_json::Value {
+    serde_json::json!({
         "recipient_id": recipient_id,
         "message": format!("{recipient_id} received your message."),
-        "acknowledgement": acknowledgement,
-    }))
+    })
 }
 
 fn adapter_error(class: FailureClass, message: impl Into<String>) -> ExecutorError {
