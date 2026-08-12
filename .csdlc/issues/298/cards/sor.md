@@ -415,11 +415,11 @@ Made non-exchange recovery select retained prior authority before any current ba
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
