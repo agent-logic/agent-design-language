@@ -3416,7 +3416,6 @@ pub fn recover_preserved_projection(
         }
         ProjectionCasAnchor::ExactObservedInvalid { .. } => (&backup_path, &canonical_path, false),
     };
-    let prior_authority = open_root_no_follow(prior_path)?;
     let prior_observation = if classification.canonical.valid_projection {
         classification.canonical.clone()
     } else {
@@ -3546,17 +3545,18 @@ pub fn recover_preserved_projection(
         } else {
             root_authority.validate_binding(&recovery_path, "recovery root")?;
             attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
-            if !exact_observation(prior_path, &prior_observation, request.issue)? {
-                return Err(V2Error::new(
-                    ErrorCode::ReconciliationRequired,
-                    "verified prior source drifted before candidate construction",
-                ));
-            }
+            let build_prior_authority = retained_matching_projection(
+                &attempt_authority,
+                prior_path,
+                &prior_observation,
+                store.root(),
+                request.issue,
+            )?;
             let record = build_candidate_tree(
                 store,
                 &request,
                 &attempt_authority,
-                &prior_authority,
+                &build_prior_authority,
                 &candidate,
                 prior_observation.record_digest.as_deref().ok_or_else(|| {
                     V2Error::new(ErrorCode::CorruptRecord, "verified prior digest missing")

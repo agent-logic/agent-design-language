@@ -1480,6 +1480,148 @@ fn preserved_projection_recovery_uses_backup_source_when_canonical_absent() {
 }
 
 #[test]
+fn preserved_projection_recovery_restarts_nonexchange_anchors_after_displacement() {
+    for anchor_kind in ["expected-absent", "exact-invalid"] {
+        for state in [
+            "candidate_installed",
+            "canonical_installed",
+            "canonical_verified",
+        ] {
+            let (_temp, store, record) = implemented_fixture();
+            let backup = store.interrupted_backup(7);
+            let preserved = store.rollback_preserved(7);
+            copy_tree(&store.issue_dir(7), &backup);
+
+            let (classify, anchor, rejected_manifest_digest) = if anchor_kind == "expected-absent" {
+                std::fs::rename(store.issue_dir(7), &preserved)
+                    .expect("preserve canonical while making canonical absent");
+                let classify = classify_preserved_projection(
+                    &store,
+                    ProjectionClassifyRequest {
+                        issue: 7,
+                        anchor: ProjectionCasAnchor::ExpectedCanonicalAbsent {
+                            backup_generation: record.generation,
+                            backup_record_digest: record.digest.clone(),
+                        },
+                        actor: "test".into(),
+                        reason: "nonexchange restart absent fixture".into(),
+                    },
+                )
+                .expect("classify absent canonical");
+                (
+                    classify.clone(),
+                    ProjectionCasAnchor::ExpectedCanonicalAbsent {
+                        backup_generation: record.generation,
+                        backup_record_digest: record.digest.clone(),
+                    },
+                    classify.preserved.manifest_digest.clone().unwrap(),
+                )
+            } else {
+                std::fs::create_dir(&preserved).expect("create invalid observed projection");
+                std::fs::write(preserved.join("index.json"), b"{}\n")
+                    .expect("write invalid observed projection");
+                let probe = classify_preserved_projection(
+                    &store,
+                    ProjectionClassifyRequest {
+                        issue: 7,
+                        anchor: ProjectionCasAnchor::VerifiedCanonical {
+                            generation: record.generation,
+                            record_digest: record.digest.clone(),
+                        },
+                        actor: "test".into(),
+                        reason: "capture exact invalid observation".into(),
+                    },
+                )
+                .expect("observe invalid preserved projection");
+                let mut invalid = probe.preserved;
+                std::fs::remove_dir_all(store.issue_dir(7)).expect("remove valid canonical");
+                std::fs::rename(&preserved, store.issue_dir(7))
+                    .expect("install exact invalid canonical");
+                copy_tree(&store.issue_dir(7), &preserved);
+                use std::os::unix::fs::MetadataExt;
+                let canonical_meta = std::fs::symlink_metadata(store.issue_dir(7))
+                    .expect("invalid canonical metadata after rename");
+                let mount_id = invalid.entries.first().unwrap().identity.mount_id.clone();
+                invalid.entries.first_mut().unwrap().identity = csdlc_v2::NodeIdentity {
+                    device: canonical_meta.dev(),
+                    mount_id,
+                    inode: canonical_meta.ino(),
+                    ctime_seconds: canonical_meta.ctime(),
+                    ctime_nanoseconds: canonical_meta.ctime_nsec(),
+                    links: canonical_meta.nlink(),
+                    uid: canonical_meta.uid(),
+                    gid: canonical_meta.gid(),
+                    mode: canonical_meta.mode(),
+                    node_type: "directory".into(),
+                };
+                invalid.manifest_digest = Some(
+                    blake3::hash(&serde_json::to_vec(&invalid.entries).unwrap())
+                        .to_hex()
+                        .to_string(),
+                );
+                let anchor = ProjectionCasAnchor::ExactObservedInvalid {
+                    canonical_identity: invalid.entries.first().unwrap().identity.clone(),
+                    manifest_digest: invalid.manifest_digest.clone().unwrap(),
+                    backup_generation: record.generation,
+                    backup_record_digest: record.digest.clone(),
+                };
+                let classify = classify_preserved_projection(
+                    &store,
+                    ProjectionClassifyRequest {
+                        issue: 7,
+                        anchor: anchor.clone(),
+                        actor: "test".into(),
+                        reason: "nonexchange restart invalid fixture".into(),
+                    },
+                )
+                .expect("classify exact invalid canonical");
+                (
+                    classify.clone(),
+                    anchor,
+                    classify.preserved.manifest_digest.clone().unwrap(),
+                )
+            };
+
+            let mut request = ProjectionRecoverRequest {
+                issue: 7,
+                operation_id: format!("restart-{anchor_kind}-{state}"),
+                classify_receipt_digest: classify.receipt_digest.clone(),
+                classification: classify,
+                failed_operation_lineage: FailedOperationLineage {
+                    prior_generation: record.generation,
+                    prior_record_digest: record.digest.clone(),
+                    rejected_manifest_digest,
+                    failure_boundary: "nonexchange_prior_displaced".into(),
+                },
+                anchor,
+                actor: "test".into(),
+                reason: "restart nonexchange recovery after displacement".into(),
+                branch: "issue-7".into(),
+                worktree: store.root().to_string_lossy().into_owned(),
+                fail_after: Some(state.into()),
+            };
+            let interrupted = csdlc_v2::recover_preserved_projection(&store, request.clone())
+                .expect_err("failpoint must interrupt nonexchange recovery");
+            assert_eq!(
+                interrupted.code,
+                ErrorCode::InterruptedTransaction,
+                "{anchor_kind} at {state}: {interrupted:?}"
+            );
+            request.fail_after = None;
+            let recovered = csdlc_v2::recover_preserved_projection(&store, request)
+                .unwrap_or_else(|error| panic!("restart {anchor_kind} after {state}: {error:?}"));
+            assert_eq!(
+                store
+                    .load_record(7)
+                    .expect("canonical after restart")
+                    .digest,
+                recovered.canonical_digest
+            );
+        }
+    }
+}
+
+#[test]
 fn preserved_projection_recovery_rejects_rehashed_prepared_classification_forgery() {
     let (_temp, store, record) = implemented_fixture();
     copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
