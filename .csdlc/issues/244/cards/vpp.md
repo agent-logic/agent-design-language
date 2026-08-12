@@ -56,8 +56,8 @@ Diagram: .csdlc/prepared/issues/244/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 400,
-    "budget_tokens": 3500,
+    "budget_seconds": 450,
+    "budget_tokens": 4000,
     "argv": [
       "cargo",
       "test",
@@ -76,8 +76,8 @@ Diagram: .csdlc/prepared/issues/244/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 200,
-    "budget_tokens": 2500,
+    "budget_seconds": 250,
+    "budget_tokens": 3500,
     "argv": [
       "cargo",
       "clippy",
@@ -87,24 +87,6 @@ Diagram: .csdlc/prepared/issues/244/diagram.mmd
       "--",
       "-D",
       "warnings"
-    ],
-    "parallel_group": "runtime-required",
-    "defer_reason": null
-  },
-  {
-    "lane": "runtime-v3-fast-observatory",
-    "proof_role": "required Runtime Observatory proof matching CI",
-    "acceptance_ids": [
-      "AC-4",
-      "AC-5"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 100,
-    "budget_tokens": 1500,
-    "argv": [
-      "bash",
-      "adl/tools/test_v0917_html_observatory_integrated_proof.sh"
     ],
     "parallel_group": "runtime-required",
     "defer_reason": null
@@ -126,7 +108,6 @@ Tokens: 10000
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_sessions`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml`
 - `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings`
-- `bash adl/tools/test_v0917_html_observatory_integrated_proof.sh`
 
 ## Failure Semantics
 

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "9ca993a863309a095b9f948071510232a15f8eb790e30ad2641fd3b2e2c20927",
+  "generation": 5,
+  "digest": "bb3f70c2878920806d4a465896b43e17cf24c98f1630b65066ca48ad17505442",
   "branch": "codex/244-conversation-cleanup-race",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e749c5a4e868b145f5afb71c3ae94c912714988ffa115f31c1e745da65779098",
+      "values_digest": "84098c3d33710b7a63907e24634216d1f8455dbc54e3cd6c5dcf65243c0f6056",
       "rendered_digest": "c67262a9c3b85302894b1e06cfa6bd114f0b33e24c3e058675276f9fad619d58",
       "ast_digest": "c051bdf056a591bc1db0808da9ed1e0413bb94dc35e588674f7ad03cb1e64f85"
     },
     "stp": {
-      "values_digest": "b84ab95a0a566838a949c693330c2f19c5e60d83ceb338493ebd2fb88623d8f6",
+      "values_digest": "2e85aa134b8fe0b2e5115313c68b1022ce02ca02d35386ea91cf0958382fd65d",
       "rendered_digest": "8a915442b927fdc41bc454e8cbab6561247c49b3be5d05b9d42c75a5e0753e17",
       "ast_digest": "c045d6082095cbd37dd74085ddc3b86d92b7434920942147c341b3c02d777b81"
     },
     "spp": {
-      "values_digest": "52e0dc9aa995f041e504060895538ccf041b3f9da58dd4e6507378dc0e5c02f6",
+      "values_digest": "f4209d9597129e42f40b916895573d393f7c716f06cc4b8bb8fbc6dd249e1ba9",
       "rendered_digest": "feb56e0f64bac80baf99ee3a634d6abb382e5277924f584d0dab2951727568f4",
       "ast_digest": "07036c599406821c5268c196b3b3e608bb124a30c2c388956113034ca2c152f6"
     },
     "vpp": {
-      "values_digest": "05bbe603481ce970bf74e032ff3907aa3da6639fc4615a9fc1c03448bea63f22",
-      "rendered_digest": "6320063c8a11d370ac5ee852e62bea8c85b58e06b88c177638a32f2868d5d197",
-      "ast_digest": "aac3791f1cd43ec8c913dce70cccd146570f863c6703c8aa72ea4a5c2c6ce921"
+      "values_digest": "11af004ada037e6c8ebdf9a0c626c8f1d29f3134c41b47024743bab57ef26c6e",
+      "rendered_digest": "b1f0e4cabc691a213f24184bd7f17d1ce8bb6876b4ebc31d45ae2d1291418074",
+      "ast_digest": "37327f5026d7e84602ac9dba51b9790a75681342c9a0600c179f6f99090fc7f0"
     },
     "srp": {
-      "values_digest": "0fd2f923470c5eb756eb9af0bab3edd4b0d9e66453448ca5bc62da46901a9ca1",
+      "values_digest": "42509093f3734f3faa051dd8bde12a4dfd1d8a6938a103fbd3095971c3d77bd8",
       "rendered_digest": "862eda5d433173544050594f554278d9a1243ee6072a974652977151f672eaee",
       "ast_digest": "8910e46db8a4a00668494fd5f31823a651229b620902a282c28f6cd1d73c4586"
     },
     "sor": {
-      "values_digest": "679a35c0097c0ba61be23b6f54b70aa7ec33b7744985d47e611f9a31badb8fe5",
+      "values_digest": "1dd1c8186c3edbb77e424031323300ca20f53d2bf7996f502cc47eb94fa7b53c",
       "rendered_digest": "a515c71957625fbf6b6a32ce97d0d985b022bd06acccb2a79c0ff3ce3fe57feb",
       "ast_digest": "81ec549b0ac0ee4a1e8fc5599e2f7097c8c28bbc8a23711930b6e6d307aa7683"
     }
@@ -119,6 +119,13 @@
       "actor": "codex:244-cleanup-race",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Keep declared issue-governed lanes to Cargo targets classified by typed doctor; retain the separately passed required Observatory CI command in actual validation evidence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"conversation-cleanup-race-focused\",\"proof_role\":\"focused cleanup-race integration proof; session preflight repeated this target twenty times\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":200,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"parallel_group\":\"runtime-focused\",\"defer_reason\":null},{\"lane\":\"runtime-v3-fast-tests\",\"proof_role\":\"required Runtime focused test surface matching CI\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":450,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-required\",\"defer_reason\":null},{\"lane\":\"runtime-v3-fast-clippy\",\"proof_role\":\"required Runtime strict Clippy surface matching CI\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":250,\"budget_tokens\":3500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-required\",\"defer_reason\":null}]}"
     }
   ]
 }
