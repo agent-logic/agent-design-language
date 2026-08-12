@@ -99,6 +99,23 @@ fn rewrite_receipt_payload_and_rechain(
     }
 }
 
+fn rewrite_observation_index(observation: &mut serde_json::Value, index_bytes: &[u8]) {
+    let entries = observation["entries"]
+        .as_array_mut()
+        .expect("observation entries");
+    let index = entries
+        .iter_mut()
+        .find(|entry| entry["path"] == "index.json")
+        .expect("index observation");
+    index["size"] = serde_json::json!(index_bytes.len());
+    index["digest"] = serde_json::json!(blake3::hash(index_bytes).to_hex().to_string());
+    observation["manifest_digest"] = serde_json::json!(blake3::hash(
+        &serde_json::to_vec(entries).expect("manifest bytes")
+    )
+    .to_hex()
+    .to_string());
+}
+
 #[test]
 fn preserved_projection_recovery_archives_builds_installs_and_is_idempotent() {
     let (_temp, store, record) = implemented_fixture();
@@ -741,6 +758,127 @@ fn preserved_projection_recovery_rejects_rehashed_prepared_classification_forger
     let error = csdlc_v2::recover_preserved_projection(&store, request)
         .expect_err("rehashed PREPARED classification must be rejected");
     assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_coherent_candidate_chain_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "coherent candidate forgery fixture".into(),
+        },
+    )
+    .unwrap();
+    let request = recovery_request(&store, &record, &classify, "coherent-candidate-forgery");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).unwrap();
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/coherent-candidate-forgery");
+
+    let candidate_path = receipt_path(&attempt, 5, "candidate-created");
+    let mut candidate: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&candidate_path).unwrap()).unwrap();
+    let mut forged_record: csdlc_v2::IssueRecord =
+        serde_json::from_value(candidate["payload"]["record"].clone()).unwrap();
+    forged_record.repository = "forged/repository".into();
+    forged_record.digest.clear();
+    forged_record.digest = csdlc_v2::cards::digest(&serde_json::to_vec(&forged_record).unwrap());
+    let mut forged_index = serde_json::to_vec_pretty(&forged_record).unwrap();
+    forged_index.push(b'\n');
+    std::fs::write(store.issue_dir(7).join("index.json"), &forged_index).unwrap();
+
+    let mut candidate_observation = candidate["payload"]["candidate"].clone();
+    candidate_observation["record_digest"] = serde_json::json!(forged_record.digest);
+    rewrite_observation_index(&mut candidate_observation, &forged_index);
+    candidate["payload"]["record"] = serde_json::to_value(&forged_record).unwrap();
+    candidate["payload"]["candidate"] = candidate_observation.clone();
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        5,
+        "candidate-created",
+        candidate["payload"].clone(),
+    );
+
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        6,
+        "candidate-verified",
+        serde_json::json!({"candidate":candidate_observation,"record_digest":forged_record.digest,"generation":forged_record.generation}),
+    );
+    let mut installed = candidate_observation.clone();
+    installed["name"] = serde_json::json!("canonical");
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        7,
+        "install-intent",
+        serde_json::json!({"exchange":true,"candidate":candidate_observation,"canonical":classify.canonical}),
+    );
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        8,
+        "canonical-installed",
+        serde_json::json!({"canonical":installed}),
+    );
+    let archived: serde_json::Value = serde_json::from_value::<serde_json::Value>(
+        serde_json::from_slice::<serde_json::Value>(
+            &std::fs::read(receipt_path(&attempt, 11, "canonical-verified")).unwrap(),
+        )
+        .unwrap()["payload"]["archive"]
+            .clone(),
+    )
+    .unwrap();
+    let displaced = serde_json::from_slice::<serde_json::Value>(
+        &std::fs::read(receipt_path(&attempt, 10, "prior-displaced")).unwrap(),
+    )
+    .unwrap()["payload"]
+        .clone();
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        11,
+        "canonical-verified",
+        serde_json::json!({"canonical":installed,"archive":archived,"displaced":displaced}),
+    );
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        12,
+        "recovery-complete-intent",
+        serde_json::json!({"canonical_digest":forged_record.digest,"generation":forged_record.generation}),
+    );
+    let mut terminal: csdlc_v2::ProjectionRecoveryResult = serde_json::from_value(
+        serde_json::from_slice::<serde_json::Value>(
+            &std::fs::read(receipt_path(&attempt, 13, "recovered")).unwrap(),
+        )
+        .unwrap()["payload"]
+            .clone(),
+    )
+    .unwrap();
+    terminal.canonical_digest = forged_record.digest;
+    terminal.receipt_digest.clear();
+    terminal.receipt_digest = blake3::hash(&serde_json::to_vec(&terminal).unwrap())
+        .to_hex()
+        .to_string();
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        13,
+        "recovered",
+        serde_json::to_value(terminal).unwrap(),
+    );
+
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("coherent candidate chain forgery must fail closed");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert_eq!(
+        error.message,
+        "candidate-created receipt does not match authorized recovery transform"
+    );
 }
 
 #[test]

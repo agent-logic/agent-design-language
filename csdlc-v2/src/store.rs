@@ -262,17 +262,20 @@ impl Store {
         if recovery_root.is_dir() {
             for entry in fs::read_dir(&recovery_root)? {
                 let entry = entry?;
-                if !entry.file_type()?.is_dir()
-                    || crate::projection_recovery::validate_completed_recovery_attempt(
-                        self,
-                        issue,
-                        &entry.path(),
-                    )
-                    .is_err()
-                {
+                if !entry.file_type()?.is_dir() {
                     return Err(V2Error::new(
                         ErrorCode::ReconciliationRequired,
                         "incomplete typed projection recovery must reach verified RECOVERED before ordinary commit",
+                    ));
+                }
+                if let Err(error) = crate::projection_recovery::validate_completed_recovery_attempt(
+                    self,
+                    issue,
+                    &entry.path(),
+                ) {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        format!("incomplete typed projection recovery must reach verified RECOVERED before ordinary commit: {}", error.message),
                     ));
                 }
             }
@@ -448,7 +451,43 @@ impl Store {
                 read_json(&source.join("cards").join(format!("{kind}.values.json")))?,
             );
         }
-        verify_cards(self, &record, &cards)?;
+        verify_record(&record)?;
+        for (kind, values) in &cards {
+            let rendered = render(values)?;
+            let projection = record.cards.get(kind).ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("missing {kind} projection"),
+                )
+            })?;
+            if values.kind() != *kind
+                || values.identity.issue != record.issue
+                || values.identity.repository != record.repository
+                || values.identity.generation != record.generation
+                || projection.values_digest != rendered.values_digest
+                || projection.rendered_digest != rendered.rendered_digest
+                || projection.ast_digest != rendered.ast_digest
+                || digest(&fs::read(source.join("cards").join(format!("{kind}.md")))?)
+                    != rendered.rendered_digest
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("recovery source {kind} projection drift"),
+                ));
+            }
+        }
+        let mut expected_audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut expected_audit, event)?;
+            expected_audit.push(b'\n');
+        }
+        if fs::read(source.join("audit.jsonl"))? != expected_audit {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery source audit projection drift",
+            ));
+        }
+        validate_updated_cards(self, &record, &cards)?;
         record.generation += 1;
         for values in cards.values_mut() {
             values.identity.generation = record.generation;

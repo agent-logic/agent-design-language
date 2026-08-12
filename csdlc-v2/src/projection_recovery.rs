@@ -1073,6 +1073,24 @@ pub(crate) fn validate_completed_recovery_attempt(
             "candidate-created receipt is not self-consistent",
         ));
     }
+    let prior_digest = prior_observation
+        .record_digest
+        .as_deref()
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "PREPARED prior digest missing"))?;
+    let (derived_record, derived_files) = store.projection_recovery_candidate_files_locked(
+        issue,
+        &attempt.join("displaced"),
+        prior_digest,
+        prepared_request.actor.clone(),
+        prepared_request.reason.clone(),
+        audit_commitment.to_string(),
+    )?;
+    if candidate_record != derived_record {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "candidate-created receipt does not match authorized recovery transform",
+        ));
+    }
     require_receipt_payload(
         attempt,
         6,
@@ -1127,6 +1145,40 @@ pub(crate) fn validate_completed_recovery_attempt(
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
             "displaced receipt does not match typed prior source",
+        ));
+    }
+    let prior_digest = prior_observation
+        .record_digest
+        .as_deref()
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "verified prior digest missing"))?;
+    let (expected_candidate_record, expected_candidate_files) = store
+        .projection_recovery_candidate_files_locked(
+            issue,
+            &attempt.join("displaced"),
+            prior_digest,
+            prepared_request.actor.clone(),
+            prepared_request.reason.clone(),
+            audit_commitment.to_string(),
+        )?;
+    let exact_candidate_files = candidate_observation
+        .entries
+        .iter()
+        .filter(|entry| entry.identity.node_type == "regular")
+        .count()
+        == expected_candidate_files.len()
+        && expected_candidate_files.iter().all(|(path, bytes)| {
+            let digest = blake3::hash(bytes).to_hex().to_string();
+            candidate_observation.entries.iter().any(|entry| {
+                entry.path == *path
+                    && entry.identity.node_type == "regular"
+                    && entry.size == bytes.len() as u64
+                    && entry.digest.as_deref() == Some(digest.as_str())
+            })
+        });
+    if candidate_record != expected_candidate_record || !exact_candidate_files {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "candidate does not equal the authorized recovery transformation",
         ));
     }
     require_receipt_payload(
@@ -1185,6 +1237,16 @@ pub(crate) fn validate_completed_recovery_attempt(
         ));
     }
     let canonical_record = validate_projection(&store.issue_dir(issue), issue)?;
+    if canonical_record.generation == result.canonical_generation {
+        for (relative, expected) in derived_files {
+            if fs::read(store.issue_dir(issue).join(&relative))? != expected {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "installed canonical artifact does not match authorized recovery transform",
+                ));
+            }
+        }
+    }
     let audit_bound = canonical_record.audit.iter().any(|event| {
         serde_json::from_str::<serde_json::Value>(&event.operation)
             .ok()
