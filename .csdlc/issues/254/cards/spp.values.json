@@ -7,7 +7,7 @@
     "title": "CI: eliminate repeated hosted workspace coverage compiles",
     "slug": "hosted-coverage-compile",
     "version": "v0.92",
-    "generation": 10
+    "generation": 11
   },
   "status": "ready",
   "content": {
