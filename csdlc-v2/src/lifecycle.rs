@@ -40,6 +40,10 @@ struct WorktreePolicy {
     required_parent: String,
 }
 
+fn requires_worktree_policy(repository: &str) -> bool {
+    repository.eq_ignore_ascii_case("agent-logic/agent-design-language")
+}
+
 fn enforce_worktree_policy(root: &Path, requested: &Path, required: bool) -> Result<()> {
     let policy_path = root.join(".adl/worktree-policy.json");
     if !policy_path.is_file() {
@@ -636,7 +640,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             &request.branch,
             stored_worktree.as_deref(),
         );
-    let policy_required = current_record.repository == "agent-logic/agent-design-language";
+    let policy_required = requires_worktree_policy(&current_record.repository);
     if !issue_local {
         enforce_worktree_policy(store.root(), &wanted, policy_required)?;
     }
@@ -864,7 +868,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
 
 #[cfg(test)]
 mod fastwork_policy_tests {
-    use super::{enforce_worktree_policy, existing_bound_issue_local};
+    use super::{enforce_worktree_policy, existing_bound_issue_local, requires_worktree_policy};
     use crate::LifecyclePhase;
     use std::fs;
     use std::path::Path;
@@ -913,6 +917,13 @@ mod fastwork_policy_tests {
         )
         .expect_err("missing mandatory policy should fail");
         assert!(error.message.contains("missing .adl/worktree-policy.json"));
+    }
+
+    #[test]
+    fn fastwork_policy_is_required_for_github_equivalent_repository_casing() {
+        assert!(requires_worktree_policy(
+            "Agent-Logic/Agent-Design-Language"
+        ));
     }
 
     #[test]

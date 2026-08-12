@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "eba116b5732a4b5f497dadabca6e906a6f9eb9dcd393ae704780074f01a773fe",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "40a7d4d0fc8beb9ffe44895a23d7a3896ccc26b00d9cac826b91008697e934a3",
+  "generation": 17,
+  "digest": "585c5a205bfbb516909a47ba9c9c7efe3b5d90046a9ef559ef4f2b84f23e9747",
   "branch": "codex/5911-fastwork-storage-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5911-fastwork-storage-policy",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "15df4ea0081072f508f50475c372a7a3bdbbc84b3584a05004422a53023e2dcc",
+      "values_digest": "57ff444d1dc1949f2dcef80caaf0c61651726d16894384ea6fc7735812a13875",
       "rendered_digest": "50d8426892e02179c4580c314aea63c6a17ea525229f22acb5707e52d60a46c7",
       "ast_digest": "3eb3ea1e6498c50e443dcec5bf981178d93caf68b11349f56efe7137e9e3732c"
     },
     "stp": {
-      "values_digest": "675bd1005257295b5c8ead4841032e600f6b58c2c994ee5c700e89877f65f49c",
+      "values_digest": "7ccc2b8d3345fba323aa9553573814e323746fd12126332ed4aee643ae54937b",
       "rendered_digest": "b633f7279064086c2b1e2a2cf7925433018552a9dd81ae45d213068ed69ffdbd",
       "ast_digest": "f68cd50f666c2f83f3fcb83b350475373e86b9d411a8340d42fdd0005126b67b"
     },
     "spp": {
-      "values_digest": "caeef7c50ff67fe3792152344f93e6b0b16dee17cd83cc731f075a7b954aec8e",
+      "values_digest": "dbba22f23596b4992ca76bdac33fc8c6cb14d5f17a9ac623630dc39c6e0eb72f",
       "rendered_digest": "b30508945a2ec5d553839b75fec7a8eab462771538092435b212a23b79461a18",
       "ast_digest": "19be4f70450bb723cc19101cfd65d7024a073ce28270ae531ea3a48dbde59390"
     },
     "vpp": {
-      "values_digest": "757429548b353157f0c6c6c9761d1c6de4216c4ceada73fb0cf8e83c0a1012d3",
-      "rendered_digest": "3f0e1b5e4e5196f52e2f044cabdd524f0fde2543e59488c361d42226289dd81a",
-      "ast_digest": "5c0bdf606ccdc6cdbcc82118a27eba132592456448db816c6c4b202e3e019007"
+      "values_digest": "9044443646e351e94276fd78f138dbbdc4a6e1224633c6a642a1daa8eb7c1a97",
+      "rendered_digest": "b2a0a37fba05894492caf16a3bd250138529e3b7a63072c8dc16d48d8e479059",
+      "ast_digest": "8511a86ca506470fad6aaf35c6d429832b9559b0e8d1eef211b3acb0e7d42d4f"
     },
     "srp": {
-      "values_digest": "7c6ce275c45dbb3ab11e4dce96398fbb00a794a494b429be55f69e5d0168dd60",
+      "values_digest": "0dc69ef51caa3e165364fa76e479db435c4dbe8ac0be01706877ddd8550daeeb",
       "rendered_digest": "00cf8cd7d25dc9763948f7043a05ecc91bd479985441609dd00ecedaf5645610",
       "ast_digest": "50c847daee158c8569c14bd4bc102fcb74fc241901037ad0c8c2198234607002"
     },
     "sor": {
-      "values_digest": "38006d515cbe35292d719f85267403c814a2363db886a858b7028bcc7310d94d",
+      "values_digest": "7336c2a14eb5ab0a09b7b8bad1434d9c05f2875d2827e145aa81fc891e047e68",
       "rendered_digest": "4bbca2f20860098cb0823de112e9de9cdad95193935543ebe6da591c03af3029",
       "ast_digest": "846f6cf3d0aff9d6dba6886606ca28e431cd14df8993fa1044cfebc031b66d0d"
     }
@@ -224,6 +224,13 @@
       "actor": "codex:issue-5911-ci-repair",
       "reason": "Hosted standalone CI exposed bind fixtures that still used same-checkout Ready binding after FastWork enforcement; recover stale publication review truth for exact-head rereview of the bounded fixture repairs.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "Declare the complete standalone C-SDLC v2 suite that covers the production policy and every bind fixture repaired after hosted CI.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-standalone-fastwork-policy\",\"proof_role\":\"The complete standalone C-SDLC v2 suite proves case-insensitive mandatory FastWork enforcement and all linked-worktree fixture compatibility paths changed by this issue.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"transcript-archive-verification\",\"proof_role\":\"Issue-owned archive tests prove manifest generation, digest verification, source preservation, and canonical FastWork containment.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":3000,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
     }
   ]
 }

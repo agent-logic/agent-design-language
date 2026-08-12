@@ -24,24 +24,22 @@ Diagram: .csdlc/prepared/issues/5911/design.mmd
 
 [
   {
-    "lane": "csdlc-bind-fastwork-policy",
-    "proof_role": "Focused Rust unit tests prove allowed FastWork binding, outside-parent refusal, and missing-policy refusal.",
+    "lane": "csdlc-v2-standalone-fastwork-policy",
+    "proof_role": "The complete standalone C-SDLC v2 suite proves case-insensitive mandatory FastWork enforcement and all linked-worktree fixture compatibility paths changed by this issue.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
       "AC-6"
     ],
     "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 2000,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
     "argv": [
       "cargo",
       "test",
       "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--lib",
-      "fastwork_policy"
+      "csdlc-v2/Cargo.toml"
     ],
     "parallel_group": "local",
     "defer_reason": null
@@ -80,7 +78,7 @@ Tokens: 25000
 
 ## Commands
 
-- `cargo test --manifest-path csdlc-v2/Cargo.toml --lib fastwork_policy`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml`
 - `bash adl/tools/test_archive_codex_sessions_to_fastwork.sh`
 
 ## Failure Semantics
