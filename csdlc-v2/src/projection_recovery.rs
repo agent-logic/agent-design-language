@@ -874,6 +874,45 @@ const RECOVERY_STATES: [&str; 13] = [
     "recovered",
 ];
 
+fn require_receipt_payload(
+    attempt: &Path,
+    seq: u32,
+    state: &str,
+    expected: serde_json::Value,
+    message: &str,
+) -> Result<()> {
+    let actual: serde_json::Value = receipt_payload(&receipt_path(attempt, seq, state))?;
+    if actual == expected {
+        Ok(())
+    } else {
+        Err(V2Error::new(ErrorCode::CorruptRecord, message))
+    }
+}
+
+fn observations_match_after_move(
+    actual: &CandidateObservation,
+    expected: &CandidateObservation,
+) -> bool {
+    actual.state == expected.state
+        && actual.valid_projection == expected.valid_projection
+        && actual.generation == expected.generation
+        && actual.record_digest == expected.record_digest
+        && actual.entries.len() == expected.entries.len()
+        && actual.entries.iter().zip(&expected.entries).all(|(a, e)| {
+            a.path == e.path
+                && a.size == e.size
+                && a.digest == e.digest
+                && a.identity.device == e.identity.device
+                && a.identity.mount_id == e.identity.mount_id
+                && a.identity.inode == e.identity.inode
+                && a.identity.links == e.identity.links
+                && a.identity.uid == e.identity.uid
+                && a.identity.gid == e.identity.gid
+                && a.identity.mode == e.identity.mode
+                && a.identity.node_type == e.identity.node_type
+        })
+}
+
 pub(crate) fn validate_completed_recovery_attempt(
     store: &Store,
     issue: u64,
@@ -934,22 +973,151 @@ pub(crate) fn validate_completed_recovery_attempt(
             "PREPARED classification or lineage authority invalid",
         ));
     }
-    let archive_intent: serde_json::Value =
-        receipt_payload(&receipt_path(attempt, 2, "archive-intent"))?;
-    if archive_intent.get("destination").and_then(|v| v.as_str()) != Some("rejected") {
+    let prior_observation = if prepared_classification.canonical.valid_projection {
+        prepared_classification.canonical.clone()
+    } else {
+        prepared_classification.backup.clone()
+    };
+    let rejected_observation = if matches!(
+        prepared_request.anchor,
+        ProjectionCasAnchor::ExactObservedInvalid { .. }
+    ) {
+        prepared_classification.canonical.clone()
+    } else {
+        prepared_classification.preserved.clone()
+    };
+    let install_exchange = matches!(
+        prepared_request.anchor,
+        ProjectionCasAnchor::VerifiedCanonical { .. }
+    );
+    require_receipt_payload(
+        attempt,
+        2,
+        "archive-intent",
+        serde_json::json!({"source":rejected_observation,"destination":"rejected"}),
+        "archive intent receipt does not match typed recovery sources",
+    )?;
+    let archived = observe(&attempt.join("rejected"), "archive", issue);
+    require_receipt_payload(
+        attempt,
+        3,
+        "rejected-archived",
+        serde_json::to_value(&archived)?,
+        "archived receipt does not match retained rejected evidence",
+    )?;
+    let audit_commitment = serde_json::json!({
+        "operation":"recover_preserved_projection",
+        "operation_id":prepared_request.operation_id,
+        "classify_receipt":prepared_request.classify_receipt_digest,
+        "anchor":prepared_request.anchor,
+        "lineage":prepared_request.failed_operation_lineage,
+        "archived_manifest":archived.manifest_digest,
+        "prior_generation":prior_observation.generation,
+        "prior_digest":prior_observation.record_digest,
+        "canonical_generation":prior_observation.generation.map(|v| v + 1)
+    });
+    require_receipt_payload(
+        attempt,
+        4,
+        "candidate-plan",
+        serde_json::json!({"source":prior_observation,"destination":"candidate","audit":audit_commitment}),
+        "candidate plan receipt does not match typed recovery audit",
+    )?;
+    let candidate_created: serde_json::Value =
+        receipt_payload(&receipt_path(attempt, 5, "candidate-created"))?;
+    let candidate_record: IssueRecord =
+        serde_json::from_value(candidate_created.get("record").cloned().ok_or_else(|| {
+            V2Error::new(ErrorCode::CorruptRecord, "candidate-created record missing")
+        })?)?;
+    let candidate_observation: CandidateObservation = serde_json::from_value(
+        candidate_created
+            .get("candidate")
+            .cloned()
+            .ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "candidate-created observation missing",
+                )
+            })?,
+    )?;
+    if crate::store::record_digest(&candidate_record)? != candidate_record.digest
+        || !candidate_observation.valid_projection
+        || candidate_observation.generation != Some(candidate_record.generation)
+        || candidate_observation.record_digest.as_deref() != Some(candidate_record.digest.as_str())
+    {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
-            "archive intent semantics invalid",
+            "candidate-created receipt is not self-consistent",
         ));
     }
-    let candidate_plan: serde_json::Value =
-        receipt_payload(&receipt_path(attempt, 4, "candidate-plan"))?;
-    let audit_commitment = candidate_plan.get("audit").cloned().ok_or_else(|| {
-        V2Error::new(
+    require_receipt_payload(
+        attempt,
+        6,
+        "candidate-verified",
+        serde_json::json!({"candidate":candidate_observation,"record_digest":candidate_record.digest,"generation":candidate_record.generation}),
+        "candidate-verified receipt does not match created candidate",
+    )?;
+    require_receipt_payload(
+        attempt,
+        7,
+        "install-intent",
+        serde_json::json!({"exchange":install_exchange,"candidate":candidate_observation,"canonical":prepared_classification.canonical}),
+        "install intent receipt does not match candidate or anchor mode",
+    )?;
+    let canonical_installed: serde_json::Value =
+        receipt_payload(&receipt_path(attempt, 8, "canonical-installed"))?;
+    let installed_observation: CandidateObservation =
+        serde_json::from_value(canonical_installed.get("canonical").cloned().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "canonical-installed observation missing",
+            )
+        })?)?;
+    if !observations_match_after_move(&installed_observation, &candidate_observation) {
+        return Err(V2Error::new(
             ErrorCode::CorruptRecord,
-            "candidate audit commitment missing",
-        )
-    })?;
+            "canonical-installed receipt does not match created candidate",
+        ));
+    }
+    require_receipt_payload(
+        attempt,
+        9,
+        "displace-intent",
+        if install_exchange {
+            serde_json::json!({"source":prior_observation,"destination":"displaced"})
+        } else {
+            serde_json::json!({"source":prior_observation,"destination":"displaced","completed_before_install":true})
+        },
+        "displace intent receipt does not match typed prior source",
+    )?;
+    let displaced = observe(&attempt.join("displaced"), "displaced", issue);
+    require_receipt_payload(
+        attempt,
+        10,
+        "prior-displaced",
+        serde_json::to_value(&displaced)?,
+        "prior-displaced receipt does not match retained displaced evidence",
+    )?;
+    if !observations_match_after_move(&displaced, &prior_observation) {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "displaced receipt does not match typed prior source",
+        ));
+    }
+    require_receipt_payload(
+        attempt,
+        11,
+        "canonical-verified",
+        serde_json::json!({"canonical":installed_observation,"archive":archived,"displaced":displaced}),
+        "canonical-verified receipt does not match installed recovery state",
+    )?;
+    require_receipt_payload(
+        attempt,
+        12,
+        "recovery-complete-intent",
+        serde_json::json!({"canonical_digest":candidate_record.digest,"generation":candidate_record.generation}),
+        "recovery complete intent does not match candidate record",
+    )?;
     let result: ProjectionRecoveryResult =
         receipt_payload(&receipt_path(attempt, 13, "recovered"))?;
     let operation = attempt
@@ -981,6 +1149,14 @@ pub(crate) fn validate_completed_recovery_attempt(
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
             "terminal recovery result self-digest invalid",
+        ));
+    }
+    if result.canonical_generation != candidate_record.generation
+        || result.canonical_digest != candidate_record.digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "terminal recovery result does not match verified candidate record",
         ));
     }
     let canonical_record = validate_projection(&store.issue_dir(issue), issue)?;
