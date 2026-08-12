@@ -30,7 +30,10 @@ use tokio_util::sync::CancellationToken;
 use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
-use crate::layer8_authority::{AuthorityDecision, Layer8Action, Layer8ConversationAuthority};
+use crate::layer8_authority::{
+    AuthorityDecision, Layer8Action, Layer8ConversationAuthority, Layer8SignedExchange,
+    SignedIdentityMessage,
+};
 
 use crate::{
     decode_acip_envelope, AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy,
@@ -609,12 +612,13 @@ struct ConversationDispatch {
     cancellation: CancellationToken,
     dispatch_gate: Arc<ConversationDispatchGate>,
     work_id: String,
+    signed_request: SignedIdentityMessage,
 }
 
 enum ConversationAcceptance {
     Dispatch {
         accepted: ObservatoryConversationResult,
-        dispatch: ConversationDispatch,
+        dispatch: Box<ConversationDispatch>,
     },
     Response(ObservatoryConversationResult),
 }
@@ -639,6 +643,7 @@ pub struct ControlService<C> {
     public_base_url: Mutex<String>,
     canonical_ingress: Option<CanonicalIngress>,
     layer8_authority: Option<Arc<Layer8ConversationAuthority>>,
+    layer8_signed_exchange: Option<Arc<Layer8SignedExchange>>,
     agent_roster_token_key: Mutex<[u8; 32]>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
 }
@@ -726,6 +731,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             public_base_url: Mutex::new("https://localhost".to_owned()),
             canonical_ingress: None,
             layer8_authority: None,
+            layer8_signed_exchange: None,
             agent_roster_token_key: Mutex::new(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.ephemeral.v1",
                 uuid::Uuid::new_v4().as_bytes(),
@@ -762,6 +768,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     pub fn with_layer8_authority(mut self, authority: Layer8ConversationAuthority) -> Self {
         self.layer8_authority = Some(Arc::new(authority));
+        self
+    }
+
+    pub fn with_layer8_signed_exchange(mut self, exchange: Layer8SignedExchange) -> Self {
+        self.layer8_signed_exchange = Some(Arc::new(exchange));
         self
     }
 
@@ -849,6 +860,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 None,
             ));
         };
+        let Some(signed_exchange) = self.layer8_signed_exchange.as_ref() else {
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_signing_unavailable",
+                None,
+            ));
+        };
         let fingerprint = match serde_json::to_vec(intent) {
             Ok(bytes) => blake3::hash(&bytes).to_hex().to_string(),
             Err(_) => {
@@ -910,6 +928,46 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "{}:{}:{}:{}",
             self.instance_id, intent.conversation_id, intent.turn_id, credential_generation
         );
+        let payload_json = match serde_jcs::to_string(&serde_json::json!({
+            "message": intent.message,
+            "recipient_id": intent.recipient_id,
+        })) {
+            Ok(payload) => payload,
+            Err(_) => {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "invalid_conversation_intent",
+                    None,
+                ))
+            }
+        };
+        let signed_request = match signed_exchange.signed_request(
+            &intent.recipient_id,
+            &intent.conversation_id,
+            &intent.correlation_id,
+            &replay_id,
+            payload_json,
+            now_unix_millis() / 1_000,
+        ) {
+            Ok(request) => request,
+            Err(_) => {
+                return ConversationAcceptance::Response(outcome(
+                    "failed",
+                    "conversation_signing_unavailable",
+                    None,
+                ))
+            }
+        };
+        if signed_exchange
+            .verify_request(&signed_request, now_unix_millis() / 1_000)
+            .is_err()
+        {
+            return ConversationAcceptance::Response(outcome(
+                "refused",
+                "conversation_request_signature_invalid",
+                None,
+            ));
+        }
         if !matches!(
             authority.authorize(
                 action,
@@ -1030,13 +1088,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         );
         ConversationAcceptance::Dispatch {
             accepted,
-            dispatch: ConversationDispatch {
+            dispatch: Box::new(ConversationDispatch {
                 intent: intent.clone(),
                 sequence,
                 cancellation,
                 dispatch_gate: session.dispatch_gate.clone(),
                 work_id,
-            },
+                signed_request,
+            }),
         }
     }
 
@@ -1115,18 +1174,63 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                 .and_then(serde_json::Value::as_str)
                                 .map(str::to_owned);
                             match reply {
-                                Some(reply) => ObservatoryConversationResult {
-                                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-                                    status: "delivered",
-                                    conversation_id: dispatch.intent.conversation_id.clone(),
-                                    turn_id: dispatch.intent.turn_id.clone(),
-                                    recipient_id: dispatch.intent.recipient_id.clone(),
-                                    correlation_id: dispatch.intent.correlation_id.clone(),
-                                    reply: Some(reply),
-                                    accepted_sequence: Some(result.accepted_sequence),
-                                    turn_sequence: Some(dispatch.sequence),
-                                    error: None,
-                                },
+                                Some(reply) => {
+                                    let now = now_unix_millis() / 1_000;
+                                    let acknowledgement =
+                                        serde_jcs::to_string(&serde_json::json!({
+                                            "accepted_sequence": result.accepted_sequence,
+                                            "status": "delivered",
+                                        }))
+                                        .map_err(|_| ())
+                                        .and_then(|payload| {
+                                            self.layer8_signed_exchange.as_ref().ok_or(()).and_then(
+                                                |exchange| {
+                                                    exchange
+                                                        .recipient_acknowledgement(
+                                                            &dispatch.signed_request,
+                                                            payload,
+                                                            now,
+                                                        )
+                                                        .map_err(|_| ())
+                                                },
+                                            )
+                                        })
+                                        .and_then(
+                                            |ack| {
+                                                self.layer8_signed_exchange
+                                                    .as_ref()
+                                                    .ok_or(())
+                                                    .and_then(|exchange| {
+                                                        exchange
+                                                            .verify_request_and_acknowledgement(
+                                                                &dispatch.signed_request,
+                                                                &ack,
+                                                                now,
+                                                            )
+                                                            .map_err(|_| ())
+                                                    })
+                                            },
+                                        );
+                                    if acknowledgement.is_err() {
+                                        outcome("refused", "recipient_acknowledgement_invalid")
+                                    } else {
+                                        ObservatoryConversationResult {
+                                            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                                            status: "delivered",
+                                            conversation_id: dispatch
+                                                .intent
+                                                .conversation_id
+                                                .clone(),
+                                            turn_id: dispatch.intent.turn_id.clone(),
+                                            recipient_id: dispatch.intent.recipient_id.clone(),
+                                            correlation_id: dispatch.intent.correlation_id.clone(),
+                                            reply: Some(reply),
+                                            accepted_sequence: Some(result.accepted_sequence),
+                                            turn_sequence: Some(dispatch.sequence),
+                                            error: None,
+                                        }
+                                    }
+                                }
                                 None => outcome("failed", "conversation_reply_unavailable"),
                             }
                         }
@@ -2777,7 +2881,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 .map(|token| *blake3::hash(token.as_bytes()).as_bytes())
                                 .expect("authenticated conversation dispatch has a bearer token");
                             tokio::spawn(async move {
-                                let result = service.complete_conversation_dispatch(dispatch).await;
+                                let result = service.complete_conversation_dispatch(*dispatch).await;
                                 let _ = results
                                     .send((authorized_generation, authorized_token_digest, result))
                                     .await;

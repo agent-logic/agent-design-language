@@ -41,7 +41,9 @@ use adl_runtime::continuity_history::{
     LIFELOG_DB_FILE, LIFELOG_SCHEMA_V1,
 };
 use adl_runtime::layer8_authority::{
-    AuthorityDecision, Layer8Action, Layer8ConversationAuthority, PublicRefusal,
+    verify_recipient_acknowledgement, verify_signed_identity_message, AuthorityDecision,
+    CommunicationVerifyingIdentity, Layer8Action, Layer8ConversationAuthority, PublicRefusal,
+    SignedIdentityMessage,
 };
 use adl_runtime::resident_agent::CsmResidentAgentSet;
 use adl_runtime::runtime_api_auth::{
@@ -70,22 +72,57 @@ pub struct Layer8RuntimeDeliveryRequest {
     pub replay_id: String,
     pub correlation_id: String,
     pub now_epoch_secs: u64,
+    pub signed_request: SignedIdentityMessage,
+    pub sender_identity: CommunicationVerifyingIdentity,
+}
+
+pub struct Layer8RuntimeDelivery<T> {
+    pub value: T,
+    pub acknowledgement: SignedIdentityMessage,
+    pub recipient_identity: CommunicationVerifyingIdentity,
 }
 
 pub fn authorize_layer8_runtime_delivery<T>(
     authority: &Layer8ConversationAuthority,
     request: Layer8RuntimeDeliveryRequest,
-    deliver: impl FnOnce() -> T,
+    deliver: impl FnOnce() -> Layer8RuntimeDelivery<T>,
 ) -> Result<T, PublicRefusal> {
+    verify_signed_identity_message(
+        &request.signed_request,
+        &request.sender_identity,
+        &request.recipient_id,
+        request.now_epoch_secs,
+    )
+    .map_err(|reason| PublicRefusal {
+        authorized: false,
+        reason,
+        retryable: false,
+        correlation_id: request.correlation_id.clone(),
+    })?;
     match authority.authorize(
-        request.action,
-        request.conversation_id,
-        request.recipient_id,
-        request.replay_id,
-        request.correlation_id,
+        request.action.clone(),
+        request.conversation_id.clone(),
+        request.recipient_id.clone(),
+        request.replay_id.clone(),
+        request.correlation_id.clone(),
         request.now_epoch_secs,
     ) {
-        AuthorityDecision::Authorized(_) => Ok(deliver()),
+        AuthorityDecision::Authorized(_) => {
+            let delivered = deliver();
+            verify_recipient_acknowledgement(
+                &request.signed_request,
+                &delivered.acknowledgement,
+                &delivered.recipient_identity,
+                request.now_epoch_secs,
+            )
+            .map_err(|reason| PublicRefusal {
+                authorized: false,
+                reason,
+                retryable: false,
+                correlation_id: request.correlation_id.clone(),
+            })?;
+            Ok(delivered.value)
+        }
         AuthorityDecision::Refused(refusal) => Err(refusal),
     }
 }

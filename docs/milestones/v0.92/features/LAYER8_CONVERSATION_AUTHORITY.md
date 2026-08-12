@@ -26,6 +26,29 @@ The existing `#111` conversation schemas remain the carrier contract:
 This issue-owned presentation contract does not add browser authority, change
 the Runtime schemas, or modify the `#111` UI implementation.
 
+## Production identity and policy inputs
+
+The live Runtime fails closed unless both `ADL_LAYER8_AUTHORITY_PROFILE` and
+`ADL_LAYER8_SIGNING_PROFILE` name readable JSON profiles outside repository
+state. The authority profile supplies current authenticated identity evidence,
+pre-existing capabilities, and separate agent and polis policies. A request is
+matched against those grants; it cannot manufacture a request-shaped grant or
+declare its own credential generation.
+
+The signing profile maps the sender and each recipient principal to a key id
+and an external Ed25519 private-key file. Key files contain one hex-encoded
+32-byte secret and are read only during Runtime initialization. They must not
+be stored in the repository, browser storage, Observatory payloads, audit
+records, or rendered output. The profile polis id must match the live Runtime
+instance.
+
+For every authorized delivery the Runtime constructs and verifies the shared
+signed ACIP request before dispatch. It reports `delivered` only after a
+recipient-key acknowledgement verifies against the request's exact sender,
+recipient, polis, conversation, correlation, and causation identity. Missing,
+expired, malformed, revoked, substituted, or mismatched evidence refuses or
+fails the conversation without exposing signing material.
+
 ## Authorized presentation
 
 An operator turn becomes visible only after a matching Runtime result proves

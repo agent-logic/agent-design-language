@@ -1,12 +1,13 @@
 //! Runtime-owned authorization for governed Layer 8 conversation actions.
 
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
 use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
 
-use ed25519_dalek::{Signature, Verifier, VerifyingKey};
+use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
 use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -54,6 +55,220 @@ pub struct CommunicationVerifyingIdentity {
     pub revoked: bool,
     pub not_before_epoch_secs: u64,
     pub expires_at_epoch_secs: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CommunicationKeyDescriptor {
+    pub principal_id: String,
+    pub polis_id: String,
+    pub signing_key_id: String,
+    pub private_key_file: PathBuf,
+    pub not_before_epoch_secs: u64,
+    pub expires_at_epoch_secs: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ConversationSigningProfile {
+    pub sender: CommunicationKeyDescriptor,
+    pub recipients: Vec<CommunicationKeyDescriptor>,
+}
+
+#[derive(Debug)]
+struct CommunicationSigningIdentity {
+    descriptor: CommunicationKeyDescriptor,
+    signing_key: SigningKey,
+}
+
+#[derive(Debug)]
+pub struct Layer8SignedExchange {
+    sender: CommunicationSigningIdentity,
+    recipients: BTreeMap<String, CommunicationSigningIdentity>,
+    sequence: AtomicU64,
+}
+
+impl Layer8SignedExchange {
+    pub fn load(profile: ConversationSigningProfile) -> Result<Self, RefusalReason> {
+        let load = |descriptor: CommunicationKeyDescriptor| {
+            let encoded = std::fs::read_to_string(&descriptor.private_key_file)
+                .map_err(|_| RefusalReason::IdentityUnavailable)?;
+            let bytes =
+                hex::decode(encoded.trim()).map_err(|_| RefusalReason::IdentityUnavailable)?;
+            let secret: [u8; 32] = bytes
+                .try_into()
+                .map_err(|_| RefusalReason::IdentityUnavailable)?;
+            Ok(CommunicationSigningIdentity {
+                descriptor,
+                signing_key: SigningKey::from_bytes(&secret),
+            })
+        };
+        let sender = load(profile.sender)?;
+        let mut recipients = BTreeMap::new();
+        for descriptor in profile.recipients {
+            let identity = load(descriptor)?;
+            if recipients
+                .insert(identity.descriptor.principal_id.clone(), identity)
+                .is_some()
+            {
+                return Err(RefusalReason::InvalidRequest);
+            }
+        }
+        if recipients.is_empty() {
+            return Err(RefusalReason::InvalidRequest);
+        }
+        Ok(Self {
+            sender,
+            recipients,
+            sequence: AtomicU64::new(0),
+        })
+    }
+
+    pub fn signed_request(
+        &self,
+        recipient_id: &str,
+        conversation_id: &str,
+        correlation_id: &str,
+        replay_id: &str,
+        payload_json: String,
+        now: u64,
+    ) -> Result<SignedIdentityMessage, RefusalReason> {
+        self.sign(
+            &self.sender,
+            IdentityMessageKind::Request,
+            recipient_id,
+            conversation_id,
+            correlation_id,
+            "",
+            replay_id,
+            payload_json,
+            now,
+        )
+    }
+
+    pub fn recipient_acknowledgement(
+        &self,
+        request: &SignedIdentityMessage,
+        payload_json: String,
+        now: u64,
+    ) -> Result<SignedIdentityMessage, RefusalReason> {
+        let recipient = self
+            .recipients
+            .get(&request.recipient_id)
+            .ok_or(RefusalReason::IdentityUnavailable)?;
+        self.sign(
+            recipient,
+            IdentityMessageKind::Acknowledgement,
+            &request.sender_id,
+            &request.conversation_id,
+            &request.correlation_id,
+            &request.message_id,
+            &format!("ack:{}", request.replay_id),
+            payload_json,
+            now,
+        )
+    }
+
+    pub fn verify_request_and_acknowledgement(
+        &self,
+        request: &SignedIdentityMessage,
+        acknowledgement: &SignedIdentityMessage,
+        now: u64,
+    ) -> Result<(), RefusalReason> {
+        self.verify_request(request, now)?;
+        let recipient = self
+            .recipients
+            .get(&request.recipient_id)
+            .ok_or(RefusalReason::IdentityUnavailable)?;
+        verify_recipient_acknowledgement(request, acknowledgement, &self.verifying(recipient), now)
+    }
+
+    pub fn verify_request(
+        &self,
+        request: &SignedIdentityMessage,
+        now: u64,
+    ) -> Result<(), RefusalReason> {
+        if request.message_kind != IdentityMessageKind::Request {
+            return Err(RefusalReason::InvalidRequest);
+        }
+        verify_signed_identity_message(
+            request,
+            &self.verifying(&self.sender),
+            &request.recipient_id,
+            now,
+        )
+    }
+
+    pub fn sender_verifying_identity(&self) -> CommunicationVerifyingIdentity {
+        self.verifying(&self.sender)
+    }
+
+    pub fn recipient_verifying_identity(
+        &self,
+        recipient_id: &str,
+    ) -> Result<CommunicationVerifyingIdentity, RefusalReason> {
+        self.recipients
+            .get(recipient_id)
+            .map(|identity| self.verifying(identity))
+            .ok_or(RefusalReason::IdentityUnavailable)
+    }
+
+    fn verifying(&self, identity: &CommunicationSigningIdentity) -> CommunicationVerifyingIdentity {
+        CommunicationVerifyingIdentity {
+            principal_id: identity.descriptor.principal_id.clone(),
+            polis_id: identity.descriptor.polis_id.clone(),
+            signing_key_id: identity.descriptor.signing_key_id.clone(),
+            verifying_key: identity.signing_key.verifying_key(),
+            revoked: false,
+            not_before_epoch_secs: identity.descriptor.not_before_epoch_secs,
+            expires_at_epoch_secs: identity.descriptor.expires_at_epoch_secs,
+        }
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn sign(
+        &self,
+        identity: &CommunicationSigningIdentity,
+        message_kind: IdentityMessageKind,
+        recipient_id: &str,
+        conversation_id: &str,
+        correlation_id: &str,
+        causation_id: &str,
+        replay_id: &str,
+        payload_json: String,
+        now: u64,
+    ) -> Result<SignedIdentityMessage, RefusalReason> {
+        let sequence = self
+            .sequence
+            .fetch_add(1, Ordering::SeqCst)
+            .checked_add(1)
+            .ok_or(RefusalReason::InvalidRequest)?;
+        let mut message = SignedIdentityMessage {
+            schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+            message_kind,
+            message_id: format!("{}-{sequence}", identity.descriptor.signing_key_id),
+            sender_id: identity.descriptor.principal_id.clone(),
+            recipient_id: recipient_id.to_owned(),
+            polis_id: identity.descriptor.polis_id.clone(),
+            conversation_id: conversation_id.to_owned(),
+            correlation_id: correlation_id.to_owned(),
+            causation_id: causation_id.to_owned(),
+            replay_id: replay_id.to_owned(),
+            monotonic_sequence: sequence,
+            issued_at_epoch_secs: now,
+            expires_at_epoch_secs: now.saturating_add(60),
+            payload_json,
+            signing_key_id: identity.descriptor.signing_key_id.clone(),
+            signature: String::new(),
+        };
+        message.signature = hex::encode(
+            identity
+                .signing_key
+                .sign(&message.signing_bytes()?)
+                .to_bytes(),
+        );
+        Ok(message)
+    }
 }
 
 impl SignedIdentityMessage {
@@ -158,7 +373,8 @@ pub struct Layer8Principal {
     pub credential_generation: u64,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct RuntimeIdentityEvidence {
     pub principal_id: String,
     pub polis_id: String,
@@ -196,7 +412,8 @@ impl RuntimeIdentityEvidence {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct AuthorityScope {
     pub polis_id: String,
     pub action: Layer8Action,
@@ -205,7 +422,8 @@ pub struct AuthorityScope {
     pub attachment_id: Option<String>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct Layer8Capability {
     pub capability_id: String,
     pub principal_id: String,
@@ -215,7 +433,8 @@ pub struct Layer8Capability {
     pub revoked: bool,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct Layer8Policy {
     pub policy_id: String,
     pub available: bool,
@@ -361,18 +580,13 @@ pub struct Layer8AuthorityStore {
     state: Mutex<StoreState>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct ConversationAuthorityProfile {
-    pub principal_id: String,
-    pub polis_id: String,
-    pub current_credential_generation: u64,
-    pub identity_expires_at_epoch_secs: u64,
-    pub identity_revoked: bool,
-    pub policy_epoch: u64,
-    pub agent_policy_available: bool,
-    pub polis_policy_available: bool,
-    pub allowed_actions: BTreeSet<Layer8Action>,
-    pub allowed_recipients: BTreeSet<String>,
+    pub evidence: RuntimeIdentityEvidence,
+    pub capabilities: Vec<Layer8Capability>,
+    pub agent_policies: Vec<Layer8Policy>,
+    pub polis_policies: Vec<Layer8Policy>,
 }
 
 #[derive(Debug)]
@@ -386,11 +600,12 @@ impl Layer8ConversationAuthority {
         store: Layer8AuthorityStore,
         profile: ConversationAuthorityProfile,
     ) -> Result<Self, RefusalReason> {
-        if profile.principal_id.trim().is_empty()
-            || profile.polis_id.trim().is_empty()
-            || profile.current_credential_generation == 0
-            || profile.policy_epoch == 0
-            || profile.allowed_actions.is_empty()
+        if profile.evidence.principal_id.trim().is_empty()
+            || profile.evidence.polis_id.trim().is_empty()
+            || profile.evidence.current_credential_generation == 0
+            || profile.capabilities.is_empty()
+            || profile.agent_policies.is_empty()
+            || profile.polis_policies.is_empty()
         {
             return Err(RefusalReason::InvalidRequest);
         }
@@ -408,64 +623,46 @@ impl Layer8ConversationAuthority {
         now_epoch_secs: u64,
     ) -> AuthorityDecision {
         let recipients = BTreeSet::from([recipient_id]);
-        let requested_scope = AuthorityScope {
-            polis_id: self.profile.polis_id.clone(),
+        let request = AuthorityRequest {
+            evidence: self.profile.evidence.clone(),
             action: action.clone(),
             conversation_id: Some(conversation_id.clone()),
             recipients: recipients.clone(),
             attachment_id: None,
-        };
-        let allowed = self.profile.allowed_actions.contains(&action)
-            && recipients.is_subset(&self.profile.allowed_recipients);
-        let policy_scope = if allowed {
-            requested_scope.clone()
-        } else {
-            AuthorityScope {
-                recipients: BTreeSet::new(),
-                ..requested_scope.clone()
-            }
-        };
-        let expires_at_epoch_secs = self.profile.identity_expires_at_epoch_secs;
-        let request = AuthorityRequest {
-            evidence: RuntimeIdentityEvidence {
-                principal_id: self.profile.principal_id.clone(),
-                polis_id: self.profile.polis_id.clone(),
-                credential_generation: self.profile.current_credential_generation,
-                current_credential_generation: self.profile.current_credential_generation,
-                expires_at_epoch_secs,
-                revoked: self.profile.identity_revoked,
-                authenticated: true,
-            },
-            action,
-            conversation_id: Some(conversation_id),
-            recipients,
-            attachment_id: None,
             replay_id,
-            correlation_id,
+            correlation_id: correlation_id.clone(),
             now_epoch_secs,
         };
-        let capability = Layer8Capability {
-            capability_id: "layer8-conversation".to_owned(),
-            principal_id: self.profile.principal_id.clone(),
-            scope: requested_scope,
-            epoch: self.profile.policy_epoch,
-            expires_at_epoch_secs,
-            revoked: false,
+        let matches = |scope: &AuthorityScope| {
+            scope.polis_id == self.profile.evidence.polis_id
+                && scope.action == action
+                && scope
+                    .conversation_id
+                    .as_ref()
+                    .is_none_or(|allowed| allowed == &conversation_id)
+                && recipients.is_subset(&scope.recipients)
+                && scope.attachment_id.is_none()
         };
-        let agent_policy = Layer8Policy {
-            policy_id: "agent-conversation-policy".to_owned(),
-            available: self.profile.agent_policy_available,
-            scope: policy_scope.clone(),
-            epoch: self.profile.policy_epoch,
-        };
-        let polis_policy = Layer8Policy {
-            policy_id: "polis-conversation-policy".to_owned(),
-            available: self.profile.polis_policy_available,
-            scope: policy_scope,
-            epoch: self.profile.policy_epoch,
-        };
+        let capability = self
+            .profile
+            .capabilities
+            .iter()
+            .find(|item| matches(&item.scope))
+            .unwrap_or(&self.profile.capabilities[0]);
+        let agent_policy = self
+            .profile
+            .agent_policies
+            .iter()
+            .find(|item| matches(&item.scope))
+            .unwrap_or(&self.profile.agent_policies[0]);
+        let polis_policy = self
+            .profile
+            .polis_policies
+            .iter()
+            .find(|item| matches(&item.scope))
+            .unwrap_or(&self.profile.polis_policies[0]);
         self.store
-            .authorize(request, &capability, &agent_policy, &polis_policy)
+            .authorize(request, capability, agent_policy, polis_policy)
     }
 }
 
@@ -475,20 +672,15 @@ impl Layer8AuthorityStore {
         if let Some(parent) = path.parent() {
             std::fs::create_dir_all(parent).map_err(|_| RefusalReason::AuditUnavailable)?;
         }
-        let state;
-        match File::open(&path) {
-            Ok(file) => {
-                state = load_store_state(&file)?;
-            }
-            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-                state = StoreState {
-                    sequence: 0,
-                    head_hash: GENESIS_HASH.to_string(),
-                    replay_hashes: BTreeSet::new(),
-                };
-            }
+        let state = match File::open(&path) {
+            Ok(file) => load_store_state(&file)?,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => StoreState {
+                sequence: 0,
+                head_hash: GENESIS_HASH.to_string(),
+                replay_hashes: BTreeSet::new(),
+            },
             Err(_) => return Err(RefusalReason::AuditUnavailable),
-        }
+        };
         Ok(Self {
             path,
             state: Mutex::new(state),
@@ -641,8 +833,15 @@ fn scope_matches(
 ) -> bool {
     scope.polis_id == principal.polis_id
         && scope.action == request.action
-        && scope.conversation_id == request.conversation_id
-        && scope.recipients == request.recipients
+        && scope
+            .conversation_id
+            .as_ref()
+            .is_none_or(|allowed| request.conversation_id.as_ref() == Some(allowed))
+        && if request.action == Layer8Action::AddressRecipients {
+            request.recipients == scope.recipients
+        } else {
+            request.recipients.is_subset(&scope.recipients)
+        }
         && scope.attachment_id == request.attachment_id
         && !(request.action == Layer8Action::AddressRecipients && request.recipients.is_empty())
         && !(request.action == Layer8Action::Attach && request.attachment_id.is_none())
