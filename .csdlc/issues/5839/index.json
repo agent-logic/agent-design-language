@@ -6,13 +6,13 @@
   "initialization_digest": "10b57804d863de9ac5cda1e29dd5aeee90e4b00bd8f1569549bc8a878b5c5d6c",
   "phase": "implemented",
   "generation": 35,
-  "digest": "bbe8f805544e20c2b1d769bc496b17860bb88c06195c93dd070883d55a8844e9",
+  "digest": "5101380f1529f0b041d0710b4e04b8dae6b5badd95bea52904a4ae4d74d4e600",
   "branch": "codex/5839-birthday-governance-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5839-birthday-governance-handoff",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_5839_fast_exact",
+    "reviewer": "subagent:/root/review_5839_final_clean",
     "assigned_by": "codex:sprint5-5839-governance-handoff",
-    "revision": "git-blake3:edc14e601d4b122930845be40f2c99c22b22f255:5667b46c229477c9aa7e462e4ae3de2c5acee4cee2df33fdb599f5608471170b",
+    "revision": "git-blake3:1f8d0b21a36496af5c1c7c211e8daab4554e71b7:fb33fd05b51a0b1e360796f3de3491b65a5e486caa2e9cac57caa1e51ec2b76b",
     "scope": [
       "docs/milestones/v0.92/review/V092_TO_V093_GOVERNANCE_EVIDENCE_MAP.md",
       "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
@@ -463,6 +463,13 @@
     },
     {
       "sequence": 51,
+      "generation": 35,
+      "actor": "codex:sprint5-5839-governance-handoff",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 52,
       "generation": 35,
       "actor": "codex:sprint5-5839-governance-handoff",
       "reason": "assign bounded exact-revision review",
