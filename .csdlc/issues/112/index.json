@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
-  "phase": "bound",
-  "generation": 32,
-  "digest": "5b03b8600eebd71a2d011ae7ae7fd9247c5d3a664c108bb90103e88b3447b0e8",
+  "phase": "implemented",
+  "generation": 33,
+  "digest": "69a11d04e22621be8fb4025b5437cab145124e74294c4c4c1d62a3277078d56e",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9af557d2d71cea3aad5aba4bd8c36ba2d3e66f0a1a47059b92683c3c6c72d4d0",
+      "values_digest": "5d461ecbfe1ba32065c9d3f02c837b3047746d8e047286540193f8bbda140e6f",
       "rendered_digest": "c359833435b3fec371ee4fb3e06c059405db392529200e79f667ddf634f49dd9",
       "ast_digest": "1550fcf3865ee5b7fdd70c7d721016ca49bc28929bea299bc58bdddb875263ed"
     },
     "stp": {
-      "values_digest": "d7b399dca7da6ccb6589a2bbf5f953d77eabf88014a59fd220ad4e56ff558d58",
+      "values_digest": "a99b4973c95bfe32e34a8baa4592484614ede57342d14f04f3873047ea732fbb",
       "rendered_digest": "3588e7b7788a694807dea7951395d85c31f864ed1597ddfd1d91d1beaf42c82e",
       "ast_digest": "08f33d476eb7a97037dd49bef15b348c84c8058bcb805723e9b9d23e20bc1800"
     },
     "spp": {
-      "values_digest": "78bc28785232354ae01ca8af8721114581e06baf78f65337ef847b0dcd45c0ff",
+      "values_digest": "88fb5f6b3ad6f39583997f55eb864e76ec5c447f1e1756f01b112d611b41a0d6",
       "rendered_digest": "5c0633102bdcc5d9b7a65d4ccc56bdd5de7ae64fa5aa25cecc21a43dad621c6c",
       "ast_digest": "263dd8e4881899dd339f16e6f7ed0f76fa473ec53f926a99c6deef421f67892f"
     },
     "vpp": {
-      "values_digest": "dc6857cdc370d93afc882c9e2d60a6bc90b26cc28a6bd9ef4a0b7de0666193d0",
+      "values_digest": "1cc1c73d949f430948a5ac284895c4cb866b798b930aca6b2e28313583dfc000",
       "rendered_digest": "e6d7d27fc6120db3cd30b6b49a3dd3a3bd532e68c4debbe599f4ce2b020ce3e4",
       "ast_digest": "d4cf166260ee47b20d861b149176a64567e35251180d2c25156e13bbfc3377b7"
     },
     "srp": {
-      "values_digest": "0a6bf69fbadbe55a11ebd861082dd63340767f1328228c6cc76a3c90dfc8f7e7",
+      "values_digest": "0f17c6759b87f419a83275c6bd5aa98e61d8b7e583bd402788221ab2b49694ff",
       "rendered_digest": "2cd40ee68347d1da9e597b44f113efbb4a7a084d33601afb7f78aef350a73547",
       "ast_digest": "c39e15dc8ca48abd1c026f67c273e12132af658af93c09a36bcfab69ba683559"
     },
     "sor": {
-      "values_digest": "bf2394c8e8133602c3f4a77fc9cb2debc57f3c31fbe88bd514d6b4cdcd56d1e7",
-      "rendered_digest": "a0564026b2d4a57a1a5cbaa9fa222d0ac661820c43f4871fd9b9dc90ebdd8a47",
-      "ast_digest": "c0065cfecbfe94f68170322c50c2bb26a7b5d3d8335345c1cbcf5b11a985bffd"
+      "values_digest": "7ac9a1b0f1cf6ec7dad3d018710f4e380bdd4340447bcbc6b3a1e5b6791d6e7a",
+      "rendered_digest": "e44733e6d907d837c58d23e60a45bb9b10d64c43fb21e8a84bbedc94101d367d",
+      "ast_digest": "5e2a96d0f0ce6851136e7ff10d253e84fb2d945cfe3aec707520f4c9d3af32ac"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:112-execution",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -309,6 +316,13 @@
       "actor": "codex:112-execution",
       "reason": "Replace the obsolete preparation sentinel with the actual bound implementation and proof deliverables.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Runtime-owned Layer 8 principal, least-privilege authority, refusal, replay, and redacted audit module\",\"One canonical signed ACIP identity-message contract for human-agent and direct agent-agent delivery using externally held per-principal keys\",\"Recipient-signed acknowledgement verification with exact sender, recipient, conversation, correlation, causation, replay, rotation, revocation, and expiry binding\",\"Production conversation-boundary and narrow Runtime API integration before provider delivery\",\"Reachable disclosure-safe Observatory communication surface and exact real-browser authority-state proof\",\"Focused nonzero production conversation, authority and signed-message, Runtime API, and browser validation targets\",\"Feature contract for Layer 8 conversation authority under v0.92\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 33,
+      "actor": "codex:112-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
