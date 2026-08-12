@@ -5,30 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "implemented",
-  "generation": 52,
-  "digest": "2a4883fc899143ac9a7f87cccec2f9f49b3fa66bca699394a9f1462ccd464cfd",
+  "generation": 53,
+  "digest": "ab05b92fc82bb751c878c653bdc3489258831f96973a7a8c0b1e76c778677b75",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
-  "review_assignment": {
-    "reviewer": "codex-fresh-session:issue-112-final-layer8-authority-e22f7c26",
-    "assigned_by": "codex-session-112",
-    "revision": "git-blake3:e22f7c26eb333673eb02d71bcc391eeac22ef30c:a439bad216a80ace73b7dcdaebe3663686abaca5b74ddba34ab176456adf1a15",
-    "scope": [
-      "adl-runtime-kernel/src",
-      "adl-runtime/src",
-      "adl-runtime/tests/layer8_authority.rs",
-      "adl/Cargo.lock",
-      "adl/src/csm_runtime_api.rs",
-      "adl/tests/layer8_authority_runtime_api.rs",
-      "adl/tools/validate_layer8_authority_observatory_ui.sh",
-      "demos/html-observatory",
-      "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
-      ".csdlc/evidence/112",
-      ".csdlc/issues/112",
-      ".csdlc/prepared/issues/112",
-      ".csdlc/locks/112.lock"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "97e08c12e7bb37da130eebf0f613ab27ccecb614e73a91ed5fc1303d2310e32b",
+      "values_digest": "4d72b46fb8f610674b220a72374186465cd813e6a7dcf20f868701cabfa65260",
       "rendered_digest": "c359833435b3fec371ee4fb3e06c059405db392529200e79f667ddf634f49dd9",
       "ast_digest": "1550fcf3865ee5b7fdd70c7d721016ca49bc28929bea299bc58bdddb875263ed"
     },
     "stp": {
-      "values_digest": "c4c649f7f8f5059314bcabb71760a2589b81ba48e62ca408754bf649da35fe90",
+      "values_digest": "2add550f5efeb8d7cdb1d35656c7581290ed38690cb076ff780ac4b45cd477a2",
       "rendered_digest": "3588e7b7788a694807dea7951395d85c31f864ed1597ddfd1d91d1beaf42c82e",
       "ast_digest": "08f33d476eb7a97037dd49bef15b348c84c8058bcb805723e9b9d23e20bc1800"
     },
     "spp": {
-      "values_digest": "6418762a14bd0d0a79dce619d0c3b8187770f5cb67ee54c7ea11d0153a83831d",
+      "values_digest": "0b8260679c13483a6009d42df1f81fd21bfe8599b4aa4084280f6eddf7351623",
       "rendered_digest": "5c0633102bdcc5d9b7a65d4ccc56bdd5de7ae64fa5aa25cecc21a43dad621c6c",
       "ast_digest": "263dd8e4881899dd339f16e6f7ed0f76fa473ec53f926a99c6deef421f67892f"
     },
     "vpp": {
-      "values_digest": "bcf2f2ca5059f92fa8c17dcba4ab65c895f8ba81c448d73b692786ae6c0b7eea",
+      "values_digest": "0ecec15153bbfaf969725109b0b09677875d88ce8d93cb54c399c8e24796a616",
       "rendered_digest": "8e4a5e36226ea2826280259b657935fd64f5a392c64e916fd297b3b12b8f841b",
       "ast_digest": "0b5d959bd7a0ef072eda1088bfdae6c1c07ef5e70e12171072987aae06338eee"
     },
     "srp": {
-      "values_digest": "224f8bea95a826f0a42697a000396eeab79ba3ab51553e5a669c06cdcf3063c9",
-      "rendered_digest": "c37be524704f6044409554512c01e69b6c948c0f95f14030b9699a49072e2abf",
-      "ast_digest": "8824563aff2cc8b5af4a926d990f8e7665d4f7ed40dd37eb7f463258e9754305"
+      "values_digest": "d48cf330367909f7c0227c18a50210949ec193751f1634ebef2074ae3d5bf451",
+      "rendered_digest": "ecb8e7f30268ee85b94904ac382a74e43451f2d3382bed9abf8c7e1d1cf7468e",
+      "ast_digest": "26a0990ebe405b9c201a236b20840bd2ee96da79d4dad3b846acd63d9738cfd5"
     },
     "sor": {
-      "values_digest": "72f52425f71d6639f633068f2ad52ae5ff6856d9b45d04332a0e4d2607c82f73",
+      "values_digest": "2e6ff7eb3bb08cd2c7c7185b59738372360ba7a28c55ee1509100bc7fff1472d",
       "rendered_digest": "7609ca5ea10e16bcabe95c82ba184282904caf6ac09c01924a33ffbc592ba5dd",
       "ast_digest": "0fc53d104e9a9a2c87d30883b39666d1df1c3bd91d2e28736eaf7d2f1ce6125b"
     }
@@ -580,6 +561,13 @@
       "actor": "codex-session-112",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 53,
+      "actor": "codex-session-112",
+      "reason": "recover stale pre-publication review assignment after exact-head hardening commit fcf0c1c9f86c9cb4268b742a4a15b9463d004ebe",
+      "operation": "recover_review"
     }
   ]
 }
