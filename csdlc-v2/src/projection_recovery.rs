@@ -1,8 +1,8 @@
 use std::collections::{BTreeMap, BTreeSet};
-use std::fs::{self, File, OpenOptions};
+use std::fs::{self, File};
 use std::io::{Read, Write};
 use std::os::unix::ffi::OsStrExt;
-use std::os::unix::fs::{MetadataExt, OpenOptionsExt, PermissionsExt};
+use std::os::unix::fs::{MetadataExt, PermissionsExt};
 use std::path::{Path, PathBuf};
 
 use schemars::JsonSchema;
@@ -298,6 +298,41 @@ impl PrivateRecoveryDir {
         file.sync_all()?;
         self.file.sync_all()?;
         Ok(())
+    }
+
+    fn open_writable_regular_child(&self, name: &std::ffi::CStr) -> Result<File> {
+        use std::os::fd::{AsRawFd, FromRawFd};
+        let fd = unsafe {
+            libc::openat(
+                self.file.as_raw_fd(),
+                name.as_ptr(),
+                libc::O_RDWR | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+            )
+        };
+        if fd < 0 {
+            return Err(std::io::Error::last_os_error().into());
+        }
+        let file = unsafe { File::from_raw_fd(fd) };
+        validate_receipt_metadata(&file.metadata()?, &self.file.metadata()?)?;
+        Ok(file)
+    }
+
+    fn create_empty_regular_child(&self, name: &std::ffi::CStr) -> Result<File> {
+        use std::os::fd::{AsRawFd, FromRawFd};
+        let fd = unsafe {
+            libc::openat(
+                self.file.as_raw_fd(),
+                name.as_ptr(),
+                libc::O_RDWR | libc::O_CREAT | libc::O_EXCL | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+                0o600,
+            )
+        };
+        if fd < 0 {
+            return Err(std::io::Error::last_os_error().into());
+        }
+        let file = unsafe { File::from_raw_fd(fd) };
+        validate_receipt_metadata(&file.metadata()?, &self.file.metadata()?)?;
+        Ok(file)
     }
 
     fn validate_binding(&self, path: &Path, label: &str) -> Result<()> {
@@ -602,24 +637,6 @@ fn open_child_no_follow(parent: &File, name: &std::ffi::CStr, directory: bool) -
     }
 }
 
-fn identity(path: &Path, _metadata: &fs::Metadata) -> Result<NodeIdentity> {
-    use std::ffi::CString;
-    use std::os::fd::FromRawFd;
-    use std::os::unix::ffi::OsStrExt;
-    let path = CString::new(path.as_os_str().as_bytes())
-        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "path contains NUL"))?;
-    let fd = unsafe {
-        libc::open(
-            path.as_ptr(),
-            libc::O_RDONLY | libc::O_NOFOLLOW | libc::O_CLOEXEC,
-        )
-    };
-    if fd < 0 {
-        return Err(std::io::Error::last_os_error().into());
-    }
-    fd_identity(&unsafe { File::from_raw_fd(fd) })
-}
-
 fn directory_names(directory: &File) -> Result<Vec<std::ffi::CString>> {
     use std::os::fd::AsRawFd;
     let dup = unsafe { libc::dup(directory.as_raw_fd()) };
@@ -786,6 +803,28 @@ fn read_relative_no_follow(root: &File, relative: &str) -> Result<Vec<u8>> {
     }
     let mut bytes = Vec::new();
     file.read_to_end(&mut bytes)?;
+    Ok(bytes)
+}
+
+fn read_file_bytes(file: &File) -> Result<Vec<u8>> {
+    use std::os::unix::fs::FileExt;
+    let size: usize = file
+        .metadata()?
+        .len()
+        .try_into()
+        .map_err(|_| V2Error::new(ErrorCode::CorruptRecord, "file is too large"))?;
+    let mut bytes = vec![0; size];
+    let mut offset = 0;
+    while offset < size {
+        let count = file.read_at(&mut bytes[offset..], offset as u64)?;
+        if count == 0 {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "file changed while being read",
+            ));
+        }
+        offset += count;
+    }
     Ok(bytes)
 }
 
@@ -2836,6 +2875,7 @@ fn ensure_candidate_directory(
 fn ensure_candidate_file(
     request: &ProjectionRecoverRequest,
     attempt_authority: &PrivateRecoveryDir,
+    candidate_authority: &PrivateRecoveryDir,
     candidate: &Path,
     relative: &str,
     contents: &[u8],
@@ -2851,14 +2891,36 @@ fn ensure_candidate_file(
         .parent()
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "candidate file has no parent"))?;
     let temporary = parent.join(format!(".recovery-node-{ordinal:03}.tmp"));
+    let relative_path = Path::new(relative);
+    let parent_authority = match relative_path.parent().and_then(|path| path.to_str()) {
+        Some("") | None => PrivateRecoveryDir {
+            file: candidate_authority.file.try_clone()?,
+            anchored_path: candidate_authority.anchored_path.clone(),
+        },
+        Some("cards") => candidate_authority.open_child(
+            &std::ffi::CString::new("cards").unwrap(),
+            "candidate file parent",
+        )?,
+        _ => {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "candidate file parent is unsupported",
+            ))
+        }
+    };
+    let final_name = std::ffi::CString::new(
+        relative_path
+            .file_name()
+            .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "candidate file has no name"))?
+            .as_bytes(),
+    )
+    .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "candidate file name contains NUL"))?;
+    let temporary_name =
+        std::ffi::CString::new(format!(".recovery-node-{ordinal:03}.tmp")).unwrap();
     let digest = blake3::hash(contents).to_hex().to_string();
     if receipt_exists_at(&ledger_authority, 10, "node-created")? {
-        let metadata = fs::symlink_metadata(&final_path)?;
-        if metadata.is_file()
-            && !metadata.file_type().is_symlink()
-            && metadata.nlink() == 1
-            && fs::read(&final_path)? == contents
-        {
+        let final_file = parent_authority.open_regular_child(&final_name)?;
+        if read_file_bytes(&final_file)? == contents {
             return Ok(());
         }
         return Err(V2Error::new(
@@ -2867,19 +2929,33 @@ fn ensure_candidate_file(
         ));
     }
     if receipt_exists_at(&ledger_authority, 9, "publish-intent")? {
-        let temp_meta = temporary.symlink_metadata();
-        let final_meta = final_path.symlink_metadata();
-        if temp_meta.is_ok() && final_meta.is_err() {
-            rename_no_replace(&anchored_name(&temporary)?, &anchored_name(&final_path)?)?;
-        } else if !(temp_meta.is_err() && final_meta.is_ok() && fs::read(&final_path)? == contents)
+        let temp_file = parent_authority.open_regular_child(&temporary_name);
+        let final_file = parent_authority.open_regular_child(&final_name);
+        if temp_file.is_ok() && final_file.is_err() {
+            rename_no_replace(
+                &AnchoredName {
+                    parent: parent_authority.file.try_clone()?,
+                    name: temporary_name.clone(),
+                    child: temp_file.ok(),
+                },
+                &AnchoredName {
+                    parent: parent_authority.file.try_clone()?,
+                    name: final_name.clone(),
+                    child: None,
+                },
+            )?;
+        } else if !(temp_file.is_err()
+            && final_file
+                .as_ref()
+                .is_ok_and(|file| read_file_bytes(file).is_ok_and(|bytes| bytes == contents)))
         {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "candidate node publish restart is ambiguous",
             ));
         }
-        sync(parent)?;
-        let node = identity(&final_path, &fs::symlink_metadata(&final_path)?)?;
+        parent_authority.file.sync_all()?;
+        let node = fd_identity(&parent_authority.open_regular_child(&final_name)?)?;
         receipt_at(
             &ledger_authority,
             10,
@@ -2896,15 +2972,11 @@ fn ensure_candidate_file(
     )?;
     failpoint(request, "node_create_intent")?;
     if !receipt_exists_at(&ledger_authority, 2, "created-identity")? {
-        if temporary.symlink_metadata().is_err() {
-            OpenOptions::new()
-                .create_new(true)
-                .read(true)
-                .write(true)
-                .mode(0o600)
-                .open(&temporary)?;
-        }
-        let node = identity(&temporary, &fs::symlink_metadata(&temporary)?)?;
+        let file = match parent_authority.open_writable_regular_child(&temporary_name) {
+            Ok(file) => file,
+            Err(_) => parent_authority.create_empty_regular_child(&temporary_name)?,
+        };
+        let node = fd_identity(&file)?;
         if node.node_type != "regular" || node.links != 1 || node.mode & 0o777 != 0o600 {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
@@ -2926,7 +2998,8 @@ fn ensure_candidate_file(
         &serde_json::json!({"digest":digest,"size":contents.len()}),
     )?;
     if !receipt_exists_at(&ledger_authority, 4, "write-completed")? {
-        let existing = fs::read(&temporary)?;
+        let mut file = parent_authority.open_writable_regular_child(&temporary_name)?;
+        let existing = read_file_bytes(&file)?;
         if existing.len() > contents.len() || existing != contents[..existing.len()] {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
@@ -2934,10 +3007,11 @@ fn ensure_candidate_file(
             ));
         }
         if existing.len() < contents.len() {
-            let mut file = OpenOptions::new().append(true).open(&temporary)?;
+            use std::io::{Seek, SeekFrom};
+            file.seek(SeekFrom::End(0))?;
             file.write_all(&contents[existing.len()..])?;
         }
-        if fs::read(&temporary)? != contents {
+        if read_file_bytes(&file)? != contents {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "candidate temporary content completion failed",
@@ -2957,13 +3031,14 @@ fn ensure_candidate_file(
         "node-fsync-intent",
         &serde_json::json!({"temporary":temporary.file_name()}),
     )?;
-    File::open(&temporary)?.sync_all()?;
+    let temporary_file = parent_authority.open_writable_regular_child(&temporary_name)?;
+    temporary_file.sync_all()?;
     failpoint(request, "node_fsynced")?;
     receipt_at(
         &ledger_authority,
         6,
         "node-fsync-completed",
-        &serde_json::json!({"identity":identity(&temporary,&fs::symlink_metadata(&temporary)?)?,"digest":digest}),
+        &serde_json::json!({"identity":fd_identity(&temporary_file)?,"digest":digest}),
     )?;
     receipt_at(
         &ledger_authority,
@@ -2971,7 +3046,7 @@ fn ensure_candidate_file(
         "parent-fsync-intent",
         &serde_json::json!({"parent":parent}),
     )?;
-    sync(parent)?;
+    parent_authority.file.sync_all()?;
     failpoint(request, "node_parent_fsynced")?;
     receipt_at(
         &ledger_authority,
@@ -2986,11 +3061,25 @@ fn ensure_candidate_file(
         &serde_json::json!({"temporary":temporary.file_name(),"final":relative}),
     )?;
     if !receipt_exists_at(&ledger_authority, 10, "node-created")? {
-        let temp_meta = temporary.symlink_metadata();
-        let final_meta = final_path.symlink_metadata();
-        if temp_meta.is_ok() && final_meta.is_err() {
-            rename_no_replace(&anchored_name(&temporary)?, &anchored_name(&final_path)?)?;
-        } else if !(temp_meta.is_err() && final_meta.is_ok() && fs::read(&final_path)? == contents)
+        let temp_file = parent_authority.open_regular_child(&temporary_name);
+        let final_file = parent_authority.open_regular_child(&final_name);
+        if temp_file.is_ok() && final_file.is_err() {
+            rename_no_replace(
+                &AnchoredName {
+                    parent: parent_authority.file.try_clone()?,
+                    name: temporary_name.clone(),
+                    child: temp_file.ok(),
+                },
+                &AnchoredName {
+                    parent: parent_authority.file.try_clone()?,
+                    name: final_name.clone(),
+                    child: None,
+                },
+            )?;
+        } else if !(temp_file.is_err()
+            && final_file
+                .as_ref()
+                .is_ok_and(|file| read_file_bytes(file).is_ok_and(|bytes| bytes == contents)))
         {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
@@ -2998,9 +3087,13 @@ fn ensure_candidate_file(
             ));
         }
         failpoint(request, "node_published")?;
-        sync(parent)?;
-        let node = identity(&final_path, &fs::symlink_metadata(&final_path)?)?;
-        if node.node_type != "regular" || node.links != 1 || fs::read(&final_path)? != contents {
+        parent_authority.file.sync_all()?;
+        let final_file = parent_authority.open_regular_child(&final_name)?;
+        let node = fd_identity(&final_file)?;
+        if node.node_type != "regular"
+            || node.links != 1
+            || read_file_bytes(&final_file)? != contents
+        {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "published candidate node drifted",
@@ -3041,6 +3134,7 @@ fn build_candidate_tree(
         ensure_candidate_file(
             request,
             attempt_authority,
+            &candidate_authority,
             candidate,
             relative,
             contents,
