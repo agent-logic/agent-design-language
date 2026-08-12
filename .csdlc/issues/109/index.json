@@ -4,19 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "350d47041fe73c7d8e9bbd77927ab046ad330324f6c3673b249a9de961e42926",
+  "generation": 28,
+  "digest": "77d6e959f51c415faf6477f6634ec98fb43e3d011855ec1a5f37e64a667865f7",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
-  "review_assignment": {
-    "reviewer": "fresh-session:8b1186e2-3870-47be-a35e-776c0b0386cc",
-    "assigned_by": "planning-1:pr119-janitor",
-    "revision": "git-blake3:614dc3319c7c043355796505e50074ff9b650993:4144b971d8c425544ca603de5d16c0c972a3394ad327c77f5f983efbe1d201f5",
-    "scope": [
-      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
-      ".csdlc/issues/109"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -32,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2458ca4e903381706e5c3f0a34a7458d69f088e1da77514a95d4765c8b1f4a17",
+      "values_digest": "ab938312f32f087164d38e0bc76112e45ff0b2ba07b2e0e52799a3e668cad8b9",
       "rendered_digest": "a16c30e6eb67e913ee8762af729f2e743ecc238e253cc24b26a05255d4b6e63d",
       "ast_digest": "d9ff4d384357d9982cd4c1ddf3bce9ed3bab4fd788701abfa01c0ad7be311347"
     },
     "stp": {
-      "values_digest": "427f3600a138c3f3ab007dfb515d10aa15e65284d39582dc679ca7e0988c1b1d",
+      "values_digest": "0884344028a0a63073aedbbfa8e218ff004dfd2d4dff345bf4da63f8050da427",
       "rendered_digest": "b8baca559f4ab0ba540348fcc5d89f2eb385714182a5b32b88d63e048fde12d8",
       "ast_digest": "c7b225fee03b714b762487332b3d4258ae2bfe43be77ff42373006902df1e504"
     },
     "spp": {
-      "values_digest": "f20c0fec75c44c154f16e86f7fb3fead9769839c6d0d3a08e7ff72c89f31b333",
+      "values_digest": "4b981cc0bbb1fa906d2b6b54591ea86c3156ea5cd021fc70922233156c40102a",
       "rendered_digest": "c15c2539fe8932e08b5972afacac160c5214fab95f42b9b9984e18488418c98a",
       "ast_digest": "acf77d2f3dc05dbfe6dc707c857f8de903a9921927afb14f1816da2e0c4a6ccd"
     },
     "vpp": {
-      "values_digest": "eed46f7bf6ee3eaf579036336cd4b913c76842fe5e5c6034d3deb2fec5868669",
+      "values_digest": "5d454b48819865d5d74f1c3cac8311697e181a4dad0538fc6eec6f4dbc763e32",
       "rendered_digest": "bea8837fa774ecd20e74d3c72fab78cbb27e3849f7c09362df341e9182d5671a",
       "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
     },
     "srp": {
-      "values_digest": "4270047374fdac3333696f3289b15aa7f0973db62d60a8fae9d47fdc744592ec",
-      "rendered_digest": "f870ce171120644425078716bbcbd80b9182f8af719f6b19d9e60aedfee42b6b",
-      "ast_digest": "1d02c9269f6085339a32437823b1bb60ff8856fb91b1e412c07d25907e48dd80"
+      "values_digest": "196a4d743dacb4197e8df4d92b445526e7bad50a3de342b9f025e8e947429c25",
+      "rendered_digest": "1cef0442070327593b6f41e5c0c35abfcbb2b8dece5603e4956372297399c363",
+      "ast_digest": "c654880138d226f4ca831fb2f41bcc8bd7d2e85e75e1d0f5446f3045c52ab92c"
     },
     "sor": {
-      "values_digest": "a13a870e755644b10eca40e99653543161c0c7451d227b494328ebcc7e3e71e7",
+      "values_digest": "2a31da90d4f5c1ca6a8e621fa9775827c572ce3b2ee8079cc58154660143dafa",
       "rendered_digest": "54304d46c7d82f6566fe481a04db5c4ea5abcf105b8fbe90cd524a708d6bdb0a",
       "ast_digest": "4d2df717ca82be386d9723dcc027b7ebd6e179bc3cb388060183b69bf4c6e4b7"
     }
@@ -386,6 +378,13 @@
       "actor": "planning-1:pr119-janitor",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover assigned review after P1 finding: retained SOR and evidence still claim the obsolete two-argument validator contract.",
+      "operation": "recover_review"
     }
   ]
 }

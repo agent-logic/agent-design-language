@@ -7,13 +7,13 @@
     "title": "Use fresh sessions for standard SRP review",
     "slug": "fresh-session-standard-srp-review",
     "version": "v0.92",
-    "generation": 27
+    "generation": 28
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\n.csdlc/issues/109",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

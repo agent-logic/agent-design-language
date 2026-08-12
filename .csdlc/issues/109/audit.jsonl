@@ -33,3 +33,4 @@
 {"sequence":33,"generation":26,"actor":"codex-subagent:/root/review_pr119_fix","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":34,"generation":27,"actor":"planning-1:pr119-janitor","reason":"Recover the non-canonical reviewer identity before publication; require a fresh-session UUID assignment and exact-head review.","operation":"recover_review"}
 {"sequence":35,"generation":27,"actor":"planning-1:pr119-janitor","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":36,"generation":28,"actor":"planning-1:pr119-janitor","reason":"Recover assigned review after P1 finding: retained SOR and evidence still claim the obsolete two-argument validator contract.","operation":"recover_review"}

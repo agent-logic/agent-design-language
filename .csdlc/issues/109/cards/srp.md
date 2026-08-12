@@ -12,8 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/prepared/issues/109/validate-fresh-session-srp.sh
-.csdlc/issues/109
+
 
 ## Prompts
 
