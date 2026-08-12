@@ -11,13 +11,15 @@ use sha2::{Digest, Sha256};
 
 use super::{
     capability_advertisement::{CapabilityAdvertisementVerifier, VerifiedCapabilityAdvertisement},
-    certificates::{CertificatePurpose, DistributedCertificateStore},
+    certificates::CertificatePurpose,
     fencing::{FenceReceipt, FencingStore},
     lease::{
         decode_certificate, AuthorityLedger, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA,
     },
     membership::{Member, MemberRole, MembershipState},
-    resource_weather::{PlacementWeather, ResourceWeatherStore, WeatherAvailability},
+    resource_weather::{
+        PlacementWeather, ResourceWeatherStore, WeatherAvailability, WeatherCertificateStore,
+    },
 };
 
 const MAX_TEXT_BYTES: usize = 128;
@@ -224,7 +226,7 @@ impl std::ops::Deref for BoundWeather {
 impl PlacementWeatherSnapshot {
     pub fn capture(
         store: &ResourceWeatherStore,
-        certificates: &DistributedCertificateStore,
+        certificates: &WeatherCertificateStore,
         now_unix_secs: u64,
     ) -> PlacementResult<Self> {
         let projected = store
