@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 30,
-  "digest": "f078698c8423ee525226485cd5bf1e653a2917e32ba0e725083130acffcaa0d6",
+  "generation": 31,
+  "digest": "866ca15e71cba5951a1812a35c1bf68395d7ddb57031bdec3e495ddb963594da",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eb9f516df5aac01ce429eb7b8aebdf5e247f0607c7db90fed5dbea74254495a3",
+      "values_digest": "fd2a3b6bcf757dcd9b9ade7e04e1405b834b777245a8ea86abefb3154129b617",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "a79ff17758692e62a909127f989b91b89718df9fb354ace119b7b3b02ccb24b6",
+      "values_digest": "9c04dd38dfb064073bcb7f8ab1e1dbd194e4e534015fd766d11870d69cc6f068",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "1f4dd7a130756b222685126dbe318ffdf4aaf2bde8c4da27b1846714126fe795",
+      "values_digest": "d0128819e46209b9d9301dacab003f9be04ea7775c2d8c0156b920bacf95e9ff",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "59ee03819b0bc8f6394b6142098b5f601645672f76ffc1fea1008e3c69fdf614",
+      "values_digest": "d4546d7ef61bbd518d358245651ccb52480f6946dcc77c48385ad7537420d2bd",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "6b92d9b62e812016fa7dad49bdc0774a606ce1f8a99b26ca7ee553ab79a2e059",
+      "values_digest": "71d5abace5ec14d0eac37d5d4f07dd07b555cae8ba199d42a2a114474f47320f",
       "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
       "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "40cdf48ea4d854f9f548c0e83a6a94b3f90ae2e6966765763f169d4e9d93d6e5",
-      "rendered_digest": "a61ffe5d85c3dbac7d5bc419087fbc02e01d7fd69a3c91360182b1423ca4c730",
-      "ast_digest": "ef2523cf967fd5f86c9558de39ba02c623edac2bbf53fee6f21a9d0c82a2a621"
+      "values_digest": "f9b2d952e1be5928f2c3e6ee5e4214ec751bbc2835a5ecdfac9d57202324d05f",
+      "rendered_digest": "26480f96332ab6b512a092104bfd1ad66d0ccf4550a6baa945a9471ce2694360",
+      "ast_digest": "4ab4d20afe284ab611f0960917ababb0972c7f6d0a0c67b810911d12f8e8e29f"
     }
   },
   "transitions": [
@@ -371,6 +371,13 @@
       "actor": "codex:issue-298",
       "reason": "Recover failed exact review r9: completed recovery validation derived no candidate record/files from the PREPARED prior projection plus authorized recovery audit transformation, so a coherently rewritten candidate/canonical chain could remain internally consistent while not proving the authorized recovery transform.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 31,
+      "actor": "codex:issue-298",
+      "reason": "record bounded anchored projection classification and resumable recovery implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Derive completed recovery candidates from the authorized PREPARED prior projection and audit transform\",\"changes\":[\"Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299\",\"Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation\",\"Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart\",\"Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery\",\"Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery\",\"Added deterministic recovery-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions\",\"Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection\",\"Retained the exact checked source child descriptor until rename/exchange completion\",\"Validated typed request authority, PREPARED classification self-digest, request classification equality, terminal result authority, and durable canonical recovery audit\",\"Derived completed recovery candidate record/files from the retained displaced prior projection and exact authorized audit transform\",\"Compared completed candidate-created receipts and terminal canonical artifacts against the authorized recovery transform\",\"Allowed later ordinary generations after the recovered terminal generation without requiring canonical files to remain at the recovered generation\",\"Added coherent candidate-chain forgery and malformed request classification fail-closed proof\",\"Recorded refreshed focused recovery proof with 15 passing tests\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/evidence/298/preserved-projection-recovery.log\"]}"
     }
   ]
 }

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Finalize exact semantic validation of all recovery receipt states
+Derive completed recovery candidates from the authorized PREPARED prior projection and audit transform
 
 ## Artifacts
 
@@ -71,6 +71,12 @@ Finalize exact semantic validation of all recovery receipt states
 - csdlc-v2/src/schema.rs
 - csdlc-v2/src/bin/csdlc-issue.rs
 - csdlc-v2/tests/gate5.rs
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/src/schema.rs
+- csdlc-v2/src/bin/csdlc-issue.rs
+- csdlc-v2/tests/gate5.rs
+- .csdlc/evidence/298/preserved-projection-recovery.log
 
 ## Execution
 
@@ -270,6 +276,20 @@ Finalize exact semantic validation of all recovery receipt states
 - Retained the exact checked source child descriptor until rename/exchange completion
 - Validated typed request authority and durable canonical recovery audit
 - Added post-exchange candidate name-swap fail-closed proof
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic recovery-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Retained the exact checked source child descriptor until rename/exchange completion
+- Validated typed request authority, PREPARED classification self-digest, request classification equality, terminal result authority, and durable canonical recovery audit
+- Derived completed recovery candidate record/files from the retained displaced prior projection and exact authorized audit transform
+- Compared completed candidate-created receipts and terminal canonical artifacts against the authorized recovery transform
+- Allowed later ordinary generations after the recovered terminal generation without requiring canonical files to remain at the recovered generation
+- Added coherent candidate-chain forgery and malformed request classification fail-closed proof
+- Recorded refreshed focused recovery proof with 15 passing tests
 
 ## Validation
 
