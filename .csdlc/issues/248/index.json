@@ -5,13 +5,13 @@
   "initialization_digest": "d2e454a3f3bbf3a6ac0f218c95e6775d17932df29b96b89215060693575f98bc",
   "phase": "implemented",
   "generation": 3,
-  "digest": "b0c668f5cbec0d44c2ae9ffe4544962f46ce7a91211611c442348e65f45f1f35",
+  "digest": "72e6403284d5a1cb26c66a8d42c42f47105c7296921a1e00f37eeb4da606e38a",
   "branch": "codex/248-process-backend-terminal-precedence",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-248-process-backend-terminal-precedence",
   "review_assignment": {
-    "reviewer": "codex-subagent:review_248_process_precedence",
-    "assigned_by": "codex:248-process-backend-precedence",
-    "revision": "git-blake3:d3a121590439857551e78df8de709f35a75f9ab8:6a4ece752e1b365528bef71ebb7c552a14f5f8efb6c81e5964b10c7b413139e8",
+    "reviewer": "codex-subagent:rereview_248_process_precedence",
+    "assigned_by": "codex:248-review-fix",
+    "revision": "git-blake3:5f63a68189e1ca23406f34ac3da6549f4d39aea5:a4bd706a71e09cb206c2c0c0a65e00669cb0c1c9120695c4ded9bcd383ad3289",
     "scope": [
       "adl-runtime-kernel/src/parity.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs",
@@ -131,6 +131,13 @@
       "actor": "codex:248-review-fix",
       "reason": "Correct the retained-evidence claim while preserving the separately observed repetition result.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented deterministic output-limit precedence at the server-owned post-termination arbitration boundary while preserving timeout and cleanup semantics.\",\"changes\":[\"adl-runtime-kernel/src/parity.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs\",\"adl-runtime-kernel/tests/parity.rs\"],\"artifacts\":[\"single focused precedence-and-cleanup pass retained by typed validation; separate 20/20 repetitions passed in the implementation and independent review sessions\",\"full Runtime kernel suite\",\"strict all-target Clippy\",\"Observatory integration proof\"],\"validation\":[{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all Runtime targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"clippy.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"parity\",\"process_backend_timeout_and_oversized_file_leave_no_artifacts\",\"--\",\"--exact\"],\"purpose\":\"Prove ordinary hang yields timeout while a file at the enforced limit followed by a hang yields output_limit and both remove artifacts.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"purpose\":\"Run the Runtime Observatory integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"observatory.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete Runtime kernel test suite.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime.log\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:248-review-fix",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
