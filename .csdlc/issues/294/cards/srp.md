@@ -12,7 +12,14 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/store.rs
+csdlc-v2/src/bin/csdlc-edit.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/src/schema.rs
+csdlc-v2/tests/card_identity.rs
+.csdlc/issues/294
+.csdlc/prepared/issues/294
+.csdlc/evidence/294
 
 ## Prompts
 
