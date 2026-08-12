@@ -3,9 +3,9 @@
   "issue": 297,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
-  "phase": "bound",
-  "generation": 13,
-  "digest": "d67bd81be3bb2029ddf686fa2f75f5a46f2b00f80ef77322c87cab91d390c192",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "38edf96ed0054623b2b64d1e5c6de847381792019352c874e15d093bfce27dbb",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7788a25877ef28ed8c2890143ec390b18130044b1920a7915250accb420e52a9",
+      "values_digest": "a8638773e3aac1053cfdd0fc25b3881adfe32fdbd9a24b64f2688ff2fe92c72c",
       "rendered_digest": "df823d86637cd9489e801629df7a5212ac8097bc372257554eaec7c9a9d0660e",
       "ast_digest": "1bc768342db5a416f8bb25942901fb3f59ba10dc488a47dea6f0ef806aabb7e0"
     },
     "stp": {
-      "values_digest": "788f7f3a6545a846c9058f87c4375c3ad0a5b9a1882a8f519b188f8536d06d41",
+      "values_digest": "d7c0271a340cc3c5de92956ef1e6b60805b86568c03046f458e70ed6af04a6e3",
       "rendered_digest": "97ad2e897d196aba11055627fae7c5e07537626d42ad815337c564dffb664688",
       "ast_digest": "9a54ff529a22712e2dcb9f5efb93efb1ca9fd290304b932f98ab76803bc6ae26"
     },
     "spp": {
-      "values_digest": "815e3a73faeec180e2d0ae0d89182ea81fbcdfe32a9a892c9d775699ac561e56",
+      "values_digest": "0fb19c73685e9640406c6af3a8cf4cfb6cfbe39a7d9dc01ccbf44fe92d95fcae",
       "rendered_digest": "4e76e66487c3fc2fe933bd08cef3d1402afd52047034a8012e313925a73f1c35",
       "ast_digest": "0840d7be9036b9e08927f71421e21b62df630f5cb21946bd6cf204c00d24729d"
     },
     "vpp": {
-      "values_digest": "44afa01e627cac7381abebbe789b237fcb345d6358f9d4bcfd6b16b6f5c590dc",
+      "values_digest": "faf8946c60f44fa69f3b346628edc2ec6ecd23519d54d9a233c0eb8c76f852d6",
       "rendered_digest": "0b69dc6c07901591ea965a1a35f8607a2c96f9233eb74689d814f5384df20ca1",
       "ast_digest": "8e95b4571cde6288076cbf1bb565d27344aaa3b7fa0025ab19ec504023e44f56"
     },
     "srp": {
-      "values_digest": "0a6c31859c3e5053ee94d1637098733e619ea0a1b2c8bb2a5a47d0cc99ae1272",
+      "values_digest": "82758a4e85351d6bc50c0f3609ff31d50f8566d6354fee605dd9ae213861da7e",
       "rendered_digest": "6f4e38ac2a97a50f90551b3dce814fd74affdc11bb3fc116e971cce08a0617e9",
       "ast_digest": "8f81d0ff47d5b8e65b630310d435d18d4f3965c7486a36fbeabe916e37ba8c33"
     },
     "sor": {
-      "values_digest": "1d64f787ee73f67949cca09704bbeef4992112c1a19b34ce7b1e59755e03f61d",
-      "rendered_digest": "e757c02781d15b12ea79b88a77ffdcec6d11880d6b6e502c1de91090bb910068",
-      "ast_digest": "c83a321795232ad1cbd84e23620dc85783605e492b63c0838c14aef6b290e812"
+      "values_digest": "c1627431d50f7ee1308ecc97e294d795921f472023f194f8a52c4a73563e914e",
+      "rendered_digest": "8e4222f488b6b62df432d16fe0a8054141de72cdd3242a1295aec7a439c3fac8",
+      "ast_digest": "e9b84cb933bf5f5c799027d6dd28799381b01f36792d6bfdd876d24d174bdafd"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-297",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -175,6 +182,13 @@
       "actor": "codex:issue-297",
       "reason": "record bounded projection recovery implementation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented typed classification, recovery, immutable receipts, exact cleanup, commit blocking, CLI/schema exposure, and focused regression proof for preserved issue projections.\",\"changes\":[\"Added tagged-CAS projection classification and candidate manifests\",\"Added typed recover and cleanup routes with private receipt namespaces\",\"Blocked ordinary commits while rollback-preserved evidence exists\",\"Added CLI/schema/public exports and focused gate5 tests\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:issue-297",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
