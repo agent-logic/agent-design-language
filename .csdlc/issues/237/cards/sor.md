@@ -96,11 +96,11 @@ A successfully constructed LiveAssembly exclusively owns the unforgeable provisi
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
