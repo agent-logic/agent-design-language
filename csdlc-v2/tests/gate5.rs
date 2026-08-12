@@ -114,6 +114,24 @@ fn rewrite_single_receipt_payload(
     std::fs::write(path, bytes).expect("write forged receipt");
 }
 
+fn append_extra_terminal_receipt(attempt: &std::path::Path) {
+    let previous = receipt_path(attempt, 13, "recovered");
+    let previous_digest = blake3::hash(&std::fs::read(previous).expect("terminal receipt"))
+        .to_hex()
+        .to_string();
+    let envelope = serde_json::json!({
+        "schema":"csdlc.projection_recovery_receipt.v1",
+        "sequence":14,
+        "state":"post-terminal",
+        "previous_receipt_digest":previous_digest,
+        "payload":{"forged":true}
+    });
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("extra receipt");
+    bytes.push(b'\n');
+    std::fs::write(receipt_path(attempt, 14, "post-terminal"), bytes)
+        .expect("write extra terminal receipt");
+}
+
 fn rewrite_observation_index(observation: &mut serde_json::Value, index_bytes: &[u8]) {
     let entries = observation["entries"]
         .as_array_mut()
@@ -700,6 +718,35 @@ fn preserved_projection_recovery_validates_terminal_receipt_chain_and_classifies
     std::fs::write(&terminal, serde_json::to_vec_pretty(&envelope).unwrap()).unwrap();
     let error = csdlc_v2::recover_preserved_projection(&store, request)
         .expect_err("tampered chain rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_extra_post_terminal_receipt() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "extra terminal receipt fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "extra-terminal");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).expect("recover");
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/extra-terminal");
+    append_extra_terminal_receipt(&attempt);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra post-terminal receipt must be rejected");
     assert_eq!(error.code, ErrorCode::CorruptRecord);
 }
 

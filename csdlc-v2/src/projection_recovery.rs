@@ -833,6 +833,12 @@ fn validate_receipt_inventory(dir: &Path) -> Result<()> {
         .filter(|entry| entry.file_type().is_ok_and(|t| t.is_file()))
         .collect();
     receipts.sort_by_key(|entry| entry.file_name());
+    if receipts.len() != RECOVERY_STATES.len() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt inventory is not the exact terminal sequence",
+        ));
+    }
     for (index, entry) in receipts.iter().enumerate() {
         let name = entry.file_name();
         let name = name.to_str().ok_or_else(|| {
@@ -851,6 +857,13 @@ fn validate_receipt_inventory(dir: &Path) -> Result<()> {
             return Err(V2Error::new(
                 ErrorCode::CorruptRecord,
                 "recovery receipt inventory is not a unique exact prefix",
+            ));
+        }
+        let expected_name = format!("{seq:03}-{}.json", RECOVERY_STATES[index]);
+        if name != expected_name {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt inventory contains an unexpected state",
             ));
         }
         let _: serde_json::Value = receipt_payload(&entry.path())?;
