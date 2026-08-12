@@ -1743,18 +1743,15 @@ fn validate_enrollment_candidate(
     membership: &MembershipState,
     identity: &LearnerIdentity,
 ) -> MembershipCoordinatorResult<()> {
-    match membership.member(&identity.node_id) {
-        None => Ok(()),
-        Some(member)
-            if member.guardian_id == identity.guardian_id
-                && member.identity_generation == identity.certificate_generation
-                && member.guardian_control_public_key == identity.guardian_control_public_key
-                && member.role == MemberRole::NonVoting =>
-        {
-            Ok(())
-        }
-        Some(_) => Err(MembershipCoordinatorError::WrongIdentity),
+    if membership.member(&identity.node_id).is_some()
+        || membership.members().any(|member| {
+            member.guardian_id == identity.guardian_id
+                || member.guardian_control_public_key == identity.guardian_control_public_key
+        })
+    {
+        return Err(MembershipCoordinatorError::WrongIdentity);
     }
+    Ok(())
 }
 
 fn validate_registry_preserves_authority(
