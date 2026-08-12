@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact issue diff for process-backend deadline/output-limit arbitration, artifact cleanup, and parity proof.",
+      "review_scope": "adl-runtime-kernel/src/parity.rs\nadl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs\nadl-runtime-kernel/tests/parity.rs\n.csdlc/issues/248\n.csdlc/prepared/issues/248\n.csdlc/evidence/248",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

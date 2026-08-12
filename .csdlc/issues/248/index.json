@@ -5,10 +5,22 @@
   "initialization_digest": "d2e454a3f3bbf3a6ac0f218c95e6775d17932df29b96b89215060693575f98bc",
   "phase": "implemented",
   "generation": 2,
-  "digest": "b3252e7aec9a8786a4823963c66f470d2cc5c5a18f3c2a7e4dd143fc2c1a8a2c",
+  "digest": "63710ee0433722b9b3cbd2e2ce234a4b391900848f7b2f6dc8c95dc68e9fb0d1",
   "branch": "codex/248-process-backend-terminal-precedence",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-248-process-backend-terminal-precedence",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:review_248_process_precedence",
+    "assigned_by": "codex:248-process-backend-precedence",
+    "revision": "git-blake3:d3a121590439857551e78df8de709f35a75f9ab8:6a4ece752e1b365528bef71ebb7c552a14f5f8efb6c81e5964b10c7b413139e8",
+    "scope": [
+      "adl-runtime-kernel/src/parity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs",
+      "adl-runtime-kernel/tests/parity.rs",
+      ".csdlc/issues/248",
+      ".csdlc/prepared/issues/248",
+      ".csdlc/evidence/248"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "9f5f791a9b331713ed6776cb75f9b683a4291d7cb5b521acb2019dc762cacde0"
     },
     "srp": {
-      "values_digest": "a9502b0250c696d7ff821f3f5b7f3daf1c0560918222496f1f47ce42ca2a8a1d",
-      "rendered_digest": "60298e59fd95124342b565a0aae0457aaaebb2bb10039d50c12eb6c509d038ba",
-      "ast_digest": "50c471e5bbcf91a7e2289d68ff6dcdc3a157fb52eeac229b11d083966570bc4d"
+      "values_digest": "73eb726ff1399bbe06695bd967da24defc5ab2a1d305d47b9e1aaea1877f7f19",
+      "rendered_digest": "23c062e9812a74e41d300c1b3466311529be7c6bc132da8c523ce01e0bf03859",
+      "ast_digest": "380eeb55a787237e2ab8eda1cf063915e4b74a4fa54ba7639268cff9bb5522ed"
     },
     "sor": {
       "values_digest": "ee80bbf1f8a499f3085f65cebba43fbfbd144bba9c230473a78300e1c8fd9bea",
@@ -105,6 +117,13 @@
       "actor": "codex:248-process-backend-precedence",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:248-process-backend-precedence",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

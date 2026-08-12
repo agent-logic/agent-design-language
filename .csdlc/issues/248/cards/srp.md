@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Exact issue diff for process-backend deadline/output-limit arbitration, artifact cleanup, and parity proof.
+adl-runtime-kernel/src/parity.rs
+adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs
+adl-runtime-kernel/tests/parity.rs
+.csdlc/issues/248
+.csdlc/prepared/issues/248
+.csdlc/evidence/248
 
 ## Prompts
 
