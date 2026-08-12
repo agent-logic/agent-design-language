@@ -1077,6 +1077,34 @@ fn observe_child(
     Ok(observe_file(&child, repo_root, name, issue))
 }
 
+fn retained_matching_projection(
+    attempt: &PrivateRecoveryDir,
+    current_path: &Path,
+    expected: &CandidateObservation,
+    repo_root: &Path,
+    issue: u64,
+) -> Result<File> {
+    if let Ok(file) = open_root_no_follow(current_path) {
+        let observed = observe_file(&file, repo_root, "prior", issue);
+        if observations_match_after_move(&observed, expected) {
+            return Ok(file);
+        }
+    }
+    for name in ["displaced", "candidate"] {
+        let component = std::ffi::CString::new(name).unwrap();
+        if let Ok(file) = attempt.open_directory_child(&component, "retained prior source") {
+            let observed = observe_file(&file, repo_root, "prior", issue);
+            if observations_match_after_move(&observed, expected) {
+                return Ok(file);
+            }
+        }
+    }
+    Err(V2Error::new(
+        ErrorCode::ReconciliationRequired,
+        "authorized retained recovery prior source is unavailable",
+    ))
+}
+
 fn verify_topology(store: &Store, branch: &str, worktree: &str) -> Result<()> {
     let root = fs::canonicalize(store.root())?;
     if root != fs::canonicalize(worktree)? || crate::git::current_branch(store.root())? != branch {
@@ -3199,14 +3227,15 @@ fn build_candidate_tree(
     store: &Store,
     request: &ProjectionRecoverRequest,
     attempt_authority: &PrivateRecoveryDir,
-    source: &Path,
+    source_authority: &File,
     candidate: &Path,
     expected_digest: &str,
     audit_payload: &serde_json::Value,
 ) -> Result<IssueRecord> {
-    let (record, files) = store.projection_recovery_candidate_files_locked(
+    let source_files = projection_source_files(source_authority)?;
+    let (record, files) = store.projection_recovery_candidate_files_from_bytes_locked(
         request.issue,
-        source,
+        &source_files,
         expected_digest,
         request.actor.clone(),
         request.reason.clone(),
@@ -3387,6 +3416,7 @@ pub fn recover_preserved_projection(
         }
         ProjectionCasAnchor::ExactObservedInvalid { .. } => (&backup_path, &canonical_path, false),
     };
+    let prior_authority = open_root_no_follow(prior_path)?;
     let prior_observation = if classification.canonical.valid_projection {
         classification.canonical.clone()
     } else {
@@ -3401,6 +3431,16 @@ pub fn recover_preserved_projection(
         classification.preserved.clone()
     };
 
+    inject_post_validation_directory_swap(
+        &request,
+        "swap_recovery_root_before_archive_mutation",
+        &recovery_path,
+    )?;
+    inject_post_validation_directory_swap(
+        &request,
+        "swap_recovery_attempt_before_archive_mutation",
+        &original_attempt_path,
+    )?;
     root_authority.validate_binding(&recovery_path, "recovery root")?;
     attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
     receipt_at(
@@ -3444,16 +3484,29 @@ pub fn recover_preserved_projection(
             ));
         }
         sync(&issue_parent(store))?;
-        sync(&attempt)?;
+        attempt_authority.file.sync_all()?;
+        let archived_now = observe_child(
+            &attempt_authority,
+            "rejected",
+            store.root(),
+            "archive",
+            request.issue,
+        )?;
         receipt_at(
             &attempt_authority,
             3,
             "rejected-archived",
-            &serde_json::to_value(observe(&archive, "archive", request.issue))?,
+            &serde_json::to_value(&archived_now)?,
         )?;
         failpoint(&request, "rejected_archived")?;
     }
-    let archived = observe(&archive, "archive", request.issue);
+    let archived = observe_child(
+        &attempt_authority,
+        "rejected",
+        store.root(),
+        "archive",
+        request.issue,
+    )?;
 
     let audit_payload = serde_json::json!({
         "operation":"recover_preserved_projection",
@@ -3503,19 +3556,19 @@ pub fn recover_preserved_projection(
                 store,
                 &request,
                 &attempt_authority,
-                prior_path,
+                &prior_authority,
                 &candidate,
                 prior_observation.record_digest.as_deref().ok_or_else(|| {
                     V2Error::new(ErrorCode::CorruptRecord, "verified prior digest missing")
                 })?,
                 &audit_payload,
             )?;
-            sync(&candidate)?;
-            sync(&attempt)?;
             let candidate_authority = attempt_authority.open_child(
                 &std::ffi::CString::new("candidate").unwrap(),
                 "recovery candidate",
             )?;
+            candidate_authority.file.sync_all()?;
+            attempt_authority.file.sync_all()?;
             let observation = observe_file(
                 &candidate_authority.file,
                 store.root(),
@@ -3540,34 +3593,25 @@ pub fn recover_preserved_projection(
             "recovery candidate verification failed",
         ));
     }
-    let candidate_prior_source = if prior_path.symlink_metadata().is_ok()
-        && exact_observation(prior_path, &prior_observation, request.issue)?
-    {
-        prior_path
-    } else if displaced.symlink_metadata().is_ok()
-        && same_moved_observation(&displaced, &prior_observation, request.issue)?
-    {
-        &displaced
-    } else if candidate.symlink_metadata().is_ok()
-        && same_moved_observation(&candidate, &prior_observation, request.issue)?
-    {
-        &candidate
-    } else {
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "authorized recovery prior source is unavailable",
-        ));
-    };
-    let (derived_record, derived_files) = store.projection_recovery_candidate_files_locked(
+    let retained_prior_authority = retained_matching_projection(
+        &attempt_authority,
+        prior_path,
+        &prior_observation,
+        store.root(),
         request.issue,
-        candidate_prior_source,
-        prior_observation.record_digest.as_deref().ok_or_else(|| {
-            V2Error::new(ErrorCode::CorruptRecord, "verified prior digest missing")
-        })?,
-        request.actor.clone(),
-        request.reason.clone(),
-        audit_payload.to_string(),
     )?;
+    let retained_prior_files = projection_source_files(&retained_prior_authority)?;
+    let (derived_record, derived_files) = store
+        .projection_recovery_candidate_files_from_bytes_locked(
+            request.issue,
+            &retained_prior_files,
+            prior_observation.record_digest.as_deref().ok_or_else(|| {
+                V2Error::new(ErrorCode::CorruptRecord, "verified prior digest missing")
+            })?,
+            request.actor.clone(),
+            request.reason.clone(),
+            audit_payload.to_string(),
+        )?;
     if candidate_record != derived_record {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
@@ -3667,7 +3711,7 @@ pub fn recover_preserved_projection(
                     anchored_child_name(&attempt_authority.file, "displaced", true)?;
                 rename_no_replace(&prior_anchor, &displaced_anchor)?;
                 sync(&issue_parent(store))?;
-                sync(&attempt)?;
+                attempt_authority.file.sync_all()?;
             } else if !(prior_path.symlink_metadata().is_err()
                 && displaced.symlink_metadata().is_ok()
                 && same_moved_observation(&displaced, &prior_observation, request.issue)?)
@@ -3706,7 +3750,7 @@ pub fn recover_preserved_projection(
             }
         }
         sync(&issue_parent(store))?;
-        sync(&attempt)?;
+        attempt_authority.file.sync_all()?;
         receipt_at(
             &attempt_authority,
             8,
@@ -3756,12 +3800,19 @@ pub fn recover_preserved_projection(
                 "displaced prior state is ambiguous",
             ));
         }
-        sync(&attempt)?;
+        attempt_authority.file.sync_all()?;
+        let displaced_now = observe_child(
+            &attempt_authority,
+            "displaced",
+            store.root(),
+            "displaced",
+            request.issue,
+        )?;
         receipt_at(
             &attempt_authority,
             10,
             "prior-displaced",
-            &serde_json::to_value(observe(&displaced, "displaced", request.issue))?,
+            &serde_json::to_value(&displaced_now)?,
         )?;
         failpoint(&request, "prior_displaced")?;
     } else if !install_exchange {
@@ -3775,7 +3826,13 @@ pub fn recover_preserved_projection(
             &attempt_authority,
             10,
             "prior-displaced",
-            &serde_json::to_value(observe(&displaced, "displaced", request.issue))?,
+            &serde_json::to_value(observe_child(
+                &attempt_authority,
+                "displaced",
+                store.root(),
+                "displaced",
+                request.issue,
+            )?)?,
         )?;
     }
 
@@ -3793,7 +3850,7 @@ pub fn recover_preserved_projection(
         &attempt_authority,
         11,
         "canonical-verified",
-        &serde_json::json!({"canonical":canonical,"archive":archived,"displaced":observe(&displaced,"displaced",request.issue)}),
+        &serde_json::json!({"canonical":canonical,"archive":archived,"displaced":observe_child(&attempt_authority,"displaced",store.root(),"displaced",request.issue)?}),
     )?;
     failpoint(&request, "canonical_verified")?;
     receipt_at(

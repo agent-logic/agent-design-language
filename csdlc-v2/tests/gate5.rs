@@ -791,6 +791,14 @@ fn preserved_projection_recovery_rejects_post_validation_root_and_attempt_swaps_
             "post-validation-attempt-swap",
             "swap_recovery_attempt_after_validation",
         ),
+        (
+            "pre-archive-root-swap",
+            "swap_recovery_root_before_archive_mutation",
+        ),
+        (
+            "pre-archive-attempt-swap",
+            "swap_recovery_attempt_before_archive_mutation",
+        ),
     ] {
         let (_temp, store, record) = implemented_fixture();
         let preserved = store.rollback_preserved(7);
@@ -818,7 +826,10 @@ fn preserved_projection_recovery_rejects_post_validation_root_and_attempt_swaps_
         let displaced_root = recovery.with_extension(format!("{swap}.displaced"));
         let attempts = [recovery.join(operation), displaced_root.join(operation)];
         for attempt in attempts {
-            assert!(!receipt_path(&attempt, 1, "prepared").exists());
+            if !swap.contains("before_archive") {
+                assert!(!receipt_path(&attempt, 1, "prepared").exists());
+            }
+            assert!(!receipt_path(&attempt, 2, "archive-intent").exists());
             assert!(!attempt.join("candidate").exists());
             assert!(!attempt.join("rejected").exists());
         }

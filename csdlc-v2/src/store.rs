@@ -428,6 +428,7 @@ impl Store {
         self.commit(issue, record, &cards, false)
     }
 
+    #[allow(dead_code)] // Retained compatibility wrapper; live recovery uses descriptor-read bytes.
     pub(crate) fn projection_recovery_candidate_files_locked(
         &self,
         issue: u64,
