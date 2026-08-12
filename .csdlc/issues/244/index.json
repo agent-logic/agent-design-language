@@ -3,13 +3,34 @@
   "issue": 244,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "a828731c8ec50a7aedb21d33599f5614a7599c2c146622aeb6ef02a5ef25d1db",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "d5aeb82ec6a65df2d913df49e6ad461b0a211d8f428b673c582caae048369ef3",
   "branch": "codex/244-conversation-cleanup-race",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:review_244_cleanup_race",
+    "assigned_by": "codex:244-ci-repair",
+    "revision": "git-blake3:60c14bdad340ddcdbcd47a967efaa43553d6ca8a:b85895c30db1869a131cc0c1df514b46cdecbaa0f66135d716f7f9adb8e55334",
+    "scope": [
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      ".csdlc/evidence/244",
+      ".csdlc/issues/244"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review_244_cleanup_race",
+    "scope": [
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      ".csdlc/evidence/244",
+      ".csdlc/issues/244"
+    ],
+    "reviewed_revision": "git-blake3:60c14bdad340ddcdbcd47a967efaa43553d6ca8a:b85895c30db1869a131cc0c1df514b46cdecbaa0f66135d716f7f9adb8e55334",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7c76d95ece6dd7cd8ee98582bb928055bc028453316650c44c733f354eb308d0",
+      "values_digest": "fc5554280e98d19bd1ff5a08bc87056eabd2e9e0d534d22deb7e7514f36bc0e1",
       "rendered_digest": "a7a3fdffde72a8ccd84f303fd9461422089748d7cca2286b450c0616ae3f63b7",
       "ast_digest": "1f3222725b44556758d3036806a3817fdeb58c6bbf437698b7d71d7510b446dc"
     },
     "stp": {
-      "values_digest": "615182d88d298dc4378b8a48378ec7b1a0af3d3f64b4cad07abfcf064eb48b8e",
+      "values_digest": "7fdef0784a48bbfa993474bf70b1a080f0b4a95d88c9420952ca6bfaed98ff1e",
       "rendered_digest": "eb188e0abb8bcfed05a216770117422eb93ead3e8e416be888002ad29221716a",
       "ast_digest": "326ed86deaf78bc55b60c81607d0068ad3b1095c56de7aa454808bb21ec07f42"
     },
     "spp": {
-      "values_digest": "7d022ac9a1ffbc7de3d9bfd590d913cab80cc5007d4a49b7e839116f70e8608f",
+      "values_digest": "3eb7986692214d7950e135234155fa937debb39907d35fddbd2b546885c4dada",
       "rendered_digest": "81978cbb3dfdd1de1a83497165879cab700128b49ade354cc668bb235a476c34",
       "ast_digest": "52b86689ec5153ac35615f555085adc964584e6a9fbb5b9fe4438be11d1143ad"
     },
     "vpp": {
-      "values_digest": "6ab82959f990c40e3bb745323926eeb486702b5e6ce80506b43ed1409e4cf054",
+      "values_digest": "70c0c31008aa008140038c6bffccd87743568073e0a8ddc2c765982a7c0d8d5e",
       "rendered_digest": "b1f0e4cabc691a213f24184bd7f17d1ce8bb6876b4ebc31d45ae2d1291418074",
       "ast_digest": "37327f5026d7e84602ac9dba51b9790a75681342c9a0600c179f6f99090fc7f0"
     },
     "srp": {
-      "values_digest": "9f2c1bdf03d346199142170921d23010bd55446bb51f63675a682e7be300b636",
-      "rendered_digest": "9fdfc4ebbab88ffd71d310ad577f2bc179ab5c194aa6d461bac005661792eaef",
-      "ast_digest": "53d7dbf8eef992e76d36b5742a3ed29b9315d6f20f1595e5ec22d3d4bb66920c"
+      "values_digest": "261a31649592e0a54fb40eb71817994d32ec6b6ac91116ac49beb9b496d33217",
+      "rendered_digest": "7998a431515070569ab793b2e2da2c67f16ec0a581187d80822f8c61fe4d03a4",
+      "ast_digest": "afb7df8f7518fd44fd8d5f7fb7d5ef22102fa0ae399e2d7c6c2181100007cde4"
     },
     "sor": {
-      "values_digest": "727b09fa4bbf53107e29e0d1f7372525d9f9900d1669c00d0dc0ac5f8aae6666",
+      "values_digest": "d61f1ac45a6a79f23be0b997561d8308a2e0bdc2557c900d0814984849f847f7",
       "rendered_digest": "c44749aa017db15190fecc1c305cc1ab1157989f032d84258f784fa77f8a8df2",
       "ast_digest": "f8adb273e8a0cfe21877b058182d8d41bd8420b871ee21fdbf2fbd7b521d977a"
     }
@@ -110,6 +131,13 @@
       "to": "implemented",
       "actor": "codex:244-ci-repair",
       "reason": "Required Runtime CI reproduced cleanup-race timeout under the fixture's 100 ms execution policy; recover publication and review for bounded test-policy repair."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-ci-repair",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -287,6 +315,20 @@
       "actor": "codex:244-ci-repair",
       "reason": "Record the bounded required-CI fixture timing repair and fresh exact-worktree Runtime proof.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Stabilized the cleanup-race proof by queueing duplicate attachment behind re-authentication and proportionally widening only the synthetic test execution window and delays, preserving production behavior and timeout assertions.\",\"changes\":[\"Queued cleanup-race re-authentication and duplicate attachment frames back-to-back before awaiting the authentication response.\",\"Widened the test-only conversation execution window from 100 ms to 500 ms and proportionally scaled synthetic budget, disconnect, and cancellation delays so accepted, timed-out, and cancelled semantics remain exercised on shared CI runners.\",\"Documented the server frame-order proof and left Runtime production behavior, issue #237, PR #242, and issue #112 authority work unchanged.\"],\"artifacts\":[\"adl-runtime-kernel/tests/conversation_sessions.rs\",\".csdlc/evidence/244\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Prove the exact cleanup-race sequence in 20 consecutive repetitions under the widened test-only window.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/conversation-cleanup-race-focused.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete Runtime kernel test target after the fixture timing repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-tests.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across Runtime kernel targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-clippy.log\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Run the integrated Observatory proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-observatory.log\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex:244-ci-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 24,
+      "actor": "codex:244-ci-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
