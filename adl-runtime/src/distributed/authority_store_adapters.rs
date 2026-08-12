@@ -173,6 +173,7 @@ impl AuthorityStoreAdapterRegistry {
     }
 }
 
+#[derive(Clone)]
 pub struct AuthorityBoundCertificateStore {
     lineage_id: String,
     barrier: Arc<AuthorityReconciliationBarrier>,
@@ -235,6 +236,7 @@ impl AuthorityBoundCertificateStore {
     }
 }
 
+#[derive(Clone)]
 pub struct AuthorityBoundLeaseLedger {
     lineage_id: String,
     barrier: Arc<AuthorityReconciliationBarrier>,
@@ -312,6 +314,7 @@ impl AuthorityBoundLeaseLedger {
     }
 }
 
+#[derive(Clone)]
 pub struct AuthorityBoundFencingStore {
     lineage_id: String,
     barrier: Arc<AuthorityReconciliationBarrier>,
