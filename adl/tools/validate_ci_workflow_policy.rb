@@ -61,7 +61,7 @@ errors << ".github/workflows/ci.yaml: concurrency key must unambiguously identif
 errors << ".github/workflows/ci.yaml: superseded revisions must cancel in progress" unless ci.include?("cancel-in-progress: true")
 
 heavy_selector = "runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}"
-light_jobs = %w[adl_path_policy adl_tooling_contracts adl-ci adl-coverage]
+light_jobs = %w[adl_path_policy adl_tooling_contracts adl_coverage_hosted adl-ci adl-coverage]
 ci.scan(/^  ([A-Za-z0-9_-]+):\n(.*?)(?=^  [A-Za-z0-9_-]+:\n|\z)/m).each do |job, body|
   runner_line = body.lines.find { |line| line.match?(/^    runs-on:/) }
   next unless runner_line
@@ -86,7 +86,10 @@ end
 
 coverage = job_block(ci, "adl_coverage_hosted")
 unless coverage&.include?("if: always() && needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.heavy_ci_backend == 'hosted'")
-  errors << "ci.yaml adl_coverage_hosted: heavy aggregation must skip before allocation when coverage is not required"
+  errors << "ci.yaml adl_coverage_hosted: hosted aggregation must skip before allocation when coverage is not required"
+end
+if coverage&.include?("run_authoritative_coverage_lane.sh")
+  errors << "ci.yaml adl_coverage_hosted: hosted aggregation must not re-run Rust coverage"
 end
 unless ci.include?('if [ "$EVENT_NAME" = pull_request ]; then') && ci.include?("backend=hosted")
   errors << "ci.yaml: pull requests must force the hosted backend before any runner allocation"
