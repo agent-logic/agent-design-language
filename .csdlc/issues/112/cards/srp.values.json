@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #112 Runtime-owned Layer 8 authority, refusal, replay, redacted audit, narrow pre-delivery Runtime API integration, exact deferred product targets, two-gate ancestry, and absence of product or sibling-issue mutation during preparation.",
+      "review_scope": "adl-runtime-kernel/src\nadl-runtime/src/layer8_authority.rs\nadl-runtime/tests/layer8_authority.rs\nadl/src/csm_runtime_api.rs\nadl/tests/layer8_authority_runtime_api.rs\nadl/tools/validate_layer8_authority_observatory_ui.sh\ndemos/html-observatory\ndocs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\n.csdlc/evidence/112\n.csdlc/issues/112",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

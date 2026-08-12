@@ -427,6 +427,7 @@ pub struct Layer8Principal {
 pub struct RuntimeIdentityEvidence {
     pub principal_id: String,
     pub polis_id: String,
+    pub signing_key_id: String,
     pub credential_generation: u64,
     pub current_credential_generation: u64,
     pub expires_at_epoch_secs: u64,
@@ -439,6 +440,7 @@ impl RuntimeIdentityEvidence {
         if !self.authenticated
             || self.principal_id.trim().is_empty()
             || self.polis_id.trim().is_empty()
+            || self.signing_key_id.trim().is_empty()
         {
             return Err(RefusalReason::IdentityUnavailable);
         }
@@ -664,6 +666,7 @@ impl Layer8ConversationAuthority {
     #[allow(clippy::too_many_arguments)]
     pub fn authorize(
         &self,
+        authenticated_sender: &CommunicationVerifyingIdentity,
         action: Layer8Action,
         conversation_id: String,
         recipient_id: String,
@@ -671,6 +674,17 @@ impl Layer8ConversationAuthority {
         correlation_id: String,
         now_epoch_secs: u64,
     ) -> AuthorityDecision {
+        if authenticated_sender.principal_id != self.profile.evidence.principal_id
+            || authenticated_sender.polis_id != self.profile.evidence.polis_id
+            || authenticated_sender.signing_key_id != self.profile.evidence.signing_key_id
+        {
+            return AuthorityDecision::Refused(PublicRefusal {
+                authorized: false,
+                reason: RefusalReason::IdentityUnavailable,
+                retryable: false,
+                correlation_id,
+            });
+        }
         let recipients = BTreeSet::from([recipient_id]);
         let request = AuthorityRequest {
             evidence: self.profile.evidence.clone(),

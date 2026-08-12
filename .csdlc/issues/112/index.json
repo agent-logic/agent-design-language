@@ -6,10 +6,26 @@
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "implemented",
   "generation": 36,
-  "digest": "dee46764ca738ec27ba45c0bf32a2c6920ab0efa3f730297fee4ea13d9bc95b4",
+  "digest": "46bc3026dcc05fdff9ae22d7323b73d4ad04c60692a905cd4d9741f43ddc7b83",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-subagent-112-final",
+    "assigned_by": "codex-session-112",
+    "revision": "git-blake3:cf7fb2e0a002beaf23660b18c136e74be86de9da:e6d897466aa23eef6f06140d5a59b52607e8fbcfbe07dd2b59420ae3bd55d7e4",
+    "scope": [
+      "adl-runtime-kernel/src",
+      "adl-runtime/src/layer8_authority.rs",
+      "adl-runtime/tests/layer8_authority.rs",
+      "adl/src/csm_runtime_api.rs",
+      "adl/tests/layer8_authority_runtime_api.rs",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      "demos/html-observatory",
+      "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
+      ".csdlc/evidence/112",
+      ".csdlc/issues/112"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "0b5d959bd7a0ef072eda1088bfdae6c1c07ef5e70e12171072987aae06338eee"
     },
     "srp": {
-      "values_digest": "d7d0dd841a4475df47e4beb3782ffb14f9735f29a26404a5c9d5a797e864ef6b",
-      "rendered_digest": "2cd40ee68347d1da9e597b44f113efbb4a7a084d33601afb7f78aef350a73547",
-      "ast_digest": "c39e15dc8ca48abd1c026f67c273e12132af658af93c09a36bcfab69ba683559"
+      "values_digest": "b27223eb092a92671b0d9da69b8cc8e9998bb07cd54c0d38f21a6f256e150b96",
+      "rendered_digest": "22c89a1c4689636d1c3a6d6e09d1e65ab86dddc74e17afeff9fa6ac67bed90df",
+      "ast_digest": "018f1c4b35f67eaae892457d41a1744e67fcce6b01af99ba97e37c6d1d56b29a"
     },
     "sor": {
       "values_digest": "52219a43a7a2b5cb47fcd67d8a412bc175b91ad728d166dbe6fa7f0be2e61afd",
@@ -344,6 +360,13 @@
       "actor": "codex-session-112",
       "reason": "Record exact-current execution after requiring agent-originated acknowledgements and binding all Runtime API outer fields to the signed request.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity, capability, and agent and Polis policy evidence; signed requests bound to authorized fields; recipient-agent-originated acknowledgements; serialized tamper-evident audit; retry-safe refusal handling; and exact-current issue 244 integration.\",\"changes\":[\"Load current identity evidence, pre-existing capabilities, and separate agent and Polis policies from an external authority profile instead of constructing request-shaped authority.\",\"Keep only recipient public keys in the control authority; require the recipient agent execution boundary to sign and return the acknowledgement through canonical ingress before delivery.\",\"Bind action, conversation, recipient, replay, and correlation outer fields to the verified signed request and require exact acknowledgement replay identity.\",\"Serialize audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.\",\"Keep retryable policy refusals from consuming replay identities and preflight conversation capacity before durable authorization.\",\"Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation.\"],\"artifacts\":[\"adl-runtime-kernel/src/layer8_authority.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime/src/layer8_authority.rs\",\"adl-runtime/tests/layer8_authority.rs\",\"adl/src/csm_runtime_api.rs\",\"adl/tests/layer8_authority_runtime_api.rs\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Run the exact-current production conversation boundary after issue 244's test-module migration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-production-conversation-boundary.log (1 passed)\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"layer8_authority\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, and refusal proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-contract.log (11 passed)\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--no-tests=fail\",\"--status-level\",\"all\"],\"purpose\":\"Run the Runtime API signed request and exact acknowledgement integration proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-runtime-api-integration.log (4 passed)\"},{\"command\":[\"bash\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\"],\"purpose\":\"Run the real-browser Observatory disclosure and authority-state proof with the configured local Playwright and Chrome runtimes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-observatory-ui.log (PASS)\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--bin\",\"adl-runtime-kernel\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Enforce strict lint hygiene for the production Runtime source.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: kernel strict clippy PASS\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"layer8_authority_runtime_api\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Enforce strict lint hygiene for the Runtime API integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: API strict clippy PASS\"}]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 36,
+      "actor": "codex-session-112",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

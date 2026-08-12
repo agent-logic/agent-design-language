@@ -122,6 +122,7 @@ pub fn authorize_layer8_runtime_delivery<T>(
         });
     }
     match authority.authorize(
+        &request.sender_identity,
         request.action.clone(),
         request.conversation_id.clone(),
         request.recipient_id.clone(),

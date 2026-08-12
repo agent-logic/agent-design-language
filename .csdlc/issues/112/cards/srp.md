@@ -12,7 +12,16 @@ Status: pre_phase
 
 ## Scope
 
-Issue #112 Runtime-owned Layer 8 authority, refusal, replay, redacted audit, narrow pre-delivery Runtime API integration, exact deferred product targets, two-gate ancestry, and absence of product or sibling-issue mutation during preparation.
+adl-runtime-kernel/src
+adl-runtime/src/layer8_authority.rs
+adl-runtime/tests/layer8_authority.rs
+adl/src/csm_runtime_api.rs
+adl/tests/layer8_authority_runtime_api.rs
+adl/tools/validate_layer8_authority_observatory_ui.sh
+demos/html-observatory
+docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md
+.csdlc/evidence/112
+.csdlc/issues/112
 
 ## Prompts
 

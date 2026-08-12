@@ -517,27 +517,32 @@ async fn main() -> ExitCode {
                         std::fs::read(signing_profile_path).ok().and_then(|bytes| {
                             serde_json::from_slice::<ConversationSigningProfile>(&bytes).ok()
                         });
-                    let loaded = profile
-                        .filter(|profile| profile.evidence.polis_id == instance_id)
-                        .and_then(|profile| {
-                            Layer8AuthorityStore::open(
+                    let loaded = profile.zip(signing_profile).and_then(
+                        |(authority_profile, signing_profile)| {
+                            let sender = &signing_profile.sender;
+                            if authority_profile.evidence.polis_id != instance_id
+                                || sender.principal_id != authority_profile.evidence.principal_id
+                                || sender.polis_id != authority_profile.evidence.polis_id
+                                || sender.signing_key_id
+                                    != authority_profile.evidence.signing_key_id
+                                || signing_profile
+                                    .recipients
+                                    .iter()
+                                    .any(|recipient| recipient.polis_id != instance_id)
+                            {
+                                return None;
+                            }
+                            let store = Layer8AuthorityStore::open(
                                 operation_state_identity
                                     .join("authority/layer8-conversation-audit.jsonl"),
                             )
-                            .ok()
-                            .and_then(|store| Layer8ConversationAuthority::new(store, profile).ok())
-                        })
-                        .zip(
-                            signing_profile
-                                .filter(|profile| {
-                                    profile.sender.polis_id == instance_id
-                                        && profile
-                                            .recipients
-                                            .iter()
-                                            .all(|recipient| recipient.polis_id == instance_id)
-                                })
-                                .and_then(|profile| Layer8SignedExchange::load(profile).ok()),
-                        );
+                            .ok()?;
+                            Some((
+                                Layer8ConversationAuthority::new(store, authority_profile).ok()?,
+                                Layer8SignedExchange::load(signing_profile).ok()?,
+                            ))
+                        },
+                    );
                     match loaded {
                         Some(value) => Some(value),
                         None => {

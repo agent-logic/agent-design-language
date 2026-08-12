@@ -44,6 +44,7 @@ fn fixture(
             evidence: RuntimeIdentityEvidence {
                 principal_id: "human-1".into(),
                 polis_id: "polis-1".into(),
+                signing_key_id: "human-1-key".into(),
                 credential_generation: 4,
                 current_credential_generation: 4,
                 expires_at_epoch_secs: 200,
@@ -427,17 +428,75 @@ fn concurrent_store_handles_serialize_against_the_current_audit_head() {
     let first = Layer8AuthorityStore::open(&path).unwrap();
     let second = Layer8AuthorityStore::open(&path).unwrap();
     let (request, capability, agent, polis) = fixture(Layer8Action::Continue);
-    assert!(matches!(
-        first.authorize(request.clone(), &capability, &agent, &polis),
-        AuthorityDecision::Authorized(_)
-    ));
-    let AuthorityDecision::Refused(refusal) =
-        second.authorize(request, &capability, &agent, &polis)
-    else {
-        panic!("second handle authorized a replay")
+    let barrier = std::sync::Arc::new(std::sync::Barrier::new(3));
+    let run = |store: Layer8AuthorityStore| {
+        let barrier = barrier.clone();
+        let request = request.clone();
+        let capability = capability.clone();
+        let agent = agent.clone();
+        let polis = polis.clone();
+        std::thread::spawn(move || {
+            barrier.wait();
+            store.authorize(request, &capability, &agent, &polis)
+        })
     };
-    assert_eq!(refusal.reason, RefusalReason::ReplayRefused);
+    let first = run(first);
+    let second = run(second);
+    barrier.wait();
+    let decisions = [first.join().unwrap(), second.join().unwrap()];
+    assert_eq!(
+        decisions
+            .iter()
+            .filter(|decision| matches!(decision, AuthorityDecision::Authorized(_)))
+            .count(),
+        1
+    );
+    assert_eq!(
+        decisions
+            .iter()
+            .filter(|decision| matches!(decision, AuthorityDecision::Refused(refusal) if refusal.reason == RefusalReason::ReplayRefused))
+            .count(),
+        1
+    );
     Layer8AuthorityStore::open(path).unwrap();
+}
+
+#[test]
+fn conversation_authority_refuses_a_valid_but_cross_principal_sender() {
+    let temp = TempDir::new().unwrap();
+    let (request, capability, agent_policy, polis_policy) = fixture(Layer8Action::Continue);
+    let profile = ConversationAuthorityProfile {
+        evidence: request.evidence,
+        capabilities: vec![capability],
+        agent_policies: vec![agent_policy],
+        polis_policies: vec![polis_policy],
+    };
+    let authority = Layer8ConversationAuthority::new(
+        Layer8AuthorityStore::open(temp.path().join("audit.jsonl")).unwrap(),
+        profile,
+    )
+    .unwrap();
+    let sender = identity(
+        "different-principal",
+        "human-1-key",
+        &SigningKey::from_bytes(&[99_u8; 32]),
+    );
+    assert!(matches!(
+        authority.authorize(
+            &sender,
+            Layer8Action::Continue,
+            "conversation-7".to_owned(),
+            "agent-a".to_owned(),
+            "cross-principal-replay".to_owned(),
+            "cross-principal-correlation".to_owned(),
+            100,
+        ),
+        AuthorityDecision::Refused(PublicRefusal {
+            reason: RefusalReason::IdentityUnavailable,
+            retryable: false,
+            ..
+        })
+    ));
 }
 
 #[test]

@@ -1084,6 +1084,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         }
         if !matches!(
             authority.authorize(
+                &signed_exchange.sender_verifying_identity(),
                 action,
                 intent.conversation_id.clone(),
                 intent.recipient_id.clone(),

@@ -294,6 +294,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
                 evidence: RuntimeIdentityEvidence {
                     principal_id: "layer8-operator".to_owned(),
                     polis_id: "conversation-runtime".to_owned(),
+                    signing_key_id: "operator-key".to_owned(),
                     credential_generation: 1,
                     current_credential_generation: 1,
                     expires_at_epoch_secs: u64::MAX,

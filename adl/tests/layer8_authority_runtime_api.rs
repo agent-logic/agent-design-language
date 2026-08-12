@@ -54,6 +54,7 @@ fn authority(root: &Path) -> Layer8ConversationAuthority {
             evidence: RuntimeIdentityEvidence {
                 principal_id: "layer8-operator".to_owned(),
                 polis_id: "polis-test".to_owned(),
+                signing_key_id: "operator-key".to_owned(),
                 credential_generation: 3,
                 current_credential_generation: 3,
                 expires_at_epoch_secs: u64::MAX,
