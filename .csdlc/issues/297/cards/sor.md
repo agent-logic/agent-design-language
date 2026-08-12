@@ -12,15 +12,19 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented typed classification, recovery, immutable receipts, exact cleanup, commit blocking, CLI/schema exposure, and focused regression proof for preserved issue projections.
 
 ## Artifacts
 
-- none
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/tests/gate5.rs
 
 ## Execution
 
-- none
+- Added tagged-CAS projection classification and candidate manifests
+- Added typed recover and cleanup routes with private receipt namespaces
+- Blocked ordinary commits while rollback-preserved evidence exists
+- Added CLI/schema/public exports and focused gate5 tests
 
 ## Validation
 

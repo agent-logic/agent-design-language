@@ -7,15 +7,23 @@
     "title": "[v0.92][C-SDLC][defect] Recover and classify preserved failed issue projections",
     "slug": "preserved-failed-projection-recovery",
     "version": "v0.92",
-    "generation": 12
+    "generation": 13
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
+      "summary": "Implemented typed classification, recovery, immutable receipts, exact cleanup, commit blocking, CLI/schema exposure, and focused regression proof for preserved issue projections.",
+      "actual_changes": [
+        "Added tagged-CAS projection classification and candidate manifests",
+        "Added typed recover and cleanup routes with private receipt namespaces",
+        "Blocked ordinary commits while rollback-preserved evidence exists",
+        "Added CLI/schema/public exports and focused gate5 tests"
+      ],
+      "artifacts": [
+        "csdlc-v2/src/projection_recovery.rs",
+        "csdlc-v2/tests/gate5.rs"
+      ],
       "actual_validation": [],
       "integration_state": "not_started",
       "publication_state": "not_published",

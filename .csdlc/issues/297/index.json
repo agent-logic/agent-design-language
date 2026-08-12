@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
   "phase": "bound",
-  "generation": 12,
-  "digest": "76636eb4dea62de0c7b5ce52d3d38e102e492112e03d7b9f242c6981fc76f3e1",
+  "generation": 13,
+  "digest": "d67bd81be3bb2029ddf686fa2f75f5a46f2b00f80ef77322c87cab91d390c192",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a17620923b00a26f07f8ec044a9d80ba4ea164a24c40879df8748ce5f85972a9",
+      "values_digest": "7788a25877ef28ed8c2890143ec390b18130044b1920a7915250accb420e52a9",
       "rendered_digest": "df823d86637cd9489e801629df7a5212ac8097bc372257554eaec7c9a9d0660e",
       "ast_digest": "1bc768342db5a416f8bb25942901fb3f59ba10dc488a47dea6f0ef806aabb7e0"
     },
     "stp": {
-      "values_digest": "725d3e38efdfb5ee5f7b5c3bfeabc6ccf9cef09a332f1379b300315d9d23a05f",
+      "values_digest": "788f7f3a6545a846c9058f87c4375c3ad0a5b9a1882a8f519b188f8536d06d41",
       "rendered_digest": "97ad2e897d196aba11055627fae7c5e07537626d42ad815337c564dffb664688",
       "ast_digest": "9a54ff529a22712e2dcb9f5efb93efb1ca9fd290304b932f98ab76803bc6ae26"
     },
     "spp": {
-      "values_digest": "5bcb4725a5c19d336e2d77b26d83e89d17d00b62024f9907a60f660a53baa8f6",
+      "values_digest": "815e3a73faeec180e2d0ae0d89182ea81fbcdfe32a9a892c9d775699ac561e56",
       "rendered_digest": "4e76e66487c3fc2fe933bd08cef3d1402afd52047034a8012e313925a73f1c35",
       "ast_digest": "0840d7be9036b9e08927f71421e21b62df630f5cb21946bd6cf204c00d24729d"
     },
     "vpp": {
-      "values_digest": "56d4d63ea7c3effa112544cb204f1382d1840608c82135a14c96b5fa2c54a7b9",
+      "values_digest": "44afa01e627cac7381abebbe789b237fcb345d6358f9d4bcfd6b16b6f5c590dc",
       "rendered_digest": "0b69dc6c07901591ea965a1a35f8607a2c96f9233eb74689d814f5384df20ca1",
       "ast_digest": "8e95b4571cde6288076cbf1bb565d27344aaa3b7fa0025ab19ec504023e44f56"
     },
     "srp": {
-      "values_digest": "71c54c8eb8bb839e3571c94a924287144c9e1d1d07a923abe308135c49e9d1d8",
+      "values_digest": "0a6c31859c3e5053ee94d1637098733e619ea0a1b2c8bb2a5a47d0cc99ae1272",
       "rendered_digest": "6f4e38ac2a97a50f90551b3dce814fd74affdc11bb3fc116e971cce08a0617e9",
       "ast_digest": "8f81d0ff47d5b8e65b630310d435d18d4f3965c7486a36fbeabe916e37ba8c33"
     },
     "sor": {
-      "values_digest": "76bd65554197a33b0b4cd055ecc6780284bf2da75c29403031a15052aadde31e",
-      "rendered_digest": "d6c98886b5a9df63aca6b5529993b2887584d88a599659d7e272d5a4aa2711c3",
-      "ast_digest": "7744a980b6a31a16e82cffa50bf30ca4d85bfb6f87bddb7ebd1c08903386bcef"
+      "values_digest": "1d64f787ee73f67949cca09704bbeef4992112c1a19b34ce7b1e59755e03f61d",
+      "rendered_digest": "e757c02781d15b12ea79b88a77ffdcec6d11880d6b6e502c1de91090bb910068",
+      "ast_digest": "c83a321795232ad1cbd84e23620dc85783605e492b63c0838c14aef6b290e812"
     }
   },
   "transitions": [
@@ -168,6 +168,13 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:issue-297",
+      "reason": "record bounded projection recovery implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented typed classification, recovery, immutable receipts, exact cleanup, commit blocking, CLI/schema exposure, and focused regression proof for preserved issue projections.\",\"changes\":[\"Added tagged-CAS projection classification and candidate manifests\",\"Added typed recover and cleanup routes with private receipt namespaces\",\"Blocked ordinary commits while rollback-preserved evidence exists\",\"Added CLI/schema/public exports and focused gate5 tests\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
     }
   ]
 }
