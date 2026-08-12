@@ -5,10 +5,20 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 59,
-  "digest": "c6becde1d397a8f4483877d4cfa3adac2798a2619ddbf5bfd7d6fcad63c26f7d",
+  "digest": "ced6c7b15028d118256edf5d2fb20274f389e33877145cd06155c2cfcf39e41e",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:55ba91a0-d036-4944-9adf-e468f63b182a",
+    "assigned_by": "codex:issue-298-r22-remediation",
+    "revision": "git-blake3:e77949bb4bcc4a69694bc3d7262da91d72a91f99:b84f75eabf9004f5a9c299e0514f0188fc0f1f8aeacb0d996146485179c25cc5",
+    "scope": [
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +54,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "877a74b76d9573bb840d3ab00eadde9350a30ee16ff1c7f368b641f6170e9e63",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "a99e4ad654f02a88756849750cf94c31fd76352d7ab3a1e8d6909e9fe8db2efb",
+      "rendered_digest": "5bdd4852390d5614f01a756242454e39c682d242b0e43b2b2d61b397c589c7d4",
+      "ast_digest": "7822c1bc1142120016e54fdbf89e094f2c992a5046728f32fa4bed56fe5847e9"
     },
     "sor": {
       "values_digest": "8c058e6c9446ccf541ffe3f2aac61328a67f168d1acba0f4cc6db2127105da69",
@@ -707,6 +717,13 @@
       "actor": "codex:issue-298-r22-remediation",
       "reason": "Record fail-closed Linux statx mount identity remediation after exact R22 P1.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Require explicit STATX_MNT_ID authority before accepting Linux retained mount identity.\",\"changes\":[\"Reject successful statx results whose stx_mask omits STATX_MNT_ID\",\"Return the exact kernel-provided mount ID only when its authority bit is present\",\"Add Linux-focused helper proof for missing-bit rejection and exact returned mount ID\",\"Validated Gate5 56/56, library 78/78, strict all-target Clippy, all-target check, formatting, and diff hygiene\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\"]}"
+    },
+    {
+      "sequence": 85,
+      "generation": 59,
+      "actor": "codex:issue-298-r22-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
