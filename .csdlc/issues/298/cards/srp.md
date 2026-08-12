@@ -12,15 +12,7 @@ Status: draft
 
 ## Scope
 
-csdlc-v2/src/bin/csdlc-issue.rs
-csdlc-v2/src/lib.rs
-csdlc-v2/src/schema.rs
-csdlc-v2/src/store.rs
-csdlc-v2/src/projection_recovery.rs
-csdlc-v2/tests/gate5.rs
-.csdlc/issues/298
-.csdlc/prepared/issues/298
-.csdlc/evidence/298
+
 
 ## Prompts
 
@@ -41,13 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Inspection-only exact-revision review; the reviewer did not rerun tests or exercise publication, GitHub, or CI.
-- Owner validation proved Gate5 56/56, library 78/78, strict all-target Clippy, all-target check, formatting, and diff hygiene before assignment.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:27f86ec60484b8caa555da47d714029e9f106b0f:f13833955c09ec95414ae385dd7a2a639bf3c941c76a353e1185a1e5b5fadefd")
+Revision: None
 
-Reviewer: Some("fresh-session:f8fbe675-94b6-4990-95ca-2ad6bb932277")
+Reviewer: None
 
-Result: pass
+Result: pre_review

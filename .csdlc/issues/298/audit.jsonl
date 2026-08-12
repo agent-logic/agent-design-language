@@ -77,3 +77,4 @@
 {"sequence":77,"generation":53,"actor":"codex:issue-298-r20-remediation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":78,"generation":54,"actor":"fresh-session:f8fbe675-94b6-4990-95ca-2ad6bb932277","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":79,"generation":55,"actor":"codex:issue-298-r21-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":80,"generation":56,"actor":"codex:issue-298-r21-ci-remediation","reason":"Recover reviewed publication after exact Linux CI compile failure at projection_recovery.rs:608: libc fsid_t.__val is private on the hosted target. Require portable retained mount identity without private libc fields, Linux-focused proof, new exact review, and republication.","operation":"recover_review"}
