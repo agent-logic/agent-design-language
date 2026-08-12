@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 31,
-  "digest": "866ca15e71cba5951a1812a35c1bf68395d7ddb57031bdec3e495ddb963594da",
+  "digest": "2cc0617753e24ad5d6712afad7434c2f04e24a0e84d6dd500ff9e8bd6bfb5cd0",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:dfaf7381-c6cb-43ca-bc3e-1fc072d307f2",
+    "assigned_by": "codex:issue-298",
+    "revision": "git-blake3:f97ff9b4b87e45927b082a4cb9150f4d7fd50db4:b7764c3dfcb46e2b683c3cec9cde5022d4724102a3db1ccc3082188bd15aaf95",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "71d5abace5ec14d0eac37d5d4f07dd07b555cae8ba199d42a2a114474f47320f",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "ae48a84f848037587e9fd38279198cc44c4d036f726114c9293352e50de8ee58",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "f9b2d952e1be5928f2c3e6ee5e4214ec751bbc2835a5ecdfac9d57202324d05f",
@@ -378,6 +393,13 @@
       "actor": "codex:issue-298",
       "reason": "record bounded anchored projection classification and resumable recovery implementation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Derive completed recovery candidates from the authorized PREPARED prior projection and audit transform\",\"changes\":[\"Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299\",\"Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation\",\"Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart\",\"Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery\",\"Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery\",\"Added deterministic recovery-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions\",\"Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection\",\"Retained the exact checked source child descriptor until rename/exchange completion\",\"Validated typed request authority, PREPARED classification self-digest, request classification equality, terminal result authority, and durable canonical recovery audit\",\"Derived completed recovery candidate record/files from the retained displaced prior projection and exact authorized audit transform\",\"Compared completed candidate-created receipts and terminal canonical artifacts against the authorized recovery transform\",\"Allowed later ordinary generations after the recovered terminal generation without requiring canonical files to remain at the recovered generation\",\"Added coherent candidate-chain forgery and malformed request classification fail-closed proof\",\"Recorded refreshed focused recovery proof with 15 passing tests\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/evidence/298/preserved-projection-recovery.log\"]}"
+    },
+    {
+      "sequence": 44,
+      "generation": 31,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
