@@ -156,6 +156,8 @@ struct MembershipCoordinatorState {
     active_enrollment: Option<DurableEnrollment>,
     #[serde(default)]
     stable_id_registry: Vec<(Vec<u8>, u64)>,
+    #[serde(default)]
+    pending_visibility_operation_sha256: Option<[u8; 32]>,
     published_operation_sha256: Option<[u8; 32]>,
     published_result_sha256: Option<[u8; 32]>,
     #[serde(default)]
@@ -500,6 +502,15 @@ impl MembershipCoordinator {
         &mut self,
         promotion: &VerifiedPromoteVoter,
     ) -> MembershipCoordinatorResult<()> {
+        if self.envelope.payload().active_enrollment.is_some()
+            || self
+                .envelope
+                .payload()
+                .pending_visibility_operation_sha256
+                .is_some()
+        {
+            return Err(MembershipCoordinatorError::StateRegression);
+        }
         if let Some(active) = self.envelope.payload().active.as_ref() {
             return if active.operation_sha256 == promotion.operation_sha256 {
                 Ok(())
@@ -536,6 +547,15 @@ impl MembershipCoordinator {
         removal: &VerifiedMembershipArtifact,
         transition: &AuthorizedMembershipTransition,
     ) -> MembershipCoordinatorResult<()> {
+        if self.envelope.payload().active_enrollment.is_some()
+            || self
+                .envelope
+                .payload()
+                .pending_visibility_operation_sha256
+                .is_some()
+        {
+            return Err(MembershipCoordinatorError::StateRegression);
+        }
         if let Some(active) = self.envelope.payload().active.as_ref() {
             return if active.operation_sha256 == removal.operation_sha256() {
                 Ok(())
@@ -995,7 +1015,7 @@ impl MembershipCoordinator {
         if let Some(published) =
             published_result(self.envelope.payload(), admission.operation_sha256())
         {
-            if self.envelope.payload().published_operation_sha256
+            if self.envelope.payload().pending_visibility_operation_sha256
                 != Some(admission.operation_sha256())
             {
                 return Ok(published.result_sha256);
@@ -1022,9 +1042,16 @@ impl MembershipCoordinator {
                     enrollment_operation(admission),
                 )?,
             }
+            self.clear_pending_visibility(admission.operation_sha256())?;
             return Ok(published.result_sha256);
         }
-        if self.envelope.payload().active.is_some() {
+        if self.envelope.payload().active.is_some()
+            || self
+                .envelope
+                .payload()
+                .pending_visibility_operation_sha256
+                .is_some()
+        {
             return Err(MembershipCoordinatorError::StateRegression);
         }
         validate_enrollment_old_parity(membership, authority, raft)?;
@@ -1175,11 +1202,22 @@ impl MembershipCoordinator {
             },
         );
         next.active_enrollment = None;
+        next.pending_visibility_operation_sha256 = Some(admission.operation_sha256());
         self.crash_at(MembershipCrashBoundary::BeforeCheckpoint)?;
         self.commit(next)?;
         self.crash_at(MembershipCrashBoundary::AfterCheckpoint)?;
         *membership = staged_membership;
+        self.clear_pending_visibility(admission.operation_sha256())?;
         Ok(result_sha256)
+    }
+
+    fn clear_pending_visibility(&mut self, operation: [u8; 32]) -> MembershipCoordinatorResult<()> {
+        if self.envelope.payload().pending_visibility_operation_sha256 != Some(operation) {
+            return Err(MembershipCoordinatorError::StateRegression);
+        }
+        let mut next = self.envelope.payload().clone();
+        next.pending_visibility_operation_sha256 = None;
+        self.commit(next)
     }
 
     /// Production promotion entrypoint. The coordinator obtains both external
