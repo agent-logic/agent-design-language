@@ -3,45 +3,14 @@
   "issue": 5911,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "eba116b5732a4b5f497dadabca6e906a6f9eb9dcd393ae704780074f01a773fe",
-  "phase": "published",
-  "generation": 15,
-  "digest": "ea25d96393f07138a313cd933af833f4162845426e2dc8396791c90043695220",
+  "phase": "implemented",
+  "generation": 16,
+  "digest": "40a7d4d0fc8beb9ffe44895a23d7a3896ccc26b00d9cac826b91008697e934a3",
   "branch": "codex/5911-fastwork-storage-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5911-fastwork-storage-policy",
   "review_assignment": null,
-  "review": {
-    "reviewer": "codex-subagent-issue-5911-review",
-    "scope": [
-      ".adl/worktree-policy.json",
-      ".csdlc/issues/5911",
-      ".csdlc/prepared/issues/5911/design.md",
-      ".csdlc/prepared/issues/5911/design.mmd",
-      "AGENTS.md",
-      "adl/tools/archive_codex_sessions_to_fastwork.sh",
-      "adl/tools/test_archive_codex_sessions_to_fastwork.sh",
-      "csdlc-v2/src/lifecycle.rs"
-    ],
-    "reviewed_revision": "git-blake3:1a2902545b4392ae28b767959d92f6da5215e1b4:0486381b1cd16436f889ab59a2d8e14d7063ffc9d8c720d90ea00a1214e4a1a4",
-    "findings": [],
-    "residual_risks": [
-      "Local transcript deletion remains deliberately unperformed and requires separate explicit operator approval.",
-      "Existing legacy worktrees outside the canonical parent are not relocated by this issue."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5911,
-    "pull_request": 245,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/245",
-    "base": "main",
-    "head": "codex/5911-fastwork-storage-policy",
-    "revision": "git-blake3:b19f0af6a25cbd478de43bb83b24100f88e50deb:4ff1b8a06eb00b6b07ee1b0faff67abcdb1b185e042ddfc99e5bdd35b9188d8c",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -55,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e2dc136a1ad88791787cc41eb3c0b339df10af282e5a1c37310336474e4864f5",
+      "values_digest": "15df4ea0081072f508f50475c372a7a3bdbbc84b3584a05004422a53023e2dcc",
       "rendered_digest": "50d8426892e02179c4580c314aea63c6a17ea525229f22acb5707e52d60a46c7",
       "ast_digest": "3eb3ea1e6498c50e443dcec5bf981178d93caf68b11349f56efe7137e9e3732c"
     },
     "stp": {
-      "values_digest": "8cc99b129e354a4ae74b4d12d17dc8e89b3dd201247cdfc41392c7a9621225eb",
+      "values_digest": "675bd1005257295b5c8ead4841032e600f6b58c2c994ee5c700e89877f65f49c",
       "rendered_digest": "b633f7279064086c2b1e2a2cf7925433018552a9dd81ae45d213068ed69ffdbd",
       "ast_digest": "f68cd50f666c2f83f3fcb83b350475373e86b9d411a8340d42fdd0005126b67b"
     },
     "spp": {
-      "values_digest": "5405a8d62610dec98643f1f6e2ef828605a3f2eb566603bf1b5324155def23a8",
+      "values_digest": "caeef7c50ff67fe3792152344f93e6b0b16dee17cd83cc731f075a7b954aec8e",
       "rendered_digest": "b30508945a2ec5d553839b75fec7a8eab462771538092435b212a23b79461a18",
       "ast_digest": "19be4f70450bb723cc19101cfd65d7024a073ce28270ae531ea3a48dbde59390"
     },
     "vpp": {
-      "values_digest": "ca4b531e5559411a6bb911c5254a016e074392942b4001745716215ec881cdd3",
+      "values_digest": "757429548b353157f0c6c6c9761d1c6de4216c4ceada73fb0cf8e83c0a1012d3",
       "rendered_digest": "3f0e1b5e4e5196f52e2f044cabdd524f0fde2543e59488c361d42226289dd81a",
       "ast_digest": "5c0bdf606ccdc6cdbcc82118a27eba132592456448db816c6c4b202e3e019007"
     },
     "srp": {
-      "values_digest": "6015422ff50412973225b72d55e93f6ef1ec9df94c63ecd58114b5105aa8eafd",
-      "rendered_digest": "85713f8a0f9dad796ce390d31f86248d43fb4217351497d78557231bd2fef562",
-      "ast_digest": "f60570416fd1a4966a3b6f6164ab106e133b0ae88f52bc5ee166ed25e31c3b57"
+      "values_digest": "7c6ce275c45dbb3ab11e4dce96398fbb00a794a494b429be55f69e5d0168dd60",
+      "rendered_digest": "00cf8cd7d25dc9763948f7043a05ecc91bd479985441609dd00ecedaf5645610",
+      "ast_digest": "50c847daee158c8569c14bd4bc102fcb74fc241901037ad0c8c2198234607002"
     },
     "sor": {
-      "values_digest": "b03369ebc9cb7cc0eaa240fa5687873d38a0aa7cc86ccc9dea9d38b67847a04c",
-      "rendered_digest": "e228133d6283bd6951d0784ae4163476c9875c5f70eb39d0a97abdcf83c462b0",
-      "ast_digest": "38e27606581f0a0ae1af479082e582d63c149340ea38f1314ac80f79692b8073"
+      "values_digest": "38006d515cbe35292d719f85267403c814a2363db886a858b7028bcc7310d94d",
+      "rendered_digest": "4bbca2f20860098cb0823de112e9de9cdad95193935543ebe6da591c03af3029",
+      "ast_digest": "846f6cf3d0aff9d6dba6886606ca28e431cd14df8993fa1044cfebc031b66d0d"
     }
   },
   "transitions": [
@@ -120,6 +89,13 @@
       "to": "published",
       "actor": "codex",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "Hosted standalone CI exposed bind fixtures that still used same-checkout Ready binding after FastWork enforcement; recover stale publication review truth for exact-head rereview of the bounded fixture repairs."
     }
   ],
   "audit": [
@@ -241,6 +217,13 @@
       "actor": "codex",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "Hosted standalone CI exposed bind fixtures that still used same-checkout Ready binding after FastWork enforcement; recover stale publication review truth for exact-head rereview of the bounded fixture repairs.",
+      "operation": "recover_review"
     }
   ]
 }

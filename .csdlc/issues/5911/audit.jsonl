@@ -15,3 +15,4 @@
 {"sequence":15,"generation":13,"actor":"codex","reason":"non-destructive 121 GiB transcript archive and checksum verification completed","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"}
 {"sequence":16,"generation":14,"actor":"codex","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":17,"generation":15,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":18,"generation":16,"actor":"codex:issue-5911-ci-repair","reason":"Hosted standalone CI exposed bind fixtures that still used same-checkout Ready binding after FastWork enforcement; recover stale publication review truth for exact-head rereview of the bounded fixture repairs.","operation":"recover_review"}
