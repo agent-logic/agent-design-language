@@ -6,10 +6,21 @@
   "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
   "phase": "implemented",
   "generation": 8,
-  "digest": "3be4c653168686130e14efa973c66a7dfcda974ff6fce1a1677f9bc6ededbaa2",
+  "digest": "e2192d658ab179fe1fef83e7044b66ecefd730f44313c0a060702a50f7b11871",
   "branch": "codex/301-title-only-operation-provenance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:dc42b8fb-2ed2-4762-8450-05f7ce457b4f",
+    "assigned_by": "codex:issue-301",
+    "revision": "git-blake3:f2d1a96ecf387c4814db3c55e6963a74e9e1d977:77d783e3c66161a1a27b16c4210ef66196d17e3d6d516ca5952a32fcab2149e2",
+    "scope": [
+      ".csdlc/issues/301",
+      ".csdlc/prepared/issues/301",
+      ".csdlc/evidence/301",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
     },
     "srp": {
-      "values_digest": "cd839f812171ca750cd061b713d0e34b29684f3f2c22a0792ef4ffe301249b0a",
-      "rendered_digest": "7cbe15aed7e484b25dbf57ca12c2050226860f294132192032d5109a82bcd9a4",
-      "ast_digest": "8923177b498751ced3d5aa7bca4cc2d01b420bbd668c4dbaf4292c8b2323a62b"
+      "values_digest": "c64f45c871522d2c42c627fba87df8fef6172eacd8d4a1686df2c58551586256",
+      "rendered_digest": "e148a65cd58c9ec59c0c39072951d3bfbb72c1594133e75dc44a9146d3bf5c3e",
+      "ast_digest": "94355008e62da4e7fdeb529646aa2ba7763e6465879a10a8894493f856c60a11"
     },
     "sor": {
       "values_digest": "73ee8a94acaf7f3bf555679ac08fff36716f1362115752cf4aec24eb9d1f9249",
@@ -162,6 +173,13 @@
       "actor": "codex:issue-301",
       "reason": "Record exact r1 remediation and current validation truth before reassignment.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented durable title-only issue-update provenance with partial-operation recovery and deterministic remote-drift proof.\",\"changes\":[\"Bind each operation key to a canonical mutation fingerprint in a durable comment receipt.\",\"Preserve the issue body byte-for-byte through one governed title PATCH.\",\"Recover a successful PATCH with missing receipt without repeating PATCH.\",\"Fail closed at before-PATCH, during-PATCH, before-receipt, and after-receipt body drift boundaries.\",\"Preserve body-bearing marker compatibility and isolate status classification from retrying transport fixtures.\"],\"artifacts\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Focused GitHub issue owner proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/301/title-only-github-issue-update.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free owner and fixture proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/301/strict-clippy-github-owner.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Full library regression proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output: 75 passed\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:issue-301",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
