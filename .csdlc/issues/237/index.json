@@ -5,28 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "274f572f076e8a66946676b9ba68be9a96e43aa389565ddfceed0f20199f0454",
+  "generation": 27,
+  "digest": "ee6a8cfaf9a8b1369f31ae71029744504b4c67f50dd0b708bc0302c290fdb30b",
   "branch": "codex/237-continuity-binding-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
-  "review_assignment": {
-    "reviewer": "/root/review_237_exact_token",
-    "assigned_by": "/root/sprint5_5836",
-    "revision": "git-blake3:4ae0125e46bc3b36162662d412713881a5e33bf9:97b98aafa52e26062302c932012368a267e9abb40fb461af1d345af60c522b4c",
-    "scope": [
-      ".csdlc/issues/237",
-      ".csdlc/prepared/issues/237/design.md",
-      ".csdlc/prepared/issues/237/diagram.mmd",
-      ".csdlc/evidence/237",
-      "adl-runtime-kernel/src/birthday_continuity.rs",
-      "adl-runtime-kernel/src/capability_envelope.rs",
-      "adl-runtime-kernel/src/cognitive_profile.rs",
-      "adl-runtime-kernel/tests/capability_envelope.rs",
-      "adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs",
-      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
-      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/237/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex-subagent:issue237-exact-token-design",
-      "revision": "05eaa39b5c0b51a23b17b7291b86844fbd77fb9349b1f2efad178cfcb55a98cb"
+      "reviewer": "/root/review_237_opaque_authority",
+      "revision": "6e6e122d1b8ed8399e47793e9aab12131f107bb66ebba8a573482bc750992c9d"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "cced5f0662d8df5d6dcb77ea59b9ff75d1dae5193cb2bfc6b08a0be04d961f84",
+      "values_digest": "134e6feaf88acfb04356f273bec9e079a2c83e4eee2608ff045d35238f3c3c08",
       "rendered_digest": "0f6629e693297f8a2eb8e4e029f507657271276795d4b5bbd81755940bb86c8a",
       "ast_digest": "f46556d73fa2c09d0c6e681dc9740a8184e284e33ba7babeeebffb1d729a8123"
     },
     "stp": {
-      "values_digest": "2c1ba6d20e67ee40cd254ac140777ee37f0a426494ddda9f8bb1b4aff4d61ded",
+      "values_digest": "ff2271fb39bd3cbab4b0f5fc4c48a2578e8a83fa8842d37dfc4873cc9724d7e8",
       "rendered_digest": "f7a8004785b409a2efe1ac3ab53bdec813b55e2935ec1ba16dbc28347e9f67a1",
       "ast_digest": "166322a3cc6ed81aec67904d218571f122e03eb6b0ace1c165e6fb98c5f8aed3"
     },
     "spp": {
-      "values_digest": "f05cc61c0fac5a3ec8c25f8c25a241afc0a6bddb18186b78571e255fe2c9b501",
-      "rendered_digest": "e6a80408a6ef9542fe7ecdddd694b730ad391eeadfa21eee9889b937199856da",
-      "ast_digest": "37f126d691722ee8fe061a6b39f46817c3d73a917572506171330133dbe49efa"
+      "values_digest": "d4316a112e13cf01ba6f96d7f9d3474560554598cf89d8ed758041b73e687a25",
+      "rendered_digest": "b450d05bce819de9fbe2cec7217bbeb0e51ef033f0a02c7d9ce3f10b8f80eb74",
+      "ast_digest": "d9f602f057aa0fcfed06aa78d84757689a4055c017bf6666cd221a63b494f402"
     },
     "vpp": {
-      "values_digest": "74242d2e5f2c9e7e105d5097ee461eb0e1309ffc7e274796a691ac38a9b27345",
+      "values_digest": "ec005789fafe61d5f122f5646645824d38bb770f570f2a3862c51a8d923b90f4",
       "rendered_digest": "6a13c547f3d29f0c261f0312823c2aa86e7a47ec2772f99a7e666c035d9fbbee",
       "ast_digest": "5e92538817ea1029ad69966a60af6f0bde2d8d2e49d9d44b3417095573fbfb3f"
     },
     "srp": {
-      "values_digest": "2888eafd795817bf49bae2216aa7cf205569a58a0e4512975fff5f67d45fbe93",
-      "rendered_digest": "e78473ef4cc56826af432d635c11c608478c84a9f440979f1b20493af230b7fb",
-      "ast_digest": "40865c5c51659402a6676dbf2b8163b44bdd4ac49f6ef8041ffe48721d0c1615"
+      "values_digest": "67201674645d3e8fe54c936d74df1bf91bbd4bd858d4a22a786f4c1937eed5ef",
+      "rendered_digest": "73e3a45137d9fa80b09504c4438ad098af6c21af0a3b6034c95905b5c1d1efb8",
+      "ast_digest": "9826ba27c212418af607a6e63d1dd36b52533885b603103ca717ec2709e7bb82"
     },
     "sor": {
-      "values_digest": "c79d0c10904ee6b97213de6649dca7fe7a5ba876b122e493f345c900720a55c1",
-      "rendered_digest": "bec3c7570c44747449c0aa8b3d807915596021e5c13644cc5a0157d1aa2aae2e",
-      "ast_digest": "0b570ae055a45a8649bc958ec4d0a3357904947b3a631b3580af122226f269ae"
+      "values_digest": "eee1d741c58141f2ba17dbdcc3693de171f94e1f15309b79af3d8be76414edbe",
+      "rendered_digest": "e301d675e1de9fa52865f16918af241c100979c9d19f407a1ac3938d9577eee0",
+      "ast_digest": "382d75f25dcbb8bb494d5ec06f2728a807ca36f3d3f98475e17ebe593e42253e"
     }
   },
   "transitions": [
@@ -256,6 +239,69 @@
       "actor": "/root/sprint5_5836",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex-subagent:issue237-opaque-capability-authority-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Exact review proved caller-recomputable envelope fields still allowed token-B rewrite and required an opaque Runtime-established capability authority anchor.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Record approved opaque-authority design as complete before source convergence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Record completed opaque capability-authority implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Record fresh real signed composition and caller-recomputed token substitution regression proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 24,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Replace rejected exact-token execution truth with fresh opaque Runtime authority implementation and proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Runtime now establishes an opaque capability authority binding the provisioned policy digest and exact verified continuity record; caller-recomputed token substitution fails closed and publication remains pending.\",\"changes\":[\"Add opaque CapabilityAuthorityPolicy with crate-private Runtime establishment bound to canonical policy digest, continuity head, and continuity-record digest.\",\"Require the opaque capability authority at every public verified-continuity capability and governed-cognition build and validation entrypoint.\",\"Prove a fully rewritten and re-hashed token-B capability plus rebuilt and re-signed cognition rejects under retained authority A, while explicit Runtime reauthorization for B succeeds.\"],\"artifacts\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\".csdlc/evidence/237/continuity-public-api-target.log\",\".csdlc/evidence/237/continuity-authority-lib.log\",\".csdlc/evidence/237/continuity-public-boundary-doc.log\",\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Prove public verified-continuity entrypoints compile with the opaque authority contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Prove 79 Runtime library tests including real composition, token-B rewrite rejection, explicit B reauthorization, authority, and privacy negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Prove eight compile-fail public authority boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the changed Runtime library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Resolve exact-head review finding by adding the production Runtime provisioning operation and refreshing proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Runtime exposes an explicit provisioning operation that establishes an opaque capability authority bound to the provisioned policy digest and exact verified continuity record; caller-recomputed token substitution fails closed and publication remains pending.\",\"changes\":[\"Add opaque CapabilityAuthorityPolicy with private fields bound to canonical policy digest, continuity head, and continuity-record digest.\",\"Add provision_runtime_capability_authority as the explicit production Runtime reauthorization operation while keeping the raw authority constructor crate-private.\",\"Require the opaque capability authority at every public verified-continuity capability and governed-cognition build and validation entrypoint.\",\"Prove a fully rewritten and re-hashed token-B capability plus rebuilt and re-signed cognition rejects under retained authority A, while explicit Runtime reauthorization for B succeeds.\"],\"artifacts\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\".csdlc/evidence/237/continuity-public-api-target.log\",\".csdlc/evidence/237/continuity-authority-lib.log\",\".csdlc/evidence/237/continuity-public-boundary-doc.log\",\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Prove the Runtime provisioning operation and public verified-continuity entrypoints are exported.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Prove 79 Runtime library tests including real composition, token-B rewrite rejection, explicit B reauthorization, authority, and privacy negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Prove eight compile-fail public authority boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the changed Runtime library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "/root/review_237_opaque_authority",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Resolve exact-head authority and proof findings with the reviewer-approved LiveAssembly boundary and refreshed full proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"A successfully constructed LiveAssembly exclusively owns the unforgeable provisioning capability that establishes opaque capability authority for an exact verified continuity record; callers cannot self-authorize token substitution and publication remains pending.\",\"changes\":[\"Add private RuntimeCapabilityProvisioner state to LiveAssembly and expose reauthorization only as LiveAssembly::provision_capability_authority.\",\"Keep RuntimeCapabilityProvisioner construction/provisioning and CapabilityAuthorityPolicy construction crate-private with compile-fail external boundaries.\",\"Require the opaque capability authority at every public verified-continuity capability and governed-cognition build and validation entrypoint.\",\"Prove an actual production LiveAssembly provisions authority, retained authority A rejects a fully rewritten token-B capability and rebuilt cognition, and explicit assembly-owned reauthorization can authorize B.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\".csdlc/evidence/237/continuity-public-api-target.log\",\".csdlc/evidence/237/continuity-authority-lib.log\",\".csdlc/evidence/237/continuity-public-boundary-doc.log\",\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Prove public verified-continuity entrypoints remain exported.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Prove 80 Runtime library tests including LiveAssembly provisioning, real composition, token-B rewrite rejection, explicit reauthorization, authority, and privacy negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Prove ten compile-fail public authority boundaries including provisioner construction and direct new access.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the changed Runtime library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"}]}"
     }
   ]
 }

@@ -7,7 +7,7 @@
     "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
     "slug": "birthday-continuity-binding-reconciliation",
     "version": "v0.92",
-    "generation": 18
+    "generation": 27
   },
   "status": "ready",
   "content": {
@@ -120,7 +120,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on any unverified continuity record, identity mismatch, digest substitution, authority drift, privacy regression, missing exact review, or non-green required CI.",
       "design_ref": ".csdlc/prepared/issues/237/design.md",
-      "design_digest": "05eaa39b5c0b51a23b17b7291b86844fbd77fb9349b1f2efad178cfcb55a98cb",
+      "design_digest": "6e6e122d1b8ed8399e47793e9aab12131f107bb66ebba8a573482bc750992c9d",
       "diagram_ref": ".csdlc/prepared/issues/237/diagram.mmd",
       "diagram_digest": "5cfcdecfc7cf13d3a56ebf2d905ea63c4a59781cbff3c3b9b839e8c78780c9b4"
     }

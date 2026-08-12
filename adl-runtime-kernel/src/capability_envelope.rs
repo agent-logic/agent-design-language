@@ -102,6 +102,66 @@ pub struct CapabilityEnvelopePolicy {
     pub required_unsupported_claims: Vec<String>,
 }
 
+/// Opaque Runtime-established capability authority.
+///
+/// Callers may hold this value after Runtime provisioning, but cannot create
+/// or rewrite its policy and continuity bindings.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct CapabilityAuthorityPolicy {
+    policy_sha256: String,
+    continuity_head: String,
+    continuity_record_sha256: String,
+}
+
+impl CapabilityAuthorityPolicy {
+    pub(crate) fn establish(
+        policy: &CapabilityEnvelopePolicy,
+        continuity: &VerifiedBirthdayContinuity,
+    ) -> Result<Self, Vec<CapabilityEnvelopeRejection>> {
+        let canonical = canonical_policy(policy);
+        let mut errors = BTreeSet::new();
+        validate_policy(&canonical, &mut errors);
+        if !errors.is_empty() {
+            return Err(errors.into_iter().collect());
+        }
+        Ok(Self {
+            policy_sha256: digest(&canonical)?,
+            continuity_head: continuity.continuity_head().to_owned(),
+            continuity_record_sha256: continuity.record().record_sha256.clone(),
+        })
+    }
+}
+
+/// Unforgeable provisioning capability owned by a live Runtime assembly.
+///
+/// ```compile_fail
+/// use adl_runtime_kernel::RuntimeCapabilityProvisioner;
+/// let _forged = RuntimeCapabilityProvisioner {};
+/// ```
+///
+/// ```compile_fail
+/// use adl_runtime_kernel::RuntimeCapabilityProvisioner;
+/// let _forged = RuntimeCapabilityProvisioner::new();
+/// ```
+#[derive(Clone, Debug)]
+pub struct RuntimeCapabilityProvisioner {
+    _private: (),
+}
+
+impl RuntimeCapabilityProvisioner {
+    pub(crate) fn new() -> Self {
+        Self { _private: () }
+    }
+
+    pub(crate) fn provision(
+        &self,
+        provisioned_policy: &CapabilityEnvelopePolicy,
+        verified_continuity: &VerifiedBirthdayContinuity,
+    ) -> Result<CapabilityAuthorityPolicy, Vec<CapabilityEnvelopeRejection>> {
+        CapabilityAuthorityPolicy::establish(provisioned_policy, verified_continuity)
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CapabilityEnvelope {
@@ -219,10 +279,12 @@ pub fn build_capability_envelope_with_continuity(
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
     continuity: &VerifiedBirthdayContinuity,
+    authority: &CapabilityAuthorityPolicy,
     input: &CapabilityEnvelopeInput,
     policy: &CapabilityEnvelopePolicy,
 ) -> Result<CapabilityEnvelope, Vec<CapabilityEnvelopeRejection>> {
     validate_verified_continuity(birthday, identity, continuity)?;
+    validate_capability_authority(authority, continuity, policy)?;
     let mut envelope = build_capability_envelope(birthday, identity, input, policy)?;
     envelope.continuity_head = continuity.continuity_head().to_owned();
     envelope.continuity_record_sha256 = continuity.record().record_sha256.clone();
@@ -286,15 +348,32 @@ pub fn validate_capability_envelope_with_continuity(
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
     continuity: &VerifiedBirthdayContinuity,
+    authority: &CapabilityAuthorityPolicy,
     policy: &CapabilityEnvelopePolicy,
 ) -> Result<(), Vec<CapabilityEnvelopeRejection>> {
     validate_verified_continuity(birthday, identity, continuity)?;
+    validate_capability_authority(authority, continuity, policy)?;
     if envelope.continuity_head != continuity.continuity_head()
         || envelope.continuity_record_sha256 != continuity.record().record_sha256
     {
         return Err(vec![CapabilityEnvelopeRejection::ContinuityBindingMismatch]);
     }
     validate_capability_envelope(envelope, birthday, identity, policy)
+}
+
+fn validate_capability_authority(
+    authority: &CapabilityAuthorityPolicy,
+    continuity: &VerifiedBirthdayContinuity,
+    policy: &CapabilityEnvelopePolicy,
+) -> Result<(), Vec<CapabilityEnvelopeRejection>> {
+    let policy_sha256 = digest(&canonical_policy(policy))?;
+    if authority.policy_sha256 != policy_sha256
+        || authority.continuity_head != continuity.continuity_head()
+        || authority.continuity_record_sha256 != continuity.record().record_sha256
+    {
+        return Err(vec![CapabilityEnvelopeRejection::ContinuityBindingMismatch]);
+    }
+    Ok(())
 }
 
 fn validate_verified_continuity(

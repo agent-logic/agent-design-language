@@ -13,7 +13,7 @@ use std::{
 const H: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 const R: &str = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 
-fn birthday(root: &str) -> BirthdayCandidate {
+pub(crate) fn birthday(root: &str) -> BirthdayCandidate {
     let mut value: BirthdayCandidate = serde_json::from_value(json!({
         "schema":BIRTHDAY_CANDIDATE_SCHEMA,"candidate_id":"candidate-5830","lifecycle_event":"birth_candidate",
         "stable_name":"Aster","identity_root":root,"continuity_head":H,
@@ -66,7 +66,7 @@ fn declaration(id: &str, p: &str) -> CapabilityDeclaration {
         provenance_ids: vec![p.into()],
     }
 }
-fn capability(
+pub(crate) fn capability(
     b: &BirthdayCandidate,
     i: &BirthdayIdentityRecord,
 ) -> (CapabilityEnvelope, CapabilityEnvelopePolicy) {
@@ -143,7 +143,11 @@ fn capability_with_continuity(
     b: &BirthdayCandidate,
     i: &BirthdayIdentityRecord,
     continuity: &VerifiedBirthdayContinuity,
-) -> (CapabilityEnvelope, CapabilityEnvelopePolicy) {
+) -> (
+    CapabilityEnvelope,
+    CapabilityEnvelopePolicy,
+    CapabilityAuthorityPolicy,
+) {
     let (component, policy) = capability(b, i);
     let input = CapabilityEnvelopeInput {
         schema: CAPABILITY_ENVELOPE_INPUT_SCHEMA.into(),
@@ -158,9 +162,13 @@ fn capability_with_continuity(
         resource_limits: component.resource_limits,
         unsupported_claims: component.unsupported_claims,
     };
+    let authority = RuntimeCapabilityProvisioner::new()
+        .provision(&policy, continuity)
+        .unwrap();
     let envelope =
-        build_capability_envelope_with_continuity(b, i, continuity, &input, &policy).unwrap();
-    (envelope, policy)
+        build_capability_envelope_with_continuity(b, i, continuity, &authority, &input, &policy)
+            .unwrap();
+    (envelope, policy, authority)
 }
 fn evidence(
     id: &str,
@@ -585,12 +593,14 @@ async fn real_continuity_composes_through_capability_and_cognition() {
         cycle.continuity_head = b.continuity_head.clone();
     }
     b.packet_sha256 = candidate_digest(&b).unwrap();
-    let (capability, capability_policy) = capability_with_continuity(&b, &identity, &verified);
+    let (capability, capability_policy, capability_authority) =
+        capability_with_continuity(&b, &identity, &verified);
     validate_capability_envelope_with_continuity(
         &capability,
         &b,
         &identity,
         &verified,
+        &capability_authority,
         &capability_policy,
     )
     .unwrap();
@@ -599,10 +609,42 @@ async fn real_continuity_composes_through_capability_and_cognition() {
         &b,
         &identity,
         &alternate_verified,
+        &capability_authority,
         &capability_policy,
     )
     .unwrap_err()
     .contains(&CapabilityEnvelopeRejection::ContinuityBindingMismatch));
+
+    // Rewrite every caller-controlled capability binding and digest to token
+    // B. Retained authority A still rejects it; only an explicit Runtime
+    // establishment against B authorizes the rewritten envelope.
+    let mut rewritten_capability = capability.clone();
+    rewritten_capability.continuity_head = alternate_verified.continuity_head().to_owned();
+    rewritten_capability.continuity_record_sha256 =
+        alternate_verified.record().record_sha256.clone();
+    rewritten_capability.envelope_sha256 = envelope_digest(&rewritten_capability).unwrap();
+    assert!(validate_capability_envelope_with_continuity(
+        &rewritten_capability,
+        &b,
+        &identity,
+        &alternate_verified,
+        &capability_authority,
+        &capability_policy,
+    )
+    .unwrap_err()
+    .contains(&CapabilityEnvelopeRejection::ContinuityBindingMismatch));
+    let alternate_capability_authority = RuntimeCapabilityProvisioner::new()
+        .provision(&capability_policy, &alternate_verified)
+        .unwrap();
+    validate_capability_envelope_with_continuity(
+        &rewritten_capability,
+        &b,
+        &identity,
+        &alternate_verified,
+        &alternate_capability_authority,
+        &capability_policy,
+    )
+    .unwrap();
 
     let (_, _, _, _, mut cognitive_policy) = authorities();
     cognitive_policy.capability_policy = capability_policy;
@@ -629,6 +671,7 @@ async fn real_continuity_composes_through_capability_and_cognition() {
         &b,
         &identity,
         &verified,
+        &capability_authority,
         &capability,
         &cognitive_input,
         &cognitive_policy,
@@ -642,6 +685,7 @@ async fn real_continuity_composes_through_capability_and_cognition() {
         &b,
         &identity,
         &verified,
+        &capability_authority,
         &capability,
         &cognitive_policy,
         &[],
@@ -655,15 +699,21 @@ async fn real_continuity_composes_through_capability_and_cognition() {
     // identity/predecessor fields.
     let mut substituted_policy = cognitive_policy.clone();
     for item in &mut substituted_policy.evidence {
-        if item.category == CognitiveEvidenceCategory::Continuity {
-            item.sha256 = alternate_record.record_sha256.clone();
+        match item.category {
+            CognitiveEvidenceCategory::Continuity => {
+                item.sha256 = alternate_record.record_sha256.clone();
+            }
+            CognitiveEvidenceCategory::Capability => {
+                item.sha256 = rewritten_capability.envelope_sha256.clone();
+            }
+            _ => {}
         }
     }
     let substituted_input = input(
         &b,
         &identity,
         &alternate_record,
-        &capability,
+        &rewritten_capability,
         &substituted_policy,
     );
     let substituted_authority = trusted(&key, &substituted_policy, &substituted_input);
@@ -679,7 +729,8 @@ async fn real_continuity_composes_through_capability_and_cognition() {
             &b,
             &identity,
             &alternate_verified,
-            &capability,
+            &capability_authority,
+            &rewritten_capability,
             &substituted_input,
             &substituted_policy,
             &[],
@@ -697,6 +748,7 @@ async fn real_continuity_composes_through_capability_and_cognition() {
         &b,
         &wrong_identity,
         &verified,
+        &capability_authority,
         &cognitive_policy.capability_policy,
     )
     .is_err());
@@ -711,6 +763,7 @@ async fn real_continuity_composes_through_capability_and_cognition() {
         &replayed_candidate,
         &identity,
         &verified,
+        &capability_authority,
         &CapabilityEnvelopeInput {
             schema: CAPABILITY_ENVELOPE_INPUT_SCHEMA.into(),
             birthday_candidate_sha256: replayed_candidate.packet_sha256.clone(),

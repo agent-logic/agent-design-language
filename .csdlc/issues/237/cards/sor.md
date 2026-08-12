@@ -12,24 +12,26 @@ Status: pre_phase
 
 ## Summary
 
-Capability envelopes now canonically bind the exact verified continuity head and record digest, and governed cognition rejects substitution by a separately valid token; exact local proof is green and publication remains pending.
+A successfully constructed LiveAssembly exclusively owns the unforgeable provisioning capability that establishes opaque capability authority for an exact verified continuity record; callers cannot self-authorize token substitution and publication remains pending.
 
 ## Artifacts
 
-- adl-runtime-kernel/src/birthday_continuity.rs
+- adl-runtime-kernel/src/assembly.rs
 - adl-runtime-kernel/src/capability_envelope.rs
 - adl-runtime-kernel/src/cognitive_profile.rs
 - adl-runtime-kernel/tests/capability_envelope.rs
-- adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs
-- adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs
 - adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs
+- .csdlc/evidence/237/continuity-public-api-target.log
+- .csdlc/evidence/237/continuity-authority-lib.log
+- .csdlc/evidence/237/continuity-public-boundary-doc.log
+- .csdlc/evidence/237/continuity-strict-lib-clippy.log
 
 ## Execution
 
-- Require opaque VerifiedBirthdayContinuity on every public authoritative capability and governed-cognition build and validation route.
-- Keep raw BirthdayContinuityRecord compatibility primitives crate-private and remove permissive either-or continuity acceptance.
-- Bind the capability envelope canonical hash to the exact token continuity head and record digest, and require token-aware capability validation inside governed cognition.
-- Prove two independently valid signed continuity tokens sharing identity and predecessor cannot be substituted after downstream cognition is rebuilt and re-signed.
+- Add private RuntimeCapabilityProvisioner state to LiveAssembly and expose reauthorization only as LiveAssembly::provision_capability_authority.
+- Keep RuntimeCapabilityProvisioner construction/provisioning and CapabilityAuthorityPolicy construction crate-private with compile-fail external boundaries.
+- Require the opaque capability authority at every public verified-continuity capability and governed-cognition build and validation entrypoint.
+- Prove an actual production LiveAssembly provisions authority, retained authority A rejects a fully rewritten token-B capability and rebuilt cognition, and explicit assembly-owned reauthorization can authorize B.
 
 ## Validation
 
@@ -44,9 +46,9 @@ Capability envelopes now canonically bind the exact verified continuity head and
       "--test",
       "capability_envelope"
     ],
-    "purpose": "Run the focused public API target (1/1 passed).",
+    "purpose": "Prove public verified-continuity entrypoints remain exported.",
     "outcome": "passed",
-    "evidence_ref": "continuity-public-api-target.log"
+    "evidence_ref": ".csdlc/evidence/237/continuity-public-api-target.log"
   },
   {
     "command": [
@@ -57,9 +59,9 @@ Capability envelopes now canonically bind the exact verified continuity head and
       "--locked",
       "--lib"
     ],
-    "purpose": "Run the Runtime library authority suite (79/79 passed).",
+    "purpose": "Prove 80 Runtime library tests including LiveAssembly provisioning, real composition, token-B rewrite rejection, explicit reauthorization, authority, and privacy negatives.",
     "outcome": "passed",
-    "evidence_ref": "continuity-authority-lib.log"
+    "evidence_ref": ".csdlc/evidence/237/continuity-authority-lib.log"
   },
   {
     "command": [
@@ -70,9 +72,9 @@ Capability envelopes now canonically bind the exact verified continuity head and
       "--locked",
       "--doc"
     ],
-    "purpose": "Run compile-fail public-boundary documentation tests (8/8 passed).",
+    "purpose": "Prove ten compile-fail public authority boundaries including provisioner construction and direct new access.",
     "outcome": "passed",
-    "evidence_ref": "continuity-public-boundary-doc.log"
+    "evidence_ref": ".csdlc/evidence/237/continuity-public-boundary-doc.log"
   },
   {
     "command": [
@@ -86,9 +88,9 @@ Capability envelopes now canonically bind the exact verified continuity head and
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict library Clippy.",
+    "purpose": "Reject warnings across the changed Runtime library surface.",
     "outcome": "passed",
-    "evidence_ref": "continuity-strict-lib-clippy.log"
+    "evidence_ref": ".csdlc/evidence/237/continuity-strict-lib-clippy.log"
   }
 ]
 

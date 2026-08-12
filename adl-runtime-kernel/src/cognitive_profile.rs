@@ -11,8 +11,8 @@ use crate::{
     birthday_identity::record_digest as identity_digest, candidate_digest,
     continuity_record_digest, decide_birthday, validate_capability_envelope,
     validate_capability_envelope_with_continuity, BirthdayCandidate, BirthdayContinuityRecord,
-    BirthdayIdentityRecord, CapabilityEnvelope, CapabilityEnvelopePolicy,
-    VerifiedBirthdayContinuity, BIRTHDAY_IDENTITY_RECORD_SCHEMA,
+    BirthdayIdentityRecord, CapabilityAuthorityPolicy, CapabilityEnvelope,
+    CapabilityEnvelopePolicy, VerifiedBirthdayContinuity, BIRTHDAY_IDENTITY_RECORD_SCHEMA,
 };
 
 pub const COGNITIVE_PROFILE_INPUT_SCHEMA: &str = "adl.cognitive_profile.input.v1";
@@ -381,6 +381,7 @@ pub fn build_governed_cognitive_profile_with_continuity(
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
     continuity: &VerifiedBirthdayContinuity,
+    capability_authority: &CapabilityAuthorityPolicy,
     capability: &CapabilityEnvelope,
     input: &CognitiveProfileInput,
     policy: &CognitiveProfilePolicy,
@@ -394,6 +395,7 @@ pub fn build_governed_cognitive_profile_with_continuity(
         birthday,
         identity,
         continuity,
+        capability_authority,
         &policy.capability_policy,
     )
     .map_err(|_| vec![CognitiveProfileRejection::CapabilityMismatch])?;
@@ -574,6 +576,7 @@ pub fn validate_governed_cognitive_profile_with_continuity(
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
     continuity: &VerifiedBirthdayContinuity,
+    capability_authority: &CapabilityAuthorityPolicy,
     capability: &CapabilityEnvelope,
     cognitive_policy: &CognitiveProfilePolicy,
     complete_history: &[CognitiveProfile],
@@ -585,6 +588,7 @@ pub fn validate_governed_cognitive_profile_with_continuity(
         birthday,
         identity,
         continuity,
+        capability_authority,
         &cognitive_policy.capability_policy,
     )
     .map_err(|_| vec![CognitiveProfileRejection::CapabilityMismatch])?;
@@ -803,7 +807,7 @@ fn verify_rotation_signature(
 
 #[cfg(test)]
 #[path = "../tests/fixtures/cognitive_profile/authority_tests.rs"]
-mod authority_tests;
+pub(crate) mod authority_tests;
 
 fn verify_canonical_signature<T: Serialize>(
     value: &T,

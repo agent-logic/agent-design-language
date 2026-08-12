@@ -19,15 +19,27 @@ Both capability and governed cognition consume that same verified value; a
 public record or matching digest alone confers no authority. No constructor for
 trusted authority is made public and no caller-supplied trust root is added.
 The capability envelope records both the exact verified continuity head and
-canonical continuity-record digest inside its canonical envelope hash. Its
-public builder writes those fields from the opaque value, and its public
-validator requires an exact match to the supplied opaque value. Governed
-cognition invokes that verified capability validator before it builds or
-validates a profile, rather than relying on the raw component validator.
+canonical continuity-record digest inside its canonical envelope hash. Those
+fields alone are not authority because a caller could rewrite them and
+recompute the hash. A private provisioning capability owned by `LiveAssembly`
+therefore binds
+the provisioned `CapabilityEnvelopePolicy` digest and the exact verified
+continuity head/record digest into an opaque `CapabilityAuthorityPolicy`.
+Public capability build and validation require that opaque authority and the
+same verified continuity value. Governed cognition invokes that authority-aware
+capability validator before it builds or validates a profile, rather than
+relying on the raw component validator.
+
+Establishing a new opaque capability authority against token B is an explicit
+Runtime reauthorization and may legitimately produce a new B-bound envelope.
+Merely rewriting an A-bound envelope to token B, even with recomputed envelope,
+cognitive, and caller-signature bytes, cannot create that authority and must
+fail closed under the retained A authority.
 
 ## Owned paths
 
 - `adl-runtime-kernel/src/capability_envelope.rs`
+- `adl-runtime-kernel/src/assembly.rs`
 - `adl-runtime-kernel/src/cognitive_profile.rs`
 - `adl-runtime-kernel/src/birthday_continuity.rs`
 - `adl-runtime-kernel/tests/capability_envelope.rs`
@@ -46,6 +58,9 @@ validates a profile, rather than relying on the raw component validator.
 - Two independently valid continuity records that share the same identity and
   predecessor remain distinct authority values; a capability built against one
   cannot be replayed under the other.
+- Caller-controlled envelope fields, hashes, policies, and downstream
+  signatures cannot replace the opaque Runtime-established capability
+  authority. Token changes require explicit Runtime reauthorization.
 - Signature, policy-digest, evidence-digest, privacy, and caller authority
   boundaries remain unchanged.
 - Positive proof uses real signed `LiveContinuity` checkpoints, not fixtures or
@@ -69,8 +84,11 @@ and cognitive authority tests in the same required job to prove authority and
 privacy behavior was not weakened.
 
 The composition regression also creates two separately signed and verified
-Runtime continuity histories with the same identity and predecessor. It builds
-the capability against token A, then substitutes token B while rebuilding and
-re-signing the downstream cognitive input and authority proof. Capability and
-governed cognition must both reject the substitution because the envelope's
-canonical continuity head and record digest remain bound to token A.
+Runtime continuity histories with the same identity and predecessor. Runtime
+establishes the capability authority against token A and builds the A-bound
+capability. The attack then substitutes token B, rewrites and re-hashes the
+capability to B, and rebuilds and re-signs the downstream cognitive input and
+authority proof. Capability and governed cognition must both reject because
+the retained opaque capability authority remains bound to token A. A separately
+tested establishment against B is classified as authorized reauthorization,
+not substitution.
