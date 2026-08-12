@@ -18,12 +18,11 @@ done
 node --input-type=module <<'NODE'
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtemp, readFile, realpath, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, realpath, rm } from "node:fs/promises";
 import { createServer } from "node:https";
 import { createRequire } from "node:module";
 import { extname, join, normalize, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
-import { tmpdir } from "node:os";
 
 const repoRoot = await realpath(process.env.ADL_LAYER8_REPO_ROOT || "");
 const require = createRequire(import.meta.url);
@@ -40,7 +39,14 @@ try {
 }
 assert(playwright?.chromium, "resolved Playwright module does not export chromium");
 
-const tempRoot = await mkdtemp(join(tmpdir(), "adl-layer8-observatory-"));
+const configuredTempRoot = process.env.ADL_LAYER8_TMPDIR
+  ? resolve(process.env.ADL_LAYER8_TMPDIR)
+  : join(repoRoot, ".adl", "tmp");
+const tempBase = await realpath(await mkdir(configuredTempRoot, { recursive: true }).then(() => configuredTempRoot));
+if (tempBase !== repoRoot && !tempBase.startsWith(`${repoRoot}${sep}`)) {
+  throw new Error(`Layer 8 Observatory proof temp root must stay inside the repository: ${tempBase}`);
+}
+const tempRoot = await mkdtemp(join(tempBase, "adl-layer8-observatory-"));
 const keyPath = join(tempRoot, "localhost-key.pem");
 const certPath = join(tempRoot, "localhost-cert.pem");
 let server;

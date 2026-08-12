@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; pre-dispatch recipient identity validity; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; exact-current issue 244 integration; decomposed authority internals into audit, exchange, and identity modules; and remediated external review findings by closing the raw public authorization surface, adding scoped authorization for multi-recipient and attachment actions, binding recipient acknowledgement identity to the signed configured key id, and bounding Runtime API refusal correlation output.
+Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; pre-dispatch recipient identity validity; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; exact-current issue 244 integration; decomposed authority internals into audit, exchange, and identity modules; remediated external review findings by closing the raw public authorization surface, adding scoped authorization for multi-recipient and attachment actions, binding recipient acknowledgement identity to the signed configured key id, bounding Runtime API refusal correlation output, classifying invalid post-dispatch recipient acknowledgements as failed delivery rather than policy refusal, merging current origin/main through issue 254, and repairing local proof fixtures so repository-owned temp paths and deterministic in-flight capacity ordering are enforced.
 
 ## Artifacts
 
@@ -48,6 +48,10 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
 - Select capability, agent policy, and Polis policy candidates through the same scope predicate used by the audit validator before falling back to refusal recording.
 - Require the Runtime API recipient identity signing_key_id to match the configured recipient_signing_key_id carried in the signed request payload.
 - Bound correlation ids on Runtime API boundary refusals before returning public refusal projections.
+- Classify invalid post-dispatch recipient acknowledgements as failed delivery rather than refused policy decisions, preserving the distinction between pre-dispatch authority refusal and post-dispatch acknowledgement failure.
+- Merge current origin/main containing issue 254 hosted-coverage CI topology changes into the issue branch without product-surface conflicts.
+- Repair the in-flight capacity fixture to enqueue all held turns before reading admission frames, proving all eight active turns are accepted before the over-capacity failure instead of letting the 100 ms production dispatch deadline establish ordering.
+- Move the Rust test authority temp directory and the Layer 8 Observatory browser proof temp directory under repo-local .adl/tmp, with a containment check for the browser proof.
 
 ## Validation
 
@@ -64,7 +68,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "--",
       "--exact"
     ],
-    "purpose": "Run the exact-current production conversation boundary after issue 244's test-module migration and review remediation.",
+    "purpose": "Run the exact-current production conversation boundary after current-main integration and deterministic in-flight capacity fixture repair.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-production-conversation-boundary.log (1 passed)"
   },
@@ -82,7 +86,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "--status-level",
       "all"
     ],
-    "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, scoped action, and refusal proof after module decomposition and review remediation.",
+    "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, scoped action, and refusal proof after current-main integration.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-authority-contract.log (12 passed)"
   },
@@ -100,7 +104,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "--status-level",
       "all"
     ],
-    "purpose": "Run the Runtime API signed request, recipient identity preflight, configured recipient key id, bounded refusal correlation, and exact acknowledgement integration proof after review remediation.",
+    "purpose": "Run the Runtime API signed request, recipient identity preflight, configured recipient key id, bounded refusal correlation, and exact acknowledgement integration proof after current-main integration.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-integration.log (7 passed)"
   },
@@ -109,9 +113,21 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "bash",
       "adl/tools/validate_layer8_authority_observatory_ui.sh"
     ],
-    "purpose": "Run the real-browser Observatory disclosure and authority-state proof with the configured local Playwright and Chrome runtimes.",
+    "purpose": "Run the real-browser Observatory disclosure and authority-state proof with the configured local Playwright and Chrome runtimes using repo-local temporary directories.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-observatory-ui.log (PASS; retained from exact-current browser evidence)"
+    "evidence_ref": ".csdlc/evidence/112/layer8-observatory-ui.log (PASS; local headless browser permission required outside the macOS sandbox)"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "Verify Rust formatting after the deterministic capacity fixture repair.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout empty; exit 0"
   },
   {
     "command": [
@@ -125,7 +141,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "-D",
       "warnings"
     ],
-    "purpose": "Enforce strict lint hygiene for the production Runtime source and tests after review remediation.",
+    "purpose": "Enforce strict lint hygiene for the production Runtime source and tests after current-main integration.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-kernel-clippy.log (PASS)"
   },
@@ -142,9 +158,19 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "-D",
       "warnings"
     ],
-    "purpose": "Enforce strict lint hygiene for the Runtime API integration target after review remediation.",
+    "purpose": "Enforce strict lint hygiene for the Runtime API integration target after current-main integration.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-clippy.log (PASS)"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Verify whitespace and conflict-marker hygiene for the current issue diff.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout empty; exit 0"
   }
 ]
 

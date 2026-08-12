@@ -1,5 +1,6 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
+    path::Path,
     sync::{
         atomic::{AtomicUsize, Ordering},
         Arc,
@@ -172,7 +173,7 @@ impl OperationExecutor for ConversationExecutor {
             not_before_epoch_secs: 0,
             expires_at_epoch_secs: u64::MAX,
         };
-        let acknowledgement = sign_recipient_acknowledgement(
+        let mut acknowledgement = sign_recipient_acknowledgement(
             &signed_request,
             &recipient_signing,
             "{\"status\":\"delivered\"}".to_owned(),
@@ -182,6 +183,9 @@ impl OperationExecutor for ConversationExecutor {
             class: FailureClass::Fatal,
             message: format!("{error:?}"),
         })?;
+        if work["tasks"][0]["input"] == "invalid acknowledgement" {
+            acknowledgement.causation_id = "not-the-triggering-request".to_owned();
+        }
         serde_json::to_vec(&serde_json::json!({
             "schema": "adl.runtime.local_agent_execution.v1",
             "outputs": [{
@@ -208,7 +212,16 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let completions = Arc::new(AtomicUsize::new(0));
     let barrier_started = Arc::new(Notify::new());
     let barrier_release = Arc::new(Semaphore::new(0));
-    let authority_root = tempfile::tempdir().unwrap();
+    let repo_tmp_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("kernel crate lives under the repository root")
+        .join(".adl")
+        .join("tmp");
+    std::fs::create_dir_all(&repo_tmp_root).unwrap();
+    let authority_root = tempfile::Builder::new()
+        .prefix("layer8-authority-")
+        .tempdir_in(&repo_tmp_root)
+        .unwrap();
     let recipient_key = authority_root.path().join("recipient.key");
     std::fs::write(&recipient_key, hex::encode([8_u8; 32])).unwrap();
     let adapter = Arc::new(
@@ -529,6 +542,30 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert_eq!(refused["turn_sequence"], serde_json::Value::Null);
     assert_eq!(dispatches.load(Ordering::SeqCst), dispatches_before_refusal);
 
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-invalid-recipient-ack",
+                "turn_id": "turn-invalid-recipient-ack",
+                "recipient_id": "shepherd",
+                "correlation_id": "24242424242424242424242424242424",
+                "message": "invalid acknowledgement"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let accepted =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(accepted["status"], "accepted", "{accepted}");
+    let ack_failed =
+        next_conversation_result_for_turn(&mut socket, "turn-invalid-recipient-ack").await;
+    assert_eq!(ack_failed["status"], "failed", "{ack_failed}");
+    assert_eq!(ack_failed["error"], "recipient_acknowledgement_invalid");
+    assert_ne!(ack_failed["status"], "refused", "{ack_failed}");
+
     let same_token_reauth = serde_json::json!({
         "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
         "conversation_id": "conversation-same-token-reauth",
@@ -687,7 +724,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert_eq!(delivered["status"], "delivered");
     assert_eq!(delivered["reply"], "shepherd received your message.");
     assert!(!delivered.to_string().contains("adapter_secret"));
-    assert_eq!(dispatches.load(Ordering::SeqCst), 4);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 5);
 
     socket
         .send(Message::Text(
@@ -711,7 +748,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(delivered["status"], "delivered", "{delivered}");
     assert_eq!(delivered["recipient_id"], "agent-0100");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 5);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 6);
 
     socket
         .send(Message::Text(
@@ -769,7 +806,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let duplicate =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(duplicate["status"], "delivered");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 6);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 7);
 
     socket
         .send(Message::Text(
@@ -790,7 +827,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(conflict["status"], "refused");
     assert_eq!(conflict["error"], "conversation_conflict");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 6);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 7);
 
     for (turn_id, correlation_id, message) in [
         (
@@ -974,8 +1011,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let timed_out =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(timed_out["status"], "timed_out");
-    assert_eq!(dispatches.load(Ordering::SeqCst), 11);
-    assert_eq!(completions.load(Ordering::SeqCst), 9);
+    assert_eq!(dispatches.load(Ordering::SeqCst), 12);
+    assert_eq!(completions.load(Ordering::SeqCst), 10);
 
     socket
         .send(Message::Text(
@@ -1019,7 +1056,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     assert!(statuses.contains(&"accepted"));
     assert!(statuses.contains(&"cancelled"));
     tokio::time::sleep(Duration::from_millis(275)).await;
-    assert_eq!(completions.load(Ordering::SeqCst), 9);
+    assert_eq!(completions.load(Ordering::SeqCst), 10);
 
     let cleanup_race = serde_json::json!({
         "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
@@ -1105,7 +1142,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .is_err(),
         "stale completion removed or duplicated the current-generation attachment"
     );
-    assert_eq!(completions.load(Ordering::SeqCst), 10);
+    assert_eq!(completions.load(Ordering::SeqCst), 11);
     for task in scheduling_pressure {
         task.await.unwrap();
     }
@@ -1181,15 +1218,10 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             ))
             .await
             .unwrap();
-        let accepted =
-            next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
-        assert_eq!(accepted["status"], "accepted", "{accepted}");
-        if index == 0 {
-            tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
-                .await
-                .expect("capacity fixture did not enter in-flight execution");
-        }
     }
+    tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
+        .await
+        .expect("capacity fixture did not enter in-flight execution");
     socket
         .send(Message::Text(
             serde_json::json!({
@@ -1205,8 +1237,24 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         ))
         .await
         .unwrap();
-    let capacity =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let mut accepted_turns = BTreeSet::new();
+    let capacity = loop {
+        let frame =
+            next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+        if frame["turn_id"] == "turn-in-flight-over-capacity" {
+            break frame;
+        }
+        if frame["conversation_id"] == "conversation-in-flight-capacity"
+            && frame["status"] == "accepted"
+        {
+            accepted_turns.insert(frame["turn_id"].as_str().unwrap_or_default().to_owned());
+        }
+    };
+    assert_eq!(
+        accepted_turns.len(),
+        8,
+        "all held turns must be accepted before the over-capacity response"
+    );
     assert_eq!(capacity["status"], "failed", "{capacity}");
     assert_eq!(
         capacity["error"], "conversation_capacity_exhausted",

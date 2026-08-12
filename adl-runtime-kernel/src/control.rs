@@ -1340,7 +1340,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             )
                                         });
                                     if verified.is_err() {
-                                        outcome("refused", "recipient_acknowledgement_invalid")
+                                        outcome("failed", "recipient_acknowledgement_invalid")
                                     } else {
                                         ObservatoryConversationResult {
                                             schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
