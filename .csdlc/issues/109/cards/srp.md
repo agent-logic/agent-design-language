@@ -12,8 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/prepared/issues/109/validate-fresh-session-srp.sh
-.csdlc/issues/109
+
 
 ## Prompts
 
@@ -35,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Publication metadata must remain within the validator's exact SOR transition and metadata allowlist before merge.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:b7097223844554f0eb4015ef210e389679135196:b684a903e0c6ecffeb043bf8c133a1892ab28d715883aef5eb03758989ff6b7e")
+Revision: None
 
-Reviewer: Some("codex-subagent:/root/review_pr119_fix")
+Reviewer: None
 
-Result: pass
+Result: pre_review

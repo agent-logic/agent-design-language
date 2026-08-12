@@ -3,34 +3,13 @@
   "issue": 109,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
-  "phase": "reviewed",
-  "generation": 26,
-  "digest": "2f8535a67836186f13322d11c3c3b57a670c7eee89cdd8c871d9b4542774c47d",
+  "phase": "implemented",
+  "generation": 27,
+  "digest": "e3e4e5af5776082716fd403f36917490eda0a6f2d4c4e0435abcf1e7873ae0f0",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
-  "review_assignment": {
-    "reviewer": "codex-subagent:/root/review_pr119_fix",
-    "assigned_by": "planning-1:pr119-janitor",
-    "revision": "git-blake3:b7097223844554f0eb4015ef210e389679135196:b684a903e0c6ecffeb043bf8c133a1892ab28d715883aef5eb03758989ff6b7e",
-    "scope": [
-      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
-      ".csdlc/issues/109"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:/root/review_pr119_fix",
-    "scope": [
-      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
-      ".csdlc/issues/109"
-    ],
-    "reviewed_revision": "git-blake3:b7097223844554f0eb4015ef210e389679135196:b684a903e0c6ecffeb043bf8c133a1892ab28d715883aef5eb03758989ff6b7e",
-    "findings": [],
-    "residual_risks": [
-      "Publication metadata must remain within the validator's exact SOR transition and metadata allowlist before merge."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5011b33ab419ba2bf592c0fb0b4b946632eca9ae279324d1df16260bd365353f",
+      "values_digest": "2458ca4e903381706e5c3f0a34a7458d69f088e1da77514a95d4765c8b1f4a17",
       "rendered_digest": "a16c30e6eb67e913ee8762af729f2e743ecc238e253cc24b26a05255d4b6e63d",
       "ast_digest": "d9ff4d384357d9982cd4c1ddf3bce9ed3bab4fd788701abfa01c0ad7be311347"
     },
     "stp": {
-      "values_digest": "6736b0d4d994296d3f65a0d0eaca18d8ccb97c6af350982a0df8a8241358ab35",
+      "values_digest": "427f3600a138c3f3ab007dfb515d10aa15e65284d39582dc679ca7e0988c1b1d",
       "rendered_digest": "b8baca559f4ab0ba540348fcc5d89f2eb385714182a5b32b88d63e048fde12d8",
       "ast_digest": "c7b225fee03b714b762487332b3d4258ae2bfe43be77ff42373006902df1e504"
     },
     "spp": {
-      "values_digest": "30815738982b15b735823f57314d0e0ba8c00a0a56a6bb0b95f9f2be064beb0a",
+      "values_digest": "f20c0fec75c44c154f16e86f7fb3fead9769839c6d0d3a08e7ff72c89f31b333",
       "rendered_digest": "c15c2539fe8932e08b5972afacac160c5214fab95f42b9b9984e18488418c98a",
       "ast_digest": "acf77d2f3dc05dbfe6dc707c857f8de903a9921927afb14f1816da2e0c4a6ccd"
     },
     "vpp": {
-      "values_digest": "27b8dcd392020df7958cedf289f669d67421f107601cea5d4adb304238c85f31",
+      "values_digest": "eed46f7bf6ee3eaf579036336cd4b913c76842fe5e5c6034d3deb2fec5868669",
       "rendered_digest": "bea8837fa774ecd20e74d3c72fab78cbb27e3849f7c09362df341e9182d5671a",
       "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
     },
     "srp": {
-      "values_digest": "829551e4c14222d46c83874ac469ce654e2ed090d097f0c1a89e9a984e18ac8e",
-      "rendered_digest": "442918db39e4924f1dfd7fd2c0daf4edc9ee35f6c82b33e8aeebdc0a26d57c7b",
-      "ast_digest": "48097c96a7e631e27f01cff6984e4deb92ef13eab75209b975431889bb4c615c"
+      "values_digest": "c1c71c6356689840fdc4767cdf95393b6eea57436800f2e823f4ff960268c11d",
+      "rendered_digest": "1cef0442070327593b6f41e5c0c35abfcbb2b8dece5603e4956372297399c363",
+      "ast_digest": "c654880138d226f4ca831fb2f41bcc8bd7d2e85e75e1d0f5446f3045c52ab92c"
     },
     "sor": {
-      "values_digest": "48a3dca51b252950ff5c8368f968769b210dff7800d5685480e673537295943e",
+      "values_digest": "a13a870e755644b10eca40e99653543161c0c7451d227b494328ebcc7e3e71e7",
       "rendered_digest": "54304d46c7d82f6566fe481a04db5c4ea5abcf105b8fbe90cd524a708d6bdb0a",
       "ast_digest": "4d2df717ca82be386d9723dcc027b7ebd6e179bc3cb388060183b69bf4c6e4b7"
     }
@@ -145,6 +124,13 @@
       "to": "reviewed",
       "actor": "codex-subagent:/root/review_pr119_fix",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover the non-canonical reviewer identity before publication; require a fresh-session UUID assignment and exact-head review."
     }
   ],
   "audit": [
@@ -378,6 +364,13 @@
       "actor": "codex-subagent:/root/review_pr119_fix",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover the non-canonical reviewer identity before publication; require a fresh-session UUID assignment and exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -7,15 +7,15 @@
     "title": "Use fresh sessions for standard SRP review",
     "slug": "fresh-session-standard-srp-review",
     "version": "v0.92",
-    "generation": 26
+    "generation": 27
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\n.csdlc/issues/109",
-      "review_revision": "git-blake3:b7097223844554f0eb4015ef210e389679135196:b684a903e0c6ecffeb043bf8c133a1892ab28d715883aef5eb03758989ff6b7e",
-      "reviewer": "codex-subagent:/root/review_pr119_fix",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Review only the named immutable commit SHA in the named worktree; do not inherit or rely on the implementation conversation.",
         "Operate read-only: do not edit files, lifecycle state, PR state, or GitHub state.",
@@ -26,10 +26,8 @@
         "Verify no daemon, scheduler, registry, claim, parallel review record, provider abstraction, lifecycle phase, or redundant broad validation was added."
       ],
       "findings": [],
-      "residual_risk": [
-        "Publication metadata must remain within the validator's exact SOR transition and metadata allowlist before merge."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
