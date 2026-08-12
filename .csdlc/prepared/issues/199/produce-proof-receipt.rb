@@ -9,7 +9,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/199/v4/"
+PREFIX = ".csdlc/evidence/199/v5/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("execution-proof.json")
 MARKER = "ADL_ISSUE_199_CASE_V1 "
@@ -47,7 +47,8 @@ EXPECTED_ASSERTIONS = [
   %w[crash_every_phase durable_saga_restart_exact_retry_no_duplicate_publication],
   %w[conflicting_retry conflicting_operation_and_receipt_denied_before_effect],
   %w[old_cut_mismatch authorized_stable_maps_and_target_membership_bound_before_raft_effect],
-  %w[leader_change_resume membership_history_entries_newer_than_authority_log_index_required]
+  %w[leader_change_resume membership_history_entries_newer_than_authority_log_index_required],
+  %w[remove_rejoin_real_nodes exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication]
 ].freeze
 COMMANDS = {
   "integration_cases" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_membership_transition -- --nocapture --test-threads=1],
@@ -140,18 +141,18 @@ assertions = all_text.lines.map do |line|
   fail_proof("malformed assertion marker") unless match
   [match[1], match[2]]
 end.compact
-fail_proof("assertion denominator or substitution mismatch") unless assertions.length == 7 && assertions.uniq.length == 7 && assertions.sort == EXPECTED_ASSERTIONS.sort
+fail_proof("assertion denominator or substitution mismatch") unless assertions.length == 8 && assertions.uniq.length == 8 && assertions.sort == EXPECTED_ASSERTIONS.sort
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue199.governed_membership_transition_proof.v4", "issue" => 199,
+  "schema" => "adl.issue199.governed_membership_transition_proof.v5", "issue" => 199,
   "source_revision" => source, "source_tree" => tree.strip, "required_main_ancestor" => origin_main,
   "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
   "commands" => commands,
-  "test_summary" => { "integration_cases" => 12, "integration_passed" => 12, "internal_test_counts" => observed_test_counts, "discriminator_subassertions" => 1, "source_assertions" => 7 },
+  "test_summary" => { "integration_cases" => 12, "integration_passed" => 12, "internal_test_counts" => observed_test_counts, "discriminator_subassertions" => 1, "source_assertions" => 8 },
   "cases" => EXPECTED_CASES.map { |name| { "case" => name, "result" => "pass", "marker_sha256" => Digest::SHA256.hexdigest("#{MARKER}case=#{name} result=pass") } },
   "subassertions" => subassertions.map { |name, boundary| { "name" => name, "boundary" => boundary } },
   "assertions" => EXPECTED_ASSERTIONS.map { |case_name, assertion| { "case" => case_name, "assertion" => assertion, "marker_sha256" => Digest::SHA256.hexdigest("#{ASSERTION_MARKER}case=#{case_name} assertion=#{assertion}") } }
 }
 File.binwrite(PROOF, JSON.generate(proof) + "\n")
-puts "PASS: produced issue #199 exact 12-case, discriminator, seven-assertion, seven-command proof at #{source}"
+puts "PASS: produced issue #199 exact 12-case, discriminator, eight-assertion, seven-command proof at #{source}"
