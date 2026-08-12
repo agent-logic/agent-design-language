@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Inspection-only reviewer verified existing governed logs; Linux-gated unit tests were not independently executed by the reviewer.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5e18a5bd721700a0a330c49dc7a3ed3155a61272:f7653a35486879746879e0f2041181865f0b6edf13264d84b83f87ff3cd6d2c0")
 
-Reviewer: None
+Reviewer: Some("fresh-session:ac4c7c86-1e08-4566-9f68-d6b2708cd259")
 
-Result: pre_review
+Result: pass

@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
     "slug": "297a-anchored-classification-resumable-recovery-ledger",
     "version": "v0.92",
-    "generation": 61
+    "generation": 62
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/projection_recovery.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/298\n.csdlc/evidence/298",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:5e18a5bd721700a0a330c49dc7a3ed3155a61272:f7653a35486879746879e0f2041181865f0b6edf13264d84b83f87ff3cd6d2c0",
+      "reviewer": "fresh-session:ac4c7c86-1e08-4566-9f68-d6b2708cd259",
       "review_prompts": [
         "no-follow retained-handle identity and mount authority",
         "tagged CAS and failed-operation lineage permissions",
@@ -25,8 +25,10 @@
         "scope exclusion of #299 cleanup and #300 integrated proof"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Inspection-only reviewer verified existing governed logs; Linux-gated unit tests were not independently executed by the reviewer."
+      ],
+      "review_result": "pass"
     }
   }
 }
