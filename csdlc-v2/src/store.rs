@@ -1830,6 +1830,45 @@ fn reconcile_owned_quarantine(root: &Path, relative: &Path, expected: &str) -> R
 }
 
 #[cfg(unix)]
+fn reconcile_owned_delete_quarantine(root: &Path, relative: &Path, expected: &str) -> Result<()> {
+    let parent = relative.parent().unwrap_or_else(|| Path::new("."));
+    let name = relative
+        .file_name()
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "cleanup file name missing"))?
+        .to_string_lossy();
+    let prefix = format!(".{name}.csdlc-owned-delete-");
+    for entry in std::fs::read_dir(root.join(parent))? {
+        let entry = entry?;
+        let candidate_name = entry.file_name();
+        let candidate_text = candidate_name.to_string_lossy();
+        let Some(suffix) = candidate_text.strip_prefix(&prefix) else {
+            continue;
+        };
+        let parts: Vec<_> = suffix.split('-').collect();
+        if parts.len() != 2 {
+            continue;
+        }
+        let identity = (
+            parts[0].parse::<u64>().map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "owned quarantine identity invalid",
+                )
+            })?,
+            parts[1].parse::<u64>().map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "owned quarantine identity invalid",
+                )
+            })?,
+        );
+        let candidate = parent.join(candidate_name);
+        unlink_owned_anchored(root, &candidate, expected, identity)?;
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
 fn stage_and_install_authored(root: &Path, relative: &Path, bytes: &[u8]) -> Result<(u64, u64)> {
     let staged = staged_authored_path(relative)?;
     write_authored_exclusive(root, &staged, bytes)?;
@@ -2138,7 +2177,9 @@ fn unlink_owned_anchored(
         expected_identity.0,
         expected_identity.1
     ));
-    rename_no_replace_anchored(root, relative, &quarantine)?;
+    if file_identity_no_follow(root, &quarantine).is_err() {
+        rename_no_replace_anchored(root, relative, &quarantine)?;
+    }
     let actual_identity = file_identity_no_follow(root, &quarantine)?;
     let actual_digest = read_regular_authored_artifact_with_hook(root, &quarantine, |_| {})?
         .map(|bytes| digest(&bytes));
@@ -2221,6 +2262,8 @@ fn remove_authored_if_owned(
     identity: Option<(u64, u64)>,
 ) -> Result<()> {
     reconcile_owned_quarantine(root, &staged_authored_path(relative)?, expected)?;
+    reconcile_owned_delete_quarantine(root, relative, expected)?;
+    reconcile_owned_delete_quarantine(root, &staged_authored_path(relative)?, expected)?;
     let Some(identity) = identity else {
         // A crash before the journal identity update leaves the retained stage
         // as the ownership witness for the installed hard link.
@@ -2237,13 +2280,16 @@ fn remove_authored_if_owned(
                 ));
             }
         };
-        if file_identity_no_follow(root, relative)? != stage_identity {
+        let destination_identity = file_identity_no_follow(root, relative).ok();
+        if destination_identity.is_some_and(|value| value != stage_identity) {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "recovery destination is not linked to its owned stage",
             ));
         }
-        unlink_owned_anchored(root, relative, expected, stage_identity)?;
+        if destination_identity.is_some() {
+            unlink_owned_anchored(root, relative, expected, stage_identity)?;
+        }
         return unlink_owned_anchored(root, &stage, expected, stage_identity);
     };
     let quarantine = relative.with_file_name(format!(
