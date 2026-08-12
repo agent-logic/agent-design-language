@@ -4,25 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "2346dc9fe8961419f04fe972b81ac013edc7e59f6778586446f4a2be59ec883c",
+  "generation": 18,
+  "digest": "d804028e235327a1e90d716703a94d43f867ad998053c959929c61e4427f48bf",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:fe76ec3b-ff71-41c7-9580-231218fdb201",
-    "assigned_by": "codex:issue-294",
-    "revision": "git-blake3:1f5cddb29947607a36b6afe7dd4d18cc9202221a:3bfe027b26f4231b04f6251c4e16ea11e68d66c7f0e909f4578c9862e137dddb",
-    "scope": [
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-edit.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/card_identity.rs",
-      ".csdlc/issues/294",
-      ".csdlc/prepared/issues/294",
-      ".csdlc/evidence/294"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -38,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5b6f4f102846f25fbe713913d816ea4bf7d146aa3a6aed21d36776610c4e7ca0",
+      "values_digest": "b9658bca92881f2d45e7d1a1734019c2b9bfd3cc59d95bc4a859439eb306cf59",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "d94f935b13beef17ebf8a8ff423a281ae2559c2eb305e8cf68026edaf934e53a",
+      "values_digest": "bbb9a057a996f53f002c7bb9da197a78cfe7f039ad9499d9e8b5a339d1303f2e",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "0c17b75c9228e8b43f5f9a265d641d29d3cc28433f9077f1bdc53ad84d0c997e",
+      "values_digest": "7a50ce400fa0bf304fa3dc699778d75dee0416d8c99d59397fc390e9ccfb5aec",
       "rendered_digest": "818c831b4006e6cba1fae7fd705b517025fdb4dffebcdd5ed63c77e88dd8e9ee",
       "ast_digest": "fe2b4a198e777d6d1184d8db1e169a565f0425a9c547b1f1252c24a7410e2c5e"
     },
     "vpp": {
-      "values_digest": "55e8ce87d98efc23245554b55fe033d0d3b28be6103218390f9158396e968605",
+      "values_digest": "7af4de1a236f2e9d57628b46ebf9ee47c015967f94191f9342825d79d7dea84a",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "a947500263112b7d2765835b0cb148c484217c465c1a695d1c25e908b16e3534",
-      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
-      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
+      "values_digest": "ccf0a195ddb87337692fb11002a240dbaea9d44f5581cb47ee04cd5054bc022f",
+      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
+      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
     },
     "sor": {
-      "values_digest": "8945036e749cd1194b11889a60f121b924f5f365d700bb809faea6e8668b22c2",
+      "values_digest": "9ce01464a3c6d8686d1958d51ece7a892bed1cd928f4b247ab865db5a0ae88c6",
       "rendered_digest": "02a3825c1b8aa02ee4ff72c2597d88a060af2ae9a31abc8a0aa8df0f7e3d9438",
       "ast_digest": "926479531ef701e505067ba4a19c0f8b998388e2ef55666e78e7210deb803fe9"
     }
@@ -245,6 +231,13 @@
       "actor": "codex:issue-294",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:issue-294",
+      "reason": "Recover failed r3 exact-head assignment at substantive 1f5cddb29947607a36b6afe7dd4d18cc9202221a: destination-install failures leak deterministic staging or installed artifacts and can strand retries; cleanup has a digest/identity-check-to-unlink TOCTOU; reviewed_generation is not correlated to the approved revision and post_state_digest is not canonical post-state truth; AC-8/AC-9 fixtures omit bind-before/after proof, phase/source/destination/history/reviewer negatives, interruption boundaries, and ancestor/destination/unlink races",
+      "operation": "recover_review"
     }
   ]
 }

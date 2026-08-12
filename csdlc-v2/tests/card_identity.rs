@@ -248,7 +248,17 @@ fn recovery_request(record: &csdlc_v2::IssueRecord) -> RecoverInitializedDesignE
 
 #[test]
 fn recovery_rejects_stale_cas_unsafe_alias_and_missing_provenance_without_mutation() {
-    for case in ["generation", "digest", "alias", "provenance"] {
+    for case in [
+        "generation",
+        "digest",
+        "alias",
+        "provenance",
+        "reviewer",
+        "reviewed_generation",
+        "source_absent",
+        "source_drift",
+        "destination_collision",
+    ] {
         let temp = tempfile::tempdir().unwrap();
         let record = bootstrap_at(
             temp.path(),
@@ -263,6 +273,19 @@ fn recovery_rejects_stale_cas_unsafe_alias_and_missing_provenance_without_mutati
             "digest" => request.expected_digest = "stale".into(),
             "alias" => request.new_diagram_path = request.new_design_path.clone(),
             "provenance" => request.fork_turns = "all".into(),
+            "reviewer" => request.prior_reviewer = "fresh-session:wrong".into(),
+            "reviewed_generation" => request.reviewed_generation += 1,
+            "source_absent" => {
+                fs::remove_file(temp.path().join(&record.design_path)).unwrap();
+            }
+            "source_drift" => {
+                fs::write(temp.path().join(&record.design_path), b"drifted").unwrap();
+            }
+            "destination_collision" => {
+                let destination = temp.path().join(&request.new_design_path);
+                fs::create_dir_all(destination.parent().unwrap()).unwrap();
+                fs::write(destination, b"owned elsewhere").unwrap();
+            }
             _ => unreachable!(),
         }
         assert!(
@@ -275,6 +298,32 @@ fn recovery_rejects_stale_cas_unsafe_alias_and_missing_provenance_without_mutati
             "{case}"
         );
     }
+}
+
+#[test]
+fn destination_collision_cleans_stage_and_retry_succeeds() {
+    let temp = tempfile::tempdir().unwrap();
+    let record = bootstrap_at(
+        temp.path(),
+        298,
+        ".csdlc/prepared/legacy/design.md",
+        ".csdlc/prepared/legacy/diagram.mmd",
+    );
+    let request = recovery_request(&record);
+    let destination = temp.path().join(&request.new_design_path);
+    fs::create_dir_all(destination.parent().unwrap()).unwrap();
+    fs::write(&destination, b"collision").unwrap();
+    assert!(
+        recover_initialized_design_envelope(&Store::new(temp.path()), request.clone()).is_err()
+    );
+    assert!(!destination
+        .parent()
+        .unwrap()
+        .join(".design.md.csdlc-stage")
+        .exists());
+    fs::remove_file(destination).unwrap();
+    let recovered = recover_initialized_design_envelope(&Store::new(temp.path()), request).unwrap();
+    assert_eq!(recovered.generation, record.generation + 1);
 }
 
 #[test]

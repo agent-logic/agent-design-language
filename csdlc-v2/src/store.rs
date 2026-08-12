@@ -1466,10 +1466,10 @@ pub fn recover_initialized_design_envelope(
             "authored artifact digest drifted",
         ));
     }
-    if request.reviewed_generation > record.generation {
+    if request.reviewed_generation != record.generation {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "reviewed generation cannot exceed canonical generation",
+            "reviewed generation must equal the approved canonical generation",
         ));
     }
     let mut journal = DesignEnvelopeRecoveryJournal {
@@ -1487,14 +1487,11 @@ pub fn recover_initialized_design_envelope(
         phase: "prepared".into(),
     };
     write_recovery_journal(store.root(), &journal)?;
-    if let Err(error) = stage_and_install_authored(
+    stage_and_install_authored(
         store.root(),
         Path::new(&request.new_design_path),
         &design_bytes,
-    ) {
-        let _ = remove_recovery_journal(store.root(), request.issue);
-        return Err(error);
-    }
+    )?;
     journal.phase = "design_installed".into();
     write_recovery_journal(store.root(), &journal)?;
     if let Err(error) = stage_and_install_authored(
@@ -1507,7 +1504,6 @@ pub fn recover_initialized_design_envelope(
             Path::new(&request.new_design_path),
             &old_design_digest,
         );
-        let _ = remove_recovery_journal(store.root(), request.issue);
         return Err(error);
     }
     journal.phase = "artifacts_installed".into();
@@ -1536,11 +1532,6 @@ pub fn recover_initialized_design_envelope(
     record.diagram_path = request.new_diagram_path.clone();
     record.design_review = DesignReview::Pending;
     record.generation += 1;
-    let post_state_digest = digest(&serde_json::to_vec(&serde_json::json!({
-        "generation": record.generation, "design_path": record.design_path,
-        "diagram_path": record.diagram_path, "design_digest": old_design_digest,
-        "diagram_digest": old_diagram_digest, "design_review": record.design_review
-    }))?);
     for values in cards.values_mut() {
         values.identity.generation = record.generation;
     }
@@ -1561,10 +1552,15 @@ pub fn recover_initialized_design_envelope(
             "spawned_task":request.spawned_task,"thread_source":request.thread_source,"fork_turns":request.fork_turns,
             "old_design_review":old_review,"approval_disposition":"invalidated_pending_reapproval",
             "pre_state_digest":request.expected_digest,"post_generation":record.generation,
-            "post_state_digest":post_state_digest
+            "post_state_digest":"pending-canonical-post-state-digest"
         }).to_string(),
     });
     hydrate_projections(&mut record, &cards)?;
+    let post_state_digest = canonical_recovery_post_state_digest(&record)?;
+    let operation = &mut record.audit.last_mut().expect("recovery audit").operation;
+    let mut operation_value: serde_json::Value = serde_json::from_str(operation)?;
+    operation_value["post_state_digest"] = serde_json::Value::String(post_state_digest);
+    *operation = operation_value.to_string();
     record.digest = record_digest(&record)?;
     if let Err(error) = store.commit(request.issue, &record, &cards, false) {
         if store.load_record(request.issue).is_ok_and(|installed| {
@@ -1647,6 +1643,21 @@ fn recovery_post_state_matches(
         })
 }
 
+fn canonical_recovery_post_state_digest(record: &IssueRecord) -> Result<String> {
+    let mut value = record.clone();
+    value.digest.clear();
+    let operation = &mut value
+        .audit
+        .last_mut()
+        .ok_or_else(|| V2Error::new(ErrorCode::ReconciliationRequired, "recovery audit absent"))?
+        .operation;
+    let mut operation_value: serde_json::Value = serde_json::from_str(operation)?;
+    operation_value["post_state_digest"] =
+        serde_json::Value::String("pending-canonical-post-state-digest".into());
+    *operation = operation_value.to_string();
+    Ok(digest(&serde_json::to_vec(&value)?))
+}
+
 fn reconcile_design_envelope_journal(store: &Store, record: &IssueRecord) -> Result<()> {
     let Some(journal) = read_recovery_journal(store.root(), record.issue)? else {
         return Ok(());
@@ -1717,8 +1728,16 @@ fn stage_and_install_authored(root: &Path, relative: &Path, bytes: &[u8]) -> Res
     })?;
     let staged = relative.with_file_name(format!(".{}.csdlc-stage", file_name.to_string_lossy()));
     write_authored_exclusive(root, &staged, bytes)?;
-    link_no_replace_anchored(root, &staged, relative)?;
-    unlink_anchored(root, &staged, Some(&digest(bytes)))
+    if let Err(error) = link_no_replace_anchored(root, &staged, relative) {
+        let _ = unlink_anchored(root, &staged, Some(&digest(bytes)));
+        return Err(error);
+    }
+    if let Err(error) = unlink_anchored(root, &staged, Some(&digest(bytes))) {
+        let _ = unlink_anchored(root, relative, Some(&digest(bytes)));
+        let _ = unlink_anchored(root, &staged, Some(&digest(bytes)));
+        return Err(error);
+    }
+    Ok(())
 }
 
 #[cfg(not(unix))]
@@ -1942,24 +1961,29 @@ fn unlink_anchored(root: &Path, relative: &Path, expected_digest: Option<&str>) 
             ));
         }
         use std::os::unix::fs::MetadataExt;
-        let mut current: libc::stat = unsafe { std::mem::zeroed() };
-        if unsafe {
-            libc::fstatat(
-                parent.as_raw_fd(),
-                name.as_ptr(),
-                &mut current,
-                libc::AT_SYMLINK_NOFOLLOW,
-            )
-        } != 0
-        {
-            return Err(std::io::Error::last_os_error().into());
-        }
-        if opened.dev() != current.st_dev as u64 || opened.ino() != current.st_ino as u64 {
+        let quarantine = relative.with_file_name(format!(
+            ".{}.csdlc-delete",
+            relative
+                .file_name()
+                .expect("cleanup file name")
+                .to_string_lossy()
+        ));
+        rename_no_replace_anchored(root, relative, &quarantine)?;
+        let quarantined = match read_opened_metadata_no_follow(root, &quarantine) {
+            Ok(metadata) => metadata,
+            Err(error) => {
+                let _ = rename_no_replace_anchored(root, &quarantine, relative);
+                return Err(error);
+            }
+        };
+        if opened.dev() != quarantined.dev() || opened.ino() != quarantined.ino() {
+            let _ = rename_no_replace_anchored(root, &quarantine, relative);
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "cleanup target identity changed",
             ));
         }
+        return unlink_anchored(root, &quarantine, None);
     }
     if unsafe { libc::unlinkat(parent.as_raw_fd(), name.as_ptr(), 0) } != 0 {
         let e = std::io::Error::last_os_error();
@@ -1969,6 +1993,69 @@ fn unlink_anchored(root: &Path, relative: &Path, expected_digest: Option<&str>) 
         return Err(e.into());
     }
     parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(unix)]
+fn read_opened_metadata_no_follow(root: &Path, relative: &Path) -> Result<std::fs::Metadata> {
+    use std::os::unix::io::{AsRawFd, FromRawFd};
+    let (parent, name) = open_parent_no_follow(root, relative)?;
+    let fd = unsafe {
+        libc::openat(
+            parent.as_raw_fd(),
+            name.as_ptr(),
+            libc::O_RDONLY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    Ok(unsafe { File::from_raw_fd(fd) }.metadata()?)
+}
+
+#[cfg(target_os = "macos")]
+fn rename_no_replace_anchored(root: &Path, source: &Path, destination: &Path) -> Result<()> {
+    use std::os::unix::io::AsRawFd;
+    let (source_parent, source_name) = open_parent_no_follow(root, source)?;
+    let (dest_parent, dest_name) = open_parent_no_follow(root, destination)?;
+    if unsafe {
+        libc::renameatx_np(
+            source_parent.as_raw_fd(),
+            source_name.as_ptr(),
+            dest_parent.as_raw_fd(),
+            dest_name.as_ptr(),
+            libc::RENAME_EXCL,
+        )
+    } != 0
+    {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    dest_parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(all(unix, not(target_os = "macos")))]
+fn rename_no_replace_anchored(root: &Path, source: &Path, destination: &Path) -> Result<()> {
+    use std::os::unix::io::AsRawFd;
+    let (source_parent, source_name) = open_parent_no_follow(root, source)?;
+    let (dest_parent, dest_name) = open_parent_no_follow(root, destination)?;
+    #[cfg(target_os = "linux")]
+    let result = unsafe {
+        libc::syscall(
+            libc::SYS_renameat2,
+            source_parent.as_raw_fd(),
+            source_name.as_ptr(),
+            dest_parent.as_raw_fd(),
+            dest_name.as_ptr(),
+            libc::RENAME_NOREPLACE,
+        ) as libc::c_int
+    };
+    #[cfg(not(target_os = "linux"))]
+    let result = -1;
+    if result != 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    dest_parent.sync_all()?;
     Ok(())
 }
 
@@ -2031,7 +2118,7 @@ fn validate_safe_authored_destination(value: &str) -> Result<()> {
             .components()
             .next()
             .is_some_and(|c| c.as_os_str() == ".git")
-        || !(value.starts_with("docs/") || value.starts_with(".csdlc/prepared/"))
+        || (value.starts_with(".csdlc/") && !value.starts_with(".csdlc/prepared/"))
     {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
