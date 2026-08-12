@@ -12,10 +12,15 @@ Status: pre_phase
 
 ## Summary
 
-Remediated exact review r1 authority gaps for full projection validation, descriptor-relative mutation, recovery-complete commit gating, immutable receipt-chain verification, recovery namespace inventory, and distinct proof cases
+Remediate exact review r2 with shared completed-attempt authority and retained parent descriptors
 
 ## Artifacts
 
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/src/schema.rs
+- csdlc-v2/src/bin/csdlc-issue.rs
+- csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/src/store.rs
 - csdlc-v2/src/schema.rs
@@ -59,6 +64,22 @@ Remediated exact review r1 authority gaps for full projection validation, descri
 - Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
 - Inventoried recovery attempts and classified matching completed recovery as already_recovered
 - Added distinct terminal receipt tamper and already-recovered classification proof
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader
+- Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames
+- Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof
 
 ## Validation
 
