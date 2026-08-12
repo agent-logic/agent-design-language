@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "f90e04dc96302491faf886c58d7c04b64c1a8cc61c83365c2a5e99f5ffe20541",
+  "generation": 9,
+  "digest": "b06edfb75f91a3f752a25a0eacb1373d490e5fc6dab504b6128bb6aa81da9797",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "23669ec108a53454b8a579e10fb65932af57f90f5e0f86850cc1b08de01429e6",
+      "values_digest": "3a9018cc3d1d64cfca7437537e0c31546ca6c9f56393168276fbb498cbc4e6ab",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "5685353f96a22e54b681238644dbce9d3a5ee393c3593078e24721f4e2726399",
+      "values_digest": "9bba179db3efba86c4915aea4c054d26c5e302f3ff0af31fae4c736e9adfb077",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "aab59bfd04f069b51822e1e1411728442b459682270b73c3dba9d56107c84645",
+      "values_digest": "b76397b74a898e638f44bbbe954fd37d50da5faccd2886bd2dba4d2800b50cc6",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "8ec18842d297af22eed6e51bd262de16dbedbc7d28d81a1906952152dab726ea",
+      "values_digest": "f848b84180ad4560405230f19889d312a5ef5401898da431283166a8c817461a",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "869b2045dec4b8fa6bf76d82c8a5eafb42fbe140b19ab8ae20a6e2b8e7e5cf83",
+      "values_digest": "e9cfbef64914134b99628c69557c57068234c814a53a14c40919668a72f8d74a",
       "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
       "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
     },
     "sor": {
-      "values_digest": "01ff9cfb7640427606cc868c4acaa4bdc50f5510174a6c67bf4f0a5b37171801",
-      "rendered_digest": "8c2513d7db7fddac103a2f215a9e222d1c9627a8343c33be6ce31f435242821b",
-      "ast_digest": "9d4cf213302657f9a4487b77bd8231af076eed887198622bb646f141e75d72c8"
+      "values_digest": "9c457426e22867c2763531cd0f4efac88d38ee17954cfa4cf74cf63b93fe071c",
+      "rendered_digest": "56a46bcac65444a249800be52da38d740d89d51a192d422671d2597aedc9e5c9",
+      "ast_digest": "93b37a1c5cf3566e93a2821397d576780955b53cc0bf99fe5dc0e9710ef81075"
     }
   },
   "transitions": [
@@ -154,6 +154,13 @@
       "actor": "codex:issue-295",
       "reason": "Exact review at 66c09d173 found three P1 issues: import grammar can accept semantic import rewrites, proof trusts caller-declared passed strings instead of verified artifacts, and receipts omit immutable base/head/diff/mapping/proof/result/content bindings. Recover before remediation and require a different fresh reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:issue-295",
+      "reason": "Record the bounded P1 remediation and the fresh passing typed lane evidence after review recovery.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated all three exact-review P1 findings with strict import-addition grammar, verified result/evidence artifact bindings, and replay-resistant exact revision/diff/mapping/result/hunk receipts.\",\"changes\":[\"Reject semantic import removal, reorder, alias, path, and multiplicity changes.\",\"Require digest-verified compile and behavioral result artifacts plus their evidence logs instead of caller-declared passed strings.\",\"Bind base, head, diff, mapping, proof manifest, result, evidence, and hunk content digests in each receipt.\",\"Preserve the 80 percent threshold, nightly/full policy, and read-only #258 fixture boundary.\"],\"artifacts\":[\"adl/tools/mechanical_coverage_fallout.py\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\"docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md\",\".csdlc/evidence/295\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Prove exact grammar, artifact integrity, replay resistance, required negatives, and below-threshold integration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/mechanical-compile-fallout-classifier.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the existing 80 percent and authoritative coverage routing contract remains intact.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/coverage-impact-regression.log\"},{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"purpose\":\"Prove PVF selector inventory and non-authoritative PR evidence routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/validation-selector-pvf.log\"}]}"
     }
   ]
 }
