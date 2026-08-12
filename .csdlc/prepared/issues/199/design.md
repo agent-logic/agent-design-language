@@ -240,12 +240,11 @@ Raft ids.
   exclusion activation and generation observation, learner call,
   joint history write, final history write, each voter reconcile, voter
   checkpoint/result, and voter visible-view flip.
-- The exact typed 36-case denominator additionally splits coarse
-  `Membership`-kind rejection from wrong issue-local artifact-discriminator
-  rejection and covers stale cuts, wrong
-  keys/certificates/domain, learner lag/divergence, missing snapshots, old-only
-  and new-only joint progress, concurrency, retry conflict, rollback,
-  corruption, capacity, and unsafe paths.
+- The retained proof uses twelve behavior-specific public cases rather than a
+  substituted name facade. Eight production assertions separately bind the
+  governed receipt, exact authorized cuts, current-operation history, durable
+  crash/retry classification, real removal and fresh-node rejoin, checkpoint,
+  parity, publication, and strict Clippy surfaces.
 
 ## Non-goals
 

@@ -805,7 +805,11 @@ impl MembershipCoordinator {
                 #[cfg(test)]
                 if self.fail_membership_change_before_submit {
                     self.fail_membership_change_before_submit = false;
-                    self.clear_no_effect_membership_change_submission(promotion.operation_sha256)?;
+                    if raft_membership_is_exact_old(raft, &transition.old_membership) {
+                        self.clear_no_effect_membership_change_submission(
+                            promotion.operation_sha256,
+                        )?;
+                    }
                     return Err(MembershipCoordinatorError::StateRegression);
                 }
                 if raft
@@ -1177,9 +1181,11 @@ impl MembershipCoordinator {
                     #[cfg(test)]
                     if self.fail_membership_change_before_submit {
                         self.fail_membership_change_before_submit = false;
-                        self.clear_no_effect_membership_change_submission(
-                            removal.operation_sha256(),
-                        )?;
+                        if raft_membership_is_exact_old(raft, &transition.old_membership) {
+                            self.clear_no_effect_membership_change_submission(
+                                removal.operation_sha256(),
+                            )?;
+                        }
                         return Err(MembershipCoordinatorError::StateRegression);
                     }
                     if raft
@@ -1508,6 +1514,13 @@ fn raft_membership_is_exact_old(raft: &PolisRaft, expected_old: &BTreeSet<u64>) 
     let metrics = raft.metrics();
     let observed = metrics.borrow();
     let configs = observed.membership_config.membership().get_joint_config();
+    membership_configs_are_exact_old(configs, expected_old)
+}
+
+fn membership_configs_are_exact_old(
+    configs: &[BTreeSet<u64>],
+    expected_old: &BTreeSet<u64>,
+) -> bool {
     configs.len() == 1 && configs[0] == *expected_old
 }
 

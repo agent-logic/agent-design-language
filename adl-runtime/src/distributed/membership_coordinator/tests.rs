@@ -190,6 +190,14 @@ fn stable_map_digest_rejects_collisions_and_zero() {
         ])),
         Err(MembershipCoordinatorError::WrongStableMap)
     );
+    let old = BTreeSet::from([1, 2, 3]);
+    let target = BTreeSet::from([1, 2, 3, 4]);
+    assert!(membership_configs_are_exact_old(&[old.clone()], &old));
+    assert!(!membership_configs_are_exact_old(
+        &[old.clone(), target.clone()],
+        &old
+    ));
+    assert!(!membership_configs_are_exact_old(&[target], &old));
 }
 
 #[test]
