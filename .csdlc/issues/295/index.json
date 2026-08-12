@@ -5,10 +5,25 @@
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
   "generation": 17,
-  "digest": "182de1aa3e17ca2b5f1c0c4b199eac804fb440048324ce125f899c808dd67385",
+  "digest": "ab9d6e5e85cdf83857de35859e7ebf57c2f1ad260b201a5a5a133785c225b87a",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:23ab2d08-f84d-4447-8bf3-cd1c10d6ba12",
+    "assigned_by": "codex:issue-295",
+    "revision": "git-blake3:36d3075ec05814ef44342c18784ffcceeab5e060:cb393824c086f18c62021367921186770c62f6db879b3909c04b8e4664698669",
+    "scope": [
+      "adl/config/mechanical_coverage_fallout.v1.json",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/mechanical_coverage_fallout.py",
+      "adl/tools/test_mechanical_coverage_fallout.sh",
+      "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md",
+      ".csdlc/evidence/295",
+      ".csdlc/issues/295",
+      ".csdlc/prepared/issues/295"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "59a9f96d2fe0fa9151636cdf428b1c4d3f22f4bf4b68ffb5e47bddcc6a0e8bfe",
-      "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
-      "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
+      "values_digest": "a6b7e639cc0b108d15eb74e7baa7fd757eb127bf9a2178da852bdfab5934afbf",
+      "rendered_digest": "adce6addc13536dc384d027dda84b15d90ee54e7bb347200afff1134d2f00ba4",
+      "ast_digest": "7348f324c90db767261d0e82f9afe172a38b3792e306438f46a1ca0e3baa6b04"
     },
     "sor": {
       "values_digest": "13a9ec3934c6e1457431950d369d8e55c591741e344b51ceac3c3100706729d7",
@@ -252,6 +267,13 @@
       "actor": "codex:issue-295",
       "reason": "reviewer fresh-session:e233a4a4-35ad-4fbe-8b7a-667bcddd48e9 was interrupted before verdict; no review authority",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:issue-295",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -23,3 +23,4 @@
 {"sequence":23,"generation":16,"actor":"codex:issue-295","reason":"reviewer interrupted before verdict; no review authority","operation":"recover_review"}
 {"sequence":24,"generation":16,"actor":"codex:issue-295","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":25,"generation":17,"actor":"codex:issue-295","reason":"reviewer fresh-session:e233a4a4-35ad-4fbe-8b7a-667bcddd48e9 was interrupted before verdict; no review authority","operation":"recover_review"}
+{"sequence":26,"generation":17,"actor":"codex:issue-295","reason":"assign bounded exact-revision review","operation":"assign_review"}
