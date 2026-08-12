@@ -12,9 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/291
-csdlc-v2/src/store.rs
-csdlc-v2/tests/initialized_decomposition_recovery.rs
+
 
 ## Prompts
 

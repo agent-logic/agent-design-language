@@ -2627,6 +2627,7 @@ fn validate_decomposition_graph(issue: u64, graph: &DecompositionGraphInput) -> 
         std::collections::BTreeMap::new();
     let mut incoming: std::collections::BTreeMap<&str, Vec<&str>> =
         std::collections::BTreeMap::new();
+    let mut edges = std::collections::BTreeSet::new();
     for edge in &graph.edges {
         if edge.from.trim().is_empty()
             || edge.to.trim().is_empty()
@@ -2647,6 +2648,12 @@ fn validate_decomposition_graph(issue: u64, graph: &DecompositionGraphInput) -> 
             return Err(V2Error::new(
                 ErrorCode::InvalidInput,
                 "decomposition graph edge orientation is inverted from parent owner",
+            ));
+        }
+        if !edges.insert((&edge.from, &edge.to, &edge.relation)) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "decomposition graph contains duplicate directed edge",
             ));
         }
         outgoing.entry(&edge.from).or_default().push(&edge.to);

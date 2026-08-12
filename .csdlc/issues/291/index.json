@@ -4,20 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f4bdffa4c5866878b425b124bbcf92e725fa7d41b4088de0b7384a1028b4f0c1",
   "phase": "implemented",
-  "generation": 29,
-  "digest": "d605abde2ba91236d426997942177634ab5258a5f2c89a0b603dccbc736f70e7",
+  "generation": 30,
+  "digest": "65f017d0bfa0aad333f9a59c8814954bc5acf99e34de203c79694d3a11b285b8",
   "branch": "codex/291-initialized-decomposition-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-291-initialized-decomposition-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:46f715f0-5b4a-4fce-a84d-2ec78f430b86",
-    "assigned_by": "codex:issue-291-owner",
-    "revision": "git-blake3:bfd715bc6da72a118f03a46c31e3182559a05000:82b48a85336fcf0dcc98619f4c3ae80cced9e8886fa0b5f1a9d68098063d504a",
-    "scope": [
-      ".csdlc/issues/291",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/initialized_decomposition_recovery.rs"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -33,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e0fb037abe3a6b034d5b1061a4a0499ae96a7c1993f5dc303f197f45dd06138c",
+      "values_digest": "c1797b716f15986f75891cedfdcc1d2a8b46c18b8585560af6d07c880292401f",
       "rendered_digest": "5e6b75f2edd95305ae5c60d2129cdd46efb423e366d51856953be59a19f6d51e",
       "ast_digest": "878510ea9c721f863a414266a09a4635184761f0c093330a6792d27ec93d4f22"
     },
     "stp": {
-      "values_digest": "b70b342c9ee940cda28701ada261e2c0ccb85c65b8d7591a88f43039db7486b3",
+      "values_digest": "fe98b24b18c48ae91369e77a1dadbd3b401dab8e15c5ca7d43181c31589b7889",
       "rendered_digest": "adbb5fea036d4fb0cd6c361bdcfc838d2ed32b01d1d56baaaa6049b37a68dead",
       "ast_digest": "64c95bddac521ac40a42494cc41a909d0fdfa17c225b09d5c16a1c697de7591c"
     },
     "spp": {
-      "values_digest": "972dd65ae3649b14173ef366b7ee8eaf2f89dc77b162a898b7ec1a3d429fb090",
+      "values_digest": "18641c6be3eed84bfe5f901cd95d08638eb6a0ef15d89ea74df79bf7f99f4643",
       "rendered_digest": "6af66c1d7e11b214d246e55195ec80230590c08d722ddf7a58279ee596ec2d8f",
       "ast_digest": "7c2910854d5813026f09028e35ee334a36ec5294d578d7b884f1c1e24921e140"
     },
     "vpp": {
-      "values_digest": "4bf653a89cda60cb704fb9703c42275e513edb8bdb77d5ad8c4315f1b72d5c4c",
+      "values_digest": "dfb31991b1eb5b7ca844dfa92b4402b0c336a01a3bc93964e6cdd6b9f1ab6b2e",
       "rendered_digest": "9c90a6b3fbb9fd9a203db91d4b30f74eda7275fc8cf1e0d00188f1b12eb043f4",
       "ast_digest": "36b64c7cd2ff65b1d5704736e0cc8973c661c0e4a186546dc722f9aa5d0640e1"
     },
     "srp": {
-      "values_digest": "20a1cdfd9de8d00cba526b6be6d2179e6e44a4c45097aa633b6778cec295dc17",
-      "rendered_digest": "b90ca8384e4b36b53083b6a7420b0be0c1f91259d2e3a254757083effbceb0ca",
-      "ast_digest": "7a59dec501d7a7a5c8c2e757119f077e4b75952645a7e32a0a12eb2b71351fd3"
+      "values_digest": "ee9c9ecb67800ffec62017114df7320379387646563fed1e92490095a7638367",
+      "rendered_digest": "37ab2d56de65312b802dbbf7497eabd8c050f79b4d200d8d080655002b55c91b",
+      "ast_digest": "b059e0d2e20a79e3ca99a62ef5acaa27d429e079e77064907629ca00a9456b77"
     },
     "sor": {
-      "values_digest": "55cee472e43597e0550e66a97f29d964b6e005dcc83d50e2cd524b9c518b13c8",
+      "values_digest": "d62c40afba98e81100c5784ab44bebb32c507177883778e1bf1ecc355549a09b",
       "rendered_digest": "70502482f9c9836e08fdc44abbcf45c4277372247087ddecbf201b2988932078",
       "ast_digest": "b6e4846a67520c3ef5fb8479bd0e587d1af5a0f2ed8723cbb8bb67b6fc657a0e"
     }
@@ -324,6 +315,13 @@
       "actor": "codex:issue-291-owner",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 30,
+      "actor": "codex:issue-291-final-fix",
+      "reason": "Recover the completed exact-head review assignment before applying its sole actionable P2 finding: validate_decomposition_graph accepts duplicate directed edges. Add fail-closed directed-edge identity rejection and one focused duplicate-edge negative while preserving parent, reachability, and history invariants.",
+      "operation": "recover_review"
     }
   ]
 }

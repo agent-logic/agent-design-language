@@ -119,6 +119,23 @@ fn initialized_decomposition_recovery_preserves_history_and_recovers_crashes() {
     std::env::set_current_dir(&original_cwd).expect("restore cwd after disconnected graph");
     assert_eq!(disconnected.code, csdlc_v2::ErrorCode::InvalidInput);
 
+    let duplicate_edge_repo = fixture_repo("duplicate-edge");
+    let duplicate_edge_store = Store::new(&duplicate_edge_repo);
+    let duplicate_edge_record = initialize_fixture_issue(&duplicate_edge_repo);
+    let mut duplicate_edge_request =
+        recovery_request(&duplicate_edge_repo, &duplicate_edge_record, None);
+    duplicate_edge_request
+        .graph
+        .edges
+        .push(edge("child-a", "child-b"));
+    std::env::set_current_dir(&duplicate_edge_repo).expect("fixture cwd for duplicate edge");
+    let duplicate_edge =
+        csdlc_v2::recover_initialized_decomposition(&duplicate_edge_store, duplicate_edge_request)
+            .expect_err("duplicate directed edge must fail closed");
+    std::env::set_current_dir(&original_cwd).expect("restore cwd after duplicate edge");
+    assert_eq!(duplicate_edge.code, csdlc_v2::ErrorCode::InvalidInput);
+    assert!(duplicate_edge.message.contains("duplicate directed edge"));
+
     let wrong_parent_repo = fixture_repo("wrong-parent");
     let wrong_parent_store = Store::new(&wrong_parent_repo);
     let wrong_parent_record = initialize_fixture_issue(&wrong_parent_repo);
