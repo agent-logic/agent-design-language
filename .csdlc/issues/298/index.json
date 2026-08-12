@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 40,
-  "digest": "5c4609a5e68ecc6b3a84ad61c8c154f5fc6acac9fdd988f5de6d8c5b62211f25",
+  "digest": "03ff7e3e7160e155676a3dca5134d069a5602de8a9191ef4a6834074344ef2a3",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:6b46a79f-e440-4ed8-acd1-f5f28e616cce",
+    "assigned_by": "codex:issue-298",
+    "revision": "git-blake3:058fcbb21ce118494ccca111ad4d91e1e2269399:9a7bf015e764c45cd912703a322711cfe447372f68babc2d5af61791412c8695",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "9472cbea450e4c59ccd5306590ea946b32dd802d393cac0ff1c96878964f7519",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "9b7d6729bcf04da5c3a53f37c4933ba40ce5ef7dc80419f646e7fb4492cbd315",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "3e18f87242540d5af54e4965bce8f8744eaef4a16d29f9e243ae3954de6850fe",
@@ -476,6 +491,13 @@
       "actor": "codex:issue-298",
       "reason": "record complete recovery receipt identity remediation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Bind exact node temporary and terminal identities across completed recovery receipts\",\"changes\":[\"Required exact operation-owned temporary names in create, fsync, and publish intent receipts\",\"Bound created temporary identity to the observed published node across stable filesystem identity fields\",\"Retained distinct coherent forgeries for created and terminal node identities, final paths, temporary names, and receipt envelopes\",\"Proved expected-canonical-absent recovery through the authorized backup source\",\"Validated exact seq2 and seq10 filters plus the live 29-test focused lane; retained evidence log was not refreshed because a concurrent stale capture was rejected\",\"Validated 75 library tests, strict all-target Clippy, formatting, and diff hygiene\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 58,
+      "generation": 40,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
