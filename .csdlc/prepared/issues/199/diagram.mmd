@@ -1,0 +1,25 @@
+flowchart LR
+  T["Coarse #201 Membership token plus sealed EnrollNonVoting artifact"] --> EA["EnrollmentAuthorized journal with separate authority Runtime and Raft indices"]
+  EA --> P202["Call governed #202 admission port"]
+  P202 --> G202["Observe exact durable #202 operation generation receipt"]
+  G202 --> ER["Prepare local NonVoting MembershipState and stable-id registry"]
+  ER --> EC["Enrollment checkpoint plus exact result cache"]
+  EC --> EV["Atomic enrollment published-view generation"]
+  EV --> PT["Second coarse Membership token plus sealed #199 PromoteVoter artifact binds local and #202 generations"]
+  PT --> A["AuthorizedOld voter-transition journal"]
+  C["Exact published MembershipState AuthorityMembership Raft history route and exclusion parity"] --> A
+  A --> E["Call governed #202 pending exclusion port and observe exact generation receipt"]
+  A --> L["LearnerCaughtUp over authenticated replication-only route"]
+  L --> J["JointCommitted persisted per OpenRaft membership log entry"]
+  J --> F["FinalCommitted exact uniform target"]
+  F --> I["Durable publication intent"]
+  I --> R["Reconcile local MembershipState and stable AuthorityMembership against observed #202 receipt"]
+  R --> X["External checkpoint plus exact result cache"]
+  X --> V["Atomic published-view generation flip"]
+  V --> O["Pending-exclusion receipt for #200"]
+  O -. "later governed rejoin" .-> T
+  P202 -. "crash retry observes exact external generation" .-> G202
+  ER -. "partial local enrollment conflict rollback or ambiguity" .-> Z
+  E -. "ordinary voter authority denied; exact future recovery learner only" .-> D["Fail-closed exclusion"]
+  J -. "committed joint crash" .-> Q["Resume exact standard OpenRaft change to uniform"]
+  R -. "partial reconcile conflict rollback or ambiguity" .-> Z["No visible view; operator required"]

@@ -22,6 +22,12 @@ use crate::distributed::{
         CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
         MembershipState,
     },
+    membership_coordinator::{
+        membership_set_sha256, stable_map_sha256, verify_authorized_transition_inputs,
+        AuthorizedMembershipTransition, GovernedMembershipRuntime, MembershipCoordinator,
+        MembershipCoordinatorError, MembershipCoordinatorPhase, MembershipCrashBoundary,
+        PromoteVoterArtifact, VerifiedPromoteVoter,
+    },
     polis_runtime::{
         serve_authorized_learner_connection, ConsensusCheckpoint, ConsensusCheckpointAuthority,
         PolisCommand, PolisLogStore, PolisRaft, PolisRuntimeError, PolisStateMachineStore,
@@ -1081,6 +1087,9 @@ async fn real_four_node_learner_replication() {
     let learner_address = learner_endpoint.local_addr().unwrap();
     learner_identity.address = learner_address;
     let cut = live_voter_cut([3, 3, 3]);
+    let removal_identity = exact_voter_target(&cut, 3);
+    let voter_cut_sha256 = route_cut_digest(&cut).unwrap();
+    let mut published_authority = cut.authority_membership().clone();
     let (admission, now) = live_admission(learner_identity, learner_address, &cut);
     let voter_authority = ProductionLearnerAuthority::open(
         &raft_root.path().join("voter-authority"),
@@ -1090,10 +1099,30 @@ async fn real_four_node_learner_replication() {
     let factory =
         SecurePolisNetworkFactory::from_authority_cut(leader, cut.clone(), voter_authority.clone())
             .unwrap();
-    factory
+    let admission_receipt = factory
         .activate_learner_admission(&admission, now)
         .await
         .unwrap();
+    assert_eq!(
+        admission_receipt.operation_sha256(),
+        admission.operation_sha256()
+    );
+    assert_ne!(admission_receipt.published_state_sha256(), [0; 32]);
+    assert_eq!(
+        factory
+            .observe_learner_admission_receipt(admission.operation_sha256())
+            .await
+            .unwrap(),
+        Some(admission_receipt.clone())
+    );
+    assert_eq!(
+        factory
+            .observe_learner_admission_receipt([0x51; 32])
+            .await
+            .unwrap(),
+        None
+    );
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=add_learner_joint_final_publish assertion=factory_admission_receipt_exact_current_and_mismatch_denied");
     let learner_authority = ProductionLearnerAuthority::open(
         &raft_root.path().join("learner-owned-authority"),
         Arc::new(MemoryCheckpoint::default()) as Arc<dyn ConsensusCheckpointAuthority>,
@@ -1102,7 +1131,7 @@ async fn real_four_node_learner_replication() {
     let learner_effect_authority = learner_authority.clone();
     let learner_factory = Arc::new(
         SecureLearnerNetworkFactory::bootstrap(
-            cut,
+            cut.clone(),
             admission.clone(),
             learner_authority,
             &learner_control_identity,
@@ -1144,13 +1173,170 @@ async fn real_four_node_learner_replication() {
         cancellation.child_token(),
     ));
 
-    tokio::time::timeout(
+    let old_stable_ids = published_authority.raft_ids.clone();
+    let mut target_stable_ids = old_stable_ids.clone();
+    target_stable_ids.insert(
+        admission.identity().guardian_id.as_bytes().to_vec(),
+        admission.identity().stable_raft_id,
+    );
+    let old_membership = old_stable_ids.values().copied().collect::<BTreeSet<_>>();
+    let target_membership = target_stable_ids.values().copied().collect::<BTreeSet<_>>();
+    let promotion_artifact = PromoteVoterArtifact::committed(
+        admission.identity().clone(),
+        admission.voter_cut_sha256(),
+        admission.operation_sha256(),
+        admission_receipt.generation(),
+        stable_map_sha256(&old_stable_ids).unwrap(),
+        stable_map_sha256(&target_stable_ids).unwrap(),
+        membership_set_sha256(&target_membership).unwrap(),
+        admission.deadline_unix_seconds,
+    )
+    .unwrap();
+    for sequence in 0..8 {
+        nodes[&leader]
+            .client_write(PolisCommand::GovernedMutation {
+                mutation_id: format!("promotion-authority-boundary-{sequence}"),
+                payload_sha256: format!("{:064x}", sequence + 100),
+            })
+            .await
+            .unwrap();
+    }
+    let authority_index = nodes[&leader]
+        .metrics()
+        .borrow()
+        .last_applied
+        .expect("leader applied authority baseline")
+        .index;
+    let promotion_result = test_published_reconciliation_token(
+        authority_identity(),
+        "real-four-node-promote-4",
+        promotion_artifact,
+        authority_index,
+        CanonicalAuthorityTime {
+            unix_seconds: now,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    let promotion = VerifiedPromoteVoter::from_published(
+        &promotion_result,
+        admission.identity(),
+        admission.voter_cut_sha256(),
+        stable_map_sha256(&old_stable_ids).unwrap(),
+        stable_map_sha256(&target_stable_ids).unwrap(),
+        now,
+    )
+    .unwrap();
+    let mut published_membership =
+        MembershipState::new(MembershipPolicy::new("runtime-prod", 8, 16).unwrap());
+    for node in 1..=3 {
+        let voter = published_authority
+            .voters
+            .get(format!("guardian-{node}").as_bytes())
+            .unwrap();
+        published_membership
+            .apply(&CommittedMembershipEvent::new(
+                "runtime-prod",
+                [node as u8; 32],
+                node,
+                node,
+                MembershipOperation::Join {
+                    member: Member {
+                        node_id: format!("node-{node}"),
+                        guardian_id: format!("guardian-{node}"),
+                        identity_generation: voter.certificate_generation,
+                        guardian_control_public_key: voter.control_public_key,
+                        role: MemberRole::NonVoting,
+                    },
+                },
+            ))
+            .unwrap();
+    }
+    for node in 1..=3 {
+        published_membership
+            .apply(&CommittedMembershipEvent::new(
+                "runtime-prod",
+                [node as u8 + 10; 32],
+                node + 3,
+                node + 3,
+                MembershipOperation::Promote {
+                    node_id: format!("node-{node}"),
+                },
+            ))
+            .unwrap();
+    }
+    published_membership
+        .apply(&CommittedMembershipEvent::new(
+            "runtime-prod",
+            [44; 32],
+            7,
+            7,
+            MembershipOperation::Join {
+                member: Member {
+                    node_id: admission.identity().node_id.clone(),
+                    guardian_id: admission.identity().guardian_id.clone(),
+                    identity_generation: admission.identity().certificate_generation,
+                    guardian_control_public_key: admission.identity().guardian_control_public_key,
+                    role: MemberRole::NonVoting,
+                },
+            },
+        ))
+        .unwrap();
+    published_authority.committed_log_index = published_membership.committed_log_index();
+    let candidate_authority = VoterAuthority {
+        guardian_id: admission.identity().guardian_id.as_bytes().to_vec(),
+        trust_domain_id: admission.identity().trust_domain.as_bytes().to_vec(),
+        certificate_generation: admission.identity().certificate_generation,
+        purpose: ControlCertificatePurpose::AuthorityEndorsement,
+        not_before_unix_seconds: now - 1,
+        not_after_unix_seconds: admission.deadline_unix_seconds,
+        revoked: false,
+        control_public_key: admission.identity().guardian_control_public_key,
+    };
+    let transition = AuthorizedMembershipTransition {
+        old_stable_ids,
+        target_stable_ids,
+        old_membership,
+        target_membership,
+    };
+    let coordinator_root = raft_root.path().join("membership-coordinator");
+    fs::create_dir(&coordinator_root).unwrap();
+    let coordinator = MembershipCoordinator::open(
+        &coordinator_root,
+        Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    let mut runtime = GovernedMembershipRuntime::new(
+        coordinator,
+        factory.clone(),
+        nodes[&leader].clone(),
+        machines[&leader].clone(),
+        published_membership,
+        published_authority,
+    );
+    for message_kind in ["vote", "generic", "unknown"] {
+        assert_eq!(
+            factory.request_bytes(4, message_kind, b"{}".to_vec()).await,
+            Err(PolisRuntimeError::AuthorityDenied)
+        );
+    }
+    let published = tokio::time::timeout(
         Duration::from_secs(20),
-        nodes[&leader].add_learner(4, BasicNode::new("memory://authorized-learner-4"), true),
+        runtime.promote(&promotion, &transition, candidate_authority.clone()),
     )
     .await
-    .expect("add_learner timed out")
+    .expect("governed promotion timed out")
     .unwrap();
+    assert_ne!(published, [0; 32]);
+    assert_eq!(runtime.coordinator().published_generation(), 1);
+    assert_eq!(
+        runtime
+            .membership()
+            .member(&admission.identity().node_id)
+            .unwrap()
+            .role,
+        MemberRole::Voter
+    );
     assert!(
         !learner_server.is_finished(),
         "learner server ended during catch-up"
@@ -1239,13 +1425,7 @@ async fn real_four_node_learner_replication() {
         .flatten()
         .copied()
         .collect::<std::collections::BTreeSet<_>>();
-    assert_eq!(voters, std::collections::BTreeSet::from([1, 2, 3]));
-    for message_kind in ["vote", "generic", "unknown"] {
-        assert_eq!(
-            factory.request_bytes(4, message_kind, b"{}".to_vec()).await,
-            Err(PolisRuntimeError::AuthorityDenied)
-        );
-    }
+    assert_eq!(voters, std::collections::BTreeSet::from([1, 2, 3, 4]));
     assertion(
         "real_four_node_learner_replication",
         "raft_add_learner_replicated",
@@ -1262,6 +1442,469 @@ async fn real_four_node_learner_replication() {
     let voters = BTreeMap::from([(1, "a"), (2, "b"), (3, "c")]);
     assert_eq!(voters.len(), 3);
     assert!(!voters.contains_key(&4));
+
+    let removal_old_stable_ids = runtime.authority().raft_ids.clone();
+    let mut removal_target_stable_ids = removal_old_stable_ids.clone();
+    removal_target_stable_ids.remove(removal_identity.guardian_id.as_bytes());
+    let removal_old_membership = removal_old_stable_ids
+        .values()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let removal_target_membership = removal_target_stable_ids
+        .values()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let removal_target_sha256 = membership_set_sha256(&removal_target_membership).unwrap();
+    let removal_artifact = LearnerMembershipArtifact::remove_voter(
+        removal_identity.clone(),
+        voter_cut_sha256,
+        removal_target_sha256,
+        admission.deadline_unix_seconds,
+        "real-four-node-remove-3",
+    )
+    .unwrap();
+    let removal_authority_index = nodes[&leader]
+        .metrics()
+        .borrow()
+        .last_applied
+        .unwrap()
+        .index;
+    let removal_result = test_published_reconciliation_token(
+        authority_identity(),
+        "real-four-node-remove-3",
+        removal_artifact,
+        removal_authority_index,
+        CanonicalAuthorityTime {
+            unix_seconds: now,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    let removal_transition = AuthorizedMembershipTransition {
+        old_stable_ids: removal_old_stable_ids,
+        target_stable_ids: removal_target_stable_ids,
+        old_membership: removal_old_membership,
+        target_membership: removal_target_membership,
+    };
+    for boundary in [
+        MembershipCrashBoundary::BeforeExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityObservation,
+        MembershipCrashBoundary::AfterJointHistory,
+        MembershipCrashBoundary::AfterFinalHistory,
+        MembershipCrashBoundary::AfterJointFinalObservation,
+        MembershipCrashBoundary::AfterStableMapPreparation,
+        MembershipCrashBoundary::AfterLocalProjectionPrepared,
+        MembershipCrashBoundary::AfterParityReconciliation,
+        MembershipCrashBoundary::BeforeCheckpoint,
+        MembershipCrashBoundary::AfterCheckpoint,
+        MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility,
+    ] {
+        runtime.inject_crash_boundary(boundary);
+        let removal_attempt = runtime
+            .remove(
+                &removal_result,
+                &removal_identity,
+                voter_cut_sha256,
+                now,
+                &removal_transition,
+            )
+            .await;
+        assert_eq!(
+            removal_attempt,
+            Err(MembershipCoordinatorError::StateRegression),
+            "removal boundary {boundary:?} must fail closed"
+        );
+        assert!(
+            runtime.crash_boundary_hit(),
+            "removal boundary {boundary:?} was not reached"
+        );
+        runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
+    }
+    let removed = tokio::time::timeout(
+        Duration::from_secs(20),
+        runtime.remove(
+            &removal_result,
+            &removal_identity,
+            voter_cut_sha256,
+            now,
+            &removal_transition,
+        ),
+    )
+    .await
+    .expect("governed removal timed out")
+    .unwrap();
+    assert_ne!(removed, [0; 32]);
+    assert_eq!(runtime.coordinator().published_generation(), 2);
+    assert!(runtime
+        .membership()
+        .member(&removal_identity.node_id)
+        .is_none());
+    assert!(!runtime
+        .authority()
+        .raft_ids
+        .contains_key(removal_identity.guardian_id.as_bytes()));
+    nodes[&3].shutdown().await.unwrap();
+    let rejoin_node_root = raft_root.path().join("node-3-rejoin");
+    fs::create_dir(&rejoin_node_root).unwrap();
+    let rejoin_checkpoint: Arc<dyn ConsensusCheckpointAuthority> =
+        Arc::new(MemoryCheckpoint::default());
+    let rejoin_log =
+        PolisLogStore::open(&rejoin_node_root, 3, Arc::clone(&rejoin_checkpoint)).unwrap();
+    let rejoin_machine =
+        PolisStateMachineStore::open(&rejoin_node_root, 3, rejoin_checkpoint).unwrap();
+    let rejoin_configuration = Arc::new(
+        openraft::Config {
+            cluster_name: "adl-authorized-rejoin-test".to_owned(),
+            heartbeat_interval: 50,
+            election_timeout_min: 30_000,
+            election_timeout_max: 31_000,
+            ..Default::default()
+        }
+        .validate()
+        .unwrap(),
+    );
+    let rejoin_raft = PolisRaft::new(
+        3,
+        rejoin_configuration,
+        AuthorizedLearnerMemoryNetwork {
+            local: 3,
+            peers: Arc::clone(&peers),
+            learner_factories: Arc::clone(&learner_factories),
+        },
+        rejoin_log,
+        rejoin_machine.clone(),
+    )
+    .await
+    .unwrap();
+    nodes.insert(3, rejoin_raft);
+    machines.insert(3, rejoin_machine);
+    *peers.write().unwrap() = nodes.clone();
+
+    let mut recovered = removal_identity.clone();
+    recovered.node_id = "node-3-recovered".to_owned();
+    recovered.guardian_id = "guardian-3-recovered".to_owned();
+    recovered.guardian_control_public_key =
+        SigningKey::from_bytes(&[93; 32]).verifying_key().to_bytes();
+    recovered.certificate_generation += 1;
+    recovered.boot_generation += 1;
+    recovered.address = "127.0.0.1:46303".parse().unwrap();
+    let enrollment_artifact = LearnerMembershipArtifact::enroll_non_voting(
+        recovered.clone(),
+        voter_cut_sha256,
+        Some(admission.operation_sha256()),
+        removal_target_sha256,
+        None,
+        admission.deadline_unix_seconds,
+    )
+    .unwrap();
+    let enrollment_result = test_published_reconciliation_token(
+        authority_identity(),
+        "real-four-node-rejoin-enroll-3",
+        enrollment_artifact,
+        removal_authority_index + 100,
+        CanonicalAuthorityTime {
+            unix_seconds: now,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    let recovery_admission = VerifiedLearnerAdmission::from_published_membership(
+        &enrollment_result,
+        &recovered,
+        &cut,
+        now,
+    )
+    .unwrap();
+    let enrollment_log_index = runtime.membership().committed_log_index() + 1;
+    factory
+        .expire_learner_admission(admission.deadline_unix_seconds)
+        .await
+        .unwrap();
+    let mut drifted_authority = runtime.authority().clone();
+    drifted_authority
+        .raft_ids
+        .insert(b"guardian-1".to_vec(), 99);
+    let exact_authority = runtime.replace_authority_for_test(drifted_authority);
+    assert_eq!(
+        runtime
+            .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
+            .await,
+        Err(MembershipCoordinatorError::WrongStableMap),
+        "enrollment must reject local authority/Raft parity drift before journaling or #202 effects"
+    );
+    runtime.replace_authority_for_test(exact_authority);
+    for boundary in [
+        MembershipCrashBoundary::BeforeEnrollmentJournal,
+        MembershipCrashBoundary::AfterEnrollmentJournal,
+        MembershipCrashBoundary::BeforeExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityObservation,
+        MembershipCrashBoundary::AfterStableMapPreparation,
+        MembershipCrashBoundary::AfterLocalProjectionPrepared,
+        MembershipCrashBoundary::BeforeCheckpoint,
+        MembershipCrashBoundary::AfterCheckpoint,
+        MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility,
+    ] {
+        runtime.inject_crash_boundary(boundary);
+        assert_eq!(
+            runtime
+                .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
+                .await,
+            Err(MembershipCoordinatorError::StateRegression),
+            "enrollment boundary {boundary:?} must fail closed"
+        );
+        assert!(
+            runtime.crash_boundary_hit(),
+            "enrollment boundary {boundary:?} was not reached"
+        );
+        runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
+    }
+    assert_eq!(runtime.coordinator().published_generation(), 3);
+    assert!(runtime.membership().member(&recovered.node_id).is_none());
+    let enrolled = runtime
+        .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
+        .await
+        .unwrap();
+    assert_ne!(enrolled, [0; 32]);
+    assert_eq!(runtime.coordinator().published_generation(), 3);
+    assert_eq!(
+        runtime
+            .membership()
+            .member(&recovered.node_id)
+            .unwrap()
+            .role,
+        MemberRole::NonVoting
+    );
+
+    let rejoin_old_stable_ids = runtime.authority().raft_ids.clone();
+    let mut rejoin_target_stable_ids = rejoin_old_stable_ids.clone();
+    rejoin_target_stable_ids.insert(recovered.guardian_id.as_bytes().to_vec(), 3);
+    let rejoin_old_membership = rejoin_old_stable_ids
+        .values()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let rejoin_target_membership = rejoin_target_stable_ids
+        .values()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let recovery_receipt = factory
+        .observe_learner_admission_receipt(recovery_admission.operation_sha256())
+        .await
+        .unwrap()
+        .unwrap();
+    let rejoin_artifact = PromoteVoterArtifact::committed(
+        recovered.clone(),
+        voter_cut_sha256,
+        recovery_admission.operation_sha256(),
+        recovery_receipt.generation(),
+        stable_map_sha256(&rejoin_old_stable_ids).unwrap(),
+        stable_map_sha256(&rejoin_target_stable_ids).unwrap(),
+        membership_set_sha256(&rejoin_target_membership).unwrap(),
+        admission.deadline_unix_seconds,
+    )
+    .unwrap();
+    let rejoin_authority_index = enrollment_log_index;
+    let rejoin_result = test_published_reconciliation_token(
+        authority_identity(),
+        "real-four-node-rejoin-promote-3",
+        rejoin_artifact,
+        rejoin_authority_index,
+        CanonicalAuthorityTime {
+            unix_seconds: now,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    let rejoin = VerifiedPromoteVoter::from_published(
+        &rejoin_result,
+        &recovered,
+        voter_cut_sha256,
+        stable_map_sha256(&rejoin_old_stable_ids).unwrap(),
+        stable_map_sha256(&rejoin_target_stable_ids).unwrap(),
+        now,
+    )
+    .unwrap();
+    let rejoin_transition = AuthorizedMembershipTransition {
+        old_stable_ids: rejoin_old_stable_ids,
+        target_stable_ids: rejoin_target_stable_ids,
+        old_membership: rejoin_old_membership,
+        target_membership: rejoin_target_membership,
+    };
+    assert_eq!(
+        verify_authorized_transition_inputs(
+            &rejoin,
+            &rejoin_transition.old_stable_ids,
+            &rejoin_transition.target_stable_ids,
+            &rejoin_transition.old_membership,
+            &rejoin_transition.target_membership,
+        ),
+        Ok(())
+    );
+    let recovered_authority = VoterAuthority {
+        guardian_id: recovered.guardian_id.as_bytes().to_vec(),
+        trust_domain_id: recovered.trust_domain.as_bytes().to_vec(),
+        certificate_generation: recovered.certificate_generation,
+        purpose: ControlCertificatePurpose::AuthorityEndorsement,
+        not_before_unix_seconds: now - 1,
+        not_after_unix_seconds: admission.deadline_unix_seconds,
+        revoked: false,
+        control_public_key: recovered.guardian_control_public_key,
+    };
+    for boundary in [
+        MembershipCrashBoundary::BeforeExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityCall,
+        MembershipCrashBoundary::AfterExternalAuthorityObservation,
+        MembershipCrashBoundary::BeforeLearnerEffect,
+        MembershipCrashBoundary::AfterLearnerEffect,
+    ] {
+        runtime.inject_crash_boundary(boundary);
+        assert_eq!(
+            runtime
+                .promote(&rejoin, &rejoin_transition, recovered_authority.clone())
+                .await,
+            Err(MembershipCoordinatorError::StateRegression),
+            "promotion boundary {boundary:?} must fail closed"
+        );
+        assert!(
+            runtime.crash_boundary_hit(),
+            "promotion boundary {boundary:?} was not reached"
+        );
+        runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
+    }
+    runtime.inject_membership_change_no_effect_failure();
+    assert_eq!(
+        runtime
+            .promote(&rejoin, &rejoin_transition, recovered_authority.clone(),)
+            .await,
+        Err(MembershipCoordinatorError::StateRegression)
+    );
+    assert_eq!(
+        runtime.coordinator().active_phase(),
+        Some(MembershipCoordinatorPhase::LearnerCaughtUp)
+    );
+    runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
+    runtime.inject_crash_after_membership_change();
+    let rejoined_result = tokio::time::timeout(
+        Duration::from_secs(20),
+        runtime.promote(&rejoin, &rejoin_transition, recovered_authority.clone()),
+    )
+    .await
+    .expect("governed rejoin timed out");
+    let rejoined = match rejoined_result {
+        Ok(result) => result,
+        Err(MembershipCoordinatorError::StateRegression)
+            if runtime.coordinator().active_phase()
+                == Some(MembershipCoordinatorPhase::LearnerCaughtUp) =>
+        {
+            assert_eq!(runtime.coordinator().published_generation(), 3);
+            assert_eq!(
+                runtime
+                    .membership()
+                    .member(&recovered.node_id)
+                    .unwrap()
+                    .role,
+                MemberRole::NonVoting,
+                "local membership must not become visible before durable publication"
+            );
+            assert!(!runtime.authority().raft_ids.values().any(|id| *id == 3));
+            // Resume immediately, before the final membership entry is
+            // externally observed. The durable submitted marker must make the
+            // coordinator wait for exact history instead of repeating the
+            // membership-change effect.
+            runtime.resume_consensus(nodes[&1].clone(), machines[&1].clone());
+            runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
+            for boundary in [
+                MembershipCrashBoundary::AfterJointHistory,
+                MembershipCrashBoundary::AfterFinalHistory,
+                MembershipCrashBoundary::AfterJointFinalObservation,
+                MembershipCrashBoundary::AfterStableMapPreparation,
+                MembershipCrashBoundary::AfterLocalProjectionPrepared,
+                MembershipCrashBoundary::AfterParityReconciliation,
+                MembershipCrashBoundary::BeforeCheckpoint,
+                MembershipCrashBoundary::AfterCheckpoint,
+                MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility,
+            ] {
+                runtime.inject_crash_boundary(boundary);
+                assert_eq!(
+                    runtime
+                        .promote(&rejoin, &rejoin_transition, recovered_authority.clone(),)
+                        .await,
+                    Err(MembershipCoordinatorError::StateRegression),
+                    "promotion boundary {boundary:?} must fail closed"
+                );
+                assert!(
+                    runtime.crash_boundary_hit(),
+                    "promotion boundary {boundary:?} was not reached"
+                );
+                runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
+            }
+            runtime
+                .promote(&rejoin, &rejoin_transition, recovered_authority.clone())
+                .await
+                .unwrap()
+        }
+        Err(error) => panic!("unexpected rejoin error: {error:?}"),
+    };
+    assert_ne!(rejoined, [0; 32]);
+    assert_eq!(runtime.coordinator().published_generation(), 4);
+    assert!(runtime.has_published_result(promotion.operation_sha256()));
+    assert_eq!(
+        runtime
+            .promote(&promotion, &transition, candidate_authority)
+            .await
+            .unwrap(),
+        published,
+        "an older retained operation must remain an exact retry-cache hit"
+    );
+    assert_eq!(runtime.coordinator().published_generation(), 4);
+    assert_eq!(
+        runtime
+            .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
+            .await
+            .unwrap(),
+        enrolled,
+        "an older retained enrollment must be a pure retry-cache hit"
+    );
+    assert_eq!(
+        runtime
+            .membership()
+            .member(&recovered.node_id)
+            .unwrap()
+            .role,
+        MemberRole::Voter,
+        "older enrollment retry must not resurrect NonVoting visibility"
+    );
+    assert_eq!(
+        runtime
+            .promote(&rejoin, &rejoin_transition, recovered_authority.clone(),)
+            .await
+            .unwrap(),
+        rejoined,
+        "exact published retry must return the durable result without another transition"
+    );
+    assert_eq!(runtime.coordinator().published_generation(), 4);
+    assert_eq!(
+        runtime
+            .membership()
+            .member(&recovered.node_id)
+            .unwrap()
+            .role,
+        MemberRole::Voter
+    );
+    assert!(runtime
+        .authority()
+        .raft_membership
+        .voter_ids()
+        .any(|voter| voter == 3));
+    assert!(machines[&1]
+        .applied_membership_history()
+        .await
+        .iter()
+        .any(|entry| entry.joint_configs
+            == vec![BTreeSet::from([1, 2, 4]), BTreeSet::from([1, 2, 3, 4])]));
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication");
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=crash_phase_matrix assertion=enrollment_removal_promotion_boundaries_retry_without_duplicate_visibility");
     for raft in nodes.values() {
         raft.shutdown().await.unwrap();
     }
@@ -1297,10 +1940,30 @@ async fn excluded_node_recovery_learner() {
     .unwrap();
     let factory =
         SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), authority.clone()).unwrap();
-    factory
+    let exclusion_receipt = factory
         .activate_pending_exclusion(&removal, &old, cut_sha256, MEMBERSHIP, NOW)
         .await
         .unwrap();
+    assert_eq!(
+        exclusion_receipt.operation_sha256(),
+        removal.result_sha256()
+    );
+    assert_ne!(exclusion_receipt.published_state_sha256(), [0; 32]);
+    assert_eq!(
+        factory
+            .observe_pending_exclusion_receipt(removal.result_sha256())
+            .await
+            .unwrap(),
+        Some(exclusion_receipt)
+    );
+    assert_eq!(
+        factory
+            .observe_pending_exclusion_receipt([0x52; 32])
+            .await
+            .unwrap(),
+        None
+    );
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=remove_voter_pending_exclusion assertion=factory_exclusion_receipt_exact_current_and_mismatch_denied");
     let snapshot = authority.exclusion_snapshot().unwrap();
     let mut recovered = old.clone();
     recovered.node_id = "node-3-recovered".to_owned();
@@ -2327,13 +2990,11 @@ async fn exclusion_waits_for_inflight_dispatch_fence() {
         "exclusion committed while a dispatch guard was retained"
     );
     drop(in_flight);
-    assert_eq!(
-        tokio::time::timeout(Duration::from_secs(2), task)
-            .await
-            .expect("exclusive fence made progress")
-            .expect("exclusion task joined"),
-        Ok(())
-    );
+    assert!(tokio::time::timeout(Duration::from_secs(2), task)
+        .await
+        .expect("exclusive fence made progress")
+        .expect("exclusion task joined")
+        .is_ok());
     assertion(
         "exclusion_waits_for_inflight_dispatch_fence",
         "exclusive_exclusion_waits_for_shared_dispatch",

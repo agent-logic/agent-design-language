@@ -1,0 +1,8 @@
+
+running 1 test
+test distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication ... ADL_ISSUE_199_ASSERTION_V1 case=add_learner_joint_final_publish assertion=factory_admission_receipt_exact_current_and_mismatch_denied
+ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication
+ADL_ISSUE_199_ASSERTION_V1 case=crash_phase_matrix assertion=enrollment_removal_promotion_boundaries_retry_without_duplicate_visibility
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 314 filtered out; finished in 5.76s

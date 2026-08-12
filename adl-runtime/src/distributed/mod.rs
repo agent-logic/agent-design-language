@@ -14,6 +14,7 @@ pub mod fencing;
 pub mod identity;
 pub mod lease;
 pub mod membership;
+pub mod membership_coordinator;
 pub mod migration;
 pub mod placement;
 pub mod projection;

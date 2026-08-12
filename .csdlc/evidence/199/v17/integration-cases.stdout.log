@@ -1,0 +1,29 @@
+
+running 12 tests
+test authority_membership_preserves_stable_ids ... ADL_ISSUE_199_CASE_V1 case=authority_membership_preserves_stable_ids result=pass detail=explicit_nonsequential_ids_retained
+ok
+test capacity_n_plus_one_no_partial ... ADL_ISSUE_199_CASE_V1 case=capacity_n_plus_one_no_partial result=pass detail=atomic_capacity_denial_and_stable_ids
+ok
+test duplicate_control_key_denied ... ADL_ISSUE_199_CASE_V1 case=duplicate_control_key_denied result=pass detail=second_promotion_rejected
+ok
+test epoch_gap_denied_without_partial_change ... ADL_ISSUE_199_CASE_V1 case=epoch_gap_denied_without_partial_change result=pass detail=epoch_and_role_unchanged
+ok
+test exact_retry_and_conflicting_reuse ... ADL_ISSUE_199_CASE_V1 case=exact_retry_and_conflicting_reuse result=pass detail=cached_retry_and_replay_conflict
+ok
+test governed_rejoin_from_stale_state ... ADL_ISSUE_199_CASE_V1 case=governed_rejoin_from_stale_state result=pass detail=separate_membership_artifact_and_local_transition
+ok
+test join_promote_remove_order ... ADL_ISSUE_199_CASE_V1 case=join_promote_remove_order result=pass detail=nonvoting_then_voter_then_absent
+ok
+test promote_artifact_binds_distinct_maps ... ADL_ISSUE_199_CASE_V1 case=promote_artifact_binds_distinct_maps result=pass detail=canonical_artifact_and_equal_map_denial
+ok
+test snapshot_restore_and_corruption_denial ... ADL_ISSUE_199_CASE_V1 case=snapshot_restore_and_corruption_denial result=pass detail=exact_restore_and_corrupt_digest_rejected
+ok
+test stable_map_digest_and_collision_denial ... ADL_ISSUE_199_CASE_V1 case=stable_map_digest_and_collision_denial result=pass detail=target_digest_changes_and_duplicate_id_rejected
+ok
+test wrong_coarse_operation_kind ... ADL_ISSUE_199_SUBASSERTION_V1 name=wrong_artifact_discriminator result=pass boundary=sealed_publication_consumer
+ADL_ISSUE_199_CASE_V1 case=wrong_coarse_operation_kind result=pass detail=coarse_kind_and_sealed_discriminator_separated
+ok
+test wrong_domain_denied_without_epoch_advance ... ADL_ISSUE_199_CASE_V1 case=wrong_domain_denied_without_epoch_advance result=pass detail=foreign_event_rejected_at_epoch_zero
+ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
