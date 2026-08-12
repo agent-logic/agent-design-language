@@ -720,8 +720,9 @@ pub fn classify_preserved_projection(
                     "recovery attempt has ambiguous terminal receipts",
                 ));
             }
-            if let Some(receipt) = recovered.first() {
-                let result: ProjectionRecoveryResult = receipt_payload(&receipt.path())?;
+            if !recovered.is_empty() {
+                let result =
+                    validate_completed_recovery_attempt(store, request.issue, &entry.path())?;
                 completed_match |= result.issue == request.issue
                     && canonical.valid_projection
                     && canonical.generation == Some(result.canonical_generation)
@@ -857,6 +858,95 @@ fn validate_receipt_inventory(dir: &Path) -> Result<()> {
     Ok(())
 }
 
+const RECOVERY_STATES: [&str; 13] = [
+    "prepared",
+    "archive-intent",
+    "rejected-archived",
+    "candidate-plan",
+    "candidate-created",
+    "candidate-verified",
+    "install-intent",
+    "canonical-installed",
+    "displace-intent",
+    "prior-displaced",
+    "canonical-verified",
+    "recovery-complete-intent",
+    "recovered",
+];
+
+pub(crate) fn validate_completed_recovery_attempt(
+    store: &Store,
+    issue: u64,
+    attempt: &Path,
+) -> Result<ProjectionRecoveryResult> {
+    validate_receipt_inventory(attempt)?;
+    for (offset, state) in RECOVERY_STATES.iter().enumerate() {
+        let path = receipt_path(attempt, offset as u32 + 1, state);
+        if !path.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "recovery attempt is not an exact completed state sequence",
+            ));
+        }
+        let _: serde_json::Value = receipt_payload(&path)?;
+    }
+    let prepared: serde_json::Value = receipt_payload(&receipt_path(attempt, 1, "prepared"))?;
+    let request_digest = prepared
+        .get("request_digest")
+        .and_then(|v| v.as_str())
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "PREPARED request digest missing"))?;
+    if request_digest.len() != 64 || !request_digest.bytes().all(|v| v.is_ascii_hexdigit()) {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "PREPARED request digest invalid",
+        ));
+    }
+    let result: ProjectionRecoveryResult =
+        receipt_payload(&receipt_path(attempt, 13, "recovered"))?;
+    let operation = attempt
+        .file_name()
+        .and_then(|v| v.to_str())
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "attempt operation identity invalid",
+            )
+        })?;
+    if result.schema != "csdlc.projection_recovery_result.v1"
+        || result.issue != issue
+        || result.operation_id != operation
+        || result.disposition != "recovered"
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "terminal recovery result identity invalid",
+        ));
+    }
+    let mut expected = result.clone();
+    expected.receipt_digest.clear();
+    if result.receipt_digest
+        != blake3::hash(&serde_json::to_vec(&expected)?)
+            .to_hex()
+            .to_string()
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "terminal recovery result self-digest invalid",
+        ));
+    }
+    let canonical = observe(&store.issue_dir(issue), "canonical", issue);
+    if !canonical.valid_projection
+        || canonical.generation != Some(result.canonical_generation)
+        || canonical.record_digest.as_deref() != Some(&result.canonical_digest)
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "completed recovery is not bound to canonical projection",
+        ));
+    }
+    Ok(result)
+}
+
 fn exact_observation(path: &Path, expected: &CandidateObservation, issue: u64) -> Result<bool> {
     let actual = observe(path, &expected.name, issue);
     Ok(actual.state == expected.state
@@ -894,28 +984,35 @@ fn same_moved_observation(
     }))
 }
 
-#[cfg(target_os = "macos")]
-fn rename_no_replace(source: &Path, destination: &Path) -> Result<()> {
+struct AnchoredName {
+    parent: File,
+    name: std::ffi::CString,
+}
+fn anchored_name(path: &Path) -> Result<AnchoredName> {
     use std::ffi::CString;
-    use std::os::fd::AsRawFd;
     use std::os::unix::ffi::OsStrExt;
-    let source_parent =
-        open_root_no_follow(source.parent().ok_or_else(|| {
-            V2Error::new(ErrorCode::InvalidInput, "rename source has no parent")
-        })?)?;
-    let destination_parent = open_root_no_follow(destination.parent().ok_or_else(|| {
-        V2Error::new(ErrorCode::InvalidInput, "rename destination has no parent")
-    })?)?;
-    let source = CString::new(source.file_name().unwrap().as_bytes())
-        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "rename source contains NUL"))?;
-    let destination = CString::new(destination.file_name().unwrap().as_bytes())
-        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "rename destination contains NUL"))?;
+    Ok(AnchoredName {
+        parent: open_root_no_follow(path.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidInput, "anchored path has no parent")
+        })?)?,
+        name: CString::new(
+            path.file_name()
+                .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "anchored path has no name"))?
+                .as_bytes(),
+        )
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "anchored path contains NUL"))?,
+    })
+}
+
+#[cfg(target_os = "macos")]
+fn rename_no_replace(source: &AnchoredName, destination: &AnchoredName) -> Result<()> {
+    use std::os::fd::AsRawFd;
     let result = unsafe {
         libc::renameatx_np(
-            source_parent.as_raw_fd(),
-            source.as_ptr(),
-            destination_parent.as_raw_fd(),
-            destination.as_ptr(),
+            source.parent.as_raw_fd(),
+            source.name.as_ptr(),
+            destination.parent.as_raw_fd(),
+            destination.name.as_ptr(),
             libc::RENAME_EXCL,
         )
     };
@@ -927,28 +1024,15 @@ fn rename_no_replace(source: &Path, destination: &Path) -> Result<()> {
 }
 
 #[cfg(target_os = "linux")]
-fn rename_no_replace(source: &Path, destination: &Path) -> Result<()> {
-    use std::ffi::CString;
+fn rename_no_replace(source: &AnchoredName, destination: &AnchoredName) -> Result<()> {
     use std::os::fd::AsRawFd;
-    use std::os::unix::ffi::OsStrExt;
-    let source_parent =
-        open_root_no_follow(source.parent().ok_or_else(|| {
-            V2Error::new(ErrorCode::InvalidInput, "rename source has no parent")
-        })?)?;
-    let destination_parent = open_root_no_follow(destination.parent().ok_or_else(|| {
-        V2Error::new(ErrorCode::InvalidInput, "rename destination has no parent")
-    })?)?;
-    let source = CString::new(source.file_name().unwrap().as_bytes())
-        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "rename source contains NUL"))?;
-    let destination = CString::new(destination.file_name().unwrap().as_bytes())
-        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "rename destination contains NUL"))?;
     let result = unsafe {
         libc::syscall(
             libc::SYS_renameat2,
-            source_parent.as_raw_fd(),
-            source.as_ptr(),
-            destination_parent.as_raw_fd(),
-            destination.as_ptr(),
+            source.parent.as_raw_fd(),
+            source.name.as_ptr(),
+            destination.parent.as_raw_fd(),
+            destination.name.as_ptr(),
             libc::RENAME_NOREPLACE,
         )
     };
@@ -960,7 +1044,7 @@ fn rename_no_replace(source: &Path, destination: &Path) -> Result<()> {
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn rename_no_replace(_source: &Path, _destination: &Path) -> Result<()> {
+fn rename_no_replace(_source: &AnchoredName, _destination: &AnchoredName) -> Result<()> {
     Err(V2Error::new(
         ErrorCode::UnsafeCheckout,
         "no proven no-replace rename primitive on this platform",
@@ -968,30 +1052,14 @@ fn rename_no_replace(_source: &Path, _destination: &Path) -> Result<()> {
 }
 
 #[cfg(target_os = "macos")]
-fn exchange(source: &Path, destination: &Path) -> Result<()> {
-    use std::ffi::CString;
+fn exchange(source: &AnchoredName, destination: &AnchoredName) -> Result<()> {
     use std::os::fd::AsRawFd;
-    use std::os::unix::ffi::OsStrExt;
-    let source_parent =
-        open_root_no_follow(source.parent().ok_or_else(|| {
-            V2Error::new(ErrorCode::InvalidInput, "exchange source has no parent")
-        })?)?;
-    let destination_parent = open_root_no_follow(destination.parent().ok_or_else(|| {
-        V2Error::new(
-            ErrorCode::InvalidInput,
-            "exchange destination has no parent",
-        )
-    })?)?;
-    let source = CString::new(source.file_name().unwrap().as_bytes())
-        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "exchange source contains NUL"))?;
-    let destination = CString::new(destination.file_name().unwrap().as_bytes())
-        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "exchange destination contains NUL"))?;
     let result = unsafe {
         libc::renameatx_np(
-            source_parent.as_raw_fd(),
-            source.as_ptr(),
-            destination_parent.as_raw_fd(),
-            destination.as_ptr(),
+            source.parent.as_raw_fd(),
+            source.name.as_ptr(),
+            destination.parent.as_raw_fd(),
+            destination.name.as_ptr(),
             libc::RENAME_SWAP,
         )
     };
@@ -1003,31 +1071,15 @@ fn exchange(source: &Path, destination: &Path) -> Result<()> {
 }
 
 #[cfg(target_os = "linux")]
-fn exchange(source: &Path, destination: &Path) -> Result<()> {
-    use std::ffi::CString;
+fn exchange(source: &AnchoredName, destination: &AnchoredName) -> Result<()> {
     use std::os::fd::AsRawFd;
-    use std::os::unix::ffi::OsStrExt;
-    let source_parent =
-        open_root_no_follow(source.parent().ok_or_else(|| {
-            V2Error::new(ErrorCode::InvalidInput, "exchange source has no parent")
-        })?)?;
-    let destination_parent = open_root_no_follow(destination.parent().ok_or_else(|| {
-        V2Error::new(
-            ErrorCode::InvalidInput,
-            "exchange destination has no parent",
-        )
-    })?)?;
-    let source = CString::new(source.file_name().unwrap().as_bytes())
-        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "exchange source contains NUL"))?;
-    let destination = CString::new(destination.file_name().unwrap().as_bytes())
-        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "exchange destination contains NUL"))?;
     let result = unsafe {
         libc::syscall(
             libc::SYS_renameat2,
-            source_parent.as_raw_fd(),
-            source.as_ptr(),
-            destination_parent.as_raw_fd(),
-            destination.as_ptr(),
+            source.parent.as_raw_fd(),
+            source.name.as_ptr(),
+            destination.parent.as_raw_fd(),
+            destination.name.as_ptr(),
             libc::RENAME_EXCHANGE,
         )
     };
@@ -1039,7 +1091,7 @@ fn exchange(source: &Path, destination: &Path) -> Result<()> {
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
-fn exchange(_source: &Path, _destination: &Path) -> Result<()> {
+fn exchange(_source: &AnchoredName, _destination: &AnchoredName) -> Result<()> {
     Err(V2Error::new(
         ErrorCode::UnsafeCheckout,
         "no proven atomic exchange primitive on this platform",
@@ -1194,7 +1246,7 @@ fn ensure_candidate_file(
         let temp_meta = temporary.symlink_metadata();
         let final_meta = final_path.symlink_metadata();
         if temp_meta.is_ok() && final_meta.is_err() {
-            rename_no_replace(&temporary, &final_path)?;
+            rename_no_replace(&anchored_name(&temporary)?, &anchored_name(&final_path)?)?;
         } else if !(temp_meta.is_err() && final_meta.is_ok() && fs::read(&final_path)? == contents)
         {
             return Err(V2Error::new(
@@ -1313,7 +1365,7 @@ fn ensure_candidate_file(
         let temp_meta = temporary.symlink_metadata();
         let final_meta = final_path.symlink_metadata();
         if temp_meta.is_ok() && final_meta.is_err() {
-            rename_no_replace(&temporary, &final_path)?;
+            rename_no_replace(&anchored_name(&temporary)?, &anchored_name(&final_path)?)?;
         } else if !(temp_meta.is_err() && final_meta.is_ok() && fs::read(&final_path)? == contents)
         {
             return Err(V2Error::new(
@@ -1400,18 +1452,7 @@ pub fn recover_preserved_projection(
     let prepared_path = receipt_path(&attempt, 1, "prepared");
     let done = receipt_path(&attempt, 13, "recovered");
     if done.is_file() {
-        validate_receipt_inventory(&attempt)?;
-        let result: ProjectionRecoveryResult = receipt_payload(&done)?;
-        let canonical = observe(&store.issue_dir(request.issue), "canonical", request.issue);
-        if canonical.generation == Some(result.canonical_generation)
-            && canonical.record_digest.as_deref() == Some(&result.canonical_digest)
-        {
-            return Ok(result);
-        }
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "completed recovery no longer matches canonical state",
-        ));
+        return validate_completed_recovery_attempt(store, request.issue, &attempt);
     }
 
     if request.classification.receipt_digest != request.classify_receipt_digest {
@@ -1527,7 +1568,7 @@ pub fn recover_preserved_projection(
                     "rejected source identity drifted before archive",
                 ));
             }
-            rename_no_replace(rejected_path, &archive)?;
+            rename_no_replace(&anchored_name(rejected_path)?, &anchored_name(&archive)?)?;
             failpoint(&request, "archive_renamed")?;
         } else if rejected_path.symlink_metadata().is_err() && archive.symlink_metadata().is_ok() {
             if !same_moved_observation(&archive, &rejected_observation, request.issue)? {
@@ -1650,7 +1691,10 @@ pub fn recover_preserved_projection(
                 && exact_observation(&candidate, &candidate_observation, request.issue)?
                 && exact_observation(&canonical_path, &prior_observation, request.issue)?
             {
-                exchange(&candidate, &canonical_path)?;
+                exchange(
+                    &anchored_name(&candidate)?,
+                    &anchored_name(&canonical_path)?,
+                )?;
                 failpoint(&request, "install_exchanged")?;
             } else if candidate_here
                 && canonical_here
@@ -1665,7 +1709,7 @@ pub fn recover_preserved_projection(
             }
         } else {
             if prior_path.symlink_metadata().is_ok() && displaced.symlink_metadata().is_err() {
-                rename_no_replace(prior_path, &displaced)?;
+                rename_no_replace(&anchored_name(prior_path)?, &anchored_name(&displaced)?)?;
                 sync(&issue_parent(store))?;
                 sync(&attempt)?;
             } else if !(prior_path.symlink_metadata().is_err()
@@ -1678,7 +1722,10 @@ pub fn recover_preserved_projection(
                 ));
             }
             if candidate.symlink_metadata().is_ok() && canonical_path.symlink_metadata().is_err() {
-                rename_no_replace(&candidate, &canonical_path)?;
+                rename_no_replace(
+                    &anchored_name(&candidate)?,
+                    &anchored_name(&canonical_path)?,
+                )?;
                 failpoint(&request, "candidate_installed")?;
             } else if !(candidate.symlink_metadata().is_err()
                 && canonical_path.symlink_metadata().is_ok()
@@ -1710,7 +1757,7 @@ pub fn recover_preserved_projection(
         )?;
         failpoint(&request, "displace_intent")?;
         if candidate.symlink_metadata().is_ok() && displaced.symlink_metadata().is_err() {
-            rename_no_replace(&candidate, &displaced)?;
+            rename_no_replace(&anchored_name(&candidate)?, &anchored_name(&displaced)?)?;
             failpoint(&request, "prior_displaced_renamed")?;
         } else if !(candidate.symlink_metadata().is_err()
             && displaced.symlink_metadata().is_ok()

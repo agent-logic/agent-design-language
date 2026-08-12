@@ -262,14 +262,13 @@ impl Store {
         if recovery_root.is_dir() {
             for entry in fs::read_dir(&recovery_root)? {
                 let entry = entry?;
-                if entry.file_type()?.is_dir()
-                    && !fs::read_dir(entry.path())?.any(|item| {
-                        item.ok().is_some_and(|item| {
-                            item.file_name()
-                                .to_string_lossy()
-                                .ends_with("-recovered.json")
-                        })
-                    })
+                if !entry.file_type()?.is_dir()
+                    || crate::projection_recovery::validate_completed_recovery_attempt(
+                        self,
+                        issue,
+                        &entry.path(),
+                    )
+                    .is_err()
                 {
                     return Err(V2Error::new(
                         ErrorCode::ReconciliationRequired,
