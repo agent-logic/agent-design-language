@@ -59,10 +59,7 @@ use crate::distributed::authority_protocol::{
 use crate::distributed::authority_reconciliation::{
     AuthorityReconciliationBarrier, AuthorityReconciliationError, PublishedReconciliationResult,
 };
-use crate::distributed::authority_store_adapters::AuthorityBoundCertificateStore;
-use crate::distributed::certificates::AuthorityCertificate;
-#[cfg(test)]
-use crate::distributed::certificates::DistributedCertificateStore;
+use crate::distributed::certificates::{AuthorityCertificate, DistributedCertificateStore};
 use crate::distributed::identity::LocalNodeGuardianIdentity;
 use crate::distributed::lease::{AuthorityMembership, VoterAuthority};
 use crate::distributed::membership::MembershipPolicy;
@@ -580,8 +577,7 @@ pub struct PolisRuntimeAuthorityBootstrap {
 }
 
 impl PolisRuntimeAuthorityBootstrap {
-    #[cfg(test)]
-    pub(crate) fn restore_configured(
+    pub fn restore_configured(
         certificate_store: Arc<DistributedCertificateStore>,
         membership_policy: MembershipPolicy,
         membership_snapshot: &[u8],
@@ -590,22 +586,6 @@ impl PolisRuntimeAuthorityBootstrap {
         Ok(Self {
             initializer: RuntimeAuthorityInitializer::restore(
                 certificate_store,
-                membership_policy,
-                membership_snapshot,
-                trusted_membership_commitment,
-            )?,
-        })
-    }
-
-    pub fn restore_authority_bound(
-        certificate_store: AuthorityBoundCertificateStore,
-        membership_policy: MembershipPolicy,
-        membership_snapshot: &[u8],
-        trusted_membership_commitment: [u8; 32],
-    ) -> TransportResult<Self> {
-        Ok(Self {
-            initializer: RuntimeAuthorityInitializer::restore_bound(
-                Arc::new(certificate_store),
                 membership_policy,
                 membership_snapshot,
                 trusted_membership_commitment,

@@ -4,7 +4,6 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     net::{Ipv4Addr, SocketAddr},
-    path::Path,
     sync::{
         atomic::{AtomicBool, AtomicUsize, Ordering},
         Arc, Mutex,
@@ -19,8 +18,6 @@ use adl_runtime::distributed::polis_runtime::{
     PolisRuntimeError, PolisStateMachineStore, SecurePolisNetworkFactory,
 };
 use adl_runtime::distributed::{
-    authority_reconciliation::AuthorityReconciliationIdentity,
-    authority_store_adapters::authority_bound_certificate_store_for_test_fixture,
     certificates::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
         CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
@@ -206,7 +203,6 @@ fn certificate_store() -> (
 
 fn transport_authorization(
     store: &Arc<DistributedCertificateStore>,
-    authority_root: &Path,
     root: &SigningKey,
     node: &str,
     key: VerifyingKey,
@@ -229,22 +225,7 @@ fn transport_authorization(
     store
         .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, now())
         .unwrap();
-    let bound_store = authority_bound_certificate_store_for_test_fixture(
-        authority_root,
-        AuthorityReconciliationIdentity {
-            trust_domain: DOMAIN.to_owned(),
-            polis_id: POLIS.to_owned(),
-            node_id: node.to_owned(),
-            guardian_id: format!("guardian-{node}"),
-            boot_generation: 1,
-            protocol_instance: "adl.authority-reconciliation.v1".to_owned(),
-        },
-        Arc::new(MemoryCheckpointAuthority::default()),
-        &format!("transport-authority-{node}"),
-        Arc::clone(store),
-    )
-    .unwrap();
-    bound_store.transport_authorization(&certificate).unwrap()
+    TransportAuthorization::new(Arc::clone(store), &certificate).unwrap()
 }
 
 async fn connected_pair() -> (
@@ -309,7 +290,6 @@ async fn connected_pair_with_generations(
     let (store, signing_root, store_dir) = certificate_store();
     let left_authorization = transport_authorization(
         &store,
-        store_dir.path(),
         &signing_root,
         "node-1",
         left_material.subject_public_key,
@@ -317,7 +297,6 @@ async fn connected_pair_with_generations(
     );
     let right_authorization = transport_authorization(
         &store,
-        store_dir.path(),
         &signing_root,
         "node-2",
         right_material.subject_public_key,
@@ -417,7 +396,6 @@ async fn three_node_mesh() -> ThreeNodeMesh {
                 *node,
                 transport_authorization(
                     &store,
-                    store_dir.path(),
                     &signing_root,
                     &format!("node-{node}"),
                     material.subject_public_key,
@@ -774,23 +752,8 @@ fn runtime_authority_initializer(
         })
         .collect::<BTreeMap<_, _>>();
     let snapshot = membership.snapshot().unwrap();
-    let bound_store = authority_bound_certificate_store_for_test_fixture(
-        directory.path(),
-        AuthorityReconciliationIdentity {
-            trust_domain: DOMAIN.to_owned(),
-            polis_id: POLIS.to_owned(),
-            node_id: "node-a".to_owned(),
-            guardian_id: "guardian-a".to_owned(),
-            boot_generation: 1,
-            protocol_instance: "adl.authority-reconciliation.v1".to_owned(),
-        },
-        Arc::new(MemoryCheckpointAuthority::default()),
-        "runtime-transport-authority",
+    let initializer = PolisRuntimeAuthorityBootstrap::restore_configured(
         Arc::clone(&store),
-    )
-    .unwrap();
-    let initializer = PolisRuntimeAuthorityBootstrap::restore_authority_bound(
-        bound_store,
         MembershipPolicy::new(DOMAIN, 8, 16).unwrap(),
         &snapshot,
         membership_commitment(&snapshot),

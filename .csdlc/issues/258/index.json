@@ -5,23 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "d8e6273460ebf3048d06c1c9292c0952d0fea269da3460aa622a7faea1ca152d",
+  "generation": 13,
+  "digest": "261f0fd24bb28a981d1cf1e1d98164f44aa67a61304d809c1366646bc933eddb",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
-  "review_assignment": {
-    "reviewer": "codex:019ff5b8-4d42-7e61-8278-18aff505f763",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:b8f4a9862639a07593901be6e128e7baa159fe36:b6bc845e2cf2f9017a3c46e0befb111966dd56b610cd63f7fc39518761b5f88c",
-    "scope": [
-      "adl-runtime/src/distributed",
-      "adl-runtime/tests",
-      ".csdlc/issues/258",
-      ".csdlc/prepared/issues/258",
-      ".csdlc/locks/258.lock",
-      ".csdlc/evidence/258"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bd36d5eca60e40a49ca6e50da3a8307bc195f5410000c8f3a0b1c6727825c91e",
+      "values_digest": "f8bac32be8a8d0f1874bf973c878885b0cce3f063cfa410d5458c6437ad6c5e5",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "ae59dd864eacd86f694f72cd818393cf9fee41c8b1a9ef5a758c0373d1e7adc1",
+      "values_digest": "13856b47aee8675d6e4b072e5f0629e55be0c9d6b1422b3d3e8f900679d5f1e0",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "73aa590eb1e2cdd28c187604c00efac7e168786e94f058539155b9e96aa60dd0",
+      "values_digest": "3f178d7580cc47fb6445bb66884faba230f727f5db7c79f8e268ce3efe68a029",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "c3883d826bdfe6dd3e231ba8715889996759fb2706dc18a9f9bdbc56d37a66ec",
+      "values_digest": "91ecec387cb5198b27a0b9cff5abc145552003e6a5947ca4f19ceda803a4a4ca",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "477baf17e7850f894f67f01851ec5e09bfe2801cd88014f79e1ec1bed6ee4d4d",
-      "rendered_digest": "0334635ac95d873c833e5d3c70cdd439baff56c2998eb445e15d164cd760afe8",
-      "ast_digest": "271af8ded064549da01cad38f86115951e76d3dc1d656acc08466e0829d75727"
+      "values_digest": "f197a86cf9efc626caf05860646f160308099fdc90f97d63dc8b389990658178",
+      "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
+      "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
     },
     "sor": {
-      "values_digest": "242e01188965e6c08adf4aa3a56f93e812645b1ad4b0e800ecf1fbe52b032581",
-      "rendered_digest": "58d3a3c5b796c93bdfe95c950ab8f73840d8aa903c368feb2eedb810031d509a",
-      "ast_digest": "6b6048e927e2f0652c95c1939aa3a6234402550e5eae5a11bb4169b441d0467a"
+      "values_digest": "dd2c08c31e7afc4aee92fd998da4303cd1c1c438a1ef2ca9ab9b6079a3071aed",
+      "rendered_digest": "e82059812477dd83e58a67b6489be2cd30a899e21e919fb88200fc6ec670d184",
+      "ast_digest": "a4087a1c195527c7ddf91cb4ca58179e549ab5e5f4123016984ec6f832594558"
     }
   },
   "transitions": [
@@ -209,6 +197,20 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "fresh-session review failed on transport non-goal scope crossing; recover to implemented before substantive issue-258 implementation repair",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "record #258 scope repair after canonical fresh-session review failed on transport non-goal crossing",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix. A canonical fresh-session review rejected the earlier transport authorization seam as outside #258 non-goals, so the repair removed the authority-bound transport constructor/helper, removed the authority-bound runtime-transport fixture seam, restored the transport bootstrap shape, and kept only the minimal compile-required certificate access-token reads.\",\"changes\":[\"Preserved authority store access-token gates for certificate, lease, and fencing raw store APIs.\",\"Preserved the authority-bound store adapter facade and published receipt view metadata for the #258 boundary slice.\",\"Preserved published view classification for certificate_activate, certificate_revoke, lease_apply, lease_mutation, fencing_commit, and fencing_active_lease.\",\"Removed the over-scope authority-bound transport authorization helper and TransportAuthorization bound constructor.\",\"Removed the over-scope PolisRuntimeAuthorityBootstrap authority-bound restore path and restored the configured transport bootstrap shape.\",\"Reverted runtime transport fixtures away from authority-bound certificate-store helpers while retaining explicit test access tokens, repo-local tempdirs, and minimum ten-minute test certificate validity.\",\"Added only the compile-required certificate-store access token arguments in transport authorization reads after sealing raw certificate store access.\"],\"artifacts\":[\".csdlc/evidence/258/cargo-check-adl-runtime-scope-repair.log\",\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-scope-repair.log\",\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-scope-repair.log\",\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-scope-repair.log\",\".csdlc/evidence/258/cargo-test-distributed-runtime-transport-no-run-scope-repair.log\",\".csdlc/evidence/258/cargo-test-distributed-transport-no-run-scope-repair.log\",\".csdlc/evidence/258/cargo-test-distributed-lease-no-run-scope-repair.log\",\".csdlc/evidence/258/git-diff-check-scope-repair.log\"],\"validation\":[{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Compile-check the runtime crate after removing the over-scope transport authorization seam and keeping only minimal sealed-store access-token reads.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-check-adl-runtime-scope-repair.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Exercise the focused #258 authority-store boundary guardrails after scope repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-scope-repair.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"distributed::authority_store_adapters::tests::published_view_exposes_all_store_authority_kinds\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the preserved published view accepts and exposes all in-scope published store operation kinds.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-scope-repair.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the focused #258 authority-store boundary test target after scope repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-scope-repair.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-run\"],\"purpose\":\"Compile-only guard proving runtime transport fixtures compile after the over-scope authority-bound transport seam was removed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-runtime-transport-no-run-scope-repair.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\",\"--no-run\"],\"purpose\":\"Compile-only guard for transport test callers after sealed certificate-store access-token repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-transport-no-run-scope-repair.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_lease\",\"--no-run\"],\"purpose\":\"Compile-only guard for sealed lease-store test API fallout after scope repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-lease-no-run-scope-repair.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors across the scope repair diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/git-diff-check-scope-repair.log\"}]}"
     }
   ]
 }

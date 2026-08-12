@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/distributed
-adl-runtime/tests
-.csdlc/issues/258
-.csdlc/prepared/issues/258
-.csdlc/locks/258.lock
-.csdlc/evidence/258
+
 
 ## Prompts
 

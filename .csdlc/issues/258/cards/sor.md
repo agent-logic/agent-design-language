@@ -12,29 +12,28 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; updated compile-required fixture callers without touching #203 sibling transport or migration scope. A fresh exact-head review found the published receipt view rejected valid store mutation kinds; this was fixed by classifying all in-scope certificate, lease, and fencing published operation kinds and proving the positive published view.
+Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix. A canonical fresh-session review rejected the earlier transport authorization seam as outside #258 non-goals, so the repair removed the authority-bound transport constructor/helper, removed the authority-bound runtime-transport fixture seam, restored the transport bootstrap shape, and kept only the minimal compile-required certificate access-token reads.
 
 ## Artifacts
 
-- .csdlc/evidence/258/cargo-check-adl-runtime-rereview-fix.log
-- .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-rereview-fix.log
-- .csdlc/evidence/258/cargo-test-published-view-authority-kinds-rereview-fix.log
-- .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-rereview-fix.log
-- .csdlc/evidence/258/cargo-test-distributed-projection-no-run-rereview-fix.log
-- .csdlc/evidence/258/cargo-test-distributed-resource-weather-no-run-rereview-fix.log
-- .csdlc/evidence/258/cargo-test-distributed-discovery-no-run-rereview-fix.log
-- .csdlc/evidence/258/cargo-test-distributed-placement-no-run-rereview-fix.log
-- .csdlc/evidence/258/cargo-test-distributed-runtime-transport-no-run-rereview-fix.log
-- .csdlc/evidence/258/cargo-test-distributed-transport-no-run-rereview-fix.log
-- .csdlc/evidence/258/cargo-test-distributed-lease-no-run-rereview-fix.log
+- .csdlc/evidence/258/cargo-check-adl-runtime-scope-repair.log
+- .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-scope-repair.log
+- .csdlc/evidence/258/cargo-test-published-view-authority-kinds-scope-repair.log
+- .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-scope-repair.log
+- .csdlc/evidence/258/cargo-test-distributed-runtime-transport-no-run-scope-repair.log
+- .csdlc/evidence/258/cargo-test-distributed-transport-no-run-scope-repair.log
+- .csdlc/evidence/258/cargo-test-distributed-lease-no-run-scope-repair.log
+- .csdlc/evidence/258/git-diff-check-scope-repair.log
 
 ## Execution
 
-- Added authority store access-token gates for certificate, lease, and fencing raw store APIs.
-- Added authority-bound store adapter facade and published receipt view metadata for the #258 boundary slice.
-- Mapped certificate_activate, certificate_revoke, lease_apply, lease_mutation, fencing_commit, and fencing_active_lease into the published receipt view action classes.
-- Added a positive unit proof that published_view exposes lineage, operation, action class, adapter metadata, generation, receipt digest, and result digest for every in-scope published store operation kind.
-- Updated focused runtime tests and compile-required fixture callers to use explicit test access tokens.
+- Preserved authority store access-token gates for certificate, lease, and fencing raw store APIs.
+- Preserved the authority-bound store adapter facade and published receipt view metadata for the #258 boundary slice.
+- Preserved published view classification for certificate_activate, certificate_revoke, lease_apply, lease_mutation, fencing_commit, and fencing_active_lease.
+- Removed the over-scope authority-bound transport authorization helper and TransportAuthorization bound constructor.
+- Removed the over-scope PolisRuntimeAuthorityBootstrap authority-bound restore path and restored the configured transport bootstrap shape.
+- Reverted runtime transport fixtures away from authority-bound certificate-store helpers while retaining explicit test access tokens, repo-local tempdirs, and minimum ten-minute test certificate validity.
+- Added only the compile-required certificate-store access token arguments in transport authorization reads after sealing raw certificate store access.
 
 ## Validation
 
@@ -46,9 +45,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--manifest-path",
       "adl-runtime/Cargo.toml"
     ],
-    "purpose": "Compile-check the touched runtime crate after the published-view classifier fix.",
+    "purpose": "Compile-check the runtime crate after removing the over-scope transport authorization seam and keeping only minimal sealed-store access-token reads.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-check-adl-runtime-rereview-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-check-adl-runtime-scope-repair.log"
   },
   {
     "command": [
@@ -62,9 +61,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--nocapture",
       "--test-threads=1"
     ],
-    "purpose": "Exercise the focused #258 authority-store boundary guardrails after the review fix.",
+    "purpose": "Exercise the focused #258 authority-store boundary guardrails after scope repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-rereview-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-scope-repair.log"
   },
   {
     "command": [
@@ -76,9 +75,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--",
       "--nocapture"
     ],
-    "purpose": "Prove published_view accepts and exposes all in-scope published store operation kinds.",
+    "purpose": "Prove the preserved published view accepts and exposes all in-scope published store operation kinds.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-published-view-authority-kinds-rereview-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-published-view-authority-kinds-scope-repair.log"
   },
   {
     "command": [
@@ -92,65 +91,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "-D",
       "warnings"
     ],
-    "purpose": "Strict-lint the focused #258 authority-store boundary test target after the review fix.",
+    "purpose": "Strict-lint the focused #258 authority-store boundary test target after scope repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-rereview-fix.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_projection",
-      "--no-run"
-    ],
-    "purpose": "Compile-only regression guard for raw-store token fixture fallout in distributed_projection.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-projection-no-run-rereview-fix.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_resource_weather",
-      "--no-run"
-    ],
-    "purpose": "Compile-only regression guard for raw-store token fixture fallout in distributed_resource_weather.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-resource-weather-no-run-rereview-fix.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_discovery",
-      "--no-run"
-    ],
-    "purpose": "Compile-only regression guard for raw-store token fixture fallout in distributed_discovery.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-discovery-no-run-rereview-fix.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_placement",
-      "--no-run"
-    ],
-    "purpose": "Compile-only regression guard for raw-store token fixture fallout in distributed_placement.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-placement-no-run-rereview-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-scope-repair.log"
   },
   {
     "command": [
@@ -162,9 +105,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "distributed_runtime_transport",
       "--no-run"
     ],
-    "purpose": "Compile-only regression guard for sealed certificate authority fixture fallout in distributed_runtime_transport.",
+    "purpose": "Compile-only guard proving runtime transport fixtures compile after the over-scope authority-bound transport seam was removed.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-runtime-transport-no-run-rereview-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-runtime-transport-no-run-scope-repair.log"
   },
   {
     "command": [
@@ -176,9 +119,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "distributed_transport",
       "--no-run"
     ],
-    "purpose": "Compile-only regression guard for sealed certificate authority fixture fallout in distributed_transport.",
+    "purpose": "Compile-only guard for transport test callers after sealed certificate-store access-token repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-transport-no-run-rereview-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-transport-no-run-scope-repair.log"
   },
   {
     "command": [
@@ -190,9 +133,19 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "distributed_lease",
       "--no-run"
     ],
-    "purpose": "Compile-only regression guard for sealed lease authority fixture fallout in distributed_lease.",
+    "purpose": "Compile-only guard for sealed lease-store test API fallout after scope repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-lease-no-run-rereview-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-lease-no-run-scope-repair.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject whitespace and patch hygiene errors across the scope repair diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/git-diff-check-scope-repair.log"
   }
 ]
 

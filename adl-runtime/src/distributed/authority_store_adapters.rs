@@ -39,7 +39,6 @@ use super::{
         LeaseAuthorityRevision, LeaseState, MutationAuthorization, RedactedLeaseSnapshot,
         AUTHORITY_BOUND_LEASE_ACCESS,
     },
-    transport::{RuntimeCertificateAuthority, TransportAuthorization, TransportError},
 };
 
 const CERTIFICATE_ACTIVATE: &str = "certificate_activate";
@@ -361,14 +360,6 @@ impl AuthorityBoundCertificateStore {
             .map_err(Into::into)
     }
 
-    #[cfg(debug_assertions)]
-    pub fn transport_authorization(
-        &self,
-        certificate: &AuthorityCertificate,
-    ) -> Result<TransportAuthorization, TransportError> {
-        TransportAuthorization::new_authority_bound(Arc::new(self.clone()), certificate)
-    }
-
     fn require_read(&self) -> AuthorityStoreAdapterResult<()> {
         let permit = self.barrier.read_permit(&self.lineage_id)?;
         self.barrier
@@ -385,19 +376,6 @@ impl AuthorityBoundCertificateStore {
             &AuthorityPermitAction::Mutation(mutation_kind.to_owned()),
         )?;
         Ok(())
-    }
-}
-
-impl RuntimeCertificateAuthority for AuthorityBoundCertificateStore {
-    fn authorize_runtime_certificate(
-        &self,
-        holder_id: &str,
-        purpose: CertificatePurpose,
-        generation: u64,
-        now_unix_seconds: u64,
-    ) -> Result<VerifiedCertificate, ()> {
-        self.authorize(holder_id, purpose, generation, now_unix_seconds)
-            .map_err(|_| ())
     }
 }
 
