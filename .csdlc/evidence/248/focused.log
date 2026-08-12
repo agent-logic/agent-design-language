@@ -1,0 +1,8 @@
+
+running 1 test
+test process_backend_timeout_and_oversized_file_leave_no_artifacts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 31 filtered out; finished in 0.22s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/parity.rs (adl-runtime-kernel/target/debug/deps/parity-a8a05ca73bfb83dd)

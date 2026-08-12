@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant B as ProcessBackend
+    participant C as Child process group
+    participant F as Output file
+    B->>C: spawn and submit fixture
+    C->>F: write output
+    alt child completes before deadline
+        B->>F: inspect bounded output
+    else deadline fires
+        B->>C: terminate and reap
+        B->>F: inspect bounded output at arbitration boundary
+    end
+    alt oversized output observable
+        B-->>B: classify output_limit
+    else deadline without oversized output
+        B-->>B: classify timeout
+    end
+    B->>F: cleanup artifact

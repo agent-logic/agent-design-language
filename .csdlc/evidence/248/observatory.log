@@ -1,0 +1,14 @@
+
+running 7 tests
+test failed_acip_dispatch_releases_sequence_for_retry ... ok
+test acip_write_credential_is_distinct_from_observatory_read_credential ... ok
+test canonical_acip_websocket_rejects_replay_after_reconnect ... ok
+test observatory_websocket_allows_public_reads_and_requires_login_for_writes ... ok
+test observatory_websocket_rejects_a_token_after_rotation ... ok
+test observatory_websocket_revokes_an_authenticated_session_after_rotation ... ok
+test observatory_websocket_rejects_bad_auth_and_client_data ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.03s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/observatory.rs (adl-runtime-kernel/target/debug/deps/observatory-b52a90f1a590f9db)

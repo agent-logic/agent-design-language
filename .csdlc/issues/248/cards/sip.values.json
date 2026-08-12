@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 248,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Make process-backend output-limit and timeout precedence deterministic",
+    "slug": "process-backend-terminal-precedence",
+    "version": "1.0.0",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Remove scheduler-dependent terminal classification when oversized file output and a process deadline compete.",
+      "required_outcome": "Oversized output observably present at deadline arbitration deterministically yields output_limit; ordinary hangs yield timeout; both paths leave no artifacts.",
+      "declared_scope": [
+        "Runtime process-backend deadline arbitration",
+        "file-output limit classification",
+        "process-backend cleanup and parity proof"
+      ],
+      "authority_boundary": [
+        "ProcessBackend remains the sole terminal classifier and process-tree owner.",
+        "The server-owned post-termination output state decides precedence.",
+        "No conversation or authority surface is changed."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Keep #244 and PR #247 unchanged.",
+        "Keep #112 authority paths unchanged.",
+        "Use typed C-SDLC v2 lifecycle owners and an issue-bound FastWork worktree.",
+        "Run repeated focused pressure and required Runtime CI only."
+      ]
+    }
+  }
+}

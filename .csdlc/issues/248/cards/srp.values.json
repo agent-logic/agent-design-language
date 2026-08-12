@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 248,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Make process-backend output-limit and timeout precedence deterministic",
+    "slug": "process-backend-terminal-precedence",
+    "version": "1.0.0",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact issue diff for process-backend deadline/output-limit arbitration, artifact cleanup, and parity proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is precedence derived from observable server-owned state rather than timing?",
+        "Can either terminal path leave an output artifact or live descendant?",
+        "Are ordinary timeout, output-limit, cancellation, and cleanup semantics preserved?",
+        "Does the diff avoid #244 and #112 surfaces?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
