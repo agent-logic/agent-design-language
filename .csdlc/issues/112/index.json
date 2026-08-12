@@ -4,51 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
-  "phase": "reviewed",
-  "generation": 44,
-  "digest": "41585b21c7a4a7176d1d21bc9033c7d32ed5d3c0e3586431b5f79c7bc721b8e9",
+  "phase": "implemented",
+  "generation": 45,
+  "digest": "d66e397f85bf311807780ef93aeb3ede64f487b04706b8bbabb65f6cb4fbb830",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
-  "review_assignment": {
-    "reviewer": "fresh-subagent-112-final-pass",
-    "assigned_by": "codex-session-112",
-    "revision": "git-blake3:3b0b5db556e79a9d114f694a2bf31c2fe678b801:648acd88a09c73d198f6eac2bca61df250c6acdcee9ecdd9c474bc9f90b01aff",
-    "scope": [
-      "adl-runtime-kernel/src",
-      "adl-runtime/src/layer8_authority.rs",
-      "adl-runtime/tests/layer8_authority.rs",
-      "adl/src/csm_runtime_api.rs",
-      "adl/tests/layer8_authority_runtime_api.rs",
-      "adl/tools/validate_layer8_authority_observatory_ui.sh",
-      "demos/html-observatory",
-      "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
-      ".csdlc/evidence/112",
-      ".csdlc/issues/112"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-subagent-112-final-pass",
-    "scope": [
-      "adl-runtime-kernel/src",
-      "adl-runtime/src/layer8_authority.rs",
-      "adl-runtime/tests/layer8_authority.rs",
-      "adl/src/csm_runtime_api.rs",
-      "adl/tests/layer8_authority_runtime_api.rs",
-      "adl/tools/validate_layer8_authority_observatory_ui.sh",
-      "demos/html-observatory",
-      "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
-      ".csdlc/evidence/112",
-      ".csdlc/issues/112"
-    ],
-    "reviewed_revision": "git-blake3:3b0b5db556e79a9d114f694a2bf31c2fe678b801:648acd88a09c73d198f6eac2bca61df250c6acdcee9ecdd9c474bc9f90b01aff",
-    "findings": [],
-    "residual_risks": [
-      "Recipient acknowledgement uses the in-process agent execution boundary and filesystem-backed keys, not external transport or HSM proof.",
-      "Browser evidence is local deterministic presentation proof; the fresh review rerun was sandbox-limited and relied on retained exact-head PASS evidence."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -63,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0cff6a60e5595beab78fbb963499ae1edd23781dc7201d73bd5af7ea9261f244",
+      "values_digest": "28240b703beec94b3045dc3d4207a18f9fcb46dc8a1693ac0de569a5f0bdaefd",
       "rendered_digest": "c359833435b3fec371ee4fb3e06c059405db392529200e79f667ddf634f49dd9",
       "ast_digest": "1550fcf3865ee5b7fdd70c7d721016ca49bc28929bea299bc58bdddb875263ed"
     },
     "stp": {
-      "values_digest": "587aa57a947491292b18db2cda62d54b0dd44aa3960eedad56f769311c738677",
+      "values_digest": "53c744aac6664a9f337ad6b2f9f2de3edd62bdb1bee4928ea8ed05315a0ca76f",
       "rendered_digest": "3588e7b7788a694807dea7951395d85c31f864ed1597ddfd1d91d1beaf42c82e",
       "ast_digest": "08f33d476eb7a97037dd49bef15b348c84c8058bcb805723e9b9d23e20bc1800"
     },
     "spp": {
-      "values_digest": "fea06dd35842617edf5e63d24260632887c19863eb3e4252a485366b0cffb316",
+      "values_digest": "c98f856953009013e97d4c7244e7dfb5b0f035a88db9bc4ad3142203113241cf",
       "rendered_digest": "5c0633102bdcc5d9b7a65d4ccc56bdd5de7ae64fa5aa25cecc21a43dad621c6c",
       "ast_digest": "263dd8e4881899dd339f16e6f7ed0f76fa473ec53f926a99c6deef421f67892f"
     },
     "vpp": {
-      "values_digest": "2451d5c781d53ade7369c1fe768140d3d680f63087e26c2cb1d51e0e003b221b",
+      "values_digest": "6a289c4ddc7c6fe03273bb3b4eb31db876c37f36a67c4cef439b94acfa888716",
       "rendered_digest": "8e4a5e36226ea2826280259b657935fd64f5a392c64e916fd297b3b12b8f841b",
       "ast_digest": "0b5d959bd7a0ef072eda1088bfdae6c1c07ef5e70e12171072987aae06338eee"
     },
     "srp": {
-      "values_digest": "fa1ffaf8619c245530263c9717cc8d717030476b5ab92fd98d6d791523bb91de",
-      "rendered_digest": "d4b0fb5c1effeae4ad785f398ea66761ea1ac752300cc0a679fbdc349769235e",
-      "ast_digest": "6e491d21cf044a558962f65dbf01062fc12c6dad712c5b33cb7aac4096912493"
+      "values_digest": "7b3143a0fff01e733e28fb14efac738f3260b8891b4d72a399969c3a0ff9095d",
+      "rendered_digest": "ecb8e7f30268ee85b94904ac382a74e43451f2d3382bed9abf8c7e1d1cf7468e",
+      "ast_digest": "26a0990ebe405b9c201a236b20840bd2ee96da79d4dad3b846acd63d9738cfd5"
     },
     "sor": {
-      "values_digest": "7e1b94305c06e16acef61c9555e51a64f3d55e18583266afed5097970fbc0ff7",
+      "values_digest": "8a637629e7794a796b5a998823a29c24308b0fdb9e13133e893c501d0d62564a",
       "rendered_digest": "edd35ad326c8433c6c45cac7b89b21edff7f2bf99f5d3d8703c89cd8800d4083",
       "ast_digest": "db6e9bf518433559a3c3569853aa9b79ee19f69b3ff3984461aba8bb7a216dab"
     }
@@ -121,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex-session-112",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-session-112",
+      "reason": "Merged current origin/main and refreshed exact-current validation evidence after the prior review; recover to implemented so #112 can receive a fresh exact-head pre-publication review."
     }
   ],
   "audit": [
@@ -480,6 +449,13 @@
       "actor": "codex-session-112",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 45,
+      "actor": "codex-session-112",
+      "reason": "Merged current origin/main and refreshed exact-current validation evidence after the prior review; recover to implemented so #112 can receive a fresh exact-head pre-publication review.",
+      "operation": "recover_review"
     }
   ]
 }
