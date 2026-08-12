@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/199/diagram.mmd
 [
   {
     "lane": "governed-membership-transition",
-    "proof_role": "Prove the exact thirty-six public transition cases and sealed discriminator boundary.",
+    "proof_role": "Prove exactly twelve behavior-specific public membership contracts without name substitution; production lanes separately bind governed receipts, authorized target maps, current-operation membership history, crash recovery, and strict Clippy.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -56,7 +56,7 @@ Diagram: .csdlc/prepared/issues/199/diagram.mmd
   },
   {
     "lane": "governed-membership-saga-unit",
-    "proof_role": "Prove durable phase recovery, exact retry, conflicting operation and receipt denial, and single publication.",
+    "proof_role": "Prove seven coordinator unit cases including exact authorized stable-map/target binding, current-operation log-index history, durable phase recovery, exact retry, conflicting operation and receipt denial, and single publication.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

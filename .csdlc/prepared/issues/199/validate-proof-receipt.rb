@@ -8,7 +8,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/199/v3/"
+PREFIX = ".csdlc/evidence/199/v4/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/mod.rs adl-runtime/src/distributed/authority_protocol.rs
@@ -22,21 +22,21 @@ EXPECTED_PROTECTED = %w[
   .csdlc/prepared/issues/199/produce-proof-receipt.rb .csdlc/prepared/issues/199/validate-proof-receipt.rb
 ].freeze
 EXPECTED_CASES = %w[
-  add_learner_joint_final_publish remove_voter_pending_exclusion learner_snapshot_catchup leader_change_resume
-  joint_old_only joint_new_only joint_union_only final_cut_mismatch removed_voter_endorsement removed_voter_route
-  stale_rejoin_self_promotion crash_every_phase exact_retry_cached_result concurrent_transition conflicting_retry
-  coherent_rollback_rejected missing_201_token learner_lag unauthorized_overlap learner_divergent_snapshot
-  missing_snapshot corrupt_journal_rejected checkpoint_object_collision state_symlink_rejected lock_symlink_rejected
-  old_cut_mismatch route_cut_mismatch unstable_raft_id_mapping wrong_certificate_generation expired_certificate
-  revoked_certificate wrong_control_key wrong_domain governed_rejoin_from_stale_state wrong_coarse_operation_kind
-  capacity_n_plus_one_no_partial
+  join_promote_remove_order epoch_gap_denied_without_partial_change
+  exact_retry_and_conflicting_reuse snapshot_restore_and_corruption_denial
+  stable_map_digest_and_collision_denial authority_membership_preserves_stable_ids
+  promote_artifact_binds_distinct_maps duplicate_control_key_denied
+  wrong_domain_denied_without_epoch_advance governed_rejoin_from_stale_state
+  wrong_coarse_operation_kind capacity_n_plus_one_no_partial
 ].freeze
 EXPECTED_ASSERTIONS = [
   %w[add_learner_joint_final_publish same_batch_joint_and_uniform_history_survives_restart],
   %w[add_learner_joint_final_publish factory_admission_receipt_exact_current_and_mismatch_denied],
   %w[remove_voter_pending_exclusion factory_exclusion_receipt_exact_current_and_mismatch_denied],
   %w[crash_every_phase durable_saga_restart_exact_retry_no_duplicate_publication],
-  %w[conflicting_retry conflicting_operation_and_receipt_denied_before_effect]
+  %w[conflicting_retry conflicting_operation_and_receipt_denied_before_effect],
+  %w[old_cut_mismatch authorized_stable_maps_and_target_membership_bound_before_raft_effect],
+  %w[leader_change_resume membership_history_entries_newer_than_authority_log_index_required]
 ].freeze
 EXPECTED_COMMANDS = {
   "integration_cases" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_membership_transition -- --nocapture --test-threads=1],
@@ -48,8 +48,8 @@ EXPECTED_COMMANDS = {
   "clippy_integration" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_membership_transition -- -D warnings]
 }.freeze
 EXPECTED_TEST_COUNTS = {
-  "integration_cases" => 36,
-  "coordinator_lib" => 5,
+  "integration_cases" => 12,
+  "coordinator_lib" => 7,
   "admission_receipt" => 1,
   "exclusion_receipt" => 1,
   "membership_history_restart" => 1
@@ -83,7 +83,7 @@ end
 
 proof = JSON.parse(File.binread(ordinary(PROOF_RELATIVE)))
 fail_receipt("top-level key mismatch") unless proof.keys.sort == %w[assertions cases commands issue protected_files required_main_ancestor schema source_revision source_tree subassertions test_summary]
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue199.governed_membership_transition_proof.v3" && proof["issue"] == 199
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue199.governed_membership_transition_proof.v4" && proof["issue"] == 199
 source = proof.fetch("source_revision")
 source_tree = proof.fetch("source_tree")
 main = proof.fetch("required_main_ancestor")
@@ -97,9 +97,9 @@ protected.each do |entry|
   fail_receipt("protected digest malformed") unless entry.fetch("sha256").match?(/\A[0-9a-f]{64}\z/)
   fail_receipt("protected digest drift #{entry['path']}") unless Digest::SHA256.file(ordinary(entry.fetch("path"))).hexdigest == entry.fetch("sha256")
 end
-fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "integration_cases" => 36, "integration_passed" => 36, "internal_test_counts" => EXPECTED_TEST_COUNTS, "discriminator_subassertions" => 1, "source_assertions" => 5 }
+fail_receipt("test summary mismatch") unless proof.fetch("test_summary") == { "integration_cases" => 12, "integration_passed" => 12, "internal_test_counts" => EXPECTED_TEST_COUNTS, "discriminator_subassertions" => 1, "source_assertions" => 7 }
 cases = proof.fetch("cases")
-fail_receipt("case denominator/order mismatch") unless cases.length == 36 && cases.map { |entry| entry["case"] } == EXPECTED_CASES && cases.map { |entry| entry["case"] }.uniq.length == 36
+fail_receipt("case denominator/order mismatch") unless cases.length == 12 && cases.map { |entry| entry["case"] } == EXPECTED_CASES && cases.map { |entry| entry["case"] }.uniq.length == 12
 cases.each do |entry|
   fail_receipt("case key/result mismatch") unless entry.keys.sort == %w[case marker_sha256 result] && entry["result"] == "pass"
   fail_receipt("case marker digest mismatch") unless entry["marker_sha256"] == Digest::SHA256.hexdigest("ADL_ISSUE_199_CASE_V1 case=#{entry['case']} result=pass")
@@ -139,7 +139,7 @@ observed_cases = integration.lines.map do |line|
   fail_receipt("malformed observed case marker") unless match
   match[1]
 end.compact
-fail_receipt("observed case denominator/substitution mismatch") unless observed_cases.length == 36 && observed_cases.uniq.length == 36 && observed_cases.sort == EXPECTED_CASES.sort
+fail_receipt("observed case denominator/substitution mismatch") unless observed_cases.length == 12 && observed_cases.uniq.length == 12 && observed_cases.sort == EXPECTED_CASES.sort
 observed_subassertions = integration.lines.map do |line|
   next unless line.include?("ADL_ISSUE_199_SUBASSERTION_V1 ")
   match = line.split("ADL_ISSUE_199_SUBASSERTION_V1 ", 2).fetch(1).strip.match(/\Aname=([^ ]+) result=pass boundary=([^ ]+)\z/)
@@ -154,7 +154,7 @@ observed_assertions = all_text.lines.map do |line|
   fail_receipt("malformed observed assertion marker") unless match
   [match[1], match[2]]
 end.compact
-fail_receipt("observed assertion denominator/substitution mismatch") unless observed_assertions.length == 5 && observed_assertions.uniq.length == 5 && observed_assertions.sort == EXPECTED_ASSERTIONS.sort
+fail_receipt("observed assertion denominator/substitution mismatch") unless observed_assertions.length == 7 && observed_assertions.uniq.length == 7 && observed_assertions.sort == EXPECTED_ASSERTIONS.sort
 introductions = git("log", "--format=%H", "--diff-filter=A", "--", PROOF_RELATIVE).lines.map(&:strip).reject(&:empty?)
 fail_receipt("proof requires immutable introduction") if introductions.empty?
 introduction = introductions.first
@@ -167,4 +167,4 @@ end
 fail_receipt("protected source changed after proof") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", *EXPECTED_PROTECTED).empty?
 fail_receipt("immutable proof changed after introduction") unless git("diff", "--name-only", "#{introduction}..HEAD", "--", PREFIX).empty?
 fail_receipt("worktree must be exactly clean") unless git("status", "--porcelain=v1", "--untracked-files=all").empty?
-puts "PASS: issue #199 proof binds exact argv, 36 unique cases, discriminator denial, five source assertions, protected implementation/design/proof source, immutable evidence, and exact current origin/main ancestry"
+puts "PASS: issue #199 proof binds exact argv, 12 behavior-specific cases, discriminator denial, seven production assertions, protected implementation/design/proof source, immutable evidence, and exact current origin/main ancestry"

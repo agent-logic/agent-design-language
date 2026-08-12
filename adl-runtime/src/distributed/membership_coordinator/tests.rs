@@ -1,4 +1,7 @@
-use std::{collections::BTreeMap, sync::Mutex};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    sync::Mutex,
+};
 
 use ed25519_dalek::SigningKey;
 
@@ -59,15 +62,37 @@ fn authority_identity() -> AuthorityNodeIdentity {
     }
 }
 
+fn old_stable_ids() -> BTreeMap<Vec<u8>, u64> {
+    BTreeMap::from([
+        (b"guardian-1".to_vec(), 1),
+        (b"guardian-2".to_vec(), 2),
+        (b"guardian-3".to_vec(), 3),
+    ])
+}
+
+fn target_stable_ids() -> BTreeMap<Vec<u8>, u64> {
+    let mut target = old_stable_ids();
+    target.insert(b"guardian-4".to_vec(), 4);
+    target
+}
+
+fn old_membership() -> BTreeSet<u64> {
+    old_stable_ids().values().copied().collect()
+}
+
+fn target_membership() -> BTreeSet<u64> {
+    target_stable_ids().values().copied().collect()
+}
+
 fn promotion_named(operation_id: &str) -> VerifiedPromoteVoter {
     let artifact = PromoteVoterArtifact::committed(
         identity(),
         [1; 32],
         [2; 32],
         7,
-        [3; 32],
-        [4; 32],
-        [5; 32],
+        stable_map_sha256(&old_stable_ids()).unwrap(),
+        stable_map_sha256(&target_stable_ids()).unwrap(),
+        membership_set_sha256(&target_membership()).unwrap(),
         NOW + 100,
     )
     .unwrap();
@@ -82,8 +107,15 @@ fn promotion_named(operation_id: &str) -> VerifiedPromoteVoter {
             uncertainty_millis: 1,
         },
     );
-    VerifiedPromoteVoter::from_published(&published, &identity(), [1; 32], [3; 32], [4; 32], NOW)
-        .unwrap()
+    VerifiedPromoteVoter::from_published(
+        &published,
+        &identity(),
+        [1; 32],
+        stable_map_sha256(&old_stable_ids()).unwrap(),
+        stable_map_sha256(&target_stable_ids()).unwrap(),
+        NOW,
+    )
+    .unwrap()
 }
 
 fn promotion() -> VerifiedPromoteVoter {
@@ -94,8 +126,57 @@ fn promotion() -> VerifiedPromoteVoter {
 fn promote_artifact_requires_exact_discriminator_and_maps() {
     let promotion = promotion();
     assert_eq!(promotion.identity().stable_raft_id, 4);
-    assert_eq!(promotion.old_stable_map_sha256(), [3; 32]);
-    assert_eq!(promotion.target_stable_map_sha256(), [4; 32]);
+    assert_eq!(
+        promotion.old_stable_map_sha256(),
+        stable_map_sha256(&old_stable_ids()).unwrap()
+    );
+    assert_eq!(
+        promotion.target_stable_map_sha256(),
+        stable_map_sha256(&target_stable_ids()).unwrap()
+    );
+    assert_eq!(
+        promotion.target_membership_sha256(),
+        membership_set_sha256(&target_membership()).unwrap()
+    );
+}
+
+#[test]
+fn authorized_transition_binds_exact_stable_maps_and_membership() {
+    let promotion = promotion();
+    assert_eq!(
+        verify_authorized_transition_inputs(
+            &promotion,
+            &old_stable_ids(),
+            &target_stable_ids(),
+            &old_membership(),
+            &target_membership(),
+        ),
+        Ok(())
+    );
+    let unrelated_target = BTreeSet::from([1, 2, 3, 9]);
+    assert_eq!(
+        verify_authorized_transition_inputs(
+            &promotion,
+            &old_stable_ids(),
+            &target_stable_ids(),
+            &old_membership(),
+            &unrelated_target,
+        ),
+        Err(MembershipCoordinatorError::WrongStableMap)
+    );
+    let mut remapped = target_stable_ids();
+    remapped.insert(b"guardian-4".to_vec(), 9);
+    assert_eq!(
+        verify_authorized_transition_inputs(
+            &promotion,
+            &old_stable_ids(),
+            &remapped,
+            &old_membership(),
+            &target_membership(),
+        ),
+        Err(MembershipCoordinatorError::WrongStableMap)
+    );
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=old_cut_mismatch assertion=authorized_stable_maps_and_target_membership_bound_before_raft_effect");
 }
 
 #[test]
@@ -230,4 +311,71 @@ fn conflicting_transition_and_receipt_fail_closed() {
         Err(MembershipCoordinatorError::ReceiptMismatch)
     );
     println!("ADL_ISSUE_199_ASSERTION_V1 case=conflicting_retry assertion=conflicting_operation_and_receipt_denied_before_effect");
+}
+
+#[test]
+fn committed_history_must_be_newer_than_authorized_operation() {
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    let checkpoint = Arc::new(MemoryCheckpoint::default());
+    let promotion = promotion();
+    let receipt =
+        GovernedMembershipAuthorityReceipt::for_membership_coordinator_test([2; 32], 7, [8; 32]);
+    let mut coordinator = MembershipCoordinator::open(root.path(), checkpoint).unwrap();
+    coordinator.begin_promotion(&promotion).unwrap();
+    coordinator
+        .observe_external_authority(&promotion, &receipt)
+        .unwrap();
+    coordinator
+        .record_learner_caught_up(promotion.operation_sha256())
+        .unwrap();
+
+    let stale = vec![
+        AppliedMembershipEntry {
+            log_id: openraft::LogId::new(openraft::CommittedLeaderId::new(3, 1), 40),
+            joint_configs: vec![old_membership(), target_membership()],
+        },
+        AppliedMembershipEntry {
+            log_id: openraft::LogId::new(openraft::CommittedLeaderId::new(3, 1), 41),
+            joint_configs: vec![target_membership()],
+        },
+    ];
+    assert_eq!(
+        coordinator.record_committed_membership_history(
+            promotion.operation_sha256(),
+            &stale,
+            &old_membership(),
+            &target_membership(),
+        ),
+        Err(MembershipCoordinatorError::StateRegression)
+    );
+    assert_eq!(
+        coordinator.active_phase(),
+        Some(MembershipCoordinatorPhase::LearnerCaughtUp)
+    );
+
+    let current = vec![
+        stale[0].clone(),
+        stale[1].clone(),
+        AppliedMembershipEntry {
+            log_id: openraft::LogId::new(openraft::CommittedLeaderId::new(4, 1), 51),
+            joint_configs: vec![old_membership(), target_membership()],
+        },
+        AppliedMembershipEntry {
+            log_id: openraft::LogId::new(openraft::CommittedLeaderId::new(4, 1), 52),
+            joint_configs: vec![target_membership()],
+        },
+    ];
+    coordinator
+        .record_committed_membership_history(
+            promotion.operation_sha256(),
+            &current,
+            &old_membership(),
+            &target_membership(),
+        )
+        .unwrap();
+    assert_eq!(
+        coordinator.active_phase(),
+        Some(MembershipCoordinatorPhase::FinalCommitted)
+    );
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=leader_change_resume assertion=membership_history_entries_newer_than_authority_log_index_required");
 }

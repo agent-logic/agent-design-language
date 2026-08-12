@@ -262,8 +262,17 @@ impl MembershipCoordinator {
         expected_old: &BTreeSet<u64>,
         expected_target: &BTreeSet<u64>,
     ) -> MembershipCoordinatorResult<()> {
+        let authority_log_index = self
+            .envelope
+            .payload()
+            .active
+            .as_ref()
+            .filter(|active| active.operation_sha256 == operation_sha256)
+            .map(|active| active.authority_log_index)
+            .ok_or(MembershipCoordinatorError::StateRegression)?;
         let joint_index = history.iter().position(|entry| {
-            entry.joint_configs.len() == 2
+            entry.log_id.index > authority_log_index
+                && entry.joint_configs.len() == 2
                 && entry.joint_configs[0] == *expected_old
                 && entry.joint_configs[1] == *expected_target
         });
@@ -273,7 +282,9 @@ impl MembershipCoordinator {
         let final_entry = history[joint_index + 1..]
             .iter()
             .find(|entry| {
-                entry.joint_configs.len() == 1 && entry.joint_configs[0] == *expected_target
+                entry.log_id.index > history[joint_index].log_id.index
+                    && entry.joint_configs.len() == 1
+                    && entry.joint_configs[0] == *expected_target
             })
             .ok_or(MembershipCoordinatorError::StateRegression)?;
         let joint_sha256 = membership_history_entry_sha256(&history[joint_index])?;
@@ -363,9 +374,18 @@ impl MembershipCoordinator {
         current_receipt: &GovernedMembershipAuthorityReceipt,
         raft: &PolisRaft,
         state_machine: &PolisStateMachineStore,
+        old_stable_ids: &BTreeMap<Vec<u8>, u64>,
+        target_stable_ids: &BTreeMap<Vec<u8>, u64>,
         expected_old: BTreeSet<u64>,
         expected_target: BTreeSet<u64>,
     ) -> MembershipCoordinatorResult<()> {
+        verify_authorized_transition_inputs(
+            promotion,
+            old_stable_ids,
+            target_stable_ids,
+            &expected_old,
+            &expected_target,
+        )?;
         self.begin_promotion(promotion)?;
         self.observe_external_authority(promotion, current_receipt)?;
         if self.active_phase() == Some(MembershipCoordinatorPhase::ExternalAuthorityObserved) {
@@ -662,6 +682,38 @@ pub fn stable_map_sha256(
     serde_jcs::to_vec(&ordered)
         .map(|bytes| <[u8; 32]>::from(Sha256::digest(bytes)))
         .map_err(|_| MembershipCoordinatorError::WrongStableMap)
+}
+
+pub fn membership_set_sha256(membership: &BTreeSet<u64>) -> MembershipCoordinatorResult<[u8; 32]> {
+    if membership.is_empty() || membership.contains(&0) {
+        return Err(MembershipCoordinatorError::WrongStableMap);
+    }
+    serde_jcs::to_vec(membership)
+        .map(|bytes| <[u8; 32]>::from(Sha256::digest(bytes)))
+        .map_err(|_| MembershipCoordinatorError::WrongStableMap)
+}
+
+pub fn verify_authorized_transition_inputs(
+    promotion: &VerifiedPromoteVoter,
+    old_stable_ids: &BTreeMap<Vec<u8>, u64>,
+    target_stable_ids: &BTreeMap<Vec<u8>, u64>,
+    expected_old: &BTreeSet<u64>,
+    expected_target: &BTreeSet<u64>,
+) -> MembershipCoordinatorResult<()> {
+    if stable_map_sha256(old_stable_ids)? != promotion.old_stable_map_sha256
+        || stable_map_sha256(target_stable_ids)? != promotion.target_stable_map_sha256
+        || membership_set_sha256(expected_target)? != promotion.target_membership_sha256
+        || old_stable_ids.values().copied().collect::<BTreeSet<_>>() != *expected_old
+        || target_stable_ids.values().copied().collect::<BTreeSet<_>>() != *expected_target
+        || old_stable_ids
+            .iter()
+            .any(|(guardian, raft_id)| target_stable_ids.get(guardian) != Some(raft_id))
+        || target_stable_ids.get(promotion.identity.guardian_id.as_bytes())
+            != Some(&promotion.identity.stable_raft_id)
+    {
+        return Err(MembershipCoordinatorError::WrongStableMap);
+    }
+    Ok(())
 }
 
 pub fn verify_external_membership_receipt(

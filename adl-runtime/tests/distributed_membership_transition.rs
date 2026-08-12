@@ -350,69 +350,91 @@ fn assert_duplicate_control_key_denied() {
     );
 }
 
-fn run(case: &str, behavior: fn()) {
+fn run(case: &str, detail: &str, behavior: fn()) {
     behavior();
-    marker(case, "public_contract_asserted");
+    marker(case, detail);
 }
 
-macro_rules! behavior_cases {
-    ($behavior:ident => $($name:ident),+ $(,)?) => {$ (
-        #[test]
-        fn $name() { run(stringify!($name), $behavior); }
-    )+ };
+#[test]
+fn join_promote_remove_order() {
+    run(
+        "join_promote_remove_order",
+        "nonvoting_then_voter_then_absent",
+        assert_join_promote_remove_order,
+    );
 }
 
-behavior_cases!(assert_join_promote_remove_order =>
-    add_learner_joint_final_publish,
-    remove_voter_pending_exclusion,
-    learner_snapshot_catchup,
-    leader_change_resume,
-    joint_old_only,
-    joint_new_only,
-    joint_union_only,
-    final_cut_mismatch,
-    removed_voter_endorsement,
-    removed_voter_route,
-    stale_rejoin_self_promotion,
-    crash_every_phase,
-);
+#[test]
+fn epoch_gap_denied_without_partial_change() {
+    run(
+        "epoch_gap_denied_without_partial_change",
+        "epoch_and_role_unchanged",
+        assert_order_fail_closed,
+    );
+}
 
-behavior_cases!(assert_retry_contract =>
-    exact_retry_cached_result,
-    concurrent_transition,
-    conflicting_retry,
-    coherent_rollback_rejected,
-);
+#[test]
+fn exact_retry_and_conflicting_reuse() {
+    run(
+        "exact_retry_and_conflicting_reuse",
+        "cached_retry_and_replay_conflict",
+        assert_retry_contract,
+    );
+}
 
-behavior_cases!(assert_order_fail_closed =>
-    missing_201_token,
-    learner_lag,
-    unauthorized_overlap,
-);
+#[test]
+fn snapshot_restore_and_corruption_denial() {
+    run(
+        "snapshot_restore_and_corruption_denial",
+        "exact_restore_and_corrupt_digest_rejected",
+        assert_snapshot_contract,
+    );
+}
 
-behavior_cases!(assert_snapshot_contract =>
-    learner_divergent_snapshot,
-    missing_snapshot,
-    corrupt_journal_rejected,
-    checkpoint_object_collision,
-    state_symlink_rejected,
-    lock_symlink_rejected,
-);
+#[test]
+fn stable_map_digest_and_collision_denial() {
+    run(
+        "stable_map_digest_and_collision_denial",
+        "target_digest_changes_and_duplicate_id_rejected",
+        assert_stable_map_contract,
+    );
+}
 
-behavior_cases!(assert_stable_map_contract =>
-    old_cut_mismatch,
-    route_cut_mismatch,
-    unstable_raft_id_mapping,
-);
+#[test]
+fn authority_membership_preserves_stable_ids() {
+    run(
+        "authority_membership_preserves_stable_ids",
+        "explicit_nonsequential_ids_retained",
+        assert_authority_stable_ids,
+    );
+}
 
-behavior_cases!(assert_promote_artifact_contract =>
-    wrong_certificate_generation,
-    expired_certificate,
-    revoked_certificate,
-);
+#[test]
+fn promote_artifact_binds_distinct_maps() {
+    run(
+        "promote_artifact_binds_distinct_maps",
+        "canonical_artifact_and_equal_map_denial",
+        assert_promote_artifact_contract,
+    );
+}
 
-behavior_cases!(assert_duplicate_control_key_denied => wrong_control_key);
-behavior_cases!(assert_wrong_domain => wrong_domain);
+#[test]
+fn duplicate_control_key_denied() {
+    run(
+        "duplicate_control_key_denied",
+        "second_promotion_rejected",
+        assert_duplicate_control_key_denied,
+    );
+}
+
+#[test]
+fn wrong_domain_denied_without_epoch_advance() {
+    run(
+        "wrong_domain_denied_without_epoch_advance",
+        "foreign_event_rejected_at_epoch_zero",
+        assert_wrong_domain,
+    );
+}
 
 #[test]
 fn governed_rejoin_from_stale_state() {
@@ -428,6 +450,7 @@ fn governed_rejoin_from_stale_state() {
 fn wrong_coarse_operation_kind() {
     run(
         "wrong_coarse_operation_kind",
+        "coarse_kind_and_sealed_discriminator_separated",
         assert_wrong_coarse_and_discriminator_boundaries,
     );
 }
