@@ -7,23 +7,36 @@
     "title": "Add production birth-witness policy provisioning and invocation boundary",
     "slug": "runtime-birth-witness-boundary",
     "version": "1.0.0",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact issue diff for Runtime-owned policy construction, validated invocation/emission, and production-path tests.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/birth_witness.rs\nadl-runtime-kernel/tests/birth_witness.rs\n.csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh",
+      "review_revision": "git-blake3:bd30f84445e23b0cd13d9b4da3e4f37913771bbc:256cc8bbbd8254a0ff15ff9c14d4cf9f2b64316fef2492d43dbb261e307430d5",
+      "reviewer": "subagent:review-5912",
       "review_prompts": [
         "Can an external caller forge or bypass trusted birth-witness authority?",
         "Can any receipt be emitted before successful validation?",
         "Does the integration test exercise a non-test production consumer?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "P2-sink-error-atomicity",
+          "severity": "p2",
+          "summary": "Resolved: receipt emission now uses fallible preparation followed by an infallible commit, and tests prove invalid witnesses and preparation failure do not invoke commit.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:bd30f84445e23b0cd13d9b4da3e4f37913771bbc:256cc8bbbd8254a0ff15ff9c14d4cf9f2b64316fef2492d43dbb261e307430d5",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Concrete Runtime sinks must preserve the infallible commit contract once preparation succeeds."
+      ],
+      "review_result": "pass"
     }
   }
 }

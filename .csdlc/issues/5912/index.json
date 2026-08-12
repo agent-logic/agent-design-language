@@ -4,13 +4,47 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7607073d7ba9e8235645ccf9fd3f55d27fe86ad5c4e2148afa330bcec8953e64",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "6989bec3a535c0cb316e8108a73a771f6bdcff017fa9d7d96e3a4cef17bda51b",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "01f33470081b803472c0cd60912e81bbccb4b6106f6def692809e3c952334ed7",
   "branch": "codex/5912-runtime-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5912-runtime-birth-witness",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:review-5912",
+    "assigned_by": "codex:5912-runtime-birth-witness",
+    "revision": "git-blake3:bd30f84445e23b0cd13d9b4da3e4f37913771bbc:256cc8bbbd8254a0ff15ff9c14d4cf9f2b64316fef2492d43dbb261e307430d5",
+    "scope": [
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review-5912",
+    "scope": [
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh"
+    ],
+    "reviewed_revision": "git-blake3:bd30f84445e23b0cd13d9b4da3e4f37913771bbc:256cc8bbbd8254a0ff15ff9c14d4cf9f2b64316fef2492d43dbb261e307430d5",
+    "findings": [
+      {
+        "id": "P2-sink-error-atomicity",
+        "severity": "p2",
+        "summary": "Resolved: receipt emission now uses fallible preparation followed by an infallible commit, and tests prove invalid witnesses and preparation failure do not invoke commit.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:bd30f84445e23b0cd13d9b4da3e4f37913771bbc:256cc8bbbd8254a0ff15ff9c14d4cf9f2b64316fef2492d43dbb261e307430d5",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Concrete Runtime sinks must preserve the infallible commit contract once preparation succeeds."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e6c621744e1596cb826bd9b5f3f879119d48c0fa25194fccfe5e3299dfecdcc9",
+      "values_digest": "8ba21203fbbc5f1e58fee5403bd960660afe09fd0b31fc6d8719daa69a02ad57",
       "rendered_digest": "91eab6869cb804874c22497f8c1d473cbefda583e397409a42203dba41b49c9c",
       "ast_digest": "7d6bc05c963875f2d4ce7eeb358121a8b1e3bf87338cfe00ef17007d190df0e4"
     },
     "stp": {
-      "values_digest": "59eb545d7d16ea97a1da64f272d1d76fbdb2a4ff3ae50b09f576d6d8b8753723",
+      "values_digest": "a3b0d48b44bbdd31fd3f0f108a4c2c987735ddfdaf1735ddd6439971d06b722b",
       "rendered_digest": "c672c8d61d27aed70c8b7d7c27df460bb9a0389a801be3830e0077f086c500c4",
       "ast_digest": "622b534250f3e071a19601e6495d872c34ceddc5fc0d09b1b9ddcfa6da9402ea"
     },
     "spp": {
-      "values_digest": "99958c68673cc4efe90d9b7a876e250d7184ed0a8ecc408d8ef91d31116165f8",
+      "values_digest": "9cf74de638ec612c0676dbb59108491e6b98f4c06fb9dec840e69df8b80b915d",
       "rendered_digest": "994a7042ad28d11831d2ce4f0831abcc3b2598d1a8b3ae1a58246401ed0d7599",
       "ast_digest": "83af666aacb2e1c157a9c84568de2ccf61e4ba0047ff27d6764e722e76f4f188"
     },
     "vpp": {
-      "values_digest": "78492452b9f4deca62cc3bf154c857d883c704ae5c794d4fa6434ccfeb5cc63e",
+      "values_digest": "40e3d14dc4af3e788e935527dd09a3b8d28965cddd5110a80786e4b8da987e2a",
       "rendered_digest": "90c74684a044cf49f56a5d7fda3d0a2fbbd40c30cefd400faa97b86d2805f4c5",
       "ast_digest": "65db1fcd7113863997e16ae9b309fe6b967cdbacef1f09a5f49f9225af3f998e"
     },
     "srp": {
-      "values_digest": "274db09c6f58a4bf57fab97dd9d00af0be93bffcc8509c161e43e72b524a9626",
-      "rendered_digest": "0b29b421c9a5ac7e569d598db34418da24e528f1a7d6323478cae95d3aea2a38",
-      "ast_digest": "6c4530c9fff99ec08b4f0f865cfa1c98d3df1bd3d78d7a75b7ca050d6a7092d7"
+      "values_digest": "c276d1efc59d381e1c035560fd6e815853796b9432f7e461ed9f12d71ea0c436",
+      "rendered_digest": "8f65fb783106affa2ff6a40b14f5b51eaab618896c6165c9fab6d97826b159f6",
+      "ast_digest": "07435b084093df67a4030c0ee28f98386443f7b63bb49a04da06204cdffe00a8"
     },
     "sor": {
-      "values_digest": "38eb091c3232fb960edc964f09261f3429d9185c735a966708e543ba3f173e58",
+      "values_digest": "03147de156a9ffa9367ef0a0b48ca4a3d0c182c633aa6e4e27ae256c47c94faa",
       "rendered_digest": "2a3f9916684c8fd6156d6a03abc1a4f89b68d7cf8ebb1e06f75ad790b4257257",
       "ast_digest": "4eb4f33bc7e7106457db35ce337ff24b846f81ed24c9da12f8640dabe165505b"
     }
@@ -76,6 +110,13 @@
       "to": "implemented",
       "actor": "codex:5912-runtime-birth-witness",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-5912",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -120,6 +161,20 @@
       "actor": "codex:5912-runtime-birth-witness",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "subagent:review-5912",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

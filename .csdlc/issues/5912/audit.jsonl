@@ -4,3 +4,5 @@
 {"sequence":4,"generation":3,"actor":"codex:5912-runtime-birth-witness","reason":"Declare the issue-local focused runner as an owned validation surface.","operation":"{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912\"]}"}
 {"sequence":5,"generation":3,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":6,"generation":4,"actor":"codex:5912-runtime-birth-witness","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":7,"generation":4,"actor":"codex:5912-runtime-birth-witness","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":8,"generation":5,"actor":"subagent:review-5912","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
