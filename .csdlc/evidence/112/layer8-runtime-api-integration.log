@@ -1,11 +1,5 @@
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl-runtime-kernel)
-   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl-runtime)
-   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 26.27s
-────────────
- Nextest run ID 5fb77968-46a2-4e6a-b16f-e01b7630ee55 with nextest profile: default
-    Starting 2 tests across 1 binary
-        PASS [   0.024s] (1/2) adl::layer8_authority_runtime_api runtime_api_refusal_cannot_invoke_delivery
-        PASS [   0.024s] (2/2) adl::layer8_authority_runtime_api runtime_api_delivers_only_after_authority_grants
-────────────
-     Summary [   0.024s] 2 tests run: 2 passed, 0 skipped
+source_tree: exact contents committed with this evidence
+command: cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail --status-level all
+result: PASS
+tests: 4 passed; 0 failed; 0 skipped
+proof: delivery requires authority and exact recipient acknowledgement; refusal prevents delivery; signed request rejects substituted outer conversation/action/recipient/replay/correlation fields

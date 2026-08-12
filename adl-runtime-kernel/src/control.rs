@@ -1042,6 +1042,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             self.instance_id, intent.conversation_id, intent.turn_id, credential_generation
         );
         let payload_json = match serde_jcs::to_string(&serde_json::json!({
+            "action": action,
             "message": intent.message,
             "recipient_id": intent.recipient_id,
         })) {
@@ -1234,6 +1235,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "op": "conversation_message",
                 "recipient_id": dispatch.intent.recipient_id,
                 "input": dispatch.intent.message,
+                "signed_request": dispatch.signed_request,
             }],
         }));
         let deadline = tokio::time::Instant::now() + self.api_policy().websocket_auth_timeout;
@@ -1299,45 +1301,30 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                 .and_then(|output| output.get("message"))
                                 .and_then(serde_json::Value::as_str)
                                 .map(str::to_owned);
+                            let acknowledgement = result
+                                .public_output
+                                .as_ref()
+                                .and_then(|output| output.get("acknowledgement"))
+                                .cloned()
+                                .and_then(|value| serde_json::from_value(value).ok());
                             match reply {
                                 Some(reply) => {
                                     let now = now_unix_millis() / 1_000;
-                                    let acknowledgement =
-                                        serde_jcs::to_string(&serde_json::json!({
-                                            "accepted_sequence": result.accepted_sequence,
-                                            "status": "delivered",
-                                        }))
-                                        .map_err(|_| ())
-                                        .and_then(|payload| {
+                                    let verified =
+                                        acknowledgement.as_ref().ok_or(()).and_then(|ack| {
                                             self.layer8_signed_exchange.as_ref().ok_or(()).and_then(
                                                 |exchange| {
                                                     exchange
-                                                        .recipient_acknowledgement(
+                                                        .verify_request_and_acknowledgement(
                                                             &dispatch.signed_request,
-                                                            payload,
+                                                            ack,
                                                             now,
                                                         )
                                                         .map_err(|_| ())
                                                 },
                                             )
-                                        })
-                                        .and_then(
-                                            |ack| {
-                                                self.layer8_signed_exchange
-                                                    .as_ref()
-                                                    .ok_or(())
-                                                    .and_then(|exchange| {
-                                                        exchange
-                                                            .verify_request_and_acknowledgement(
-                                                                &dispatch.signed_request,
-                                                                &ack,
-                                                                now,
-                                                            )
-                                                            .map_err(|_| ())
-                                                    })
-                                            },
-                                        );
-                                    if acknowledgement.is_err() {
+                                        });
+                                    if verified.is_err() {
                                         outcome("refused", "recipient_acknowledgement_invalid")
                                     } else {
                                         ObservatoryConversationResult {

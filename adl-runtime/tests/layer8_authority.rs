@@ -169,7 +169,7 @@ fn recipient_signed_acknowledgement_is_bound_to_triggering_message() {
         120,
     )
     .unwrap();
-    let acknowledgement = signed_message(
+    let mut acknowledgement = signed_message(
         "agent-b",
         "agent-a",
         IdentityMessageKind::Acknowledgement,
@@ -177,6 +177,12 @@ fn recipient_signed_acknowledgement_is_bound_to_triggering_message() {
         1,
         "agent-b-communication-v1",
         &recipient_key,
+    );
+    acknowledgement.replay_id = request.replay_id.clone();
+    acknowledgement.signature = hex::encode(
+        recipient_key
+            .sign(&acknowledgement.signing_bytes().unwrap())
+            .to_bytes(),
     );
     verify_recipient_acknowledgement(
         &request,
@@ -187,6 +193,7 @@ fn recipient_signed_acknowledgement_is_bound_to_triggering_message() {
     .unwrap();
     assert_eq!(acknowledgement.causation_id, request.message_id);
     assert_eq!(acknowledgement.correlation_id, request.correlation_id);
+    assert_eq!(acknowledgement.replay_id, request.replay_id);
 }
 
 #[test]

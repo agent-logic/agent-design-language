@@ -99,6 +99,28 @@ pub fn authorize_layer8_runtime_delivery<T>(
         retryable: false,
         correlation_id: request.correlation_id.clone(),
     })?;
+    let signed_payload: Value = serde_json::from_str(&request.signed_request.payload_json)
+        .map_err(|_| PublicRefusal {
+            authorized: false,
+            reason: adl_runtime::layer8_authority::RefusalReason::InvalidRequest,
+            retryable: false,
+            correlation_id: request.correlation_id.clone(),
+        })?;
+    if request.signed_request.message_kind
+        != adl_runtime::layer8_authority::IdentityMessageKind::Request
+        || request.signed_request.conversation_id != request.conversation_id
+        || request.signed_request.recipient_id != request.recipient_id
+        || request.signed_request.replay_id != request.replay_id
+        || request.signed_request.correlation_id != request.correlation_id
+        || signed_payload.get("action") != serde_json::to_value(&request.action).ok().as_ref()
+    {
+        return Err(PublicRefusal {
+            authorized: false,
+            reason: adl_runtime::layer8_authority::RefusalReason::InvalidRequest,
+            retryable: false,
+            correlation_id: request.correlation_id,
+        });
+    }
     match authority.authorize(
         request.action.clone(),
         request.conversation_id.clone(),

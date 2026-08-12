@@ -9,9 +9,10 @@ use std::{
 
 use crate::control::ConversationAttachmentTestHook;
 use crate::layer8_authority::{
-    AuthorityScope, CommunicationKeyDescriptor, ConversationAuthorityProfile,
-    ConversationSigningProfile, Layer8Action, Layer8AuthorityStore, Layer8Capability,
-    Layer8ConversationAuthority, Layer8Policy, Layer8SignedExchange, RuntimeIdentityEvidence,
+    sign_recipient_acknowledgement, AuthorityScope, CommunicationKeyDescriptor,
+    CommunicationVerifyingDescriptor, ConversationAuthorityProfile, ConversationSigningProfile,
+    Layer8Action, Layer8AuthorityStore, Layer8Capability, Layer8ConversationAuthority,
+    Layer8Policy, Layer8SignedExchange, RuntimeIdentityEvidence, SignedIdentityMessage,
 };
 use crate::{
     serve_control_listener, AdapterKind, AdapterPolicy, AgentPopulationFeed, AgentRosterPolicy,
@@ -97,6 +98,7 @@ struct ConversationExecutor {
     completions: Arc<AtomicUsize>,
     barrier_started: Arc<Notify>,
     barrier_release: Arc<Semaphore>,
+    recipient_key_file: std::path::PathBuf,
 }
 
 #[async_trait]
@@ -144,6 +146,31 @@ impl OperationExecutor for ConversationExecutor {
                 .forget();
         }
         self.completions.fetch_add(1, Ordering::SeqCst);
+        let signed_request: SignedIdentityMessage = serde_json::from_value(
+            work["tasks"][0]["signed_request"].clone(),
+        )
+        .map_err(|error| ExecutorError {
+            class: FailureClass::Fatal,
+            message: error.to_string(),
+        })?;
+        let recipient_signing = CommunicationKeyDescriptor {
+            principal_id: recipient_id.to_owned(),
+            polis_id: "conversation-runtime".to_owned(),
+            signing_key_id: format!("{recipient_id}-key"),
+            private_key_file: self.recipient_key_file.clone(),
+            not_before_epoch_secs: 0,
+            expires_at_epoch_secs: u64::MAX,
+        };
+        let acknowledgement = sign_recipient_acknowledgement(
+            &signed_request,
+            &recipient_signing,
+            "{\"status\":\"delivered\"}".to_owned(),
+            signed_request.issued_at_epoch_secs,
+        )
+        .map_err(|error| ExecutorError {
+            class: FailureClass::Fatal,
+            message: format!("{error:?}"),
+        })?;
         serde_json::to_vec(&serde_json::json!({
             "schema": "adl.runtime.local_agent_execution.v1",
             "outputs": [{
@@ -151,6 +178,7 @@ impl OperationExecutor for ConversationExecutor {
                 "output": {
                     "recipient_id": projected_recipient,
                     "message": format!("{recipient_id} received your message."),
+                    "acknowledgement": acknowledgement,
                     "adapter_secret": "must-not-cross-public-boundary"
                 }
             }]
@@ -169,6 +197,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let completions = Arc::new(AtomicUsize::new(0));
     let barrier_started = Arc::new(Notify::new());
     let barrier_release = Arc::new(Semaphore::new(0));
+    let authority_root = tempfile::tempdir().unwrap();
+    let recipient_key = authority_root.path().join("recipient.key");
+    std::fs::write(&recipient_key, hex::encode([8_u8; 32])).unwrap();
     let adapter = Arc::new(
         OperationalAdapter::new(
             AdapterKind::Agent,
@@ -185,6 +216,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
                 completions: completions.clone(),
                 barrier_started: barrier_started.clone(),
                 barrier_release: barrier_release.clone(),
+                recipient_key_file: recipient_key.clone(),
             }),
         )
         .unwrap(),
@@ -247,7 +279,6 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         reveal_capabilities: false,
         reveal_location: false,
     });
-    let authority_root = tempfile::tempdir().unwrap();
     let layer8_authority = Layer8ConversationAuthority::new(
         Layer8AuthorityStore::open(authority_root.path().join("audit.jsonl")).unwrap(),
         {
@@ -319,9 +350,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .with_layer8_authority(layer8_authority)
         .with_layer8_signed_exchange({
             let sender_key = authority_root.path().join("sender.key");
-            let recipient_key = authority_root.path().join("recipient.key");
             std::fs::write(&sender_key, hex::encode([7_u8; 32])).unwrap();
-            std::fs::write(&recipient_key, hex::encode([8_u8; 32])).unwrap();
             let descriptor = |principal_id: &str, signing_key_id: &str, private_key_file| {
                 CommunicationKeyDescriptor {
                     principal_id: principal_id.to_owned(),
@@ -336,12 +365,18 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
                 sender: descriptor("layer8-operator", "operator-key", sender_key),
                 recipients: visible_agent_ids
                     .iter()
-                    .map(|recipient| {
-                        descriptor(
-                            recipient,
-                            &format!("{recipient}-key"),
-                            recipient_key.clone(),
-                        )
+                    .map(|recipient| CommunicationVerifyingDescriptor {
+                        principal_id: recipient.clone(),
+                        polis_id: "conversation-runtime".to_owned(),
+                        signing_key_id: format!("{recipient}-key"),
+                        verifying_key_hex: hex::encode(
+                            ed25519_dalek::SigningKey::from_bytes(&[8_u8; 32])
+                                .verifying_key()
+                                .to_bytes(),
+                        ),
+                        revoked: false,
+                        not_before_epoch_secs: 0,
+                        expires_at_epoch_secs: u64::MAX,
                     })
                     .collect(),
             })

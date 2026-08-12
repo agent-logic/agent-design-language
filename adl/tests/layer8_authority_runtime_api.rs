@@ -7,10 +7,10 @@ use adl::csm_runtime_api::{
     authorize_layer8_runtime_delivery, Layer8RuntimeDelivery, Layer8RuntimeDeliveryRequest,
 };
 use adl_runtime::layer8_authority::{
-    AuthorityScope, CommunicationKeyDescriptor, ConversationAuthorityProfile,
-    ConversationSigningProfile, Layer8Action, Layer8AuthorityStore, Layer8Capability,
-    Layer8ConversationAuthority, Layer8Policy, Layer8SignedExchange, RefusalReason,
-    RuntimeIdentityEvidence,
+    sign_recipient_acknowledgement, AuthorityScope, CommunicationKeyDescriptor,
+    CommunicationVerifyingDescriptor, ConversationAuthorityProfile, ConversationSigningProfile,
+    Layer8Action, Layer8AuthorityStore, Layer8Capability, Layer8ConversationAuthority,
+    Layer8Policy, Layer8SignedExchange, RefusalReason, RuntimeIdentityEvidence,
 };
 
 struct TestRoot(PathBuf);
@@ -85,7 +85,7 @@ fn authority(root: &Path) -> Layer8ConversationAuthority {
     .unwrap()
 }
 
-fn exchange(root: &Path) -> Layer8SignedExchange {
+fn exchange(root: &Path) -> (Layer8SignedExchange, CommunicationKeyDescriptor) {
     let sender = root.join("sender.key");
     let recipient = root.join("recipient.key");
     std::fs::write(&sender, "05".repeat(32)).unwrap();
@@ -99,11 +99,26 @@ fn exchange(root: &Path) -> Layer8SignedExchange {
             not_before_epoch_secs: 0,
             expires_at_epoch_secs: u64::MAX,
         };
-    Layer8SignedExchange::load(ConversationSigningProfile {
+    let recipient_descriptor = descriptor("shepherd", "shepherd-key", recipient.clone());
+    let exchange = Layer8SignedExchange::load(ConversationSigningProfile {
         sender: descriptor("layer8-operator", "operator-key", sender),
-        recipients: vec![descriptor("shepherd", "shepherd-key", recipient)],
+        recipients: vec![CommunicationVerifyingDescriptor {
+            principal_id: "shepherd".to_owned(),
+            polis_id: "polis-test".to_owned(),
+            signing_key_id: "shepherd-key".to_owned(),
+            verifying_key_hex: ed25519_dalek::SigningKey::from_bytes(&[6_u8; 32])
+                .verifying_key()
+                .to_bytes()
+                .iter()
+                .map(|byte| format!("{byte:02x}"))
+                .collect(),
+            revoked: false,
+            not_before_epoch_secs: 0,
+            expires_at_epoch_secs: u64::MAX,
+        }],
     })
-    .unwrap()
+    .unwrap();
+    (exchange, recipient_descriptor)
 }
 
 fn request(
@@ -117,7 +132,7 @@ fn request(
             "conversation-1",
             "correlation-1",
             replay_id,
-            "{\"message\":\"hello\"}".to_owned(),
+            "{\"action\":\"contact\",\"message\":\"hello\"}".to_owned(),
             1_700_000_000,
         )
         .unwrap();
@@ -137,7 +152,7 @@ fn request(
 fn runtime_api_delivers_only_after_authority_grants() {
     let root = TestRoot::new();
     let authority = authority(root.path());
-    let exchange = exchange(root.path());
+    let (exchange, recipient_signing) = exchange(root.path());
     let deliveries = AtomicUsize::new(0);
 
     let delivery_request = request(&exchange, "shepherd", "request-1");
@@ -145,13 +160,13 @@ fn runtime_api_delivers_only_after_authority_grants() {
     let delivered =
         authorize_layer8_runtime_delivery(&authority, delivery_request, || Layer8RuntimeDelivery {
             value: deliveries.fetch_add(1, Ordering::SeqCst),
-            acknowledgement: exchange
-                .recipient_acknowledgement(
-                    &signed_request,
-                    "{\"status\":\"delivered\"}".to_owned(),
-                    1_700_000_000,
-                )
-                .unwrap(),
+            acknowledgement: sign_recipient_acknowledgement(
+                &signed_request,
+                &recipient_signing,
+                "{\"status\":\"delivered\"}".to_owned(),
+                1_700_000_000,
+            )
+            .unwrap(),
             recipient_identity: exchange.recipient_verifying_identity("shepherd").unwrap(),
         })
         .unwrap();
@@ -164,7 +179,7 @@ fn runtime_api_delivers_only_after_authority_grants() {
 fn runtime_api_refusal_cannot_invoke_delivery() {
     let root = TestRoot::new();
     let authority = authority(root.path());
-    let exchange = exchange(root.path());
+    let (exchange, _) = exchange(root.path());
     let deliveries = AtomicUsize::new(0);
 
     let refusal = authorize_layer8_runtime_delivery(
@@ -182,25 +197,47 @@ fn runtime_api_refusal_cannot_invoke_delivery() {
 fn runtime_api_refuses_delivery_without_exact_recipient_acknowledgement() {
     let root = TestRoot::new();
     let authority = authority(root.path());
-    let exchange = exchange(root.path());
+    let (exchange, recipient_signing) = exchange(root.path());
     let delivery_request = request(&exchange, "shepherd", "request-3");
     let signed_request = delivery_request.signed_request.clone();
 
-    let refusal = authorize_layer8_runtime_delivery(&authority, delivery_request, || {
-        let mut acknowledgement = exchange
-            .recipient_acknowledgement(
+    let refusal = authorize_layer8_runtime_delivery(
+        &authority,
+        delivery_request,
+        || -> Layer8RuntimeDelivery<()> {
+            let mut acknowledgement = sign_recipient_acknowledgement(
                 &signed_request,
+                &recipient_signing,
                 "{\"status\":\"delivered\"}".to_owned(),
                 1_700_000_000,
             )
             .unwrap();
-        acknowledgement.causation_id = "different-request".to_owned();
-        Layer8RuntimeDelivery {
-            value: (),
-            acknowledgement,
-            recipient_identity: exchange.recipient_verifying_identity("shepherd").unwrap(),
-        }
-    })
+            acknowledgement.causation_id = "different-request".to_owned();
+            Layer8RuntimeDelivery {
+                value: (),
+                acknowledgement,
+                recipient_identity: exchange.recipient_verifying_identity("shepherd").unwrap(),
+            }
+        },
+    )
+    .unwrap_err();
+
+    assert_eq!(refusal.reason, RefusalReason::InvalidRequest);
+}
+
+#[test]
+fn runtime_api_refuses_outer_fields_not_bound_to_signed_request() {
+    let root = TestRoot::new();
+    let authority = authority(root.path());
+    let (exchange, _) = exchange(root.path());
+    let mut delivery_request = request(&exchange, "shepherd", "request-4");
+    delivery_request.conversation_id = "substituted-conversation".to_owned();
+
+    let refusal = authorize_layer8_runtime_delivery(
+        &authority,
+        delivery_request,
+        || -> Layer8RuntimeDelivery<()> { unreachable!("mismatched signed delivery must not run") },
+    )
     .unwrap_err();
 
     assert_eq!(refusal.reason, RefusalReason::InvalidRequest);

@@ -1,17 +1,5 @@
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl-runtime-kernel)
-   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl-runtime)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.26s
-────────────
- Nextest run ID e94593ac-315b-46c8-b4db-6907ea3529c5 with nextest profile: default
-    Starting 9 tests across 1 binary
-        PASS [   0.014s] (1/9) adl-runtime::layer8_authority human_and_agent_senders_share_one_signed_identity_message_contract
-        PASS [   0.016s] (2/9) adl-runtime::layer8_authority recipient_signed_acknowledgement_is_bound_to_triggering_message
-        PASS [   0.037s] (3/9) adl-runtime::layer8_authority refusal_is_bounded_and_contains_no_private_inputs
-        PASS [   0.053s] (4/9) adl-runtime::layer8_authority corrupt_and_truncated_audit_refuse_restart
-        PASS [   0.058s] (5/9) adl-runtime::layer8_authority restart_verifies_chain_and_restores_replay_defense
-        PASS [   0.087s] (6/9) adl-runtime::layer8_authority authorizes_each_action_only_with_its_exact_capability_and_policy_intersection
-        PASS [   0.091s] (7/9) adl-runtime::layer8_authority rejects_recipient_substitution_widening_action_conversation_and_cross_polis
-        PASS [   0.120s] (8/9) adl-runtime::layer8_authority signature_substitution_rotation_revocation_and_expiry_fail_closed
-        PASS [   0.120s] (9/9) adl-runtime::layer8_authority identity_capability_policy_epoch_and_replay_fail_closed
-────────────
-     Summary [   0.123s] 9 tests run: 9 passed, 0 skipped
+source_tree: exact contents committed with this evidence
+command: cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail --status-level all
+result: PASS
+tests: 11 passed; 0 failed; 0 skipped
+proof: identity, independently supplied capability and policy, exact scope, signed message, acknowledgement replay binding, refusal, replay, cross-handle audit serialization, restart and corruption behavior

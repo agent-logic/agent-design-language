@@ -70,9 +70,21 @@ pub struct CommunicationKeyDescriptor {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+pub struct CommunicationVerifyingDescriptor {
+    pub principal_id: String,
+    pub polis_id: String,
+    pub signing_key_id: String,
+    pub verifying_key_hex: String,
+    pub revoked: bool,
+    pub not_before_epoch_secs: u64,
+    pub expires_at_epoch_secs: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct ConversationSigningProfile {
     pub sender: CommunicationKeyDescriptor,
-    pub recipients: Vec<CommunicationKeyDescriptor>,
+    pub recipients: Vec<CommunicationVerifyingDescriptor>,
 }
 
 #[derive(Debug)]
@@ -84,8 +96,53 @@ struct CommunicationSigningIdentity {
 #[derive(Debug)]
 pub struct Layer8SignedExchange {
     sender: CommunicationSigningIdentity,
-    recipients: BTreeMap<String, CommunicationSigningIdentity>,
+    recipients: BTreeMap<String, CommunicationVerifyingIdentity>,
     sequence: AtomicU64,
+}
+
+pub fn sign_recipient_acknowledgement(
+    request: &SignedIdentityMessage,
+    descriptor: &CommunicationKeyDescriptor,
+    payload_json: String,
+    now: u64,
+) -> Result<SignedIdentityMessage, RefusalReason> {
+    if descriptor.principal_id != request.recipient_id || descriptor.polis_id != request.polis_id {
+        return Err(RefusalReason::IdentityUnavailable);
+    }
+    let encoded = std::fs::read_to_string(&descriptor.private_key_file)
+        .map_err(|_| RefusalReason::IdentityUnavailable)?;
+    let bytes = hex::decode(encoded.trim()).map_err(|_| RefusalReason::IdentityUnavailable)?;
+    let secret: [u8; 32] = bytes
+        .try_into()
+        .map_err(|_| RefusalReason::IdentityUnavailable)?;
+    let signing_key = SigningKey::from_bytes(&secret);
+    let mut acknowledgement = SignedIdentityMessage {
+        schema: ACIP_IDENTITY_MESSAGE_SCHEMA.to_owned(),
+        message_kind: IdentityMessageKind::Acknowledgement,
+        message_id: format!(
+            "{}-ack-{}",
+            descriptor.signing_key_id, request.monotonic_sequence
+        ),
+        sender_id: descriptor.principal_id.clone(),
+        recipient_id: request.sender_id.clone(),
+        polis_id: descriptor.polis_id.clone(),
+        conversation_id: request.conversation_id.clone(),
+        correlation_id: request.correlation_id.clone(),
+        causation_id: request.message_id.clone(),
+        replay_id: request.replay_id.clone(),
+        monotonic_sequence: request.monotonic_sequence,
+        issued_at_epoch_secs: now,
+        expires_at_epoch_secs: now.saturating_add(60),
+        payload_json,
+        signing_key_id: descriptor.signing_key_id.clone(),
+        signature: String::new(),
+    };
+    acknowledgement.signature = hex::encode(
+        signing_key
+            .sign(&acknowledgement.signing_bytes()?)
+            .to_bytes(),
+    );
+    Ok(acknowledgement)
 }
 
 impl Layer8SignedExchange {
@@ -106,9 +163,23 @@ impl Layer8SignedExchange {
         let sender = load(profile.sender)?;
         let mut recipients = BTreeMap::new();
         for descriptor in profile.recipients {
-            let identity = load(descriptor)?;
+            let bytes = hex::decode(&descriptor.verifying_key_hex)
+                .map_err(|_| RefusalReason::IdentityUnavailable)?;
+            let key: [u8; 32] = bytes
+                .try_into()
+                .map_err(|_| RefusalReason::IdentityUnavailable)?;
+            let identity = CommunicationVerifyingIdentity {
+                principal_id: descriptor.principal_id,
+                polis_id: descriptor.polis_id,
+                signing_key_id: descriptor.signing_key_id,
+                verifying_key: VerifyingKey::from_bytes(&key)
+                    .map_err(|_| RefusalReason::IdentityUnavailable)?,
+                revoked: descriptor.revoked,
+                not_before_epoch_secs: descriptor.not_before_epoch_secs,
+                expires_at_epoch_secs: descriptor.expires_at_epoch_secs,
+            };
             if recipients
-                .insert(identity.descriptor.principal_id.clone(), identity)
+                .insert(identity.principal_id.clone(), identity)
                 .is_some()
             {
                 return Err(RefusalReason::InvalidRequest);
@@ -146,29 +217,6 @@ impl Layer8SignedExchange {
         )
     }
 
-    pub fn recipient_acknowledgement(
-        &self,
-        request: &SignedIdentityMessage,
-        payload_json: String,
-        now: u64,
-    ) -> Result<SignedIdentityMessage, RefusalReason> {
-        let recipient = self
-            .recipients
-            .get(&request.recipient_id)
-            .ok_or(RefusalReason::IdentityUnavailable)?;
-        self.sign(
-            recipient,
-            IdentityMessageKind::Acknowledgement,
-            &request.sender_id,
-            &request.conversation_id,
-            &request.correlation_id,
-            &request.message_id,
-            &format!("ack:{}", request.replay_id),
-            payload_json,
-            now,
-        )
-    }
-
     pub fn verify_request_and_acknowledgement(
         &self,
         request: &SignedIdentityMessage,
@@ -180,7 +228,7 @@ impl Layer8SignedExchange {
             .recipients
             .get(&request.recipient_id)
             .ok_or(RefusalReason::IdentityUnavailable)?;
-        verify_recipient_acknowledgement(request, acknowledgement, &self.verifying(recipient), now)
+        verify_recipient_acknowledgement(request, acknowledgement, recipient, now)
     }
 
     pub fn verify_request(
@@ -209,7 +257,7 @@ impl Layer8SignedExchange {
     ) -> Result<CommunicationVerifyingIdentity, RefusalReason> {
         self.recipients
             .get(recipient_id)
-            .map(|identity| self.verifying(identity))
+            .cloned()
             .ok_or(RefusalReason::IdentityUnavailable)
     }
 
@@ -345,6 +393,7 @@ pub fn verify_recipient_acknowledgement(
         || acknowledgement.conversation_id != request.conversation_id
         || acknowledgement.correlation_id != request.correlation_id
         || acknowledgement.causation_id != request.message_id
+        || acknowledgement.replay_id != request.replay_id
     {
         return Err(RefusalReason::InvalidRequest);
     }

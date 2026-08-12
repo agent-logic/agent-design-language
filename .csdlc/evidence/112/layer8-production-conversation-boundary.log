@@ -1,9 +1,5 @@
-
-running 1 test
-test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
-
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.28s
-
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl-runtime-kernel)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.70s
-     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+source_tree: exact contents committed with this evidence
+command: cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress -- --exact
+result: PASS
+tests: 1 passed; 0 failed; 68 filtered out
+proof: merged #244 internal conversation test exercises signed request transport, recipient-agent acknowledgement production, canonical ingress projection, and control verification before delivered state

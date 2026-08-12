@@ -35,9 +35,12 @@ pre-existing capabilities, and separate agent and polis policies. A request is
 matched against those grants; it cannot manufacture a request-shaped grant or
 declare its own credential generation.
 
-The signing profile maps the sender and each recipient principal to a key id
-and an external Ed25519 private-key file. Key files contain one hex-encoded
-32-byte secret and are read only during Runtime initialization. They must not
+The signing profile maps the sender to an external Ed25519 private-key file and
+maps each recipient principal to only its public verification key. The agent
+execution boundary reads its own hex-encoded 32-byte secret from
+`ADL_LAYER8_RECIPIENT_KEY_DIR/<recipient-id>.key` when producing an
+acknowledgement; the control service never loads or possesses recipient private
+keys. Key material must not
 be stored in the repository, browser storage, Observatory payloads, audit
 records, or rendered output. The profile polis id must match the live Runtime
 instance.
