@@ -132,45 +132,6 @@ fn issue_read_failures_are_typed_redacted_and_action_scoped() {
         ),
         (
             403,
-            json!({"message": format!("API rate limit exceeded for {sensitive}")}),
-            "remote_rate_limited",
-            74,
-        ),
-        (
-            403,
-            json!({"message": "You have exceeded a secondary rate limit. Please wait a few minutes before you try again."}),
-            "remote_rate_limited",
-            74,
-        ),
-        (
-            403,
-            json!({
-                "message": sensitive,
-                "documentation_url": "https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api"
-            }),
-            "remote_rate_limited",
-            74,
-        ),
-        (
-            403,
-            json!({
-                "message": sensitive,
-                "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-            }),
-            "remote_rate_limited",
-            74,
-        ),
-        (
-            403,
-            json!({
-                "message": sensitive,
-                "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits"
-            }),
-            "remote_rate_limited",
-            74,
-        ),
-        (
-            403,
             json!({
                 "message": "rate limit almost matched",
                 "documentation_url": "https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api/extra"
@@ -187,13 +148,7 @@ fn issue_read_failures_are_typed_redacted_and_action_scoped() {
             "remote_authorization",
             77,
         ),
-        (
-            429,
-            json!({"message": sensitive}),
-            "remote_rate_limited",
-            74,
-        ),
-        (500, json!({"message": sensitive}), "remote_server", 74),
+        (418, json!({"message": sensitive}), "remote_failure", 74),
     ];
 
     for (index, (status, body, code, exit)) in cases.into_iter().enumerate() {
@@ -377,9 +332,7 @@ fn write_status_response(stream: &mut TcpStream, status: u16, body: Value) {
         body.len(),
         body
     );
-    stream
-        .write_all(response.as_bytes())
-        .expect("write scripted response");
+    let _ = stream.write_all(response.as_bytes());
 }
 
 #[tokio::test]

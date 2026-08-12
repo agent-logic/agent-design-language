@@ -858,14 +858,18 @@ fn classify_issue_read_error(
 }
 
 fn github_error_is_rate_limited(error: &octocrab::GitHubError) -> bool {
-    let message = error.message.trim().to_ascii_lowercase();
+    github_rate_limit_signal(&error.message, error.documentation_url.as_deref())
+}
+
+fn github_rate_limit_signal(message: &str, documentation_url: Option<&str>) -> bool {
+    let message = message.trim().to_ascii_lowercase();
     if message.starts_with("api rate limit exceeded")
         || message
             == "you have exceeded a secondary rate limit. please wait a few minutes before you try again."
     {
         return true;
     }
-    let Some(documentation_url) = error.documentation_url.as_deref() else {
+    let Some(documentation_url) = documentation_url else {
         return false;
     };
     let Ok(url) = url::Url::parse(documentation_url) else {
@@ -1590,6 +1594,31 @@ fn remote(error: octocrab::Error) -> crate::V2Error {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn rate_limit_signals_are_classified_without_network_retry_behavior() {
+        assert!(github_rate_limit_signal(
+            "API rate limit exceeded for fixture",
+            None
+        ));
+        assert!(github_rate_limit_signal(
+            "You have exceeded a secondary rate limit. Please wait a few minutes before you try again.",
+            None
+        ));
+        assert!(github_rate_limit_signal(
+            "ordinary message",
+            Some("https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api")
+        ));
+        assert!(github_rate_limit_signal(
+            "ordinary message",
+            Some("https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits")
+        ));
+        assert!(!github_rate_limit_signal(
+            "rate limit almost matched",
+            Some("https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api/extra")
+        ));
+    }
+
     fn packet(state: &str) -> PrStatePacket {
         PrStatePacket {
             schema: "x".into(),
