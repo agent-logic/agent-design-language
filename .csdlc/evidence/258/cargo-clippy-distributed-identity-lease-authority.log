@@ -1,0 +1,16 @@
+    Checking webpki-roots v1.0.9
+    Checking tungstenite v0.29.0
+   Compiling ring v0.17.14
+    Checking rustix v1.1.4
+    Checking pem v3.0.6
+    Checking yasna v0.6.0
+    Checking fastrand v2.4.1
+    Checking webpki-roots v0.26.11
+    Checking tokio-tungstenite v0.29.0
+    Checking axum v0.8.9
+    Checking tempfile v3.27.0
+    Checking rcgen v0.14.8
+    Checking utoipa-swagger-ui v9.0.2
+    Checking adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime-kernel)
+    Checking adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 16.17s
