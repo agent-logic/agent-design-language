@@ -7,23 +7,26 @@
     "title": "Add production birth-witness policy provisioning and invocation boundary",
     "slug": "runtime-birth-witness-boundary",
     "version": "1.0.0",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/birth_witness.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/tests/birth_witness.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\ninfra/runtime-v3/runtime-init.toml\n.csdlc/prepared/issues/5912\n.csdlc/evidence/5912\n.csdlc/issues/5912",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/birth_witness.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/tests/birth_witness.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\nadl-runtime/tests/guardian_cli.rs\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\ninfra/runtime-v3/runtime-init.toml\n.csdlc/prepared/issues/5912\n.csdlc/evidence/5912\n.csdlc/issues/5912",
+      "review_revision": "git-blake3:e467b82c0002f9aa0c4f19075b9ec65752d1c76e:1dfba2628cc90219bcadeed81095146848b091ae9a570499d297d41f0d24cb78",
+      "reviewer": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_final",
       "review_prompts": [
         "Can an external caller forge or bypass trusted birth-witness authority?",
         "Can any receipt be emitted before successful validation?",
         "Does the integration test exercise a non-test production consumer?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI remains pending after exact-head republication.",
+        "The lifecycle soak binary was compile-checked rather than executed, matching the declared focused runner."
+      ],
+      "review_result": "pass"
     }
   }
 }
