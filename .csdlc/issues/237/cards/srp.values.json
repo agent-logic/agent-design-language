@@ -7,15 +7,15 @@
     "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
     "slug": "birthday-continuity-binding-reconciliation",
     "version": "v0.92",
-    "generation": 27
+    "generation": 28
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/capability_envelope.rs\nadl-runtime-kernel/src/cognitive_profile.rs\nadl-runtime-kernel/tests/capability_envelope.rs\nadl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs",
+      "review_revision": "git-blake3:834be4fe9a99ad90aabe7f627f6ed9699efa55db:3929bcd1f3a03eebf8738702e70f6510776338f05b2723448cd15c55c5e3d59a",
+      "reviewer": "/root/review_237_opaque_authority",
       "review_prompts": [
         "Does capability verify the actual BirthdayContinuityRecord rather than trust a caller digest?",
         "Can any substituted head or identity binding pass?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

@@ -4,13 +4,38 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
-  "phase": "implemented",
-  "generation": 27,
-  "digest": "ee6a8cfaf9a8b1369f31ae71029744504b4c67f50dd0b708bc0302c290fdb30b",
+  "phase": "reviewed",
+  "generation": 28,
+  "digest": "520169d56498d1521ac34ac235763c7031aabfdb79a7e5aff40bab64d87fb096",
   "branch": "codex/237-continuity-binding-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/review_237_opaque_authority",
+    "assigned_by": "/root",
+    "revision": "git-blake3:834be4fe9a99ad90aabe7f627f6ed9699efa55db:3929bcd1f3a03eebf8738702e70f6510776338f05b2723448cd15c55c5e3d59a",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_237_opaque_authority",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs"
+    ],
+    "reviewed_revision": "git-blake3:834be4fe9a99ad90aabe7f627f6ed9699efa55db:3929bcd1f3a03eebf8738702e70f6510776338f05b2723448cd15c55c5e3d59a",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "134e6feaf88acfb04356f273bec9e079a2c83e4eee2608ff045d35238f3c3c08",
+      "values_digest": "9d6a16ae0c57d313c80291b15d6b32bff5cb58c37193cbac75f0559ba101e481",
       "rendered_digest": "0f6629e693297f8a2eb8e4e029f507657271276795d4b5bbd81755940bb86c8a",
       "ast_digest": "f46556d73fa2c09d0c6e681dc9740a8184e284e33ba7babeeebffb1d729a8123"
     },
     "stp": {
-      "values_digest": "ff2271fb39bd3cbab4b0f5fc4c48a2578e8a83fa8842d37dfc4873cc9724d7e8",
+      "values_digest": "7e8ee2609b89c67ba352fa50f004eb33ee51f7648f0eec72d445762183beaa4e",
       "rendered_digest": "f7a8004785b409a2efe1ac3ab53bdec813b55e2935ec1ba16dbc28347e9f67a1",
       "ast_digest": "166322a3cc6ed81aec67904d218571f122e03eb6b0ace1c165e6fb98c5f8aed3"
     },
     "spp": {
-      "values_digest": "d4316a112e13cf01ba6f96d7f9d3474560554598cf89d8ed758041b73e687a25",
+      "values_digest": "b6d48b280e5d1e8dc74d65e55ed98d85368a2b5f80397b93daf1843b629e013f",
       "rendered_digest": "b450d05bce819de9fbe2cec7217bbeb0e51ef033f0a02c7d9ce3f10b8f80eb74",
       "ast_digest": "d9f602f057aa0fcfed06aa78d84757689a4055c017bf6666cd221a63b494f402"
     },
     "vpp": {
-      "values_digest": "ec005789fafe61d5f122f5646645824d38bb770f570f2a3862c51a8d923b90f4",
+      "values_digest": "1eeda5ac7976a4fa75ea0dbddd3824e24de7c4c3e328529bff423b1a918f00b4",
       "rendered_digest": "6a13c547f3d29f0c261f0312823c2aa86e7a47ec2772f99a7e666c035d9fbbee",
       "ast_digest": "5e92538817ea1029ad69966a60af6f0bde2d8d2e49d9d44b3417095573fbfb3f"
     },
     "srp": {
-      "values_digest": "67201674645d3e8fe54c936d74df1bf91bbd4bd858d4a22a786f4c1937eed5ef",
-      "rendered_digest": "73e3a45137d9fa80b09504c4438ad098af6c21af0a3b6034c95905b5c1d1efb8",
-      "ast_digest": "9826ba27c212418af607a6e63d1dd36b52533885b603103ca717ec2709e7bb82"
+      "values_digest": "1978346a2114f481dd77a17ba16146c6aa6c8682031231090113f1c308fac6d1",
+      "rendered_digest": "cd195689f934ceb55ccf5e210145c0866c53a83dad788564e6916a2a120f7fa4",
+      "ast_digest": "03728e84f2ed1e48e181724537bed98e07c8c0f3ec43a174173c7977e9d5501b"
     },
     "sor": {
-      "values_digest": "eee1d741c58141f2ba17dbdcc3693de171f94e1f15309b79af3d8be76414edbe",
+      "values_digest": "05166595429d169c0740ce25da8ef4dae54af426605da79db29bb794358a3e4e",
       "rendered_digest": "e301d675e1de9fa52865f16918af241c100979c9d19f407a1ac3938d9577eee0",
       "ast_digest": "382d75f25dcbb8bb494d5ec06f2728a807ca36f3d3f98475e17ebe593e42253e"
     }
@@ -76,6 +101,13 @@
       "to": "implemented",
       "actor": "codex:sprint5-5836-blocker",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/review_237_opaque_authority",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -302,6 +334,20 @@
       "actor": "codex-sprint5-runtime",
       "reason": "Resolve exact-head authority and proof findings with the reviewer-approved LiveAssembly boundary and refreshed full proof.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"A successfully constructed LiveAssembly exclusively owns the unforgeable provisioning capability that establishes opaque capability authority for an exact verified continuity record; callers cannot self-authorize token substitution and publication remains pending.\",\"changes\":[\"Add private RuntimeCapabilityProvisioner state to LiveAssembly and expose reauthorization only as LiveAssembly::provision_capability_authority.\",\"Keep RuntimeCapabilityProvisioner construction/provisioning and CapabilityAuthorityPolicy construction crate-private with compile-fail external boundaries.\",\"Require the opaque capability authority at every public verified-continuity capability and governed-cognition build and validation entrypoint.\",\"Prove an actual production LiveAssembly provisions authority, retained authority A rejects a fully rewritten token-B capability and rebuilt cognition, and explicit assembly-owned reauthorization can authorize B.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\".csdlc/evidence/237/continuity-public-api-target.log\",\".csdlc/evidence/237/continuity-authority-lib.log\",\".csdlc/evidence/237/continuity-public-boundary-doc.log\",\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Prove public verified-continuity entrypoints remain exported.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Prove 80 Runtime library tests including LiveAssembly provisioning, real composition, token-B rewrite rejection, explicit reauthorization, authority, and privacy negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Prove ten compile-fail public authority boundaries including provisioner construction and direct new access.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the changed Runtime library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 27,
+      "actor": "/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 28,
+      "actor": "/root/review_237_opaque_authority",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
