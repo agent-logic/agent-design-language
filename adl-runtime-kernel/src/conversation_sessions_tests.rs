@@ -39,6 +39,7 @@ struct CleanupRaceReleaseGuard {
     hook: Arc<ConversationAttachmentTestHook>,
     execution: Arc<Semaphore>,
     execution_released: bool,
+    completed: bool,
 }
 
 impl CleanupRaceReleaseGuard {
@@ -46,13 +47,19 @@ impl CleanupRaceReleaseGuard {
         self.execution.add_permits(1);
         self.execution_released = true;
     }
+
+    fn complete(&mut self) {
+        self.completed = true;
+    }
 }
 
 impl Drop for CleanupRaceReleaseGuard {
     fn drop(&mut self) {
-        self.hook.release_all();
-        if !self.execution_released {
-            self.execution.add_permits(1);
+        if !self.completed {
+            self.hook.release_all();
+            if !self.execution_released {
+                self.execution.add_permits(1);
+            }
         }
     }
 }
@@ -69,6 +76,7 @@ fn cleanup_race_guard_releases_every_barrier_during_unwind() {
                 hook,
                 execution,
                 execution_released: false,
+                completed: false,
             };
             panic!("exercise cleanup-race fail-safe release");
         }
@@ -826,6 +834,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         hook: cleanup_hook.clone(),
         execution: barrier_release.clone(),
         execution_released: false,
+        completed: false,
     };
     socket
         .send(Message::Text(cleanup_race.to_string().into()))
@@ -898,6 +907,8 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     for task in scheduling_pressure {
         task.await.unwrap();
     }
+    assert_eq!(cleanup_hook.fail_safe_permits(), (0, 0));
+    cleanup_release.complete();
     drop(cleanup_release);
 
     let dispatches_before_turnover = dispatches.load(Ordering::SeqCst);
