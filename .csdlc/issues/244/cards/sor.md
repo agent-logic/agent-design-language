@@ -83,11 +83,11 @@ Stabilized the cleanup-race proof by queueing duplicate attachment behind re-aut
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
