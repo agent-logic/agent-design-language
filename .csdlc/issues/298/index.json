@@ -4,21 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 59,
-  "digest": "ced6c7b15028d118256edf5d2fb20274f389e33877145cd06155c2cfcf39e41e",
+  "generation": 60,
+  "digest": "27abb84705bc2278fcf76341ec1ab4ea63b3b72e80aa1ce3d52e71167727fc0e",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:55ba91a0-d036-4944-9adf-e468f63b182a",
-    "assigned_by": "codex:issue-298-r22-remediation",
-    "revision": "git-blake3:e77949bb4bcc4a69694bc3d7262da91d72a91f99:b84f75eabf9004f5a9c299e0514f0188fc0f1f8aeacb0d996146485179c25cc5",
-    "scope": [
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -34,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a44a6a4b8f2e1806179d9a51c79188963f7118c1cea7a4a9b0c11a579655b3d2",
+      "values_digest": "e8e9e5a7b55cee85498eb3493e2e040317e9a8eff8bfd9a6f28a6ed58ed28802",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "5d978609de16c926734708e5ab2fae9ac3e866c90169174219b4047302cdf92e",
+      "values_digest": "cb10d6f2dfd286b4f51fb5560a9b5e77f86a5db4d965b07e0271a9da9ca86499",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "d32add5c87ba13b4c16dfb269f236c71b0f4a70933f3a656bf19497fd6e80adf",
+      "values_digest": "49093efce2d737a190371ab9892db210310e37d061d048f7dac750df35233738",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "0d209d6e402c806f8dd5f5fc0f2f9acbe11bc6833f09eefa111c04e4f17db7fa",
+      "values_digest": "e8cc37275cf0b477e4ea61a22fd6c9f5af7cf28b114daa8dd9bdcfecf4e8791d",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "a99e4ad654f02a88756849750cf94c31fd76352d7ab3a1e8d6909e9fe8db2efb",
-      "rendered_digest": "5bdd4852390d5614f01a756242454e39c682d242b0e43b2b2d61b397c589c7d4",
-      "ast_digest": "7822c1bc1142120016e54fdbf89e094f2c992a5046728f32fa4bed56fe5847e9"
+      "values_digest": "45fa5c242483eb39227b75a56e1b8fbc5e5f1c617463d97a3793e897710d2eb2",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "8c058e6c9446ccf541ffe3f2aac61328a67f168d1acba0f4cc6db2127105da69",
+      "values_digest": "35fb5639b0c6e4b159496d60849104da59fa54e3d53673a25dce0327a89b8a29",
       "rendered_digest": "12aec94d4d381b2c3a134be3935f3bbefcf48cac4c3787bee7b5b04591771937",
       "ast_digest": "8bb288f3c13ec716496a0123f83d493abc7b056d43f4a6edd7f7da22feb572a7"
     }
@@ -724,6 +714,13 @@
       "actor": "codex:issue-298-r22-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 86,
+      "generation": 60,
+      "actor": "codex:issue-298-r23-remediation",
+      "reason": "Recover failed exact R23: the R22 execution summary overstated current durable validation relative to tracked evidence logs and SOR evidence references. Require evidence-aligned validation truth before R24; statx code review found no additional actionable issue.",
+      "operation": "recover_review"
     }
   ]
 }
