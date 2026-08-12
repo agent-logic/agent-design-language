@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Added the recovery-only typed authored-design refresh, full tuple approval and assignment guards, canonical linked-worktree locking, artifact alias/drift rejection, and append-only provenance.
+Implemented the typed authored-design refresh and fixed r1 final hardlink/ctime revalidation, Git-common serialized registered-worktree review assignment, and nonzero declared focused tests.
 
 ## Artifacts
 
@@ -20,20 +20,56 @@ Added the recovery-only typed authored-design refresh, full tuple approval and a
 - csdlc-v2/src/store.rs
 - csdlc-v2/src/review.rs
 - csdlc-v2/tests/card_identity.rs
-- .csdlc/prepared/issues/296/design.md
-- .csdlc/prepared/issues/296/diagram.mmd
 
 ## Execution
 
-- Add refresh_authored_design_after_recovery as an implemented SPP operation authorized only by current recover_review provenance and cleared downstream truth.
-- Atomically refresh SPP/VPP design and diagram digests, invalidate approval, and record prior approval plus old/new tuple provenance.
-- Require canonical fresh-session design approval and reject approval rewrites after review or publication authority exists.
-- Require assignment to observe the exact approved current design and diagram tuple before and under commit lock.
-- Reject pre-existing hardlink aliases and wrong registered-worktree invocation.
+- Reject final-open and final-read artifacts unless nlink remains one and ctime/identity remain stable.
+- Serialize review assignment with the Git-common binding lock and reject noncanonical registered worktrees.
+- Add the exact declared implemented_authored_design_refresh and linked_worktree filtered integration tests.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "card_identity",
+      "implemented_authored_design_refresh"
+    ],
+    "purpose": "Run the exact declared typed operation filter and prove it executes nonzero tests.",
+    "outcome": "passed",
+    "evidence_ref": "local:r1-remediation"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "card_identity",
+      "implemented_authored_design_refresh_linked_worktree"
+    ],
+    "purpose": "Run the exact declared linked-worktree/schema filter and prove it executes nonzero tests.",
+    "outcome": "passed",
+    "evidence_ref": "local:r1-remediation"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib"
+    ],
+    "purpose": "Run the complete library suite including late hardlink and phase/card authority negatives.",
+    "outcome": "passed",
+    "evidence_ref": "local:r1-remediation"
+  },
   {
     "command": [
       "cargo",
@@ -45,34 +81,9 @@ Added the recovery-only typed authored-design refresh, full tuple approval and a
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict all-target Clippy.",
+    "purpose": "Prove strict all-target lint cleanliness.",
     "outcome": "passed",
-    "evidence_ref": "csdlc-v2-strict-clippy.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--lib"
-    ],
-    "purpose": "Run the complete C-SDLC v2 library unit suite.",
-    "outcome": "passed",
-    "evidence_ref": "implemented-authored-design-refresh.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--test",
-      "card_identity"
-    ],
-    "purpose": "Run card identity integration proof.",
-    "outcome": "passed",
-    "evidence_ref": "implemented-authored-design-refresh-linked-worktree.log"
+    "evidence_ref": "local:r1-remediation"
   }
 ]
 
