@@ -8,9 +8,9 @@ use std::{
 };
 
 use super::{
-    build_birthday_continuity, validate_birthday_continuity_record, verify_birthday_cycles,
-    BirthdayContinuityAuthorityPolicy, BirthdayCycleEvidence, ContinuityGrade, ContinuityRejection,
-    VerifiedBirthdayCycle,
+    build_birthday_continuity, continuity_record_digest, validate_birthday_continuity_record,
+    verify_birthday_continuity_record, verify_birthday_cycles, BirthdayContinuityAuthorityPolicy,
+    BirthdayCycleEvidence, ContinuityGrade, ContinuityRejection, VerifiedBirthdayCycle,
 };
 use crate::{
     build_birthday_identity, derive_identity_root, verify_birthday_evidence, AliasBinding,
@@ -236,7 +236,7 @@ fn material() -> (
     (identity, policy, vec![first, second])
 }
 
-async fn real_live_material() -> (
+pub(crate) async fn real_live_material() -> (
     BirthdayIdentityRecord,
     BirthdayContinuityAuthorityPolicy,
     Vec<CheckpointManifest>,
@@ -306,7 +306,7 @@ async fn real_live_material() -> (
     (identity, policy, vec![second, third])
 }
 
-fn verify(
+pub(crate) fn verify(
     policy: &BirthdayContinuityAuthorityPolicy,
     identity: &BirthdayIdentityRecord,
     manifests: &[CheckpointManifest],
@@ -405,6 +405,46 @@ async fn continuity_record_replays_identically_across_two_signed_cycles() {
         let path = semantic_output_path(&path).expect("safe semantic output path");
         std::fs::create_dir_all(path.parent().unwrap()).unwrap();
         std::fs::write(path, serde_jcs::to_vec(&first).unwrap()).unwrap();
+    }
+}
+
+#[tokio::test]
+async fn verified_continuity_token_rejects_self_consistent_substitutions() {
+    let (identity, policy, manifests) = real_live_material().await;
+    let verified_cycles = verify(&policy, &identity, &manifests).unwrap();
+    let record = build_birthday_continuity(&identity, &verified_cycles).unwrap();
+    let token = verify_birthday_continuity_record(&record, &identity, &verified_cycles).unwrap();
+    assert_eq!(token.record(), &record);
+    assert_eq!(
+        token.identity_checkpoint_head(),
+        identity.continuity.head_sha256
+    );
+
+    for mut forged in [
+        {
+            let mut value = record.clone();
+            value.continuity_head = H.to_owned();
+            value
+        },
+        {
+            let mut value = record.clone();
+            value.identity_root = H.to_owned();
+            value
+        },
+        {
+            let mut value = record.clone();
+            value.identity_record_sha256 = H.to_owned();
+            value
+        },
+        {
+            let mut value = record.clone();
+            value.authority_context_sha256 = H.to_owned();
+            value.cycles.reverse();
+            value
+        },
+    ] {
+        forged.record_sha256 = continuity_record_digest(&forged).unwrap();
+        assert!(verify_birthday_continuity_record(&forged, &identity, &verified_cycles).is_err());
     }
 }
 

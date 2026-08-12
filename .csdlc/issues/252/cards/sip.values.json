@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 252,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Runtime: eliminate hosted Guardian executable spawn flake",
+    "slug": "guardian-hosted-spawn-flake",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Eliminate the deterministic hosted Runtime CI cause that makes valid Guardian test children intermittently surface as SpawnFailed.",
+      "required_outcome": "The two observed Guardian regressions and the full required Runtime lane resolve child executables independently of test order and caller cwd while genuine missing programs remain fail-closed.",
+      "declared_scope": [
+        "adl-runtime/src/guardian.rs",
+        "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+        "Focused Guardian spawn-fixture proof"
+      ],
+      "authority_boundary": [
+        "Production Guardian spawn errors remain fail-closed",
+        "Issue #252 owns only executable resolution/invocation at the Guardian fixture boundary",
+        "PR #243 birth-witness semantics remain unchanged"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 only",
+        "Use repository or Git-common paths and never /private/tmp",
+        "Run no optional or paid CI",
+        "Do not merge without explicit authorization"
+      ]
+    }
+  }
+}

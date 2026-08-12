@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 237,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
+    "slug": "birthday-continuity-binding-reconciliation",
+    "version": "v0.92",
+    "generation": 34
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/birthday_continuity.rs\nadl-runtime-kernel/src/capability_envelope.rs\nadl-runtime-kernel/src/cognitive_profile.rs\nadl-runtime-kernel/tests/capability_envelope.rs\nadl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\nadl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs\nadl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\nadl-runtime-kernel/src/parity.rs\nadl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs\nadl-runtime-kernel/tests/parity.rs\n.csdlc/issues/237",
+      "review_revision": "git-blake3:7ce5852bcae2cb1f7c418a0d833c788841c0f0f1:bd1b292b3a57c60f7c940f9eac61f8cbb91d3b886fcf3fd0655d601318b017a4",
+      "reviewer": "/root/fix_5833_birth_witness_runtime/review_237_fresh_integrated",
+      "review_prompts": [
+        "Does capability verify the actual BirthdayContinuityRecord rather than trust a caller digest?",
+        "Can any substituted head or identity binding pass?",
+        "Did the change weaken authority signatures, policy/evidence digests, or privacy?",
+        "Is the real positive free of fixtures and cached proof?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Required hosted Runtime CI and live PR mergeability remain publication gates."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
