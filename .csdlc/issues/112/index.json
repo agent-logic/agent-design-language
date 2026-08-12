@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "implemented",
-  "generation": 64,
-  "digest": "b21bc4719cfeddac3441604cbaf4073bc13b09b360f0e6e438d40565cf8fae72",
+  "generation": 66,
+  "digest": "fa06b140c2015bf0829031589679f318dc40bd779f3520afd78da426f28a2334",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "32c1c87366356aafa8ea39240e7126bd9cf8de923bf0533ceadd56b5aacf7ab5",
+      "values_digest": "2012d12c258d1a6885fbdcfee050d50589759b19c507fc7338219536fefd839e",
       "rendered_digest": "763f72e23eca9a11445e9b4d220d9cc981c5fa377d95e42c1b0d7e8eb68ed3d5",
       "ast_digest": "0aaa623967e2a41df9806dc44b09a94c7a8072f348027f43f8529596dffae49d"
     },
     "stp": {
-      "values_digest": "ba6c6f6a395b17ca1f247e25ad6700d71a63f20d35277cf425d6ceaf13103c02",
+      "values_digest": "3b00c2c6bcc620546c657f109c0a73b5d6db2c790d11b9a30c222eaf925c10cf",
       "rendered_digest": "c24d9c4cfc7d3c15ecade4c460f46c246bb94c466fc3a70d158f614fef3a855e",
       "ast_digest": "c55db8df8b630ef9fcc4a3327f4bf4ca6ea2c641b1f7a67c1cbc1554a3db63c9"
     },
     "spp": {
-      "values_digest": "ef13d141a456f6e080fbc1c4969fbf9184c1b8e9412cf41a3e5ddf8b7e06f578",
+      "values_digest": "ff7f29b465833ac08fec0bbdd4d9fd4c410d4dc136195140c9718952d4df006d",
       "rendered_digest": "91450569b5db0092712cd5eefd062ca05d6d17c47e19ea84c2ec4e326529d5a0",
       "ast_digest": "66b7110872a3513f90e21b9cc29181a2b864e78702542a9011fefdd25ff52406"
     },
     "vpp": {
-      "values_digest": "829bc23e89559448852e682a1af59c23ef98238e3cb3c85d7f6b4398282a27c0",
+      "values_digest": "eddcbb16bcc5189e8ebb16bf866d9f988b394f615a23dec0c288282f0e270460",
       "rendered_digest": "f958b2a97bf3fe647bcb71a2182d49b0410700c6d5f32de5c41795fc1bb8a18d",
       "ast_digest": "2aaa83f4c7517a477ad4df28797069476a90610bea53d15d8d8b565978c70783"
     },
     "srp": {
-      "values_digest": "484c06a17cdb806ec66255cf9f9245e75c1484617f54727e76ae11454a4ff3da",
+      "values_digest": "f361e4ca6f1f38462d6f6e05e978687411c2d00419240c54c437a2702a48f894",
       "rendered_digest": "ffad1abe27504799460e66a2250c2cb18a905279f32aa689113c1bc8d79ae449",
       "ast_digest": "5fdc0376fb859469f30455c3dd580055edfcafda99da1178ef13470bcd0c1402"
     },
     "sor": {
-      "values_digest": "3bd9ce8fb4f07aee4a68dde9ed11f15f9e5253365f7167293238c5a0a057db43",
-      "rendered_digest": "9e903fc0bb35ffb880de96506251abbb82d95ca4b6a7040c7253134795d204b1",
-      "ast_digest": "91e71ef5542b94919a61b8b6ef4977023fd743db2441a2b67f085ef9e4a4db32"
+      "values_digest": "e5dc050dc39b8285d9db3f78654d47f96b76e59f6f10c2c81eea05d8951bba6a",
+      "rendered_digest": "309420a0fb1eff9f84c6cd6115160f78788406574f31dc9e704a26865a5cf30d",
+      "ast_digest": "80691f360a9af8a82a96533c75dc61969db45ed30776dfa3d14089b2f080867f"
     }
   },
   "transitions": [
@@ -652,6 +652,27 @@
       "actor": "codex-session-112",
       "reason": "replace cumulative execution truth with decomposed issue 112 Layer 8 authority core proof",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Forward-recovered the authoritative bound #112 branch to the decomposed Layer 8 authority core: preserved the historical cumulative evidence, removed child-owned Runtime ingress/API/Observatory product scope from the net product diff, aligned the runtime-kernel authority core with reviewed reference commit 613fddc9c017781420cb1854834c7376e96485b0, and validated the focused runtime-kernel core lanes.\",\"changes\":[\"Cleared the superseded cumulative review assignment through typed csdlc-review recover, preserving audit history.\",\"Reapproved the core-only design and diagram through typed csdlc-edit approve-design.\",\"Restored child-owned Runtime ingress, Runtime API, Observatory, and feature-doc product files to origin/main or removed added child-only files from the net #112 diff.\",\"Aligned adl-runtime-kernel/src/layer8_authority/{audit.rs,exchange.rs,identity.rs,mod.rs}, adl-runtime-kernel/src/lib.rs, and adl-runtime-kernel/tests/layer8_authority.rs with the reviewed core reference behavior.\",\"Bound signed identity messages and communication identities to credential generation and rejected stale-generation signed messages.\",\"Narrowed typed lifecycle declared scope, authority boundary, deliverables, acceptance criteria, plan steps, affected areas, validation lanes, and review prompts to the Layer 8 authority core where supported by the v2 owner binary.\"],\"artifacts\":[\"adl-runtime-kernel/src/layer8_authority/audit.rs\",\"adl-runtime-kernel/src/layer8_authority/exchange.rs\",\"adl-runtime-kernel/src/layer8_authority/identity.rs\",\"adl-runtime-kernel/src/layer8_authority/mod.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/layer8_authority.rs\",\".csdlc/issues/112\",\".csdlc/prepared/issues/112/design.md\",\".csdlc/prepared/issues/112/diagram.mmd\",\".csdlc/evidence/112/layer8-authority-core-tests-forward.log\",\".csdlc/evidence/112/layer8-authority-core-fmt-forward.log\",\".csdlc/evidence/112/layer8-authority-core-clippy-forward.log\",\".csdlc/evidence/112/layer8-authority-core-diff-check-forward.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"layer8_authority\",\"--\",\"--nocapture\"],\"purpose\":\"Run the focused Layer 8 authority core integration test target with nonzero selection.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-tests-forward.log (1 passed)\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Verify runtime-kernel Rust formatting for the core recovery diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-fmt-forward.log (empty output; exit 0)\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Enforce strict warning-free clippy for the runtime-kernel crate and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-clippy-forward.log (exit 0)\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace and conflict-marker hygiene for the forward recovery diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-diff-check-forward.log (empty output; exit 0)\"}]}"
+    },
+    {
+      "sequence": 81,
+      "generation": 64,
+      "actor": "codex-session-112",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 82,
+      "generation": 65,
+      "actor": "codex-session-112",
+      "reason": "recover after exact-head review found actionable core recovery findings",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 83,
+      "generation": 66,
+      "actor": "codex-session-112",
+      "reason": "record exact-head review finding fixes and expanded core validation",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Forward-recovered the authoritative bound #112 branch to the decomposed Layer 8 signed authority core and remediated exact-head review findings: identity precheck refusals now enter the hash-chained audit path, focused tests now cover the claimed core refusal/signature/audit matrix, and the stale executable preparation validator was removed from current artifacts.\",\"changes\":[\"Cleared stale review assignment through typed csdlc-review recover after exact-head review findings.\",\"Routed identity mismatch, stale sender generation, revoked sender, and expired sender precheck refusals through Layer8AuthorityStore so redacted hash-chain audit records are appended before the public refusal returns.\",\"Preserved fail-closed public refusal semantics while hashing correlation IDs and omitting raw secret/content/provider/private-cognition fields from audit records.\",\"Expanded focused runtime-kernel tests from one integration test to four tests covering replay and known-recipient behavior, audited identity precheck refusals, revoked/stale capability, unavailable policy, corrupt audit state, non-canonical payload rejection, request tamper, and acknowledgement substitution.\",\"Removed .csdlc/prepared/issues/112/validate-preparation.rb from the current prepared artifacts because it was a stale ready-phase/API/UI validator and contradicted the forward-recovered core-only implemented state.\",\"Kept #265 Runtime ingress, #270 served acknowledgement/API protocol, #271 Observatory UI, durable history, rooms, roster, presence, #114/#115/#117, and sibling work out of the current net product diff.\"],\"artifacts\":[\"adl-runtime-kernel/src/layer8_authority/audit.rs\",\"adl-runtime-kernel/src/layer8_authority/mod.rs\",\"adl-runtime-kernel/tests/layer8_authority.rs\",\".csdlc/prepared/issues/112/validate-preparation.rb\",\".csdlc/evidence/112/layer8-authority-core-tests-forward.log\",\".csdlc/evidence/112/layer8-authority-core-fmt-forward.log\",\".csdlc/evidence/112/layer8-authority-core-clippy-forward.log\",\".csdlc/evidence/112/layer8-authority-core-diff-check-forward.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"layer8_authority\",\"--\",\"--nocapture\"],\"purpose\":\"Run the focused Layer 8 authority core integration target covering audited precheck refusals, capability/policy/audit failure, replay, signature/payload tamper, acknowledgement substitution, and known-recipient behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-tests-forward.log (4 passed)\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Verify runtime-kernel Rust formatting for the review-fix diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-fmt-forward.log (empty output; exit 0)\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Enforce strict warning-free clippy for the runtime-kernel crate and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-clippy-forward.log (exit 0)\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace and conflict-marker hygiene for the review-fix diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/112/layer8-authority-core-diff-check-forward.log (empty output; exit 0)\"}]}"
     }
   ]
 }

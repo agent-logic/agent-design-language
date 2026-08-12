@@ -4,7 +4,6 @@ use std::collections::BTreeSet;
 
 use ed25519_dalek::VerifyingKey;
 use serde::{Deserialize, Serialize};
-use sha2::{Digest, Sha256};
 
 mod audit;
 mod exchange;
@@ -75,6 +74,7 @@ pub struct AuthorityRequest {
     pub replay_id: String,
     pub correlation_id: String,
     pub now_epoch_secs: u64,
+    pub prechecked_refusal: Option<RefusalReason>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -192,7 +192,8 @@ impl Layer8ConversationAuthority {
         correlation_id: String,
         now_epoch_secs: u64,
     ) -> AuthorityDecision {
-        if authenticated_sender.principal_id != self.profile.evidence.principal_id
+        let prechecked_refusal = if authenticated_sender.principal_id
+            != self.profile.evidence.principal_id
             || authenticated_sender.polis_id != self.profile.evidence.polis_id
             || authenticated_sender.signing_key_id != self.profile.evidence.signing_key_id
             || authenticated_sender.credential_generation
@@ -202,21 +203,10 @@ impl Layer8ConversationAuthority {
                 .as_deref()
                 != Some(authenticated_sender.verifying_key.as_bytes())
         {
-            return AuthorityDecision::Refused(PublicRefusal {
-                authorized: false,
-                reason: RefusalReason::IdentityUnavailable,
-                retryable: false,
-                correlation_id: public_correlation_id(&correlation_id),
-            });
-        }
-        if let Err(reason) = authenticated_sender.ensure_valid_at(now_epoch_secs) {
-            return AuthorityDecision::Refused(PublicRefusal {
-                authorized: false,
-                reason,
-                retryable: false,
-                correlation_id: public_correlation_id(&correlation_id),
-            });
-        }
+            Some(RefusalReason::IdentityUnavailable)
+        } else {
+            authenticated_sender.ensure_valid_at(now_epoch_secs).err()
+        };
         let request = AuthorityRequest {
             evidence: self.profile.evidence.clone(),
             action: action.clone(),
@@ -226,6 +216,7 @@ impl Layer8ConversationAuthority {
             replay_id,
             correlation_id: correlation_id.clone(),
             now_epoch_secs,
+            prechecked_refusal,
         };
         let principal = match request.evidence.derive_principal(now_epoch_secs) {
             Ok(principal) => principal,
@@ -254,13 +245,6 @@ impl Layer8ConversationAuthority {
         self.store
             .authorize(request, capability, agent_policy, polis_policy)
     }
-}
-
-fn public_correlation_id(value: &str) -> String {
-    Sha256::digest(value.as_bytes())
-        .iter()
-        .map(|byte| format!("{byte:02x}"))
-        .collect()
 }
 
 fn candidate_matches(

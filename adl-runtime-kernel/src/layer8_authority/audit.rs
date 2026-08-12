@@ -152,15 +152,17 @@ impl Layer8AuthorityStore {
         *state = current;
         let replay_hash = hash_text(&request.replay_id);
         let principal = request.evidence.derive_principal(request.now_epoch_secs);
-        let reason = validate(
-            &request,
-            principal.as_ref().ok(),
-            capability,
-            agent_policy,
-            polis_policy,
-            &state.replay_hashes,
-            &replay_hash,
-        );
+        let reason = request.prechecked_refusal.or_else(|| {
+            validate(
+                &request,
+                principal.as_ref().ok(),
+                capability,
+                agent_policy,
+                polis_policy,
+                &state.replay_hashes,
+                &replay_hash,
+            )
+        });
         let authorized = reason.is_none();
         let principal_hash = principal
             .as_ref()

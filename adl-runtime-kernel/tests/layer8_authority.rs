@@ -1,9 +1,10 @@
 use adl_runtime_kernel::layer8_authority::{
     sign_recipient_acknowledgement, AuthorityDecision, AuthorityScope, CommunicationKeyDescriptor,
-    CommunicationVerifyingDescriptor, ConversationAuthorityProfile, ConversationSigningProfile,
-    IdentityMessageKind, Layer8Action, Layer8AuthorityStore, Layer8Capability,
-    Layer8ConversationAuthority, Layer8Policy, Layer8SignedExchange, PublicRefusal, RefusalReason,
-    RuntimeIdentityEvidence, SignedIdentityMessage, ACIP_IDENTITY_MESSAGE_SCHEMA,
+    CommunicationVerifyingDescriptor, CommunicationVerifyingIdentity, ConversationAuthorityProfile,
+    ConversationSigningProfile, IdentityMessageKind, Layer8Action, Layer8AuthorityStore,
+    Layer8Capability, Layer8ConversationAuthority, Layer8Policy, Layer8SignedExchange,
+    PublicRefusal, RefusalReason, RuntimeIdentityEvidence, SignedIdentityMessage,
+    ACIP_IDENTITY_MESSAGE_SCHEMA,
 };
 use ed25519_dalek::{Signer, SigningKey};
 use std::{
@@ -106,6 +107,98 @@ fn signed_request_for_sender(
             .to_bytes(),
     );
     message
+}
+
+fn audit_lines(path: &Path) -> usize {
+    std::fs::read_to_string(path)
+        .unwrap_or_default()
+        .lines()
+        .count()
+}
+
+fn identity_from_descriptor(
+    descriptor: &CommunicationVerifyingDescriptor,
+) -> CommunicationVerifyingIdentity {
+    let bytes = hex::decode(&descriptor.verifying_key_hex).unwrap();
+    let bytes: [u8; 32] = bytes.try_into().unwrap();
+    CommunicationVerifyingIdentity {
+        principal_id: descriptor.principal_id.clone(),
+        polis_id: descriptor.polis_id.clone(),
+        signing_key_id: descriptor.signing_key_id.clone(),
+        credential_generation: descriptor.credential_generation,
+        verifying_key: ed25519_dalek::VerifyingKey::from_bytes(&bytes).unwrap(),
+        revoked: descriptor.revoked,
+        not_before_epoch_secs: descriptor.not_before_epoch_secs,
+        expires_at_epoch_secs: descriptor.expires_at_epoch_secs,
+    }
+}
+
+fn core_authority_with(
+    root: &Path,
+    update_capability: impl FnOnce(&mut Layer8Capability),
+    update_agent_policy: impl FnOnce(&mut Layer8Policy),
+    update_polis_policy: impl FnOnce(&mut Layer8Policy),
+) -> (Layer8ConversationAuthority, CommunicationVerifyingIdentity) {
+    let sender_descriptor = verifying("operator", [21; 32]);
+    let sender_identity = {
+        let descriptor = sender_descriptor.clone();
+        RuntimeIdentityEvidence {
+            principal_id: descriptor.principal_id,
+            polis_id: descriptor.polis_id,
+            signing_key_id: descriptor.signing_key_id,
+            verifying_key_hex: descriptor.verifying_key_hex,
+            credential_generation: descriptor.credential_generation,
+            current_credential_generation: descriptor.credential_generation,
+            expires_at_epoch_secs: NOW + 60,
+            revoked: false,
+            authenticated: true,
+        }
+    };
+    let scope = AuthorityScope {
+        polis_id: "polis-a".to_string(),
+        action: Layer8Action::Contact,
+        conversation_id: Some("conversation-1".to_string()),
+        recipients: BTreeSet::from(["agent".to_string()]),
+        attachment_id: None,
+    };
+    let mut capability = Layer8Capability {
+        capability_id: "capability-1".to_string(),
+        principal_id: sender_identity.principal_id.clone(),
+        scope: scope.clone(),
+        epoch: 1,
+        expires_at_epoch_secs: NOW + 60,
+        revoked: false,
+    };
+    let mut agent_policy = Layer8Policy {
+        policy_id: "agent-policy-1".to_string(),
+        available: true,
+        scope: scope.clone(),
+        epoch: 1,
+    };
+    let mut polis_policy = Layer8Policy {
+        policy_id: "polis-policy-1".to_string(),
+        available: true,
+        scope,
+        epoch: 1,
+    };
+    update_capability(&mut capability);
+    update_agent_policy(&mut agent_policy);
+    update_polis_policy(&mut polis_policy);
+    let authority = Layer8ConversationAuthority::new(
+        Layer8AuthorityStore::open(root.join("audit.jsonl")).unwrap(),
+        ConversationAuthorityProfile {
+            evidence: sender_identity.clone(),
+            capabilities: vec![capability],
+            agent_policies: vec![agent_policy],
+            polis_policies: vec![polis_policy],
+        },
+    )
+    .unwrap();
+    (authority, identity_from_descriptor(&sender_descriptor))
+}
+
+fn core_authority(root: &Path) -> (Layer8ConversationAuthority, CommunicationVerifyingIdentity) {
+    core_authority_with(root, |_| {}, |_| {}, |_| {})
 }
 
 #[test]
@@ -322,4 +415,216 @@ fn layer8_authority_core_rejects_replay_and_requires_known_recipient() {
             panic!("expected public refusal with redacted correlation id, got {grant:?}");
         }
     }
+}
+
+#[test]
+fn layer8_identity_precheck_refusals_are_hash_chain_audited() {
+    let root = TestRoot::new("identity-precheck-audit");
+    let audit_path = root.path().join("audit.jsonl");
+    let (authority, sender) = core_authority(root.path());
+
+    let mut stale_generation = sender.clone();
+    stale_generation.credential_generation = 2;
+    assert!(matches!(
+        authority.authorize(
+            &stale_generation,
+            Layer8Action::Contact,
+            "conversation-1".to_string(),
+            "agent".to_string(),
+            "replay-stale-generation".to_string(),
+            "SECRET-stale-generation".to_string(),
+            NOW,
+        ),
+        AuthorityDecision::Refused(PublicRefusal {
+            reason: RefusalReason::IdentityUnavailable,
+            ..
+        })
+    ));
+    assert_eq!(audit_lines(&audit_path), 1);
+    assert!(!std::fs::read_to_string(&audit_path)
+        .unwrap()
+        .contains("SECRET-stale-generation"));
+
+    let mut revoked = sender.clone();
+    revoked.revoked = true;
+    assert!(matches!(
+        authority.authorize(
+            &revoked,
+            Layer8Action::Contact,
+            "conversation-1".to_string(),
+            "agent".to_string(),
+            "replay-revoked".to_string(),
+            "correlation-revoked".to_string(),
+            NOW,
+        ),
+        AuthorityDecision::Refused(PublicRefusal {
+            reason: RefusalReason::IdentityRevoked,
+            ..
+        })
+    ));
+    assert_eq!(audit_lines(&audit_path), 2);
+
+    let mut expired = sender;
+    expired.expires_at_epoch_secs = NOW;
+    assert!(matches!(
+        authority.authorize(
+            &expired,
+            Layer8Action::Contact,
+            "conversation-1".to_string(),
+            "agent".to_string(),
+            "replay-expired".to_string(),
+            "correlation-expired".to_string(),
+            NOW,
+        ),
+        AuthorityDecision::Refused(PublicRefusal {
+            reason: RefusalReason::IdentityExpired,
+            ..
+        })
+    ));
+    assert_eq!(audit_lines(&audit_path), 3);
+}
+
+#[test]
+fn layer8_capability_policy_and_corrupt_audit_fail_closed() {
+    let revoked_root = TestRoot::new("capability-revoked");
+    let (revoked_authority, sender) = core_authority_with(
+        revoked_root.path(),
+        |capability| capability.revoked = true,
+        |_| {},
+        |_| {},
+    );
+    assert!(matches!(
+        revoked_authority.authorize(
+            &sender,
+            Layer8Action::Contact,
+            "conversation-1".to_string(),
+            "agent".to_string(),
+            "replay-revoked-capability".to_string(),
+            "correlation-revoked-capability".to_string(),
+            NOW,
+        ),
+        AuthorityDecision::Refused(PublicRefusal {
+            reason: RefusalReason::CapabilityRevoked,
+            ..
+        })
+    ));
+    assert_eq!(audit_lines(&revoked_root.path().join("audit.jsonl")), 1);
+
+    let stale_root = TestRoot::new("capability-stale");
+    let (stale_authority, sender) = core_authority_with(
+        stale_root.path(),
+        |capability| capability.epoch = 0,
+        |_| {},
+        |_| {},
+    );
+    assert!(matches!(
+        stale_authority.authorize(
+            &sender,
+            Layer8Action::Contact,
+            "conversation-1".to_string(),
+            "agent".to_string(),
+            "replay-stale-capability".to_string(),
+            "correlation-stale-capability".to_string(),
+            NOW,
+        ),
+        AuthorityDecision::Refused(PublicRefusal {
+            reason: RefusalReason::StaleCapability,
+            ..
+        })
+    ));
+    assert_eq!(audit_lines(&stale_root.path().join("audit.jsonl")), 1);
+
+    let policy_root = TestRoot::new("policy-unavailable");
+    let (policy_authority, sender) = core_authority_with(
+        policy_root.path(),
+        |_| {},
+        |policy| policy.available = false,
+        |_| {},
+    );
+    assert!(matches!(
+        policy_authority.authorize(
+            &sender,
+            Layer8Action::Contact,
+            "conversation-1".to_string(),
+            "agent".to_string(),
+            "replay-policy-unavailable".to_string(),
+            "correlation-policy-unavailable".to_string(),
+            NOW,
+        ),
+        AuthorityDecision::Refused(PublicRefusal {
+            reason: RefusalReason::PolicyUnavailable,
+            ..
+        })
+    ));
+    assert_eq!(audit_lines(&policy_root.path().join("audit.jsonl")), 1);
+
+    let corrupt_root = TestRoot::new("corrupt-audit");
+    let audit_path = corrupt_root.path().join("audit.jsonl");
+    std::fs::write(&audit_path, b"{not-json}\n").unwrap();
+    assert!(matches!(
+        Layer8AuthorityStore::open(&audit_path),
+        Err(RefusalReason::AuditUnavailable)
+    ));
+}
+
+#[test]
+fn layer8_signed_exchange_rejects_tamper_noncanonical_payloads_and_ack_substitution() {
+    let root = TestRoot::new("signed-exchange-tamper");
+    let operator_key = key(root.path(), "operator", [21; 32]);
+    let agent_key = key(root.path(), "agent", [22; 32]);
+    let exchange = Layer8SignedExchange::load(ConversationSigningProfile {
+        sender: operator_key,
+        recipients: vec![verifying("agent", [22; 32])],
+    })
+    .unwrap();
+
+    assert_eq!(
+        exchange.signed_request(
+            "agent",
+            "conversation-1",
+            "correlation-noncanonical",
+            "replay-noncanonical",
+            r#"{"z":1,"a":2}"#.to_string(),
+            NOW,
+        ),
+        Err(RefusalReason::InvalidRequest)
+    );
+
+    let request = exchange
+        .signed_request(
+            "agent",
+            "conversation-1",
+            "correlation-1",
+            "replay-1",
+            r#"{"intent":"contact"}"#.to_string(),
+            NOW,
+        )
+        .unwrap();
+    let mut tampered_request = request.clone();
+    tampered_request.recipient_id = "other-agent".to_string();
+    assert_eq!(
+        exchange.verify_request(&tampered_request, NOW),
+        Err(RefusalReason::IdentityUnavailable)
+    );
+
+    let mut tampered_payload = request.clone();
+    tampered_payload.payload_json = r#"{"intent":"other"}"#.to_string();
+    assert_eq!(
+        exchange.verify_request(&tampered_payload, NOW),
+        Err(RefusalReason::IdentityUnavailable)
+    );
+
+    let acknowledgement = sign_recipient_acknowledgement(
+        &request,
+        &agent_key,
+        r#"{"accepted":true}"#.to_string(),
+        NOW,
+    )
+    .unwrap();
+    let mut substituted_ack = acknowledgement.clone();
+    substituted_ack.causation_id = "other-message".to_string();
+    assert_eq!(
+        exchange.verify_request_and_acknowledgement(&request, &substituted_ack, NOW),
+        Err(RefusalReason::InvalidRequest)
+    );
 }
