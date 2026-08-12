@@ -6,10 +6,21 @@
   "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
   "phase": "implemented",
   "generation": 5,
-  "digest": "d743d6c44fe5c01053362fbf38f75afc7fb4aa781d73f36ed1eae4cb7e2d10d1",
+  "digest": "05c18a5afd39702a8d6bbbf04521ff07e2e55550e6e7360764e113b46c3a054f",
   "branch": "codex/301-title-only-operation-provenance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:affc117c-dc0d-4d0b-a616-a4282cfbecfe",
+    "assigned_by": "codex:issue-301",
+    "revision": "git-blake3:e5ff59cf058a78c497f48130817450ff18ce404d:cffa4025b784d7a5cb8d235c4fd2c9e7cbf2a94c1c528cbeb0bfd35d30d3b9ee",
+    "scope": [
+      ".csdlc/issues/301",
+      ".csdlc/prepared/issues/301",
+      ".csdlc/evidence/301",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
     },
     "srp": {
-      "values_digest": "00cf8d588358b6fd0a967fa1e2ce5af34a0f0b5e611b5f102a29d41532c10be6",
-      "rendered_digest": "0e7f76fc82f49b972571d93968afa1cb6f3a1e51ef4869d925fbefa4df3351ae",
-      "ast_digest": "c31d6fd03a9421c6ba4240c9c4e0230666c7a9d7d79197bf566ddbc2e61e1747"
+      "values_digest": "8768ba15755263ceafe442718907d93158c67fcc5565bb3b661edc374f45153c",
+      "rendered_digest": "f28263cdbb4223cf1dbda538d67102bd14a29ad85596868a6ff6420e89926e64",
+      "ast_digest": "7c0196aca294b74e4c7316a55f54ff5377a719f3c2cedf38aeea80e3e560ef7b"
     },
     "sor": {
       "values_digest": "1804e690488fc406da90f808674cf263722a60a47b9c4cb1e877140cc949a3f8",
@@ -127,6 +138,13 @@
       "actor": "codex:issue-301",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-301",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

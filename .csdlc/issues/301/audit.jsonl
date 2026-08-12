@@ -5,3 +5,4 @@
 {"sequence":5,"generation":4,"actor":"codex:issue-301-design-remediation","reason":"Doctor reports #301 design and card packet ready after fresh design approval; enter ready phase before binding.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
 {"sequence":6,"generation":4,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":7,"generation":5,"actor":"codex:issue-301","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":8,"generation":5,"actor":"codex:issue-301","reason":"assign bounded exact-revision review","operation":"assign_review"}
