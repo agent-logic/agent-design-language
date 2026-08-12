@@ -174,6 +174,18 @@ fn issue_203_authority_store_boundary_guardrails_are_bound() {
     );
     assert_contains(
         fencing,
+        "pub fn authorize_active_lease(\n        &self,\n        _access: &FencingStoreAccess,",
+    );
+    assert_not_contains(
+        fencing,
+        "pub fn authorize_active_lease(&self, check: ActiveLeaseCheck",
+    );
+    assert_contains(
+        adapters,
+        ".authorize_active_lease(&AUTHORITY_BOUND_FENCING_ACCESS, check)",
+    );
+    assert_contains(
+        fencing,
         "if check.now_unix_millis < floor.safety_deadline_unix_millis",
     );
     assert_contains(

@@ -534,7 +534,7 @@ impl AuthorityBoundFencingStore {
         self.store
             .lock()
             .map_err(|_| AuthorityStoreAdapterError::LockPoisoned)?
-            .authorize_active_lease(check)
+            .authorize_active_lease(&AUTHORITY_BOUND_FENCING_ACCESS, check)
             .map_err(Into::into)
     }
 

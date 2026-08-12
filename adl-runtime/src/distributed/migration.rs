@@ -599,9 +599,11 @@ impl MigrationStore {
             .checked_add(request.timeout_millis)
             .ok_or(MigrationError::ResourceExhausted)?;
         validate_source_request(&request, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(
+            fencing,
+            copy_active_check(&source_check),
+            MigrationError::SourceAuthorityRejected,
+        )?;
         let decision = placement
             .decide(placement_request, placement_inputs)
             .map_err(|_| MigrationError::PlacementRejected)?;
@@ -700,9 +702,11 @@ impl MigrationStore {
         let current = self.required_record(migration_id)?.clone();
         let remaining_timeout_millis = self.ensure_live(&current)?;
         validate_source_record(&current, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(
+            fencing,
+            copy_active_check(&source_check),
+            MigrationError::SourceAuthorityRejected,
+        )?;
         let receipt = authority
             .quiesce(quiescence_request(&current, remaining_timeout_millis))
             .map_err(|_| MigrationError::QuiescenceRejected)?;
@@ -783,9 +787,11 @@ impl MigrationStore {
         self.ensure_live(&current)?;
         if current.phase == MigrationPhase::Transferred {
             validate_source_record(&current, &source_check)?;
-            fencing
-                .authorize_active_lease(copy_active_check(&source_check))
-                .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+            migration_authorize_active(
+                fencing,
+                copy_active_check(&source_check),
+                MigrationError::SourceAuthorityRejected,
+            )?;
             let manifest_sha256 = sha256(encoded_manifest);
             if current.transfer_manifest_sha256 != Some(manifest_sha256)
                 || current.catalog_entry_sha256 != Some(sha256(encoded_catalog))
@@ -862,9 +868,11 @@ impl MigrationStore {
             return Err(MigrationError::InvalidTransition);
         }
         validate_source_record(&current, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(
+            fencing,
+            copy_active_check(&source_check),
+            MigrationError::SourceAuthorityRejected,
+        )?;
         let transfer_id = current
             .transfer_id
             .as_deref()
@@ -1585,12 +1593,24 @@ fn migration_commit(
         .map_err(|_| error)
 }
 
+#[cfg(not(test))]
 fn migration_authorize_active(
     fencing: &MigrationFencingStore,
     check: ActiveLeaseCheck<'_>,
     error: MigrationError,
 ) -> MigrationResult<()> {
     fencing.authorize_active_lease(check).map_err(|_| error)
+}
+
+#[cfg(test)]
+fn migration_authorize_active(
+    fencing: &MigrationFencingStore,
+    check: ActiveLeaseCheck<'_>,
+    error: MigrationError,
+) -> MigrationResult<()> {
+    fencing
+        .authorize_active_lease(&super::fencing::TEST_FENCING_STORE_ACCESS, check)
+        .map_err(|_| error)
 }
 
 fn validate_request(policy: &MigrationPolicy, request: &MigrationRequest) -> MigrationResult<()> {

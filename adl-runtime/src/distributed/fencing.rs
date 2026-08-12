@@ -583,7 +583,11 @@ impl FencingStore {
         Ok(receipt)
     }
 
-    pub fn authorize_active_lease(&self, check: ActiveLeaseCheck<'_>) -> FencingResult<()> {
+    pub fn authorize_active_lease(
+        &self,
+        _access: &FencingStoreAccess,
+        check: ActiveLeaseCheck<'_>,
+    ) -> FencingResult<()> {
         let lock_path = self.acquire_state_lock()?;
         let result = self
             .verify_current_state()

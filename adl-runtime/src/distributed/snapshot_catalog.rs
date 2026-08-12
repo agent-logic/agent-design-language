@@ -908,9 +908,7 @@ fn verify_live_authority(
     {
         return Err(SnapshotError::AuthorityMismatch);
     }
-    fencing
-        .authorize_active_lease(check)
-        .map_err(|_| SnapshotError::FencedAuthority)
+    snapshot_authorize_active_lease(fencing, check)
 }
 
 fn verify_content(snapshot: &SnapshotDescriptor, chunks: &[Vec<u8>]) -> SnapshotResult<()> {
@@ -940,6 +938,26 @@ fn verify_content(snapshot: &SnapshotDescriptor, chunks: &[Vec<u8>]) -> Snapshot
         return Err(SnapshotError::ContentDigestMismatch);
     }
     Ok(())
+}
+
+#[cfg(not(test))]
+fn snapshot_authorize_active_lease(
+    fencing: &SnapshotFencingStore,
+    check: ActiveLeaseCheck<'_>,
+) -> SnapshotResult<()> {
+    fencing
+        .authorize_active_lease(check)
+        .map_err(|_| SnapshotError::FencedAuthority)
+}
+
+#[cfg(test)]
+fn snapshot_authorize_active_lease(
+    fencing: &SnapshotFencingStore,
+    check: ActiveLeaseCheck<'_>,
+) -> SnapshotResult<()> {
+    fencing
+        .authorize_active_lease(&super::fencing::TEST_FENCING_STORE_ACCESS, check)
+        .map_err(|_| SnapshotError::FencedAuthority)
 }
 
 fn validate_certificate_binding(

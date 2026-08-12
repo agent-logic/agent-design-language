@@ -1965,12 +1965,24 @@ fn recovery_commit(
         .map_err(|_| error)
 }
 
+#[cfg(not(test))]
 fn recovery_authorize_active_as(
     fencing: &RecoveryFencingStore,
     check: ActiveLeaseCheck<'_>,
     error: RecoveryError,
 ) -> RecoveryResult<()> {
     fencing.authorize_active_lease(check).map_err(|_| error)
+}
+
+#[cfg(test)]
+fn recovery_authorize_active_as(
+    fencing: &RecoveryFencingStore,
+    check: ActiveLeaseCheck<'_>,
+    error: RecoveryError,
+) -> RecoveryResult<()> {
+    fencing
+        .authorize_active_lease(&super::fencing::TEST_FENCING_STORE_ACCESS, check)
+        .map_err(|_| error)
 }
 
 #[cfg(not(test))]
@@ -1996,7 +2008,7 @@ fn recovery_authorize_active_activation(
     check: ActiveLeaseCheck<'_>,
 ) -> RecoveryResult<()> {
     fencing
-        .authorize_active_lease(check)
+        .authorize_active_lease(&super::fencing::TEST_FENCING_STORE_ACCESS, check)
         .map_err(|error| match error {
             FencingError::SafetyWindow => RecoveryError::SafetyWindow,
             _ => RecoveryError::AuthorityRejected,
