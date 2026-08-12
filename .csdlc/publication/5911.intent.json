@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5911,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/5911-fastwork-storage-policy",
+  "title": "Enforce FastWork worktrees and archive Codex sessions safely",
+  "body": "## Summary\n\n- require all new ADL issue worktrees beneath `/Volumes/FastWork/adl-worktrees` through typed v2 binding\n- preserve idempotent recovery for already-bound matching legacy worktrees\n- add a non-destructive Codex-session archive tool with SHA-256 verification, owner-only permissions, and symlink/path escape refusal\n- archive and independently verify 6,454 inactive transcript files totaling 131,750,498,984 bytes on FastWork\n\n## Validation\n\n- `cargo test --manifest-path csdlc-v2/Cargo.toml --lib fastwork_policy` (5 passed)\n- `bash adl/tools/test_archive_codex_sessions_to_fastwork.sh`\n- strict Clippy with warnings denied\n- independent verification of the complete FastWork archive manifest\n- exact-head subagent review: no actionable findings\n\nNo source transcripts or existing worktrees were deleted or relocated. Deletion remains separately approval-gated.\n\nCloses #5911",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:b19f0af6a25cbd478de43bb83b24100f88e50deb:4ff1b8a06eb00b6b07ee1b0faff67abcdb1b185e042ddfc99e5bdd35b9188d8c",
+  "commit_sha": "b19f0af6a25cbd478de43bb83b24100f88e50deb"
+}

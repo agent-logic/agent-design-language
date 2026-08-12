@@ -84,11 +84,11 @@ Enforced the canonical FastWork worktree parent in typed binding, archived 6,454
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
