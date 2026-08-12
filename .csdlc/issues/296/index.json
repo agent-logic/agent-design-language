@@ -4,23 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "959b44fd61ec0393ad471311d39b13f254c41ca7f6e910dc8b5256529409cb2d",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "7eea6f3f82d4dcb97829b2ea624b42f071b8f76c7f7e323a46f03881c2d57784",
+  "generation": 9,
+  "digest": "e517dd1052f48da78cd53d2de0bde6daf119fb89f19a871e0d85ca4ca5f995a3",
   "branch": "codex/296-implemented-authored-design-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-296-implemented-authored-design-refresh",
-  "review_assignment": {
-    "reviewer": "fresh-session:d549ca39-4095-47d6-91a6-94cd2fe6dafa",
-    "assigned_by": "codex:issue-296",
-    "revision": "git-blake3:2a29c8562204c92ea1a40a4e75bfe93e64c03fc1:5844ac41fb97676203ee815d3565e05cee7e8e013ec63b64e9764015d740c479",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/review.rs",
-      ".csdlc/issues/296",
-      ".csdlc/prepared/issues/296",
-      ".csdlc/evidence/296"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "10a09a3b83f60b1d474a5a9613ecbfe1323e02bcf172c5ae65ec295cb98efac5",
+      "values_digest": "33a3bec51fec4205e0902de6755678f80e70fa49f024c8ee470f0605b29f34ef",
       "rendered_digest": "57c636d2e2f6070a237866654cd4127dbe7a4fc5f191741e071ab2535642984d",
       "ast_digest": "6461b0f59b4c2a6f6dd2f9f13bacb203b861d859e8d58f33bd7ed07b42bb5c79"
     },
     "stp": {
-      "values_digest": "9d5294a7f2da2f9e09a1fadcfcbb980525249aa764f63a540a0f02f23e9cfc56",
+      "values_digest": "8ddd76acf78ea9055b12626fcc12a26641ede07b86fd37bb71a029f9dd73639c",
       "rendered_digest": "11159f0d7f9983633a92db76cd8c7649cdf3e4810b7c6a017d81f64ce614aa8a",
       "ast_digest": "95e8ab9c66e490f856cc459c14f4eb65807a2bd7ec63956cacf2d5441087e983"
     },
     "spp": {
-      "values_digest": "4a0f6af3035cb95f5d27db005c1d45a5cd20bac8487ace1a4fe04e854655219e",
+      "values_digest": "52852ed26c529b6e46a30a14564fcfa0d10ae7a02c707b6de51795b8d28643d8",
       "rendered_digest": "a4d0b4299567ee7fee32a6bfa3ff8a9613f985311842df815ae5cc7c4d74c274",
       "ast_digest": "a90a4d80862cdfe7a6a938432ac9b0c93be84e046765dcbc5964a24f01ffb8b3"
     },
     "vpp": {
-      "values_digest": "b2edac6beb2b3112b76926afb9c916162d53c80d5a8df72c6f12cba50b1e61ec",
+      "values_digest": "aa9621ba2dab257e533556d0bcb38c3bd23125299cded367219cccee0822e063",
       "rendered_digest": "c2e24aec5d0ff65705ea50a27284298e083838466cd1a06bb86c9b5016662d8a",
       "ast_digest": "6b6c3b83f2cfd75e99355f2a9551710c4814ce8cf3823e410065a783e2ccfb82"
     },
     "srp": {
-      "values_digest": "78ebca23f291121eb94fc7a5c6e8a18a444bf44274e7457f36e39a4483df9ce2",
-      "rendered_digest": "4107540848f8fbb93ddd8adc807b0dc266556d59116a1f01b579c8816f83b29a",
-      "ast_digest": "ee81dbd03c5b7f7c26199643567dc7241fe32a2490e71df839d301e50e6d6a86"
+      "values_digest": "d1f12df6613a655ae25f41fa45ae5bffe89bdb4edca4a2153512d9787cf125a0",
+      "rendered_digest": "9f6660015a337ab5724deb53bfc4a3eba76a277311ca093069379d433ad43416",
+      "ast_digest": "0d52b7027fcaa160851a266410a5d41e8281dc86a753e3f06672bf3c1e7e4ad0"
     },
     "sor": {
-      "values_digest": "5707cf939f18acb937a31ce431cf5e724e918f6aaa325d73506e9b9199690228",
-      "rendered_digest": "e3a249570a2bfb7fcaec21ccb9f0676f2e025e30c932e62c3a30558177101fa6",
-      "ast_digest": "2f9de46c1d8846d64ba6cfa29ea879883431dc46db897b21756dd38052caa330"
+      "values_digest": "ccb2a6c32154d99f252caf40b6a69a1fd51ff48feb8f7250a4e6a7cd6a2587d9",
+      "rendered_digest": "d649063d1175edd290b3743ced1b739ca2ef07b90dee4927789411cfc77a5441",
+      "ast_digest": "68905a466f08804f5e087615f9f15beecdcd60b24e4aa67af4d0ee34b76607f0"
     }
   },
   "transitions": [
@@ -166,6 +154,13 @@
       "actor": "codex:issue-296",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:issue-296",
+      "reason": "r1 failed: final authored revalidation omits nlink and ctime, review assignment lacks registered-worktree Git-common serialization, and declared filtered integration lanes run zero tests",
+      "operation": "recover_review"
     }
   ]
 }

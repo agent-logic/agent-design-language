@@ -8,16 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-csdlc-v2/src/cards.rs
-csdlc-v2/src/store.rs
-csdlc-v2/src/review.rs
-.csdlc/issues/296
-.csdlc/prepared/issues/296
-.csdlc/evidence/296
+
 
 ## Prompts
 

@@ -44,6 +44,7 @@ pub struct PublicationReviewReport {
 }
 
 pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<IssueRecord> {
+    let _binding_lock = store.binding_lock()?;
     let record = store.load_record(request.issue)?;
     require_cas(
         &record,
@@ -56,6 +57,7 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
             "review assignment requires implemented phase",
         ));
     }
+    require_registered_worktree(store, &record)?;
     require_current_design_approval(store, &record)?;
     if request.reviewer.trim().is_empty()
         || request.assigned_by.trim().is_empty()
@@ -82,6 +84,30 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
         scope: request.scope,
     };
     store.commit_review_assignment(request.issue, &request.expected_digest, assignment)
+}
+
+fn require_registered_worktree(store: &Store, record: &crate::IssueRecord) -> Result<()> {
+    let registered = record.worktree.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "review assignment requires registered worktree",
+        )
+    })?;
+    let branch = record.branch.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "review assignment requires registered branch",
+        )
+    })?;
+    let actual = std::fs::canonicalize(store.root())?;
+    let expected = std::fs::canonicalize(registered)?;
+    if actual != expected || crate::git::current_branch(store.root())? != *branch {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "review assignment invocation does not match registered branch and worktree",
+        ));
+    }
+    Ok(())
 }
 
 fn require_current_design_approval(store: &Store, record: &crate::IssueRecord) -> Result<()> {

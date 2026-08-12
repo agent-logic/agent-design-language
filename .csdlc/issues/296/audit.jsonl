@@ -9,3 +9,4 @@
 {"sequence":9,"generation":7,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":10,"generation":8,"actor":"codex:issue-296","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":11,"generation":8,"actor":"codex:issue-296","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":12,"generation":9,"actor":"codex:issue-296","reason":"r1 failed: final authored revalidation omits nlink and ctime, review assignment lacks registered-worktree Git-common serialization, and declared filtered integration lanes run zero tests","operation":"recover_review"}

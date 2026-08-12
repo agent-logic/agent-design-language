@@ -78,7 +78,7 @@ Added the recovery-only typed authored-design refresh, full tuple approval and a
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

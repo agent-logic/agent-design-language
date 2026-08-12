@@ -3327,8 +3327,11 @@ fn read_regular_authored_artifact_platform_with_hook(
     })?;
     let final_metadata = final_file.metadata()?;
     if !final_metadata.is_file()
+        || final_metadata.nlink() != 1
         || !same_file_identity(&after, &final_metadata)
         || after.len() != final_metadata.len()
+        || after.ctime() != final_metadata.ctime()
+        || after.ctime_nsec() != final_metadata.ctime_nsec()
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
@@ -3339,6 +3342,7 @@ fn read_regular_authored_artifact_platform_with_hook(
     let final_bytes = read_exact_current_file(&mut final_file, final_metadata.len())?;
     let final_after = final_file.metadata()?;
     if final_bytes != first
+        || final_after.nlink() != 1
         || !same_file_identity(&final_metadata, &final_after)
         || final_metadata.len() != final_after.len()
         || final_metadata.mtime() != final_after.mtime()
@@ -3832,6 +3836,25 @@ mod edit_authorization_tests {
             .expect_err("pre-existing hardlink must fail closed");
         assert_eq!(error.code, ErrorCode::ReconciliationRequired);
         assert!(error.message.contains("single-link"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_rejects_hardlink_added_before_final_open() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design = temp.path().join("design.md");
+        fs::write(&design, b"# design\n").expect("design");
+        let error = read_regular_authored_artifact_with_hook(
+            temp.path(),
+            Path::new("design.md"),
+            |stage| {
+                if stage == AuthoredReadStage::BeforeFinalOpen {
+                    fs::hard_link(&design, temp.path().join("late-alias.md")).expect("late alias");
+                }
+            },
+        )
+        .expect_err("late hardlink alias must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
     }
 
     #[cfg(unix)]
