@@ -162,20 +162,22 @@ fn ready_fixture() -> (tempfile::TempDir, Store) {
 
 fn fixture() -> (tempfile::TempDir, Store) {
     let (temp, store) = ready_fixture();
-    git(temp.path(), &["switch", "-c", "codex/90"]);
+    let worktree = temp.path().join("worktrees/codex-90");
+    fs::create_dir_all(worktree.parent().unwrap()).unwrap();
     bind_issue(
         &store,
         BindRequest {
             issue: ISSUE,
             base_branch: "main".into(),
             branch: "codex/90".into(),
-            worktree: ".".into(),
+            worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
         },
     )
     .unwrap();
+    let store = Store::new(&worktree);
     git(
-        temp.path(),
+        &worktree,
         &[
             "remote",
             "set-url",
@@ -183,8 +185,8 @@ fn fixture() -> (tempfile::TempDir, Store) {
             "https://github.com/agent-logic/agent-design-language.git",
         ],
     );
-    git(temp.path(), &["add", "."]);
-    git(temp.path(), &["commit", "-m", "bind issue"]);
+    git(&worktree, &["add", "."]);
+    git(&worktree, &["commit", "-m", "bind issue"]);
     (temp, store)
 }
 
@@ -313,11 +315,11 @@ fn bound_record_adopts_exact_origin_and_retry_is_stale_digest() {
 #[test]
 fn missing_non_github_and_divergent_fetch_origins_fail_closed() {
     for case in ["missing", "non-github", "divergent-fetch"] {
-        let (temp, store) = fixture();
+        let (_temp, store) = fixture();
         match case {
-            "missing" => git(temp.path(), &["remote", "remove", "origin"]),
+            "missing" => git(store.root(), &["remote", "remove", "origin"]),
             "non-github" => git(
-                temp.path(),
+                store.root(),
                 &[
                     "remote",
                     "set-url",
@@ -326,7 +328,7 @@ fn missing_non_github_and_divergent_fetch_origins_fail_closed() {
                 ],
             ),
             "divergent-fetch" => git(
-                temp.path(),
+                store.root(),
                 &[
                     "remote",
                     "set-url",
@@ -354,9 +356,9 @@ fn missing_non_github_and_divergent_fetch_origins_fail_closed() {
 
 #[test]
 fn credential_bearing_origin_is_normalized_before_audit() {
-    let (temp, store) = fixture();
+    let (_temp, store) = fixture();
     git(
-        temp.path(),
+        store.root(),
         &[
             "remote",
             "set-url",
@@ -374,8 +376,8 @@ fn credential_bearing_origin_is_normalized_before_audit() {
 
 #[test]
 fn implemented_record_migrates_without_changing_phase() {
-    let (temp, store) = fixture();
-    implement(temp.path(), &store);
+    let (_temp, store) = fixture();
+    implement(store.root(), &store);
     let before = store.load_record(ISSUE).unwrap();
     let report = migrate_code_repository(&store, request(&store)).unwrap();
     assert_eq!(report.phase, LifecyclePhase::Implemented);
@@ -386,7 +388,7 @@ fn implemented_record_migrates_without_changing_phase() {
 
 #[test]
 fn wrong_identity_dirty_tree_and_divergent_push_fail_without_mutation() {
-    let (temp, store) = fixture();
+    let (_temp, store) = fixture();
     let before = fs::read(store.issue_dir(ISSUE).join("index.json")).unwrap();
     let mut wrong = request(&store);
     wrong.code_repository = "other/repo".into();
@@ -399,17 +401,17 @@ fn wrong_identity_dirty_tree_and_divergent_push_fail_without_mutation() {
         before
     );
 
-    fs::write(temp.path().join("untracked.txt"), "dirty\n").unwrap();
+    fs::write(store.root().join("untracked.txt"), "dirty\n").unwrap();
     assert_eq!(
         migrate_code_repository(&store, request(&store))
             .unwrap_err()
             .code,
         ErrorCode::UnsafeCheckout
     );
-    fs::remove_file(temp.path().join("untracked.txt")).unwrap();
+    fs::remove_file(store.root().join("untracked.txt")).unwrap();
 
     git(
-        temp.path(),
+        store.root(),
         &[
             "remote",
             "set-url",
@@ -433,16 +435,16 @@ fn wrong_identity_dirty_tree_and_divergent_push_fail_without_mutation() {
 
 #[test]
 fn wrong_branch_missing_topology_and_unsupported_phase_fail_closed() {
-    let (temp, store) = fixture();
+    let (_temp, store) = fixture();
     let before = fs::read(store.issue_dir(ISSUE).join("index.json")).unwrap();
-    git(temp.path(), &["switch", "-c", "other-branch"]);
+    git(store.root(), &["switch", "-c", "other-branch"]);
     assert_eq!(
         migrate_code_repository(&store, request(&store))
             .unwrap_err()
             .code,
         ErrorCode::UnsafeCheckout
     );
-    git(temp.path(), &["switch", "codex/90"]);
+    git(store.root(), &["switch", "codex/90"]);
     assert_eq!(
         fs::read(store.issue_dir(ISSUE).join("index.json")).unwrap(),
         before
@@ -472,16 +474,16 @@ fn wrong_branch_missing_topology_and_unsupported_phase_fail_closed() {
 
 #[test]
 fn reviewed_record_preserves_review_and_passes_split_publication_preflight() {
-    let (temp, store) = fixture();
-    implement_and_review(temp.path(), &store);
+    let (_temp, store) = fixture();
+    implement_and_review(store.root(), &store);
     let reviewed = store.load_record(ISSUE).unwrap();
     let review = reviewed.review.clone();
     migrate_code_repository(&store, request(&store)).unwrap();
     let migrated = store.load_record(ISSUE).unwrap();
     assert_eq!(migrated.phase, LifecyclePhase::Reviewed);
     assert_eq!(migrated.review, review);
-    git(temp.path(), &["add", "."]);
-    git(temp.path(), &["commit", "-m", "migrate code repository"]);
+    git(store.root(), &["add", "."]);
+    git(store.root(), &["commit", "-m", "migrate code repository"]);
     let migrated = store.load_record(ISSUE).unwrap();
     let intent = prepare_publication(
         &store,
