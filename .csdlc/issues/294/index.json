@@ -5,10 +5,24 @@
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
   "generation": 19,
-  "digest": "58e8dc8d992af01a03a098adac3d04ab796e519922d8f967d0c12d4478af9a3e",
+  "digest": "29e6ac7a73a26bfac87fb751baea4a9523f661fbcee8de24969963e778fe3a1c",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:cd023089-29e9-4cad-9716-ac0522ee73fa",
+    "assigned_by": "codex:issue-294",
+    "revision": "git-blake3:1508d7b100ebf429459d0c51d322fcf275b6ed8d:00ca3c0ea2d4bc81e796ce310c089f170216d0aaec404a90ecda1e468d175191",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/294",
+      ".csdlc/prepared/issues/294",
+      ".csdlc/evidence/294"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +58,9 @@
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "ee5876fda8487e48bc1b4b9898b244ac4f3c1a5077423987a47a6269eb3504fe",
-      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
-      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
+      "values_digest": "813e76790bc0b61f743beca44830a8d820b87ed9fc513fb7cb1451b8fea32d7a",
+      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
+      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
     },
     "sor": {
       "values_digest": "12a90f88b9ae65c32f6279d3d81b504f07b422b31e65dd67fd7d5d42d38711f0",
@@ -252,6 +266,13 @@
       "actor": "codex:issue-294",
       "reason": "Recover failed r4 exact-head assignment at substantive b4b8cb43b6f4abf64392acd7997656a3b347b16f: rollback deletion is not journal-inode-owned and can delete an unrelated identical-byte replacement; deterministic delete quarantine leftovers are not restart-reconciled and can strand cleanup/retry; post-state journal acceptance under-correlates canonical digest and audit provenance; AC-8/AC-9 fixtures omit bind-before/after, phase/history, interruption boundaries, races, quarantine interruption, and identical-byte replacement proof",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:issue-294",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
