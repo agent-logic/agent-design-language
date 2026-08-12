@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 254,
+    "repository": "agent-logic/agent-design-language",
+    "title": "CI: eliminate repeated hosted workspace coverage compiles",
+    "slug": "hosted-coverage-compile",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".github/workflows/ci.yaml and CI contract tests",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify the aggregate job cannot recompile workspace coverage.",
+        "Verify required adl-coverage still fails closed on missing producer evidence.",
+        "Verify runner allocation reserves Azure heavy capacity only for Rust producers.",
+        "Verify local contract tests cover the new topology."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
