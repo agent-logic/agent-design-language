@@ -3,13 +3,38 @@
   "issue": 244,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
-  "phase": "implemented",
-  "generation": 35,
-  "digest": "7ddf0072e0e1daaed14343f6bed83f4493a7a1c54772cc273b487629d93e984d",
+  "phase": "reviewed",
+  "generation": 36,
+  "digest": "2d34d45a025cdfc2ffefd95cf21221f5ae167c8169b9c0dc7754d58475f6949a",
   "branch": "codex/244-conversation-cleanup-race",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:review_244_cleanup_race",
+    "assigned_by": "codex:244-server-hook-repair",
+    "revision": "git-blake3:379a08a71e112368b79e6bef6ea083cc767562fd:da2510ad78ed130513f25aa89de02e8b3501f8aea774ee2e32c0dd4d3b287967",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      ".csdlc/evidence/244",
+      ".csdlc/issues/244"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review_244_cleanup_race",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      ".csdlc/evidence/244",
+      ".csdlc/issues/244"
+    ],
+    "reviewed_revision": "git-blake3:379a08a71e112368b79e6bef6ea083cc767562fd:da2510ad78ed130513f25aa89de02e8b3501f8aea774ee2e32c0dd4d3b287967",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a8cd8f0c803afd6e5105869f79157588d09d595e7e8ed384d262c5111287ef38",
+      "values_digest": "a611721e5ea93879194ee1c7761a4f50c9328cf4304223d35f6dd029b0563ac3",
       "rendered_digest": "a7a3fdffde72a8ccd84f303fd9461422089748d7cca2286b450c0616ae3f63b7",
       "ast_digest": "1f3222725b44556758d3036806a3817fdeb58c6bbf437698b7d71d7510b446dc"
     },
     "stp": {
-      "values_digest": "b5676e0a174bd080e1724e6e79172c5c6a6a2fea776c2b27e93e4294ab304092",
+      "values_digest": "38f998bf353087662bd7877b90257237a584cb8e8b3168defd69b6d6ed2b8e38",
       "rendered_digest": "eb188e0abb8bcfed05a216770117422eb93ead3e8e416be888002ad29221716a",
       "ast_digest": "326ed86deaf78bc55b60c81607d0068ad3b1095c56de7aa454808bb21ec07f42"
     },
     "spp": {
-      "values_digest": "699bcedc55846c2231f3a5c44a643f71c0feb8a6af147a24a6f3202c3ca602b2",
+      "values_digest": "1fa63a265da2946405059165d9a1ceaf081db77fed6ea72c6aeef473312892bd",
       "rendered_digest": "bda7b8a781de64772e815f705e1cc5df733078088b4b151eee30cf87a8b4125b",
       "ast_digest": "39a64663e4cd08a747ac125db95bf0a24014cc92967f026964514147acfcea85"
     },
     "vpp": {
-      "values_digest": "1690abc65954ff1ce1db8c71080abdcc8e0511b15fca80752e024a7917cf4714",
+      "values_digest": "aac3bc96f15a604bf31de10009d79d6d0e71f9cd2a49b44d8ae0057ccfcf6aca",
       "rendered_digest": "755ba3d37f4acaced6bdebe8e344c69a3f58795363c3c920ea368f1c61f38617",
       "ast_digest": "0189f64d89be4ccec8ab470ba92464ca02e881e26e51642eb41da69221c241b6"
     },
     "srp": {
-      "values_digest": "8a104997c10792c936ddee8996e2605a68860b4b4b308c866f2bbf2afd09899d",
-      "rendered_digest": "9fdfc4ebbab88ffd71d310ad577f2bc179ab5c194aa6d461bac005661792eaef",
-      "ast_digest": "53d7dbf8eef992e76d36b5742a3ed29b9315d6f20f1595e5ec22d3d4bb66920c"
+      "values_digest": "fa34b01336cc3c36b9d14ecb2b3b678ac24bbd0a0ccf1b3a0995ea418c561d4c",
+      "rendered_digest": "afdd7396b56ec996e5063fc3c038b2a6db722b73ca2ee805d5b3af6db8ad94d1",
+      "ast_digest": "ab579e82cc6630f0b60d1c45fdab3ae8a3e6f0e03b81e8af8508bf2d98514eef"
     },
     "sor": {
-      "values_digest": "040966552a571fa5e83a2dfffc7e5d09f37ee6de55a8457ebfc532bcc87ca74a",
+      "values_digest": "43f45e1e8484abde9a351c7cd1cc85fdea4a806cb5175262cb0db5edb195fdbb",
       "rendered_digest": "c1ed87bc23a02737a05c24587fae0767d33b08ca4ebaa66925368cec426948e6",
       "ast_digest": "2e4b897b69b7d06e39a96e5b41d0c8187dac2c11343c56e6f0efbc0c788cb16f"
     }
@@ -152,6 +177,13 @@
       "to": "implemented",
       "actor": "codex:244-server-hook-repair",
       "reason": "Required Runtime CI proved socket readiness can outlive paused logical time; recover for explicit cfg(test)-only server observation and deadline arbitration barriers."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-server-hook-repair",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -427,6 +459,20 @@
       "actor": "codex:244-server-hook-repair",
       "reason": "Record explicit cfg(test)-only server observation/arbitration barriers, fail-safe release, fixture relocation, and fresh proof.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Made cleanup-race ordering deterministic with cfg(test)-only server instrumentation: observe the duplicate, hold its arbitration and the matching timeout branch, install and observe the new-generation attachment, then release barrier-held execution and prove one terminal result.\",\"changes\":[\"Moved the conversation-session fixture into the crate unit-test boundary so every hook type, field, branch, installer, and test module registration is compiled only under cfg(test).\",\"Added a turn-scoped test hook that observes the duplicate before acceptance arbitration, holds the matching timeout branch, permits duplicate arbitration explicitly, and signals attachment insertion before response serialization.\",\"Added a drop guard that releases duplicate arbitration, timeout arbitration, and barrier-held execution on panic while avoiding extra permits on normal completion.\",\"Removed paused-time control and all widened constants; original 100/70/250/150 ms behavior and timeout, cancellation, capacity, and token-rotation assertions remain unchanged.\",\"Kept issue #237, PR #242, and issue #112 authority work unchanged.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime-kernel/src/lib.rs\",\".csdlc/evidence/244\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Run the exact cleanup-race proof thirty consecutive times with built-in bounded scheduler pressure and no clock control.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/conversation-cleanup-race-focused.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::cleanup_race_guard_releases_every_barrier_during_unwind\",\"--\",\"--exact\"],\"purpose\":\"Prove unwind cleanup releases duplicate, timeout, and execution barriers without leaking permits into normal completion.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/conversation-cleanup-race-failsafe.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete Runtime kernel test target, including real timeout, cancellation, capacity, and token-rotation behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-tests.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across Runtime kernel targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-clippy.log\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Run the integrated Observatory proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-observatory.log\"},{\"command\":[\"cargo\",\"check\",\"--release\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Compile the non-test optimized Runtime path with all hook surfaces eliminated by cfg(test).\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-release-production-parity.log\"}]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 35,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 36,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
