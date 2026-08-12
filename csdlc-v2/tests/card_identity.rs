@@ -254,6 +254,11 @@ fn recovery_rejects_stale_cas_unsafe_alias_and_missing_provenance_without_mutati
         "alias",
         "provenance",
         "reviewer",
+        "canonical_reviewer",
+        "session_uuid",
+        "turn_uuid",
+        "spawned_task",
+        "thread_source",
         "reviewed_generation",
         "source_absent",
         "source_drift",
@@ -274,6 +279,11 @@ fn recovery_rejects_stale_cas_unsafe_alias_and_missing_provenance_without_mutati
             "alias" => request.new_diagram_path = request.new_design_path.clone(),
             "provenance" => request.fork_turns = "all".into(),
             "reviewer" => request.prior_reviewer = "fresh-session:wrong".into(),
+            "canonical_reviewer" => request.canonical_reviewer = "fresh-session:wrong".into(),
+            "session_uuid" => request.reviewer_session_uuid = "not-a-uuid".into(),
+            "turn_uuid" => request.reviewer_turn_uuid = "not-a-uuid".into(),
+            "spawned_task" => request.spawned_task.clear(),
+            "thread_source" => request.thread_source = "parent".into(),
             "reviewed_generation" => request.reviewed_generation += 1,
             "source_absent" => {
                 fs::remove_file(temp.path().join(&record.design_path)).unwrap();
@@ -419,6 +429,39 @@ fn recovery_rejects_later_lifecycle_and_unsafe_control_destinations() {
             "{unsafe_path}"
         );
     }
+}
+
+#[cfg(unix)]
+#[test]
+fn recovery_rejects_hardlinked_source_alias_before_journaling() {
+    let temp = tempfile::tempdir().unwrap();
+    let record = bootstrap_at(
+        temp.path(),
+        302,
+        ".csdlc/prepared/legacy/design.md",
+        ".csdlc/prepared/legacy/diagram.mmd",
+    );
+    fs::remove_file(temp.path().join(&record.diagram_path)).unwrap();
+    fs::hard_link(
+        temp.path().join(&record.design_path),
+        temp.path().join(&record.diagram_path),
+    )
+    .unwrap();
+    let mut request = recovery_request(&record);
+    request.expected_diagram_digest = request.expected_design_digest.clone();
+    assert!(recover_initialized_design_envelope(&Store::new(temp.path()), request).is_err());
+    let common = String::from_utf8(
+        std::process::Command::new("git")
+            .args(["rev-parse", "--path-format=absolute", "--git-common-dir"])
+            .current_dir(temp.path())
+            .output()
+            .unwrap()
+            .stdout,
+    )
+    .unwrap();
+    assert!(!std::path::Path::new(common.trim())
+        .join("csdlc-v2/recovery-journals/302.json")
+        .exists());
 }
 
 #[test]

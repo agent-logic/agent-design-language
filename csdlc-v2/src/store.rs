@@ -1466,6 +1466,15 @@ pub fn recover_initialized_design_envelope(
     })?;
     let old_design_digest = digest(&design_bytes);
     let old_diagram_digest = digest(&diagram_bytes);
+    #[cfg(unix)]
+    if file_identity_no_follow(store.root(), Path::new(&record.design_path))?
+        == file_identity_no_follow(store.root(), Path::new(&record.diagram_path))?
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "design and diagram sources must not alias the same inode",
+        ));
+    }
     if old_design_digest != request.expected_design_digest
         || old_diagram_digest != request.expected_diagram_digest
     {
@@ -1815,13 +1824,7 @@ fn reconcile_owned_quarantine(root: &Path, relative: &Path, expected: &str) -> R
             })?,
         );
         let candidate = parent.join(candidate_name);
-        if file_identity_no_follow(root, &candidate)? != identity {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "quarantined cleanup inode drifted",
-            ));
-        }
-        unlink_anchored(root, &candidate, Some(expected))?;
+        unlink_owned_anchored(root, &candidate, expected, identity)?;
     }
     Ok(())
 }
@@ -2119,6 +2122,36 @@ fn file_identity_no_follow(root: &Path, relative: &Path) -> Result<(u64, u64)> {
     Ok((metadata.dev(), metadata.ino()))
 }
 
+#[cfg(unix)]
+fn unlink_owned_anchored(
+    root: &Path,
+    relative: &Path,
+    expected_digest: &str,
+    expected_identity: (u64, u64),
+) -> Result<()> {
+    let quarantine = relative.with_file_name(format!(
+        ".{}.csdlc-owned-delete-{}-{}",
+        relative
+            .file_name()
+            .expect("cleanup file name")
+            .to_string_lossy(),
+        expected_identity.0,
+        expected_identity.1
+    ));
+    rename_no_replace_anchored(root, relative, &quarantine)?;
+    let actual_identity = file_identity_no_follow(root, &quarantine)?;
+    let actual_digest = read_regular_authored_artifact_with_hook(root, &quarantine, |_| {})?
+        .map(|bytes| digest(&bytes));
+    if actual_identity != expected_identity || actual_digest.as_deref() != Some(expected_digest) {
+        rename_no_replace_anchored(root, &quarantine, relative)?;
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "cleanup target is not the journal-owned artifact",
+        ));
+    }
+    unlink_anchored(root, &quarantine, None)
+}
+
 #[cfg(target_os = "macos")]
 fn rename_no_replace_anchored(root: &Path, source: &Path, destination: &Path) -> Result<()> {
     use std::os::unix::io::AsRawFd;
@@ -2229,7 +2262,7 @@ fn remove_authored_if_owned(
                 "quarantined cleanup inode drifted",
             ));
         }
-        unlink_anchored(root, &quarantine, Some(expected))?;
+        unlink_owned_anchored(root, &quarantine, expected, identity)?;
     }
     let current_identity = match file_identity_no_follow(root, relative) {
         Ok(value) => value,
@@ -2244,7 +2277,7 @@ fn remove_authored_if_owned(
     }
     match read_regular_authored_artifact_with_hook(root, relative, |_| {})? {
         Some(bytes) if digest(&bytes) == expected => {
-            unlink_anchored(root, relative, Some(expected))
+            unlink_owned_anchored(root, relative, expected, identity)
         }
         Some(_) => Err(V2Error::new(
             ErrorCode::ReconciliationRequired,

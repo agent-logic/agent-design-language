@@ -4,25 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
-  "generation": 20,
-  "digest": "578ca13d1788166167cba8abbe0dec59424f104b92f996cb111c0be5930c7416",
+  "generation": 21,
+  "digest": "37e0eccd37d2598f1b7ade66d13c91f3edee551a80996b60b5884d89f72a71fe",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:38a39eac-002e-44ee-9085-5d439d8273ce",
-    "assigned_by": "codex:issue-294",
-    "revision": "git-blake3:8854951dfa179ef41b713226a55dece490737bfc:7a7f1057dc95adc450f61a3608f8a06388c8f570af5d9256538c626dd872cce3",
-    "scope": [
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-edit.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/card_identity.rs",
-      ".csdlc/issues/294",
-      ".csdlc/prepared/issues/294",
-      ".csdlc/evidence/294"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -38,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1d793df48193e68c066e24142002a2e836b30f202a1b08f33e9dccc7a2ac3f7f",
+      "values_digest": "b645b0de70ab81bc3508c5f6382afecc07201d3df174865124beba0caa3facf9",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "75fcce9545876b9bc564b3803fdb96d29d9af669f2df362dec61a8617fb47fec",
+      "values_digest": "baf5691b46ff8d116f861c4bbdaefa17bf41cafbae79eca1f2fb1b6248b85c4a",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "3de592307ebbbb5773fc0c5371f3830ef4464a3729675c30a62a6fc702fafc2e",
+      "values_digest": "b0b06bc7208cd43b6773cb21487c05f904755b56fe44cd29090fbdc323da88a7",
       "rendered_digest": "818c831b4006e6cba1fae7fd705b517025fdb4dffebcdd5ed63c77e88dd8e9ee",
       "ast_digest": "fe2b4a198e777d6d1184d8db1e169a565f0425a9c547b1f1252c24a7410e2c5e"
     },
     "vpp": {
-      "values_digest": "763b3df7571d797e77ea28cb52596eb573d3c9758df744f9c960be55ce855da0",
+      "values_digest": "6791cd17e922fcef7d7e5098e2814359c62a14b4e900d4a6888c7e0c76c2b0fb",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "b430dd0d68c20c6b1cd75805a97fdaac5f26a917cb7801a530889340ea61c29b",
-      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
-      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
+      "values_digest": "ee52770b24f2fb22818c472b9d173339e40d6d41d4219ee57587fdcce3b93789",
+      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
+      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
     },
     "sor": {
-      "values_digest": "787e97f8f747c1ecb6a6b19a53646e74459bdd4ebeeeb107b0db01347d8ff63a",
+      "values_digest": "0188c92f25767c798da7d8fe08255881cffbeb3a940ead5d290eadb907586e42",
       "rendered_digest": "02a3825c1b8aa02ee4ff72c2597d88a060af2ae9a31abc8a0aa8df0f7e3d9438",
       "ast_digest": "926479531ef701e505067ba4a19c0f8b998388e2ef55666e78e7210deb803fe9"
     }
@@ -287,6 +273,13 @@
       "actor": "codex:issue-294",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:issue-294",
+      "reason": "Recover failed r6 exact-head assignment at substantive 8854951dfa179ef41b713226a55dece490737bfc: journal-owned identity and stage-quarantine identity checks remain separate from digest-only destructive unlink, allowing an identical-byte replacement race; AC-8/AC-9 proof still omits typed bind-before/after, actual later phase/history negatives, complete reviewer negatives, deterministic interruption hooks for journal/install/stage/state commit, and ancestor/destination/unlink races",
+      "operation": "recover_review"
     }
   ]
 }
