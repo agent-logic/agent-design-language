@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 49,
-  "digest": "8484b84333dfecac75bcbbd31dfab6f8c0aa7496bbe41035748a0fcf65dd0de9",
+  "digest": "e2bffbeb13696612df224435f29431e2117da248ad47378c9dd7d536ad45855d",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:2aa8ce20-95d3-4567-8235-e9e7bc79ff73",
+    "assigned_by": "codex:issue-298-r18-remediation",
+    "revision": "git-blake3:129023d053413d48f37d73cd4dee0720745ec8eb:5ef11124916dc28a9b91fe8ee12808c664f850c3f51ad96873e88c4f1482bc46",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "d8ff5330eb842d7a5b72da4543b2a8fb611fdde77b26340959c91bb6ac7c85d7",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "c3a759fbbf89ed1039f7256bb2881c0de6d9500b6c4a6d72b42324858294c3d4",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "dfac56aaa8f401e0af33a29492cbcdd3e71bae880d20bb9cecefc7a6027f1ba4",
@@ -588,6 +603,13 @@
       "actor": "codex:issue-298-r18-remediation",
       "reason": "Record descriptor-relative recovery authority remediation after exact R18 P1.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed macOS pathname fallback and retained recovery root, attempt, receipt, inventory, candidate, archive, displaced, and node-ledger authority through directory descriptors.\",\"changes\":[\"Removed F_GETPATH, anchored_path, /dev/fd, and /proc/self/fd recovery aliases\",\"Read, created, inventoried, validated, and chained receipts through retained attempt and node-ledger dirfds\",\"Built, wrote, fsynced, published, observed, and revalidated candidate nodes through openat and retained parent descriptors\",\"Observed archive and displaced projections and derived candidate bytes through retained child descriptors\",\"Added deterministic post-validation recovery-root and attempt swaps that fail closed before receipt, candidate, or archive mutation\",\"Preserved every earlier receipt-chain, identity, topology, idempotency, ordinary-commit, initialized/ready, and issue 291 proof\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 71,
+      "generation": 49,
+      "actor": "codex:issue-298-r18-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
