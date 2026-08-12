@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Bind durable provenance to title-only GitHub issue updates without rewriting issue bodies.
+Implemented durable title-only issue-update provenance with partial-operation recovery and deterministic remote-drift proof.
 
 ## Artifacts
 
@@ -21,15 +21,28 @@ Bind durable provenance to title-only GitHub issue updates without rewriting iss
 
 ## Execution
 
-- Canonical operation-key-to-request fingerprint receipts
-- Single title-only PATCH with byte-identical body verification
-- Idempotent same-fingerprint retry and conflicting same-key rejection
-- Fail-closed pre-receipt and final-readback body drift detection
-- Body-bearing update compatibility
+- Bind each operation key to a canonical mutation fingerprint in a durable comment receipt.
+- Preserve the issue body byte-for-byte through one governed title PATCH.
+- Recover a successful PATCH with missing receipt without repeating PATCH.
+- Fail closed at before-PATCH, during-PATCH, before-receipt, and after-receipt body drift boundaries.
+- Preserve body-bearing marker compatibility and isolate status classification from retrying transport fixtures.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_github_actions"
+    ],
+    "purpose": "Focused GitHub issue owner proof.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/301/title-only-github-issue-update.log"
+  },
   {
     "command": [
       "cargo",
@@ -42,9 +55,9 @@ Bind durable provenance to title-only GitHub issue updates without rewriting iss
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict all-target and all-feature Clippy.",
+    "purpose": "Strict warning-free owner and fixture proof.",
     "outcome": "passed",
-    "evidence_ref": "strict-clippy-github-owner.log"
+    "evidence_ref": ".csdlc/evidence/301/strict-clippy-github-owner.log"
   },
   {
     "command": [
@@ -52,12 +65,11 @@ Bind durable provenance to title-only GitHub issue updates without rewriting iss
       "test",
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate_github_actions"
+      "--lib"
     ],
-    "purpose": "Run the focused scripted GitHub owner tests.",
+    "purpose": "Full library regression proof.",
     "outcome": "passed",
-    "evidence_ref": "title-only-github-issue-update.log"
+    "evidence_ref": "local output: 75 passed"
   }
 ]
 
