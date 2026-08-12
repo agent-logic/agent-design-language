@@ -139,6 +139,13 @@ struct DurablePublishedMembershipResult {
     committed_log_index: u64,
 }
 
+#[derive(Debug, Eq, PartialEq)]
+struct PreparedEnrollmentStableIds {
+    target: BTreeMap<Vec<u8>, u64>,
+    old_sha256: [u8; 32],
+    target_sha256: [u8; 32],
+}
+
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct MembershipCoordinatorState {
@@ -1002,8 +1009,10 @@ impl MembershipCoordinator {
                 .cloned()
                 .collect()
         };
-        let (target_stable_ids, old_stable_map_sha256, target_stable_map_sha256) =
-            prepare_enrollment_stable_ids(&old_stable_ids, identity)?;
+        let prepared_stable_ids = prepare_enrollment_stable_ids(&old_stable_ids, identity)?;
+        let target_stable_ids = prepared_stable_ids.target;
+        let old_stable_map_sha256 = prepared_stable_ids.old_sha256;
+        let target_stable_map_sha256 = prepared_stable_ids.target_sha256;
         self.crash_at(MembershipCrashBoundary::BeforeEnrollmentJournal)?;
         match self.envelope.payload().active_enrollment.as_ref() {
             Some(active)
@@ -1623,7 +1632,7 @@ fn enrollment_operation(admission: &VerifiedLearnerAdmission) -> MembershipOpera
 fn prepare_enrollment_stable_ids(
     old_stable_ids: &BTreeMap<Vec<u8>, u64>,
     identity: &LearnerIdentity,
-) -> MembershipCoordinatorResult<(BTreeMap<Vec<u8>, u64>, [u8; 32], [u8; 32])> {
+) -> MembershipCoordinatorResult<PreparedEnrollmentStableIds> {
     let mut target_stable_ids = old_stable_ids.clone();
     match target_stable_ids.get(identity.guardian_id.as_bytes()) {
         Some(existing) if *existing != identity.stable_raft_id => {
@@ -1643,11 +1652,11 @@ fn prepare_enrollment_stable_ids(
             );
         }
     }
-    Ok((
-        target_stable_ids.clone(),
-        stable_map_sha256(old_stable_ids)?,
-        stable_map_sha256(&target_stable_ids)?,
-    ))
+    Ok(PreparedEnrollmentStableIds {
+        old_sha256: stable_map_sha256(old_stable_ids)?,
+        target_sha256: stable_map_sha256(&target_stable_ids)?,
+        target: target_stable_ids,
+    })
 }
 
 fn observe_old_parity(
