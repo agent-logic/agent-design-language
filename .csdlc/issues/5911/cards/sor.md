@@ -79,6 +79,20 @@ Enforced the canonical FastWork worktree parent in typed binding, archived 6,454
     "purpose": "Strict lint proof for the changed v2 lifecycle library.",
     "outcome": "passed",
     "evidence_ref": "local issue worktree output"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/run_cargo_validation.sh",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Prove the complete C-SDLC v2 standalone surface, including case-insensitive FastWork enforcement and every linked-worktree fixture repaired after the first hosted failure.",
+    "outcome": "passed",
+    "evidence_ref": "GitHub Actions run 31561244618, job csdlc-v2-standalone, exact head 5a2444dbf03f5b315285722689fb8eeb8fb6469e"
   }
 ]
 

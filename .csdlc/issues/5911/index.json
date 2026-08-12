@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "eba116b5732a4b5f497dadabca6e906a6f9eb9dcd393ae704780074f01a773fe",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "585c5a205bfbb516909a47ba9c9c7efe3b5d90046a9ef559ef4f2b84f23e9747",
+  "generation": 18,
+  "digest": "19c9ef84cf92971c15ed77fa96a4bd03cc6d7250d56da8063036a058e924895d",
   "branch": "codex/5911-fastwork-storage-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5911-fastwork-storage-policy",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "57ff444d1dc1949f2dcef80caaf0c61651726d16894384ea6fc7735812a13875",
+      "values_digest": "2db669124473ab508396576f183b1ec0aa906c1f34f7660ccc521878ca5241a4",
       "rendered_digest": "50d8426892e02179c4580c314aea63c6a17ea525229f22acb5707e52d60a46c7",
       "ast_digest": "3eb3ea1e6498c50e443dcec5bf981178d93caf68b11349f56efe7137e9e3732c"
     },
     "stp": {
-      "values_digest": "7ccc2b8d3345fba323aa9553573814e323746fd12126332ed4aee643ae54937b",
+      "values_digest": "96356c4520eeefdb3f8a2430693e7f660654877955760897f21f1dd32a649106",
       "rendered_digest": "b633f7279064086c2b1e2a2cf7925433018552a9dd81ae45d213068ed69ffdbd",
       "ast_digest": "f68cd50f666c2f83f3fcb83b350475373e86b9d411a8340d42fdd0005126b67b"
     },
     "spp": {
-      "values_digest": "dbba22f23596b4992ca76bdac33fc8c6cb14d5f17a9ac623630dc39c6e0eb72f",
+      "values_digest": "a544a3ff1e4a9ccd31a8e987660c27507c95b89731227a9e39e3daa3bf1aa1de",
       "rendered_digest": "b30508945a2ec5d553839b75fec7a8eab462771538092435b212a23b79461a18",
       "ast_digest": "19be4f70450bb723cc19101cfd65d7024a073ce28270ae531ea3a48dbde59390"
     },
     "vpp": {
-      "values_digest": "9044443646e351e94276fd78f138dbbdc4a6e1224633c6a642a1daa8eb7c1a97",
+      "values_digest": "56caa74e0ae325b5b8d1fe5bdc63e6b050fb1f104aaf85eed11e66e552c1defd",
       "rendered_digest": "b2a0a37fba05894492caf16a3bd250138529e3b7a63072c8dc16d48d8e479059",
       "ast_digest": "8511a86ca506470fad6aaf35c6d429832b9559b0e8d1eef211b3acb0e7d42d4f"
     },
     "srp": {
-      "values_digest": "0dc69ef51caa3e165364fa76e479db435c4dbe8ac0be01706877ddd8550daeeb",
+      "values_digest": "fdefc32bded26351ac9dda29370a13a6235b3439f754a3b29bae7c625126ba81",
       "rendered_digest": "00cf8cd7d25dc9763948f7043a05ecc91bd479985441609dd00ecedaf5645610",
       "ast_digest": "50c847daee158c8569c14bd4bc102fcb74fc241901037ad0c8c2198234607002"
     },
     "sor": {
-      "values_digest": "7336c2a14eb5ab0a09b7b8bad1434d9c05f2875d2827e145aa81fc891e047e68",
-      "rendered_digest": "4bbca2f20860098cb0823de112e9de9cdad95193935543ebe6da591c03af3029",
-      "ast_digest": "846f6cf3d0aff9d6dba6886606ca28e431cd14df8993fa1044cfebc031b66d0d"
+      "values_digest": "d944a4833858fdd6ab5353497efa1915ba3b5f5f6e93a76da41d5e302646993a",
+      "rendered_digest": "0f7023da32fc2fb587acd35c684ee4cc09420048844025aa76ad6da2ceb179ea",
+      "ast_digest": "94d9259b4697bdfd80b54107d62bacd1348414bf2fbfd2b0958d42bf8c68c2d2"
     }
   },
   "transitions": [
@@ -231,6 +231,13 @@
       "actor": "codex:issue-5911-ci-repair",
       "reason": "Declare the complete standalone C-SDLC v2 suite that covers the production policy and every bind fixture repaired after hosted CI.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-standalone-fastwork-policy\",\"proof_role\":\"The complete standalone C-SDLC v2 suite proves case-insensitive mandatory FastWork enforcement and all linked-worktree fixture compatibility paths changed by this issue.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"transcript-archive-verification\",\"proof_role\":\"Issue-owned archive tests prove manifest generation, digest verification, source preservation, and canonical FastWork containment.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":3000,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "Record the exact-head hosted standalone suite that proves the final policy implementation and all repaired bind fixtures.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/run_cargo_validation.sh\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove the complete C-SDLC v2 standalone surface, including case-insensitive FastWork enforcement and every linked-worktree fixture repaired after the first hosted failure.\",\"outcome\":\"passed\",\"evidence_ref\":\"GitHub Actions run 31561244618, job csdlc-v2-standalone, exact head 5a2444dbf03f5b315285722689fb8eeb8fb6469e\"}}"
     }
   ]
 }
