@@ -26,8 +26,9 @@ use super::{
         AuthorityPermitAction, AuthorityReconciliationBarrier, AuthorityReconciliationError,
     },
     certificates::{
-        ActivationOutcome, AuthorityCertificate, CertificateError, CertificatePurpose,
-        DistributedCertificateStore, RevocationReason, VerifiedCertificate,
+        ActivationOutcome, AuthorityCertificate, CertificateAuthorityRevision, CertificateError,
+        CertificatePurpose, DistributedCertificateStore, RedactedCertificateSnapshot,
+        RevocationReason, VerifiedCertificate,
     },
     fencing::{
         ActiveLeaseCheck, FenceCommit, FenceReceipt, FencingAuthorityRevision, FencingError,
@@ -254,6 +255,22 @@ pub struct AuthorityBoundCertificateStore {
 }
 
 impl AuthorityBoundCertificateStore {
+    pub fn authority_revision(&self) -> AuthorityStoreAdapterResult<CertificateAuthorityRevision> {
+        self.require_read()?;
+        self.store.authority_revision().map_err(Into::into)
+    }
+
+    pub fn redacted_snapshot_at(
+        &self,
+        expected_revision: CertificateAuthorityRevision,
+        now_unix_secs: u64,
+    ) -> AuthorityStoreAdapterResult<RedactedCertificateSnapshot> {
+        self.require_read()?;
+        self.store
+            .redacted_snapshot_at(expected_revision, now_unix_secs)
+            .map_err(Into::into)
+    }
+
     pub fn transport_authorization(
         &self,
         certificate: &AuthorityCertificate,

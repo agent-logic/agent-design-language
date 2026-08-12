@@ -11,13 +11,19 @@ use std::{
     fmt,
 };
 
+#[cfg(not(test))]
+use super::authority_store_adapters::{
+    AuthorityBoundCertificateStore, AuthorityBoundFencingStore, AuthorityBoundLeaseLedger,
+};
+#[cfg(test)]
 use super::{
-    certificates::DistributedCertificateStore,
+    certificates::DistributedCertificateStore, fencing::FencingStore, lease::AuthorityLedger,
+};
+use super::{
     failure_detection::{
         FailureClass, FailureDetector, FailureFreshness, FailureMembershipSnapshot,
     },
-    fencing::FencingStore,
-    lease::{AuthorityLedger, AuthorityMembership},
+    lease::AuthorityMembership,
     membership::{MemberRole, MembershipState},
     migration::MigrationStore,
     placement::{PlacementClock, PlacementService},
@@ -101,9 +107,18 @@ pub trait ProjectionClock: fmt::Debug + Send + Sync {
 pub struct ProjectionSources<'a, C> {
     pub membership: &'a MembershipState,
     pub authority_membership: &'a AuthorityMembership,
+    #[cfg(not(test))]
+    pub certificates: &'a AuthorityBoundCertificateStore,
+    #[cfg(test)]
     pub certificates: &'a DistributedCertificateStore,
     pub failure_detector: &'a FailureDetector,
+    #[cfg(not(test))]
+    pub lease_ledger: &'a AuthorityBoundLeaseLedger,
+    #[cfg(test)]
     pub lease_ledger: &'a AuthorityLedger,
+    #[cfg(not(test))]
+    pub fencing: &'a AuthorityBoundFencingStore,
+    #[cfg(test)]
     pub fencing: &'a FencingStore,
     pub placement: &'a PlacementService<C>,
     pub migrations: &'a MigrationStore,
@@ -907,17 +922,38 @@ fn map_error(code: &str) -> ProjectionError {
         _ => ProjectionError::MalformedAuthority,
     }
 }
+#[cfg(test)]
 fn cert_error(error: super::certificates::CertificateError) -> ProjectionError {
     map_error(error.code())
+}
+#[cfg(not(test))]
+fn cert_error(
+    error: super::authority_store_adapters::AuthorityStoreAdapterError,
+) -> ProjectionError {
+    adapter_error(error)
 }
 fn failure_error(error: super::failure_detection::FailureError) -> ProjectionError {
     map_error(error.code())
 }
+#[cfg(test)]
 fn lease_error(error: super::lease::AuthorityError) -> ProjectionError {
     map_error(error.code())
 }
+#[cfg(not(test))]
+fn lease_error(
+    error: super::authority_store_adapters::AuthorityStoreAdapterError,
+) -> ProjectionError {
+    adapter_error(error)
+}
+#[cfg(test)]
 fn fencing_error(error: super::fencing::FencingError) -> ProjectionError {
     map_error(error.code())
+}
+#[cfg(not(test))]
+fn fencing_error(
+    error: super::authority_store_adapters::AuthorityStoreAdapterError,
+) -> ProjectionError {
+    adapter_error(error)
 }
 fn placement_error(error: super::placement::PlacementError) -> ProjectionError {
     map_error(error.code())
@@ -927,4 +963,27 @@ fn migration_error(error: super::migration::MigrationError) -> ProjectionError {
 }
 fn recovery_error(error: super::recovery::RecoveryError) -> ProjectionError {
     map_error(error.code())
+}
+
+#[cfg(not(test))]
+fn adapter_error(
+    error: super::authority_store_adapters::AuthorityStoreAdapterError,
+) -> ProjectionError {
+    match error {
+        super::authority_store_adapters::AuthorityStoreAdapterError::Reconciliation(error) => {
+            map_error(error.code())
+        }
+        super::authority_store_adapters::AuthorityStoreAdapterError::Certificate(error) => {
+            map_error(error.code())
+        }
+        super::authority_store_adapters::AuthorityStoreAdapterError::Lease(error) => {
+            map_error(error.code())
+        }
+        super::authority_store_adapters::AuthorityStoreAdapterError::Fencing(error) => {
+            map_error(error.code())
+        }
+        super::authority_store_adapters::AuthorityStoreAdapterError::LockPoisoned => {
+            ProjectionError::IncoherentCut
+        }
+    }
 }
