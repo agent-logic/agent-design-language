@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 13,
-  "digest": "0686befa4c8ee042bd9d1547593b03dfbc0cecc1be8802c01e0dc8d4dc19c77f",
+  "digest": "36abdc1b274cbb8367812d887a909f77aefeb9a00de77a6000fac49ef8b675fe",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:415236b9-4c2a-4e35-bf3f-9ab7c0f45012",
+    "assigned_by": "codex:issue-298",
+    "revision": "git-blake3:c2634cc440078700333bcefab6283714d6b5dab5:790023d5135142b34efee6ce1240a536be09a673abc9effc8728aad30872e39d",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b9f4c09e5453240010c5e0dbfc3ca3bbecb522cffac8225f728acda709da4b1c"
     },
     "srp": {
-      "values_digest": "ac2a2cbc7c0bf2861980151d274838f487bb8469a370cf0eb202942c391523e6",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "784dd9f759b71ace72ebef64b1726e50c6c4ff062381d665c16e21ed7d94cfe8",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "54cbc0c77e9c7fa752630f89cf910df0a40fa3f4350c353cc386cc13495f876e",
@@ -189,6 +204,13 @@
       "actor": "codex:issue-298",
       "reason": "record bounded anchored projection classification and resumable recovery implementation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Remediated exact review r1 authority gaps for full projection validation, descriptor-relative mutation, recovery-complete commit gating, immutable receipt-chain verification, recovery namespace inventory, and distinct proof cases\",\"changes\":[\"Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299\",\"Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation\",\"Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart\",\"Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery\",\"Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery\",\"Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions\",\"Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed\",\"Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection\",\"Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange\",\"Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt\",\"Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart\",\"Inventoried recovery attempts and classified matching completed recovery as already_recovered\",\"Added distinct terminal receipt tamper and already-recovered classification proof\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
