@@ -3,9 +3,9 @@
   "issue": 298,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
-  "phase": "implemented",
-  "generation": 53,
-  "digest": "6ee00cf00988f7599ae7b80d12ffc3bb18b7a4218c294e8dfc7f945eab5a438a",
+  "phase": "reviewed",
+  "generation": 54,
+  "digest": "e8cda4778f8ba7215d87f68dad17076b7d378f2f210116576a22e1ad34bd1801",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": {
@@ -24,7 +24,28 @@
       ".csdlc/evidence/298"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:f8fbe675-94b6-4990-95ca-2ad6bb932277",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ],
+    "reviewed_revision": "git-blake3:27f86ec60484b8caa555da47d714029e9f106b0f:f13833955c09ec95414ae385dd7a2a639bf3c941c76a353e1185a1e5b5fadefd",
+    "findings": [],
+    "residual_risks": [
+      "Inspection-only exact-revision review; the reviewer did not rerun tests or exercise publication, GitHub, or CI.",
+      "Owner validation proved Gate5 56/56, library 78/78, strict all-target Clippy, all-target check, formatting, and diff hygiene before assignment."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b555d18f8500bb203ea00b23a09382e49aad049bdc58866607ab0a11f6f5de23",
+      "values_digest": "836f548958ae46bbc7488e62affcb085994b7259de523f1f8c805ec2ade7897f",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "290190b6e953bc89a039c33f4d5e596df6f29a21198e0d9a580b713659cb746a",
+      "values_digest": "8c7622a59c592e3d8d9936046984276a3a8605f882f594044f07bfc77472804b",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "7250d78b05c4bb977d06a6eac9bbbeb6281947b4df0bfea088669bb7a1a340b8",
+      "values_digest": "21f3c5625ae7e2f0300947aed4b404a5a3119270e66973ba890e48616e2d8b90",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "629ac0de89ea7d21c200ca83b8a9a3005d3a691bd4c8788db665e5dfd63b127e",
+      "values_digest": "f797df80a3c46df8377d27727bd2469a589efd92cf3a4bcaae241a03a1c7dd1b",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "59e1d695b03b3eaeb7a5a5a6be6913e1a30f543b5881bd31dd54b83512cf64ab",
-      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
-      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
+      "values_digest": "044df4a336c4e14b4344088723c4a39e712e6350868dcde25babfaa72ce9a48d",
+      "rendered_digest": "892e28dadf5d1cd6acf0d8b5f548d5acb41efb72363a4a3da33061432e653eb5",
+      "ast_digest": "242a8c24495b105e6f10afb271e00ec8213cf7b7cdbdc3b7170403ec3b4da784"
     },
     "sor": {
-      "values_digest": "120c6ab182435ef2e78783b20dbf3525d6fc25a17b53cb6951124005149ce78a",
+      "values_digest": "d6717e0d31413760c585477a9c54e4d82bdb9124813cb5b7027d03190e48b645",
       "rendered_digest": "83caec3de16f245a4e50496920849f64039cea61a11e185733646331ccc3acfc",
       "ast_digest": "95dcfde3417f8189f8ddcd0979e0f3f36da6086cc21f840dbd591e83496f3466"
     }
@@ -111,6 +132,13 @@
       "to": "implemented",
       "actor": "codex:issue-298",
       "reason": "Recover stale r15 reviewed publication after stable post-publication substantive drift added fail-closed regular-file validation for partial receipt resume and a symlinked partial-receipt regression outside reviewed revision 058fcbb21; require a new exact implementation head, different fresh reviewer, and PR update before publication truth can be current."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:f8fbe675-94b6-4990-95ca-2ad6bb932277",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -652,6 +680,13 @@
       "actor": "codex:issue-298-r20-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 78,
+      "generation": 54,
+      "actor": "fresh-session:f8fbe675-94b6-4990-95ca-2ad6bb932277",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
