@@ -22,6 +22,35 @@ fn copy_tree(source: &std::path::Path, destination: &std::path::Path) {
     }
 }
 
+fn recovery_request(
+    store: &Store,
+    record: &csdlc_v2::IssueRecord,
+    classify: &csdlc_v2::ProjectionClassification,
+    operation_id: &str,
+) -> ProjectionRecoverRequest {
+    ProjectionRecoverRequest {
+        issue: 7,
+        operation_id: operation_id.into(),
+        classify_receipt_digest: classify.receipt_digest.clone(),
+        classification: classify.clone(),
+        failed_operation_lineage: FailedOperationLineage {
+            prior_generation: record.generation,
+            prior_record_digest: record.digest.clone(),
+            rejected_manifest_digest: classify.preserved.manifest_digest.clone().unwrap(),
+            failure_boundary: "verifier_rejected_after_install".into(),
+        },
+        anchor: ProjectionCasAnchor::VerifiedCanonical {
+            generation: classify.canonical.generation.unwrap(),
+            record_digest: classify.canonical.record_digest.clone().unwrap(),
+        },
+        actor: "test".into(),
+        reason: "recover receipt fixture".into(),
+        branch: "issue-7".into(),
+        worktree: store.root().to_string_lossy().into_owned(),
+        fail_after: None,
+    }
+}
+
 #[test]
 fn preserved_projection_recovery_archives_builds_installs_and_is_idempotent() {
     let (_temp, store, record) = implemented_fixture();
@@ -484,6 +513,55 @@ fn preserved_projection_recovery_blocks_ordinary_commit_until_typed_recovery() {
     )
     .expect_err("ordinary commit must fail closed");
     assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+}
+
+#[test]
+fn preserved_projection_recovery_validates_terminal_receipt_chain_and_classifies_completed_attempt()
+{
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "terminal receipt fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "receipt-chain");
+    let recovered =
+        csdlc_v2::recover_preserved_projection(&store, request.clone()).expect("recover");
+    let completed = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: recovered.canonical_generation,
+                record_digest: recovered.canonical_digest,
+            },
+            actor: "test".into(),
+            reason: "classify completed".into(),
+        },
+    )
+    .expect("classify completed");
+    assert_eq!(completed.disposition, "already_recovered");
+
+    let terminal = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/receipt-chain/013-recovered.json");
+    let mut envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&terminal).unwrap()).unwrap();
+    envelope["previous_receipt_digest"] = serde_json::Value::String("tampered".into());
+    std::fs::write(&terminal, serde_json::to_vec_pretty(&envelope).unwrap()).unwrap();
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("tampered chain rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
 }
 
 fn install_native_authority(root: &std::path::Path) {

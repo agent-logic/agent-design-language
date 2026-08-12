@@ -90,7 +90,7 @@ Implement anchored classification and deterministic resumable recovery for prese
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

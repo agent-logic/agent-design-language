@@ -255,6 +255,29 @@ impl Store {
     }
 
     fn recover_if_needed(&self, issue: u64) -> Result<()> {
+        let recovery_root = self
+            .root
+            .join(".csdlc/issues")
+            .join(format!(".{issue}.recovery"));
+        if recovery_root.is_dir() {
+            for entry in fs::read_dir(&recovery_root)? {
+                let entry = entry?;
+                if entry.file_type()?.is_dir()
+                    && !fs::read_dir(entry.path())?.any(|item| {
+                        item.ok().is_some_and(|item| {
+                            item.file_name()
+                                .to_string_lossy()
+                                .ends_with("-recovered.json")
+                        })
+                    })
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "incomplete typed projection recovery must reach verified RECOVERED before ordinary commit",
+                    ));
+                }
+            }
+        }
         self.recover_local_transaction(issue)
     }
 

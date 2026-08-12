@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "c6a69d60cbb488e67f8ce4f957d1a95143445ee40a88a17e87be2286f99b5aa5",
+  "generation": 12,
+  "digest": "c7d7b5b46c22e12fd495e48a16e1a2710b1dc3906c334a8f5cdfbc7cc198d00a",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:aeb07243-238f-4231-b94f-6b2b68037892",
-    "assigned_by": "codex:issue-298",
-    "revision": "git-blake3:3b285a8c19584e2ad68274bf311a6e6a59caf64d:14efa2ad9e42fb160afb67b6a03797a0ef5aed25faf1e6d4dfdfedb32f026d87",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "39cf4012beb1d733ce3c6d82a729a68a227f2331225f138214971d52fd3dcc42",
+      "values_digest": "cdf68e75e6ad1c79c13bb61b19a4eb00969f62aa01b10261934f7f1759d6b850",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "89651ca193ff3c7480be393797dccb3050ae889db93e851fb7d0952e6fc27c5e",
+      "values_digest": "d57ccb8e1d9a2a8447c436fcad28daa207c00bc8ce9923780cffd13b72a68c9a",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "f2d4ecc8fb13f228380c5f372e4c927db50a145764adbde2ba07e62819a87b17",
+      "values_digest": "3e9520428e3a7e46075c6788abe28f6c00fcde650d7a36b493d9db3275bf00f1",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "d38b63d804a168014f793255ca6087a0aa71668454bdad92a9cfff74fd87eb83",
+      "values_digest": "7ce3fed41316a728ba3face7d1935db18a27fdfd44dd954caf2a2c3553f6df6b",
       "rendered_digest": "b9f45479040c70ab63704b285e1c071962398cd8ab288bf92cc4aa0e64830845",
       "ast_digest": "b9f4c09e5453240010c5e0dbfc3ca3bbecb522cffac8225f728acda709da4b1c"
     },
     "srp": {
-      "values_digest": "2296ab420c880bba36be0babbd4a4e6c85eb9f2befb1aad1cf47e4d996aed5af",
-      "rendered_digest": "53f06b233634c8072051dc79b1633389f5326122a0c4bc5922e14cf13156da11",
-      "ast_digest": "98f7f5aaee2529173a278785d2249dcb693477938d2cf3e5d24e7316e142418e"
+      "values_digest": "4ac5240d9ad284a15b80414235afc7e1fd718e91914c144c7795b01f3bae056d",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "4cf9f9e6406c0eb5cdb35426d2fdd9cb73d1e6496431a11a76d693ef859424f3",
-      "rendered_digest": "5ae48e6d38e0306fd57044201f42e21799a2ec75f77a7b6f1c6e4435f7228a35",
-      "ast_digest": "dcb13949facaee08bb3095a8c894ce832e12d626db6bce26a0f8983cb9b33813"
+      "values_digest": "f8db27cc68bc210b859d4efaa2ea5a3e796b54110c4e226fe6d239798fc6aede",
+      "rendered_digest": "d0e7488865e8752c8fb295af5eb7306999fdee4603143578254f6c5cf2e96a48",
+      "ast_digest": "03d654356e3c8228e3d15bdfec357c53e5577b50650f0476330cb2b43c3638bd"
     }
   },
   "transitions": [
@@ -190,6 +175,13 @@
       "actor": "codex:issue-298",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:issue-298",
+      "reason": "Recover failed exact review r1 at 3b285a8c: incomplete IssueRecord/card/artifact verification; mutations fall back to AT_FDCWD path strings after retained descriptors drop; ordinary commit gate opens at archive_renamed before complete verified recovery; receipt envelopes and chain are not fully validated; recovery namespace inventory and already_recovered classification are absent; boundary proof overclaims and omits distinct receipt, prefix, metadata, collision, and identity cases",
+      "operation": "recover_review"
     }
   ]
 }

@@ -1,4 +1,4 @@
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, File, OpenOptions};
 use std::io::{Read, Write};
 use std::os::unix::fs::{MetadataExt, OpenOptionsExt, PermissionsExt};
@@ -7,6 +7,7 @@ use std::path::{Path, PathBuf};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
+use crate::cards::{render, CardContent, CardKind, CardValues};
 use crate::{ErrorCode, IssueRecord, Result, Store, V2Error};
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -62,7 +63,61 @@ pub struct ManifestEntry {
 }
 
 fn receipt_payload<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
+    let name = path.file_name().and_then(|v| v.to_str()).ok_or_else(|| {
+        V2Error::new(ErrorCode::CorruptRecord, "recovery receipt name is invalid")
+    })?;
+    let (seq, state) = name
+        .strip_suffix(".json")
+        .and_then(|v| v.split_once('-'))
+        .ok_or_else(|| {
+            V2Error::new(ErrorCode::CorruptRecord, "recovery receipt name is invalid")
+        })?;
+    let seq: u32 = seq.parse().map_err(|_| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt sequence is invalid",
+        )
+    })?;
     let value: serde_json::Value = serde_json::from_slice(&fs::read(path)?)?;
+    if value.get("schema").and_then(|v| v.as_str()) != Some("csdlc.projection_recovery_receipt.v1")
+        || value.get("sequence").and_then(|v| v.as_u64()) != Some(seq as u64)
+        || value.get("state").and_then(|v| v.as_str()) != Some(state)
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt envelope identity is invalid",
+        ));
+    }
+    let expected_previous = if seq == 1 {
+        None
+    } else {
+        let prefix = format!("{:03}-", seq - 1);
+        let prior: Vec<_> = fs::read_dir(path.parent().unwrap())?
+            .filter_map(std::result::Result::ok)
+            .filter(|entry| entry.file_name().to_string_lossy().starts_with(&prefix))
+            .collect();
+        if prior.len() != 1 {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt chain predecessor is ambiguous",
+            ));
+        }
+        Some(
+            blake3::hash(&fs::read(prior[0].path())?)
+                .to_hex()
+                .to_string(),
+        )
+    };
+    if value
+        .get("previous_receipt_digest")
+        .and_then(|v| v.as_str())
+        != expected_previous.as_deref()
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt chain digest is invalid",
+        ));
+    }
     serde_json::from_value(value.get("payload").cloned().ok_or_else(|| {
         V2Error::new(
             ErrorCode::CorruptRecord,
@@ -398,6 +453,100 @@ fn walk(path: &Path) -> Result<Vec<ManifestEntry>> {
     Ok(out)
 }
 
+fn validate_projection(path: &Path, issue: u64) -> Result<IssueRecord> {
+    use strum::IntoEnumIterator;
+    let record: IssueRecord = serde_json::from_slice(&fs::read(path.join("index.json"))?)?;
+    if record.issue != issue {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "projection namespace mismatch",
+        ));
+    }
+    crate::store::verify_record(&record)?;
+    let mut cards: BTreeMap<CardKind, CardValues> = BTreeMap::new();
+    for kind in CardKind::iter() {
+        let values: CardValues = serde_json::from_slice(&fs::read(
+            path.join("cards").join(format!("{kind}.values.json")),
+        )?)?;
+        if values.identity.issue != issue
+            || values.identity.generation != record.generation
+            || values.kind() != kind
+        {
+            return Err(V2Error::new(
+                ErrorCode::CardInvalid,
+                "projection card identity is inconsistent",
+            ));
+        }
+        let rendered = render(&values)?;
+        let projection = record.cards.get(&kind).ok_or_else(|| {
+            V2Error::new(ErrorCode::CardInvalid, "projection card digest is missing")
+        })?;
+        if projection.values_digest != rendered.values_digest
+            || projection.rendered_digest != rendered.rendered_digest
+            || projection.ast_digest != rendered.ast_digest
+            || fs::read(path.join("cards").join(format!("{kind}.md")))?
+                != rendered.markdown.as_bytes()
+        {
+            return Err(V2Error::new(
+                ErrorCode::CardInvalid,
+                "projection card artifact or digest drift",
+            ));
+        }
+        cards.insert(kind, values);
+    }
+    let spp = cards
+        .get(&CardKind::Spp)
+        .and_then(|v| match &v.content {
+            CardContent::Spp(v) => Some(v),
+            _ => None,
+        })
+        .ok_or_else(|| V2Error::new(ErrorCode::CardInvalid, "SPP card is missing"))?;
+    crate::cards::validate_cross_card(
+        &cards,
+        &spp.design_ref,
+        &spp.design_digest,
+        &spp.diagram_ref,
+        &spp.diagram_digest,
+    )?;
+    let mut cursor = path;
+    let repo_root = loop {
+        if cursor.file_name().and_then(|v| v.to_str()) == Some(".csdlc") {
+            break cursor.parent().unwrap();
+        }
+        cursor = cursor.parent().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "projection is outside a repository .csdlc namespace",
+            )
+        })?;
+    };
+    for (relative, digest) in [
+        (&spp.design_ref, &spp.design_digest),
+        (&spp.diagram_ref, &spp.diagram_digest),
+    ] {
+        let bytes = fs::read(repo_root.join(relative))?;
+        if blake3::hash(&bytes).to_hex().as_str() != digest {
+            return Err(V2Error::new(
+                ErrorCode::CardInvalid,
+                "projection authored artifact digest drift",
+            ));
+        }
+    }
+    let audit = fs::read(path.join("audit.jsonl"))?;
+    let mut expected = Vec::new();
+    for event in &record.audit {
+        serde_json::to_writer(&mut expected, event)?;
+        expected.push(b'\n');
+    }
+    if audit != expected {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "projection audit artifact drift",
+        ));
+    }
+    Ok(record)
+}
+
 fn observe(path: &Path, name: &str, issue: u64) -> CandidateObservation {
     let absent = CandidateObservation {
         name: name.into(),
@@ -440,10 +589,9 @@ fn observe(path: &Path, name: &str, issue: u64) -> CandidateObservation {
     let manifest_digest = blake3::hash(&serde_json::to_vec(&entries).unwrap_or_default())
         .to_hex()
         .to_string();
-    let record = fs::read(path.join("index.json"))
-        .ok()
-        .and_then(|b| serde_json::from_slice::<IssueRecord>(&b).ok());
-    let valid = record.as_ref().is_some_and(|r| r.issue == issue);
+    let validation = validate_projection(path, issue);
+    let record = validation.as_ref().ok();
+    let valid = record.is_some();
     CandidateObservation {
         name: name.into(),
         state: if valid { "verified" } else { "invalid" }.into(),
@@ -455,7 +603,12 @@ fn observe(path: &Path, name: &str, issue: u64) -> CandidateObservation {
         error: if valid {
             None
         } else {
-            Some("candidate record absent, corrupt, or namespace-mismatched".into())
+            Some(
+                validation
+                    .err()
+                    .map(|e| e.message)
+                    .unwrap_or_else(|| "candidate projection invalid".into()),
+            )
         },
     }
 }
@@ -538,11 +691,51 @@ pub fn classify_preserved_projection(
         request.issue,
     );
     check_anchor(&request.anchor, &canonical, &backup)?;
+    let recovery = recovery_root(store, request.issue);
+    let mut completed_match = false;
+    if recovery.is_dir() {
+        for entry in fs::read_dir(&recovery)? {
+            let entry = entry?;
+            let name = entry.file_name();
+            let name = name.to_str().ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "recovery namespace contains a non-UTF8 entry",
+                )
+            })?;
+            validate_operation_id(name)?;
+            if !entry.file_type()?.is_dir() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "recovery namespace contains a non-directory attempt",
+                ));
+            }
+            let recovered: Vec<_> = fs::read_dir(entry.path())?
+                .filter_map(std::result::Result::ok)
+                .filter(|v| v.file_name().to_string_lossy().ends_with("-recovered.json"))
+                .collect();
+            if recovered.len() > 1 {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "recovery attempt has ambiguous terminal receipts",
+                ));
+            }
+            if let Some(receipt) = recovered.first() {
+                let result: ProjectionRecoveryResult = receipt_payload(&receipt.path())?;
+                completed_match |= result.issue == request.issue
+                    && canonical.valid_projection
+                    && canonical.generation == Some(result.canonical_generation)
+                    && canonical.record_digest.as_deref() == Some(&result.canonical_digest);
+            }
+        }
+    }
     let unsafe_any = [&canonical, &backup, &preserved]
         .iter()
         .any(|c| c.state == "unsafe");
     let disposition = if unsafe_any {
         "unsafe"
+    } else if completed_match {
+        "already_recovered"
     } else if preserved.state == "absent" && backup.state == "absent" {
         "clean"
     } else if preserved.state != "absent" && (canonical.valid_projection || backup.valid_projection)
@@ -583,16 +776,21 @@ fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Resu
         None
     } else {
         let prefix = format!("{:03}-", seq - 1);
-        let prior = fs::read_dir(dir)?
+        let prior: Vec<_> = fs::read_dir(dir)?
             .filter_map(std::result::Result::ok)
-            .find(|entry| entry.file_name().to_string_lossy().starts_with(&prefix))
-            .ok_or_else(|| {
-                V2Error::new(
-                    ErrorCode::CorruptRecord,
-                    "recovery receipt chain is incomplete",
-                )
-            })?;
-        Some(blake3::hash(&fs::read(prior.path())?).to_hex().to_string())
+            .filter(|entry| entry.file_name().to_string_lossy().starts_with(&prefix))
+            .collect();
+        if prior.len() != 1 {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt chain predecessor is missing or ambiguous",
+            ));
+        }
+        Some(
+            blake3::hash(&fs::read(prior[0].path())?)
+                .to_hex()
+                .to_string(),
+        )
     };
     let envelope = serde_json::json!({
         "schema":"csdlc.projection_recovery_receipt.v1",
@@ -626,6 +824,37 @@ fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Resu
 
 fn receipt_path(dir: &Path, seq: u32, state: &str) -> PathBuf {
     dir.join(format!("{seq:03}-{state}.json"))
+}
+
+fn validate_receipt_inventory(dir: &Path) -> Result<()> {
+    let mut receipts: Vec<_> = fs::read_dir(dir)?
+        .filter_map(std::result::Result::ok)
+        .filter(|entry| entry.file_type().is_ok_and(|t| t.is_file()))
+        .collect();
+    receipts.sort_by_key(|entry| entry.file_name());
+    for (index, entry) in receipts.iter().enumerate() {
+        let name = entry.file_name();
+        let name = name.to_str().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt name is not UTF-8",
+            )
+        })?;
+        let seq: usize = name.get(..3).and_then(|v| v.parse().ok()).ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt name has no sequence",
+            )
+        })?;
+        if seq != index + 1 {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt inventory is not a unique exact prefix",
+            ));
+        }
+        let _: serde_json::Value = receipt_payload(&entry.path())?;
+    }
+    Ok(())
 }
 
 fn exact_observation(path: &Path, expected: &CandidateObservation, issue: u64) -> Result<bool> {
@@ -668,16 +897,24 @@ fn same_moved_observation(
 #[cfg(target_os = "macos")]
 fn rename_no_replace(source: &Path, destination: &Path) -> Result<()> {
     use std::ffi::CString;
+    use std::os::fd::AsRawFd;
     use std::os::unix::ffi::OsStrExt;
-    let source = CString::new(source.as_os_str().as_bytes())
+    let source_parent =
+        open_root_no_follow(source.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidInput, "rename source has no parent")
+        })?)?;
+    let destination_parent = open_root_no_follow(destination.parent().ok_or_else(|| {
+        V2Error::new(ErrorCode::InvalidInput, "rename destination has no parent")
+    })?)?;
+    let source = CString::new(source.file_name().unwrap().as_bytes())
         .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "rename source contains NUL"))?;
-    let destination = CString::new(destination.as_os_str().as_bytes())
+    let destination = CString::new(destination.file_name().unwrap().as_bytes())
         .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "rename destination contains NUL"))?;
     let result = unsafe {
         libc::renameatx_np(
-            libc::AT_FDCWD,
+            source_parent.as_raw_fd(),
             source.as_ptr(),
-            libc::AT_FDCWD,
+            destination_parent.as_raw_fd(),
             destination.as_ptr(),
             libc::RENAME_EXCL,
         )
@@ -692,17 +929,25 @@ fn rename_no_replace(source: &Path, destination: &Path) -> Result<()> {
 #[cfg(target_os = "linux")]
 fn rename_no_replace(source: &Path, destination: &Path) -> Result<()> {
     use std::ffi::CString;
+    use std::os::fd::AsRawFd;
     use std::os::unix::ffi::OsStrExt;
-    let source = CString::new(source.as_os_str().as_bytes())
+    let source_parent =
+        open_root_no_follow(source.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidInput, "rename source has no parent")
+        })?)?;
+    let destination_parent = open_root_no_follow(destination.parent().ok_or_else(|| {
+        V2Error::new(ErrorCode::InvalidInput, "rename destination has no parent")
+    })?)?;
+    let source = CString::new(source.file_name().unwrap().as_bytes())
         .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "rename source contains NUL"))?;
-    let destination = CString::new(destination.as_os_str().as_bytes())
+    let destination = CString::new(destination.file_name().unwrap().as_bytes())
         .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "rename destination contains NUL"))?;
     let result = unsafe {
         libc::syscall(
             libc::SYS_renameat2,
-            libc::AT_FDCWD,
+            source_parent.as_raw_fd(),
             source.as_ptr(),
-            libc::AT_FDCWD,
+            destination_parent.as_raw_fd(),
             destination.as_ptr(),
             libc::RENAME_NOREPLACE,
         )
@@ -725,16 +970,27 @@ fn rename_no_replace(_source: &Path, _destination: &Path) -> Result<()> {
 #[cfg(target_os = "macos")]
 fn exchange(source: &Path, destination: &Path) -> Result<()> {
     use std::ffi::CString;
+    use std::os::fd::AsRawFd;
     use std::os::unix::ffi::OsStrExt;
-    let source = CString::new(source.as_os_str().as_bytes())
+    let source_parent =
+        open_root_no_follow(source.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidInput, "exchange source has no parent")
+        })?)?;
+    let destination_parent = open_root_no_follow(destination.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "exchange destination has no parent",
+        )
+    })?)?;
+    let source = CString::new(source.file_name().unwrap().as_bytes())
         .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "exchange source contains NUL"))?;
-    let destination = CString::new(destination.as_os_str().as_bytes())
+    let destination = CString::new(destination.file_name().unwrap().as_bytes())
         .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "exchange destination contains NUL"))?;
     let result = unsafe {
         libc::renameatx_np(
-            libc::AT_FDCWD,
+            source_parent.as_raw_fd(),
             source.as_ptr(),
-            libc::AT_FDCWD,
+            destination_parent.as_raw_fd(),
             destination.as_ptr(),
             libc::RENAME_SWAP,
         )
@@ -749,17 +1005,28 @@ fn exchange(source: &Path, destination: &Path) -> Result<()> {
 #[cfg(target_os = "linux")]
 fn exchange(source: &Path, destination: &Path) -> Result<()> {
     use std::ffi::CString;
+    use std::os::fd::AsRawFd;
     use std::os::unix::ffi::OsStrExt;
-    let source = CString::new(source.as_os_str().as_bytes())
+    let source_parent =
+        open_root_no_follow(source.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidInput, "exchange source has no parent")
+        })?)?;
+    let destination_parent = open_root_no_follow(destination.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "exchange destination has no parent",
+        )
+    })?)?;
+    let source = CString::new(source.file_name().unwrap().as_bytes())
         .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "exchange source contains NUL"))?;
-    let destination = CString::new(destination.as_os_str().as_bytes())
+    let destination = CString::new(destination.file_name().unwrap().as_bytes())
         .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "exchange destination contains NUL"))?;
     let result = unsafe {
         libc::syscall(
             libc::SYS_renameat2,
-            libc::AT_FDCWD,
+            source_parent.as_raw_fd(),
             source.as_ptr(),
-            libc::AT_FDCWD,
+            destination_parent.as_raw_fd(),
             destination.as_ptr(),
             libc::RENAME_EXCHANGE,
         )
@@ -1133,6 +1400,7 @@ pub fn recover_preserved_projection(
     let prepared_path = receipt_path(&attempt, 1, "prepared");
     let done = receipt_path(&attempt, 13, "recovered");
     if done.is_file() {
+        validate_receipt_inventory(&attempt)?;
         let result: ProjectionRecoveryResult = receipt_payload(&done)?;
         let canonical = observe(&store.issue_dir(request.issue), "canonical", request.issue);
         if canonical.generation == Some(result.canonical_generation)
