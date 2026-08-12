@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
     "slug": "issue-203-authority-store-boundary-slice1",
     "version": "v0.92",
-    "generation": 20
+    "generation": 23
   },
   "status": "pre_phase",
   "content": {
@@ -27,6 +27,8 @@
         "Merged current origin/main after recording zero changed-path overlap with #258 and retained the post-merge validation evidence in this SOR."
       ],
       "artifacts": [
+        ".csdlc/evidence/258/csdlc-validate-cumulative-sor-ancestry-ref.log",
+        ".csdlc/evidence/258/current-main-ancestry-after-dac45ca.log",
         ".csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt",
         ".csdlc/evidence/258/main-changed-paths-since-5fd55acd.txt",
         ".csdlc/evidence/258/issue-258-changed-paths-since-5fd55acd.txt",
@@ -56,7 +58,7 @@
           ],
           "purpose": "Confirm current origin/main is ancestral to the #258 branch after the explicit current-main merge.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt"
+          "evidence_ref": ".csdlc/evidence/258/current-main-ancestry-after-dac45ca.log"
         },
         {
           "command": [
@@ -203,9 +205,9 @@
             "--issue",
             "258"
           ],
-          "purpose": "Validate typed #258 lifecycle truth after cumulative SOR repair.",
+          "purpose": "Validate typed #258 lifecycle truth after cumulative SOR ancestry evidence repair.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/258/csdlc-validate-final-test-token-seal.log"
+          "evidence_ref": ".csdlc/evidence/258/csdlc-validate-cumulative-sor-ancestry-ref.log"
         }
       ],
       "integration_state": "worktree_only",

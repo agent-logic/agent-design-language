@@ -16,6 +16,8 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
 
 ## Artifacts
 
+- .csdlc/evidence/258/csdlc-validate-cumulative-sor-ancestry-ref.log
+- .csdlc/evidence/258/current-main-ancestry-after-dac45ca.log
 - .csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt
 - .csdlc/evidence/258/main-changed-paths-since-5fd55acd.txt
 - .csdlc/evidence/258/issue-258-changed-paths-since-5fd55acd.txt
@@ -60,7 +62,7 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
     ],
     "purpose": "Confirm current origin/main is ancestral to the #258 branch after the explicit current-main merge.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt"
+    "evidence_ref": ".csdlc/evidence/258/current-main-ancestry-after-dac45ca.log"
   },
   {
     "command": [
@@ -207,9 +209,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--issue",
       "258"
     ],
-    "purpose": "Validate typed #258 lifecycle truth after cumulative SOR repair.",
+    "purpose": "Validate typed #258 lifecycle truth after cumulative SOR ancestry evidence repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-final-test-token-seal.log"
+    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-cumulative-sor-ancestry-ref.log"
   }
 ]
 
