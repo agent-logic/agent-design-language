@@ -80,11 +80,11 @@ Stabilized the cleanup-race proof by queueing the duplicate attachment immediate
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
