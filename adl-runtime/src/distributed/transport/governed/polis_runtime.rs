@@ -578,7 +578,8 @@ pub struct PolisRuntimeAuthorityBootstrap {
 }
 
 impl PolisRuntimeAuthorityBootstrap {
-    pub fn restore_configured(
+    #[allow(dead_code)]
+    pub(crate) fn restore_configured(
         certificate_store: Arc<DistributedCertificateStore>,
         membership_policy: MembershipPolicy,
         membership_snapshot: &[u8],

@@ -849,7 +849,7 @@ struct VerifiedRouteAuthority {
 ///
 /// Route and polis verification consume this handle rather than accepting a
 /// caller-nominated `AuthorityMembership` at the authorization boundary.
-pub trait RuntimeCertificateAuthority: Send + Sync {
+pub(crate) trait RuntimeCertificateAuthority: Send + Sync {
     fn authorize_runtime_certificate(
         &self,
         holder_id: &str,
@@ -861,6 +861,7 @@ pub trait RuntimeCertificateAuthority: Send + Sync {
 
 #[derive(Clone)]
 enum CertificateAuthorityHandle {
+    #[allow(dead_code)]
     Raw(Arc<DistributedCertificateStore>),
     Bound(Arc<dyn RuntimeCertificateAuthority>),
 }
@@ -904,6 +905,7 @@ pub(crate) struct RuntimeAuthorityInitializer {
 }
 
 impl RuntimeAuthorityInitializer {
+    #[allow(dead_code)]
     pub(crate) fn restore(
         certificate_store: Arc<DistributedCertificateStore>,
         membership_policy: MembershipPolicy,
@@ -1693,14 +1695,15 @@ pub struct TransportAuthorization {
 }
 
 impl TransportAuthorization {
-    pub fn new(
+    #[allow(dead_code)]
+    pub(crate) fn new(
         store: Arc<DistributedCertificateStore>,
         certificate: &AuthorityCertificate,
     ) -> TransportResult<Self> {
         Self::new_with_handle(CertificateAuthorityHandle::Raw(store), certificate)
     }
 
-    pub fn new_authority_bound(
+    pub(crate) fn new_authority_bound(
         store: Arc<dyn RuntimeCertificateAuthority>,
         certificate: &AuthorityCertificate,
     ) -> TransportResult<Self> {

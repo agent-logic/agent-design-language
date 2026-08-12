@@ -8,6 +8,19 @@
 
 use std::sync::{Arc, Mutex};
 
+#[cfg(debug_assertions)]
+use std::path::Path;
+
+#[cfg(debug_assertions)]
+use super::authority_protocol::{
+    test_published_reconciliation_token, AuthorityNodeIdentity, CanonicalAuthorityTime,
+};
+#[cfg(debug_assertions)]
+use super::authority_reconciliation::{
+    AuthorityReconciliationArtifact, AuthorityReconciliationIdentity,
+};
+#[cfg(debug_assertions)]
+use super::polis_runtime::ConsensusCheckpointAuthority;
 use super::{
     authority_reconciliation::{
         AuthorityPermitAction, AuthorityReconciliationBarrier, AuthorityReconciliationError,
@@ -24,7 +37,7 @@ use super::{
         AuthorityApplication, AuthorityError, AuthorityLedger, AuthorityMembership,
         LeaseAuthorityRevision, LeaseState, MutationAuthorization, RedactedLeaseSnapshot,
     },
-    transport::RuntimeCertificateAuthority,
+    transport::{RuntimeCertificateAuthority, TransportAuthorization, TransportError},
 };
 
 const CERTIFICATE_ACTIVATE: &str = "certificate_activate";
@@ -33,6 +46,10 @@ const LEASE_APPLY: &str = "lease_apply";
 const LEASE_MUTATION: &str = "lease_mutation";
 const FENCING_COMMIT: &str = "fencing_commit";
 const FENCING_ACTIVE_LEASE: &str = "fencing_active_lease";
+#[cfg(debug_assertions)]
+const TEST_ADAPTER_KIND: &str = "adl.test.deterministic-authority";
+#[cfg(debug_assertions)]
+const TEST_ADAPTER_VERSION: u32 = 1;
 
 pub type AuthorityStoreAdapterResult<T> = Result<T, AuthorityStoreAdapterError>;
 
@@ -174,6 +191,61 @@ impl AuthorityStoreAdapterRegistry {
     }
 }
 
+/// Debug/focused-proof fixture seam for external integration tests.
+///
+/// The helper never returns a raw certificate authority handle: it publishes a
+/// deterministic reconciliation result through the same barrier that production
+/// adapters use, then returns the sealed authority-bound certificate store.
+#[cfg(debug_assertions)]
+#[doc(hidden)]
+pub fn authority_bound_certificate_store_for_test_fixture(
+    root: &Path,
+    identity: AuthorityReconciliationIdentity,
+    checkpoint_authority: Arc<dyn ConsensusCheckpointAuthority>,
+    lineage_id: &str,
+    store: Arc<DistributedCertificateStore>,
+) -> AuthorityStoreAdapterResult<AuthorityBoundCertificateStore> {
+    let artifact = AuthorityReconciliationArtifact::new(
+        lineage_id.to_owned(),
+        TEST_ADAPTER_KIND.to_owned(),
+        TEST_ADAPTER_VERSION,
+        CERTIFICATE_ACTIVATE.to_owned(),
+        vec![b"authority-bound-certificate-fixture-step".to_vec()],
+        b"authority-bound-certificate-fixture-result".to_vec(),
+        2_000_000_000,
+    )?;
+    let committed = artifact.committed_artifact().map_err(|_| {
+        AuthorityStoreAdapterError::Reconciliation(AuthorityReconciliationError::InvalidArtifact)
+    })?;
+    let authority_identity = AuthorityNodeIdentity {
+        trust_domain: identity.trust_domain.clone(),
+        polis_id: identity.polis_id.clone(),
+        node_id: identity.node_id.clone(),
+        guardian_id: identity.guardian_id.clone(),
+        boot_generation: identity.boot_generation,
+    };
+    let operation_id = format!("authority-bound-certificate-fixture-{lineage_id}");
+    let token = test_published_reconciliation_token(
+        authority_identity,
+        &operation_id,
+        committed,
+        1,
+        CanonicalAuthorityTime {
+            unix_seconds: 1_900_000_000,
+            nanos: 0,
+            uncertainty_millis: 0,
+        },
+    );
+    let barrier_root = root.join(format!("authority-reconciliation-barrier-{lineage_id}"));
+    std::fs::create_dir_all(&barrier_root).map_err(|_| {
+        AuthorityStoreAdapterError::Reconciliation(AuthorityReconciliationError::Storage)
+    })?;
+    let mut barrier =
+        AuthorityReconciliationBarrier::open(&barrier_root, identity, checkpoint_authority)?;
+    barrier.reconcile(&token)?;
+    AuthorityStoreAdapterRegistry::new(Arc::new(barrier)).certificate_store(lineage_id, store)
+}
+
 #[derive(Clone)]
 pub struct AuthorityBoundCertificateStore {
     lineage_id: String,
@@ -182,6 +254,13 @@ pub struct AuthorityBoundCertificateStore {
 }
 
 impl AuthorityBoundCertificateStore {
+    pub fn transport_authorization(
+        &self,
+        certificate: &AuthorityCertificate,
+    ) -> Result<TransportAuthorization, TransportError> {
+        TransportAuthorization::new_authority_bound(Arc::new(self.clone()), certificate)
+    }
+
     pub fn authorize(
         &self,
         holder_id: &str,

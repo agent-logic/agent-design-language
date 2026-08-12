@@ -1027,7 +1027,7 @@ impl PublishedAuthorityResult {
     }
 }
 
-#[cfg(test)]
+#[cfg(any(test, debug_assertions))]
 pub(crate) fn test_published_reconciliation_token(
     identity: AuthorityNodeIdentity,
     operation_id: &str,

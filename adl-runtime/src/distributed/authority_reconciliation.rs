@@ -27,9 +27,9 @@ use super::{
 
 const ARTIFACT_SCHEMA: &str = "adl.authority-reconciliation.artifact.v1";
 const PROTOCOL_INSTANCE: &str = "adl.authority-reconciliation.v1";
-#[cfg(test)]
+#[cfg(any(test, debug_assertions))]
 const TEST_ADAPTER_KIND: &str = "adl.test.deterministic-authority";
-#[cfg(test)]
+#[cfg(any(test, debug_assertions))]
 const TEST_ADAPTER_VERSION: u32 = 1;
 const MAX_OPERATIONS: usize = 4_096;
 const MAX_STEPS: usize = 64;
@@ -858,10 +858,42 @@ fn execute_registered_step(
     {
         return execute_test_step(operation, index);
     }
-    #[cfg(not(test))]
+    #[cfg(all(debug_assertions, not(test)))]
+    if operation.adapter_kind == TEST_ADAPTER_KIND
+        && operation.adapter_version == TEST_ADAPTER_VERSION
+    {
+        return execute_debug_step(operation, index);
+    }
+    #[cfg(not(any(test, debug_assertions)))]
     let _ = operation;
     let _ = index;
     Err(AuthorityReconciliationError::UnknownAdapter)
+}
+
+#[cfg(all(debug_assertions, not(test)))]
+fn execute_debug_step(
+    operation: &DurableReconciliationOperation,
+    index: usize,
+) -> AuthorityReconciliationResult<AuthorityStepReceipt> {
+    let plan = operation
+        .plan
+        .get(index)
+        .ok_or(AuthorityReconciliationError::ReceiptMismatch)?;
+    Ok(AuthorityStepReceipt {
+        index: plan.index,
+        input_sha256: plan.input_sha256,
+        output_sha256: plan.expected_output_sha256,
+        receipt_sha256: domain_digest(
+            b"ADL-AUTHORITY-RECONCILIATION-STEP-RECEIPT-V1\0",
+            &(
+                operation.token_sha256,
+                operation.plan_sha256,
+                plan.index,
+                plan.input_sha256,
+                plan.expected_output_sha256,
+            ),
+        )?,
+    })
 }
 
 fn validate_receipt(
