@@ -40,8 +40,8 @@ fn runtime_service_builds_validates_and_emits_receipt() {
         &state_root,
     );
     let init = RuntimeInitConfig::load(Some(init_path)).expect("validated runtime init");
-    let trust = init
-        .load_birth_witness_trust()
+    let owner = init
+        .birth_witness_owner()
         .expect("boot-trusted birth-witness manifest");
 
     let fixture = format!(
@@ -51,20 +51,14 @@ fn runtime_service_builds_validates_and_emits_receipt() {
     let mut candidate: BirthdayCandidate =
         serde_json::from_str(&fs::read_to_string(fixture).expect("read candidate"))
             .expect("parse candidate");
-    let provisional = trust
-        .provision("0".repeat(64), 7)
-        .expect("provision roster digest");
     candidate
         .evidence
         .iter_mut()
         .find(|entry| entry.kind == EvidenceKind::WitnessSet)
         .expect("witness roster evidence")
-        .sha256 = provisional.roster_sha256().to_owned();
+        .sha256 = owner.roster_sha256().expect("provision roster digest");
     candidate.packet_sha256 = candidate_digest(&candidate).expect("candidate digest");
 
-    let service = trust
-        .provision(candidate.packet_sha256.clone(), 7)
-        .expect("provision runtime service");
     let evidence_set_sha256 = reviewed_evidence_set_digest(&candidate).expect("evidence digest");
     let attestations = BirthWitnessRole::REQUIRED
         .into_iter()
@@ -93,8 +87,8 @@ fn runtime_service_builds_validates_and_emits_receipt() {
     let decision = decide_birthday(&candidate);
     let emitted = RefCell::new(Vec::new());
     let emitted_ref = &emitted;
-    let packet = service
-        .build_validate_and_emit(&candidate, &decision, &attestations, |receipt| {
+    let packet = owner
+        .build_validate_and_emit(&candidate, &decision, 7, &attestations, |receipt| {
             let receipt = receipt.to_vec();
             Ok(move || emitted_ref.borrow_mut().extend_from_slice(&receipt))
         })
@@ -113,8 +107,8 @@ fn runtime_service_builds_validates_and_emits_receipt() {
     let mut invalid = attestations.clone();
     invalid[0].signature = "0".repeat(128);
     let mut invalid_sink_calls = 0;
-    let error = service
-        .build_validate_and_emit(&candidate, &decision, &invalid, |_| {
+    let error = owner
+        .build_validate_and_emit(&candidate, &decision, 7, &invalid, |_| {
             invalid_sink_calls += 1;
             Ok(|| {})
         })
@@ -126,13 +120,10 @@ fn runtime_service_builds_validates_and_emits_receipt() {
     assert_eq!(invalid_sink_calls, 0);
 
     let failed_sink_commits = 0;
-    let error = service
-        .build_validate_and_emit(
-            &candidate,
-            &decision,
-            &attestations,
-            |_| Err::<fn(), ()>(()),
-        )
+    let error = owner
+        .build_validate_and_emit(&candidate, &decision, 7, &attestations, |_| {
+            Err::<fn(), ()>(())
+        })
         .expect_err("sink preparation failure must be reported");
     assert_eq!(
         error,

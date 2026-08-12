@@ -14,8 +14,13 @@ Status: draft
 
 adl-runtime-kernel/src/birth_witness.rs
 adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
 adl-runtime-kernel/tests/birth_witness.rs
+adl-runtime-kernel/tests/configuration.rs
+adl-runtime-kernel/tests/support/runtime_init.rs
+infra/runtime-v3/runtime-init.toml
 .csdlc/prepared/issues/5912
+.csdlc/evidence/5912
 .csdlc/issues/5912
 
 ## Prompts

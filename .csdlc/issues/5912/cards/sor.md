@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and locally proved Runtime-owned birth-witness trust loading, service provisioning, canonical receipt staging, and fail-closed validation without exposing caller-nominated authority construction.
+Implemented and locally proved a sealed Runtime-owned birth-witness operator that validates boot trust, provisions opaque policy, invokes canonical build and validation, and stages receipts fail closed.
 
 ## Artifacts
 
@@ -29,10 +29,10 @@ Implemented and locally proved Runtime-owned birth-witness trust loading, servic
 
 ## Execution
 
-- Made direct authority construction and RuntimeBirthWitnessService provisioning crate-private.
-- Added an opaque trust object loaded only from the manifest path in validated Runtime credential initialization.
-- Loaded the trust object during the production adl-runtime-kernel serve bootstrap.
-- Proved the external production receipt path and all thirteen retained authority, privacy, canonicalization, and rejection cases.
+- Made the configured trust-manifest path private and revalidated Runtime init before every owner construction.
+- Validated complete authority context, roles, uniqueness, and keys while constructing the boot-owned operator.
+- Added RuntimeBirthWitnessOwner as the sole public production invocation boundary and retained it during serve bootstrap.
+- Proved external owner invocation plus all thirteen retained security cases.
 
 ## Validation
 
@@ -42,7 +42,7 @@ Implemented and locally proved Runtime-owned birth-witness trust loading, servic
       "bash",
       ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh"
     ],
-    "purpose": "Prove validated Runtime-init trust loading, canonical production emission, fail-closed preparation, and all thirteen retained security regressions.",
+    "purpose": "Prove sealed Runtime owner provisioning and invocation, canonical emission, fail-closed preparation, and thirteen retained security regressions.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5912/runtime-birth-witness-production-path.log"
   },
@@ -57,7 +57,7 @@ Implemented and locally proved Runtime-owned birth-witness trust loading, servic
       "-D",
       "warnings"
     ],
-    "purpose": "Prove warning-free production and test targets for the Runtime kernel.",
+    "purpose": "Prove warning-free Runtime production and test targets.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5912/runtime-birth-witness-clippy.log"
   }

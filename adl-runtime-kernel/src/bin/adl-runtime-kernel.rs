@@ -62,8 +62,8 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let _birth_witness_trust = match init.load_birth_witness_trust() {
-                Ok(trust) => trust,
+            let _birth_witness_owner = match init.birth_witness_owner() {
+                Ok(owner) => owner,
                 Err(error) => {
                     eprintln!("runtime birth-witness trust invalid: {error}");
                     return ExitCode::from(78);

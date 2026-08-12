@@ -7,13 +7,13 @@
     "title": "Add production birth-witness policy provisioning and invocation boundary",
     "slug": "runtime-birth-witness-boundary",
     "version": "1.0.0",
-    "generation": 11
+    "generation": 12
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/birth_witness.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/tests/birth_witness.rs\n.csdlc/prepared/issues/5912\n.csdlc/issues/5912",
+      "review_scope": "adl-runtime-kernel/src/birth_witness.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/tests/birth_witness.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\ninfra/runtime-v3/runtime-init.toml\n.csdlc/prepared/issues/5912\n.csdlc/evidence/5912\n.csdlc/issues/5912",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
