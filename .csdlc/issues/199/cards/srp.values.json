@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
     "slug": "governed-voter-membership-transitions",
     "version": "v0.92",
-    "generation": 64
+    "generation": 67
   },
   "status": "draft",
   "content": {
@@ -26,7 +26,7 @@
         "Does restart recovery distinguish proven no-effect membership errors from joint/target applied configurations and avoid duplicate ambiguous effects?",
         "Does the bounded durable result cache return exact results for current and older retained operations without re-entering effects?",
         "Does the real four-node proof execute removal, separate enrollment, fresh-node rejoin promotion, catch-up, joint/final commitment, parity publication, and crash recovery?",
-        "Does retained v17 proof bind twelve behavior-specific cases, nine production assertions including the exhaustive real-node crash matrix, protected-source drift, immutable evidence, strict Clippy, and current-main ancestry?"
+        "Does retained v18 proof bind twelve behavior-specific cases, nine production assertions including the exhaustive real-node crash matrix, protected-source drift, immutable evidence, strict Clippy, and current-main ancestry?"
       ],
       "findings": [],
       "residual_risk": [],
