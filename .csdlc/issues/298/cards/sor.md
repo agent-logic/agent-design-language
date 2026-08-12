@@ -16,92 +16,14 @@ Require explicit STATX_MNT_ID authority before accepting Linux retained mount id
 
 ## Artifacts
 
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/src/schema.rs
-- csdlc-v2/src/bin/csdlc-issue.rs
-- csdlc-v2/tests/gate5.rs
+- .csdlc/evidence/298/csdlc-v2-lib.log
+- .csdlc/evidence/298/csdlc-v2-strict-clippy.log
 - .csdlc/evidence/298/preserved-projection-recovery.log
+- csdlc-v2/src/bin/csdlc-issue.rs
 - csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/tests/gate5.rs
-- .csdlc/evidence/298/preserved-projection-recovery.log
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/tests/gate5.rs
-- .csdlc/evidence/298/preserved-projection-recovery.log
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/src/schema.rs
 - csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/tests/gate5.rs
-- csdlc-v2/src/projection_recovery.rs
-- csdlc-v2/src/projection_recovery.rs
 
 ## Execution
 
@@ -371,11 +293,9 @@ Require explicit STATX_MNT_ID authority before accepting Linux retained mount id
 - Use statx with AT_EMPTY_PATH and STATX_MNT_ID on retained Linux file descriptors
 - Preserve statfs-derived mount identity on macOS, iOS, and FreeBSD
 - Retain a device-based compatibility fallback for other Unix targets without private libc fields
-- Validated Gate5 56/56, library 78/78, strict all-target Clippy, all-target check, formatting, and diff hygiene
 - Reject successful statx results whose stx_mask omits STATX_MNT_ID
 - Return the exact kernel-provided mount ID only when its authority bit is present
 - Add Linux-focused helper proof for missing-bit rejection and exact returned mount ID
-- Validated Gate5 56/56, library 78/78, strict all-target Clippy, all-target check, formatting, and diff hygiene
 
 ## Validation
 
@@ -386,11 +306,25 @@ Require explicit STATX_MNT_ID authority before accepting Linux retained mount id
       "test",
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5",
+      "preserved_projection_recovery"
+    ],
+    "purpose": "Run focused preserved-projection recovery proof: 37 passed, 19 filtered.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/298/preserved-projection-recovery.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
       "--lib"
     ],
-    "purpose": "Run complete library unit suite.",
+    "purpose": "Run complete csdlc-v2 library proof: 78 passed.",
     "outcome": "passed",
-    "evidence_ref": "csdlc-v2-lib.log"
+    "evidence_ref": ".csdlc/evidence/298/csdlc-v2-lib.log"
   },
   {
     "command": [
@@ -405,21 +339,7 @@ Require explicit STATX_MNT_ID authority before accepting Linux retained mount id
     ],
     "purpose": "Run strict all-target Clippy.",
     "outcome": "passed",
-    "evidence_ref": "csdlc-v2-strict-clippy.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate5",
-      "preserved_projection_recovery"
-    ],
-    "purpose": "Run focused gate5 recovery tests.",
-    "outcome": "passed",
-    "evidence_ref": "preserved-projection-recovery.log"
+    "evidence_ref": ".csdlc/evidence/298/csdlc-v2-strict-clippy.log"
   }
 ]
 
