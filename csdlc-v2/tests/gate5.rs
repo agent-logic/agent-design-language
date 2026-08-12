@@ -711,6 +711,39 @@ fn preserved_projection_recovery_rejects_rehashed_intermediate_payload_forgery()
 }
 
 #[test]
+fn preserved_projection_recovery_rejects_rehashed_prepared_classification_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "prepared forgery fixture".into(),
+        },
+    )
+    .unwrap();
+    let request = recovery_request(&store, &record, &classify, "prepared-forgery");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).unwrap();
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/prepared-forgery");
+    let mut prepared: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(receipt_path(&attempt, 1, "prepared")).unwrap())
+            .unwrap();
+    prepared["payload"]["classification"]["actor"] =
+        serde_json::Value::String("forged-actor".into());
+    rewrite_receipt_payload_and_rechain(&attempt, 1, "prepared", prepared["payload"].clone());
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("rehashed PREPARED classification must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
 fn preserved_projection_recovery_rejects_forged_terminal_and_broken_earlier_chain() {
     for mutation in [
         "terminal-self-digest",

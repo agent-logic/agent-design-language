@@ -29,7 +29,7 @@ pub enum ProjectionCasAnchor {
     },
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct FailedOperationLineage {
     pub prior_generation: u64,
@@ -127,7 +127,7 @@ fn receipt_payload<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
     .map_err(Into::into)
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct CandidateObservation {
     pub name: String,
@@ -149,7 +149,7 @@ pub struct ProjectionClassifyRequest {
     pub reason: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct ProjectionClassification {
     pub schema: String,
@@ -163,7 +163,7 @@ pub struct ProjectionClassification {
     pub receipt_digest: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct ProjectionRecoverRequest {
     pub issue: u64,
@@ -961,8 +961,16 @@ pub(crate) fn validate_completed_recovery_attempt(
         serde_json::from_value(prepared.get("classification").cloned().ok_or_else(|| {
             V2Error::new(ErrorCode::CorruptRecord, "PREPARED classification missing")
         })?)?;
+    let mut classification_digest_input = prepared_classification.clone();
+    classification_digest_input.receipt_digest.clear();
+    let classification_digest = blake3::hash(&serde_json::to_vec(&classification_digest_input)?)
+        .to_hex()
+        .to_string();
     if prepared_classification.receipt_digest != prepared_request.classify_receipt_digest
+        || prepared_classification.receipt_digest != classification_digest
+        || prepared_classification.schema != "csdlc.projection_classification.v1"
         || prepared_classification.issue != issue
+        || prepared_request.classification != prepared_classification
         || prepared.get("lineage")
             != serde_json::to_value(&prepared_request.failed_operation_lineage)
                 .ok()
