@@ -23,7 +23,7 @@ Stabilized the cleanup-race proof with deterministic logical-time synchronizatio
 ## Execution
 
 - Restored the original 100 ms execution policy and original synthetic delay/reconnect constants; no wall-clock widening remains.
-- Enabled Tokio test-util only as a dev dependency and froze logical time solely around the cleanup-race window so wall clock guards deadlock but cannot establish attachment ordering.
+- Enabled Tokio test-util only as a dev dependency and froze logical time solely around the cleanup-race window so logical-time timeout remains a deadlock guard but cannot establish attachment ordering.
 - Queued re-authentication and duplicate attachment in server order, required the explicit conversation_in_flight acknowledgment, then released barrier-held execution and proved exactly one delivered terminal result under 64x64 induced scheduler yields.
 - Left Runtime production behavior, issue #237, PR #242, and issue #112 authority work unchanged; existing timeout, cancellation, and token-rotation assertions remain on original timings.
 
