@@ -51,6 +51,54 @@ fn recovery_request(
     }
 }
 
+fn receipt_path(attempt: &std::path::Path, seq: u32, state: &str) -> std::path::PathBuf {
+    attempt.join(format!("{seq:03}-{state}.json"))
+}
+
+fn rewrite_receipt_payload_and_rechain(
+    attempt: &std::path::Path,
+    seq: u32,
+    state: &str,
+    payload: serde_json::Value,
+) {
+    let path = receipt_path(attempt, seq, state);
+    let mut envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&path).expect("receipt")).expect("receipt json");
+    envelope["payload"] = payload;
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("receipt bytes");
+    bytes.push(b'\n');
+    std::fs::write(&path, bytes).expect("write forged receipt");
+    let states = [
+        "prepared",
+        "archive-intent",
+        "rejected-archived",
+        "candidate-plan",
+        "candidate-created",
+        "candidate-verified",
+        "install-intent",
+        "canonical-installed",
+        "displace-intent",
+        "prior-displaced",
+        "canonical-verified",
+        "recovery-complete-intent",
+        "recovered",
+    ];
+    for next in (seq + 1)..=13 {
+        let prior = receipt_path(attempt, next - 1, states[next as usize - 2]);
+        let next_path = receipt_path(attempt, next, states[next as usize - 1]);
+        let digest = blake3::hash(&std::fs::read(prior).expect("prior receipt"))
+            .to_hex()
+            .to_string();
+        let mut next_envelope: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&next_path).expect("next receipt"))
+                .expect("next receipt json");
+        next_envelope["previous_receipt_digest"] = serde_json::Value::String(digest);
+        let mut next_bytes = serde_json::to_vec_pretty(&next_envelope).expect("next bytes");
+        next_bytes.push(b'\n');
+        std::fs::write(next_path, next_bytes).expect("write rechained receipt");
+    }
+}
+
 #[test]
 fn preserved_projection_recovery_archives_builds_installs_and_is_idempotent() {
     let (_temp, store, record) = implemented_fixture();
@@ -620,6 +668,45 @@ fn preserved_projection_recovery_validates_terminal_receipt_chain_and_classifies
     std::fs::write(&terminal, serde_json::to_vec_pretty(&envelope).unwrap()).unwrap();
     let error = csdlc_v2::recover_preserved_projection(&store, request)
         .expect_err("tampered chain rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_intermediate_payload_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "intermediate forgery fixture".into(),
+        },
+    )
+    .unwrap();
+    let request = recovery_request(&store, &record, &classify, "intermediate-forgery");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).unwrap();
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/intermediate-forgery");
+    let mut candidate_created: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(receipt_path(&attempt, 5, "candidate-created")).unwrap(),
+    )
+    .unwrap();
+    candidate_created["payload"]["record"]["repository"] =
+        serde_json::Value::String("forged/repo".into());
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        5,
+        "candidate-created",
+        candidate_created["payload"].clone(),
+    );
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("rehashed intermediate payload must be rejected");
     assert_eq!(error.code, ErrorCode::CorruptRecord);
 }
 
