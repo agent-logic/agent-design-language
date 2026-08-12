@@ -71,11 +71,11 @@ impl OperationExecutor for ConversationExecutor {
             recipient_id
         };
         if work["tasks"][0]["input"] == "delay" {
-            tokio::time::sleep(Duration::from_millis(250)).await;
+            tokio::time::sleep(Duration::from_millis(750)).await;
         } else if work["tasks"][0]["input"] == "delay ordered" {
             tokio::time::sleep(Duration::from_millis(60)).await;
         } else if work["tasks"][0]["input"] == "delay budget" {
-            tokio::time::sleep(Duration::from_millis(70)).await;
+            tokio::time::sleep(Duration::from_millis(300)).await;
         } else if work["tasks"][0]["input"] == "delay revoke" {
             tokio::time::sleep(Duration::from_millis(25)).await;
         } else if work["tasks"][0]["input"] == "barrier cleanup" {
@@ -237,7 +237,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             tls,
             ControlApiPolicy::new(
                 Duration::from_secs(2),
-                Duration::from_millis(100),
+                Duration::from_millis(500),
                 Duration::from_millis(20),
                 64 * 1024,
             )
@@ -679,7 +679,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(accepted["status"], "accepted");
     socket.close(None).await.unwrap();
-    tokio::time::sleep(Duration::from_millis(150)).await;
+    tokio::time::sleep(Duration::from_millis(550)).await;
 
     let mut request = format!("wss://localhost:{}{OBSERVATORY_WS_PATH}", address.port())
         .into_client_request()

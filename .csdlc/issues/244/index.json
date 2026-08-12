@@ -3,49 +3,14 @@
   "issue": 244,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
-  "phase": "published",
-  "generation": 21,
-  "digest": "0857fb7df9deb33f1c0f1eca6a97346e15c3437ad32376ce9663793b134d14fb",
+  "phase": "implemented",
+  "generation": 23,
+  "digest": "a828731c8ec50a7aedb21d33599f5614a7599c2c146622aeb6ef02a5ef25d1db",
   "branch": "codex/244-conversation-cleanup-race",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
   "review_assignment": null,
-  "review": {
-    "reviewer": "/root/review_244_cleanup_race",
-    "scope": [
-      "adl-runtime-kernel/tests/conversation_sessions.rs",
-      ".csdlc/issues/244",
-      ".csdlc/prepared/issues/244",
-      ".csdlc/evidence/244"
-    ],
-    "reviewed_revision": "git-blake3:db5d47b1424c5d59fc3359fca7a75852911afc4b:12805ad5f56fb5743495a5578045567abaad76e2c3f754a9ac67095807b8d9bc",
-    "findings": [
-      {
-        "id": "R244-P2-1",
-        "severity": "p2",
-        "summary": "Align lifecycle planning with the test-only cleanup-race sequencing change and unchanged production behavior.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:db5d47b1424c5d59fc3359fca7a75852911afc4b:12805ad5f56fb5743495a5578045567abaad76e2c3f754a9ac67095807b8d9bc",
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 244,
-    "pull_request": 247,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/247",
-    "base": "main",
-    "head": "codex/244-conversation-cleanup-race",
-    "revision": "git-blake3:d3987a1d28a9e4dae39c2ee6fd0f6ef52efea813:0a26768c68008d5ed056ceb0bf11a16344e4d946f4109b14d3e1546fa800dfbf",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -59,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1b622ea0866813763db8d7b3f75577020d52d485a700d5d4244a75b258dff6e7",
+      "values_digest": "7c76d95ece6dd7cd8ee98582bb928055bc028453316650c44c733f354eb308d0",
       "rendered_digest": "a7a3fdffde72a8ccd84f303fd9461422089748d7cca2286b450c0616ae3f63b7",
       "ast_digest": "1f3222725b44556758d3036806a3817fdeb58c6bbf437698b7d71d7510b446dc"
     },
     "stp": {
-      "values_digest": "67aa5aceb0309bb63c8a7a1aa1b5be6bf72c581ec5b8485125542ccd73318a2f",
+      "values_digest": "615182d88d298dc4378b8a48378ec7b1a0af3d3f64b4cad07abfcf064eb48b8e",
       "rendered_digest": "eb188e0abb8bcfed05a216770117422eb93ead3e8e416be888002ad29221716a",
       "ast_digest": "326ed86deaf78bc55b60c81607d0068ad3b1095c56de7aa454808bb21ec07f42"
     },
     "spp": {
-      "values_digest": "a99cdf9a2b46b95ae7f0fa4e97993e3ae02c3235fc9b52f19545d4ec0f5df661",
+      "values_digest": "7d022ac9a1ffbc7de3d9bfd590d913cab80cc5007d4a49b7e839116f70e8608f",
       "rendered_digest": "81978cbb3dfdd1de1a83497165879cab700128b49ade354cc668bb235a476c34",
       "ast_digest": "52b86689ec5153ac35615f555085adc964584e6a9fbb5b9fe4438be11d1143ad"
     },
     "vpp": {
-      "values_digest": "c02e3c112e42ead1c89a9ef167911353b98c9d127287722082534b157f5e4c7f",
+      "values_digest": "6ab82959f990c40e3bb745323926eeb486702b5e6ce80506b43ed1409e4cf054",
       "rendered_digest": "b1f0e4cabc691a213f24184bd7f17d1ce8bb6876b4ebc31d45ae2d1291418074",
       "ast_digest": "37327f5026d7e84602ac9dba51b9790a75681342c9a0600c179f6f99090fc7f0"
     },
     "srp": {
-      "values_digest": "c17fd1642496b411142acc0f1db1d94a421b06ccae72ea728d0addd3fdab66fc",
-      "rendered_digest": "43c007b856efad78a5991bdcb229190f3d29bbac96a91c18bfcc1476174fb5cc",
-      "ast_digest": "9ba4276c12bb30d4990338bc4619f27219df6d4021762826b0a7415d08386ae0"
+      "values_digest": "9f2c1bdf03d346199142170921d23010bd55446bb51f63675a682e7be300b636",
+      "rendered_digest": "9fdfc4ebbab88ffd71d310ad577f2bc179ab5c194aa6d461bac005661792eaef",
+      "ast_digest": "53d7dbf8eef992e76d36b5742a3ed29b9315d6f20f1595e5ec22d3d4bb66920c"
     },
     "sor": {
-      "values_digest": "474e3d513614080068a60ac84315757700df1f0e8c85910c5171523e0a4d2d6c",
-      "rendered_digest": "eef933684d0456c78dcee8f6a0405fdca157a4e6523a6f32aaf4c35266cd497e",
-      "ast_digest": "2fec1bf4a64cfcf2e7f0afb0181714d64d726af6f20f5260376a957a6c4441e7"
+      "values_digest": "727b09fa4bbf53107e29e0d1f7372525d9f9900d1669c00d0dc0ac5f8aae6666",
+      "rendered_digest": "c44749aa017db15190fecc1c305cc1ab1157989f032d84258f784fa77f8a8df2",
+      "ast_digest": "f8adb273e8a0cfe21877b058182d8d41bd8420b871ee21fdbf2fbd7b521d977a"
     }
   },
   "transitions": [
@@ -138,6 +103,13 @@
       "to": "published",
       "actor": "codex:244-cleanup-race",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:244-ci-repair",
+      "reason": "Required Runtime CI reproduced cleanup-race timeout under the fixture's 100 ms execution policy; recover publication and review for bounded test-policy repair."
     }
   ],
   "audit": [
@@ -301,6 +273,20 @@
       "actor": "codex:244-cleanup-race",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:244-ci-repair",
+      "reason": "Required Runtime CI reproduced cleanup-race timeout under the fixture's 100 ms execution policy; recover publication and review for bounded test-policy repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:244-ci-repair",
+      "reason": "Record the bounded required-CI fixture timing repair and fresh exact-worktree Runtime proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Stabilized the cleanup-race proof by queueing duplicate attachment behind re-authentication and proportionally widening only the synthetic test execution window and delays, preserving production behavior and timeout assertions.\",\"changes\":[\"Queued cleanup-race re-authentication and duplicate attachment frames back-to-back before awaiting the authentication response.\",\"Widened the test-only conversation execution window from 100 ms to 500 ms and proportionally scaled synthetic budget, disconnect, and cancellation delays so accepted, timed-out, and cancelled semantics remain exercised on shared CI runners.\",\"Documented the server frame-order proof and left Runtime production behavior, issue #237, PR #242, and issue #112 authority work unchanged.\"],\"artifacts\":[\"adl-runtime-kernel/tests/conversation_sessions.rs\",\".csdlc/evidence/244\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Prove the exact cleanup-race sequence in 20 consecutive repetitions under the widened test-only window.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/conversation-cleanup-race-focused.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete Runtime kernel test target after the fixture timing repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-tests.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across Runtime kernel targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-clippy.log\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Run the integrated Observatory proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-observatory.log\"}]}"
     }
   ]
 }

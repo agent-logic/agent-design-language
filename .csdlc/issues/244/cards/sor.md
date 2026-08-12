@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Stabilized the cleanup-race proof by queueing the duplicate attachment immediately behind re-authentication, preserving server frame order and production deadlines while removing a client round-trip scheduling race.
+Stabilized the cleanup-race proof by queueing duplicate attachment behind re-authentication and proportionally widening only the synthetic test execution window and delays, preserving production behavior and timeout assertions.
 
 ## Artifacts
 
@@ -22,8 +22,8 @@ Stabilized the cleanup-race proof by queueing the duplicate attachment immediate
 ## Execution
 
 - Queued cleanup-race re-authentication and duplicate attachment frames back-to-back before awaiting the authentication response.
-- Documented why the ordering preserves the authentication-generation transition and attaches before the barrier-held turn's execution deadline.
-- Left Runtime production behavior, issue #237, PR #242, and issue #112 authority work unchanged.
+- Widened the test-only conversation execution window from 100 ms to 500 ms and proportionally scaled synthetic budget, disconnect, and cancellation delays so accepted, timed-out, and cancelled semantics remain exercised on shared CI runners.
+- Documented the server frame-order proof and left Runtime production behavior, issue #237, PR #242, and issue #112 authority work unchanged.
 
 ## Validation
 
@@ -35,11 +35,25 @@ Stabilized the cleanup-race proof by queueing the duplicate attachment immediate
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "conversation_sessions"
+      "conversation_sessions",
+      "authenticated_selected_agent_conversation_uses_canonical_wss_ingress",
+      "--",
+      "--exact"
     ],
-    "purpose": "Prove the cleanup-race sequence once under typed validation after 20 consecutive preflight passes.",
+    "purpose": "Prove the exact cleanup-race sequence in 20 consecutive repetitions under the widened test-only window.",
     "outcome": "passed",
-    "evidence_ref": "conversation-cleanup-race-focused.log"
+    "evidence_ref": ".csdlc/evidence/244/conversation-cleanup-race-focused.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml"
+    ],
+    "purpose": "Run the complete Runtime kernel test target after the fixture timing repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/244/runtime-v3-fast-tests.log"
   },
   {
     "command": [
@@ -54,7 +68,7 @@ Stabilized the cleanup-race proof by queueing the duplicate attachment immediate
     ],
     "purpose": "Reject warnings across Runtime kernel targets.",
     "outcome": "passed",
-    "evidence_ref": "runtime-v3-fast-clippy.log"
+    "evidence_ref": ".csdlc/evidence/244/runtime-v3-fast-clippy.log"
   },
   {
     "command": [
@@ -63,28 +77,17 @@ Stabilized the cleanup-race proof by queueing the duplicate attachment immediate
     ],
     "purpose": "Run the integrated Observatory proof.",
     "outcome": "passed",
-    "evidence_ref": "runtime-v3-fast-observatory.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml"
-    ],
-    "purpose": "Run the complete Runtime kernel test target.",
-    "outcome": "passed",
-    "evidence_ref": "runtime-v3-fast-tests.log"
+    "evidence_ref": ".csdlc/evidence/244/runtime-v3-fast-observatory.log"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

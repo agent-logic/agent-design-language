@@ -1,9 +1,178 @@
+run=1
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
 
 running 1 test
 test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.15s
-
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race/adl-runtime-kernel)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.41s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s
+run=2
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
      Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s
+
+run=3
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s
+
+run=4
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s
+
+run=5
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.95s
+
+run=6
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.52s
+
+run=7
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.21s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.63s
+
+run=8
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.16s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.05s
+
+run=9
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.95s
+
+run=10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.96s
+
+run=11
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.04s
+
+run=12
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.04s
+
+run=13
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.98s
+
+run=14
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.95s
+
+run=15
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.95s
+
+run=16
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s
+
+run=17
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s
+
+run=18
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s
+
+run=19
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s
+
+run=20
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s
