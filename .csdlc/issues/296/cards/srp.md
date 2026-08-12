@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-All #296 changed typed contracts, store/card behavior, CLI/schema exposure, and focused tests; code, security, test, and evidence coverage required.
+csdlc-v2/src/cards.rs
+csdlc-v2/src/store.rs
+csdlc-v2/src/review.rs
+.csdlc/issues/296
+.csdlc/prepared/issues/296
+.csdlc/evidence/296
 
 ## Prompts
 

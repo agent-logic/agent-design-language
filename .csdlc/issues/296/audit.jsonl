@@ -8,3 +8,4 @@
 {"sequence":8,"generation":7,"actor":"codex:issue-296","reason":"The exact paired authored design and diagram, bounded recovery-only plan, split validation authority, and fourth independent canonical design review are ready for binding.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
 {"sequence":9,"generation":7,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":10,"generation":8,"actor":"codex:issue-296","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":11,"generation":8,"actor":"codex:issue-296","reason":"assign bounded exact-revision review","operation":"assign_review"}

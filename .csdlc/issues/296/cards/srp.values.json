@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "All #296 changed typed contracts, store/card behavior, CLI/schema exposure, and focused tests; code, security, test, and evidence coverage required.",
+      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/review.rs\n.csdlc/issues/296\n.csdlc/prepared/issues/296\n.csdlc/evidence/296",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
