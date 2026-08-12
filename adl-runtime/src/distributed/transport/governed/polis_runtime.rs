@@ -60,7 +60,9 @@ use crate::distributed::authority_reconciliation::{
     AuthorityReconciliationBarrier, AuthorityReconciliationError, PublishedReconciliationResult,
 };
 use crate::distributed::authority_store_adapters::AuthorityBoundCertificateStore;
-use crate::distributed::certificates::{AuthorityCertificate, DistributedCertificateStore};
+use crate::distributed::certificates::AuthorityCertificate;
+#[cfg(test)]
+use crate::distributed::certificates::DistributedCertificateStore;
 use crate::distributed::identity::LocalNodeGuardianIdentity;
 use crate::distributed::lease::{AuthorityMembership, VoterAuthority};
 use crate::distributed::membership::MembershipPolicy;
@@ -578,7 +580,7 @@ pub struct PolisRuntimeAuthorityBootstrap {
 }
 
 impl PolisRuntimeAuthorityBootstrap {
-    #[allow(dead_code)]
+    #[cfg(test)]
     pub(crate) fn restore_configured(
         certificate_store: Arc<DistributedCertificateStore>,
         membership_policy: MembershipPolicy,

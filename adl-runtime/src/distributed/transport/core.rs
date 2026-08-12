@@ -21,10 +21,10 @@ use tokio_util::sync::CancellationToken;
 
 #[cfg(test)]
 use super::lease::VoterAuthority;
+#[cfg(test)]
+use super::certificates::DistributedCertificateStore;
 use super::{
-    certificates::{
-        AuthorityCertificate, CertificatePurpose, DistributedCertificateStore, VerifiedCertificate,
-    },
+    certificates::{AuthorityCertificate, CertificatePurpose, VerifiedCertificate},
     lease::{AuthorityMembership, ControlCertificatePurpose},
     membership::{MemberRole, MembershipPolicy, MembershipState},
 };
@@ -861,7 +861,7 @@ pub(crate) trait RuntimeCertificateAuthority: Send + Sync {
 
 #[derive(Clone)]
 enum CertificateAuthorityHandle {
-    #[allow(dead_code)]
+    #[cfg(test)]
     Raw(Arc<DistributedCertificateStore>),
     Bound(Arc<dyn RuntimeCertificateAuthority>),
 }
@@ -875,6 +875,7 @@ impl CertificateAuthorityHandle {
         now_unix_seconds: u64,
     ) -> Result<VerifiedCertificate, ()> {
         match self {
+            #[cfg(test)]
             Self::Raw(store) => store
                 .authorize(holder_id, purpose, generation, now_unix_seconds)
                 .map_err(|_| ()),
@@ -905,7 +906,7 @@ pub(crate) struct RuntimeAuthorityInitializer {
 }
 
 impl RuntimeAuthorityInitializer {
-    #[allow(dead_code)]
+    #[cfg(test)]
     pub(crate) fn restore(
         certificate_store: Arc<DistributedCertificateStore>,
         membership_policy: MembershipPolicy,
@@ -1695,7 +1696,7 @@ pub struct TransportAuthorization {
 }
 
 impl TransportAuthorization {
-    #[allow(dead_code)]
+    #[cfg(test)]
     pub(crate) fn new(
         store: Arc<DistributedCertificateStore>,
         certificate: &AuthorityCertificate,
