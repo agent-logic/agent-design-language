@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a580029a34161e2682e14450ff26134b6c387efc6ddb14f8ad87b2f9225a5dc7",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "86d92919030cc6781b2d4a4b5cfde61161e0b6a0ec0e2a87787b4937e3f75cb3",
+  "generation": 32,
+  "digest": "f5f5f618e8e9c4a11b79ddf6e8fcb5b63b9d18e477692c6eb55c93cf6991b224",
   "branch": "codex/199-governed-membership-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-199-governed-membership-preparation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6c242f13f5469ef3f4c4d9ed87d88af3e5d9465de5978392e7f02786c588836e",
+      "values_digest": "9a061d72ed6bddf356e5aeeda6ca543bdc62fe1deaf36897f7d85a859065d9a6",
       "rendered_digest": "cccc5eca036444e5b505c6658dcaf57f08a74e3cd0631fc1bf5ea3b7d47f4edd",
       "ast_digest": "f29c994454fc2547a27306701aefb221efe3b97d9a25882a6a026954acb54116"
     },
     "stp": {
-      "values_digest": "5e50688e8123a84c073c2b3afa3522a08f64da265598aa6da43c53823d54dea4",
+      "values_digest": "edafd7da58c9d828ac73489ce016355087b2ee1f6cf32b02136fbce812c14f45",
       "rendered_digest": "95b7c2fd5f20075de4483c52780f06a73579c37e857d5d925231f66969e3429d",
       "ast_digest": "9e97ed7941e24fba7d59171bfb42b4d2dcd1044e77133b164001c53ddd4fe9ec"
     },
     "spp": {
-      "values_digest": "61e8dd7e72613b475affc60f2bfa89080bf162878c3267ff59225e5c0d75dcf4",
+      "values_digest": "2b3a14e1880de117aff5a570706955a4990e7dbb9d13b0cb26da3f08b40def4e",
       "rendered_digest": "8da5e2baa3e9e2ce657160916b5390bb8565326f02740d732dc6cd9189a742b9",
       "ast_digest": "c510402e9b75b16d4ada1635e6ec066ab897627a6cf8004eab87a4d60f786271"
     },
     "vpp": {
-      "values_digest": "bb19f9ca5191aa1558f96c0a46dd736a150b180e836c2aeb25c40301d4f80ab1",
+      "values_digest": "aa4ce44734b99e0dd82c58d8090b3a155f86f758ec544695c178410e698cc5b7",
       "rendered_digest": "5037386ef0080847cd61127e82fd9405831b670556a8b77efd31313fd5c57e90",
       "ast_digest": "05e4de2c53d584bc897898da9826e6924b24c3cb782b952d9d142fcb02a31cae"
     },
     "srp": {
-      "values_digest": "4e5672746e97bd3f359a20829f20832c35ffc712b63a46e0f793c79d2fbdb1af",
+      "values_digest": "cac24f67819ec9dac6a3e1b63825e609085e5efb788b28dd442a8ae79a7a8fda",
       "rendered_digest": "9977734d80da9bb9ed7349fde906fb54b6ddad8392d7fc67ee1d62c3716bed02",
       "ast_digest": "35796f71bbf9518dcfab0d30af3f4e78c34bb76473d54ea4001ccb244541b531"
     },
     "sor": {
-      "values_digest": "773688d85f78b896433beeaa82afd958c0ad5b02b54c767485bb97d559f3239b",
-      "rendered_digest": "2e43574ac74275894fedb32bbfe270f8e89df913a7958b270b5484a956232026",
-      "ast_digest": "9029e5593c56f0f16196be026101377f6147b9cad22bbbc4bf7668d146f41c6d"
+      "values_digest": "0722768c405e644b669fc4538277b1c2f7180c9534847dabe892c889b8442cbb",
+      "rendered_digest": "966ce84bcf9a5614543108686274afa7a438bb4031597a08f5c7cb9a3aa3507c",
+      "ast_digest": "35ba68f47f8e00f2ecc72be5fa6e9326379233a68fc650c72ff60b202af1169f"
     }
   },
   "transitions": [
@@ -309,6 +309,13 @@
       "actor": "codex:199-runtime-remediation",
       "reason": "Replace the obsolete substituted 36-case prompt with the retained v8 behavior and production-assertion review surface",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does every operation require coarse AuthorityOperationKind::Membership plus the exact sealed issue-local artifact, with wrong coarse kind and wrong discriminator denied separately?\",\"Are exact old and target stable maps plus target membership bound before any learner or Raft membership effect?\",\"Are coordinator phase completion and parity publication private behind GovernedMembershipRuntime, using only current factory receipts and concrete local projections?\",\"Are local membership and authority projections staged until durable checkpoint/publication and repaired idempotently on exact published retry?\",\"Is non-voting enrollment durably journaled before external activation and safely resumed without premature local visibility?\",\"Does removal activate and re-observe the exact pending-exclusion receipt before retain=false transition and final parity publication?\",\"Does restart recovery distinguish proven no-effect membership errors from joint/target applied configurations and avoid duplicate ambiguous effects?\",\"Does the bounded durable result cache return exact results for current and older retained operations without re-entering effects?\",\"Does the real four-node proof execute removal, separate enrollment, fresh-node rejoin promotion, catch-up, joint/final commitment, parity publication, and crash recovery?\",\"Does retained v8 proof bind twelve behavior-specific cases, eight production assertions, protected-source drift, immutable evidence, strict Clippy, and current-main ancestry?\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 32,
+      "actor": "codex:199-runtime-remediation",
+      "reason": "Align execution truth with the retained v9 governed membership proof while preserving unintegrated publication state",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoin, concrete authority parity, durable checkpoint/publication, crash recovery, and bounded exact retries. Retained v9 proof binds twelve behavior cases and eight production assertions to the exact protected source revision.\",\"changes\":[\"Sealed phase completion behind the GovernedMembershipRuntime owner and bound exact stable maps and target membership before Raft effects\",\"Staged local membership and authority projections until durable publication and repaired projections on exact published retries\",\"Journaled enrollment before external activation and retained a bounded durable multi-operation result cache\",\"Classified failed membership changes using the applied OpenRaft configuration, preserving ambiguous joint outcomes and retrying proven no-effect attempts\",\"Proved real removal, separate enrollment, fresh-node rejoin promotion, parity publication, and immediate crash recovery\"],\"artifacts\":[\".csdlc/evidence/199/v9/execution-proof.json\",\".csdlc/prepared/issues/199/produce-proof-receipt.rb\",\".csdlc/prepared/issues/199/validate-proof-receipt.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/199/produce-proof-receipt.rb\"],\"purpose\":\"Produce exact v9 protected-source evidence with twelve behavior cases and eight production assertions\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/199/v9/execution-proof.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/199/validate-proof-receipt.rb\"],\"purpose\":\"Validate exact argv, denominators, protected source, immutable introduction, and current-main ancestry\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/199/v9/execution-proof.json\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the production Runtime library\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/199/v9/clippy-lib.stderr.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_membership_transition\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the exact public transition target\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/199/v9/clippy-integration.stderr.log\"}]}"
     }
   ]
 }
