@@ -74,11 +74,11 @@ Serialized process-heavy Guardian invocations only in test builds so the directl
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

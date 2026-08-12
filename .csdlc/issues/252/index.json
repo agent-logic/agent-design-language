@@ -3,9 +3,9 @@
   "issue": 252,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c918bb9636465a8c8eaafa40fb2850a329c51ecb0c7fa000392e82004b33eb01",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "0aee7f7ca3b7ccc7e18d5b51d6d8f0573e050de89869878729711e62ada40fde",
+  "phase": "published",
+  "generation": 8,
+  "digest": "d156d1135c2391c8afbe43dcf10ec596ce95b323164e295febe293a4be68a71d",
   "branch": "codex/252-guardian-hosted-spawn-flake",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-252-guardian-hosted-spawn-flake",
   "review_assignment": {
@@ -33,7 +33,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 252,
+    "pull_request": 253,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/253",
+    "base": "main",
+    "head": "codex/252-guardian-hosted-spawn-flake",
+    "revision": "git-blake3:cbb14415603658bbe31fa7f4133c0f027d54d50f:a5eb7cf3bd633cd7c1c63500251ddd4948875e98a3b2fcc53359995e5b77c4f5",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -47,34 +58,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0ade898999e4f3367b9d6bd0b7f92abdc6695fb4cc86e3753d0a629d511414a1",
+      "values_digest": "ca2664a8dd8662eeacd1cfd5b6fbc851f9dd913d7c5025ee0ed8caf140c87933",
       "rendered_digest": "8d495ba3d16dc3181f2a2d3ce6769ef4303f713591405dc2d9b9134fb0a9c68a",
       "ast_digest": "cae194592e2c9407460f1853c8cab08d3149b0d7f2612ceaa7ca8c5d8dc7429d"
     },
     "stp": {
-      "values_digest": "436be3210bd10a401ff776e2c0cf664b26e8b9f6b4dc245704b655cb21240a30",
+      "values_digest": "a8d0a8a04e35e3a10817e687ce947a8dcde883d3159c90b9e758564a3cdcfdea",
       "rendered_digest": "76b75912e55fb272675cbd868e608ced5a7213d7b6a230ddb05036aacca67842",
       "ast_digest": "8e481c6242952de2ed1a4a022d2ab3d97ec5a5a1f85173a17b4a98503d23297a"
     },
     "spp": {
-      "values_digest": "f56a5f2fbdd4d6a2521015286d2d900fcfb03d950c4a6ae55de4f50a1bbf9a93",
+      "values_digest": "160557317962cfdff39b5c9436df3999992815fb4533d00153ddd117de4342ba",
       "rendered_digest": "0d7ca74556b4e3b88aef2f126fa85bc3d3a5396f3fab1a806ddc365196def216",
       "ast_digest": "0f7a696319609f841ae04a1a76d6289f359048de9671c42938efc3179a4d9bd0"
     },
     "vpp": {
-      "values_digest": "90d8c38c156b33488679afda168c660800f123041c15a49b66bc67ee737bbb87",
+      "values_digest": "7c0e733e64f9b1733267c864d05c7bf6bfd794be8716c06bce47195b536c48d2",
       "rendered_digest": "0dfbd2b92e106b92926dc8154436675448936528ff36559a102644319e8e94c1",
       "ast_digest": "1c9fe52e3b83bb390150522900188bcc23838d49b62e6f50f6ac211ace9bc59d"
     },
     "srp": {
-      "values_digest": "c808a6bfbed30c99e45e75c7e9e5516610c28d585321cea0d4266a05244229ff",
+      "values_digest": "6e823ee8476ad8e3f48c44c44d051b859cfed4c53605c93ae67842b929429e89",
       "rendered_digest": "ae8585ee2dbcfade7dab470b1c028fefb28ebda1c006ddcc9e2cd3325d98f19c",
       "ast_digest": "8bdce42a064a7c427e9baf97ef2bbe882bf01d66112df42e336c2c827b9fe244"
     },
     "sor": {
-      "values_digest": "acc9edefbbf8406f7be3af0f3e75cf011b70e5ba166003cb484e1e98a8093ace",
-      "rendered_digest": "a24f128dfdea475cc5206f58b0214d6d77bfcd3fa974bfc3321bc8cfe1edf7f8",
-      "ast_digest": "9a6af4f1d1557b9810e01790c67a484daa3c0075b67f78433841af04027b6875"
+      "values_digest": "185051f4ecda2eee8e2abcd51bfdeadc7ad7219f2bc63f349535160a64de4ef3",
+      "rendered_digest": "abfe4ad58be27400f0c388aa3490019f76d2f53e9e3c70eda540face8ee449e0",
+      "ast_digest": "b08b01c96151c2db6120af3adc0b4641c7c3b6568f5ca27a70295737fa7ddae6"
     }
   },
   "transitions": [
@@ -105,6 +116,13 @@
       "to": "reviewed",
       "actor": "codex:guardian-spawn-flake",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -184,6 +202,13 @@
       "actor": "codex:guardian-spawn-flake",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

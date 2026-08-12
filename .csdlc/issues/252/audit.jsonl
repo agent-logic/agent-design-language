@@ -9,3 +9,4 @@
 {"sequence":9,"generation":6,"actor":"codex:guardian-spawn-flake","reason":"Clear the completed changes-required review after retaining its requested repeated cwd/thread proof for fresh exact-head rereview.","operation":"recover_review"}
 {"sequence":10,"generation":6,"actor":"codex:guardian-spawn-flake","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":7,"actor":"codex:guardian-spawn-flake","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":12,"generation":8,"actor":"codex:guardian-spawn-flake","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
