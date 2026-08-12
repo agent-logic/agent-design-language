@@ -74,6 +74,7 @@ pub struct Layer8RuntimeDeliveryRequest {
     pub now_epoch_secs: u64,
     pub signed_request: SignedIdentityMessage,
     pub sender_identity: CommunicationVerifyingIdentity,
+    pub recipient_identity: CommunicationVerifyingIdentity,
 }
 
 pub struct Layer8RuntimeDelivery<T> {
@@ -112,6 +113,8 @@ pub fn authorize_layer8_runtime_delivery<T>(
         || request.signed_request.recipient_id != request.recipient_id
         || request.signed_request.replay_id != request.replay_id
         || request.signed_request.correlation_id != request.correlation_id
+        || request.recipient_identity.principal_id != request.recipient_id
+        || request.recipient_identity.polis_id != request.signed_request.polis_id
         || signed_payload.get("action") != serde_json::to_value(&request.action).ok().as_ref()
     {
         return Err(PublicRefusal {
@@ -121,6 +124,15 @@ pub fn authorize_layer8_runtime_delivery<T>(
             correlation_id: request.correlation_id,
         });
     }
+    request
+        .recipient_identity
+        .ensure_valid_at(request.now_epoch_secs)
+        .map_err(|reason| PublicRefusal {
+            authorized: false,
+            reason,
+            retryable: false,
+            correlation_id: request.correlation_id.clone(),
+        })?;
     match authority.authorize(
         &request.sender_identity,
         request.action.clone(),
@@ -135,7 +147,7 @@ pub fn authorize_layer8_runtime_delivery<T>(
             verify_recipient_acknowledgement(
                 &request.signed_request,
                 &delivered.acknowledgement,
-                &delivered.recipient_identity,
+                &request.recipient_identity,
                 request.now_epoch_secs,
             )
             .map_err(|reason| PublicRefusal {

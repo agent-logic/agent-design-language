@@ -7,16 +7,16 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 45
+    "generation": 46
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; and exact-current issue 244 integration.",
+      "summary": "Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; pre-dispatch recipient identity validity; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; and exact-current issue 244 integration.",
       "actual_changes": [
         "Load current identity evidence, pre-existing capabilities, and separate agent and Polis policies from an external authority profile instead of constructing request-shaped authority.",
-        "Keep only recipient public keys in the control authority; require the recipient agent execution boundary to sign and return the acknowledgement through canonical ingress before delivery.",
+        "Keep only recipient public keys in the control authority; preflight the configured recipient communication identity before canonical ingress dispatch and require the recipient agent execution boundary to sign and return the acknowledgement before delivery.",
         "Bind action, conversation, recipient, replay, and correlation outer fields to the verified signed request and require exact acknowledgement replay identity.",
         "Bind the verified sender principal, polis, signing-key id, and public verification key bytes to independently loaded Runtime identity evidence before capability and policy evaluation, refusing same-label untrusted keys.",
         "Carry the configured recipient signing-key id inside the authenticated signed request so the agent acknowledgement boundary does not rely on a naming convention.",
@@ -51,7 +51,7 @@
             "--",
             "--exact"
           ],
-          "purpose": "Run the exact-current production conversation boundary after issue 244's test-module migration.",
+          "purpose": "Run the exact-current production conversation boundary after issue 244's test-module migration, including revoked recipient identity preflight before canonical ingress dispatch.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/112/layer8-production-conversation-boundary.log (1 passed)"
         },
@@ -87,9 +87,9 @@
             "--status-level",
             "all"
           ],
-          "purpose": "Run the Runtime API signed request and exact acknowledgement integration proof.",
+          "purpose": "Run the Runtime API signed request, recipient identity preflight, and exact acknowledgement integration proof.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-integration.log (4 passed)"
+          "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-integration.log (5 passed)"
         },
         {
           "command": [
@@ -107,14 +107,12 @@
             "--locked",
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
-            "--lib",
-            "--bin",
-            "adl-runtime-kernel",
+            "--all-targets",
             "--",
             "-D",
             "warnings"
           ],
-          "purpose": "Enforce strict lint hygiene for the production Runtime source.",
+          "purpose": "Enforce strict lint hygiene for the production Runtime source and tests.",
           "outcome": "passed",
           "evidence_ref": "terminal: kernel strict clippy PASS"
         },

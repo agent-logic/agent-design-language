@@ -109,20 +109,23 @@ fn exchange(root: &Path) -> (Layer8SignedExchange, CommunicationKeyDescriptor) {
     let recipient_descriptor = descriptor("shepherd", "shepherd-key", recipient.clone());
     let exchange = Layer8SignedExchange::load(ConversationSigningProfile {
         sender: descriptor("layer8-operator", "operator-key", sender),
-        recipients: vec![CommunicationVerifyingDescriptor {
-            principal_id: "shepherd".to_owned(),
-            polis_id: "polis-test".to_owned(),
-            signing_key_id: "shepherd-key".to_owned(),
-            verifying_key_hex: ed25519_dalek::SigningKey::from_bytes(&[6_u8; 32])
-                .verifying_key()
-                .to_bytes()
-                .iter()
-                .map(|byte| format!("{byte:02x}"))
-                .collect(),
-            revoked: false,
-            not_before_epoch_secs: 0,
-            expires_at_epoch_secs: u64::MAX,
-        }],
+        recipients: ["shepherd", "agent-not-authorized"]
+            .into_iter()
+            .map(|principal_id| CommunicationVerifyingDescriptor {
+                principal_id: principal_id.to_owned(),
+                polis_id: "polis-test".to_owned(),
+                signing_key_id: format!("{principal_id}-key"),
+                verifying_key_hex: ed25519_dalek::SigningKey::from_bytes(&[6_u8; 32])
+                    .verifying_key()
+                    .to_bytes()
+                    .iter()
+                    .map(|byte| format!("{byte:02x}"))
+                    .collect(),
+                revoked: false,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            })
+            .collect(),
     })
     .unwrap();
     (exchange, recipient_descriptor)
@@ -152,6 +155,7 @@ fn request(
         now_epoch_secs: 1_700_000_000,
         signed_request,
         sender_identity: exchange.sender_verifying_identity(),
+        recipient_identity: exchange.recipient_verifying_identity(recipient_id).unwrap(),
     }
 }
 
@@ -197,6 +201,41 @@ fn runtime_api_refusal_cannot_invoke_delivery() {
     .unwrap_err();
 
     assert_eq!(refusal.reason, RefusalReason::ScopeDenied);
+    assert_eq!(deliveries.load(Ordering::SeqCst), 0);
+}
+
+#[test]
+fn runtime_api_refuses_revoked_recipient_identity_before_delivery() {
+    let root = TestRoot::new();
+    let authority = authority(root.path());
+    let (exchange, recipient_signing) = exchange(root.path());
+    let deliveries = AtomicUsize::new(0);
+
+    let mut delivery_request = request(&exchange, "shepherd", "request-revoked-recipient");
+    let signed_request = delivery_request.signed_request.clone();
+    delivery_request.recipient_identity.revoked = true;
+
+    let refusal = authorize_layer8_runtime_delivery(
+        &authority,
+        delivery_request,
+        || -> Layer8RuntimeDelivery<()> {
+            deliveries.fetch_add(1, Ordering::SeqCst);
+            Layer8RuntimeDelivery {
+                value: (),
+                acknowledgement: sign_recipient_acknowledgement(
+                    &signed_request,
+                    &recipient_signing,
+                    "{\"status\":\"delivered\"}".to_owned(),
+                    1_700_000_000,
+                )
+                .unwrap(),
+                recipient_identity: exchange.recipient_verifying_identity("shepherd").unwrap(),
+            }
+        },
+    )
+    .unwrap_err();
+
+    assert_eq!(refusal.reason, RefusalReason::IdentityRevoked);
     assert_eq!(deliveries.load(Ordering::SeqCst), 0);
 }
 

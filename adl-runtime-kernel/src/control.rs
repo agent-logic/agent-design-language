@@ -1041,17 +1041,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "{}:{}:{}:{}",
             self.instance_id, intent.conversation_id, intent.turn_id, credential_generation
         );
-        let recipient_signing_key_id =
-            match signed_exchange.recipient_verifying_identity(&intent.recipient_id) {
-                Ok(identity) => identity.signing_key_id,
-                Err(_) => {
-                    return ConversationAcceptance::Response(outcome(
-                        "refused",
-                        "conversation_recipient_identity_unavailable",
-                        None,
-                    ))
-                }
-            };
+        let now_epoch_secs = now_unix_millis() / 1_000;
+        let recipient_signing_key_id = match signed_exchange
+            .active_recipient_verifying_identity(&intent.recipient_id, now_epoch_secs)
+        {
+            Ok(identity) => identity.signing_key_id,
+            Err(_) => {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "conversation_recipient_identity_unavailable",
+                    None,
+                ))
+            }
+        };
         let payload_json = match serde_jcs::to_string(&serde_json::json!({
             "action": action,
             "message": intent.message,
@@ -1073,7 +1075,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             &intent.correlation_id,
             &replay_id,
             payload_json,
-            now_unix_millis() / 1_000,
+            now_epoch_secs,
         ) {
             Ok(request) => request,
             Err(_) => {
@@ -1085,7 +1087,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             }
         };
         if signed_exchange
-            .verify_request(&signed_request, now_unix_millis() / 1_000)
+            .verify_request(&signed_request, now_epoch_secs)
             .is_err()
         {
             return ConversationAcceptance::Response(outcome(
@@ -1102,7 +1104,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 intent.recipient_id.clone(),
                 replay_id,
                 intent.correlation_id.clone(),
-                now_unix_millis() / 1_000,
+                now_epoch_secs,
             ),
             AuthorityDecision::Authorized(_)
         ) {

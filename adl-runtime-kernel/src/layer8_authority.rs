@@ -57,6 +57,20 @@ pub struct CommunicationVerifyingIdentity {
     pub expires_at_epoch_secs: u64,
 }
 
+impl CommunicationVerifyingIdentity {
+    pub fn ensure_valid_at(&self, now_epoch_secs: u64) -> Result<(), RefusalReason> {
+        if self.revoked {
+            return Err(RefusalReason::IdentityRevoked);
+        }
+        if now_epoch_secs < self.not_before_epoch_secs
+            || now_epoch_secs >= self.expires_at_epoch_secs
+        {
+            return Err(RefusalReason::IdentityExpired);
+        }
+        Ok(())
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CommunicationKeyDescriptor {
@@ -261,6 +275,16 @@ impl Layer8SignedExchange {
             .ok_or(RefusalReason::IdentityUnavailable)
     }
 
+    pub fn active_recipient_verifying_identity(
+        &self,
+        recipient_id: &str,
+        now: u64,
+    ) -> Result<CommunicationVerifyingIdentity, RefusalReason> {
+        let identity = self.recipient_verifying_identity(recipient_id)?;
+        identity.ensure_valid_at(now)?;
+        Ok(identity)
+    }
+
     fn verifying(&self, identity: &CommunicationSigningIdentity) -> CommunicationVerifyingIdentity {
         CommunicationVerifyingIdentity {
             principal_id: identity.descriptor.principal_id.clone(),
@@ -346,12 +370,8 @@ pub fn verify_signed_identity_message(
     {
         return Err(RefusalReason::InvalidRequest);
     }
-    if identity.revoked {
-        return Err(RefusalReason::IdentityRevoked);
-    }
-    if now_epoch_secs < identity.not_before_epoch_secs
-        || now_epoch_secs >= identity.expires_at_epoch_secs
-        || now_epoch_secs < message.issued_at_epoch_secs
+    identity.ensure_valid_at(now_epoch_secs)?;
+    if now_epoch_secs < message.issued_at_epoch_secs
         || now_epoch_secs >= message.expires_at_epoch_secs
     {
         return Err(RefusalReason::IdentityExpired);

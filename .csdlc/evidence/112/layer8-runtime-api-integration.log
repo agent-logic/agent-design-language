@@ -1,10 +1,12 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.33s
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.11s
 ────────────
- Nextest run ID bc83c3ba-e941-41e1-9d7d-a0d95e809055 with nextest profile: default
-    Starting 4 tests across 1 binary
-        PASS [   0.012s] (1/4) adl::layer8_authority_runtime_api runtime_api_refuses_outer_fields_not_bound_to_signed_request
-        PASS [   0.021s] (2/4) adl::layer8_authority_runtime_api runtime_api_refusal_cannot_invoke_delivery
-        PASS [   0.021s] (3/4) adl::layer8_authority_runtime_api runtime_api_refuses_delivery_without_exact_recipient_acknowledgement
-        PASS [   0.021s] (4/4) adl::layer8_authority_runtime_api runtime_api_delivers_only_after_authority_grants
+ Nextest run ID 6592dd07-9b64-4db4-8e29-b4f57340bf7e with nextest profile: default
+    Starting 5 tests across 1 binary
+        PASS [   0.013s] (1/5) adl::layer8_authority_runtime_api runtime_api_refuses_outer_fields_not_bound_to_signed_request
+        PASS [   0.021s] (2/5) adl::layer8_authority_runtime_api runtime_api_refuses_revoked_recipient_identity_before_delivery
+        PASS [   0.025s] (3/5) adl::layer8_authority_runtime_api runtime_api_delivers_only_after_authority_grants
+        PASS [   0.025s] (4/5) adl::layer8_authority_runtime_api runtime_api_refusal_cannot_invoke_delivery
+        PASS [   0.025s] (5/5) adl::layer8_authority_runtime_api runtime_api_refuses_delivery_without_exact_recipient_acknowledgement
 ────────────
-     Summary [   0.021s] 4 tests run: 4 passed, 0 skipped
+     Summary [   0.025s] 5 tests run: 5 passed, 0 skipped

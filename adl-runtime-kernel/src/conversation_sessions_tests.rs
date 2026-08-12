@@ -391,7 +391,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
                                 .verifying_key()
                                 .to_bytes(),
                         ),
-                        revoked: false,
+                        revoked: recipient == "agent-0098",
                         not_before_epoch_secs: 0,
                         expires_at_epoch_secs: u64::MAX,
                     })
@@ -474,6 +474,37 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let authenticated =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
     assert_eq!(authenticated["status"], "authenticated");
+
+    let dispatches_before_revoked_recipient = dispatches.load(Ordering::SeqCst);
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-revoked-recipient-identity",
+                "turn_id": "turn-revoked-recipient-identity",
+                "recipient_id": "agent-0098",
+                "correlation_id": "19191919191919191919191919191919",
+                "message": "must not dispatch revoked recipient"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let revoked_recipient =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    assert_eq!(
+        revoked_recipient["status"], "refused",
+        "{revoked_recipient}"
+    );
+    assert_eq!(
+        revoked_recipient["error"],
+        "conversation_recipient_identity_unavailable"
+    );
+    assert_eq!(
+        dispatches.load(Ordering::SeqCst),
+        dispatches_before_revoked_recipient
+    );
 
     let dispatches_before_refusal = dispatches.load(Ordering::SeqCst);
     socket
