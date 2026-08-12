@@ -511,6 +511,83 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     env.server.assert_clean();
 }
 
+#[tokio::test]
+async fn title_only_issue_update_preserves_body_and_records_durable_provenance() {
+    let env = LocalGithubEnv::start();
+    let mut create = base_request(GithubAction::IssueCreate);
+    create.token_file = Some(env.token_file());
+    create.title = Some("Original title".into());
+    create.body = Some("Body must remain byte-identical".into());
+    execute_github_action(&create)
+        .await
+        .expect("create fixture");
+
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.operation_key = Some("issue-301.title-only-v1".into());
+    update.issue = Some(77);
+    update.title = Some("Canonical title".into());
+    let first = execute_github_action(&update).await.expect("title update");
+    assert_eq!(first.issue.as_ref().unwrap().title, "Canonical title");
+    assert_eq!(
+        first.issue.as_ref().unwrap().body,
+        append_marker("Body must remain byte-identical", "issue-5655.test-key")
+    );
+    assert_eq!(first.comment_id, Some(9001));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+    assert_eq!(
+        env.server
+            .count("POST", "/repos/owner/repo/issues/77/comments"),
+        1
+    );
+
+    let retry = execute_github_action(&update)
+        .await
+        .expect("idempotent retry");
+    assert_eq!(retry.comment_id, Some(9001));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+
+    let mut conflict = update.clone();
+    conflict.title = Some("Conflicting title".into());
+    let error = execute_github_action(&conflict)
+        .await
+        .expect_err("same key with conflicting mutation");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(error.message.contains("different issue update fingerprint"));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+    env.server.assert_clean();
+}
+
+#[tokio::test]
+async fn title_only_issue_update_fails_closed_on_remote_body_drift() {
+    let env = LocalGithubEnv::start();
+    let mut create = base_request(GithubAction::IssueCreate);
+    create.token_file = Some(env.token_file());
+    create.title = Some("Original title".into());
+    create.body = Some("Governed body".into());
+    execute_github_action(&create)
+        .await
+        .expect("create fixture");
+    env.server.force_body_drift_after_patch();
+
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.operation_key = Some("issue-301.drift-v1".into());
+    update.issue = Some(77);
+    update.title = Some("Canonical title".into());
+    let error = execute_github_action(&update)
+        .await
+        .expect_err("body drift must fail closed");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(error.message.contains("body drifted"));
+    assert_eq!(
+        env.server
+            .count("POST", "/repos/owner/repo/issues/77/comments"),
+        0
+    );
+    env.server.assert_clean();
+}
+
 #[derive(Default)]
 struct LocalGithubState {
     issue: Option<Value>,
@@ -522,6 +599,7 @@ struct LocalGithubState {
     empty_issue_search_reads: usize,
     empty_issue_search_after_create: usize,
     created_issue_marker_lag_reads: usize,
+    body_drift_after_patch: bool,
 }
 
 struct LocalGithub {
@@ -644,6 +722,10 @@ impl LocalGithub {
 
     fn force_created_issue_marker_lag(&self, reads: usize) {
         self.state.lock().unwrap().created_issue_marker_lag_reads = reads;
+    }
+
+    fn force_body_drift_after_patch(&self) {
+        self.state.lock().unwrap().body_drift_after_patch = true;
     }
 }
 
@@ -899,6 +981,10 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
                     .expect("assignees")
                     .push(json!({"login": "stale-extra"}));
             }
+            if state.body_drift_after_patch {
+                issue["body"] = json!("concurrent remote body mutation");
+            }
+            issue["updated_at"] = json!("2026-01-01T00:00:01Z");
             state.issue = Some(issue.clone());
             issue
         }
@@ -912,7 +998,10 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
         ("POST", "/repos/owner/repo/issues/77/comments") => {
             let payload: Value = serde_json::from_str(&request.body).expect("comment payload");
             let comment = json!({"id": 9001, "body": payload["body"]});
-            assert!(comment["body"].as_str().unwrap().contains(&marker));
+            assert!(comment["body"]
+                .as_str()
+                .unwrap()
+                .contains("<!-- csdlc-github-operation:"));
             state.comment = Some(comment.clone());
             comment
         }
@@ -948,6 +1037,7 @@ fn open_issue_number(
         "state": "open",
         "created_at": "2026-01-01T00:00:00Z",
         "closed_at": null,
+        "updated_at": "2026-01-01T00:00:00Z",
         "labels": labels.into_iter().map(|name| json!({"name": name})).collect::<Vec<_>>(),
         "assignees": assignees.into_iter().map(|login| json!({"login": login})).collect::<Vec<_>>(),
         "milestone": milestone.map(|number| json!({"number": number}))

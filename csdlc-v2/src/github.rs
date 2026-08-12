@@ -212,6 +212,22 @@ pub async fn execute_github_action(
         GithubAction::IssueCreate => reconcile_issue_create(&crab, owner, repo, request).await?,
         GithubAction::IssueUpdate => {
             let number = required_issue(request)?;
+            if is_title_only_issue_update(request) {
+                let (packet, comment_id) =
+                    reconcile_bodyless_issue_update(&crab, owner, repo, number, request).await?;
+                return GithubActionResult {
+                    schema: "csdlc.github_action_result.v1".into(),
+                    repository: request.repository.clone(),
+                    action: request.action.clone(),
+                    operation_key: request.operation_key.clone(),
+                    issue: Some(packet),
+                    comment_id: Some(comment_id),
+                    pr_state: None,
+                    reconciled: true,
+                    producer_digest: None,
+                }
+                .seal_producer();
+            }
             update_issue(&crab, owner, repo, number, request).await?;
             let packet =
                 read_issue_packet(&crab, owner, repo, number, request.operation_key.as_deref())
@@ -315,6 +331,209 @@ pub async fn execute_github_action(
         producer_digest: None,
     }
     .seal_producer()
+}
+
+fn is_title_only_issue_update(request: &GithubActionRequest) -> bool {
+    request.title.is_some()
+        && request.body.is_none()
+        && request.state.is_none()
+        && request.labels.is_empty()
+        && request.assignees.is_empty()
+        && request.milestone.is_none()
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+struct IssueUpdateReceipt {
+    schema: String,
+    operation_key: String,
+    request_fingerprint: String,
+    pre_body_digest: String,
+    post_body_digest: String,
+    pre_updated_at: Option<String>,
+    post_updated_at: Option<String>,
+}
+
+#[derive(Debug, Clone)]
+struct MarkedComment {
+    id: u64,
+    body: String,
+}
+
+async fn reconcile_bodyless_issue_update(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+    request: &GithubActionRequest,
+) -> crate::Result<(GithubIssuePacket, u64)> {
+    let operation_key = required_marker(request)?;
+    let fingerprint = issue_update_fingerprint(request)?;
+    let existing = find_marked_comment_values(crab, owner, repo, number, operation_key).await?;
+    if existing.len() > 1 {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "multiple provenance receipts match operation key",
+        ));
+    }
+    if let Some(comment) = existing.first() {
+        let receipt = parse_issue_update_receipt(&comment.body, operation_key)?;
+        if receipt.request_fingerprint != fingerprint {
+            return Err(crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "operation key is already bound to a different issue update fingerprint",
+            ));
+        }
+        let value = fetch_issue_value(crab, owner, repo, number)
+            .await
+            .map_err(remote)?;
+        let packet = normalize_issue(&request.repository, &value, None)?;
+        verify_issue_update_readback(&packet, request)?;
+        let body_digest = digest_text(&packet.body);
+        if receipt.pre_body_digest != receipt.post_body_digest
+            || receipt.post_body_digest != body_digest
+        {
+            return Err(crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "issue body no longer agrees with the recorded update provenance",
+            ));
+        }
+        return Ok((packet, comment.id));
+    }
+
+    let before_value = fetch_issue_value(crab, owner, repo, number)
+        .await
+        .map_err(remote)?;
+    let before = normalize_issue(&request.repository, &before_value, None)?;
+    let pre_updated_at = issue_updated_at(&before_value);
+    update_issue(crab, owner, repo, number, request).await?;
+
+    let after_value = fetch_issue_value(crab, owner, repo, number)
+        .await
+        .map_err(remote)?;
+    let after = normalize_issue(&request.repository, &after_value, None)?;
+    verify_issue_update_readback(&after, request)?;
+    if after.body != before.body {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "issue body drifted during body-preserving update",
+        ));
+    }
+    let receipt = IssueUpdateReceipt {
+        schema: "csdlc.github_issue_update_receipt.v1".into(),
+        operation_key: operation_key.into(),
+        request_fingerprint: fingerprint,
+        pre_body_digest: digest_text(&before.body),
+        post_body_digest: digest_text(&after.body),
+        pre_updated_at,
+        post_updated_at: issue_updated_at(&after_value),
+    };
+    let receipt_body = format!(
+        "{}\n```json\n{}\n```\n",
+        marker_line(operation_key),
+        serde_json::to_string(&receipt)?
+    );
+    let created: Value = crab
+        .post(
+            format!("/repos/{owner}/{repo}/issues/{number}/comments"),
+            Some(&json!({ "body": receipt_body })),
+        )
+        .await
+        .map_err(remote)?;
+    let comment_id = created.get("id").and_then(Value::as_u64).ok_or_else(|| {
+        crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "created provenance receipt has no id",
+        )
+    })?;
+
+    let comments = find_marked_comment_values(crab, owner, repo, number, operation_key).await?;
+    if comments.len() != 1 || comments[0].id != comment_id {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "provenance receipt readback is ambiguous",
+        ));
+    }
+    let observed_receipt = parse_issue_update_receipt(&comments[0].body, operation_key)?;
+    if observed_receipt != receipt {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "provenance receipt readback differs from governed receipt",
+        ));
+    }
+    let final_value = fetch_issue_value(crab, owner, repo, number)
+        .await
+        .map_err(remote)?;
+    let final_packet = normalize_issue(&request.repository, &final_value, None)?;
+    verify_issue_update_readback(&final_packet, request)?;
+    if final_packet.body != before.body {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "issue body drifted before final provenance reconciliation",
+        ));
+    }
+    Ok((final_packet, comment_id))
+}
+
+fn issue_update_fingerprint(request: &GithubActionRequest) -> crate::Result<String> {
+    let bytes = serde_json::to_vec(&(
+        &request.repository,
+        request.issue,
+        &request.operation_key,
+        &request.title,
+        &request.body,
+        &request.labels,
+        &request.assignees,
+        request.milestone,
+        &request.state,
+    ))?;
+    Ok(blake3::hash(&bytes).to_hex().to_string())
+}
+
+fn digest_text(value: &str) -> String {
+    blake3::hash(value.as_bytes()).to_hex().to_string()
+}
+
+fn issue_updated_at(value: &Value) -> Option<String> {
+    value
+        .get("updated_at")
+        .and_then(Value::as_str)
+        .map(str::to_owned)
+}
+
+fn parse_issue_update_receipt(
+    body: &str,
+    operation_key: &str,
+) -> crate::Result<IssueUpdateReceipt> {
+    if !body.contains(&marker_line(operation_key)) {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "provenance receipt marker is missing",
+        ));
+    }
+    let json = body
+        .split_once("```json\n")
+        .and_then(|(_, tail)| tail.split_once("\n```").map(|(json, _)| json))
+        .ok_or_else(|| {
+            crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "provenance receipt payload is malformed",
+            )
+        })?;
+    let receipt: IssueUpdateReceipt = serde_json::from_str(json).map_err(|_| {
+        crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "provenance receipt payload is invalid",
+        )
+    })?;
+    if receipt.schema != "csdlc.github_issue_update_receipt.v1"
+        || receipt.operation_key != operation_key
+    {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "provenance receipt identity is invalid",
+        ));
+    }
+    Ok(receipt)
 }
 
 fn validate_request(request: &GithubActionRequest) -> crate::Result<()> {
@@ -831,6 +1050,22 @@ async fn find_marked_comments(
     number: u64,
     marker: &str,
 ) -> crate::Result<Vec<u64>> {
+    Ok(
+        find_marked_comment_values(crab, owner, repo, number, marker)
+            .await?
+            .into_iter()
+            .map(|comment| comment.id)
+            .collect(),
+    )
+}
+
+async fn find_marked_comment_values(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+    marker: &str,
+) -> crate::Result<Vec<MarkedComment>> {
     let value: Vec<Value> = crab
         .get(
             format!("/repos/{owner}/{repo}/issues/{number}/comments"),
@@ -839,14 +1074,13 @@ async fn find_marked_comments(
         .await
         .map_err(remote)?;
     Ok(value
-        .iter()
-        .filter(|comment| {
-            comment
-                .get("body")
-                .and_then(Value::as_str)
-                .is_some_and(|body| body.contains(&marker_line(marker)))
+        .into_iter()
+        .filter_map(|comment| {
+            let id = comment.get("id").and_then(Value::as_u64)?;
+            let body = comment.get("body").and_then(Value::as_str)?.to_owned();
+            body.contains(&marker_line(marker))
+                .then_some(MarkedComment { id, body })
         })
-        .filter_map(|comment| comment.get("id").and_then(Value::as_u64))
         .collect())
 }
 

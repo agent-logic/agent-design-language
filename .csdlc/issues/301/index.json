@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 301,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
+  "phase": "bound",
+  "generation": 4,
+  "digest": "e80c2ef756e388fe6fd469c8b0a41f0196b135b8d61ec4a49fa12523c1e1ac14",
+  "branch": "codex/301-title-only-operation-provenance",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/301/design.md",
+  "diagram_path": ".csdlc/prepared/issues/301/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:b1ead642-26d7-4a52-a7a2-934848c29bf4",
+      "revision": "131c08ddd36d3441808326298bd5b342cf347da248c85000c38e1e28c5a7c254"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "099587ba1f3d365f65438de80fd932eb8a3ce46f2011e496fb25e4cee4330fa4",
+      "rendered_digest": "1f602d55abfde140b71a7cdd01db213d96b4e5da322e26363d45f7fde7749164",
+      "ast_digest": "dd6e1f4ed857ac2203d39182ca287b0e7a6cb9b24ca5f57bf858eb994e976e6d"
+    },
+    "stp": {
+      "values_digest": "f56c30cf3ce76514578c8bbc25ba927af0d588304ec5e7bc149ee3a6ef27a6be",
+      "rendered_digest": "e6a832def0573767be1fad1b65f7745f1277478e67daca8f569ead5a5ddfbbb1",
+      "ast_digest": "b57938e52b725b7ba654620cd7afc3cd854bd01a38e08c1f4cf3175bf509490f"
+    },
+    "spp": {
+      "values_digest": "2b4109254e441e91ebfd6a4f0026bc109b67101ef814eb60b3c8cb257c97d92f",
+      "rendered_digest": "cfe63ad0859216ac10f3217783f8024247bbf7c0bc8ed373fa58e0a50b5b4f0a",
+      "ast_digest": "580e50826ca988c2d4e57d3adb21c05509ce8e82651820a1cb58146525c63451"
+    },
+    "vpp": {
+      "values_digest": "b5076426d87f3d73748b62487302de782d49735c083b11dd980731d98253738b",
+      "rendered_digest": "4ef60e2e9967dfbcb0f5394ace805d298cc2a813aecf357f6a480cc32c9fddd8",
+      "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
+    },
+    "srp": {
+      "values_digest": "1c2783eadc2ef2fe8c761a38fb3966b7a3cee36f59c7383019987af027721d7f",
+      "rendered_digest": "0e7f76fc82f49b972571d93968afa1cb6f3a1e51ef4869d925fbefa4df3351ae",
+      "ast_digest": "c31d6fd03a9421c6ba4240c9c4e0230666c7a9d7d79197bf566ddbc2e61e1747"
+    },
+    "sor": {
+      "values_digest": "857781ab749231d8aeb2958991df12ee5d74654d2f2b29f56705ce067b4a55e0",
+      "rendered_digest": "c22a94631a3e6dfae31382694933a9ba9e31a632c4eba462f37b3bae362c9b34",
+      "ast_digest": "62acdcee26e8addcf597cfe0a912c453bcdc800896cd919dd1978690b2d5150e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-301-design-remediation",
+      "reason": "Doctor reports #301 design and card packet ready after fresh design approval; enter ready phase before binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:tooling-gap-audit",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-301-design-remediation",
+      "reason": "remediate r1 design review findings in the initialized plan and refresh paired design and diagram bindings last",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/301/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/301/diagram.mmd\",\"new_design_digest\":\"131c08ddd36d3441808326298bd5b342cf347da248c85000c38e1e28c5a7c254\",\"new_diagram_digest\":\"e8858a02167e85c90e9486d328827bc4a7fc697684efbe785d2e10600a4f5f41\",\"old_design_digest\":\"291cb611a2e26983469adb15876201936b6b337eeea181687d9e3ebfe8c38d8e\",\"old_diagram_digest\":\"20658b11df1f4c0da275b947b985f07d7af4512113c3335c504c843cb68a9201\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Finalize the title-only provenance contract: durable operation-key-to-request fingerprint receipts, same-key idempotent retry, conflicting key reuse fail-closed, and compatibility with legacy body-bearing markers.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Implement only csdlc-v2/src/github.rs plus focused gate_github_actions coverage for body preservation, provenance readback, retry, conflicting reuse, partial-operation recovery, and deterministic concurrent body drift boundaries.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Run focused validation and strict Clippy, obtain fresh exact-head review with no unresolved findings, publish ready, and stop before merge.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-301-design-remediation",
+      "reason": "remediate fresh design review finding by adding the strict Clippy validation lane required by the design and acceptance criteria",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"title-only-github-issue-update\",\"proof_role\":\"Focused owner regression for title-only body preservation, durable operation provenance, same-key retry, conflicting reuse, concurrent body drift, and body-bearing compatibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"strict-clippy-github-owner\",\"proof_role\":\"Strict warning-free proof for the csdlc-v2 GitHub issue owner crate after the title-only provenance change.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:b1ead642-26d7-4a52-a7a2-934848c29bf4",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-301-design-remediation",
+      "reason": "Doctor reports #301 design and card packet ready after fresh design approval; enter ready phase before binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

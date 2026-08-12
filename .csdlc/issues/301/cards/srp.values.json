@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 301,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Persist provenance for title-only issue updates",
+    "slug": "title-only-issue-update-operation-provenance",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue 301 github.rs and focused issue-owner test diff only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "body byte preservation",
+        "operation marker durability",
+        "retry and conflict behavior",
+        "readback reconciliation truth"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
