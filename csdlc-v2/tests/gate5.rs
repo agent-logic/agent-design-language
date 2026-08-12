@@ -744,6 +744,36 @@ fn preserved_projection_recovery_rejects_rehashed_prepared_classification_forger
 }
 
 #[test]
+fn preserved_projection_recovery_rejects_malformed_request_classification_before_mutation() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "malformed request fixture".into(),
+        },
+    )
+    .unwrap();
+    let mut request = recovery_request(&store, &record, &classify, "malformed-request");
+    request.classification.actor = "forged-actor".into();
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("malformed request classification must fail before mutation");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert!(store.rollback_preserved(7).is_dir());
+    assert!(store.issue_dir(7).is_dir());
+    assert!(!store
+        .root()
+        .join(".csdlc/issues/.7.recovery/malformed-request")
+        .exists());
+}
+
+#[test]
 fn preserved_projection_recovery_rejects_forged_terminal_and_broken_earlier_chain() {
     for mutation in [
         "terminal-self-digest",

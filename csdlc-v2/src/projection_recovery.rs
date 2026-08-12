@@ -913,6 +913,29 @@ fn observations_match_after_move(
         })
 }
 
+fn validate_classification_authority(
+    classification: &ProjectionClassification,
+    expected_digest: &str,
+    issue: u64,
+) -> Result<()> {
+    let mut digest_input = classification.clone();
+    digest_input.receipt_digest.clear();
+    let digest = blake3::hash(&serde_json::to_vec(&digest_input)?)
+        .to_hex()
+        .to_string();
+    if classification.schema != "csdlc.projection_classification.v1"
+        || classification.issue != issue
+        || classification.receipt_digest != expected_digest
+        || classification.receipt_digest != digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "classification authority digest invalid",
+        ));
+    }
+    Ok(())
+}
+
 pub(crate) fn validate_completed_recovery_attempt(
     store: &Store,
     issue: u64,
@@ -961,16 +984,12 @@ pub(crate) fn validate_completed_recovery_attempt(
         serde_json::from_value(prepared.get("classification").cloned().ok_or_else(|| {
             V2Error::new(ErrorCode::CorruptRecord, "PREPARED classification missing")
         })?)?;
-    let mut classification_digest_input = prepared_classification.clone();
-    classification_digest_input.receipt_digest.clear();
-    let classification_digest = blake3::hash(&serde_json::to_vec(&classification_digest_input)?)
-        .to_hex()
-        .to_string();
-    if prepared_classification.receipt_digest != prepared_request.classify_receipt_digest
-        || prepared_classification.receipt_digest != classification_digest
-        || prepared_classification.schema != "csdlc.projection_classification.v1"
-        || prepared_classification.issue != issue
-        || prepared_request.classification != prepared_classification
+    validate_classification_authority(
+        &prepared_classification,
+        &prepared_request.classify_receipt_digest,
+        issue,
+    )?;
+    if prepared_request.classification != prepared_classification
         || prepared.get("lineage")
             != serde_json::to_value(&prepared_request.failed_operation_lineage)
                 .ok()
@@ -1757,6 +1776,11 @@ pub fn recover_preserved_projection(
             "classification payload and receipt digest disagree",
         ));
     }
+    validate_classification_authority(
+        &request.classification,
+        &request.classify_receipt_digest,
+        request.issue,
+    )?;
     let classification = if attempt.exists() {
         if !prepared_path.is_file() {
             return Err(V2Error::new(
@@ -1769,6 +1793,21 @@ pub fn recover_preserved_projection(
             serde_json::from_value(prepared.get("classification").cloned().ok_or_else(|| {
                 V2Error::new(ErrorCode::CorruptRecord, "PREPARED classification missing")
             })?)?;
+        let prepared_request: ProjectionRecoverRequest =
+            serde_json::from_value(prepared.get("request").cloned().ok_or_else(|| {
+                V2Error::new(ErrorCode::CorruptRecord, "PREPARED typed request missing")
+            })?)?;
+        validate_classification_authority(
+            &classification,
+            &request.classify_receipt_digest,
+            request.issue,
+        )?;
+        if prepared_request.classification != classification {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "active recovery PREPARED authority does not match request",
+            ));
+        }
         if prepared.get("request_digest").and_then(|v| v.as_str())
             != Some(request_authority_digest(&request)?.as_str())
         {
@@ -1786,6 +1825,7 @@ pub fn recover_preserved_projection(
             &request.classification.reason,
         )?;
         if classification.receipt_digest != request.classify_receipt_digest
+            || request.classification != classification
             || classification.disposition != "recoverable"
         {
             return Err(V2Error::new(
