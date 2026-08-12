@@ -1,0 +1,45 @@
+{
+  "issue": 111,
+  "expected_generation": 64,
+  "expected_digest": "abbde8178f9b5621bc72abbf9f4a21a90be5cd19928cdf7d3360bc96ba85929e",
+  "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+  "evidence": {
+    "reviewer": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ],
+    "reviewed_revision": "git-blake3:0d30bdbbd2d2d8a6f47a553f5171bed9e580ada8:98f6e0007567f1e771992bbcb7ab8f568753da2a1666cf9d5ca321d52b025acd",
+    "findings": [
+      {
+        "id": "final-review-223-p2-stale-cleanup-race-proof",
+        "severity": "p2",
+        "summary": "Add a deterministic barrier-controlled regression proving an old-generation completion cannot remove or duplicate a newer-generation attachment for the same conversation turn.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "adl-runtime-kernel/tests/conversation_sessions.rs"
+      }
+    ],
+    "residual_risks": [
+      "Trusted public-TLS live browser proof was not rerun.",
+      "Durable cross-restart conversation history remains owned by issue #114."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

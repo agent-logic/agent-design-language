@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
     "slug": "v0-92-wp-17-migration-and-cross-polis-continuity-planning",
     "version": "v0.92",
-    "generation": 34
+    "generation": 58
   },
   "status": "ready",
   "content": {
@@ -18,7 +18,6 @@
       "declared_scope": [
         "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
         "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
-        "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
         ".csdlc/evidence/5835/"
       ],
       "authority_boundary": [

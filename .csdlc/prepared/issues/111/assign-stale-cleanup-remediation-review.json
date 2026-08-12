@@ -1,0 +1,14 @@
+{
+  "issue": 111,
+  "expected_generation": 68,
+  "expected_digest": "7e1cf739a8dbf9ecab8b8284995540b632698108871b578a5e9aa2d8bf053323",
+  "reviewer": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+  "assigned_by": "codex:wp18c01-fresh-review-remediation",
+  "scope": [
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/tests/conversation_sessions.rs",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/tests/conversation_sessions.test.mjs",
+    ".csdlc/issues/111"
+  ]
+}

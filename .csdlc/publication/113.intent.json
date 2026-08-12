@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 113,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/113-wp18c03-roster-presence-preparation",
+  "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
+  "body": "Closes #113\n\n## Summary\n- expose policy-filtered Runtime roster pages and versioned agent detail\n- authenticate page and exact-successor event cursors against Runtime policy, query, and revision\n- preserve stable identity and bounded restart/reconnect behavior in the Observatory\n- bound output allocation to page size under the explicit 10,000-entry local population ceiling\n\n## Validation\n- agent_roster: 15/15 PASS\n- control: 25/25 PASS\n- openapi_contract: 6/6 PASS\n- HTML Observatory contract: PASS\n- strict library and binary Clippy: PASS\n- formatting and diff hygiene: PASS\n- retained public-TLS managed Chrome and Guardian restart proof: PASS\n\n## Review\n- independent exact-head review of 448316bac7f0ebcffaca816b29be8c40ecfbab73: PASS with no actionable findings\n\n## Boundaries\n- distributed and non-local roster authority remains #142\n- long-running distributed and soak-style validation is out of band under #226 and is not coupled to this focused PR",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:448316bac7f0ebcffaca816b29be8c40ecfbab73:2a86914a3668313fe3f20bee38c9258675e7f71e57684594185ca6ebd4d102b2",
+  "commit_sha": "448316bac7f0ebcffaca816b29be8c40ecfbab73"
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "adl.v092.wp17_rollback_proof.v1",
+  "result": "passed",
+  "base_revision": "1567469e395f9a6ea6c2e736366a8008f5ee1e06",
+  "owned_restore_paths": [
+    "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+    "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md"
+  ],
+  "restore_simulation": [
+    {
+      "path": "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+      "operation": "restore_base_bytes",
+      "before_sha256": "6731033d7e4ecb47732ba25d8d91cf9eda04ed68b81b6705a90b14344f657fd6",
+      "after_sha256": "672916c3fc45857cff2bfd069f889b377dce7c0645ff85f1ac037ac13b39600f",
+      "base_sha256": "672916c3fc45857cff2bfd069f889b377dce7c0645ff85f1ac037ac13b39600f"
+    },
+    {
+      "path": "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
+      "operation": "remove_added_path",
+      "before_sha256": "03201300badc9ddf176d3202db780af505ef19e2212dc9c6f0b1de40ed4fe5bf",
+      "after_state": "absent",
+      "base_state": "absent"
+    }
+  ],
+  "read_only_paths": [
+    {
+      "path": "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
+      "current_sha256": "fef94dc6deab1469320f2e34bd74afd502a6e2ce849cbdefc56348949aac645e",
+      "base_sha256": "fef94dc6deab1469320f2e34bd74afd502a6e2ce849cbdefc56348949aac645e"
+    }
+  ],
+  "retained_evidence": [
+    {"path": ".csdlc/evidence/5835/rejected-transfer-matrix.json", "sha256": "e5d199ae37a80766af88c9e55fe81c0d6eec053894bc1fa4285cc0c7bdf1eb4f"},
+    {"path": ".csdlc/evidence/5835/wp17-doc-contract.log", "sha256": "704e76a3260057a1840efdfb7d135897fdbb1a12efab7a9e3caf915ee39f15e0"},
+    {"path": ".csdlc/evidence/5835/wp17-negative-semantics.log", "sha256": "02318d7657892ec07058f49b559eacb72dbe6a28ca20a865f919567cec9bd6f1"},
+    {"path": ".csdlc/evidence/5835/wp17-diff-review.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}
+  ],
+  "preserved_authority": [
+    {"path": "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json", "sha256": "57433b3f9723f12c3a0cd2689686715fee33a1b08de3bf3819fdcfa449b936e8"},
+    {"path": ".csdlc/evidence/5857/sprint-review.json", "sha256": "93fe3515d1b54a8179868ad05121067877b0ce3596d8696b96d6c8a82abfdec5"},
+    {"path": ".csdlc/evidence/209/local-validation-manifest.json", "sha256": "33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74"},
+    {"path": ".csdlc/evidence/209/native-validation-manifest.json", "sha256": "c85fc5f007e2e091f2fa91ddec1dad2f5602a15861039e5d600886f49ce10987"}
+  ]
+}

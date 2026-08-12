@@ -1,0 +1,131 @@
+
+running 36 tests
+test distributed::learner_transport::tests::capacity_n_plus_one_no_partial ... ok
+test distributed::learner_transport::tests::certificate_overlap_authorized ... ok
+test distributed::learner_transport::tests::crash_after_exclusion_checkpoint ... ok
+test distributed::learner_transport::tests::crash_before_exclusion_checkpoint ... ok
+test distributed::learner_transport::tests::current_voter_cut_unchanged ... ok
+test distributed::learner_transport::tests::exact_retry_session ... ok
+test distributed::learner_transport::tests::excluded_node_recovery_learner ... ok
+test distributed::learner_transport::tests::exclusion_ordinary_session_denied ... ok
+test distributed::learner_transport::tests::exclusion_wrong_recovery_token ... ok
+test distributed::learner_transport::tests::expired_certificate ... ok
+test distributed::learner_transport::tests::learner_endorsement_denied ... ok
+test distributed::learner_transport::tests::learner_finalize_denied ... ok
+test distributed::learner_transport::tests::learner_mutation_denied ... ok
+test distributed::learner_transport::tests::learner_observatory_denied ... ok
+test distributed::learner_transport::tests::learner_promotion_route_handoff ... ok
+test distributed::learner_transport::tests::learner_renewal_denied ... ok
+test distributed::learner_transport::tests::learner_shepherd_denied ... ok
+test distributed::learner_transport::tests::learner_vote_rpc_denied ... ok
+test distributed::learner_transport::tests::missing_201_token ... ok
+test distributed::learner_transport::tests::oversized_frame ... ok
+test distributed::learner_transport::tests::public_caller_denied ... ok
+test distributed::learner_transport::tests::real_four_node_learner_replication ... ok
+test distributed::learner_transport::tests::reconnect_boot_rotation ... ok
+test distributed::learner_transport::tests::replay_conflict ... ok
+test distributed::learner_transport::tests::revoked_certificate ... ok
+test distributed::learner_transport::tests::stale_admission ... ok
+test distributed::learner_transport::tests::state_or_lock_symlink_rejected ... ok
+test distributed::learner_transport::tests::truncated_frame ... ok
+test distributed::learner_transport::tests::wrong_address ... ok
+test distributed::learner_transport::tests::wrong_boot_generation ... ok
+test distributed::learner_transport::tests::wrong_certificate_generation ... ok
+test distributed::learner_transport::tests::wrong_domain ... ok
+test distributed::learner_transport::tests::wrong_guardian ... ok
+test distributed::learner_transport::tests::wrong_learner ... ok
+test distributed::learner_transport::tests::wrong_operation_kind ... ok
+test distributed::learner_transport::tests::wrong_polis ... ok
+
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 264 filtered out; finished in 1.34s
+
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:422:19
+    |
+265 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+422 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:794:19
+    |
+713 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+794 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+807 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:560:19
+    |
+422 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:643:19
+    |
+540 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+643 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running unittests src/lib.rs (adl-runtime/target/debug/deps/adl_runtime-30b6a4afc4cb8884)
+ADL_ISSUE_202_CASE_V1 capacity_n_plus_one_no_partial=passed
+ADL_ISSUE_202_ASSERTION_V1 certificate_overlap_authorized successor_private_before_flip
+ADL_ISSUE_202_ASSERTION_V1 certificate_overlap_authorized successor_restart_atomic_flip
+ADL_ISSUE_202_CASE_V1 certificate_overlap_authorized=passed
+ADL_ISSUE_202_ASSERTION_V1 crash_after_exclusion_checkpoint committed_view_survives_restart
+ADL_ISSUE_202_CASE_V1 crash_after_exclusion_checkpoint=passed
+ADL_ISSUE_202_ASSERTION_V1 crash_before_exclusion_checkpoint failed_cas_recovers_old_view
+ADL_ISSUE_202_CASE_V1 crash_before_exclusion_checkpoint=passed
+ADL_ISSUE_202_CASE_V1 current_voter_cut_unchanged=passed
+ADL_ISSUE_202_ASSERTION_V1 exact_retry_session exclusion_exact_retry_cached
+ADL_ISSUE_202_ASSERTION_V1 exact_retry_session admission_exact_retry_cached
+ADL_ISSUE_202_CASE_V1 exact_retry_session=passed
+ADL_ISSUE_202_CASE_V1 excluded_node_recovery_learner=passed
+ADL_ISSUE_202_ASSERTION_V1 exclusion_ordinary_session_denied published_exclusion_denies_retained_identity
+ADL_ISSUE_202_CASE_V1 exclusion_ordinary_session_denied=passed
+ADL_ISSUE_202_CASE_V1 exclusion_wrong_recovery_token=passed
+ADL_ISSUE_202_CASE_V1 expired_certificate=passed
+ADL_ISSUE_202_CASE_V1 learner_endorsement_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_finalize_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_mutation_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_observatory_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_promotion_route_handoff=passed
+ADL_ISSUE_202_CASE_V1 learner_renewal_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_shepherd_denied=passed
+ADL_ISSUE_202_CASE_V1 learner_vote_rpc_denied=passed
+ADL_ISSUE_202_CASE_V1 missing_201_token=passed
+ADL_ISSUE_202_CASE_V1 oversized_frame=passed
+ADL_ISSUE_202_CASE_V1 public_caller_denied=passed
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication raft_add_learner_replicated
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication voter_quorum_unchanged
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication quinn_append_snapshot_only
+ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed
+ADL_ISSUE_202_CASE_V1 reconnect_boot_rotation=passed
+ADL_ISSUE_202_CASE_V1 replay_conflict=passed
+ADL_ISSUE_202_CASE_V1 revoked_certificate=passed
+ADL_ISSUE_202_CASE_V1 stale_admission=passed
+ADL_ISSUE_202_CASE_V1 state_or_lock_symlink_rejected=passed
+ADL_ISSUE_202_CASE_V1 truncated_frame=passed
+ADL_ISSUE_202_CASE_V1 wrong_address=passed
+ADL_ISSUE_202_CASE_V1 wrong_boot_generation=passed
+ADL_ISSUE_202_CASE_V1 wrong_certificate_generation=passed
+ADL_ISSUE_202_CASE_V1 wrong_domain=passed
+ADL_ISSUE_202_CASE_V1 wrong_guardian=passed
+ADL_ISSUE_202_CASE_V1 wrong_learner=passed
+ADL_ISSUE_202_CASE_V1 wrong_operation_kind=passed
+ADL_ISSUE_202_CASE_V1 wrong_polis=passed

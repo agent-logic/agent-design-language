@@ -2,9 +2,10 @@ use std::collections::BTreeMap;
 use std::process::Command;
 
 use csdlc_v2::finish::{
-    derive_historical_terminal, derive_terminal, envelope_matches_record, load_cached_terminal,
-    retain_cached_terminal, select_historical_terminal, validate_finish_merge_authority,
-    validate_historical_candidates, validate_historical_request, validate_publication_head_in_repo,
+    derive_historical_terminal, derive_terminal, envelope_matches_record,
+    envelope_matches_record_in_repo, load_cached_terminal, retain_cached_terminal,
+    select_historical_terminal, validate_finish_merge_authority, validate_historical_candidates,
+    validate_historical_request, validate_publication_head_in_repo,
 };
 use csdlc_v2::github::PrStatePacket;
 use csdlc_v2::{
@@ -680,7 +681,7 @@ fn published_finish_accepts_matching_git_topology() {
 }
 
 #[test]
-fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
+fn derived_terminal_accepts_publication_metadata_only_head_and_rejects_substantive_drift() {
     let temp = tempfile::tempdir().expect("tempdir");
     let git = |args: &[&str]| {
         let output = Command::new("git")
@@ -788,7 +789,11 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
     )
     .expect("derive merged terminal")
     .expect("merged terminal");
-    assert!(!envelope_matches_record(&merged, &record).expect("exact publication identity"));
+    assert!(!envelope_matches_record(&merged, &record).expect("exact-only compatibility"));
+    assert!(
+        envelope_matches_record_in_repo(temp.path(), &merged, &record)
+            .expect("repository-grounded metadata-only terminal")
+    );
 
     git(&["checkout", "-qb", "rename-drift", &current]);
     std::fs::create_dir_all(temp.path().join(".csdlc/moved")).unwrap();
@@ -822,7 +827,65 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
     .expect("derive renamed terminal")
     .expect("renamed terminal");
     assert!(!envelope_matches_record(&rename_terminal, &record).expect("renamed terminal drift"));
+    assert!(
+        !envelope_matches_record_in_repo(temp.path(), &rename_terminal, &record)
+            .expect("repository-grounded renamed terminal drift")
+    );
     git(&["checkout", "-q", "codex/5778"]);
+
+    git(&["checkout", "-qb", "non-ancestor", &source]);
+    std::fs::create_dir_all(temp.path().join(".csdlc/evidence/5778")).unwrap();
+    std::fs::write(
+        temp.path().join(".csdlc/evidence/5778/non-ancestor.json"),
+        "{}\n",
+    )
+    .unwrap();
+    git(&["add", ".csdlc/evidence/5778/non-ancestor.json"]);
+    git(&["commit", "-qm", "non-ancestor metadata"]);
+    let non_ancestor_head = git(&["rev-parse", "HEAD"]);
+    let mut non_ancestor_request = request.clone();
+    non_ancestor_request.expected_head_sha = Some(non_ancestor_head.clone());
+    let mut non_ancestor_packet = merged_packet.clone();
+    non_ancestor_packet.head_sha = non_ancestor_head;
+    let non_ancestor_terminal = derive_terminal(
+        &record,
+        &non_ancestor_request,
+        &IssueTerminalObservation {
+            state: "closed".into(),
+            labels: vec![],
+            observed_unix_seconds: 103,
+        },
+        Some(&non_ancestor_packet),
+    )
+    .expect("derive non-ancestor terminal")
+    .expect("non-ancestor terminal");
+    assert!(
+        !envelope_matches_record_in_repo(temp.path(), &non_ancestor_terminal, &record)
+            .expect("metadata-only non-ancestor must fail closed")
+    );
+    git(&["checkout", "-q", "codex/5778"]);
+
+    let missing_head = "f".repeat(40);
+    let mut missing_request = request.clone();
+    missing_request.expected_head_sha = Some(missing_head.clone());
+    let mut missing_packet = merged_packet.clone();
+    missing_packet.head_sha = missing_head;
+    let missing_terminal = derive_terminal(
+        &record,
+        &missing_request,
+        &IssueTerminalObservation {
+            state: "closed".into(),
+            labels: vec![],
+            observed_unix_seconds: 104,
+        },
+        Some(&missing_packet),
+    )
+    .expect("derive missing-commit terminal")
+    .expect("missing-commit terminal");
+    assert!(
+        !envelope_matches_record_in_repo(temp.path(), &missing_terminal, &record)
+            .expect("missing terminal head must fail closed")
+    );
 
     let mut exact = record.clone();
     exact.publication.as_mut().unwrap().revision = csdlc_v2::git::clean_commit_revision(&current);
@@ -842,6 +905,10 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
     );
     assert!(!envelope_matches_record(&merged, &malformed_publication)
         .expect("malformed publication identity"));
+    assert!(
+        !envelope_matches_record_in_repo(temp.path(), &merged, &malformed_publication)
+            .expect("repository-grounded malformed publication identity")
+    );
 
     let mut changed_scope = record.clone();
     changed_scope.review.as_mut().unwrap().scope = vec!["src/lib.rs".into()];
@@ -884,4 +951,8 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
     .expect("derive substantive terminal")
     .expect("substantive terminal");
     assert!(!envelope_matches_record(&substantive, &record).expect("substantive terminal drift"));
+    assert!(
+        !envelope_matches_record_in_repo(temp.path(), &substantive, &record)
+            .expect("repository-grounded substantive terminal drift")
+    );
 }

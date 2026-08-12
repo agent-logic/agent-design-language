@@ -1,0 +1,35 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 25,
+  "expected_digest": "9d6ffe5cfdbc8edb7a9b633186a7ec8fde52845b837be32ff5ce9af494abd29a",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Record the bounded local production Shepherd roster and presence implementation at exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented a Runtime-owned, policy-filtered, bounded local agent roster with truthful Shepherd admission, presence freshness, stable identity, revision-bound pagination, Runtime reincarnation handling, accessible Observatory selection and navigation, and Guardian-owned asynchronous restart proof. The candidate remains unpushed and unpublished for final independent review.",
+    "changes": [
+      "Added the production local roster model, deterministic policy filtering, bounded page tokens, presence/freshness transitions, stable identity, and relocation semantics.",
+      "Projected admitted Shepherd truth through Runtime v3 and versioned OpenAPI without claiming distributed or global roster completeness.",
+      "Integrated bounded roster selection, cursor/incarnation reset, accessible persistent navigation, and responsive browser behavior in the HTML Observatory.",
+      "Routed restart proof through signed Guardian-owned control and made the public result explicitly asynchronous restart acceptance.",
+      "Added exact focused, scale, policy, freshness, pagination, reconnect, relocation, status-transition, reincarnation, and browser proof."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      "exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1"
+    ]
+  }
+}

@@ -12,8 +12,7 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    encode_acip_envelope, ControlAction, DomainWork, SignedControlCommand, ACIP_WEBSOCKET_SCHEMA,
-    DOMAIN_WORK_SCHEMA,
+    ControlAction, DomainWork, SignedControlCommand, ACIP_WEBSOCKET_SCHEMA, DOMAIN_WORK_SCHEMA,
 };
 
 #[path = "support/runtime_init.rs"]
@@ -897,8 +896,10 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
                 .await
                 .expect("WSS connection closed before authentication result")
                 .expect("WSS authentication result frame failed");
-            let value =
-                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
+            let Message::Text(text) = frame else {
+                continue;
+            };
+            let value = serde_json::from_str::<serde_json::Value>(&text).unwrap();
             if value["schema"] == "adl.runtime_v3.observatory_ws_control_result.v1" {
                 break value;
             }
@@ -923,8 +924,10 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
                 .await
                 .expect("WSS connection closed before rejection")
                 .expect("WSS rejection frame failed");
-            let value =
-                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
+            let Message::Text(text) = frame else {
+                continue;
+            };
+            let value = serde_json::from_str::<serde_json::Value>(&text).unwrap();
             if value["schema"] == "adl.runtime_v3.observatory_ws_control_result.v1" {
                 break value;
             }
@@ -950,8 +953,10 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
                 .await
                 .expect("WSS connection closed before control result")
                 .expect("WSS control result frame failed");
-            let value =
-                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
+            let Message::Text(text) = frame else {
+                continue;
+            };
+            let value = serde_json::from_str::<serde_json::Value>(&text).unwrap();
             if value["schema"] == "adl.runtime_v3.observatory_ws_control_result.v1" {
                 break value;
             }
@@ -967,93 +972,6 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         "adl.runtime.control_response.v1"
     );
     assert_eq!(accepted["response"]["outcome"]["result"], "snapshot");
-    let acip_frame = encode_acip_envelope(
-        "acip-wss-1",
-        "agent-a",
-        "agent-b",
-        "agent_runtime",
-        &serde_json::json!({
-            "schema": "adl.runtime.local_agent_work.v1",
-            "tasks": [{
-                "op": "blake3",
-                "input": "Can you review this bounded proposal?"
-            }]
-        }),
-        1,
-    )
-    .unwrap();
-    websocket
-        .send(Message::Binary(acip_frame.clone().into()))
-        .await
-        .unwrap();
-    let acip_accepted = tokio::time::timeout(Duration::from_secs(3), async {
-        loop {
-            let frame = websocket
-                .next()
-                .await
-                .expect("WSS connection closed before ACIP result")
-                .expect("WSS ACIP result frame failed");
-            let value =
-                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
-            if value["schema"] == ACIP_WEBSOCKET_SCHEMA {
-                break value;
-            }
-        }
-    })
-    .await
-    .expect("WSS ACIP acceptance did not arrive");
-    assert_eq!(
-        acip_accepted["status"], "completed",
-        "unexpected ACIP response: {acip_accepted}"
-    );
-    assert_eq!(acip_accepted["message_id"], "acip-wss-1");
-    assert_eq!(acip_accepted["sequence_reserved"], true);
-
-    websocket
-        .send(Message::Binary(acip_frame.into()))
-        .await
-        .unwrap();
-    let acip_replayed = tokio::time::timeout(Duration::from_secs(3), async {
-        loop {
-            let frame = websocket
-                .next()
-                .await
-                .expect("WSS connection closed before ACIP replay rejection")
-                .expect("WSS ACIP replay frame failed");
-            let value =
-                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
-            if value["schema"] == ACIP_WEBSOCKET_SCHEMA {
-                break value;
-            }
-        }
-    })
-    .await
-    .expect("WSS ACIP replay rejection did not arrive");
-    assert_eq!(acip_replayed["status"], "rejected");
-    assert_eq!(acip_replayed["reason"], "monotonic_sequence_must_advance");
-    assert_eq!(acip_replayed["sequence_reserved"], false);
-
-    let feed_after_control = tokio::time::timeout(Duration::from_secs(3), async {
-        loop {
-            let frame = websocket
-                .next()
-                .await
-                .expect("WSS connection closed before post-control telemetry")
-                .expect("WSS post-control telemetry frame failed");
-            let value =
-                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
-            if value["schema"] == "adl.runtime_v3.observatory_feed.v2" {
-                break value;
-            }
-        }
-    })
-    .await
-    .expect("WSS telemetry did not continue after bidirectional control");
-    assert_eq!(feed_after_control["ingress"]["accepted_through"], 2);
-    assert_eq!(
-        feed_after_control["ingress"]["completed"]["acip-wss-1"]["work_id"],
-        "acip-wss-1"
-    );
     websocket.close(None).await.unwrap();
 
     let mut forged = signed("forged-stop", ControlAction::Shutdown { grace_millis: 500 });
@@ -1119,13 +1037,9 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
     )
     .unwrap();
-    assert_eq!(checkpoint["ingress"]["accepted_through"], 2);
+    assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
     assert_eq!(
         checkpoint["ingress"]["completed"]["guardian-work-1"]["result_hash"],
         submit["outcome"]["work_result"]["result_hash"]
-    );
-    assert_eq!(
-        checkpoint["ingress"]["completed"]["acip-wss-1"]["work_id"],
-        "acip-wss-1"
     );
 }

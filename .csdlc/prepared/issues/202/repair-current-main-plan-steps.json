@@ -1,0 +1,37 @@
+{
+  "issue": 202,
+  "card": "spp",
+  "expected_generation": 7,
+  "expected_digest": "703bbecd68a94457a5ea21a81dcee4f0aa591378ff241e6dceadd22c3be6b338",
+  "actor": "codex:/root/advance_202_after_201:review-resolution",
+  "reason": "Replace the pre-bind plan with an exact once-mapped serial #200-first sequence and merged #201 sealed-artifact adapter contract.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Do not bind or edit #202 product source while #200 is active or unmerged; after #200 merges, synchronize to its exact ancestry, revalidate all issue truth, and freeze the crate-private adapter that requires coarse #201 AuthorityOperationKind::Membership plus exact sealed canonical artifact domain, bytes, digest, and issue-local EnrollNonVoting or RemoveVoter discriminator.",
+        "acceptance_ids": ["AC-1"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement only the learner topology/session, shared pending-exclusion authority, and narrow existing transport/authority-protocol/PolisRuntime integration through the validated crate-private adapter, without exposing a public accessor, generic conversion, or new #201 enum variant.",
+        "acceptance_ids": ["AC-4", "AC-5", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Prove the exact learner binding and RPC allowlist plus real fourth-node replication, denied authority, exclusion, governed recovery, reconnect, rotation, exact retry, crash, rollback, corruption, capacity, and path safety.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Resolve fresh exact-head review, publish a ready PR closing #202, shepherd hosted CI, and wait for operator review and merge authorization.",
+        "acceptance_ids": ["AC-8"],
+        "status": "pending"
+      }
+    ]
+  }
+}

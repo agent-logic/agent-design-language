@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5911,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Archive local Codex transcripts to FastWork and recover disk space",
+    "slug": "fastwork-transcript-archive-worktree-policy",
+    "version": "v0.92",
+    "generation": 20
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".adl/worktree-policy.json\nAGENTS.md\nadl/tools/archive_codex_sessions_to_fastwork.sh\nadl/tools/test_archive_codex_sessions_to_fastwork.sh\ncsdlc-v2/src/lifecycle.rs\ncsdlc-v2/tests/code_repository_migration.rs\ncsdlc-v2/tests/gate10a.rs\ncsdlc-v2/tests/gate2.rs\ncsdlc-v2/tests/gate4.rs\ncsdlc-v2/tests/gate5.rs",
+      "review_revision": "git-blake3:d23ec6c17e013bbd16e2bb35978ac2c6714726be:9cf3f477c5736cf2565b4ca2f0648521ed8efa00bf0e6db75dcd0b77e5687bcb",
+      "reviewer": "codex-subagent-issue-5911-review",
+      "review_prompts": [
+        "Check path containment and canonicalization bypasses.",
+        "Check that rejection occurs before Git mutation.",
+        "Check archive privacy, completeness, and checksum verification.",
+        "Confirm no deletion or existing-worktree relocation occurred."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Local transcript deletion remains deliberately unperformed and requires separate explicit operator approval.",
+        "Existing legacy worktrees outside the canonical parent are not relocated by this issue.",
+        "The local shared Git common directory contains unrelated retained terminal-state drift; exact clean hosted C-SDLC v2 validation is the authoritative full-suite proof."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
