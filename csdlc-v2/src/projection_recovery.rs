@@ -633,6 +633,7 @@ fn open_child_no_follow(parent: &File, name: &std::ffi::CStr, directory: bool) -
     let flags = libc::O_RDONLY
         | libc::O_NOFOLLOW
         | libc::O_CLOEXEC
+        | if directory { 0 } else { libc::O_NONBLOCK }
         | if directory { libc::O_DIRECTORY } else { 0 };
     let fd = unsafe { libc::openat(parent.as_raw_fd(), name.as_ptr(), flags) };
     if fd < 0 {
