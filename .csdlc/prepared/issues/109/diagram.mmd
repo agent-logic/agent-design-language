@@ -1,0 +1,8 @@
+flowchart LR
+  I[Complete implementation] --> C[Commit exact head]
+  C --> S[Generate standard SRP]
+  S --> R[Fresh external review session]
+  R --> F{Actionable findings}
+  F -->|yes| X[Resolve findings]
+  X --> C
+  F -->|no| P[Record passing SRP and publish]
