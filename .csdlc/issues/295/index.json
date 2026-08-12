@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "781dee095aa2641e85c71beaabb21b74e9c0dfdcf50c90b86561bef0febfca9e",
+  "generation": 21,
+  "digest": "a226eb588f86c9bb66f0fa30c59e6149a0c393bdfc59a49917b5badbaacecdf4",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
-  "review_assignment": {
-    "reviewer": "fresh-session:6d5349d0-e9df-4b4a-8b0d-328d7b178f3c",
-    "assigned_by": "codex:issue-295-remediation",
-    "revision": "git-blake3:81454bae3a36fe695bae28f56d8d4d5a158f2dfb:22d6adde820d4df4adda1c8a19ec474612d019103e876025738e4424219a8e6e",
-    "scope": [
-      "adl/config/mechanical_coverage_fallout.v1.json",
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/mechanical_coverage_fallout.py",
-      "adl/tools/test_mechanical_coverage_fallout.sh",
-      "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md",
-      ".csdlc/evidence/295",
-      ".csdlc/issues/295",
-      ".csdlc/prepared/issues/295"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2305acb8dcc078b15cac5e2707f0a556250a4978e78a8608b41c58afe9811836",
+      "values_digest": "69f6f39200da4a1f561620b18d5afe879bf71f696fe148b1ae3ee770ff4d78aa",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "3933a314bf969a449ea7e5482991311f5e1fdf6f83c2f3eef25ddaf2564af507",
+      "values_digest": "62f8bd8505c9ff1571f1f19d95fdad46d36c3511fc003815011e646735edacf4",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "983e273d717894981bcf021ad19c3a9025326c9c4889d36c80f33a48e3df90ee",
+      "values_digest": "45d6a5c6558f13618b130963aea2e9b08599607fef3f8414e0d26a28cb9f01a5",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "f69d43c649f0dab12af787f50d5f7966f7d216111a366727501cda78d4bdeb39",
+      "values_digest": "e1da1cb3f72050f127d139587fbdb3d9e310cc1cf9c11e2ea30d3e1f6e86adfa",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "c7f2d3203c222a22de61d329b49191a7306b44028af8866344c04d84a59489a4",
-      "rendered_digest": "adce6addc13536dc384d027dda84b15d90ee54e7bb347200afff1134d2f00ba4",
-      "ast_digest": "7348f324c90db767261d0e82f9afe172a38b3792e306438f46a1ca0e3baa6b04"
+      "values_digest": "de8b748df2868810efe831ccb01a2483eacf95682936382fb8d432e94b0469b7",
+      "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
+      "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
     },
     "sor": {
-      "values_digest": "370d6b984ab06e4277a7919d9dd0ad7f0f687c258d6b06d39d769cc5e1a77735",
-      "rendered_digest": "d299805b6d6870112f8291c76144771474dad1f74642692207a9d93fa724c0ca",
-      "ast_digest": "789555de67a8d1d018f13f69d3720e4e3040154c0a552edbc44ae5f05ec41685"
+      "values_digest": "a081736f91e055ef1d49df890252b0ed512ecfce85631f0b908dba49d308c3e6",
+      "rendered_digest": "5f015b6aaced478ba5b68d2806d7e4eae116f4b083f058ec8826a1e62a2cdb50",
+      "ast_digest": "2205c30c0ad1625f4e12faaf2b7adf716b5a90566a8e86dcc97c9b7a0e4a8286"
     }
   },
   "transitions": [
@@ -295,6 +280,20 @@
       "actor": "codex:issue-295-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 20,
+      "actor": "codex:issue-295-remediation-r7",
+      "reason": "Fresh exact reviewer fresh-session:6d5349d0-e9df-4b4a-8b0d-328d7b178f3c returned FAIL at substantive SHA 81454bae3a36fe695bae28f56d8d4d5a158f2dfb with one actionable P3: post-mktemp revision-resolution failures at adl/tools/check_coverage_impact.sh lines 645, 652, and 653 return without removing the two temporary files and proof archive directory. Preserve the stale receipt/results remediation, centralize cleanup for these failure paths, add invalid or stale revision regression proof, rerun all declared lanes, and require a different fresh exact-head reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 21,
+      "actor": "codex:issue-295-remediation-r7",
+      "reason": "Record the bounded P3 revision-resolution cleanup remediation and complete passing declared validation before assigning a different fresh reviewer.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated all post-allocation mechanical-fallout failure paths so stale or invalid revision resolution cannot retain temporary proof artifacts or prior receipt/results evidence.\",\"changes\":[\"Centralize removal of the proof archive root, per-path result directory, temporary diff files, and receipt in one cleanup helper.\",\"Route initial base rev-parse, merge-base, head rev-parse, archive, patch, control discovery, integrity, post-revision, post-diff, and classifier rejection failures through the same cleanup helper.\",\"Add a stale-base regression with an isolated temporary directory proving no archive root, diff file, stale receipt, or path result survives revision-resolution failure.\",\"Preserve the prior success-then-semantic-failure regression, 80 percent threshold, PR-fast non-authority, and read-only issue 258 boundary.\"],\"artifacts\":[\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\".csdlc/evidence/295\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Prove centralized cleanup for revision-resolution and classifier failure paths plus prior parser, mapping, governed execution, and threshold behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/mechanical-compile-fallout-classifier.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the existing 80 percent gate and authoritative coverage routing remain intact.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/coverage-impact-regression.log\"},{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"purpose\":\"Prove PVF selector inventory and PR-fast non-authoritative routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/validation-selector-pvf.log\"}]}"
     }
   ]
 }

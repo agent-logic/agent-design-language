@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Remediated stale mechanical-fallout evidence retention so rejected or failed reruns cannot leave a prior receipt or result set available as current proof.
+Remediated all post-allocation mechanical-fallout failure paths so stale or invalid revision resolution cannot retain temporary proof artifacts or prior receipt/results evidence.
 
 ## Artifacts
 
@@ -22,10 +22,10 @@ Remediated stale mechanical-fallout evidence retention so rejected or failed rer
 
 ## Execution
 
-- Namespace governed proof results by the exact mapped source path while preserving unrelated paths' evidence.
-- Remove the path's prior receipt and results before each classification attempt and on every classifier or post-execution integrity failure.
-- Add a success-then-semantic-failure regression in the same receipt directory proving stale receipt and result artifacts are absent.
-- Preserve the 80 percent coverage threshold, non-authoritative PR evidence boundary, and read-only issue 258 fixture contract.
+- Centralize removal of the proof archive root, per-path result directory, temporary diff files, and receipt in one cleanup helper.
+- Route initial base rev-parse, merge-base, head rev-parse, archive, patch, control discovery, integrity, post-revision, post-diff, and classifier rejection failures through the same cleanup helper.
+- Add a stale-base regression with an isolated temporary directory proving no archive root, diff file, stale receipt, or path result survives revision-resolution failure.
+- Preserve the prior success-then-semantic-failure regression, 80 percent threshold, PR-fast non-authority, and read-only issue 258 boundary.
 
 ## Validation
 
@@ -35,7 +35,7 @@ Remediated stale mechanical-fallout evidence retention so rejected or failed rer
       "bash",
       "adl/tools/test_mechanical_coverage_fallout.sh"
     ],
-    "purpose": "Prove fail-closed stale receipt/results cleanup, parser, mapping, governed execution, negatives, and threshold integration.",
+    "purpose": "Prove centralized cleanup for revision-resolution and classifier failure paths plus prior parser, mapping, governed execution, and threshold behavior.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/mechanical-compile-fallout-classifier.log"
   },

@@ -127,4 +127,26 @@ if find "$TEMP_ROOT/receipts/results" -type f -print -quit 2>/dev/null | grep -q
   exit 1
 fi
 
+# A revision disappearing after changed-file discovery must use the same
+# fail-closed cleanup path. Force the helper's base rev-parse to fail after the
+# top-level repository discovery and changed-file diff have already succeeded.
+REAL_GIT="$(command -v git)"
+mkdir -p "$TEMP_ROOT/bin" "$TEMP_ROOT/gate-tmp"
+printf '%s\n' '#!/usr/bin/env bash' \
+  'if [ "$1" = "-C" ] && [ "$3" = "rev-parse" ] && [ "$4" = "HEAD" ]; then exit 1; fi' \
+  'exec "'"$REAL_GIT"'" "$@"' >"$TEMP_ROOT/bin/git"
+chmod +x "$TEMP_ROOT/bin/git"
+if (cd "$GATE_ROOT" && PATH="$TEMP_ROOT/bin:$PATH" TMPDIR="$TEMP_ROOT/gate-tmp" bash adl/tools/check_coverage_impact.sh --base HEAD --include-working-tree --summary "$TEMP_ROOT/summary.json" --mechanical-receipt-dir "$TEMP_ROOT/receipts") >/dev/null 2>&1; then
+  echo 'expected stale base revision to fail the coverage gate' >&2
+  exit 1
+fi
+if find "$TEMP_ROOT/gate-tmp" -mindepth 1 -print -quit | grep -q .; then
+  echo 'revision-resolution failure retained temporary proof artifacts' >&2
+  exit 1
+fi
+if compgen -G "$TEMP_ROOT/receipts/mechanical-*.json" >/dev/null || find "$TEMP_ROOT/receipts/results" -type f -print -quit 2>/dev/null | grep -q .; then
+  echo 'revision-resolution failure retained stale receipt or results' >&2
+  exit 1
+fi
+
 echo "PASS: mechanical compile-fallout classifier"
