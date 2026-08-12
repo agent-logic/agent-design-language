@@ -5,16 +5,17 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7607073d7ba9e8235645ccf9fd3f55d27fe86ad5c4e2148afa330bcec8953e64",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "0694bc8c2bf64bbea0cd4dea1edd12a1419f0ccde0ce80e1fc143f2857ea5f03",
+  "generation": 11,
+  "digest": "d95db2fd027c97afdffea90076d190b5b8e7a41b91d6118809a2dbcf0f6bdd6d",
   "branch": "codex/5912-runtime-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5912-runtime-birth-witness",
   "review_assignment": {
-    "reviewer": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_fresh_main",
+    "reviewer": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_trust_fix",
     "assigned_by": "codex:5912-runtime-birth-witness",
-    "revision": "git-blake3:18c76c671de3fcb3f7d1cab1903c0cec491a4886:c699c4fd329a850a4915c77759ed4fbcd2861404999f07f04ab41a3f41bca485",
+    "revision": "git-blake3:c2cb4e681949020d5c7c7dd7b984e114ee041377:cd5c3a581abe9b0bfc23cf6e6221753096f5fe826672fcbf788f2c9fd97d58b8",
     "scope": [
       "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/src/config.rs",
       "adl-runtime-kernel/tests/birth_witness.rs",
       ".csdlc/prepared/issues/5912",
       ".csdlc/issues/5912"
@@ -35,34 +36,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "41da4c2fa3c624d5971284a58ddcc139ea2af22cb3faa8db7cd754d842de2064",
+      "values_digest": "32cebd44f6586e9fea3ed4df147ede939e86231c6f8a95892e2576b513c39b69",
       "rendered_digest": "91eab6869cb804874c22497f8c1d473cbefda583e397409a42203dba41b49c9c",
       "ast_digest": "7d6bc05c963875f2d4ce7eeb358121a8b1e3bf87338cfe00ef17007d190df0e4"
     },
     "stp": {
-      "values_digest": "739c5d5699a436d6e37ec71d4b4c7d2d9005ca288bc2d812949baf2391c68d3e",
+      "values_digest": "70564ca979c2599301362ec02be54e099b18bf4f7635a0898f240670f4f78e3e",
       "rendered_digest": "c672c8d61d27aed70c8b7d7c27df460bb9a0389a801be3830e0077f086c500c4",
       "ast_digest": "622b534250f3e071a19601e6495d872c34ceddc5fc0d09b1b9ddcfa6da9402ea"
     },
     "spp": {
-      "values_digest": "b1533a2d0e3ef72c048c17d569af0d6a09a94cfb0f2cd9fb6f20252315cfae69",
-      "rendered_digest": "61f6ef721e3a5c2e3bc763f4ba44247081d18f1ce6518625afc146d850f409c0",
-      "ast_digest": "a0dcb59a87bff02b7bbc1fc7d13977116203f2b082bf0bb6b94406fb2c9e286f"
+      "values_digest": "139ae20f90cadc788eea05b6dda8cfeee5d58e631ff77121a1a90fbda042a131",
+      "rendered_digest": "af259f610175bf6a483dc2342b8c18b29fbe3942fbcebcb2c06459dfb33ac7ce",
+      "ast_digest": "c49aa408bb73d2887bf99b3f01e816bdd98c0bc6cf53e3efeaac9a8149729b7d"
     },
     "vpp": {
-      "values_digest": "981093b006ee4cf89ae3d3fd8d0aae7c61721d866e6b47587a28b4dfe8e30a93",
+      "values_digest": "b7c0825add65ec7db9a522dd9b8c5dd37f5cab42b7168188c86a872b02304727",
       "rendered_digest": "90c74684a044cf49f56a5d7fda3d0a2fbbd40c30cefd400faa97b86d2805f4c5",
       "ast_digest": "65db1fcd7113863997e16ae9b309fe6b967cdbacef1f09a5f49f9225af3f998e"
     },
     "srp": {
-      "values_digest": "67d860bc05301f1519dcdeace212e5209233fa92474d039d4b712a5e2eb08088",
-      "rendered_digest": "03d91e86233f0dbcd4e03bd316d75d85f08808ea256840923b9a6058dbd4db15",
-      "ast_digest": "7091de1a00d2884e224d54875f8f4c518882a1957bcc24b0ab5c5701b0f46df7"
+      "values_digest": "15fc766ea585b6279f504453ab4ebe9be4f70cc748e01d29ff2c6e3c59298fa4",
+      "rendered_digest": "f3db0882d199fdbc3009ba5534441721f300a860b463141419fa29b5a5cc7d12",
+      "ast_digest": "168caf7e508f09a15ea51769e96d0dc5aef541368c8ff7f7aacf93a509d6099f"
     },
     "sor": {
-      "values_digest": "f09500bd28c662a4e93058cb2e6416ea63efd0d489e6adf605ef969cf19d199b",
-      "rendered_digest": "232427c9ec843fc999464f5ec19f63d1a8992d2274fa5c3aaeed8125f3222fed",
-      "ast_digest": "27060e6e8d2b9df0e4562f6d871f7ca53f49f1e719a90bcb7c5e540a0a79772f"
+      "values_digest": "a8795f4e4eaf4aa5bfaffefc46c5bc2e8f66a18cdbc7885cac4ebc140027c419",
+      "rendered_digest": "3b4d5e6ff6bfee52b3c262e0f4b989c9e0071860c16bd563411471939b851646",
+      "ast_digest": "4d7fae4c7d0f8228712152cd2e0120086682f8102954662e98b352d72f9cfe64"
     }
   },
   "transitions": [
@@ -200,6 +201,27 @@
       "actor": "codex:5912-runtime-birth-witness",
       "reason": "Own the Runtime boot-trusted manifest provisioning boundary and the widened security regression runner required by fresh exact-head review.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Own the boot-validated Runtime init field, serve bootstrap consumption, fixture support, and deployed init surface required by exact-head review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Replace stale pre-review execution truth with exact current boot-trust, serve-bootstrap, production-path, retained-security, and strict-lint evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved Runtime-owned birth-witness trust loading, service provisioning, canonical receipt staging, and fail-closed validation without exposing caller-nominated authority construction.\",\"changes\":[\"Made direct authority construction and RuntimeBirthWitnessService provisioning crate-private.\",\"Added an opaque trust object loaded only from the manifest path in validated Runtime credential initialization.\",\"Loaded the trust object during the production adl-runtime-kernel serve bootstrap.\",\"Proved the external production receipt path and all thirteen retained authority, privacy, canonicalization, and rejection cases.\"],\"artifacts\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912/runtime-birth-witness-production-path.log\",\".csdlc/evidence/5912/runtime-birth-witness-clippy.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\"],\"purpose\":\"Prove validated Runtime-init trust loading, canonical production emission, fail-closed preparation, and all thirteen retained security regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5912/runtime-birth-witness-production-path.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free production and test targets for the Runtime kernel.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5912/runtime-birth-witness-clippy.log\"}]}"
     }
   ]
 }

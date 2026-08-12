@@ -12,24 +12,40 @@ Status: pre_phase
 
 ## Summary
 
-Added a Runtime-owned service that provisions opaque birth-witness policy, builds and validates packets, and emits canonical caveated receipts through a production path.
+Implemented and locally proved Runtime-owned birth-witness trust loading, service provisioning, canonical receipt staging, and fail-closed validation without exposing caller-nominated authority construction.
 
 ## Artifacts
 
 - adl-runtime-kernel/src/birth_witness.rs
+- adl-runtime-kernel/src/config.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
 - adl-runtime-kernel/tests/birth_witness.rs
+- adl-runtime-kernel/tests/configuration.rs
+- adl-runtime-kernel/tests/support/runtime_init.rs
+- infra/runtime-v3/runtime-init.toml
 - .csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh
-- .csdlc/evidence/5912
+- .csdlc/evidence/5912/runtime-birth-witness-production-path.log
+- .csdlc/evidence/5912/runtime-birth-witness-clippy.log
 
 ## Execution
 
-- Added public trusted Runtime authority configuration and an opaque RuntimeBirthWitnessService.
-- Added one build-validate-emit path that emits only canonical receipt bytes after successful packet validation.
-- Added an external integration test that provisions the production service, signs witnesses, and verifies exact receipt emission.
+- Made direct authority construction and RuntimeBirthWitnessService provisioning crate-private.
+- Added an opaque trust object loaded only from the manifest path in validated Runtime credential initialization.
+- Loaded the trust object during the production adl-runtime-kernel serve bootstrap.
+- Proved the external production receipt path and all thirteen retained authority, privacy, canonicalization, and rejection cases.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh"
+    ],
+    "purpose": "Prove validated Runtime-init trust loading, canonical production emission, fail-closed preparation, and all thirteen retained security regressions.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5912/runtime-birth-witness-production-path.log"
+  },
   {
     "command": [
       "cargo",
@@ -41,18 +57,9 @@ Added a Runtime-owned service that provisions opaque birth-witness policy, build
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings or invalid production and test API usage.",
+    "purpose": "Prove warning-free production and test targets for the Runtime kernel.",
     "outcome": "passed",
-    "evidence_ref": "runtime-birth-witness-clippy.log"
-  },
-  {
-    "command": [
-      "bash",
-      ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh"
-    ],
-    "purpose": "Run the exact production-path integration test with a positive test count.",
-    "outcome": "passed",
-    "evidence_ref": "runtime-birth-witness-production-path.log"
+    "evidence_ref": ".csdlc/evidence/5912/runtime-birth-witness-clippy.log"
   }
 ]
 

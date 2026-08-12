@@ -62,6 +62,13 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let _birth_witness_trust = match init.load_birth_witness_trust() {
+                Ok(trust) => trust,
+                Err(error) => {
+                    eprintln!("runtime birth-witness trust invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let continuity_control_config = match init.continuity_control.clone() {
                 Some(config) => config,
                 None => {

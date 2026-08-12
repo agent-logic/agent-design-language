@@ -41,16 +41,31 @@ struct RuntimeBirthWitnessTrustAuthority {
     verifying_key: String,
 }
 
-/// Load the birth-witness service from the Runtime's boot-trusted manifest.
-///
-/// The manifest path is an operator-owned initialization input. Request
-/// payloads cannot construct the opaque policy or nominate authority keys.
-pub fn load_runtime_birth_witness_service(
+/// Opaque birth-witness trust roots loaded only from validated Runtime init.
+#[derive(Clone, Debug)]
+pub struct RuntimeBirthWitnessTrust {
+    authority_context: String,
+    authorities: Vec<RuntimeBirthWitnessAuthority>,
+}
+
+impl RuntimeBirthWitnessTrust {
+    pub fn provision(
+        &self,
+        candidate_sha256: impl Into<String>,
+        current_generation: u64,
+    ) -> Result<RuntimeBirthWitnessService, BirthWitnessError> {
+        RuntimeBirthWitnessService::provision(
+            self.authority_context.clone(),
+            candidate_sha256,
+            current_generation,
+            self.authorities.clone(),
+        )
+    }
+}
+
+fn load_runtime_birth_witness_trust(
     trusted_manifest_path: &Path,
-    candidate_sha256: impl Into<String>,
-    current_generation: u64,
-) -> Result<RuntimeBirthWitnessService, RuntimeInitError> {
-    validate_absolute_path("birth_witness.trusted_manifest_path", trusted_manifest_path)?;
+) -> Result<RuntimeBirthWitnessTrust, RuntimeInitError> {
     let bytes = std::fs::read(trusted_manifest_path).map_err(|error| {
         RuntimeInitError::Read(trusted_manifest_path.to_path_buf(), error.to_string())
     })?;
@@ -78,17 +93,10 @@ pub fn load_runtime_birth_witness_service(
             })
         })
         .collect::<Result<Vec<_>, RuntimeInitError>>()?;
-    RuntimeBirthWitnessService::provision(
-        manifest.authority_context,
-        candidate_sha256,
-        current_generation,
+    Ok(RuntimeBirthWitnessTrust {
+        authority_context: manifest.authority_context,
         authorities,
-    )
-    .map_err(|error| RuntimeInitError::Policy(birth_witness_policy_error(error)))
-}
-
-fn birth_witness_policy_error(error: BirthWitnessError) -> String {
-    format!("birth-witness policy: {error}")
+    })
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -324,6 +332,10 @@ impl RuntimeInitConfig {
         Ok(config)
     }
 
+    pub fn load_birth_witness_trust(&self) -> Result<RuntimeBirthWitnessTrust, RuntimeInitError> {
+        load_runtime_birth_witness_trust(&self.credentials.birth_witness_trust_manifest_path)
+    }
+
     pub fn validate(&self) -> Result<(), RuntimeInitError> {
         if self.schema != RUNTIME_INIT_SCHEMA {
             return Err(RuntimeInitError::UnsupportedSchema(self.schema.clone()));
@@ -474,6 +486,10 @@ impl RuntimeInitConfig {
             (
                 "credentials.acip_write_token_path",
                 &self.credentials.acip_write_token_path,
+            ),
+            (
+                "credentials.birth_witness_trust_manifest_path",
+                &self.credentials.birth_witness_trust_manifest_path,
             ),
         ] {
             validate_child_path(field, &credential_root, path)?;
@@ -745,6 +761,7 @@ pub struct RuntimeCredentialInitConfig {
     pub continuity_key_id: String,
     pub observatory_token_path: PathBuf,
     pub acip_write_token_path: PathBuf,
+    pub birth_witness_trust_manifest_path: PathBuf,
     pub continuity_min_generation: u64,
     pub sntp_server: String,
 }
