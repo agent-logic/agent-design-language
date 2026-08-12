@@ -33,3 +33,4 @@
 {"sequence":33,"generation":27,"actor":"/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":34,"generation":28,"actor":"/root/review_237_opaque_authority","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":35,"generation":29,"actor":"codex-sprint5-runtime","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":36,"generation":30,"actor":"/root/fix_5833_birth_witness_runtime","reason":"Recover stale review and publication truth after integrating current main cleanup authority at exact head 6270d368102443973f6c9909dcd41b44228a3c8d.","operation":"recover_review"}

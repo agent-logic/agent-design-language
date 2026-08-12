@@ -7,7 +7,7 @@
     "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
     "slug": "birthday-continuity-binding-reconciliation",
     "version": "v0.92",
-    "generation": 29
+    "generation": 30
   },
   "status": "pre_phase",
   "content": {
@@ -89,8 +89,8 @@
           "evidence_ref": ".csdlc/evidence/237/continuity-strict-lib-clippy.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
