@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Replaced private Linux libc fsid field access with descriptor-relative statx mount identity.
+Require explicit STATX_MNT_ID authority before accepting Linux retained mount identity.
 
 ## Artifacts
 
@@ -100,6 +100,7 @@ Replaced private Linux libc fsid field access with descriptor-relative statx mou
 - csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
+- csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/src/projection_recovery.rs
 
 ## Execution
@@ -370,6 +371,10 @@ Replaced private Linux libc fsid field access with descriptor-relative statx mou
 - Use statx with AT_EMPTY_PATH and STATX_MNT_ID on retained Linux file descriptors
 - Preserve statfs-derived mount identity on macOS, iOS, and FreeBSD
 - Retain a device-based compatibility fallback for other Unix targets without private libc fields
+- Validated Gate5 56/56, library 78/78, strict all-target Clippy, all-target check, formatting, and diff hygiene
+- Reject successful statx results whose stx_mask omits STATX_MNT_ID
+- Return the exact kernel-provided mount ID only when its authority bit is present
+- Add Linux-focused helper proof for missing-bit rejection and exact returned mount ID
 - Validated Gate5 56/56, library 78/78, strict all-target Clippy, all-target check, formatting, and diff hygiene
 
 ## Validation
