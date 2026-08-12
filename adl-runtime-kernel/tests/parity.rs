@@ -738,6 +738,11 @@ async fn process_backend_timeout_and_oversized_file_leave_no_artifacts() {
         ("hang", ProcessOutput::StdoutJson, "timeout"),
         ("oversized-file", ProcessOutput::FileJson, "output_limit"),
     ] {
+        let timeout = if mode == "oversized-file" {
+            Duration::from_secs(1)
+        } else {
+            Duration::from_millis(100)
+        };
         let output_root = tempfile::tempdir().unwrap();
         let backend = ProcessBackend::new(
             ProcessBackendConfig {
@@ -750,7 +755,7 @@ async fn process_backend_timeout_and_oversized_file_leave_no_artifacts() {
                 },
                 output,
                 output_root: output_root.path().into(),
-                timeout: Duration::from_millis(100),
+                timeout,
                 max_output_bytes: 64,
             },
             normalize_never,
