@@ -4,12 +4,46 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c918bb9636465a8c8eaafa40fb2850a329c51ecb0c7fa000392e82004b33eb01",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "dfdcde55f5b19330b223dad19a71e87b0e5ba072589fe2110fa67adee1713faa",
+  "generation": 5,
+  "digest": "27a52d48ed0804f87ed8c4715978809e6467c08b58ac2ac67895c6b31d3d8481",
   "branch": "codex/252-guardian-hosted-spawn-flake",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-252-guardian-hosted-spawn-flake",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-agent:issue-252-exact-head",
+    "assigned_by": "codex:guardian-spawn-flake",
+    "revision": "git-blake3:b1254e21135efd2dc5b3c3b26744548f6253128b:250e95dceea945e17da5091056c02bf39c7c07522850ebe5240bc85bbab6296d",
+    "scope": [
+      "adl-runtime/src/guardian.rs test-only serialization correctness",
+      "both hosted SpawnFailed regressions and missing-program fail-closed semantics",
+      "typed validation evidence and all issue #252 acceptance criteria"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-agent:issue-252-exact-head",
+    "scope": [
+      "adl-runtime/src/guardian.rs test-only serialization correctness",
+      "both hosted SpawnFailed regressions and missing-program fail-closed semantics",
+      "typed validation evidence and all issue #252 acceptance criteria"
+    ],
+    "reviewed_revision": "git-blake3:b1254e21135efd2dc5b3c3b26744548f6253128b:250e95dceea945e17da5091056c02bf39c7c07522850ebe5240bc85bbab6296d",
+    "findings": [
+      {
+        "id": "P1-repeated-proof-not-retained",
+        "severity": "p1",
+        "summary": "AC-1 repeated proof was claimed but not retained in exact-head evidence.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "Retain ten-run eight-thread proof from two caller working directories and rereview."
+      }
+    ],
+    "residual_risks": [
+      "Hosted Linux confirmation remains CI evidence after publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +58,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "da691e3e74785751003fe854fe6c5605f1d198e31bbfd339e2a3b14d9742f7fc",
+      "values_digest": "2232d3e2fb4a41f9001424c180498d40535c24b268c3f7d3061f24024d43cc37",
       "rendered_digest": "8d495ba3d16dc3181f2a2d3ce6769ef4303f713591405dc2d9b9134fb0a9c68a",
       "ast_digest": "cae194592e2c9407460f1853c8cab08d3149b0d7f2612ceaa7ca8c5d8dc7429d"
     },
     "stp": {
-      "values_digest": "96dd89a98a38c739185f0b2201f1c04694452b1682117d7830a893e60aaa50dc",
+      "values_digest": "46a94f286a718cb6c87c94512aec1d374c84bd43d9f83821c6a35b9bd632b997",
       "rendered_digest": "76b75912e55fb272675cbd868e608ced5a7213d7b6a230ddb05036aacca67842",
       "ast_digest": "8e481c6242952de2ed1a4a022d2ab3d97ec5a5a1f85173a17b4a98503d23297a"
     },
     "spp": {
-      "values_digest": "8a11ca81a89b4bf6b7b0c9e9335bdd1ec7779a2aff4c3c8e61df3cdcf849c8a6",
+      "values_digest": "f8aa8927756a6f750f90beb84b374c60c97545717c64e2985c5fab9eef28bb28",
       "rendered_digest": "0d7ca74556b4e3b88aef2f126fa85bc3d3a5396f3fab1a806ddc365196def216",
       "ast_digest": "0f7a696319609f841ae04a1a76d6289f359048de9671c42938efc3179a4d9bd0"
     },
     "vpp": {
-      "values_digest": "345d51b722036cabcfb5fb923db851a0f7775ab2f446f5a201c863c7b62cf8d4",
+      "values_digest": "2a3476fea7f0c115174fbb43fbf9914404f4d616516f4c5a522b2de1f1a1152a",
       "rendered_digest": "0dfbd2b92e106b92926dc8154436675448936528ff36559a102644319e8e94c1",
       "ast_digest": "1c9fe52e3b83bb390150522900188bcc23838d49b62e6f50f6ac211ace9bc59d"
     },
     "srp": {
-      "values_digest": "9c7302dcd84bd50b86b021c00cb9b4582e6a6632c972f9542c52c475f23d53cc",
-      "rendered_digest": "6101659440adca20a174a1aa2b4659ef7f572d4d2c89169bbfd208869aca11f4",
-      "ast_digest": "0b069fa08f7a3a73c97e942a072dff89c3be4889285a8c2df14df413e9be91fe"
+      "values_digest": "fb5d89a794a13a889446bc1d89e4e5e38e3047c82740879d1f569706b01f93a2",
+      "rendered_digest": "fb236384b1915e1ad39e2910441a7be7b10c54d8af7cb8ac1ddb78281ab657e2",
+      "ast_digest": "bf5fff97bdd963615b8a56a32bb9b87f24192fb491bb1e5a6546af82baf4372a"
     },
     "sor": {
-      "values_digest": "eae0045bf1d02e25192d6161455147f8fcb03984adb6642c1c9597d4a68f1c1c",
+      "values_digest": "f2ed84dab3c6df1735422b4fb9c0373b8ab93808b6f3f9f1c4e46bf3f31b9b22",
       "rendered_digest": "9a9437f4a74027c9eadeab1a16323ef90e853badd1ddff40ad63892dc2bbf0ee",
       "ast_digest": "a39b84398d5a421ab14aaa3f9c1bc2144e3435fcb366d5604e96130019018c18"
     }
@@ -119,6 +153,20 @@
       "actor": "codex:guardian-spawn-flake",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
