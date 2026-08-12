@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 51,
-  "digest": "7bbf21be06dd918c81c315679613e3b97af9a315bd095b7cc62a7079de1207bd",
+  "generation": 52,
+  "digest": "2b18e2f739db1d077e84f6201dd12ab019aa998ed7d08f2bac9050191e903136",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:0d7d8ab3-204f-4a94-81af-be8c89529b7f",
-    "assigned_by": "codex:issue-298-r19-remediation",
-    "revision": "git-blake3:5d945aa856189a5340cdc35bcc1ec70c3b81819a:dd1dea3b9d25cc2782de19dc16209cac0b8cdb7139e2df58056eff9c4be3e7bc",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8e98d474ef3fd8fb4469608a023d3987206b515e4a3c29bbe970d94bb5472cf4",
+      "values_digest": "be47d8c773e95e3296cd3795415fb3c3fc663b807450253221dc289b0b3901fc",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "0b07b4a4ffdb03c79c3f9fb7ad38e714204ed2cfb71ba4fda3deff69c936d5c8",
+      "values_digest": "32827c70d5f383a937912db5afae65cea158af16f54921865f4f265b259b13e2",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "a7623fcfe4a6d2bed9479c5637e07ac87dd221254d8c8aeb8f90d81764ff736b",
+      "values_digest": "6b29abd7c4bf9593dcb4e426ca60c1ba2c2bfc53a61faa14f929237f1cff665a",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "71a02aeef9c13245c193e2c25fba8293e5cc6b861206bc2a9884eee998f0190c",
+      "values_digest": "d387ac1e0ba7d8847d7a132788774049090e30a66ed4b6adeb077507851ce9c9",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "bc282ebf18dcd3c349c154dc935c649a5c52e90506feea541056606248c60c4a",
-      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
-      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
+      "values_digest": "f9edc57cd6f39d31c6b3970d4ac195101d557099a1984db648b9ee81b6bc9818",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "75a2af3f23d52646ca82c583fdbea1c3dd66fd46d24ab6ccedf6f863076ff507",
+      "values_digest": "e04d02671abe24773cecc64b2b6bf5573505551d3122aa3dd401ff80677b3cb3",
       "rendered_digest": "37979afe847282ce222ac8a4474a1e53dc2947761516d1f79645775b789b55d9",
       "ast_digest": "712f4a794762184ca70915d46377de5386c59b087aa95923e6668a1fb8d19503"
     }
@@ -631,6 +616,13 @@
       "actor": "codex:issue-298-r19-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 75,
+      "generation": 52,
+      "actor": "codex:issue-298-r20-remediation",
+      "reason": "Recover failed exact R20: non-exchange recovery unconditionally opens the backup prior path before retained restart selection, so replay after displacement fails before selecting attempt/displaced; require retained current/displaced/candidate selection before any unconditional current-path open plus boundary replay for ExpectedCanonicalAbsent and ExactObservedInvalid anchors.",
+      "operation": "recover_review"
     }
   ]
 }
