@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d2e454a3f3bbf3a6ac0f218c95e6775d17932df29b96b89215060693575f98bc",
   "phase": "implemented",
-  "generation": 2,
-  "digest": "63710ee0433722b9b3cbd2e2ce234a4b391900848f7b2f6dc8c95dc68e9fb0d1",
+  "generation": 3,
+  "digest": "b0c668f5cbec0d44c2ae9ffe4544962f46ce7a91211611c442348e65f45f1f35",
   "branch": "codex/248-process-backend-terminal-precedence",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-248-process-backend-terminal-precedence",
   "review_assignment": {
@@ -36,34 +36,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b4686bda453962f741709922ff86616902b1a3433b94ad2ffa97cd32fa91097b",
+      "values_digest": "e150f925f9f5724b265ea842abbc65f49e00830b95d93172e1e113be08b082fc",
       "rendered_digest": "3fb5e59cd650e050ae1f9343f92e99da502014b04e012249f7bb4469dd18d173",
       "ast_digest": "93ae80fb67496b57aaed0272c8212a4f32ba989e895a81f25b1ebd786174b98e"
     },
     "stp": {
-      "values_digest": "0175cfd3cce3ec3e54d5060beb34807ce6ddffa0ba40cf1a63500e9d8c389575",
+      "values_digest": "e0edc1aa77fa75ccf7f383d5d8ea7a98f64be603fded38585182df7492dd8050",
       "rendered_digest": "a4ca917ae899ae463faa54f6e6695ef4abdac45edfff22b22c1371c7de35de2b",
       "ast_digest": "b408f4bc539bfcdb5b7f3fff18ad280e1f8b4beecc37a6d1172b245c3b099c9d"
     },
     "spp": {
-      "values_digest": "449d7eb5a3afc1f6e04daf56accff112299dc9643f02738567909347d7f7666b",
+      "values_digest": "6369d15e19743b18e225bd0d1bfbefa5569a88e279b8865afb69a8b66a39187c",
       "rendered_digest": "4de2fb513d8be95a9f370dd55738c5ad2d09811d430c2d24277a285f780e1f0a",
       "ast_digest": "30acf8a4f1facdaf447c66b3cf800e6904d4bc625a06c90d0e7b10013b092a59"
     },
     "vpp": {
-      "values_digest": "bd236ccfa7ceaac5e3c2bafcd88704f3a4339fedc3970037734784f78c5af040",
+      "values_digest": "19bd8cfb65bc1fffc2834df5f1fe4b921e90b5ff632de4813548bb265c158a74",
       "rendered_digest": "3c1aec2ebec7259bdd0162c29828381df8691454b2d3c79c4c7e538bab05678e",
       "ast_digest": "9f5f791a9b331713ed6776cb75f9b683a4291d7cb5b521acb2019dc762cacde0"
     },
     "srp": {
-      "values_digest": "73eb726ff1399bbe06695bd967da24defc5ab2a1d305d47b9e1aaea1877f7f19",
+      "values_digest": "9ab766b90f0ac0e14cec17b3bddabf8ea2d68d5ba2d1aba9eea071f94964da9c",
       "rendered_digest": "23c062e9812a74e41d300c1b3466311529be7c6bc132da8c523ce01e0bf03859",
       "ast_digest": "380eeb55a787237e2ab8eda1cf063915e4b74a4fa54ba7639268cff9bb5522ed"
     },
     "sor": {
-      "values_digest": "ee80bbf1f8a499f3085f65cebba43fbfbd144bba9c230473a78300e1c8fd9bea",
-      "rendered_digest": "7feeab8143560910e0d0ea1215e19d4140550f5c28348b7f91056b7054b32fc4",
-      "ast_digest": "86ac11c2f93534bff4bb5854cae240bf4c1045623be040fdefe68cd5070c9094"
+      "values_digest": "0b288101006f9bbb59036d51b040117b53adfc7977bc7018fbd9ff15e0db967f",
+      "rendered_digest": "b93c55cb84fb94d61b7d623d81846e36ccedb7bdd8fd9ef26ac146f38cebe66e",
+      "ast_digest": "b92b6919b3943bbea609f0ed075c6ac513cbd0012b0196c1a46e92534d75ab13"
     }
   },
   "transitions": [
@@ -124,6 +124,13 @@
       "actor": "codex:248-process-backend-precedence",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:248-review-fix",
+      "reason": "Correct the retained-evidence claim while preserving the separately observed repetition result.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented deterministic output-limit precedence at the server-owned post-termination arbitration boundary while preserving timeout and cleanup semantics.\",\"changes\":[\"adl-runtime-kernel/src/parity.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs\",\"adl-runtime-kernel/tests/parity.rs\"],\"artifacts\":[\"single focused precedence-and-cleanup pass retained by typed validation; separate 20/20 repetitions passed in the implementation and independent review sessions\",\"full Runtime kernel suite\",\"strict all-target Clippy\",\"Observatory integration proof\"],\"validation\":[{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across all Runtime targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"clippy.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"parity\",\"process_backend_timeout_and_oversized_file_leave_no_artifacts\",\"--\",\"--exact\"],\"purpose\":\"Prove ordinary hang yields timeout while a file at the enforced limit followed by a hang yields output_limit and both remove artifacts.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"purpose\":\"Run the Runtime Observatory integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"observatory.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete Runtime kernel test suite.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime.log\"}]}"
     }
   ]
 }

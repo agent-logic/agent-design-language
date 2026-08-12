@@ -7,7 +7,7 @@
     "title": "Make process-backend output-limit and timeout precedence deterministic",
     "slug": "process-backend-terminal-precedence",
     "version": "1.0.0",
-    "generation": 2
+    "generation": 3
   },
   "status": "pre_phase",
   "content": {
@@ -20,7 +20,7 @@
         "adl-runtime-kernel/tests/parity.rs"
       ],
       "artifacts": [
-        "20/20 repeated focused pressure passes retained in session evidence",
+        "single focused precedence-and-cleanup pass retained by typed validation; separate 20/20 repetitions passed in the implementation and independent review sessions",
         "full Runtime kernel suite",
         "strict all-target Clippy",
         "Observatory integration proof"

@@ -16,7 +16,7 @@ Implemented deterministic output-limit precedence at the server-owned post-termi
 
 ## Artifacts
 
-- 20/20 repeated focused pressure passes retained in session evidence
+- single focused precedence-and-cleanup pass retained by typed validation; separate 20/20 repetitions passed in the implementation and independent review sessions
 - full Runtime kernel suite
 - strict all-target Clippy
 - Observatory integration proof
