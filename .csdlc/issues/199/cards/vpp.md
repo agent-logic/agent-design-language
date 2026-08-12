@@ -225,7 +225,7 @@ Diagram: .csdlc/prepared/issues/199/diagram.mmd
   },
   {
     "lane": "governed-membership-proof-producer",
-    "proof_role": "Produce retained .csdlc/evidence/199/v15/execution-proof.json with schema adl.issue199.governed_membership_transition_proof.v15, exact command streams, twelve behavior cases, nine production assertions, protected-source ancestry, and cleanliness.",
+    "proof_role": "Produce retained .csdlc/evidence/199/v16/execution-proof.json with schema adl.issue199.governed_membership_transition_proof.v16, exact command streams, twelve behavior cases, nine production assertions, protected-source ancestry, and cleanliness.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -242,7 +242,7 @@ Diagram: .csdlc/prepared/issues/199/diagram.mmd
   },
   {
     "lane": "governed-membership-proof-validator",
-    "proof_role": "Validate immutable v15 evidence, exact twelve/nine denominators, protected-source and evidence drift, and current-main ancestry.",
+    "proof_role": "Validate immutable v16 evidence, exact twelve/nine denominators, protected-source and evidence drift, and current-main ancestry.",
     "acceptance_ids": [
       "AC-8"
     ],
