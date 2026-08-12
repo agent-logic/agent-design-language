@@ -3,9 +3,9 @@
   "issue": 298,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
-  "phase": "implemented",
-  "generation": 40,
-  "digest": "03ff7e3e7160e155676a3dca5134d069a5602de8a9191ef4a6834074344ef2a3",
+  "phase": "reviewed",
+  "generation": 41,
+  "digest": "0fefee27b11d46cf29bdf2c41633641dcbef4f44262f1951571b36e80c1c089b",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": {
@@ -24,7 +24,28 @@
       ".csdlc/evidence/298"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:6b46a79f-e440-4ed8-acd1-f5f28e616cce",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ],
+    "reviewed_revision": "git-blake3:058fcbb21ce118494ccca111ad4d91e1e2269399:9a7bf015e764c45cd912703a322711cfe447372f68babc2d5af61791412c8695",
+    "findings": [],
+    "residual_risks": [
+      "Read-only focused source and test review; no dynamic cross-mount injection, GitHub, publication, or CI was exercised by the reviewer.",
+      "Reviewer independently ran the focused recovery lane: 29 passed, 0 failed, 19 filtered."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "18cb990a6538ef885da916cccd25f051e7cb15dd1dfecfea146d8520942c8129",
+      "values_digest": "bff69c0976e5461ca424e4cca88c2a83aced38d2d3d46847f3627150926758d1",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "4b73bfaf0dc8e25958b41b4863adf931055c90dde1f2dd6d2ac20dcc8f6c3885",
+      "values_digest": "51b0b1cb50f3fc824b5a3fce1800b699e11440ff8b6d7c2c75fca4f6e2e4692d",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "198a40a86d4f0efcb230db72835f2c1a070db80f26721e6d73292d1a8cb78906",
+      "values_digest": "0dea4634eed4126b8bcdd304e6a450a766db3fa85fb09ada32834c600e861ab7",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "b4e62f052ff4d6f335c349b8d0c4d93f45f3b7ef2160a13a012ff8811d68bedc",
+      "values_digest": "6c220e84b458b090605162108d8c35e04aa2aecdfabacb9c127b18b798eaa3ff",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "9b7d6729bcf04da5c3a53f37c4933ba40ce5ef7dc80419f646e7fb4492cbd315",
-      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
-      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
+      "values_digest": "d911717930febc9f44788b4465ae95dc684771044e909b4bbe5f88a85d76e62a",
+      "rendered_digest": "8ef891aa4b3af9a6e5e7140db139339a2bfbe68a83cc87240e9576a42d7bbff7",
+      "ast_digest": "99e3c83899fff57714e25bd40982c33536cf33121d081cdfa2f88143d90efe11"
     },
     "sor": {
-      "values_digest": "3e18f87242540d5af54e4965bce8f8744eaef4a16d29f9e243ae3954de6850fe",
+      "values_digest": "b7877ba61a650c7d6ed05e2741e77bd30eff5c53691d492c0f5ab55a148e0990",
       "rendered_digest": "0502d7accb58a5a23a160ed52b4abc3764ac1e700301c6cbf647ddbedd799b61",
       "ast_digest": "be888f15634741285e28da3adc423f8d00d203de24fc1613888df2cd43ecf3fe"
     }
@@ -90,6 +111,13 @@
       "to": "implemented",
       "actor": "codex:issue-298",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:6b46a79f-e440-4ed8-acd1-f5f28e616cce",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -498,6 +526,13 @@
       "actor": "codex:issue-298",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 41,
+      "actor": "fresh-session:6b46a79f-e440-4ed8-acd1-f5f28e616cce",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

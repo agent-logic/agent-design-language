@@ -41,12 +41,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Read-only focused source and test review; no dynamic cross-mount injection, GitHub, publication, or CI was exercised by the reviewer.
+- Reviewer independently ran the focused recovery lane: 29 passed, 0 failed, 19 filtered.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:058fcbb21ce118494ccca111ad4d91e1e2269399:9a7bf015e764c45cd912703a322711cfe447372f68babc2d5af61791412c8695")
 
-Reviewer: None
+Reviewer: Some("fresh-session:6b46a79f-e440-4ed8-acd1-f5f28e616cce")
 
-Result: pre_review
+Result: pass

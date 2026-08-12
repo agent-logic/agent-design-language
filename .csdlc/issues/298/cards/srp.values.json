@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
     "slug": "297a-anchored-classification-resumable-recovery-ledger",
     "version": "v0.92",
-    "generation": 40
+    "generation": 41
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/bin/csdlc-issue.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/projection_recovery.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/298\n.csdlc/prepared/issues/298\n.csdlc/evidence/298",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:058fcbb21ce118494ccca111ad4d91e1e2269399:9a7bf015e764c45cd912703a322711cfe447372f68babc2d5af61791412c8695",
+      "reviewer": "fresh-session:6b46a79f-e440-4ed8-acd1-f5f28e616cce",
       "review_prompts": [
         "no-follow retained-handle identity and mount authority",
         "tagged CAS and failed-operation lineage permissions",
@@ -25,8 +25,11 @@
         "scope exclusion of #299 cleanup and #300 integrated proof"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Read-only focused source and test review; no dynamic cross-mount injection, GitHub, publication, or CI was exercised by the reviewer.",
+        "Reviewer independently ran the focused recovery lane: 29 passed, 0 failed, 19 filtered."
+      ],
+      "review_result": "pass"
     }
   }
 }
