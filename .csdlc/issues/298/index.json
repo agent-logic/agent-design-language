@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "2cc0617753e24ad5d6712afad7434c2f04e24a0e84d6dd500ff9e8bd6bfb5cd0",
+  "generation": 32,
+  "digest": "f57a78fee5f3cb63e60c690ace1986641a1e2f3e279f352e3495e3ce4f2a6714",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:dfaf7381-c6cb-43ca-bc3e-1fc072d307f2",
-    "assigned_by": "codex:issue-298",
-    "revision": "git-blake3:f97ff9b4b87e45927b082a4cb9150f4d7fd50db4:b7764c3dfcb46e2b683c3cec9cde5022d4724102a3db1ccc3082188bd15aaf95",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fd2a3b6bcf757dcd9b9ade7e04e1405b834b777245a8ea86abefb3154129b617",
+      "values_digest": "07d3499eecb09094758e6b435c1c3c34746bbf74c7a29b7a73314dfd4b43d357",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "9c04dd38dfb064073bcb7f8ab1e1dbd194e4e534015fd766d11870d69cc6f068",
+      "values_digest": "ead5d60bec3f813e09d28856a11d1f7276f97ccb3a37129428945646f67c5065",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "d0128819e46209b9d9301dacab003f9be04ea7775c2d8c0156b920bacf95e9ff",
+      "values_digest": "c66745879a7b3463afa4ce31a6e91043b50b2067250b12553a2ae11010f19131",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "d4546d7ef61bbd518d358245651ccb52480f6946dcc77c48385ad7537420d2bd",
+      "values_digest": "eb7bf0421f3da8507eb2b11ee3d9a622862a3ce08c7c27e0032643cb6f6c7ef4",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "ae48a84f848037587e9fd38279198cc44c4d036f726114c9293352e50de8ee58",
-      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
-      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
+      "values_digest": "a3e61df2cf3f0fe3be004fcfd4e2a2f11c6b14fdff69048a0e61814dee9336cb",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "f9b2d952e1be5928f2c3e6ee5e4214ec751bbc2835a5ecdfac9d57202324d05f",
+      "values_digest": "07360ad642885448c089298e36c4c704f6e44728df1b5b0a558bb398d0c75e12",
       "rendered_digest": "26480f96332ab6b512a092104bfd1ad66d0ccf4550a6baa945a9471ce2694360",
       "ast_digest": "4ab4d20afe284ab611f0960917ababb0972c7f6d0a0c67b810911d12f8e8e29f"
     }
@@ -400,6 +385,13 @@
       "actor": "codex:issue-298",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 32,
+      "actor": "codex:issue-298",
+      "reason": "Recover failed exact review r10: candidate-created restart trusted a coherently forgeable receipt record and observation without rederiving the expected candidate from the PREPARED prior projection plus authorized recovery audit transform or comparing actual candidate files before install.",
+      "operation": "recover_review"
     }
   ]
 }
