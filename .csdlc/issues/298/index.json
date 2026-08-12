@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "bound",
-  "generation": 9,
-  "digest": "f90ceebb073b2f567bcbfe67d811d463974d8695dcc9f6b4abdb1deaa96fab72",
+  "generation": 10,
+  "digest": "2030c52a4cb4ce9f68eadec7e1586fe21f3373cf4a663f8d6280e6fced7698cf",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "89dd464304191d0afddafdc2f216f8a95f4cb0ffbbf8e7f4c886602ea4af3900",
+      "values_digest": "ed0a06ddbd9ab83d60db30456a63ec9c2826455611af771b1a9754eab154b840",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "56257e35e78c34e3cdfa9d695e991f6fa7c6a115c4cbcf2df759cd15f658dca3",
+      "values_digest": "ca0389a24b24bd88e9fbd031a3d3bb23319fb41839b3adc0da99463a2041d3a4",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "ace81e60dcf6e36f808f20f456b4eb70d18a2f4e1eaa52570ec3e5935b4620b6",
+      "values_digest": "31f9c032bc7270d039b4800bd8f86c88c6f05e992ff7c70f4eec36853931517c",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "98a0014b0ff87fd58be92aa363111ad72837d013b9dafe33f38e154257857145",
+      "values_digest": "1eae6eeb80eeecd21ed7c5197759ffcb8f4ae0ee9d139a946cd4ed298794a90b",
       "rendered_digest": "b9f45479040c70ab63704b285e1c071962398cd8ab288bf92cc4aa0e64830845",
       "ast_digest": "b9f4c09e5453240010c5e0dbfc3ca3bbecb522cffac8225f728acda709da4b1c"
     },
     "srp": {
-      "values_digest": "a3db8dedb8080465bd09ee17a894c712935aaaa7462081ee188630024c15def1",
+      "values_digest": "f4d253da190bf3e3acb66a06d7077de3a9aa451af2a58f82a53964fcc2280422",
       "rendered_digest": "7d23564458dd6f8610d6c77a6527ce2c9e2b0e7b06dc91fb2a94aa5c341335c1",
       "ast_digest": "4675e4224e15ddf2ad8c8922bc096f4a140bec186e67ae0d162ed3e4a11bd33c"
     },
     "sor": {
-      "values_digest": "dd70057e20d29106bf7cc0cb85f0fa3bc5d5f61de19d7cec76c61db0c89d09a3",
-      "rendered_digest": "6a75e0c29de23f7356d0a144ac86b798584effecc7c704d302f9cad5e6b764c2",
-      "ast_digest": "0655453d466a585dd43facf1bcbbbddbc4464aedf6da55d88870af3845a7cdfa"
+      "values_digest": "0d033aff88c7b1d25516129792a3aa845d7f3e0fb2edab27f85ec4f93cfca448",
+      "rendered_digest": "684bf5e173dee48a2cd5028e5de5ade7eb03baeb40709e080878888818045c07",
+      "ast_digest": "a5762bbe7b47b268cb939899d4800840919814647d3094ea7682307e75f505c9"
     }
   },
   "transitions": [
@@ -147,6 +147,13 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-298",
+      "reason": "record bounded anchored projection classification and resumable recovery implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the non-destructive #298 classification and recovery engine with descriptor-anchored manifests, tagged CAS and lineage, immutable receipts, per-node candidate construction, atomic installation, deterministic restart, and ordinary-commit release proof.\",\"changes\":[\"Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299\",\"Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation\",\"Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart\",\"Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery\",\"Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery\",\"Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions\",\"Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
     }
   ]
 }
