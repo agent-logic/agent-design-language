@@ -6,10 +6,22 @@
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
   "phase": "implemented",
   "generation": 11,
-  "digest": "137948c0fe8c34992dec4471d4d5f8ca1f9d42b01c807bf1c4215c59e0bdd693",
+  "digest": "d8e6273460ebf3048d06c1c9292c0952d0fea269da3460aa622a7faea1ca152d",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:019ff5b8-4d42-7e61-8278-18aff505f763",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:b8f4a9862639a07593901be6e128e7baa159fe36:b6bc845e2cf2f9017a3c46e0befb111966dd56b610cd63f7fc39518761b5f88c",
+    "scope": [
+      "adl-runtime/src/distributed",
+      "adl-runtime/tests",
+      ".csdlc/issues/258",
+      ".csdlc/prepared/issues/258",
+      ".csdlc/locks/258.lock",
+      ".csdlc/evidence/258"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "c211f93df996496270e39ed88bdbdaac5b8a91c7648092f80b150cb6423b2aee",
-      "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
-      "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
+      "values_digest": "477baf17e7850f894f67f01851ec5e09bfe2801cd88014f79e1ec1bed6ee4d4d",
+      "rendered_digest": "0334635ac95d873c833e5d3c70cdd439baff56c2998eb445e15d164cd760afe8",
+      "ast_digest": "271af8ded064549da01cad38f86115951e76d3dc1d656acc08466e0829d75727"
     },
     "sor": {
       "values_digest": "242e01188965e6c08adf4aa3a56f93e812645b1ad4b0e800ecf1fbe52b032581",
@@ -190,6 +202,13 @@
       "actor": "codex:/root",
       "reason": "#119 review-compliance hold: prior review was inherited-context and not assigned before activity; recover to implemented before canonical fresh-session review",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

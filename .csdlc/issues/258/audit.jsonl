@@ -11,3 +11,4 @@
 {"sequence":11,"generation":9,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":12,"generation":10,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":13,"generation":11,"actor":"codex:/root","reason":"#119 review-compliance hold: prior review was inherited-context and not assigned before activity; recover to implemented before canonical fresh-session review","operation":"recover_review"}
+{"sequence":14,"generation":11,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
