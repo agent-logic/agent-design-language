@@ -168,6 +168,8 @@ pub struct MembershipCoordinator {
     crash_after_membership_change: bool,
     #[cfg(test)]
     crash_after_enrollment_activation: bool,
+    #[cfg(test)]
+    fail_membership_change_before_submit: bool,
 }
 
 /// Runtime-owned production aggregate. Callers submit governed operations to
@@ -299,6 +301,12 @@ impl GovernedMembershipRuntime {
     pub(crate) fn inject_crash_after_enrollment_activation(&mut self) {
         self.coordinator.inject_crash_after_enrollment_activation();
     }
+
+    #[cfg(test)]
+    pub(crate) fn inject_membership_change_no_effect_failure(&mut self) {
+        self.coordinator
+            .inject_membership_change_no_effect_failure();
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -392,6 +400,8 @@ impl MembershipCoordinator {
             crash_after_membership_change: false,
             #[cfg(test)]
             crash_after_enrollment_activation: false,
+            #[cfg(test)]
+            fail_membership_change_before_submit: false,
         })
     }
 
@@ -623,6 +633,19 @@ impl MembershipCoordinator {
         self.commit(next)
     }
 
+    fn clear_no_effect_membership_change_submission(
+        &mut self,
+        operation_sha256: [u8; 32],
+    ) -> MembershipCoordinatorResult<()> {
+        let mut next = self.envelope.payload().clone();
+        let active = exact_active_mut(&mut next, operation_sha256)?;
+        if active.phase != MembershipCoordinatorPhase::LearnerCaughtUp {
+            return Err(MembershipCoordinatorError::StateRegression);
+        }
+        active.membership_change_submitted = false;
+        self.commit(next)
+    }
+
     async fn await_committed_membership_history(
         &mut self,
         operation_sha256: [u8; 32],
@@ -779,9 +802,23 @@ impl MembershipCoordinator {
                 .is_some_and(|active| active.membership_change_submitted);
             if !already_submitted {
                 self.mark_membership_change_submitted(promotion.operation_sha256)?;
-                raft.change_membership(transition.target_membership.clone(), false)
+                #[cfg(test)]
+                if self.fail_membership_change_before_submit {
+                    self.fail_membership_change_before_submit = false;
+                    self.clear_no_effect_membership_change_submission(promotion.operation_sha256)?;
+                    return Err(MembershipCoordinatorError::StateRegression);
+                }
+                if let Err(error) = raft
+                    .change_membership(transition.target_membership.clone(), false)
                     .await
-                    .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+                {
+                    if error.api_error().is_some() {
+                        self.clear_no_effect_membership_change_submission(
+                            promotion.operation_sha256,
+                        )?;
+                    }
+                    return Err(MembershipCoordinatorError::StateRegression);
+                }
             }
             #[cfg(test)]
             if self.crash_after_membership_change {
@@ -1136,9 +1173,25 @@ impl MembershipCoordinator {
                     .is_some_and(|active| active.membership_change_submitted);
                 if !already_submitted {
                     self.mark_membership_change_submitted(removal.operation_sha256())?;
-                    raft.change_membership(transition.target_membership.clone(), false)
+                    #[cfg(test)]
+                    if self.fail_membership_change_before_submit {
+                        self.fail_membership_change_before_submit = false;
+                        self.clear_no_effect_membership_change_submission(
+                            removal.operation_sha256(),
+                        )?;
+                        return Err(MembershipCoordinatorError::StateRegression);
+                    }
+                    if let Err(error) = raft
+                        .change_membership(transition.target_membership.clone(), false)
                         .await
-                        .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+                    {
+                        if error.api_error().is_some() {
+                            self.clear_no_effect_membership_change_submission(
+                                removal.operation_sha256(),
+                            )?;
+                        }
+                        return Err(MembershipCoordinatorError::StateRegression);
+                    }
                 }
                 self.await_committed_membership_history(
                     removal.operation_sha256(),
@@ -1318,6 +1371,11 @@ impl MembershipCoordinator {
     #[cfg(test)]
     fn inject_crash_after_enrollment_activation(&mut self) {
         self.crash_after_enrollment_activation = true;
+    }
+
+    #[cfg(test)]
+    fn inject_membership_change_no_effect_failure(&mut self) {
+        self.fail_membership_change_before_submit = true;
     }
 }
 

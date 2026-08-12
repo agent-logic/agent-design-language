@@ -1684,6 +1684,17 @@ async fn real_four_node_learner_replication() {
         revoked: false,
         control_public_key: recovered.guardian_control_public_key,
     };
+    runtime.inject_membership_change_no_effect_failure();
+    assert_eq!(
+        runtime
+            .promote(&rejoin, &rejoin_transition, recovered_authority.clone(),)
+            .await,
+        Err(MembershipCoordinatorError::StateRegression)
+    );
+    assert_eq!(
+        runtime.coordinator().active_phase(),
+        Some(MembershipCoordinatorPhase::LearnerCaughtUp)
+    );
     runtime.inject_crash_after_membership_change();
     let rejoined_result = tokio::time::timeout(
         Duration::from_secs(20),
