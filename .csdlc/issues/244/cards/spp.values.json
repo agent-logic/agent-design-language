@@ -7,7 +7,7 @@
     "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
     "slug": "conversation-cleanup-race-deadline",
     "version": "1.0.0",
-    "generation": 5
+    "generation": 6
   },
   "status": "ready",
   "content": {
@@ -72,7 +72,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/244/design.md",
-      "design_digest": "5953fea059ca383701dda9dd38e9297013caac6edc003a1e5c639ec15e51cea5",
+      "design_digest": "032b8441dc168cd6953d93b0bffc43e4089a2b70ea2bf92b6263bbd8e96a326d",
       "diagram_ref": ".csdlc/prepared/issues/244/diagram.mmd",
       "diagram_digest": "aa4841f6144e20ef15b0769c04e9af3008e48c1cff066c57d4f8aa14acd3b2e3"
     }

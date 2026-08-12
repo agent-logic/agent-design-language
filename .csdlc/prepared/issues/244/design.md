@@ -2,13 +2,13 @@
 
 ## Boundary
 
-Correct only the Runtime conversation session admission/deadline behavior introduced by PR #228. Keep capability authority issue #237 and PR #242 unchanged.
+Stabilize only the cleanup-race regression proof introduced by PR #228. Keep Runtime production semantics, capability authority issue #237, PR #242, and #112 authority work unchanged.
 
 ## Decision
 
-The initial `accepted` result acknowledges successful session admission and must not wait for the turn's dispatch gate or canonical ingress completion. Execution retains a bounded deadline, but a newly admitted session generation receives its own execution window; cleanup or re-authentication must not cause that generation to consume a stale predecessor window.
+The initial `accepted` result already acknowledges successful session admission before dispatch-gate or canonical ingress completion. The proof must queue re-authentication and duplicate attachment in server processing order without spending the existing turn's bounded execution window on a client-side authentication round trip.
 
-Duplicate attachment to the same active generation remains `accepted` with `conversation_in_flight`. Exactly one terminal result is emitted for the active turn.
+Duplicate attachment from the new authentication generation to the same active turn remains `accepted` with `conversation_in_flight`. Exactly one terminal result is emitted for that turn. No production deadline or admission behavior changes.
 
 ## Proof
 
