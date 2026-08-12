@@ -135,6 +135,14 @@ pub struct MembershipCoordinator {
     envelope: DurableEnvelope<MembershipCoordinatorState>,
 }
 
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct AuthorizedMembershipTransition {
+    pub old_stable_ids: BTreeMap<Vec<u8>, u64>,
+    pub target_stable_ids: BTreeMap<Vec<u8>, u64>,
+    pub old_membership: BTreeSet<u64>,
+    pub target_membership: BTreeSet<u64>,
+}
+
 impl MembershipCoordinator {
     pub fn open(
         root: &Path,
@@ -374,17 +382,14 @@ impl MembershipCoordinator {
         current_receipt: &GovernedMembershipAuthorityReceipt,
         raft: &PolisRaft,
         state_machine: &PolisStateMachineStore,
-        old_stable_ids: &BTreeMap<Vec<u8>, u64>,
-        target_stable_ids: &BTreeMap<Vec<u8>, u64>,
-        expected_old: BTreeSet<u64>,
-        expected_target: BTreeSet<u64>,
+        transition: &AuthorizedMembershipTransition,
     ) -> MembershipCoordinatorResult<()> {
         verify_authorized_transition_inputs(
             promotion,
-            old_stable_ids,
-            target_stable_ids,
-            &expected_old,
-            &expected_target,
+            &transition.old_stable_ids,
+            &transition.target_stable_ids,
+            &transition.old_membership,
+            &transition.target_membership,
         )?;
         self.begin_promotion(promotion)?;
         self.observe_external_authority(promotion, current_receipt)?;
@@ -399,7 +404,7 @@ impl MembershipCoordinator {
             self.record_learner_caught_up(promotion.operation_sha256)?;
         }
         if self.active_phase() == Some(MembershipCoordinatorPhase::LearnerCaughtUp) {
-            raft.change_membership(expected_target.clone(), false)
+            raft.change_membership(transition.target_membership.clone(), false)
                 .await
                 .map_err(|_| MembershipCoordinatorError::StateRegression)?;
         }
@@ -407,8 +412,8 @@ impl MembershipCoordinator {
         self.record_committed_membership_history(
             promotion.operation_sha256,
             &history,
-            &expected_old,
-            &expected_target,
+            &transition.old_membership,
+            &transition.target_membership,
         )
     }
 
