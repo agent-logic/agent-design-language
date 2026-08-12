@@ -1649,27 +1649,19 @@ fn write_recovery_journal(
     let relative = recovery_journal_relative(journal.issue);
     let bytes = serde_json::to_vec_pretty(journal)?;
     let temp = relative.with_extension(format!("json.tmp-{}", digest(&bytes)));
-    if let Ok(identity) = file_identity_no_follow(&common, &temp) {
-        unlink_owned_anchored(&common, &temp, &digest(&bytes), identity)?;
-    }
     write_authored_exclusive(&common, &temp, &bytes)?;
     let temp_identity = file_identity_no_follow(&common, &temp)?;
     if let Some(identity) = expected_identity {
-        let old = relative.with_extension(format!("json.old-{}-{}", identity.0, identity.1));
-        rename_no_replace_anchored(&common, &relative, &old)?;
-        if file_identity_no_follow(&common, &old)? != identity {
+        rename_exchange_anchored(&common, &temp, &relative)?;
+        if file_identity_no_follow(&common, &temp)? != identity {
+            rename_exchange_anchored(&common, &temp, &relative)?;
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
-                "journal inode changed before replacement",
+                "journal inode changed during atomic replacement",
             ));
         }
-        rename_no_replace_anchored(&common, &temp, &relative)?;
-        unlink_owned_anchored(
-            &common,
-            &old,
-            &digest(&std::fs::read(common.join(&old))?),
-            identity,
-        )?;
+        let old_digest = digest(&std::fs::read(common.join(&temp))?);
+        unlink_owned_anchored(&common, &temp, &old_digest, identity)?;
     } else {
         rename_no_replace_anchored(&common, &temp, &relative)?;
     }
@@ -2210,6 +2202,49 @@ fn rename_no_replace_anchored(root: &Path, source: &Path, destination: &Path) ->
         )
     } != 0
     {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    dest_parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(target_os = "macos")]
+fn rename_exchange_anchored(root: &Path, source: &Path, destination: &Path) -> Result<()> {
+    use std::os::unix::io::AsRawFd;
+    let (source_parent, source_name) = open_parent_no_follow(root, source)?;
+    let (dest_parent, dest_name) = open_parent_no_follow(root, destination)?;
+    if unsafe {
+        libc::renameatx_np(
+            source_parent.as_raw_fd(),
+            source_name.as_ptr(),
+            dest_parent.as_raw_fd(),
+            dest_name.as_ptr(),
+            libc::RENAME_SWAP,
+        )
+    } != 0
+    {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    dest_parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(target_os = "linux")]
+fn rename_exchange_anchored(root: &Path, source: &Path, destination: &Path) -> Result<()> {
+    use std::os::unix::io::AsRawFd;
+    let (source_parent, source_name) = open_parent_no_follow(root, source)?;
+    let (dest_parent, dest_name) = open_parent_no_follow(root, destination)?;
+    let result = unsafe {
+        libc::syscall(
+            libc::SYS_renameat2,
+            source_parent.as_raw_fd(),
+            source_name.as_ptr(),
+            dest_parent.as_raw_fd(),
+            dest_name.as_ptr(),
+            libc::RENAME_EXCHANGE,
+        ) as libc::c_int
+    };
+    if result != 0 {
         return Err(std::io::Error::last_os_error().into());
     }
     dest_parent.sync_all()?;

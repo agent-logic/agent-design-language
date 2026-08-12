@@ -4,25 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "f205acf22e80612b1881d4f9df91a489c3c9b0f69505999dae0cd689c29f9e08",
+  "generation": 25,
+  "digest": "b5537b6af2290ac13d3d3c297ce9822143cde85a43315775c09ab7f7e4ddd8cd",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:a4ed80ef-e0c6-4a03-90d1-93e1ec161287",
-    "assigned_by": "codex:issue-294",
-    "revision": "git-blake3:840bf14c60c834ccad29a847d4c0eb8c87cbcd1b:435b73364f275b7250f904692ab169c8f86f17814b51ffdd88e3b06579108938",
-    "scope": [
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-edit.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/card_identity.rs",
-      ".csdlc/issues/294",
-      ".csdlc/prepared/issues/294",
-      ".csdlc/evidence/294"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -38,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "472afefa941504ba75fe7e7e9a86ae0e3ed7b0e62edcf18bf9e97d3eaf0839a3",
+      "values_digest": "b7497fcac783f15bb07103e32c3c883a9be9253ca5f3042c6aabac804ff18a5b",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "d3af5e77134f307e4de20f746a4e7d3e519be8809d945b71c4aff912d2d75a8d",
+      "values_digest": "a05e040b57901655a718a53f53ce757a0e1e66c438364b75ecc2805d0377e3a2",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "e4ba72257fe2d581f28cad289869f7a523bd5636b5c1db2ec64dd94ac3778d1e",
+      "values_digest": "e4fe034428c0bcc902844da386a2679a2b51018573514766dd54fcefd9f49a50",
       "rendered_digest": "818c831b4006e6cba1fae7fd705b517025fdb4dffebcdd5ed63c77e88dd8e9ee",
       "ast_digest": "fe2b4a198e777d6d1184d8db1e169a565f0425a9c547b1f1252c24a7410e2c5e"
     },
     "vpp": {
-      "values_digest": "480a95fcceec5add5e7efd41ebd66ae1e40aa95fd39d757a7525b30417d2db78",
+      "values_digest": "f23ace3d93477fd97e1a663d77a5d87a32bb0660cdd8463605b351638313a1eb",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "4f84c16cc2de54073e92bcda45774350342b50ec2349ca65ca89906bf0660d08",
-      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
-      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
+      "values_digest": "da61cfd5cf637eeb88fbfd77c0a0beb0809aa42a527cac1537336796446b2d59",
+      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
+      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
     },
     "sor": {
-      "values_digest": "e815f4466916ced2b963fe31364665a8e4872669481d91b38ad0614e8477ad20",
+      "values_digest": "3169392126a43edac321f9306d389d5465dc2f58528a80fffe5bdb2ba1a7567c",
       "rendered_digest": "02a3825c1b8aa02ee4ff72c2597d88a060af2ae9a31abc8a0aa8df0f7e3d9438",
       "ast_digest": "926479531ef701e505067ba4a19c0f8b998388e2ef55666e78e7210deb803fe9"
     }
@@ -343,6 +329,13 @@
       "actor": "codex:issue-294",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 25,
+      "actor": "codex:issue-294",
+      "reason": "Recover failed r10 exact-head assignment at substantive 840bf14c60c834ccad29a847d4c0eb8c87cbcd1b: two-step journal old/temp swap can crash with canonical journal absent and no restart reconciliation; preexisting deterministic digest temp lacks a transaction ownership witness; AC-8/AC-9 still lacks actual typed bind-before/after and deterministic interruption/race hooks",
+      "operation": "recover_review"
     }
   ]
 }
