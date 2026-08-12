@@ -157,7 +157,7 @@ fn bootstrap_at(
     fs::write(root.join(diagram), b"diagram bytes").unwrap();
     let request = serde_json::json!({
         "issue": issue, "repository":"example/repo", "actor":"test",
-        "design_path":design,"diagram_path":diagram,"design_reviewer":"pending",
+        "design_path":design,"diagram_path":diagram,"design_reviewer":"fresh-session:019ff5eb-c6ed-7f83-9d6c-87b7a661eb8b","design_approved":true,
         "initial": input()
     });
     initialize_native_json(&Store::new(root), &serde_json::to_vec(&request).unwrap()).unwrap()
@@ -178,11 +178,11 @@ fn initialized_design_envelope_recovery_relocates_and_invalidates_approval() {
             actor: "test".into(),
             expected_design_path: "legacy/design.md".into(),
             expected_diagram_path: "legacy/diagram.mmd".into(),
-            expected_design_digest: design_digest,
+            expected_design_digest: design_digest.clone(),
             expected_diagram_digest: diagram_digest,
             new_design_path: "docs/issues/294/design.md".into(),
             new_diagram_path: "docs/issues/294/diagram.mmd".into(),
-            prior_reviewer: "fresh-session:/root/old".into(),
+            prior_reviewer: "fresh-session:019ff5eb-c6ed-7f83-9d6c-87b7a661eb8b".into(),
             canonical_reviewer: "fresh-session:019ff5eb-c6ed-7f83-9d6c-87b7a661eb8b".into(),
             reviewer_session_uuid: "019ff5eb-c6ed-7f83-9d6c-87b7a661eb8b".into(),
             reviewer_turn_uuid: "019ff5eb-c752-7b62-aaeb-b374a6e1b040".into(),
@@ -190,7 +190,7 @@ fn initialized_design_envelope_recovery_relocates_and_invalidates_approval() {
             thread_source: "subagent".into(),
             fork_turns: "none".into(),
             reviewed_generation: 2,
-            reviewed_digest: "reviewed".into(),
+            reviewed_digest: design_digest.clone(),
         },
     )
     .unwrap();

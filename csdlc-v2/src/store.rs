@@ -1393,6 +1393,16 @@ pub fn recover_initialized_design_envelope(
         ));
     }
     validate_recovery_provenance(&request)?;
+    match &record.design_review {
+        DesignReview::Approved { reviewer, revision }
+            if reviewer == &request.prior_reviewer && revision == &request.reviewed_digest => {}
+        _ => {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "prior reviewer provenance does not match canonical design review",
+            ))
+        }
+    }
     validate_safe_authored_destination(&request.new_design_path)?;
     validate_safe_authored_destination(&request.new_diagram_path)?;
     if request.new_design_path == request.new_diagram_path
@@ -1438,33 +1448,44 @@ pub fn recover_initialized_design_envelope(
             "authored artifact digest drifted",
         ));
     }
-    let new_design = store.root().join(&request.new_design_path);
-    let new_diagram = store.root().join(&request.new_diagram_path);
-    for path in [&new_design, &new_diagram] {
-        if path.exists() {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "authored artifact destination already exists",
-            ));
-        }
-        if let Some(parent) = path.parent() {
-            fs::create_dir_all(parent)?;
-        }
+    let journal = crate::git::shared_request_path(store.root(), request.issue)?
+        .parent()
+        .and_then(Path::parent)
+        .expect("Git-common csdlc-v2 directory")
+        .join("recovery-journals")
+        .join(format!("{}.json", request.issue));
+    if let Some(parent) = journal.parent() {
+        fs::create_dir_all(parent)?;
     }
-    require_canonical_parent_beneath(store.root(), Path::new(&request.new_design_path))?;
-    require_canonical_parent_beneath(store.root(), Path::new(&request.new_diagram_path))?;
-    use std::io::Write;
-    let write_new = |path: &Path, bytes: &[u8]| -> Result<()> {
-        let mut options = fs::OpenOptions::new();
-        options.write(true).create_new(true);
-        let mut file = options.open(path)?;
-        file.write_all(bytes)?;
-        file.sync_all()?;
-        Ok(())
-    };
-    write_new(&new_design, &design_bytes)?;
-    if let Err(error) = write_new(&new_diagram, &diagram_bytes) {
-        let _ = fs::remove_file(&new_design);
+    let journal_bytes = serde_json::to_vec_pretty(&serde_json::json!({
+        "schema":"csdlc.initialized_design_envelope_recovery_journal.v1",
+        "issue":request.issue,"pre_generation":record.generation,"pre_digest":record.digest,
+        "new_design_path":request.new_design_path,"new_diagram_path":request.new_diagram_path,
+        "design_digest":old_design_digest,"diagram_digest":old_diagram_digest
+    }))?;
+    let journal_temp = journal.with_extension("json.tmp");
+    fs::write(&journal_temp, &journal_bytes)?;
+    File::open(&journal_temp)?.sync_all()?;
+    fs::rename(&journal_temp, &journal)?;
+    if let Err(error) = write_authored_exclusive(
+        store.root(),
+        Path::new(&request.new_design_path),
+        &design_bytes,
+    ) {
+        let _ = fs::remove_file(&journal);
+        return Err(error);
+    }
+    if let Err(error) = write_authored_exclusive(
+        store.root(),
+        Path::new(&request.new_diagram_path),
+        &diagram_bytes,
+    ) {
+        let _ = remove_authored_if_digest(
+            store.root(),
+            Path::new(&request.new_design_path),
+            &old_design_digest,
+        );
+        let _ = fs::remove_file(&journal);
         return Err(error);
     }
     let mut cards = store.load_cards(request.issue)?;
@@ -1510,16 +1531,125 @@ pub fn recover_initialized_design_envelope(
             "reviewer_session_uuid":request.reviewer_session_uuid,"reviewer_turn_uuid":request.reviewer_turn_uuid,
             "spawned_task":request.spawned_task,"thread_source":request.thread_source,"fork_turns":request.fork_turns,
             "old_design_review":old_review,"approval_disposition":"invalidated_pending_reapproval"
+            ,"pre_state_digest":request.expected_digest,"post_state_digest_authority":"index.digest after atomic commit"
         }).to_string(),
     });
     hydrate_projections(&mut record, &cards)?;
     record.digest = record_digest(&record)?;
     if let Err(error) = store.commit(request.issue, &record, &cards, false) {
-        let _ = fs::remove_file(&new_design);
-        let _ = fs::remove_file(&new_diagram);
+        if store.load_record(request.issue).is_ok_and(|installed| {
+            installed.generation == record.generation
+                && installed.design_path == record.design_path
+                && installed.diagram_path == record.diagram_path
+        }) {
+            let _ = fs::remove_file(&journal);
+            return Ok(record);
+        }
+        let _ = remove_authored_if_digest(
+            store.root(),
+            Path::new(&request.new_design_path),
+            &old_design_digest,
+        );
+        let _ = remove_authored_if_digest(
+            store.root(),
+            Path::new(&request.new_diagram_path),
+            &old_diagram_digest,
+        );
         return Err(error);
     }
+    let _ = fs::remove_file(&journal);
     Ok(record)
+}
+
+#[cfg(unix)]
+fn write_authored_exclusive(root: &Path, relative: &Path, bytes: &[u8]) -> Result<()> {
+    use std::ffi::CString;
+    use std::io::Write;
+    use std::os::unix::ffi::OsStrExt;
+    use std::os::unix::io::{AsRawFd, FromRawFd};
+    let root_file = File::open(root)?;
+    let mut retained = Vec::new();
+    let mut directory_fd = root_file.as_raw_fd();
+    let components: Vec<_> = relative.components().collect();
+    for (index, component) in components.iter().enumerate() {
+        let std::path::Component::Normal(name) = component else {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "authored destination contains non-normal component",
+            ));
+        };
+        let name = CString::new(name.as_bytes()).map_err(|_| {
+            V2Error::new(ErrorCode::InvalidInput, "authored destination contains NUL")
+        })?;
+        let last = index + 1 == components.len();
+        if last {
+            let fd = unsafe {
+                libc::openat(
+                    directory_fd,
+                    name.as_ptr(),
+                    libc::O_WRONLY
+                        | libc::O_CREAT
+                        | libc::O_EXCL
+                        | libc::O_CLOEXEC
+                        | libc::O_NOFOLLOW,
+                    0o644,
+                )
+            };
+            if fd < 0 {
+                return Err(std::io::Error::last_os_error().into());
+            }
+            let mut file = unsafe { File::from_raw_fd(fd) };
+            file.write_all(bytes)?;
+            file.sync_all()?;
+        } else {
+            let mut fd = unsafe {
+                libc::openat(
+                    directory_fd,
+                    name.as_ptr(),
+                    libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+                )
+            };
+            if fd < 0 && std::io::Error::last_os_error().raw_os_error() == Some(libc::ENOENT) {
+                if unsafe { libc::mkdirat(directory_fd, name.as_ptr(), 0o755) } != 0 {
+                    return Err(std::io::Error::last_os_error().into());
+                }
+                fd = unsafe {
+                    libc::openat(
+                        directory_fd,
+                        name.as_ptr(),
+                        libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+                    )
+                };
+            }
+            if fd < 0 {
+                return Err(V2Error::new(
+                    ErrorCode::UnsafeCheckout,
+                    "authored destination ancestor is unsafe",
+                ));
+            }
+            let opened = unsafe { File::from_raw_fd(fd) };
+            retained.push(opened);
+            directory_fd = retained.last().unwrap().as_raw_fd();
+        }
+    }
+    Ok(())
+}
+
+#[cfg(not(unix))]
+fn write_authored_exclusive(_root: &Path, _relative: &Path, _bytes: &[u8]) -> Result<()> {
+    Err(V2Error::new(
+        ErrorCode::UnsafeCheckout,
+        "safe authored artifact writes require anchored no-follow platform primitives",
+    ))
+}
+
+fn remove_authored_if_digest(root: &Path, relative: &Path, expected: &str) -> Result<()> {
+    if read_regular_authored_artifact_with_hook(root, relative, |_| {})?
+        .is_some_and(|bytes| digest(&bytes) == expected)
+    {
+        fs::remove_file(root.join(relative))?;
+    }
+    Ok(())
 }
 
 fn validate_recovery_provenance(request: &RecoverInitializedDesignEnvelopeRequest) -> Result<()> {

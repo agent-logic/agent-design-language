@@ -63,7 +63,7 @@ Added a typed initialized design-envelope recovery that relocates authored artif
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

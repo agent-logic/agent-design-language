@@ -4,25 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "3db574817c41bca5607c82cdba1550cda28e79f3ef6d545d7941c446e2954eb6",
+  "generation": 16,
+  "digest": "88b6b334e4068eba2f54eb1fbb00f9e4204a26cdbbfa34a0bf7cc1e0ca5323e0",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:4c4c0db8-f4e4-42af-aecf-324ce3ba9f1c",
-    "assigned_by": "codex:issue-294",
-    "revision": "git-blake3:01a8122af0be4cf2772f901ea5925c348b63b96e:fdc8106cb4048acbad11ec1db01a740e33bf97fb7650dc1dce27803b895b0022",
-    "scope": [
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-edit.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/card_identity.rs",
-      ".csdlc/issues/294",
-      ".csdlc/prepared/issues/294",
-      ".csdlc/evidence/294"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -38,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7d922767f343c5affa6a7d0e90ab4247918c2a0d7a54ff37124497314ba49403",
+      "values_digest": "5f4dcae60c0ffb6aec2a203d8628795a1c0c9de578dc0ff66a30e5c647afbdc9",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "33f670eebaa68c57d81a8bd1ecd03edf6559f2f027f680aaa93d3a703d148973",
+      "values_digest": "77d3e535334e7cb95ffa9261fe88383a549ba327fadf8b4698d239ba8cc50509",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "188846b27769233f1ee6bfac26f0f3d5b5ece842f318e80ddec53a641c11abd9",
+      "values_digest": "07bb12448a4cb0b3f5df6b9fb173c0eaea39ce093469529e4f86f896b3f163ba",
       "rendered_digest": "818c831b4006e6cba1fae7fd705b517025fdb4dffebcdd5ed63c77e88dd8e9ee",
       "ast_digest": "fe2b4a198e777d6d1184d8db1e169a565f0425a9c547b1f1252c24a7410e2c5e"
     },
     "vpp": {
-      "values_digest": "ae6d085a79a6953dcd674475adfe3266ba01b337686ebb5773524b95654ecae2",
+      "values_digest": "8b17ee0977aa473d687c379569927b490ee12c3cab810bf93cebaa519f78ce4a",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "cb4f3b665dfc847578c5abf92bcbfb9865c988b7bfe3ff5fb96289b0dfe7efb2",
-      "rendered_digest": "9eeb784a3b5fbd2cebac1f7a158b00f3b9334f935643856de5edb5bc565ddbd3",
-      "ast_digest": "6899b56cdfe8cc33d281236f5b7942333aad2ade5a2344d2e026216836694723"
+      "values_digest": "d09ce0239afd8610a7beecf2b2842d045ee5dcf7c63fdd5d930bf8322d62d1de",
+      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
+      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
     },
     "sor": {
-      "values_digest": "6fa321845396dbd7e08818891488f50936d450f12bbfc19206dca5d02a1c2dd5",
-      "rendered_digest": "4372850b62af9ef35a6f00bf749280d2d203cabf7b3bb5eaf6ae9e9e32df1a73",
-      "ast_digest": "8805dda7906d3fb57e7d896ad6e3d9f2c147ce97ca2c519f40dde33619a08c7f"
+      "values_digest": "8e68757cca67cbda5b61df0037315b93e7b96bc984db51f58d1c106de859722e",
+      "rendered_digest": "02a3825c1b8aa02ee4ff72c2597d88a060af2ae9a31abc8a0aa8df0f7e3d9438",
+      "ast_digest": "926479531ef701e505067ba4a19c0f8b998388e2ef55666e78e7210deb803fe9"
     }
   },
   "transitions": [
@@ -217,6 +203,13 @@
       "actor": "codex:issue-294",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:issue-294",
+      "reason": "Recover failed exact-head review assignment to fix atomicity, path containment, audit provenance, and missing AC-8/AC-9 proof",
+      "operation": "recover_review"
     }
   ]
 }
