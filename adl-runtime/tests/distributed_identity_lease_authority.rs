@@ -211,8 +211,12 @@ fn issue_203_authority_store_boundary_guardrails_are_bound() {
 #[test]
 fn external_dev_profile_caller_cannot_import_fencing_test_access() {
     let fixture = repo_local_root();
-    let manifest_dir = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let deps_dir = manifest_dir.join("target/debug/deps");
+    let current_test_binary =
+        std::env::current_exe().expect("resolve current test binary for external fixture");
+    let deps_dir = current_test_binary
+        .parent()
+        .expect("current test binary must live under target deps")
+        .to_path_buf();
     let adl_runtime_rlib = fs::read_dir(&deps_dir)
         .expect("read target deps for external compile-fail fixture")
         .filter_map(Result::ok)

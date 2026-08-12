@@ -4,43 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
-  "phase": "reviewed",
-  "generation": 24,
-  "digest": "7a4ccc942b6845de090a220d54e16ce976105d8398980074727edbddb9dc3059",
+  "phase": "implemented",
+  "generation": 28,
+  "digest": "f4e682e1099ea8a885c4bba5356d37298ea8344433a0bebf3381c99e892f822f",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
-  "review_assignment": {
-    "reviewer": "fresh-session:dcd53a3f-2f2e-43ea-a6ca-bd1ef46a4c5c",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:aff77bce21433f2a49c6c624850ede7689903ab5:b9e8f5e13bf820be00665eadfaaa73836434156084f7722d547810d9cdb1b7fa",
-    "scope": [
-      "adl-runtime/src/distributed",
-      "adl-runtime/tests",
-      ".csdlc/issues/258",
-      ".csdlc/prepared/issues/258",
-      ".csdlc/locks/258.lock",
-      ".csdlc/evidence/258"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:dcd53a3f-2f2e-43ea-a6ca-bd1ef46a4c5c",
-    "scope": [
-      "adl-runtime/src/distributed",
-      "adl-runtime/tests",
-      ".csdlc/issues/258",
-      ".csdlc/prepared/issues/258",
-      ".csdlc/locks/258.lock",
-      ".csdlc/evidence/258"
-    ],
-    "reviewed_revision": "git-blake3:aff77bce21433f2a49c6c624850ede7689903ab5:b9e8f5e13bf820be00665eadfaaa73836434156084f7722d547810d9cdb1b7fa",
-    "findings": [],
-    "residual_risks": [
-      "Reviewer did not fetch current GitHub/CI state or mutate remote state; remote PR freshness remains outside this read-only review.",
-      "Reviewer distinguished assignment metadata commit d85f5f4936819e4aa845dadc36e7e75f65dddb38 from assigned substantive revision aff77bce21433f2a49c6c624850ede7689903ab5."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -55,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bd8fd7d0534298fc65b53561be26a1ab2f832e9465b537524912e999496ed87c",
+      "values_digest": "ce664aa66f47bbd7ac5df08e87c7fbdbcbaeb06210df773b179d555c7ec80f23",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "d7c87d64189a01e3750aea7e48f8af351a0f6b27fd7e918494885a0702bac80b",
+      "values_digest": "e29e908cec1fc1bec948603881a5ef6b4a67ba91d44f3d374a5d1127c1ccf328",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "7ba3ffc498379f38d6d52f75efb8af7fa779b74d94e916db887048364c0021cf",
+      "values_digest": "d1c41742d8e759808a89b748ba8481309050b229b93ded9ae009576b9ccf1880",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "c4315337e0bf69ac02decaff8828c42951f4db4c2c10d136cde35bfb30915b30",
+      "values_digest": "d317bd1b4b0b3af1848e5c4d8b99b631ab97996d71f1b6931711754617c39115",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "2568ca9db1d2d22421158acaa90626941e7a0f0d772dbf618e90573919ac1b94",
-      "rendered_digest": "3857f8eef4a5e27e38f6dfc5fcc6e50db3cb2a97d22ba49ed49bb9b96dd3999e",
-      "ast_digest": "59980d5106d43be29d1c32785c27a89943dbf5be36a7b61c091478a98359fb7d"
+      "values_digest": "4805574578f29909e56b56641a62baf633a8c4971a803668d4de1ad45aeb1172",
+      "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
+      "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
     },
     "sor": {
-      "values_digest": "f3eb8cd0e459f68ea04a313de69a9dbbf0b4038083fefcdaf1476b14102606b0",
-      "rendered_digest": "b1c7a8f72469f352ee7fb0f0bab70b74fdb00bfdfc10eb87dd252a9f7075dc37",
-      "ast_digest": "27335672fb3ba47f7c7fb6b72feab75afcc371592de82ccc980c1f06274834f6"
+      "values_digest": "cde89fe06cc8219ed1cddb22f4b9dbc850a63764bc57e953d422e30a0b5087f6",
+      "rendered_digest": "3d29125fa844e25faf3ee44dff284589146f02a28029fbc12ac32e3a5906781e",
+      "ast_digest": "aa2ec592486ad87fa14835d3be471ea911eb77fa4eeca5e9bb2dcb567d158950"
     }
   },
   "transitions": [
@@ -134,6 +104,20 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Post-publication CI proved the external fencing compile-fail test used a nonportable target/debug/deps path; recover to implemented for the bounded target-layout fix, refreshed validation, new fresh review, and republication."
     }
   ],
   "audit": [
@@ -360,6 +344,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 34,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Post-publication CI proved the external fencing compile-fail test used a nonportable target/debug/deps path; recover to implemented for the bounded target-layout fix, refreshed validation, new fresh review, and republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "Record cumulative #258 SOR truth after the post-publication coverage producer exposed a causal nonportable compile-fail fixture target path.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam. The branch merged current origin/main with zero changed-path overlap and retained focused post-merge proof. Subsequent fresh reviews drove two fencing-boundary repairs: raw FencingStore::authorize_active_lease now requires FencingStoreAccess and the adapter passes AUTHORITY_BOUND_FENCING_ACCESS, and the raw fencing test token is no longer publicly exported in ordinary debug builds. Post-publication hosted runtime coverage then exposed a causal test-proof portability bug: the external rustc compile-fail proof assumed adl-runtime/target/debug/deps, which is false under the coverage target layout. The bounded fix derives the dependency directory from the current compiled test executable, preserving the negative raw-access proof across alternate target layouts. PR #290 remains held pending a new fresh-session review and republication.\",\"changes\":[\"Preserved authority store access-token gates for certificate, lease, and fencing raw store APIs.\",\"Preserved the authority-bound store adapter facade and published receipt view metadata for the #258 boundary slice.\",\"Preserved published view classification for certificate_activate, certificate_revoke, lease_apply, lease_mutation, fencing_commit, and fencing_active_lease.\",\"Removed the over-scope authority-bound transport authorization helper and fixture seam from the prior repair while keeping only compile-required certificate access-token reads.\",\"Required FencingStoreAccess on raw FencingStore::authorize_active_lease and passed AUTHORITY_BOUND_FENCING_ACCESS from AuthorityBoundFencingStore.\",\"Changed the raw fencing test fixture token from public debug_assertions export to cfg(test) pub(crate) internal fixture exposure.\",\"Added static guard assertions rejecting public debug_assertions fencing token export and preserving positive adapter-token proof.\",\"Added an external rustc compile-fail proof that a non-test dependent crate cannot import adl_runtime::distributed::fencing::TEST_FENCING_STORE_ACCESS.\",\"Repaired that external compile-fail proof to derive its dependency directory from std::env::current_exe().parent() instead of assuming adl-runtime/target/debug/deps, making it portable across normal, repo-level, and coverage target layouts.\",\"Kept migration, recovery, and snapshot catalog production paths on governed adapter calls and did not reopen transport scope.\",\"Merged current origin/main after recording zero changed-path overlap with #258 and retained the post-merge validation evidence in this SOR.\"],\"artifacts\":[\".csdlc/evidence/258/current-main-ancestry-after-dac45ca.log\",\".csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt\",\".csdlc/evidence/258/main-changed-paths-since-5fd55acd.txt\",\".csdlc/evidence/258/issue-258-changed-paths-since-5fd55acd.txt\",\".csdlc/evidence/258/cargo-check-adl-runtime-post-main-merge.log\",\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-post-main-merge.log\",\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-post-main-merge.log\",\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-post-main-merge.log\",\".csdlc/evidence/258/git-diff-check-post-main-merge.log\",\".csdlc/evidence/258/csdlc-validate-post-main-merge.log\",\".csdlc/evidence/258/cargo-check-adl-runtime-test-token-seal.log\",\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-test-token-seal.log\",\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-test-token-seal.log\",\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-test-token-seal.log\",\".csdlc/evidence/258/rg-fencing-test-token-seal.log\",\".csdlc/evidence/258/git-diff-check-test-token-seal.log\",\".csdlc/evidence/258/csdlc-validate-final-test-token-seal.log\",\".csdlc/evidence/258/ci-artifacts/31596511465/runtime-coverage-artifact-summary.json\",\".csdlc/evidence/258/cargo-test-fencing-external-current-exe-target-layout.log\",\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-target-layout-fix.log\",\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-target-layout-fix.log\",\".csdlc/evidence/258/cargo-check-adl-runtime-target-layout-fix.log\",\".csdlc/evidence/258/git-diff-check-target-layout-fix.log\",\".csdlc/evidence/258/csdlc-validate-target-layout-fix-pre-sor.log\"],\"validation\":[{\"command\":[\"git\",\"merge-base\",\"--is-ancestor\",\"origin/main\",\"HEAD\"],\"purpose\":\"Confirm current origin/main is ancestral to the #258 branch after the explicit current-main merge.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/current-main-ancestry-after-dac45ca.log\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Compile-check the runtime crate at the current-main-merged branch head after the active-lease token repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-check-adl-runtime-post-main-merge.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Exercise focused #258 authority-store boundary guardrails at the current-main-merged branch head, including direct raw active-lease signature denial and positive adapter-token proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-post-main-merge.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"distributed::authority_store_adapters::tests::published_view_exposes_all_store_authority_kinds\",\"--\",\"--nocapture\"],\"purpose\":\"Re-prove the preserved published view accepts and exposes all in-scope published store operation kinds at the current-main-merged branch head.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-post-main-merge.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the focused #258 authority-store boundary test target at the current-main-merged branch head.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-post-main-merge.log\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Compile-check the runtime crate after removing public debug-profile fencing test-token exposure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-check-adl-runtime-test-token-seal.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Exercise focused #258 authority-store guardrails, including external rustc compile-fail proof that non-test dependents cannot import TEST_FENCING_STORE_ACCESS and positive adapter-token proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-test-token-seal.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"distributed::authority_store_adapters::tests::published_view_exposes_all_store_authority_kinds\",\"--\",\"--nocapture\"],\"purpose\":\"Re-prove the preserved published view accepts and exposes all in-scope published store operation kinds after the fencing fixture visibility repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-test-token-seal.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the focused #258 authority-store boundary test target after the fencing fixture visibility repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-test-token-seal.log\"},{\"command\":[\"rg\",\"-n\",\"TEST_FENCING_STORE_ACCESS|TEST_FIXTURE|debug_assertions\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/tests/distributed_identity_lease_authority.rs\"],\"purpose\":\"Show the production fencing source exposes only cfg(test) pub(crate) fixture access and no public debug_assertions test token.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/rg-fencing-test-token-seal.log\"},{\"command\":[\"python3\",\"download-readonly-actions-artifact\"],\"purpose\":\"Diagnose the hosted runtime coverage producer without GitHub mutation; identify the exact failing test and confirm artifact provenance matched PR head 1e69ec6e52d9bcd0201f4efcb603f2ad6b27c4dc.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/ci-artifacts/31596511465/runtime-coverage-artifact-summary.json\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"external_dev_profile_caller_cannot_import_fencing_test_access\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the repaired external compile-fail fixture derives its dependency directory from the current compiled test executable and passes under the local target layout.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-fencing-external-current-exe-target-layout.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Exercise the full focused #258 authority-store boundary test target after the target-layout fix.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-target-layout-fix.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the focused #258 authority-store boundary test target after the target-layout fix.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-target-layout-fix.log\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Compile-check the runtime crate after the target-layout fix.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-check-adl-runtime-target-layout-fix.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors across the target-layout fix.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/git-diff-check-target-layout-fix.log\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate typed #258 lifecycle truth after recovery and before the target-layout SOR update.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/csdlc-validate-target-layout-fix-pre-sor.log\"}]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "Append final typed validation after the target-layout SOR update.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate typed #258 lifecycle truth after the target-layout SOR update.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/csdlc-validate-target-layout-fix-final.log\"}}"
     }
   ]
 }

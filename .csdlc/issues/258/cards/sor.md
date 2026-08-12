@@ -12,11 +12,10 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam. The branch merged current origin/main with zero changed-path overlap and retained focused post-merge proof. Subsequent fresh reviews found and drove two fencing-boundary repairs: raw FencingStore::authorize_active_lease now requires FencingStoreAccess and the adapter passes AUTHORITY_BOUND_FENCING_ACCESS, and the raw fencing test token is no longer publicly exported in ordinary debug builds. Current SOR truth cumulatively retains both the post-origin/main merge validation and the final fencing-token-seal validation; PR #290 remains held pending fresh review and publication gates.
+Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam. The branch merged current origin/main with zero changed-path overlap and retained focused post-merge proof. Subsequent fresh reviews drove two fencing-boundary repairs: raw FencingStore::authorize_active_lease now requires FencingStoreAccess and the adapter passes AUTHORITY_BOUND_FENCING_ACCESS, and the raw fencing test token is no longer publicly exported in ordinary debug builds. Post-publication hosted runtime coverage then exposed a causal test-proof portability bug: the external rustc compile-fail proof assumed adl-runtime/target/debug/deps, which is false under the coverage target layout. The bounded fix derives the dependency directory from the current compiled test executable, preserving the negative raw-access proof across alternate target layouts. PR #290 remains held pending a new fresh-session review and republication.
 
 ## Artifacts
 
-- .csdlc/evidence/258/csdlc-validate-cumulative-sor-ancestry-ref.log
 - .csdlc/evidence/258/current-main-ancestry-after-dac45ca.log
 - .csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt
 - .csdlc/evidence/258/main-changed-paths-since-5fd55acd.txt
@@ -33,8 +32,14 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
 - .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-test-token-seal.log
 - .csdlc/evidence/258/rg-fencing-test-token-seal.log
 - .csdlc/evidence/258/git-diff-check-test-token-seal.log
-- .csdlc/evidence/258/csdlc-validate-test-token-seal.log
 - .csdlc/evidence/258/csdlc-validate-final-test-token-seal.log
+- .csdlc/evidence/258/ci-artifacts/31596511465/runtime-coverage-artifact-summary.json
+- .csdlc/evidence/258/cargo-test-fencing-external-current-exe-target-layout.log
+- .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-target-layout-fix.log
+- .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-target-layout-fix.log
+- .csdlc/evidence/258/cargo-check-adl-runtime-target-layout-fix.log
+- .csdlc/evidence/258/git-diff-check-target-layout-fix.log
+- .csdlc/evidence/258/csdlc-validate-target-layout-fix-pre-sor.log
 
 ## Execution
 
@@ -46,6 +51,7 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
 - Changed the raw fencing test fixture token from public debug_assertions export to cfg(test) pub(crate) internal fixture exposure.
 - Added static guard assertions rejecting public debug_assertions fencing token export and preserving positive adapter-token proof.
 - Added an external rustc compile-fail proof that a non-test dependent crate cannot import adl_runtime::distributed::fencing::TEST_FENCING_STORE_ACCESS.
+- Repaired that external compile-fail proof to derive its dependency directory from std::env::current_exe().parent() instead of assuming adl-runtime/target/debug/deps, making it portable across normal, repo-level, and coverage target layouts.
 - Kept migration, recovery, and snapshot catalog production paths on governed adapter calls and did not reopen transport scope.
 - Merged current origin/main after recording zero changed-path overlap with #258 and retained the post-merge validation evidence in this SOR.
 
@@ -192,13 +198,81 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
   },
   {
     "command": [
+      "python3",
+      "download-readonly-actions-artifact"
+    ],
+    "purpose": "Diagnose the hosted runtime coverage producer without GitHub mutation; identify the exact failing test and confirm artifact provenance matched PR head 1e69ec6e52d9bcd0201f4efcb603f2ad6b27c4dc.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/ci-artifacts/31596511465/runtime-coverage-artifact-summary.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_identity_lease_authority",
+      "external_dev_profile_caller_cannot_import_fencing_test_access",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove the repaired external compile-fail fixture derives its dependency directory from the current compiled test executable and passes under the local target layout.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-fencing-external-current-exe-target-layout.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_identity_lease_authority",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "purpose": "Exercise the full focused #258 authority-store boundary test target after the target-layout fix.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-target-layout-fix.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_identity_lease_authority",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict-lint the focused #258 authority-store boundary test target after the target-layout fix.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-target-layout-fix.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "check",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "purpose": "Compile-check the runtime crate after the target-layout fix.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/cargo-check-adl-runtime-target-layout-fix.log"
+  },
+  {
+    "command": [
       "git",
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and patch hygiene errors across the fencing test-token visibility repair.",
+    "purpose": "Reject whitespace and patch hygiene errors across the target-layout fix.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/git-diff-check-test-token-seal.log"
+    "evidence_ref": ".csdlc/evidence/258/git-diff-check-target-layout-fix.log"
   },
   {
     "command": [
@@ -209,9 +283,22 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--issue",
       "258"
     ],
-    "purpose": "Validate typed #258 lifecycle truth after cumulative SOR ancestry evidence repair.",
+    "purpose": "Validate typed #258 lifecycle truth after recovery and before the target-layout SOR update.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-cumulative-sor-ancestry-ref.log"
+    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-target-layout-fix-pre-sor.log"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
+      "issue",
+      "--issue",
+      "258"
+    ],
+    "purpose": "Validate typed #258 lifecycle truth after the target-layout SOR update.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-target-layout-fix-final.log"
   }
 ]
 
