@@ -1,0 +1,9 @@
+
+running 1 test
+test authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.15s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.41s
+     Running tests/conversation_sessions.rs (adl-runtime-kernel/target/debug/deps/conversation_sessions-5db4831f8ecbb109)
