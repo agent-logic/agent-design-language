@@ -7,37 +7,24 @@
     "title": "Runtime: eliminate hosted Guardian executable spawn flake",
     "slug": "guardian-hosted-spawn-flake",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/guardian.rs test-only serialization correctness\nboth hosted SpawnFailed regressions and missing-program fail-closed semantics\ntyped validation evidence and all issue #252 acceptance criteria",
-      "review_revision": "git-blake3:b1254e21135efd2dc5b3c3b26744548f6253128b:250e95dceea945e17da5091056c02bf39c7c07522850ebe5240bc85bbab6296d",
-      "reviewer": "fresh-agent:issue-252-exact-head",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the correction address the shared deterministic cause rather than mask SpawnFailed?",
         "Can parallel tests still collide on a child executable or path?",
         "Do missing programs retain fail-closed behavior?",
         "Do focused and full Runtime proofs cover both hosted failures?"
       ],
-      "findings": [
-        {
-          "id": "P1-repeated-proof-not-retained",
-          "severity": "p1",
-          "summary": "AC-1 repeated proof was claimed but not retained in exact-head evidence.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": "Retain ten-run eight-thread proof from two caller working directories and rereview."
-        }
-      ],
-      "residual_risk": [
-        "Hosted Linux confirmation remains CI evidence after publication."
-      ],
-      "review_result": "changes_required"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

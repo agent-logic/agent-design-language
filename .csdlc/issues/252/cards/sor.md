@@ -74,7 +74,7 @@ Serialized process-heavy Guardian invocations only in test builds so the directl
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

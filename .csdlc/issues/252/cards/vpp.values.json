@@ -7,7 +7,7 @@
     "title": "Runtime: eliminate hosted Guardian executable spawn flake",
     "slug": "guardian-hosted-spawn-flake",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "ready",
   "content": {
