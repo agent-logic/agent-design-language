@@ -110,6 +110,16 @@ abort("unexpected post-review metadata paths: #{(changed_review_metadata - allow
   after = JSON.parse(File.read(path))
   before.fetch("identity").delete("generation")
   after.fetch("identity").delete("generation")
+  if card == "sor"
+    before_values = before.fetch("content").fetch("values")
+    after_values = after.fetch("content").fetch("values")
+    abort("SOR publication integration transition is invalid") unless
+      before_values.delete("integration_state") == "worktree_only" &&
+      after_values.delete("integration_state") == "pr_open"
+    abort("SOR publication-state transition is invalid") unless
+      before_values.delete("publication_state") == "not_published" &&
+      after_values.delete("publication_state") == "ready"
+  end
   abort("#{card.upcase} changed beyond lifecycle generation metadata") unless before == after
 end
 
