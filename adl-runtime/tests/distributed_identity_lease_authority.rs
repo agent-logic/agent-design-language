@@ -1,5 +1,7 @@
 use std::{
     collections::BTreeMap,
+    fs,
+    process::Command,
     sync::{Arc, Mutex},
 };
 
@@ -180,6 +182,18 @@ fn issue_203_authority_store_boundary_guardrails_are_bound() {
         fencing,
         "pub fn authorize_active_lease(&self, check: ActiveLeaseCheck",
     );
+    assert_not_contains(
+        fencing,
+        "#[cfg(debug_assertions)]\n    #[doc(hidden)]\n    pub const TEST_FIXTURE",
+    );
+    assert_not_contains(
+        fencing,
+        "#[cfg(debug_assertions)]\n#[allow(unused_imports)]\npub use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;",
+    );
+    assert_contains(
+        fencing,
+        "#[cfg(test)]\n#[allow(unused_imports)]\npub(crate) use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;",
+    );
     assert_contains(
         adapters,
         ".authorize_active_lease(&AUTHORITY_BOUND_FENCING_ACCESS, check)",
@@ -191,6 +205,54 @@ fn issue_203_authority_store_boundary_guardrails_are_bound() {
     assert_contains(
         fencing,
         "if check.now_unix_millis >= check.lease.deadline_unix_millis",
+    );
+}
+
+#[test]
+fn external_dev_profile_caller_cannot_import_fencing_test_access() {
+    let fixture = repo_local_root();
+    let manifest_dir = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let deps_dir = manifest_dir.join("target/debug/deps");
+    let adl_runtime_rlib = fs::read_dir(&deps_dir)
+        .expect("read target deps for external compile-fail fixture")
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .find(|path| {
+            path.file_name()
+                .and_then(|name| name.to_str())
+                .is_some_and(|name| name.starts_with("libadl_runtime-") && name.ends_with(".rlib"))
+        })
+        .expect("adl_runtime rlib must exist before external compile-fail fixture runs");
+    let source = fixture.path().join("fencing_token_import_denied.rs");
+    fs::write(
+        &source,
+        "use adl_runtime::distributed::fencing::TEST_FENCING_STORE_ACCESS;\n\
+         pub fn leaked() { let _ = TEST_FENCING_STORE_ACCESS; }\n",
+    )
+    .expect("write external fixture source");
+
+    let output = Command::new("rustc")
+        .arg("--edition=2021")
+        .arg("--crate-type=lib")
+        .arg(&source)
+        .arg("--extern")
+        .arg(format!("adl_runtime={}", adl_runtime_rlib.display()))
+        .arg("-L")
+        .arg(format!("dependency={}", deps_dir.display()))
+        .arg("--out-dir")
+        .arg(fixture.path())
+        .output()
+        .expect("run external rustc compile-fail fixture");
+    assert!(
+        !output.status.success(),
+        "external fixture unexpectedly imported fencing test access token"
+    );
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("no `TEST_FENCING_STORE_ACCESS`")
+            || stderr.contains("not found in `adl_runtime::distributed::fencing`")
+            || stderr.contains("private"),
+        "unexpected compile failure for fencing token import: {stderr}"
     );
 }
 

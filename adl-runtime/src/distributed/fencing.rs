@@ -30,17 +30,17 @@ mod raw_access {
 
     pub(crate) const AUTHORITY_BOUND: FencingStoreAccess = FencingStoreAccess { _private: () };
 
-    #[cfg(debug_assertions)]
+    #[cfg(test)]
     #[doc(hidden)]
-    pub const TEST_FIXTURE: FencingStoreAccess = FencingStoreAccess { _private: () };
+    pub(crate) const TEST_FIXTURE: FencingStoreAccess = FencingStoreAccess { _private: () };
 }
 
 pub use raw_access::FencingStoreAccess;
 #[allow(unused_imports)]
 pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_FENCING_ACCESS;
-#[cfg(debug_assertions)]
+#[cfg(test)]
 #[allow(unused_imports)]
-pub use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;
+pub(crate) use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum FencingError {

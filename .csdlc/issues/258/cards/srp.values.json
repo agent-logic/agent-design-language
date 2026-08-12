@@ -7,13 +7,13 @@
     "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
     "slug": "issue-203-authority-store-boundary-slice1",
     "version": "v0.92",
-    "generation": 16
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed\nadl-runtime/tests\n.csdlc/issues/258\n.csdlc/prepared/issues/258\n.csdlc/locks/258.lock\n.csdlc/evidence/258",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

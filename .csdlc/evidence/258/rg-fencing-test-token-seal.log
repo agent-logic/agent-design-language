@@ -1,0 +1,8 @@
+/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime/tests/distributed_identity_lease_authority.rs:187:        "#[cfg(debug_assertions)]\n    #[doc(hidden)]\n    pub const TEST_FIXTURE",
+/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime/tests/distributed_identity_lease_authority.rs:191:        "#[cfg(debug_assertions)]\n#[allow(unused_imports)]\npub use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;",
+/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime/tests/distributed_identity_lease_authority.rs:195:        "#[cfg(test)]\n#[allow(unused_imports)]\npub(crate) use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;",
+/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime/tests/distributed_identity_lease_authority.rs:229:        "use adl_runtime::distributed::fencing::TEST_FENCING_STORE_ACCESS;\n\
+/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime/tests/distributed_identity_lease_authority.rs:230:         pub fn leaked() { let _ = TEST_FENCING_STORE_ACCESS; }\n",
+/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime/tests/distributed_identity_lease_authority.rs:252:        stderr.contains("no `TEST_FENCING_STORE_ACCESS`")
+/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime/src/distributed/fencing.rs:35:    pub(crate) const TEST_FIXTURE: FencingStoreAccess = FencingStoreAccess { _private: () };
+/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime/src/distributed/fencing.rs:43:pub(crate) use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;
