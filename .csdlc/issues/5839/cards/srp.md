@@ -35,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- #5836 remains blocked_with_evidence and is not consumed as terminal birthday-demo evidence.
+- The v0.93 issue wave remains candidate; #5839 names the accepted v0.93 planning package as consumer, not an opened implementation owner.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1f8d0b21a36496af5c1c7c211e8daab4554e71b7:fb33fd05b51a0b1e360796f3de3491b65a5e486caa2e9cac57caa1e51ec2b76b")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_5839_final_clean")
 
-Result: pre_review
+Result: pass

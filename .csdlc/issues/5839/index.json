@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "10b57804d863de9ac5cda1e29dd5aeee90e4b00bd8f1569549bc8a878b5c5d6c",
-  "phase": "implemented",
-  "generation": 35,
-  "digest": "5101380f1529f0b041d0710b4e04b8dae6b5badd95bea52904a4ae4d74d4e600",
+  "phase": "reviewed",
+  "generation": 36,
+  "digest": "64e674841dccad275fbb0d05c86938a78011696f4d5c0d4a45b4babc71db4399",
   "branch": "codex/5839-birthday-governance-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5839-birthday-governance-handoff",
   "review_assignment": {
@@ -21,7 +21,24 @@
       ".csdlc/issues/5839"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_5839_final_clean",
+    "scope": [
+      "docs/milestones/v0.92/review/V092_TO_V093_GOVERNANCE_EVIDENCE_MAP.md",
+      "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
+      "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+      ".csdlc/evidence/5839",
+      ".csdlc/issues/5839"
+    ],
+    "reviewed_revision": "git-blake3:1f8d0b21a36496af5c1c7c211e8daab4554e71b7:fb33fd05b51a0b1e360796f3de3491b65a5e486caa2e9cac57caa1e51ec2b76b",
+    "findings": [],
+    "residual_risks": [
+      "#5836 remains blocked_with_evidence and is not consumed as terminal birthday-demo evidence.",
+      "The v0.93 issue wave remains candidate; #5839 names the accepted v0.93 planning package as consumer, not an opened implementation owner."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "61c78e2a0fb92cc33bc5c2306e92e16b798c21408fb6e7b9c427422469a7806b",
+      "values_digest": "f104a99a4b6c057a9ed4b814179cb6f59862093ae38e792c0fed6bce9bfc82b3",
       "rendered_digest": "298487afa295477c0400521f553f7ed31573b0671f95ffbfd0bfd1054098c8d1",
       "ast_digest": "87836c3014dc412fa3f1b71b80b8800c45763b3f2f49f97987512b36c8ddaa90"
     },
     "stp": {
-      "values_digest": "9cde2d3330a191db39ec1f39cdbc17919604480b3a017cfc5878739abb2eb8a0",
+      "values_digest": "7577d83f7b03ef4b1500354ff7dd589e930c0fb7655686d6f13ed7c1cfaf2874",
       "rendered_digest": "cd634b96271dcdcba08d3b0b35891255c1186495471317fa18832624054e68fc",
       "ast_digest": "06699cd33d7bc7c3e119cad4a2695129887e8221619efbb808cb4c2168b9980f"
     },
     "spp": {
-      "values_digest": "06c298f3feee5598d3d861edd0402f83cd917b31aca7d574fae0fcebcfe14796",
+      "values_digest": "75ac0fb8966f2191a922ea9f7c69d89725124ef58df202fa38f7b9a1f5b8586b",
       "rendered_digest": "ab0f7ce5caf89a97d8678356663e2042777ffe655970c77b57a5b15f89c1378f",
       "ast_digest": "8338e68478d4a5996f610569f6b5f60bf6265c09b3df939acf9a9f96fa536538"
     },
     "vpp": {
-      "values_digest": "8e2583a71e6012403a2f1bd06a2e486a093197c8d218c9d570519a7b5422cd84",
+      "values_digest": "56e7b7af03e1706546d4a3deb072dfc90b408bb833c806f2cc1ae679369b600d",
       "rendered_digest": "e80b4c3ff60b1fdbc5ac6f5dc4b5c52037ef6bec365d05f25902ec3a1bc8d49b",
       "ast_digest": "85160aa1e168e75333635d2d9ef8511f8051725fe928b0c4ea7b043589e5d9ef"
     },
     "srp": {
-      "values_digest": "5ef5510a243a331a9149736a1d5aa42e1372373281772cc96d8e7ee461264ab0",
-      "rendered_digest": "ff508274badbe16f424ab7a59603e31eee1c7f48893daff3dc4a33e755c224a1",
-      "ast_digest": "8d07902b754240be7e5827fcb1f892118b6a2a637f89db980bb34a72ec689619"
+      "values_digest": "7428a7eed2517708e94ed40d04b6b040db2b6d6ed061735d02c04f46eca943f9",
+      "rendered_digest": "ed537f3b2257d99beafd6d0039ea81ec16a141e1eb30803c964d87109fbae612",
+      "ast_digest": "dbece931a32e13790158b5b430ac03c0fe3ab1b6d28d4e262f65b9474e2bc505"
     },
     "sor": {
-      "values_digest": "d77a9db3853d9386f44dd2a25d6f5505c6b85ca28ee2bbbc3920bb15a9dd508d",
+      "values_digest": "ed3e2ffefc69e944a00ed6d1cad73756d5161e932d9a8e8abb41c9955a226ebe",
       "rendered_digest": "f34086ef40dec0d0c6cd069c82e56c1f83b16976e82a277d9e062e3615b49986",
       "ast_digest": "df58dda360637a42f128ba3deefb0a8667b7d7aed63dab71a1cc95d77b415657"
     }
@@ -108,6 +125,13 @@
       "to": "implemented",
       "actor": "codex:sprint5-5839-governance-handoff",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_5839_final_clean",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -474,6 +498,13 @@
       "actor": "codex:sprint5-5839-governance-handoff",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 36,
+      "actor": "subagent:/root/review_5839_final_clean",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
