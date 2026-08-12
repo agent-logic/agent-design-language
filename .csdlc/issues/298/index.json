@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 19,
-  "digest": "73b0a5093136b7c187c954b1117c706868e884714334b32d6e00141d5183710e",
+  "digest": "2c1e5b847c94d760e9b74d762800f8aaf15b4a2192baf31103e58d838fedf9fc",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:41f1e913-2ea0-496d-a18c-57b28d8a2bc7",
+    "assigned_by": "codex:issue-298",
+    "revision": "git-blake3:8ed4aa9648da820fba9de592fc52199f00220c7b:e486c097cbbab927397decf2264ca9f71c15e5f4c2222bdb7ebf122eec0a641e",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "9b497af76350226c61a39aa1f286c00e828fe2a359ad878dca658a686d735e15",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "980b83fbf32113e9a2697908f434dcb60b2d0009d5be6c52da63e8a9865c6c41",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "1721c00db83eb3a866494519ed9f9237e201fa5a723e1e8017c5d0918e1ab9c9",
@@ -252,6 +267,13 @@
       "actor": "codex:issue-298",
       "reason": "record bounded anchored projection classification and resumable recovery implementation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Add explicit ancestor-name replacement regression proof at the retained anchor boundary\",\"changes\":[\"Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299\",\"Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation\",\"Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart\",\"Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery\",\"Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery\",\"Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions\",\"Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed\",\"Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection\",\"Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange\",\"Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt\",\"Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart\",\"Inventoried recovery attempts and classified matching completed recovery as already_recovered\",\"Added distinct terminal receipt tamper and already-recovered classification proof\",\"Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader\",\"Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames\",\"Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof\",\"Persisted and recomputed the full PREPARED typed request authority\",\"Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations\",\"Revalidated exact retained-parent child identity immediately before dirfd rename/exchange\",\"Proved two successive ordinary commits after recovery\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
