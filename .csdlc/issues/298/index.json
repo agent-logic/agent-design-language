@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 29,
-  "digest": "c919d62c354bd8972e73afd49073e2eafe3f39d218c0f3b89c3f47990b843d70",
+  "digest": "ab3c27e3bf8921b11df7d30795e2b0a6b39c332b3fc5c1952aa67f4ee6ca6885",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:6a0fcd27-12da-405b-a90a-5a58594c6e1a",
+    "assigned_by": "codex:issue-298",
+    "revision": "git-blake3:0f067bdc420b0f838e8ae86fb27291c3771eaea4:407599e7662811f44ad48e9ca28be8058054030a61159f1c2dca28013c835f8e",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "1a9570991eedb21ed3b2ab31e8572a47a3f4398e3b53420080217a7742054477",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "641f200b657e0e92dab41644781c4e7b2ae6eadd7c2a287bc8a2e93545c1c159",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "1766366590bc26612403a375c3aee5a5debcc7890e638cf659b3f04e8828c332",
@@ -357,6 +372,13 @@
       "actor": "codex:issue-298",
       "reason": "Recover failed exact review r8: completed recovery validates candidate-created only for internal self-consistency and does not derive and compare the exact candidate record from the PREPARED prior projection plus the authorized recovery audit transformation; a coherently rewritten candidate, downstream receipts, terminal result, canonical projection, and canonical audit can still reopen ordinary commits.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 29,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
