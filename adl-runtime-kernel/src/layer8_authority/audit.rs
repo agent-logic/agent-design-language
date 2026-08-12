@@ -121,7 +121,7 @@ impl Layer8AuthorityStore {
         })
     }
 
-    pub fn authorize(
+    pub(super) fn authorize(
         &self,
         request: AuthorityRequest,
         capability: &Layer8Capability,
@@ -260,7 +260,7 @@ fn validate(
     None
 }
 
-fn scope_matches(
+pub(super) fn scope_matches(
     request: &AuthorityRequest,
     principal: &Layer8Principal,
     scope: &AuthorityScope,

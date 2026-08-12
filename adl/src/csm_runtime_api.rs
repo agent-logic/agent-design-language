@@ -88,6 +88,7 @@ pub fn authorize_layer8_runtime_delivery<T>(
     request: Layer8RuntimeDeliveryRequest,
     deliver: impl FnOnce() -> Layer8RuntimeDelivery<T>,
 ) -> Result<T, PublicRefusal> {
+    let bounded_correlation = bounded_layer8_correlation(&request.correlation_id);
     verify_signed_identity_message(
         &request.signed_request,
         &request.sender_identity,
@@ -98,15 +99,18 @@ pub fn authorize_layer8_runtime_delivery<T>(
         authorized: false,
         reason,
         retryable: false,
-        correlation_id: request.correlation_id.clone(),
+        correlation_id: bounded_correlation.clone(),
     })?;
     let signed_payload: Value = serde_json::from_str(&request.signed_request.payload_json)
         .map_err(|_| PublicRefusal {
             authorized: false,
             reason: adl_runtime::layer8_authority::RefusalReason::InvalidRequest,
             retryable: false,
-            correlation_id: request.correlation_id.clone(),
+            correlation_id: bounded_correlation.clone(),
         })?;
+    let configured_recipient_key = signed_payload
+        .get("recipient_signing_key_id")
+        .and_then(Value::as_str);
     if request.signed_request.message_kind
         != adl_runtime::layer8_authority::IdentityMessageKind::Request
         || request.signed_request.conversation_id != request.conversation_id
@@ -115,13 +119,14 @@ pub fn authorize_layer8_runtime_delivery<T>(
         || request.signed_request.correlation_id != request.correlation_id
         || request.recipient_identity.principal_id != request.recipient_id
         || request.recipient_identity.polis_id != request.signed_request.polis_id
+        || configured_recipient_key != Some(request.recipient_identity.signing_key_id.as_str())
         || signed_payload.get("action") != serde_json::to_value(&request.action).ok().as_ref()
     {
         return Err(PublicRefusal {
             authorized: false,
             reason: adl_runtime::layer8_authority::RefusalReason::InvalidRequest,
             retryable: false,
-            correlation_id: request.correlation_id,
+            correlation_id: bounded_correlation,
         });
     }
     request
@@ -131,7 +136,7 @@ pub fn authorize_layer8_runtime_delivery<T>(
             authorized: false,
             reason,
             retryable: false,
-            correlation_id: request.correlation_id.clone(),
+            correlation_id: bounded_correlation.clone(),
         })?;
     match authority.authorize(
         &request.sender_identity,
@@ -154,11 +159,20 @@ pub fn authorize_layer8_runtime_delivery<T>(
                 authorized: false,
                 reason,
                 retryable: false,
-                correlation_id: request.correlation_id.clone(),
+                correlation_id: bounded_correlation.clone(),
             })?;
             Ok(delivered.value)
         }
         AuthorityDecision::Refused(refusal) => Err(refusal),
+    }
+}
+
+fn bounded_layer8_correlation(value: &str) -> String {
+    let trimmed = value.trim();
+    if trimmed.is_empty() {
+        "unavailable".to_owned()
+    } else {
+        trimmed.chars().take(96).collect()
     }
 }
 

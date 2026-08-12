@@ -9,6 +9,7 @@ mod audit;
 mod exchange;
 mod identity;
 
+use audit::scope_matches;
 pub use audit::Layer8AuthorityStore;
 pub use exchange::{
     sign_recipient_acknowledgement, verify_recipient_acknowledgement,
@@ -166,6 +167,30 @@ impl Layer8ConversationAuthority {
         correlation_id: String,
         now_epoch_secs: u64,
     ) -> AuthorityDecision {
+        self.authorize_scoped(
+            authenticated_sender,
+            action,
+            Some(conversation_id),
+            BTreeSet::from([recipient_id]),
+            None,
+            replay_id,
+            correlation_id,
+            now_epoch_secs,
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub fn authorize_scoped(
+        &self,
+        authenticated_sender: &CommunicationVerifyingIdentity,
+        action: Layer8Action,
+        conversation_id: Option<String>,
+        recipients: BTreeSet<String>,
+        attachment_id: Option<String>,
+        replay_id: String,
+        correlation_id: String,
+        now_epoch_secs: u64,
+    ) -> AuthorityDecision {
         if authenticated_sender.principal_id != self.profile.evidence.principal_id
             || authenticated_sender.polis_id != self.profile.evidence.polis_id
             || authenticated_sender.signing_key_id != self.profile.evidence.signing_key_id
@@ -181,46 +206,61 @@ impl Layer8ConversationAuthority {
                 correlation_id,
             });
         }
-        let recipients = BTreeSet::from([recipient_id]);
         let request = AuthorityRequest {
             evidence: self.profile.evidence.clone(),
             action: action.clone(),
-            conversation_id: Some(conversation_id.clone()),
+            conversation_id,
             recipients: recipients.clone(),
-            attachment_id: None,
+            attachment_id,
             replay_id,
             correlation_id: correlation_id.clone(),
             now_epoch_secs,
         };
-        let matches = |scope: &AuthorityScope| {
-            scope.polis_id == self.profile.evidence.polis_id
-                && scope.action == action
-                && scope
-                    .conversation_id
-                    .as_ref()
-                    .is_none_or(|allowed| allowed == &conversation_id)
-                && recipients.is_subset(&scope.recipients)
-                && scope.attachment_id.is_none()
+        let principal = match request.evidence.derive_principal(now_epoch_secs) {
+            Ok(principal) => principal,
+            Err(_) => {
+                return self.store.authorize(
+                    request,
+                    &self.profile.capabilities[0],
+                    &self.profile.agent_policies[0],
+                    &self.profile.polis_policies[0],
+                );
+            }
         };
-        let capability = self
-            .profile
-            .capabilities
-            .iter()
-            .find(|item| matches(&item.scope))
-            .unwrap_or(&self.profile.capabilities[0]);
-        let agent_policy = self
-            .profile
-            .agent_policies
-            .iter()
-            .find(|item| matches(&item.scope))
-            .unwrap_or(&self.profile.agent_policies[0]);
-        let polis_policy = self
-            .profile
-            .polis_policies
-            .iter()
-            .find(|item| matches(&item.scope))
-            .unwrap_or(&self.profile.polis_policies[0]);
+        let candidate = self.profile.capabilities.iter().find_map(|capability| {
+            self.profile.agent_policies.iter().find_map(|agent_policy| {
+                self.profile.polis_policies.iter().find_map(|polis_policy| {
+                    candidate_matches(&request, &principal, capability, agent_policy, polis_policy)
+                        .then_some((capability, agent_policy, polis_policy))
+                })
+            })
+        });
+        let (capability, agent_policy, polis_policy) = candidate.unwrap_or((
+            &self.profile.capabilities[0],
+            &self.profile.agent_policies[0],
+            &self.profile.polis_policies[0],
+        ));
         self.store
             .authorize(request, capability, agent_policy, polis_policy)
     }
+}
+
+fn candidate_matches(
+    request: &AuthorityRequest,
+    principal: &Layer8Principal,
+    capability: &Layer8Capability,
+    agent_policy: &Layer8Policy,
+    polis_policy: &Layer8Policy,
+) -> bool {
+    !capability.revoked
+        && request.now_epoch_secs < capability.expires_at_epoch_secs
+        && capability.epoch != 0
+        && capability.epoch == agent_policy.epoch
+        && capability.epoch == polis_policy.epoch
+        && agent_policy.available
+        && polis_policy.available
+        && capability.principal_id == principal.principal_id
+        && scope_matches(request, principal, &capability.scope)
+        && scope_matches(request, principal, &agent_policy.scope)
+        && scope_matches(request, principal, &polis_policy.scope)
 }

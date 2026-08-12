@@ -136,13 +136,18 @@ fn request(
     recipient_id: &str,
     replay_id: &str,
 ) -> Layer8RuntimeDeliveryRequest {
+    let recipient_identity = exchange.recipient_verifying_identity(recipient_id).unwrap();
+    let payload_json = format!(
+        "{{\"action\":\"contact\",\"message\":\"hello\",\"recipient_signing_key_id\":\"{}\"}}",
+        recipient_identity.signing_key_id
+    );
     let signed_request = exchange
         .signed_request(
             recipient_id,
             "conversation-1",
             "correlation-1",
             replay_id,
-            "{\"action\":\"contact\",\"message\":\"hello\"}".to_owned(),
+            payload_json,
             1_700_000_000,
         )
         .unwrap();
@@ -155,7 +160,7 @@ fn request(
         now_epoch_secs: 1_700_000_000,
         signed_request,
         sender_identity: exchange.sender_verifying_identity(),
-        recipient_identity: exchange.recipient_verifying_identity(recipient_id).unwrap(),
+        recipient_identity,
     }
 }
 
@@ -240,6 +245,41 @@ fn runtime_api_refuses_revoked_recipient_identity_before_delivery() {
 }
 
 #[test]
+fn runtime_api_refuses_recipient_identity_not_bound_to_signed_key_id() {
+    let root = TestRoot::new();
+    let authority = authority(root.path());
+    let (exchange, recipient_signing) = exchange(root.path());
+    let deliveries = AtomicUsize::new(0);
+
+    let mut delivery_request = request(&exchange, "shepherd", "request-wrong-recipient-key");
+    let signed_request = delivery_request.signed_request.clone();
+    delivery_request.recipient_identity.signing_key_id = "unconfigured-recipient-key".to_owned();
+
+    let refusal = authorize_layer8_runtime_delivery(
+        &authority,
+        delivery_request,
+        || -> Layer8RuntimeDelivery<()> {
+            deliveries.fetch_add(1, Ordering::SeqCst);
+            Layer8RuntimeDelivery {
+                value: (),
+                acknowledgement: sign_recipient_acknowledgement(
+                    &signed_request,
+                    &recipient_signing,
+                    "{\"status\":\"delivered\"}".to_owned(),
+                    1_700_000_000,
+                )
+                .unwrap(),
+                recipient_identity: exchange.recipient_verifying_identity("shepherd").unwrap(),
+            }
+        },
+    )
+    .unwrap_err();
+
+    assert_eq!(refusal.reason, RefusalReason::InvalidRequest);
+    assert_eq!(deliveries.load(Ordering::SeqCst), 0);
+}
+
+#[test]
 fn runtime_api_refuses_delivery_without_exact_recipient_acknowledgement() {
     let root = TestRoot::new();
     let authority = authority(root.path());
@@ -287,4 +327,23 @@ fn runtime_api_refuses_outer_fields_not_bound_to_signed_request() {
     .unwrap_err();
 
     assert_eq!(refusal.reason, RefusalReason::InvalidRequest);
+}
+
+#[test]
+fn runtime_api_bounds_correlation_on_boundary_refusals() {
+    let root = TestRoot::new();
+    let authority = authority(root.path());
+    let (exchange, _) = exchange(root.path());
+    let mut delivery_request = request(&exchange, "shepherd", "request-long-correlation");
+    delivery_request.correlation_id = "x".repeat(200);
+
+    let refusal = authorize_layer8_runtime_delivery(
+        &authority,
+        delivery_request,
+        || -> Layer8RuntimeDelivery<()> { unreachable!("invalid request must not deliver") },
+    )
+    .unwrap_err();
+
+    assert_eq!(refusal.reason, RefusalReason::InvalidRequest);
+    assert_eq!(refusal.correlation_id.len(), 96);
 }

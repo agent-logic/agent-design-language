@@ -91,6 +91,43 @@ fn store(temp: &TempDir) -> Layer8AuthorityStore {
     Layer8AuthorityStore::open(temp.path().join("audit.jsonl")).unwrap()
 }
 
+fn sender_identity() -> CommunicationVerifyingIdentity {
+    identity(
+        "human-1",
+        "human-1-key",
+        &SigningKey::from_bytes(&[98_u8; 32]),
+    )
+}
+
+fn decide(
+    store: Layer8AuthorityStore,
+    request: AuthorityRequest,
+    capability: Layer8Capability,
+    agent_policy: Layer8Policy,
+    polis_policy: Layer8Policy,
+) -> AuthorityDecision {
+    let authority = Layer8ConversationAuthority::new(
+        store,
+        ConversationAuthorityProfile {
+            evidence: request.evidence.clone(),
+            capabilities: vec![capability],
+            agent_policies: vec![agent_policy],
+            polis_policies: vec![polis_policy],
+        },
+    )
+    .unwrap();
+    authority.authorize_scoped(
+        &sender_identity(),
+        request.action.clone(),
+        request.conversation_id.clone(),
+        request.recipients.clone(),
+        request.attachment_id.clone(),
+        request.replay_id.clone(),
+        request.correlation_id.clone(),
+        request.now_epoch_secs,
+    )
+}
+
 fn signed_message(
     sender: &str,
     recipient: &str,
@@ -258,7 +295,7 @@ fn authorizes_each_action_only_with_its_exact_capability_and_policy_intersection
         let (mut request, capability, agent, polis) = fixture(action.clone());
         request.replay_id = format!("replay-{index}");
         let AuthorityDecision::Authorized(grant) =
-            store(&temp).authorize(request, &capability, &agent, &polis)
+            decide(store(&temp), request, capability, agent, polis)
         else {
             panic!("{action:?} was refused")
         };
@@ -288,11 +325,16 @@ fn rejects_recipient_substitution_widening_action_conversation_and_cross_polis()
         request.replay_id = format!("negative-{index}");
         mutate(&mut request);
         let AuthorityDecision::Refused(refusal) =
-            store(&temp).authorize(request, &capability, &agent, &polis)
+            decide(store(&temp), request, capability, agent, polis)
         else {
             panic!("scope widening authorized")
         };
-        assert_eq!(refusal.reason, RefusalReason::ScopeDenied);
+        let expected = if index == 4 {
+            RefusalReason::IdentityUnavailable
+        } else {
+            RefusalReason::ScopeDenied
+        };
+        assert_eq!(refusal.reason, expected);
     }
 }
 
@@ -314,7 +356,7 @@ fn identity_capability_policy_epoch_and_replay_fail_closed() {
         request.replay_id = format!("closed-{index}");
         mutate(&mut request, &mut capability, &mut agent);
         assert!(matches!(
-            store(&temp).authorize(request, &capability, &agent, &polis),
+            decide(store(&temp), request, capability, agent, polis),
             AuthorityDecision::Refused(_)
         ));
     }
@@ -322,11 +364,17 @@ fn identity_capability_policy_epoch_and_replay_fail_closed() {
     let authority = store(&temp);
     let (request, capability, agent, polis) = fixture(Layer8Action::Continue);
     assert!(matches!(
-        authority.authorize(request.clone(), &capability, &agent, &polis),
+        decide(
+            authority,
+            request.clone(),
+            capability.clone(),
+            agent.clone(),
+            polis.clone()
+        ),
         AuthorityDecision::Authorized(_)
     ));
     let AuthorityDecision::Refused(refusal) =
-        authority.authorize(request, &capability, &agent, &polis)
+        decide(store(&temp), request, capability, agent, polis)
     else {
         panic!("replay authorized")
     };
@@ -340,7 +388,7 @@ fn refusal_is_bounded_and_contains_no_private_inputs() {
     request.evidence.authenticated = false;
     request.evidence.principal_id = "private-principal".into();
     let AuthorityDecision::Refused(refusal) =
-        store(&temp).authorize(request, &capability, &agent, &polis)
+        decide(store(&temp), request, capability, agent, polis)
     else {
         panic!("authorized")
     };
@@ -363,28 +411,33 @@ fn restart_verifies_chain_and_restores_replay_defense() {
     let path = temp.path().join("audit.jsonl");
     let (request, capability, agent, polis) = fixture(Layer8Action::Continue);
     assert!(matches!(
-        Layer8AuthorityStore::open(&path).unwrap().authorize(
+        decide(
+            Layer8AuthorityStore::open(&path).unwrap(),
             request.clone(),
-            &capability,
-            &agent,
-            &polis
+            capability.clone(),
+            agent.clone(),
+            polis.clone()
         ),
         AuthorityDecision::Authorized(_)
     ));
     let restarted = Layer8AuthorityStore::open(&path).unwrap();
-    let AuthorityDecision::Refused(refusal) =
-        restarted.authorize(request, &capability, &agent, &polis)
+    let AuthorityDecision::Refused(refusal) = decide(restarted, request, capability, agent, polis)
     else {
         panic!("restart forgot replay")
     };
     assert_eq!(refusal.reason, RefusalReason::ReplayRefused);
-    drop(restarted);
     let reopened_after_refusal = Layer8AuthorityStore::open(&path).unwrap();
     let (mut next_request, next_capability, next_agent, next_polis) =
         fixture(Layer8Action::Continue);
     next_request.replay_id = "replay-after-refusal".into();
     assert!(matches!(
-        reopened_after_refusal.authorize(next_request, &next_capability, &next_agent, &next_polis),
+        decide(
+            reopened_after_refusal,
+            next_request,
+            next_capability,
+            next_agent,
+            next_polis
+        ),
         AuthorityDecision::Authorized(_)
     ));
     let contents = std::fs::read_to_string(path).unwrap();
@@ -400,7 +453,7 @@ fn corrupt_and_truncated_audit_refuse_restart() {
     let (request, capability, agent, polis) = fixture(Layer8Action::Continue);
     let authority = Layer8AuthorityStore::open(&path).unwrap();
     assert!(matches!(
-        authority.authorize(request, &capability, &agent, &polis),
+        decide(authority, request, capability, agent, polis),
         AuthorityDecision::Authorized(_)
     ));
     let mut contents = std::fs::read_to_string(&path).unwrap();
@@ -442,7 +495,7 @@ fn concurrent_store_handles_serialize_against_the_current_audit_head() {
         let polis = polis.clone();
         std::thread::spawn(move || {
             barrier.wait();
-            store.authorize(request, &capability, &agent, &polis)
+            decide(store, request, capability, agent, polis)
         })
     };
     let first = run(first);
@@ -507,19 +560,22 @@ fn conversation_authority_refuses_same_identity_signed_by_an_untrusted_key() {
 #[test]
 fn retryable_policy_refusal_does_not_consume_replay_identity() {
     let temp = TempDir::new().unwrap();
-    let authority = store(&temp);
     let (request, capability, mut agent, polis) = fixture(Layer8Action::Continue);
     agent.available = false;
-    let AuthorityDecision::Refused(refusal) =
-        authority.authorize(request.clone(), &capability, &agent, &polis)
-    else {
+    let AuthorityDecision::Refused(refusal) = decide(
+        store(&temp),
+        request.clone(),
+        capability.clone(),
+        agent.clone(),
+        polis.clone(),
+    ) else {
         panic!("unavailable policy authorized")
     };
     assert_eq!(refusal.reason, RefusalReason::PolicyUnavailable);
     assert!(refusal.retryable);
     agent.available = true;
     assert!(matches!(
-        authority.authorize(request, &capability, &agent, &polis),
+        decide(store(&temp), request, capability, agent, polis),
         AuthorityDecision::Authorized(_)
     ));
 }

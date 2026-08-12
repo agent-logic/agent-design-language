@@ -1,11 +1,13 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
 ────────────
- Nextest run ID f99b15c9-75b1-46e4-a507-90f88398d319 with nextest profile: default
-    Starting 5 tests across 1 binary
-        PASS [   0.011s] (1/5) adl::layer8_authority_runtime_api runtime_api_refuses_revoked_recipient_identity_before_delivery
-        PASS [   0.016s] (2/5) adl::layer8_authority_runtime_api runtime_api_refuses_outer_fields_not_bound_to_signed_request
-        PASS [   0.016s] (3/5) adl::layer8_authority_runtime_api runtime_api_refuses_delivery_without_exact_recipient_acknowledgement
-        PASS [   0.020s] (4/5) adl::layer8_authority_runtime_api runtime_api_refusal_cannot_invoke_delivery
-        PASS [   0.025s] (5/5) adl::layer8_authority_runtime_api runtime_api_delivers_only_after_authority_grants
+ Nextest run ID 2616cc81-bfba-4aea-b379-a5aa2c24a9b3 with nextest profile: default
+    Starting 7 tests across 1 binary
+        PASS [   0.011s] (1/7) adl::layer8_authority_runtime_api runtime_api_refuses_outer_fields_not_bound_to_signed_request
+        PASS [   0.012s] (2/7) adl::layer8_authority_runtime_api runtime_api_refuses_revoked_recipient_identity_before_delivery
+        PASS [   0.012s] (3/7) adl::layer8_authority_runtime_api runtime_api_bounds_correlation_on_boundary_refusals
+        PASS [   0.016s] (4/7) adl::layer8_authority_runtime_api runtime_api_refuses_recipient_identity_not_bound_to_signed_key_id
+        PASS [   0.016s] (5/7) adl::layer8_authority_runtime_api runtime_api_refusal_cannot_invoke_delivery
+        PASS [   0.021s] (6/7) adl::layer8_authority_runtime_api runtime_api_refuses_delivery_without_exact_recipient_acknowledgement
+        PASS [   0.026s] (7/7) adl::layer8_authority_runtime_api runtime_api_delivers_only_after_authority_grants
 ────────────
-     Summary [   0.026s] 5 tests run: 5 passed, 0 skipped
+     Summary [   0.026s] 7 tests run: 7 passed, 0 skipped

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; pre-dispatch recipient identity validity; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; exact-current issue 244 integration; and decomposed authority internals into audit, exchange, and identity modules without changing the public authority contract.
+Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity and verification key, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; pre-dispatch recipient identity validity; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; exact-current issue 244 integration; decomposed authority internals into audit, exchange, and identity modules; and remediated external review findings by closing the raw public authorization surface, adding scoped authorization for multi-recipient and attachment actions, binding recipient acknowledgement identity to the signed configured key id, and bounding Runtime API refusal correlation output.
 
 ## Artifacts
 
@@ -43,6 +43,11 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
 - Keep retryable policy refusals from consuming replay identities and preflight conversation capacity before durable authorization.
 - Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation.
 - Split Layer 8 authority internals into policy facade, audit store, signed exchange, and identity modules to reduce the central runtime file while preserving behavior.
+- Make the raw audit-store authorization method module-internal so public callers must use the identity-bound Layer8ConversationAuthority surface.
+- Add Layer8ConversationAuthority::authorize_scoped so Attach and AddressRecipients carry exact recipient and attachment scope instead of being collapsed to single-recipient delivery.
+- Select capability, agent policy, and Polis policy candidates through the same scope predicate used by the audit validator before falling back to refusal recording.
+- Require the Runtime API recipient identity signing_key_id to match the configured recipient_signing_key_id carried in the signed request payload.
+- Bound correlation ids on Runtime API boundary refusals before returning public refusal projections.
 
 ## Validation
 
@@ -59,7 +64,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "--",
       "--exact"
     ],
-    "purpose": "Run the exact-current production conversation boundary after issue 244's test-module migration, including revoked recipient identity preflight before canonical ingress dispatch.",
+    "purpose": "Run the exact-current production conversation boundary after issue 244's test-module migration and review remediation.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-production-conversation-boundary.log (1 passed)"
   },
@@ -77,7 +82,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "--status-level",
       "all"
     ],
-    "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, and refusal proof after module decomposition.",
+    "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, scoped action, and refusal proof after module decomposition and review remediation.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-authority-contract.log (12 passed)"
   },
@@ -95,9 +100,9 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "--status-level",
       "all"
     ],
-    "purpose": "Run the Runtime API signed request, recipient identity preflight, and exact acknowledgement integration proof after module decomposition.",
+    "purpose": "Run the Runtime API signed request, recipient identity preflight, configured recipient key id, bounded refusal correlation, and exact acknowledgement integration proof after review remediation.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-integration.log (5 passed)"
+    "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-integration.log (7 passed)"
   },
   {
     "command": [
@@ -120,7 +125,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "-D",
       "warnings"
     ],
-    "purpose": "Enforce strict lint hygiene for the production Runtime source and tests after module decomposition.",
+    "purpose": "Enforce strict lint hygiene for the production Runtime source and tests after review remediation.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-kernel-clippy.log (PASS)"
   },
@@ -137,7 +142,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
       "-D",
       "warnings"
     ],
-    "purpose": "Enforce strict lint hygiene for the Runtime API integration target after module decomposition.",
+    "purpose": "Enforce strict lint hygiene for the Runtime API integration target after review remediation.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/112/layer8-runtime-api-clippy.log (PASS)"
   }
