@@ -108,4 +108,4 @@ not_started
 
 ## Follow Ups
 
-- none
+- Canonical issue identity/title for #112 core publication gate is [v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core. Supported post-recovery card repairs updated SIP, STP, SPP, SRP, and this SOR truth; VPP/card-identity title repair remains a bounded C-SDLC v2 tooling follow-on candidate because implemented-phase typed editors do not expose a direct card identity/title edit route, and publication/fresh-session review remain held until exact cross-card identity is consistent or the canonical standard explicitly permits the historical label.

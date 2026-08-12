@@ -16,6 +16,7 @@ Prepare and later implement only issue #112 Runtime authority, refusal, replay, 
 
 ## Deliverables
 
+- Canonical issue identity/title: [v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core
 - Runtime-kernel Layer 8 authority module
 - Signed identity-message contract with credential-generation binding
 - Recipient acknowledgement verification primitives

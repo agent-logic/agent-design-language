@@ -16,6 +16,7 @@ Status: draft
 
 ## Prompts
 
+- Does the exact reviewed work identify canonical issue/title [v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core and avoid #265/#270/#271/#114 claims?
 - Can any grant bypass authenticated identity, credential generation, capability, agent policy, Polis policy, replay freshness, recipient validity, canonical signatures, or audit availability?
 - Can signed requests or acknowledgements be replayed, substituted, generated for unknown recipients, or accepted across stale identity/key generations?
 - Can recipient substitution, recipient-set widening, action or conversation scope escalation, implicit broadcast, or cross-Polis attempts produce a grant?

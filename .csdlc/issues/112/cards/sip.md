@@ -20,6 +20,7 @@ The Runtime alone decides whether an authenticated human may discover, contact, 
 
 ## Scope
 
+- Canonical issue identity/title: [v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core
 - adl-runtime-kernel/src/layer8_authority/audit.rs
 - adl-runtime-kernel/src/layer8_authority/exchange.rs
 - adl-runtime-kernel/src/layer8_authority/identity.rs

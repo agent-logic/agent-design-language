@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 69
+    "generation": 77
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 12,
+      "plan_revision": 15,
       "summary": "Reach typed pre-bind readiness now; after #111 merges ancestrally, reconcile its concrete conversation contract, bind separately, implement the Runtime-owned authority and audit module plus narrow API invocation and truthful Observatory presentation, run the exact nonzero Rust, API, and real-browser/UI product targets, and obtain exact-head review before publication.",
       "steps": [
         {
@@ -63,6 +63,7 @@
         ".csdlc/prepared/issues/112"
       ],
       "invariants": [
+        "Canonical issue identity/title remains [v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core; #112 core must not claim #265/#270/#271/#114 ownership.",
         "Authentication precedes authorization; authorization and durable redacted audit precede sequence reservation, provider execution, and delivery",
         "Capability, agent policy, and Polis policy intersect and none may widen another",
         "Recipient sets, actions, attachments, and conversation scope are exact and cannot be substituted or widened",

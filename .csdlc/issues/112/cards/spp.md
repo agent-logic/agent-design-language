@@ -16,7 +16,7 @@ Reach typed pre-bind readiness now; after #111 merges ancestrally, reconcile its
 
 ## Plan
 
-Revision 12
+Revision 15
 
 ## Steps
 
@@ -60,6 +60,7 @@ Revision 12
 
 ## Invariants
 
+- Canonical issue identity/title remains [v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core; #112 core must not claim #265/#270/#271/#114 ownership.
 - Authentication precedes authorization; authorization and durable redacted audit precede sequence reservation, provider execution, and delivery
 - Capability, agent policy, and Polis policy intersect and none may widen another
 - Recipient sets, actions, attachments, and conversation scope are exact and cannot be substituted or widened

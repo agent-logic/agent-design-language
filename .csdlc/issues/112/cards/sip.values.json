@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 69
+    "generation": 77
   },
   "status": "ready",
   "content": {
@@ -16,6 +16,7 @@
       "goal": "Bind every governed human-agent conversation action to authenticated Layer 8 identity, least-privilege capability, current agent and Polis policy, revocation, replay defense, and redacted tamper-evident audit before Runtime delivery.",
       "required_outcome": "The Runtime alone decides whether an authenticated human may discover, contact, continue, attach content to, or address an exact set of agents, and exposes only bounded authorization, refusal, correlation, and outcome fields.",
       "declared_scope": [
+        "Canonical issue identity/title: [v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core",
         "adl-runtime-kernel/src/layer8_authority/audit.rs",
         "adl-runtime-kernel/src/layer8_authority/exchange.rs",
         "adl-runtime-kernel/src/layer8_authority/identity.rs",
