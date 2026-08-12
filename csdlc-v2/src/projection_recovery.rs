@@ -179,28 +179,9 @@ fn request_authority_digest(request: &ProjectionRecoverRequest) -> Result<String
         .to_string())
 }
 
-fn mount_id(path: &Path, metadata: &fs::Metadata) -> Result<String> {
-    #[cfg(any(target_os = "macos", target_os = "ios", target_os = "freebsd"))]
-    unsafe {
-        use std::ffi::CString;
-        use std::os::unix::ffi::OsStrExt;
-        let bytes = path.as_os_str().as_bytes();
-        let c = CString::new(bytes)
-            .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "path contains NUL"))?;
-        let mut stat: libc::statfs = std::mem::zeroed();
-        if libc::statfs(c.as_ptr(), &mut stat) != 0 {
-            return Err(std::io::Error::last_os_error().into());
-        }
-        let words: [i32; 2] = std::mem::transmute_copy(&stat.f_fsid);
-        Ok(format!("{}:{}:{}", metadata.dev(), words[0], words[1]))
-    }
-    #[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "freebsd")))]
-    {
-        Ok(format!("dev:{}", metadata.dev()))
-    }
-}
-
-fn identity(path: &Path, metadata: &fs::Metadata) -> Result<NodeIdentity> {
+fn fd_identity(file: &File) -> Result<NodeIdentity> {
+    use std::os::unix::fs::MetadataExt;
+    let metadata = file.metadata()?;
     let ft = metadata.file_type();
     let node_type = if ft.is_dir() {
         "directory"
@@ -213,7 +194,7 @@ fn identity(path: &Path, metadata: &fs::Metadata) -> Result<NodeIdentity> {
     };
     Ok(NodeIdentity {
         device: metadata.dev(),
-        mount_id: mount_id(path, metadata)?,
+        mount_id: fd_mount_id(file)?,
         inode: metadata.ino(),
         ctime_seconds: metadata.ctime(),
         ctime_nanoseconds: metadata.ctime_nsec(),
@@ -225,26 +206,121 @@ fn identity(path: &Path, metadata: &fs::Metadata) -> Result<NodeIdentity> {
     })
 }
 
-fn walk(path: &Path) -> Result<Vec<ManifestEntry>> {
-    let root_meta = fs::symlink_metadata(path)?;
-    if !root_meta.is_dir() || root_meta.file_type().is_symlink() {
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "candidate root is not a no-follow directory",
-        ));
+fn fd_mount_id(file: &File) -> Result<String> {
+    use std::mem::MaybeUninit;
+    use std::os::fd::AsRawFd;
+    let mut stat = MaybeUninit::<libc::statfs>::uninit();
+    if unsafe { libc::fstatfs(file.as_raw_fd(), stat.as_mut_ptr()) } != 0 {
+        return Err(std::io::Error::last_os_error().into());
     }
-    let root_id = identity(path, &root_meta)?;
+    let stat = unsafe { stat.assume_init() };
+    #[cfg(any(target_os = "macos", target_os = "ios", target_os = "freebsd"))]
+    {
+        let words: [i32; 2] = unsafe { std::mem::transmute_copy(&stat.f_fsid) };
+        Ok(format!("{}:{}", words[0], words[1]))
+    }
+    #[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "freebsd")))]
+    {
+        Ok(format!("dev:{}", stat.f_fsid.__val[0]))
+    }
+}
+
+fn open_root_no_follow(path: &Path) -> Result<File> {
+    use std::ffi::CString;
+    use std::os::fd::FromRawFd;
+    use std::os::unix::ffi::OsStrExt;
+    let path = CString::new(path.as_os_str().as_bytes())
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "path contains NUL"))?;
+    let fd = unsafe {
+        libc::open(
+            path.as_ptr(),
+            libc::O_RDONLY | libc::O_DIRECTORY | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+        )
+    };
+    if fd < 0 {
+        Err(std::io::Error::last_os_error().into())
+    } else {
+        Ok(unsafe { File::from_raw_fd(fd) })
+    }
+}
+
+fn open_child_no_follow(parent: &File, name: &std::ffi::CStr, directory: bool) -> Result<File> {
+    use std::os::fd::{AsRawFd, FromRawFd};
+    let flags = libc::O_RDONLY
+        | libc::O_NOFOLLOW
+        | libc::O_CLOEXEC
+        | if directory { libc::O_DIRECTORY } else { 0 };
+    let fd = unsafe { libc::openat(parent.as_raw_fd(), name.as_ptr(), flags) };
+    if fd < 0 {
+        Err(std::io::Error::last_os_error().into())
+    } else {
+        Ok(unsafe { File::from_raw_fd(fd) })
+    }
+}
+
+fn identity(path: &Path, _metadata: &fs::Metadata) -> Result<NodeIdentity> {
+    use std::ffi::CString;
+    use std::os::fd::FromRawFd;
+    use std::os::unix::ffi::OsStrExt;
+    let path = CString::new(path.as_os_str().as_bytes())
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "path contains NUL"))?;
+    let fd = unsafe {
+        libc::open(
+            path.as_ptr(),
+            libc::O_RDONLY | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    fd_identity(&unsafe { File::from_raw_fd(fd) })
+}
+
+fn directory_names(directory: &File) -> Result<Vec<std::ffi::CString>> {
+    use std::os::fd::AsRawFd;
+    let dup = unsafe { libc::dup(directory.as_raw_fd()) };
+    if dup < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    let stream = unsafe { libc::fdopendir(dup) };
+    if stream.is_null() {
+        unsafe { libc::close(dup) };
+        return Err(std::io::Error::last_os_error().into());
+    }
+    let mut names = Vec::new();
+    loop {
+        let entry = unsafe { libc::readdir(stream) };
+        if entry.is_null() {
+            break;
+        }
+        let name = unsafe { std::ffi::CStr::from_ptr((*entry).d_name.as_ptr()) };
+        if name.to_bytes() != b"." && name.to_bytes() != b".." {
+            names.push(std::ffi::CString::new(name.to_bytes()).map_err(|_| {
+                V2Error::new(ErrorCode::InvalidInput, "directory entry contains NUL")
+            })?);
+        }
+    }
+    unsafe { libc::closedir(stream) };
+    names.sort_by(|a, b| a.as_bytes().cmp(b.as_bytes()));
+    Ok(names)
+}
+
+fn walk(path: &Path) -> Result<Vec<ManifestEntry>> {
+    let root = open_root_no_follow(path)?;
+    let root_id = fd_identity(&root)?;
     let mut out = Vec::new();
     let mut seen = BTreeSet::new();
+    let mut retained = Vec::<File>::new();
     fn visit(
-        root: &Path,
-        path: &Path,
+        file: File,
+        relative: String,
         root_id: &NodeIdentity,
         seen: &mut BTreeSet<(String, u64, u64)>,
         out: &mut Vec<ManifestEntry>,
+        retained: &mut Vec<File>,
     ) -> Result<()> {
-        let meta = fs::symlink_metadata(path)?;
-        let id = identity(path, &meta)?;
+        use std::os::fd::{AsRawFd, FromRawFd};
+        let id = fd_identity(&file)?;
         if id.node_type == "symlink" || id.node_type == "special" {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
@@ -275,39 +351,50 @@ fn walk(path: &Path) -> Result<Vec<ManifestEntry>> {
                 "projection regular file is hardlinked",
             ));
         }
-        let rel = path.strip_prefix(root).unwrap_or(Path::new(""));
-        let rel = if rel.as_os_str().is_empty() {
-            ".".into()
-        } else {
-            rel.to_str()
-                .ok_or_else(|| {
-                    V2Error::new(ErrorCode::InvalidInput, "projection path must be UTF-8")
-                })?
-                .into()
-        };
-        let digest = if meta.is_file() {
-            let mut b = Vec::new();
-            File::open(path)?.read_to_end(&mut b)?;
-            Some(blake3::hash(&b).to_hex().to_string())
+        let digest = if id.node_type == "regular" {
+            let dup = unsafe { libc::dup(file.as_raw_fd()) };
+            if dup < 0 {
+                return Err(std::io::Error::last_os_error().into());
+            }
+            let mut copy = unsafe { File::from_raw_fd(dup) };
+            let mut bytes = Vec::new();
+            copy.read_to_end(&mut bytes)?;
+            Some(blake3::hash(&bytes).to_hex().to_string())
         } else {
             None
         };
+        let size = file.metadata()?.len();
         out.push(ManifestEntry {
-            path: rel,
+            path: relative.clone(),
             identity: id.clone(),
-            size: meta.len(),
+            size,
             digest,
         });
-        if meta.is_dir() {
-            let mut children = fs::read_dir(path)?.collect::<std::io::Result<Vec<_>>>()?;
-            children.sort_by_key(|e| e.file_name());
-            for child in children {
-                visit(root, &child.path(), root_id, seen, out)?;
+        if id.node_type == "directory" {
+            for name in directory_names(&file)? {
+                let text = std::str::from_utf8(name.as_bytes()).map_err(|_| {
+                    V2Error::new(ErrorCode::InvalidInput, "projection path must be UTF-8")
+                })?;
+                let child_rel = if relative == "." {
+                    text.into()
+                } else {
+                    format!("{relative}/{text}")
+                };
+                let child = open_child_no_follow(&file, &name, false)?;
+                visit(child, child_rel, root_id, seen, out, retained)?;
             }
         }
+        retained.push(file);
         Ok(())
     }
-    visit(path, path, &root_id, &mut seen, &mut out)?;
+    visit(
+        root,
+        ".".into(),
+        &root_id,
+        &mut seen,
+        &mut out,
+        &mut retained,
+    )?;
     Ok(out)
 }
 
