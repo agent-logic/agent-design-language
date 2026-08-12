@@ -1029,17 +1029,13 @@ pub(crate) fn validate_completed_recovery_attempt(
         serde_json::from_value(candidate_created.get("record").cloned().ok_or_else(|| {
             V2Error::new(ErrorCode::CorruptRecord, "candidate-created record missing")
         })?)?;
-    let candidate_observation: CandidateObservation = serde_json::from_value(
-        candidate_created
-            .get("candidate")
-            .cloned()
-            .ok_or_else(|| {
-                V2Error::new(
-                    ErrorCode::CorruptRecord,
-                    "candidate-created observation missing",
-                )
-            })?,
-    )?;
+    let candidate_observation: CandidateObservation =
+        serde_json::from_value(candidate_created.get("candidate").cloned().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "candidate-created observation missing",
+            )
+        })?)?;
     if crate::store::record_digest(&candidate_record)? != candidate_record.digest
         || !candidate_observation.valid_projection
         || candidate_observation.generation != Some(candidate_record.generation)
@@ -1067,12 +1063,14 @@ pub(crate) fn validate_completed_recovery_attempt(
     let canonical_installed: serde_json::Value =
         receipt_payload(&receipt_path(attempt, 8, "canonical-installed"))?;
     let installed_observation: CandidateObservation =
-        serde_json::from_value(canonical_installed.get("canonical").cloned().ok_or_else(|| {
-            V2Error::new(
-                ErrorCode::CorruptRecord,
-                "canonical-installed observation missing",
-            )
-        })?)?;
+        serde_json::from_value(canonical_installed.get("canonical").cloned().ok_or_else(
+            || {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "canonical-installed observation missing",
+                )
+            },
+        )?)?;
     if !observations_match_after_move(&installed_observation, &candidate_observation) {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
