@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 39,
-  "digest": "eb3664dd6d269a7975bd0b2a99b6b533e822e68971deaddec57fe6fa83a3cc00",
+  "generation": 40,
+  "digest": "5c4609a5e68ecc6b3a84ad61c8c154f5fc6acac9fdd988f5de6d8c5b62211f25",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8fe583313c0dc67d1d13081d8f49f94a81ba480206d00accdb157574034ae4e1",
+      "values_digest": "18cb990a6538ef885da916cccd25f051e7cb15dd1dfecfea146d8520942c8129",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "75b2811d3ce9239165f6f1f2105895e198f7864550eea4ff8094d01e9c881b9e",
+      "values_digest": "4b73bfaf0dc8e25958b41b4863adf931055c90dde1f2dd6d2ac20dcc8f6c3885",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "26e62f96fa4085cb507d94f8fd2efcbec7c3f69985b4ca0c8a2e5da815c06be4",
+      "values_digest": "198a40a86d4f0efcb230db72835f2c1a070db80f26721e6d73292d1a8cb78906",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "0d1e69c2f5b61632b9470a009e59eedb762045e30f9c9a9b6cc90e8e149b0577",
+      "values_digest": "b4e62f052ff4d6f335c349b8d0c4d93f45f3b7ef2160a13a012ff8811d68bedc",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "5fd55d590c40affd25fbb5af4838671537629a030f14ea8630429dce11bde585",
+      "values_digest": "9472cbea450e4c59ccd5306590ea946b32dd802d393cac0ff1c96878964f7519",
       "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
       "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "eb4af497b798cb5a35ae0a8df6f968451b2d1f38a4b48b33a96926605c397588",
-      "rendered_digest": "b794057f5e17f25c7caf7b0331581a39456b2bd61ba756e6a25e008b7cd91a72",
-      "ast_digest": "46f70d8638fec137f4f4e5b27e6b168e18224ad91803ef3e0464cea679bab49e"
+      "values_digest": "3e18f87242540d5af54e4965bce8f8744eaef4a16d29f9e243ae3954de6850fe",
+      "rendered_digest": "0502d7accb58a5a23a160ed52b4abc3764ac1e700301c6cbf647ddbedd799b61",
+      "ast_digest": "be888f15634741285e28da3adc423f8d00d203de24fc1613888df2cd43ecf3fe"
     }
   },
   "transitions": [
@@ -469,6 +469,13 @@
       "actor": "codex:issue-298",
       "reason": "record exact node receipt authority remediation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Bind every completed node receipt to exact temporary names, stable identities, and strict envelopes\",\"changes\":[\"Derived and required the exact operation-owned temporary name in create, fsync, and publish intent receipts\",\"Bound the created temporary identity to the observed published file across device, mount, inode, links, ownership, mode, and node type\",\"Rejected unexpected or incomplete top-level receipt envelope fields\",\"Added coherently rehashed temporary-name, created-identity, and envelope-extension forgery regressions\",\"Added expected-canonical-absent recovery proof using the authorized backup source\",\"Validated the 28-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 57,
+      "generation": 40,
+      "actor": "codex:issue-298",
+      "reason": "record complete recovery receipt identity remediation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Bind exact node temporary and terminal identities across completed recovery receipts\",\"changes\":[\"Required exact operation-owned temporary names in create, fsync, and publish intent receipts\",\"Bound created temporary identity to the observed published node across stable filesystem identity fields\",\"Retained distinct coherent forgeries for created and terminal node identities, final paths, temporary names, and receipt envelopes\",\"Proved expected-canonical-absent recovery through the authorized backup source\",\"Validated exact seq2 and seq10 filters plus the live 29-test focused lane; retained evidence log was not refreshed because a concurrent stale capture was rejected\",\"Validated 75 library tests, strict all-target Clippy, formatting, and diff hygiene\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
     }
   ]
 }

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Bind every completed node receipt to exact temporary names, stable identities, and strict envelopes
+Bind exact node temporary and terminal identities across completed recovery receipts
 
 ## Artifacts
 
@@ -83,6 +83,8 @@ Bind every completed node receipt to exact temporary names, stable identities, a
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 - .csdlc/evidence/298/preserved-projection-recovery.log
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 
@@ -316,6 +318,12 @@ Bind every completed node receipt to exact temporary names, stable identities, a
 - Added coherently rehashed temporary-name, created-identity, and envelope-extension forgery regressions
 - Added expected-canonical-absent recovery proof using the authorized backup source
 - Validated the 28-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene
+- Required exact operation-owned temporary names in create, fsync, and publish intent receipts
+- Bound created temporary identity to the observed published node across stable filesystem identity fields
+- Retained distinct coherent forgeries for created and terminal node identities, final paths, temporary names, and receipt envelopes
+- Proved expected-canonical-absent recovery through the authorized backup source
+- Validated exact seq2 and seq10 filters plus the live 29-test focused lane; retained evidence log was not refreshed because a concurrent stale capture was rejected
+- Validated 75 library tests, strict all-target Clippy, formatting, and diff hygiene
 
 ## Validation
 
