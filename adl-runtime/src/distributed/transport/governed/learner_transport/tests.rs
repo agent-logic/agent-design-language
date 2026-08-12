@@ -1322,7 +1322,7 @@ async fn real_four_node_learner_replication() {
     }
     let published = tokio::time::timeout(
         Duration::from_secs(20),
-        runtime.promote(&promotion, &transition, candidate_authority),
+        runtime.promote(&promotion, &transition, candidate_authority.clone()),
     )
     .await
     .expect("governed promotion timed out")
@@ -1586,6 +1586,15 @@ async fn real_four_node_learner_replication() {
         .expire_learner_admission(admission.deadline_unix_seconds)
         .await
         .unwrap();
+    runtime.inject_crash_after_enrollment_activation();
+    assert_eq!(
+        runtime
+            .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
+            .await,
+        Err(MembershipCoordinatorError::StateRegression)
+    );
+    assert_eq!(runtime.coordinator().published_generation(), 2);
+    assert!(runtime.membership().member(&recovered.node_id).is_none());
     let enrolled = runtime
         .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
         .await
@@ -1699,31 +1708,10 @@ async fn real_four_node_learner_replication() {
                 "local membership must not become visible before durable publication"
             );
             assert!(!runtime.authority().raft_ids.values().any(|id| *id == 3));
-            nodes[&1].trigger().elect().await.unwrap();
-            tokio::time::timeout(Duration::from_secs(10), async {
-                loop {
-                    if nodes[&1].metrics().borrow().current_leader == Some(1) {
-                        break;
-                    }
-                    tokio::time::sleep(Duration::from_millis(25)).await;
-                }
-            })
-            .await
-            .expect("rejoin resume election timed out");
-            tokio::time::timeout(Duration::from_secs(10), async {
-                loop {
-                    let history = machines[&1].applied_membership_history().await;
-                    if history.iter().any(|entry| {
-                        entry.log_id.index > rejoin_authority_index
-                            && entry.joint_configs == vec![BTreeSet::from([1, 2, 3, 4])]
-                    }) {
-                        break;
-                    }
-                    tokio::time::sleep(Duration::from_millis(25)).await;
-                }
-            })
-            .await
-            .expect("rejoin committed history did not replicate");
+            // Resume immediately, before the final membership entry is
+            // externally observed. The durable submitted marker must make the
+            // coordinator wait for exact history instead of repeating the
+            // membership-change effect.
             runtime.resume_consensus(nodes[&1].clone(), machines[&1].clone());
             runtime
                 .promote(&rejoin, &rejoin_transition, recovered_authority.clone())
@@ -1733,6 +1721,16 @@ async fn real_four_node_learner_replication() {
         Err(error) => panic!("unexpected rejoin error: {error:?}"),
     };
     assert_ne!(rejoined, [0; 32]);
+    assert_eq!(runtime.coordinator().published_generation(), 4);
+    assert!(runtime.has_published_result(promotion.operation_sha256()));
+    assert_eq!(
+        runtime
+            .promote(&promotion, &transition, candidate_authority)
+            .await
+            .unwrap(),
+        published,
+        "an older retained operation must remain an exact retry-cache hit"
+    );
     assert_eq!(runtime.coordinator().published_generation(), 4);
     assert_eq!(
         runtime

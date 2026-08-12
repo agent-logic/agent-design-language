@@ -115,6 +115,24 @@ struct DurableMembershipTransition {
     final_membership_log_index: Option<u64>,
     reconciled_membership_sha256: Option<[u8; 32]>,
     reconciled_authority_sha256: Option<[u8; 32]>,
+    #[serde(default)]
+    membership_change_submitted: bool,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct DurableEnrollment {
+    operation_sha256: [u8; 32],
+    membership_event_log_index: u64,
+    external_receipt: Option<DurableAuthorityReceiptProjection>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct DurablePublishedMembershipResult {
+    operation_sha256: [u8; 32],
+    result_sha256: [u8; 32],
+    committed_log_index: u64,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
@@ -123,8 +141,12 @@ struct MembershipCoordinatorState {
     committed_log_index: u64,
     published_generation: u64,
     active: Option<DurableMembershipTransition>,
+    #[serde(default)]
+    active_enrollment: Option<DurableEnrollment>,
     published_operation_sha256: Option<[u8; 32]>,
     published_result_sha256: Option<[u8; 32]>,
+    #[serde(default)]
+    published_results: Vec<DurablePublishedMembershipResult>,
 }
 
 impl CheckpointMetadataSource for MembershipCoordinatorState {
@@ -144,6 +166,8 @@ pub struct MembershipCoordinator {
     envelope: DurableEnvelope<MembershipCoordinatorState>,
     #[cfg(test)]
     crash_after_membership_change: bool,
+    #[cfg(test)]
+    crash_after_enrollment_activation: bool,
 }
 
 /// Runtime-owned production aggregate. Callers submit governed operations to
@@ -262,8 +286,18 @@ impl GovernedMembershipRuntime {
     }
 
     #[cfg(test)]
+    pub(crate) fn has_published_result(&self, operation_sha256: [u8; 32]) -> bool {
+        published_result(self.coordinator.envelope.payload(), operation_sha256).is_some()
+    }
+
+    #[cfg(test)]
     pub(crate) fn inject_crash_after_membership_change(&mut self) {
         self.coordinator.inject_crash_after_membership_change();
+    }
+
+    #[cfg(test)]
+    pub(crate) fn inject_crash_after_enrollment_activation(&mut self) {
+        self.coordinator.inject_crash_after_enrollment_activation();
     }
 }
 
@@ -356,6 +390,8 @@ impl MembershipCoordinator {
             envelope,
             #[cfg(test)]
             crash_after_membership_change: false,
+            #[cfg(test)]
+            crash_after_enrollment_activation: false,
         })
     }
 
@@ -370,12 +406,7 @@ impl MembershipCoordinator {
                 Err(MembershipCoordinatorError::StateRegression)
             };
         }
-        if self
-            .envelope
-            .payload()
-            .published_operation_sha256
-            .is_some_and(|operation| operation == promotion.operation_sha256)
-        {
+        if published_result(self.envelope.payload(), promotion.operation_sha256).is_some() {
             return Ok(());
         }
         let mut next = self.envelope.payload().clone();
@@ -394,6 +425,7 @@ impl MembershipCoordinator {
             final_membership_log_index: None,
             reconciled_membership_sha256: None,
             reconciled_authority_sha256: None,
+            membership_change_submitted: false,
         });
         self.commit(next)
     }
@@ -410,12 +442,7 @@ impl MembershipCoordinator {
                 Err(MembershipCoordinatorError::StateRegression)
             };
         }
-        if self
-            .envelope
-            .payload()
-            .published_operation_sha256
-            .is_some_and(|operation| operation == removal.operation_sha256())
-        {
+        if published_result(self.envelope.payload(), removal.operation_sha256()).is_some() {
             return Ok(());
         }
         verify_authorized_removal_inputs(removal, transition)?;
@@ -435,6 +462,7 @@ impl MembershipCoordinator {
             final_membership_log_index: None,
             reconciled_membership_sha256: None,
             reconciled_authority_sha256: None,
+            membership_change_submitted: false,
         });
         self.commit(next)
     }
@@ -582,6 +610,44 @@ impl MembershipCoordinator {
         self.commit(next)
     }
 
+    fn mark_membership_change_submitted(
+        &mut self,
+        operation_sha256: [u8; 32],
+    ) -> MembershipCoordinatorResult<()> {
+        let mut next = self.envelope.payload().clone();
+        let active = exact_active_mut(&mut next, operation_sha256)?;
+        if active.phase != MembershipCoordinatorPhase::LearnerCaughtUp {
+            return Err(MembershipCoordinatorError::StateRegression);
+        }
+        active.membership_change_submitted = true;
+        self.commit(next)
+    }
+
+    async fn await_committed_membership_history(
+        &mut self,
+        operation_sha256: [u8; 32],
+        state_machine: &PolisStateMachineStore,
+        expected_old: &BTreeSet<u64>,
+        expected_target: &BTreeSet<u64>,
+    ) -> MembershipCoordinatorResult<()> {
+        for _ in 0..500 {
+            let history = state_machine.applied_membership_history().await;
+            if self
+                .record_committed_membership_history(
+                    operation_sha256,
+                    &history,
+                    expected_old,
+                    expected_target,
+                )
+                .is_ok()
+            {
+                return Ok(());
+            }
+            tokio::time::sleep(std::time::Duration::from_millis(10)).await;
+        }
+        Err(MembershipCoordinatorError::StateRegression)
+    }
+
     fn reconcile_authority_parity(
         &mut self,
         operation_sha256: [u8; 32],
@@ -615,14 +681,10 @@ impl MembershipCoordinator {
 
     fn publish(&mut self, operation_sha256: [u8; 32]) -> MembershipCoordinatorResult<[u8; 32]> {
         let mut next = self.envelope.payload().clone();
-        if next
-            .published_operation_sha256
-            .is_some_and(|published| published == operation_sha256)
-        {
-            return next
-                .published_result_sha256
-                .ok_or(MembershipCoordinatorError::StateRegression);
+        if let Some(published) = published_result(&next, operation_sha256) {
+            return Ok(published.result_sha256);
         }
+        let committed_log_index = next.committed_log_index;
         let active = exact_active_mut(&mut next, operation_sha256)?;
         if active.phase != MembershipCoordinatorPhase::Checkpointed
             || active.reconciled_membership_sha256.is_none()
@@ -634,12 +696,24 @@ impl MembershipCoordinator {
         let result_sha256 = <[u8; 32]>::from(Sha256::digest(
             serde_jcs::to_vec(active).map_err(|_| MembershipCoordinatorError::Storage)?,
         ));
+        let final_membership_log_index = active
+            .final_membership_log_index
+            .unwrap_or(committed_log_index);
         next.published_generation = next
             .published_generation
             .checked_add(1)
             .ok_or(MembershipCoordinatorError::StateRegression)?;
         next.published_operation_sha256 = Some(operation_sha256);
         next.published_result_sha256 = Some(result_sha256);
+        record_published_result(
+            &mut next,
+            operation_sha256,
+            DurablePublishedMembershipResult {
+                operation_sha256,
+                result_sha256,
+                committed_log_index: final_membership_log_index,
+            },
+        );
         next.active = None;
         self.commit(next)?;
         Ok(result_sha256)
@@ -697,14 +771,31 @@ impl MembershipCoordinator {
             {
                 return Ok(());
             }
-            raft.change_membership(transition.target_membership.clone(), false)
-                .await
-                .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+            let already_submitted = self
+                .envelope
+                .payload()
+                .active
+                .as_ref()
+                .is_some_and(|active| active.membership_change_submitted);
+            if !already_submitted {
+                self.mark_membership_change_submitted(promotion.operation_sha256)?;
+                raft.change_membership(transition.target_membership.clone(), false)
+                    .await
+                    .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+            }
             #[cfg(test)]
             if self.crash_after_membership_change {
                 self.crash_after_membership_change = false;
                 return Err(MembershipCoordinatorError::StateRegression);
             }
+            return self
+                .await_committed_membership_history(
+                    promotion.operation_sha256,
+                    state_machine,
+                    &transition.old_membership,
+                    &transition.target_membership,
+                )
+                .await;
         }
         let history = state_machine.applied_membership_history().await;
         self.record_committed_membership_history(
@@ -726,49 +817,64 @@ impl MembershipCoordinator {
         membership_event_log_index: u64,
         membership: &mut MembershipState,
     ) -> MembershipCoordinatorResult<[u8; 32]> {
-        if self
-            .envelope
-            .payload()
-            .published_operation_sha256
-            .is_some_and(|operation| operation == admission.operation_sha256())
+        if let Some(published) =
+            published_result(self.envelope.payload(), admission.operation_sha256())
         {
-            let result = self
-                .envelope
-                .payload()
-                .published_result_sha256
-                .ok_or(MembershipCoordinatorError::StateRegression)?;
             if membership.member(&admission.identity().node_id).is_none() {
                 apply_local_membership_event(
                     membership,
                     admission.operation_sha256(),
-                    self.envelope.payload().committed_log_index,
+                    published.committed_log_index,
                     enrollment_operation(admission),
                 )?;
             }
-            return Ok(result);
+            return Ok(published.result_sha256);
         }
         if self.envelope.payload().active.is_some() {
             return Err(MembershipCoordinatorError::StateRegression);
         }
-        let activated = match factory
-            .activate_learner_admission(admission, now_unix_seconds)
+        match self.envelope.payload().active_enrollment.as_ref() {
+            Some(active)
+                if active.operation_sha256 == admission.operation_sha256()
+                    && active.membership_event_log_index == membership_event_log_index => {}
+            Some(_) => return Err(MembershipCoordinatorError::StateRegression),
+            None => {
+                let mut next = self.envelope.payload().clone();
+                next.active_enrollment = Some(DurableEnrollment {
+                    operation_sha256: admission.operation_sha256(),
+                    membership_event_log_index,
+                    external_receipt: None,
+                });
+                self.commit(next)?;
+            }
+        }
+        let activated = if let Some(existing) = factory
+            .observe_learner_admission_receipt(admission.operation_sha256())
             .await
+            .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?
         {
-            Ok(receipt) => receipt,
-            Err(_) => {
-                factory
-                    .stage_learner_successor(admission)
-                    .await
-                    .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?;
-                factory
-                    .flip_learner_successor(admission.operation_sha256())
-                    .await
-                    .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?;
-                factory
-                    .observe_learner_admission_receipt(admission.operation_sha256())
-                    .await
-                    .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?
-                    .ok_or(MembershipCoordinatorError::ReceiptMismatch)?
+            existing
+        } else {
+            match factory
+                .activate_learner_admission(admission, now_unix_seconds)
+                .await
+            {
+                Ok(receipt) => receipt,
+                Err(_) => {
+                    factory
+                        .stage_learner_successor(admission)
+                        .await
+                        .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?;
+                    factory
+                        .flip_learner_successor(admission.operation_sha256())
+                        .await
+                        .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?;
+                    factory
+                        .observe_learner_admission_receipt(admission.operation_sha256())
+                        .await
+                        .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?
+                        .ok_or(MembershipCoordinatorError::ReceiptMismatch)?
+                }
             }
         };
         let observed = factory
@@ -776,9 +882,29 @@ impl MembershipCoordinator {
             .await
             .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?
             .ok_or(MembershipCoordinatorError::ReceiptMismatch)?;
+        #[cfg(test)]
+        if self.crash_after_enrollment_activation {
+            self.crash_after_enrollment_activation = false;
+            return Err(MembershipCoordinatorError::StateRegression);
+        }
         if activated != observed {
             return Err(MembershipCoordinatorError::ReceiptMismatch);
         }
+        let projection = DurableAuthorityReceiptProjection::from(&observed);
+        let mut observed_state = self.envelope.payload().clone();
+        let active_enrollment = observed_state
+            .active_enrollment
+            .as_mut()
+            .filter(|active| active.operation_sha256 == admission.operation_sha256())
+            .ok_or(MembershipCoordinatorError::StateRegression)?;
+        match active_enrollment.external_receipt.as_ref() {
+            Some(current) if current != &projection => {
+                return Err(MembershipCoordinatorError::ReceiptMismatch);
+            }
+            Some(_) => {}
+            None => active_enrollment.external_receipt = Some(projection),
+        }
+        self.commit(observed_state)?;
         let mut staged_membership = membership.clone();
         let identity = admission.identity();
         match staged_membership.member(&identity.node_id) {
@@ -815,6 +941,16 @@ impl MembershipCoordinator {
             .ok_or(MembershipCoordinatorError::StateRegression)?;
         next.published_operation_sha256 = Some(admission.operation_sha256());
         next.published_result_sha256 = Some(result_sha256);
+        record_published_result(
+            &mut next,
+            admission.operation_sha256(),
+            DurablePublishedMembershipResult {
+                operation_sha256: admission.operation_sha256(),
+                result_sha256,
+                committed_log_index: membership_event_log_index,
+            },
+        );
+        next.active_enrollment = None;
         self.commit(next)?;
         *membership = staged_membership;
         Ok(result_sha256)
@@ -835,6 +971,12 @@ impl MembershipCoordinator {
         authority: &mut AuthorityMembership,
         candidate_authority: VoterAuthority,
     ) -> MembershipCoordinatorResult<[u8; 32]> {
+        let retained = published_result(self.envelope.payload(), promotion.operation_sha256);
+        if self.envelope.payload().published_operation_sha256 != Some(promotion.operation_sha256) {
+            if let Some(published) = retained.as_ref() {
+                return Ok(published.result_sha256);
+            }
+        }
         verify_authorized_transition_inputs(
             promotion,
             &transition.old_stable_ids,
@@ -842,19 +984,9 @@ impl MembershipCoordinator {
             &transition.old_membership,
             &transition.target_membership,
         )?;
-        if self
-            .envelope
-            .payload()
-            .published_operation_sha256
-            .is_some_and(|operation| operation == promotion.operation_sha256)
-        {
-            let result = self
-                .envelope
-                .payload()
-                .published_result_sha256
-                .ok_or(MembershipCoordinatorError::StateRegression)?;
+        if let Some(published) = retained {
             if ObservedMembershipParity::observe(membership, authority, transition).is_ok() {
-                return Ok(result);
+                return Ok(published.result_sha256);
             }
             observe_old_parity(membership, authority, transition)?;
             let mut staged_membership = membership.clone();
@@ -869,7 +1001,7 @@ impl MembershipCoordinator {
             ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
             *membership = staged_membership;
             *authority = staged_authority;
-            return Ok(result);
+            return Ok(published.result_sha256);
         }
         observe_old_parity(membership, authority, transition)?;
         let receipt = factory
@@ -927,7 +1059,16 @@ impl MembershipCoordinator {
         .map_err(|_| MembershipCoordinatorError::InvalidArtifact)?;
         if removal.identity() != expected_identity
             || removal.voter_cut_sha256() != expected_voter_cut_sha256
-            || current_authority.raft_ids != transition.old_stable_ids
+        {
+            return Err(MembershipCoordinatorError::WrongStableMap);
+        }
+        let retained = published_result(self.envelope.payload(), removal.operation_sha256());
+        if self.envelope.payload().published_operation_sha256 != Some(removal.operation_sha256()) {
+            if let Some(published) = retained.as_ref() {
+                return Ok(published.result_sha256);
+            }
+        }
+        if current_authority.raft_ids != transition.old_stable_ids
             || current_authority
                 .raft_membership
                 .voter_ids()
@@ -936,17 +1077,7 @@ impl MembershipCoordinator {
         {
             return Err(MembershipCoordinatorError::WrongStableMap);
         }
-        if self
-            .envelope
-            .payload()
-            .published_operation_sha256
-            .is_some_and(|operation| operation == removal.operation_sha256())
-        {
-            let result = self
-                .envelope
-                .payload()
-                .published_result_sha256
-                .ok_or(MembershipCoordinatorError::StateRegression)?;
+        if let Some(published) = retained {
             if ObservedMembershipParity::observe(
                 published_membership,
                 published_authority,
@@ -954,7 +1085,7 @@ impl MembershipCoordinator {
             )
             .is_ok()
             {
-                return Ok(result);
+                return Ok(published.result_sha256);
             }
             observe_old_parity(published_membership, current_authority, transition)?;
             let mut staged_membership = published_membership.clone();
@@ -968,7 +1099,7 @@ impl MembershipCoordinator {
             ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
             *published_membership = staged_membership;
             *published_authority = staged_authority;
-            return Ok(result);
+            return Ok(published.result_sha256);
         }
         observe_old_parity(published_membership, current_authority, transition)?;
         self.begin_removal(&removal, transition)?;
@@ -997,18 +1128,36 @@ impl MembershipCoordinator {
                 )
                 .is_err()
             {
-                raft.change_membership(transition.target_membership.clone(), false)
-                    .await
-                    .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+                let already_submitted = self
+                    .envelope
+                    .payload()
+                    .active
+                    .as_ref()
+                    .is_some_and(|active| active.membership_change_submitted);
+                if !already_submitted {
+                    self.mark_membership_change_submitted(removal.operation_sha256())?;
+                    raft.change_membership(transition.target_membership.clone(), false)
+                        .await
+                        .map_err(|_| MembershipCoordinatorError::StateRegression)?;
+                }
+                self.await_committed_membership_history(
+                    removal.operation_sha256(),
+                    state_machine,
+                    &transition.old_membership,
+                    &transition.target_membership,
+                )
+                .await?;
             }
         }
-        let history = state_machine.applied_membership_history().await;
-        self.record_committed_membership_history(
-            removal.operation_sha256(),
-            &history,
-            &transition.old_membership,
-            &transition.target_membership,
-        )?;
+        if self.active_phase() != Some(MembershipCoordinatorPhase::FinalCommitted) {
+            let history = state_machine.applied_membership_history().await;
+            self.record_committed_membership_history(
+                removal.operation_sha256(),
+                &history,
+                &transition.old_membership,
+                &transition.target_membership,
+            )?;
+        }
         let mut staged_membership = published_membership.clone();
         let mut staged_authority = published_authority.clone();
         self.reconcile_removal_states(
@@ -1041,10 +1190,7 @@ impl MembershipCoordinator {
             .filter(|active| active.operation_sha256 == operation_sha256)
             .and_then(|active| active.final_membership_log_index)
             .or_else(|| {
-                state
-                    .published_operation_sha256
-                    .filter(|published| *published == operation_sha256)
-                    .map(|_| state.committed_log_index)
+                published_result(state, operation_sha256).map(|entry| entry.committed_log_index)
             })
             .ok_or(MembershipCoordinatorError::StateRegression)
     }
@@ -1168,6 +1314,11 @@ impl MembershipCoordinator {
     fn inject_crash_after_membership_change(&mut self) {
         self.crash_after_membership_change = true;
     }
+
+    #[cfg(test)]
+    fn inject_crash_after_enrollment_activation(&mut self) {
+        self.crash_after_enrollment_activation = true;
+    }
 }
 
 fn apply_local_membership_event(
@@ -1270,6 +1421,46 @@ fn exact_active_mut(
         .as_mut()
         .filter(|active| active.operation_sha256 == operation_sha256)
         .ok_or(MembershipCoordinatorError::StateRegression)
+}
+
+fn published_result(
+    state: &MembershipCoordinatorState,
+    operation_sha256: [u8; 32],
+) -> Option<DurablePublishedMembershipResult> {
+    if let Some(result) = state
+        .published_results
+        .iter()
+        .find(|result| result.operation_sha256 == operation_sha256)
+    {
+        return Some(result.clone());
+    }
+    if state.published_operation_sha256 != Some(operation_sha256) {
+        return None;
+    }
+    Some(DurablePublishedMembershipResult {
+        operation_sha256,
+        result_sha256: state.published_result_sha256?,
+        committed_log_index: state.committed_log_index,
+    })
+}
+
+fn record_published_result(
+    state: &mut MembershipCoordinatorState,
+    operation_sha256: [u8; 32],
+    result: DurablePublishedMembershipResult,
+) {
+    if let Some(existing) = state
+        .published_results
+        .iter_mut()
+        .find(|existing| existing.operation_sha256 == operation_sha256)
+    {
+        *existing = result;
+        return;
+    }
+    state.published_results.push(result);
+    if state.published_results.len() > 64 {
+        state.published_results.remove(0);
+    }
 }
 
 fn set_once(slot: &mut Option<[u8; 32]>, value: [u8; 32]) -> MembershipCoordinatorResult<()> {
