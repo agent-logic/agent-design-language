@@ -195,6 +195,130 @@ fn preserved_projection_recovery_classifies_hardlink_as_unsafe() {
 }
 
 #[test]
+fn preserved_projection_recovery_rejects_wrong_topology_and_unsafe_mode() {
+    use std::os::unix::fs::PermissionsExt;
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "topology negative".into(),
+        },
+    )
+    .expect("classification");
+    let request = ProjectionRecoverRequest {
+        issue: 7,
+        operation_id: "wrong-topology".into(),
+        classify_receipt_digest: classify.receipt_digest.clone(),
+        classification: classify.clone(),
+        failed_operation_lineage: FailedOperationLineage {
+            prior_generation: record.generation,
+            prior_record_digest: record.digest,
+            rejected_manifest_digest: classify.preserved.manifest_digest.expect("manifest"),
+            failure_boundary: "verifier".into(),
+        },
+        anchor: ProjectionCasAnchor::VerifiedCanonical {
+            generation: classify.canonical.generation.expect("generation"),
+            record_digest: classify.canonical.record_digest.clone().expect("digest"),
+        },
+        actor: "test".into(),
+        reason: "wrong topology".into(),
+        branch: "not-the-bound-branch".into(),
+        worktree: store.root().to_string_lossy().into_owned(),
+        fail_after: None,
+    };
+    assert_eq!(
+        csdlc_v2::recover_preserved_projection(&store, request)
+            .expect_err("wrong branch")
+            .code,
+        ErrorCode::UnsafeCheckout
+    );
+    std::fs::set_permissions(
+        preserved.join("index.json"),
+        std::fs::Permissions::from_mode(0o666),
+    )
+    .expect("unsafe mode");
+    let classified = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: classify.canonical.generation.expect("generation"),
+                record_digest: classify.canonical.record_digest.clone().expect("digest"),
+            },
+            actor: "test".into(),
+            reason: "unsafe mode".into(),
+        },
+    )
+    .expect("classification reports unsafe mode");
+    assert_eq!(classified.disposition, "unsafe");
+}
+
+#[test]
+fn preserved_projection_recovery_keeps_initialized_and_ready_and_291_semantics_unchanged() {
+    let temp = tempfile::tempdir().expect("temp");
+    std::fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    std::fs::write(temp.path().join("docs/design.md"), "# design\n").expect("design");
+    std::fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n A-->B\n",
+    )
+    .expect("diagram");
+    std::fs::create_dir_all(temp.path().join("src")).expect("src");
+    install_native_authority(temp.path());
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+    let store = Store::new(temp.path());
+    let initialized = bootstrap_issue(
+        &store,
+        BootstrapRequest {
+            issue: 291,
+            repository: "example/repo".into(),
+            actor: "agent".into(),
+            design_path: "docs/design.md".into(),
+            diagram_path: "docs/diagram.mmd".into(),
+            design_reviewer: "architect".into(),
+            design_approved: true,
+            initial: fixture_initial_input(),
+        },
+    )
+    .expect("initialized #291-compatible fixture");
+    assert_eq!(initialized.phase, LifecyclePhase::Initialized);
+    let ready = edit_issue(
+        &store,
+        EditRequest {
+            issue: 291,
+            card: CardKind::Sip,
+            expected_generation: initialized.generation,
+            expected_digest: initialized.digest,
+            actor: "agent".into(),
+            reason: "ready regression".into(),
+            operation: SemanticOperation::AdvancePhase {
+                phase: LifecyclePhase::Ready,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("ready behavior remains available");
+    assert_eq!(ready.phase, LifecyclePhase::Ready);
+    assert!(!store.rollback_preserved(291).exists());
+    assert!(!store.root().join(".csdlc/issues/.291.recovery").exists());
+}
+
+#[test]
 fn preserved_projection_recovery_resumes_every_recovery_boundary() {
     for state in [
         "prepared",
@@ -396,6 +520,52 @@ fn finding(id: &str) -> ReviewFindingEvidence {
         disposition: FindingDisposition::Fixed,
         fix_revision: Some("rev-2".into()),
         route: None,
+    }
+}
+
+fn fixture_initial_input() -> InitialCardInput {
+    InitialCardInput {
+        title: "review fixture".into(),
+        slug: "review-fixture".into(),
+        version: "v0.91.7".into(),
+        goal: "prove review".into(),
+        required_outcome: "review truth".into(),
+        declared_scope: vec!["src".into()],
+        authority_boundary: vec!["no network".into()],
+        operator_constraints: vec!["none".into()],
+        task_boundary: "review only".into(),
+        deliverables: vec!["src/validate.sh".into()],
+        acceptance_criteria: vec!["review current".into()],
+        dependencies: vec!["none".into()],
+        repo_inputs: vec!["src".into()],
+        non_goals: vec!["publish".into()],
+        plan_summary: "implement then review".into(),
+        steps: vec![csdlc_v2::cards::PlanStep {
+            id: "one".into(),
+            action: "review".into(),
+            acceptance_ids: vec!["AC-1".into()],
+            status: csdlc_v2::cards::StepStatus::Pending,
+        }],
+        affected_areas: vec!["src".into(), "src/validate.sh".into()],
+        invariants: vec!["exact revision".into()],
+        risks: vec!["stale".into()],
+        planning_profile: PlanningProfile::Small,
+        stop_conditions: vec!["stale".into()],
+        validation_lanes: vec![csdlc_v2::cards::ValidationLane {
+            lane: "focused".into(),
+            proof_role: "review".into(),
+            acceptance_ids: vec!["AC-1".into()],
+            deterministic: true,
+            resource_profile: csdlc_v2::cards::ResourceProfile::Small,
+            budget_seconds: 60,
+            budget_tokens: 100,
+            argv: vec!["bash".into(), "src/validate.sh".into()],
+            parallel_group: "local".into(),
+            defer_reason: None,
+        }],
+        failure_policy: "fail closed".into(),
+        review_prompts: vec!["review correctness".into()],
+        review_scope: "fixture".into(),
     }
 }
 
