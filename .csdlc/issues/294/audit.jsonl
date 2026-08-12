@@ -17,3 +17,4 @@
 {"sequence":17,"generation":15,"actor":"codex:issue-294","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":18,"generation":15,"actor":"codex:issue-294","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":19,"generation":16,"actor":"codex:issue-294","reason":"Recover failed exact-head review assignment to fix atomicity, path containment, audit provenance, and missing AC-8/AC-9 proof","operation":"recover_review"}
+{"sequence":20,"generation":16,"actor":"codex:issue-294","reason":"assign bounded exact-revision review","operation":"assign_review"}

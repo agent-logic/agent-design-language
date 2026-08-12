@@ -5,10 +5,24 @@
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
   "generation": 16,
-  "digest": "88b6b334e4068eba2f54eb1fbb00f9e4204a26cdbbfa34a0bf7cc1e0ca5323e0",
+  "digest": "b6a9fccfcffb35ddfe3f840cb99a62a25d7c22e41ec03ad0feea04e11f54e335",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:6ac80bd6-5887-4cc3-b928-bbbf721474c2",
+    "assigned_by": "codex:issue-294",
+    "revision": "git-blake3:77fcd048545623f5067c785d06b33540779f1f3d:d2628671ac113ff079b8d14c395779887244a2593f178d995cc783382bb6fdab",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/294",
+      ".csdlc/prepared/issues/294",
+      ".csdlc/evidence/294"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +58,9 @@
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "d09ce0239afd8610a7beecf2b2842d045ee5dcf7c63fdd5d930bf8322d62d1de",
-      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
-      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
+      "values_digest": "838ecf24debea144a89c01b61ad495af6035a8d55c59826bb3169059be21fb57",
+      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
+      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
     },
     "sor": {
       "values_digest": "8e68757cca67cbda5b61df0037315b93e7b96bc984db51f58d1c106de859722e",
@@ -210,6 +224,13 @@
       "actor": "codex:issue-294",
       "reason": "Recover failed exact-head review assignment to fix atomicity, path containment, audit provenance, and missing AC-8/AC-9 proof",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:issue-294",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
