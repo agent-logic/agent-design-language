@@ -3,9 +3,9 @@
   "issue": 109,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "c984e17836da5aca03b40cd4a1bdec0b8f846e1467af46674699617187dda84a",
+  "phase": "reviewed",
+  "generation": 26,
+  "digest": "2f8535a67836186f13322d11c3c3b57a670c7eee89cdd8c871d9b4542774c47d",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
   "review_assignment": {
@@ -17,7 +17,20 @@
       ".csdlc/issues/109"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:/root/review_pr119_fix",
+    "scope": [
+      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
+      ".csdlc/issues/109"
+    ],
+    "reviewed_revision": "git-blake3:b7097223844554f0eb4015ef210e389679135196:b684a903e0c6ecffeb043bf8c133a1892ab28d715883aef5eb03758989ff6b7e",
+    "findings": [],
+    "residual_risks": [
+      "Publication metadata must remain within the validator's exact SOR transition and metadata allowlist before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -32,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "01695174a63ee07b6a677efb6ba5e770682897c462b29e376329080ba03e3a07",
+      "values_digest": "5011b33ab419ba2bf592c0fb0b4b946632eca9ae279324d1df16260bd365353f",
       "rendered_digest": "a16c30e6eb67e913ee8762af729f2e743ecc238e253cc24b26a05255d4b6e63d",
       "ast_digest": "d9ff4d384357d9982cd4c1ddf3bce9ed3bab4fd788701abfa01c0ad7be311347"
     },
     "stp": {
-      "values_digest": "658cf45b0e0859c451fbd0e493aab8f80119bf43b1b72316bd8e06fe66b1a74d",
+      "values_digest": "6736b0d4d994296d3f65a0d0eaca18d8ccb97c6af350982a0df8a8241358ab35",
       "rendered_digest": "b8baca559f4ab0ba540348fcc5d89f2eb385714182a5b32b88d63e048fde12d8",
       "ast_digest": "c7b225fee03b714b762487332b3d4258ae2bfe43be77ff42373006902df1e504"
     },
     "spp": {
-      "values_digest": "3b693a7df1cf96b45b742487f972ee351d6ff55d16c8e9c4c214c60b90b42a65",
+      "values_digest": "30815738982b15b735823f57314d0e0ba8c00a0a56a6bb0b95f9f2be064beb0a",
       "rendered_digest": "c15c2539fe8932e08b5972afacac160c5214fab95f42b9b9984e18488418c98a",
       "ast_digest": "acf77d2f3dc05dbfe6dc707c857f8de903a9921927afb14f1816da2e0c4a6ccd"
     },
     "vpp": {
-      "values_digest": "c2b64a354aa77a1e288dac4156d1b79f48b76cb8fcd850d6a4d83beeb39d02c2",
+      "values_digest": "27b8dcd392020df7958cedf289f669d67421f107601cea5d4adb304238c85f31",
       "rendered_digest": "bea8837fa774ecd20e74d3c72fab78cbb27e3849f7c09362df341e9182d5671a",
       "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
     },
     "srp": {
-      "values_digest": "b7874a64d15cd0698b93572d3a06542644c4b2ef1e114da0cab1bb9b1b9b0ba9",
-      "rendered_digest": "f870ce171120644425078716bbcbd80b9182f8af719f6b19d9e60aedfee42b6b",
-      "ast_digest": "1d02c9269f6085339a32437823b1bb60ff8856fb91b1e412c07d25907e48dd80"
+      "values_digest": "829551e4c14222d46c83874ac469ce654e2ed090d097f0c1a89e9a984e18ac8e",
+      "rendered_digest": "442918db39e4924f1dfd7fd2c0daf4edc9ee35f6c82b33e8aeebdc0a26d57c7b",
+      "ast_digest": "48097c96a7e631e27f01cff6984e4deb92ef13eab75209b975431889bb4c615c"
     },
     "sor": {
-      "values_digest": "673b8e9493cc46eeb6b91b83d7d7e69df7b8d4b07123d461182ed13b73d44c9d",
+      "values_digest": "48a3dca51b252950ff5c8368f968769b210dff7800d5685480e673537295943e",
       "rendered_digest": "54304d46c7d82f6566fe481a04db5c4ea5abcf105b8fbe90cd524a708d6bdb0a",
       "ast_digest": "4d2df717ca82be386d9723dcc027b7ebd6e179bc3cb388060183b69bf4c6e4b7"
     }
@@ -125,6 +138,13 @@
       "to": "implemented",
       "actor": "planning-1:pr119-janitor",
       "reason": "Recover stale review and publication truth after the exact-head validator repair; require fresh independent review at f188d89f4ef98ab3605a686f1ee4a29be1f6b77a."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/review_pr119_fix",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -351,6 +371,13 @@
       "actor": "planning-1:pr119-janitor",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex-subagent:/root/review_pr119_fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

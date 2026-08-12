@@ -35,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Publication metadata must remain within the validator's exact SOR transition and metadata allowlist before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b7097223844554f0eb4015ef210e389679135196:b684a903e0c6ecffeb043bf8c133a1892ab28d715883aef5eb03758989ff6b7e")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:/root/review_pr119_fix")
 
-Result: pre_review
+Result: pass
