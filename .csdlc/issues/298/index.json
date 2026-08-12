@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 50,
-  "digest": "1c4d87f796d845825441e932d671270600c4f0a916223ccefea5b8ed5dbd294b",
+  "generation": 51,
+  "digest": "5223d4d96e13c3b1faf604b080cef92e53e14e5fed7705e957d5417f488ac1d0",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2b0cea2636aebc76a7940f2422691c86950544dbc1e2aef7d68bcce829a4ad75",
+      "values_digest": "8e98d474ef3fd8fb4469608a023d3987206b515e4a3c29bbe970d94bb5472cf4",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "dcfc2ec9a2dd643d3620ae1ed3b29befed4b0f5523872e7e0806983df303986b",
+      "values_digest": "0b07b4a4ffdb03c79c3f9fb7ad38e714204ed2cfb71ba4fda3deff69c936d5c8",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "2a50b9b85cfd71466be15a50c5913d627bf15ef6636dca17c413a32cb5eccec8",
+      "values_digest": "a7623fcfe4a6d2bed9479c5637e07ac87dd221254d8c8aeb8f90d81764ff736b",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "2b4093b22dba5fc53976c29030d6040f46435ed480365e1ecc5da2f1a6f51764",
+      "values_digest": "71a02aeef9c13245c193e2c25fba8293e5cc6b861206bc2a9884eee998f0190c",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "4cdc05eeb730c89542de407d26aea7c740a7e576546c5a77f3b5ac2397241dce",
+      "values_digest": "4e9bed1b4d15ae42c725f7c7d23be20b0e4837caf2573416798eae4e7a34b5a2",
       "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
       "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "471d738949a5aaf4d18b3b5e6ea198ce5f25dda998860aad1bd6d54dbd15c1dc",
-      "rendered_digest": "6330b0682f634898234f04069e7958e6b9e45d81920bc9a8ca5a4d2313399d3d",
-      "ast_digest": "327db0e7e993988f1c6cd845bd0a154a07ad52862f61d0ceaa0e2dfe8d30ec33"
+      "values_digest": "75a2af3f23d52646ca82c583fdbea1c3dd66fd46d24ab6ccedf6f863076ff507",
+      "rendered_digest": "37979afe847282ce222ac8a4474a1e53dc2947761516d1f79645775b789b55d9",
+      "ast_digest": "712f4a794762184ca70915d46377de5386c59b087aa95923e6668a1fb8d19503"
     }
   },
   "transitions": [
@@ -602,6 +602,13 @@
       "actor": "codex:issue-298-r19-remediation",
       "reason": "Recover failed exact R19: live recovery still derives validated sources through pathname Store reads and later syncs/observes attempt, archive, candidate, and displaced through pathname aliases after validation; require retained source/workspace descriptors plus deterministic late root/attempt swaps before R20.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 73,
+      "generation": 51,
+      "actor": "codex:issue-298-r19-remediation",
+      "reason": "Record retained live recovery workspace authority remediation after exact R19 P1.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Retained live recovery source and workspace descriptors through candidate derivation, archive, displacement, observation, and durability boundaries.\",\"changes\":[\"Replaced both live pathname candidate derivations with exact bytes read from retained source descriptors\",\"Selected restart prior authority from exact current, displaced, or candidate descriptors without pathname rereads\",\"Replaced live attempt, candidate, archive, and displaced sync and observation with retained descriptor operations\",\"Added deterministic late recovery-root and attempt swaps immediately before archive mutation\",\"Preserved early swap, every-boundary restart, receipt, identity, inventory, idempotency, ordinary-commit, initialized/ready, and issue 291 proof\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
     }
   ]
 }

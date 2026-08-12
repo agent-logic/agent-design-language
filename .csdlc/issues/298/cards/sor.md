@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Removed macOS pathname fallback and retained recovery root, attempt, receipt, inventory, candidate, archive, displaced, and node-ledger authority through directory descriptors.
+Retained live recovery source and workspace descriptors through candidate derivation, archive, displacement, observation, and durability boundaries.
 
 ## Artifacts
 
@@ -88,6 +88,9 @@ Removed macOS pathname fallback and retained recovery root, attempt, receipt, in
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/tests/gate5.rs
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/src/store.rs
@@ -351,6 +354,11 @@ Removed macOS pathname fallback and retained recovery root, attempt, receipt, in
 - Observed archive and displaced projections and derived candidate bytes through retained child descriptors
 - Added deterministic post-validation recovery-root and attempt swaps that fail closed before receipt, candidate, or archive mutation
 - Preserved every earlier receipt-chain, identity, topology, idempotency, ordinary-commit, initialized/ready, and issue 291 proof
+- Replaced both live pathname candidate derivations with exact bytes read from retained source descriptors
+- Selected restart prior authority from exact current, displaced, or candidate descriptors without pathname rereads
+- Replaced live attempt, candidate, archive, and displaced sync and observation with retained descriptor operations
+- Added deterministic late recovery-root and attempt swaps immediately before archive mutation
+- Preserved early swap, every-boundary restart, receipt, identity, inventory, idempotency, ordinary-commit, initialized/ready, and issue 291 proof
 
 ## Validation
 
