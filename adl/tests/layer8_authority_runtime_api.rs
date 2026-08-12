@@ -55,6 +55,12 @@ fn authority(root: &Path) -> Layer8ConversationAuthority {
                 principal_id: "layer8-operator".to_owned(),
                 polis_id: "polis-test".to_owned(),
                 signing_key_id: "operator-key".to_owned(),
+                verifying_key_hex: ed25519_dalek::SigningKey::from_bytes(&[5_u8; 32])
+                    .verifying_key()
+                    .to_bytes()
+                    .iter()
+                    .map(|byte| format!("{byte:02x}"))
+                    .collect(),
                 credential_generation: 3,
                 current_credential_generation: 3,
                 expires_at_epoch_secs: u64::MAX,

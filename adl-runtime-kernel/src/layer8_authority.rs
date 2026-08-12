@@ -428,6 +428,7 @@ pub struct RuntimeIdentityEvidence {
     pub principal_id: String,
     pub polis_id: String,
     pub signing_key_id: String,
+    pub verifying_key_hex: String,
     pub credential_generation: u64,
     pub current_credential_generation: u64,
     pub expires_at_epoch_secs: u64,
@@ -441,6 +442,7 @@ impl RuntimeIdentityEvidence {
             || self.principal_id.trim().is_empty()
             || self.polis_id.trim().is_empty()
             || self.signing_key_id.trim().is_empty()
+            || self.verifying_key_hex.trim().is_empty()
         {
             return Err(RefusalReason::IdentityUnavailable);
         }
@@ -660,6 +662,12 @@ impl Layer8ConversationAuthority {
         {
             return Err(RefusalReason::InvalidRequest);
         }
+        let verifying_key = hex::decode(&profile.evidence.verifying_key_hex)
+            .map_err(|_| RefusalReason::InvalidRequest)?;
+        let verifying_key: [u8; 32] = verifying_key
+            .try_into()
+            .map_err(|_| RefusalReason::InvalidRequest)?;
+        VerifyingKey::from_bytes(&verifying_key).map_err(|_| RefusalReason::InvalidRequest)?;
         Ok(Self { store, profile })
     }
 
@@ -677,6 +685,10 @@ impl Layer8ConversationAuthority {
         if authenticated_sender.principal_id != self.profile.evidence.principal_id
             || authenticated_sender.polis_id != self.profile.evidence.polis_id
             || authenticated_sender.signing_key_id != self.profile.evidence.signing_key_id
+            || hex::decode(&self.profile.evidence.verifying_key_hex)
+                .ok()
+                .as_deref()
+                != Some(authenticated_sender.verifying_key.as_bytes())
         {
             return AuthorityDecision::Refused(PublicRefusal {
                 authorized: false,

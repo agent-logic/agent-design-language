@@ -2,4 +2,4 @@ source_tree: exact contents committed with this evidence
 command: cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail --status-level all
 result: PASS
 tests: 12 passed; 0 failed; 0 skipped
-proof: identity-to-signing-key binding, independently supplied capability and policy, exact scope, signed message, acknowledgement replay binding, refusal, replay, simultaneous cross-handle audit serialization, restart and corruption behavior
+proof: identity-to-verification-key binding including same-label key substitution refusal, independently supplied capability and policy, exact scope, signed message, acknowledgement replay binding, refusal, replay, simultaneous cross-handle audit serialization, restart and corruption behavior

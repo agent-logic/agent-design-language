@@ -295,6 +295,11 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
                     principal_id: "layer8-operator".to_owned(),
                     polis_id: "conversation-runtime".to_owned(),
                     signing_key_id: "operator-key".to_owned(),
+                    verifying_key_hex: hex::encode(
+                        ed25519_dalek::SigningKey::from_bytes(&[7_u8; 32])
+                            .verifying_key()
+                            .to_bytes(),
+                    ),
                     credential_generation: 1,
                     current_credential_generation: 1,
                     expires_at_epoch_secs: u64::MAX,

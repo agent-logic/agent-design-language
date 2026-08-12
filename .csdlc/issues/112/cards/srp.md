@@ -12,7 +12,16 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src
+adl-runtime/src/layer8_authority.rs
+adl-runtime/tests/layer8_authority.rs
+adl/src/csm_runtime_api.rs
+adl/tests/layer8_authority_runtime_api.rs
+adl/tools/validate_layer8_authority_observatory_ui.sh
+demos/html-observatory
+docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md
+.csdlc/evidence/112
+.csdlc/issues/112
 
 ## Prompts
 

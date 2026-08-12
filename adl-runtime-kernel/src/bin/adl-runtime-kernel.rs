@@ -525,6 +525,19 @@ async fn main() -> ExitCode {
                                 || sender.polis_id != authority_profile.evidence.polis_id
                                 || sender.signing_key_id
                                     != authority_profile.evidence.signing_key_id
+                                || std::fs::read_to_string(&sender.private_key_file)
+                                    .ok()
+                                    .and_then(|encoded| hex::decode(encoded.trim()).ok())
+                                    .and_then(|secret| <[u8; 32]>::try_from(secret).ok())
+                                    .map(|secret| {
+                                        hex::encode(
+                                            ed25519_dalek::SigningKey::from_bytes(&secret)
+                                                .verifying_key()
+                                                .to_bytes(),
+                                        )
+                                    })
+                                    .as_deref()
+                                    != Some(&authority_profile.evidence.verifying_key_hex)
                                 || signing_profile
                                     .recipients
                                     .iter()

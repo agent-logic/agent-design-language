@@ -45,6 +45,11 @@ fn fixture(
                 principal_id: "human-1".into(),
                 polis_id: "polis-1".into(),
                 signing_key_id: "human-1-key".into(),
+                verifying_key_hex: hex::encode(
+                    SigningKey::from_bytes(&[98_u8; 32])
+                        .verifying_key()
+                        .to_bytes(),
+                ),
                 credential_generation: 4,
                 current_credential_generation: 4,
                 expires_at_epoch_secs: 200,
@@ -462,7 +467,7 @@ fn concurrent_store_handles_serialize_against_the_current_audit_head() {
 }
 
 #[test]
-fn conversation_authority_refuses_a_valid_but_cross_principal_sender() {
+fn conversation_authority_refuses_same_identity_signed_by_an_untrusted_key() {
     let temp = TempDir::new().unwrap();
     let (request, capability, agent_policy, polis_policy) = fixture(Layer8Action::Continue);
     let profile = ConversationAuthorityProfile {
@@ -477,7 +482,7 @@ fn conversation_authority_refuses_a_valid_but_cross_principal_sender() {
     )
     .unwrap();
     let sender = identity(
-        "different-principal",
+        "human-1",
         "human-1-key",
         &SigningKey::from_bytes(&[99_u8; 32]),
     );

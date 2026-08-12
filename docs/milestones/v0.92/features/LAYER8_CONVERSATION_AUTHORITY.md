@@ -37,9 +37,10 @@ declare its own credential generation.
 
 The signing profile maps the sender to an external Ed25519 private-key file and
 maps each recipient principal to only its public verification key. The agent
-sender principal, polis, and signing-key id must exactly match the independently
-loaded Runtime identity evidence; a valid key for another principal cannot
-exercise that identity's capabilities or policies. The evidence credential
+sender principal, polis, signing-key id, and derived public verification key
+must exactly match the independently loaded Runtime identity evidence; a
+caller-generated key with copied identity labels cannot exercise that identity's
+capabilities or policies. The evidence credential
 generation must also be current before authority can derive the principal. The agent
 execution boundary reads its own hex-encoded 32-byte secret from
 `ADL_LAYER8_RECIPIENT_KEY_DIR/<recipient-id>.key` when producing an
