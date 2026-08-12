@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 26,
-  "digest": "b56da844a99a6a91d662b132790520a09dd5d64158d834eda2a49cfc350da3ce",
+  "generation": 27,
+  "digest": "b248b886c60a9142cc8f3b5a27db736d00ade87054b8bd61c84e63e4eb8f3c19",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:a8191d6c-1692-4b5f-b493-e63599fb7727",
-    "assigned_by": "codex:issue-298",
-    "revision": "git-blake3:123ad65ae5d29ab40feae262069616f837bc0137:dcff54dc051c424fc29514a076e8a4f5c6a3369319929800f19c92ba08a8d18f",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fd25fa9146f9463a446f1b096e315252c7a27ef5c1858ab54ce841969d7d75a3",
+      "values_digest": "5f8aecfc46e3543f9c24262a15d2810ee61c8801143c1ac488c6c01441d009cb",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "d53c02b2c0f509296f9ef6ef9ca0e675a9d303a86ca67c5052f7c39e4cf649d4",
+      "values_digest": "e213bd46d901d3d4e5fc16d1ac1bbd12616d2339f33ce24ffae6d1a4c3c986b8",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "65d93d952977e70f8e43fce1ba2604857af8068f4824fffc7a4345c3cb60fe44",
+      "values_digest": "5fe3eab4aa48d538d29b2931ccbdaa48ebee1109bfe6eec3e23053cce67b49aa",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "1cded3845484ac1944b087901663c0330f80995fe010eff03a264c109a167c7f",
+      "values_digest": "a20f53c720c4743bcdcf7b8552588bec6fc16d3d6525a518d3d71028c4e1d028",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "c7b9803b0bc9a3e70f266544f75b48cc9be5c00192138484351d5126f4a57687",
-      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
-      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
+      "values_digest": "fc0df5738f835d5cf17d4349db8d7430a0f68ff638f9e5f10f4d096c878f8cbf",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "44f7453f9b90151a63302682eff2e794920dd70c7d58d1b4dd9575861219e62e",
+      "values_digest": "2adc29a1a32b6fb641508438bb4e5b73c1e17bf0047dffab0ff410d49372b54e",
       "rendered_digest": "a61ffe5d85c3dbac7d5bc419087fbc02e01d7fd69a3c91360182b1423ca4c730",
       "ast_digest": "ef2523cf967fd5f86c9558de39ba02c623edac2bbf53fee6f21a9d0c82a2a621"
     }
@@ -337,6 +322,13 @@
       "actor": "codex:issue-298",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 27,
+      "actor": "codex:issue-298",
+      "reason": "Recover stale r6 assignment because the focused recovery evidence log was refreshed after assigned revision 123ad65a; assign a new fresh session at the exact current clean head.",
+      "operation": "recover_review"
     }
   ]
 }
