@@ -7,21 +7,21 @@
     "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
     "slug": "issue-203-authority-store-boundary-slice1",
     "version": "v0.92",
-    "generation": 7
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Changed authority-store boundary files and compile-required test fixture updates.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/distributed\nadl-runtime/tests/distributed_identity_lease_authority.rs",
+      "review_revision": "git-blake3:3e9f9d10a04ce3803e4edead2882979ef7f0cd72:88b132da3a473cadb30f680e229643edf33b2a406cd36fc3d0cb88799828ef1b",
+      "reviewer": "codex:/root/review_issue_258_exact_head_v2",
       "review_prompts": [
         "Review whether raw store access is sealed and whether published receipt view is sufficient for the authority-serving boundary."
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
