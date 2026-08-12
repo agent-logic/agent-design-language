@@ -3,44 +3,14 @@
   "issue": 244,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
-  "phase": "published",
-  "generation": 41,
-  "digest": "86c62a21c7ae3c7ec9a908e3cf475b028554730763c791ff74b60cc034ec0962",
+  "phase": "implemented",
+  "generation": 43,
+  "digest": "d9ae38972c9ae53840fb80411a1e4728049572f634de5642685a57cea83c02bd",
   "branch": "codex/244-conversation-cleanup-race",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
-  "review_assignment": {
-    "reviewer": "subagent:issue244_ci_fix_review",
-    "assigned_by": "codex:244-pr-janitor",
-    "revision": "git-blake3:6fe1a034113416ab245b5335ee43c229add4083e:d50487a39b0306f290198dfca02dbcf7cb78b20c7b543ab597b228c8fcbd0b24",
-    "scope": [
-      "adl-runtime-kernel/tests/parity.rs",
-      ".csdlc/issues/244"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:issue244_ci_fix_review",
-    "scope": [
-      "adl-runtime-kernel/tests/parity.rs",
-      ".csdlc/issues/244"
-    ],
-    "reviewed_revision": "git-blake3:6fe1a034113416ab245b5335ee43c229add4083e:d50487a39b0306f290198dfca02dbcf7cb78b20c7b543ab597b228c8fcbd0b24",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 244,
-    "pull_request": 247,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/247",
-    "base": "main",
-    "head": "codex/244-conversation-cleanup-race",
-    "revision": "git-blake3:d158676665fa3e6ab65e90e827628e6c4b69b841:7ffbde1271516752235daa8b6bce92811499bd103000f31f8b63b7aade33cbaa",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -54,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "33be69ab63671f782de0c3f45e2de886888a55348868fd25c4057a7485ee0d12",
+      "values_digest": "8b35bb83446d8f397cb910169f453621ae74b638cdc0ac85002b75ded6cf4b8d",
       "rendered_digest": "a7a3fdffde72a8ccd84f303fd9461422089748d7cca2286b450c0616ae3f63b7",
       "ast_digest": "1f3222725b44556758d3036806a3817fdeb58c6bbf437698b7d71d7510b446dc"
     },
     "stp": {
-      "values_digest": "da4e79d4a8912134a55ceef765c0ee825bcb51afd31172644e3ef1ba19180382",
+      "values_digest": "62b954b53f8eee4efa0d91a01b794de63ca39e096d749b167697f1abfb440c43",
       "rendered_digest": "eb188e0abb8bcfed05a216770117422eb93ead3e8e416be888002ad29221716a",
       "ast_digest": "326ed86deaf78bc55b60c81607d0068ad3b1095c56de7aa454808bb21ec07f42"
     },
     "spp": {
-      "values_digest": "1d5aa364b5b21170f700ead6b6a936c59b10a38d4e94f1abaa66ace1c4fc5235",
+      "values_digest": "4c4b14deb80c5ac57e965c168f1fce096780d000f10ebd022c3e83e7803a5405",
       "rendered_digest": "bda7b8a781de64772e815f705e1cc5df733078088b4b151eee30cf87a8b4125b",
       "ast_digest": "39a64663e4cd08a747ac125db95bf0a24014cc92967f026964514147acfcea85"
     },
     "vpp": {
-      "values_digest": "ca9e07cdf468afbf2af7bd4c95dc56cb6e45571aaf843d4a251ea6b1d9f9cbfd",
+      "values_digest": "be1eaab21d1831bfb33521983dfd4bf549bab4e369bb41fc648fb2b5f0a607b9",
       "rendered_digest": "755ba3d37f4acaced6bdebe8e344c69a3f58795363c3c920ea368f1c61f38617",
       "ast_digest": "0189f64d89be4ccec8ab470ba92464ca02e881e26e51642eb41da69221c241b6"
     },
     "srp": {
-      "values_digest": "89b05dd5929f08303ddd9754c9cb483948e2ecb2323c4f6367e78f388ec923fc",
-      "rendered_digest": "44d5cedaecf716a794682089555d18ee2ef3d8c19cc94aa849d6ab76f4d215c0",
-      "ast_digest": "dbaed70f32ba1bf2be1c9bb275355f87da50264d05c2e84743eeb690600ee0f1"
+      "values_digest": "bc911b96b90acc170fa8697a6d00bf3330a615b7ef22a52ad2d27479282df72f",
+      "rendered_digest": "9fdfc4ebbab88ffd71d310ad577f2bc179ab5c194aa6d461bac005661792eaef",
+      "ast_digest": "53d7dbf8eef992e76d36b5742a3ed29b9315d6f20f1595e5ec22d3d4bb66920c"
     },
     "sor": {
-      "values_digest": "b9b4c09231b5cb6cb4895e81edb3400446f629831a3dcba02acab3276e3c7be2",
-      "rendered_digest": "b6fb71f258f522f530bfdaff646a92c6e1c8ebe2d18b7ef62e267b4b272e8c14",
-      "ast_digest": "a63e0baa04ba7a2111c14d661acd5b51b0916ba0ad722aa67916e9de449db452"
+      "values_digest": "520ae85aa8fd5661e4a0a9eca91d3fef12b1e277dcc0375c0cfd2b032738888e",
+      "rendered_digest": "9abb28358e7535e301bd7b8749eb7fb412fc751c0cadf55ea63178edd2c849aa",
+      "ast_digest": "e8bf3fb616c85d53d5883541d734af44204ec13f71698c4c230f114dabf98e2a"
     }
   },
   "transitions": [
@@ -217,6 +187,13 @@
       "to": "published",
       "actor": "codex:244-pr-janitor",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:244-248-integration",
+      "reason": "Planning #1 authorized explicit integration of reviewed #248 precedence fix; recover published state before substantive combined revision and fresh review."
     }
   ],
   "audit": [
@@ -548,6 +525,20 @@
       "actor": "codex:244-pr-janitor",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 48,
+      "generation": 42,
+      "actor": "codex:244-248-integration",
+      "reason": "Planning #1 authorized explicit integration of reviewed #248 precedence fix; recover published state before substantive combined revision and fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 43,
+      "actor": "codex:244-248-integration",
+      "reason": "Record Planning-authorized combined #244 cleanup proof and reviewed #248 process precedence integration through the supported execution truth surface.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Combined deterministic cleanup-attachment synchronization with issue #248's reviewed production process-backend output-limit/timeout precedence fix so one explicit PR can close both issues without bypassing required CI.\",\"changes\":[\"Moved the conversation-session fixture into the crate unit-test boundary so every hook type, field, branch, installer, and test module registration is compiled only under cfg(test).\",\"Added a turn-scoped test hook that observes the duplicate before acceptance arbitration, holds the matching timeout branch, permits duplicate arbitration explicitly, and signals attachment insertion before response serialization.\",\"Added a drop guard that releases duplicate arbitration, timeout arbitration, and barrier-held execution on panic while avoiding extra permits on normal completion.\",\"Removed paused-time control and all widened constants; original 100/70/250/150 ms behavior and timeout, cancellation, capacity, and token-rotation assertions remain unchanged.\",\"Integrated issue #248's exact reviewed three-file substantive patch in adl-runtime-kernel/src/parity.rs, adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs, and adl-runtime-kernel/tests/parity.rs to break the cross-PR required-CI cycle.\",\"Replaced the prior one-second oversized-file test workaround with production-owned post-termination arbitration: observable file output at the enforced RLIMIT boundary reports output_limit; otherwise the generic deadline reports timeout.\",\"Added the deterministic output-limit-then-hang fixture while retaining ordinary timeout, legacy oversized output, process-tree termination, cancellation, and zero-artifact cleanup semantics.\",\"Preserved #244 SPP as immutable historical design-time truth after typed csdlc-edit rejected mutation in implemented phase; the combined final diff is authoritatively recorded in this SOR, the fresh SRP review, and dual-closing PR linkage.\",\"Kept issue #112 authority work and issue #237/PR #242 unchanged.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime-kernel/src/lib.rs\",\".csdlc/evidence/244\",\"adl-runtime-kernel/src/parity.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs\",\"adl-runtime-kernel/tests/parity.rs\",\".csdlc/evidence/244/spp-integration-immutability.log\",\".csdlc/evidence/244/combined-focused-proof.log\",\".csdlc/evidence/244/combined-required-proof.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Prove cleanup duplicate ingress, attachment installation, execution release ordering, and exactly one terminal result; repeated 30 times in the combined session.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/combined-focused-proof.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"parity\",\"process_backend_timeout_and_oversized_file_leave_no_artifacts\",\"--\",\"--exact\"],\"purpose\":\"Prove deterministic output-limit precedence over generic timeout at the post-termination boundary, ordinary timeout, and zero artifacts; repeated 20 times.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/combined-focused-proof.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete combined Runtime kernel suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/combined-required-proof.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across combined Runtime targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/combined-required-proof.log\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Run the required integrated Observatory proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/combined-required-proof.log\"}]}"
     }
   ]
 }

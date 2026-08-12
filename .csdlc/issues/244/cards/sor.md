@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Made cleanup-race ordering deterministic with cfg(test)-only server instrumentation: observe the duplicate, hold its arbitration and the matching timeout branch, install and observe the new-generation attachment, then release barrier-held execution and prove one terminal result.
+Combined deterministic cleanup-attachment synchronization with issue #248's reviewed production process-backend output-limit/timeout precedence fix so one explicit PR can close both issues without bypassing required CI.
 
 ## Artifacts
 
@@ -20,6 +20,12 @@ Made cleanup-race ordering deterministic with cfg(test)-only server instrumentat
 - adl-runtime-kernel/src/conversation_sessions_tests.rs
 - adl-runtime-kernel/src/lib.rs
 - .csdlc/evidence/244
+- adl-runtime-kernel/src/parity.rs
+- adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs
+- adl-runtime-kernel/tests/parity.rs
+- .csdlc/evidence/244/spp-integration-immutability.log
+- .csdlc/evidence/244/combined-focused-proof.log
+- .csdlc/evidence/244/combined-required-proof.log
 
 ## Execution
 
@@ -27,7 +33,11 @@ Made cleanup-race ordering deterministic with cfg(test)-only server instrumentat
 - Added a turn-scoped test hook that observes the duplicate before acceptance arbitration, holds the matching timeout branch, permits duplicate arbitration explicitly, and signals attachment insertion before response serialization.
 - Added a drop guard that releases duplicate arbitration, timeout arbitration, and barrier-held execution on panic while avoiding extra permits on normal completion.
 - Removed paused-time control and all widened constants; original 100/70/250/150 ms behavior and timeout, cancellation, capacity, and token-rotation assertions remain unchanged.
-- Kept issue #237, PR #242, and issue #112 authority work unchanged.
+- Integrated issue #248's exact reviewed three-file substantive patch in adl-runtime-kernel/src/parity.rs, adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs, and adl-runtime-kernel/tests/parity.rs to break the cross-PR required-CI cycle.
+- Replaced the prior one-second oversized-file test workaround with production-owned post-termination arbitration: observable file output at the enforced RLIMIT boundary reports output_limit; otherwise the generic deadline reports timeout.
+- Added the deterministic output-limit-then-hang fixture while retaining ordinary timeout, legacy oversized output, process-tree termination, cancellation, and zero-artifact cleanup semantics.
+- Preserved #244 SPP as immutable historical design-time truth after typed csdlc-edit rejected mutation in implemented phase; the combined final diff is authoritatively recorded in this SOR, the fresh SRP review, and dual-closing PR linkage.
+- Kept issue #112 authority work and issue #237/PR #242 unchanged.
 
 ## Validation
 
@@ -43,9 +53,9 @@ Made cleanup-race ordering deterministic with cfg(test)-only server instrumentat
       "--",
       "--exact"
     ],
-    "purpose": "Run the exact cleanup-race proof thirty consecutive times with built-in bounded scheduler pressure and no clock control.",
+    "purpose": "Prove cleanup duplicate ingress, attachment installation, execution release ordering, and exactly one terminal result; repeated 30 times in the combined session.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/244/conversation-cleanup-race-focused.log"
+    "evidence_ref": ".csdlc/evidence/244/combined-focused-proof.log"
   },
   {
     "command": [
@@ -53,14 +63,15 @@ Made cleanup-race ordering deterministic with cfg(test)-only server instrumentat
       "test",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
-      "--lib",
-      "conversation_sessions_tests::cleanup_race_guard_releases_every_barrier_during_unwind",
+      "--test",
+      "parity",
+      "process_backend_timeout_and_oversized_file_leave_no_artifacts",
       "--",
       "--exact"
     ],
-    "purpose": "Prove unwind cleanup releases duplicate, timeout, and execution barriers without leaking permits into normal completion.",
+    "purpose": "Prove deterministic output-limit precedence over generic timeout at the post-termination boundary, ordinary timeout, and zero artifacts; repeated 20 times.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/244/conversation-cleanup-race-failsafe.log"
+    "evidence_ref": ".csdlc/evidence/244/combined-focused-proof.log"
   },
   {
     "command": [
@@ -69,9 +80,9 @@ Made cleanup-race ordering deterministic with cfg(test)-only server instrumentat
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml"
     ],
-    "purpose": "Run the complete Runtime kernel test target, including real timeout, cancellation, capacity, and token-rotation behavior.",
+    "purpose": "Run the complete combined Runtime kernel suite.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/244/runtime-v3-fast-tests.log"
+    "evidence_ref": ".csdlc/evidence/244/combined-required-proof.log"
   },
   {
     "command": [
@@ -84,40 +95,28 @@ Made cleanup-race ordering deterministic with cfg(test)-only server instrumentat
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings across Runtime kernel targets.",
+    "purpose": "Reject warnings across combined Runtime targets.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/244/runtime-v3-fast-clippy.log"
+    "evidence_ref": ".csdlc/evidence/244/combined-required-proof.log"
   },
   {
     "command": [
       "bash",
       "adl/tools/test_v0917_html_observatory_integrated_proof.sh"
     ],
-    "purpose": "Run the integrated Observatory proof.",
+    "purpose": "Run the required integrated Observatory proof.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/244/runtime-v3-fast-observatory.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "check",
-      "--release",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml"
-    ],
-    "purpose": "Compile the non-test optimized Runtime path with all hook surfaces eliminated by cfg(test).",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/244/runtime-release-production-parity.log"
+    "evidence_ref": ".csdlc/evidence/244/combined-required-proof.log"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
