@@ -3,50 +3,14 @@
   "issue": 298,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
-  "phase": "published",
-  "generation": 63,
-  "digest": "d2af81d6f85ae8af62640f5b5f3b3e678dcef0d33f590d56ea3854259e2c49be",
+  "phase": "implemented",
+  "generation": 64,
+  "digest": "95f6c4d20619474830a5f64b9a327a25d8e4f9577ac0d6af2a3ea08b3dc0dd8c",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:ac4c7c86-1e08-4566-9f68-d6b2708cd259",
-    "assigned_by": "codex:issue-298-r23-remediation",
-    "revision": "git-blake3:5e18a5bd721700a0a330c49dc7a3ed3155a61272:f7653a35486879746879e0f2041181865f0b6edf13264d84b83f87ff3cd6d2c0",
-    "scope": [
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:ac4c7c86-1e08-4566-9f68-d6b2708cd259",
-    "scope": [
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/evidence/298"
-    ],
-    "reviewed_revision": "git-blake3:5e18a5bd721700a0a330c49dc7a3ed3155a61272:f7653a35486879746879e0f2041181865f0b6edf13264d84b83f87ff3cd6d2c0",
-    "findings": [],
-    "residual_risks": [
-      "Inspection-only reviewer verified existing governed logs; Linux-gated unit tests were not independently executed by the reviewer."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 298,
-    "pull_request": 305,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/305",
-    "base": "main",
-    "head": "codex/298-anchored-classification-recovery",
-    "revision": "git-blake3:485e46697144937eb9385cb897aee53ae11ccd27:4518a108cbca0489c32699d9ac098bd61d5b9f96b42d22a8cc13b4de277146e7",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -60,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ca30ea7ce4da6e8459b292e4dfedf85bde3c9b6af3d7bdfaf129ac29e863efe3",
+      "values_digest": "28d5e91c89d032bb64b01b598a0a1b06a16a0a5b98e2b657b90998e44e3f98ca",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "402887af27a081c7c5feba521de70b80560d9b0c6f765c741f663ff993de393d",
+      "values_digest": "c859d0f6e5f149c0da3a85f5e36d79da71327b0cbf71e73f90e5e94aa5cf1e1a",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "65cf69a0ea1a0d1ff0c5eae25c3dd61f029b7198cf14962e1f0023036fa2fc8e",
+      "values_digest": "e097fd99c254cdeee77ce54a77d046318d3bb6929661023c103a0ebb33e4c871",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "19e960d56c1bc2c309feec6995117e830a9283e604ae4d2db315df9548a5d655",
+      "values_digest": "cf0364c488411f9af0073bf075dfe3d5cc66ce1fe9854fa0a7ef3316390fa190",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "3068df727ef10d5234b3cc0f234b3897d7e8ed92c757c3c79e557cf2bf03a654",
-      "rendered_digest": "96e229abdb187b775e34badd7b93d603ab906055392e0d08cf331ea2a1a2c1b6",
-      "ast_digest": "0694e53039ab8bb617844a83d74741a11ff8d8d6bdf048d812805ea5f1f1e246"
+      "values_digest": "3f0cc52b0bf085c61e4bf60cddb55e588dfd105ec6a9c1e0f8297e976bc97723",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "dce315c0a89fa62ff78e253af518d710920bd9734fe0c6371db516f70da1e05d",
-      "rendered_digest": "91d41527e706407e18f57c572da1902dc89d7d66eeba32600a9c40752c68adf3",
-      "ast_digest": "c4da0ecd882935f4d1017903fe95add07b753087b4bb08e12460250b4707a82e"
+      "values_digest": "519b03faa5f42b45254b01d862bb37e9ba4d2dc3a53c258f5c08752da1b48092",
+      "rendered_digest": "4871b781bc73a874ecd1b2b77f63ede69aeff3b78cb6ab92e0b69691db02cd92",
+      "ast_digest": "d0c4c34e29db10e6c4655d634b0892ee8c720a0c93bd97a1806ed3d0ae99c04c"
     }
   },
   "transitions": [
@@ -167,6 +131,13 @@
       "to": "published",
       "actor": "codex:issue-298-r24-publication",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-298-r24-ci-remediation",
+      "reason": "Recover reviewed publication after exact Linux strict-Clippy failure at projection_recovery.rs:613: cfg-linux branch has an unnecessary return rejected by -D warnings. Require the bounded lint correction, fresh exact review, and republication."
     }
   ],
   "audit": [
@@ -799,6 +770,13 @@
       "actor": "codex:issue-298-r24-publication",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 91,
+      "generation": 64,
+      "actor": "codex:issue-298-r24-ci-remediation",
+      "reason": "Recover reviewed publication after exact Linux strict-Clippy failure at projection_recovery.rs:613: cfg-linux branch has an unnecessary return rejected by -D warnings. Require the bounded lint correction, fresh exact review, and republication.",
+      "operation": "recover_review"
     }
   ]
 }

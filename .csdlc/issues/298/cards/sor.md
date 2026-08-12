@@ -345,11 +345,11 @@ Require explicit STATX_MNT_ID authority before accepting Linux retained mount id
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
