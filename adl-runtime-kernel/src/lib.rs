@@ -40,6 +40,9 @@ pub mod tls;
 pub mod topology;
 pub mod weather;
 
+#[cfg(test)]
+mod conversation_sessions_tests;
+
 pub use acip::*;
 pub use adaptive_learning::*;
 pub use agent_roster::*;

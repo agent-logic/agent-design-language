@@ -143,18 +143,21 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
         },
     )
     .expect("ready");
-    git(temp.path(), &["switch", "-c", "issue-7"]);
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "initialize issue"]);
+    let worktree = temp.path().join("worktrees/issue-7");
     bind_issue(
         &store,
         BindRequest {
             issue: 7,
             base_branch: "main".into(),
             branch: "issue-7".into(),
-            worktree: ".".into(),
+            worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
         },
     )
     .expect("bind");
+    let store = Store::new(worktree);
     let mut record = store.load_record(7).expect("bound record");
     for operation in [
         SemanticOperation::RecordExecution {
@@ -300,7 +303,7 @@ fn assignment_and_recording_update_index_and_srp_without_publication_side_effect
         _ => unreachable!(),
     };
     assert_eq!(
-        git_out(temp.path(), &["branch", "--show-current"]),
+        git_out(store.root(), &["branch", "--show-current"]),
         "issue-7"
     );
     assert!(
@@ -352,8 +355,8 @@ fn direct_exact_review_records_and_advances_without_assignment() {
 
 #[test]
 fn dirty_substantive_tree_is_rejected_before_review_assignment() {
-    let (temp, store, record) = implemented_fixture();
-    std::fs::write(temp.path().join("docs/design.md"), "# changed design\n").expect("dirty");
+    let (_temp, store, record) = implemented_fixture();
+    std::fs::write(store.root().join("docs/design.md"), "# changed design\n").expect("dirty");
     let error = assign_review(
         &store,
         ReviewAssignmentRequest {
@@ -371,7 +374,7 @@ fn dirty_substantive_tree_is_rejected_before_review_assignment() {
 
 #[test]
 fn metadata_only_changes_do_not_stale_a_clean_review() {
-    let (temp, store, record) = implemented_fixture();
+    let (_temp, store, record) = implemented_fixture();
     let assigned = assign_review(
         &store,
         ReviewAssignmentRequest {
@@ -409,13 +412,13 @@ fn metadata_only_changes_do_not_stale_a_clean_review() {
         },
     )
     .expect("record review");
-    std::fs::create_dir_all(temp.path().join(".csdlc/review")).expect("metadata dir");
-    std::fs::write(temp.path().join(".csdlc/review/observation.json"), "{}\n").expect("metadata");
-    let current = csdlc_v2::git::substantive_revision(temp.path(), &["docs".into()])
+    std::fs::create_dir_all(store.root().join(".csdlc/review")).expect("metadata dir");
+    std::fs::write(store.root().join(".csdlc/review/observation.json"), "{}\n").expect("metadata");
+    let current = csdlc_v2::git::substantive_revision(store.root(), &["docs".into()])
         .expect("current revision");
     assert_eq!(current, revision);
     assert!(
-        evaluate_publication_review_in_repo(temp.path(), reviewed.review.as_ref(), &current).ready
+        evaluate_publication_review_in_repo(store.root(), reviewed.review.as_ref(), &current).ready
     );
     let report = csdlc_v2::diagnose(&store, 7);
     assert!(!report
@@ -426,7 +429,7 @@ fn metadata_only_changes_do_not_stale_a_clean_review() {
 
 #[test]
 fn reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview() {
-    let (temp, store, implemented) = implemented_fixture();
+    let (_temp, store, implemented) = implemented_fixture();
     let before = std::fs::read(store.issue_dir(7).join("index.json")).unwrap();
     let premature = edit_issue(
         &store,
@@ -486,7 +489,7 @@ fn reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview() {
         },
     )
     .expect("record review");
-    std::fs::write(temp.path().join("docs/new-proof.md"), "proof\n").expect("dirty change");
+    std::fs::write(store.root().join("docs/new-proof.md"), "proof\n").expect("dirty change");
     let report = csdlc_v2::diagnose(&store, 7);
     assert!(matches!(
         report.status,
@@ -542,8 +545,8 @@ fn reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview() {
         vec!["Does the final hosted mode match current truth?"]
     );
 
-    git(temp.path(), &["add", "docs/new-proof.md"]);
-    git(temp.path(), &["commit", "-m", "finalize reviewed changes"]);
+    git(store.root(), &["add", "docs/new-proof.md"]);
+    git(store.root(), &["commit", "-m", "finalize reviewed changes"]);
     let reassigned = assign_review(
         &store,
         ReviewAssignmentRequest {
@@ -720,7 +723,7 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
         LifecyclePhase::Published,
         LifecyclePhase::MergeReady,
     ] {
-        let (temp, store, implemented) = implemented_fixture();
+        let (_temp, store, implemented) = implemented_fixture();
         let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
             .expect("review revision");
         let mut record = record_review(
@@ -788,7 +791,7 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
                 actor: "legacy-readiness".into(),
                 reason: "retained merge-ready compatibility state".into(),
             });
-            write_consistent_record(temp.path(), &mut record);
+            write_consistent_record(store.root(), &mut record);
         }
         assert_eq!(record.phase, recovery_phase);
 
@@ -845,7 +848,7 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
                 draft: true,
                 observed_state: "open".into(),
             });
-            write_consistent_record(temp.path(), &mut retained);
+            write_consistent_record(store.root(), &mut retained);
             assert_eq!(
                 edit_issue(
                     &store,
@@ -867,7 +870,7 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
                 ErrorCode::InvalidTransition
             );
             let mut restored = recovered_snapshot.clone();
-            write_consistent_record(temp.path(), &mut restored);
+            write_consistent_record(store.root(), &mut restored);
 
             let mut retained = recovered_snapshot.clone();
             retained.readiness = Some(csdlc_v2::model::ReadinessEvidence {
@@ -880,7 +883,7 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
                 ready: false,
                 blockers: vec!["retained".into()],
             });
-            write_consistent_record(temp.path(), &mut retained);
+            write_consistent_record(store.root(), &mut retained);
             assert_eq!(
                 edit_issue(
                     &store,
@@ -902,7 +905,7 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
                 ErrorCode::InvalidTransition
             );
             let mut restored = recovered_snapshot;
-            write_consistent_record(temp.path(), &mut restored);
+            write_consistent_record(store.root(), &mut restored);
         }
         if recovery_phase == LifecyclePhase::Reviewed {
             for (card, value, generation, digest) in [
@@ -1055,7 +1058,7 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
         }
     }
 
-    let (temp, store, implemented) = implemented_fixture();
+    let (_temp, store, implemented) = implemented_fixture();
     let clean_error = edit_issue(
         &store,
         EditRequest {
@@ -1089,7 +1092,7 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
         actor: "synthetic-recovery".into(),
         reason: "prove transition-only rejection".into(),
     });
-    write_consistent_record(temp.path(), &mut transition_only);
+    write_consistent_record(store.root(), &mut transition_only);
     let transition_error = edit_issue(
         &store,
         EditRequest {
@@ -1108,7 +1111,7 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
     .expect_err("transition-only provenance must fail");
     assert_eq!(transition_error.code, ErrorCode::InvalidTransition);
     let mut restored = implemented.clone();
-    write_consistent_record(temp.path(), &mut restored);
+    write_consistent_record(store.root(), &mut restored);
     let assigned = assign_review(
         &store,
         ReviewAssignmentRequest {

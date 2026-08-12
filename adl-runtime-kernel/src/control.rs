@@ -615,6 +615,90 @@ struct ConversationDispatch {
     signed_request: SignedIdentityMessage,
 }
 
+#[cfg(test)]
+pub(crate) struct ConversationAttachmentTestHook {
+    conversation_id: String,
+    turn_id: String,
+    first_intent_seen: Mutex<bool>,
+    duplicate_observed: tokio::sync::Notify,
+    allow_duplicate: tokio::sync::Semaphore,
+    attachment_ready: tokio::sync::Notify,
+    allow_timeout: tokio::sync::Semaphore,
+}
+
+#[cfg(test)]
+impl ConversationAttachmentTestHook {
+    pub(crate) fn new(conversation_id: &str, turn_id: &str) -> Arc<Self> {
+        Arc::new(Self {
+            conversation_id: conversation_id.to_owned(),
+            turn_id: turn_id.to_owned(),
+            first_intent_seen: Mutex::new(false),
+            duplicate_observed: tokio::sync::Notify::new(),
+            allow_duplicate: tokio::sync::Semaphore::new(0),
+            attachment_ready: tokio::sync::Notify::new(),
+            allow_timeout: tokio::sync::Semaphore::new(0),
+        })
+    }
+
+    fn matches(&self, conversation_id: &str, turn_id: &str) -> bool {
+        self.conversation_id == conversation_id && self.turn_id == turn_id
+    }
+
+    async fn observe_intent(&self) {
+        let duplicate = {
+            let mut seen = self
+                .first_intent_seen
+                .lock()
+                .expect("conversation attachment test hook poisoned");
+            std::mem::replace(&mut *seen, true)
+        };
+        if duplicate {
+            self.duplicate_observed.notify_one();
+            self.allow_duplicate
+                .acquire()
+                .await
+                .expect("conversation attachment test hook closed")
+                .forget();
+        }
+    }
+
+    pub(crate) async fn wait_for_duplicate(&self) {
+        self.duplicate_observed.notified().await;
+    }
+
+    pub(crate) fn permit_duplicate(&self) {
+        self.allow_duplicate.add_permits(1);
+    }
+
+    pub(crate) async fn wait_for_attachment(&self) {
+        self.attachment_ready.notified().await;
+    }
+
+    fn attachment_ready(&self) {
+        self.attachment_ready.notify_one();
+    }
+
+    async fn wait_for_timeout_permission(&self) {
+        self.allow_timeout
+            .acquire()
+            .await
+            .expect("conversation attachment test hook closed")
+            .forget();
+    }
+
+    pub(crate) fn release_all(&self) {
+        self.allow_duplicate.add_permits(1);
+        self.allow_timeout.add_permits(1);
+    }
+
+    pub(crate) fn fail_safe_permits(&self) -> (usize, usize) {
+        (
+            self.allow_duplicate.available_permits(),
+            self.allow_timeout.available_permits(),
+        )
+    }
+}
+
 enum ConversationAcceptance {
     Dispatch {
         accepted: ObservatoryConversationResult,
@@ -646,6 +730,8 @@ pub struct ControlService<C> {
     layer8_signed_exchange: Option<Arc<Layer8SignedExchange>>,
     agent_roster_token_key: Mutex<[u8; 32]>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
+    #[cfg(test)]
+    conversation_attachment_test_hook: Mutex<Option<Arc<ConversationAttachmentTestHook>>>,
 }
 
 impl<C: LifecycleControl + 'static> ControlService<C> {
@@ -737,7 +823,34 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 uuid::Uuid::new_v4().as_bytes(),
             )),
             api_policy: Mutex::new(None),
+            #[cfg(test)]
+            conversation_attachment_test_hook: Mutex::new(None),
         }
+    }
+
+    #[cfg(test)]
+    pub(crate) fn install_conversation_attachment_test_hook(
+        &self,
+        hook: Arc<ConversationAttachmentTestHook>,
+    ) {
+        *self
+            .conversation_attachment_test_hook
+            .lock()
+            .expect("conversation attachment test hook mutex poisoned") = Some(hook);
+    }
+
+    #[cfg(test)]
+    fn conversation_attachment_test_hook(
+        &self,
+        conversation_id: &str,
+        turn_id: &str,
+    ) -> Option<Arc<ConversationAttachmentTestHook>> {
+        self.conversation_attachment_test_hook
+            .lock()
+            .expect("conversation attachment test hook mutex poisoned")
+            .as_ref()
+            .filter(|hook| hook.matches(conversation_id, turn_id))
+            .cloned()
     }
 
     pub fn set_agent_roster_token_key(&self, key: [u8; 32]) {
@@ -1144,29 +1257,42 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 (Err(_), _) => outcome("refused", "invalid_conversation_intent"),
                 (_, None) => outcome("failed", "conversation_ingress_unavailable"),
                 (Ok(payload), Some(ingress)) => {
-                    let submitted = tokio::time::timeout_at(
-                        deadline,
-                        ingress.submit_with_cancellation(
-                            DomainWork {
-                                schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
-                                work_id: dispatch.work_id.clone(),
-                                kind: "agent_runtime".to_owned(),
-                                payload,
-                            },
-                            dispatch.intent.correlation_id.clone(),
-                            dispatch.cancellation.clone(),
-                        ),
-                    )
-                    .await;
-                    if submitted.is_err() {
+                    let submit = ingress.submit_with_cancellation(
+                        DomainWork {
+                            schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
+                            work_id: dispatch.work_id.clone(),
+                            kind: "agent_runtime".to_owned(),
+                            payload,
+                        },
+                        dispatch.intent.correlation_id.clone(),
+                        dispatch.cancellation.clone(),
+                    );
+                    #[cfg(test)]
+                    let submitted = if let Some(hook) = self.conversation_attachment_test_hook(
+                        &dispatch.intent.conversation_id,
+                        &dispatch.intent.turn_id,
+                    ) {
+                        tokio::select! {
+                            result = submit => Some(result),
+                            _ = async {
+                                tokio::time::sleep_until(deadline).await;
+                                hook.wait_for_timeout_permission().await;
+                            } => None,
+                        }
+                    } else {
+                        tokio::time::timeout_at(deadline, submit).await.ok()
+                    };
+                    #[cfg(not(test))]
+                    let submitted = tokio::time::timeout_at(deadline, submit).await.ok();
+                    if submitted.is_none() {
                         dispatch.cancellation.cancel();
                     }
                     match submitted {
-                        Err(_) => outcome("timed_out", "conversation_timed_out"),
-                        Ok(Err(_)) if dispatch.cancellation.is_cancelled() => {
+                        None => outcome("timed_out", "conversation_timed_out"),
+                        Some(Err(_)) if dispatch.cancellation.is_cancelled() => {
                             outcome("cancelled", "conversation_cancelled")
                         }
-                        Ok(Ok(result)) => {
+                        Some(Ok(result)) => {
                             let reply = result
                                 .public_output
                                 .as_ref()
@@ -1234,16 +1360,16 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                 None => outcome("failed", "conversation_reply_unavailable"),
                             }
                         }
-                        Ok(Err(IngressError::Saturated | IngressError::Closed)) => {
+                        Some(Err(IngressError::Saturated | IngressError::Closed)) => {
                             outcome("failed", "conversation_temporarily_unavailable")
                         }
-                        Ok(Err(IngressError::UnsupportedKind)) => {
+                        Some(Err(IngressError::UnsupportedKind)) => {
                             outcome("refused", "recipient_unavailable")
                         }
-                        Ok(Err(IngressError::Conflict)) => {
+                        Some(Err(IngressError::Conflict)) => {
                             outcome("refused", "conversation_conflict")
                         }
-                        Ok(Err(_)) => outcome("failed", "conversation_failed"),
+                        Some(Err(_)) => outcome("failed", "conversation_failed"),
                     }
                 }
             }
@@ -2831,6 +2957,13 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         conversation_attachments.clear();
                     }
                     if let Ok(intent) = serde_json::from_str::<ObservatoryConversationIntent>(&payload) {
+                        #[cfg(test)]
+                        if let Some(hook) = service.conversation_attachment_test_hook(
+                            &intent.conversation_id,
+                            &intent.turn_id,
+                        ) {
+                            hook.observe_intent().await;
+                        }
                         let result = if bearer_token.is_none() {
                             ConversationAcceptance::Response(ObservatoryConversationResult {
                                 schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
@@ -2866,6 +2999,15 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         } else {
                             false
                         };
+                        #[cfg(test)]
+                        if attach_to_in_flight && attachment_inserted {
+                            if let Some(hook) = service.conversation_attachment_test_hook(
+                                &conversation_id,
+                                &turn_id,
+                            ) {
+                                hook.attachment_ready();
+                            }
+                        }
                         let Ok(payload) = serde_json::to_string(&response) else {
                             break;
                         };

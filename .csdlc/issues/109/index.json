@@ -1,0 +1,484 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 109,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
+  "phase": "published",
+  "generation": 32,
+  "digest": "8a1411993c74e85930782f73778b77f9fe924ea17ed257147f7d7f32e968b220",
+  "branch": "codex/109-fresh-session-standard-srp",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
+  "review_assignment": {
+    "reviewer": "fresh-session:0cc6ff8e-7fbc-43d0-b674-3f2958076954",
+    "assigned_by": "planning-1:pr119-janitor",
+    "revision": "git-blake3:99f796620e21291803f312e182b8ae666f42db41:65fa2614ebdfe5b6f5148d7165f2f8b79398dfb3e28eaf0d3a9889927cccc498",
+    "scope": [
+      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md",
+      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
+      ".csdlc/evidence/109/focused-srp-contract.log",
+      ".csdlc/issues/109"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:0cc6ff8e-7fbc-43d0-b674-3f2958076954",
+    "scope": [
+      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md",
+      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
+      ".csdlc/evidence/109/focused-srp-contract.log",
+      ".csdlc/issues/109"
+    ],
+    "reviewed_revision": "git-blake3:99f796620e21291803f312e182b8ae666f42db41:65fa2614ebdfe5b6f5148d7165f2f8b79398dfb3e28eaf0d3a9889927cccc498",
+    "findings": [],
+    "residual_risks": [
+      "The governed three-revision validator must pass at the exact committed publication head before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 109,
+    "pull_request": 119,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/119",
+    "base": "main",
+    "head": "codex/109-fresh-session-standard-srp",
+    "revision": "git-blake3:33620e436c4ded43c9335554f8057ac920b33489:2ac45f45192abce83a8045aebc83e608c1bdfb6699d6ecbdcc1a5f0933dccab1",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/109/design.md",
+  "diagram_path": ".csdlc/prepared/issues/109/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator",
+      "revision": "57095ceeb0de2c8e74d473f78c657972794346d68ba427dc61e4503d0b828a2d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "81b8824221821a739528fe33bf574182940aa55ecd0ee36cd56b8a89cac5969a",
+      "rendered_digest": "a16c30e6eb67e913ee8762af729f2e743ecc238e253cc24b26a05255d4b6e63d",
+      "ast_digest": "d9ff4d384357d9982cd4c1ddf3bce9ed3bab4fd788701abfa01c0ad7be311347"
+    },
+    "stp": {
+      "values_digest": "3a15870287ef311bb64d772f651c9b73a0fdf7dd7ce0f08a1c183235c65bedbb",
+      "rendered_digest": "b8baca559f4ab0ba540348fcc5d89f2eb385714182a5b32b88d63e048fde12d8",
+      "ast_digest": "c7b225fee03b714b762487332b3d4258ae2bfe43be77ff42373006902df1e504"
+    },
+    "spp": {
+      "values_digest": "7128a383e48240406a6228f4df8a87f0548e9a296e3c5d27dd9dde3c5de44406",
+      "rendered_digest": "c15c2539fe8932e08b5972afacac160c5214fab95f42b9b9984e18488418c98a",
+      "ast_digest": "acf77d2f3dc05dbfe6dc707c857f8de903a9921927afb14f1816da2e0c4a6ccd"
+    },
+    "vpp": {
+      "values_digest": "2df6297ffc280264fe6c0442f89f257983d5e31b545cceda51b12bb05cd84ae4",
+      "rendered_digest": "bea8837fa774ecd20e74d3c72fab78cbb27e3849f7c09362df341e9182d5671a",
+      "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
+    },
+    "srp": {
+      "values_digest": "b8383143039d540e41e02a7f8c11fd5c84e8d722377dbb28bc78220cd4a1fd98",
+      "rendered_digest": "e346d197aacf26085da251751261bd2158f57b0bf887a7f05ee41919b464b3bc",
+      "ast_digest": "2ee90c1d103133228b5c5cbed658c556bf62db6a25220c83e8d500c801c3f7f6"
+    },
+    "sor": {
+      "values_digest": "e451a6a2390af3aa6b28cd2fce2f8c3202511e0144a78809e89b4ef080707348",
+      "rendered_digest": "3a1eada992d8e25c1e6b6d6ded5d98c59d81401f6364f750674bdb55ebaabc73",
+      "ast_digest": "fb09afd795a546276e7d8f27e7fde39d1963d0728a32c546db742aff63d7707d"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "substantive remediation required by independent PR review"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover stale review and publication truth after the exact-head validator repair; require fresh independent review at f188d89f4ef98ab3605a686f1ee4a29be1f6b77a."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/review_pr119_fix",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover the non-canonical reviewer identity before publication; require a fresh-session UUID assignment and exact-head review."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:0cc6ff8e-7fbc-43d0-b674-3f2958076954",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "planning-1:pr119-janitor",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "declare exact issue-owned review documentation and validator paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\",\"docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md\",\".csdlc/prepared/issues/109/design.md\",\".csdlc/prepared/issues/109/diagram.mmd\",\".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\",\".csdlc/issues/109\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "resolve fresh-session review finding by making the standard SRP self-contained",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Review only the named immutable commit SHA in the named worktree; do not inherit or rely on the implementation conversation.\",\"Operate read-only: do not edit files, lifecycle state, PR state, or GitHub state.\",\"Report findings first, ordered P0 through P3, with repository-relative file and line evidence; include explicit limitations and state PASS only when no actionable findings remain.\",\"Check every acceptance criterion and identify any actionable finding that the implementation session must resolve.\",\"Apply authority-critical precedence: changes to authentication, authorization, security boundaries, lifecycle authority, or proof production require code, security, and evidence review even when the changed files are documentation.\",\"Verify the standard SRP remains the sole review-result authority and that any substantive fix requires a refreshed SRP and fresh-session review at the new exact head.\",\"Verify no daemon, scheduler, registry, claim, parallel review record, provider abstraction, lifecycle phase, or redundant broad validation was added.\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "retain fresh-session review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-SRP\",\"severity\":\"p1\",\"summary\":\"Standard SRP omitted self-contained read-only, findings-first, evidence, resolution, and scope-depth instructions (.csdlc/issues/109/cards/srp.md:17).\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "retain fresh-session review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P2-VALIDATOR\",\"severity\":\"p2\",\"summary\":\"Focused validator checked isolated substrings and did not prove AC-3 through AC-7 (.csdlc/prepared/issues/109/validate-fresh-session-srp.sh:8).\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "retain fresh-session review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P2-PRECEDENCE\",\"severity\":\"p2\",\"summary\":\"Review-depth rules did not define authority-critical precedence over documentation-only classification (docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md:26).\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "record the validator's required immutable base and exact-head arguments",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-srp-contract\",\"proof_role\":\"prove fresh-session standard SRP instructions\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":100,\"argv\":[\"bash\",\".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\",\"<immutable-base-sha>\",\"<exact-reviewed-head-sha>\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "record the exact focused validation invocation retained in evidence",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"documented standard SRP handoff to a fresh external review session\",\"changes\":[\"updated existing review skill\",\"added bounded operator runbook\",\"added focused contract validator\"],\"artifacts\":[\"csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\",\"docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md\"],\"validation\":[{\"command\":[\"/bin/bash\",\".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\",\"081988dfe4632e27062f3acc72b7c5d226cd0802\",\"6ce1d075b2a45e4da0c87811eb36b563024b65d4\"],\"purpose\":\"issue 109 focused docs contract validation at the retained pre-review candidate\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/109/focused-srp-contract.log\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "record completion of the fresh-session SRP handoff documentation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "record completion of finding-resolution and exact-head repeat documentation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "record completion of bounded-scope and non-goal validation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "substantive remediation required by independent PR review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "retain independent PR review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-REVIEW-PROOF\",\"severity\":\"p1\",\"summary\":\"Focused validator could pass before any fresh-session review assignment, evidence, exact reviewed revision, or terminal finding dispositions existed.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "retain independent PR review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-REUSABLE-SCOPE\",\"severity\":\"p1\",\"summary\":\"Reusable review skill omitted the mandatory runbook, authority-first classification, code/security/evidence coverage, acceptance review, explicit limitations, and P0-P3 ordering.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "retain fresh-session review assignment-order finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-ASSIGNMENT-ORDER\",\"severity\":\"p1\",\"summary\":\"The documented route did not require typed reviewer assignment before review activity began, permitting backfilled independence evidence.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex",
+      "reason": "retain fresh-session exact-revision finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-SUBSTANTIVE-BINDING\",\"severity\":\"p1\",\"summary\":\"The validator accepted an ancestor revision and did not verify the BLAKE3 portion of the exact substantive review revision.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "retain structured SRP parity finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R109-P1-SRP-PARITY\",\"severity\":\"p1\",\"summary\":\"The validator did not compare structured SRP reviewer, revision, scope, findings, dispositions, and residual risks with retained review evidence.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex",
+      "reason": "bind focused validation to final head and exact reviewed substantive revision",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-srp-contract\",\"proof_role\":\"prove fresh-session standard SRP instructions and retained exact-revision review truth\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":100,\"argv\":[\"bash\",\".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\",\"<immutable-base-sha>\",\"<exact-final-head-sha>\",\"<exact-reviewed-substantive-sha>\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex",
+      "reason": "substantive validator remediation required by assigned fresh-session review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex",
+      "reason": "narrow post-review metadata proof required by assigned fresh-session review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover stale review and publication truth after the exact-head validator repair; require fresh independent review at f188d89f4ef98ab3605a686f1ee4a29be1f6b77a.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex-subagent:/root/review_pr119_fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover the non-canonical reviewer identity before publication; require a fresh-session UUID assignment and exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 27,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover assigned review after P1 finding: retained SOR and evidence still claim the obsolete two-argument validator contract.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 29,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Remove the obsolete two-argument PASS claim before fresh review; the governed three-revision proof runs only after exact review and publication metadata exist.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"documented standard SRP handoff to a fresh external review session\",\"changes\":[\"updated existing review skill\",\"added bounded operator runbook\",\"added focused contract validator\"],\"artifacts\":[\"csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\",\"docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md\"],\"validation\":[{\"command\":[\"/bin/bash\",\".csdlc/prepared/issues/109/validate-fresh-session-srp.sh\",\"081988dfe4632e27062f3acc72b7c5d226cd0802\",\"363ecba5b47bfc4ed8b30e1f6c572fc0fd537807\",\"614dc3319c7c043355796505e50074ff9b650993\"],\"purpose\":\"truthfully verify the three-revision validator fails closed before fresh review evidence exists\",\"outcome\":\"failed\",\"evidence_ref\":\".csdlc/evidence/109/focused-srp-contract.log\"}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 29,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 30,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover assigned review to bind every consumed card blob to exact HEAD and enforce canonical UUID syntax.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 30,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 31,
+      "actor": "fresh-session:0cc6ff8e-7fbc-43d0-b674-3f2958076954",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 32,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

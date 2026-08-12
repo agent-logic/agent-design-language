@@ -7,12 +7,13 @@ use std::{
     time::Duration,
 };
 
-use adl_runtime_kernel::layer8_authority::{
+use crate::control::ConversationAttachmentTestHook;
+use crate::layer8_authority::{
     AuthorityScope, CommunicationKeyDescriptor, ConversationAuthorityProfile,
     ConversationSigningProfile, Layer8Action, Layer8AuthorityStore, Layer8Capability,
     Layer8ConversationAuthority, Layer8Policy, Layer8SignedExchange, RuntimeIdentityEvidence,
 };
-use adl_runtime_kernel::{
+use crate::{
     serve_control_listener, AdapterKind, AdapterPolicy, AgentPopulationFeed, AgentRosterPolicy,
     AgentSample, AuthorityMode, CanonicalIngress, ComponentId, ComponentRegistry, ControlApiPolicy,
     ControlAuthority, ControlService, ExecutorError, FailureClass, Kernel, KernelExit,
@@ -38,6 +39,57 @@ use tls_support::TestPki;
 
 const TOKEN: &str = "conversation-test-token-000000000001";
 const ROTATED_TOKEN: &str = "rotated-conversation-test-token-0002";
+
+struct CleanupRaceReleaseGuard {
+    hook: Arc<ConversationAttachmentTestHook>,
+    execution: Arc<Semaphore>,
+    execution_released: bool,
+    completed: bool,
+}
+
+impl CleanupRaceReleaseGuard {
+    fn release_execution(&mut self) {
+        self.execution.add_permits(1);
+        self.execution_released = true;
+    }
+
+    fn complete(&mut self) {
+        self.completed = true;
+    }
+}
+
+impl Drop for CleanupRaceReleaseGuard {
+    fn drop(&mut self) {
+        if !self.completed {
+            self.hook.release_all();
+            if !self.execution_released {
+                self.execution.add_permits(1);
+            }
+        }
+    }
+}
+
+#[test]
+fn cleanup_race_guard_releases_every_barrier_during_unwind() {
+    let hook = ConversationAttachmentTestHook::new("cleanup-panic", "turn-panic");
+    let execution = Arc::new(Semaphore::new(0));
+    let unwind = std::panic::catch_unwind(std::panic::AssertUnwindSafe({
+        let hook = hook.clone();
+        let execution = execution.clone();
+        move || {
+            let _guard = CleanupRaceReleaseGuard {
+                hook,
+                execution,
+                execution_released: false,
+                completed: false,
+            };
+            panic!("exercise cleanup-race fail-safe release");
+        }
+    }));
+    assert!(unwind.is_err());
+    assert_eq!(hook.fail_safe_permits(), (1, 1));
+    assert_eq!(execution.available_permits(), 1);
+}
 
 struct FakeLifecycle;
 struct ConversationExecutor {
@@ -894,6 +946,15 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         "correlation_id": "34343434343434343434343434343434",
         "message": "barrier cleanup"
     });
+    let cleanup_hook =
+        ConversationAttachmentTestHook::new("conversation-cleanup-race", "turn-cleanup-race");
+    service.install_conversation_attachment_test_hook(cleanup_hook.clone());
+    let mut cleanup_release = CleanupRaceReleaseGuard {
+        hook: cleanup_hook.clone(),
+        execution: barrier_release.clone(),
+        execution_released: false,
+        completed: false,
+    };
     socket
         .send(Message::Text(cleanup_race.to_string().into()))
         .await
@@ -904,6 +965,15 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
         .await
         .expect("old-generation execution did not reach the completion barrier");
+    let scheduling_pressure = (0..64)
+        .map(|_| {
+            tokio::spawn(async {
+                for _ in 0..64 {
+                    tokio::task::yield_now().await;
+                }
+            })
+        })
+        .collect::<Vec<_>>();
 
     socket
         .send(Message::Text(
@@ -916,19 +986,31 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         ))
         .await
         .unwrap();
-    let authenticated =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
-    assert_eq!(authenticated["status"], "authenticated");
+    // Queue the attachment behind re-authentication without spending the
+    // conversation execution window on a client-side authentication round
+    // trip. The server still processes these frames in order, so the proof
+    // retains the generation transition while deterministically attaching to
+    // the barrier-held turn before its bounded execution deadline.
     socket
         .send(Message::Text(cleanup_race.to_string().into()))
         .await
         .unwrap();
+    tokio::time::timeout(Duration::from_secs(10), cleanup_hook.wait_for_duplicate())
+        .await
+        .expect("server did not observe the cleanup duplicate");
+    cleanup_hook.permit_duplicate();
+    tokio::time::timeout(Duration::from_secs(10), cleanup_hook.wait_for_attachment())
+        .await
+        .expect("server did not install the current-generation attachment");
+    let authenticated =
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    assert_eq!(authenticated["status"], "authenticated");
     let attached =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(attached["status"], "accepted", "{attached}");
     assert_eq!(attached["error"], "conversation_in_flight", "{attached}");
 
-    barrier_release.add_permits(1);
+    cleanup_release.release_execution();
     let delivered = next_conversation_result_for_turn(&mut socket, "turn-cleanup-race").await;
     assert_eq!(delivered["status"], "delivered", "{delivered}");
     assert!(
@@ -941,6 +1023,12 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         "stale completion removed or duplicated the current-generation attachment"
     );
     assert_eq!(completions.load(Ordering::SeqCst), 10);
+    for task in scheduling_pressure {
+        task.await.unwrap();
+    }
+    assert_eq!(cleanup_hook.fail_safe_permits(), (0, 0));
+    cleanup_release.complete();
+    drop(cleanup_release);
 
     let dispatches_before_turnover = dispatches.load(Ordering::SeqCst);
     socket

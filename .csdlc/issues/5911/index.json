@@ -1,0 +1,328 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5911,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "eba116b5732a4b5f497dadabca6e906a6f9eb9dcd393ae704780074f01a773fe",
+  "phase": "published",
+  "generation": 20,
+  "digest": "194c09f05d349ba75e0486b1e31f30197656b31e293a79a710737e6c7d5fffed",
+  "branch": "codex/5911-fastwork-storage-policy",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5911-fastwork-storage-policy",
+  "review_assignment": {
+    "reviewer": "codex-subagent-issue-5911-review",
+    "assigned_by": "codex:issue-5911-ci-repair",
+    "revision": "git-blake3:d23ec6c17e013bbd16e2bb35978ac2c6714726be:9cf3f477c5736cf2565b4ca2f0648521ed8efa00bf0e6db75dcd0b77e5687bcb",
+    "scope": [
+      ".adl/worktree-policy.json",
+      "AGENTS.md",
+      "adl/tools/archive_codex_sessions_to_fastwork.sh",
+      "adl/tools/test_archive_codex_sessions_to_fastwork.sh",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent-issue-5911-review",
+    "scope": [
+      ".adl/worktree-policy.json",
+      "AGENTS.md",
+      "adl/tools/archive_codex_sessions_to_fastwork.sh",
+      "adl/tools/test_archive_codex_sessions_to_fastwork.sh",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ],
+    "reviewed_revision": "git-blake3:d23ec6c17e013bbd16e2bb35978ac2c6714726be:9cf3f477c5736cf2565b4ca2f0648521ed8efa00bf0e6db75dcd0b77e5687bcb",
+    "findings": [],
+    "residual_risks": [
+      "Local transcript deletion remains deliberately unperformed and requires separate explicit operator approval.",
+      "Existing legacy worktrees outside the canonical parent are not relocated by this issue.",
+      "The local shared Git common directory contains unrelated retained terminal-state drift; exact clean hosted C-SDLC v2 validation is the authoritative full-suite proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5911,
+    "pull_request": 245,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/245",
+    "base": "main",
+    "head": "codex/5911-fastwork-storage-policy",
+    "revision": "git-blake3:b650592cf9a5cebafe8d33ba8eac929eff5de4f3:98859a9b770f64c0d74d2fdd74dbfdbafa6896f55d229705e472eddfaf9bdf7a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5911/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5911/design.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-approved issue scope",
+      "revision": "d1c9aa19f2fe9852933e714905eb7ee5d03620078721157ccdafdb9b286d1991"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "dcf0cf832c77ab9710762acdfdc71582dbdacc898f72054c1569d0c158053aed",
+      "rendered_digest": "50d8426892e02179c4580c314aea63c6a17ea525229f22acb5707e52d60a46c7",
+      "ast_digest": "3eb3ea1e6498c50e443dcec5bf981178d93caf68b11349f56efe7137e9e3732c"
+    },
+    "stp": {
+      "values_digest": "ffff5076fe78246d0fae6a447a4fae1d9b5247369f29d7443f52ab26f9fa2dba",
+      "rendered_digest": "b633f7279064086c2b1e2a2cf7925433018552a9dd81ae45d213068ed69ffdbd",
+      "ast_digest": "f68cd50f666c2f83f3fcb83b350475373e86b9d411a8340d42fdd0005126b67b"
+    },
+    "spp": {
+      "values_digest": "1eb94e56b65bc6144c41e3a7f0c7e569c1ba98e59f7996eeae631faaf517bb8d",
+      "rendered_digest": "b30508945a2ec5d553839b75fec7a8eab462771538092435b212a23b79461a18",
+      "ast_digest": "19be4f70450bb723cc19101cfd65d7024a073ce28270ae531ea3a48dbde59390"
+    },
+    "vpp": {
+      "values_digest": "35b221b68a909ed2fdd95d78ec5f4514a11131c45f32369361d0e74f9cf56855",
+      "rendered_digest": "b2a0a37fba05894492caf16a3bd250138529e3b7a63072c8dc16d48d8e479059",
+      "ast_digest": "8511a86ca506470fad6aaf35c6d429832b9559b0e8d1eef211b3acb0e7d42d4f"
+    },
+    "srp": {
+      "values_digest": "4aac4cf8107f3c295b6ae5e8e4e804d20b693c6008985609b1d5f2bbb838727f",
+      "rendered_digest": "9fd0469a3ed049ed6fe02ff0a5a4d21042b73e496c1d97d6270a3ff8667c994d",
+      "ast_digest": "49810659933c85c02f630aca5c0e60104e0703f0cba7dad21b031a9ccd8ceb64"
+    },
+    "sor": {
+      "values_digest": "4e3c7cb170687d95cc7884c496fd401c8a3c50d46b0822981921265568a308d2",
+      "rendered_digest": "309fba9286233a7aba0eca2d80f265a71be33a2f550c9830c5d9e41687f36e65",
+      "ast_digest": "9143adf5151cc54ce31ba7c2254098435568e99753770e9b49b2e62996764dcd"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "doctor passed with no findings; advance the prepared issue to execution-ready"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "implementation and all declared focused validation lanes completed without destructive cleanup"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "Hosted standalone CI exposed bind fixtures that still used same-checkout Ready binding after FastWork enforcement; recover stale publication review truth for exact-head rereview of the bounded fixture repairs."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "route pre-bind archive validation through an existing governed archive test target; issue-specific manifest verification remains required execution evidence",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-bind-fastwork-policy\",\"proof_role\":\"Focused Rust tests prove allowed FastWork binding and refusal outside the canonical parent.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"fastwork\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"transcript-archive-verification\",\"proof_role\":\"Governed archive tests plus issue execution evidence prove manifest generation, digest verification, and source preservation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":3000,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_archive_run_artifacts.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "declare the existing governed archive validation target in the issue planning surface",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"AGENTS.md\",\"docs/tooling\",\"adl/tools/test_archive_run_artifacts.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "doctor passed with no findings; advance the prepared issue to execution-ready",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "resolve exact-head review finding by routing both validation lanes to the issue-owned tests",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-bind-fastwork-policy\",\"proof_role\":\"Focused Rust unit tests prove allowed FastWork binding, outside-parent refusal, and missing-policy refusal.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"fastwork_policy\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"transcript-archive-verification\",\"proof_role\":\"Issue-owned archive tests prove manifest generation, digest verification, source preservation, and canonical FastWork containment.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":3000,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "record completed issue implementation, verified non-destructive archive, and focused proof",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Enforced the canonical FastWork worktree parent in typed binding, archived 6,454 inactive Codex transcript files totaling 131,750,498,984 bytes to FastWork, verified equal source/archive SHA-256 manifests and an independent archive-side check, and retained all source files pending separate deletion approval.\",\"changes\":[\"Added tracked .adl/worktree-policy.json with /Volumes/FastWork/adl-worktrees as the mandatory parent.\",\"Made canonical ADL binding fail closed when policy is missing or a new worktree resolves outside FastWork while preserving idempotent legacy issue-local binds.\",\"Added a non-destructive archive/verification tool and focused tests including symlink-escape refusal.\",\"Archived the stable older-than-one-day transcript set; no source transcript or existing worktree was deleted.\"],\"artifacts\":[\".adl/worktree-policy.json\",\"adl/tools/archive_codex_sessions_to_fastwork.sh\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\",\"/Volumes/FastWork/adl-archives/codex-sessions/issue-5911-20260811/summary.json\",\"/Volumes/FastWork/adl-archives/codex-sessions/issue-5911-20260811/manifest.sha256\",\"/Volumes/FastWork/adl-archives/codex-sessions/issue-5911-20260811/deletion-proposal.json\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "record focused FastWork bind policy proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"fastwork_policy\"],\"purpose\":\"Prove allowed FastWork placement, outside-parent refusal, and missing-policy refusal.\",\"outcome\":\"passed\",\"evidence_ref\":\"local issue worktree output: 3 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "record issue-owned archive tool proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\"],\"purpose\":\"Prove manifest generation, source preservation, path refusal, and symlink-escape refusal.\",\"outcome\":\"passed\",\"evidence_ref\":\"local issue worktree output: PASS archive_codex_sessions_to_fastwork\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "record live 121 GiB FastWork archive verification",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"adl/tools/archive_codex_sessions_to_fastwork.sh\",\"--verify-only\",\"/Volumes/FastWork/adl-archives/codex-sessions/issue-5911-20260811/manifest.sha256\"],\"purpose\":\"Independently verify all 6,454 archived transcript digests on FastWork.\",\"outcome\":\"passed\",\"evidence_ref\":\"/Volumes/FastWork/adl-archives/codex-sessions/issue-5911-20260811/summary.json\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "record strict lint proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint proof for the changed v2 lifecycle library.\",\"outcome\":\"passed\",\"evidence_ref\":\"local issue worktree output\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "implementation and all declared focused validation lanes completed without destructive cleanup",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "align issue-owned paths with the corrected exact validation targets after review",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".adl/worktree-policy.json\",\"AGENTS.md\",\"csdlc-v2/src/lifecycle.rs\",\"adl/tools/archive_codex_sessions_to_fastwork.sh\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "FastWork bind enforcement and focused proof completed",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "non-destructive 121 GiB transcript archive and checksum verification completed",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "Hosted standalone CI exposed bind fixtures that still used same-checkout Ready binding after FastWork enforcement; recover stale publication review truth for exact-head rereview of the bounded fixture repairs.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "Declare the complete standalone C-SDLC v2 suite that covers the production policy and every bind fixture repaired after hosted CI.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-standalone-fastwork-policy\",\"proof_role\":\"The complete standalone C-SDLC v2 suite proves case-insensitive mandatory FastWork enforcement and all linked-worktree fixture compatibility paths changed by this issue.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"transcript-archive-verification\",\"proof_role\":\"Issue-owned archive tests prove manifest generation, digest verification, source preservation, and canonical FastWork containment.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":3000,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "Record the exact-head hosted standalone suite that proves the final policy implementation and all repaired bind fixtures.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/run_cargo_validation.sh\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove the complete C-SDLC v2 standalone surface, including case-insensitive FastWork enforcement and every linked-worktree fixture repaired after the first hosted failure.\",\"outcome\":\"passed\",\"evidence_ref\":\"GitHub Actions run 31561244618, job csdlc-v2-standalone, exact head 5a2444dbf03f5b315285722689fb8eeb8fb6469e\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
