@@ -1,0 +1,15 @@
+
+running 7 tests
+test distributed::membership_coordinator::tests::authority_membership_preserves_explicit_stable_ids ... ok
+test distributed::membership_coordinator::tests::authorized_transition_binds_exact_stable_maps_and_membership ... ADL_ISSUE_199_ASSERTION_V1 case=old_cut_mismatch assertion=authorized_stable_maps_and_target_membership_bound_before_raft_effect
+ok
+test distributed::membership_coordinator::tests::committed_history_must_be_newer_than_authorized_operation ... ADL_ISSUE_199_ASSERTION_V1 case=leader_change_resume assertion=membership_history_entries_newer_than_authority_log_index_required
+ok
+test distributed::membership_coordinator::tests::conflicting_transition_and_receipt_fail_closed ... ADL_ISSUE_199_ASSERTION_V1 case=conflicting_retry assertion=conflicting_operation_and_receipt_denied_before_effect
+ok
+test distributed::membership_coordinator::tests::durable_saga_requires_exact_current_receipt_and_order ... ADL_ISSUE_199_ASSERTION_V1 case=crash_every_phase assertion=durable_saga_restart_exact_retry_no_duplicate_publication
+ok
+test distributed::membership_coordinator::tests::promote_artifact_requires_exact_discriminator_and_maps ... ok
+test distributed::membership_coordinator::tests::stable_map_digest_rejects_collisions_and_zero ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 308 filtered out; finished in 0.54s
