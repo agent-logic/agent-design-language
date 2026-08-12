@@ -738,6 +738,47 @@ fn preserved_projection_recovery_resumes_every_recovery_boundary() {
     }
 }
 
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_symlinked_partial_receipt_before_resume_mutation() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "partial symlink fixture".into(),
+        },
+    )
+    .expect("classify");
+    let mut request = recovery_request(&store, &record, &classify, "partial-symlink-receipt");
+    request.fail_after = Some("prepared".into());
+    csdlc_v2::recover_preserved_projection(&store, request.clone())
+        .expect_err("prepared failpoint interrupts");
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/partial-symlink-receipt");
+    let prepared = receipt_path(&attempt, 1, "prepared");
+    let copy = attempt.join("001-prepared-copy.json");
+    std::fs::copy(&prepared, &copy).expect("copy prepared receipt");
+    std::fs::remove_file(&prepared).expect("remove regular prepared receipt");
+    std::os::unix::fs::symlink(&copy, &prepared).expect("symlink prepared receipt");
+    request.fail_after = None;
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("symlinked partial receipt must fail before resume");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert!(
+        preserved.is_dir(),
+        "resume must fail before archiving preserved evidence"
+    );
+}
+
 #[test]
 fn preserved_projection_recovery_rejects_swapped_post_exchange_candidate() {
     let (_temp, store, record) = implemented_fixture();

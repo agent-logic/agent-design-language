@@ -3,61 +3,14 @@
   "issue": 298,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
-  "phase": "published",
-  "generation": 42,
-  "digest": "e36c9eb68c37a1dffc350f63cd72da20f607f8b9d887c7feda78ab23771dcae8",
+  "phase": "implemented",
+  "generation": 43,
+  "digest": "7db6230a2140cf0898d3a9b9ef3d04eddc59f68b1bfa1c97a8f55c927d93273e",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:6b46a79f-e440-4ed8-acd1-f5f28e616cce",
-    "assigned_by": "codex:issue-298",
-    "revision": "git-blake3:058fcbb21ce118494ccca111ad4d91e1e2269399:9a7bf015e764c45cd912703a322711cfe447372f68babc2d5af61791412c8695",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:6b46a79f-e440-4ed8-acd1-f5f28e616cce",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ],
-    "reviewed_revision": "git-blake3:058fcbb21ce118494ccca111ad4d91e1e2269399:9a7bf015e764c45cd912703a322711cfe447372f68babc2d5af61791412c8695",
-    "findings": [],
-    "residual_risks": [
-      "Read-only focused source and test review; no dynamic cross-mount injection, GitHub, publication, or CI was exercised by the reviewer.",
-      "Reviewer independently ran the focused recovery lane: 29 passed, 0 failed, 19 filtered."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 298,
-    "pull_request": 305,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/305",
-    "base": "main",
-    "head": "codex/298-anchored-classification-recovery",
-    "revision": "git-blake3:1fb6b05d52f43f42b522cfbe829450fe2952682b:3e7b335c88f035b8ee1a83e3f4d012175af3882afd254a486cdfd33559bd221d",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -71,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "42ab8f77081eac3d2700f78a43cba6908c1f7cb9ca7d3335cb1364630db9a93a",
+      "values_digest": "56da386b477fc22a802bb2ac39d59654c75a0c63bdb3f55bb50a96f15173dfaa",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "b28621fb4f1c4ac7059dff93a1d417442ad0ac1a32e449f7b154d2fcc07eeab0",
+      "values_digest": "ba1508838b997dab69773f2fb805501ec02ac8f0129a4e0f50c50747d0dd87c8",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "32ffaa5f4ac8bce835edaded82d50cb67aa80052d2ca08fefd7fb80aa48ca14d",
+      "values_digest": "1df032847359657e9522a5a5c6cdc13dc4f40d12139815c4bad1b86dbed14f22",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "263e69cb1dbb852cc648e51e93bc41c6c7ee6b41a75b3b0486c23df5620d6b65",
+      "values_digest": "5a0cc32e309ddb79b16e7d8be9bd60fa7411df7358634363817bcde20c5e3921",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "f57ee24269e2903715c0696b86a38851493acfc037399e3c0583c7e7e4f5e8d4",
-      "rendered_digest": "8ef891aa4b3af9a6e5e7140db139339a2bfbe68a83cc87240e9576a42d7bbff7",
-      "ast_digest": "99e3c83899fff57714e25bd40982c33536cf33121d081cdfa2f88143d90efe11"
+      "values_digest": "2ceb63bf58aebe5f7f5b3b47f1cdf5e60f313fdf59cf8ed5bdbe677a661735e8",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "c4b78253625ba71eb2be84fc527bf39df331d69a34bc3dcb7b66e30f901965f4",
-      "rendered_digest": "604e015923eb7797d44f5f06e456a7220593e850e7f714c8fc55593bc64b2b43",
-      "ast_digest": "d43cb3f2e7de034c98385e7a399d621bbb5656184dc227ea4d1fa624a7fe225b"
+      "values_digest": "114facba8548e2acbe7ab06222380a80e1cda0845cc1fa08e98131ee352a936a",
+      "rendered_digest": "0502d7accb58a5a23a160ed52b4abc3764ac1e700301c6cbf647ddbedd799b61",
+      "ast_digest": "be888f15634741285e28da3adc423f8d00d203de24fc1613888df2cd43ecf3fe"
     }
   },
   "transitions": [
@@ -136,6 +89,13 @@
       "to": "published",
       "actor": "codex:issue-298",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-298",
+      "reason": "Recover stale r15 reviewed publication after stable post-publication substantive drift added fail-closed regular-file validation for partial receipt resume and a symlinked partial-receipt regression outside reviewed revision 058fcbb21; require a new exact implementation head, different fresh reviewer, and PR update before publication truth can be current."
     }
   ],
   "audit": [
@@ -558,6 +518,13 @@
       "actor": "codex:issue-298",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 61,
+      "generation": 43,
+      "actor": "codex:issue-298",
+      "reason": "Recover stale r15 reviewed publication after stable post-publication substantive drift added fail-closed regular-file validation for partial receipt resume and a symlinked partial-receipt regression outside reviewed revision 058fcbb21; require a new exact implementation head, different fresh reviewer, and PR update before publication truth can be current.",
+      "operation": "recover_review"
     }
   ]
 }

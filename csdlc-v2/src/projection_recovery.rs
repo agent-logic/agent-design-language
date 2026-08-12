@@ -63,6 +63,13 @@ pub struct ManifestEntry {
 }
 
 fn receipt_payload<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
+    let metadata = fs::symlink_metadata(path)?;
+    if !metadata.is_file() || metadata.file_type().is_symlink() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt is not a regular file",
+        ));
+    }
     let name = path.file_name().and_then(|v| v.to_str()).ok_or_else(|| {
         V2Error::new(ErrorCode::CorruptRecord, "recovery receipt name is invalid")
     })?;
@@ -123,6 +130,13 @@ fn receipt_payload<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
             return Err(V2Error::new(
                 ErrorCode::CorruptRecord,
                 "recovery receipt chain predecessor is ambiguous",
+            ));
+        }
+        let prior_metadata = prior[0].path().symlink_metadata()?;
+        if !prior_metadata.is_file() || prior_metadata.file_type().is_symlink() {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt predecessor is not a regular file",
             ));
         }
         Some(
@@ -810,6 +824,13 @@ fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Resu
                 "recovery receipt chain predecessor is missing or ambiguous",
             ));
         }
+        let prior_metadata = prior[0].path().symlink_metadata()?;
+        if !prior_metadata.is_file() || prior_metadata.file_type().is_symlink() {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt predecessor is not a regular file",
+            ));
+        }
         Some(
             blake3::hash(&fs::read(prior[0].path())?)
                 .to_hex()
@@ -825,7 +846,13 @@ fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Resu
     });
     let mut bytes = serde_json::to_vec_pretty(&envelope)?;
     bytes.push(b'\n');
-    if p.symlink_metadata().is_ok() {
+    if let Ok(metadata) = p.symlink_metadata() {
+        if !metadata.is_file() || metadata.file_type().is_symlink() {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt is not a regular file",
+            ));
+        }
         let existing = fs::read(&p)?;
         if existing == bytes {
             return Ok(blake3::hash(&bytes).to_hex().to_string());

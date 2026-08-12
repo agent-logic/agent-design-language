@@ -373,11 +373,11 @@ Bind exact node temporary and terminal identities across completed recovery rece
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
