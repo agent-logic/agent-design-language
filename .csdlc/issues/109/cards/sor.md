@@ -43,11 +43,11 @@ documented standard SRP handoff to a fresh external review session
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

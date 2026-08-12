@@ -3,181 +3,14 @@
   "issue": 109,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
-  "phase": "published",
-  "generation": 24,
-  "digest": "f6d813e3b8aee4f7bbf15d5172b7d65be0ff4c03d0105d9b2e674c5d59ce3194",
+  "phase": "implemented",
+  "generation": 25,
+  "digest": "7fbe2a85fcc55753042d0a26f17b43d3aeada0b0799cec0d267c35cfcd8af1cc",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
-  "review_assignment": {
-    "reviewer": "fresh-session:019fea2f-95fc-7212-8891-1de38b56c85e",
-    "assigned_by": "codex",
-    "revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-    "scope": [
-      ".csdlc/evidence/109/focused-srp-contract.log",
-      ".csdlc/issues/109/audit.jsonl",
-      ".csdlc/issues/109/cards/sip.md",
-      ".csdlc/issues/109/cards/sip.values.json",
-      ".csdlc/issues/109/cards/sor.md",
-      ".csdlc/issues/109/cards/sor.values.json",
-      ".csdlc/issues/109/cards/spp.md",
-      ".csdlc/issues/109/cards/spp.values.json",
-      ".csdlc/issues/109/cards/srp.md",
-      ".csdlc/issues/109/cards/srp.values.json",
-      ".csdlc/issues/109/cards/stp.md",
-      ".csdlc/issues/109/cards/stp.values.json",
-      ".csdlc/issues/109/cards/vpp.md",
-      ".csdlc/issues/109/cards/vpp.values.json",
-      ".csdlc/issues/109/index.json",
-      ".csdlc/prepared/issues/109/design.md",
-      ".csdlc/prepared/issues/109/diagram.mmd",
-      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
-      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
-      "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:019fea2f-95fc-7212-8891-1de38b56c85e",
-    "scope": [
-      ".csdlc/evidence/109/focused-srp-contract.log",
-      ".csdlc/issues/109/audit.jsonl",
-      ".csdlc/issues/109/cards/sip.md",
-      ".csdlc/issues/109/cards/sip.values.json",
-      ".csdlc/issues/109/cards/sor.md",
-      ".csdlc/issues/109/cards/sor.values.json",
-      ".csdlc/issues/109/cards/spp.md",
-      ".csdlc/issues/109/cards/spp.values.json",
-      ".csdlc/issues/109/cards/srp.md",
-      ".csdlc/issues/109/cards/srp.values.json",
-      ".csdlc/issues/109/cards/stp.md",
-      ".csdlc/issues/109/cards/stp.values.json",
-      ".csdlc/issues/109/cards/vpp.md",
-      ".csdlc/issues/109/cards/vpp.values.json",
-      ".csdlc/issues/109/index.json",
-      ".csdlc/prepared/issues/109/design.md",
-      ".csdlc/prepared/issues/109/diagram.mmd",
-      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
-      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
-      "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md"
-    ],
-    "reviewed_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-    "findings": [
-      {
-        "id": "R109-P1-SRP",
-        "severity": "p1",
-        "summary": "Standard SRP initially omitted self-contained reviewer instructions.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-        "route": null
-      },
-      {
-        "id": "R109-P2-VALIDATOR",
-        "severity": "p2",
-        "summary": "Initial focused validator did not prove the complete acceptance contract.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-        "route": null
-      },
-      {
-        "id": "R109-P2-PRECEDENCE",
-        "severity": "p2",
-        "summary": "Review-depth rules initially omitted authority-critical precedence.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-        "route": null
-      },
-      {
-        "id": "R109-P1-REVIEW-PROOF",
-        "severity": "p1",
-        "summary": "Validator could pass without completed fresh-session review evidence.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-        "route": null
-      },
-      {
-        "id": "R109-P1-REUSABLE-SCOPE",
-        "severity": "p1",
-        "summary": "Reusable review skill omitted authority-critical scope requirements.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-        "route": null
-      },
-      {
-        "id": "R109-P1-ASSIGNMENT-ORDER",
-        "severity": "p1",
-        "summary": "Review assignment was not required before review activity.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-        "route": null
-      },
-      {
-        "id": "R109-P1-SUBSTANTIVE-BINDING",
-        "severity": "p1",
-        "summary": "Review evidence was not required to match the exact substantive SHA and typed digest.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-        "route": null
-      },
-      {
-        "id": "R109-P1-SRP-PARITY",
-        "severity": "p1",
-        "summary": "Structured SRP fields were not compared with retained review evidence.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-        "route": null
-      },
-      {
-        "id": "R109-P1-METADATA-SATISFIABILITY",
-        "severity": "p1",
-        "summary": "Completed review metadata was rejected by an overbroad raw drift check.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-        "route": null
-      },
-      {
-        "id": "R109-P1-METADATA-ALLOWLIST",
-        "severity": "p1",
-        "summary": "Generic metadata acceptance allowed unrelated lifecycle and evidence drift.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:beadf360744c0c17fa9326339e63a104b37294b5:5c12681268a3074823537089c058335ae525aeee0645e190835bd31f3685739a",
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 109,
-    "pull_request": 119,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/119",
-    "base": "main",
-    "head": "codex/109-fresh-session-standard-srp",
-    "revision": "git-blake3:e5be2ee4f532c6b62c2c10798f8ff2b65bd0d374:8a4b828119f7e8895667f982edb979bd463b813e4077d2814f44eb4d7b9ef36e",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -191,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "89103cf1c08be3c52310a26e3072dd5d4f64dcf369db73fb4fdd4703c3f26be0",
+      "values_digest": "01695174a63ee07b6a677efb6ba5e770682897c462b29e376329080ba03e3a07",
       "rendered_digest": "a16c30e6eb67e913ee8762af729f2e743ecc238e253cc24b26a05255d4b6e63d",
       "ast_digest": "d9ff4d384357d9982cd4c1ddf3bce9ed3bab4fd788701abfa01c0ad7be311347"
     },
     "stp": {
-      "values_digest": "c01111f72aca7494914bad0d749fb496d562110e07527b62f207f9dcccd80576",
+      "values_digest": "658cf45b0e0859c451fbd0e493aab8f80119bf43b1b72316bd8e06fe66b1a74d",
       "rendered_digest": "b8baca559f4ab0ba540348fcc5d89f2eb385714182a5b32b88d63e048fde12d8",
       "ast_digest": "c7b225fee03b714b762487332b3d4258ae2bfe43be77ff42373006902df1e504"
     },
     "spp": {
-      "values_digest": "4b740d6b0a1175131356fd49dc4dcf658f9e2baa9dba0cf9043eb42a5b8089f5",
+      "values_digest": "3b693a7df1cf96b45b742487f972ee351d6ff55d16c8e9c4c214c60b90b42a65",
       "rendered_digest": "c15c2539fe8932e08b5972afacac160c5214fab95f42b9b9984e18488418c98a",
       "ast_digest": "acf77d2f3dc05dbfe6dc707c857f8de903a9921927afb14f1816da2e0c4a6ccd"
     },
     "vpp": {
-      "values_digest": "eb783acab9d5af6ad2c4db9d6a18b2b240059013d03a89aa379a2be70443d425",
+      "values_digest": "c2b64a354aa77a1e288dac4156d1b79f48b76cb8fcd850d6a4d83beeb39d02c2",
       "rendered_digest": "bea8837fa774ecd20e74d3c72fab78cbb27e3849f7c09362df341e9182d5671a",
       "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
     },
     "srp": {
-      "values_digest": "9dd603757c4ef3e12c1bbba2546f3de75790bba32583f455890a2a3cd34d7041",
-      "rendered_digest": "b88006f0ffa82f0df6f8c2d1a38717d60bbf5c25f3061284ad34eaae8f979544",
-      "ast_digest": "8e926267d51da4d9d875a913e1bd5faea6b020de6b2983bf932ee55102093c8a"
+      "values_digest": "ba5cc902c221c2a9ee2cfc77b3a855e37a2e72e61e555d66e7530eadb994f176",
+      "rendered_digest": "1cef0442070327593b6f41e5c0c35abfcbb2b8dece5603e4956372297399c363",
+      "ast_digest": "c654880138d226f4ca831fb2f41bcc8bd7d2e85e75e1d0f5446f3045c52ab92c"
     },
     "sor": {
-      "values_digest": "d09bec067f1a36a47288ff19728a569c20e35506f302f6291fbd4e1f800a01e0",
-      "rendered_digest": "6982d9723c61d4449f1e4d06d8184667e1bb985f7171e4aac8b002cbd49d7c97",
-      "ast_digest": "14420410c8689d0e81f2e03117e9b0337a0bfbacaf57cb156d42a011d7f704fc"
+      "values_digest": "673b8e9493cc46eeb6b91b83d7d7e69df7b8d4b07123d461182ed13b73d44c9d",
+      "rendered_digest": "54304d46c7d82f6566fe481a04db5c4ea5abcf105b8fbe90cd524a708d6bdb0a",
+      "ast_digest": "4d2df717ca82be386d9723dcc027b7ebd6e179bc3cb388060183b69bf4c6e4b7"
     }
   },
   "transitions": [
@@ -277,6 +110,13 @@
       "to": "published",
       "actor": "codex",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover stale review and publication truth after the exact-head validator repair; require fresh independent review at f188d89f4ef98ab3605a686f1ee4a29be1f6b77a."
     }
   ],
   "audit": [
@@ -489,6 +329,13 @@
       "actor": "codex",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "Recover stale review and publication truth after the exact-head validator repair; require fresh independent review at f188d89f4ef98ab3605a686f1ee4a29be1f6b77a.",
+      "operation": "recover_review"
     }
   ]
 }
