@@ -1,6 +1,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, File, OpenOptions};
 use std::io::{Read, Write};
+use std::os::unix::ffi::OsStrExt;
 use std::os::unix::fs::{MetadataExt, OpenOptionsExt, PermissionsExt};
 use std::path::{Path, PathBuf};
 
@@ -224,15 +225,122 @@ fn recovery_root(store: &Store, issue: u64) -> PathBuf {
     issue_parent(store).join(format!(".{issue}.recovery"))
 }
 
-fn validate_private_recovery_dir(path: &Path, label: &str) -> Result<()> {
-    let metadata = fs::symlink_metadata(path)?;
-    if !metadata.is_dir() || metadata.file_type().is_symlink() || metadata.mode() & 0o777 != 0o700 {
+pub(crate) struct PrivateRecoveryDir {
+    pub(crate) file: File,
+    anchored_path: PathBuf,
+}
+
+impl PrivateRecoveryDir {
+    pub(crate) fn anchored_path(&self) -> &Path {
+        &self.anchored_path
+    }
+
+    pub(crate) fn names(&self) -> Result<Vec<std::ffi::CString>> {
+        directory_names(&self.file)
+    }
+
+    pub(crate) fn open_child(
+        &self,
+        name: &std::ffi::CStr,
+        label: &str,
+    ) -> Result<PrivateRecoveryDir> {
+        let file = open_child_no_follow(&self.file, name, true).map_err(|_| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} cannot be opened descriptor-relative without following links"),
+            )
+        })?;
+        private_recovery_dir_from_file(file, label, Some(&self.file))
+    }
+
+    fn create_private_child(&self, name: &std::ffi::CStr) -> Result<()> {
+        use std::os::fd::AsRawFd;
+        if unsafe { libc::mkdirat(self.file.as_raw_fd(), name.as_ptr(), 0o700) } != 0 {
+            return Err(std::io::Error::last_os_error().into());
+        }
+        self.file.sync_all()?;
+        Ok(())
+    }
+
+    fn validate_binding(&self, path: &Path, label: &str) -> Result<()> {
+        let current = open_private_recovery_dir(path, label, None)?;
+        let retained = fd_identity(&self.file)?;
+        let named = fd_identity(&current.file)?;
+        if retained.device != named.device
+            || retained.mount_id != named.mount_id
+            || retained.inode != named.inode
+            || retained.uid != named.uid
+            || retained.gid != named.gid
+            || retained.mode != named.mode
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("{label} pathname no longer names the retained directory"),
+            ));
+        }
+        Ok(())
+    }
+}
+
+fn retained_directory_path(file: &File) -> PathBuf {
+    use std::os::fd::AsRawFd;
+    #[cfg(any(target_os = "macos", target_os = "ios"))]
+    {
+        let mut buffer = [0i8; libc::PATH_MAX as usize];
+        if unsafe { libc::fcntl(file.as_raw_fd(), libc::F_GETPATH, buffer.as_mut_ptr()) } == 0 {
+            let path = unsafe { std::ffi::CStr::from_ptr(buffer.as_ptr()) };
+            return PathBuf::from(std::ffi::OsStr::from_bytes(path.to_bytes()));
+        }
+    }
+    #[cfg(any(target_os = "macos", target_os = "ios", target_os = "freebsd"))]
+    let base = "/dev/fd";
+    #[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "freebsd")))]
+    let base = "/proc/self/fd";
+    Path::new(base).join(file.as_raw_fd().to_string())
+}
+
+pub(crate) fn open_private_recovery_dir(
+    path: &Path,
+    label: &str,
+    expected_parent: Option<&File>,
+) -> Result<PrivateRecoveryDir> {
+    let file = open_root_no_follow(path).map_err(|_| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            format!("{label} cannot be opened without following links"),
+        )
+    })?;
+    private_recovery_dir_from_file(file, label, expected_parent)
+}
+
+fn private_recovery_dir_from_file(
+    file: File,
+    label: &str,
+    expected_parent: Option<&File>,
+) -> Result<PrivateRecoveryDir> {
+    let metadata = file.metadata()?;
+    if !metadata.is_dir() || metadata.mode() & 0o777 != 0o700 {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
             format!("{label} is not a private non-symlink directory"),
         ));
     }
-    Ok(())
+    if let Some(parent) = expected_parent {
+        let parent_metadata = parent.metadata()?;
+        if metadata.uid() != parent_metadata.uid()
+            || metadata.gid() != parent_metadata.gid()
+            || metadata.dev() != parent_metadata.dev()
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} owner or device does not match its parent"),
+            ));
+        }
+    }
+    Ok(PrivateRecoveryDir {
+        anchored_path: retained_directory_path(&file),
+        file,
+    })
 }
 
 fn validate_receipt_metadata(
@@ -383,12 +491,20 @@ fn open_root_no_follow(path: &Path) -> Result<File> {
     use std::ffi::CString;
     use std::os::fd::FromRawFd;
     use std::os::unix::ffi::OsStrExt;
-    let path = CString::new(path.as_os_str().as_bytes())
+    let retained_alias = path.parent().is_some_and(|parent| {
+        parent == Path::new("/dev/fd") || parent == Path::new("/proc/self/fd")
+    }) && path
+        .file_name()
+        .is_some_and(|name| name.as_encoded_bytes().iter().all(u8::is_ascii_digit));
+    let path_cstr = CString::new(path.as_os_str().as_bytes())
         .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "path contains NUL"))?;
     let fd = unsafe {
         libc::open(
-            path.as_ptr(),
-            libc::O_RDONLY | libc::O_DIRECTORY | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+            path_cstr.as_ptr(),
+            libc::O_RDONLY
+                | libc::O_DIRECTORY
+                | libc::O_CLOEXEC
+                | if retained_alias { 0 } else { libc::O_NOFOLLOW },
         )
     };
     if fd < 0 {
@@ -434,6 +550,10 @@ fn directory_names(directory: &File) -> Result<Vec<std::ffi::CString>> {
     use std::os::fd::AsRawFd;
     let dup = unsafe { libc::dup(directory.as_raw_fd()) };
     if dup < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    if unsafe { libc::lseek(dup, 0, libc::SEEK_SET) } < 0 {
+        unsafe { libc::close(dup) };
         return Err(std::io::Error::last_os_error().into());
     }
     let stream = unsafe { libc::fdopendir(dup) };
@@ -792,26 +912,31 @@ pub fn classify_preserved_projection(
     check_anchor(&request.anchor, &canonical, &backup)?;
     let recovery = recovery_root(store, request.issue);
     let mut completed_match = false;
-    if recovery.is_dir() {
-        for entry in fs::read_dir(&recovery)? {
-            let entry = entry?;
-            let name = entry.file_name();
-            let name = name.to_str().ok_or_else(|| {
+    let recovery = match recovery.symlink_metadata() {
+        Ok(_) => {
+            let issues = open_root_no_follow(&issue_parent(store))?;
+            Some(open_private_recovery_dir(
+                &recovery,
+                "recovery root",
+                Some(&issues),
+            )?)
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+        Err(error) => return Err(error.into()),
+    };
+    if let Some(recovery) = recovery {
+        for name in recovery.names()? {
+            let name_text = name.to_str().map_err(|_| {
                 V2Error::new(
                     ErrorCode::CorruptRecord,
                     "recovery namespace contains a non-UTF8 entry",
                 )
             })?;
-            validate_operation_id(name)?;
-            if !entry.file_type()?.is_dir() {
-                return Err(V2Error::new(
-                    ErrorCode::ReconciliationRequired,
-                    "recovery namespace contains a non-directory attempt",
-                ));
-            }
-            let recovered: Vec<_> = fs::read_dir(entry.path())?
-                .filter_map(std::result::Result::ok)
-                .filter(|v| v.file_name().to_string_lossy().ends_with("-recovered.json"))
+            validate_operation_id(name_text)?;
+            let attempt = recovery.open_child(&name, "recovery attempt")?;
+            let recovered: Vec<_> = directory_names(&attempt.file)?
+                .into_iter()
+                .filter(|v| v.to_string_lossy().ends_with("-recovered.json"))
                 .collect();
             if recovered.len() > 1 {
                 return Err(V2Error::new(
@@ -820,8 +945,11 @@ pub fn classify_preserved_projection(
                 ));
             }
             if !recovered.is_empty() {
-                let result =
-                    validate_completed_recovery_attempt(store, request.issue, &entry.path())?;
+                let result = validate_completed_recovery_attempt(
+                    store,
+                    request.issue,
+                    attempt.anchored_path(),
+                )?;
                 completed_match |= result.issue == request.issue
                     && canonical.valid_projection
                     && canonical.generation == Some(result.canonical_generation)
@@ -871,6 +999,9 @@ fn sync(path: &Path) -> Result<()> {
     Ok(())
 }
 fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Result<String> {
+    use std::ffi::CString;
+    use std::os::fd::{AsRawFd, FromRawFd};
+    use std::os::unix::ffi::OsStrExt;
     let p = dir.join(format!("{seq:03}-{state}.json"));
     let previous_digest = if seq == 1 {
         None
@@ -901,7 +1032,7 @@ fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Resu
     });
     let mut bytes = serde_json::to_vec_pretty(&envelope)?;
     bytes.push(b'\n');
-    if p.symlink_metadata().is_ok() {
+    if receipt_exists(dir, seq, state)? {
         let existing = read_receipt_file(&p)?;
         if existing == bytes {
             return Ok(blake3::hash(&bytes).to_hex().to_string());
@@ -911,11 +1042,21 @@ fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Resu
             "immutable recovery receipt collision",
         ));
     }
-    let mut f = OpenOptions::new()
-        .create_new(true)
-        .write(true)
-        .mode(0o600)
-        .open(&p)?;
+    let parent = open_root_no_follow(dir)?;
+    let name = CString::new(p.file_name().unwrap().as_bytes())
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "receipt name contains NUL"))?;
+    let fd = unsafe {
+        libc::openat(
+            parent.as_raw_fd(),
+            name.as_ptr(),
+            libc::O_WRONLY | libc::O_CREAT | libc::O_EXCL | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+            0o600,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    let mut f = unsafe { File::from_raw_fd(fd) };
     f.write_all(&bytes)?;
     f.sync_all()?;
     sync(dir)?;
@@ -924,6 +1065,21 @@ fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Resu
 
 fn receipt_path(dir: &Path, seq: u32, state: &str) -> PathBuf {
     dir.join(format!("{seq:03}-{state}.json"))
+}
+
+fn receipt_exists(dir: &Path, seq: u32, state: &str) -> Result<bool> {
+    use std::ffi::CString;
+    let parent = open_root_no_follow(dir)?;
+    let name = CString::new(format!("{seq:03}-{state}.json"))
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "receipt name contains NUL"))?;
+    match open_child_no_follow(&parent, &name, false) {
+        Ok(_) => Ok(true),
+        Err(error) if error.to_string().contains("No such file") => Ok(false),
+        Err(_) => Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt cannot be inspected without following links",
+        )),
+    }
 }
 
 fn validate_receipt_inventory(dir: &Path) -> Result<usize> {
@@ -1488,6 +1644,11 @@ pub(crate) fn validate_completed_recovery_attempt(
     issue: u64,
     attempt: &Path,
 ) -> Result<ProjectionRecoveryResult> {
+    let parent = open_root_no_follow(attempt.parent().ok_or_else(|| {
+        V2Error::new(ErrorCode::CorruptRecord, "recovery attempt has no parent")
+    })?)?;
+    let retained_attempt = open_private_recovery_dir(attempt, "recovery attempt", Some(&parent))?;
+    let attempt = retained_attempt.anchored_path();
     let node_ledger_count = validate_receipt_inventory(attempt)?;
     for (offset, state) in RECOVERY_STATES.iter().enumerate() {
         let path = receipt_path(attempt, offset as u32 + 1, state);
@@ -1945,6 +2106,31 @@ fn anchored_name(path: &Path) -> Result<AnchoredName> {
     })
 }
 
+fn anchored_child_name(parent: &File, name: &str, directory: bool) -> Result<AnchoredName> {
+    use std::os::fd::AsRawFd;
+    let name = std::ffi::CString::new(name)
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "anchored child name contains NUL"))?;
+    let mut stat = std::mem::MaybeUninit::<libc::stat>::uninit();
+    let exists = unsafe {
+        libc::fstatat(
+            parent.as_raw_fd(),
+            name.as_ptr(),
+            stat.as_mut_ptr(),
+            libc::AT_SYMLINK_NOFOLLOW,
+        )
+    } == 0;
+    let child = if exists {
+        Some(open_child_no_follow(parent, &name, directory)?)
+    } else {
+        None
+    };
+    Ok(AnchoredName {
+        parent: parent.try_clone()?,
+        name,
+        child,
+    })
+}
+
 #[cfg(target_os = "macos")]
 fn rename_no_replace(source: &AnchoredName, destination: &AnchoredName) -> Result<()> {
     use std::os::fd::AsRawFd;
@@ -2055,7 +2241,7 @@ fn ensure_candidate_directory(
     } else {
         candidate.join(relative)
     };
-    if receipt_path(&ledger, 10, "node-created").is_file() {
+    if receipt_exists(&ledger, 10, "node-created")? {
         let metadata = fs::symlink_metadata(&path)?;
         if metadata.is_dir() && !metadata.file_type().is_symlink() {
             return Ok(());
@@ -2072,7 +2258,7 @@ fn ensure_candidate_directory(
         &serde_json::json!({"path":relative,"type":"directory","mode":"0700"}),
     )?;
     failpoint(request, "node_create_intent")?;
-    if !receipt_path(&ledger, 2, "created-identity").is_file() {
+    if !receipt_exists(&ledger, 2, "created-identity")? {
         if path.symlink_metadata().is_err() {
             fs::create_dir(&path)?;
             fs::set_permissions(&path, fs::Permissions::from_mode(0o700))?;
@@ -2169,7 +2355,7 @@ fn ensure_candidate_file(
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "candidate file has no parent"))?;
     let temporary = parent.join(format!(".recovery-node-{ordinal:03}.tmp"));
     let digest = blake3::hash(contents).to_hex().to_string();
-    if receipt_path(&ledger, 10, "node-created").is_file() {
+    if receipt_exists(&ledger, 10, "node-created")? {
         let metadata = fs::symlink_metadata(&final_path)?;
         if metadata.is_file()
             && !metadata.file_type().is_symlink()
@@ -2183,7 +2369,7 @@ fn ensure_candidate_file(
             "completed candidate file was replaced",
         ));
     }
-    if receipt_path(&ledger, 9, "publish-intent").is_file() {
+    if receipt_exists(&ledger, 9, "publish-intent")? {
         let temp_meta = temporary.symlink_metadata();
         let final_meta = final_path.symlink_metadata();
         if temp_meta.is_ok() && final_meta.is_err() {
@@ -2212,7 +2398,7 @@ fn ensure_candidate_file(
         &serde_json::json!({"temporary":temporary.file_name(),"final":relative,"type":"regular","mode":"0600","digest":digest,"size":contents.len()}),
     )?;
     failpoint(request, "node_create_intent")?;
-    if !receipt_path(&ledger, 2, "created-identity").is_file() {
+    if !receipt_exists(&ledger, 2, "created-identity")? {
         if temporary.symlink_metadata().is_err() {
             OpenOptions::new()
                 .create_new(true)
@@ -2242,7 +2428,7 @@ fn ensure_candidate_file(
         "write-intent",
         &serde_json::json!({"digest":digest,"size":contents.len()}),
     )?;
-    if !receipt_path(&ledger, 4, "write-completed").is_file() {
+    if !receipt_exists(&ledger, 4, "write-completed")? {
         let existing = fs::read(&temporary)?;
         if existing.len() > contents.len() || existing != contents[..existing.len()] {
             return Err(V2Error::new(
@@ -2302,7 +2488,7 @@ fn ensure_candidate_file(
         "publish-intent",
         &serde_json::json!({"temporary":temporary.file_name(),"final":relative}),
     )?;
-    if !receipt_path(&ledger, 10, "node-created").is_file() {
+    if !receipt_exists(&ledger, 10, "node-created")? {
         let temp_meta = temporary.symlink_metadata();
         let final_meta = final_path.symlink_metadata();
         if temp_meta.is_ok() && final_meta.is_err() {
@@ -2365,23 +2551,26 @@ pub fn recover_preserved_projection(
     validate_operation_id(&request.operation_id)?;
     verify_topology(store, &request.branch, &request.worktree)?;
     let _lock = store.authority_projection_lock(request.issue)?;
-    let root = recovery_root(store, request.issue);
-    if root.symlink_metadata().is_err() {
-        private_dir(&root)?;
+    let recovery_path = recovery_root(store, request.issue);
+    if recovery_path.symlink_metadata().is_err() {
+        private_dir(&recovery_path)?;
     }
-    validate_private_recovery_dir(&root, "recovery root")?;
-    let attempt = root.join(&request.operation_id);
-    for entry in fs::read_dir(&root)? {
-        let entry = entry?;
-        if entry.file_name() != request.operation_id.as_str() && entry.file_type()?.is_dir() {
-            validate_private_recovery_dir(&entry.path(), "recovery attempt")?;
-            if !fs::read_dir(entry.path())?.any(|item| {
-                item.ok().is_some_and(|item| {
-                    item.file_name()
-                        .to_string_lossy()
-                        .ends_with("-recovered.json")
-                })
-            }) {
+    let issues = open_root_no_follow(&issue_parent(store))?;
+    let root_authority = open_private_recovery_dir(&recovery_path, "recovery root", Some(&issues))?;
+    root_authority.validate_binding(&recovery_path, "recovery root")?;
+    let root = root_authority.anchored_path().to_path_buf();
+    for name in directory_names(&root_authority.file)? {
+        if name.to_bytes() != request.operation_id.as_bytes() {
+            let other_path = root.join(std::ffi::OsStr::from_bytes(name.to_bytes()));
+            let other = open_private_recovery_dir(
+                &other_path,
+                "recovery attempt",
+                Some(&root_authority.file),
+            )?;
+            if !directory_names(&other.file)?
+                .iter()
+                .any(|item| item.to_bytes().ends_with(b"-recovered.json"))
+            {
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
                     "a different incomplete recovery attempt already exists",
@@ -2389,12 +2578,6 @@ pub fn recover_preserved_projection(
             }
         }
     }
-    let prepared_path = receipt_path(&attempt, 1, "prepared");
-    let done = receipt_path(&attempt, 13, "recovered");
-    if done.is_file() {
-        return validate_completed_recovery_attempt(store, request.issue, &attempt);
-    }
-
     if request.classification.receipt_digest != request.classify_receipt_digest {
         return Err(V2Error::new(
             ErrorCode::StaleDigest,
@@ -2406,14 +2589,24 @@ pub fn recover_preserved_projection(
         &request.classify_receipt_digest,
         request.issue,
     )?;
-    let classification = if attempt.symlink_metadata().is_ok() {
-        validate_private_recovery_dir(&attempt, "recovery attempt")?;
-        if !prepared_path.is_file() {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "recovery attempt exists without durable PREPARED receipt",
-            ));
-        }
+    let operation_name = std::ffi::CString::new(request.operation_id.as_bytes())
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "operation id contains NUL"))?;
+    if !directory_names(&root_authority.file)?
+        .iter()
+        .any(|name| name.as_bytes() == operation_name.as_bytes())
+    {
+        root_authority.create_private_child(&operation_name)?;
+    }
+    let attempt_authority = root_authority.open_child(&operation_name, "recovery attempt")?;
+    let original_attempt_path = recovery_path.join(&request.operation_id);
+    root_authority.validate_binding(&recovery_path, "recovery root")?;
+    attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
+    let attempt = attempt_authority.anchored_path().to_path_buf();
+    let prepared_path = receipt_path(&attempt, 1, "prepared");
+    if receipt_exists(&attempt, 13, "recovered")? {
+        return validate_completed_recovery_attempt(store, request.issue, &attempt);
+    }
+    let classification = if receipt_exists(&attempt, 1, "prepared")? {
         let prepared: serde_json::Value = receipt_payload(&prepared_path)?;
         let classification =
             serde_json::from_value(prepared.get("classification").cloned().ok_or_else(|| {
@@ -2476,8 +2669,6 @@ pub fn recover_preserved_projection(
                 "failed-operation lineage does not bind the classified sources",
             ));
         }
-        private_dir(&attempt)?;
-        validate_private_recovery_dir(&attempt, "recovery attempt")?;
         let request_digest = request_authority_digest(&request)?;
         receipt(
             &attempt,
@@ -2488,6 +2679,9 @@ pub fn recover_preserved_projection(
         failpoint(&request, "prepared")?;
         classification
     };
+
+    root_authority.validate_binding(&recovery_path, "recovery root")?;
+    attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
 
     let canonical_path = store.issue_dir(request.issue);
     let backup_path = store.interrupted_backup(request.issue);
@@ -2523,7 +2717,7 @@ pub fn recover_preserved_projection(
         &serde_json::json!({"source":rejected_observation,"destination":"rejected"}),
     )?;
     failpoint(&request, "archive_intent")?;
-    if !receipt_path(&attempt, 3, "rejected-archived").is_file() {
+    if !receipt_exists(&attempt, 3, "rejected-archived")? {
         if rejected_path.symlink_metadata().is_ok() && archive.symlink_metadata().is_err() {
             if !exact_observation(rejected_path, &rejected_observation, request.issue)? {
                 return Err(V2Error::new(
@@ -2538,7 +2732,7 @@ pub fn recover_preserved_projection(
                     "rejected source identity drifted at archive mutation boundary",
                 ));
             }
-            let archive_anchor = anchored_name(&archive)?;
+            let archive_anchor = anchored_child_name(&attempt_authority.file, "rejected", true)?;
             rename_no_replace(&rejected_anchor, &archive_anchor)?;
             failpoint(&request, "archive_renamed")?;
         } else if rejected_path.symlink_metadata().is_err() && archive.symlink_metadata().is_ok() {
@@ -2585,7 +2779,7 @@ pub fn recover_preserved_projection(
     )?;
     failpoint(&request, "candidate_plan")?;
     let (candidate_record, candidate_observation) =
-        if receipt_path(&attempt, 5, "candidate-created").is_file() {
+        if receipt_exists(&attempt, 5, "candidate-created")? {
             let payload: serde_json::Value =
                 receipt_payload(&receipt_path(&attempt, 5, "candidate-created"))?;
             (
@@ -2693,7 +2887,7 @@ pub fn recover_preserved_projection(
     )?;
     failpoint(&request, "candidate_verified")?;
 
-    if !receipt_path(&attempt, 8, "canonical-installed").is_file() {
+    if !receipt_exists(&attempt, 8, "canonical-installed")? {
         receipt(
             &attempt,
             7,
@@ -2709,7 +2903,8 @@ pub fn recover_preserved_projection(
                 && exact_observation(&candidate, &candidate_observation, request.issue)?
                 && exact_observation(&canonical_path, &prior_observation, request.issue)?
             {
-                let candidate_anchor = anchored_name(&candidate)?;
+                let candidate_anchor =
+                    anchored_child_name(&attempt_authority.file, "candidate", true)?;
                 let canonical_anchor = anchored_name(&canonical_path)?;
                 if !anchored_root_identity_matches(&candidate_anchor, &candidate_observation)?
                     || !anchored_root_identity_matches(&canonical_anchor, &prior_observation)?
@@ -2747,7 +2942,8 @@ pub fn recover_preserved_projection(
                         "prior source identity drifted at displacement boundary",
                     ));
                 }
-                let displaced_anchor = anchored_name(&displaced)?;
+                let displaced_anchor =
+                    anchored_child_name(&attempt_authority.file, "displaced", true)?;
                 rename_no_replace(&prior_anchor, &displaced_anchor)?;
                 sync(&issue_parent(store))?;
                 sync(&attempt)?;
@@ -2767,7 +2963,8 @@ pub fn recover_preserved_projection(
                         "candidate identity drifted before install",
                     ));
                 }
-                let candidate_anchor = anchored_name(&candidate)?;
+                let candidate_anchor =
+                    anchored_child_name(&attempt_authority.file, "candidate", true)?;
                 if !anchored_root_identity_matches(&candidate_anchor, &candidate_observation)? {
                     return Err(V2Error::new(
                         ErrorCode::ReconciliationRequired,
@@ -2798,7 +2995,7 @@ pub fn recover_preserved_projection(
         failpoint(&request, "canonical_installed")?;
     }
 
-    if install_exchange && !receipt_path(&attempt, 10, "prior-displaced").is_file() {
+    if install_exchange && !receipt_exists(&attempt, 10, "prior-displaced")? {
         receipt(
             &attempt,
             9,
@@ -2813,14 +3010,14 @@ pub fn recover_preserved_projection(
                     "post-exchange prior identity drifted before displacement",
                 ));
             }
-            let candidate_anchor = anchored_name(&candidate)?;
+            let candidate_anchor = anchored_child_name(&attempt_authority.file, "candidate", true)?;
             if !anchored_moved_root_identity_matches(&candidate_anchor, &prior_observation)? {
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
                     "post-exchange prior identity drifted at displacement boundary",
                 ));
             }
-            let displaced_anchor = anchored_name(&displaced)?;
+            let displaced_anchor = anchored_child_name(&attempt_authority.file, "displaced", true)?;
             rename_no_replace(&candidate_anchor, &displaced_anchor)?;
             if !same_moved_observation(&displaced, &prior_observation, request.issue)? {
                 return Err(V2Error::new(
@@ -2986,5 +3183,52 @@ mod tests {
         fs::rename(&child, temp.path().join("candidate.old")).expect("displace candidate");
         fs::create_dir(&child).expect("replacement candidate dir");
         assert!(!anchored_root_identity_matches(&anchor, &expected).expect("swapped identity"));
+    }
+
+    #[test]
+    fn retained_recovery_root_rejects_post_open_path_swap() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let root = temp.path().join(".298.recovery");
+        fs::create_dir(&root).expect("root");
+        fs::set_permissions(&root, fs::Permissions::from_mode(0o700)).expect("root mode");
+        let retained = open_private_recovery_dir(&root, "recovery root", None).expect("open root");
+        let displaced = temp.path().join(".298.recovery.original");
+        fs::rename(&root, &displaced).expect("displace root");
+        fs::create_dir(&root).expect("replacement root");
+        fs::set_permissions(&root, fs::Permissions::from_mode(0o700)).expect("replacement mode");
+        let error = retained
+            .validate_binding(&root, "recovery root")
+            .expect_err("root substitution must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+        assert!(directory_names(&retained.file)
+            .expect("retained inventory")
+            .is_empty());
+    }
+
+    #[test]
+    fn retained_recovery_attempt_rejects_post_open_path_swap() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let root = temp.path().join(".298.recovery");
+        let attempt = root.join("attempt");
+        fs::create_dir(&root).expect("root");
+        fs::set_permissions(&root, fs::Permissions::from_mode(0o700)).expect("root mode");
+        fs::create_dir(&attempt).expect("attempt");
+        fs::set_permissions(&attempt, fs::Permissions::from_mode(0o700)).expect("attempt mode");
+        let root_fd = open_private_recovery_dir(&root, "recovery root", None).expect("open root");
+        let name = std::ffi::CString::new("attempt").unwrap();
+        let retained = root_fd
+            .open_child(&name, "recovery attempt")
+            .expect("open attempt");
+        let displaced = root.join("attempt.original");
+        fs::rename(&attempt, &displaced).expect("displace attempt");
+        fs::create_dir(&attempt).expect("replacement attempt");
+        fs::set_permissions(&attempt, fs::Permissions::from_mode(0o700)).expect("replacement mode");
+        let error = retained
+            .validate_binding(&attempt, "recovery attempt")
+            .expect_err("attempt substitution must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+        assert!(directory_names(&retained.file)
+            .expect("retained inventory")
+            .is_empty());
     }
 }

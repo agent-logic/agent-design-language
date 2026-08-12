@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
     "slug": "297a-anchored-classification-resumable-recovery-ledger",
     "version": "v0.92",
-    "generation": 45
+    "generation": 47
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Reject symlinked and nonregular recovery receipts before partial-attempt resume mutation",
+      "summary": "Retain and bind recovery root and attempt directory authority across classification, recovery, receipt, and commit-gate operations",
       "actual_changes": [
         "Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299",
         "Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation",
@@ -253,7 +253,15 @@
         "Required existing receipts and predecessors to remain regular non-symlink files during deterministic resume",
         "Added a partial PREPARED receipt symlink substitution regression proving failure before preserved evidence mutation",
         "Validated the exact regression, the 30-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene",
-        "Retained evidence log was not refreshed and is not claimed as current"
+        "Retained evidence log was not refreshed and is not claimed as current",
+        "Opened recovery roots and attempts with O_DIRECTORY, O_NOFOLLOW, and O_CLOEXEC and retained the resulting directory descriptors",
+        "Validated retained directory mode, owner, group, device, mount, inode, and pathname binding before evidence mutation",
+        "Enumerated recovery roots and attempts descriptor-relative and created attempt directories with mkdirat",
+        "Opened and created immutable receipts descriptor-relative with openat while preserving all prior regular-file, link, owner, device, mode, and digest guards",
+        "Anchored archive, candidate, and displacement rename destinations to the retained attempt directory descriptor",
+        "Applied retained directory authority to classification, completed-attempt validation, and ordinary-commit recovery inventory",
+        "Added deterministic post-open recovery-root and recovery-attempt substitution tests proving fail-closed binding before evidence mutation",
+        "Validated 35 focused preserved-recovery tests, 54 full Gate5 tests, 78 library tests, strict all-target Clippy, formatting, and diff hygiene"
       ],
       "artifacts": [
         "csdlc-v2/src/projection_recovery.rs",
@@ -328,6 +336,9 @@
         "csdlc-v2/src/projection_recovery.rs",
         "csdlc-v2/tests/gate5.rs",
         "csdlc-v2/src/projection_recovery.rs",
+        "csdlc-v2/tests/gate5.rs",
+        "csdlc-v2/src/projection_recovery.rs",
+        "csdlc-v2/src/store.rs",
         "csdlc-v2/tests/gate5.rs"
       ],
       "actual_validation": [

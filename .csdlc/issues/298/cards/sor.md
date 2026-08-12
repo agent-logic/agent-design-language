@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Reject symlinked and nonregular recovery receipts before partial-attempt resume mutation
+Retain and bind recovery root and attempt directory authority across classification, recovery, receipt, and commit-gate operations
 
 ## Artifacts
 
@@ -88,6 +88,9 @@ Reject symlinked and nonregular recovery receipts before partial-attempt resume 
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/tests/gate5.rs
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate5.rs
 
 ## Execution
@@ -331,6 +334,14 @@ Reject symlinked and nonregular recovery receipts before partial-attempt resume 
 - Added a partial PREPARED receipt symlink substitution regression proving failure before preserved evidence mutation
 - Validated the exact regression, the 30-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene
 - Retained evidence log was not refreshed and is not claimed as current
+- Opened recovery roots and attempts with O_DIRECTORY, O_NOFOLLOW, and O_CLOEXEC and retained the resulting directory descriptors
+- Validated retained directory mode, owner, group, device, mount, inode, and pathname binding before evidence mutation
+- Enumerated recovery roots and attempts descriptor-relative and created attempt directories with mkdirat
+- Opened and created immutable receipts descriptor-relative with openat while preserving all prior regular-file, link, owner, device, mode, and digest guards
+- Anchored archive, candidate, and displacement rename destinations to the retained attempt directory descriptor
+- Applied retained directory authority to classification, completed-attempt validation, and ordinary-commit recovery inventory
+- Added deterministic post-open recovery-root and recovery-attempt substitution tests proving fail-closed binding before evidence mutation
+- Validated 35 focused preserved-recovery tests, 54 full Gate5 tests, 78 library tests, strict all-target Clippy, formatting, and diff hygiene
 
 ## Validation
 

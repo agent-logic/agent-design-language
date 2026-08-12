@@ -802,7 +802,82 @@ fn preserved_projection_recovery_rejects_symlinked_recovery_root() {
             reason: "symlinked recovery root fixture".into(),
         },
     )
-    .expect("classify");
+    .expect_err("classification must reject symlinked recovery root before reading it");
+    assert_eq!(classify.code, ErrorCode::CorruptRecord);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "symlinked recovery root fixture after removal".into(),
+        },
+    )
+    .expect_err("recover also requires fail-closed classification authority");
+    assert_eq!(classify.code, ErrorCode::CorruptRecord);
+    assert!(
+        preserved.is_dir(),
+        "symlinked root must fail before archiving preserved evidence"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_blocks_ordinary_commit_on_symlinked_recovery_root() {
+    let (_temp, store, record) = implemented_fixture();
+    let external = store
+        .root()
+        .join("external-recovery-root-for-ordinary-commit");
+    std::fs::create_dir(&external).expect("external recovery root");
+    std::os::unix::fs::symlink(&external, store.root().join(".csdlc/issues/.7.recovery"))
+        .expect("symlink recovery root");
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            actor: "test".into(),
+            reason: "must block symlinked recovery root".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "blocked".into(),
+                changes: vec!["none".into()],
+                artifacts: vec!["none".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("ordinary commit must reject symlinked recovery root");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_symlinked_recovery_root_before_recover_mutation() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "clean classification before symlinked root".into(),
+        },
+    )
+    .expect("classify before symlinked root");
+    let external = store.root().join("external-recovery-root");
+    std::fs::create_dir(&external).expect("external recovery root");
+    std::os::unix::fs::symlink(&external, store.root().join(".csdlc/issues/.7.recovery"))
+        .expect("symlink recovery root");
     let request = recovery_request(&store, &record, &classify, "symlinked-root");
     let error = csdlc_v2::recover_preserved_projection(&store, request)
         .expect_err("symlinked recovery root must be rejected");

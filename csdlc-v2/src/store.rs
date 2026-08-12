@@ -259,19 +259,22 @@ impl Store {
             .root
             .join(".csdlc/issues")
             .join(format!(".{issue}.recovery"));
-        if recovery_root.is_dir() {
-            for entry in fs::read_dir(&recovery_root)? {
-                let entry = entry?;
-                if !entry.file_type()?.is_dir() {
-                    return Err(V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "incomplete typed projection recovery must reach verified RECOVERED before ordinary commit",
-                    ));
-                }
+        let recovery_root = match recovery_root.symlink_metadata() {
+            Ok(_) => Some(crate::projection_recovery::open_private_recovery_dir(
+                &recovery_root,
+                "recovery root",
+                None,
+            )?),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(error) => return Err(error.into()),
+        };
+        if let Some(recovery_root) = recovery_root {
+            for name in recovery_root.names()? {
+                let attempt = recovery_root.open_child(&name, "recovery attempt")?;
                 if let Err(error) = crate::projection_recovery::validate_completed_recovery_attempt(
                     self,
                     issue,
-                    &entry.path(),
+                    attempt.anchored_path(),
                 ) {
                     return Err(V2Error::new(
                         ErrorCode::ReconciliationRequired,
