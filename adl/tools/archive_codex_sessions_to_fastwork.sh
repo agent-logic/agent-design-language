@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+umask 077
 
 usage() {
   echo "usage: $0 --source <codex-root> --destination <archive-dir> [--min-age-days <days>] | --verify-only <manifest>" >&2
@@ -64,6 +65,7 @@ destination="$(cd "$destination" && pwd -P)"
   echo "canonical destination must be beneath /Volumes/FastWork" >&2
   exit 2
 }
+chmod 700 "$destination" "$destination/data"
 file_list="$destination/files.null"
 source_manifest="$destination/source.sha256"
 archive_manifest="$destination/manifest.sha256"
@@ -71,7 +73,11 @@ archive_manifest="$destination/manifest.sha256"
 (cd "$source_root" && find sessions archived_sessions -type f -mtime "+$min_age_days" -print0 | sort -z > "$file_list")
 (cd "$source_root" && xargs -0 shasum -a 256 < "$file_list" > "$source_manifest")
 rsync -a --from0 --files-from="$file_list" "$source_root/" "$destination/data/"
+find "$destination/data" -type d -exec chmod 700 {} +
+find "$destination/data" -type f -exec chmod 600 {} +
+chmod 600 "$file_list" "$source_manifest"
 (cd "$destination/data" && xargs -0 shasum -a 256 < "$file_list" > "$archive_manifest")
+chmod 600 "$archive_manifest"
 cmp "$source_manifest" "$archive_manifest"
 verify_manifest "$archive_manifest"
 
@@ -79,4 +85,5 @@ source_bytes="$(cd "$source_root" && xargs -0 stat -f '%z' < "$file_list" | awk 
 file_count="$(tr -cd '\0' < "$file_list" | wc -c | tr -d ' ')"
 printf '{"schema":"adl.codex_session_archive.v1","source":"%s","archive":"%s/data","files":%s,"bytes":%s,"minimum_age_days":%s,"source_deleted":false}\n' \
   "$source_root" "$destination" "$file_count" "$source_bytes" "$min_age_days" > "$destination/summary.json"
+chmod 600 "$destination/summary.json"
 echo "archive verified: $file_count files, $source_bytes bytes"

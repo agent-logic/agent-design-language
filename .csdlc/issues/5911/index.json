@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "eba116b5732a4b5f497dadabca6e906a6f9eb9dcd393ae704780074f01a773fe",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "23217fba9e0c6de729dbdba20c5ad72f18e53cd32e88459addfe3bd7073cf2cb",
+  "generation": 13,
+  "digest": "8ead8d8495b92236f4413b689b71abe8400230b6df8680c78524549d3cd88fcf",
   "branch": "codex/5911-fastwork-storage-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5911-fastwork-storage-policy",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "099bbea6b6d58886c47ec05915eb96365146e5fde5420f877344f6bab43de734",
+      "values_digest": "7c90206d979e64c7a4ead58366c1a327cd8df0302891e3a802ee6cc6c27d2be9",
       "rendered_digest": "50d8426892e02179c4580c314aea63c6a17ea525229f22acb5707e52d60a46c7",
       "ast_digest": "3eb3ea1e6498c50e443dcec5bf981178d93caf68b11349f56efe7137e9e3732c"
     },
     "stp": {
-      "values_digest": "de8181cdc7e5c72458dc351af8dfee76398a1625c7f218b65e2ee2f6cad476e9",
+      "values_digest": "ec0ac6fd2765937eaaaf20c2a2a31e2b615cb0815c37c9335d50e3e8ea8b8af4",
       "rendered_digest": "b633f7279064086c2b1e2a2cf7925433018552a9dd81ae45d213068ed69ffdbd",
       "ast_digest": "f68cd50f666c2f83f3fcb83b350475373e86b9d411a8340d42fdd0005126b67b"
     },
     "spp": {
-      "values_digest": "21dbbbe86550772a77cf2064169ef0972869c273ffa130878a151b35b967b602",
-      "rendered_digest": "bd5f87848495df1f914bc336c305590139356a6a386755dc3776bd2a41067977",
-      "ast_digest": "3b7027cfb350dfeff2f4dbeb8c0593928665ddc80b721201a5567707d03dd16a"
+      "values_digest": "914295318ed6a2d505c94de3ed4bc9457bf70432ac2ea714e6fe736f9cd77162",
+      "rendered_digest": "b30508945a2ec5d553839b75fec7a8eab462771538092435b212a23b79461a18",
+      "ast_digest": "19be4f70450bb723cc19101cfd65d7024a073ce28270ae531ea3a48dbde59390"
     },
     "vpp": {
-      "values_digest": "f8b2cebfc056b2b0799df1543fa4a56829b45c758535d27aebbb989e9ab9df14",
+      "values_digest": "f0a4e9eb5d45d0820618fd864bc945d1e540cb92f9319c07c50e17e595b6ac08",
       "rendered_digest": "3f0e1b5e4e5196f52e2f044cabdd524f0fde2543e59488c361d42226289dd81a",
       "ast_digest": "5c0bdf606ccdc6cdbcc82118a27eba132592456448db816c6c4b202e3e019007"
     },
     "srp": {
-      "values_digest": "6968fb5e7161b9fcfa907c761f58e143afafcb20c8e7febcdb5496fb6867f623",
+      "values_digest": "fb7f3eb5329d15cfdc34cd75e058ff363ad96162b563b016232071282e95b4e5",
       "rendered_digest": "032762b88fec9d4f4f746f6ef5422009021fd5d92ea6abd997a2b2053778a1a3",
       "ast_digest": "a3097fb475a27bf72f6b8a604ef83f48decfe080535cbe5a35afc90128b0bdf3"
     },
     "sor": {
-      "values_digest": "3c560c7cd174673da9e9b82344b4b4c3c6180c84315ffe3b550f4da250c5ff2c",
+      "values_digest": "d52bda6c9ee0f4ba86425d58e9ffe70bed34b1f55b35149328ac0615a55f06ce",
       "rendered_digest": "12d83cec9de21c5d7fafa512730f32c4611194aa41bf8dc9d383e705932237da",
       "ast_digest": "7489a856ecaea93dc92b7c8ca67c9994142fd86a166957e0feffb1ac34eabf7c"
     }
@@ -168,6 +168,20 @@
       "actor": "codex",
       "reason": "align issue-owned paths with the corrected exact validation targets after review",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".adl/worktree-policy.json\",\"AGENTS.md\",\"csdlc-v2/src/lifecycle.rs\",\"adl/tools/archive_codex_sessions_to_fastwork.sh\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "FastWork bind enforcement and focused proof completed",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "non-destructive 121 GiB transcript archive and checksum verification completed",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"
     }
   ]
 }

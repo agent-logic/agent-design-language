@@ -22,6 +22,10 @@ touch -t 202001010000 "$fixture/source/archived_sessions/two.jsonl"
 test "$(jq -r '.files' "$fixture/archive/summary.json")" = "2"
 test "$(jq -r '.source_deleted' "$fixture/archive/summary.json")" = "false"
 cmp "$fixture/archive/source.sha256" "$fixture/archive/manifest.sha256"
+test "$(stat -f '%Lp' "$fixture/archive")" = "700"
+test "$(stat -f '%Lp' "$fixture/archive/data")" = "700"
+test "$(stat -f '%Lp' "$fixture/archive/data/sessions/2026/01/01/one.jsonl")" = "600"
+test "$(stat -f '%Lp' "$fixture/archive/manifest.sha256")" = "600"
 
 ln -s /Users/daniel "$fixture/escaped-parent"
 if "$repo_root/adl/tools/archive_codex_sessions_to_fastwork.sh" \

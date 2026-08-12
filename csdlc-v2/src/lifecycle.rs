@@ -603,11 +603,20 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     let wanted = requested_worktree(store.root(), &request.worktree)?;
     let wanted_text = wanted.to_string_lossy().into_owned();
     let current_root = store.root().canonicalize()?;
+    let current_record = store.load_record(request.issue)?;
     let issue_local = wanted.exists()
         && wanted.canonicalize().ok().as_ref() == Some(&current_root)
-        && git::current_branch(store.root())? == request.branch;
-    let policy_required =
-        store.load_record(request.issue)?.repository == "agent-logic/agent-design-language";
+        && git::current_branch(store.root())? == request.branch
+        && matches!(current_record.phase, crate::LifecyclePhase::Bound)
+        && current_record.branch.as_deref() == Some(request.branch.as_str())
+        && current_record
+            .worktree
+            .as_deref()
+            .map(|value| requested_worktree(store.root(), value))
+            .transpose()?
+            .as_ref()
+            == Some(&wanted);
+    let policy_required = current_record.repository == "agent-logic/agent-design-language";
     if !issue_local {
         enforce_worktree_policy(store.root(), &wanted, policy_required)?;
     }
