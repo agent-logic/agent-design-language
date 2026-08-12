@@ -6,10 +6,26 @@
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
   "phase": "implemented",
   "generation": 45,
-  "digest": "d66e397f85bf311807780ef93aeb3ede64f487b04706b8bbabb65f6cb4fbb830",
+  "digest": "3c09c69636dfd8f27a660e018fbaf3d4c3ab225ad7c581aaf41e146add4c9711",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-subagent-112-post-merge-final",
+    "assigned_by": "codex-session-112",
+    "revision": "git-blake3:fe70e189ae3f52198f208b8a77ef53232061ef6d:d6b65c8b83d167d279adb1418ec88e733a4802c608e73ae45a10d7364f9ad575",
+    "scope": [
+      "adl-runtime-kernel/src",
+      "adl-runtime/src/layer8_authority.rs",
+      "adl-runtime/tests/layer8_authority.rs",
+      "adl/src/csm_runtime_api.rs",
+      "adl/tests/layer8_authority_runtime_api.rs",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      "demos/html-observatory",
+      "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
+      ".csdlc/evidence/112",
+      ".csdlc/issues/112"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "0b5d959bd7a0ef072eda1088bfdae6c1c07ef5e70e12171072987aae06338eee"
     },
     "srp": {
-      "values_digest": "7b3143a0fff01e733e28fb14efac738f3260b8891b4d72a399969c3a0ff9095d",
-      "rendered_digest": "ecb8e7f30268ee85b94904ac382a74e43451f2d3382bed9abf8c7e1d1cf7468e",
-      "ast_digest": "26a0990ebe405b9c201a236b20840bd2ee96da79d4dad3b846acd63d9738cfd5"
+      "values_digest": "d7d8a3c6729e9b7143a1af24c33c1c693b5b88c7bba6e61e0af65af569821d8f",
+      "rendered_digest": "08af84a54ddfe8341a03e88e445cfdd4d2c0e7d1af48cf0fac35bb0d8700bb1b",
+      "ast_digest": "57878e14be3f2a31e155c039cb830b82a22987cfaa812c444f80740fe1b44a0e"
     },
     "sor": {
       "values_digest": "8a637629e7794a796b5a998823a29c24308b0fdb9e13133e893c501d0d62564a",
@@ -456,6 +472,13 @@
       "actor": "codex-session-112",
       "reason": "Merged current origin/main and refreshed exact-current validation evidence after the prior review; recover to implemented so #112 can receive a fresh exact-head pre-publication review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 45,
+      "actor": "codex-session-112",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
