@@ -10,6 +10,10 @@ fn recipients(values: &[&str]) -> BTreeSet<String> {
     values.iter().map(|value| (*value).to_string()).collect()
 }
 
+type RequestMutation = Box<dyn Fn(&mut AuthorityRequest)>;
+type AuthorityMutation =
+    Box<dyn Fn(&mut AuthorityRequest, &mut Layer8Capability, &mut Layer8Policy)>;
+
 fn fixture(
     action: Layer8Action,
 ) -> (
@@ -174,10 +178,10 @@ fn recipient_signed_acknowledgement_is_bound_to_triggering_message() {
         "agent-b-communication-v1",
         &recipient_key,
     );
-    verify_signed_identity_message(
+    verify_recipient_acknowledgement(
+        &request,
         &acknowledgement,
         &identity("agent-b", "agent-b-communication-v1", &recipient_key),
-        "agent-a",
         120,
     )
     .unwrap();
@@ -253,7 +257,7 @@ fn authorizes_each_action_only_with_its_exact_capability_and_policy_intersection
 
 #[test]
 fn rejects_recipient_substitution_widening_action_conversation_and_cross_polis() {
-    let mutations: Vec<Box<dyn Fn(&mut AuthorityRequest)>> = vec![
+    let mutations: Vec<RequestMutation> = vec![
         Box::new(|r| {
             r.recipients.remove("agent-b");
             r.recipients.insert("agent-c".into());
@@ -281,7 +285,7 @@ fn rejects_recipient_substitution_widening_action_conversation_and_cross_polis()
 
 #[test]
 fn identity_capability_policy_epoch_and_replay_fail_closed() {
-    let cases: Vec<Box<dyn Fn(&mut AuthorityRequest, &mut Layer8Capability, &mut Layer8Policy)>> = vec![
+    let cases: Vec<AuthorityMutation> = vec![
         Box::new(|r, _, _| r.evidence.authenticated = false),
         Box::new(|r, _, _| r.evidence.expires_at_epoch_secs = r.now_epoch_secs),
         Box::new(|r, _, _| r.evidence.revoked = true),
@@ -397,6 +401,7 @@ fn corrupt_and_truncated_audit_refuse_restart() {
     let truncated = temp.path().join("truncated.jsonl");
     let mut file = OpenOptions::new()
         .create(true)
+        .truncate(true)
         .write(true)
         .open(&truncated)
         .unwrap();
@@ -405,5 +410,45 @@ fn corrupt_and_truncated_audit_refuse_restart() {
     assert!(matches!(
         Layer8AuthorityStore::open(truncated),
         Err(RefusalReason::AuditUnavailable)
+    ));
+}
+
+#[test]
+fn concurrent_store_handles_serialize_against_the_current_audit_head() {
+    let temp = TempDir::new().unwrap();
+    let path = temp.path().join("audit.jsonl");
+    let first = Layer8AuthorityStore::open(&path).unwrap();
+    let second = Layer8AuthorityStore::open(&path).unwrap();
+    let (request, capability, agent, polis) = fixture(Layer8Action::Continue);
+    assert!(matches!(
+        first.authorize(request.clone(), &capability, &agent, &polis),
+        AuthorityDecision::Authorized(_)
+    ));
+    let AuthorityDecision::Refused(refusal) =
+        second.authorize(request, &capability, &agent, &polis)
+    else {
+        panic!("second handle authorized a replay")
+    };
+    assert_eq!(refusal.reason, RefusalReason::ReplayRefused);
+    Layer8AuthorityStore::open(path).unwrap();
+}
+
+#[test]
+fn retryable_policy_refusal_does_not_consume_replay_identity() {
+    let temp = TempDir::new().unwrap();
+    let authority = store(&temp);
+    let (request, capability, mut agent, polis) = fixture(Layer8Action::Continue);
+    agent.available = false;
+    let AuthorityDecision::Refused(refusal) =
+        authority.authorize(request.clone(), &capability, &agent, &polis)
+    else {
+        panic!("unavailable policy authorized")
+    };
+    assert_eq!(refusal.reason, RefusalReason::PolicyUnavailable);
+    assert!(refusal.retryable);
+    agent.available = true;
+    assert!(matches!(
+        authority.authorize(request, &capability, &agent, &polis),
+        AuthorityDecision::Authorized(_)
     ));
 }

@@ -69,7 +69,6 @@ pub struct Layer8RuntimeDeliveryRequest {
     pub recipient_id: String,
     pub replay_id: String,
     pub correlation_id: String,
-    pub credential_generation: u64,
     pub now_epoch_secs: u64,
 }
 
@@ -84,7 +83,6 @@ pub fn authorize_layer8_runtime_delivery<T>(
         request.recipient_id,
         request.replay_id,
         request.correlation_id,
-        request.credential_generation,
         request.now_epoch_secs,
     ) {
         AuthorityDecision::Authorized(_) => Ok(deliver()),

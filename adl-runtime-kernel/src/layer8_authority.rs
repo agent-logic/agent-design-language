@@ -7,6 +7,7 @@ use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
 use ed25519_dalek::{Signature, Verifier, VerifyingKey};
+use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -113,6 +114,31 @@ pub fn verify_signed_identity_message(
         .verifying_key
         .verify(&message.signing_bytes()?, &signature)
         .map_err(|_| RefusalReason::IdentityUnavailable)
+}
+
+pub fn verify_recipient_acknowledgement(
+    request: &SignedIdentityMessage,
+    acknowledgement: &SignedIdentityMessage,
+    recipient_identity: &CommunicationVerifyingIdentity,
+    now_epoch_secs: u64,
+) -> Result<(), RefusalReason> {
+    if request.message_kind != IdentityMessageKind::Request
+        || acknowledgement.message_kind != IdentityMessageKind::Acknowledgement
+        || acknowledgement.sender_id != request.recipient_id
+        || acknowledgement.recipient_id != request.sender_id
+        || acknowledgement.polis_id != request.polis_id
+        || acknowledgement.conversation_id != request.conversation_id
+        || acknowledgement.correlation_id != request.correlation_id
+        || acknowledgement.causation_id != request.message_id
+    {
+        return Err(RefusalReason::InvalidRequest);
+    }
+    verify_signed_identity_message(
+        acknowledgement,
+        recipient_identity,
+        &request.sender_id,
+        now_epoch_secs,
+    )
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -300,6 +326,35 @@ struct StoreState {
     replay_hashes: BTreeSet<String>,
 }
 
+fn load_store_state(file: &File) -> Result<StoreState, RefusalReason> {
+    let mut state = StoreState {
+        sequence: 0,
+        head_hash: GENESIS_HASH.to_string(),
+        replay_hashes: BTreeSet::new(),
+    };
+    for line in BufReader::new(file).lines() {
+        let line = line.map_err(|_| RefusalReason::AuditUnavailable)?;
+        if line.trim().is_empty() {
+            return Err(RefusalReason::AuditUnavailable);
+        }
+        let record: AuditRecord =
+            serde_json::from_str(&line).map_err(|_| RefusalReason::AuditUnavailable)?;
+        if record.schema != LAYER8_AUDIT_SCHEMA
+            || record.sequence != state.sequence + 1
+            || record.previous_hash != state.head_hash
+            || record.record_hash != calculate_record_hash(&record)?
+        {
+            return Err(RefusalReason::AuditUnavailable);
+        }
+        if record.authorized {
+            state.replay_hashes.insert(record.replay_hash.clone());
+        }
+        state.sequence = record.sequence;
+        state.head_hash = record.record_hash;
+    }
+    Ok(state)
+}
+
 #[derive(Debug)]
 pub struct Layer8AuthorityStore {
     path: PathBuf,
@@ -310,7 +365,12 @@ pub struct Layer8AuthorityStore {
 pub struct ConversationAuthorityProfile {
     pub principal_id: String,
     pub polis_id: String,
+    pub current_credential_generation: u64,
+    pub identity_expires_at_epoch_secs: u64,
+    pub identity_revoked: bool,
     pub policy_epoch: u64,
+    pub agent_policy_available: bool,
+    pub polis_policy_available: bool,
     pub allowed_actions: BTreeSet<Layer8Action>,
     pub allowed_recipients: BTreeSet<String>,
 }
@@ -328,6 +388,7 @@ impl Layer8ConversationAuthority {
     ) -> Result<Self, RefusalReason> {
         if profile.principal_id.trim().is_empty()
             || profile.polis_id.trim().is_empty()
+            || profile.current_credential_generation == 0
             || profile.policy_epoch == 0
             || profile.allowed_actions.is_empty()
         {
@@ -336,6 +397,7 @@ impl Layer8ConversationAuthority {
         Ok(Self { store, profile })
     }
 
+    #[allow(clippy::too_many_arguments)]
     pub fn authorize(
         &self,
         action: Layer8Action,
@@ -343,7 +405,6 @@ impl Layer8ConversationAuthority {
         recipient_id: String,
         replay_id: String,
         correlation_id: String,
-        credential_generation: u64,
         now_epoch_secs: u64,
     ) -> AuthorityDecision {
         let recipients = BTreeSet::from([recipient_id]);
@@ -364,16 +425,16 @@ impl Layer8ConversationAuthority {
                 ..requested_scope.clone()
             }
         };
-        let expires_at_epoch_secs = now_epoch_secs.checked_add(60).unwrap_or(u64::MAX);
+        let expires_at_epoch_secs = self.profile.identity_expires_at_epoch_secs;
         let request = AuthorityRequest {
             evidence: RuntimeIdentityEvidence {
                 principal_id: self.profile.principal_id.clone(),
                 polis_id: self.profile.polis_id.clone(),
-                credential_generation,
-                current_credential_generation: credential_generation,
+                credential_generation: self.profile.current_credential_generation,
+                current_credential_generation: self.profile.current_credential_generation,
                 expires_at_epoch_secs,
-                revoked: false,
-                authenticated: credential_generation > 0,
+                revoked: self.profile.identity_revoked,
+                authenticated: true,
             },
             action,
             conversation_id: Some(conversation_id),
@@ -393,13 +454,13 @@ impl Layer8ConversationAuthority {
         };
         let agent_policy = Layer8Policy {
             policy_id: "agent-conversation-policy".to_owned(),
-            available: true,
+            available: self.profile.agent_policy_available,
             scope: policy_scope.clone(),
             epoch: self.profile.policy_epoch,
         };
         let polis_policy = Layer8Policy {
             policy_id: "polis-conversation-policy".to_owned(),
-            available: true,
+            available: self.profile.polis_policy_available,
             scope: policy_scope,
             epoch: self.profile.policy_epoch,
         };
@@ -414,33 +475,18 @@ impl Layer8AuthorityStore {
         if let Some(parent) = path.parent() {
             std::fs::create_dir_all(parent).map_err(|_| RefusalReason::AuditUnavailable)?;
         }
-        let mut state = StoreState {
-            sequence: 0,
-            head_hash: GENESIS_HASH.to_string(),
-            replay_hashes: BTreeSet::new(),
-        };
+        let state;
         match File::open(&path) {
             Ok(file) => {
-                for line in BufReader::new(file).lines() {
-                    let line = line.map_err(|_| RefusalReason::AuditUnavailable)?;
-                    if line.trim().is_empty() {
-                        return Err(RefusalReason::AuditUnavailable);
-                    }
-                    let record: AuditRecord =
-                        serde_json::from_str(&line).map_err(|_| RefusalReason::AuditUnavailable)?;
-                    if record.schema != LAYER8_AUDIT_SCHEMA
-                        || record.sequence != state.sequence + 1
-                        || record.previous_hash != state.head_hash
-                        || record.record_hash != calculate_record_hash(&record)?
-                    {
-                        return Err(RefusalReason::AuditUnavailable);
-                    }
-                    state.replay_hashes.insert(record.replay_hash.clone());
-                    state.sequence = record.sequence;
-                    state.head_hash = record.record_hash;
-                }
+                state = load_store_state(&file)?;
             }
-            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                state = StoreState {
+                    sequence: 0,
+                    head_hash: GENESIS_HASH.to_string(),
+                    replay_hashes: BTreeSet::new(),
+                };
+            }
             Err(_) => return Err(RefusalReason::AuditUnavailable),
         }
         Ok(Self {
@@ -461,6 +507,23 @@ impl Layer8AuthorityStore {
             Ok(state) => state,
             Err(_) => return refused(RefusalReason::AuditUnavailable, correlation_id),
         };
+        let mut file = match OpenOptions::new()
+            .create(true)
+            .read(true)
+            .append(true)
+            .open(&self.path)
+        {
+            Ok(file) => file,
+            Err(_) => return refused(RefusalReason::AuditUnavailable, correlation_id),
+        };
+        if file.lock_exclusive().is_err() {
+            return refused(RefusalReason::AuditUnavailable, correlation_id);
+        }
+        let current = match load_store_state(&file) {
+            Ok(current) => current,
+            Err(reason) => return refused(reason, correlation_id),
+        };
+        *state = current;
         let replay_hash = hash_text(&request.replay_id);
         let principal = request.evidence.derive_principal(request.now_epoch_secs);
         let reason = validate(
@@ -488,13 +551,15 @@ impl Layer8AuthorityStore {
             authorized,
             reason,
         );
-        let record = match record.and_then(|record| self.append(record)) {
+        let record = match record.and_then(|record| Self::append_locked(&mut file, record)) {
             Ok(record) => record,
             Err(reason) => return refused(reason, correlation_id),
         };
         state.sequence = record.sequence;
         state.head_hash = record.record_hash.clone();
-        state.replay_hashes.insert(replay_hash);
+        if authorized {
+            state.replay_hashes.insert(replay_hash);
+        }
         match reason {
             Some(reason) => refused(reason, correlation_id),
             None => AuthorityDecision::Authorized(AuthorizationGrant {
@@ -508,12 +573,7 @@ impl Layer8AuthorityStore {
         }
     }
 
-    fn append(&self, record: AuditRecord) -> Result<AuditRecord, RefusalReason> {
-        let mut file = OpenOptions::new()
-            .create(true)
-            .append(true)
-            .open(&self.path)
-            .map_err(|_| RefusalReason::AuditUnavailable)?;
+    fn append_locked(file: &mut File, record: AuditRecord) -> Result<AuditRecord, RefusalReason> {
         let bytes = serde_json::to_vec(&record).map_err(|_| RefusalReason::AuditUnavailable)?;
         file.write_all(&bytes)
             .and_then(|_| file.write_all(b"\n"))
@@ -588,6 +648,7 @@ fn scope_matches(
         && !(request.action == Layer8Action::Attach && request.attachment_id.is_none())
 }
 
+#[allow(clippy::too_many_arguments)]
 fn build_record(
     state: &StoreState,
     request: &AuthorityRequest,

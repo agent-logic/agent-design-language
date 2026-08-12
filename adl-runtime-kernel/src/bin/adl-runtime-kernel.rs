@@ -512,7 +512,12 @@ async fn main() -> ExitCode {
                     ConversationAuthorityProfile {
                         principal_id: "layer8-operator".to_owned(),
                         polis_id: instance_id.clone(),
+                        current_credential_generation: 1,
+                        identity_expires_at_epoch_secs: u64::MAX,
+                        identity_revoked: false,
                         policy_epoch: 1,
+                        agent_policy_available: true,
+                        polis_policy_available: true,
                         allowed_actions: BTreeSet::from([
                             Layer8Action::Contact,
                             Layer8Action::Continue,

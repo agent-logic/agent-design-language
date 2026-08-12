@@ -476,6 +476,14 @@ struct ConversationSession {
 }
 
 impl ConversationSessions {
+    fn can_retain_new_session(&self, max_records: usize) -> bool {
+        self.sessions.len() < max_records
+            || self
+                .sessions
+                .values()
+                .any(|session| session.turns.values().all(|turn| turn.terminal.is_some()))
+    }
+
     fn retain_capacity_for_new_session(&mut self, max_records: usize) -> bool {
         if self.sessions.len() < max_records {
             return true;
@@ -496,6 +504,10 @@ impl ConversationSessions {
 }
 
 impl ConversationSession {
+    fn can_retain_new_turn(&self, max_records: usize) -> bool {
+        self.turns.len() < max_records || self.turns.values().any(|turn| turn.terminal.is_some())
+    }
+
     fn retain_capacity_for_new_turn(&mut self, max_records: usize) -> bool {
         if self.turns.len() < max_records {
             return true;
@@ -883,6 +895,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         } else {
             Layer8Action::Contact
         };
+        let capacity_available = sessions.sessions.get(&intent.conversation_id).map_or_else(
+            || sessions.can_retain_new_session(self.max_records),
+            |session| session.can_retain_new_turn(self.max_records),
+        );
+        if !capacity_available {
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_capacity_exhausted",
+                None,
+            ));
+        }
         let replay_id = format!(
             "{}:{}:{}:{}",
             self.instance_id, intent.conversation_id, intent.turn_id, credential_generation
@@ -894,7 +917,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 intent.recipient_id.clone(),
                 replay_id,
                 intent.correlation_id.clone(),
-                credential_generation,
                 now_unix_millis() / 1_000,
             ),
             AuthorityDecision::Authorized(_)

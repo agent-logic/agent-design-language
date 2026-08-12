@@ -199,7 +199,12 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         ConversationAuthorityProfile {
             principal_id: "layer8-operator".to_owned(),
             polis_id: "conversation-runtime".to_owned(),
+            current_credential_generation: 1,
+            identity_expires_at_epoch_secs: u64::MAX,
+            identity_revoked: false,
             policy_epoch: 1,
+            agent_policy_available: true,
+            polis_policy_available: true,
             allowed_actions: BTreeSet::from([Layer8Action::Contact, Layer8Action::Continue]),
             allowed_recipients,
         },

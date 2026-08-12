@@ -42,7 +42,12 @@ fn authority(root: &Path) -> Layer8ConversationAuthority {
         ConversationAuthorityProfile {
             principal_id: "layer8-operator".to_owned(),
             polis_id: "polis-test".to_owned(),
+            current_credential_generation: 3,
+            identity_expires_at_epoch_secs: u64::MAX,
+            identity_revoked: false,
             policy_epoch: 7,
+            agent_policy_available: true,
+            polis_policy_available: true,
             allowed_actions: BTreeSet::from([Layer8Action::Contact]),
             allowed_recipients: BTreeSet::from(["shepherd".to_owned()]),
         },
@@ -57,7 +62,6 @@ fn request(recipient_id: &str, replay_id: &str) -> Layer8RuntimeDeliveryRequest 
         recipient_id: recipient_id.to_owned(),
         replay_id: replay_id.to_owned(),
         correlation_id: "correlation-1".to_owned(),
-        credential_generation: 3,
         now_epoch_secs: 1_700_000_000,
     }
 }
