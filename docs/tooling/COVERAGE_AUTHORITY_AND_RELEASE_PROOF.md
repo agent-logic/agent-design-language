@@ -27,9 +27,13 @@ evidence into release proof. Any malformed, semantic, unmapped, or incompletely
 proved diff fails closed through the ordinary changed-source coverage gate.
 An accepted receipt binds the exact base and head identities, unified-diff and
 mapping digests, changed hunk content, proof-manifest digest, and the digests of
-verified compile and behavioral result/evidence artifacts. Caller-authored
-`passed` strings are not proof, and replaying or substituting any revision,
-diff, mapping, result, evidence log, or hunk content is rejected.
+compile and behavioral results produced by commands the classifier executes
+from the tracked governed mapping. Caller-authored `passed` strings or result
+artifacts are not inputs. The receipt retains each exact command, exit status,
+result digest, and evidence-log digest; replaying or substituting any revision,
+diff, mapping, result, evidence log, or hunk content is rejected. Argument
+pass-through classification additionally requires the added token to occur in
+the mapped governed callee invocation, not merely anywhere in the hunk.
 
 The nightly workflow currently sets `EXCLUDE_FROM_FILE_FLOOR_REGEX` to `^$`.
 That means the report does not silently exempt active source files from the

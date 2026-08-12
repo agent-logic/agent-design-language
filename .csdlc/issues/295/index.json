@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "b06edfb75f91a3f752a25a0eacb1373d490e5fc6dab504b6128bb6aa81da9797",
+  "generation": 10,
+  "digest": "160262abf70c549e870a2144ea68fe68d10196c0ae93fdaab6969112247d5ad5",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3a9018cc3d1d64cfca7437537e0c31546ca6c9f56393168276fbb498cbc4e6ab",
+      "values_digest": "028eba6c7fbf8f1ee4306fbd0aab5533a3423bad952dd7ccbb279a34e1571db4",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "9bba179db3efba86c4915aea4c054d26c5e302f3ff0af31fae4c736e9adfb077",
+      "values_digest": "56e15b141373695afc87a98bde960b78c058a410b0f2344df73b82847fafacd5",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "b76397b74a898e638f44bbbe954fd37d50da5faccd2886bd2dba4d2800b50cc6",
+      "values_digest": "92d09a342b5ae7ed0ed61436892446d5d16d89aef245b9a2dac54579062929d9",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "f848b84180ad4560405230f19889d312a5ef5401898da431283166a8c817461a",
+      "values_digest": "eb7da4f66382c7e4ce67ab4f49155309db8efa112f4e29ed252706720aab24e0",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "e9cfbef64914134b99628c69557c57068234c814a53a14c40919668a72f8d74a",
+      "values_digest": "291ff30d07d00613fa1daf3d88193c4bb586e20abda4f9e41a4a5b46c96ac75e",
       "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
       "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
     },
     "sor": {
-      "values_digest": "9c457426e22867c2763531cd0f4efac88d38ee17954cfa4cf74cf63b93fe071c",
+      "values_digest": "cc7b986e776d113570d36e6fe390dc8dc3a6cd8e06b8a4892d818cef2721230c",
       "rendered_digest": "56a46bcac65444a249800be52da38d740d89d51a192d422671d2597aedc9e5c9",
       "ast_digest": "93b37a1c5cf3566e93a2821397d576780955b53cc0bf99fe5dc0e9710ef81075"
     }
@@ -161,6 +161,20 @@
       "actor": "codex:issue-295",
       "reason": "Record the bounded P1 remediation and the fresh passing typed lane evidence after review recovery.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated all three exact-review P1 findings with strict import-addition grammar, verified result/evidence artifact bindings, and replay-resistant exact revision/diff/mapping/result/hunk receipts.\",\"changes\":[\"Reject semantic import removal, reorder, alias, path, and multiplicity changes.\",\"Require digest-verified compile and behavioral result artifacts plus their evidence logs instead of caller-declared passed strings.\",\"Bind base, head, diff, mapping, proof manifest, result, evidence, and hunk content digests in each receipt.\",\"Preserve the 80 percent threshold, nightly/full policy, and read-only #258 fixture boundary.\"],\"artifacts\":[\"adl/tools/mechanical_coverage_fallout.py\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\"docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md\",\".csdlc/evidence/295\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Prove exact grammar, artifact integrity, replay resistance, required negatives, and below-threshold integration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/mechanical-compile-fallout-classifier.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the existing 80 percent and authoritative coverage routing contract remains intact.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/coverage-impact-regression.log\"},{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"purpose\":\"Prove PVF selector inventory and non-authoritative PR evidence routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/validation-selector-pvf.log\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-295",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-295",
+      "reason": "Exact reviewer fresh-session:ff17a49b-6f75-46cd-99bb-d3652ec6f62d returned FAIL at 05b1af348 before its long-running turn was interrupted: P1 self-authored result/evidence artifacts are accepted without trusted execution provenance; P1 pass-through additions are not structurally tied to a governed mapped call/callee. No PASS was issued. Recover before remediation and require a different fresh reviewer.",
+      "operation": "recover_review"
     }
   ]
 }
