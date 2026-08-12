@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and locally proved a sealed Runtime-owned birth-witness operator that validates boot trust, provisions opaque policy, invokes canonical build and validation, and stages receipts fail closed.
+Implemented and locally proved a sealed Runtime-owned birth-witness operator with boot trust validation, production invocation, downstream configuration continuity, and fail-closed canonical receipt staging.
 
 ## Artifacts
 
@@ -22,6 +22,8 @@ Implemented and locally proved a sealed Runtime-owned birth-witness operator tha
 - adl-runtime-kernel/tests/birth_witness.rs
 - adl-runtime-kernel/tests/configuration.rs
 - adl-runtime-kernel/tests/support/runtime_init.rs
+- adl-runtime/tests/guardian_cli.rs
+- adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
 - infra/runtime-v3/runtime-init.toml
 - .csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh
 - .csdlc/evidence/5912/runtime-birth-witness-production-path.log
@@ -29,10 +31,10 @@ Implemented and locally proved a sealed Runtime-owned birth-witness operator tha
 
 ## Execution
 
-- Made the configured trust-manifest path private and revalidated Runtime init before every owner construction.
-- Validated complete authority context, roles, uniqueness, and keys while constructing the boot-owned operator.
-- Added RuntimeBirthWitnessOwner as the sole public production invocation boundary and retained it during serve bootstrap.
-- Proved external owner invocation plus all thirteen retained security cases.
+- Sealed authority construction, manifest path mutation, and direct service provisioning behind validated Runtime ownership.
+- Validated complete trust semantics during boot owner construction and retained the owner in production serve.
+- Provisioned deterministic test/soak trust manifests through existing Runtime configuration boundaries without reopening caller nomination.
+- Proved the external owner path, thirteen retained security cases, guardian consumer, lifecycle-soak build, and strict lint.
 
 ## Validation
 
@@ -42,7 +44,7 @@ Implemented and locally proved a sealed Runtime-owned birth-witness operator tha
       "bash",
       ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh"
     ],
-    "purpose": "Prove sealed Runtime owner provisioning and invocation, canonical emission, fail-closed preparation, and thirteen retained security regressions.",
+    "purpose": "Prove sealed Runtime owner invocation, downstream config continuity, canonical emission, fail-closed preparation, and retained security regressions.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5912/runtime-birth-witness-production-path.log"
   },
@@ -57,7 +59,7 @@ Implemented and locally proved a sealed Runtime-owned birth-witness operator tha
       "-D",
       "warnings"
     ],
-    "purpose": "Prove warning-free Runtime production and test targets.",
+    "purpose": "Prove warning-free Runtime kernel production and test targets.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5912/runtime-birth-witness-clippy.log"
   }

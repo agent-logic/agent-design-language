@@ -342,6 +342,7 @@ impl ProductionFixture {
             &init_document,
             &["credentials", "acip_write_token_path"],
         )?);
+        let birth_witness_trust_path = credentials_root.join("birth-witness-trust.json");
         std::fs::write(&control_public_key_path, &control_public_key)
             .map_err(|error| error.to_string())?;
         std::fs::write(&operation_public_key_path, &operation_public_key)
@@ -360,6 +361,26 @@ impl ProductionFixture {
             .map_err(|error| error.to_string())?;
         write_secret(&acip_write_token_path, acip_write_token.as_bytes())
             .map_err(|error| error.to_string())?;
+        let authorities = ["identity_continuity", "memory_capability", "negative_case_guard", "handoff_consumer"]
+            .into_iter()
+            .enumerate()
+            .map(|(index, role)| serde_json::json!({
+                "witness_id": format!("witness-{}", index + 1),
+                "role": role,
+                "signing_key_id": format!("witness-key-{}", index + 1),
+                "verifying_key": hex::encode(SigningKey::from_bytes(&[(index + 1) as u8; 32]).verifying_key().as_bytes()),
+            }))
+            .collect::<Vec<_>>();
+        std::fs::write(
+            &birth_witness_trust_path,
+            serde_json::to_vec(&serde_json::json!({
+                "schema": "adl.runtime.birth_witness_trust.v1",
+                "authority_context": "runtime-v3-birth-witness-authority",
+                "authorities": authorities,
+            }))
+            .map_err(|error| error.to_string())?,
+        )
+        .map_err(|error| error.to_string())?;
 
         set_toml_string(&mut init_document, &["state_root"], toml_path(&state_root)?)?;
         set_toml_string(
@@ -397,6 +418,10 @@ impl ProductionFixture {
             ("continuity_signing_key_path", &continuity_signing_key_path),
             ("observatory_token_path", &observatory_token_path),
             ("acip_write_token_path", &acip_write_token_path),
+            (
+                "birth_witness_trust_manifest_path",
+                &birth_witness_trust_path,
+            ),
         ] {
             set_toml_string(
                 &mut init_document,

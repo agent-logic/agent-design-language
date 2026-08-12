@@ -381,6 +381,15 @@ impl RuntimeInitConfig {
         Ok(RuntimeBirthWitnessOwner { trust })
     }
 
+    /// Rebase the sealed birth-witness manifest to its fixed filename under
+    /// the currently configured Runtime credential root.
+    pub fn rebase_birth_witness_trust_manifest(&mut self) {
+        self.credentials.birth_witness_trust_manifest_path = self
+            .paths
+            .credentials_root(&self.state_root)
+            .join("birth-witness-trust.json");
+    }
+
     pub fn validate(&self) -> Result<(), RuntimeInitError> {
         if self.schema != RUNTIME_INIT_SCHEMA {
             return Err(RuntimeInitError::UnsupportedSchema(self.schema.clone()));
