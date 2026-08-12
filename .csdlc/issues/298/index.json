@@ -3,9 +3,9 @@
   "issue": 298,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
-  "phase": "implemented",
-  "generation": 65,
-  "digest": "a7b0104aee31f5fc14c9d053ee67cdf3b604c3a86b0f9325f309609929122d4d",
+  "phase": "reviewed",
+  "generation": 66,
+  "digest": "4ae311d5a7f409c94d7ef984dc0db736c99bb67901e3e57469f4b8992e0fabd3",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": {
@@ -18,7 +18,21 @@
       ".csdlc/evidence/298"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:a406a2fd-622c-4698-9d47-09580b436742",
+    "scope": [
+      "csdlc-v2/src/projection_recovery.rs",
+      ".csdlc/issues/298",
+      ".csdlc/evidence/298"
+    ],
+    "reviewed_revision": "git-blake3:c4d330b2244f82dd7325fdef0565d0554a474033:6810958269637258862c5405e607f750077118a8187397d082bf6b14e919d35d",
+    "findings": [],
+    "residual_risks": [
+      "Inspection-only review; live hosted Linux CI remained deferred to republication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -33,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7926075fa11bd5cbd4dd600a00f81060d2bd1bf3adf14662d0747c7a4354788c",
+      "values_digest": "2bd5186ff04e8d3c80f69c529be6fa27bf5130458cea78838a273249d46bdf6f",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "249eabbcbdcc5a76be72a845c10eab4d150a64e64f3489dc1fe988c81cd76f50",
+      "values_digest": "b1a9a31b757e4295e5dee81fa0bf53b09814c3c1391d60a08d8d74a4805a1853",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "c9238cc376c79c6919bd4ee61bb6c494445180ca6e041576e1c4be191f38d8c0",
+      "values_digest": "b3c388d71432f8240ae572bbf426c10131a80aa93835fb44d2047c247c558dbb",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "6442bdfb7cf46b74d7427ef6dfb7485a2c0272ba86191780327f8a8f645224be",
+      "values_digest": "8d1f448b4fd404f55d40657e2bc32d47a499adbca5471f97a7ec0da98c8ae3c1",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "501b35d3fbeb6cd34f5acc1d467994f9e9f4676419b6cae7afee6dde9197d914",
-      "rendered_digest": "5d9685b807ef21b0996c6937a675792b2336ceb33e9e277c454795de150a5b1c",
-      "ast_digest": "d7d1af222ef26cfe9cde9bc3872ead8f4a6adb8210d22c21660faf6ed63eabf4"
+      "values_digest": "72c058e3bb567ad6a681cbeec112c145b4a8152a085d3e3f7c8ce7befd1f7969",
+      "rendered_digest": "186fc51f8cdf2c9cc0721f033e45c26c80bbbcb560d5ac53e8d47bbe1a8e9bf3",
+      "ast_digest": "9b2c8ec97fb909456cb102003935c3b796ec2f01b85e70167c6f47a90af7b12f"
     },
     "sor": {
-      "values_digest": "7be0ce1e93175bc63c28f23ca741fe3220eecae2b0db70287b22c9ffe82a6c36",
+      "values_digest": "1252616c9bd28bf96772ef9ccd3c8b2748a395979eddbfccb951d39b9f43bab0",
       "rendered_digest": "da8c9df38f5edf73ee9d0b277b4081b88c17f84c09d07752da102a426a7d728b",
       "ast_digest": "da2c155137c3c0642fd41db3c11fae4d5891e936e560d88f12bddc16e765659d"
     }
@@ -147,6 +161,13 @@
       "to": "implemented",
       "actor": "codex:issue-298-r24-ci-remediation",
       "reason": "Recover reviewed publication after exact Linux strict-Clippy failure at projection_recovery.rs:613: cfg-linux branch has an unnecessary return rejected by -D warnings. Require the bounded lint correction, fresh exact review, and republication."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:a406a2fd-622c-4698-9d47-09580b436742",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -800,6 +821,13 @@
       "actor": "codex:issue-298-r24-ci-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 94,
+      "generation": 66,
+      "actor": "fresh-session:a406a2fd-622c-4698-9d47-09580b436742",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

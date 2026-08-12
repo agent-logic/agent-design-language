@@ -35,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Inspection-only review; live hosted Linux CI remained deferred to republication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c4d330b2244f82dd7325fdef0565d0554a474033:6810958269637258862c5405e607f750077118a8187397d082bf6b14e919d35d")
 
-Reviewer: None
+Reviewer: Some("fresh-session:a406a2fd-622c-4698-9d47-09580b436742")
 
-Result: pre_review
+Result: pass
