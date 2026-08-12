@@ -4,21 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 57,
-  "digest": "26a439637898233eea5020ab3794df67f50b76978e773c8e88e7672d132529e5",
+  "generation": 58,
+  "digest": "f002d57f55582bc6555657cf3731529996c162c321469cb2ad0f0e51d4c48358",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:b6d3a62d-c20c-406c-bd01-6bed82cd6056",
-    "assigned_by": "codex:issue-298-r21-ci-remediation",
-    "revision": "git-blake3:776f467b2b94971734126ef6bd7338cc7bc64cd0:92879eab23c14fd4a644802ea495cab1529169e80dad0dff4b360bede740a837",
-    "scope": [
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -34,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "173fca0fd200e5cc70a729ef295b93790654d6b61626b7aaf275367cc0294edc",
+      "values_digest": "4b7eb1876a366ccfa445ca6021fb8720df651bfc57aceaf5b74ebaebe617ea87",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "2de76fa68f4e0a5c5b6e3ee1e41b8e811a20b6324dbaee46cdbdbd0a511a2fcf",
+      "values_digest": "c176448352ca357764634d34edd2be644a67ce6c169989a8e6998a193d7af057",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "c1ec40c8ed44173dabc62cea330ca2d43c2f0a9c49549bc75ac6e5a86a82d65b",
+      "values_digest": "2d8fa019f51629d526b019f637aa77bb84ef38160aa7873f0cb3bc08b28119b6",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "6da6599d5bdef4a6f404aeb0dd57de180e134e2d090bdc090119350001e064f6",
+      "values_digest": "7d55931026767fbbd095dee1abdd8381c84a68f54d744356f01ccbcb155854fb",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "49ddad498034214c8281f2840ee1716e766577bd9c5d91adc38a8f72725ef01c",
-      "rendered_digest": "5bdd4852390d5614f01a756242454e39c682d242b0e43b2b2d61b397c589c7d4",
-      "ast_digest": "7822c1bc1142120016e54fdbf89e094f2c992a5046728f32fa4bed56fe5847e9"
+      "values_digest": "d575df2198308f29a3ff9710811a591bdbf132e68bf5cce8832c80f8e36fe05e",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "35cdc8e9c373514962ec7ba4d293233127322d86e80d668d347c246fe0fe7ec5",
+      "values_digest": "5e2b2236cd5e523473365a4c00bfd2ad8a60e357b2c7f571b01826edc0577c6c",
       "rendered_digest": "b13c50cc385cb0693793a198b6be6f6eeabd769d0ca35c2ec715975f18e67f0a",
       "ast_digest": "05c3473a2676f91d4d83b740f62f8c1651ded2cd838973a2f533d53e17e148c0"
     }
@@ -703,6 +693,13 @@
       "actor": "codex:issue-298-r21-ci-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 83,
+      "generation": 58,
+      "actor": "codex:issue-298-r22-remediation",
+      "reason": "Recover failed exact R22: Linux statx success does not guarantee STATX_MNT_ID is present; accepting zero-initialized stx_mnt_id as mnt:0 can collapse distinct mounts and defeat cross-mount enforcement. Require explicit stx_mask validation and focused fail-closed proof before R23.",
+      "operation": "recover_review"
     }
   ]
 }

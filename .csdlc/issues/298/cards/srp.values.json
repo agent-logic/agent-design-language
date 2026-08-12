@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
     "slug": "297a-anchored-classification-resumable-recovery-ledger",
     "version": "v0.92",
-    "generation": 57
+    "generation": 58
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/projection_recovery.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/298\n.csdlc/evidence/298",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
