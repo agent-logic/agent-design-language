@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Retained live recovery source and workspace descriptors through candidate derivation, archive, displacement, observation, and durability boundaries.
+Made non-exchange recovery select retained prior authority before any current backup-path open and proved deterministic restart after displacement.
 
 ## Artifacts
 
@@ -97,6 +97,8 @@ Retained live recovery source and workspace descriptors through candidate deriva
 - csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/src/store.rs
+- csdlc-v2/tests/gate5.rs
+- csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 
 ## Execution
@@ -359,6 +361,11 @@ Retained live recovery source and workspace descriptors through candidate deriva
 - Replaced live attempt, candidate, archive, and displaced sync and observation with retained descriptor operations
 - Added deterministic late recovery-root and attempt swaps immediately before archive mutation
 - Preserved early swap, every-boundary restart, receipt, identity, inventory, idempotency, ordinary-commit, initialized/ready, and issue 291 proof
+- Removed the unconditional backup-path descriptor open before restart-state selection
+- Resolved the candidate-build prior from exact retained current, displaced, or candidate authority
+- Added deterministic boundary replay coverage for ExpectedCanonicalAbsent and ExactObservedInvalid anchors
+- Proved replay after candidate install, canonical install, and the prior-displaced receipt boundary
+- Preserved all descriptor-relative mutation, swap, receipt, inventory, idempotency, and earlier recovery proof
 
 ## Validation
 

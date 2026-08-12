@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
     "slug": "297a-anchored-classification-resumable-recovery-ledger",
     "version": "v0.92",
-    "generation": 52
+    "generation": 53
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Retained live recovery source and workspace descriptors through candidate derivation, archive, displacement, observation, and durability boundaries.",
+      "summary": "Made non-exchange recovery select retained prior authority before any current backup-path open and proved deterministic restart after displacement.",
       "actual_changes": [
         "Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299",
         "Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation",
@@ -272,7 +272,12 @@
         "Selected restart prior authority from exact current, displaced, or candidate descriptors without pathname rereads",
         "Replaced live attempt, candidate, archive, and displaced sync and observation with retained descriptor operations",
         "Added deterministic late recovery-root and attempt swaps immediately before archive mutation",
-        "Preserved early swap, every-boundary restart, receipt, identity, inventory, idempotency, ordinary-commit, initialized/ready, and issue 291 proof"
+        "Preserved early swap, every-boundary restart, receipt, identity, inventory, idempotency, ordinary-commit, initialized/ready, and issue 291 proof",
+        "Removed the unconditional backup-path descriptor open before restart-state selection",
+        "Resolved the candidate-build prior from exact retained current, displaced, or candidate authority",
+        "Added deterministic boundary replay coverage for ExpectedCanonicalAbsent and ExactObservedInvalid anchors",
+        "Proved replay after candidate install, canonical install, and the prior-displaced receipt boundary",
+        "Preserved all descriptor-relative mutation, swap, receipt, inventory, idempotency, and earlier recovery proof"
       ],
       "artifacts": [
         "csdlc-v2/src/projection_recovery.rs",
@@ -356,6 +361,8 @@
         "csdlc-v2/tests/gate5.rs",
         "csdlc-v2/src/projection_recovery.rs",
         "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate5.rs",
+        "csdlc-v2/src/projection_recovery.rs",
         "csdlc-v2/tests/gate5.rs"
       ],
       "actual_validation": [
