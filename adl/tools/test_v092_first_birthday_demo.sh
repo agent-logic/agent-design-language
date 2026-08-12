@@ -25,7 +25,11 @@ case "${1:-}" in
     "$0" --positive
     architecture="$(uname -m)"
     source_revision="$(git -C "$repo_root" rev-parse HEAD)"
-    packet_sha256="$(shasum -a 256 "$repo_root/demos/v0.92/first-birthday/positive.json" | awk '{print $1}')"
+    if command -v sha256sum >/dev/null 2>&1; then
+      packet_sha256="$(sha256sum "$repo_root/demos/v0.92/first-birthday/positive.json" | awk '{print $1}')"
+    else
+      packet_sha256="$(shasum -a 256 "$repo_root/demos/v0.92/first-birthday/positive.json" | awk '{print $1}')"
+    fi
     receipt="$repo_root/.csdlc/evidence/5836/native-${platform}-receipt.json"
     python3 - "$receipt" "$platform" "$actual" "$architecture" "$source_revision" "$packet_sha256" <<'PY'
 import json

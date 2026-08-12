@@ -76,6 +76,26 @@ def packet_evidence_valid?(root, packet)
     end
 end
 
+def nested_evidence_valid?(root, packet)
+  references = packet.dig("capability", "evidence").to_a + packet.dig("cognitive_profile", "evidence").to_a
+  packet_digests = [
+    packet.dig("candidate", "packet_sha256"), packet.dig("identity", "record_sha256"),
+    packet.dig("continuity", "record_sha256"), packet.dig("capability", "envelope_sha256")
+  ].compact
+  revision_path = "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json"
+  revision_digest = Digest::SHA256.file(root.join(revision_path)).hexdigest
+  references.length >= 10 && references.all? do |entry|
+    path = entry["path"].to_s
+    digest = entry["sha256"].to_s
+    digest_valid = if path == "demos/v0.92/first-birthday/positive.json"
+      packet_digests.include?(digest)
+    else
+      root.join(path).file? && digest == Digest::SHA256.file(root.join(path)).hexdigest
+    end
+    digest_valid && entry["revision_sha256"] == revision_digest
+  end
+end
+
 positive_path = "demos/v0.92/first-birthday/positive.json"
 positive = read_json(root, positive_path)
 positive_valid = valid_packet?(positive, "complete") &&
@@ -84,7 +104,7 @@ positive_valid = valid_packet?(positive, "complete") &&
   positive.dig("witness_packet", "receipt", "receipt_sha256").to_s.match?(/\A[0-9a-f]{64}\z/) &&
   positive.dig("witness_packet", "witness_set", "witnesses").is_a?(Array) &&
   positive.dig("witness_packet", "witness_set", "witnesses").length == 4 &&
-  packet_evidence_valid?(root, positive)
+  packet_evidence_valid?(root, positive) && nested_evidence_valid?(root, positive)
 
 lifecycle_cases = {
   "startup" => "process_startup", "wake" => "wake_or_resume",
@@ -158,8 +178,14 @@ required_doc_boundaries = {
   docs[2] => "public launch approval exists without operator authorization",
   docs[3] => "operator"
 }
+affirmative_claim = /\b(?:the first birthday has happened|public launch (?:is|has been) approved|authorized for (?:publication|public launch))\b/i
+negation = /\b(?:not|no|never|without|before|does not|cannot|must not|rejects?|prohibited)\b/i
+contradictory_claim = docs.any? do |path|
+  root.join(path).each_line.any? { |line| line.match?(affirmative_claim) && !line.match?(negation) }
+end
 unsupported_claims_resolved = docs.all? { |path| root.join(path).file? } &&
   required_doc_boundaries.all? { |path, phrase| root.join(path).read.downcase.include?(phrase) } &&
+  !contradictory_claim &&
   positive["non_claims"].is_a?(Array) && positive["non_claims"].include?("no_publication_authorization")
 
 # WP-18 cannot grant publication authority. That remains an external operator

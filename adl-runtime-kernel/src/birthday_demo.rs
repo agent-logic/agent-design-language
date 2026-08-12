@@ -962,6 +962,7 @@ fn retained_path_for_capability(kind: CapabilityEvidenceKind) -> &'static str {
     match kind {
         CapabilityEvidenceKind::Birthday | CapabilityEvidenceKind::Identity => RETAINED_PACKET_PATH,
         CapabilityEvidenceKind::Provider | CapabilityEvidenceKind::Model => REVIEW_EVIDENCE_PATH,
+        CapabilityEvidenceKind::Authority => RECEIPT_EVIDENCE_PATH,
         _ => LAUNCH_EVIDENCE_PATH,
     }
 }
@@ -970,7 +971,9 @@ fn retained_path_for_cognitive(category: CognitiveEvidenceCategory) -> &'static 
         CognitiveEvidenceCategory::Identity
         | CognitiveEvidenceCategory::Continuity
         | CognitiveEvidenceCategory::Capability => RETAINED_PACKET_PATH,
-        CognitiveEvidenceCategory::GovernedLearning => LAUNCH_EVIDENCE_PATH,
+        CognitiveEvidenceCategory::Memory | CognitiveEvidenceCategory::GovernedLearning => {
+            LAUNCH_EVIDENCE_PATH
+        }
         _ => REVIEW_EVIDENCE_PATH,
     }
 }
