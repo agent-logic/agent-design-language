@@ -12,11 +12,10 @@ Status: pre_phase
 
 ## Summary
 
-Remediated the second exact-review findings by executing governed proof commands inside the classifier and structurally binding the added token argument to the mapped callee invocation.
+Remediated the third exact-review findings with a constrained Rust callsite grammar and clean Git-object proof snapshots.
 
 ## Artifacts
 
-- adl/config/mechanical_coverage_fallout.v1.json
 - adl/tools/mechanical_coverage_fallout.py
 - adl/tools/check_coverage_impact.sh
 - adl/tools/test_mechanical_coverage_fallout.sh
@@ -25,10 +24,10 @@ Remediated the second exact-review findings by executing governed proof commands
 
 ## Execution
 
-- Execute tracked compile and per-owner behavioral commands directly without accepting caller-authored pass results.
-- Record runner producer, argv, exit code, result digest, evidence digest, base, head, diff, mapping, and changed hunk identities.
-- Require the sole added token argument to immediately follow the mapped governed callee invocation; reject unrelated calls even within the same hunk.
-- Preserve the 80 percent whole-file gate, nightly/full authority policy, and read-only issue 258 fixture boundary.
+- Reject comment, string, macro, operator, and unrelated-call callee decoys with a fail-closed callsite grammar.
+- Execute governed commands in a clean archive of the exact commit, overlaying only the classified diff for worktree authoring mode.
+- Exclude all unrelated mutable and untracked source or test files from proof inputs.
+- Add decoy and dirty unrelated proof-command negatives while preserving the 80 percent and nightly/full authority gates.
 
 ## Validation
 
@@ -38,7 +37,7 @@ Remediated the second exact-review findings by executing governed proof commands
       "bash",
       "adl/tools/test_mechanical_coverage_fallout.sh"
     ],
-    "purpose": "Prove trusted command execution, mapped-callee binding, exact grammar, negative cases, and below-threshold integration.",
+    "purpose": "Prove syntax-constrained callee binding and immutable proof execution, including decoy and dirty unrelated input negatives.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/mechanical-compile-fallout-classifier.log"
   },
@@ -47,7 +46,7 @@ Remediated the second exact-review findings by executing governed proof commands
       "bash",
       "adl/tools/test_check_coverage_impact.sh"
     ],
-    "purpose": "Prove the existing 80 percent gate and authoritative coverage routing remain intact.",
+    "purpose": "Prove the existing changed-source 80 percent and authoritative coverage routing remain intact.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/coverage-impact-regression.log"
   },

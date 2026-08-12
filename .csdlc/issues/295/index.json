@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "d12d47a4b0f1a3bc96d55e94eaf16a7236cbb5964449e9a0ffb53ae03960a6a5",
+  "generation": 13,
+  "digest": "b22d0282a68a792bc36ab9fee0d109e48462f8df9c98b2add86384d62f47d40f",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "39c6ed0a039c3504114696148d169546206e26a01add60cb028ff47cf9dedcfe",
+      "values_digest": "223215372e202d34994df6bb672e672bedfd917d510fc6fbb39b55b6ee184aff",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "777f05dfdeb3d44ae08911092048aa4d451ef02e60f5adb7f314a7f48d1c3984",
+      "values_digest": "b69e426ee7ff7408acf0a90ae5cb6e3bced6f060d5a5e44347dc4abaf413f460",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "0fa42c97adc949ee639fcf0467336c4c6b9848ac5fced1d754fb9ef6a89abf12",
+      "values_digest": "a896b643ce48ed99d894ecbcb3dfb9069b6932c34fcc45bceece0946f782bd44",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "04cd94058d2b6c85c9713fdf54f673ecd70fefba95d169348213072a06c6fcc3",
+      "values_digest": "11dd6d33ed046614db6149632a6118b49684dbb42790272b090b30c44e62ae5a",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "39b59c71eb9881c4000b32b246419926436ba8399b4248829e7596cf5f4d0e27",
+      "values_digest": "912cd6bb7303448d712c886812c5dee73d05d63250f41204311a663f52cb7acb",
       "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
       "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
     },
     "sor": {
-      "values_digest": "58868984680946c48f1ae89ec169f1952f6275e4cdcb35b5405c669ddabc8371",
-      "rendered_digest": "c10411dd190ebf9bbbbc79b59bf71687ef33429a33b8da34496869c99e0c9b06",
-      "ast_digest": "ee603258afbe1eec9a6c1c4591ec304dd2e6ee3fcb0222d5cbc9a9b273736de9"
+      "values_digest": "0db6942d27a817e3fdbc3fb740f746a7444d7c342dd3ade0904944334c683ff8",
+      "rendered_digest": "9edd7ecd59706c580866a5c198e3d852326da82198e9edf876d0a08a638b9b62",
+      "ast_digest": "956d2896999d4b077ce1ca3d262b7d515bbf98d79d7909c077d0c8a6402dd9f9"
     }
   },
   "transitions": [
@@ -196,6 +196,13 @@
       "actor": "codex:issue-295",
       "reason": "Exact reviewer fresh-session:8b8add1a-eef4-4952-8c1d-a630cff57e2d returned FAIL at 30c759e4d / git-blake3 6068344ada738780a4a6c500b8735412fb6796e41344fbfa59e6c7ba1643469d with two P1 findings: the textual prior-line callee regex accepts comments or strings ending .authorize( and therefore does not structurally bind the added token to the governed invocation; governed compile and behavior commands execute in mutable current worktree state while receipts claim caller-supplied base/head, and selected-path-only postchecks do not bind unrelated source/test proof inputs or prevent TOCTOU substitution. Focused bash syntax and classifier tests passed but missed these cases. Recover before any remediation and require a different fresh reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:issue-295",
+      "reason": "Record bounded third-review remediation and fresh passing proof before a new exact review assignment.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the third exact-review findings with a constrained Rust callsite grammar and clean Git-object proof snapshots.\",\"changes\":[\"Reject comment, string, macro, operator, and unrelated-call callee decoys with a fail-closed callsite grammar.\",\"Execute governed commands in a clean archive of the exact commit, overlaying only the classified diff for worktree authoring mode.\",\"Exclude all unrelated mutable and untracked source or test files from proof inputs.\",\"Add decoy and dirty unrelated proof-command negatives while preserving the 80 percent and nightly/full authority gates.\"],\"artifacts\":[\"adl/tools/mechanical_coverage_fallout.py\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\"docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md\",\".csdlc/evidence/295\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Prove syntax-constrained callee binding and immutable proof execution, including decoy and dirty unrelated input negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/mechanical-compile-fallout-classifier.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the existing changed-source 80 percent and authoritative coverage routing remain intact.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/coverage-impact-regression.log\"},{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"purpose\":\"Prove PVF selector inventory and PR-fast non-authoritative routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/validation-selector-pvf.log\"}]}"
     }
   ]
 }
