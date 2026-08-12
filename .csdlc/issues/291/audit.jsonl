@@ -29,3 +29,6 @@
 {"sequence":29,"generation":27,"actor":"codex:root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":30,"generation":27,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":31,"generation":28,"actor":"codex:root","reason":"Clear completed fresh review assignment after actionable P2 finding before applying substantive graph validation repair. Original finding: validate_decomposition_graph accepted disconnected/incomplete parent topology; missing-edge graph mismatches did not fail closed.","operation":"recover_review"}
+{"sequence":32,"generation":28,"actor":"codex:issue-291-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":33,"generation":29,"actor":"codex:issue-291-owner","reason":"Recover the noncanonical reviewer assignment fresh-session:issue-291-review-r2 before any review activity: the identifier is not fresh-session:<lowercase UUID> and therefore has no #119 review authority; the attempted dispatch did not start because the reviewer agent limit was reached.","operation":"recover_review"}
+{"sequence":34,"generation":29,"actor":"codex:issue-291-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
