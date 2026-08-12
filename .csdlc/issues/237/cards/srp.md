@@ -44,12 +44,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Required hosted Runtime CI and live PR mergeability remain publication gates.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7ce5852bcae2cb1f7c418a0d833c788841c0f0f1:bd1b292b3a57c60f7c940f9eac61f8cbb91d3b886fcf3fd0655d601318b017a4")
 
-Reviewer: None
+Reviewer: Some("/root/fix_5833_birth_witness_runtime/review_237_fresh_integrated")
 
-Result: pre_review
+Result: pass

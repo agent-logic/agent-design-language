@@ -39,3 +39,4 @@
 {"sequence":39,"generation":31,"actor":"/root/fix_5833_birth_witness_runtime","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":40,"generation":32,"actor":"/root/fix_5833_birth_witness_runtime","reason":"Recover invalid backfilled review assignment before assigning the complete scope to a genuinely fresh reviewer.","operation":"recover_review"}
 {"sequence":41,"generation":32,"actor":"/root/fix_5833_birth_witness_runtime","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":42,"generation":33,"actor":"/root/fix_5833_birth_witness_runtime/review_237_fresh_integrated","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
