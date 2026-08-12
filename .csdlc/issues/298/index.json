@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 37,
-  "digest": "e9c0662311ac72f918a70abf902c3b6d1318aa9d46647f375df999f345833645",
+  "digest": "fc1257478ca7022944d8789da963985512acd2037f18bb2dd5804083f8e3dfff",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:c73a6458-1d68-451b-a10d-b8842de6f0e5",
+    "assigned_by": "codex:issue-298",
+    "revision": "git-blake3:179b5b7503dbd81ba448d4c940cd0a5d9e7888a5:5d863d5913f38891acd0c398e8f36800b67702f4274de4d1e94ee005d90b5fc9",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "9255397d92f8541582532b1d9b5ea6812b03e5df821382b64ec005012436c9b3",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "f98c8c44ea9d50a590220772850f4bfe3ea9017a2e53c042bd935bcc0c4438ae",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "9729af105b1950806701d0019028224a0ce0a0a41953e0bf1463c7171a071ed2",
@@ -448,6 +463,13 @@
       "actor": "codex:issue-298",
       "reason": "record complete recovery workspace and node-ledger inventory remediation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Validate the complete authorized recovery workspace and every node receipt ledger\",\"changes\":[\"Allowed exactly candidate, displaced, rejected, and contiguous node-NNN directories alongside the 13 regular authority receipts\",\"Required node ledger count to equal the derived candidate file count plus the two authorized directories\",\"Validated every node ledger as an exact ten-receipt sequence with authorized payload and stable filesystem identity bindings\",\"Rejected extra regular, directory, symlink, and FIFO entries at attempt and node-ledger levels\",\"Preserved exact candidate manifest and content derivation plus all prior receipt-chain, mutation, and ordinary-commit gates\",\"Validated the 24-test focused recovery lane; retained evidence log remains the prior 19-test capture and is not claimed as refreshed\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/evidence/298/preserved-projection-recovery.log\"]}"
+    },
+    {
+      "sequence": 54,
+      "generation": 37,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
