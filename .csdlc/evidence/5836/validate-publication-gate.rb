@@ -101,7 +101,8 @@ def nested_evidence_valid?(root, packet)
     "learning" => ["governed_learning", launch_path, file_digest.call(launch_path)]
   }
   validate = lambda do |references, expected, discriminator|
-    references.is_a?(Array) && references.length == expected.length && references.all? do |entry|
+    references.is_a?(Array) && references.length == expected.length &&
+      references.map { |entry| entry["id"] }.sort == expected.keys.sort && references.all? do |entry|
       contract = expected[entry["id"]]
       contract && entry[discriminator] == contract[0] && entry["path"] == contract[1] &&
         entry["sha256"] == contract[2] && entry["revision_sha256"] == revision_digest
