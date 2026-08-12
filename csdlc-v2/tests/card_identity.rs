@@ -369,6 +369,58 @@ fn journal_owned_inode_prevents_identical_byte_replacement_deletion() {
     assert_eq!(fs::read(destination).unwrap(), b"design bytes");
 }
 
+#[cfg(unix)]
+#[test]
+fn restart_reconciles_interrupted_stage_quarantine() {
+    use std::os::unix::fs::MetadataExt;
+    let temp = tempfile::tempdir().unwrap();
+    let record = bootstrap_at(
+        temp.path(),
+        300,
+        ".csdlc/prepared/legacy/design.md",
+        ".csdlc/prepared/legacy/diagram.mmd",
+    );
+    let request = recovery_request(&record);
+    let parent = temp.path().join("docs/issues/300");
+    fs::create_dir_all(&parent).unwrap();
+    let quarantine_source = parent.join("stage-source");
+    fs::write(&quarantine_source, b"design bytes").unwrap();
+    let metadata = fs::metadata(&quarantine_source).unwrap();
+    let quarantine = parent.join(format!(
+        "..design.md.csdlc-stage.csdlc-delete-{}-{}",
+        metadata.dev(),
+        metadata.ino()
+    ));
+    fs::rename(&quarantine_source, &quarantine).unwrap();
+    let recovered = recover_initialized_design_envelope(&Store::new(temp.path()), request).unwrap();
+    assert_eq!(recovered.generation, record.generation + 1);
+    assert!(!quarantine.exists());
+}
+
+#[test]
+fn recovery_rejects_later_lifecycle_and_unsafe_control_destinations() {
+    let temp = tempfile::tempdir().unwrap();
+    let record = bootstrap_at(
+        temp.path(),
+        301,
+        ".csdlc/prepared/legacy/design.md",
+        ".csdlc/prepared/legacy/diagram.mmd",
+    );
+    for unsafe_path in [
+        ".git/recovery.md",
+        ".csdlc/issues/301/design.md",
+        ".csdlc/locks/design.md",
+        "../escape.md",
+    ] {
+        let mut request = recovery_request(&record);
+        request.new_design_path = unsafe_path.into();
+        assert!(
+            recover_initialized_design_envelope(&Store::new(temp.path()), request).is_err(),
+            "{unsafe_path}"
+        );
+    }
+}
+
 #[test]
 fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
     let temp = tempfile::tempdir().unwrap();

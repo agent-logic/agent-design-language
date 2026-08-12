@@ -1776,7 +1776,54 @@ fn staged_authored_path(relative: &Path) -> Result<PathBuf> {
 
 #[cfg(unix)]
 fn cleanup_stage(root: &Path, relative: &Path, expected: &str) -> Result<()> {
-    unlink_anchored(root, &staged_authored_path(relative)?, Some(expected))
+    let stage = staged_authored_path(relative)?;
+    reconcile_owned_quarantine(root, &stage, expected)?;
+    unlink_anchored(root, &stage, Some(expected))
+}
+
+#[cfg(unix)]
+fn reconcile_owned_quarantine(root: &Path, relative: &Path, expected: &str) -> Result<()> {
+    let parent = relative.parent().unwrap_or_else(|| Path::new("."));
+    let name = relative
+        .file_name()
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "cleanup file name missing"))?
+        .to_string_lossy();
+    let prefix = format!(".{name}.csdlc-delete-");
+    for entry in std::fs::read_dir(root.join(parent))? {
+        let entry = entry?;
+        let candidate_name = entry.file_name();
+        let candidate_text = candidate_name.to_string_lossy();
+        let Some(suffix) = candidate_text.strip_prefix(&prefix) else {
+            continue;
+        };
+        let parts: Vec<_> = suffix.split('-').collect();
+        if parts.len() != 2 {
+            continue;
+        }
+        let identity = (
+            parts[0].parse::<u64>().map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "quarantine identity invalid",
+                )
+            })?,
+            parts[1].parse::<u64>().map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "quarantine identity invalid",
+                )
+            })?,
+        );
+        let candidate = parent.join(candidate_name);
+        if file_identity_no_follow(root, &candidate)? != identity {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "quarantined cleanup inode drifted",
+            ));
+        }
+        unlink_anchored(root, &candidate, Some(expected))?;
+    }
+    Ok(())
 }
 
 #[cfg(unix)]
@@ -2140,6 +2187,7 @@ fn remove_authored_if_owned(
     expected: &str,
     identity: Option<(u64, u64)>,
 ) -> Result<()> {
+    reconcile_owned_quarantine(root, &staged_authored_path(relative)?, expected)?;
     let Some(identity) = identity else {
         // A crash before the journal identity update leaves the retained stage
         // as the ownership witness for the installed hard link.

@@ -4,25 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "29e6ac7a73a26bfac87fb751baea4a9523f661fbcee8de24969963e778fe3a1c",
+  "generation": 20,
+  "digest": "c68881d7dcbb3d38ef6a341a61704bb639c0b728364dc21ade6e2ec45ac4f1f3",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:cd023089-29e9-4cad-9716-ac0522ee73fa",
-    "assigned_by": "codex:issue-294",
-    "revision": "git-blake3:1508d7b100ebf429459d0c51d322fcf275b6ed8d:00ca3c0ea2d4bc81e796ce310c089f170216d0aaec404a90ecda1e468d175191",
-    "scope": [
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-edit.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/card_identity.rs",
-      ".csdlc/issues/294",
-      ".csdlc/prepared/issues/294",
-      ".csdlc/evidence/294"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -38,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "05f7e7dcc28a5edab8c489c6c797a40a985c7e1fc3387940692a7bbd58ecd66a",
+      "values_digest": "1d793df48193e68c066e24142002a2e836b30f202a1b08f33e9dccc7a2ac3f7f",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "15bee554f93ed8cd41dde07a384f49ccc40bca20845fdd7d88054a387b91752f",
+      "values_digest": "75fcce9545876b9bc564b3803fdb96d29d9af669f2df362dec61a8617fb47fec",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "27076ada73e2ca8f2a84a7335b98c16ae2cf5b3230609d7f8f62d5b705980dc4",
+      "values_digest": "3de592307ebbbb5773fc0c5371f3830ef4464a3729675c30a62a6fc702fafc2e",
       "rendered_digest": "818c831b4006e6cba1fae7fd705b517025fdb4dffebcdd5ed63c77e88dd8e9ee",
       "ast_digest": "fe2b4a198e777d6d1184d8db1e169a565f0425a9c547b1f1252c24a7410e2c5e"
     },
     "vpp": {
-      "values_digest": "0bef94833e53f000f0e1511b127e7854a137d2cfe9d059633d6002e1c268f391",
+      "values_digest": "763b3df7571d797e77ea28cb52596eb573d3c9758df744f9c960be55ce855da0",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "813e76790bc0b61f743beca44830a8d820b87ed9fc513fb7cb1451b8fea32d7a",
-      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
-      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
+      "values_digest": "8fdcc79acb7b5d0011a82931e33d35f3e74be59a2077f47ba3dd47f5e91ab223",
+      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
+      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
     },
     "sor": {
-      "values_digest": "12a90f88b9ae65c32f6279d3d81b504f07b422b31e65dd67fd7d5d42d38711f0",
+      "values_digest": "787e97f8f747c1ecb6a6b19a53646e74459bdd4ebeeeb107b0db01347d8ff63a",
       "rendered_digest": "02a3825c1b8aa02ee4ff72c2597d88a060af2ae9a31abc8a0aa8df0f7e3d9438",
       "ast_digest": "926479531ef701e505067ba4a19c0f8b998388e2ef55666e78e7210deb803fe9"
     }
@@ -273,6 +259,13 @@
       "actor": "codex:issue-294",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:issue-294",
+      "reason": "Recover failed r5 exact-head assignment at substantive 1508d7b100ebf429459d0c51d322fcf275b6ed8d: interruption during stage cleanup can leave an inode-named stage quarantine that restart reconciliation never owns or removes; mandatory AC-8/AC-9 proof remains incomplete for typed bind-before/after, lifecycle/history/path/reviewer negatives, every journal/install/stage/commit cleanup boundary, and ancestor/destination/unlink races",
+      "operation": "recover_review"
     }
   ]
 }
