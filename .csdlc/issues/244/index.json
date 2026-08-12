@@ -3,13 +3,32 @@
   "issue": 244,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
-  "phase": "implemented",
-  "generation": 38,
-  "digest": "28027c603ac08eaaf0813132e82172b2b8eeaa293475a712fd3e7ea5ed8284fb",
+  "phase": "reviewed",
+  "generation": 39,
+  "digest": "19e884c0aae80997da9ae752d3fcdc7494bd0315c7630d5b742c7e387921a4fb",
   "branch": "codex/244-conversation-cleanup-race",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue244_ci_fix_review",
+    "assigned_by": "codex:244-pr-janitor",
+    "revision": "git-blake3:6fe1a034113416ab245b5335ee43c229add4083e:d50487a39b0306f290198dfca02dbcf7cb78b20c7b543ab597b228c8fcbd0b24",
+    "scope": [
+      "adl-runtime-kernel/tests/parity.rs",
+      ".csdlc/issues/244"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue244_ci_fix_review",
+    "scope": [
+      "adl-runtime-kernel/tests/parity.rs",
+      ".csdlc/issues/244"
+    ],
+    "reviewed_revision": "git-blake3:6fe1a034113416ab245b5335ee43c229add4083e:d50487a39b0306f290198dfca02dbcf7cb78b20c7b543ab597b228c8fcbd0b24",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +43,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "47e84d50017c0c75906fdfa55518e073d1e3ec9830b7ad5ea8eb989c597679c3",
+      "values_digest": "ccf51ce008f3aacd86c043f4d78a4df31c5c7f8d88432d5ffad017dcd72ef3ab",
       "rendered_digest": "a7a3fdffde72a8ccd84f303fd9461422089748d7cca2286b450c0616ae3f63b7",
       "ast_digest": "1f3222725b44556758d3036806a3817fdeb58c6bbf437698b7d71d7510b446dc"
     },
     "stp": {
-      "values_digest": "fc3986301e40e5cae54c4aff9dcdc3be7b36dd2d4f700ae6dac3fe7eee4972de",
+      "values_digest": "7f57d903f4a3b7a7e111f5d2065346a48d5c7737a0cf3e0a248a20fc7005733b",
       "rendered_digest": "eb188e0abb8bcfed05a216770117422eb93ead3e8e416be888002ad29221716a",
       "ast_digest": "326ed86deaf78bc55b60c81607d0068ad3b1095c56de7aa454808bb21ec07f42"
     },
     "spp": {
-      "values_digest": "2fb31249462158fea3b5e066858ef33eeddc406a1b515a852d7451eee3cfad18",
+      "values_digest": "8559cf8ed6a43ac6c25ea9efd682aafeda6d632c18401a9455201170bf0628b3",
       "rendered_digest": "bda7b8a781de64772e815f705e1cc5df733078088b4b151eee30cf87a8b4125b",
       "ast_digest": "39a64663e4cd08a747ac125db95bf0a24014cc92967f026964514147acfcea85"
     },
     "vpp": {
-      "values_digest": "7da381bd8d240ef37523fda255fae24e19d30a22fd7fd44ddfbb6a5f15376769",
+      "values_digest": "e1062d94bbfb8143df55e13f6b96b473714f9d149908784e450d8246c3234566",
       "rendered_digest": "755ba3d37f4acaced6bdebe8e344c69a3f58795363c3c920ea368f1c61f38617",
       "ast_digest": "0189f64d89be4ccec8ab470ba92464ca02e881e26e51642eb41da69221c241b6"
     },
     "srp": {
-      "values_digest": "a568c3f454fee6bfac1c91bf6845f8296f36a385a0e3c74753dac816be88a6f5",
-      "rendered_digest": "9fdfc4ebbab88ffd71d310ad577f2bc179ab5c194aa6d461bac005661792eaef",
-      "ast_digest": "53d7dbf8eef992e76d36b5742a3ed29b9315d6f20f1595e5ec22d3d4bb66920c"
+      "values_digest": "e7f64105ca7348305268cab59c85fe724dbc64aef35edd406a980c2f74d8a3c7",
+      "rendered_digest": "44d5cedaecf716a794682089555d18ee2ef3d8c19cc94aa849d6ab76f4d215c0",
+      "ast_digest": "dbaed70f32ba1bf2be1c9bb275355f87da50264d05c2e84743eeb690600ee0f1"
     },
     "sor": {
-      "values_digest": "13f49517300db9a8a49a6c7ed4bb45318783e3169f66d8de457d0974e54b098f",
+      "values_digest": "e116be437e28b0bd80b6f191b7cd099e845d2c2ae15b96a9d1824c4fc2f658c6",
       "rendered_digest": "c1ed87bc23a02737a05c24587fae0767d33b08ca4ebaa66925368cec426948e6",
       "ast_digest": "2e4b897b69b7d06e39a96e5b41d0c8187dac2c11343c56e6f0efbc0c788cb16f"
     }
@@ -173,6 +192,13 @@
       "to": "implemented",
       "actor": "codex:244-pr-janitor",
       "reason": "Required Runtime CI twice exposed a deterministic test deadline defect; recover the published review truth for the authorized one-file correction."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-pr-janitor",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -476,6 +502,20 @@
       "actor": "codex:244-pr-janitor",
       "reason": "Required Runtime CI twice exposed a deterministic test deadline defect; recover the published review truth for the authorized one-file correction.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 38,
+      "actor": "codex:244-pr-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 39,
+      "actor": "codex:244-pr-janitor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

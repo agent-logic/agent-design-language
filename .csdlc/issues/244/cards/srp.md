@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/tests/parity.rs
+.csdlc/issues/244
 
 ## Prompts
 
@@ -34,8 +35,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:6fe1a034113416ab245b5335ee43c229add4083e:d50487a39b0306f290198dfca02dbcf7cb78b20c7b543ab597b228c8fcbd0b24")
 
-Reviewer: None
+Reviewer: Some("subagent:issue244_ci_fix_review")
 
-Result: pre_review
+Result: pass
