@@ -71,6 +71,12 @@ impl Store {
             .join(format!(".{issue}.staging"))
     }
 
+    fn rollback_preserved(&self, issue: u64) -> PathBuf {
+        self.root
+            .join(".csdlc/issues")
+            .join(format!(".{issue}.rollback-preserved"))
+    }
+
     pub(crate) fn lock(&self, issue: u64) -> Result<File> {
         let relative = PathBuf::from(format!(".csdlc/locks/{issue}.lock"));
         require_canonical_parent_beneath(&self.root, &relative)?;
@@ -292,6 +298,13 @@ impl Store {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
         let backup = self.interrupted_backup(issue);
+        let rollback_preserved = self.rollback_preserved(issue);
+        if rollback_preserved.exists() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "preserved failed projection requires classification before another commit",
+            ));
+        }
         if staging.exists() {
             fs::remove_dir_all(&staging)?;
         }
@@ -311,12 +324,17 @@ impl Store {
                 if let Some(contents) =
                     authored_overrides.and_then(|overrides| overrides.get(authored_path))
                 {
-                    let mut file = File::create(destination)?;
+                    let mut file = File::create(&destination)?;
                     file.write_all(contents.as_bytes())?;
                     file.sync_all()?;
                 } else if source.is_file() {
-                    fs::copy(source, destination)?;
+                    fs::copy(source, &destination)?;
+                    File::open(&destination)?.sync_all()?;
                 }
+                sync_dirs_through(
+                    destination.parent().expect("authored destination parent"),
+                    &staging,
+                )?;
             }
         }
         if let Some(overrides) = authored_overrides {
@@ -333,9 +351,13 @@ impl Store {
                     if let Some(parent) = staged.parent() {
                         fs::create_dir_all(parent)?;
                     }
-                    let mut file = File::create(staged)?;
+                    let mut file = File::create(&staged)?;
                     file.write_all(contents.as_bytes())?;
                     file.sync_all()?;
+                    sync_dirs_through(
+                        staged.parent().expect("authored override parent"),
+                        &staging,
+                    )?;
                 }
             }
         }
@@ -370,9 +392,7 @@ impl Store {
         }
         if let Some(verify) = verifier.as_mut() {
             if let Err(error) = verify() {
-                fs::remove_dir_all(&current)?;
-                fs::rename(&backup, &current)?;
-                sync_dir(current.parent().expect("issue parent"))?;
+                preserve_failed_projection_and_restore(&current, &backup, &rollback_preserved)?;
                 return Err(error);
             }
         }
@@ -1187,9 +1207,12 @@ impl Store {
         record.digest = record_digest(&record)?;
         let expected_design = design_digest;
         let expected_diagram = diagram_digest;
+        let issue_dir = self.issue_dir(issue);
         let mut verifier = || {
-            if design_artifact.verify()? != expected_design
-                || diagram_artifact.verify()? != expected_diagram
+            if design_artifact.verify_after_projection_swap(self.root(), &issue_dir)?
+                != expected_design
+                || diagram_artifact.verify_after_projection_swap(self.root(), &issue_dir)?
+                    != expected_diagram
             {
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
@@ -2134,9 +2157,12 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         let refresh = design_refresh.as_ref().expect("retained refresh binding");
         let expected_design = refresh.new_design_digest.clone();
         let expected_diagram = refresh.new_diagram_digest.clone();
+        let issue_dir = store.issue_dir(request.issue);
         let mut verifier = || {
-            if design_artifact.verify()? != expected_design
-                || diagram_artifact.verify()? != expected_diagram
+            if design_artifact.verify_after_projection_swap(store.root(), &issue_dir)?
+                != expected_design
+                || diagram_artifact.verify_after_projection_swap(store.root(), &issue_dir)?
+                    != expected_diagram
             {
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
@@ -2177,22 +2203,13 @@ struct RetainedAuthoredArtifact {
 
 #[cfg(unix)]
 impl RetainedAuthoredArtifact {
-    fn verify(&mut self) -> Result<String> {
+    fn verify_retained(&mut self) -> Result<String> {
         use std::os::unix::fs::MetadataExt;
         let current = self.file.metadata()?;
         self.file.seek(SeekFrom::Start(0))?;
         let bytes = read_exact_current_file(&mut self.file, current.len())?;
-        let path_file = open_relative_no_follow(&self.root, &self.relative)?.ok_or_else(|| {
-            V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "retained authored artifact path disappeared",
-            )
-        })?;
-        let path_meta = path_file.metadata()?;
         if current.nlink() != 1
-            || path_meta.nlink() != 1
             || !same_file_identity(&self.identity, &current)
-            || !same_file_identity(&current, &path_meta)
             || current.len() != self.identity.len()
             || current.mtime() != self.identity.mtime()
             || current.mtime_nsec() != self.identity.mtime_nsec()
@@ -2206,6 +2223,54 @@ impl RetainedAuthoredArtifact {
             ));
         }
         Ok(digest(&bytes))
+    }
+
+    fn verify_path_identity(&self) -> Result<()> {
+        use std::os::unix::fs::MetadataExt;
+        let current = self.file.metadata()?;
+        let path_file = open_relative_no_follow(&self.root, &self.relative)?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "retained authored artifact path disappeared",
+            )
+        })?;
+        let path_meta = path_file.metadata()?;
+        if path_meta.nlink() != 1 || !same_file_identity(&current, &path_meta) {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "retained authored artifact path identity changed before commit",
+            ));
+        }
+        Ok(())
+    }
+
+    fn verify(&mut self) -> Result<String> {
+        let retained_digest = self.verify_retained()?;
+        self.verify_path_identity()?;
+        Ok(retained_digest)
+    }
+
+    fn verify_after_projection_swap(&mut self, root: &Path, issue_dir: &Path) -> Result<String> {
+        let retained_digest = self.verify_retained()?;
+        let canonical = root.join(&self.relative);
+        if canonical.strip_prefix(issue_dir).is_ok() {
+            let canonical_bytes = read_regular_authored_artifact(root, &self.relative)?
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "copied authored artifact disappeared after projection swap",
+                    )
+                })?;
+            if canonical_bytes != self.bytes {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "copied authored artifact changed across projection swap",
+                ));
+            }
+        } else {
+            self.verify_path_identity()?;
+        }
+        Ok(retained_digest)
     }
 }
 
@@ -3949,6 +4014,46 @@ fn sync_dir(path: &Path) -> Result<()> {
     Ok(())
 }
 
+fn sync_dirs_through(start: &Path, stop: &Path) -> Result<()> {
+    let mut directory = start;
+    loop {
+        sync_dir(directory)?;
+        if directory == stop {
+            return Ok(());
+        }
+        directory = directory.parent().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "durable authored destination escaped the staging directory",
+            )
+        })?;
+    }
+}
+
+fn preserve_failed_projection_and_restore(
+    current: &Path,
+    backup: &Path,
+    rollback_preserved: &Path,
+) -> Result<()> {
+    if rollback_preserved.exists() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "cannot overwrite an existing preserved failed projection",
+        ));
+    }
+    let parent = current.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "issue projection has no parent for rollback",
+        )
+    })?;
+    fs::rename(current, rollback_preserved)?;
+    sync_dir(parent)?;
+    fs::rename(backup, current)?;
+    sync_dir(parent)?;
+    Ok(())
+}
+
 fn enum_iterator() -> impl Iterator<Item = CardKind> {
     use strum::IntoEnumIterator;
     CardKind::iter()
@@ -4099,6 +4204,62 @@ mod edit_authorization_tests {
             .verify()
             .expect_err("replacement must fail final identity check");
         assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_accepts_expected_issue_local_copy_after_swap() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let issue_dir = temp.path().join(".csdlc/issues/7");
+        let backup = temp.path().join(".csdlc/issues/.7.backup");
+        fs::create_dir_all(&issue_dir).expect("issue directory");
+        fs::write(issue_dir.join("design.md"), b"# design\n").expect("design");
+        let mut retained =
+            retain_authored_artifact(temp.path(), Path::new(".csdlc/issues/7/design.md"))
+                .expect("retain issue-local artifact");
+
+        fs::rename(&issue_dir, &backup).expect("preserve prior issue projection");
+        fs::create_dir_all(&issue_dir).expect("install next issue projection");
+        fs::copy(backup.join("design.md"), issue_dir.join("design.md"))
+            .expect("copy authored artifact into next projection");
+
+        assert_eq!(
+            retained
+                .verify_after_projection_swap(temp.path(), &issue_dir)
+                .expect("expected issue-local copy remains valid"),
+            digest(b"# design\n")
+        );
+        fs::write(issue_dir.join("design.md"), b"# injected\n").expect("inject drift");
+        let error = retained
+            .verify_after_projection_swap(temp.path(), &issue_dir)
+            .expect_err("post-swap drift must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[test]
+    fn failed_projection_rollback_preserves_unrelated_post_swap_state() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let parent = temp.path().join(".csdlc/issues");
+        let current = parent.join("7");
+        let backup = parent.join(".7.backup");
+        let preserved = parent.join(".7.rollback-preserved");
+        fs::create_dir_all(&current).expect("current projection");
+        fs::create_dir_all(&backup).expect("backup projection");
+        fs::write(current.join("index.json"), b"new").expect("new projection");
+        fs::write(current.join("externally-injected.txt"), b"preserve me")
+            .expect("external post-swap state");
+        fs::write(backup.join("index.json"), b"prior").expect("prior projection");
+
+        preserve_failed_projection_and_restore(&current, &backup, &preserved)
+            .expect("non-destructive rollback");
+
+        assert_eq!(fs::read(current.join("index.json")).unwrap(), b"prior");
+        assert_eq!(
+            fs::read(preserved.join("externally-injected.txt")).unwrap(),
+            b"preserve me"
+        );
+        assert_eq!(fs::read(preserved.join("index.json")).unwrap(), b"new");
+        assert!(!backup.exists());
     }
 
     #[cfg(unix)]

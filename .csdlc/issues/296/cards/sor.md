@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Remediated r3 refresh and assignment commit gaps with rollback-capable post-swap paired artifact verification, and narrowed proof truth to assertions actually executed.
+Remediated r4 with swap-aware issue-local authored verification, non-destructive failed-projection quarantine, and durable staged authored copies.
 
 ## Artifacts
 
@@ -22,9 +22,9 @@ Remediated r3 refresh and assignment commit gaps with rollback-capable post-swap
 
 ## Execution
 
-- R3 P1 refresh gap: retain paired authored handles through the store swap, verify after the new projection is installed, and atomically restore the complete prior issue directory when verification fails.
-- R3 P1 assignment gap: retain the approved design and diagram pair across final topology, HEAD, substantive revision, and projection commit; rollback assignment projection if the pair changes across commit.
-- R3 P2 proof overclaim: assert SPP/VPP parity, pending approval, preserved branch/worktree/transitions/execution, exact old/new audit digests, blocked preapproval assignment, no-op rejection, and unchanged state after failure; no scheduler-race claim.
+- Keep validating retained source bytes and identity while accepting the expected copied inode only when the authored path is inside the swapped issue projection; verify copied canonical bytes and path safety after swap.
+- On verifier failure, rename the rejected canonical projection to a fail-closed rollback-preserved quarantine before restoring the backup, preserving externally injected post-swap state without recursive deletion.
+- Sync copied authored files, every staged destination directory through the staging root, and the issue parent after swap, quarantine, restore, and backup removal.
 
 ## Validation
 
@@ -38,9 +38,9 @@ Remediated r3 refresh and assignment commit gaps with rollback-capable post-swap
       "--test",
       "gate5"
     ],
-    "purpose": "Run linked-worktree lifecycle, exact audit/parity/history, authority, CAS, and review regression proof.",
+    "purpose": "Run full Gate 5 review, recovery, issue-local authored refresh and assignment regression proof.",
     "outcome": "passed",
-    "evidence_ref": "local:r3-gate5"
+    "evidence_ref": "local:r4-gate5-21"
   },
   {
     "command": [
@@ -50,9 +50,9 @@ Remediated r3 refresh and assignment commit gaps with rollback-capable post-swap
       "csdlc-v2/Cargo.toml",
       "--lib"
     ],
-    "purpose": "Run complete library artifact identity and lifecycle regression proof.",
+    "purpose": "Run full library proof including expected issue-local copy and unrelated post-swap state preservation tests.",
     "outcome": "passed",
-    "evidence_ref": "local:r3-lib"
+    "evidence_ref": "local:r4-lib-81"
   },
   {
     "command": [
@@ -67,7 +67,7 @@ Remediated r3 refresh and assignment commit gaps with rollback-capable post-swap
     ],
     "purpose": "Prove strict all-target lint cleanliness.",
     "outcome": "passed",
-    "evidence_ref": "local:r3-clippy"
+    "evidence_ref": "local:r4-clippy"
   }
 ]
 

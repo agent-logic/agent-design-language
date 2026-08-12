@@ -218,15 +218,94 @@ fn implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated
     .expect("assignment after exact tuple approval");
 }
 
-fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
-    let temp = tempfile::tempdir().expect("temp");
-    std::fs::create_dir_all(temp.path().join("docs")).expect("docs");
-    std::fs::write(temp.path().join("docs/design.md"), "# reviewed design\n").expect("design");
-    std::fs::write(
-        temp.path().join("docs/diagram.mmd"),
-        "flowchart LR\n A-->B\n",
+#[test]
+fn implemented_authored_design_refresh_and_assignment_support_issue_local_artifacts() {
+    let (_temp, store, implemented) = implemented_fixture_with_authored_paths(
+        ".csdlc/issues/7/authored/design.md",
+        ".csdlc/issues/7/authored/diagram.mmd",
+    );
+    let assigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "first-reviewer".into(),
+            assigned_by: "agent".into(),
+            scope: vec!["src".into()],
+        },
     )
-    .expect("diagram");
+    .expect("assignment preserves valid issue-local authored copies");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "agent".into(),
+            reason: "refresh issue-local authored artifacts".into(),
+        },
+    )
+    .expect("typed recovery");
+    std::fs::write(
+        store.root().join(".csdlc/issues/7/authored/design.md"),
+        "# refreshed issue-local design\n",
+    )
+    .unwrap();
+    std::fs::write(
+        store.root().join(".csdlc/issues/7/authored/diagram.mmd"),
+        "flowchart LR\n C-->D\n",
+    )
+    .unwrap();
+
+    let refreshed = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "agent".into(),
+            reason: "refresh issue-local authored tuple".into(),
+            operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+            fail_after_backup: false,
+        },
+    )
+    .expect("issue-local authored refresh commits through expected inode replacement");
+    let cards = store.load_cards(7).unwrap();
+    let csdlc_v2::cards::CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
+        panic!("SPP")
+    };
+    assert_eq!(
+        spp.design_digest,
+        digest(b"# refreshed issue-local design\n")
+    );
+    assert_eq!(spp.diagram_digest, digest(b"flowchart LR\n C-->D\n"));
+    assert!(matches!(
+        refreshed.design_review,
+        csdlc_v2::model::DesignReview::Pending
+    ));
+    assert!(!store
+        .root()
+        .join(".csdlc/issues/.7.rollback-preserved")
+        .exists());
+}
+
+fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
+    implemented_fixture_with_authored_paths("docs/design.md", "docs/diagram.mmd")
+}
+
+fn implemented_fixture_with_authored_paths(
+    design_path: &str,
+    diagram_path: &str,
+) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
+    let temp = tempfile::tempdir().expect("temp");
+    std::fs::create_dir_all(temp.path().join(design_path).parent().unwrap())
+        .expect("design parent");
+    std::fs::create_dir_all(temp.path().join(diagram_path).parent().unwrap())
+        .expect("diagram parent");
+    std::fs::write(temp.path().join(design_path), "# reviewed design\n").expect("design");
+    std::fs::write(temp.path().join(diagram_path), "flowchart LR\n A-->B\n").expect("diagram");
     std::fs::create_dir_all(temp.path().join("src")).expect("source directory");
     std::fs::write(temp.path().join("src/lib.rs"), "// fixture\n").expect("source fixture");
     std::fs::write(
@@ -250,8 +329,8 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
             issue: 7,
             repository: "example/repo".into(),
             actor: "agent".into(),
-            design_path: "docs/design.md".into(),
-            diagram_path: "docs/diagram.mmd".into(),
+            design_path: design_path.into(),
+            diagram_path: diagram_path.into(),
             design_reviewer: "architect".into(),
             design_approved: true,
             initial: InitialCardInput {
