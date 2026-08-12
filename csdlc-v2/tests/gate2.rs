@@ -82,6 +82,20 @@ fn copy_directory(source: &Path, destination: &Path) {
     }
 }
 
+fn install_worktree_policy(root: &Path) {
+    let required_parent = root.parent().expect("fixture worktree parent");
+    fs::create_dir_all(root.join(".adl")).expect("policy directory");
+    fs::write(
+        root.join(".adl/worktree-policy.json"),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "schema": "adl.worktree_policy.v1",
+            "required_parent": required_parent.to_string_lossy()
+        }))
+        .expect("serialize worktree policy"),
+    )
+    .expect("worktree policy fixture");
+}
+
 fn focused_fixture_repo(root: &Path) {
     fs::create_dir_all(root.join("docs/templates/prompts")).expect("registry directory");
     fs::create_dir_all(root.join("csdlc-v2/operator")).expect("manifest directory");
@@ -98,6 +112,7 @@ fn focused_fixture_repo(root: &Path) {
     )
     .expect("shape fixture");
     fs::write(root.join("csdlc-v2/tests/gate2.rs"), "// fixture\n").expect("test fixture");
+    install_worktree_policy(root);
     for issue in [42_u64, 43] {
         fs::write(
             root.join(format!("design/issue-{issue}.md")),
@@ -874,6 +889,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     )
     .expect("shape fixture");
     fs::write(repo.join("csdlc-v2/tests/gate2.rs"), "// focused fixture\n").expect("gate2 fixture");
+    install_worktree_policy(&repo);
     fs::write(
         repo.join("csdlc-v2/tests/gate4.rs"),
         "// unrelated fixture\n",
@@ -2299,22 +2315,24 @@ fn prebind_operator_constraints_correction_is_exact_and_fail_closed() {
             },
         )
         .expect("advance ready fixture");
-        let current = if bind_before_correction {
-            git(&repo, &["switch", "-c", "issue-42"]);
+        let (store, current) = if bind_before_correction {
+            let worktree = temp.path().join("worktrees/issue-42");
             bind_issue(
                 &store,
                 BindRequest {
                     issue: 42,
                     base_branch: "main".into(),
                     branch: "issue-42".into(),
-                    worktree: ".".into(),
+                    worktree: worktree.to_string_lossy().into_owned(),
                     code_repository: None,
                 },
             )
             .expect("bind rejection fixture");
-            store.load_record(42).expect("bound rejection record")
+            let bound_store = Store::new(&worktree);
+            let current = bound_store.load_record(42).expect("bound rejection record");
+            (bound_store, current)
         } else {
-            ready
+            (store, ready)
         };
         let result = direct_edit(&store, &current, CardKind::Sip, operation.clone(), false);
         if bind_before_correction {
@@ -3116,23 +3134,27 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     assert_eq!(error.message, "stp mutation is not allowed during reviewed");
     assert_eq!(issue_projection_snapshot(&repo, 42), injected_reviewed);
     restore_issue_projection(&repo, 42, &clean_ready);
+    git(&repo, &["add", "."]);
+    git(&repo, &["commit", "-m", "repair ready fixture"]);
 
-    git(&repo, &["switch", "-c", "issue-42"]);
+    let worktree = temp.path().join("worktrees/issue-42");
     bind_issue(
         &store,
         BindRequest {
             issue: 42,
             base_branch: "main".into(),
             branch: "issue-42".into(),
-            worktree: ".".into(),
+            worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
         },
     )
     .expect("bind repaired issue for compatibility proof");
+    let repo = worktree;
+    let store = Store::new(&repo);
     record = store.load_record(42).expect("bound record");
     assert_eq!(record.phase, LifecyclePhase::Bound);
     assert_eq!(record.branch.as_deref(), Some("issue-42"));
-    let canonical_repo = fs::canonicalize(&repo).expect("canonical fixture repository");
+    let canonical_repo = fs::canonicalize(&repo).expect("canonical fixture worktree");
     assert_eq!(
         record.worktree.as_deref(),
         Some(canonical_repo.to_string_lossy().as_ref())
@@ -3372,18 +3394,23 @@ fn implemented_sip_scope_correction() {
         },
     )
     .expect("ready");
-    git(&repo, &["switch", "-c", "issue-42"]);
+    install_worktree_policy(&repo);
+    git(&repo, &["add", "."]);
+    git(&repo, &["commit", "-m", "install worktree policy"]);
+    let worktree = temp.path().join("worktrees/issue-42");
     bind_issue(
         &store,
         BindRequest {
             issue: 42,
             base_branch: "main".into(),
             branch: "issue-42".into(),
-            worktree: ".".into(),
+            worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
         },
     )
     .expect("bind");
+    let repo = worktree;
+    let store = Store::new(&repo);
     let bound = store.load_record(42).expect("bound record");
     assert_eq!(bound.phase, LifecyclePhase::Bound);
 
@@ -3622,18 +3649,7 @@ fn bind_topology_scan_uses_canonical_record_identity() {
     let success_repo = temp.path().join("success-repo");
     let success_worktree = temp.path().join("success-worktree");
     focused_fixture_repo(&success_repo);
-    git(
-        &success_repo,
-        &[
-            "worktree",
-            "add",
-            "-b",
-            "candidate-42",
-            &success_worktree.to_string_lossy(),
-            "main",
-        ],
-    );
-    create_focused_issue(&success_worktree, temp.path(), 42);
+    create_focused_issue(&success_repo, temp.path(), 42);
 
     // Reproduce the original report exactly: another registered worktree
     // retains a pre-topology projection for the same issue. It contains the
@@ -3651,7 +3667,7 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         ],
     );
     copy_directory(
-        &success_worktree.join(".csdlc/issues/42"),
+        &success_repo.join(".csdlc/issues/42"),
         &stale_same_issue_worktree.join(".csdlc/issues/42"),
     );
     let stale_same_issue_index = stale_same_issue_worktree.join(".csdlc/issues/42/index.json");
@@ -3680,8 +3696,8 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         .parent()
         .expect("repository root")
         .join(".csdlc/issues/5791");
-    copy_directory(&retained_5791, &success_worktree.join(".csdlc/issues/5791"));
-    let foreign_index_path = success_worktree.join(".csdlc/issues/5791/index.json");
+    copy_directory(&retained_5791, &success_repo.join(".csdlc/issues/5791"));
+    let foreign_index_path = success_repo.join(".csdlc/issues/5791/index.json");
     let mut foreign_index: serde_json::Value =
         serde_json::from_slice(&fs::read(&foreign_index_path).expect("read foreign issue index"))
             .expect("parse foreign issue index");
@@ -3694,7 +3710,7 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         serde_json::to_vec_pretty(&foreign_index).expect("serialize claim-bearing index");
     fs::write(&foreign_index_path, &foreign_index_with_claim)
         .expect("write claim-bearing foreign issue index");
-    assert!(!success_worktree
+    assert!(!success_repo
         .join(".adl/local-artifacts/5791-bootstrap/design.md")
         .exists());
     let success_bind = temp.path().join("success-bind.json");
@@ -3709,7 +3725,7 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         .expect("serialize success bind"),
     )
     .expect("success bind request");
-    let success_diagnosis = csdlc_v2::diagnose(&Store::new(&success_worktree), 42);
+    let success_diagnosis = csdlc_v2::diagnose(&Store::new(&success_repo), 42);
     assert_eq!(
         success_diagnosis.status,
         csdlc_v2::doctor::DoctorStatus::Pass,
@@ -3717,11 +3733,11 @@ fn bind_topology_scan_uses_canonical_record_identity() {
         success_diagnosis.findings
     );
     let success = must_succeed(command(
-        &success_worktree,
+        &success_repo,
         env!("CARGO_BIN_EXE_csdlc-bind"),
         &[
             "--root",
-            &success_worktree.to_string_lossy(),
+            &success_repo.to_string_lossy(),
             "--request",
             &success_bind.to_string_lossy(),
         ],
@@ -3825,18 +3841,7 @@ fn bind_topology_scan_uses_canonical_record_identity() {
     let conflicting_source_repo = temp.path().join("conflicting-source-repo");
     let conflicting_source_worktree = temp.path().join("conflicting-source-worktree");
     focused_fixture_repo(&conflicting_source_repo);
-    git(
-        &conflicting_source_repo,
-        &[
-            "worktree",
-            "add",
-            "-b",
-            "other-42",
-            &conflicting_source_worktree.to_string_lossy(),
-            "main",
-        ],
-    );
-    create_focused_issue(&conflicting_source_worktree, temp.path(), 42);
+    create_focused_issue(&conflicting_source_repo, temp.path(), 42);
     let conflicting_source_bind = temp.path().join("conflicting-source-bind.json");
     fs::write(
         &conflicting_source_bind,
@@ -3850,11 +3855,11 @@ fn bind_topology_scan_uses_canonical_record_identity() {
     )
     .expect("conflicting source bind request");
     must_succeed(command(
-        &conflicting_source_worktree,
+        &conflicting_source_repo,
         env!("CARGO_BIN_EXE_csdlc-bind"),
         &[
             "--root",
-            &conflicting_source_worktree.to_string_lossy(),
+            &conflicting_source_repo.to_string_lossy(),
             "--request",
             &conflicting_source_bind.to_string_lossy(),
         ],
@@ -3893,18 +3898,7 @@ fn bind_topology_scan_uses_canonical_record_identity() {
     let stale_repo = temp.path().join("stale-repo");
     let stale_worktree = temp.path().join("stale-worktree");
     focused_fixture_repo(&stale_repo);
-    git(
-        &stale_repo,
-        &[
-            "worktree",
-            "add",
-            "-b",
-            "stale-42",
-            &stale_worktree.to_string_lossy(),
-            "main",
-        ],
-    );
-    create_focused_issue(&stale_worktree, temp.path(), 42);
+    create_focused_issue(&stale_repo, temp.path(), 42);
     let stale_bind = temp.path().join("stale-bind.json");
     fs::write(
         &stale_bind,
@@ -3918,11 +3912,11 @@ fn bind_topology_scan_uses_canonical_record_identity() {
     )
     .expect("stale bind request");
     must_succeed(command(
-        &stale_worktree,
+        &stale_repo,
         env!("CARGO_BIN_EXE_csdlc-bind"),
         &[
             "--root",
-            &stale_worktree.to_string_lossy(),
+            &stale_repo.to_string_lossy(),
             "--request",
             &stale_bind.to_string_lossy(),
         ],
@@ -3966,18 +3960,7 @@ fn bind_topology_scan_uses_canonical_record_identity() {
     let conflict_repo = temp.path().join("conflict-repo");
     let owner_worktree = temp.path().join("owner-worktree");
     focused_fixture_repo(&conflict_repo);
-    git(
-        &conflict_repo,
-        &[
-            "worktree",
-            "add",
-            "-b",
-            "claimed-branch",
-            &owner_worktree.to_string_lossy(),
-            "main",
-        ],
-    );
-    create_focused_issue(&owner_worktree, temp.path(), 43);
+    create_focused_issue(&conflict_repo, temp.path(), 43);
     let owner_bind = temp.path().join("owner-bind.json");
     fs::write(
         &owner_bind,
@@ -3991,11 +3974,11 @@ fn bind_topology_scan_uses_canonical_record_identity() {
     )
     .expect("owner bind request");
     must_succeed(command(
-        &owner_worktree,
+        &conflict_repo,
         env!("CARGO_BIN_EXE_csdlc-bind"),
         &[
             "--root",
-            &owner_worktree.to_string_lossy(),
+            &conflict_repo.to_string_lossy(),
             "--request",
             &owner_bind.to_string_lossy(),
         ],
