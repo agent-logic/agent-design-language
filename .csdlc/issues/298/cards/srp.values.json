@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 298,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
+    "slug": "297a-anchored-classification-resumable-recovery-ledger",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "All #298 typed contracts, store integration, immutable recovery receipts, recovery-only production failpoints, and issue/prepared/evidence truth; code, security, test, and evidence coverage required.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "no-follow retained-handle identity and mount authority",
+        "tagged CAS and failed-operation lineage permissions",
+        "immutable receipt chain and exact crash adoption",
+        "complete candidate construction and atomic install",
+        "evidence preservation and ordinary-commit release gate",
+        "scope exclusion of #299 cleanup and #300 integrated proof"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

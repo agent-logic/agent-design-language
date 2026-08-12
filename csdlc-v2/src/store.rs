@@ -65,6 +65,12 @@ impl Store {
             .join(format!(".{issue}.backup"))
     }
 
+    pub fn rollback_preserved(&self, issue: u64) -> PathBuf {
+        self.root
+            .join(".csdlc/issues")
+            .join(format!(".{issue}.rollback-preserved"))
+    }
+
     fn staging_dir(&self, issue: u64) -> PathBuf {
         self.root
             .join(".csdlc/issues")
@@ -273,6 +279,12 @@ impl Store {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
         let backup = self.interrupted_backup(issue);
+        if self.rollback_preserved(issue).symlink_metadata().is_ok() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "preserved failed projection requires typed classification and recovery",
+            ));
+        }
         if staging.exists() {
             fs::remove_dir_all(&staging)?;
         }
@@ -383,6 +395,71 @@ impl Store {
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
+    }
+
+    pub(crate) fn projection_recovery_candidate_files_locked(
+        &self,
+        issue: u64,
+        source: &Path,
+        expected_digest: &str,
+        actor: String,
+        reason: String,
+        operation: String,
+    ) -> Result<(IssueRecord, BTreeMap<String, Vec<u8>>)> {
+        let mut record: IssueRecord = read_json(&source.join("index.json"))?;
+        if record.issue != issue {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery source projection namespace mismatch",
+            ));
+        }
+        if record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "record changed before recovery audit commit",
+            ));
+        }
+        let mut cards = BTreeMap::new();
+        for kind in enum_iterator() {
+            cards.insert(
+                kind,
+                read_json(&source.join("cards").join(format!("{kind}.values.json")))?,
+            );
+        }
+        verify_cards(self, &record, &cards)?;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor,
+            reason,
+            operation,
+        });
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        let mut files = BTreeMap::new();
+        let mut index = serde_json::to_vec_pretty(&record)?;
+        index.push(b'\n');
+        files.insert("index.json".into(), index);
+        let mut audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut audit, event)?;
+            audit.push(b'\n');
+        }
+        files.insert("audit.jsonl".into(), audit);
+        for (kind, values) in &cards {
+            let mut value_bytes = serde_json::to_vec_pretty(values)?;
+            value_bytes.push(b'\n');
+            files.insert(format!("cards/{kind}.values.json"), value_bytes);
+            files.insert(
+                format!("cards/{kind}.md"),
+                render(values)?.markdown.into_bytes(),
+            );
+        }
+        Ok((record, files))
     }
 
     pub(crate) fn replace_pre_topology_record_locked(
