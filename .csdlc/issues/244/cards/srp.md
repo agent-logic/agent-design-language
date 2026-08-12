@@ -12,7 +12,15 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/conversation_sessions_tests.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/src/parity.rs
+adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs
+adl-runtime-kernel/tests/parity.rs
+.csdlc/issues/244
+.csdlc/prepared/issues/244
+.csdlc/evidence/244
 
 ## Prompts
 
