@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Retain and bind recovery root and attempt directory authority across classification, recovery, receipt, and commit-gate operations
+Removed macOS pathname fallback and retained recovery root, attempt, receipt, inventory, candidate, archive, displaced, and node-ledger authority through directory descriptors.
 
 ## Artifacts
 
@@ -88,6 +88,9 @@ Retain and bind recovery root and attempt directory authority across classificat
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/tests/gate5.rs
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/src/store.rs
@@ -342,6 +345,12 @@ Retain and bind recovery root and attempt directory authority across classificat
 - Applied retained directory authority to classification, completed-attempt validation, and ordinary-commit recovery inventory
 - Added deterministic post-open recovery-root and recovery-attempt substitution tests proving fail-closed binding before evidence mutation
 - Validated 35 focused preserved-recovery tests, 54 full Gate5 tests, 78 library tests, strict all-target Clippy, formatting, and diff hygiene
+- Removed F_GETPATH, anchored_path, /dev/fd, and /proc/self/fd recovery aliases
+- Read, created, inventoried, validated, and chained receipts through retained attempt and node-ledger dirfds
+- Built, wrote, fsynced, published, observed, and revalidated candidate nodes through openat and retained parent descriptors
+- Observed archive and displaced projections and derived candidate bytes through retained child descriptors
+- Added deterministic post-validation recovery-root and attempt swaps that fail closed before receipt, candidate, or archive mutation
+- Preserved every earlier receipt-chain, identity, topology, idempotency, ordinary-commit, initialized/ready, and issue 291 proof
 
 ## Validation
 
