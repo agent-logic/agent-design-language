@@ -5,10 +5,18 @@
   "initialization_digest": "72635660e1c531e5534d6d04da0fe4b7b2f82a16ffd99ac7a842424d455aa231",
   "phase": "implemented",
   "generation": 27,
-  "digest": "e3e4e5af5776082716fd403f36917490eda0a6f2d4c4e0435abcf1e7873ae0f0",
+  "digest": "350d47041fe73c7d8e9bbd77927ab046ad330324f6c3673b249a9de961e42926",
   "branch": "codex/109-fresh-session-standard-srp",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-109-fresh-session-standard-srp",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:8b1186e2-3870-47be-a35e-776c0b0386cc",
+    "assigned_by": "planning-1:pr119-janitor",
+    "revision": "git-blake3:614dc3319c7c043355796505e50074ff9b650993:4144b971d8c425544ca603de5d16c0c972a3394ad327c77f5f983efbe1d201f5",
+    "scope": [
+      ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
+      ".csdlc/issues/109"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +52,9 @@
       "ast_digest": "e381a09e5e0bb9bc9837c9d86a41f664b5ecf353e03a304933aa65bc8da236c7"
     },
     "srp": {
-      "values_digest": "c1c71c6356689840fdc4767cdf95393b6eea57436800f2e823f4ff960268c11d",
-      "rendered_digest": "1cef0442070327593b6f41e5c0c35abfcbb2b8dece5603e4956372297399c363",
-      "ast_digest": "c654880138d226f4ca831fb2f41bcc8bd7d2e85e75e1d0f5446f3045c52ab92c"
+      "values_digest": "4270047374fdac3333696f3289b15aa7f0973db62d60a8fae9d47fdc744592ec",
+      "rendered_digest": "f870ce171120644425078716bbcbd80b9182f8af719f6b19d9e60aedfee42b6b",
+      "ast_digest": "1d02c9269f6085339a32437823b1bb60ff8856fb91b1e412c07d25907e48dd80"
     },
     "sor": {
       "values_digest": "a13a870e755644b10eca40e99653543161c0c7451d227b494328ebcc7e3e71e7",
@@ -371,6 +379,13 @@
       "actor": "planning-1:pr119-janitor",
       "reason": "Recover the non-canonical reviewer identity before publication; require a fresh-session UUID assignment and exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 27,
+      "actor": "planning-1:pr119-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
