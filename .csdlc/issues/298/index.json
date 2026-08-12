@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 56,
-  "digest": "b68e0c4ea6d44533a807858db77a14e6705a101459acfc3e95b4dcf3c5c40024",
+  "generation": 57,
+  "digest": "d126e568778895fcb397f441f6173e51545056ebf65a04775c85b76916295fae",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "76a2d6f5eaaad7a28a0c8d6496abe109cada282504c4336e90b756e05a664d8c",
+      "values_digest": "173fca0fd200e5cc70a729ef295b93790654d6b61626b7aaf275367cc0294edc",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "1799fa9290fb85843e897b4211fe49728e5b7c2ceae7e2cfd0e73e2a33b4cc25",
+      "values_digest": "2de76fa68f4e0a5c5b6e3ee1e41b8e811a20b6324dbaee46cdbdbd0a511a2fcf",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "6c5f6db40e5f4fd46ce786b03e98ba1f12744b1903a35ff592dde1f0a4df0312",
+      "values_digest": "c1ec40c8ed44173dabc62cea330ca2d43c2f0a9c49549bc75ac6e5a86a82d65b",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "70804990c27f30bccedb2913319d5de580621d3dc9fe994e6a5739940c5cb86d",
+      "values_digest": "6da6599d5bdef4a6f404aeb0dd57de180e134e2d090bdc090119350001e064f6",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "e284a7cd1ebb8a14f023ff67da8e880c55371dadd3b47f0ae370168dc31453dd",
+      "values_digest": "2c8fd4dd51aa0dad9d73ffdd285cc9a3979fb6dbc887c3e2458eedb6fbf6a9c2",
       "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
       "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "711204af904bd5f75a322fe8a4e7c3d716d18e7b5f8f91c55774223d67de7c15",
-      "rendered_digest": "83caec3de16f245a4e50496920849f64039cea61a11e185733646331ccc3acfc",
-      "ast_digest": "95dcfde3417f8189f8ddcd0979e0f3f36da6086cc21f840dbd591e83496f3466"
+      "values_digest": "35cdc8e9c373514962ec7ba4d293233127322d86e80d668d347c246fe0fe7ec5",
+      "rendered_digest": "b13c50cc385cb0693793a198b6be6f6eeabd769d0ca35c2ec715975f18e67f0a",
+      "ast_digest": "05c3473a2676f91d4d83b740f62f8c1651ded2cd838973a2f533d53e17e148c0"
     }
   },
   "transitions": [
@@ -679,6 +679,13 @@
       "actor": "codex:issue-298-r21-ci-remediation",
       "reason": "Recover reviewed publication after exact Linux CI compile failure at projection_recovery.rs:608: libc fsid_t.__val is private on the hosted target. Require portable retained mount identity without private libc fields, Linux-focused proof, new exact review, and republication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 81,
+      "generation": 57,
+      "actor": "codex:issue-298-r21-ci-remediation",
+      "reason": "Record portable Linux mount identity remediation after exact hosted CI compile failure.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replaced private Linux libc fsid field access with descriptor-relative statx mount identity.\",\"changes\":[\"Use statx with AT_EMPTY_PATH and STATX_MNT_ID on retained Linux file descriptors\",\"Preserve statfs-derived mount identity on macOS, iOS, and FreeBSD\",\"Retain a device-based compatibility fallback for other Unix targets without private libc fields\",\"Validated Gate5 56/56, library 78/78, strict all-target Clippy, all-target check, formatting, and diff hygiene\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\"]}"
     }
   ]
 }

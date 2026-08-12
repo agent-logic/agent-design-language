@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Made non-exchange recovery select retained prior authority before any current backup-path open and proved deterministic restart after displacement.
+Replaced private Linux libc fsid field access with descriptor-relative statx mount identity.
 
 ## Artifacts
 
@@ -100,6 +100,7 @@ Made non-exchange recovery select retained prior authority before any current ba
 - csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
+- csdlc-v2/src/projection_recovery.rs
 
 ## Execution
 
@@ -366,6 +367,10 @@ Made non-exchange recovery select retained prior authority before any current ba
 - Added deterministic boundary replay coverage for ExpectedCanonicalAbsent and ExactObservedInvalid anchors
 - Proved replay after candidate install, canonical install, and the prior-displaced receipt boundary
 - Preserved all descriptor-relative mutation, swap, receipt, inventory, idempotency, and earlier recovery proof
+- Use statx with AT_EMPTY_PATH and STATX_MNT_ID on retained Linux file descriptors
+- Preserve statfs-derived mount identity on macOS, iOS, and FreeBSD
+- Retain a device-based compatibility fallback for other Unix targets without private libc fields
+- Validated Gate5 56/56, library 78/78, strict all-target Clippy, all-target check, formatting, and diff hygiene
 
 ## Validation
 
