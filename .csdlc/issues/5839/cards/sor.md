@@ -68,11 +68,11 @@ Implemented and validated the WP-19 birthday-to-governance handoff map using mer
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
