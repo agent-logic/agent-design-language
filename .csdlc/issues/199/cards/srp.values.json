@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
     "slug": "governed-voter-membership-transitions",
     "version": "v0.92",
-    "generation": 46
+    "generation": 48
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact membership coordinator and narrow PolisRuntime/MembershipState/AuthorityMembership integration, real secure OpenRaft transition tests, issue proof/evidence, typed issue truth, and absence of #200 or operational side effects.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

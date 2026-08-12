@@ -984,14 +984,32 @@ impl MembershipCoordinator {
         if let Some(published) =
             published_result(self.envelope.payload(), admission.operation_sha256())
         {
+            if self.envelope.payload().published_operation_sha256
+                != Some(admission.operation_sha256())
+            {
+                return Ok(published.result_sha256);
+            }
+            factory
+                .observe_learner_admission_receipt(admission.operation_sha256())
+                .await
+                .map_err(|_| MembershipCoordinatorError::ReceiptMismatch)?
+                .ok_or(MembershipCoordinatorError::ReceiptMismatch)?;
             self.crash_at(MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility)?;
-            if membership.member(&admission.identity().node_id).is_none() {
-                apply_local_membership_event(
+            let identity = admission.identity();
+            match membership.member(&identity.node_id) {
+                Some(member)
+                    if member.guardian_id == identity.guardian_id
+                        && member.identity_generation == identity.certificate_generation
+                        && member.guardian_control_public_key
+                            == identity.guardian_control_public_key
+                        && member.role == MemberRole::NonVoting => {}
+                Some(_) => return Err(MembershipCoordinatorError::WrongIdentity),
+                None => apply_local_membership_event(
                     membership,
                     admission.operation_sha256(),
                     published.committed_log_index,
                     enrollment_operation(admission),
-                )?;
+                )?,
             }
             return Ok(published.result_sha256);
         }

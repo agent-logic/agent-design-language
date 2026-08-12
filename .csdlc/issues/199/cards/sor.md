@@ -90,7 +90,7 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

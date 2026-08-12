@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact membership coordinator and narrow PolisRuntime/MembershipState/AuthorityMembership integration, real secure OpenRaft transition tests, issue proof/evidence, typed issue truth, and absence of #200 or operational side effects.
+
 
 ## Prompts
 

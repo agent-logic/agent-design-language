@@ -1847,6 +1847,23 @@ async fn real_four_node_learner_replication() {
     assert_eq!(runtime.coordinator().published_generation(), 4);
     assert_eq!(
         runtime
+            .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
+            .await
+            .unwrap(),
+        enrolled,
+        "an older retained enrollment must be a pure retry-cache hit"
+    );
+    assert_eq!(
+        runtime
+            .membership()
+            .member(&recovered.node_id)
+            .unwrap()
+            .role,
+        MemberRole::Voter,
+        "older enrollment retry must not resurrect NonVoting visibility"
+    );
+    assert_eq!(
+        runtime
             .promote(&rejoin, &rejoin_transition, recovered_authority.clone(),)
             .await
             .unwrap(),
