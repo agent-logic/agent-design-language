@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][defect] Recover initialized decomposed issue cards without rewriting history",
     "slug": "initialized-decomposition-card-recovery",
     "version": "v0.92",
-    "generation": 31
+    "generation": 32
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/291\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/initialized_decomposition_recovery.rs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:e0f7210a9f86af43e56b80100cc9071c0649eb20:9ece3673fd7b967c91eac9eb38349475d6a69d707247f1a6b46afdd112bcb7a6",
+      "reviewer": "fresh-session:a730ec10-229b-43a7-99ba-e87c10abdbc5",
       "review_prompts": [
         "Does the packet preserve R2 FAIL evidence in a digest-bound immutable artifact derived from task/git/session evidence, with exact historical findings and original line references clearly marked as historical rather than mutable live-file proof?",
         "Does the design preserve the invalid bootstrap approval as historical evidence while requiring exact old/new design-review authority capture for any recovery-cleared false approval such as operator:planning-1-assignment?",
@@ -27,8 +27,10 @@
         "Does the validation plan cover positive recovery and the required negatives for stale CAS, unsupported phase, missing/drifted evidence, bootstrap overwrite, root/cwd mismatch, path/symlink escape, journal/manifest/commit-marker/crash recovery failures, graph mismatches, closed-field violations, #114/root-lock mutation, and already-repaired-field preservation?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Broad csdlc-v2 workspace test proof is limited by unrelated gate_github_actions local fixture instability; focused initialized decomposition recovery proof and strict Clippy passed."
+      ],
+      "review_result": "pass"
     }
   }
 }

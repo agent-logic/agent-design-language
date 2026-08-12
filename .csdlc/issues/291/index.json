@@ -3,9 +3,9 @@
   "issue": 291,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f4bdffa4c5866878b425b124bbcf92e725fa7d41b4088de0b7384a1028b4f0c1",
-  "phase": "implemented",
-  "generation": 31,
-  "digest": "e1eea5bf249deed3ac037cb674fdb4684cf9d776a175338af96036cfb40c9cbb",
+  "phase": "reviewed",
+  "generation": 32,
+  "digest": "8067e10757c4f4d369968684ce3f3091be1e41a57904f40dca60d0dba18d85ea",
   "branch": "codex/291-initialized-decomposition-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-291-initialized-decomposition-recovery",
   "review_assignment": {
@@ -18,7 +18,21 @@
       "csdlc-v2/tests/initialized_decomposition_recovery.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:a730ec10-229b-43a7-99ba-e87c10abdbc5",
+    "scope": [
+      ".csdlc/issues/291",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/initialized_decomposition_recovery.rs"
+    ],
+    "reviewed_revision": "git-blake3:e0f7210a9f86af43e56b80100cc9071c0649eb20:9ece3673fd7b967c91eac9eb38349475d6a69d707247f1a6b46afdd112bcb7a6",
+    "findings": [],
+    "residual_risks": [
+      "Broad csdlc-v2 workspace test proof is limited by unrelated gate_github_actions local fixture instability; focused initialized decomposition recovery proof and strict Clippy passed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -33,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "61d27fad73c35e6a4960fdcfa0536045c82a2cfbdb3bcbc1ecfa59c602717233",
+      "values_digest": "69798cde2d50fd9e4160effe3d458756ddbac0341dd1fc0c012ea2c9c0a6c0a8",
       "rendered_digest": "5e6b75f2edd95305ae5c60d2129cdd46efb423e366d51856953be59a19f6d51e",
       "ast_digest": "878510ea9c721f863a414266a09a4635184761f0c093330a6792d27ec93d4f22"
     },
     "stp": {
-      "values_digest": "30108be8e9e98b7d6b02cbb26cad7db1e57f0e3566ad9ede41c9a33810391274",
+      "values_digest": "f5bd715e9fb7c43ce6508af0ae6a135f0bc08ca9489630092b93b2cfe9d942da",
       "rendered_digest": "adbb5fea036d4fb0cd6c361bdcfc838d2ed32b01d1d56baaaa6049b37a68dead",
       "ast_digest": "64c95bddac521ac40a42494cc41a909d0fdfa17c225b09d5c16a1c697de7591c"
     },
     "spp": {
-      "values_digest": "a78a2a578b34c39577dd8559f051f8aa394bfe348b27ac433462ec72f2ee65b2",
+      "values_digest": "c235af0482ddb9da29050d427e855661120f4aa907b4ffa70856fc0c16167ec0",
       "rendered_digest": "6af66c1d7e11b214d246e55195ec80230590c08d722ddf7a58279ee596ec2d8f",
       "ast_digest": "7c2910854d5813026f09028e35ee334a36ec5294d578d7b884f1c1e24921e140"
     },
     "vpp": {
-      "values_digest": "fc1b3057f8e034f9efc546370552842431e86e48e48daca389871bcb15a7ebc8",
+      "values_digest": "31907c5be1925f85e5512983923de7ee16580f6f5fc427f7ba1d5760d5577196",
       "rendered_digest": "9c90a6b3fbb9fd9a203db91d4b30f74eda7275fc8cf1e0d00188f1b12eb043f4",
       "ast_digest": "36b64c7cd2ff65b1d5704736e0cc8973c661c0e4a186546dc722f9aa5d0640e1"
     },
     "srp": {
-      "values_digest": "fbb8c13cf233c36da11531b593505039f09a7ef3e37c6c343c46c4bad1b38fad",
-      "rendered_digest": "b90ca8384e4b36b53083b6a7420b0be0c1f91259d2e3a254757083effbceb0ca",
-      "ast_digest": "7a59dec501d7a7a5c8c2e757119f077e4b75952645a7e32a0a12eb2b71351fd3"
+      "values_digest": "4429bbc07bf0ba4af11ffa8b9ac1a993feacee4172f95f191302d73cd51bada5",
+      "rendered_digest": "1e0ce8797cbfd0a807b4df4969adbe044fe979762bd99d5189f01076342b80a8",
+      "ast_digest": "35dd878a635b8a704ef2b88d46c0f13794a9fa364bb3d96771772a358962db29"
     },
     "sor": {
-      "values_digest": "5e6c3c6fb2d7d09ca63731d37bec0307a486e1816339e3878bbe3600c916f4b7",
+      "values_digest": "d91b18eb8f019fa020e53ae59612abd68f310f24bd2406c1edcdec0d5dc7e3e8",
       "rendered_digest": "70502482f9c9836e08fdc44abbcf45c4277372247087ddecbf201b2988932078",
       "ast_digest": "b6e4846a67520c3ef5fb8479bd0e587d1af5a0f2ed8723cbb8bb67b6fc657a0e"
     }
@@ -84,6 +98,13 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-5-issue-291",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -352,6 +373,13 @@
       "actor": "codex:worker-5-issue-291",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 32,
+      "actor": "codex:worker-5-issue-291",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

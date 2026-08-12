@@ -37,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Broad csdlc-v2 workspace test proof is limited by unrelated gate_github_actions local fixture instability; focused initialized decomposition recovery proof and strict Clippy passed.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e0f7210a9f86af43e56b80100cc9071c0649eb20:9ece3673fd7b967c91eac9eb38349475d6a69d707247f1a6b46afdd112bcb7a6")
 
-Reviewer: None
+Reviewer: Some("fresh-session:a730ec10-229b-43a7-99ba-e87c10abdbc5")
 
-Result: pre_review
+Result: pass
