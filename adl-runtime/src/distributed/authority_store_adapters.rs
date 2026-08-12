@@ -386,6 +386,25 @@ impl AuthorityBoundLeaseLedger {
             .map_err(Into::into)
     }
 
+    pub fn applied_log_index(&self) -> AuthorityStoreAdapterResult<u64> {
+        self.require_read()?;
+        Ok(self
+            .ledger
+            .lock()
+            .map_err(|_| AuthorityStoreAdapterError::LockPoisoned)?
+            .applied_log_index())
+    }
+
+    pub fn lease(&self, lineage_id: &[u8]) -> AuthorityStoreAdapterResult<Option<LeaseState>> {
+        self.require_read()?;
+        Ok(self
+            .ledger
+            .lock()
+            .map_err(|_| AuthorityStoreAdapterError::LockPoisoned)?
+            .lease(lineage_id)
+            .cloned())
+    }
+
     pub fn apply(
         &self,
         certificate_bytes: &[u8],

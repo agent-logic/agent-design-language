@@ -11,14 +11,29 @@ use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+#[cfg(not(test))]
+use super::authority_store_adapters::{
+    AuthorityBoundFencingStore, AuthorityBoundLeaseLedger, AuthorityStoreAdapterError,
+};
+#[cfg(test)]
+use super::fencing::FencingStore;
 use super::{
-    fencing::{ActiveLeaseCheck, FenceCommit, FencingStore},
+    fencing::{ActiveLeaseCheck, FenceCommit, FencingError},
     lease::{
         verify_certificate, AuthorityApplication, AuthorityLedger, AuthorityMembership,
         LeasePolicy, OperationClass,
     },
     migration::{MigrationPhase, MigrationStore, SourceQuiescenceAuthority},
 };
+
+#[cfg(not(test))]
+type RecoveryLeaseLedger = AuthorityBoundLeaseLedger;
+#[cfg(test)]
+type RecoveryLeaseLedger = AuthorityLedger;
+#[cfg(not(test))]
+type RecoveryFencingStore = AuthorityBoundFencingStore;
+#[cfg(test)]
+type RecoveryFencingStore = FencingStore;
 
 pub const RECOVERY_STATE_SCHEMA: &str = "adl.distributed.recovery_state.v1";
 const STATE_FILE: &str = "recovery-state.json";
@@ -907,7 +922,7 @@ impl RecoveryStore {
         recovery_id: &[u8],
         migration: &mut MigrationStore,
         authority: &dyn SourceQuiescenceAuthority,
-        fencing: &FencingStore,
+        fencing: &RecoveryFencingStore,
         source_check: ActiveLeaseCheck<'_>,
     ) -> RecoveryResult<RecoveryRecord> {
         let mut current = self.required_record(recovery_id)?.clone();
@@ -932,9 +947,11 @@ impl RecoveryStore {
         validate_source_check(&current, &source_check)?;
         validate_selected_lease(&current, source_check.lease, source_check.applied_log_index)?;
         self.validate_active_check_time(&source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| RecoveryError::AuthorityRejected)?;
+        recovery_authorize_active_as(
+            fencing,
+            copy_active_check(&source_check),
+            RecoveryError::AuthorityRejected,
+        )?;
         let intent = sha256_many(&[
             b"ADL-RECOVERY-ROLLBACK-INTENT-V1\0",
             recovery_id,
@@ -995,8 +1012,8 @@ impl RecoveryStore {
         fence_request_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &mut FencingStore,
+        ledger: &mut RecoveryLeaseLedger,
+        fencing: &mut RecoveryFencingStore,
         application: AuthorityApplication<'_>,
     ) -> RecoveryResult<RecoveryRecord> {
         let mut current = self.required_record(recovery_id)?.clone();
@@ -1043,7 +1060,7 @@ impl RecoveryStore {
         } else if current.phase != RecoveryPhase::Fenced {
             return Err(RecoveryError::InvalidTransition);
         }
-        let existing = fencing.floor(&current.lineage_id).cloned();
+        let existing = recovery_floor(fencing, &current.lineage_id, RecoveryError::FenceRejected)?;
         let exact_floor = existing.as_ref().is_some_and(|floor| {
             floor.request_id == fence_request_id
                 && floor.certificate_sha256 == certificate_sha256
@@ -1052,27 +1069,40 @@ impl RecoveryStore {
                 && floor.operation_class == OperationClass::Fence as u32
         });
         if !exact_floor {
-            let lease = ledger
-                .lease(&current.lineage_id)
-                .filter(|lease| !lease.revoked)
-                .ok_or(RecoveryError::AuthorityRejected)?;
+            let lease = recovery_lease(
+                ledger,
+                &current.lineage_id,
+                RecoveryError::AuthorityRejected,
+            )?
+            .filter(|lease| !lease.revoked)
+            .ok_or(RecoveryError::AuthorityRejected)?;
             if let Some(floor) = existing.as_ref() {
-                validate_active_successor(&current, lease, ledger.applied_log_index(), floor)?;
+                validate_active_successor(
+                    &current,
+                    &lease,
+                    recovery_applied_log_index(ledger, RecoveryError::AuthorityRejected)?,
+                    floor,
+                )?;
             } else {
-                validate_selected_lease(&current, lease, ledger.applied_log_index())?;
+                validate_selected_lease(
+                    &current,
+                    &lease,
+                    recovery_applied_log_index(ledger, RecoveryError::AuthorityRejected)?,
+                )?;
             }
-            fencing
-                .commit(FenceCommit {
+            recovery_commit(
+                fencing,
+                FenceCommit {
                     request_id: fence_request_id,
                     certificate_bytes,
                     membership: Some(membership),
-                    current_lease: lease,
+                    current_lease: &lease,
                     now_unix_seconds: application.now_unix_seconds,
-                })
-                .map_err(|_| RecoveryError::FenceRejected)?;
+                },
+                RecoveryError::FenceRejected,
+            )?;
         }
-        let floor = fencing
-            .floor(&current.lineage_id)
+        let floor = recovery_floor(fencing, &current.lineage_id, RecoveryError::FenceRejected)?
             .ok_or(RecoveryError::FenceRejected)?;
         if floor.request_id != fence_request_id
             || floor.certificate_sha256 != certificate_sha256
@@ -1082,23 +1112,34 @@ impl RecoveryStore {
         {
             return Err(RecoveryError::ReplayMismatch);
         }
-        let applied = ledger.lease(&current.lineage_id).is_some_and(|lease| {
-            lease.revoked
-                && lease.epoch == body.epoch
-                && lease.committed_log_index == body.committed_log_index
-                && lease.certificate_bytes == certificate_bytes
-        });
+        let applied = recovery_lease(ledger, &current.lineage_id, RecoveryError::FenceRejected)?
+            .is_some_and(|lease| {
+                lease.revoked
+                    && lease.epoch == body.epoch
+                    && lease.committed_log_index == body.committed_log_index
+                    && lease.certificate_bytes == certificate_bytes
+            });
         if !applied {
-            let prior = ledger
-                .lease(&current.lineage_id)
-                .ok_or(RecoveryError::AuthorityRejected)?;
-            validate_selected_lease(&current, prior, ledger.applied_log_index())?;
-            ledger
-                .apply(certificate_bytes, membership, application)
-                .map_err(|_| RecoveryError::FenceRejected)?;
+            let prior = recovery_lease(
+                ledger,
+                &current.lineage_id,
+                RecoveryError::AuthorityRejected,
+            )?
+            .ok_or(RecoveryError::AuthorityRejected)?;
+            validate_selected_lease(
+                &current,
+                &prior,
+                recovery_applied_log_index(ledger, RecoveryError::AuthorityRejected)?,
+            )?;
+            recovery_apply(
+                ledger,
+                certificate_bytes,
+                membership,
+                application,
+                RecoveryError::FenceRejected,
+            )?;
         }
-        let lease = ledger
-            .lease(&current.lineage_id)
+        let lease = recovery_lease(ledger, &current.lineage_id, RecoveryError::FenceRejected)?
             .ok_or(RecoveryError::FenceRejected)?;
         if !lease.revoked || lease.certificate_bytes != certificate_bytes {
             return Err(RecoveryError::FenceRejected);
@@ -1122,8 +1163,8 @@ impl RecoveryStore {
         recovery_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &FencingStore,
+        ledger: &mut RecoveryLeaseLedger,
+        fencing: &RecoveryFencingStore,
         application: AuthorityApplication<'_>,
     ) -> RecoveryResult<RecoveryRecord> {
         let mut current = self.required_record(recovery_id)?.clone();
@@ -1141,10 +1182,12 @@ impl RecoveryStore {
         {
             return Err(RecoveryError::AuthorityRejected);
         }
-        if fencing.floor(&current.lineage_id).is_some_and(|floor| {
-            unix_millis(application.now_unix_seconds, application.now_unix_nanos)
-                .is_none_or(|now| now < floor.safety_deadline_unix_millis)
-        }) {
+        if recovery_floor(fencing, &current.lineage_id, RecoveryError::SafetyWindow)?.is_some_and(
+            |floor| {
+                unix_millis(application.now_unix_seconds, application.now_unix_nanos)
+                    .is_none_or(|now| now < floor.safety_deadline_unix_millis)
+            },
+        ) {
             return Err(RecoveryError::SafetyWindow);
         }
         let certificate_sha256 = sha256(certificate_bytes);
@@ -1172,7 +1215,12 @@ impl RecoveryStore {
         } else if current.phase != RecoveryPhase::Restored {
             return Err(RecoveryError::InvalidTransition);
         }
-        let applied = ledger.lease(&current.lineage_id).is_some_and(|lease| {
+        let applied = recovery_lease(
+            ledger,
+            &current.lineage_id,
+            RecoveryError::AuthorityRejected,
+        )?
+        .is_some_and(|lease| {
             !lease.revoked
                 && lease.epoch == body.epoch
                 && lease.holder_node_id == body.holder_node_id
@@ -1181,22 +1229,34 @@ impl RecoveryStore {
                 && lease.certificate_bytes == certificate_bytes
         });
         if !applied {
-            let prior = ledger
-                .lease(&current.lineage_id)
-                .ok_or(RecoveryError::AuthorityRejected)?;
-            validate_activation_predecessor(&current, prior, ledger.applied_log_index())?;
-            ledger
-                .apply(certificate_bytes, membership, application)
-                .map_err(map_authority_error)?;
-        }
-        let lease = ledger
-            .lease(&current.lineage_id)
+            let prior = recovery_lease(
+                ledger,
+                &current.lineage_id,
+                RecoveryError::AuthorityRejected,
+            )?
             .ok_or(RecoveryError::AuthorityRejected)?;
-        fencing
-            .authorize_active_lease(ActiveLeaseCheck {
+            validate_activation_predecessor(
+                &current,
+                &prior,
+                recovery_applied_log_index(ledger, RecoveryError::AuthorityRejected)?,
+            )?;
+            recovery_apply_authority(ledger, certificate_bytes, membership, application)?;
+        }
+        let lease = recovery_lease(
+            ledger,
+            &current.lineage_id,
+            RecoveryError::AuthorityRejected,
+        )?
+        .ok_or(RecoveryError::AuthorityRejected)?;
+        recovery_authorize_active_activation(
+            fencing,
+            ActiveLeaseCheck {
                 membership: Some(membership),
-                lease,
-                applied_log_index: ledger.applied_log_index(),
+                lease: &lease,
+                applied_log_index: recovery_applied_log_index(
+                    ledger,
+                    RecoveryError::AuthorityRejected,
+                )?,
                 now_unix_seconds: application.now_unix_seconds,
                 now_unix_millis: unix_millis(
                     application.now_unix_seconds,
@@ -1205,11 +1265,8 @@ impl RecoveryStore {
                 .ok_or(RecoveryError::AuthorityRejected)?,
                 now_elapsed_millis: application.now_elapsed_millis,
                 activation_proof: application.activation_proof,
-            })
-            .map_err(|error| match error.code() {
-                "safety_window" => RecoveryError::SafetyWindow,
-                _ => RecoveryError::AuthorityRejected,
-            })?;
+            },
+        )?;
         self.ensure_post_action_live(recovery_id, RecoveryPhase::ActivatePending)?;
         let evidence = sha256_many(&[b"ADL-RECOVERY-ACTIVATE-COMPLETE-V1\0", &intent]);
         self.restore_record(
@@ -1230,8 +1287,8 @@ impl RecoveryStore {
         recovery_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &FencingStore,
+        ledger: &mut RecoveryLeaseLedger,
+        fencing: &RecoveryFencingStore,
         application: AuthorityApplication<'_>,
     ) -> RecoveryResult<RecoveryRecord> {
         let mut current = self.required_record(recovery_id)?.clone();
@@ -1272,21 +1329,32 @@ impl RecoveryStore {
         } else if current.phase != RecoveryPhase::Committed {
             return Err(RecoveryError::InvalidTransition);
         }
-        let applied = ledger.lease(&current.lineage_id).is_some_and(|lease| {
+        let applied = recovery_lease(
+            ledger,
+            &current.lineage_id,
+            RecoveryError::AuthorityRejected,
+        )?
+        .is_some_and(|lease| {
             !lease.revoked
                 && lease.epoch == body.epoch
                 && lease.committed_log_index == body.committed_log_index
                 && lease.certificate_bytes == certificate_bytes
         });
         if !applied {
-            ledger
-                .apply(certificate_bytes, membership, application)
-                .map_err(map_authority_error)?;
+            recovery_apply_authority(ledger, certificate_bytes, membership, application)?;
         }
-        let lease = ledger
-            .lease(&current.lineage_id)
-            .ok_or(RecoveryError::AuthorityRejected)?;
-        let floor_valid = fencing.floor(&current.lineage_id).map_or_else(
+        let lease = recovery_lease(
+            ledger,
+            &current.lineage_id,
+            RecoveryError::AuthorityRejected,
+        )?
+        .ok_or(RecoveryError::AuthorityRejected)?;
+        let floor_valid = recovery_floor(
+            fencing,
+            &current.lineage_id,
+            RecoveryError::AuthorityRejected,
+        )?
+        .map_or_else(
             || {
                 current.fence_epoch.is_none()
                     && current.fence_log_index.is_none()
@@ -1760,6 +1828,177 @@ fn copy_active_check<'a>(check: &ActiveLeaseCheck<'a>) -> ActiveLeaseCheck<'a> {
         now_unix_millis: check.now_unix_millis,
         now_elapsed_millis: check.now_elapsed_millis,
         activation_proof: check.activation_proof,
+    }
+}
+
+#[cfg(not(test))]
+fn recovery_applied_log_index(
+    ledger: &RecoveryLeaseLedger,
+    error: RecoveryError,
+) -> RecoveryResult<u64> {
+    ledger.applied_log_index().map_err(|_| error)
+}
+
+#[cfg(test)]
+fn recovery_applied_log_index(
+    ledger: &RecoveryLeaseLedger,
+    _error: RecoveryError,
+) -> RecoveryResult<u64> {
+    Ok(ledger.applied_log_index())
+}
+
+#[cfg(not(test))]
+fn recovery_lease(
+    ledger: &RecoveryLeaseLedger,
+    lineage_id: &[u8],
+    error: RecoveryError,
+) -> RecoveryResult<Option<super::lease::LeaseState>> {
+    ledger.lease(lineage_id).map_err(|_| error)
+}
+
+#[cfg(test)]
+fn recovery_lease(
+    ledger: &RecoveryLeaseLedger,
+    lineage_id: &[u8],
+    _error: RecoveryError,
+) -> RecoveryResult<Option<super::lease::LeaseState>> {
+    Ok(ledger.lease(lineage_id).cloned())
+}
+
+#[cfg(not(test))]
+fn recovery_apply(
+    ledger: &RecoveryLeaseLedger,
+    certificate_bytes: &[u8],
+    membership: &AuthorityMembership,
+    application: AuthorityApplication<'_>,
+    error: RecoveryError,
+) -> RecoveryResult<super::lease::LeaseState> {
+    ledger
+        .apply(certificate_bytes, membership, application)
+        .map_err(|_| error)
+}
+
+#[cfg(test)]
+fn recovery_apply(
+    ledger: &mut RecoveryLeaseLedger,
+    certificate_bytes: &[u8],
+    membership: &AuthorityMembership,
+    application: AuthorityApplication<'_>,
+    error: RecoveryError,
+) -> RecoveryResult<super::lease::LeaseState> {
+    ledger
+        .apply(certificate_bytes, membership, application)
+        .cloned()
+        .map_err(|_| error)
+}
+
+#[cfg(not(test))]
+fn recovery_apply_authority(
+    ledger: &RecoveryLeaseLedger,
+    certificate_bytes: &[u8],
+    membership: &AuthorityMembership,
+    application: AuthorityApplication<'_>,
+) -> RecoveryResult<super::lease::LeaseState> {
+    ledger
+        .apply(certificate_bytes, membership, application)
+        .map_err(map_authority_adapter_error)
+}
+
+#[cfg(test)]
+fn recovery_apply_authority(
+    ledger: &mut RecoveryLeaseLedger,
+    certificate_bytes: &[u8],
+    membership: &AuthorityMembership,
+    application: AuthorityApplication<'_>,
+) -> RecoveryResult<super::lease::LeaseState> {
+    ledger
+        .apply(certificate_bytes, membership, application)
+        .cloned()
+        .map_err(map_authority_error)
+}
+
+#[cfg(not(test))]
+fn recovery_floor(
+    fencing: &RecoveryFencingStore,
+    lineage_id: &[u8],
+    error: RecoveryError,
+) -> RecoveryResult<Option<super::fencing::FenceReceipt>> {
+    fencing.floor(lineage_id).map_err(|_| error)
+}
+
+#[cfg(test)]
+fn recovery_floor(
+    fencing: &RecoveryFencingStore,
+    lineage_id: &[u8],
+    _error: RecoveryError,
+) -> RecoveryResult<Option<super::fencing::FenceReceipt>> {
+    Ok(fencing.floor(lineage_id).cloned())
+}
+
+#[cfg(not(test))]
+fn recovery_commit(
+    fencing: &RecoveryFencingStore,
+    request: FenceCommit<'_>,
+    error: RecoveryError,
+) -> RecoveryResult<super::fencing::FenceReceipt> {
+    fencing.commit(request).map_err(|_| error)
+}
+
+#[cfg(test)]
+fn recovery_commit(
+    fencing: &mut RecoveryFencingStore,
+    request: FenceCommit<'_>,
+    error: RecoveryError,
+) -> RecoveryResult<super::fencing::FenceReceipt> {
+    fencing.commit(request).map_err(|_| error)
+}
+
+fn recovery_authorize_active_as(
+    fencing: &RecoveryFencingStore,
+    check: ActiveLeaseCheck<'_>,
+    error: RecoveryError,
+) -> RecoveryResult<()> {
+    fencing.authorize_active_lease(check).map_err(|_| error)
+}
+
+#[cfg(not(test))]
+fn recovery_authorize_active_activation(
+    fencing: &RecoveryFencingStore,
+    check: ActiveLeaseCheck<'_>,
+) -> RecoveryResult<()> {
+    fencing.authorize_active_lease(check).map_err(|error| {
+        if matches!(
+            error,
+            AuthorityStoreAdapterError::Fencing(FencingError::SafetyWindow)
+        ) {
+            RecoveryError::SafetyWindow
+        } else {
+            RecoveryError::AuthorityRejected
+        }
+    })
+}
+
+#[cfg(test)]
+fn recovery_authorize_active_activation(
+    fencing: &RecoveryFencingStore,
+    check: ActiveLeaseCheck<'_>,
+) -> RecoveryResult<()> {
+    fencing
+        .authorize_active_lease(check)
+        .map_err(|error| match error {
+            FencingError::SafetyWindow => RecoveryError::SafetyWindow,
+            _ => RecoveryError::AuthorityRejected,
+        })
+}
+
+#[cfg(not(test))]
+fn map_authority_adapter_error(error: AuthorityStoreAdapterError) -> RecoveryError {
+    match error {
+        AuthorityStoreAdapterError::Lease(error) => map_authority_error(error),
+        AuthorityStoreAdapterError::Fencing(FencingError::SafetyWindow) => {
+            RecoveryError::SafetyWindow
+        }
+        _ => RecoveryError::AuthorityRejected,
     }
 }
 
