@@ -35,6 +35,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
 - Keep only recipient public keys in the control authority; require the recipient agent execution boundary to sign and return the acknowledgement through canonical ingress before delivery.
 - Bind action, conversation, recipient, replay, and correlation outer fields to the verified signed request and require exact acknowledgement replay identity.
 - Bind the verified sender principal, polis, signing-key id, and public verification key bytes to independently loaded Runtime identity evidence before capability and policy evaluation, refusing same-label untrusted keys.
+- Carry the configured recipient signing-key id inside the authenticated signed request so the agent acknowledgement boundary does not rely on a naming convention.
 - Serialize simultaneous audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.
 - Keep retryable policy refusals from consuming replay identities and preflight conversation capacity before durable authorization.
 - Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation.
