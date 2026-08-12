@@ -24,6 +24,7 @@ use super::{
         AuthorityApplication, AuthorityError, AuthorityLedger, AuthorityMembership,
         LeaseAuthorityRevision, LeaseState, MutationAuthorization, RedactedLeaseSnapshot,
     },
+    transport::RuntimeCertificateAuthority,
 };
 
 const CERTIFICATE_ACTIVATE: &str = "certificate_activate";
@@ -173,6 +174,7 @@ impl AuthorityStoreAdapterRegistry {
     }
 }
 
+#[derive(Clone)]
 pub struct AuthorityBoundCertificateStore {
     lineage_id: String,
     barrier: Arc<AuthorityReconciliationBarrier>,
@@ -235,6 +237,20 @@ impl AuthorityBoundCertificateStore {
     }
 }
 
+impl RuntimeCertificateAuthority for AuthorityBoundCertificateStore {
+    fn authorize_runtime_certificate(
+        &self,
+        holder_id: &str,
+        purpose: CertificatePurpose,
+        generation: u64,
+        now_unix_seconds: u64,
+    ) -> Result<VerifiedCertificate, ()> {
+        self.authorize(holder_id, purpose, generation, now_unix_seconds)
+            .map_err(|_| ())
+    }
+}
+
+#[derive(Clone)]
 pub struct AuthorityBoundLeaseLedger {
     lineage_id: String,
     barrier: Arc<AuthorityReconciliationBarrier>,
@@ -312,6 +328,7 @@ impl AuthorityBoundLeaseLedger {
     }
 }
 
+#[derive(Clone)]
 pub struct AuthorityBoundFencingStore {
     lineage_id: String,
     barrier: Arc<AuthorityReconciliationBarrier>,
@@ -369,5 +386,175 @@ impl AuthorityBoundFencingStore {
             &AuthorityPermitAction::Mutation(mutation_kind.to_owned()),
         )?;
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::{
+        collections::BTreeMap,
+        path::Path,
+        sync::{Arc, Mutex},
+    };
+
+    use ed25519_dalek::SigningKey;
+
+    use super::*;
+    use crate::distributed::{
+        authority_protocol::{
+            test_published_reconciliation_token, AuthorityNodeIdentity, CanonicalAuthorityTime,
+        },
+        authority_reconciliation::{
+            AuthorityReconciliationArtifact, AuthorityReconciliationIdentity,
+        },
+        certificates::{CertificateBody, CertificatePolicy, CertificateValidity},
+        polis_runtime::{ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisRuntimeError},
+    };
+
+    const DOMAIN: &str = "runtime-prod";
+    const NOW: u64 = 1_900_000_000;
+
+    #[derive(Default)]
+    struct MemoryCheckpoint {
+        values: Mutex<BTreeMap<String, ConsensusCheckpoint>>,
+    }
+
+    impl ConsensusCheckpointAuthority for MemoryCheckpoint {
+        fn load(&self, object: &str) -> Result<Option<ConsensusCheckpoint>, PolisRuntimeError> {
+            Ok(self.values.lock().unwrap().get(object).cloned())
+        }
+
+        fn compare_and_swap(
+            &self,
+            expected: Option<&ConsensusCheckpoint>,
+            candidate: &ConsensusCheckpoint,
+        ) -> Result<(), PolisRuntimeError> {
+            let mut values = self.values.lock().unwrap();
+            if values.get(&candidate.object) != expected {
+                return Err(PolisRuntimeError::StateRegression);
+            }
+            values.insert(candidate.object.clone(), candidate.clone());
+            Ok(())
+        }
+    }
+
+    fn reconciliation_identity() -> AuthorityReconciliationIdentity {
+        AuthorityReconciliationIdentity {
+            trust_domain: DOMAIN.to_owned(),
+            polis_id: "polis-a".to_owned(),
+            node_id: "node-a".to_owned(),
+            guardian_id: "guardian-a".to_owned(),
+            boot_generation: 7,
+            protocol_instance: "adl.authority-reconciliation.v1".to_owned(),
+        }
+    }
+
+    fn authority_node_identity() -> AuthorityNodeIdentity {
+        AuthorityNodeIdentity {
+            trust_domain: DOMAIN.to_owned(),
+            polis_id: "polis-a".to_owned(),
+            node_id: "node-a".to_owned(),
+            guardian_id: "guardian-a".to_owned(),
+            boot_generation: 7,
+        }
+    }
+
+    fn publish_lineage(
+        root: &Path,
+        lineage_id: &str,
+        mutation_kind: &str,
+    ) -> Arc<AuthorityReconciliationBarrier> {
+        let mut barrier = AuthorityReconciliationBarrier::open(
+            root,
+            reconciliation_identity(),
+            Arc::new(MemoryCheckpoint::default()),
+        )
+        .unwrap();
+        let artifact = AuthorityReconciliationArtifact::new(
+            lineage_id.to_owned(),
+            "adl.test.deterministic-authority".to_owned(),
+            1,
+            mutation_kind.to_owned(),
+            vec![b"step-0".to_vec()],
+            b"published-store-authority".to_vec(),
+            2_000_000_000,
+        )
+        .unwrap();
+        let token = test_published_reconciliation_token(
+            authority_node_identity(),
+            "issue-203-operation",
+            artifact.committed_artifact().unwrap(),
+            200,
+            CanonicalAuthorityTime {
+                unix_seconds: NOW as i64,
+                nanos: 17,
+                uncertainty_millis: 25,
+            },
+        );
+        barrier.reconcile(&token).unwrap();
+        Arc::new(barrier)
+    }
+
+    fn certificate(
+        root: &SigningKey,
+        holder: &str,
+        purpose: CertificatePurpose,
+        generation: u64,
+        subject: &SigningKey,
+    ) -> AuthorityCertificate {
+        AuthorityCertificate::issue(
+            CertificateBody::new(
+                DOMAIN,
+                holder,
+                purpose,
+                generation,
+                CertificateValidity {
+                    issued_at_unix_secs: NOW - 10,
+                    expires_at_unix_secs: NOW + 300,
+                },
+                subject.verifying_key(),
+                &root.verifying_key(),
+            ),
+            root,
+        )
+        .unwrap()
+    }
+
+    #[test]
+    fn published_certificate_adapter_authorizes_through_200_barrier() {
+        let root = std::env::current_dir()
+            .and_then(std::fs::canonicalize)
+            .unwrap();
+        let temp = tempfile::TempDir::new_in(root).unwrap();
+        let signing_root = SigningKey::from_bytes(&[41; 32]);
+        let subject = SigningKey::from_bytes(&[42; 32]);
+        let policy = CertificatePolicy::new(DOMAIN, [signing_root.verifying_key()]).unwrap();
+        let raw = Arc::new(
+            DistributedCertificateStore::open(temp.path().join("certificates.redb"), policy)
+                .unwrap(),
+        );
+        let certificate = certificate(
+            &signing_root,
+            "node-a",
+            CertificatePurpose::Transport,
+            1,
+            &subject,
+        );
+        raw.activate(&certificate, NOW).unwrap();
+
+        let registry = AuthorityStoreAdapterRegistry::new(publish_lineage(
+            temp.path(),
+            "lineage-a",
+            "certificate_activate",
+        ));
+        let bound = registry
+            .certificate_store("lineage-a", Arc::clone(&raw))
+            .unwrap();
+        let verified = bound
+            .authorize("node-a", CertificatePurpose::Transport, 1, NOW + 1)
+            .unwrap();
+
+        assert_eq!(verified.holder_id, "node-a");
+        assert_eq!(verified.purpose, CertificatePurpose::Transport);
     }
 }
