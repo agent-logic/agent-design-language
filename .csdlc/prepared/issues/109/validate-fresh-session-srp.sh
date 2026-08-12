@@ -25,10 +25,8 @@ done
 
 # Policy assertions must examine the exact committed blobs, never mutable
 # working-tree content presented under an unchanged HEAD.
-git diff --quiet "$expected_head" -- "$0" "$skill" "$runbook" "$srp" "$srp_values" "$index" \
-  .csdlc/issues/109/cards/stp.md
-git diff --cached --quiet "$expected_head" -- "$0" "$skill" "$runbook" "$srp" "$srp_values" "$index" \
-  .csdlc/issues/109/cards/stp.md
+git diff --quiet "$expected_head" -- "$0" "$skill" "$runbook" .csdlc/issues/109
+git diff --cached --quiet "$expected_head" -- "$0" "$skill" "$runbook" .csdlc/issues/109
 
 ruby - "$skill" "$runbook" "$srp_values" "$index" "$expected_head" "$expected_reviewed_commit" <<'RUBY'
 require "json"
@@ -64,7 +62,8 @@ review = index["review"]
 abort("fresh-session review assignment missing") unless assignment.is_a?(Hash)
 abort("completed review evidence missing") unless review.is_a?(Hash) && review["completed"] == true
 reviewer = review["reviewer"].to_s
-abort("reviewer is not a fresh session identity") unless reviewer.match?(/\Afresh-session:[0-9a-f]{8}-[0-9a-f-]{27,}\z/)
+abort("reviewer is not a fresh session identity") unless
+  reviewer.match?(/\Afresh-session:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/)
 abort("review evidence does not match assignment") unless
   assignment.values_at("reviewer", "revision", "scope") == review.values_at("reviewer", "reviewed_revision", "scope")
 

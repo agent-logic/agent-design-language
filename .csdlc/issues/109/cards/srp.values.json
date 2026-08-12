@@ -7,13 +7,13 @@
     "title": "Use fresh sessions for standard SRP review",
     "slug": "fresh-session-standard-srp-review",
     "version": "v0.92",
-    "generation": 29
+    "generation": 30
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\ndocs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md\n.csdlc/prepared/issues/109/validate-fresh-session-srp.sh\n.csdlc/evidence/109/focused-srp-contract.log\n.csdlc/issues/109",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
