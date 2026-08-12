@@ -85,6 +85,7 @@ abort("substantive reviewed scope changed after review") unless unchanged.succes
 allowed_review_metadata = %w[
   .csdlc/issues/109/audit.jsonl
   .csdlc/issues/109/cards/sip.values.json
+  .csdlc/issues/109/cards/sor.md
   .csdlc/issues/109/cards/sor.values.json
   .csdlc/issues/109/cards/spp.values.json
   .csdlc/issues/109/cards/srp.md
