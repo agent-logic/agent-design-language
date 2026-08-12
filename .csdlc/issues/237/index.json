@@ -5,31 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "17c7f41abf376ec78c800586b462d8a354c458fce7eac2bcc9bda3da29e90e5f",
+  "generation": 32,
+  "digest": "09239f3f63b8675b0deee333209a70a1917676796dde021963e90f5cc43eb402",
   "branch": "codex/237-continuity-binding-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
-  "review_assignment": {
-    "reviewer": "/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
-    "assigned_by": "/root/fix_5833_birth_witness_runtime",
-    "revision": "git-blake3:6e6c579cf6ac553d8ace5abdf3deff519a7113a6:a1b0e1ef0cb1debe32dc0a0d986a1e9ad7de8e2814cc2176b7ac91dc5038aea7",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/birthday_continuity.rs",
-      "adl-runtime-kernel/src/capability_envelope.rs",
-      "adl-runtime-kernel/src/cognitive_profile.rs",
-      "adl-runtime-kernel/tests/capability_envelope.rs",
-      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
-      "adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs",
-      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
-      "adl-runtime-kernel/src/parity.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs",
-      "adl-runtime-kernel/tests/parity.rs",
-      ".csdlc/issues/237"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "059586a4d44dbe4f5d2f80e74a1051a8350084a244534caa69b9f8cf7cd9f80d",
+      "values_digest": "cdaae592e879dea81a2f5debe5bcd3cb09e39b6206e0f3625c4d727e2983f1b5",
       "rendered_digest": "0f6629e693297f8a2eb8e4e029f507657271276795d4b5bbd81755940bb86c8a",
       "ast_digest": "f46556d73fa2c09d0c6e681dc9740a8184e284e33ba7babeeebffb1d729a8123"
     },
     "stp": {
-      "values_digest": "b751187ffe5d52fe9f19bd54e7d8dccc06b1b9a97f98d934ffd7a3a28a4de001",
+      "values_digest": "d028b4036be6beb9a70900ab18d01b3d4874178ef253956eed658b01265836f1",
       "rendered_digest": "f7a8004785b409a2efe1ac3ab53bdec813b55e2935ec1ba16dbc28347e9f67a1",
       "ast_digest": "166322a3cc6ed81aec67904d218571f122e03eb6b0ace1c165e6fb98c5f8aed3"
     },
     "spp": {
-      "values_digest": "57d89cc3c49ab91fd7d6ab9d8f752a6ff9917a405a571c7e27ce1ee5eabd0410",
+      "values_digest": "2b725b4d6b8df951397e898cd29a1d88d7f7c994e8055c681b680dc457ef3149",
       "rendered_digest": "b450d05bce819de9fbe2cec7217bbeb0e51ef033f0a02c7d9ce3f10b8f80eb74",
       "ast_digest": "d9f602f057aa0fcfed06aa78d84757689a4055c017bf6666cd221a63b494f402"
     },
     "vpp": {
-      "values_digest": "630a6eff367dd71fb56f6f388e3d2ceb740d248456690f0437ae713c4cbe5a49",
+      "values_digest": "96949ce90fa6a4bd18807e6fd64cd5771434093955fc8a45338e00b32688b936",
       "rendered_digest": "6a13c547f3d29f0c261f0312823c2aa86e7a47ec2772f99a7e666c035d9fbbee",
       "ast_digest": "5e92538817ea1029ad69966a60af6f0bde2d8d2e49d9d44b3417095573fbfb3f"
     },
     "srp": {
-      "values_digest": "fb91901da6293c81add0531eafe030f7cbda7b4609f3fc31449a2a0ad0129579",
-      "rendered_digest": "1ff7096ce7d3072a954c16f0eb7adfbe1a73597cd67f758d3cf341905331fa9c",
-      "ast_digest": "8ab78481531d5c05efbd72180bcbfa20ee269f46bb61e876d909fe11151484e9"
+      "values_digest": "0838504d1a44026a1a4ae3af0637975b67fe1d8aa14b22807e93f3f460239ab3",
+      "rendered_digest": "73e3a45137d9fa80b09504c4438ad098af6c21af0a3b6034c95905b5c1d1efb8",
+      "ast_digest": "9826ba27c212418af607a6e63d1dd36b52533885b603103ca717ec2709e7bb82"
     },
     "sor": {
-      "values_digest": "9ec77428cdd35bf9d32d579f5fb7cf77d1c24b520a2da46b6d93838ec79dfec1",
+      "values_digest": "475da230935e0cb69d5b972235f072c5c1cc44dd57ce44afed782b851ea97a8c",
       "rendered_digest": "e301d675e1de9fa52865f16918af241c100979c9d19f407a1ac3938d9577eee0",
       "ast_digest": "382d75f25dcbb8bb494d5ec06f2728a807ca36f3d3f98475e17ebe593e42253e"
     }
@@ -392,6 +372,13 @@
       "actor": "/root/fix_5833_birth_witness_runtime",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 32,
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "Recover invalid backfilled review assignment before assigning the complete scope to a genuinely fresh reviewer.",
+      "operation": "recover_review"
     }
   ]
 }

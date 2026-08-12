@@ -7,13 +7,13 @@
     "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
     "slug": "birthday-continuity-binding-reconciliation",
     "version": "v0.92",
-    "generation": 31
+    "generation": 32
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/birthday_continuity.rs\nadl-runtime-kernel/src/capability_envelope.rs\nadl-runtime-kernel/src/cognitive_profile.rs\nadl-runtime-kernel/tests/capability_envelope.rs\nadl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\nadl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs\nadl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\nadl-runtime-kernel/src/parity.rs\nadl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs\nadl-runtime-kernel/tests/parity.rs\n.csdlc/issues/237",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

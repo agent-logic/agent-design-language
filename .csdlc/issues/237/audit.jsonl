@@ -37,3 +37,4 @@
 {"sequence":37,"generation":30,"actor":"/root/fix_5833_birth_witness_runtime","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":38,"generation":31,"actor":"/root/fix_5833_birth_witness_runtime","reason":"Recover incomplete exact-review scope to include every acceptance-critical continuity and capability authority path before fresh assignment.","operation":"recover_review"}
 {"sequence":39,"generation":31,"actor":"/root/fix_5833_birth_witness_runtime","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":40,"generation":32,"actor":"/root/fix_5833_birth_witness_runtime","reason":"Recover invalid backfilled review assignment before assigning the complete scope to a genuinely fresh reviewer.","operation":"recover_review"}
