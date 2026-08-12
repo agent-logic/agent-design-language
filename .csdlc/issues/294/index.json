@@ -4,25 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
-  "generation": 25,
-  "digest": "fb026fd5db319593b12367b36896ece87eb5bc145539a6a33c2c8d9bf71a7132",
+  "generation": 26,
+  "digest": "6a74e2c4c06399d1197138cd98fcaf1e2196cdf315f06f01c9d14ae3505c6da3",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:03187830-9992-474f-a08a-ed7d1aae2fef",
-    "assigned_by": "codex:issue-294",
-    "revision": "git-blake3:d618d5781569a74f607c034f75766fa24385ba2a:5a058af88aef17b4d0f67d5f314fb8c664fe74b1d7a3b25ad2cb7524dcf8eeb1",
-    "scope": [
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-edit.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/card_identity.rs",
-      ".csdlc/issues/294",
-      ".csdlc/prepared/issues/294",
-      ".csdlc/evidence/294"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -38,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b7497fcac783f15bb07103e32c3c883a9be9253ca5f3042c6aabac804ff18a5b",
+      "values_digest": "a108d5a25068de43be07627eb026d35c6554397a1673244f0ebbe60d11c78260",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "a05e040b57901655a718a53f53ce757a0e1e66c438364b75ecc2805d0377e3a2",
+      "values_digest": "265790cf61002312a45906193bbbee2e78ccd9ec448182813d00a9efac8debb2",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "e4fe034428c0bcc902844da386a2679a2b51018573514766dd54fcefd9f49a50",
+      "values_digest": "a673c78592d76371f7dd489db64a67193a1b62946f3ef191bdd58bb71537d658",
       "rendered_digest": "818c831b4006e6cba1fae7fd705b517025fdb4dffebcdd5ed63c77e88dd8e9ee",
       "ast_digest": "fe2b4a198e777d6d1184d8db1e169a565f0425a9c547b1f1252c24a7410e2c5e"
     },
     "vpp": {
-      "values_digest": "f23ace3d93477fd97e1a663d77a5d87a32bb0660cdd8463605b351638313a1eb",
+      "values_digest": "f786c4477aacf7a279dd772c12f8ed8540aa964bf05e684e923a38e97902bb49",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "efd9cc0897eb60c347d45b75e889331efa55cf3daab96e3862bcdf3124e58734",
-      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
-      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
+      "values_digest": "fa414c9d9e0739056c60017778d7513632472c1fabb337e180bcee0d135eebad",
+      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
+      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
     },
     "sor": {
-      "values_digest": "3169392126a43edac321f9306d389d5465dc2f58528a80fffe5bdb2ba1a7567c",
+      "values_digest": "fa9dc90152aa3912f66f881875b4c6bc1e328735c7f5badc64665db1889ddd3b",
       "rendered_digest": "02a3825c1b8aa02ee4ff72c2597d88a060af2ae9a31abc8a0aa8df0f7e3d9438",
       "ast_digest": "926479531ef701e505067ba4a19c0f8b998388e2ef55666e78e7210deb803fe9"
     }
@@ -357,6 +343,13 @@
       "actor": "codex:issue-294",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 26,
+      "actor": "codex:issue-294",
+      "reason": "authorized immutable-ledger redesign incomplete: real typed bind before/after and deterministic S0-S6/race failpoint fixtures absent",
+      "operation": "recover_review"
     }
   ]
 }

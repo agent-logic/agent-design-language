@@ -6,6 +6,7 @@ use csdlc_v2::cards::{
 };
 use csdlc_v2::{
     initialize_native_json, recover_initialized_design_envelope,
+    recover_initialized_design_envelope_with_hook, DesignRecoveryFailpoint,
     RecoverInitializedDesignEnvelopeRequest, Store,
 };
 use csdlc_v2::{CardKind, PlanningProfile};
@@ -526,6 +527,44 @@ fn recovery_rejects_tampered_later_history_without_artifact_mutation() {
         before_design
     );
     assert!(!temp.path().join("docs/issues/303/design.md").exists());
+}
+
+#[test]
+fn every_design_recovery_failpoint_restarts_to_a_canonical_state() {
+    for point in [
+        DesignRecoveryFailpoint::AfterPreparedReceipt,
+        DesignRecoveryFailpoint::AfterDesignInstall,
+        DesignRecoveryFailpoint::AfterDesignReceipt,
+        DesignRecoveryFailpoint::AfterDiagramInstall,
+        DesignRecoveryFailpoint::AfterArtifactsReceipt,
+        DesignRecoveryFailpoint::AfterStatePreparedReceipt,
+        DesignRecoveryFailpoint::BeforeStateCommit,
+        DesignRecoveryFailpoint::AfterStateCommit,
+    ] {
+        let temp = tempfile::tempdir().unwrap();
+        let record = bootstrap_at(
+            temp.path(),
+            305,
+            ".csdlc/prepared/legacy/design.md",
+            ".csdlc/prepared/legacy/diagram.mmd",
+        );
+        let request = recovery_request(&record);
+        assert!(recover_initialized_design_envelope_with_hook(
+            &Store::new(temp.path()),
+            request.clone(),
+            |candidate| candidate == point
+        )
+        .is_err());
+        let current = Store::new(temp.path()).load_record(305).unwrap();
+        if current.generation == record.generation {
+            let recovered = recover_initialized_design_envelope(&Store::new(temp.path()), request)
+                .unwrap_or_else(|error| panic!("restart failed at {point:?}: {error:?}"));
+            assert_eq!(recovered.generation, record.generation + 1, "{point:?}");
+        } else {
+            assert_eq!(current.generation, record.generation + 1, "{point:?}");
+            assert_eq!(current.design_path, "docs/issues/305/design.md");
+        }
+    }
 }
 
 #[test]

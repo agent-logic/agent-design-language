@@ -121,3 +121,4 @@ pub use store::{
     approve_design, edit_issue, recover_initialized_design_envelope, ApproveDesignRequest,
     BootstrapRequest, EditRequest, RecoverInitializedDesignEnvelopeRequest, Store,
 };
+pub use store::{recover_initialized_design_envelope_with_hook, DesignRecoveryFailpoint};

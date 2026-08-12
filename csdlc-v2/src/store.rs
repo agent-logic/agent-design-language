@@ -1383,10 +1383,40 @@ struct DesignEnvelopeRecoveryJournal {
     prior_receipt_digest: Option<String>,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum DesignRecoveryFailpoint {
+    AfterPreparedReceipt,
+    AfterDesignInstall,
+    AfterDesignReceipt,
+    AfterDiagramInstall,
+    AfterArtifactsReceipt,
+    AfterStatePreparedReceipt,
+    BeforeStateCommit,
+    AfterStateCommit,
+}
+
 pub fn recover_initialized_design_envelope(
     store: &Store,
     request: RecoverInitializedDesignEnvelopeRequest,
 ) -> Result<IssueRecord> {
+    recover_initialized_design_envelope_with_hook(store, request, |_| false)
+}
+
+pub fn recover_initialized_design_envelope_with_hook(
+    store: &Store,
+    request: RecoverInitializedDesignEnvelopeRequest,
+    mut hook: impl FnMut(DesignRecoveryFailpoint) -> bool,
+) -> Result<IssueRecord> {
+    macro_rules! checkpoint {
+        ($point:expr) => {
+            if hook($point) {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "injected design-recovery interruption",
+                ));
+            }
+        };
+    }
     let _lock = store.lock(request.issue)?;
     store.recover_if_needed(request.issue)?;
     let mut record = store.load_record(request.issue)?;
@@ -1538,15 +1568,18 @@ pub fn recover_initialized_design_envelope(
         prior_receipt_digest: None,
     };
     let mut receipt_digest = write_recovery_journal(store.root(), &journal)?;
+    checkpoint!(DesignRecoveryFailpoint::AfterPreparedReceipt);
     journal.design_identity = Some(stage_and_install_authored(
         store.root(),
         Path::new(&request.new_design_path),
         &design_bytes,
     )?);
+    checkpoint!(DesignRecoveryFailpoint::AfterDesignInstall);
     journal.phase = "design_installed".into();
     journal.sequence = 10;
     journal.prior_receipt_digest = Some(receipt_digest);
     receipt_digest = write_recovery_journal(store.root(), &journal)?;
+    checkpoint!(DesignRecoveryFailpoint::AfterDesignReceipt);
     cleanup_stage(
         store.root(),
         Path::new(&request.new_design_path),
@@ -1568,10 +1601,12 @@ pub fn recover_initialized_design_envelope(
             return Err(error);
         }
     }
+    checkpoint!(DesignRecoveryFailpoint::AfterDiagramInstall);
     journal.phase = "artifacts_installed".into();
     journal.sequence = 20;
     journal.prior_receipt_digest = Some(receipt_digest);
     receipt_digest = write_recovery_journal(store.root(), &journal)?;
+    checkpoint!(DesignRecoveryFailpoint::AfterArtifactsReceipt);
     cleanup_stage(
         store.root(),
         Path::new(&request.new_diagram_path),
@@ -1636,7 +1671,9 @@ pub fn recover_initialized_design_envelope(
     journal.sequence = 30;
     journal.prior_receipt_digest = Some(receipt_digest);
     let _receipt_digest = write_recovery_journal(store.root(), &journal)?;
+    checkpoint!(DesignRecoveryFailpoint::AfterStatePreparedReceipt);
     record.digest = record_digest(&record)?;
+    checkpoint!(DesignRecoveryFailpoint::BeforeStateCommit);
     if let Err(error) = store.commit(request.issue, &record, &cards, false) {
         if store.load_record(request.issue).is_ok_and(|installed| {
             installed.digest == record.digest && recovery_post_state_matches(&installed, &journal)
@@ -1658,6 +1695,7 @@ pub fn recover_initialized_design_envelope(
         );
         return Err(error);
     }
+    checkpoint!(DesignRecoveryFailpoint::AfterStateCommit);
     resolve_recovery_ledger(store.root(), &journal)?;
     Ok(record)
 }
@@ -1886,7 +1924,11 @@ fn reconcile_owned_quarantine(root: &Path, relative: &Path, expected: &str) -> R
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "cleanup file name missing"))?
         .to_string_lossy();
     let prefix = format!(".{name}.csdlc-delete-");
-    for entry in std::fs::read_dir(root.join(parent))? {
+    let directory = root.join(parent);
+    if !directory.exists() {
+        return Ok(());
+    }
+    for entry in std::fs::read_dir(directory)? {
         let entry = entry?;
         let candidate_name = entry.file_name();
         let candidate_text = candidate_name.to_string_lossy();
@@ -1925,7 +1967,11 @@ fn reconcile_owned_delete_quarantine(root: &Path, relative: &Path, expected: &st
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "cleanup file name missing"))?
         .to_string_lossy();
     let prefix = format!(".{name}.csdlc-owned-delete-");
-    for entry in std::fs::read_dir(root.join(parent))? {
+    let directory = root.join(parent);
+    if !directory.exists() {
+        return Ok(());
+    }
+    for entry in std::fs::read_dir(directory)? {
         let entry = entry?;
         let candidate_name = entry.file_name();
         let candidate_text = candidate_name.to_string_lossy();
@@ -2375,7 +2421,12 @@ fn remove_authored_if_owned(
     }
     match read_regular_authored_artifact_with_hook(root, relative, |_| {})? {
         Some(bytes) if digest(&bytes) == expected => {
-            unlink_owned_anchored(root, relative, expected, identity)
+            unlink_owned_anchored(root, relative, expected, identity)?;
+            let stage = staged_authored_path(relative)?;
+            if file_identity_no_follow(root, &stage).ok() == Some(identity) {
+                unlink_owned_anchored(root, &stage, expected, identity)?;
+            }
+            Ok(())
         }
         Some(_) => Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
