@@ -77,23 +77,38 @@ def packet_evidence_valid?(root, packet)
 end
 
 def nested_evidence_valid?(root, packet)
-  references = packet.dig("capability", "evidence").to_a + packet.dig("cognitive_profile", "evidence").to_a
-  packet_digests = [
-    packet.dig("candidate", "packet_sha256"), packet.dig("identity", "record_sha256"),
-    packet.dig("continuity", "record_sha256"), packet.dig("capability", "envelope_sha256")
-  ].compact
   revision_path = "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json"
   revision_digest = Digest::SHA256.file(root.join(revision_path)).hexdigest
-  references.length >= 10 && references.all? do |entry|
-    path = entry["path"].to_s
-    digest = entry["sha256"].to_s
-    digest_valid = if path == "demos/v0.92/first-birthday/positive.json"
-      packet_digests.include?(digest)
-    else
-      root.join(path).file? && digest == Digest::SHA256.file(root.join(path)).hexdigest
+  packet_path = "demos/v0.92/first-birthday/positive.json"
+  launch_path = "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md"
+  receipt_path = "docs/milestones/v0.91.8/review/v092_handoff_4762/birth-receipt-4762.v1.json"
+  file_digest = lambda { |path| Digest::SHA256.file(root.join(path)).hexdigest }
+  expected_capability = {
+    "birthday" => ["birthday", packet_path, packet.dig("candidate", "packet_sha256")],
+    "identity" => ["identity", packet_path, packet.dig("identity", "record_sha256")],
+    "retained" => ["retained_capability", launch_path, file_digest.call(launch_path)],
+    "provider" => ["provider", revision_path, revision_digest],
+    "model" => ["model", revision_path, revision_digest],
+    "authority" => ["authority", receipt_path, file_digest.call(receipt_path)]
+  }
+  expected_cognitive = {
+    "identity" => ["identity", packet_path, packet.dig("identity", "record_sha256")],
+    "continuity" => ["continuity", packet_path, packet.dig("continuity", "record_sha256")],
+    "memory" => ["memory", launch_path, file_digest.call(launch_path)],
+    "capability" => ["capability", packet_path, packet.dig("capability", "envelope_sha256")],
+    "tom" => ["theory_of_mind", revision_path, revision_digest],
+    "intelligence" => ["intelligence", revision_path, revision_digest],
+    "learning" => ["governed_learning", launch_path, file_digest.call(launch_path)]
+  }
+  validate = lambda do |references, expected, discriminator|
+    references.is_a?(Array) && references.length == expected.length && references.all? do |entry|
+      contract = expected[entry["id"]]
+      contract && entry[discriminator] == contract[0] && entry["path"] == contract[1] &&
+        entry["sha256"] == contract[2] && entry["revision_sha256"] == revision_digest
     end
-    digest_valid && entry["revision_sha256"] == revision_digest
   end
+  validate.call(packet.dig("capability", "evidence"), expected_capability, "kind") &&
+    validate.call(packet.dig("cognitive_profile", "evidence"), expected_cognitive, "category")
 end
 
 positive_path = "demos/v0.92/first-birthday/positive.json"
@@ -178,10 +193,16 @@ required_doc_boundaries = {
   docs[2] => "public launch approval exists without operator authorization",
   docs[3] => "operator"
 }
-affirmative_claim = /\b(?:the first birthday has happened|public launch (?:is|has been) approved|authorized for (?:publication|public launch))\b/i
-negation = /\b(?:not|no|never|without|before|does not|cannot|must not|rejects?|prohibited)\b/i
 contradictory_claim = docs.any? do |path|
-  root.join(path).each_line.any? { |line| line.match?(affirmative_claim) && !line.match?(negation) }
+  root.join(path).each_line.any? do |line|
+    text = line.downcase
+    birthday_claim = text.include?("the first birthday has happened") &&
+      !text.include?("the first birthday has happened before retained witness/receipt proof")
+    launch_claim = text.match?(/\bpublic launch (?:is|has been) approved\b/)
+    authorization_claim = text.match?(/\bauthorized for (?:publication|public launch)\b/) &&
+      !text.match?(/\b(?:not|never) authorized for (?:publication|public launch)\b/)
+    birthday_claim || launch_claim || authorization_claim
+  end
 end
 unsupported_claims_resolved = docs.all? { |path| root.join(path).file? } &&
   required_doc_boundaries.all? { |path, phrase| root.join(path).read.downcase.include?(phrase) } &&
