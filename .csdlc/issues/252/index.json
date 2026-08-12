@@ -3,13 +3,36 @@
   "issue": 252,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c918bb9636465a8c8eaafa40fb2850a329c51ecb0c7fa000392e82004b33eb01",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "8dbbb853c73576c6c9cffc1cb0341489098c14732a0dab43ac694424effd9a4e",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "0aee7f7ca3b7ccc7e18d5b51d6d8f0573e050de89869878729711e62ada40fde",
   "branch": "codex/252-guardian-hosted-spawn-flake",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-252-guardian-hosted-spawn-flake",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-agent:issue-252-rereview",
+    "assigned_by": "codex:guardian-spawn-flake",
+    "revision": "git-blake3:13b88a96186c55d4320758e21aae3ba5c33b08c6:1707656d026a18098d6de4df998ea3725f4135b1a46becdf0f4e204d27d7b2f0",
+    "scope": [
+      "adl-runtime/src/guardian.rs test-only serialization correctness",
+      "retained ten-run eight-thread proof from repository-root and crate caller cwd",
+      "both hosted SpawnFailed regressions, missing-program fail-closed semantics, typed validation evidence, and all #252 acceptance criteria"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-agent:issue-252-rereview",
+    "scope": [
+      "adl-runtime/src/guardian.rs test-only serialization correctness",
+      "retained ten-run eight-thread proof from repository-root and crate caller cwd",
+      "both hosted SpawnFailed regressions, missing-program fail-closed semantics, typed validation evidence, and all #252 acceptance criteria"
+    ],
+    "reviewed_revision": "git-blake3:13b88a96186c55d4320758e21aae3ba5c33b08c6:1707656d026a18098d6de4df998ea3725f4135b1a46becdf0f4e204d27d7b2f0",
+    "findings": [],
+    "residual_risks": [
+      "Hosted Linux confirmation remains required CI evidence after publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6d1d1fb14244e4f57daaa28c4ee312db4ae32867b2c26805befe476ea6ef53f7",
+      "values_digest": "0ade898999e4f3367b9d6bd0b7f92abdc6695fb4cc86e3753d0a629d511414a1",
       "rendered_digest": "8d495ba3d16dc3181f2a2d3ce6769ef4303f713591405dc2d9b9134fb0a9c68a",
       "ast_digest": "cae194592e2c9407460f1853c8cab08d3149b0d7f2612ceaa7ca8c5d8dc7429d"
     },
     "stp": {
-      "values_digest": "d48c03d100ebc9695c38661d7a0774cd307c1415dfc902b4279467601d661640",
+      "values_digest": "436be3210bd10a401ff776e2c0cf664b26e8b9f6b4dc245704b655cb21240a30",
       "rendered_digest": "76b75912e55fb272675cbd868e608ced5a7213d7b6a230ddb05036aacca67842",
       "ast_digest": "8e481c6242952de2ed1a4a022d2ab3d97ec5a5a1f85173a17b4a98503d23297a"
     },
     "spp": {
-      "values_digest": "b1774b238022b34289dbc6fc7233a922e423cfb236ad957be79f46d78d9eab3d",
+      "values_digest": "f56a5f2fbdd4d6a2521015286d2d900fcfb03d950c4a6ae55de4f50a1bbf9a93",
       "rendered_digest": "0d7ca74556b4e3b88aef2f126fa85bc3d3a5396f3fab1a806ddc365196def216",
       "ast_digest": "0f7a696319609f841ae04a1a76d6289f359048de9671c42938efc3179a4d9bd0"
     },
     "vpp": {
-      "values_digest": "188938c2fe9f16ba83c722f770240bc8bea1a8948d6d41323ea1f8bf4cb22042",
+      "values_digest": "90d8c38c156b33488679afda168c660800f123041c15a49b66bc67ee737bbb87",
       "rendered_digest": "0dfbd2b92e106b92926dc8154436675448936528ff36559a102644319e8e94c1",
       "ast_digest": "1c9fe52e3b83bb390150522900188bcc23838d49b62e6f50f6ac211ace9bc59d"
     },
     "srp": {
-      "values_digest": "d64f7e06b92863ad54627cdd443178adfa6d7426376ecb8382a33e4b1971fcd3",
-      "rendered_digest": "04e3d755fa1a562330049bd9d756077cd45ee0edd4aec339636d153072080ce8",
-      "ast_digest": "6e6994913b6cf47609776528348ce91aff56a476150b5b91454df69852c2056f"
+      "values_digest": "c808a6bfbed30c99e45e75c7e9e5516610c28d585321cea0d4266a05244229ff",
+      "rendered_digest": "ae8585ee2dbcfade7dab470b1c028fefb28ebda1c006ddcc9e2cd3325d98f19c",
+      "ast_digest": "8bdce42a064a7c427e9baf97ef2bbe882bf01d66112df42e336c2c827b9fe244"
     },
     "sor": {
-      "values_digest": "1e58a1faf4df3b09792208f447fddcd44946db133a69589a0faae5d14e123855",
+      "values_digest": "acc9edefbbf8406f7be3af0f3e75cf011b70e5ba166003cb484e1e98a8093ace",
       "rendered_digest": "a24f128dfdea475cc5206f58b0214d6d77bfcd3fa974bfc3321bc8cfe1edf7f8",
       "ast_digest": "9a6af4f1d1557b9810e01790c67a484daa3c0075b67f78433841af04027b6875"
     }
@@ -75,6 +98,13 @@
       "to": "implemented",
       "actor": "codex:guardian-spawn-flake",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -140,6 +170,20 @@
       "actor": "codex:guardian-spawn-flake",
       "reason": "Clear the completed changes-required review after retaining its requested repeated cwd/thread proof for fresh exact-head rereview.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
