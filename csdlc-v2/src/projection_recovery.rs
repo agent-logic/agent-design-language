@@ -2724,7 +2724,7 @@ fn exchange(_source: &AnchoredName, _destination: &AnchoredName) -> Result<()> {
 fn ensure_candidate_directory(
     request: &ProjectionRecoverRequest,
     attempt_authority: &PrivateRecoveryDir,
-    candidate: &Path,
+    candidate_authority: &PrivateRecoveryDir,
     relative: &str,
     ordinal: usize,
 ) -> Result<()> {
@@ -2733,14 +2733,16 @@ fn ensure_candidate_directory(
         &format!("node-{ordinal:03}"),
         "recovery node ledger",
     )?;
-    let path = if relative == "." {
-        candidate.to_path_buf()
+    let node_authority = if relative == "." {
+        PrivateRecoveryDir {
+            file: candidate_authority.file.try_clone()?,
+            anchored_path: candidate_authority.anchored_path.clone(),
+        }
     } else {
-        candidate.join(relative)
+        open_or_create_private_child(candidate_authority, relative, "candidate directory")?
     };
     if receipt_exists_at(&ledger_authority, 10, "node-created")? {
-        let metadata = fs::symlink_metadata(&path)?;
-        if metadata.is_dir() && !metadata.file_type().is_symlink() {
+        if fd_identity(&node_authority.file)?.node_type == "directory" {
             return Ok(());
         }
         return Err(V2Error::new(
@@ -2756,12 +2758,7 @@ fn ensure_candidate_directory(
     )?;
     failpoint(request, "node_create_intent")?;
     if !receipt_exists_at(&ledger_authority, 2, "created-identity")? {
-        if path.symlink_metadata().is_err() {
-            fs::create_dir(&path)?;
-            fs::set_permissions(&path, fs::Permissions::from_mode(0o700))?;
-        }
-        let metadata = fs::symlink_metadata(&path)?;
-        let node = identity(&path, &metadata)?;
+        let node = fd_identity(&node_authority.file)?;
         if node.node_type != "directory" || node.mode & 0o777 != 0o700 {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
@@ -2795,13 +2792,13 @@ fn ensure_candidate_directory(
         "node-fsync-intent",
         &serde_json::json!({"directory":relative}),
     )?;
-    sync(&path)?;
+    node_authority.file.sync_all()?;
     failpoint(request, "node_fsynced")?;
     receipt_at(
         &ledger_authority,
         6,
         "node-fsync-completed",
-        &serde_json::json!({"identity":identity(&path,&fs::symlink_metadata(&path)?)?}),
+        &serde_json::json!({"identity":fd_identity(&node_authority.file)?}),
     )?;
     receipt_at(
         &ledger_authority,
@@ -2809,9 +2806,11 @@ fn ensure_candidate_directory(
         "parent-fsync-intent",
         &serde_json::json!({"directory":relative}),
     )?;
-    sync(path.parent().ok_or_else(|| {
-        V2Error::new(ErrorCode::InvalidInput, "candidate directory has no parent")
-    })?)?;
+    if relative == "." {
+        attempt_authority.file.sync_all()?;
+    } else {
+        candidate_authority.file.sync_all()?;
+    }
     failpoint(request, "node_parent_fsynced")?;
     receipt_at(
         &ledger_authority,
@@ -2829,7 +2828,7 @@ fn ensure_candidate_directory(
         &ledger_authority,
         10,
         "node-created",
-        &serde_json::json!({"identity":identity(&path,&fs::symlink_metadata(&path)?)?}),
+        &serde_json::json!({"identity":fd_identity(&node_authority.file)?}),
     )?;
     Ok(())
 }
@@ -3034,8 +3033,10 @@ fn build_candidate_tree(
         request.reason.clone(),
         audit_payload.to_string(),
     )?;
-    ensure_candidate_directory(request, attempt_authority, candidate, ".", 0)?;
-    ensure_candidate_directory(request, attempt_authority, candidate, "cards", 1)?;
+    let candidate_authority =
+        open_or_create_private_child(attempt_authority, "candidate", "recovery candidate")?;
+    ensure_candidate_directory(request, attempt_authority, &candidate_authority, ".", 0)?;
+    ensure_candidate_directory(request, attempt_authority, &candidate_authority, "cards", 1)?;
     for (ordinal, (relative, contents)) in files.iter().enumerate() {
         ensure_candidate_file(
             request,
