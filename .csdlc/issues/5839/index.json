@@ -6,10 +6,21 @@
   "initialization_digest": "10b57804d863de9ac5cda1e29dd5aeee90e4b00bd8f1569549bc8a878b5c5d6c",
   "phase": "implemented",
   "generation": 35,
-  "digest": "ab8341a60ba02dfed0abe8c0fa0463258f7d3c0fb073e50ab84097c5fc64a236",
+  "digest": "bbe8f805544e20c2b1d769bc496b17860bb88c06195c93dd070883d55a8844e9",
   "branch": "codex/5839-birthday-governance-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5839-birthday-governance-handoff",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5839_fast_exact",
+    "assigned_by": "codex:sprint5-5839-governance-handoff",
+    "revision": "git-blake3:edc14e601d4b122930845be40f2c99c22b22f255:5667b46c229477c9aa7e462e4ae3de2c5acee4cee2df33fdb599f5608471170b",
+    "scope": [
+      "docs/milestones/v0.92/review/V092_TO_V093_GOVERNANCE_EVIDENCE_MAP.md",
+      "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
+      "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+      ".csdlc/evidence/5839",
+      ".csdlc/issues/5839"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "85160aa1e168e75333635d2d9ef8511f8051725fe928b0c4ea7b043589e5d9ef"
     },
     "srp": {
-      "values_digest": "968584b6c919a0543099dbe954748dba0748732e078835ed944936d25c96131c",
-      "rendered_digest": "1ba628e8a13f4d92eb6cb2adea05136d85f96d239d48caa5d10698ae326124f8",
-      "ast_digest": "797664cb3acec61fcabcd329021db6bfcec0b8da2df735a399e444e351b81a07"
+      "values_digest": "5ef5510a243a331a9149736a1d5aa42e1372373281772cc96d8e7ee461264ab0",
+      "rendered_digest": "ff508274badbe16f424ab7a59603e31eee1c7f48893daff3dc4a33e755c224a1",
+      "ast_digest": "8d07902b754240be7e5827fcb1f892118b6a2a637f89db980bb34a72ec689619"
     },
     "sor": {
       "values_digest": "d77a9db3853d9386f44dd2a25d6f5505c6b85ca28ee2bbbc3920bb15a9dd508d",
@@ -449,6 +460,13 @@
       "actor": "codex:sprint5-5839-governance-handoff",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 51,
+      "generation": 35,
+      "actor": "codex:sprint5-5839-governance-handoff",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

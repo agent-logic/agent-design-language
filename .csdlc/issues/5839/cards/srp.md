@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Review the WP-19 evidence map, handoff plan, ADR-plan update, validation proof, and exact candidate paths for source traceability, named consumer authority, redaction, explicit blockers, and no governance overclaim.
+docs/milestones/v0.92/review/V092_TO_V093_GOVERNANCE_EVIDENCE_MAP.md
+docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md
+docs/milestones/v0.92/ADR_PLAN_v0.92.md
+.csdlc/evidence/5839
+.csdlc/issues/5839
 
 ## Prompts
 
