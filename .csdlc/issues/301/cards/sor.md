@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented durable title-only issue-update provenance with partial-operation recovery and deterministic remote-drift proof.
+Implemented durable title-only issue-update provenance with fail-closed partial-operation ambiguity and deterministic remote-drift proof.
 
 ## Artifacts
 
@@ -23,7 +23,9 @@ Implemented durable title-only issue-update provenance with partial-operation re
 
 - Bind each operation key to a canonical mutation fingerprint in a durable comment receipt.
 - Preserve the issue body byte-for-byte through one governed title PATCH.
-- Recover a successful PATCH with missing receipt without repeating PATCH.
+- Fail closed without repeating PATCH when the requested title is already present but no matching durable receipt exists.
+- Reject intervening body drift after PATCH-success and receipt failure instead of minting provenance from the new body baseline.
+- Reject an unrelated actor pre-setting the requested title instead of treating title equality alone as operation proof.
 - Fail closed at before-PATCH, during-PATCH, before-receipt, and after-receipt body drift boundaries.
 - Preserve body-bearing marker compatibility and isolate status classification from retrying transport fixtures.
 
@@ -39,9 +41,9 @@ Implemented durable title-only issue-update provenance with partial-operation re
       "--test",
       "gate_github_actions"
     ],
-    "purpose": "Focused GitHub issue owner proof.",
+    "purpose": "Focused GitHub issue owner proof including ambiguous partial-operation and unrelated-title regressions.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/301/title-only-github-issue-update.log"
+    "evidence_ref": "local output: 10 passed"
   },
   {
     "command": [
@@ -57,19 +59,7 @@ Implemented durable title-only issue-update provenance with partial-operation re
     ],
     "purpose": "Strict warning-free owner and fixture proof.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/301/strict-clippy-github-owner.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--lib"
-    ],
-    "purpose": "Full library regression proof.",
-    "outcome": "passed",
-    "evidence_ref": "local output: 75 passed"
+    "evidence_ref": "local output: finished dev profile"
   }
 ]
 

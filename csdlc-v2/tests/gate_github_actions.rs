@@ -475,7 +475,7 @@ async fn title_only_issue_update_fails_closed_on_remote_body_drift() {
 }
 
 #[tokio::test]
-async fn title_only_retry_after_receipt_failure_does_not_repeat_patch() {
+async fn title_only_retry_after_receipt_failure_and_body_drift_fails_without_repeating_patch() {
     let env = LocalGithubEnv::start();
     let mut create = base_request(GithubAction::IssueCreate);
     create.token_file = Some(env.token_file());
@@ -496,16 +496,53 @@ async fn title_only_retry_after_receipt_failure_does_not_repeat_patch() {
         .expect_err("missing receipt id");
     assert_eq!(first.code, csdlc_v2::ErrorCode::ReconciliationRequired);
     assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+    env.server
+        .replace_issue_body("intervening remote body mutation");
 
     let retry = execute_github_action(&update)
         .await
-        .expect("recover partial operation");
-    assert_eq!(retry.issue.as_ref().unwrap().title, "Canonical title");
+        .expect_err("missing receipt leaves operation provenance ambiguous");
+    assert_eq!(retry.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(retry
+        .message
+        .contains("without a matching durable provenance receipt"));
     assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
     assert_eq!(
         env.server
             .count("POST", "/repos/owner/repo/issues/77/comments"),
-        2
+        1
+    );
+    env.server.assert_clean();
+}
+
+#[tokio::test]
+async fn title_only_update_does_not_mint_provenance_for_an_unrelated_matching_title() {
+    let env = LocalGithubEnv::start();
+    let mut create = base_request(GithubAction::IssueCreate);
+    create.token_file = Some(env.token_file());
+    create.title = Some("Canonical title".into());
+    create.body = Some("Governed body".into());
+    execute_github_action(&create)
+        .await
+        .expect("create fixture with title already set by another actor");
+
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.operation_key = Some("issue-301.unrelated-title-v1".into());
+    update.issue = Some(77);
+    update.title = Some("Canonical title".into());
+    let error = execute_github_action(&update)
+        .await
+        .expect_err("title equality alone cannot prove operation provenance");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(error
+        .message
+        .contains("without a matching durable provenance receipt"));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 0);
+    assert_eq!(
+        env.server
+            .count("POST", "/repos/owner/repo/issues/77/comments"),
+        0
     );
     env.server.assert_clean();
 }
@@ -708,6 +745,15 @@ impl LocalGithub {
 
     fn fail_next_receipt_creation(&self) {
         self.state.lock().unwrap().fail_receipt_creation_once = true;
+    }
+
+    fn replace_issue_body(&self, body: &str) {
+        self.state
+            .lock()
+            .unwrap()
+            .issue
+            .as_mut()
+            .expect("issue exists")["body"] = json!(body);
     }
 }
 

@@ -419,9 +419,13 @@ async fn reconcile_bodyless_issue_update(
         .title
         .as_ref()
         .is_some_and(|title| &confirmed.title == title);
-    if !mutation_already_observed {
-        update_issue(crab, owner, repo, number, request).await?;
+    if mutation_already_observed {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "requested issue title is already present without a matching durable provenance receipt",
+        ));
     }
+    update_issue(crab, owner, repo, number, request).await?;
 
     let after_value = fetch_issue_value(crab, owner, repo, number)
         .await
