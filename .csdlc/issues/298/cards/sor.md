@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Fail closed on every recovery attempt inventory entry and prove post-terminal non-regular rejection
+Validate the complete authorized recovery workspace and every node receipt ledger
 
 ## Artifacts
 
@@ -75,6 +75,9 @@ Fail closed on every recovery attempt inventory entry and prove post-terminal no
 - csdlc-v2/src/store.rs
 - csdlc-v2/src/schema.rs
 - csdlc-v2/src/bin/csdlc-issue.rs
+- csdlc-v2/tests/gate5.rs
+- .csdlc/evidence/298/preserved-projection-recovery.log
+- csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 - .csdlc/evidence/298/preserved-projection-recovery.log
 - csdlc-v2/src/projection_recovery.rs
@@ -299,6 +302,12 @@ Fail closed on every recovery attempt inventory entry and prove post-terminal no
 - Rejected symlink, directory, non-regular, unknown, and malformed post-terminal entries
 - Added regular-file, symlink, and directory post-terminal rejection regressions
 - Validated the 19-test focused recovery lane
+- Allowed exactly candidate, displaced, rejected, and contiguous node-NNN directories alongside the 13 regular authority receipts
+- Required node ledger count to equal the derived candidate file count plus the two authorized directories
+- Validated every node ledger as an exact ten-receipt sequence with authorized payload and stable filesystem identity bindings
+- Rejected extra regular, directory, symlink, and FIFO entries at attempt and node-ledger levels
+- Preserved exact candidate manifest and content derivation plus all prior receipt-chain, mutation, and ordinary-commit gates
+- Validated the 24-test focused recovery lane; retained evidence log remains the prior 19-test capture and is not claimed as refreshed
 
 ## Validation
 
