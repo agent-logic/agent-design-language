@@ -262,6 +262,44 @@ impl PrivateRecoveryDir {
         Ok(())
     }
 
+    fn open_regular_child(&self, name: &std::ffi::CStr) -> Result<File> {
+        let file = open_child_no_follow(&self.file, name, false).map_err(|_| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt cannot be opened descriptor-relative without following links",
+            )
+        })?;
+        validate_receipt_metadata(&file.metadata()?, &self.file.metadata()?)?;
+        Ok(file)
+    }
+
+    fn read_regular_child(&self, name: &std::ffi::CStr) -> Result<Vec<u8>> {
+        let mut file = self.open_regular_child(name)?;
+        let mut bytes = Vec::new();
+        file.read_to_end(&mut bytes)?;
+        Ok(bytes)
+    }
+
+    fn create_regular_child(&self, name: &std::ffi::CStr, bytes: &[u8]) -> Result<()> {
+        use std::os::fd::{AsRawFd, FromRawFd};
+        let fd = unsafe {
+            libc::openat(
+                self.file.as_raw_fd(),
+                name.as_ptr(),
+                libc::O_WRONLY | libc::O_CREAT | libc::O_EXCL | libc::O_NOFOLLOW | libc::O_CLOEXEC,
+                0o600,
+            )
+        };
+        if fd < 0 {
+            return Err(std::io::Error::last_os_error().into());
+        }
+        let mut file = unsafe { File::from_raw_fd(fd) };
+        file.write_all(bytes)?;
+        file.sync_all()?;
+        self.file.sync_all()?;
+        Ok(())
+    }
+
     fn validate_binding(&self, path: &Path, label: &str) -> Result<()> {
         let current = open_private_recovery_dir(path, label, None)?;
         let retained = fd_identity(&self.file)?;
@@ -1065,6 +1103,157 @@ fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Resu
 
 fn receipt_path(dir: &Path, seq: u32, state: &str) -> PathBuf {
     dir.join(format!("{seq:03}-{state}.json"))
+}
+
+fn receipt_name(seq: u32, state: &str) -> Result<std::ffi::CString> {
+    std::ffi::CString::new(format!("{seq:03}-{state}.json"))
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "receipt name contains NUL"))
+}
+
+fn receipt_exists_at(dir: &PrivateRecoveryDir, seq: u32, state: &str) -> Result<bool> {
+    let name = receipt_name(seq, state)?;
+    match dir.open_regular_child(&name) {
+        Ok(_) => Ok(true),
+        Err(error)
+            if error
+                .message
+                .contains("cannot be opened descriptor-relative") =>
+        {
+            use std::os::fd::AsRawFd;
+            let mut stat = std::mem::MaybeUninit::<libc::stat>::uninit();
+            let result = unsafe {
+                libc::fstatat(
+                    dir.file.as_raw_fd(),
+                    name.as_ptr(),
+                    stat.as_mut_ptr(),
+                    libc::AT_SYMLINK_NOFOLLOW,
+                )
+            };
+            if result != 0 && std::io::Error::last_os_error().kind() == std::io::ErrorKind::NotFound
+            {
+                Ok(false)
+            } else {
+                Err(error)
+            }
+        }
+        Err(error) => Err(error),
+    }
+}
+
+fn receipt_payload_at<T: serde::de::DeserializeOwned>(
+    dir: &PrivateRecoveryDir,
+    seq: u32,
+    state: &str,
+) -> Result<T> {
+    let name = receipt_name(seq, state)?;
+    let bytes = dir.read_regular_child(&name)?;
+    let envelope: serde_json::Value = serde_json::from_slice(&bytes)?;
+    let expected_previous = if seq == 1 {
+        None
+    } else {
+        let prefix = format!("{:03}-", seq - 1);
+        let names: Vec<_> = dir
+            .names()?
+            .into_iter()
+            .filter(|name| name.to_bytes().starts_with(prefix.as_bytes()))
+            .collect();
+        if names.len() != 1 {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt chain predecessor is ambiguous",
+            ));
+        }
+        Some(
+            blake3::hash(&dir.read_regular_child(&names[0])?)
+                .to_hex()
+                .to_string(),
+        )
+    };
+    if envelope
+        .get("previous_receipt_digest")
+        .and_then(|value| value.as_str())
+        != expected_previous.as_deref()
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt chain digest is invalid",
+        ));
+    }
+    receipt_payload_bytes(&name.to_string_lossy(), &bytes)
+}
+
+fn receipt_payload_bytes<T: serde::de::DeserializeOwned>(name: &str, bytes: &[u8]) -> Result<T> {
+    let value: serde_json::Value = serde_json::from_slice(bytes)?;
+    let object = value.as_object().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt envelope is not an object",
+        )
+    })?;
+    if object.keys().any(|key| {
+        !matches!(
+            key.as_str(),
+            "schema" | "sequence" | "state" | "previous_receipt_digest" | "payload"
+        )
+    }) || !object.contains_key("previous_receipt_digest")
+        || !object.contains_key("payload")
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt envelope is invalid",
+        ));
+    }
+    let expected_name = format!(
+        "{:03}-{}.json",
+        value["sequence"].as_u64().unwrap_or(0),
+        value["state"].as_str().unwrap_or("")
+    );
+    if name != expected_name
+        || value.get("schema").and_then(|value| value.as_str())
+            != Some("csdlc.projection_recovery_receipt.v1")
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt envelope identity is invalid",
+        ));
+    }
+    serde_json::from_value(value.get("payload").cloned().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt payload is missing",
+        )
+    })?)
+    .map_err(Into::into)
+}
+
+fn receipt_at(
+    dir: &PrivateRecoveryDir,
+    seq: u32,
+    state: &str,
+    value: &serde_json::Value,
+) -> Result<String> {
+    let previous_digest = if seq == 1 {
+        None
+    } else {
+        let bytes =
+            dir.read_regular_child(&receipt_name(seq - 1, RECOVERY_STATES[(seq - 2) as usize])?)?;
+        Some(blake3::hash(&bytes).to_hex().to_string())
+    };
+    let envelope = serde_json::json!({"schema":"csdlc.projection_recovery_receipt.v1","sequence":seq,"state":state,"previous_receipt_digest":previous_digest,"payload":value});
+    let mut bytes = serde_json::to_vec_pretty(&envelope)?;
+    bytes.push(b'\n');
+    let name = receipt_name(seq, state)?;
+    if receipt_exists_at(dir, seq, state)? {
+        if dir.read_regular_child(&name)? == bytes {
+            return Ok(blake3::hash(&bytes).to_hex().to_string());
+        }
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "immutable recovery receipt collision",
+        ));
+    }
+    dir.create_regular_child(&name, &bytes)?;
+    Ok(blake3::hash(&bytes).to_hex().to_string())
 }
 
 fn receipt_exists(dir: &Path, seq: u32, state: &str) -> Result<bool> {
@@ -2602,12 +2791,11 @@ pub fn recover_preserved_projection(
     root_authority.validate_binding(&recovery_path, "recovery root")?;
     attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
     let attempt = attempt_authority.anchored_path().to_path_buf();
-    let prepared_path = receipt_path(&attempt, 1, "prepared");
-    if receipt_exists(&attempt, 13, "recovered")? {
+    if receipt_exists_at(&attempt_authority, 13, "recovered")? {
         return validate_completed_recovery_attempt(store, request.issue, &attempt);
     }
-    let classification = if receipt_exists(&attempt, 1, "prepared")? {
-        let prepared: serde_json::Value = receipt_payload(&prepared_path)?;
+    let classification = if receipt_exists_at(&attempt_authority, 1, "prepared")? {
+        let prepared: serde_json::Value = receipt_payload_at(&attempt_authority, 1, "prepared")?;
         let classification =
             serde_json::from_value(prepared.get("classification").cloned().ok_or_else(|| {
                 V2Error::new(ErrorCode::CorruptRecord, "PREPARED classification missing")
@@ -2670,8 +2858,8 @@ pub fn recover_preserved_projection(
             ));
         }
         let request_digest = request_authority_digest(&request)?;
-        receipt(
-            &attempt,
+        receipt_at(
+            &attempt_authority,
             1,
             "prepared",
             &serde_json::json!({"request_digest":request_digest,"request":request,"classification":classification,"lineage":request.failed_operation_lineage}),
@@ -2710,14 +2898,18 @@ pub fn recover_preserved_projection(
         classification.preserved.clone()
     };
 
-    receipt(
-        &attempt,
+    root_authority.validate_binding(&recovery_path, "recovery root")?;
+    attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
+    receipt_at(
+        &attempt_authority,
         2,
         "archive-intent",
         &serde_json::json!({"source":rejected_observation,"destination":"rejected"}),
     )?;
     failpoint(&request, "archive_intent")?;
-    if !receipt_exists(&attempt, 3, "rejected-archived")? {
+    if !receipt_exists_at(&attempt_authority, 3, "rejected-archived")? {
+        root_authority.validate_binding(&recovery_path, "recovery root")?;
+        attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
         if rejected_path.symlink_metadata().is_ok() && archive.symlink_metadata().is_err() {
             if !exact_observation(rejected_path, &rejected_observation, request.issue)? {
                 return Err(V2Error::new(
@@ -2750,8 +2942,8 @@ pub fn recover_preserved_projection(
         }
         sync(&issue_parent(store))?;
         sync(&attempt)?;
-        receipt(
-            &attempt,
+        receipt_at(
+            &attempt_authority,
             3,
             "rejected-archived",
             &serde_json::to_value(observe(&archive, "archive", request.issue))?,
@@ -2771,17 +2963,19 @@ pub fn recover_preserved_projection(
         "prior_digest":prior_observation.record_digest,
         "canonical_generation":prior_observation.generation.map(|v| v + 1)
     });
-    receipt(
-        &attempt,
+    root_authority.validate_binding(&recovery_path, "recovery root")?;
+    attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
+    receipt_at(
+        &attempt_authority,
         4,
         "candidate-plan",
         &serde_json::json!({"source":prior_observation,"destination":"candidate","audit":audit_payload}),
     )?;
     failpoint(&request, "candidate_plan")?;
     let (candidate_record, candidate_observation) =
-        if receipt_exists(&attempt, 5, "candidate-created")? {
+        if receipt_exists_at(&attempt_authority, 5, "candidate-created")? {
             let payload: serde_json::Value =
-                receipt_payload(&receipt_path(&attempt, 5, "candidate-created"))?;
+                receipt_payload_at(&attempt_authority, 5, "candidate-created")?;
             (
                 serde_json::from_value(payload.get("record").cloned().ok_or_else(|| {
                     V2Error::new(ErrorCode::CorruptRecord, "candidate record receipt missing")
@@ -2794,6 +2988,8 @@ pub fn recover_preserved_projection(
                 })?)?,
             )
         } else {
+            root_authority.validate_binding(&recovery_path, "recovery root")?;
+            attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
             if !exact_observation(prior_path, &prior_observation, request.issue)? {
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
@@ -2814,8 +3010,8 @@ pub fn recover_preserved_projection(
             sync(&candidate)?;
             sync(&attempt)?;
             let observation = observe(&candidate, "candidate", request.issue);
-            receipt(
-                &attempt,
+            receipt_at(
+                &attempt_authority,
                 5,
                 "candidate-created",
                 &serde_json::json!({"record":record,"candidate":observation}),
@@ -2879,17 +3075,17 @@ pub fn recover_preserved_projection(
         }
     }
 
-    receipt(
-        &attempt,
+    receipt_at(
+        &attempt_authority,
         6,
         "candidate-verified",
         &serde_json::json!({"candidate":candidate_observation,"record_digest":candidate_record.digest,"generation":candidate_record.generation}),
     )?;
     failpoint(&request, "candidate_verified")?;
 
-    if !receipt_exists(&attempt, 8, "canonical-installed")? {
-        receipt(
-            &attempt,
+    if !receipt_exists_at(&attempt_authority, 8, "canonical-installed")? {
+        receipt_at(
+            &attempt_authority,
             7,
             "install-intent",
             &serde_json::json!({"exchange":install_exchange,"candidate":candidate_observation,"canonical":classification.canonical}),
@@ -2986,8 +3182,8 @@ pub fn recover_preserved_projection(
         }
         sync(&issue_parent(store))?;
         sync(&attempt)?;
-        receipt(
-            &attempt,
+        receipt_at(
+            &attempt_authority,
             8,
             "canonical-installed",
             &serde_json::json!({"canonical":observe(&canonical_path,"canonical",request.issue)}),
@@ -2995,9 +3191,9 @@ pub fn recover_preserved_projection(
         failpoint(&request, "canonical_installed")?;
     }
 
-    if install_exchange && !receipt_exists(&attempt, 10, "prior-displaced")? {
-        receipt(
-            &attempt,
+    if install_exchange && !receipt_exists_at(&attempt_authority, 10, "prior-displaced")? {
+        receipt_at(
+            &attempt_authority,
             9,
             "displace-intent",
             &serde_json::json!({"source":prior_observation,"destination":"displaced"}),
@@ -3036,22 +3232,22 @@ pub fn recover_preserved_projection(
             ));
         }
         sync(&attempt)?;
-        receipt(
-            &attempt,
+        receipt_at(
+            &attempt_authority,
             10,
             "prior-displaced",
             &serde_json::to_value(observe(&displaced, "displaced", request.issue))?,
         )?;
         failpoint(&request, "prior_displaced")?;
     } else if !install_exchange {
-        receipt(
-            &attempt,
+        receipt_at(
+            &attempt_authority,
             9,
             "displace-intent",
             &serde_json::json!({"source":prior_observation,"destination":"displaced","completed_before_install":true}),
         )?;
-        receipt(
-            &attempt,
+        receipt_at(
+            &attempt_authority,
             10,
             "prior-displaced",
             &serde_json::to_value(observe(&displaced, "displaced", request.issue))?,
@@ -3068,15 +3264,15 @@ pub fn recover_preserved_projection(
             "installed canonical does not match verified candidate",
         ));
     }
-    receipt(
-        &attempt,
+    receipt_at(
+        &attempt_authority,
         11,
         "canonical-verified",
         &serde_json::json!({"canonical":canonical,"archive":archived,"displaced":observe(&displaced,"displaced",request.issue)}),
     )?;
     failpoint(&request, "canonical_verified")?;
-    receipt(
-        &attempt,
+    receipt_at(
+        &attempt_authority,
         12,
         "recovery-complete-intent",
         &serde_json::json!({"canonical_digest":candidate_record.digest,"generation":candidate_record.generation}),
@@ -3095,7 +3291,12 @@ pub fn recover_preserved_projection(
     out.receipt_digest = blake3::hash(&serde_json::to_vec(&out)?)
         .to_hex()
         .to_string();
-    receipt(&attempt, 13, "recovered", &serde_json::to_value(&out)?)?;
+    receipt_at(
+        &attempt_authority,
+        13,
+        "recovered",
+        &serde_json::to_value(&out)?,
+    )?;
     Ok(out)
 }
 
