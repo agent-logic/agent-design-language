@@ -28,12 +28,16 @@ proved diff fails closed through the ordinary changed-source coverage gate.
 An accepted receipt binds the exact base and head identities, unified-diff and
 mapping digests, changed hunk content, proof-manifest digest, and the digests of
 compile and behavioral results produced by commands the classifier executes
-from the tracked governed mapping. Caller-authored `passed` strings or result
+from the tracked governed mapping inside a clean archive of the exact Git
+revision, with only the classified worktree diff overlaid for authoring mode.
+Unrelated mutable or untracked source and test files are never proof inputs.
+Caller-authored `passed` strings or result
 artifacts are not inputs. The receipt retains each exact command, exit status,
 result digest, and evidence-log digest; replaying or substituting any revision,
 diff, mapping, result, evidence log, or hunk content is rejected. Argument
 pass-through classification additionally requires the added token to occur in
-the mapped governed callee invocation, not merely anywhere in the hunk.
+the mapped governed callee invocation under a constrained Rust callsite
+grammar; comments, strings, macros, and callee-shaped decoys fail closed.
 
 The nightly workflow currently sets `EXCLUDE_FROM_FILE_FLOOR_REGEX` to `^$`.
 That means the report does not silently exempt active source files from the

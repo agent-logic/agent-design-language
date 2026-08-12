@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "1f26557ae0ac0fd55a7b148b8e7a06ea4f48c04f4ef37a58b796a83cce7edefd",
+  "generation": 12,
+  "digest": "d12d47a4b0f1a3bc96d55e94eaf16a7236cbb5964449e9a0ffb53ae03960a6a5",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "03471d5076d36da0846d99b709de245fa7285ac0fda532318c505d29de3eaa4d",
+      "values_digest": "39c6ed0a039c3504114696148d169546206e26a01add60cb028ff47cf9dedcfe",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "395fbf8cbb4144bcd56d4ca19912742f12fa52e3011d136c4ea6c92eaa44f915",
+      "values_digest": "777f05dfdeb3d44ae08911092048aa4d451ef02e60f5adb7f314a7f48d1c3984",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "84aa2cfedf684e1316c4723a3ce92a5d183d6738e02a398188291ab7a234af71",
+      "values_digest": "0fa42c97adc949ee639fcf0467336c4c6b9848ac5fced1d754fb9ef6a89abf12",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "db1120c535720c0f2d1e4710db9bd68794682ec963a901b29c317a423ff84f8d",
+      "values_digest": "04cd94058d2b6c85c9713fdf54f673ecd70fefba95d169348213072a06c6fcc3",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "1cff4733079ca4ba8fa781d072fe57bc44412c7a6d04905f477427db2c78a525",
+      "values_digest": "39b59c71eb9881c4000b32b246419926436ba8399b4248829e7596cf5f4d0e27",
       "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
       "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
     },
     "sor": {
-      "values_digest": "f969fd9169d722002f7d272a473816796b5923e75f8c1bea24b384ed47ce34ef",
+      "values_digest": "58868984680946c48f1ae89ec169f1952f6275e4cdcb35b5405c669ddabc8371",
       "rendered_digest": "c10411dd190ebf9bbbbc79b59bf71687ef33429a33b8da34496869c99e0c9b06",
       "ast_digest": "ee603258afbe1eec9a6c1c4591ec304dd2e6ee3fcb0222d5cbc9a9b273736de9"
     }
@@ -182,6 +182,20 @@
       "actor": "codex:issue-295",
       "reason": "Record the bounded second-review remediation and fresh passing validation before a new exact-head review assignment.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the second exact-review findings by executing governed proof commands inside the classifier and structurally binding the added token argument to the mapped callee invocation.\",\"changes\":[\"Execute tracked compile and per-owner behavioral commands directly without accepting caller-authored pass results.\",\"Record runner producer, argv, exit code, result digest, evidence digest, base, head, diff, mapping, and changed hunk identities.\",\"Require the sole added token argument to immediately follow the mapped governed callee invocation; reject unrelated calls even within the same hunk.\",\"Preserve the 80 percent whole-file gate, nightly/full authority policy, and read-only issue 258 fixture boundary.\"],\"artifacts\":[\"adl/config/mechanical_coverage_fallout.v1.json\",\"adl/tools/mechanical_coverage_fallout.py\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\"docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md\",\".csdlc/evidence/295\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Prove trusted command execution, mapped-callee binding, exact grammar, negative cases, and below-threshold integration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/mechanical-compile-fallout-classifier.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the existing 80 percent gate and authoritative coverage routing remain intact.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/coverage-impact-regression.log\"},{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"purpose\":\"Prove PVF selector inventory and PR-fast non-authoritative routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/validation-selector-pvf.log\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:issue-295",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:issue-295",
+      "reason": "Exact reviewer fresh-session:8b8add1a-eef4-4952-8c1d-a630cff57e2d returned FAIL at 30c759e4d / git-blake3 6068344ada738780a4a6c500b8735412fb6796e41344fbfa59e6c7ba1643469d with two P1 findings: the textual prior-line callee regex accepts comments or strings ending .authorize( and therefore does not structurally bind the added token to the governed invocation; governed compile and behavior commands execute in mutable current worktree state while receipts claim caller-supplied base/head, and selected-path-only postchecks do not bind unrelated source/test proof inputs or prevent TOCTOU substitution. Focused bash syntax and classifier tests passed but missed these cases. Recover before any remediation and require a different fresh reviewer.",
+      "operation": "recover_review"
     }
   ]
 }

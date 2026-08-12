@@ -92,7 +92,10 @@ def pass_through_only(hunk: dict[str, object], token: str, callee: str) -> bool:
     # The governed invocation must be the immediately enclosing syntactic
     # surface, not merely another call mentioned somewhere in the same hunk.
     previous = next((line.strip() for prefix, line in reversed(body[:added_index]) if prefix == " " and line.strip()), "")
-    return re.search(rf"(?:\.|\b){re.escape(callee)}\($", previous) is not None
+    # Accept only a plain Rust method/function-call prefix. Comments, strings,
+    # macros, operators, and arbitrary expressions fail closed.
+    callsite = rf"(?:{re.escape(callee)}|\.{re.escape(callee)}|[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*\.{re.escape(callee)})\("
+    return re.fullmatch(callsite, previous) is not None
 
 def run_verified_result(
     repo_root: Path,

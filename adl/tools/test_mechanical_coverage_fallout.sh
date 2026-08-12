@@ -42,6 +42,12 @@ write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,' '        
 reject 'token passed to unrelated call'
 write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,' '            authorize_value = ('
 reject 'callee name outside invocation'
+write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,' '            // .authorize('
+reject 'callee-shaped comment'
+write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,' '            ".authorize('
+reject 'callee-shaped string'
+write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,' '            authorize!('
+reject 'callee-shaped macro'
 printf '%s\n' 'diff --git a/adl-runtime/src/distributed/transport/core.rs b/adl-runtime/src/distributed/transport/core.rs' '--- a/adl-runtime/src/distributed/transport/core.rs' '+++ b/adl-runtime/src/distributed/transport/core.rs' '@@ -20,3 +20,4 @@' '             .authorize(' '             .unrelated_call(' '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,' '             holder,' >"$TEMP_ROOT/change.diff"
 reject 'governed call elsewhere in hunk'
 
@@ -73,11 +79,17 @@ mkdir -p "$GATE_ROOT/adl/tools" "$GATE_ROOT/adl/config" "$GATE_ROOT/adl-runtime/
 cp "$ROOT/adl/tools/check_coverage_impact.sh" "$CLASSIFIER" "$GATE_ROOT/adl/tools/"
 write_mapping
 cp "$MAPPING" "$GATE_ROOT/adl/config/mechanical_coverage_fallout.v1.json"
+printf '%s\n' '#!/usr/bin/env bash' 'exit 0' >"$GATE_ROOT/proof-command.sh"
+chmod +x "$GATE_ROOT/proof-command.sh"
+jq '.mappings[0].compile_command=["bash","proof-command.sh"] | .mappings[0].behavior_commands.EstablishedRuntimeAuthority=["bash","proof-command.sh"] | .mappings[0].behavior_commands.TransportAuthorization=["bash","proof-command.sh"]' "$GATE_ROOT/adl/config/mechanical_coverage_fallout.v1.json" >"$GATE_ROOT/adl/config/mechanical.next" && mv "$GATE_ROOT/adl/config/mechanical.next" "$GATE_ROOT/adl/config/mechanical_coverage_fallout.v1.json"
 git -C "$GATE_ROOT" init -q
 git -C "$GATE_ROOT" config user.name fixture
 git -C "$GATE_ROOT" config user.email fixture@example.invalid
 { printf '%s\n' 'use super::certificates::{AuthorityCertificate, CertificatePurpose};'; for _ in $(seq 1 20); do echo '// context'; done; printf '%s\n' 'authorize(' '    holder,' ');'; } >"$GATE_ROOT/adl-runtime/src/distributed/transport/core.rs"
 git -C "$GATE_ROOT" add . && git -C "$GATE_ROOT" commit -qm baseline
+# Mutable unrelated proof input must not influence execution; the gate archives
+# the exact base and overlays only the classified source diff.
+printf '%s\n' '#!/usr/bin/env bash' 'exit 1' >"$GATE_ROOT/proof-command.sh"
 { printf '%s\n' 'use super::certificates::{AuthorityCertificate, CertificatePurpose, AUTHORITY_BOUND_CERTIFICATE_ACCESS};'; for _ in $(seq 1 20); do echo '// context'; done; printf '%s\n' 'authorize(' '    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,' '    holder,' ');'; } >"$GATE_ROOT/adl-runtime/src/distributed/transport/core.rs"
 printf '%s\n' '{"data":[{"files":[{"filename":"adl-runtime/src/distributed/transport/core.rs","summary":{"lines":{"covered":1,"count":10}}}]}]}' >"$TEMP_ROOT/summary.json"
 (cd "$GATE_ROOT" && bash adl/tools/check_coverage_impact.sh --base HEAD --include-working-tree --summary "$TEMP_ROOT/summary.json" --mechanical-receipt-dir "$TEMP_ROOT/receipts") >/dev/null

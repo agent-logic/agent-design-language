@@ -629,40 +629,54 @@ mechanical_fallout_receipt_for_path() {
   local classifier="$ROOT/adl/tools/mechanical_coverage_fallout.py"
   local mapping="$ROOT/adl/config/mechanical_coverage_fallout.v1.json"
   [ -f "$classifier" ] && [ -f "$mapping" ] || return 1
-  local diff_file post_diff_file receipt_file base_revision head_revision diff_digest
+  local diff_file post_diff_file receipt_file base_revision head_revision diff_digest proof_root proof_revision
   diff_file="$(mktemp)"
   post_diff_file="$(mktemp)"
+  proof_root="$(mktemp -d)"
   receipt_file="$MECHANICAL_RECEIPT_DIR/mechanical-$(printf '%s' "$path" | shasum -a 256 | awk '{print $1}').json"
   if [ "$INCLUDE_WORKTREE" = true ]; then
     git -C "$ROOT" diff "$BASE" -- "$path" >"$diff_file"
     base_revision="$(git -C "$ROOT" rev-parse "$BASE")" || return 1
     diff_digest="$(shasum -a 256 "$diff_file" | awk '{print $1}')"
     head_revision="worktree:${diff_digest}"
+    proof_revision="$base_revision"
   else
     git -C "$ROOT" diff "$BASE...$HEAD" -- "$path" >"$diff_file" 2>/dev/null ||
       git -C "$ROOT" diff "$BASE" "$HEAD" -- "$path" >"$diff_file"
     base_revision="$(git -C "$ROOT" merge-base "$BASE" "$HEAD")" || return 1
     head_revision="$(git -C "$ROOT" rev-parse "$HEAD")" || return 1
+    proof_revision="$head_revision"
+  fi
+  # Proof commands never consume the mutable caller worktree. Build a clean,
+  # untracked-file-free snapshot from the exact Git object and overlay only the
+  # classified worktree diff when authoring against an uncommitted candidate.
+  if ! git -C "$ROOT" archive "$proof_revision" | tar -x -C "$proof_root"; then
+    rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file"; return 1
+  fi
+  if [ "$INCLUDE_WORKTREE" = true ] && ! patch -s -d "$proof_root" -p1 <"$diff_file"; then
+    rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file"; return 1
   fi
   if python3 "$classifier" --diff "$diff_file" --mapping "$mapping" \
-      --receipt "$receipt_file" --repo-root "$ROOT" \
+      --receipt "$receipt_file" --repo-root "$proof_root" \
       --evidence-dir "$MECHANICAL_RECEIPT_DIR/results" \
       --base-revision "$base_revision" --head-revision "$head_revision" >/dev/null; then
     if [ "$INCLUDE_WORKTREE" = true ]; then
       git -C "$ROOT" diff "$BASE" -- "$path" >"$post_diff_file"
-      [ "$(git -C "$ROOT" rev-parse "$BASE")" = "$base_revision" ] || { rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+      [ "$(git -C "$ROOT" rev-parse "$BASE")" = "$base_revision" ] || { rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
     else
       git -C "$ROOT" diff "$BASE...$HEAD" -- "$path" >"$post_diff_file" 2>/dev/null ||
         git -C "$ROOT" diff "$BASE" "$HEAD" -- "$path" >"$post_diff_file"
       [ "$(git -C "$ROOT" merge-base "$BASE" "$HEAD")" = "$base_revision" ] &&
-        [ "$(git -C "$ROOT" rev-parse "$HEAD")" = "$head_revision" ] || { rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+        [ "$(git -C "$ROOT" rev-parse "$HEAD")" = "$head_revision" ] || { rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
     fi
-    cmp -s "$diff_file" "$post_diff_file" || { rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    cmp -s "$diff_file" "$post_diff_file" || { rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    rm -rf "$proof_root"
     rm -f "$diff_file"
     rm -f "$post_diff_file"
     echo "coverage-impact: accepted exact mechanical compile fallout for ${path}; receipt ${receipt_file}"
     return 0
   fi
+  rm -rf "$proof_root"
   rm -f "$diff_file"
   rm -f "$post_diff_file"
   return 1
