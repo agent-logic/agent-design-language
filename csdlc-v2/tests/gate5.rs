@@ -1114,6 +1114,25 @@ fn preserved_projection_recovery_rejects_rehashed_node_created_identity_forgery(
 }
 
 #[test]
+fn preserved_projection_recovery_rejects_rehashed_node_terminal_identity_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) =
+        completed_recovery_attempt(&store, &record, "node-terminal-identity-forgery");
+    let ordinal = 2;
+    let path = node_receipt_path(&attempt, ordinal, 10, "node-created");
+    let envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(path).expect("node receipt"))
+            .expect("node receipt json");
+    let mut payload = envelope["payload"].clone();
+    payload["identity"]["inode"] =
+        serde_json::json!(payload["identity"]["inode"].as_u64().expect("inode") + 1);
+    rewrite_node_receipt_payload_and_rechain(&attempt, ordinal, 10, "node-created", payload);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("coherently rehashed terminal identity must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
 fn preserved_projection_recovery_rejects_rehashed_intermediate_payload_forgery() {
     let (_temp, store, record) = implemented_fixture();
     copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));

@@ -1309,6 +1309,7 @@ fn validate_file_node_ledger(
     if created_identity.node_type != "regular"
         || created_identity.links != 1
         || created_identity.mode & 0o777 != 0o600
+        || !stable_file_identity_matches(&created_identity, &entry.identity)
     {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
