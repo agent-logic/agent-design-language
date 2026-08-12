@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "eba116b5732a4b5f497dadabca6e906a6f9eb9dcd393ae704780074f01a773fe",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "38ec62721a031f9e6c301cfa0f2eb5397c97f596ffb343596d93ec8965400432",
+  "generation": 11,
+  "digest": "23217fba9e0c6de729dbdba20c5ad72f18e53cd32e88459addfe3bd7073cf2cb",
   "branch": "codex/5911-fastwork-storage-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5911-fastwork-storage-policy",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ccb6045bf479e8735a705f839a73db91734d2cb0101d22f17cfa1625d4ae865b",
+      "values_digest": "099bbea6b6d58886c47ec05915eb96365146e5fde5420f877344f6bab43de734",
       "rendered_digest": "50d8426892e02179c4580c314aea63c6a17ea525229f22acb5707e52d60a46c7",
       "ast_digest": "3eb3ea1e6498c50e443dcec5bf981178d93caf68b11349f56efe7137e9e3732c"
     },
     "stp": {
-      "values_digest": "2fd0f1451af2804848dc7b8740c12a69347b6a7039ddc6f982fb2b2bbac70d0f",
+      "values_digest": "de8181cdc7e5c72458dc351af8dfee76398a1625c7f218b65e2ee2f6cad476e9",
       "rendered_digest": "b633f7279064086c2b1e2a2cf7925433018552a9dd81ae45d213068ed69ffdbd",
       "ast_digest": "f68cd50f666c2f83f3fcb83b350475373e86b9d411a8340d42fdd0005126b67b"
     },
     "spp": {
-      "values_digest": "0db0976dbddeb061406ae542971ca9bb192016880c7576bc9ed3f7c528088ec5",
-      "rendered_digest": "e3089ea1391a438363d1e822e7fe9974fa51a07b46a7989044628cb37f289614",
-      "ast_digest": "9aa0d83d579b98aad4f9eaa43ff5ad9f4dbbe032044223cf16794c085a85d51b"
+      "values_digest": "21dbbbe86550772a77cf2064169ef0972869c273ffa130878a151b35b967b602",
+      "rendered_digest": "bd5f87848495df1f914bc336c305590139356a6a386755dc3776bd2a41067977",
+      "ast_digest": "3b7027cfb350dfeff2f4dbeb8c0593928665ddc80b721201a5567707d03dd16a"
     },
     "vpp": {
-      "values_digest": "6dc09b18ce9a3d751a219e905c1d20b62df3edb2bfe7bb104da1cb6e50daf14e",
+      "values_digest": "f8b2cebfc056b2b0799df1543fa4a56829b45c758535d27aebbb989e9ab9df14",
       "rendered_digest": "3f0e1b5e4e5196f52e2f044cabdd524f0fde2543e59488c361d42226289dd81a",
       "ast_digest": "5c0bdf606ccdc6cdbcc82118a27eba132592456448db816c6c4b202e3e019007"
     },
     "srp": {
-      "values_digest": "0648336c48c2a3eeeb28efb62ca61e07a93500497009a6aab0f123d93a6343b7",
+      "values_digest": "6968fb5e7161b9fcfa907c761f58e143afafcb20c8e7febcdb5496fb6867f623",
       "rendered_digest": "032762b88fec9d4f4f746f6ef5422009021fd5d92ea6abd997a2b2053778a1a3",
       "ast_digest": "a3097fb475a27bf72f6b8a604ef83f48decfe080535cbe5a35afc90128b0bdf3"
     },
     "sor": {
-      "values_digest": "8fdc6385400181a62fb5ee677b8e5a6c30e46f287e55e6468406932daab94fbd",
+      "values_digest": "3c560c7cd174673da9e9b82344b4b4c3c6180c84315ffe3b550f4da250c5ff2c",
       "rendered_digest": "12d83cec9de21c5d7fafa512730f32c4611194aa41bf8dc9d383e705932237da",
       "ast_digest": "7489a856ecaea93dc92b7c8ca67c9994142fd86a166957e0feffb1ac34eabf7c"
     }
@@ -161,6 +161,13 @@
       "actor": "codex",
       "reason": "implementation and all declared focused validation lanes completed without destructive cleanup",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "align issue-owned paths with the corrected exact validation targets after review",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".adl/worktree-policy.json\",\"AGENTS.md\",\"csdlc-v2/src/lifecycle.rs\",\"adl/tools/archive_codex_sessions_to_fastwork.sh\",\"adl/tools/test_archive_codex_sessions_to_fastwork.sh\"]}"
     }
   ]
 }

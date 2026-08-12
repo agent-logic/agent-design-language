@@ -7,13 +7,13 @@
     "title": "Archive local Codex transcripts to FastWork and recover disk space",
     "slug": "fastwork-transcript-archive-worktree-policy",
     "version": "v0.92",
-    "generation": 10
+    "generation": 11
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Initialize, bind on FastWork, enforce path policy, archive and verify transcripts, validate, review, and publish without deletion.",
       "steps": [
         {
@@ -39,11 +39,11 @@
         }
       ],
       "affected_areas": [
-        "csdlc-v2/src/lifecycle.rs",
-        "csdlc-v2/tests/gate2.rs",
+        ".adl/worktree-policy.json",
         "AGENTS.md",
-        "docs/tooling",
-        "adl/tools/test_archive_run_artifacts.sh"
+        "csdlc-v2/src/lifecycle.rs",
+        "adl/tools/archive_codex_sessions_to_fastwork.sh",
+        "adl/tools/test_archive_codex_sessions_to_fastwork.sh"
       ],
       "invariants": [
         "typed binding fails before Git topology mutation on an invalid worktree parent",

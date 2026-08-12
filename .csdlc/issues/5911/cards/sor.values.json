@@ -7,7 +7,7 @@
     "title": "Archive local Codex transcripts to FastWork and recover disk space",
     "slug": "fastwork-transcript-archive-worktree-policy",
     "version": "v0.92",
-    "generation": 10
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {

@@ -16,7 +16,7 @@ Initialize, bind on FastWork, enforce path policy, archive and verify transcript
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
