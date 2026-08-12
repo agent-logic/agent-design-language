@@ -85,7 +85,7 @@ TOOLS
         cat <<'RUBY'
 ruby 3.3.6
 ruby-smoke-ok
-PASS: finalization allowlist rejects Runtime product drift
+PASS: native receipt role and finalization policies
 RUBY
       fi
       exit 0

@@ -175,10 +175,10 @@ TOOLCHAIN_OUTPUT="$ADL_RUN_ROOT/builder-toolchain.log"
   aws --version
   ruby --version
   ruby -e 'abort unless 6 * 7 == 42; puts \"ruby-smoke-ok\"'
-  ruby adl/tools/validate_v092_runtime_native_receipts.rb --self-test-finalization-policy
+  ruby adl/tools/validate_v092_runtime_native_receipts.rb --self-test-policy
 " >"$TOOLCHAIN_OUTPUT" 2>&1
 for required in rustc cargo cargo-nextest sccache LLD aws-cli ruby-smoke-ok \
-  'PASS: finalization allowlist rejects Runtime product drift'; do
+  'PASS: native receipt role and finalization policies'; do
   grep -F "$required" "$TOOLCHAIN_OUTPUT" >/dev/null || {
     echo "spot_builder_image_validation: builder toolchain verification missing $required" >&2
     exit 1
