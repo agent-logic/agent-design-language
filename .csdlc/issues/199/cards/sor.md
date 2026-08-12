@@ -12,11 +12,11 @@ Status: pre_phase
 
 ## Summary
 
-Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoin, concrete authority parity, durable checkpoint/publication, crash recovery, and bounded exact retries. Retained v11 proof binds twelve behavior cases and nine production assertions to the exact protected source revision.
+Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoin, concrete authority parity, durable checkpoint/publication, crash recovery, and bounded exact retries. Retained v12 proof binds twelve behavior cases and nine production assertions to the exact protected source revision.
 
 ## Artifacts
 
-- .csdlc/evidence/199/v11/execution-proof.json
+- .csdlc/evidence/199/v12/execution-proof.json
 - .csdlc/prepared/issues/199/produce-proof-receipt.rb
 - .csdlc/prepared/issues/199/validate-proof-receipt.rb
 
@@ -29,6 +29,7 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
 - Proved real removal, separate enrollment, fresh-node rejoin promotion, parity publication, and immediate crash recovery
 - Exercised fail-closed restart and exact retry across enrollment, exclusion, learner, joint/final history, local reconcile, parity, checkpoint, durable publication, and visible-view boundaries
 - Dropped and reopened the lock-backed MembershipCoordinator after each injected real-node boundary, and resumed partially journaled joint/final history idempotently
+- Persisted candidate stable Raft ID, old/target registry digests, and the collision-checked enrollment target registry atomically with publication
 
 ## Validation
 
@@ -38,9 +39,9 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
       "ruby",
       ".csdlc/prepared/issues/199/produce-proof-receipt.rb"
     ],
-    "purpose": "Produce exact v11 protected-source evidence with twelve behavior cases and nine production assertions",
+    "purpose": "Produce exact v12 protected-source evidence with twelve behavior cases and nine production assertions",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v11/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/199/v12/execution-proof.json"
   },
   {
     "command": [
@@ -49,7 +50,7 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
     ],
     "purpose": "Validate exact argv, denominators, protected source, immutable introduction, and current-main ancestry",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v11/execution-proof.json"
+    "evidence_ref": ".csdlc/evidence/199/v12/execution-proof.json"
   },
   {
     "command": [
@@ -65,7 +66,7 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
     ],
     "purpose": "Reject warnings across the production Runtime library",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v11/clippy-lib.stderr.log"
+    "evidence_ref": ".csdlc/evidence/199/v12/clippy-lib.stderr.log"
   },
   {
     "command": [
@@ -82,7 +83,7 @@ Implemented governed promotion, removal, non-voting enrollment, fresh-node rejoi
     ],
     "purpose": "Reject warnings across the exact public transition target",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/199/v11/clippy-integration.stderr.log"
+    "evidence_ref": ".csdlc/evidence/199/v12/clippy-integration.stderr.log"
   }
 ]
 
