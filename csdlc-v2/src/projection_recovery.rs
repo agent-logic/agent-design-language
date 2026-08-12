@@ -619,6 +619,10 @@ fn directory_names(directory: &File) -> Result<Vec<std::ffi::CString>> {
 
 fn walk(path: &Path) -> Result<Vec<ManifestEntry>> {
     let root = open_root_no_follow(path)?;
+    walk_file(root)
+}
+
+fn walk_file(root: File) -> Result<Vec<ManifestEntry>> {
     let root_id = fd_identity(&root)?;
     let mut out = Vec::new();
     let mut seen = BTreeSet::new();
@@ -710,9 +714,66 @@ fn walk(path: &Path) -> Result<Vec<ManifestEntry>> {
     Ok(out)
 }
 
+fn open_relative_no_follow(root: &File, relative: &str, directory: bool) -> Result<File> {
+    let mut current = root.try_clone()?;
+    let components: Vec<_> = Path::new(relative).components().collect();
+    if components.is_empty()
+        || components
+            .iter()
+            .any(|component| !matches!(component, std::path::Component::Normal(_)))
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "descriptor-relative path is not a safe relative path",
+        ));
+    }
+    for (index, component) in components.iter().enumerate() {
+        let std::path::Component::Normal(name) = component else {
+            unreachable!()
+        };
+        let name = std::ffi::CString::new(name.as_bytes())
+            .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "relative path contains NUL"))?;
+        current =
+            open_child_no_follow(&current, &name, index + 1 != components.len() || directory)?;
+    }
+    Ok(current)
+}
+
+fn read_relative_no_follow(root: &File, relative: &str) -> Result<Vec<u8>> {
+    let mut file = open_relative_no_follow(root, relative, false)?;
+    let identity = fd_identity(&file)?;
+    if identity.node_type != "regular" || identity.links != 1 {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "projection artifact is not a unique regular file",
+        ));
+    }
+    let mut bytes = Vec::new();
+    file.read_to_end(&mut bytes)?;
+    Ok(bytes)
+}
+
 fn validate_projection(path: &Path, issue: u64) -> Result<IssueRecord> {
+    let root = open_root_no_follow(path)?;
+    let mut cursor = path;
+    let repo_root = loop {
+        if cursor.file_name().and_then(|v| v.to_str()) == Some(".csdlc") {
+            break cursor.parent().unwrap();
+        }
+        cursor = cursor.parent().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "projection is outside a repository .csdlc namespace",
+            )
+        })?;
+    };
+    validate_projection_file(&root, repo_root, issue)
+}
+
+fn validate_projection_file(root: &File, repo_root: &Path, issue: u64) -> Result<IssueRecord> {
     use strum::IntoEnumIterator;
-    let record: IssueRecord = serde_json::from_slice(&fs::read(path.join("index.json"))?)?;
+    let record: IssueRecord =
+        serde_json::from_slice(&read_relative_no_follow(root, "index.json")?)?;
     if record.issue != issue {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
@@ -722,8 +783,9 @@ fn validate_projection(path: &Path, issue: u64) -> Result<IssueRecord> {
     crate::store::verify_record(&record)?;
     let mut cards: BTreeMap<CardKind, CardValues> = BTreeMap::new();
     for kind in CardKind::iter() {
-        let values: CardValues = serde_json::from_slice(&fs::read(
-            path.join("cards").join(format!("{kind}.values.json")),
+        let values: CardValues = serde_json::from_slice(&read_relative_no_follow(
+            root,
+            &format!("cards/{kind}.values.json"),
         )?)?;
         if values.identity.issue != issue
             || values.identity.generation != record.generation
@@ -741,7 +803,7 @@ fn validate_projection(path: &Path, issue: u64) -> Result<IssueRecord> {
         if projection.values_digest != rendered.values_digest
             || projection.rendered_digest != rendered.rendered_digest
             || projection.ast_digest != rendered.ast_digest
-            || fs::read(path.join("cards").join(format!("{kind}.md")))?
+            || read_relative_no_follow(root, &format!("cards/{kind}.md"))?
                 != rendered.markdown.as_bytes()
         {
             return Err(V2Error::new(
@@ -765,18 +827,6 @@ fn validate_projection(path: &Path, issue: u64) -> Result<IssueRecord> {
         &spp.diagram_ref,
         &spp.diagram_digest,
     )?;
-    let mut cursor = path;
-    let repo_root = loop {
-        if cursor.file_name().and_then(|v| v.to_str()) == Some(".csdlc") {
-            break cursor.parent().unwrap();
-        }
-        cursor = cursor.parent().ok_or_else(|| {
-            V2Error::new(
-                ErrorCode::UnsafeCheckout,
-                "projection is outside a repository .csdlc namespace",
-            )
-        })?;
-    };
     for (relative, digest) in [
         (&spp.design_ref, &spp.design_digest),
         (&spp.diagram_ref, &spp.diagram_digest),
@@ -789,7 +839,7 @@ fn validate_projection(path: &Path, issue: u64) -> Result<IssueRecord> {
             ));
         }
     }
-    let audit = fs::read(path.join("audit.jsonl"))?;
+    let audit = read_relative_no_follow(root, "audit.jsonl")?;
     let mut expected = Vec::new();
     for event in &record.audit {
         serde_json::to_writer(&mut expected, event)?;
@@ -867,6 +917,47 @@ fn observe(path: &Path, name: &str, issue: u64) -> CandidateObservation {
                     .unwrap_or_else(|| "candidate projection invalid".into()),
             )
         },
+    }
+}
+
+fn observe_file(file: &File, repo_root: &Path, name: &str, issue: u64) -> CandidateObservation {
+    let absent = CandidateObservation {
+        name: name.into(),
+        state: "absent".into(),
+        valid_projection: false,
+        generation: None,
+        record_digest: None,
+        manifest_digest: None,
+        entries: vec![],
+        error: None,
+    };
+    let entries_result: Result<Vec<ManifestEntry>> =
+        file.try_clone().map_err(Into::into).and_then(walk_file);
+    let entries = match entries_result {
+        Ok(entries) => entries,
+        Err(error) => {
+            return CandidateObservation {
+                state: "unsafe".into(),
+                error: Some(error.message),
+                ..absent
+            }
+        }
+    };
+    let manifest_digest = blake3::hash(&serde_json::to_vec(&entries).unwrap_or_default())
+        .to_hex()
+        .to_string();
+    let validation = validate_projection_file(file, repo_root, issue);
+    let record = validation.as_ref().ok();
+    let valid = record.is_some();
+    CandidateObservation {
+        name: name.into(),
+        state: if valid { "verified" } else { "invalid" }.into(),
+        valid_projection: valid,
+        generation: record.as_ref().map(|record| record.generation),
+        record_digest: record.as_ref().map(|record| record.digest.clone()),
+        manifest_digest: Some(manifest_digest),
+        entries,
+        error: validation.err().map(|error| error.message),
     }
 }
 
@@ -3009,7 +3100,16 @@ pub fn recover_preserved_projection(
             )?;
             sync(&candidate)?;
             sync(&attempt)?;
-            let observation = observe(&candidate, "candidate", request.issue);
+            let candidate_authority = attempt_authority.open_child(
+                &std::ffi::CString::new("candidate").unwrap(),
+                "recovery candidate",
+            )?;
+            let observation = observe_file(
+                &candidate_authority.file,
+                store.root(),
+                "candidate",
+                request.issue,
+            );
             receipt_at(
                 &attempt_authority,
                 5,
@@ -3062,11 +3162,24 @@ pub fn recover_preserved_projection(
             "candidate-created receipt does not match authorized recovery transform",
         ));
     }
-    if candidate.symlink_metadata().is_ok()
-        && exact_observation(&candidate, &candidate_observation, request.issue)?
-    {
+    if let Ok(candidate_authority) = attempt_authority.open_child(
+        &std::ffi::CString::new("candidate").unwrap(),
+        "recovery candidate",
+    ) {
+        let observed = observe_file(
+            &candidate_authority.file,
+            store.root(),
+            "candidate",
+            request.issue,
+        );
+        if !observations_match_after_move(&observed, &candidate_observation) {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "candidate descriptor observation drifted from its receipt",
+            ));
+        }
         for (relative, expected) in derived_files {
-            if fs::read(candidate.join(&relative))? != expected {
+            if read_relative_no_follow(&candidate_authority.file, &relative)? != expected {
                 return Err(V2Error::new(
                     ErrorCode::CorruptRecord,
                     "candidate artifact does not match authorized recovery transform",
