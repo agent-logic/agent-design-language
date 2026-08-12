@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "31dbdd6010a1b03c9b6076cdf55bf9774b31a9e2aeb1920c4be75a890bb513ec",
+  "generation": 25,
+  "digest": "9f8180f24ade72aae5ad8c1824ff88d0ba03557c47ff502e9c6929c94eb63153",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "68fc3a23f87c7cd535bfd1843d4ee58bddb241632aeb7dd211724f74b9143ded",
+      "values_digest": "ddec60e594d44352e44fc042d0667dde597e13eabeb2a04efc33d55f83c4a356",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "d04107e88c60a7eea09e3d2cf4e0fa143efc86b20470294619905d303b9dd38d",
+      "values_digest": "5d0f64b369ba19d48a0fee30f421a6481fab734e2d8f1bef4ae4721551842b44",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "41333a568cecb9aa403a67d3c3e3ab58480e385ec3eef77bd3ae4dd300104073",
+      "values_digest": "00576f72e7a84dfaee2b7c335ebf49f7bcaaf21be8e7ac254384e947ea99b277",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "022a556e31d28285020a0614a4c254cfeef8f323b648188f62879bc186652f03",
+      "values_digest": "d6e31f4f020b609008fe558982d6759c9ab67264ab2f5424ae39fa8c955b57e5",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "aee2bf5c9bd1be63a4532cc18b3510326e9e69775bae3d0263e5526e9962c6c1",
+      "values_digest": "085eea8ee712099079e5ee5fd7e9ffe1bb5ac4e62a8de56a618aa3830078f391",
       "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
       "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "1d347b1eb7e7abc9472857ea5371087cd701102c5e4b40725461bc027bb239de",
-      "rendered_digest": "c46ad4eab682cefdefb900917996d4243c31e6c7f621fbe2e5c0f6d85e957d28",
-      "ast_digest": "9244a63d808494bfc05c5d0710cc62d297121e85229716b9a3e2c375928e9aeb"
+      "values_digest": "78846c9dec2aab0b53569824ad2ca5da3a4b26be5089430f549a883aec087fb7",
+      "rendered_digest": "99ba57cd2d64b9004cb63131e476ddc119c5ee12a661c7ea0d665ac4ca62a577",
+      "ast_digest": "6ded32f3e3569d47c45cf802600a9e69ec63d581cb5a1053fc5eb15142e1a73c"
     }
   },
   "transitions": [
@@ -301,6 +301,13 @@
       "actor": "codex:issue-298",
       "reason": "record bounded anchored projection classification and resumable recovery implementation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Validate exact semantic payloads for every completed recovery state\",\"changes\":[\"Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299\",\"Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation\",\"Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart\",\"Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery\",\"Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery\",\"Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions\",\"Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed\",\"Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection\",\"Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange\",\"Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt\",\"Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart\",\"Inventoried recovery attempts and classified matching completed recovery as already_recovered\",\"Added distinct terminal receipt tamper and already-recovered classification proof\",\"Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader\",\"Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames\",\"Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof\",\"Persisted and recomputed the full PREPARED typed request authority\",\"Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations\",\"Revalidated exact retained-parent child identity immediately before dirfd rename/exchange\",\"Proved two successive ordinary commits after recovery\",\"Retained the exact checked source child descriptor until rename/exchange completion\",\"Validated typed request authority and durable canonical recovery audit\",\"Added post-exchange candidate name-swap fail-closed proof\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:issue-298",
+      "reason": "record bounded anchored projection classification and resumable recovery implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Add coherently rehashed intermediate recovery forgery proof\",\"changes\":[\"Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299\",\"Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation\",\"Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart\",\"Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery\",\"Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery\",\"Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions\",\"Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed\",\"Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection\",\"Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange\",\"Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt\",\"Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart\",\"Inventoried recovery attempts and classified matching completed recovery as already_recovered\",\"Added distinct terminal receipt tamper and already-recovered classification proof\",\"Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader\",\"Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames\",\"Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof\",\"Persisted and recomputed the full PREPARED typed request authority\",\"Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations\",\"Revalidated exact retained-parent child identity immediately before dirfd rename/exchange\",\"Proved two successive ordinary commits after recovery\",\"Retained the exact checked source child descriptor until rename/exchange completion\",\"Validated typed request authority and durable canonical recovery audit\",\"Added post-exchange candidate name-swap fail-closed proof\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
     }
   ]
 }
