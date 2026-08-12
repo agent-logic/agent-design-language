@@ -320,6 +320,42 @@ impl PrivateRecoveryDir {
     }
 }
 
+fn open_or_create_private_child(
+    parent: &PrivateRecoveryDir,
+    name: &str,
+    label: &str,
+) -> Result<PrivateRecoveryDir> {
+    let name = std::ffi::CString::new(name)
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "directory name contains NUL"))?;
+    match parent.open_child(&name, label) {
+        Ok(child) => Ok(child),
+        Err(error)
+            if error
+                .message
+                .contains("cannot be opened descriptor-relative") =>
+        {
+            use std::os::fd::AsRawFd;
+            let mut stat = std::mem::MaybeUninit::<libc::stat>::uninit();
+            let result = unsafe {
+                libc::fstatat(
+                    parent.file.as_raw_fd(),
+                    name.as_ptr(),
+                    stat.as_mut_ptr(),
+                    libc::AT_SYMLINK_NOFOLLOW,
+                )
+            };
+            if result != 0 && std::io::Error::last_os_error().kind() == std::io::ErrorKind::NotFound
+            {
+                parent.create_private_child(&name)?;
+                parent.open_child(&name, label)
+            } else {
+                Err(error)
+            }
+        }
+        Err(error) => Err(error),
+    }
+}
+
 fn retained_directory_path(file: &File) -> PathBuf {
     use std::os::fd::AsRawFd;
     #[cfg(any(target_os = "macos", target_os = "ios"))]
@@ -1127,6 +1163,7 @@ fn sync(path: &Path) -> Result<()> {
     File::open(path)?.sync_all()?;
     Ok(())
 }
+#[allow(dead_code)] // Removed with the remaining pathname-based completed-ledger validator.
 fn receipt(dir: &Path, seq: u32, state: &str, value: &serde_json::Value) -> Result<String> {
     use std::ffi::CString;
     use std::os::fd::{AsRawFd, FromRawFd};
@@ -1326,8 +1363,19 @@ fn receipt_at(
     let previous_digest = if seq == 1 {
         None
     } else {
-        let bytes =
-            dir.read_regular_child(&receipt_name(seq - 1, RECOVERY_STATES[(seq - 2) as usize])?)?;
+        let prefix = format!("{:03}-", seq - 1);
+        let names: Vec<_> = dir
+            .names()?
+            .into_iter()
+            .filter(|name| name.to_bytes().starts_with(prefix.as_bytes()))
+            .collect();
+        if names.len() != 1 {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt chain predecessor is missing or ambiguous",
+            ));
+        }
+        let bytes = dir.read_regular_child(&names[0])?;
         Some(blake3::hash(&bytes).to_hex().to_string())
     };
     let envelope = serde_json::json!({"schema":"csdlc.projection_recovery_receipt.v1","sequence":seq,"state":state,"previous_receipt_digest":previous_digest,"payload":value});
@@ -1347,6 +1395,7 @@ fn receipt_at(
     Ok(blake3::hash(&bytes).to_hex().to_string())
 }
 
+#[allow(dead_code)] // Removed with the remaining pathname-based completed-ledger validator.
 fn receipt_exists(dir: &Path, seq: u32, state: &str) -> Result<bool> {
     use std::ffi::CString;
     let parent = open_root_no_follow(dir)?;
@@ -2577,21 +2626,22 @@ fn exchange(_source: &AnchoredName, _destination: &AnchoredName) -> Result<()> {
 
 fn ensure_candidate_directory(
     request: &ProjectionRecoverRequest,
-    attempt: &Path,
+    attempt_authority: &PrivateRecoveryDir,
     candidate: &Path,
     relative: &str,
     ordinal: usize,
 ) -> Result<()> {
-    let ledger = attempt.join(format!("node-{ordinal:03}"));
-    if ledger.symlink_metadata().is_err() {
-        private_dir(&ledger)?;
-    }
+    let ledger_authority = open_or_create_private_child(
+        attempt_authority,
+        &format!("node-{ordinal:03}"),
+        "recovery node ledger",
+    )?;
     let path = if relative == "." {
         candidate.to_path_buf()
     } else {
         candidate.join(relative)
     };
-    if receipt_exists(&ledger, 10, "node-created")? {
+    if receipt_exists_at(&ledger_authority, 10, "node-created")? {
         let metadata = fs::symlink_metadata(&path)?;
         if metadata.is_dir() && !metadata.file_type().is_symlink() {
             return Ok(());
@@ -2601,14 +2651,14 @@ fn ensure_candidate_directory(
             "completed candidate directory was replaced",
         ));
     }
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         1,
         "create-intent",
         &serde_json::json!({"path":relative,"type":"directory","mode":"0700"}),
     )?;
     failpoint(request, "node_create_intent")?;
-    if !receipt_exists(&ledger, 2, "created-identity")? {
+    if !receipt_exists_at(&ledger_authority, 2, "created-identity")? {
         if path.symlink_metadata().is_err() {
             fs::create_dir(&path)?;
             fs::set_permissions(&path, fs::Permissions::from_mode(0o700))?;
@@ -2621,43 +2671,43 @@ fn ensure_candidate_directory(
                 "candidate directory collision or mode drift",
             ));
         }
-        receipt(
-            &ledger,
+        receipt_at(
+            &ledger_authority,
             2,
             "created-identity",
             &serde_json::to_value(&node)?,
         )?;
         failpoint(request, "node_created_identity")?;
     }
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         3,
         "write-intent",
         &serde_json::json!({"directory":relative,"metadata_only":true}),
     )?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         4,
         "write-completed",
         &serde_json::json!({"directory":relative}),
     )?;
     failpoint(request, "node_write_completed")?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         5,
         "node-fsync-intent",
         &serde_json::json!({"directory":relative}),
     )?;
     sync(&path)?;
     failpoint(request, "node_fsynced")?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         6,
         "node-fsync-completed",
         &serde_json::json!({"identity":identity(&path,&fs::symlink_metadata(&path)?)?}),
     )?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         7,
         "parent-fsync-intent",
         &serde_json::json!({"directory":relative}),
@@ -2666,20 +2716,20 @@ fn ensure_candidate_directory(
         V2Error::new(ErrorCode::InvalidInput, "candidate directory has no parent")
     })?)?;
     failpoint(request, "node_parent_fsynced")?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         8,
         "parent-fsync-completed",
         &serde_json::json!({"directory":relative}),
     )?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         9,
         "publish-intent",
         &serde_json::json!({"directory":relative,"already_at_final_name":true}),
     )?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         10,
         "node-created",
         &serde_json::json!({"identity":identity(&path,&fs::symlink_metadata(&path)?)?}),
@@ -2689,23 +2739,24 @@ fn ensure_candidate_directory(
 
 fn ensure_candidate_file(
     request: &ProjectionRecoverRequest,
-    attempt: &Path,
+    attempt_authority: &PrivateRecoveryDir,
     candidate: &Path,
     relative: &str,
     contents: &[u8],
     ordinal: usize,
 ) -> Result<()> {
-    let ledger = attempt.join(format!("node-{ordinal:03}"));
-    if ledger.symlink_metadata().is_err() {
-        private_dir(&ledger)?;
-    }
+    let ledger_authority = open_or_create_private_child(
+        attempt_authority,
+        &format!("node-{ordinal:03}"),
+        "recovery node ledger",
+    )?;
     let final_path = candidate.join(relative);
     let parent = final_path
         .parent()
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "candidate file has no parent"))?;
     let temporary = parent.join(format!(".recovery-node-{ordinal:03}.tmp"));
     let digest = blake3::hash(contents).to_hex().to_string();
-    if receipt_exists(&ledger, 10, "node-created")? {
+    if receipt_exists_at(&ledger_authority, 10, "node-created")? {
         let metadata = fs::symlink_metadata(&final_path)?;
         if metadata.is_file()
             && !metadata.file_type().is_symlink()
@@ -2719,7 +2770,7 @@ fn ensure_candidate_file(
             "completed candidate file was replaced",
         ));
     }
-    if receipt_exists(&ledger, 9, "publish-intent")? {
+    if receipt_exists_at(&ledger_authority, 9, "publish-intent")? {
         let temp_meta = temporary.symlink_metadata();
         let final_meta = final_path.symlink_metadata();
         if temp_meta.is_ok() && final_meta.is_err() {
@@ -2733,22 +2784,22 @@ fn ensure_candidate_file(
         }
         sync(parent)?;
         let node = identity(&final_path, &fs::symlink_metadata(&final_path)?)?;
-        receipt(
-            &ledger,
+        receipt_at(
+            &ledger_authority,
             10,
             "node-created",
             &serde_json::json!({"identity":node,"digest":digest,"size":contents.len()}),
         )?;
         return Ok(());
     }
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         1,
         "create-intent",
         &serde_json::json!({"temporary":temporary.file_name(),"final":relative,"type":"regular","mode":"0600","digest":digest,"size":contents.len()}),
     )?;
     failpoint(request, "node_create_intent")?;
-    if !receipt_exists(&ledger, 2, "created-identity")? {
+    if !receipt_exists_at(&ledger_authority, 2, "created-identity")? {
         if temporary.symlink_metadata().is_err() {
             OpenOptions::new()
                 .create_new(true)
@@ -2764,21 +2815,21 @@ fn ensure_candidate_file(
                 "candidate temporary identity is unsafe",
             ));
         }
-        receipt(
-            &ledger,
+        receipt_at(
+            &ledger_authority,
             2,
             "created-identity",
             &serde_json::to_value(&node)?,
         )?;
         failpoint(request, "node_created_identity")?;
     }
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         3,
         "write-intent",
         &serde_json::json!({"digest":digest,"size":contents.len()}),
     )?;
-    if !receipt_exists(&ledger, 4, "write-completed")? {
+    if !receipt_exists_at(&ledger_authority, 4, "write-completed")? {
         let existing = fs::read(&temporary)?;
         if existing.len() > contents.len() || existing != contents[..existing.len()] {
             return Err(V2Error::new(
@@ -2796,49 +2847,49 @@ fn ensure_candidate_file(
                 "candidate temporary content completion failed",
             ));
         }
-        receipt(
-            &ledger,
+        receipt_at(
+            &ledger_authority,
             4,
             "write-completed",
             &serde_json::json!({"digest":digest,"size":contents.len()}),
         )?;
         failpoint(request, "node_write_completed")?;
     }
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         5,
         "node-fsync-intent",
         &serde_json::json!({"temporary":temporary.file_name()}),
     )?;
     File::open(&temporary)?.sync_all()?;
     failpoint(request, "node_fsynced")?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         6,
         "node-fsync-completed",
         &serde_json::json!({"identity":identity(&temporary,&fs::symlink_metadata(&temporary)?)?,"digest":digest}),
     )?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         7,
         "parent-fsync-intent",
         &serde_json::json!({"parent":parent}),
     )?;
     sync(parent)?;
     failpoint(request, "node_parent_fsynced")?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         8,
         "parent-fsync-completed",
         &serde_json::json!({"parent":parent}),
     )?;
-    receipt(
-        &ledger,
+    receipt_at(
+        &ledger_authority,
         9,
         "publish-intent",
         &serde_json::json!({"temporary":temporary.file_name(),"final":relative}),
     )?;
-    if !receipt_exists(&ledger, 10, "node-created")? {
+    if !receipt_exists_at(&ledger_authority, 10, "node-created")? {
         let temp_meta = temporary.symlink_metadata();
         let final_meta = final_path.symlink_metadata();
         if temp_meta.is_ok() && final_meta.is_err() {
@@ -2859,8 +2910,8 @@ fn ensure_candidate_file(
                 "published candidate node drifted",
             ));
         }
-        receipt(
-            &ledger,
+        receipt_at(
+            &ledger_authority,
             10,
             "node-created",
             &serde_json::json!({"identity":node,"digest":digest,"size":contents.len()}),
@@ -2872,7 +2923,7 @@ fn ensure_candidate_file(
 fn build_candidate_tree(
     store: &Store,
     request: &ProjectionRecoverRequest,
-    attempt: &Path,
+    attempt_authority: &PrivateRecoveryDir,
     source: &Path,
     candidate: &Path,
     expected_digest: &str,
@@ -2886,10 +2937,17 @@ fn build_candidate_tree(
         request.reason.clone(),
         audit_payload.to_string(),
     )?;
-    ensure_candidate_directory(request, attempt, candidate, ".", 0)?;
-    ensure_candidate_directory(request, attempt, candidate, "cards", 1)?;
+    ensure_candidate_directory(request, attempt_authority, candidate, ".", 0)?;
+    ensure_candidate_directory(request, attempt_authority, candidate, "cards", 1)?;
     for (ordinal, (relative, contents)) in files.iter().enumerate() {
-        ensure_candidate_file(request, attempt, candidate, relative, contents, ordinal + 2)?;
+        ensure_candidate_file(
+            request,
+            attempt_authority,
+            candidate,
+            relative,
+            contents,
+            ordinal + 2,
+        )?;
     }
     Ok(record)
 }
@@ -3154,7 +3212,7 @@ pub fn recover_preserved_projection(
             let record = build_candidate_tree(
                 store,
                 &request,
-                &attempt,
+                &attempt_authority,
                 prior_path,
                 &candidate,
                 prior_observation.record_digest.as_deref().ok_or_else(|| {
