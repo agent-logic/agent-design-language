@@ -1,8 +1,8 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::cards::{FindingDisposition, ReviewResult};
-use crate::model::{LifecyclePhase, ReviewAssignment, ReviewEvidence};
+use crate::cards::{digest, FindingDisposition, ReviewResult};
+use crate::model::{DesignReview, LifecyclePhase, ReviewAssignment, ReviewEvidence};
 use crate::store::{ReviewCommit, Store};
 use crate::{ErrorCode, IssueRecord, Result, V2Error};
 
@@ -56,6 +56,7 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
             "review assignment requires implemented phase",
         ));
     }
+    require_current_design_approval(store, &record)?;
     if request.reviewer.trim().is_empty()
         || request.assigned_by.trim().is_empty()
         || request.scope.is_empty()
@@ -81,6 +82,67 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
         scope: request.scope,
     };
     store.commit_review_assignment(request.issue, &request.expected_digest, assignment)
+}
+
+fn require_current_design_approval(store: &Store, record: &crate::IssueRecord) -> Result<()> {
+    let cards = store.load_cards(record.issue)?;
+    let (design_ref, design_digest, diagram_ref, diagram_digest) =
+        match &cards[&crate::cards::CardKind::Spp].content {
+            crate::cards::CardContent::Spp(values) => (
+                values.design_ref.as_str(),
+                values.design_digest.as_str(),
+                values.diagram_ref.as_str(),
+                values.diagram_digest.as_str(),
+            ),
+            _ => unreachable!("SPP"),
+        };
+    let approved = matches!(
+        &record.design_review,
+        DesignReview::Approved { revision, .. } if revision == design_digest
+    );
+    let refresh_used = record.audit.iter().any(|event| {
+        event
+            .operation
+            .contains("refresh_authored_design_after_recovery")
+    });
+    let tuple_approved = !refresh_used
+        || record
+            .audit
+            .iter()
+            .rev()
+            .find_map(|event| {
+                let value: serde_json::Value = serde_json::from_str(&event.operation).ok()?;
+                (value["operation"] == "approve_design").then_some(value)
+            })
+            .is_some_and(|value| {
+                value["design_ref"] == design_ref
+                    && value["design_digest"] == design_digest
+                    && value["diagram_ref"] == diagram_ref
+                    && value["diagram_digest"] == diagram_digest
+            });
+    let design_current = crate::store::read_regular_authored_artifact(
+        store.root(),
+        std::path::Path::new(design_ref),
+    )?
+    .is_some_and(|bytes| digest(&bytes) == design_digest);
+    let diagram_current = crate::store::read_regular_authored_artifact(
+        store.root(),
+        std::path::Path::new(diagram_ref),
+    )?
+    .is_some_and(|bytes| digest(&bytes) == diagram_digest);
+    if !approved
+        || !tuple_approved
+        || design_ref != record.design_path
+        || diagram_ref != record.diagram_path
+        || !design_current
+        || !diagram_current
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "review assignment requires current approved authored design tuple",
+        ));
+    }
+    Ok(())
 }
 
 pub fn recover_review(store: &Store, request: ReviewRecoveryRequest) -> Result<IssueRecord> {

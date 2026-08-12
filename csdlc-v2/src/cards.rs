@@ -589,6 +589,7 @@ pub enum SemanticOperation {
     CorrectOperatorConstraintsBeforeBind {
         values: Vec<String>,
     },
+    RefreshAuthoredDesignAfterRecovery,
     ReplacePlanSteps {
         steps: Vec<PlanStep>,
     },
@@ -993,6 +994,10 @@ pub fn apply(
             }
             Ok(None)
         }
+        SemanticOperation::RefreshAuthoredDesignAfterRecovery => match values.content {
+            CardContent::Spp(_) => Ok(None),
+            _ => ownership(values.kind(), "refresh_authored_design_after_recovery"),
+        },
         SemanticOperation::ReplacePlanSteps { steps } => {
             validate_plan_steps(steps)?;
             match &mut values.content {

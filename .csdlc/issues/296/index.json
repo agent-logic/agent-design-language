@@ -1,0 +1,138 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 296,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "959b44fd61ec0393ad471311d39b13f254c41ca7f6e910dc8b5256529409cb2d",
+  "phase": "bound",
+  "generation": 7,
+  "digest": "f1e82da12abd227cbc5edb4ed565931f7cf7ffb25b623eca0171297dc6321e85",
+  "branch": "codex/296-implemented-authored-design-refresh",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-296-implemented-authored-design-refresh",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/296/design.md",
+  "diagram_path": ".csdlc/prepared/issues/296/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:c4ee2e17-78fb-4e35-9442-11d2ac0e0478",
+      "revision": "e4d4e8f5b9385cb4f7d7f286ddae8365f93245628d01308017bd76bd70222d77"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "923acbccff3154ac62f8244efd66ab6b89bfa88693b3d09e1a3f6e0a2965bb11",
+      "rendered_digest": "57c636d2e2f6070a237866654cd4127dbe7a4fc5f191741e071ab2535642984d",
+      "ast_digest": "6461b0f59b4c2a6f6dd2f9f13bacb203b861d859e8d58f33bd7ed07b42bb5c79"
+    },
+    "stp": {
+      "values_digest": "d0a8f5be45899af51c15c6dbbabd0330fc0547479114136fdfa947e992c26b00",
+      "rendered_digest": "11159f0d7f9983633a92db76cd8c7649cdf3e4810b7c6a017d81f64ce614aa8a",
+      "ast_digest": "95e8ab9c66e490f856cc459c14f4eb65807a2bd7ec63956cacf2d5441087e983"
+    },
+    "spp": {
+      "values_digest": "98b13870a96bd7a79f94427b3ff5ce7558f221f90ac18539cda0fd9c2d4a9438",
+      "rendered_digest": "a4d0b4299567ee7fee32a6bfa3ff8a9613f985311842df815ae5cc7c4d74c274",
+      "ast_digest": "a90a4d80862cdfe7a6a938432ac9b0c93be84e046765dcbc5964a24f01ffb8b3"
+    },
+    "vpp": {
+      "values_digest": "8ffcb700afb2120827e7c28ab06ef926cf34d57bc06caabfe4163616464ef670",
+      "rendered_digest": "c2e24aec5d0ff65705ea50a27284298e083838466cd1a06bb86c9b5016662d8a",
+      "ast_digest": "6b6c3b83f2cfd75e99355f2a9551710c4814ce8cf3823e410065a783e2ccfb82"
+    },
+    "srp": {
+      "values_digest": "3dbeb78ca267adf837fbd5b96e27ad4cf7b97b4832de5c334b373f4ae13ad36b",
+      "rendered_digest": "4af68be04ba1bbb5dada4ef7d5508fe9d5812063b9cc92af8162df2cbdef4833",
+      "ast_digest": "56a606c9f0225fee29a507facb508d1fb6b3dd23641ccdafabf317de66882bb4"
+    },
+    "sor": {
+      "values_digest": "223be5f0f70f9e0be53d94390fc9cb208a5e2abc99342083b7ab0d15a406a143",
+      "rendered_digest": "649f2cf647ec6d30da2eb6833a6d91bf3428332b55bf7c736f59f2eb1f230e82",
+      "ast_digest": "6103959e6ebb94825d9e44a0568791631016dc8346a47584825465dce1ea5922"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-296",
+      "reason": "The exact paired authored design and diagram, bounded recovery-only plan, split validation authority, and fourth independent canonical design review are ready for binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-296",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-296",
+      "reason": "Refresh authored bindings after resolving independent design-review authority and concurrency findings",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/296/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/296/diagram.mmd\",\"new_design_digest\":\"169e98e4a363a4ba3f11d4a54ca2447ac0b280a689c89e4d2520e45273dbb0f6\",\"new_diagram_digest\":\"5b61bf2b6262aaf093d6015be72a627ae299bbc55dd600f14ddf749471667115\",\"old_design_digest\":\"4799543bd0849edb929e17694513949f50b3e65e931abe1ad4df18ac6e6d2635\",\"old_diagram_digest\":\"00ccfb05a04cff70111f965e17c97cf1be5f665d1edf0e804862192e7ebafc5d\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"action\":\"Define and approve the recovery-only authored-design refresh contract and fail-closed artifact boundary.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"action\":\"Implement atomic binding refresh, approval invalidation, append-only provenance, and authority guards.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"action\":\"Add focused fresh-review, history, negative, and pre-bind regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently review, publish ready, and keep #294 blocked until terminal ancestry.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-296",
+      "reason": "Include review-assignment authority enforcement identified by independent design review",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/review.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-edit.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/tests/card_identity.rs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-296",
+      "reason": "Refresh the full authored tuple after r2 worktree, lock, tuple-authority, and validation-boundary findings",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/296/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/296/diagram.mmd\",\"new_design_digest\":\"aebfce5b57e5c9201d15436d6fdd0a4b2579ff38e8dc7f57ea4d8afd5726cc3e\",\"new_diagram_digest\":\"e4f1fe7ae9f45684c04fb3e8bfbb18cef3b1b77a907777a0b5493b99bd5a42c5\",\"old_design_digest\":\"169e98e4a363a4ba3f11d4a54ca2447ac0b280a689c89e4d2520e45273dbb0f6\",\"old_diagram_digest\":\"5b61bf2b6262aaf093d6015be72a627ae299bbc55dd600f14ddf749471667115\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"action\":\"Define and approve the recovery-only authored-design refresh contract and fail-closed artifact boundary.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"action\":\"Implement atomic binding refresh, approval invalidation, append-only provenance, and authority guards.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"action\":\"Add focused fresh-review, history, negative, and pre-bind regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently review, publish ready, and keep #294 blocked until terminal ancestry.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-296",
+      "reason": "Separate deterministic implementation proof from deferred live terminal ancestry and add linked-worktree concurrency proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"implemented-authored-design-refresh\",\"proof_role\":\"Deterministic typed lifecycle, CAS, artifact safety, paired revalidation, approval invalidation, append-only history, and regression proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\",\"implemented_authored_design_refresh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"implemented-authored-design-refresh-linked-worktree\",\"proof_role\":\"Deterministic canonical registered-worktree, Git-common lock, wrong-worktree, alias, and concurrent linked-worktree negative proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\",\"implemented_authored_design_refresh_linked_worktree\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-294-terminal-ancestry-observation\",\"proof_role\":\"Deferred live observation that #296 is terminal and ancestral before #294 resumes; not implementation validation proof\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\",\"issue_294_waits_for_terminal_ancestral_296\"],\"parallel_group\":\"post-terminal\",\"defer_reason\":\"Run only after #296 is terminal; until then #294 remains blocked and AC-9 is not green.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:issue-296",
+      "reason": "Final paired authored binding refresh after r3 post-assignment approval rewrite finding",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/296/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/296/diagram.mmd\",\"new_design_digest\":\"e4d4e8f5b9385cb4f7d7f286ddae8365f93245628d01308017bd76bd70222d77\",\"new_diagram_digest\":\"3ae668e6528b89970f972b1b895ae3676b0561c48de46bfbcc9acc9b28e9e654\",\"old_design_digest\":\"aebfce5b57e5c9201d15436d6fdd0a4b2579ff38e8dc7f57ea4d8afd5726cc3e\",\"old_diagram_digest\":\"e4f1fe7ae9f45684c04fb3e8bfbb18cef3b1b77a907777a0b5493b99bd5a42c5\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"action\":\"Define and approve the recovery-only authored-design refresh contract and fail-closed artifact boundary.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"action\":\"Implement atomic binding refresh, approval invalidation, append-only provenance, and authority guards.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"action\":\"Add focused fresh-review, history, negative, and pre-bind regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Validate, independently review, publish ready, and keep #294 blocked until terminal ancestry.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "fresh-session:c4ee2e17-78fb-4e35-9442-11d2ac0e0478",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:issue-296",
+      "reason": "The exact paired authored design and diagram, bounded recovery-only plan, split validation authority, and fourth independent canonical design review are ready for binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

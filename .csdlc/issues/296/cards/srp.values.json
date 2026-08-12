@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 296,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
+    "slug": "implemented-authored-design-refresh",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "All #296 changed typed contracts, store/card behavior, CLI/schema exposure, and focused tests; code, security, test, and evidence coverage required.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Review every acceptance criterion with code, security, test, and evidence coverage, emphasizing lifecycle authority, stale approval invalidation, artifact TOCTOU and path safety, atomic SPP/VPP parity, append-only history, and exact fresh-review gating."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
