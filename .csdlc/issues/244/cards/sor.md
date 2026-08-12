@@ -12,18 +12,20 @@ Status: pre_phase
 
 ## Summary
 
-Stabilized the cleanup-race proof by queueing duplicate attachment behind re-authentication and proportionally widening only the synthetic test execution window and delays, preserving production behavior and timeout assertions.
+Stabilized the cleanup-race proof with deterministic logical-time synchronization: the test freezes time only while re-authentication and duplicate attachment establish server order, waits for the explicit in-flight attachment acknowledgment, releases execution, and resumes time.
 
 ## Artifacts
 
+- adl-runtime-kernel/Cargo.toml
 - adl-runtime-kernel/tests/conversation_sessions.rs
 - .csdlc/evidence/244
 
 ## Execution
 
-- Queued cleanup-race re-authentication and duplicate attachment frames back-to-back before awaiting the authentication response.
-- Widened the test-only conversation execution window from 100 ms to 500 ms and proportionally scaled synthetic budget, disconnect, and cancellation delays so accepted, timed-out, and cancelled semantics remain exercised on shared CI runners.
-- Documented the server frame-order proof and left Runtime production behavior, issue #237, PR #242, and issue #112 authority work unchanged.
+- Restored the original 100 ms execution policy and original synthetic delay/reconnect constants; no wall-clock widening remains.
+- Enabled Tokio test-util only as a dev dependency and froze logical time solely around the cleanup-race window so wall clock guards deadlock but cannot establish attachment ordering.
+- Queued re-authentication and duplicate attachment in server order, required the explicit conversation_in_flight acknowledgment, then released barrier-held execution and proved exactly one delivered terminal result under 64x64 induced scheduler yields.
+- Left Runtime production behavior, issue #237, PR #242, and issue #112 authority work unchanged; existing timeout, cancellation, and token-rotation assertions remain on original timings.
 
 ## Validation
 
@@ -40,7 +42,7 @@ Stabilized the cleanup-race proof by queueing duplicate attachment behind re-aut
       "--",
       "--exact"
     ],
-    "purpose": "Prove the exact cleanup-race sequence in 20 consecutive repetitions under the widened test-only window.",
+    "purpose": "Run the exact cleanup-race proof twenty consecutive times with built-in induced scheduling pressure.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/244/conversation-cleanup-race-focused.log"
   },
@@ -51,7 +53,7 @@ Stabilized the cleanup-race proof by queueing duplicate attachment behind re-aut
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml"
     ],
-    "purpose": "Run the complete Runtime kernel test target after the fixture timing repair.",
+    "purpose": "Run the complete Runtime kernel test target.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/244/runtime-v3-fast-tests.log"
   },
@@ -83,11 +85,11 @@ Stabilized the cleanup-race proof by queueing duplicate attachment behind re-aut
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

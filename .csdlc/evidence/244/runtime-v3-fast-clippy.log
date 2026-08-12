@@ -1,1 +1,14 @@
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.18s
+    Checking tokio v1.53.1
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race/adl-runtime-kernel)
+    Checking tokio-util v0.7.19
+    Checking tokio-rustls v0.26.4
+    Checking tower v0.5.3
+    Checking fs-err v3.3.1
+    Checking tokio-tungstenite v0.29.0
+    Checking h2 v0.4.15
+    Checking hyper v1.11.0
+    Checking hyper-util v0.1.20
+    Checking axum v0.8.9
+    Checking axum-server v0.8.0
+    Checking utoipa-swagger-ui v9.0.2
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 15.01s
