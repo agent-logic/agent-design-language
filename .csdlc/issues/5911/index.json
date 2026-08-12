@@ -3,13 +3,52 @@
   "issue": 5911,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "eba116b5732a4b5f497dadabca6e906a6f9eb9dcd393ae704780074f01a773fe",
-  "phase": "implemented",
-  "generation": 18,
-  "digest": "19c9ef84cf92971c15ed77fa96a4bd03cc6d7250d56da8063036a058e924895d",
+  "phase": "reviewed",
+  "generation": 19,
+  "digest": "092187fa9f575e2d2df8f119baf3b732d569d7f594907e0ab2c2f4c287e58a84",
   "branch": "codex/5911-fastwork-storage-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5911-fastwork-storage-policy",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent-issue-5911-review",
+    "assigned_by": "codex:issue-5911-ci-repair",
+    "revision": "git-blake3:d23ec6c17e013bbd16e2bb35978ac2c6714726be:9cf3f477c5736cf2565b4ca2f0648521ed8efa00bf0e6db75dcd0b77e5687bcb",
+    "scope": [
+      ".adl/worktree-policy.json",
+      "AGENTS.md",
+      "adl/tools/archive_codex_sessions_to_fastwork.sh",
+      "adl/tools/test_archive_codex_sessions_to_fastwork.sh",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent-issue-5911-review",
+    "scope": [
+      ".adl/worktree-policy.json",
+      "AGENTS.md",
+      "adl/tools/archive_codex_sessions_to_fastwork.sh",
+      "adl/tools/test_archive_codex_sessions_to_fastwork.sh",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ],
+    "reviewed_revision": "git-blake3:d23ec6c17e013bbd16e2bb35978ac2c6714726be:9cf3f477c5736cf2565b4ca2f0648521ed8efa00bf0e6db75dcd0b77e5687bcb",
+    "findings": [],
+    "residual_risks": [
+      "Local transcript deletion remains deliberately unperformed and requires separate explicit operator approval.",
+      "Existing legacy worktrees outside the canonical parent are not relocated by this issue.",
+      "The local shared Git common directory contains unrelated retained terminal-state drift; exact clean hosted C-SDLC v2 validation is the authoritative full-suite proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +63,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2db669124473ab508396576f183b1ec0aa906c1f34f7660ccc521878ca5241a4",
+      "values_digest": "a642befeebf2016cadddf338ec6d1fa38b1d491e6b32b2f66e458b2a38bb07ac",
       "rendered_digest": "50d8426892e02179c4580c314aea63c6a17ea525229f22acb5707e52d60a46c7",
       "ast_digest": "3eb3ea1e6498c50e443dcec5bf981178d93caf68b11349f56efe7137e9e3732c"
     },
     "stp": {
-      "values_digest": "96356c4520eeefdb3f8a2430693e7f660654877955760897f21f1dd32a649106",
+      "values_digest": "abfb19782069cbcfc40ee30415430e9544c02e4bbcac60aebd2cbaffb470386c",
       "rendered_digest": "b633f7279064086c2b1e2a2cf7925433018552a9dd81ae45d213068ed69ffdbd",
       "ast_digest": "f68cd50f666c2f83f3fcb83b350475373e86b9d411a8340d42fdd0005126b67b"
     },
     "spp": {
-      "values_digest": "a544a3ff1e4a9ccd31a8e987660c27507c95b89731227a9e39e3daa3bf1aa1de",
+      "values_digest": "895e40bbdde89be656df3c8446162342e75d97ded2cc3a21deb16b9b67f9600b",
       "rendered_digest": "b30508945a2ec5d553839b75fec7a8eab462771538092435b212a23b79461a18",
       "ast_digest": "19be4f70450bb723cc19101cfd65d7024a073ce28270ae531ea3a48dbde59390"
     },
     "vpp": {
-      "values_digest": "56caa74e0ae325b5b8d1fe5bdc63e6b050fb1f104aaf85eed11e66e552c1defd",
+      "values_digest": "8aabedd4b6b501ede37b4e35d947e7440d9c26cb5e7d8d8f17ddc792c37bf35d",
       "rendered_digest": "b2a0a37fba05894492caf16a3bd250138529e3b7a63072c8dc16d48d8e479059",
       "ast_digest": "8511a86ca506470fad6aaf35c6d429832b9559b0e8d1eef211b3acb0e7d42d4f"
     },
     "srp": {
-      "values_digest": "fdefc32bded26351ac9dda29370a13a6235b3439f754a3b29bae7c625126ba81",
-      "rendered_digest": "00cf8cd7d25dc9763948f7043a05ecc91bd479985441609dd00ecedaf5645610",
-      "ast_digest": "50c847daee158c8569c14bd4bc102fcb74fc241901037ad0c8c2198234607002"
+      "values_digest": "081ba55c618f1354add2290adb519585cb1733e35ba3dd3e7fc5e6375dc672a2",
+      "rendered_digest": "9fd0469a3ed049ed6fe02ff0a5a4d21042b73e496c1d97d6270a3ff8667c994d",
+      "ast_digest": "49810659933c85c02f630aca5c0e60104e0703f0cba7dad21b031a9ccd8ceb64"
     },
     "sor": {
-      "values_digest": "d944a4833858fdd6ab5353497efa1915ba3b5f5f6e93a76da41d5e302646993a",
+      "values_digest": "74c192874c970dae278d4b564c9f7ac43e139782943090745b392f43792bc4ad",
       "rendered_digest": "0f7023da32fc2fb587acd35c684ee4cc09420048844025aa76ad6da2ceb179ea",
       "ast_digest": "94d9259b4697bdfd80b54107d62bacd1348414bf2fbfd2b0958d42bf8c68c2d2"
     }
@@ -96,6 +135,13 @@
       "to": "implemented",
       "actor": "codex:issue-5911-ci-repair",
       "reason": "Hosted standalone CI exposed bind fixtures that still used same-checkout Ready binding after FastWork enforcement; recover stale publication review truth for exact-head rereview of the bounded fixture repairs."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -238,6 +284,20 @@
       "actor": "codex:issue-5911-ci-repair",
       "reason": "Record the exact-head hosted standalone suite that proves the final policy implementation and all repaired bind fixtures.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/run_cargo_validation.sh\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove the complete C-SDLC v2 standalone surface, including case-insensitive FastWork enforcement and every linked-worktree fixture repaired after the first hosted failure.\",\"outcome\":\"passed\",\"evidence_ref\":\"GitHub Actions run 31561244618, job csdlc-v2-standalone, exact head 5a2444dbf03f5b315285722689fb8eeb8fb6469e\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:issue-5911-ci-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
