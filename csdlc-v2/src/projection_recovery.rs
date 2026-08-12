@@ -79,6 +79,29 @@ fn receipt_payload<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
         )
     })?;
     let value: serde_json::Value = serde_json::from_slice(&fs::read(path)?)?;
+    let object = value.as_object().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt envelope is not an object",
+        )
+    })?;
+    for key in object.keys() {
+        if !matches!(
+            key.as_str(),
+            "schema" | "sequence" | "state" | "previous_receipt_digest" | "payload"
+        ) {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery receipt envelope contains an unexpected field",
+            ));
+        }
+    }
+    if !object.contains_key("previous_receipt_digest") || !object.contains_key("payload") {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery receipt envelope is incomplete",
+        ));
+    }
     if value.get("schema").and_then(|v| v.as_str()) != Some("csdlc.projection_recovery_receipt.v1")
         || value.get("sequence").and_then(|v| v.as_u64()) != Some(seq as u64)
         || value.get("state").and_then(|v| v.as_str()) != Some(state)

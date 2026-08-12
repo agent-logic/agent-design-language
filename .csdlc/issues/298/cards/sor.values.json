@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
     "slug": "297a-anchored-classification-resumable-recovery-ledger",
     "version": "v0.92",
-    "generation": 37
+    "generation": 39
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Validate the complete authorized recovery workspace and every node receipt ledger",
+      "summary": "Bind every completed node receipt to exact temporary names, stable identities, and strict envelopes",
       "actual_changes": [
         "Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299",
         "Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation",
@@ -236,7 +236,13 @@
         "Validated every node ledger as an exact ten-receipt sequence with authorized payload and stable filesystem identity bindings",
         "Rejected extra regular, directory, symlink, and FIFO entries at attempt and node-ledger levels",
         "Preserved exact candidate manifest and content derivation plus all prior receipt-chain, mutation, and ordinary-commit gates",
-        "Validated the 24-test focused recovery lane; retained evidence log remains the prior 19-test capture and is not claimed as refreshed"
+        "Validated the 24-test focused recovery lane; retained evidence log remains the prior 19-test capture and is not claimed as refreshed",
+        "Derived and required the exact operation-owned temporary name in create, fsync, and publish intent receipts",
+        "Bound the created temporary identity to the observed published file across device, mount, inode, links, ownership, mode, and node type",
+        "Rejected unexpected or incomplete top-level receipt envelope fields",
+        "Added coherently rehashed temporary-name, created-identity, and envelope-extension forgery regressions",
+        "Added expected-canonical-absent recovery proof using the authorized backup source",
+        "Validated the 28-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene"
       ],
       "artifacts": [
         "csdlc-v2/src/projection_recovery.rs",
@@ -305,7 +311,9 @@
         ".csdlc/evidence/298/preserved-projection-recovery.log",
         "csdlc-v2/src/projection_recovery.rs",
         "csdlc-v2/tests/gate5.rs",
-        ".csdlc/evidence/298/preserved-projection-recovery.log"
+        ".csdlc/evidence/298/preserved-projection-recovery.log",
+        "csdlc-v2/src/projection_recovery.rs",
+        "csdlc-v2/tests/gate5.rs"
       ],
       "actual_validation": [
         {

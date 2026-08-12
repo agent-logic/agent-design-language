@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Validate the complete authorized recovery workspace and every node receipt ledger
+Bind every completed node receipt to exact temporary names, stable identities, and strict envelopes
 
 ## Artifacts
 
@@ -83,6 +83,8 @@ Validate the complete authorized recovery workspace and every node receipt ledge
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/tests/gate5.rs
 - .csdlc/evidence/298/preserved-projection-recovery.log
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/tests/gate5.rs
 
 ## Execution
 
@@ -308,6 +310,12 @@ Validate the complete authorized recovery workspace and every node receipt ledge
 - Rejected extra regular, directory, symlink, and FIFO entries at attempt and node-ledger levels
 - Preserved exact candidate manifest and content derivation plus all prior receipt-chain, mutation, and ordinary-commit gates
 - Validated the 24-test focused recovery lane; retained evidence log remains the prior 19-test capture and is not claimed as refreshed
+- Derived and required the exact operation-owned temporary name in create, fsync, and publish intent receipts
+- Bound the created temporary identity to the observed published file across device, mount, inode, links, ownership, mode, and node type
+- Rejected unexpected or incomplete top-level receipt envelope fields
+- Added coherently rehashed temporary-name, created-identity, and envelope-extension forgery regressions
+- Added expected-canonical-absent recovery proof using the authorized backup source
+- Validated the 28-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene
 
 ## Validation
 

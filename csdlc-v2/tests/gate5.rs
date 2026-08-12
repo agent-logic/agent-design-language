@@ -99,6 +99,51 @@ fn rewrite_receipt_payload_and_rechain(
     }
 }
 
+fn add_receipt_envelope_field_and_rechain(
+    attempt: &std::path::Path,
+    seq: u32,
+    state: &str,
+    key: &str,
+    value: serde_json::Value,
+) {
+    let path = receipt_path(attempt, seq, state);
+    let mut envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&path).expect("receipt")).expect("receipt json");
+    envelope[key] = value;
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("receipt bytes");
+    bytes.push(b'\n');
+    std::fs::write(&path, bytes).expect("write forged receipt envelope");
+    let states = [
+        "prepared",
+        "archive-intent",
+        "rejected-archived",
+        "candidate-plan",
+        "candidate-created",
+        "candidate-verified",
+        "install-intent",
+        "canonical-installed",
+        "displace-intent",
+        "prior-displaced",
+        "canonical-verified",
+        "recovery-complete-intent",
+        "recovered",
+    ];
+    for next in (seq + 1)..=13 {
+        let prior = receipt_path(attempt, next - 1, states[next as usize - 2]);
+        let next_path = receipt_path(attempt, next, states[next as usize - 1]);
+        let digest = blake3::hash(&std::fs::read(prior).expect("prior receipt"))
+            .to_hex()
+            .to_string();
+        let mut next_envelope: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&next_path).expect("next receipt"))
+                .expect("next receipt json");
+        next_envelope["previous_receipt_digest"] = serde_json::Value::String(digest);
+        let mut next_bytes = serde_json::to_vec_pretty(&next_envelope).expect("next bytes");
+        next_bytes.push(b'\n');
+        std::fs::write(next_path, next_bytes).expect("write rechained receipt");
+    }
+}
+
 fn rewrite_single_receipt_payload(
     attempt: &std::path::Path,
     seq: u32,
@@ -1030,6 +1075,45 @@ fn preserved_projection_recovery_rejects_rehashed_node_payload_forgery() {
 }
 
 #[test]
+fn preserved_projection_recovery_rejects_rehashed_node_final_path_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "node-final-path-forgery");
+    let ordinal = 2;
+    let forged = "cards/attacker-controlled.values.json";
+    let mutations = [(1, "create-intent"), (9, "publish-intent")];
+    for (seq, state) in mutations {
+        let path = node_receipt_path(&attempt, ordinal, seq, state);
+        let envelope: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(path).expect("node receipt"))
+                .expect("node receipt json");
+        let mut payload = envelope["payload"].clone();
+        payload["final"] = serde_json::Value::String(forged.into());
+        rewrite_node_receipt_payload_and_rechain(&attempt, ordinal, seq, state, payload);
+    }
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("coherently rehashed final paths must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_node_created_identity_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) =
+        completed_recovery_attempt(&store, &record, "node-created-identity-forgery");
+    let ordinal = 2;
+    let path = node_receipt_path(&attempt, ordinal, 2, "created-identity");
+    let envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(path).expect("node receipt"))
+            .expect("node receipt json");
+    let mut payload = envelope["payload"].clone();
+    payload["inode"] = serde_json::json!(payload["inode"].as_u64().expect("inode") + 1);
+    rewrite_node_receipt_payload_and_rechain(&attempt, ordinal, 2, "created-identity", payload);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("coherently rehashed created identity must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
 fn preserved_projection_recovery_rejects_rehashed_intermediate_payload_forgery() {
     let (_temp, store, record) = implemented_fixture();
     copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
@@ -1066,6 +1150,78 @@ fn preserved_projection_recovery_rejects_rehashed_intermediate_payload_forgery()
     let error = csdlc_v2::recover_preserved_projection(&store, request)
         .expect_err("rehashed intermediate payload must be rejected");
     assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_envelope_extension() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "envelope-extension");
+    add_receipt_envelope_field_and_rechain(
+        &attempt,
+        5,
+        "candidate-created",
+        "forged_authority",
+        serde_json::json!({"accepted":true}),
+    );
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("top-level receipt envelope extension must fail closed");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_uses_backup_source_when_canonical_absent() {
+    let (_temp, store, record) = implemented_fixture();
+    let backup = store.interrupted_backup(7);
+    let preserved = store.rollback_preserved(7);
+    std::fs::rename(store.issue_dir(7), &backup).expect("move canonical to backup");
+    copy_tree(&backup, &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::ExpectedCanonicalAbsent {
+                backup_generation: record.generation,
+                backup_record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "expected absent canonical fixture".into(),
+        },
+    )
+    .expect("classify absent canonical");
+    assert_eq!(classify.disposition, "recoverable");
+    assert_eq!(
+        classify.backup.record_digest.as_deref(),
+        Some(record.digest.as_str())
+    );
+    assert_eq!(classify.canonical.state, "absent");
+    let request = ProjectionRecoverRequest {
+        issue: 7,
+        operation_id: "expected-absent-canonical".into(),
+        classify_receipt_digest: classify.receipt_digest.clone(),
+        classification: classify.clone(),
+        failed_operation_lineage: FailedOperationLineage {
+            prior_generation: record.generation,
+            prior_record_digest: record.digest.clone(),
+            rejected_manifest_digest: classify.preserved.manifest_digest.clone().unwrap(),
+            failure_boundary: "canonical_absent_after_backup_preserved".into(),
+        },
+        anchor: ProjectionCasAnchor::ExpectedCanonicalAbsent {
+            backup_generation: record.generation,
+            backup_record_digest: record.digest.clone(),
+        },
+        actor: "test".into(),
+        reason: "recover from backup while canonical absent".into(),
+        branch: "issue-7".into(),
+        worktree: store.root().to_string_lossy().into_owned(),
+        fail_after: None,
+    };
+    let recovered =
+        csdlc_v2::recover_preserved_projection(&store, request).expect("recover from backup");
+    assert_eq!(recovered.canonical_generation, record.generation + 1);
+    assert_eq!(
+        store.load_record(7).expect("recovered canonical").digest,
+        recovered.canonical_digest
+    );
 }
 
 #[test]
