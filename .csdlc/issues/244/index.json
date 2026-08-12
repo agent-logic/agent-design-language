@@ -3,9 +3,9 @@
   "issue": 244,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
-  "phase": "implemented",
-  "generation": 43,
-  "digest": "8fcb7d9188bc3258780f6022b757784cd8947c8267c3cc06acaf752063d8c9c4",
+  "phase": "reviewed",
+  "generation": 44,
+  "digest": "84660996ff5fe1a67a3ff70884b8605a84ecd4b64d77f4da97f939357d24f370",
   "branch": "codex/244-conversation-cleanup-race",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
   "review_assignment": {
@@ -24,7 +24,25 @@
       ".csdlc/evidence/244"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:review_244_248_combined",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/parity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs",
+      "adl-runtime-kernel/tests/parity.rs",
+      ".csdlc/issues/244",
+      ".csdlc/prepared/issues/244",
+      ".csdlc/evidence/244"
+    ],
+    "reviewed_revision": "git-blake3:f186a0dc3915a9528d81d5b96c858d1882c5fc7e:961651c7b436c3ae4637c2bfa148d12ba4381bb1fad5a71842f385cf55a328d3",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8b35bb83446d8f397cb910169f453621ae74b638cdc0ac85002b75ded6cf4b8d",
+      "values_digest": "4d76d8496d08b9d7a561afbfc699d02ccf23350716381352b605fb329545dad7",
       "rendered_digest": "a7a3fdffde72a8ccd84f303fd9461422089748d7cca2286b450c0616ae3f63b7",
       "ast_digest": "1f3222725b44556758d3036806a3817fdeb58c6bbf437698b7d71d7510b446dc"
     },
     "stp": {
-      "values_digest": "62b954b53f8eee4efa0d91a01b794de63ca39e096d749b167697f1abfb440c43",
+      "values_digest": "b4c98f13cba6f248a0727387d7274a436dcedb4413b3707cb9c10fb3cf6bdaeb",
       "rendered_digest": "eb188e0abb8bcfed05a216770117422eb93ead3e8e416be888002ad29221716a",
       "ast_digest": "326ed86deaf78bc55b60c81607d0068ad3b1095c56de7aa454808bb21ec07f42"
     },
     "spp": {
-      "values_digest": "4c4b14deb80c5ac57e965c168f1fce096780d000f10ebd022c3e83e7803a5405",
+      "values_digest": "01a087f323ad96484002fff46656be96d87404cf939074540d0cf9056f2b3fcc",
       "rendered_digest": "bda7b8a781de64772e815f705e1cc5df733078088b4b151eee30cf87a8b4125b",
       "ast_digest": "39a64663e4cd08a747ac125db95bf0a24014cc92967f026964514147acfcea85"
     },
     "vpp": {
-      "values_digest": "be1eaab21d1831bfb33521983dfd4bf549bab4e369bb41fc648fb2b5f0a607b9",
+      "values_digest": "a2b9dbddb1a6c54cbe9c133e29c1750907ae2e8f4f7a2455690b05b4ece1130c",
       "rendered_digest": "755ba3d37f4acaced6bdebe8e344c69a3f58795363c3c920ea368f1c61f38617",
       "ast_digest": "0189f64d89be4ccec8ab470ba92464ca02e881e26e51642eb41da69221c241b6"
     },
     "srp": {
-      "values_digest": "73fc52f61311dbae839f4dc802dc221b11682d6f0f2338972a933d9759b1cf78",
-      "rendered_digest": "15a5290682c12fd64f3504a6b2b2a1cf24b8255712ae7a5188876418424bb996",
-      "ast_digest": "f9c4a0a4cc89582d720fb7577f0bfdda8b03c9f007566ed6309d54e07662cf9f"
+      "values_digest": "7cc69e4f902f7cd5277e6611b14ae5d47d42cf75de9c1e2c5989d129a975f331",
+      "rendered_digest": "cb29844ba2fb52c5424806b466b295101045018c99ed4c010999734e5ac6e799",
+      "ast_digest": "a3d4f4eb003714db53ddac591f26bfd55f612ecc2fd50ba0a4f1e4b27c1f2b78"
     },
     "sor": {
-      "values_digest": "520ae85aa8fd5661e4a0a9eca91d3fef12b1e277dcc0375c0cfd2b032738888e",
+      "values_digest": "9bb2de163159410281fdbd0ee4fc854441ac41027c99077f52e16bbef1ca57f2",
       "rendered_digest": "9abb28358e7535e301bd7b8749eb7fb412fc751c0cadf55ea63178edd2c849aa",
       "ast_digest": "e8bf3fb616c85d53d5883541d734af44204ec13f71698c4c230f114dabf98e2a"
     }
@@ -209,6 +227,13 @@
       "to": "implemented",
       "actor": "codex:244-248-integration",
       "reason": "Planning #1 authorized explicit integration of reviewed #248 precedence fix; recover published state before substantive combined revision and fresh review."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-248-review-record",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -561,6 +586,13 @@
       "actor": "codex:244-248-integration",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 44,
+      "actor": "codex:244-248-review-record",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
