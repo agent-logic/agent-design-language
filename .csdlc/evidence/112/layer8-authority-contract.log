@@ -1,5 +1,18 @@
-source_tree: exact contents committed with this evidence
-command: cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail --status-level all
-result: PASS
-tests: 12 passed; 0 failed; 0 skipped
-proof: identity-to-verification-key binding including same-label key substitution refusal, independently supplied capability and policy, exact scope, signed message, acknowledgement replay binding, refusal, replay, simultaneous cross-handle audit serialization, restart and corruption behavior
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
+────────────
+ Nextest run ID e740055d-e64f-43d4-89d0-859f162652d4 with nextest profile: default
+    Starting 12 tests across 1 binary
+        PASS [   0.013s] ( 1/12) adl-runtime::layer8_authority conversation_authority_refuses_same_identity_signed_by_an_untrusted_key
+        PASS [   0.014s] ( 2/12) adl-runtime::layer8_authority human_and_agent_senders_share_one_signed_identity_message_contract
+        PASS [   0.014s] ( 3/12) adl-runtime::layer8_authority signature_substitution_rotation_revocation_and_expiry_fail_closed
+        PASS [   0.015s] ( 4/12) adl-runtime::layer8_authority recipient_signed_acknowledgement_is_bound_to_triggering_message
+        PASS [   0.031s] ( 5/12) adl-runtime::layer8_authority refusal_is_bounded_and_contains_no_private_inputs
+        PASS [   0.036s] ( 6/12) adl-runtime::layer8_authority retryable_policy_refusal_does_not_consume_replay_identity
+        PASS [   0.054s] ( 7/12) adl-runtime::layer8_authority concurrent_store_handles_serialize_against_the_current_audit_head
+        PASS [   0.054s] ( 8/12) adl-runtime::layer8_authority corrupt_and_truncated_audit_refuse_restart
+        PASS [   0.091s] ( 9/12) adl-runtime::layer8_authority restart_verifies_chain_and_restores_replay_defense
+        PASS [   0.091s] (10/12) adl-runtime::layer8_authority rejects_recipient_substitution_widening_action_conversation_and_cross_polis
+        PASS [   0.091s] (11/12) adl-runtime::layer8_authority authorizes_each_action_only_with_its_exact_capability_and_policy_intersection
+        PASS [   0.121s] (12/12) adl-runtime::layer8_authority identity_capability_policy_epoch_and_replay_fail_closed
+────────────
+     Summary [   0.122s] 12 tests run: 12 passed, 0 skipped

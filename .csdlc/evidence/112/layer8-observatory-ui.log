@@ -1,5 +1,6 @@
-source_tree: exact contents committed with this evidence
-command: ADL_PLAYWRIGHT_MODULE=<local-runtime-playwright> ADL_CHROMIUM_EXECUTABLE=<local-chrome> bash adl/tools/validate_layer8_authority_observatory_ui.sh
-result: PASS
-proof: authorized and refused visible states, revoked demotion, and disclosure-safe browser presentation over ephemeral loopback HTTPS
-nonclaim: no provider, cloud, paid, soak, or external network execution
+PASS authorized visible state: accepted operator turn and delivered agent reply rendered
+PASS refused visible state: bounded refusal rendered, operator content withheld, action released
+PASS revoked visible state: Observatory demoted to public read and send disabled
+PASS disclosure-safe visible state: token, proof hashes, policy, and provider payload stayed hidden
+PASS browser evidence: https://127.0.0.1:55819/demos/html-observatory/ (ephemeral loopback HTTPS)
+PASS: Layer 8 Observatory real-browser authority presentation contract
