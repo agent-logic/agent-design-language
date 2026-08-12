@@ -6,10 +6,22 @@
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
   "phase": "implemented",
   "generation": 16,
-  "digest": "890182b56357d73ed14b1587d8af5bc7a18835647d8b125ec2cc4bdee80963d2",
+  "digest": "57bd2fba206e3f378dddd395db1a9d936ca3bfd584e8a3748e29c1382499d7ba",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:019ff5dc-4ebf-73f1-ae9d-604f86c29797",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:946f587f5201865e8df8287b3db0171ed47a2fc3:7717b35743a7adcf208aa206f13802e68308f90d74dbadf2cc6256ee43ef862d",
+    "scope": [
+      "adl-runtime/src/distributed",
+      "adl-runtime/tests",
+      ".csdlc/issues/258",
+      ".csdlc/prepared/issues/258",
+      ".csdlc/locks/258.lock",
+      ".csdlc/evidence/258"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "cf7bf46c19d43d3c65f623fff84f7994f32d94a68163625b5ef3c288028ace63",
-      "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
-      "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
+      "values_digest": "4ad4f0d2ac9ca89ed69963d4dbaa4d7171106a8634dc915576e76891a4e501c0",
+      "rendered_digest": "0334635ac95d873c833e5d3c70cdd439baff56c2998eb445e15d164cd760afe8",
+      "ast_digest": "271af8ded064549da01cad38f86115951e76d3dc1d656acc08466e0829d75727"
     },
     "sor": {
       "values_digest": "494e470754f851ecf0d6912dbd670b4f9e1eb8da5df4142d9d8955d366e7ab17",
@@ -239,6 +251,13 @@
       "actor": "codex:/root",
       "reason": "refresh #258 SOR after current-main ancestry merge and focused post-merge validation",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam. A canonical fresh-session review then found that raw FencingStore::authorize_active_lease remained callable without FencingStoreAccess even though the adapter classifies FENCING_ACTIVE_LEASE as governed. This repair requires a fencing access token on the raw active-lease method, passes the authority-bound token from the adapter, updates legitimate test-only/raw compile callers to use the test token, preserves production calls through the governed adapter boundary, and revalidated the branch after merging current origin/main with zero changed-path overlap.\",\"changes\":[\"Preserved authority store access-token gates for certificate, lease, and fencing raw store APIs.\",\"Preserved the authority-bound store adapter facade and published receipt view metadata for the #258 boundary slice.\",\"Preserved published view classification for certificate_activate, certificate_revoke, lease_apply, lease_mutation, fencing_commit, and fencing_active_lease.\",\"Removed the over-scope authority-bound transport authorization helper and fixture seam from the prior repair while keeping only compile-required certificate access-token reads.\",\"Required FencingStoreAccess on raw FencingStore::authorize_active_lease so production callers cannot bypass the governed reconciliation barrier.\",\"Passed AUTHORITY_BOUND_FENCING_ACCESS from AuthorityBoundFencingStore::authorize_active_lease and kept migration, recovery, and snapshot catalog production paths on the governed adapter.\",\"Updated legitimate raw test callers and cfg(test) helper paths to pass TEST_FENCING_STORE_ACCESS without reopening transport scope.\",\"Added direct static proof that the raw active-lease method requires FencingStoreAccess and the one-argument raw signature is absent, plus positive proof that the adapter passes the authority-bound token.\",\"Merged current origin/main after recording zero changed-path overlap with #258 and reran focused post-merge validation.\"],\"artifacts\":[\".csdlc/evidence/258/cargo-check-adl-runtime-active-lease-token.log\",\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-active-lease-token.log\",\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-active-lease-token.log\",\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-active-lease-token.log\",\".csdlc/evidence/258/cargo-test-distributed-fencing-no-run-active-lease-token.log\",\".csdlc/evidence/258/cargo-test-distributed-migration-no-run-active-lease-token.log\",\".csdlc/evidence/258/cargo-test-distributed-recovery-no-run-active-lease-token.log\",\".csdlc/evidence/258/cargo-test-distributed-snapshot-catalog-no-run-active-lease-token.log\",\".csdlc/evidence/258/git-diff-check-active-lease-token.log\",\".csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt\",\".csdlc/evidence/258/main-changed-paths-since-5fd55acd.txt\",\".csdlc/evidence/258/issue-258-changed-paths-since-5fd55acd.txt\",\".csdlc/evidence/258/cargo-check-adl-runtime-post-main-merge.log\",\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-post-main-merge.log\",\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-post-main-merge.log\",\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-post-main-merge.log\",\".csdlc/evidence/258/git-diff-check-post-main-merge.log\",\".csdlc/evidence/258/csdlc-validate-post-main-merge.log\"],\"validation\":[{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Compile-check the runtime crate at the current-main-merged branch head after the active-lease token repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-check-adl-runtime-post-main-merge.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Exercise focused #258 authority-store boundary guardrails at the current-main-merged branch head, including direct raw active-lease signature denial and positive adapter-token proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-post-main-merge.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"distributed::authority_store_adapters::tests::published_view_exposes_all_store_authority_kinds\",\"--\",\"--nocapture\"],\"purpose\":\"Re-prove the preserved published view accepts and exposes all in-scope published store operation kinds at the current-main-merged branch head.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-test-published-view-authority-kinds-post-main-merge.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the focused #258 authority-store boundary test target at the current-main-merged branch head.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-post-main-merge.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors across the current-main-merged #258 diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/git-diff-check-post-main-merge.log\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate typed #258 lifecycle truth after the current-main ancestry merge.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/csdlc-validate-post-main-merge.log\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
