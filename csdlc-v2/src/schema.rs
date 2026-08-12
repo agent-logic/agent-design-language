@@ -30,7 +30,10 @@ use crate::review::{
     PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest, ReviewRecoveryRequest,
 };
 use crate::runner_preflight::{RunnerPreflightPacket, RunnerPreflightRequest};
-use crate::store::ApproveDesignRequest;
+use crate::store::{
+    ApproveDesignRequest, InitializedDecompositionRecoveryRequest,
+    InitializedDecompositionRecoveryResult,
+};
 use crate::store::{BootstrapRequest, EditRequest};
 
 pub fn public_schema_bundle() -> Value {
@@ -44,6 +47,8 @@ pub fn public_schema_bundle() -> Value {
         "bootstrap_request": schemars::schema_for!(BootstrapRequest),
         "approve_design_request": schemars::schema_for!(ApproveDesignRequest),
         "edit_request": schemars::schema_for!(EditRequest),
+        "initialized_decomposition_recovery_request": schemars::schema_for!(InitializedDecompositionRecoveryRequest),
+        "initialized_decomposition_recovery_result": schemars::schema_for!(InitializedDecompositionRecoveryResult),
         "bind_request": schemars::schema_for!(BindRequest),
         "bind_result": schemars::schema_for!(BindResult),
         "issue_record": schemars::schema_for!(IssueRecord),
