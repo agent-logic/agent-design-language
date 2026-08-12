@@ -6,10 +6,27 @@
   "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
   "phase": "implemented",
   "generation": 30,
-  "digest": "ee7f6974fdef7116a5470770a4ec125fb240cc643e6c9f221b36c77366da7181",
+  "digest": "d0ffc14e2e259ea1db93ce86560f08d8215b330a953f84c2a81f116864fc2a27",
   "branch": "codex/237-continuity-binding-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
+    "assigned_by": "/root/fix_5833_birth_witness_runtime",
+    "revision": "git-blake3:e4dcc87fbb0e44af7fcf1900e2b76311d7bd24a4:bdf75c93cc406231da975aa25f236b54d74f0fd7ce0d120cc1bd8c46aa571d2b",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/parity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs",
+      "adl-runtime-kernel/tests/parity.rs",
+      ".csdlc/issues/237"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "5e92538817ea1029ad69966a60af6f0bde2d8d2e49d9d44b3417095573fbfb3f"
     },
     "srp": {
-      "values_digest": "602c92d3f2a6c0f592b307d9d16e500d9b1449282a04b060322358a37b431da3",
-      "rendered_digest": "73e3a45137d9fa80b09504c4438ad098af6c21af0a3b6034c95905b5c1d1efb8",
-      "ast_digest": "9826ba27c212418af607a6e63d1dd36b52533885b603103ca717ec2709e7bb82"
+      "values_digest": "6579624e646a17c37a0cffb0b184e8955a5b6d312d55e1afdda29f895abed215",
+      "rendered_digest": "c89cd211a5e87aa9bbf6bbc5bf663e2531aaa3b30bda50939b6328e5b4c03a96",
+      "ast_digest": "0810523c629e293e2b5da16720737e06dba82c1618853bac4a1ea0cca441e37b"
     },
     "sor": {
       "values_digest": "c2f9e5d26e6109932da3711f6451f11f865ec3086e088f60e097797690ba77d1",
@@ -351,6 +368,13 @@
       "actor": "/root/fix_5833_birth_witness_runtime",
       "reason": "Recover stale review and publication truth after integrating current main cleanup authority at exact head 6270d368102443973f6c9909dcd41b44228a3c8d.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 30,
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
