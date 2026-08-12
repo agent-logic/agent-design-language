@@ -1010,41 +1010,67 @@ fn same_moved_observation(
 struct AnchoredName {
     parent: File,
     name: std::ffi::CString,
+    child: Option<File>,
 }
 
 fn anchored_root_identity_matches(
     anchor: &AnchoredName,
     expected: &CandidateObservation,
 ) -> Result<bool> {
+    anchored_root_identity_matches_inner(anchor, expected, true)
+}
+
+fn anchored_moved_root_identity_matches(
+    anchor: &AnchoredName,
+    expected: &CandidateObservation,
+) -> Result<bool> {
+    anchored_root_identity_matches_inner(anchor, expected, false)
+}
+
+fn anchored_root_identity_matches_inner(
+    anchor: &AnchoredName,
+    expected: &CandidateObservation,
+    require_ctime: bool,
+) -> Result<bool> {
     let Some(root) = expected.entries.iter().find(|entry| entry.path == ".") else {
         return Ok(false);
     };
-    let actual = fd_identity(&open_child_no_follow(&anchor.parent, &anchor.name, true)?)?;
+    let actual = fd_identity(anchor.child.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "anchored source child is absent",
+        )
+    })?)?;
     Ok(actual.device == root.identity.device
         && actual.mount_id == root.identity.mount_id
         && actual.inode == root.identity.inode
-        && actual.ctime_seconds == root.identity.ctime_seconds
-        && actual.ctime_nanoseconds == root.identity.ctime_nanoseconds
-        && actual.links == root.identity.links
-        && actual.uid == root.identity.uid
-        && actual.gid == root.identity.gid
-        && actual.mode == root.identity.mode
-        && actual.node_type == root.identity.node_type)
+        && (!require_ctime
+            || (actual.ctime_seconds == root.identity.ctime_seconds
+                && actual.ctime_nanoseconds == root.identity.ctime_nanoseconds)))
 }
 
 fn anchored_name(path: &Path) -> Result<AnchoredName> {
     use std::ffi::CString;
     use std::os::unix::ffi::OsStrExt;
-    Ok(AnchoredName {
-        parent: open_root_no_follow(path.parent().ok_or_else(|| {
+    let parent =
+        open_root_no_follow(path.parent().ok_or_else(|| {
             V2Error::new(ErrorCode::InvalidInput, "anchored path has no parent")
-        })?)?,
-        name: CString::new(
-            path.file_name()
-                .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "anchored path has no name"))?
-                .as_bytes(),
-        )
-        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "anchored path contains NUL"))?,
+        })?)?;
+    let name = CString::new(
+        path.file_name()
+            .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "anchored path has no name"))?
+            .as_bytes(),
+    )
+    .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "anchored path contains NUL"))?;
+    let child = if path.symlink_metadata().is_ok() {
+        Some(open_child_no_follow(&parent, &name, false)?)
+    } else {
+        None
+    };
+    Ok(AnchoredName {
+        parent,
+        name,
+        child,
     })
 }
 
@@ -1841,7 +1867,27 @@ pub fn recover_preserved_projection(
         )?;
         failpoint(&request, "displace_intent")?;
         if candidate.symlink_metadata().is_ok() && displaced.symlink_metadata().is_err() {
-            rename_no_replace(&anchored_name(&candidate)?, &anchored_name(&displaced)?)?;
+            if !same_moved_observation(&candidate, &prior_observation, request.issue)? {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "post-exchange prior identity drifted before displacement",
+                ));
+            }
+            let candidate_anchor = anchored_name(&candidate)?;
+            if !anchored_moved_root_identity_matches(&candidate_anchor, &prior_observation)? {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "post-exchange prior identity drifted at displacement boundary",
+                ));
+            }
+            let displaced_anchor = anchored_name(&displaced)?;
+            rename_no_replace(&candidate_anchor, &displaced_anchor)?;
+            if !same_moved_observation(&displaced, &prior_observation, request.issue)? {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "post-exchange displaced prior identity verification failed",
+                ));
+            }
             failpoint(&request, "prior_displaced_renamed")?;
         } else if !(candidate.symlink_metadata().is_err()
             && displaced.symlink_metadata().is_ok()
