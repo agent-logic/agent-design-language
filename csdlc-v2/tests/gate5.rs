@@ -48,6 +48,10 @@ fn finding(id: &str) -> ReviewFindingEvidence {
 #[test]
 fn implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated() {
     let (_temp, store, implemented) = implemented_fixture();
+    let original_branch = implemented.branch.clone();
+    let original_worktree = implemented.worktree.clone();
+    let original_transitions = implemented.transitions.clone();
+    let original_audit_len = implemented.audit.len();
     let assigned = assign_review(
         &store,
         ReviewAssignmentRequest {
@@ -107,19 +111,86 @@ fn implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated
     )
     .expect("atomic authored refresh");
     assert_eq!(refreshed.phase, LifecyclePhase::Implemented);
+    assert_eq!(refreshed.branch, original_branch);
+    assert_eq!(refreshed.worktree, original_worktree);
+    assert_eq!(refreshed.transitions, original_transitions);
     assert!(refreshed.review_assignment.is_none());
-    assert!(refreshed
-        .audit
-        .last()
-        .unwrap()
-        .operation
-        .contains("refresh_authored_design_after_recovery"));
-    let spp = store.load_cards(7).unwrap().remove(&CardKind::Spp).unwrap();
+    assert!(matches!(
+        refreshed.design_review,
+        csdlc_v2::model::DesignReview::Pending
+    ));
+    assert_eq!(refreshed.audit.len(), original_audit_len + 3);
+    let operation: serde_json::Value =
+        serde_json::from_str(&refreshed.audit.last().unwrap().operation).unwrap();
+    assert_eq!(
+        operation["operation"]["operation"],
+        "refresh_authored_design_after_recovery"
+    );
+    assert_eq!(
+        operation["design_binding_refresh"]["old_design_digest"],
+        digest(b"# reviewed design\n")
+    );
+    assert_eq!(
+        operation["design_binding_refresh"]["new_design_digest"],
+        digest(b"# refreshed design\n")
+    );
+    assert_eq!(
+        operation["design_binding_refresh"]["old_diagram_digest"],
+        digest(b"flowchart LR\n A-->B\n")
+    );
+    assert_eq!(
+        operation["design_binding_refresh"]["new_diagram_digest"],
+        digest(b"flowchart LR\n B-->C\n")
+    );
+    let mut cards = store.load_cards(7).unwrap();
+    let spp = cards.remove(&CardKind::Spp).unwrap();
     let csdlc_v2::cards::CardContent::Spp(values) = spp.content else {
         panic!("SPP")
     };
     assert_eq!(values.design_digest, digest(b"# refreshed design\n"));
     assert_eq!(values.diagram_digest, digest(b"flowchart LR\n B-->C\n"));
+    let csdlc_v2::cards::CardContent::Vpp(vpp) = cards.remove(&CardKind::Vpp).unwrap().content
+    else {
+        panic!("VPP")
+    };
+    assert_eq!(vpp.design_digest, values.design_digest);
+    assert_eq!(vpp.diagram_digest, values.diagram_digest);
+    let csdlc_v2::cards::CardContent::Sor(sor) = cards.remove(&CardKind::Sor).unwrap().content
+    else {
+        panic!("SOR")
+    };
+    assert_eq!(sor.summary, "implemented");
+
+    let blocked = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: refreshed.generation,
+            expected_digest: refreshed.digest.clone(),
+            reviewer: "too-early".into(),
+            assigned_by: "agent".into(),
+            scope: vec!["src".into()],
+        },
+    )
+    .expect_err("pending design approval blocks assignment");
+    assert_eq!(blocked.code, ErrorCode::InvalidTransition);
+
+    let no_op = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: refreshed.generation,
+            expected_digest: refreshed.digest.clone(),
+            actor: "agent".into(),
+            reason: "no-op".into(),
+            operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("no-op refresh rejected");
+    assert_eq!(no_op.code, ErrorCode::InvalidTransition);
+    assert_eq!(store.load_record(7).unwrap().digest, refreshed.digest);
 
     git(store.root(), &["add", "."]);
     git(store.root(), &["commit", "-m", "refresh authored tuple"]);

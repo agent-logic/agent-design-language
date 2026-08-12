@@ -259,7 +259,25 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
     ) -> Result<()> {
-        self.commit_with_authored(issue, record, cards, fail_after_backup, None)
+        self.commit_with_authored(issue, record, cards, fail_after_backup, None, None)
+    }
+
+    fn commit_verified(
+        &self,
+        issue: u64,
+        record: &IssueRecord,
+        cards: &BTreeMap<CardKind, CardValues>,
+        fail_after_backup: bool,
+        verifier: &mut dyn FnMut() -> Result<()>,
+    ) -> Result<()> {
+        self.commit_with_authored(
+            issue,
+            record,
+            cards,
+            fail_after_backup,
+            None,
+            Some(verifier),
+        )
     }
 
     fn commit_with_authored(
@@ -269,6 +287,7 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
         authored_overrides: Option<&BTreeMap<String, String>>,
+        mut verifier: Option<&mut dyn FnMut() -> Result<()>>,
     ) -> Result<()> {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
@@ -347,6 +366,14 @@ impl Store {
                     contents.as_bytes(),
                     "authored-commit-tmp",
                 )?;
+            }
+        }
+        if let Some(verify) = verifier.as_mut() {
+            if let Err(error) = verify() {
+                fs::remove_dir_all(&current)?;
+                fs::rename(&backup, &current)?;
+                sync_dir(current.parent().expect("issue parent"))?;
+                return Err(error);
             }
         }
         if backup.exists() {
@@ -1061,13 +1088,16 @@ impl Store {
         }
         let mut cards = self.load_cards(issue)?;
         verify_cards(self, &record, &cards)?;
-        let (design_digest, diagram_digest) = match &cards[&CardKind::Spp].content {
-            CardContent::Spp(values) => (
-                values.design_digest.as_str(),
-                values.diagram_digest.as_str(),
-            ),
-            _ => unreachable!("SPP"),
-        };
+        let (design_ref, design_digest, diagram_ref, diagram_digest) =
+            match &cards[&CardKind::Spp].content {
+                CardContent::Spp(values) => (
+                    values.design_ref.clone(),
+                    values.design_digest.clone(),
+                    values.diagram_ref.clone(),
+                    values.diagram_digest.clone(),
+                ),
+                _ => unreachable!("SPP"),
+            };
         let refresh_used = record.audit.iter().any(|event| {
             event
                 .operation
@@ -1088,7 +1118,7 @@ impl Store {
                         && value["diagram_ref"] == record.diagram_path
                         && value["diagram_digest"] == diagram_digest
                 });
-        if !matches!(&record.design_review, DesignReview::Approved { revision, .. } if revision == design_digest)
+        if !matches!(&record.design_review, DesignReview::Approved { revision, .. } if revision == &design_digest)
             || !tuple_approved
             || authored_digest(self, &record.design_path)? != design_digest
             || authored_digest(self, &record.diagram_path)? != diagram_digest
@@ -1096,6 +1126,16 @@ impl Store {
             return Err(V2Error::new(
                 ErrorCode::InvalidTransition,
                 "review assignment requires current approved authored design tuple at commit",
+            ));
+        }
+        let mut design_artifact = retain_authored_artifact(self.root(), Path::new(&design_ref))?;
+        let mut diagram_artifact = retain_authored_artifact(self.root(), Path::new(&diagram_ref))?;
+        if design_artifact.verify()? != design_digest
+            || diagram_artifact.verify()? != diagram_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "review assignment authored tuple changed before commit",
             ));
         }
         let registered = record.worktree.as_ref().ok_or_else(|| {
@@ -1145,7 +1185,20 @@ impl Store {
         });
         hydrate_projections(&mut record, &cards)?;
         record.digest = record_digest(&record)?;
-        self.commit(issue, &record, &cards, false)?;
+        let expected_design = design_digest;
+        let expected_diagram = diagram_digest;
+        let mut verifier = || {
+            if design_artifact.verify()? != expected_design
+                || diagram_artifact.verify()? != expected_diagram
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "review assignment authored tuple changed across commit",
+                ));
+            }
+            Ok(())
+        };
+        self.commit_verified(issue, &record, &cards, false, &mut verifier)?;
         Ok(record)
     }
 
@@ -2077,7 +2130,31 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             ));
         }
     }
-    store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
+    if let Some((design_artifact, diagram_artifact)) = retained_refresh_artifacts.as_mut() {
+        let refresh = design_refresh.as_ref().expect("retained refresh binding");
+        let expected_design = refresh.new_design_digest.clone();
+        let expected_diagram = refresh.new_diagram_digest.clone();
+        let mut verifier = || {
+            if design_artifact.verify()? != expected_design
+                || diagram_artifact.verify()? != expected_diagram
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "paired authored artifact handles changed across canonical commit",
+                ));
+            }
+            Ok(())
+        };
+        store.commit_verified(
+            request.issue,
+            &record,
+            &cards,
+            request.fail_after_backup,
+            &mut verifier,
+        )?;
+    } else {
+        store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
+    }
     Ok(record)
 }
 

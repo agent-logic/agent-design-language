@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "959b44fd61ec0393ad471311d39b13f254c41ca7f6e910dc8b5256529409cb2d",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "d93620b4b508a25bc815ef5af75deb6440a570650b90e2a612921d11da8e0514",
+  "generation": 16,
+  "digest": "f673dab1ff9ddbac8e2cdda09b806db88518cb1cdc0bc4bfcff1dbb0e59b5130",
   "branch": "codex/296-implemented-authored-design-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-296-implemented-authored-design-refresh",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "778782d724ff179714e81394cb955989716eef6f1c56cff22adac6b68e70bd2f",
+      "values_digest": "76b887087393fda950f00265457558ac3dd3e410541a1c74d244dd4efde914b6",
       "rendered_digest": "57c636d2e2f6070a237866654cd4127dbe7a4fc5f191741e071ab2535642984d",
       "ast_digest": "6461b0f59b4c2a6f6dd2f9f13bacb203b861d859e8d58f33bd7ed07b42bb5c79"
     },
     "stp": {
-      "values_digest": "18226c29e159e424f2576505057b7779532b516ea9d0fbf3cab4fe4b578149fc",
+      "values_digest": "e1ff07c359d443fe96ff9105d0bf0788d820e09ae0bd5796ebe0cda057a720f7",
       "rendered_digest": "11159f0d7f9983633a92db76cd8c7649cdf3e4810b7c6a017d81f64ce614aa8a",
       "ast_digest": "95e8ab9c66e490f856cc459c14f4eb65807a2bd7ec63956cacf2d5441087e983"
     },
     "spp": {
-      "values_digest": "77d2df8f24d24fffc5fb988ba23760b6a760d493d157e0e0fb5e207dd097de1d",
+      "values_digest": "43bca30995044f33ed9b1cbaa9eddadd62d1ccb631fabd863f01703b10d2cce4",
       "rendered_digest": "a4d0b4299567ee7fee32a6bfa3ff8a9613f985311842df815ae5cc7c4d74c274",
       "ast_digest": "a90a4d80862cdfe7a6a938432ac9b0c93be84e046765dcbc5964a24f01ffb8b3"
     },
     "vpp": {
-      "values_digest": "510f9cc4e16e737ddb69c798797c362ac4b5e38b2abbf578b1519bdc9caef773",
-      "rendered_digest": "ef94c71df6fa5bcbdbdd8cc26f70692e8176da606c057e7e1dfccd26785c1a61",
-      "ast_digest": "53e72a739711beefdfa10f3552b6148630ef10dc0e2a8338076caf806bde71b3"
+      "values_digest": "1b65d63c4ca1f73b008416c282b4d16aec6bba55eb3be8e01baa5661eb48d78c",
+      "rendered_digest": "910bf36f49d48ff8a442c83ed765f5a9e581a737ff3459adc22939a7e754be17",
+      "ast_digest": "9a6d9e9f0fca538be0c8fbde6452928f1bca0298ec6bd09822c0a6e3979431f8"
     },
     "srp": {
-      "values_digest": "5e62c8b182bd0decb356c57e47473cbd5dc0dcc4d196ed63d5e7fa468a523ec6",
+      "values_digest": "04622d4a38998511fd1923ed3587dce0263a5ab92ad80700d4f8c968842dc83b",
       "rendered_digest": "9f6660015a337ab5724deb53bfc4a3eba76a277311ca093069379d433ad43416",
       "ast_digest": "0d52b7027fcaa160851a266410a5d41e8281dc86a753e3f06672bf3c1e7e4ad0"
     },
     "sor": {
-      "values_digest": "675fafe9851be417dcf090f4bffba8f466cbbc9ad424d753b80f464384e6b679",
-      "rendered_digest": "eeabb542803f205d8924e071a45eb9b098687cd3f4f199f695d3ec3907ba9bd6",
-      "ast_digest": "315505e788c0fe5f4a064e34b8991fdaa1a0c1e4328944b4f8301ced76d87c63"
+      "values_digest": "647c0a237bf465e63966bd262b7eabef8e6324d1dd6f645df62bf096aa1d5c9c",
+      "rendered_digest": "5821817bde518538c6402120f485d7fbaf208e4850685a70bacda21a5f39d9d7",
+      "ast_digest": "ab3d8755c413786e6194f2469f6c1ee4047a35cf376c563861fbecf72c33efa5"
     }
   },
   "transitions": [
@@ -196,6 +196,34 @@
       "actor": "codex:issue-296",
       "reason": "Record exact r2 remediation and executed validation without claiming unexecuted scheduler race injection.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated r2 with paired retained authored artifact handles, a functional linked-worktree refresh route, final locked assignment topology/revision checks, and real end-to-end proof.\",\"changes\":[\"Retain design and diagram descriptors, bytes, inode identities, link counts, timestamps, and anchored paths through the immediate canonical commit boundary.\",\"Permit only the typed recovered refresh operation to reconcile stale authored bytes while retaining projection and audit integrity checks.\",\"Recheck registered worktree, branch, HEAD, clean substantive revision, approved tuple, and exact scope inside the serialized assignment commit boundary.\",\"Add real linked-worktree end-to-end CAS, atomic card/history, approval, and reassignment proof plus retained-handle replacement rejection.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/review.rs\",\"csdlc-v2/tests/gate5.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"implemented_authored_design_refresh_retains_handle_identity_until_commit_boundary\"],\"purpose\":\"Prove a retained paired artifact handle rejects path replacement at the final commit boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r2-retained-handle\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated\"],\"purpose\":\"Prove linked-worktree recovery, stale CAS, paired refresh, atomic history/cards, approval, and reassignment end to end.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r2-end-to-end\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"purpose\":\"Prove complete review assignment and recovery regression behavior including dirty-tree and exact-revision gates.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r2-gate5\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove complete library regression including authored artifact race negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r2-lib\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict all-target lint cleanliness.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r2-clippy\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:issue-296",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:issue-296",
+      "reason": "Recover the failed third exact-head review before bounded commit-boundary and proof remediation",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:issue-296",
+      "reason": "Preserve exact r3 findings and record bounded commit-boundary and proof remediation",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated r3 refresh and assignment commit gaps with rollback-capable post-swap paired artifact verification, and narrowed proof truth to assertions actually executed.\",\"changes\":[\"R3 P1 refresh gap: retain paired authored handles through the store swap, verify after the new projection is installed, and atomically restore the complete prior issue directory when verification fails.\",\"R3 P1 assignment gap: retain the approved design and diagram pair across final topology, HEAD, substantive revision, and projection commit; rollback assignment projection if the pair changes across commit.\",\"R3 P2 proof overclaim: assert SPP/VPP parity, pending approval, preserved branch/worktree/transitions/execution, exact old/new audit digests, blocked preapproval assignment, no-op rejection, and unchanged state after failure; no scheduler-race claim.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/issues/296\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"purpose\":\"Run linked-worktree lifecycle, exact audit/parity/history, authority, CAS, and review regression proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r3-gate5\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Run complete library artifact identity and lifecycle regression proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r3-lib\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict all-target lint cleanliness.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r3-clippy\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:issue-296",
+      "reason": "Correct r3 proof overclaim to the exact assertions and non-race validation executed",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"implemented-authored-design-refresh-end-to-end\",\"proof_role\":\"Linked-worktree integration proof for typed recovery, stale CAS rejection, SPP/VPP parity, pending approval, preserved topology/transitions/execution, exact digest audit fields, blocked preapproval assignment, no-op rejection, approval, and reassignment; not scheduler-race proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"implemented-authored-design-refresh-retained-handles\",\"proof_role\":\"Unit proof that a retained authored handle rejects path replacement and identity drift before the commit boundary; combined with the rollback-capable transaction implementation, not a scheduler-race claim.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"implemented_authored_design_refresh_retains_handle_identity_until_commit_boundary\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-gate5-review-regression\",\"proof_role\":\"Complete Gate 5 regression for assignment, recovery, exact revision, dirty-tree rejection, and lifecycle behavior; no scheduler-race injection claim.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-294-terminal-ancestry-observation\",\"proof_role\":\"Deferred live observation only; not implementation proof.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\",\"issue_294_waits_for_terminal_ancestral_296\"],\"parallel_group\":\"post-terminal\",\"defer_reason\":\"Run only after issue 296 is terminal and ancestral; AC-9 remains deferred.\"}]}"
     }
   ]
 }

@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/296/diagram.mmd
 [
   {
     "lane": "implemented-authored-design-refresh-end-to-end",
-    "proof_role": "Deterministic linked-worktree integration proof for assignment, typed recovery, stale CAS rejection, paired refresh, atomic card/history update, exact tuple approval, and reassignment across AC-1 through AC-8.",
+    "proof_role": "Linked-worktree integration proof for typed recovery, stale CAS rejection, SPP/VPP parity, pending approval, preserved topology/transitions/execution, exact digest audit fields, blocked preapproval assignment, no-op rejection, approval, and reassignment; not scheduler-race proof.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -33,8 +33,7 @@ Diagram: .csdlc/prepared/issues/296/diagram.mmd
       "AC-4",
       "AC-5",
       "AC-6",
-      "AC-7",
-      "AC-8"
+      "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -54,12 +53,10 @@ Diagram: .csdlc/prepared/issues/296/diagram.mmd
   },
   {
     "lane": "implemented-authored-design-refresh-retained-handles",
-    "proof_role": "Deterministic unit proof that paired authored artifact handles retain inode/path identity through the final commit-boundary verification and reject replacement.",
+    "proof_role": "Unit proof that a retained authored handle rejects path replacement and identity drift before the commit boundary; combined with the rollback-capable transaction implementation, not a scheduler-race claim.",
     "acceptance_ids": [
       "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5"
+      "AC-3"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -77,11 +74,9 @@ Diagram: .csdlc/prepared/issues/296/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "csdlc-v2-gate5-review-assignment-regression",
-    "proof_role": "Deterministic complete Gate 5 integration suite covering clean/dirty assignment, linked-worktree topology, exact revision, recovery, atomic history, and review authority regressions; no claim of scheduler-level race injection.",
+    "lane": "csdlc-v2-gate5-review-regression",
+    "proof_role": "Complete Gate 5 regression for assignment, recovery, exact revision, dirty-tree rejection, and lifecycle behavior; no scheduler-race injection claim.",
     "acceptance_ids": [
-      "AC-4",
-      "AC-5",
       "AC-6",
       "AC-7",
       "AC-8"
@@ -103,7 +98,7 @@ Diagram: .csdlc/prepared/issues/296/diagram.mmd
   },
   {
     "lane": "issue-294-terminal-ancestry-observation",
-    "proof_role": "Deferred live observation that issue 296 is terminal and ancestral before issue 294 resumes; not implementation proof.",
+    "proof_role": "Deferred live observation only; not implementation proof.",
     "acceptance_ids": [
       "AC-9"
     ],
@@ -121,7 +116,7 @@ Diagram: .csdlc/prepared/issues/296/diagram.mmd
       "issue_294_waits_for_terminal_ancestral_296"
     ],
     "parallel_group": "post-terminal",
-    "defer_reason": "Run only after issue 296 is terminal; until then issue 294 remains blocked and AC-9 is not green."
+    "defer_reason": "Run only after issue 296 is terminal and ancestral; AC-9 remains deferred."
   }
 ]
 
