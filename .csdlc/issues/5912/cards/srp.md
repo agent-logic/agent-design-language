@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/birth_witness.rs
+adl-runtime-kernel/tests/birth_witness.rs
+.csdlc/prepared/issues/5912
+.csdlc/issues/5912
 
 ## Prompts
 

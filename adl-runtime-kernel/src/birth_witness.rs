@@ -92,7 +92,7 @@ pub struct BirthWitnessPolicy {
 /// owners are responsible for loading it from their trusted configuration
 /// boundary; request payloads must never be promoted into this type.
 #[derive(Clone, Debug, Eq, PartialEq)]
-pub struct RuntimeBirthWitnessAuthority {
+pub(crate) struct RuntimeBirthWitnessAuthority {
     pub witness_id: String,
     pub role: BirthWitnessRole,
     pub signing_key_id: String,
@@ -172,7 +172,7 @@ impl BirthWitnessPolicy {
 }
 
 impl RuntimeBirthWitnessService {
-    pub fn provision(
+    pub(crate) fn provision(
         authority_context: impl Into<String>,
         candidate_sha256: impl Into<String>,
         current_generation: u64,

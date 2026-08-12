@@ -5,11 +5,21 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7607073d7ba9e8235645ccf9fd3f55d27fe86ad5c4e2148afa330bcec8953e64",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "32051ca099314446b0fc6af3481075a6c2cc3c99562720ab1a7c03b972d880a6",
+  "generation": 9,
+  "digest": "0694bc8c2bf64bbea0cd4dea1edd12a1419f0ccde0ce80e1fc143f2857ea5f03",
   "branch": "codex/5912-runtime-birth-witness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5912-runtime-birth-witness",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_fresh_main",
+    "assigned_by": "codex:5912-runtime-birth-witness",
+    "revision": "git-blake3:18c76c671de3fcb3f7d1cab1903c0cec491a4886:c699c4fd329a850a4915c77759ed4fbcd2861404999f07f04ab41a3f41bca485",
+    "scope": [
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      ".csdlc/prepared/issues/5912",
+      ".csdlc/issues/5912"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -25,32 +35,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e3f1f424f16537a7b8f5fd47770b66d1922d40d6c45c1cef8c3d1e035863a9d6",
+      "values_digest": "41da4c2fa3c624d5971284a58ddcc139ea2af22cb3faa8db7cd754d842de2064",
       "rendered_digest": "91eab6869cb804874c22497f8c1d473cbefda583e397409a42203dba41b49c9c",
       "ast_digest": "7d6bc05c963875f2d4ce7eeb358121a8b1e3bf87338cfe00ef17007d190df0e4"
     },
     "stp": {
-      "values_digest": "c1a8b3b57a39b3436664005bc8f047d61581cb0e4f0df56d349e077bbe2bae95",
+      "values_digest": "739c5d5699a436d6e37ec71d4b4c7d2d9005ca288bc2d812949baf2391c68d3e",
       "rendered_digest": "c672c8d61d27aed70c8b7d7c27df460bb9a0389a801be3830e0077f086c500c4",
       "ast_digest": "622b534250f3e071a19601e6495d872c34ceddc5fc0d09b1b9ddcfa6da9402ea"
     },
     "spp": {
-      "values_digest": "017d6161f8ab44d7e55e27881289c49e0a2bba0b54a436eca198de48409223cd",
-      "rendered_digest": "994a7042ad28d11831d2ce4f0831abcc3b2598d1a8b3ae1a58246401ed0d7599",
-      "ast_digest": "83af666aacb2e1c157a9c84568de2ccf61e4ba0047ff27d6764e722e76f4f188"
+      "values_digest": "b1533a2d0e3ef72c048c17d569af0d6a09a94cfb0f2cd9fb6f20252315cfae69",
+      "rendered_digest": "61f6ef721e3a5c2e3bc763f4ba44247081d18f1ce6518625afc146d850f409c0",
+      "ast_digest": "a0dcb59a87bff02b7bbc1fc7d13977116203f2b082bf0bb6b94406fb2c9e286f"
     },
     "vpp": {
-      "values_digest": "17d0f72e8e8a3af917790c10d819e6b407359a9101efdb598962ca564eb76ebf",
+      "values_digest": "981093b006ee4cf89ae3d3fd8d0aae7c61721d866e6b47587a28b4dfe8e30a93",
       "rendered_digest": "90c74684a044cf49f56a5d7fda3d0a2fbbd40c30cefd400faa97b86d2805f4c5",
       "ast_digest": "65db1fcd7113863997e16ae9b309fe6b967cdbacef1f09a5f49f9225af3f998e"
     },
     "srp": {
-      "values_digest": "856cec26bd34b80643c6f6bd292ec5bb06a2b562ddf14239de849bf4b8351303",
-      "rendered_digest": "3309365bfd9d526bc143a98c60423451c64bf6be81c2965d2636f237aa96e2c1",
-      "ast_digest": "2253f48af3549e7e430f15f40ee35190c412821f89be0a5640158e939c7220cd"
+      "values_digest": "67d860bc05301f1519dcdeace212e5209233fa92474d039d4b712a5e2eb08088",
+      "rendered_digest": "03d91e86233f0dbcd4e03bd316d75d85f08808ea256840923b9a6058dbd4db15",
+      "ast_digest": "7091de1a00d2884e224d54875f8f4c518882a1957bcc24b0ab5c5701b0f46df7"
     },
     "sor": {
-      "values_digest": "ca60cc5204f652afaa2de714af5b2cdc25811516b2c9585e36251651b2447870",
+      "values_digest": "f09500bd28c662a4e93058cb2e6416ea63efd0d489e6adf605ef969cf19d199b",
       "rendered_digest": "232427c9ec843fc999464f5ec19f63d1a8992d2274fa5c3aaeed8125f3222fed",
       "ast_digest": "27060e6e8d2b9df0e4562f6d871f7ca53f49f1e719a90bcb7c5e540a0a79772f"
     }
@@ -176,6 +186,20 @@
       "actor": "codex:5912-runtime-birth-witness",
       "reason": "Recover stale review and publication truth before integrating current main at 7d41ed0413864a902a133e2e02346a1777d77ef1; require focused revalidation and fresh independent exact-head review before republishing PR #243.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Own the Runtime boot-trusted manifest provisioning boundary and the widened security regression runner required by fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912\"]}"
     }
   ]
 }

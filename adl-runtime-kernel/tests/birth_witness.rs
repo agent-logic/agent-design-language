@@ -3,10 +3,10 @@
 use std::{cell::RefCell, fs};
 
 use adl_runtime_kernel::{
-    candidate_digest, decide_birthday, reviewed_evidence_set_digest, witness_signing_bytes,
-    BirthEventStatus, BirthWitnessAttestation, BirthWitnessPacket, BirthWitnessRole,
-    BirthdayCandidate, EvidenceKind, RuntimeBirthWitnessAuthority, RuntimeBirthWitnessService,
-    WitnessDecision, BIRTH_WITNESS_ATTESTATION_SCHEMA,
+    candidate_digest, decide_birthday, load_runtime_birth_witness_service,
+    reviewed_evidence_set_digest, witness_signing_bytes, BirthEventStatus, BirthWitnessAttestation,
+    BirthWitnessPacket, BirthWitnessRole, BirthdayCandidate, EvidenceKind, WitnessDecision,
+    BIRTH_WITNESS_ATTESTATION_SCHEMA,
 };
 use ed25519_dalek::{Signer, SigningKey};
 
@@ -30,13 +30,27 @@ fn runtime_service_builds_validates_and_emits_receipt() {
     let authorities = BirthWitnessRole::REQUIRED
         .into_iter()
         .enumerate()
-        .map(|(index, role)| RuntimeBirthWitnessAuthority {
-            witness_id: format!("witness-{}", index + 1),
-            role,
-            signing_key_id: format!("witness-key-{}", index + 1),
-            verifying_key: keys[index].verifying_key().to_bytes(),
+        .map(|(index, role)| {
+            serde_json::json!({
+                "witness_id": format!("witness-{}", index + 1),
+                "role": role,
+                "signing_key_id": format!("witness-key-{}", index + 1),
+                "verifying_key": hex::encode(keys[index].verifying_key().to_bytes()),
+            })
         })
         .collect::<Vec<_>>();
+
+    let trusted_manifest = tempfile::NamedTempFile::new().expect("trusted manifest");
+    fs::write(
+        trusted_manifest.path(),
+        serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.birth_witness_trust.v1",
+            "authority_context": "runtime-v3-birth-witness-authority",
+            "authorities": authorities,
+        }))
+        .expect("serialize trusted manifest"),
+    )
+    .expect("write trusted manifest");
 
     let fixture = format!(
         "{}/tests/fixtures/birthday/valid.json",
@@ -45,13 +59,9 @@ fn runtime_service_builds_validates_and_emits_receipt() {
     let mut candidate: BirthdayCandidate =
         serde_json::from_str(&fs::read_to_string(fixture).expect("read candidate"))
             .expect("parse candidate");
-    let provisional = RuntimeBirthWitnessService::provision(
-        "runtime-v3-birth-witness-authority",
-        "0".repeat(64),
-        7,
-        authorities.clone(),
-    )
-    .expect("provision roster digest");
+    let provisional =
+        load_runtime_birth_witness_service(trusted_manifest.path(), "0".repeat(64), 7)
+            .expect("provision roster digest");
     candidate
         .evidence
         .iter_mut()
@@ -60,11 +70,10 @@ fn runtime_service_builds_validates_and_emits_receipt() {
         .sha256 = provisional.roster_sha256().to_owned();
     candidate.packet_sha256 = candidate_digest(&candidate).expect("candidate digest");
 
-    let service = RuntimeBirthWitnessService::provision(
-        "runtime-v3-birth-witness-authority",
+    let service = load_runtime_birth_witness_service(
+        trusted_manifest.path(),
         candidate.packet_sha256.clone(),
         7,
-        authorities,
     )
     .expect("provision runtime service");
     let evidence_set_sha256 = reviewed_evidence_set_digest(&candidate).expect("evidence digest");

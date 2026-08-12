@@ -7,7 +7,10 @@ use std::{
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-use crate::ComponentId;
+use crate::{
+    BirthWitnessError, BirthWitnessRole, ComponentId, RuntimeBirthWitnessAuthority,
+    RuntimeBirthWitnessService,
+};
 
 pub const RUNTIME_CONFIG_SCHEMA: &str = "adl.runtime.config.v1";
 pub const RUNTIME_INIT_SCHEMA: &str = "adl.runtime_v3.init.v1";
@@ -18,6 +21,75 @@ const MAX_OBSERVABILITY_FILE_BYTES: u64 = 1024 * 1024 * 1024;
 const MAX_OBSERVABILITY_RETAINED_FILES: usize = 128;
 const MAX_GUARDIAN_CONFIGURATION_EXIT_CODES: usize = 16;
 const MAX_GUARDIAN_LEASE_AUTH_ATTEMPTS: u32 = 32;
+
+const BIRTH_WITNESS_TRUST_SCHEMA: &str = "adl.runtime.birth_witness_trust.v1";
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RuntimeBirthWitnessTrustManifest {
+    schema: String,
+    authority_context: String,
+    authorities: Vec<RuntimeBirthWitnessTrustAuthority>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RuntimeBirthWitnessTrustAuthority {
+    witness_id: String,
+    role: BirthWitnessRole,
+    signing_key_id: String,
+    verifying_key: String,
+}
+
+/// Load the birth-witness service from the Runtime's boot-trusted manifest.
+///
+/// The manifest path is an operator-owned initialization input. Request
+/// payloads cannot construct the opaque policy or nominate authority keys.
+pub fn load_runtime_birth_witness_service(
+    trusted_manifest_path: &Path,
+    candidate_sha256: impl Into<String>,
+    current_generation: u64,
+) -> Result<RuntimeBirthWitnessService, RuntimeInitError> {
+    validate_absolute_path("birth_witness.trusted_manifest_path", trusted_manifest_path)?;
+    let bytes = std::fs::read(trusted_manifest_path).map_err(|error| {
+        RuntimeInitError::Read(trusted_manifest_path.to_path_buf(), error.to_string())
+    })?;
+    let manifest: RuntimeBirthWitnessTrustManifest = serde_json::from_slice(&bytes)
+        .map_err(|error| RuntimeInitError::Policy(error.to_string()))?;
+    if manifest.schema != BIRTH_WITNESS_TRUST_SCHEMA {
+        return Err(RuntimeInitError::Policy(
+            "unsupported birth-witness trust manifest schema".to_owned(),
+        ));
+    }
+    let authorities = manifest
+        .authorities
+        .into_iter()
+        .map(|authority| {
+            let key = hex::decode(authority.verifying_key)
+                .map_err(|_| RuntimeInitError::Policy("invalid birth-witness key".to_owned()))?;
+            let verifying_key: [u8; 32] = key.try_into().map_err(|_| {
+                RuntimeInitError::Policy("invalid birth-witness key length".to_owned())
+            })?;
+            Ok(RuntimeBirthWitnessAuthority {
+                witness_id: authority.witness_id,
+                role: authority.role,
+                signing_key_id: authority.signing_key_id,
+                verifying_key,
+            })
+        })
+        .collect::<Result<Vec<_>, RuntimeInitError>>()?;
+    RuntimeBirthWitnessService::provision(
+        manifest.authority_context,
+        candidate_sha256,
+        current_generation,
+        authorities,
+    )
+    .map_err(|error| RuntimeInitError::Policy(birth_witness_policy_error(error)))
+}
+
+fn birth_witness_policy_error(error: BirthWitnessError) -> String {
+    format!("birth-witness policy: {error}")
+}
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]

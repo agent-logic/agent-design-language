@@ -7,13 +7,13 @@
     "title": "Add production birth-witness policy provisioning and invocation boundary",
     "slug": "runtime-birth-witness-boundary",
     "version": "1.0.0",
-    "generation": 8
+    "generation": 9
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Add a narrow Runtime service around the existing opaque policy and builder/validator, prove it through an external integration test, then run focused review and publication.",
       "steps": [
         {
@@ -46,6 +46,7 @@
       ],
       "affected_areas": [
         "adl-runtime-kernel/src/birth_witness.rs",
+        "adl-runtime-kernel/src/config.rs",
         "adl-runtime-kernel/src/lib.rs",
         "adl-runtime-kernel/tests/birth_witness.rs",
         ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh",
