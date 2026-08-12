@@ -16,7 +16,7 @@ Make cleanup-race admission and execution deadlines deterministic so the require
 
 ## Required Outcome
 
-A newly admitted conversation generation is acknowledged before bounded execution, does not inherit a stale deadline, and emits exactly one terminal result.
+The proof queues re-authentication and duplicate attachment in server order, observes the existing in-flight turn before its deadline, and receives exactly one terminal result without changing production behavior.
 
 ## Scope
 

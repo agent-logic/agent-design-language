@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "72c5aaedd54016494afa5b8710204d118835417dfaba19d56bc2ef4adf75d8b2",
+  "generation": 19,
+  "digest": "0d79821255d5abbffa1d9e22e27957843040a3c026528642d71dda30b666ae4a",
   "branch": "codex/244-conversation-cleanup-race",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "631aa05fa44b854ca88cf7999489c82b46880b1789539a7ffc3677bff2fcb048",
-      "rendered_digest": "7a62a44849b3ee47c6d315d9ae860e38c7c9f401b082ff6c10b51e07ea83d10c",
-      "ast_digest": "a674fc18f6ee0f0e5bd3b16927f94ff295859296335f60b994861f61e4b8f480"
+      "values_digest": "49f5d07bbd85a32473047a538ec0f919053db83d720c38ea9b3be51311485127",
+      "rendered_digest": "a7a3fdffde72a8ccd84f303fd9461422089748d7cca2286b450c0616ae3f63b7",
+      "ast_digest": "1f3222725b44556758d3036806a3817fdeb58c6bbf437698b7d71d7510b446dc"
     },
     "stp": {
-      "values_digest": "c2e7137193c0eda36a769fe751efcfd6370a507ac437baafc8aac7bc77d17e94",
+      "values_digest": "2447e56c5ca77f308e801402b48d33e45d5c18813a3daf6b95afebbb1b621e96",
       "rendered_digest": "eb188e0abb8bcfed05a216770117422eb93ead3e8e416be888002ad29221716a",
       "ast_digest": "326ed86deaf78bc55b60c81607d0068ad3b1095c56de7aa454808bb21ec07f42"
     },
     "spp": {
-      "values_digest": "d93d1493467f461e2a97064f8c2f03303494e9b1e715260be5d629f61f07c97e",
+      "values_digest": "122f1f4470f1ff4c87bb78b283370aa127aef63de25a9f5dc936de13ddcae872",
       "rendered_digest": "81978cbb3dfdd1de1a83497165879cab700128b49ade354cc668bb235a476c34",
       "ast_digest": "52b86689ec5153ac35615f555085adc964584e6a9fbb5b9fe4438be11d1143ad"
     },
     "vpp": {
-      "values_digest": "b17bef7726254e874337f3ec18dbbd00d08119325678b012f6dba19d2052172f",
+      "values_digest": "2446e942acb630115ca715e891b669ad5e1b93a1ccb779574400b11b9938f442",
       "rendered_digest": "b1f0e4cabc691a213f24184bd7f17d1ce8bb6876b4ebc31d45ae2d1291418074",
       "ast_digest": "37327f5026d7e84602ac9dba51b9790a75681342c9a0600c179f6f99090fc7f0"
     },
     "srp": {
-      "values_digest": "198f894ec0170ada1c1312a8063b0185e2a895c9a030b3d472748b4e4928b4e1",
+      "values_digest": "9528816bfc84c41a75558e6a68511912c75747d8c56291ece9ebbb111995c151",
       "rendered_digest": "9fdfc4ebbab88ffd71d310ad577f2bc179ab5c194aa6d461bac005661792eaef",
       "ast_digest": "53d7dbf8eef992e76d36b5742a3ed29b9315d6f20f1595e5ec22d3d4bb66920c"
     },
     "sor": {
-      "values_digest": "208ba3a0b4fe0cfdf4523bfd2f9c5f9abea3db44ef628f8e371c73d7e40ac87b",
+      "values_digest": "735573368b96bcd5f64d19321e422101223fd8ab182726c6ae57d6ce6990e940",
       "rendered_digest": "7ce801156172218ca7a70c37f28ddc9645672a7ab9e9f0e949e424d3e73dad24",
       "ast_digest": "fc5fd5e72bc9348d0685d86d9b09445fe178bfebd5e1436f0784ba382f7f2413"
     }
@@ -75,6 +75,20 @@
       "to": "implemented",
       "actor": "codex:244-cleanup-race",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-cleanup-race",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:244-cleanup-race",
+      "reason": "Immediately recover the temporary routing-only acceptance to correct R244-P2-1 before publication."
     }
   ],
   "audit": [
@@ -189,6 +203,41 @@
       "actor": "codex:244-cleanup-race",
       "reason": "Resolve R244-P2-1 by aligning review prompts to the actual proof surface.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does queuing the duplicate behind re-authentication preserve server frame order and the authentication-generation transition?\",\"Does the test attach to the existing in-flight turn before its existing deadline without changing production behavior?\",\"Are duplicate attachment and exactly-once terminal semantics preserved, with no #112 authority changes?\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:244-cleanup-race",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Recover the remaining SIP required-outcome contradiction for immediate typed correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:244-cleanup-race",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Immediately recover the temporary routing-only acceptance to correct R244-P2-1 before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 immediately after typed reviewed-to-implemented recovery.",
+      "operation": "{\"new_value\":\"The proof queues re-authentication and duplicate attachment in server order, observes the existing in-flight turn before its deadline, and receives exactly one terminal result without changing production behavior.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"A newly admitted conversation generation is acknowledged before bounded execution, does not inherit a stale deadline, and emits exactly one terminal result.\"}"
     }
   ]
 }
