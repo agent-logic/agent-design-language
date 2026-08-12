@@ -12,15 +12,7 @@ Status: draft
 
 ## Scope
 
-adl/config/mechanical_coverage_fallout.v1.json
-adl/config/validation_lane_selector.v0.91.6.json
-adl/tools/check_coverage_impact.sh
-adl/tools/mechanical_coverage_fallout.py
-adl/tools/test_mechanical_coverage_fallout.sh
-docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md
-.csdlc/evidence/295
-.csdlc/issues/295
-.csdlc/prepared/issues/295
+
 
 ## Prompts
 

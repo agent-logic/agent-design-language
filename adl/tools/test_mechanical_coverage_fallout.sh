@@ -111,4 +111,20 @@ printf '%s\n' '{"data":[{"files":[{"filename":"adl-runtime/src/distributed/trans
 (cd "$GATE_ROOT" && bash adl/tools/check_coverage_impact.sh --base HEAD --include-working-tree --summary "$TEMP_ROOT/summary.json" --mechanical-receipt-dir "$TEMP_ROOT/receipts") >/dev/null
 jq -e '.execution_provenance == "classifier_executed_governed_commands" and (.hunks | length) == 2' "$TEMP_ROOT/receipts"/mechanical-*.json >/dev/null
 
+# A rejected rerun in the same directory must remove the earlier exact-diff
+# receipt and its per-path result artifacts instead of leaving stale proof.
+printf '%s\n' 'semantic_change();' >>"$GATE_ROOT/adl-runtime/src/distributed/transport/core.rs"
+if (cd "$GATE_ROOT" && bash adl/tools/check_coverage_impact.sh --base HEAD --include-working-tree --summary "$TEMP_ROOT/summary.json" --mechanical-receipt-dir "$TEMP_ROOT/receipts") >/dev/null 2>&1; then
+  echo 'expected semantic rerun to fail the coverage gate' >&2
+  exit 1
+fi
+if compgen -G "$TEMP_ROOT/receipts/mechanical-*.json" >/dev/null; then
+  echo 'rejected rerun retained stale mechanical receipt' >&2
+  exit 1
+fi
+if find "$TEMP_ROOT/receipts/results" -type f -print -quit 2>/dev/null | grep -q .; then
+  echo 'rejected rerun retained stale mechanical result artifacts' >&2
+  exit 1
+fi
+
 echo "PASS: mechanical compile-fallout classifier"

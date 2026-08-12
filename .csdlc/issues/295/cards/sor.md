@@ -12,23 +12,20 @@ Status: pre_phase
 
 ## Summary
 
-Remediated fourth-review findings by binding imports and control inputs to exact identities and strictly parsing the bounded Git unified-diff form.
+Remediated stale mechanical-fallout evidence retention so rejected or failed reruns cannot leave a prior receipt or result set available as current proof.
 
 ## Artifacts
 
-- adl/config/mechanical_coverage_fallout.v1.json
-- adl/tools/mechanical_coverage_fallout.py
 - adl/tools/check_coverage_impact.sh
 - adl/tools/test_mechanical_coverage_fallout.sh
-- docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md
 - .csdlc/evidence/295
 
 ## Execution
 
-- Bind the governed token to the configured exact Rust module path and reject stable wrong-prefix imports.
-- Load classifier and mapping from the clean exact-revision archive and verify both control digests after execution.
-- Validate exact single-file diff headers, optional index header, hunk ranges and line counts, body prefixes, and EOF with no trailing content.
-- Add wrong-module, dirty classifier/mapping, malformed header/count/body/trailing-content negatives while retaining the 80 percent and nightly/full gates.
+- Namespace governed proof results by the exact mapped source path while preserving unrelated paths' evidence.
+- Remove the path's prior receipt and results before each classification attempt and on every classifier or post-execution integrity failure.
+- Add a success-then-semantic-failure regression in the same receipt directory proving stale receipt and result artifacts are absent.
+- Preserve the 80 percent coverage threshold, non-authoritative PR evidence boundary, and read-only issue 258 fixture contract.
 
 ## Validation
 
@@ -38,7 +35,7 @@ Remediated fourth-review findings by binding imports and control inputs to exact
       "bash",
       "adl/tools/test_mechanical_coverage_fallout.sh"
     ],
-    "purpose": "Prove exact import identity, immutable controls, strict diff parsing, negatives, and threshold integration.",
+    "purpose": "Prove fail-closed stale receipt/results cleanup, parser, mapping, governed execution, negatives, and threshold integration.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/mechanical-compile-fallout-classifier.log"
   },
@@ -47,7 +44,7 @@ Remediated fourth-review findings by binding imports and control inputs to exact
       "bash",
       "adl/tools/test_check_coverage_impact.sh"
     ],
-    "purpose": "Prove unchanged 80 percent and authoritative coverage policy.",
+    "purpose": "Prove the existing 80 percent gate and authoritative coverage routing remain intact.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/coverage-impact-regression.log"
   },
@@ -56,7 +53,7 @@ Remediated fourth-review findings by binding imports and control inputs to exact
       "bash",
       "adl/tools/test_select_validation_lanes.sh"
     ],
-    "purpose": "Prove PVF selector and non-authoritative PR routing.",
+    "purpose": "Prove PVF selector inventory and PR-fast non-authoritative routing.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/295/validation-selector-pvf.log"
   }

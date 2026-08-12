@@ -628,11 +628,18 @@ mechanical_fallout_receipt_for_path() {
   [ -n "$MECHANICAL_RECEIPT_DIR" ] || return 1
   local classifier_rel="adl/tools/mechanical_coverage_fallout.py"
   local mapping_rel="adl/config/mechanical_coverage_fallout.v1.json"
-  local diff_file post_diff_file receipt_file base_revision head_revision diff_digest proof_root proof_revision
+  local diff_file post_diff_file receipt_file result_dir path_digest base_revision head_revision diff_digest proof_root proof_revision
   diff_file="$(mktemp)"
   post_diff_file="$(mktemp)"
   proof_root="$(mktemp -d)"
-  receipt_file="$MECHANICAL_RECEIPT_DIR/mechanical-$(printf '%s' "$path" | shasum -a 256 | awk '{print $1}').json"
+  path_digest="$(printf '%s' "$path" | shasum -a 256 | awk '{print $1}')"
+  receipt_file="$MECHANICAL_RECEIPT_DIR/mechanical-${path_digest}.json"
+  result_dir="$MECHANICAL_RECEIPT_DIR/results/${path_digest}"
+  # A rerun for the same path replaces its complete evidence set. Remove stale
+  # success artifacts before attempting classification, and leave no receipt or
+  # results behind if any later step rejects or fails.
+  rm -f "$receipt_file"
+  rm -rf "$result_dir"
   if [ "$INCLUDE_WORKTREE" = true ]; then
     git -C "$ROOT" diff "$BASE" -- "$path" >"$diff_file"
     base_revision="$(git -C "$ROOT" rev-parse "$BASE")" || return 1
@@ -663,29 +670,28 @@ mechanical_fallout_receipt_for_path() {
   mapping_digest="$(shasum -a 256 "$mapping" | awk '{print $1}')"
   if python3 "$classifier" --diff "$diff_file" --mapping "$mapping" \
       --receipt "$receipt_file" --repo-root "$proof_root" \
-      --evidence-dir "$MECHANICAL_RECEIPT_DIR/results" \
+      --evidence-dir "$result_dir" \
       --base-revision "$base_revision" --head-revision "$head_revision" >/dev/null; then
     [ "$(shasum -a 256 "$classifier" | awk '{print $1}')" = "$classifier_digest" ] &&
-      [ "$(shasum -a 256 "$mapping" | awk '{print $1}')" = "$mapping_digest" ] || { rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+      [ "$(shasum -a 256 "$mapping" | awk '{print $1}')" = "$mapping_digest" ] || { rm -rf "$proof_root" "$result_dir"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
     if [ "$INCLUDE_WORKTREE" = true ]; then
       git -C "$ROOT" diff "$BASE" -- "$path" >"$post_diff_file"
-      [ "$(git -C "$ROOT" rev-parse "$BASE")" = "$base_revision" ] || { rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+      [ "$(git -C "$ROOT" rev-parse "$BASE")" = "$base_revision" ] || { rm -rf "$proof_root" "$result_dir"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
     else
       git -C "$ROOT" diff "$BASE...$HEAD" -- "$path" >"$post_diff_file" 2>/dev/null ||
         git -C "$ROOT" diff "$BASE" "$HEAD" -- "$path" >"$post_diff_file"
       [ "$(git -C "$ROOT" merge-base "$BASE" "$HEAD")" = "$base_revision" ] &&
-        [ "$(git -C "$ROOT" rev-parse "$HEAD")" = "$head_revision" ] || { rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+        [ "$(git -C "$ROOT" rev-parse "$HEAD")" = "$head_revision" ] || { rm -rf "$proof_root" "$result_dir"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
     fi
-    cmp -s "$diff_file" "$post_diff_file" || { rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    cmp -s "$diff_file" "$post_diff_file" || { rm -rf "$proof_root" "$result_dir"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
     rm -rf "$proof_root"
     rm -f "$diff_file"
     rm -f "$post_diff_file"
     echo "coverage-impact: accepted exact mechanical compile fallout for ${path}; receipt ${receipt_file}"
     return 0
   fi
-  rm -rf "$proof_root"
-  rm -f "$diff_file"
-  rm -f "$post_diff_file"
+  rm -rf "$proof_root" "$result_dir"
+  rm -f "$diff_file" "$post_diff_file" "$receipt_file"
   return 1
 }
 

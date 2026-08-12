@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "ab9d6e5e85cdf83857de35859e7ebf57c2f1ad260b201a5a5a133785c225b87a",
+  "generation": 19,
+  "digest": "c9537ff55fc30445e62616bc393240f59b7658de2806a86b955e1fe31fcf0bd3",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
-  "review_assignment": {
-    "reviewer": "fresh-session:23ab2d08-f84d-4447-8bf3-cd1c10d6ba12",
-    "assigned_by": "codex:issue-295",
-    "revision": "git-blake3:36d3075ec05814ef44342c18784ffcceeab5e060:cb393824c086f18c62021367921186770c62f6db879b3909c04b8e4664698669",
-    "scope": [
-      "adl/config/mechanical_coverage_fallout.v1.json",
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/mechanical_coverage_fallout.py",
-      "adl/tools/test_mechanical_coverage_fallout.sh",
-      "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md",
-      ".csdlc/evidence/295",
-      ".csdlc/issues/295",
-      ".csdlc/prepared/issues/295"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6256db121a55dfa03acb904b5fdaef83c601e74e12bbf07c6906d2f53c51aca6",
+      "values_digest": "2305acb8dcc078b15cac5e2707f0a556250a4978e78a8608b41c58afe9811836",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "c4d6edf38bf46070208b56a7f43d4b75932cafabe2b6fa2aea02991cbc3ca328",
+      "values_digest": "3933a314bf969a449ea7e5482991311f5e1fdf6f83c2f3eef25ddaf2564af507",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "7ed45a94f5992d374a1973fc76dd9caa4b5a45e99058ee8ea843777b052c2121",
+      "values_digest": "983e273d717894981bcf021ad19c3a9025326c9c4889d36c80f33a48e3df90ee",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "dd1444d11f58794c41368b83543cbf1efa42d5fe759170b565e71c9e6574b341",
+      "values_digest": "f69d43c649f0dab12af787f50d5f7966f7d216111a366727501cda78d4bdeb39",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "a6b7e639cc0b108d15eb74e7baa7fd757eb127bf9a2178da852bdfab5934afbf",
-      "rendered_digest": "adce6addc13536dc384d027dda84b15d90ee54e7bb347200afff1134d2f00ba4",
-      "ast_digest": "7348f324c90db767261d0e82f9afe172a38b3792e306438f46a1ca0e3baa6b04"
+      "values_digest": "faa543345d38975fd471dc38251be2e099338417da516d752582bbae58ebe591",
+      "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
+      "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
     },
     "sor": {
-      "values_digest": "13a9ec3934c6e1457431950d369d8e55c591741e344b51ceac3c3100706729d7",
-      "rendered_digest": "7890843305e0189dd6c5bf89c42b1befe767012fcce21892be6e988d0126be85",
-      "ast_digest": "1c158c0e91d0771d1b963322c32325dd27e0f2644c66893fff40fcc602dc693e"
+      "values_digest": "370d6b984ab06e4277a7919d9dd0ad7f0f687c258d6b06d39d769cc5e1a77735",
+      "rendered_digest": "d299805b6d6870112f8291c76144771474dad1f74642692207a9d93fa724c0ca",
+      "ast_digest": "789555de67a8d1d018f13f69d3720e4e3040154c0a552edbc44ae5f05ec41685"
     }
   },
   "transitions": [
@@ -274,6 +259,20 @@
       "actor": "codex:issue-295",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:issue-295-remediation",
+      "reason": "Exact reviewer fresh-session:23ab2d08-f84d-4447-8bf3-cd1c10d6ba12 returned FAIL at git-blake3:36d3075ec05814ef44342c18784ffcceeab5e060:cb393824c086f18c62021367921186770c62f6db879b3909c04b8e4664698669. P2: a success followed by a rejected or failed rerun in the same receipt directory leaves the prior path-only receipt and deterministic results artifacts available as stale current proof. Recover before the bounded fail-closed cleanup or exact revision/diff namespacing remediation and success-then-failure regression; require a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:issue-295-remediation",
+      "reason": "Record the bounded stale-evidence remediation and complete passing declared validation before a different fresh exact-head reviewer is assigned.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated stale mechanical-fallout evidence retention so rejected or failed reruns cannot leave a prior receipt or result set available as current proof.\",\"changes\":[\"Namespace governed proof results by the exact mapped source path while preserving unrelated paths' evidence.\",\"Remove the path's prior receipt and results before each classification attempt and on every classifier or post-execution integrity failure.\",\"Add a success-then-semantic-failure regression in the same receipt directory proving stale receipt and result artifacts are absent.\",\"Preserve the 80 percent coverage threshold, non-authoritative PR evidence boundary, and read-only issue 258 fixture contract.\"],\"artifacts\":[\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\".csdlc/evidence/295\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Prove fail-closed stale receipt/results cleanup, parser, mapping, governed execution, negatives, and threshold integration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/mechanical-compile-fallout-classifier.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the existing 80 percent gate and authoritative coverage routing remain intact.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/coverage-impact-regression.log\"},{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"purpose\":\"Prove PVF selector inventory and PR-fast non-authoritative routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/validation-selector-pvf.log\"}]}"
     }
   ]
 }
