@@ -107,6 +107,36 @@ fn initialized_decomposition_recovery_preserves_history_and_recovers_crashes() {
     std::env::set_current_dir(&original_cwd).expect("restore cwd after stale retry");
     assert_eq!(repeated.code, csdlc_v2::ErrorCode::StaleGeneration);
 
+    let disconnected_repo = fixture_repo("disconnected-graph");
+    let disconnected_store = Store::new(&disconnected_repo);
+    let disconnected_record = initialize_fixture_issue(&disconnected_repo);
+    let mut disconnected_request = recovery_request(&disconnected_repo, &disconnected_record, None);
+    disconnected_request.graph.edges = vec![edge("child-a", "child-b")];
+    std::env::set_current_dir(&disconnected_repo).expect("fixture cwd for disconnected graph");
+    let disconnected =
+        csdlc_v2::recover_initialized_decomposition(&disconnected_store, disconnected_request)
+            .expect_err("disconnected parent graph must fail closed");
+    std::env::set_current_dir(&original_cwd).expect("restore cwd after disconnected graph");
+    assert_eq!(disconnected.code, csdlc_v2::ErrorCode::InvalidInput);
+
+    let wrong_parent_repo = fixture_repo("wrong-parent");
+    let wrong_parent_store = Store::new(&wrong_parent_repo);
+    let wrong_parent_record = initialize_fixture_issue(&wrong_parent_repo);
+    let mut wrong_parent_request = recovery_request(&wrong_parent_repo, &wrong_parent_record, None);
+    wrong_parent_request
+        .graph
+        .nodes
+        .iter_mut()
+        .find(|node| node.node_id == "parent")
+        .expect("parent node")
+        .issue = 999;
+    std::env::set_current_dir(&wrong_parent_repo).expect("fixture cwd for wrong parent");
+    let wrong_parent =
+        csdlc_v2::recover_initialized_decomposition(&wrong_parent_store, wrong_parent_request)
+            .expect_err("wrong parent owner issue must fail closed");
+    std::env::set_current_dir(&original_cwd).expect("restore cwd after wrong parent");
+    assert_eq!(wrong_parent.code, csdlc_v2::ErrorCode::InvalidInput);
+
     let crash_repo = fixture_repo("prepared-crash");
     let crash_store = Store::new(&crash_repo);
     let crash_record = initialize_fixture_issue(&crash_repo);

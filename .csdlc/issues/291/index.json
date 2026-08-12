@@ -4,24 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f4bdffa4c5866878b425b124bbcf92e725fa7d41b4088de0b7384a1028b4f0c1",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "7dbbe88243d559cff8f722f310ede82c14fe91a59c0ff0d22d2f5de79952f8bd",
+  "generation": 28,
+  "digest": "bd18e8c5fa8ab38827d168475214606b78cf6e9aef8224090544ec1d59fdd64d",
   "branch": "codex/291-initialized-decomposition-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-291-initialized-decomposition-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:/root/review_291_impl_fresh",
-    "assigned_by": "codex:root",
-    "revision": "git-blake3:8e4cc12ff64fc6b2a9a9125fc990103ffb134c48:541f2e97ce8514b993a80f38738dfaa2b604db565b159e4d3e825ed548852480",
-    "scope": [
-      "Exact substantive head 8e4cc12ff64fc6b2a9a9125fc990103ffb134c48 on branch codex/291-initialized-decomposition-recovery",
-      "Issue #291 typed initialized-phase post-decomposition recovery implementation in csdlc-v2/src/store.rs, csdlc-v2/src/bin/csdlc-edit.rs, csdlc-v2/src/lib.rs, csdlc-v2/src/schema.rs, csdlc-v2/src/cleanup.rs",
-      "Focused tests in csdlc-v2/tests/initialized_decomposition_recovery.rs including preserved #114 gen35 read-only golden fixture proof",
-      "GitHub action fixture race repair in csdlc-v2/tests/gate_github_actions.rs",
-      "Bound #291 lifecycle, retained R2/R4 design-review failure evidence, bind-staging omission candidate, and typed validation logs under .csdlc/issues/291 and .csdlc/evidence/291",
-      "Verify no mutation of #114 product/card state, root .csdlc/locks/114.lock, #112, #203, #122, #256, #84, AWS, or decomposition graphs",
-      "Verify #119 review protocol conditions: fresh task was standby-only before this assignment, findings-first read-only review, no inherited implementation context, no mutation"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "feebed53711e8b94be65b2699d41778871bcb0f25c50c0862ef4b1823cff7723",
+      "values_digest": "d4c27ea522317508a18182d2f3a7bb7d7bb0fc1ab3bb33dd1f810c77b7e941ec",
       "rendered_digest": "5e6b75f2edd95305ae5c60d2129cdd46efb423e366d51856953be59a19f6d51e",
       "ast_digest": "878510ea9c721f863a414266a09a4635184761f0c093330a6792d27ec93d4f22"
     },
     "stp": {
-      "values_digest": "9352ff23738fbb232fa04928c093e88a3d1a6109b87d9a3ad7e621650a0fa196",
+      "values_digest": "6f0fb1d11d8d36cb2b2b5b22d43460be019bd968e4a0909af74aa9bbd8d18ff8",
       "rendered_digest": "adbb5fea036d4fb0cd6c361bdcfc838d2ed32b01d1d56baaaa6049b37a68dead",
       "ast_digest": "64c95bddac521ac40a42494cc41a909d0fdfa17c225b09d5c16a1c697de7591c"
     },
     "spp": {
-      "values_digest": "81e40f86f6083179e11c80e99a578e506b9d14e6c23a8546af29acbad5554bbd",
+      "values_digest": "44b1029484a604367edd6f07ceede6ff014e8c154d5dd0785990b21e5c375315",
       "rendered_digest": "6af66c1d7e11b214d246e55195ec80230590c08d722ddf7a58279ee596ec2d8f",
       "ast_digest": "7c2910854d5813026f09028e35ee334a36ec5294d578d7b884f1c1e24921e140"
     },
     "vpp": {
-      "values_digest": "011875cc9a29c5c4c32039bf0d46bb80f9f22bb77f58be7cbe107d1fa76f24bc",
+      "values_digest": "cbb8e53216ff9ccaf62bc7c3d0a63729acc2e2e24efc4b5e885b80c606e19640",
       "rendered_digest": "9c90a6b3fbb9fd9a203db91d4b30f74eda7275fc8cf1e0d00188f1b12eb043f4",
       "ast_digest": "36b64c7cd2ff65b1d5704736e0cc8973c661c0e4a186546dc722f9aa5d0640e1"
     },
     "srp": {
-      "values_digest": "0e5693d87d6eda1fc11fecbb989e287e7be7b916b5a4f20b0c958230b34f8b8f",
-      "rendered_digest": "304bd5ae9c8e8ecf037f824099311bf6ca0a0149c8b4fc987ca060453ca2b5a2",
-      "ast_digest": "9f78b18a043d56699f804e12b6fdbd7efb2ce1c121c22a7f4dd500b43ed32e43"
+      "values_digest": "fe874fd1c396c101f7ea1688fcde470af92387fd1964b9bc7776037422cec02c",
+      "rendered_digest": "37ab2d56de65312b802dbbf7497eabd8c050f79b4d200d8d080655002b55c91b",
+      "ast_digest": "b059e0d2e20a79e3ca99a62ef5acaa27d429e079e77064907629ca00a9456b77"
     },
     "sor": {
-      "values_digest": "bc597d82f1b46ef91e9310b796a93bca398527e55d9a3f34f6b8c92027d6b90d",
-      "rendered_digest": "586145b8ace34e3c363879b7a287fb5d44b9e714261d329b1c3a39d08e265e1a",
-      "ast_digest": "b80ec33295ca865f80ec1d62dcdd02ad3fad10f2c1848da2a599fb863f193d23"
+      "values_digest": "248bc26bd4a7f809837203328a62398fa2ec7c14d78346e788234b5035058d2f",
+      "rendered_digest": "70502482f9c9836e08fdc44abbcf45c4277372247087ddecbf201b2988932078",
+      "ast_digest": "b6e4846a67520c3ef5fb8479bd0e587d1af5a0f2ed8723cbb8bb67b6fc657a0e"
     }
   },
   "transitions": [
@@ -300,6 +287,13 @@
       "actor": "codex:root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 28,
+      "actor": "codex:root",
+      "reason": "Clear completed fresh review assignment after actionable P2 finding before applying substantive graph validation repair. Original finding: validate_decomposition_graph accepted disconnected/incomplete parent topology; missing-edge graph mismatches did not fail closed.",
+      "operation": "recover_review"
     }
   ]
 }

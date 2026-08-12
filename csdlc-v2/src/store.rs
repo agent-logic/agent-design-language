@@ -284,6 +284,29 @@ impl Store {
     }
 
     fn recover_if_needed(&self, issue: u64) -> Result<()> {
+        let recovery_root = self
+            .root
+            .join(".csdlc/issues")
+            .join(format!(".{issue}.recovery"));
+        if recovery_root.is_dir() {
+            for entry in fs::read_dir(&recovery_root)? {
+                let entry = entry?;
+                if entry.file_type()?.is_dir()
+                    && !fs::read_dir(entry.path())?.any(|item| {
+                        item.ok().is_some_and(|item| {
+                            item.file_name()
+                                .to_string_lossy()
+                                .ends_with("-recovered.json")
+                        })
+                    })
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "incomplete typed projection recovery must reach verified RECOVERED before ordinary commit",
+                    ));
+                }
+            }
+        }
         self.recover_local_transaction(issue)?;
         self.recover_initialized_recovery_journal(issue)
     }
@@ -1549,7 +1572,7 @@ pub fn recover_initialized_decomposition(
     store.recover_if_needed(request.issue)?;
     validate_initialized_recovery_root(store, &request)?;
     validate_initialized_recovery_request_identity(&request)?;
-    validate_decomposition_graph(&request.graph)?;
+    validate_decomposition_graph(request.issue, &request.graph)?;
 
     let mut record = store.load_record(request.issue)?;
     if record.generation != request.expected_generation {
@@ -2538,7 +2561,7 @@ fn validate_design_review_recovery_truth(
     Ok(())
 }
 
-fn validate_decomposition_graph(graph: &DecompositionGraphInput) -> Result<()> {
+fn validate_decomposition_graph(issue: u64, graph: &DecompositionGraphInput) -> Result<()> {
     if graph.forbidden_cross_child_trust_redefinition {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
@@ -2591,7 +2614,18 @@ fn validate_decomposition_graph(graph: &DecompositionGraphInput) -> Result<()> {
             "decomposition graph must name exactly one parent integration owner",
         ));
     }
+    let parent = nodes
+        .get(&graph.parent_integration_owner)
+        .expect("parent count proves parent node exists");
+    if parent.issue != issue {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "decomposition graph parent integration owner does not match the recovered issue",
+        ));
+    }
     let mut outgoing: std::collections::BTreeMap<&str, Vec<&str>> =
+        std::collections::BTreeMap::new();
+    let mut incoming: std::collections::BTreeMap<&str, Vec<&str>> =
         std::collections::BTreeMap::new();
     for edge in &graph.edges {
         if edge.from.trim().is_empty()
@@ -2616,11 +2650,25 @@ fn validate_decomposition_graph(graph: &DecompositionGraphInput) -> Result<()> {
             ));
         }
         outgoing.entry(&edge.from).or_default().push(&edge.to);
+        incoming.entry(&edge.to).or_default().push(&edge.from);
     }
     let mut visiting = std::collections::BTreeSet::new();
     let mut visited = std::collections::BTreeSet::new();
     for node in nodes.keys() {
         visit_decomposition_node(node, &outgoing, &mut visiting, &mut visited)?;
+    }
+    let mut connected_to_parent = std::collections::BTreeSet::new();
+    let mut pending = vec![graph.parent_integration_owner.as_str()];
+    while let Some(node) = pending.pop() {
+        if connected_to_parent.insert(node) {
+            pending.extend(incoming.get(node).into_iter().flatten().copied());
+        }
+    }
+    if connected_to_parent.len() != nodes.len() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "every decomposition graph node must have a directed path to the parent integration owner",
+        ));
     }
     Ok(())
 }

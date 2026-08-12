@@ -28,3 +28,4 @@
 {"sequence":28,"generation":26,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":29,"generation":27,"actor":"codex:root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":30,"generation":27,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":31,"generation":28,"actor":"codex:root","reason":"Clear completed fresh review assignment after actionable P2 finding before applying substantive graph validation repair. Original finding: validate_decomposition_graph accepted disconnected/incomplete parent topology; missing-edge graph mismatches did not fail closed.","operation":"recover_review"}
