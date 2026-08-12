@@ -1,0 +1,15 @@
+
+running 8 tests
+test preserved_projection_recovery_keeps_initialized_and_ready_and_291_semantics_unchanged ... ok
+test preserved_projection_recovery_classifies_hardlink_as_unsafe ... ok
+test preserved_projection_recovery_classifies_without_mutation_and_rejects_symlink ... ok
+test preserved_projection_recovery_blocks_ordinary_commit_until_typed_recovery ... ok
+test preserved_projection_recovery_rejects_wrong_topology_and_unsafe_mode ... ok
+test preserved_projection_recovery_rejects_lineage_and_replacement_without_mutation ... ok
+test preserved_projection_recovery_archives_builds_installs_and_is_idempotent ... ok
+test preserved_projection_recovery_resumes_every_recovery_boundary ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 51.37s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/gate5.rs (csdlc-v2/target/debug/deps/gate5-dc08fd71782bab3d)
