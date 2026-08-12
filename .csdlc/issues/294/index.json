@@ -5,10 +5,24 @@
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
   "generation": 24,
-  "digest": "420fdb900a9962df87f9e33c904eaa169368266d0cdb0235828f7c3b7d437713",
+  "digest": "f205acf22e80612b1881d4f9df91a489c3c9b0f69505999dae0cd689c29f9e08",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a4ed80ef-e0c6-4a03-90d1-93e1ec161287",
+    "assigned_by": "codex:issue-294",
+    "revision": "git-blake3:840bf14c60c834ccad29a847d4c0eb8c87cbcd1b:435b73364f275b7250f904692ab169c8f86f17814b51ffdd88e3b06579108938",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/294",
+      ".csdlc/prepared/issues/294",
+      ".csdlc/evidence/294"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +58,9 @@
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "f4d2f9ae5f25067c5fe396c7926bd45897abb687cb79e8c5810f42e7545114ff",
-      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
-      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
+      "values_digest": "4f84c16cc2de54073e92bcda45774350342b50ec2349ca65ca89906bf0660d08",
+      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
+      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
     },
     "sor": {
       "values_digest": "e815f4466916ced2b963fe31364665a8e4872669481d91b38ad0614e8477ad20",
@@ -322,6 +336,13 @@
       "actor": "codex:issue-294",
       "reason": "Recover failed r9 exact-head assignment at substantive 86809083305d8830e97907e2118010c1af476c5c: journal temp cleanup, replacement, and final removal remain path-authoritative rather than exclusive/inode-owned; AC-8/AC-9 still lacks actual typed bind-before/after and deterministic journal/stage/install/state/cleanup/ancestor/destination/unlink race fixtures",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 24,
+      "actor": "codex:issue-294",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
