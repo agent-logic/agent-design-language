@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/112/diagram.mmd
 [
   {
     "lane": "layer8-production-conversation-boundary",
-    "proof_role": "Prove authenticated WSS authority executes before session or turn reservation and provider dispatch, including bounded refusal and duplicate idempotency on the merged #111 production path.",
+    "proof_role": "Prove authenticated WSS authority executes before session or turn reservation and provider dispatch, including bounded refusal and duplicate idempotency on the merged #111 and #244 production path.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -44,9 +44,10 @@ Diagram: .csdlc/prepared/issues/112/diagram.mmd
       "--locked",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
-      "--test",
-      "conversation_sessions",
-      "--no-fail-fast"
+      "--lib",
+      "conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress",
+      "--",
+      "--exact"
     ],
     "parallel_group": "112-product-required",
     "defer_reason": null
@@ -87,7 +88,7 @@ Diagram: .csdlc/prepared/issues/112/diagram.mmd
   },
   {
     "lane": "layer8-runtime-api-integration",
-    "proof_role": "Prove the narrow CSM API adapter invokes delivery only after the same Runtime authority grant and never invokes it after refusal.",
+    "proof_role": "Prove the narrow CSM API adapter invokes delivery only after the same Runtime authority grant and exact recipient acknowledgement, and never invokes it after refusal.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -149,7 +150,7 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_sessions --no-fail-fast`
+- `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress -- --exact`
 - `cargo nextest run --locked --manifest-path adl-runtime/Cargo.toml --test layer8_authority --no-tests=fail --status-level all`
 - `cargo nextest run --locked --manifest-path adl/Cargo.toml --test layer8_authority_runtime_api --no-tests=fail --status-level all`
 - `bash adl/tools/validate_layer8_authority_observatory_ui.sh`

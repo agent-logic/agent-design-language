@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 33
+    "generation": 35
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "layer8-production-conversation-boundary",
-          "proof_role": "Prove authenticated WSS authority executes before session or turn reservation and provider dispatch, including bounded refusal and duplicate idempotency on the merged #111 production path.",
+          "proof_role": "Prove authenticated WSS authority executes before session or turn reservation and provider dispatch, including bounded refusal and duplicate idempotency on the merged #111 and #244 production path.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -36,9 +36,10 @@
             "--locked",
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
-            "--test",
-            "conversation_sessions",
-            "--no-fail-fast"
+            "--lib",
+            "conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress",
+            "--",
+            "--exact"
           ],
           "parallel_group": "112-product-required",
           "defer_reason": null
@@ -79,7 +80,7 @@
         },
         {
           "lane": "layer8-runtime-api-integration",
-          "proof_role": "Prove the narrow CSM API adapter invokes delivery only after the same Runtime authority grant and never invokes it after refusal.",
+          "proof_role": "Prove the narrow CSM API adapter invokes delivery only after the same Runtime authority grant and exact recipient acknowledgement, and never invokes it after refusal.",
           "acceptance_ids": [
             "AC-2",
             "AC-3",
