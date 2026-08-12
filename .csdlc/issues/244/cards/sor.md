@@ -113,11 +113,11 @@ Made cleanup-race ordering deterministic with cfg(test)-only server instrumentat
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

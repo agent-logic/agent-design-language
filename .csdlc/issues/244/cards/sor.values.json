@@ -7,7 +7,7 @@
     "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
     "slug": "conversation-cleanup-race-deadline",
     "version": "1.0.0",
-    "generation": 37
+    "generation": 38
   },
   "status": "pre_phase",
   "content": {
@@ -106,8 +106,8 @@
           "evidence_ref": ".csdlc/evidence/244/runtime-release-production-parity.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

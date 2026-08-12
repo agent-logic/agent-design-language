@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/conversation_sessions_tests.rs
-adl-runtime-kernel/src/lib.rs
-.csdlc/evidence/244
-.csdlc/issues/244
+
 
 ## Prompts
 
@@ -38,8 +34,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:379a08a71e112368b79e6bef6ea083cc767562fd:da2510ad78ed130513f25aa89de02e8b3501f8aea774ee2e32c0dd4d3b287967")
+Revision: None
 
-Reviewer: Some("subagent:review_244_cleanup_race")
+Reviewer: None
 
-Result: pass
+Result: pre_review
