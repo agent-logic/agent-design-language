@@ -7,21 +7,24 @@
     "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
     "slug": "issue-203-authority-store-boundary-slice1",
     "version": "v0.92",
-    "generation": 23
+    "generation": 24
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime/src/distributed\nadl-runtime/tests\n.csdlc/issues/258\n.csdlc/prepared/issues/258\n.csdlc/locks/258.lock\n.csdlc/evidence/258",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:aff77bce21433f2a49c6c624850ede7689903ab5:b9e8f5e13bf820be00665eadfaaa73836434156084f7722d547810d9cdb1b7fa",
+      "reviewer": "fresh-session:dcd53a3f-2f2e-43ea-a6ca-bd1ef46a4c5c",
       "review_prompts": [
         "Review whether raw store access is sealed and whether published receipt view is sufficient for the authority-serving boundary."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer did not fetch current GitHub/CI state or mutate remote state; remote PR freshness remains outside this read-only review.",
+        "Reviewer distinguished assignment metadata commit d85f5f4936819e4aa845dadc36e7e75f65dddb38 from assigned substantive revision aff77bce21433f2a49c6c624850ede7689903ab5."
+      ],
+      "review_result": "pass"
     }
   }
 }

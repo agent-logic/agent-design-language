@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "69131550ebee948f47d7bc5ae84f9f7ff5ae122c07cb41dc34a1fbd207c93383",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "7a4ccc942b6845de090a220d54e16ce976105d8398980074727edbddb9dc3059",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
   "review_assignment": {
@@ -22,7 +22,25 @@
       ".csdlc/evidence/258"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:dcd53a3f-2f2e-43ea-a6ca-bd1ef46a4c5c",
+    "scope": [
+      "adl-runtime/src/distributed",
+      "adl-runtime/tests",
+      ".csdlc/issues/258",
+      ".csdlc/prepared/issues/258",
+      ".csdlc/locks/258.lock",
+      ".csdlc/evidence/258"
+    ],
+    "reviewed_revision": "git-blake3:aff77bce21433f2a49c6c624850ede7689903ab5:b9e8f5e13bf820be00665eadfaaa73836434156084f7722d547810d9cdb1b7fa",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not fetch current GitHub/CI state or mutate remote state; remote PR freshness remains outside this read-only review.",
+      "Reviewer distinguished assignment metadata commit d85f5f4936819e4aa845dadc36e7e75f65dddb38 from assigned substantive revision aff77bce21433f2a49c6c624850ede7689903ab5."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "949447f98ad8c7edfdb77448e77337a72059316490e0db0a6ad36df3c3159354",
+      "values_digest": "bd8fd7d0534298fc65b53561be26a1ab2f832e9465b537524912e999496ed87c",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "7f22992a1396a49725cf9d1eef80041a21a73bcd1beeac4ec626d995d6fa5eee",
+      "values_digest": "d7c87d64189a01e3750aea7e48f8af351a0f6b27fd7e918494885a0702bac80b",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "d9cc02ea2059613886c8184c2584c8f49eb24e38536e94c6a3f1367dcfcaa21f",
+      "values_digest": "7ba3ffc498379f38d6d52f75efb8af7fa779b74d94e916db887048364c0021cf",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "9dca63ddc57b911139bec4cab57378f212fbee268d6e899f369d6da5c6a4698d",
+      "values_digest": "c4315337e0bf69ac02decaff8828c42951f4db4c2c10d136cde35bfb30915b30",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "4ad596b87b63241faf78f656d973b6eb8db76577b5d943030173c0301f61d12a",
-      "rendered_digest": "0334635ac95d873c833e5d3c70cdd439baff56c2998eb445e15d164cd760afe8",
-      "ast_digest": "271af8ded064549da01cad38f86115951e76d3dc1d656acc08466e0829d75727"
+      "values_digest": "2568ca9db1d2d22421158acaa90626941e7a0f0d772dbf618e90573919ac1b94",
+      "rendered_digest": "3857f8eef4a5e27e38f6dfc5fcc6e50db3cb2a97d22ba49ed49bb9b96dd3999e",
+      "ast_digest": "59980d5106d43be29d1c32785c27a89943dbf5be36a7b61c091478a98359fb7d"
     },
     "sor": {
-      "values_digest": "60e9c3ee248f1b3a066bb361cc81461100bfa900fb62399a1a906775fe0d5cdf",
+      "values_digest": "f3eb8cd0e459f68ea04a313de69a9dbbf0b4038083fefcdaf1476b14102606b0",
       "rendered_digest": "b1c7a8f72469f352ee7fb0f0bab70b74fdb00bfdfc10eb87dd252a9f7075dc37",
       "ast_digest": "27335672fb3ba47f7c7fb6b72feab75afcc371592de82ccc980c1f06274834f6"
     }
@@ -109,6 +127,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "#119 review-compliance hold: prior review was inherited-context and not assigned before activity; recover to implemented before canonical fresh-session review"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -328,6 +353,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
