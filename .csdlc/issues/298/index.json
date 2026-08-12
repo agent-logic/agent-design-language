@@ -5,10 +5,20 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 57,
-  "digest": "d126e568778895fcb397f441f6173e51545056ebf65a04775c85b76916295fae",
+  "digest": "26a439637898233eea5020ab3794df67f50b76978e773c8e88e7672d132529e5",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b6d3a62d-c20c-406c-bd01-6bed82cd6056",
+    "assigned_by": "codex:issue-298-r21-ci-remediation",
+    "revision": "git-blake3:776f467b2b94971734126ef6bd7338cc7bc64cd0:92879eab23c14fd4a644802ea495cab1529169e80dad0dff4b360bede740a837",
+    "scope": [
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +54,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "2c8fd4dd51aa0dad9d73ffdd285cc9a3979fb6dbc887c3e2458eedb6fbf6a9c2",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "49ddad498034214c8281f2840ee1716e766577bd9c5d91adc38a8f72725ef01c",
+      "rendered_digest": "5bdd4852390d5614f01a756242454e39c682d242b0e43b2b2d61b397c589c7d4",
+      "ast_digest": "7822c1bc1142120016e54fdbf89e094f2c992a5046728f32fa4bed56fe5847e9"
     },
     "sor": {
       "values_digest": "35cdc8e9c373514962ec7ba4d293233127322d86e80d668d347c246fe0fe7ec5",
@@ -686,6 +696,13 @@
       "actor": "codex:issue-298-r21-ci-remediation",
       "reason": "Record portable Linux mount identity remediation after exact hosted CI compile failure.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replaced private Linux libc fsid field access with descriptor-relative statx mount identity.\",\"changes\":[\"Use statx with AT_EMPTY_PATH and STATX_MNT_ID on retained Linux file descriptors\",\"Preserve statfs-derived mount identity on macOS, iOS, and FreeBSD\",\"Retain a device-based compatibility fallback for other Unix targets without private libc fields\",\"Validated Gate5 56/56, library 78/78, strict all-target Clippy, all-target check, formatting, and diff hygiene\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\"]}"
+    },
+    {
+      "sequence": 82,
+      "generation": 57,
+      "actor": "codex:issue-298-r21-ci-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
