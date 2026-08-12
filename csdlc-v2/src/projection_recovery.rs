@@ -227,14 +227,9 @@ fn recovery_root(store: &Store, issue: u64) -> PathBuf {
 
 pub(crate) struct PrivateRecoveryDir {
     pub(crate) file: File,
-    anchored_path: PathBuf,
 }
 
 impl PrivateRecoveryDir {
-    pub(crate) fn anchored_path(&self) -> &Path {
-        &self.anchored_path
-    }
-
     pub(crate) fn names(&self) -> Result<Vec<std::ffi::CString>> {
         directory_names(&self.file)
     }
@@ -251,6 +246,29 @@ impl PrivateRecoveryDir {
             )
         })?;
         private_recovery_dir_from_file(file, label, Some(&self.file))
+    }
+
+    fn open_directory_child(&self, name: &std::ffi::CStr, label: &str) -> Result<File> {
+        let file = open_child_no_follow(&self.file, name, true).map_err(|_| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} cannot be opened descriptor-relative without following links"),
+            )
+        })?;
+        let identity = fd_identity(&file)?;
+        let parent = fd_identity(&self.file)?;
+        if identity.node_type != "directory"
+            || identity.device != parent.device
+            || identity.mount_id != parent.mount_id
+            || identity.uid != parent.uid
+            || identity.gid != parent.gid
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} identity is unsafe"),
+            ));
+        }
+        Ok(file)
     }
 
     fn create_private_child(&self, name: &std::ffi::CStr) -> Result<()> {
@@ -391,23 +409,6 @@ fn open_or_create_private_child(
     }
 }
 
-fn retained_directory_path(file: &File) -> PathBuf {
-    use std::os::fd::AsRawFd;
-    #[cfg(any(target_os = "macos", target_os = "ios"))]
-    {
-        let mut buffer = [0i8; libc::PATH_MAX as usize];
-        if unsafe { libc::fcntl(file.as_raw_fd(), libc::F_GETPATH, buffer.as_mut_ptr()) } == 0 {
-            let path = unsafe { std::ffi::CStr::from_ptr(buffer.as_ptr()) };
-            return PathBuf::from(std::ffi::OsStr::from_bytes(path.to_bytes()));
-        }
-    }
-    #[cfg(any(target_os = "macos", target_os = "ios", target_os = "freebsd"))]
-    let base = "/dev/fd";
-    #[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "freebsd")))]
-    let base = "/proc/self/fd";
-    Path::new(base).join(file.as_raw_fd().to_string())
-}
-
 pub(crate) fn open_private_recovery_dir(
     path: &Path,
     label: &str,
@@ -446,10 +447,7 @@ fn private_recovery_dir_from_file(
             ));
         }
     }
-    Ok(PrivateRecoveryDir {
-        anchored_path: retained_directory_path(&file),
-        file,
-    })
+    Ok(PrivateRecoveryDir { file })
 }
 
 fn validate_receipt_metadata(
@@ -600,20 +598,12 @@ fn open_root_no_follow(path: &Path) -> Result<File> {
     use std::ffi::CString;
     use std::os::fd::FromRawFd;
     use std::os::unix::ffi::OsStrExt;
-    let retained_alias = path.parent().is_some_and(|parent| {
-        parent == Path::new("/dev/fd") || parent == Path::new("/proc/self/fd")
-    }) && path
-        .file_name()
-        .is_some_and(|name| name.as_encoded_bytes().iter().all(u8::is_ascii_digit));
     let path_cstr = CString::new(path.as_os_str().as_bytes())
         .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "path contains NUL"))?;
     let fd = unsafe {
         libc::open(
             path_cstr.as_ptr(),
-            libc::O_RDONLY
-                | libc::O_DIRECTORY
-                | libc::O_CLOEXEC
-                | if retained_alias { 0 } else { libc::O_NOFOLLOW },
+            libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
         )
     };
     if fd < 0 {
@@ -804,6 +794,26 @@ fn read_relative_no_follow(root: &File, relative: &str) -> Result<Vec<u8>> {
     let mut bytes = Vec::new();
     file.read_to_end(&mut bytes)?;
     Ok(bytes)
+}
+
+fn projection_source_files(root: &File) -> Result<BTreeMap<String, Vec<u8>>> {
+    use strum::IntoEnumIterator;
+    let mut files = BTreeMap::new();
+    files.insert(
+        "index.json".into(),
+        read_relative_no_follow(root, "index.json")?,
+    );
+    files.insert(
+        "audit.jsonl".into(),
+        read_relative_no_follow(root, "audit.jsonl")?,
+    );
+    for kind in CardKind::iter() {
+        for suffix in ["values.json", "md"] {
+            let relative = format!("cards/{kind}.{suffix}");
+            files.insert(relative.clone(), read_relative_no_follow(root, &relative)?);
+        }
+    }
+    Ok(files)
 }
 
 fn read_file_bytes(file: &File) -> Result<Vec<u8>> {
@@ -1036,6 +1046,21 @@ fn observe_file(file: &File, repo_root: &Path, name: &str, issue: u64) -> Candid
     }
 }
 
+fn observe_child(
+    parent: &PrivateRecoveryDir,
+    child: &str,
+    repo_root: &Path,
+    name: &str,
+    issue: u64,
+) -> Result<CandidateObservation> {
+    let child = parent.open_directory_child(
+        &std::ffi::CString::new(child)
+            .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "child name contains NUL"))?,
+        name,
+    )?;
+    Ok(observe_file(&child, repo_root, name, issue))
+}
+
 fn verify_topology(store: &Store, branch: &str, worktree: &str) -> Result<()> {
     let root = fs::canonicalize(store.root())?;
     if root != fs::canonicalize(worktree)? || crate::git::current_branch(store.root())? != branch {
@@ -1149,10 +1174,11 @@ pub fn classify_preserved_projection(
                 ));
             }
             if !recovered.is_empty() {
-                let result = validate_completed_recovery_attempt(
+                let result = validate_completed_recovery_attempt_retained(
                     store,
                     request.issue,
-                    attempt.anchored_path(),
+                    &attempt,
+                    name_text,
                 )?;
                 completed_match |= result.issue == request.issue
                     && canonical.valid_projection
@@ -1747,6 +1773,7 @@ const NODE_STATES: [&str; 10] = [
     "node-created",
 ];
 
+#[allow(dead_code)] // Removed with the remaining pathname validator helpers.
 fn require_receipt_payload(
     attempt: &Path,
     seq: u32,
@@ -1755,6 +1782,21 @@ fn require_receipt_payload(
     message: &str,
 ) -> Result<()> {
     let actual: serde_json::Value = receipt_payload(&receipt_path(attempt, seq, state))?;
+    if actual == expected {
+        Ok(())
+    } else {
+        Err(V2Error::new(ErrorCode::CorruptRecord, message))
+    }
+}
+
+fn require_receipt_payload_at(
+    attempt: &PrivateRecoveryDir,
+    seq: u32,
+    state: &str,
+    expected: serde_json::Value,
+    message: &str,
+) -> Result<()> {
+    let actual: serde_json::Value = receipt_payload_at(attempt, seq, state)?;
     if actual == expected {
         Ok(())
     } else {
@@ -2205,9 +2247,19 @@ pub(crate) fn validate_completed_recovery_attempt(
             )
         })?
         .to_owned();
+    validate_completed_recovery_attempt_retained(store, issue, &retained_attempt, &operation)
+}
+
+fn validate_completed_recovery_attempt_retained(
+    store: &Store,
+    issue: u64,
+    retained_attempt: &PrivateRecoveryDir,
+    operation: &str,
+) -> Result<ProjectionRecoveryResult> {
+    let operation = operation.to_owned();
+    let attempt_path = recovery_root(store, issue).join(&operation);
     let node_ledger_count = validate_receipt_inventory_at(&retained_attempt)?;
     let prepared: serde_json::Value = receipt_payload_at(&retained_attempt, 1, "prepared")?;
-    let attempt = retained_attempt.anchored_path();
     let request_digest = prepared
         .get("request_digest")
         .and_then(|v| v.as_str())
@@ -2268,16 +2320,22 @@ pub(crate) fn validate_completed_recovery_attempt(
         prepared_request.anchor,
         ProjectionCasAnchor::VerifiedCanonical { .. }
     );
-    require_receipt_payload(
-        attempt,
+    require_receipt_payload_at(
+        retained_attempt,
         2,
         "archive-intent",
         serde_json::json!({"source":rejected_observation,"destination":"rejected"}),
         "archive intent receipt does not match typed recovery sources",
     )?;
-    let archived = observe(&attempt.join("rejected"), "archive", issue);
-    require_receipt_payload(
-        attempt,
+    let archived = observe_child(
+        &retained_attempt,
+        "rejected",
+        store.root(),
+        "archive",
+        issue,
+    )?;
+    require_receipt_payload_at(
+        retained_attempt,
         3,
         "rejected-archived",
         serde_json::to_value(&archived)?,
@@ -2294,15 +2352,15 @@ pub(crate) fn validate_completed_recovery_attempt(
         "prior_digest":prior_observation.record_digest,
         "canonical_generation":prior_observation.generation.map(|v| v + 1)
     });
-    require_receipt_payload(
-        attempt,
+    require_receipt_payload_at(
+        retained_attempt,
         4,
         "candidate-plan",
         serde_json::json!({"source":prior_observation,"destination":"candidate","audit":audit_commitment}),
         "candidate plan receipt does not match typed recovery audit",
     )?;
     let candidate_created: serde_json::Value =
-        receipt_payload(&receipt_path(attempt, 5, "candidate-created"))?;
+        receipt_payload_at(retained_attempt, 5, "candidate-created")?;
     let candidate_record: IssueRecord =
         serde_json::from_value(candidate_created.get("record").cloned().ok_or_else(|| {
             V2Error::new(ErrorCode::CorruptRecord, "candidate-created record missing")
@@ -2328,14 +2386,20 @@ pub(crate) fn validate_completed_recovery_attempt(
         .record_digest
         .as_deref()
         .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "PREPARED prior digest missing"))?;
-    let (derived_record, derived_files) = store.projection_recovery_candidate_files_locked(
-        issue,
-        &attempt.join("displaced"),
-        prior_digest,
-        prepared_request.actor.clone(),
-        prepared_request.reason.clone(),
-        audit_commitment.to_string(),
+    let displaced_authority = retained_attempt.open_directory_child(
+        &std::ffi::CString::new("displaced").unwrap(),
+        "displaced recovery source",
     )?;
+    let displaced_source = projection_source_files(&displaced_authority)?;
+    let (derived_record, derived_files) = store
+        .projection_recovery_candidate_files_from_bytes_locked(
+            issue,
+            &displaced_source,
+            prior_digest,
+            prepared_request.actor.clone(),
+            prepared_request.reason.clone(),
+            audit_commitment.to_string(),
+        )?;
     if node_ledger_count != derived_files.len() + 2 {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
@@ -2347,7 +2411,7 @@ pub(crate) fn validate_completed_recovery_attempt(
     for (index, (relative, contents)) in derived_files.iter().enumerate() {
         validate_file_node_ledger(
             &retained_attempt,
-            attempt,
+            &attempt_path,
             &candidate_observation,
             relative,
             contents,
@@ -2360,22 +2424,22 @@ pub(crate) fn validate_completed_recovery_attempt(
             "candidate-created receipt does not match authorized recovery transform",
         ));
     }
-    require_receipt_payload(
-        attempt,
+    require_receipt_payload_at(
+        retained_attempt,
         6,
         "candidate-verified",
         serde_json::json!({"candidate":candidate_observation,"record_digest":candidate_record.digest,"generation":candidate_record.generation}),
         "candidate-verified receipt does not match created candidate",
     )?;
-    require_receipt_payload(
-        attempt,
+    require_receipt_payload_at(
+        retained_attempt,
         7,
         "install-intent",
         serde_json::json!({"exchange":install_exchange,"candidate":candidate_observation,"canonical":prepared_classification.canonical}),
         "install intent receipt does not match candidate or anchor mode",
     )?;
     let canonical_installed: serde_json::Value =
-        receipt_payload(&receipt_path(attempt, 8, "canonical-installed"))?;
+        receipt_payload_at(retained_attempt, 8, "canonical-installed")?;
     let installed_observation: CandidateObservation =
         serde_json::from_value(canonical_installed.get("canonical").cloned().ok_or_else(
             || {
@@ -2391,8 +2455,8 @@ pub(crate) fn validate_completed_recovery_attempt(
             "canonical-installed receipt does not match created candidate",
         ));
     }
-    require_receipt_payload(
-        attempt,
+    require_receipt_payload_at(
+        retained_attempt,
         9,
         "displace-intent",
         if install_exchange {
@@ -2402,9 +2466,15 @@ pub(crate) fn validate_completed_recovery_attempt(
         },
         "displace intent receipt does not match typed prior source",
     )?;
-    let displaced = observe(&attempt.join("displaced"), "displaced", issue);
-    require_receipt_payload(
-        attempt,
+    let displaced = observe_child(
+        &retained_attempt,
+        "displaced",
+        store.root(),
+        "displaced",
+        issue,
+    )?;
+    require_receipt_payload_at(
+        retained_attempt,
         10,
         "prior-displaced",
         serde_json::to_value(&displaced)?,
@@ -2421,9 +2491,9 @@ pub(crate) fn validate_completed_recovery_attempt(
         .as_deref()
         .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "verified prior digest missing"))?;
     let (expected_candidate_record, expected_candidate_files) = store
-        .projection_recovery_candidate_files_locked(
+        .projection_recovery_candidate_files_from_bytes_locked(
             issue,
-            &attempt.join("displaced"),
+            &displaced_source,
             prior_digest,
             prepared_request.actor.clone(),
             prepared_request.reason.clone(),
@@ -2450,22 +2520,21 @@ pub(crate) fn validate_completed_recovery_attempt(
             "candidate does not equal the authorized recovery transformation",
         ));
     }
-    require_receipt_payload(
-        attempt,
+    require_receipt_payload_at(
+        retained_attempt,
         11,
         "canonical-verified",
         serde_json::json!({"canonical":installed_observation,"archive":archived,"displaced":displaced}),
         "canonical-verified receipt does not match installed recovery state",
     )?;
-    require_receipt_payload(
-        attempt,
+    require_receipt_payload_at(
+        retained_attempt,
         12,
         "recovery-complete-intent",
         serde_json::json!({"canonical_digest":candidate_record.digest,"generation":candidate_record.generation}),
         "recovery complete intent does not match candidate record",
     )?;
-    let result: ProjectionRecoveryResult =
-        receipt_payload(&receipt_path(attempt, 13, "recovered"))?;
+    let result: ProjectionRecoveryResult = receipt_payload_at(retained_attempt, 13, "recovered")?;
     if result.schema != "csdlc.projection_recovery_result.v1"
         || result.issue != issue
         || result.operation_id != operation
@@ -2535,6 +2604,15 @@ pub(crate) fn validate_completed_recovery_attempt(
         ));
     }
     Ok(result)
+}
+
+pub(crate) fn validate_completed_recovery_attempt_from_dir(
+    store: &Store,
+    issue: u64,
+    attempt: &PrivateRecoveryDir,
+    operation: &str,
+) -> Result<ProjectionRecoveryResult> {
+    validate_completed_recovery_attempt_retained(store, issue, attempt, operation)
 }
 
 fn exact_observation(path: &Path, expected: &CandidateObservation, issue: u64) -> Result<bool> {
@@ -2775,7 +2853,6 @@ fn ensure_candidate_directory(
     let node_authority = if relative == "." {
         PrivateRecoveryDir {
             file: candidate_authority.file.try_clone()?,
-            anchored_path: candidate_authority.anchored_path.clone(),
         }
     } else {
         open_or_create_private_child(candidate_authority, relative, "candidate directory")?
@@ -2895,7 +2972,6 @@ fn ensure_candidate_file(
     let parent_authority = match relative_path.parent().and_then(|path| path.to_str()) {
         Some("") | None => PrivateRecoveryDir {
             file: candidate_authority.file.try_clone()?,
-            anchored_path: candidate_authority.anchored_path.clone(),
         },
         Some("cards") => candidate_authority.open_child(
             &std::ffi::CString::new("cards").unwrap(),
@@ -3195,7 +3271,7 @@ pub fn recover_preserved_projection(
     let original_attempt_path = recovery_path.join(&request.operation_id);
     root_authority.validate_binding(&recovery_path, "recovery root")?;
     attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
-    let attempt = attempt_authority.anchored_path().to_path_buf();
+    let attempt = original_attempt_path.clone();
     if receipt_exists_at(&attempt_authority, 13, "recovered")? {
         return validate_completed_recovery_attempt(store, request.issue, &attempt);
     }
