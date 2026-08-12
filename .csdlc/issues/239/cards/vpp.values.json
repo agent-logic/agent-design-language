@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 239,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Reconcile terminal envelopes across publication metadata-only heads",
+    "slug": "csdlc-v2-terminal-envelope-metadata-only-head-reconciliation",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "terminal-envelope-metadata-head",
+          "proof_role": "Reproduce PR #238 topology and prove metadata-only acceptance plus substantive-drift, malformed-publication-revision, and metadata-only non-ancestor rejection.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 700,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_finish",
+            "derived_terminal_accepts_publication_metadata_only_head_and_rejects_substantive_drift",
+            "--",
+            "--exact"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed patch structure.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 100,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        },
+        {
+          "lane": "post-merge-5835-cache",
+          "proof_role": "Prove the merged binary validates the retained #5835 terminal envelope without tracked rewrites.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 200,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "run",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--bin",
+            "csdlc-finish",
+            "--",
+            "--root",
+            ".",
+            "--validate-cached-issue",
+            "5835"
+          ],
+          "parallel_group": "post-merge",
+          "defer_reason": "This terminal acceptance lane can run only after #239 merges to main; pre-merge proof is the focused gate_finish regression."
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on any substantive-drift false green, malformed revision acceptance, invalid ancestry, or canonical identity weakening.",
+      "design_ref": ".csdlc/prepared/issues/239/design.md",
+      "design_digest": "77fb0844a36c274eb6e41e368346366406a4a341852d1107ff0a4b1e5d1ee253",
+      "diagram_ref": ".csdlc/prepared/issues/239/diagram.mmd",
+      "diagram_digest": "284de5fbc6e030777b454d2dade109cf7bb2835842abb1ef4a7d3e1778d00566"
+    }
+  }
+}
