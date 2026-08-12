@@ -617,9 +617,7 @@ impl FencingStore {
                 }
             }
         }
-        if check.now_unix_millis >= check.lease.deadline_unix_millis
-            || check.now_elapsed_millis >= check.lease.deadline_elapsed_millis
-        {
+        if check.now_unix_millis >= check.lease.deadline_unix_millis {
             return Err(FencingError::LeaseExpired);
         }
         verify_activation_possession(&body, check.lease, check.activation_proof)?;

@@ -663,8 +663,6 @@ fn lease_state() -> LeaseState {
         committed_log_index: 11,
         epoch: 2,
         certificate_generation: 1,
-        activated_elapsed_millis: 10,
-        deadline_elapsed_millis: 1_010,
         deadline_unix_millis: 2_000,
         certificate_bytes: vec![1],
         revoked: false,

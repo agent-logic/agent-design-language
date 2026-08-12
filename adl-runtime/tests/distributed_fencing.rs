@@ -244,8 +244,6 @@ fn active_lease(
             committed_log_index: body.committed_log_index,
             epoch: body.epoch,
             certificate_generation: body.voter_set_generation,
-            activated_elapsed_millis: 20,
-            deadline_elapsed_millis: 2_020,
             deadline_unix_millis: ((NOW + 3) as u64) * 1_000 + 2_000,
             certificate_bytes,
             revoked: false,
@@ -465,7 +463,7 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
             applied_log_index: 100,
             now_unix_seconds: NOW,
             now_unix_millis: (NOW as u64) * 1_000,
-            now_elapsed_millis: lease.activated_elapsed_millis,
+            now_elapsed_millis: 20,
             activation_proof: &[],
         }),
         Err(FencingError::Fenced)
@@ -496,7 +494,7 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
             applied_log_index: 100,
             now_unix_seconds: NOW,
             now_unix_millis: lease.deadline_unix_millis - 1,
-            now_elapsed_millis: lease.deadline_elapsed_millis - 1,
+            now_elapsed_millis: 2_019,
             activation_proof: &proof,
         })
         .unwrap();
@@ -507,7 +505,7 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
             applied_log_index: 100,
             now_unix_seconds: NOW,
             now_unix_millis: lease.deadline_unix_millis - 1,
-            now_elapsed_millis: lease.deadline_elapsed_millis - 1,
+            now_elapsed_millis: 2_019,
             activation_proof: &[0; 64],
         }),
         Err(FencingError::ActivationPossession)
@@ -519,7 +517,7 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
             applied_log_index: 100,
             now_unix_seconds: NOW,
             now_unix_millis: lease.deadline_unix_millis,
-            now_elapsed_millis: lease.deadline_elapsed_millis,
+            now_elapsed_millis: 2_020,
             activation_proof: &proof,
         }),
         Err(FencingError::LeaseExpired)
@@ -548,7 +546,7 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
             applied_log_index: 100,
             now_unix_seconds: NOW,
             now_unix_millis: lease.deadline_unix_millis - 1,
-            now_elapsed_millis: lease.deadline_elapsed_millis - 1,
+            now_elapsed_millis: 2_019,
             activation_proof: &proof,
         }),
         Err(FencingError::Rollback)
@@ -622,7 +620,7 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
             applied_log_index: 100,
             now_unix_seconds: NOW,
             now_unix_millis: lease.deadline_unix_millis - 1,
-            now_elapsed_millis: lease.deadline_elapsed_millis - 1,
+            now_elapsed_millis: 2_019,
             activation_proof: &proof,
         }),
         Err(FencingError::DurabilityFailure)

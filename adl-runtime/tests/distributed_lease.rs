@@ -20,6 +20,7 @@ const LINEAGE: &[u8] = b"lineage-a";
 const NODE: &[u8] = b"node-a";
 const HOLDER: &[u8] = b"guardian-a";
 const NOW_UNIX_SECONDS: i64 = 1_787_000_100;
+const MIN_TEST_CERTIFICATE_DURATION_MILLIS: u64 = 600_000;
 
 fn signer(seed: u8) -> SigningKey {
     SigningKey::from_bytes(&[seed; 32])
@@ -129,7 +130,7 @@ fn body_for_lineage(
         operation_class: operation as u32,
         issued_unix_seconds: NOW_UNIX_SECONDS,
         issued_nanos: 0,
-        lease_duration_millis: 100,
+        lease_duration_millis: MIN_TEST_CERTIFICATE_DURATION_MILLIS,
         policy_sha256: lease_policy.sha256().unwrap().to_vec(),
         signing_algorithm: SIGNING_ALGORITHM_ED25519,
     }
@@ -137,7 +138,7 @@ fn body_for_lineage(
 
 fn policy() -> LeasePolicy {
     LeasePolicy {
-        max_lease_duration_millis: 1_000,
+        max_lease_duration_millis: MIN_TEST_CERTIFICATE_DURATION_MILLIS,
         max_clock_uncertainty_millis: 10,
         message_delay_margin_millis: 5,
         max_lineages: 64,
@@ -221,6 +222,8 @@ fn authorization<'a>(
         lineage_id: LINEAGE,
         holder_guardian_id,
         epoch,
+        now_unix_seconds: NOW_UNIX_SECONDS,
+        now_unix_nanos: 0,
         now_elapsed_millis,
         applied_log_index,
         sequence,
@@ -558,7 +561,10 @@ fn ledger_serializes_grant_renewal_owner_commit_and_revocation() {
         100,
     )
     .unwrap();
-    assert_eq!(ledger.lease(LINEAGE).unwrap().deadline_elapsed_millis, 200);
+    assert_eq!(
+        ledger.lease(LINEAGE).unwrap().deadline_unix_millis,
+        (NOW_UNIX_SECONDS as u64) * 1_000 + MIN_TEST_CERTIFICATE_DURATION_MILLIS
+    );
     apply(
         &mut ledger,
         &fixture,
@@ -567,7 +573,10 @@ fn ledger_serializes_grant_renewal_owner_commit_and_revocation() {
         150,
     )
     .unwrap();
-    assert_eq!(ledger.lease(LINEAGE).unwrap().deadline_elapsed_millis, 250);
+    assert_eq!(
+        ledger.lease(LINEAGE).unwrap().deadline_unix_millis,
+        (NOW_UNIX_SECONDS as u64) * 1_000 + MIN_TEST_CERTIFICATE_DURATION_MILLIS
+    );
     apply(
         &mut ledger,
         &fixture,
@@ -576,7 +585,10 @@ fn ledger_serializes_grant_renewal_owner_commit_and_revocation() {
         160,
     )
     .unwrap();
-    assert_eq!(ledger.lease(LINEAGE).unwrap().deadline_elapsed_millis, 250);
+    assert_eq!(
+        ledger.lease(LINEAGE).unwrap().deadline_unix_millis,
+        (NOW_UNIX_SECONDS as u64) * 1_000 + MIN_TEST_CERTIFICATE_DURATION_MILLIS
+    );
     apply(
         &mut ledger,
         &fixture,
@@ -626,7 +638,7 @@ fn activation_possession_epoch_safety_and_clock_bounds_fail_closed() {
         ledger.apply(
             &epoch_two_certificate,
             &fixture.membership,
-            application(&clone, &epoch_two_proof, 214, 5),
+            application(&clone, &epoch_two_proof, 14, 5),
         ),
         Err(AuthorityError::LeaseExpired)
     );
@@ -825,12 +837,20 @@ fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
     let mutation = Sha256::digest(b"mutation-one").into();
     let lease = ledger.lease(LINEAGE).unwrap().clone();
     let clone = activation(15);
-    let clone_proof = mutation_signature(&lease, 90, 1, mutation, &clone);
+    let clone_proof = mutation_signature(&lease, NOW_UNIX_SECONDS, 0, 90, 1, mutation, &clone);
     assert_eq!(
         ledger.authorize_mutation(authorization(HOLDER, 1, 199, 90, 1, mutation, &clone_proof,)),
         Err(AuthorityError::ActivationPossession)
     );
-    let future_index_proof = mutation_signature(&lease, 91, 1, mutation, &owner_activation);
+    let future_index_proof = mutation_signature(
+        &lease,
+        NOW_UNIX_SECONDS,
+        0,
+        91,
+        1,
+        mutation,
+        &owner_activation,
+    );
     assert_eq!(
         ledger.authorize_mutation(authorization(
             HOLDER,
@@ -844,7 +864,15 @@ fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
         Err(AuthorityError::StaleAppliedIndex)
     );
     assert_eq!(ledger.lease(LINEAGE).unwrap().last_mutation_sequence, 0);
-    let proof = mutation_signature(&lease, 90, 1, mutation, &owner_activation);
+    let proof = mutation_signature(
+        &lease,
+        NOW_UNIX_SECONDS,
+        0,
+        90,
+        1,
+        mutation,
+        &owner_activation,
+    );
     assert_eq!(
         ledger.authorize_mutation(authorization(HOLDER, 1, 199, 90, 1, mutation, &proof)),
         Ok(())
@@ -861,8 +889,29 @@ fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
         ledger.authorize_mutation(authorization(HOLDER, 1, 199, 89, 2, [2; 32], &[])),
         Err(AuthorityError::StaleAppliedIndex)
     );
+    let expired_unix_seconds = NOW_UNIX_SECONDS + 601;
+    let expired_proof = mutation_signature(
+        &lease,
+        expired_unix_seconds,
+        0,
+        90,
+        2,
+        [2; 32],
+        &owner_activation,
+    );
     assert_eq!(
-        ledger.authorize_mutation(authorization(HOLDER, 1, 200, 90, 2, [2; 32], &[])),
+        ledger.authorize_mutation(MutationAuthorization {
+            lineage_id: LINEAGE,
+            holder_guardian_id: HOLDER,
+            epoch: 1,
+            now_unix_seconds: expired_unix_seconds,
+            now_unix_nanos: 0,
+            now_elapsed_millis: 200,
+            applied_log_index: 90,
+            sequence: 2,
+            mutation_sha256: [2; 32],
+            activation_proof: &expired_proof,
+        }),
         Err(AuthorityError::LeaseExpired)
     );
 }
@@ -1259,21 +1308,21 @@ fn machine_derived_negative_case_evidence() {
     let lease = ledger.lease(LINEAGE).unwrap().clone();
     let mutation = Sha256::digest(b"machine-negative-mutation").into();
 
-    let future = mutation_signature(&lease, 171, 1, mutation, &owner);
+    let future = mutation_signature(&lease, NOW_UNIX_SECONDS, 0, 171, 1, mutation, &owner);
     assert_eq!(
         ledger.authorize_mutation(authorization(HOLDER, 1, 150, 171, 1, mutation, &future)),
         Err(AuthorityError::StaleAppliedIndex)
     );
     emit_negative_case("future_applied_index", "rejected");
 
-    let stale = mutation_signature(&lease, 169, 1, mutation, &owner);
+    let stale = mutation_signature(&lease, NOW_UNIX_SECONDS, 0, 169, 1, mutation, &owner);
     assert_eq!(
         ledger.authorize_mutation(authorization(HOLDER, 1, 150, 169, 1, mutation, &stale)),
         Err(AuthorityError::StaleAppliedIndex)
     );
     emit_negative_case("stale_applied_index", "rejected");
 
-    let proof = mutation_signature(&lease, 170, 1, mutation, &owner);
+    let proof = mutation_signature(&lease, NOW_UNIX_SECONDS, 0, 170, 1, mutation, &owner);
     ledger
         .authorize_mutation(authorization(HOLDER, 1, 150, 170, 1, mutation, &proof))
         .unwrap();
@@ -1472,7 +1521,7 @@ fn canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds() {
     );
     let replacement = activation(14);
     let mut replacement_body = body(OperationClass::Activate, 101, 2, &replacement);
-    replacement_body.issued_unix_seconds = NOW_UNIX_SECONDS + 1;
+    replacement_body.issued_unix_seconds = NOW_UNIX_SECONDS + 601;
     let replacement_proof = activation_signature(&replacement_body, &replacement);
     fixture.membership.committed_log_index = 101;
     restored
@@ -1482,7 +1531,7 @@ fn canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds() {
             application_at(
                 &replacement,
                 &replacement_proof,
-                NOW_UNIX_SECONDS + 1,
+                NOW_UNIX_SECONDS + 601,
                 215,
                 5,
             ),
@@ -1491,6 +1540,8 @@ fn canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds() {
     let mutation = Sha256::digest(b"post-recovery-mutation").into();
     let proof = mutation_signature(
         restored.lease(LINEAGE).unwrap(),
+        NOW_UNIX_SECONDS,
+        0,
         101,
         1,
         mutation,
@@ -1526,6 +1577,7 @@ fn restart_uses_portable_wall_safety_anchor_not_foreign_elapsed_clock() {
     let portable_policy = policy_with_max_lease(2_000);
     let mut grant = body(OperationClass::LeaseGrant, 110, 1, &initial);
     grant.issued_unix_seconds = NOW_UNIX_SECONDS;
+    grant.lease_duration_millis = 2_000;
     grant.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
     let proof = activation_signature(&grant, &initial);
     let certificate = fixture.certificate(grant, &[0, 1]);
@@ -1560,18 +1612,30 @@ fn restart_uses_portable_wall_safety_anchor_not_foreign_elapsed_clock() {
             application_at(
                 &replacement,
                 &replacement_proof,
-                NOW_UNIX_SECONDS,
+                NOW_UNIX_SECONDS + 1,
                 10_000_000,
                 5,
             ),
         ),
         Err(AuthorityError::LeaseExpired)
     );
+    let mut replacement_body = body(OperationClass::Activate, 111, 2, &replacement);
+    replacement_body.issued_unix_seconds = NOW_UNIX_SECONDS + 3;
+    replacement_body.lease_duration_millis = 2_000;
+    replacement_body.policy_sha256 = portable_policy.sha256().unwrap().to_vec();
+    let replacement_proof = activation_signature(&replacement_body, &replacement);
+    let replacement_certificate = fixture.certificate(replacement_body, &[0, 1]);
     restored
         .apply(
             &replacement_certificate,
             &fixture.membership,
-            application_at(&replacement, &replacement_proof, NOW_UNIX_SECONDS + 1, 1, 5),
+            application_at(
+                &replacement,
+                &replacement_proof,
+                NOW_UNIX_SECONDS + 3,
+                20,
+                5,
+            ),
         )
         .unwrap();
 }
@@ -1595,8 +1659,8 @@ fn delayed_apply_never_extends_the_signed_portable_lease_deadline() {
         )
         .unwrap();
     assert_eq!(
-        ledger.lease(LINEAGE).unwrap().deadline_elapsed_millis,
-        3_000
+        ledger.lease(LINEAGE).unwrap().deadline_unix_millis,
+        (NOW_UNIX_SECONDS as u64) * 1_000 + 5_000
     );
 
     let snapshot = ledger.snapshot().unwrap();

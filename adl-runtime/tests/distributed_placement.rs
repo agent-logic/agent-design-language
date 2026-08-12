@@ -305,8 +305,6 @@ fn same_epoch_successor(
         committed_log_index,
         epoch: receipt.epoch,
         certificate_generation: receipt.voter_set_generation,
-        activated_elapsed_millis: 100,
-        deadline_elapsed_millis: 2_100,
         deadline_unix_millis: (NOW + 2) * 1_000,
         certificate_bytes,
         revoked: false,
