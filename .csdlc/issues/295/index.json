@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "b22d0282a68a792bc36ab9fee0d109e48462f8df9c98b2add86384d62f47d40f",
+  "generation": 14,
+  "digest": "ed177cc14ef509968c972f885aa87e4398540da1bd1fb8845c036d3584fa843b",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "223215372e202d34994df6bb672e672bedfd917d510fc6fbb39b55b6ee184aff",
+      "values_digest": "794ab59ca3be24967303cacc62d5977d07bd134153acd303f66bec9e11df26f1",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "b69e426ee7ff7408acf0a90ae5cb6e3bced6f060d5a5e44347dc4abaf413f460",
+      "values_digest": "edc30ee3942455200d979229d452e2d3257cf1326b7e7dbfa03b313b45f16c4e",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "a896b643ce48ed99d894ecbcb3dfb9069b6932c34fcc45bceece0946f782bd44",
+      "values_digest": "1b45f2058bd3f17d8aa2141b4ee19f1264773f217c723242bdb4da14a2305fdf",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "11dd6d33ed046614db6149632a6118b49684dbb42790272b090b30c44e62ae5a",
+      "values_digest": "2674a2dcf93e085a2a3e68122898344419bd89bcef10ae9b9beddf5c434a2ade",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "912cd6bb7303448d712c886812c5dee73d05d63250f41204311a663f52cb7acb",
+      "values_digest": "75e1d93477bf83ab6dde7297b453e1f605d3985846367b62cd5536b54e770fcf",
       "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
       "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
     },
     "sor": {
-      "values_digest": "0db6942d27a817e3fdbc3fb740f746a7444d7c342dd3ade0904944334c683ff8",
+      "values_digest": "b6a0b9263f5e02414e8c6fde889b9185313064e7e8b18300194614e84e00af6b",
       "rendered_digest": "9edd7ecd59706c580866a5c198e3d852326da82198e9edf876d0a08a638b9b62",
       "ast_digest": "956d2896999d4b077ce1ca3d262b7d515bbf98d79d7909c077d0c8a6402dd9f9"
     }
@@ -203,6 +203,20 @@
       "actor": "codex:issue-295",
       "reason": "Record bounded third-review remediation and fresh passing proof before a new exact review assignment.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the third exact-review findings with a constrained Rust callsite grammar and clean Git-object proof snapshots.\",\"changes\":[\"Reject comment, string, macro, operator, and unrelated-call callee decoys with a fail-closed callsite grammar.\",\"Execute governed commands in a clean archive of the exact commit, overlaying only the classified diff for worktree authoring mode.\",\"Exclude all unrelated mutable and untracked source or test files from proof inputs.\",\"Add decoy and dirty unrelated proof-command negatives while preserving the 80 percent and nightly/full authority gates.\"],\"artifacts\":[\"adl/tools/mechanical_coverage_fallout.py\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\"docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md\",\".csdlc/evidence/295\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Prove syntax-constrained callee binding and immutable proof execution, including decoy and dirty unrelated input negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/mechanical-compile-fallout-classifier.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the existing changed-source 80 percent and authoritative coverage routing remain intact.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/coverage-impact-regression.log\"},{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"purpose\":\"Prove PVF selector inventory and PR-fast non-authoritative routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/validation-selector-pvf.log\"}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:issue-295",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:issue-295",
+      "reason": "Exact reviewer fresh-session:fc6342c4-8dcd-4fd1-9567-3a5c363503a4 returned FAIL at c79d22439 / git-blake3 4332b7468b8038ba06ba3b617a1c0248d28194b613a96e1ad80fdfad5bbdff4b. P1: governed token spelling is not bound to an exact mapped import module path, and a stable attacker_controlled prefix reproduced acceptance. P1: classifier and mapping control inputs execute from mutable ROOT rather than the clean archive, while selected-path-only postchecks and an unbound mapping digest permit dirty classifier/mapping substitution and TOCTOU. P2: the diff parser does not validate old/new headers against the file, hunk counts/ranges, body prefixes, or trailing content, so malformed unified diffs need strict rejection and negative fixtures. Focused classifier, bash syntax, and py_compile passed; broad coverage/Rust commands were not rerun by the reviewer. Recover before edits and require a different fresh reviewer.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -38,6 +38,11 @@ diff, mapping, result, evidence log, or hunk content is rejected. Argument
 pass-through classification additionally requires the added token to occur in
 the mapped governed callee invocation under a constrained Rust callsite
 grammar; comments, strings, macros, and callee-shaped decoys fail closed.
+Import classification binds both the token spelling and its exact configured
+Rust module path. The single-file unified-diff parser validates matching file
+headers, exact hunk line counts, body prefixes, and end-of-input. The classifier
+and mapping are loaded from the same clean Git-object archive as the proof
+commands and their control digests are verified again after execution.
 
 The nightly workflow currently sets `EXCLUDE_FROM_FILE_FLOOR_REGEX` to `^$`.
 That means the report does not silently exempt active source files from the

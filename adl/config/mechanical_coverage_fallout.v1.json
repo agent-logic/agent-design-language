@@ -3,6 +3,7 @@
   "mappings": [{
     "file": "adl-runtime/src/distributed/transport/core.rs",
     "token": "AUTHORITY_BOUND_CERTIFICATE_ACCESS",
+    "import_path": "super::certificates",
     "callee": "authorize",
     "owners": ["EstablishedRuntimeAuthority", "TransportAuthorization"],
     "compile_command": ["cargo", "check", "--manifest-path", "adl-runtime/Cargo.toml"],

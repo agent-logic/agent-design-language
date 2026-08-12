@@ -626,9 +626,8 @@ rerun_preflight_command() {
 mechanical_fallout_receipt_for_path() {
   local path="$1"
   [ -n "$MECHANICAL_RECEIPT_DIR" ] || return 1
-  local classifier="$ROOT/adl/tools/mechanical_coverage_fallout.py"
-  local mapping="$ROOT/adl/config/mechanical_coverage_fallout.v1.json"
-  [ -f "$classifier" ] && [ -f "$mapping" ] || return 1
+  local classifier_rel="adl/tools/mechanical_coverage_fallout.py"
+  local mapping_rel="adl/config/mechanical_coverage_fallout.v1.json"
   local diff_file post_diff_file receipt_file base_revision head_revision diff_digest proof_root proof_revision
   diff_file="$(mktemp)"
   post_diff_file="$(mktemp)"
@@ -656,10 +655,18 @@ mechanical_fallout_receipt_for_path() {
   if [ "$INCLUDE_WORKTREE" = true ] && ! patch -s -d "$proof_root" -p1 <"$diff_file"; then
     rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file"; return 1
   fi
+  local classifier="$proof_root/$classifier_rel"
+  local mapping="$proof_root/$mapping_rel"
+  [ -f "$classifier" ] && [ -f "$mapping" ] || { rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file"; return 1; }
+  local classifier_digest mapping_digest
+  classifier_digest="$(shasum -a 256 "$classifier" | awk '{print $1}')"
+  mapping_digest="$(shasum -a 256 "$mapping" | awk '{print $1}')"
   if python3 "$classifier" --diff "$diff_file" --mapping "$mapping" \
       --receipt "$receipt_file" --repo-root "$proof_root" \
       --evidence-dir "$MECHANICAL_RECEIPT_DIR/results" \
       --base-revision "$base_revision" --head-revision "$head_revision" >/dev/null; then
+    [ "$(shasum -a 256 "$classifier" | awk '{print $1}')" = "$classifier_digest" ] &&
+      [ "$(shasum -a 256 "$mapping" | awk '{print $1}')" = "$mapping_digest" ] || { rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
     if [ "$INCLUDE_WORKTREE" = true ]; then
       git -C "$ROOT" diff "$BASE" -- "$path" >"$post_diff_file"
       [ "$(git -C "$ROOT" rev-parse "$BASE")" = "$base_revision" ] || { rm -rf "$proof_root"; rm -f "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }

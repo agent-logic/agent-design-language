@@ -9,7 +9,7 @@ HEAD_REV="2222222222222222222222222222222222222222"
 MAPPING="$TEMP_ROOT/mapping.json"
 
 write_mapping() {
-  jq -n --arg compile "${1:-/usr/bin/true}" '{schema:"adl.mechanical_coverage_fallout_mapping.v1",mappings:[{file:"adl-runtime/src/distributed/transport/core.rs",token:"AUTHORITY_BOUND_CERTIFICATE_ACCESS",callee:"authorize",owners:["EstablishedRuntimeAuthority","TransportAuthorization"],compile_command:[$compile],behavior_commands:{EstablishedRuntimeAuthority:["/usr/bin/true"],TransportAuthorization:["/usr/bin/true"]},rationale:"fixture governed token pass-through"}]}' >"$MAPPING"
+  jq -n --arg compile "${1:-/usr/bin/true}" '{schema:"adl.mechanical_coverage_fallout_mapping.v1",mappings:[{file:"adl-runtime/src/distributed/transport/core.rs",token:"AUTHORITY_BOUND_CERTIFICATE_ACCESS",import_path:"super::certificates",callee:"authorize",owners:["EstablishedRuntimeAuthority","TransportAuthorization"],compile_command:[$compile],behavior_commands:{EstablishedRuntimeAuthority:["/usr/bin/true"],TransportAuthorization:["/usr/bin/true"]},rationale:"fixture governed token pass-through"}]}' >"$MAPPING"
 }
 write_diff() {
   local context="${2:-            .authorize(}"
@@ -52,6 +52,7 @@ printf '%s\n' 'diff --git a/adl-runtime/src/distributed/transport/core.rs b/adl-
 reject 'governed call elsewhere in hunk'
 
 for changed_import in \
+  '-use attacker_controlled::{AuthorityCertificate, CertificatePurpose};|+use attacker_controlled::{AuthorityCertificate, CertificatePurpose, AUTHORITY_BOUND_CERTIFICATE_ACCESS};' \
   '-use super::certificates::{AuthorityCertificate, CertificatePurpose};|+use super::certificates::{CertificatePurpose, AuthorityCertificate, AUTHORITY_BOUND_CERTIFICATE_ACCESS};' \
   '-use super::certificates::{AuthorityCertificate, CertificatePurpose};|+use other::certificates::{AuthorityCertificate, CertificatePurpose, AUTHORITY_BOUND_CERTIFICATE_ACCESS};' \
   '-use super::certificates::{AuthorityCertificate, CertificatePurpose};|+use super::certificates::{AuthorityCertificate as AC, CertificatePurpose, AUTHORITY_BOUND_CERTIFICATE_ACCESS};' \
@@ -61,6 +62,19 @@ for changed_import in \
   printf '%s\n' 'diff --git a/adl-runtime/src/distributed/transport/core.rs b/adl-runtime/src/distributed/transport/core.rs' '--- a/adl-runtime/src/distributed/transport/core.rs' '+++ b/adl-runtime/src/distributed/transport/core.rs' '@@ -20,1 +20,1 @@' "$old" "$new" >"$TEMP_ROOT/change.diff"
   reject "semantic import rewrite"
 done
+
+write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,'
+sed 's#--- a/adl-runtime/src/distributed/transport/core.rs#--- a/wrong.rs#' "$TEMP_ROOT/change.diff" >"$TEMP_ROOT/change.next" && mv "$TEMP_ROOT/change.next" "$TEMP_ROOT/change.diff"
+reject 'mismatched old header'
+write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,'
+sed 's/@@ -20,1 +20,2 @@/@@ -20,2 +20,2 @@/' "$TEMP_ROOT/change.diff" >"$TEMP_ROOT/change.next" && mv "$TEMP_ROOT/change.next" "$TEMP_ROOT/change.diff"
+reject 'incorrect hunk count'
+write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,'
+printf '%s\n' 'trailing junk' >>"$TEMP_ROOT/change.diff"
+reject 'trailing junk'
+write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,'
+printf '%s\n' '\ No newline at end of file' >>"$TEMP_ROOT/change.diff"
+reject 'unsupported hunk marker'
 
 write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,'
 write_mapping /usr/bin/false
@@ -90,6 +104,8 @@ git -C "$GATE_ROOT" add . && git -C "$GATE_ROOT" commit -qm baseline
 # Mutable unrelated proof input must not influence execution; the gate archives
 # the exact base and overlays only the classified source diff.
 printf '%s\n' '#!/usr/bin/env bash' 'exit 1' >"$GATE_ROOT/proof-command.sh"
+printf '%s\n' '#!/usr/bin/env python3' 'raise SystemExit(1)' >"$GATE_ROOT/adl/tools/mechanical_coverage_fallout.py"
+jq '.mappings[0].compile_command=["/usr/bin/false"]' "$GATE_ROOT/adl/config/mechanical_coverage_fallout.v1.json" >"$GATE_ROOT/adl/config/mechanical.next" && mv "$GATE_ROOT/adl/config/mechanical.next" "$GATE_ROOT/adl/config/mechanical_coverage_fallout.v1.json"
 { printf '%s\n' 'use super::certificates::{AuthorityCertificate, CertificatePurpose, AUTHORITY_BOUND_CERTIFICATE_ACCESS};'; for _ in $(seq 1 20); do echo '// context'; done; printf '%s\n' 'authorize(' '    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,' '    holder,' ');'; } >"$GATE_ROOT/adl-runtime/src/distributed/transport/core.rs"
 printf '%s\n' '{"data":[{"files":[{"filename":"adl-runtime/src/distributed/transport/core.rs","summary":{"lines":{"covered":1,"count":10}}}]}]}' >"$TEMP_ROOT/summary.json"
 (cd "$GATE_ROOT" && bash adl/tools/check_coverage_impact.sh --base HEAD --include-working-tree --summary "$TEMP_ROOT/summary.json" --mechanical-receipt-dir "$TEMP_ROOT/receipts") >/dev/null

@@ -11,7 +11,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-HUNK = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@")
+HUNK = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@(?: .*)?$")
 TOKEN = re.compile(r"^[A-Z][A-Z0-9_]+$")
 
 class Rejected(ValueError):
@@ -34,28 +34,50 @@ def file_sha256(path: Path) -> str:
 
 def parse_diff(text: str) -> tuple[str, list[dict[str, object]]]:
     lines = text.splitlines()
-    new_files = [line[6:] for line in lines if line.startswith("+++ b/")]
-    if len(new_files) != 1 or any(line.startswith("+++ /dev/null") for line in lines):
+    if len(lines) < 4:
+        raise Rejected("diff is incomplete")
+    diff_header = re.fullmatch(r"diff --git a/(\S+) b/(\S+)", lines[0])
+    if diff_header is None or diff_header.group(1) != diff_header.group(2):
         raise Rejected("receipt classification requires exactly one modified file")
-    path = new_files[0]
+    path = diff_header.group(1)
+    cursor = 1
+    if cursor < len(lines) and lines[cursor].startswith("index "):
+        if re.fullmatch(r"index [0-9a-f]+\.\.[0-9a-f]+(?: \d{6})?", lines[cursor]) is None:
+            raise Rejected("malformed index header")
+        cursor += 1
+    if lines[cursor:cursor + 2] != [f"--- a/{path}", f"+++ b/{path}"]:
+        raise Rejected("old/new headers do not match the modified file")
+    cursor += 2
     hunks: list[dict[str, object]] = []
-    current: dict[str, object] | None = None
-    for line in lines:
+    while cursor < len(lines):
+        line = lines[cursor]
         match = HUNK.match(line)
-        if match:
-            current = {"id": f"{path}:new-{match.group(3)}", "header": line, "added": [], "removed": [], "body": []}
-            hunks.append(current)
-            continue
-        if current is None or line.startswith(("+++", "---")):
-            continue
-        if line.startswith("+"):
-            current["added"].append(line[1:])
-            current["body"].append(("+", line[1:]))
-        elif line.startswith("-"):
-            current["removed"].append(line[1:])
-            current["body"].append(("-", line[1:]))
-        elif line.startswith(" "):
-            current["body"].append((" ", line[1:]))
+        if match is None:
+            raise Rejected(f"unexpected content outside hunk: {line}")
+        old_count = int(match.group(2) or "1")
+        new_count = int(match.group(4) or "1")
+        current = {"id": f"{path}:new-{match.group(3)}", "header": line, "added": [], "removed": [], "body": []}
+        cursor += 1
+        seen_old = seen_new = 0
+        while cursor < len(lines) and HUNK.match(lines[cursor]) is None:
+            body_line = lines[cursor]
+            if not body_line or body_line[0] not in " +-":
+                raise Rejected(f"malformed hunk body: {body_line}")
+            prefix, content = body_line[0], body_line[1:]
+            current["body"].append((prefix, content))
+            if prefix == "+":
+                current["added"].append(content)
+                seen_new += 1
+            elif prefix == "-":
+                current["removed"].append(content)
+                seen_old += 1
+            else:
+                seen_old += 1
+                seen_new += 1
+            cursor += 1
+        if seen_old != old_count or seen_new != new_count:
+            raise Rejected("hunk body counts do not match header")
+        hunks.append(current)
     if not hunks:
         raise Rejected("diff contains no hunks")
     return path, hunks
@@ -72,9 +94,9 @@ def parse_simple_use(lines: list[str]) -> tuple[str, list[str]] | None:
         return None
     return prefix, members
 
-def import_only(added: list[str], removed: list[str], token: str) -> bool:
+def import_only(added: list[str], removed: list[str], token: str, import_path: str) -> bool:
     old, new = parse_simple_use(removed), parse_simple_use(added)
-    if old is None or new is None or old[0] != new[0]:
+    if old is None or new is None or old[0] != import_path or new[0] != import_path:
         return False
     old_members, new_members = old[1], new[1]
     if token in old_members or new_members.count(token) != 1 or len(new_members) != len(old_members) + 1:
@@ -133,7 +155,7 @@ def classify(diff: str, mapping: dict[str, object], mapping_path: Path, repo_roo
     if len(candidates) != 1:
         raise Rejected(f"file is not mapped exactly once: {path}")
     entry = candidates[0]
-    token, owners, rationale, callee = entry.get("token"), entry.get("owners"), entry.get("rationale"), entry.get("callee")
+    token, owners, rationale, callee, import_path = entry.get("token"), entry.get("owners"), entry.get("rationale"), entry.get("callee"), entry.get("import_path")
     if not isinstance(token, str) or not TOKEN.fullmatch(token):
         raise Rejected("mapping token is invalid")
     if not isinstance(owners, list) or not owners or not all(isinstance(owner, str) and owner for owner in owners):
@@ -141,12 +163,12 @@ def classify(diff: str, mapping: dict[str, object], mapping_path: Path, repo_roo
     if not isinstance(rationale, str) or not rationale.strip():
         raise Rejected("mapping rationale is missing")
     compile_command, behavioral = entry.get("compile_command"), entry.get("behavior_commands")
-    if not isinstance(callee, str) or not re.fullmatch(r"[a-z_][a-z0-9_]*", callee) or not isinstance(behavioral, dict):
+    if not isinstance(callee, str) or not re.fullmatch(r"[a-z_][a-z0-9_]*", callee) or not isinstance(import_path, str) or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_:]*", import_path) or not isinstance(behavioral, dict):
         raise Rejected("mapping callee or governed commands are incomplete")
     receipt_hunks = []
     for hunk in hunks:
         added, removed = hunk["added"], hunk["removed"]
-        kind = "import_only" if import_only(added, removed, token) else "argument_pass_through" if pass_through_only(hunk, token, callee) else None
+        kind = "import_only" if import_only(added, removed, token, import_path) else "argument_pass_through" if pass_through_only(hunk, token, callee) else None
         if kind is None:
             raise Rejected(f"non-mechanical addition in {hunk['id']}")
         hunk_proof, result_digest = run_verified_result(repo_root, evidence_dir, compile_command, kind="compile", subject=hunk["id"], base=base, head=head, diff_digest=diff_digest)
@@ -157,7 +179,7 @@ def classify(diff: str, mapping: dict[str, object], mapping_path: Path, repo_roo
         result, result_digest = run_verified_result(repo_root, evidence_dir, behavioral.get(owner), kind="behavior", subject=owner, base=base, head=head, diff_digest=diff_digest)
         tests[owner] = {"command": result["command"], "result_sha256": result_digest, "evidence_sha256": result["evidence_sha256"]}
     results_digest = sha256(json.dumps({"hunks":receipt_hunks,"tests":tests}, sort_keys=True, separators=(",", ":")).encode())
-    return {"schema":"adl.mechanical_coverage_fallout.v2","classification":"mechanical_compile_fallout","execution_provenance":"classifier_executed_governed_commands","base_revision":base,"head_revision":head,"diff_sha256":diff_digest,"mapping_sha256":mapping_digest,"execution_results_sha256":results_digest,"file":path,"hunks":receipt_hunks,"token":token,"callee":callee,"owner":owners,"tests":tests,"rationale":rationale,"coverage_authority":"pr_fast_non_authoritative"}
+    return {"schema":"adl.mechanical_coverage_fallout.v2","classification":"mechanical_compile_fallout","execution_provenance":"classifier_executed_governed_commands","base_revision":base,"head_revision":head,"diff_sha256":diff_digest,"mapping_sha256":mapping_digest,"execution_results_sha256":results_digest,"file":path,"hunks":receipt_hunks,"token":token,"import_path":import_path,"callee":callee,"owner":owners,"tests":tests,"rationale":rationale,"coverage_authority":"pr_fast_non_authoritative"}
 
 def main() -> int:
     parser = argparse.ArgumentParser()
