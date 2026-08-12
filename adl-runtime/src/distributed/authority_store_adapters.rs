@@ -377,6 +377,15 @@ impl AuthorityBoundLeaseLedger {
             .map_err(Into::into)
     }
 
+    pub fn snapshot(&self) -> AuthorityStoreAdapterResult<Vec<u8>> {
+        self.require_read()?;
+        self.ledger
+            .lock()
+            .map_err(|_| AuthorityStoreAdapterError::LockPoisoned)?
+            .snapshot()
+            .map_err(Into::into)
+    }
+
     pub fn apply(
         &self,
         certificate_bytes: &[u8],
@@ -439,6 +448,16 @@ impl AuthorityBoundFencingStore {
             .map_err(|_| AuthorityStoreAdapterError::LockPoisoned)?
             .authority_revision()
             .map_err(Into::into)
+    }
+
+    pub fn floor(&self, lineage_id: &[u8]) -> AuthorityStoreAdapterResult<Option<FenceReceipt>> {
+        self.require_read()?;
+        Ok(self
+            .store
+            .lock()
+            .map_err(|_| AuthorityStoreAdapterError::LockPoisoned)?
+            .floor(lineage_id)
+            .cloned())
     }
 
     pub fn commit(&self, request: FenceCommit<'_>) -> AuthorityStoreAdapterResult<FenceReceipt> {
@@ -766,6 +785,7 @@ mod tests {
                 .applied_log_index(),
             0
         );
+        assert!(!bound_ledger.snapshot().unwrap().is_empty());
         assert_eq!(
             bound_fencing
                 .authority_revision()
@@ -773,5 +793,6 @@ mod tests {
                 .checkpoint_generation(),
             0
         );
+        assert_eq!(bound_fencing.floor(b"lineage-a").unwrap(), None);
     }
 }
