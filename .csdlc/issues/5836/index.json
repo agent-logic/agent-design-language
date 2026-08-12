@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "846869967e550e7f6dc78805815062a71d7c828653ce0a668e7c479663588d00",
   "phase": "bound",
-  "generation": 50,
-  "digest": "d1477766bcc491d43566a4971a744126ee34f77538d6652182f9d06bd7a6093a",
+  "generation": 51,
+  "digest": "a4ed1fa7ba5bbc42cdf9256051eb189ace8e6b32fca4bb8e8b4f4368152f72a4",
   "branch": "codex/5836-wp18-first-birthday-demo",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5836-wp18-first-birthday-demo",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "975081e56d57c99f863bb89bcec7993cd37d8db46539d4ea20b02bf539c45418",
+      "values_digest": "9ca72acaaec05e471315801f78dc93d69d99c3e187e2d0f636a9207cd7fbbe84",
       "rendered_digest": "96663c1ef314280d7630286dd8f84593e4f8fdd535601731c080de4c9ba3f68d",
       "ast_digest": "7cb61154ea2ae9f00f74974351459e9ffd6a5cbd9a341e56ae30ea9a6c742157"
     },
     "stp": {
-      "values_digest": "d18a771d884a67aed8edc9772822bedd5f435da57932869811904244cfdebbc5",
+      "values_digest": "31fd8cc4a93ba4180b0f62baadafbe79c40f0ff176f840e7c793822f5e5100ab",
       "rendered_digest": "601b570ce1246fd7be1ec8ca3d822354fc21a9f1a5c60dd13edf21b1691c9622",
       "ast_digest": "a507239b2f3df57239df796f8283e1f12ea3f253ca3b8acb1c007e90907bede5"
     },
     "spp": {
-      "values_digest": "773ee6ecfcab25d35f805b64053479e77f763e4a06c2eba62c4e960520dc2dc2",
-      "rendered_digest": "e8328e3c2c77c3f89427c7b4ade71d91452ea1f89de66590f2b63e0a858e74fc",
-      "ast_digest": "7804daf29331181a0d421c50d3b37be43874ae896192b3ff9a433365c8ee61f2"
+      "values_digest": "191e37f413d85a4092eaf4e0a7d3004cd51b328317407dadae20eb35820a0245",
+      "rendered_digest": "c9915cec80006c3b520c3090614b266cd68f9042f8eba94fa62de9d7fcb7940a",
+      "ast_digest": "36fa5bf6269530d2c59f3d4f1d7095c16dec9d3e2d6cafc5bba8e67981d0fc5c"
     },
     "vpp": {
-      "values_digest": "19ddb44999956a03d6f71c7721792b6b2abc085ef267d4da0ee15d520f2e7716",
+      "values_digest": "ee84e1b70b9804f446aeca4e80735353ecf9b5226879b051d5fc1c56fd1761ec",
       "rendered_digest": "b94bb2d875152aa19aba4949a0e78d1e66564c07908c8906e1214ecacef84423",
       "ast_digest": "04d79b78d5d9b8092c1c7e51e4d25caaa5bd6741d7533336e2ece292aa53f125"
     },
     "srp": {
-      "values_digest": "a85ee35e02cc065efd172ed01f5049cf1d602bc52a408dab30e6408d0359d64f",
+      "values_digest": "b45436a0e1ba89d9d357a1922fe49913700890f585ed1041f5d1ad2791a2af30",
       "rendered_digest": "effeb2dc571ff39b68bafbe764b5b12d19286a0a856df06d3b68a4d1948ec4ee",
       "ast_digest": "c1221ba532e8cde1ffa3ae6f0e93463333da42ae174fea0d11d2a7c23c1e2198"
     },
     "sor": {
-      "values_digest": "6a1568738e4191d83753e4ab682a0a26200b391ea7a44278259a11564f668f7c",
+      "values_digest": "0d798e50a6585642e266dac347e62019d45d0bdd2c48e901c48c82b3ca622b34",
       "rendered_digest": "4fbc680667c00745e3761cbb9cc6d40c3b11080eee395b41fa5972125cafb61b",
       "ast_digest": "63699a396361f0a5b765229460953191b0069437f235102e2abcd22d70aca6e7"
     }
@@ -561,6 +561,13 @@
       "actor": "codex:sprint5-5836",
       "reason": "Name the required publication validator as an exact owned deliverable path for typed readiness.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl-runtime-kernel/src/birthday_demo.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-birthday-demo.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_demo.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_demo\",\"adl/tools/demo_v092_first_birthday.sh\",\"adl/tools/validate_v092_first_birthday_packet.py\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"demos/v0.92/first-birthday/\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md\",\"docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md\",\"docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md\",\".csdlc/evidence/5836/\",\".csdlc/evidence/5836/validate-publication-gate.rb\"]}"
+    },
+    {
+      "sequence": 68,
+      "generation": 51,
+      "actor": "codex:5836-runtime-resume",
+      "reason": "Declare the implemented publication-gate validator as an exact issue-owned path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birthday_demo.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-birthday-demo.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_demo.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_demo\",\"adl/tools/demo_v092_first_birthday.sh\",\"adl/tools/validate_v092_first_birthday_packet.py\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"demos/v0.92/first-birthday\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md\",\"docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md\",\"docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md\",\".csdlc/evidence/5836\",\".csdlc/evidence/5836/validate-publication-gate.rb\"]}"
     }
   ]
 }
