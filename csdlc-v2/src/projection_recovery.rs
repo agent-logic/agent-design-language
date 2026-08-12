@@ -854,7 +854,7 @@ fn validate_receipt_inventory(dir: &Path) -> Result<usize> {
                 "recovery workspace entry name is not UTF-8",
             )
         })?;
-        if file_type.is_dir() && matches!(name, "displaced" | "rejected") {
+        if file_type.is_dir() && matches!(name, "candidate" | "displaced" | "rejected") {
             continue;
         }
         let node_ordinal = file_type.is_dir().then(|| {
@@ -921,6 +921,68 @@ fn validate_receipt_inventory(dir: &Path) -> Result<usize> {
     Ok(node_ledgers.len())
 }
 
+fn validate_exact_receipt_files(dir: &Path, states: &[&str], label: &str) -> Result<()> {
+    let mut receipts = Vec::new();
+    for entry in fs::read_dir(dir)? {
+        let entry = entry.map_err(|error| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} receipt inventory cannot be enumerated: {error}"),
+            )
+        })?;
+        let file_type = entry.file_type().map_err(|error| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} receipt type cannot be read: {error}"),
+            )
+        })?;
+        if !file_type.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} receipt inventory contains a non-regular entry"),
+            ));
+        }
+        receipts.push(entry);
+    }
+    receipts.sort_by_key(|entry| entry.file_name());
+    if receipts.len() != states.len() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            format!("{label} receipt inventory is not the exact terminal sequence"),
+        ));
+    }
+    for (index, entry) in receipts.iter().enumerate() {
+        let name = entry.file_name();
+        let name = name.to_str().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} receipt name is not UTF-8"),
+            )
+        })?;
+        let seq: usize = name.get(..3).and_then(|v| v.parse().ok()).ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} receipt name has no sequence"),
+            )
+        })?;
+        if seq != index + 1 {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} receipt inventory is not a unique exact prefix"),
+            ));
+        }
+        let expected_name = format!("{seq:03}-{}.json", states[index]);
+        if name != expected_name {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{label} receipt inventory contains an unexpected state"),
+            ));
+        }
+        let _: serde_json::Value = receipt_payload(&entry.path())?;
+    }
+    Ok(())
+}
+
 const RECOVERY_STATES: [&str; 13] = [
     "prepared",
     "archive-intent",
@@ -935,6 +997,19 @@ const RECOVERY_STATES: [&str; 13] = [
     "canonical-verified",
     "recovery-complete-intent",
     "recovered",
+];
+
+const NODE_STATES: [&str; 10] = [
+    "create-intent",
+    "created-identity",
+    "write-intent",
+    "write-completed",
+    "node-fsync-intent",
+    "node-fsync-completed",
+    "parent-fsync-intent",
+    "parent-fsync-completed",
+    "publish-intent",
+    "node-created",
 ];
 
 fn require_receipt_payload(
@@ -974,6 +1049,313 @@ fn observations_match_after_move(
                 && a.identity.mode == e.identity.mode
                 && a.identity.node_type == e.identity.node_type
         })
+}
+
+fn observed_entry<'a>(
+    observation: &'a CandidateObservation,
+    relative: &str,
+) -> Result<&'a ManifestEntry> {
+    observation
+        .entries
+        .iter()
+        .find(|entry| entry.path == relative)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "candidate observation is missing an authorized node",
+            )
+        })
+}
+
+fn require_node_receipt_payload(
+    ledger: &Path,
+    seq: u32,
+    state: &str,
+    expected: serde_json::Value,
+    message: &str,
+) -> Result<()> {
+    let actual: serde_json::Value = receipt_payload(&receipt_path(ledger, seq, state))?;
+    if actual == expected {
+        Ok(())
+    } else {
+        Err(V2Error::new(ErrorCode::CorruptRecord, message))
+    }
+}
+
+fn stable_directory_identity_matches(actual: &NodeIdentity, expected: &NodeIdentity) -> bool {
+    actual.device == expected.device
+        && actual.mount_id == expected.mount_id
+        && actual.inode == expected.inode
+        && actual.uid == expected.uid
+        && actual.gid == expected.gid
+        && actual.mode == expected.mode
+        && actual.node_type == expected.node_type
+}
+
+fn require_directory_identity_receipt(
+    ledger: &Path,
+    seq: u32,
+    state: &str,
+    expected: &NodeIdentity,
+    message: &str,
+) -> Result<()> {
+    let actual: serde_json::Value = receipt_payload(&receipt_path(ledger, seq, state))?;
+    let identity = if let Some(identity) = actual.get("identity") {
+        serde_json::from_value(identity.clone())?
+    } else {
+        serde_json::from_value(actual)?
+    };
+    // Directory ctime and link count legitimately evolve while the exact authorized child
+    // manifest is constructed. The caller separately binds the complete candidate manifest,
+    // exact node-ledger count, contiguous ordinals, and every per-node receipt sequence.
+    if stable_directory_identity_matches(&identity, expected) {
+        Ok(())
+    } else {
+        Err(V2Error::new(ErrorCode::CorruptRecord, message))
+    }
+}
+
+fn stable_file_identity_matches(actual: &NodeIdentity, expected: &NodeIdentity) -> bool {
+    actual.device == expected.device
+        && actual.mount_id == expected.mount_id
+        && actual.inode == expected.inode
+        && actual.links == expected.links
+        && actual.uid == expected.uid
+        && actual.gid == expected.gid
+        && actual.mode == expected.mode
+        && actual.node_type == expected.node_type
+}
+
+fn require_file_identity_receipt(
+    ledger: &Path,
+    seq: u32,
+    state: &str,
+    expected: &NodeIdentity,
+    digest: &str,
+    size: Option<usize>,
+    message: &str,
+) -> Result<()> {
+    let actual: serde_json::Value = receipt_payload(&receipt_path(ledger, seq, state))?;
+    let identity: NodeIdentity =
+        serde_json::from_value(actual.get("identity").cloned().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "candidate file identity receipt is missing identity",
+            )
+        })?)?;
+    if stable_file_identity_matches(&identity, expected)
+        && actual.get("digest").and_then(|v| v.as_str()) == Some(digest)
+        && size.is_none_or(|size| actual.get("size").and_then(|v| v.as_u64()) == Some(size as u64))
+    {
+        Ok(())
+    } else {
+        Err(V2Error::new(ErrorCode::CorruptRecord, message))
+    }
+}
+
+fn validate_directory_node_ledger(
+    attempt: &Path,
+    candidate_observation: &CandidateObservation,
+    relative: &str,
+    ordinal: usize,
+) -> Result<()> {
+    let ledger = attempt.join(format!("node-{ordinal:03}"));
+    validate_exact_receipt_files(&ledger, &NODE_STATES, "recovery node")?;
+    let entry = observed_entry(candidate_observation, relative)?;
+    if entry.identity.node_type != "directory" {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "candidate directory node observation is not a directory",
+        ));
+    }
+    require_node_receipt_payload(
+        &ledger,
+        1,
+        "create-intent",
+        serde_json::json!({"path":relative,"type":"directory","mode":"0700"}),
+        "candidate directory create intent does not match authorized node",
+    )?;
+    require_directory_identity_receipt(
+        &ledger,
+        2,
+        "created-identity",
+        &entry.identity,
+        "candidate directory created identity does not match observed node",
+    )?;
+    require_node_receipt_payload(
+        &ledger,
+        3,
+        "write-intent",
+        serde_json::json!({"directory":relative,"metadata_only":true}),
+        "candidate directory write intent does not match authorized node",
+    )?;
+    require_node_receipt_payload(
+        &ledger,
+        4,
+        "write-completed",
+        serde_json::json!({"directory":relative}),
+        "candidate directory write completion does not match authorized node",
+    )?;
+    require_node_receipt_payload(
+        &ledger,
+        5,
+        "node-fsync-intent",
+        serde_json::json!({"directory":relative}),
+        "candidate directory fsync intent does not match authorized node",
+    )?;
+    require_directory_identity_receipt(
+        &ledger,
+        6,
+        "node-fsync-completed",
+        &entry.identity,
+        "candidate directory fsync completion does not match observed node",
+    )?;
+    require_node_receipt_payload(
+        &ledger,
+        7,
+        "parent-fsync-intent",
+        serde_json::json!({"directory":relative}),
+        "candidate directory parent fsync intent does not match authorized node",
+    )?;
+    require_node_receipt_payload(
+        &ledger,
+        8,
+        "parent-fsync-completed",
+        serde_json::json!({"directory":relative}),
+        "candidate directory parent fsync completion does not match authorized node",
+    )?;
+    require_node_receipt_payload(
+        &ledger,
+        9,
+        "publish-intent",
+        serde_json::json!({"directory":relative,"already_at_final_name":true}),
+        "candidate directory publish intent does not match authorized node",
+    )?;
+    require_directory_identity_receipt(
+        &ledger,
+        10,
+        "node-created",
+        &entry.identity,
+        "candidate directory terminal receipt does not match observed node",
+    )
+}
+
+fn validate_file_node_ledger(
+    attempt: &Path,
+    candidate_observation: &CandidateObservation,
+    relative: &str,
+    contents: &[u8],
+    ordinal: usize,
+) -> Result<()> {
+    let ledger = attempt.join(format!("node-{ordinal:03}"));
+    validate_exact_receipt_files(&ledger, &NODE_STATES, "recovery node")?;
+    let entry = observed_entry(candidate_observation, relative)?;
+    let digest = blake3::hash(contents).to_hex().to_string();
+    let size = contents.len();
+    let parent = attempt
+        .join("candidate")
+        .join(relative)
+        .parent()
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "candidate file has no parent"))?
+        .to_path_buf();
+    if entry.identity.node_type != "regular"
+        || entry.digest.as_deref() != Some(digest.as_str())
+        || entry.size != size as u64
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "candidate file node observation does not match authorized contents",
+        ));
+    }
+    let create_intent: serde_json::Value =
+        receipt_payload(&receipt_path(&ledger, 1, "create-intent"))?;
+    if create_intent.get("temporary").is_none()
+        || create_intent.get("final").and_then(|v| v.as_str()) != Some(relative)
+        || create_intent.get("type").and_then(|v| v.as_str()) != Some("regular")
+        || create_intent.get("mode").and_then(|v| v.as_str()) != Some("0600")
+        || create_intent.get("digest").and_then(|v| v.as_str()) != Some(digest.as_str())
+        || create_intent.get("size").and_then(|v| v.as_u64()) != Some(size as u64)
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "candidate file create intent does not match authorized node",
+        ));
+    }
+    let created_identity: NodeIdentity =
+        receipt_payload(&receipt_path(&ledger, 2, "created-identity"))?;
+    if created_identity.node_type != "regular"
+        || created_identity.links != 1
+        || created_identity.mode & 0o777 != 0o600
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "candidate file created identity is not a safe regular file",
+        ));
+    }
+    require_node_receipt_payload(
+        &ledger,
+        3,
+        "write-intent",
+        serde_json::json!({"digest":digest,"size":size}),
+        "candidate file write intent does not match authorized contents",
+    )?;
+    require_node_receipt_payload(
+        &ledger,
+        4,
+        "write-completed",
+        serde_json::json!({"digest":digest,"size":size}),
+        "candidate file write completion does not match authorized contents",
+    )?;
+    let fsync_intent: serde_json::Value =
+        receipt_payload(&receipt_path(&ledger, 5, "node-fsync-intent"))?;
+    if fsync_intent.get("temporary").is_none() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "candidate file fsync intent does not match authorized node",
+        ));
+    }
+    require_file_identity_receipt(
+        &ledger,
+        6,
+        "node-fsync-completed",
+        &entry.identity,
+        &digest,
+        None,
+        "candidate file fsync completion does not match observed node",
+    )?;
+    require_node_receipt_payload(
+        &ledger,
+        7,
+        "parent-fsync-intent",
+        serde_json::json!({"parent":parent}),
+        "candidate file parent fsync intent does not match authorized node",
+    )?;
+    require_node_receipt_payload(
+        &ledger,
+        8,
+        "parent-fsync-completed",
+        serde_json::json!({"parent":parent}),
+        "candidate file parent fsync completion does not match authorized node",
+    )?;
+    let publish_intent: serde_json::Value =
+        receipt_payload(&receipt_path(&ledger, 9, "publish-intent"))?;
+    if publish_intent.get("temporary").is_none()
+        || publish_intent.get("final").and_then(|v| v.as_str()) != Some(relative)
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "candidate file publish intent does not match authorized node",
+        ));
+    }
+    require_file_identity_receipt(
+        &ledger,
+        10,
+        "node-created",
+        &entry.identity,
+        &digest,
+        Some(size),
+        "candidate file terminal receipt does not match observed node",
+    )
 }
 
 fn validate_classification_authority(
@@ -1153,6 +1535,17 @@ pub(crate) fn validate_completed_recovery_attempt(
             ErrorCode::CorruptRecord,
             "recovery node ledger inventory does not match the authorized candidate",
         ));
+    }
+    validate_directory_node_ledger(attempt, &candidate_observation, ".", 0)?;
+    validate_directory_node_ledger(attempt, &candidate_observation, "cards", 1)?;
+    for (index, (relative, contents)) in derived_files.iter().enumerate() {
+        validate_file_node_ledger(
+            attempt,
+            &candidate_observation,
+            relative,
+            contents,
+            index + 2,
+        )?;
     }
     if candidate_record != derived_record {
         return Err(V2Error::new(

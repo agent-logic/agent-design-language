@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 35,
-  "digest": "b724a09d3e7de984becb83a782684aaadeb9ba7f08fd749519fedaba2183af79",
+  "generation": 36,
+  "digest": "f608ec5565f96ae1b5b54c4739f929c957fdeb35e8c113b7022d47dd44ee4c45",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:a67f9da2-cf9c-40bb-b4f6-ddf98ba4e2c8",
-    "assigned_by": "codex:issue-298",
-    "revision": "git-blake3:e05bd14fc3478c32972103ed2e346d672f378818:df0eae68280bb8b407e74440aaa73f7f79583ba7870205eaab610027a2406bce",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eaacc68fca4e7a3ed0e3e0d38bc590f995a80dbb6c1bc917c96d878da3dbd098",
+      "values_digest": "07417b5e28d23fd4fac8438515ab92b538e8961eb6b401d0c4d0fcc39eb465fd",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "2b73cc8d9e142e9b54cec6b7c6203e284f884d7fef73a3e59227958e5b52a5a1",
+      "values_digest": "59f41178965b7c010bccdc1d31974b7850e0140419ee8d9b3dd757c9c70d4cc5",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "a1b546cc9a74bf9f406703416e20703a06c3f14f88accad09deb3a88b0999597",
+      "values_digest": "585fd7248c61eaf10b51ef37b9005b184d56d0723f736392578f85b09a5821aa",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "b18188bfd91567a8ec3398dfc57dcc06debb4a0e37fd6d64c40e6d5c18614503",
+      "values_digest": "b00f1bb96b3d26267eb6eb0522e834febf566e2e601c9f979899ac499ad905bd",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "ecde50e4f5fa1c4f5b1efa221ee0933335670802853c0c776aed856702a87630",
-      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
-      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
+      "values_digest": "ce56158fd358fa84085827b91811af85b9c7ab427cb6825fc10b5a72f123e6ae",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "9addcd0b44e030a303faab1249f3356dd83f5fae8aa615987b6400cd4836421b",
+      "values_digest": "b79688791a16417b21af98110fed015ebb330c71e92d8fcfbdd7935bbb6b0a3e",
       "rendered_digest": "e2c6797960bf03f46bc7c5278a0bac0363405bc9ff24f86bcf80781e2242dbe0",
       "ast_digest": "0adf28b30cb6a1ad690f5494816e1fb507a4a9c4177316cb0fd0e9a0bcf4dd5d"
     }
@@ -449,6 +434,13 @@
       "actor": "codex:issue-298",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 36,
+      "actor": "codex:issue-298",
+      "reason": "Recover failed exact review r13: completed-attempt inventory omitted the authorized candidate directory, proof did not directly cover nonregular entries or bounded enumeration/type failures, and retained evidence failed whitespace validation.",
+      "operation": "recover_review"
     }
   ]
 }

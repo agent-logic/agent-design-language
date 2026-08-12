@@ -146,6 +146,135 @@ fn append_extra_terminal_directory(attempt: &std::path::Path) {
         .expect("create extra terminal directory");
 }
 
+#[cfg(unix)]
+fn append_extra_terminal_fifo(attempt: &std::path::Path) {
+    use std::ffi::CString;
+    use std::os::unix::ffi::OsStrExt;
+
+    let path = receipt_path(attempt, 14, "post-terminal");
+    let path = CString::new(path.as_os_str().as_bytes()).expect("FIFO path has no NUL");
+    // SAFETY: `path` is a live NUL-terminated pathname and `mkfifo` does not retain it.
+    let result = unsafe { libc::mkfifo(path.as_ptr(), 0o600) };
+    assert_eq!(
+        result,
+        0,
+        "create extra terminal FIFO: {}",
+        std::io::Error::last_os_error()
+    );
+}
+
+fn completed_recovery_attempt(
+    store: &Store,
+    record: &csdlc_v2::IssueRecord,
+    operation_id: &str,
+) -> (ProjectionRecoverRequest, std::path::PathBuf) {
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: format!("{operation_id} fixture"),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(store, record, &classify, operation_id);
+    csdlc_v2::recover_preserved_projection(store, request.clone()).expect("recover");
+    let attempt = store
+        .root()
+        .join(format!(".csdlc/issues/.7.recovery/{operation_id}"));
+    (request, attempt)
+}
+
+fn node_receipt_path(
+    attempt: &std::path::Path,
+    ordinal: usize,
+    seq: u32,
+    state: &str,
+) -> std::path::PathBuf {
+    receipt_path(&attempt.join(format!("node-{ordinal:03}")), seq, state)
+}
+
+fn append_extra_node_receipt(attempt: &std::path::Path, ordinal: usize) {
+    let previous = node_receipt_path(attempt, ordinal, 10, "node-created");
+    let previous_digest = blake3::hash(&std::fs::read(previous).expect("terminal node receipt"))
+        .to_hex()
+        .to_string();
+    let envelope = serde_json::json!({
+        "schema":"csdlc.projection_recovery_receipt.v1",
+        "sequence":11,
+        "state":"post-node",
+        "previous_receipt_digest":previous_digest,
+        "payload":{"forged":true}
+    });
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("extra node receipt");
+    bytes.push(b'\n');
+    std::fs::write(node_receipt_path(attempt, ordinal, 11, "post-node"), bytes)
+        .expect("write extra node receipt");
+}
+
+#[cfg(unix)]
+fn append_extra_node_symlink(attempt: &std::path::Path, ordinal: usize) {
+    std::os::unix::fs::symlink(
+        node_receipt_path(attempt, ordinal, 10, "node-created"),
+        node_receipt_path(attempt, ordinal, 11, "post-node"),
+    )
+    .expect("create extra node symlink");
+}
+
+fn append_extra_node_directory(attempt: &std::path::Path, ordinal: usize) {
+    std::fs::create_dir(node_receipt_path(attempt, ordinal, 11, "post-node"))
+        .expect("create extra node directory");
+}
+
+fn rewrite_node_receipt_payload_and_rechain(
+    attempt: &std::path::Path,
+    ordinal: usize,
+    seq: u32,
+    state: &str,
+    payload: serde_json::Value,
+) {
+    let ledger = attempt.join(format!("node-{ordinal:03}"));
+    let path = receipt_path(&ledger, seq, state);
+    let mut envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&path).expect("node receipt"))
+            .expect("node receipt json");
+    envelope["payload"] = payload;
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("node receipt bytes");
+    bytes.push(b'\n');
+    std::fs::write(&path, bytes).expect("write forged node receipt");
+    let states = [
+        "create-intent",
+        "created-identity",
+        "write-intent",
+        "write-completed",
+        "node-fsync-intent",
+        "node-fsync-completed",
+        "parent-fsync-intent",
+        "parent-fsync-completed",
+        "publish-intent",
+        "node-created",
+    ];
+    for next in (seq + 1)..=10 {
+        let prior = receipt_path(&ledger, next - 1, states[next as usize - 2]);
+        let next_path = receipt_path(&ledger, next, states[next as usize - 1]);
+        let digest = blake3::hash(&std::fs::read(prior).expect("prior node receipt"))
+            .to_hex()
+            .to_string();
+        let mut next_envelope: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&next_path).expect("next node receipt"))
+                .expect("next node receipt json");
+        next_envelope["previous_receipt_digest"] = serde_json::Value::String(digest);
+        let mut next_bytes = serde_json::to_vec_pretty(&next_envelope).expect("next node bytes");
+        next_bytes.push(b'\n');
+        std::fs::write(next_path, next_bytes).expect("write rechained node receipt");
+    }
+}
+
 fn rewrite_observation_index(observation: &mut serde_json::Value, index_bytes: &[u8]) {
     let entries = observation["entries"]
         .as_array_mut()
@@ -823,6 +952,83 @@ fn preserved_projection_recovery_rejects_extra_post_terminal_directory() {
     assert_eq!(error.code, ErrorCode::CorruptRecord);
 }
 
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_extra_post_terminal_fifo() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "extra terminal FIFO fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "extra-terminal-fifo");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).expect("recover");
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/extra-terminal-fifo");
+    append_extra_terminal_fifo(&attempt);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra post-terminal FIFO must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_extra_node_receipt() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "extra-node-receipt");
+    append_extra_node_receipt(&attempt, 0);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra node receipt must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_extra_node_symlink() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "extra-node-symlink");
+    append_extra_node_symlink(&attempt, 0);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra node symlink must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_extra_node_directory() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "extra-node-directory");
+    append_extra_node_directory(&attempt, 0);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra node directory must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_node_payload_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "node-payload-forgery");
+    rewrite_node_receipt_payload_and_rechain(
+        &attempt,
+        2,
+        3,
+        "write-intent",
+        serde_json::json!({"digest":"0".repeat(64),"size":1}),
+    );
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("rehashed node payload must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
 #[test]
 fn preserved_projection_recovery_rejects_rehashed_intermediate_payload_forgery() {
     let (_temp, store, record) = implemented_fixture();
@@ -1012,7 +1218,7 @@ fn preserved_projection_recovery_rejects_coherent_candidate_chain_forgery() {
     assert_eq!(error.code, ErrorCode::CorruptRecord);
     assert_eq!(
         error.message,
-        "candidate-created receipt does not match authorized recovery transform"
+        "candidate file node observation does not match authorized contents"
     );
 }
 
