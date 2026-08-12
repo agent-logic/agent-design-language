@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 49,
-  "digest": "e2bffbeb13696612df224435f29431e2117da248ad47378c9dd7d536ad45855d",
+  "generation": 50,
+  "digest": "1c4d87f796d845825441e932d671270600c4f0a916223ccefea5b8ed5dbd294b",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:2aa8ce20-95d3-4567-8235-e9e7bc79ff73",
-    "assigned_by": "codex:issue-298-r18-remediation",
-    "revision": "git-blake3:129023d053413d48f37d73cd4dee0720745ec8eb:5ef11124916dc28a9b91fe8ee12808c664f850c3f51ad96873e88c4f1482bc46",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/298",
-      ".csdlc/prepared/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4f3bd96e62b8b2bdd98acc8cffdeff31483f0844753e275d800d1c4c977efe7a",
+      "values_digest": "2b0cea2636aebc76a7940f2422691c86950544dbc1e2aef7d68bcce829a4ad75",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "485a25d110679b86b9f127a546d3b69abf6a5e96a2e0f456da97584970c5bb3f",
+      "values_digest": "dcfc2ec9a2dd643d3620ae1ed3b29befed4b0f5523872e7e0806983df303986b",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "fd78f059389bc05dc8cb052b62ecdf74a4980c4a5ea83d8a458e585808353288",
+      "values_digest": "2a50b9b85cfd71466be15a50c5913d627bf15ef6636dca17c413a32cb5eccec8",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "3996d9a7ce2f6920f8fe6eb605a7ac82f822c9f2a1d964250edfc99917249d56",
+      "values_digest": "2b4093b22dba5fc53976c29030d6040f46435ed480365e1ecc5da2f1a6f51764",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "c3a759fbbf89ed1039f7256bb2881c0de6d9500b6c4a6d72b42324858294c3d4",
-      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
-      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
+      "values_digest": "4cdc05eeb730c89542de407d26aea7c740a7e576546c5a77f3b5ac2397241dce",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "dfac56aaa8f401e0af33a29492cbcdd3e71bae880d20bb9cecefc7a6027f1ba4",
+      "values_digest": "471d738949a5aaf4d18b3b5e6ea198ce5f25dda998860aad1bd6d54dbd15c1dc",
       "rendered_digest": "6330b0682f634898234f04069e7958e6b9e45d81920bc9a8ca5a4d2313399d3d",
       "ast_digest": "327db0e7e993988f1c6cd845bd0a154a07ad52862f61d0ceaa0e2dfe8d30ec33"
     }
@@ -610,6 +595,13 @@
       "actor": "codex:issue-298-r18-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 72,
+      "generation": 50,
+      "actor": "codex:issue-298-r19-remediation",
+      "reason": "Recover failed exact R19: live recovery still derives validated sources through pathname Store reads and later syncs/observes attempt, archive, candidate, and displaced through pathname aliases after validation; require retained source/workspace descriptors plus deterministic late root/attempt swaps before R20.",
+      "operation": "recover_review"
     }
   ]
 }
