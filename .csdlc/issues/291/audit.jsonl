@@ -27,3 +27,4 @@
 {"sequence":27,"generation":26,"actor":"fresh-session:019ff5e1-38f2-7a42-b414-8581bb6f648a","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":28,"generation":26,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":29,"generation":27,"actor":"codex:root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":30,"generation":27,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}

@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-csdlc-edit initialized decomposition recovery route, request/result schema, semantic card replacement, #114 read-only golden fixture tests, failure diagnostics, docs, and lifecycle truth for #291 only.
+Exact substantive head 8e4cc12ff64fc6b2a9a9125fc990103ffb134c48 on branch codex/291-initialized-decomposition-recovery
+Issue #291 typed initialized-phase post-decomposition recovery implementation in csdlc-v2/src/store.rs, csdlc-v2/src/bin/csdlc-edit.rs, csdlc-v2/src/lib.rs, csdlc-v2/src/schema.rs, csdlc-v2/src/cleanup.rs
+Focused tests in csdlc-v2/tests/initialized_decomposition_recovery.rs including preserved #114 gen35 read-only golden fixture proof
+GitHub action fixture race repair in csdlc-v2/tests/gate_github_actions.rs
+Bound #291 lifecycle, retained R2/R4 design-review failure evidence, bind-staging omission candidate, and typed validation logs under .csdlc/issues/291 and .csdlc/evidence/291
+Verify no mutation of #114 product/card state, root .csdlc/locks/114.lock, #112, #203, #122, #256, #84, AWS, or decomposition graphs
+Verify #119 review protocol conditions: fresh task was standby-only before this assignment, findings-first read-only review, no inherited implementation context, no mutation
 
 ## Prompts
 

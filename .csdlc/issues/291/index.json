@@ -5,10 +5,23 @@
   "initialization_digest": "f4bdffa4c5866878b425b124bbcf92e725fa7d41b4088de0b7384a1028b4f0c1",
   "phase": "implemented",
   "generation": 27,
-  "digest": "b3b351b32d058ede4f4453b2ab8bd3f4655c49f83d5177dea8d1e8a2cedc937c",
+  "digest": "7dbbe88243d559cff8f722f310ede82c14fe91a59c0ff0d22d2f5de79952f8bd",
   "branch": "codex/291-initialized-decomposition-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-291-initialized-decomposition-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/review_291_impl_fresh",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:8e4cc12ff64fc6b2a9a9125fc990103ffb134c48:541f2e97ce8514b993a80f38738dfaa2b604db565b159e4d3e825ed548852480",
+    "scope": [
+      "Exact substantive head 8e4cc12ff64fc6b2a9a9125fc990103ffb134c48 on branch codex/291-initialized-decomposition-recovery",
+      "Issue #291 typed initialized-phase post-decomposition recovery implementation in csdlc-v2/src/store.rs, csdlc-v2/src/bin/csdlc-edit.rs, csdlc-v2/src/lib.rs, csdlc-v2/src/schema.rs, csdlc-v2/src/cleanup.rs",
+      "Focused tests in csdlc-v2/tests/initialized_decomposition_recovery.rs including preserved #114 gen35 read-only golden fixture proof",
+      "GitHub action fixture race repair in csdlc-v2/tests/gate_github_actions.rs",
+      "Bound #291 lifecycle, retained R2/R4 design-review failure evidence, bind-staging omission candidate, and typed validation logs under .csdlc/issues/291 and .csdlc/evidence/291",
+      "Verify no mutation of #114 product/card state, root .csdlc/locks/114.lock, #112, #203, #122, #256, #84, AWS, or decomposition graphs",
+      "Verify #119 review protocol conditions: fresh task was standby-only before this assignment, findings-first read-only review, no inherited implementation context, no mutation"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +57,9 @@
       "ast_digest": "36b64c7cd2ff65b1d5704736e0cc8973c661c0e4a186546dc722f9aa5d0640e1"
     },
     "srp": {
-      "values_digest": "e7737f9ee777806579adc77eb5d0bbe536f5f576199ad11f6c1a789a4011867c",
-      "rendered_digest": "9ea1fdf71a0102929cf0f0fb9415f1726f81b4645a57f70e60c0cb749f0e11c8",
-      "ast_digest": "b760897d30bce125f1eb1ae739797cc4cf629c5aa7619329c1ec57734743876a"
+      "values_digest": "0e5693d87d6eda1fc11fecbb989e287e7be7b916b5a4f20b0c958230b34f8b8f",
+      "rendered_digest": "304bd5ae9c8e8ecf037f824099311bf6ca0a0149c8b4fc987ca060453ca2b5a2",
+      "ast_digest": "9f78b18a043d56699f804e12b6fdbd7efb2ce1c121c22a7f4dd500b43ed32e43"
     },
     "sor": {
       "values_digest": "bc597d82f1b46ef91e9310b796a93bca398527e55d9a3f34f6b8c92027d6b90d",
@@ -280,6 +293,13 @@
       "actor": "codex:root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 30,
+      "generation": 27,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
