@@ -1,0 +1,12 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running tests/control.rs (adl-runtime-kernel/target/debug/deps/control-f9e8f949fbdb8103)
+adl_event schema=adl.runtime.event.v1 sequence=0 component=runtime_api event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=1 component=none event=clock_authority_updated correlation_id=none
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/observatory.rs (adl-runtime-kernel/target/debug/deps/observatory-b52a90f1a590f9db)
+adl_event schema=adl.runtime.event.v1 sequence=0 component=canonical_ingress event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=1 component=canonical_ingress event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=2 component=acip event=state:Starting correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=3 component=acip event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=none event=control_command_completed correlation_id=0123456789abcdef0123456789abcdef
+v0.91.7 HTML Observatory integrated proof passed

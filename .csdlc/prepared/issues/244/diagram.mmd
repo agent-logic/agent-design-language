@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant C as WebSocket client
+    participant S as Conversation session
+    participant G as Dispatch gate
+    participant I as Canonical ingress
+    C->>S: new turn
+    S-->>C: accepted
+    S->>G: wait with generation execution window
+    C->>S: re-authenticate and attach duplicate
+    S-->>C: accepted / conversation_in_flight
+    G->>I: dispatch once
+    I-->>S: completion
+    S-->>C: one delivered terminal result
