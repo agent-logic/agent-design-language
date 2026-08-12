@@ -33,10 +33,11 @@ documented standard SRP handoff to a fresh external review session
       "/bin/bash",
       ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
       "081988dfe4632e27062f3acc72b7c5d226cd0802",
-      "6ce1d075b2a45e4da0c87811eb36b563024b65d4"
+      "363ecba5b47bfc4ed8b30e1f6c572fc0fd537807",
+      "614dc3319c7c043355796505e50074ff9b650993"
     ],
-    "purpose": "issue 109 focused docs contract validation at the retained pre-review candidate",
-    "outcome": "passed",
+    "purpose": "truthfully verify the three-revision validator fails closed before fresh review evidence exists",
+    "outcome": "failed",
     "evidence_ref": ".csdlc/evidence/109/focused-srp-contract.log"
   }
 ]

@@ -25,9 +25,9 @@ done
 
 # Policy assertions must examine the exact committed blobs, never mutable
 # working-tree content presented under an unchanged HEAD.
-git diff --quiet "$expected_head" -- "$skill" "$runbook" "$srp" "$srp_values" "$index" \
+git diff --quiet "$expected_head" -- "$0" "$skill" "$runbook" "$srp" "$srp_values" "$index" \
   .csdlc/issues/109/cards/stp.md
-git diff --cached --quiet "$expected_head" -- "$skill" "$runbook" "$srp" "$srp_values" "$index" \
+git diff --cached --quiet "$expected_head" -- "$0" "$skill" "$runbook" "$srp" "$srp_values" "$index" \
   .csdlc/issues/109/cards/stp.md
 
 ruby - "$skill" "$runbook" "$srp_values" "$index" "$expected_head" "$expected_reviewed_commit" <<'RUBY'
