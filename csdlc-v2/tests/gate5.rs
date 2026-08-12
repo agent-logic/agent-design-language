@@ -453,6 +453,47 @@ fn preserved_projection_recovery_resumes_every_recovery_boundary() {
 }
 
 #[test]
+fn preserved_projection_recovery_rejects_swapped_post_exchange_candidate() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "classify swapped post-exchange fixture".into(),
+        },
+    )
+    .expect("classify swapped post-exchange fixture");
+    let mut request = recovery_request(&store, &record, &classify, "swap-after-exchange");
+    request.fail_after = Some("canonical_installed".into());
+    let interrupted = csdlc_v2::recover_preserved_projection(&store, request.clone())
+        .expect_err("failpoint must interrupt after canonical install");
+    assert_eq!(interrupted.code, ErrorCode::InterruptedTransaction);
+
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/swap-after-exchange");
+    let candidate = attempt.join("candidate");
+    let swapped_aside = attempt.join("candidate.real");
+    std::fs::rename(&candidate, &swapped_aside).expect("move real post-exchange prior aside");
+    std::fs::create_dir(&candidate).expect("replacement candidate");
+    std::fs::write(candidate.join("index.json"), b"{}").expect("replacement marker");
+
+    request.fail_after = None;
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("swapped post-exchange prior must fail closed");
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert!(swapped_aside.is_dir());
+    assert!(candidate.is_dir());
+    assert!(!attempt.join("displaced").is_dir());
+}
+
+#[test]
 fn preserved_projection_recovery_classifies_without_mutation_and_rejects_symlink() {
     let (_temp, store, record) = implemented_fixture();
     let preserved = store.rollback_preserved(7);
