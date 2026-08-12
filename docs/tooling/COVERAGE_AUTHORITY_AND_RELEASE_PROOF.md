@@ -17,6 +17,15 @@ merge or release lane. The authoritative runner distinguishes the full
 `full_authoritative_default_features` mode from the bounded
 `bounded_policy_surface_pr` mode; the latter is still not a release claim.
 
+Mechanical compile-fallout classification is also non-authoritative. The
+tracked classifier accepts only exact governed import or argument-pass-through
+diffs with compile proof for every hunk and behavioral proof for every owning
+API path. Its machine receipt explains why the ordinary changed-file threshold
+did not apply to that exact diff; it does not lower the 80% threshold,
+allowlist a path, exclude a file from nightly/full coverage, or convert PR-fast
+evidence into release proof. Any malformed, semantic, unmapped, or incompletely
+proved diff fails closed through the ordinary changed-source coverage gate.
+
 The nightly workflow currently sets `EXCLUDE_FROM_FILE_FLOOR_REGEX` to `^$`.
 That means the report does not silently exempt active source files from the
 80% per-file floor. If a future exception is required, it must be a reviewed

@@ -1,0 +1,9 @@
+{
+  "schema": "adl.mechanical_coverage_fallout_mapping.v1",
+  "mappings": [{
+    "file": "adl-runtime/src/distributed/transport/core.rs",
+    "token": "AUTHORITY_BOUND_CERTIFICATE_ACCESS",
+    "owners": ["EstablishedRuntimeAuthority", "TransportAuthorization"],
+    "rationale": "The capability token is already governed by the certificate-store authorization API; importing and passing it through adds no predicate, branch, state mutation, or error behavior."
+  }]
+}

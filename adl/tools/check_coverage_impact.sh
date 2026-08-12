@@ -17,6 +17,8 @@ CSM_RUNTIME_CLI_COMPANION_DELTA_LIMIT="${COVERAGE_IMPACT_CSM_RUNTIME_CLI_COMPANI
 REQUIRE_SUMMARY_FOR_RISK=false
 PRINT_RISK_FILTERS=false
 PRINT_RISK_NEXTEST_EXPRESSION=false
+MECHANICAL_PROOF=""
+MECHANICAL_RECEIPT_DIR=""
 
 usage() {
   cat <<'USAGE'
@@ -36,6 +38,8 @@ Options:
                                   may need summary evidence and exit.
   --print-risk-nextest-expression Print one combined nextest filter expression for risky
                                   changed Rust files and exit.
+  --mechanical-proof <json>       Per-hunk compile and per-owner behavioral proof.
+  --mechanical-receipt-dir <dir>  Write complete receipts for accepted mechanical fallout.
   -h, --help                      Show this help.
 
 This is a fast authoring-time guard. It does not replace the full GitHub
@@ -82,6 +86,14 @@ while [ "$#" -gt 0 ]; do
       PRINT_RISK_NEXTEST_EXPRESSION=true
       shift
       ;;
+    --mechanical-proof)
+      MECHANICAL_PROOF="${2:-}"
+      shift 2
+      ;;
+    --mechanical-receipt-dir)
+      MECHANICAL_RECEIPT_DIR="${2:-}"
+      shift 2
+      ;;
     -h|--help)
       usage
       exit 0
@@ -93,6 +105,12 @@ while [ "$#" -gt 0 ]; do
       ;;
   esac
 done
+
+if { [ -n "$MECHANICAL_PROOF" ] && [ -z "$MECHANICAL_RECEIPT_DIR" ]; } ||
+   { [ -z "$MECHANICAL_PROOF" ] && [ -n "$MECHANICAL_RECEIPT_DIR" ]; }; then
+  echo "coverage-impact: --mechanical-proof and --mechanical-receipt-dir must be supplied together" >&2
+  exit 2
+fi
 
 if [ -z "$BASE" ]; then
   echo "coverage-impact: --base cannot be empty" >&2
@@ -617,6 +635,31 @@ rerun_preflight_command() {
   printf ' --summary adl/target/coverage-impact-summary.json'
 }
 
+mechanical_fallout_receipt_for_path() {
+  local path="$1"
+  [ -n "$MECHANICAL_PROOF" ] || return 1
+  local classifier="$ROOT/adl/tools/mechanical_coverage_fallout.py"
+  local mapping="$ROOT/adl/config/mechanical_coverage_fallout.v1.json"
+  [ -f "$classifier" ] && [ -f "$mapping" ] && [ -f "$MECHANICAL_PROOF" ] || return 1
+  local diff_file receipt_file
+  diff_file="$(mktemp)"
+  receipt_file="$MECHANICAL_RECEIPT_DIR/${path//\//__}.json"
+  if [ "$INCLUDE_WORKTREE" = true ]; then
+    git -C "$ROOT" diff "$BASE" -- "$path" >"$diff_file"
+  else
+    git -C "$ROOT" diff "$BASE...$HEAD" -- "$path" >"$diff_file" 2>/dev/null ||
+      git -C "$ROOT" diff "$BASE" "$HEAD" -- "$path" >"$diff_file"
+  fi
+  if python3 "$classifier" --diff "$diff_file" --mapping "$mapping" \
+      --proof "$MECHANICAL_PROOF" --receipt "$receipt_file" >/dev/null; then
+    rm -f "$diff_file"
+    echo "coverage-impact: accepted exact mechanical compile fallout for ${path}; receipt ${receipt_file}"
+    return 0
+  fi
+  rm -f "$diff_file"
+  return 1
+}
+
 print_next_actions_for_path() {
   local path="$1"
   local context="$2"
@@ -836,6 +879,9 @@ if [ -n "$SUMMARY" ] && [ -s "$SUMMARY" ]; then
       continue
     fi
     if ! awk -v pct="$pct" -v threshold="$THRESHOLD" 'BEGIN { exit ((pct + 0) < (threshold + 0)) ? 0 : 1 }'; then
+      continue
+    fi
+    if mechanical_fallout_receipt_for_path "$path"; then
       continue
     fi
     failures="${failures}  - ${path} (${covered_count}, ${pct}% < ${THRESHOLD}%)"$'\n'

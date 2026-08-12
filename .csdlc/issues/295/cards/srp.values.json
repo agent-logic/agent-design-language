@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 295,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][CI][coverage][defect] Classify mechanical compile-fallout without weakening changed-source coverage",
+    "slug": "mechanical-compile-fallout-coverage",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "All #295 changed tooling, mappings, tests, and PVF/authority records; code, security, test, and evidence coverage required.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Review every acceptance criterion with code, security, test, and evidence coverage, emphasizing parser over-acceptance, proof completeness, receipt truth, threshold preservation, and PR-fast non-authority."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
