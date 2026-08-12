@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "05c18a5afd39702a8d6bbbf04521ff07e2e55550e6e7360764e113b46c3a054f",
+  "generation": 6,
+  "digest": "eba301c5ba3a24e35f31d1db6adee38f1ad25443a6143737c98715aa3d46789d",
   "branch": "codex/301-title-only-operation-provenance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
-  "review_assignment": {
-    "reviewer": "fresh-session:affc117c-dc0d-4d0b-a616-a4282cfbecfe",
-    "assigned_by": "codex:issue-301",
-    "revision": "git-blake3:e5ff59cf058a78c497f48130817450ff18ce404d:cffa4025b784d7a5cb8d235c4fd2c9e7cbf2a94c1c528cbeb0bfd35d30d3b9ee",
-    "scope": [
-      ".csdlc/issues/301",
-      ".csdlc/prepared/issues/301",
-      ".csdlc/evidence/301",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/tests/gate_github_actions.rs"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c403847de0a9477fb47321954349264ff36975dc8e1783dc6bedbb8bb75a32b9",
+      "values_digest": "a364d880d2250f424a4e776c3cbead9eda128604a780f382c48495306b861904",
       "rendered_digest": "1f602d55abfde140b71a7cdd01db213d96b4e5da322e26363d45f7fde7749164",
       "ast_digest": "dd6e1f4ed857ac2203d39182ca287b0e7a6cb9b24ca5f57bf858eb994e976e6d"
     },
     "stp": {
-      "values_digest": "dab42786ff12820b59ba636f8c2e443afcfc2dc05f2b6cd2ef0aad0193a269cd",
+      "values_digest": "c72ee94d5e6ae45dce35ae324000598ffad855dc19056e61dfd49be1acf5563b",
       "rendered_digest": "e6a832def0573767be1fad1b65f7745f1277478e67daca8f569ead5a5ddfbbb1",
       "ast_digest": "b57938e52b725b7ba654620cd7afc3cd854bd01a38e08c1f4cf3175bf509490f"
     },
     "spp": {
-      "values_digest": "f23f2c46fc2003a4c0593e08b2d831ac82e728dcc6fc5189673b45c7144056ef",
+      "values_digest": "b7e61346acb949a309beac41f866509365c6b76ed7133b0cd6e545c63ad0025a",
       "rendered_digest": "cfe63ad0859216ac10f3217783f8024247bbf7c0bc8ed373fa58e0a50b5b4f0a",
       "ast_digest": "580e50826ca988c2d4e57d3adb21c05509ce8e82651820a1cb58146525c63451"
     },
     "vpp": {
-      "values_digest": "862c3dded569cfb4d74123e76dda2aadc29c4b713002c94b8202d77baf595bd2",
+      "values_digest": "d05d3778d96c7ea7fd1d83337e7277d659aca9bbac8da3de62fa41586370cb4e",
       "rendered_digest": "4ef60e2e9967dfbcb0f5394ace805d298cc2a813aecf357f6a480cc32c9fddd8",
       "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
     },
     "srp": {
-      "values_digest": "8768ba15755263ceafe442718907d93158c67fcc5565bb3b661edc374f45153c",
-      "rendered_digest": "f28263cdbb4223cf1dbda538d67102bd14a29ad85596868a6ff6420e89926e64",
-      "ast_digest": "7c0196aca294b74e4c7316a55f54ff5377a719f3c2cedf38aeea80e3e560ef7b"
+      "values_digest": "5416217f10a24104b6e6ccf9532a4bd5a0972a94920ff1158e5ea320a16324ed",
+      "rendered_digest": "7cbe15aed7e484b25dbf57ca12c2050226860f294132192032d5109a82bcd9a4",
+      "ast_digest": "8923177b498751ced3d5aa7bca4cc2d01b420bbd668c4dbaf4292c8b2323a62b"
     },
     "sor": {
-      "values_digest": "1804e690488fc406da90f808674cf263722a60a47b9c4cb1e877140cc949a3f8",
-      "rendered_digest": "1820a5b6379ce4580dfc9f8f1cc9ab491d79a9d0733d756faef063d320f9ba09",
-      "ast_digest": "27eaf52c8189a0b5ceecb6524eb55ef019fd64e1459d1cb0012a015841b0a30e"
+      "values_digest": "6a451bdc3d6f31ddf717668088deb08eee866597f5ec26ca0d1ad6d0d3f45bea",
+      "rendered_digest": "e097e8f7e5437cc2792e4508fd72c86b468084c692d2b8cae6142bb3e865eff1",
+      "ast_digest": "3d3229f4aa912ebe876c04fd52b2196b30929fe09920573d43dbcaee3a8a5e64"
     }
   },
   "transitions": [
@@ -145,6 +134,13 @@
       "actor": "codex:issue-301",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-301",
+      "reason": "Exact review r1 failed: title-only retry can repeat PATCH after successful mutation when provenance receipt creation/readback fails; deterministic before/during/after-PATCH and after-receipt drift claims lack complete injected proof. Recover review authority before bounded protocol and test remediation; require a different fresh reviewer.",
+      "operation": "recover_review"
     }
   ]
 }

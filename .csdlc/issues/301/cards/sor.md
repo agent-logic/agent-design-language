@@ -63,7 +63,7 @@ Bind durable provenance to title-only GitHub issue updates without rewriting iss
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

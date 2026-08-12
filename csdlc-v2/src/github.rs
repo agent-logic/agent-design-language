@@ -405,7 +405,23 @@ async fn reconcile_bodyless_issue_update(
         .map_err(remote)?;
     let before = normalize_issue(&request.repository, &before_value, None)?;
     let pre_updated_at = issue_updated_at(&before_value);
-    update_issue(crab, owner, repo, number, request).await?;
+    let confirmed_value = fetch_issue_value(crab, owner, repo, number)
+        .await
+        .map_err(remote)?;
+    let confirmed = normalize_issue(&request.repository, &confirmed_value, None)?;
+    if confirmed.body != before.body || issue_updated_at(&confirmed_value) != pre_updated_at {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "issue drifted before body-preserving update",
+        ));
+    }
+    let mutation_already_observed = request
+        .title
+        .as_ref()
+        .is_some_and(|title| &confirmed.title == title);
+    if !mutation_already_observed {
+        update_issue(crab, owner, repo, number, request).await?;
+    }
 
     let after_value = fetch_issue_value(crab, owner, repo, number)
         .await
@@ -424,7 +440,7 @@ async fn reconcile_bodyless_issue_update(
         request_fingerprint: fingerprint,
         pre_body_digest: digest_text(&before.body),
         post_body_digest: digest_text(&after.body),
-        pre_updated_at,
+        pre_updated_at: issue_updated_at(&confirmed_value),
         post_updated_at: issue_updated_at(&after_value),
     };
     let receipt_body = format!(

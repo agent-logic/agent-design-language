@@ -324,20 +324,22 @@ impl ScriptedGithub {
         let stop = Arc::new(AtomicBool::new(false));
         let thread_stop = Arc::clone(&stop);
         let thread = thread::spawn(move || {
-            let mut responses = responses.into_iter();
+            let mut responses = std::collections::VecDeque::from(responses);
             while !thread_stop.load(Ordering::SeqCst) {
                 match listener.accept() {
                     Ok((mut stream, _)) => {
                         if read_request(&mut stream).is_none() {
                             continue;
                         }
-                        let Some((status, body)) = responses.next() else {
+                        let response = if responses.len() == 1 {
+                            responses.front().cloned()
+                        } else {
+                            responses.pop_front()
+                        };
+                        let Some((status, body)) = response else {
                             break;
                         };
                         write_status_response(&mut stream, status, body);
-                        if responses.len() == 0 {
-                            break;
-                        }
                     }
                     Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
                         thread::sleep(Duration::from_millis(2));
@@ -588,6 +590,79 @@ async fn title_only_issue_update_fails_closed_on_remote_body_drift() {
     env.server.assert_clean();
 }
 
+#[tokio::test]
+async fn title_only_retry_after_receipt_failure_does_not_repeat_patch() {
+    let env = LocalGithubEnv::start();
+    let mut create = base_request(GithubAction::IssueCreate);
+    create.token_file = Some(env.token_file());
+    create.title = Some("Original title".into());
+    create.body = Some("Governed body".into());
+    execute_github_action(&create)
+        .await
+        .expect("create fixture");
+    env.server.fail_next_receipt_creation();
+
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.operation_key = Some("issue-301.partial-v1".into());
+    update.issue = Some(77);
+    update.title = Some("Canonical title".into());
+    let first = execute_github_action(&update)
+        .await
+        .expect_err("missing receipt id");
+    assert_eq!(first.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+
+    let retry = execute_github_action(&update)
+        .await
+        .expect("recover partial operation");
+    assert_eq!(retry.issue.as_ref().unwrap().title, "Canonical title");
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+    assert_eq!(
+        env.server
+            .count("POST", "/repos/owner/repo/issues/77/comments"),
+        2
+    );
+    env.server.assert_clean();
+}
+
+#[tokio::test]
+async fn title_only_update_detects_every_declared_body_drift_boundary() {
+    for boundary in [
+        "before_patch",
+        "during_patch",
+        "before_receipt",
+        "after_receipt",
+    ] {
+        let env = LocalGithubEnv::start();
+        let mut create = base_request(GithubAction::IssueCreate);
+        create.token_file = Some(env.token_file());
+        create.title = Some("Original title".into());
+        create.body = Some("Governed body".into());
+        execute_github_action(&create)
+            .await
+            .expect("create fixture");
+        match boundary {
+            "before_patch" => env.server.drift_on_second_next_issue_read(),
+            "during_patch" => env.server.force_body_drift_after_patch(),
+            "before_receipt" => env.server.drift_before_receipt(),
+            "after_receipt" => env.server.drift_after_receipt(),
+            _ => unreachable!(),
+        }
+        let mut update = base_request(GithubAction::IssueUpdate);
+        update.token_file = Some(env.token_file());
+        update.operation_key = Some(format!("issue-301.{boundary}-v1"));
+        update.issue = Some(77);
+        update.title = Some("Canonical title".into());
+        let error = execute_github_action(&update)
+            .await
+            .expect_err("body drift must fail closed");
+        assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+        assert!(error.message.contains("drifted"), "{boundary}: {error:?}");
+        env.server.assert_clean();
+    }
+}
+
 #[derive(Default)]
 struct LocalGithubState {
     issue: Option<Value>,
@@ -600,6 +675,12 @@ struct LocalGithubState {
     empty_issue_search_after_create: usize,
     created_issue_marker_lag_reads: usize,
     body_drift_after_patch: bool,
+    issue_reads: usize,
+    drift_issue_read_at: Option<usize>,
+    drift_before_receipt: bool,
+    drift_after_receipt: bool,
+    receipt_created: bool,
+    fail_receipt_creation_once: bool,
 }
 
 struct LocalGithub {
@@ -726,6 +807,23 @@ impl LocalGithub {
 
     fn force_body_drift_after_patch(&self) {
         self.state.lock().unwrap().body_drift_after_patch = true;
+    }
+
+    fn drift_on_second_next_issue_read(&self) {
+        let mut state = self.state.lock().unwrap();
+        state.drift_issue_read_at = Some(state.issue_reads + 2);
+    }
+
+    fn drift_before_receipt(&self) {
+        self.state.lock().unwrap().drift_before_receipt = true;
+    }
+
+    fn drift_after_receipt(&self) {
+        self.state.lock().unwrap().drift_after_receipt = true;
+    }
+
+    fn fail_next_receipt_creation(&self) {
+        self.state.lock().unwrap().fail_receipt_creation_once = true;
     }
 }
 
@@ -920,6 +1018,15 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
             issue
         }
         ("GET", "/repos/owner/repo/issues/77") => {
+            state.issue_reads += 1;
+            if state.drift_issue_read_at == Some(state.issue_reads)
+                || (state.drift_after_receipt && state.receipt_created)
+            {
+                state.issue.as_mut().expect("issue exists")["body"] =
+                    json!("concurrent remote body mutation");
+                state.drift_issue_read_at = None;
+                state.drift_after_receipt = false;
+            }
             let mut issue = state.issue.clone().expect("issue exists");
             if state.created_issue_marker_lag_reads > 0 {
                 state.created_issue_marker_lag_reads -= 1;
@@ -996,6 +1103,15 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
                 .unwrap_or_default(),
         ),
         ("POST", "/repos/owner/repo/issues/77/comments") => {
+            if state.fail_receipt_creation_once {
+                state.fail_receipt_creation_once = false;
+                return json!({});
+            }
+            if state.drift_before_receipt {
+                state.issue.as_mut().expect("issue exists")["body"] =
+                    json!("concurrent remote body mutation");
+                state.drift_before_receipt = false;
+            }
             let payload: Value = serde_json::from_str(&request.body).expect("comment payload");
             let comment = json!({"id": 9001, "body": payload["body"]});
             assert!(comment["body"]
@@ -1003,6 +1119,7 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
                 .unwrap()
                 .contains("<!-- csdlc-github-operation:"));
             state.comment = Some(comment.clone());
+            state.receipt_created = true;
             comment
         }
         _ => panic!(

@@ -6,3 +6,4 @@
 {"sequence":6,"generation":4,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":7,"generation":5,"actor":"codex:issue-301","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":8,"generation":5,"actor":"codex:issue-301","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":9,"generation":6,"actor":"codex:issue-301","reason":"Exact review r1 failed: title-only retry can repeat PATCH after successful mutation when provenance receipt creation/readback fails; deterministic before/during/after-PATCH and after-receipt drift claims lack complete injected proof. Recover review authority before bounded protocol and test remediation; require a different fresh reviewer.","operation":"recover_review"}
