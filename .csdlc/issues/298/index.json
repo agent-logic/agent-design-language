@@ -5,13 +5,13 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 16,
-  "digest": "5d2a91dd501dc01881a526ad594ce7f3eb8a14b71cda64a4725d4c54502304dc",
+  "digest": "3257ae4f981bb6d2e7c4329d92800b75ab2736d4c41fa9957ff572dce56ef3af",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": {
-    "reviewer": "fresh-session:c26d20f3-32b8-4552-8b9f-6b88b55c32ae",
+    "reviewer": "fresh-session:153d9d18-12ab-4c8e-8db4-563a7586469c",
     "assigned_by": "codex:issue-298",
-    "revision": "git-blake3:6f2cd6997df48087af53ff2ac74e1e3ad6a7fae7:3ab6ddddcc91291dd02427fe79bcd400af6cc7c8cac8bef0174de04de126e6d3",
+    "revision": "git-blake3:466b8cfa5a1a369e7ff0d21930d51f4608bc2905:46447978e6b9804d4cebdca92976ab16ffc1c9e917e8afcd6ba758ba982f1948",
     "scope": [
       "csdlc-v2/src/bin/csdlc-issue.rs",
       "csdlc-v2/src/lib.rs",
@@ -239,6 +239,13 @@
       "actor": "codex:issue-298",
       "reason": "record bounded anchored projection classification and resumable recovery implementation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Remediate exact review r2 with shared completed-attempt authority and retained parent descriptors\",\"changes\":[\"Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299\",\"Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation\",\"Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart\",\"Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery\",\"Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery\",\"Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions\",\"Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed\",\"Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection\",\"Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange\",\"Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt\",\"Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart\",\"Inventoried recovery attempts and classified matching completed recovery as already_recovered\",\"Added distinct terminal receipt tamper and already-recovered classification proof\",\"Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader\",\"Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames\",\"Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
