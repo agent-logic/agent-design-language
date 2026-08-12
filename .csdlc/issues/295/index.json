@@ -3,13 +3,46 @@
   "issue": 295,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
-  "phase": "implemented",
-  "generation": 21,
-  "digest": "a226eb588f86c9bb66f0fa30c59e6149a0c393bdfc59a49917b5badbaacecdf4",
+  "phase": "reviewed",
+  "generation": 22,
+  "digest": "27a91d3d5c645fab5dc228c3c6a60a201cf2e23e13945436087c284767adaf8f",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:0c36550e-6341-498e-94f2-7df482fc6e35",
+    "assigned_by": "codex:issue-295-remediation-r7",
+    "revision": "git-blake3:ed21f61961aaac49a7b0d886b44b4dd69b9b2864:460e12fb22f5d605f8e37dc0e3f17e005adea0e96edad92a47d7a2b3202beeed",
+    "scope": [
+      "adl/config/mechanical_coverage_fallout.v1.json",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/mechanical_coverage_fallout.py",
+      "adl/tools/test_mechanical_coverage_fallout.sh",
+      "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md",
+      ".csdlc/evidence/295",
+      ".csdlc/issues/295",
+      ".csdlc/prepared/issues/295"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:0c36550e-6341-498e-94f2-7df482fc6e35",
+    "scope": [
+      "adl/config/mechanical_coverage_fallout.v1.json",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/mechanical_coverage_fallout.py",
+      "adl/tools/test_mechanical_coverage_fallout.sh",
+      "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md",
+      ".csdlc/evidence/295",
+      ".csdlc/issues/295",
+      ".csdlc/prepared/issues/295"
+    ],
+    "reviewed_revision": "git-blake3:ed21f61961aaac49a7b0d886b44b4dd69b9b2864:460e12fb22f5d605f8e37dc0e3f17e005adea0e96edad92a47d7a2b3202beeed",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "69f6f39200da4a1f561620b18d5afe879bf71f696fe148b1ae3ee770ff4d78aa",
+      "values_digest": "ece8e08fac62e1f7c0c2228c5e96b48be4dd130b4b382d693ed14a7e0a6a3d8f",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "62f8bd8505c9ff1571f1f19d95fdad46d36c3511fc003815011e646735edacf4",
+      "values_digest": "a13ca01b21a21b80995ee2f3a70af4b298d5cf6acc962f10ede8bda23eaa871c",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "45d6a5c6558f13618b130963aea2e9b08599607fef3f8414e0d26a28cb9f01a5",
+      "values_digest": "20288739ade7b234c397251d20f0e527a15a16e08ceb2c22a89ab0ab6c937085",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "e1da1cb3f72050f127d139587fbdb3d9e310cc1cf9c11e2ea30d3e1f6e86adfa",
+      "values_digest": "565eed688d79a4138070ce61b8a5664b672aabd78372e9a5d6e364255b4434cd",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "de8b748df2868810efe831ccb01a2483eacf95682936382fb8d432e94b0469b7",
-      "rendered_digest": "508cb013fad90f8bd980a004c55eadce2d3c1d5cf5a8123dfa7b82d3fed674f7",
-      "ast_digest": "7fa5373384563ee034f50d75e5733aacdace85c0b23cff2ae194384aa6442c4f"
+      "values_digest": "5f3d6b80d441cdaaa45cea426267a1f6d51c86a727920bff20fe4add5044a7f7",
+      "rendered_digest": "5229f2a306dcfa6942709732c78b76ab3a76ee82a1a60854a29eca291c98bef5",
+      "ast_digest": "d78bace20873242d2bfbc836c35686cdc119f2f94383c180d0933508a9a536ce"
     },
     "sor": {
-      "values_digest": "a081736f91e055ef1d49df890252b0ed512ecfce85631f0b908dba49d308c3e6",
+      "values_digest": "fbeb7dee0477ecca9124d6fdf838469c479e94af0376a2bc0ac77025afdd6760",
       "rendered_digest": "5f015b6aaced478ba5b68d2806d7e4eae116f4b083f058ec8826a1e62a2cdb50",
       "ast_digest": "2205c30c0ad1625f4e12faaf2b7adf716b5a90566a8e86dcc97c9b7a0e4a8286"
     }
@@ -75,6 +108,13 @@
       "to": "implemented",
       "actor": "codex:issue-295",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-3",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -294,6 +334,20 @@
       "actor": "codex:issue-295-remediation-r7",
       "reason": "Record the bounded P3 revision-resolution cleanup remediation and complete passing declared validation before assigning a different fresh reviewer.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated all post-allocation mechanical-fallout failure paths so stale or invalid revision resolution cannot retain temporary proof artifacts or prior receipt/results evidence.\",\"changes\":[\"Centralize removal of the proof archive root, per-path result directory, temporary diff files, and receipt in one cleanup helper.\",\"Route initial base rev-parse, merge-base, head rev-parse, archive, patch, control discovery, integrity, post-revision, post-diff, and classifier rejection failures through the same cleanup helper.\",\"Add a stale-base regression with an isolated temporary directory proving no archive root, diff file, stale receipt, or path result survives revision-resolution failure.\",\"Preserve the prior success-then-semantic-failure regression, 80 percent threshold, PR-fast non-authority, and read-only issue 258 boundary.\"],\"artifacts\":[\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\".csdlc/evidence/295\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Prove centralized cleanup for revision-resolution and classifier failure paths plus prior parser, mapping, governed execution, and threshold behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/mechanical-compile-fallout-classifier.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the existing 80 percent gate and authoritative coverage routing remain intact.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/coverage-impact-regression.log\"},{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"purpose\":\"Prove PVF selector inventory and PR-fast non-authoritative routing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/295/validation-selector-pvf.log\"}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 21,
+      "actor": "codex:issue-295-remediation-r7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 22,
+      "actor": "codex:worker-3",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
