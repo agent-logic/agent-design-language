@@ -12,7 +12,16 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src
+adl-runtime/src/layer8_authority.rs
+adl-runtime/tests/layer8_authority.rs
+adl/src/csm_runtime_api.rs
+adl/tests/layer8_authority_runtime_api.rs
+adl/tools/validate_layer8_authority_observatory_ui.sh
+demos/html-observatory
+docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md
+.csdlc/evidence/112
+.csdlc/issues/112
 
 ## Prompts
 
@@ -33,12 +42,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Recipient acknowledgement uses the in-process agent execution boundary and filesystem-backed keys, not external transport or HSM proof.
+- Browser evidence is local deterministic presentation proof; the fresh review rerun was sandbox-limited and relied on retained exact-head PASS evidence.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3b0b5db556e79a9d114f694a2bf31c2fe678b801:648acd88a09c73d198f6eac2bca61df250c6acdcee9ecdd9c474bc9f90b01aff")
 
-Reviewer: None
+Reviewer: Some("fresh-subagent-112-final-pass")
 
-Result: pre_review
+Result: pass
