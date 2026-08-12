@@ -3,9 +3,9 @@
   "issue": 295,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2fa56f624a8011e356b693100c6a2194dddd34cd5cb33f8cebafebb24e5e3fbb",
-  "phase": "bound",
-  "generation": 6,
-  "digest": "c10b917f84e764aa985915f5717ca025683da3adf45c65fb6c47cf0667b9bbaa",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "eacad8cb54e3debffd72c37ea2fa883aa894bec6ccffbf371b21987f8c3d6699",
   "branch": "codex/295-mechanical-compile-fallout-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ff075a5f9a0391bbb4b01955a61728daeaf83f38bf217ce41b908d16e951af8e",
+      "values_digest": "d2c8d35bbc0715d788c5ff6330e376164cf690264d592551919c8893676f112c",
       "rendered_digest": "7110c165aed95e6734e5c08028a94cf403d34d340337b920834c842d838d18a5",
       "ast_digest": "b06aefbed412021ff9eba526943ebb2590cf543ec738423742eef8349a9c1390"
     },
     "stp": {
-      "values_digest": "d9cfba71378b4651797ca78745aabad28c3ebf44a3faa1d23c876085a5616220",
+      "values_digest": "59eb902b10dfe5c5ca3c3bda40458c6007e1c745bd410ec6a28329c84ff6d3b0",
       "rendered_digest": "bb3586687164264c2ba8c11d4f62195a7c552d3a8c8194024930b1e572ac2396",
       "ast_digest": "584f7a5c56fb16f1844832e08c8e7c2a2152fb6a8d1e31b2a4e40955cd0e5265"
     },
     "spp": {
-      "values_digest": "90042cfe130ac548483e0d1e4d882be277a51e7c1b0901b37f2fa72b925e8d74",
+      "values_digest": "02837d730ae19dc3a528da3dc5f9fb2f9b1d310d1a35d9288967aa7a5f64719d",
       "rendered_digest": "08adbefcc5dff29253d6fb13cb352e68f3a6f29f838b451471fa7e217837c1c5",
       "ast_digest": "2bde57770c47fb172f72a237ddbd8fc4f6e7c6adc27fdcd2bee2a86326edc6e5"
     },
     "vpp": {
-      "values_digest": "697ed80d4461340523e152f9946c4e461774f5db369d66f67b7683d5ed295cf6",
+      "values_digest": "70335f1d55ebf58f1141d6c959613724050695060b4ead6da91fdb844c2f5d79",
       "rendered_digest": "133940cad168a7800e43ae87fc6cedb8a38766ce9e0334676c4b039ae33215a7",
       "ast_digest": "810a905517f9591ffc2cccc97da7f17893d990c4fbc7b42c15fdf0e052a992af"
     },
     "srp": {
-      "values_digest": "c67899ff7e79e9cbb4c4a8f25b8ee462ae9bfd75d2169ebff75eecc2dd11d445",
+      "values_digest": "ef003502e55c61a1267d805c6b125e23f805d30384a7b91d3aae869f37a97f8f",
       "rendered_digest": "943ffd99c620a9aa1a4f3ac8db989ee2385171bafb46cf25d17a144c830e6432",
       "ast_digest": "77111e7548269e4ccfdc8cbccb0fa96aa571ed04c1ba62fc85b77b9a8bc6f3b4"
     },
     "sor": {
-      "values_digest": "64bb3df5ffa50122dd417a38a8e72f40bc64bd5f201627f913670ddd4a7d3c0f",
-      "rendered_digest": "2c5002f295a98f21b423dd6448637a73a06d509931241c8ab9b0df51f43842e1",
-      "ast_digest": "4e1e4766531db463712839f1312e6a00a53ff242870ace0f4f2489e015d645be"
+      "values_digest": "6d1de59597195764642b4d9143f7d6f24722935474226a6bc2635fb532586e61",
+      "rendered_digest": "3ad9a0da9a383b453dfa6493c69f383d89f3d366d72a2517e4f19a257da2968c",
+      "ast_digest": "be71b2a7455c858892ad5c91a75a968ef0b2bf7bcb2c90fef8503a5e7da4e6ad"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-295",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -126,6 +133,13 @@
       "actor": "codex:issue-295",
       "reason": "Include the existing selector validator invoked by the final declared PVF lane.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/tools/mechanical_coverage_fallout.py\",\"adl/config/mechanical_coverage_fallout.v1.json\",\"adl/tools/test_mechanical_coverage_fallout.sh\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\",\"docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md\",\".csdlc/issues/295\",\".csdlc/prepared/issues/295\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-295",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
