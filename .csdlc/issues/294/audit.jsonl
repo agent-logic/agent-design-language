@@ -37,3 +37,4 @@
 {"sequence":37,"generation":25,"actor":"codex:issue-294","reason":"Recover failed r10 exact-head assignment at substantive 840bf14c60c834ccad29a847d4c0eb8c87cbcd1b: two-step journal old/temp swap can crash with canonical journal absent and no restart reconciliation; preexisting deterministic digest temp lacks a transaction ownership witness; AC-8/AC-9 still lacks actual typed bind-before/after and deterministic interruption/race hooks","operation":"recover_review"}
 {"sequence":38,"generation":25,"actor":"codex:issue-294","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":39,"generation":26,"actor":"codex:issue-294","reason":"authorized immutable-ledger redesign incomplete: real typed bind before/after and deterministic S0-S6/race failpoint fixtures absent","operation":"recover_review"}
+{"sequence":40,"generation":26,"actor":"codex:issue-294","reason":"assign bounded exact-revision review","operation":"assign_review"}

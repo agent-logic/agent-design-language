@@ -5,10 +5,24 @@
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
   "generation": 26,
-  "digest": "6a74e2c4c06399d1197138cd98fcaf1e2196cdf315f06f01c9d14ae3505c6da3",
+  "digest": "ef1a633c1b2486a6a5b2f21a5276916e0b3bb783f7e2a844cb467d4ff16d52e5",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:3bb74ab0-f29b-4fa0-a32d-3c807638c7ee",
+    "assigned_by": "codex:issue-294",
+    "revision": "git-blake3:acd2008a3cc7390ea803f1534c55d9272cba47c4:ad0b1dcc24f96c1d21ef5aff17d1f5e301e13079ef600cb4ab2f8e08a3796417",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/294",
+      ".csdlc/prepared/issues/294",
+      ".csdlc/evidence/294"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +58,9 @@
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "fa414c9d9e0739056c60017778d7513632472c1fabb337e180bcee0d135eebad",
-      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
-      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
+      "values_digest": "681762a9c6778fc32dc91aeceda9fbefccd2a0d84bf0041f3553f4045cde3aa2",
+      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
+      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
     },
     "sor": {
       "values_digest": "fa9dc90152aa3912f66f881875b4c6bc1e328735c7f5badc64665db1889ddd3b",
@@ -350,6 +364,13 @@
       "actor": "codex:issue-294",
       "reason": "authorized immutable-ledger redesign incomplete: real typed bind before/after and deterministic S0-S6/race failpoint fixtures absent",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 26,
+      "actor": "codex:issue-294",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
