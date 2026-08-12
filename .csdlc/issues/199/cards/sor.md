@@ -12,20 +12,21 @@ Status: pre_phase
 
 ## Summary
 
-Implemented governed learner, joint, final, removal, and rejoin membership coordination with exact external receipt observation, durable OpenRaft membership history, crash reconciliation, and lifecycle-safe immutable proof.
+Implemented and review-remediated governed membership coordination. Authorization now binds the exact old and target stable maps plus target membership before Raft effects; history reconciliation requires joint/final entries newer than the authority operation; proof v4 replaces the misleading name facade with twelve behavior-specific cases and seven production assertions.
 
 ## Artifacts
 
-- .csdlc/evidence/199/v3/execution-proof.json
+- .csdlc/evidence/199/v4/execution-proof.json
 - .csdlc/prepared/issues/199/produce-proof-receipt.rb
 - .csdlc/prepared/issues/199/validate-proof-receipt.rb
 
 ## Execution
 
-- Added durable governed membership coordination and sealed operation artifacts
-- Bound standard OpenRaft learner and membership transitions to exact governed receipts and durable history
-- Added an exact 36-case public integration target and focused production assertion markers
-- Hardened proof production against zero-test lanes and generated lifecycle projection drift
+- Bound caller transition inputs byte-for-byte to the sealed PromoteVoter stable-map and target-membership digests before add_learner or change_membership
+- Rejected retained membership-history entries at or before the active authority log index and required final history after the current joint entry
+- Replaced thirty-six substituted public names with twelve behavior-specific public cases
+- Expanded coordinator proof to seven cases covering authorized target binding and stale-history denial
+- Retained v4 exact proof after strict library and integration Clippy
 
 ## Validation
 
@@ -33,11 +34,53 @@ Implemented governed learner, joint, final, removal, and rejoin membership coord
   {
     "command": [
       "ruby",
+      ".csdlc/prepared/issues/199/produce-proof-receipt.rb"
+    ],
+    "purpose": "Produce exact review-remediated evidence with behavior-specific and production-assertion denominators",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/199/v4/execution-proof.json"
+  },
+  {
+    "command": [
+      "ruby",
       ".csdlc/prepared/issues/199/validate-proof-receipt.rb"
     ],
-    "purpose": "Finalize issue 199 from its retained lifecycle-safe immutable v2 receipt.",
+    "purpose": "Validate exact argv, 12 public cases, seven production assertions, protected source, immutable introduction, and current-main ancestry",
     "outcome": "passed",
-    "evidence_ref": "governed-membership-proof-validator.log"
+    "evidence_ref": ".csdlc/evidence/199/v4/execution-proof.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject warnings across the production Runtime library",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/199/v4/clippy-lib.stderr.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_membership_transition",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject warnings across the behavior-specific public target",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/199/v4/clippy-integration.stderr.log"
   }
 ]
 
