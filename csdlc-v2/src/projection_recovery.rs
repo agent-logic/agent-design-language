@@ -918,6 +918,38 @@ pub(crate) fn validate_completed_recovery_attempt(
             "PREPARED typed request authority invalid",
         ));
     }
+    let prepared_classification: ProjectionClassification =
+        serde_json::from_value(prepared.get("classification").cloned().ok_or_else(|| {
+            V2Error::new(ErrorCode::CorruptRecord, "PREPARED classification missing")
+        })?)?;
+    if prepared_classification.receipt_digest != prepared_request.classify_receipt_digest
+        || prepared_classification.issue != issue
+        || prepared.get("lineage")
+            != serde_json::to_value(&prepared_request.failed_operation_lineage)
+                .ok()
+                .as_ref()
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "PREPARED classification or lineage authority invalid",
+        ));
+    }
+    let archive_intent: serde_json::Value =
+        receipt_payload(&receipt_path(attempt, 2, "archive-intent"))?;
+    if archive_intent.get("destination").and_then(|v| v.as_str()) != Some("rejected") {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "archive intent semantics invalid",
+        ));
+    }
+    let candidate_plan: serde_json::Value =
+        receipt_payload(&receipt_path(attempt, 4, "candidate-plan"))?;
+    let audit_commitment = candidate_plan.get("audit").cloned().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "candidate audit commitment missing",
+        )
+    })?;
     let result: ProjectionRecoveryResult =
         receipt_payload(&receipt_path(attempt, 13, "recovered"))?;
     let operation = attempt
@@ -953,13 +985,25 @@ pub(crate) fn validate_completed_recovery_attempt(
     }
     let canonical_record = validate_projection(&store.issue_dir(issue), issue)?;
     let audit_bound = canonical_record.audit.iter().any(|event| {
-        event.operation.contains("recover_preserved_projection")
-            && event
-                .operation
-                .contains(&format!("\"operation_id\":\"{}\"", result.operation_id))
-            && event
-                .operation
-                .contains(&prepared_request.classify_receipt_digest)
+        serde_json::from_str::<serde_json::Value>(&event.operation)
+            .ok()
+            .is_some_and(|audit| {
+                audit == audit_commitment
+                    && audit.get("operation").and_then(|v| v.as_str())
+                        == Some("recover_preserved_projection")
+                    && audit.get("operation_id").and_then(|v| v.as_str())
+                        == Some(result.operation_id.as_str())
+                    && audit.get("classify_receipt").and_then(|v| v.as_str())
+                        == Some(prepared_request.classify_receipt_digest.as_str())
+                    && audit.get("anchor")
+                        == serde_json::to_value(&prepared_request.anchor).ok().as_ref()
+                    && audit.get("lineage")
+                        == serde_json::to_value(&prepared_request.failed_operation_lineage)
+                            .ok()
+                            .as_ref()
+                    && audit.get("canonical_generation").and_then(|v| v.as_u64())
+                        == Some(result.canonical_generation)
+            })
     });
     if canonical_record.generation < result.canonical_generation || !audit_bound {
         return Err(V2Error::new(
@@ -1681,7 +1725,8 @@ pub fn recover_preserved_projection(
         "lineage":request.failed_operation_lineage,
         "archived_manifest":archived.manifest_digest,
         "prior_generation":prior_observation.generation,
-        "prior_digest":prior_observation.record_digest
+        "prior_digest":prior_observation.record_digest,
+        "canonical_generation":prior_observation.generation.map(|v| v + 1)
     });
     receipt(
         &attempt,
