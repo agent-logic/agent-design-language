@@ -3,9 +3,9 @@
   "issue": 203,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3241806f8faffb5e7ef1b57c174149814d412144759745599e303023dad9233a",
-  "phase": "initialized",
-  "generation": 26,
-  "digest": "4f9f8e370ecc7d5940892db89ce526e88562d79af4638626cc02a5d5c8be4440",
+  "phase": "ready",
+  "generation": 27,
+  "digest": "186df321f93195cdb664c6eb0a63c07b22309a56726568cdd02c520c03f452bf",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4c8dc46cf52856db0358e2d77bb7bb78e5f95787ff2eccbbba4b61e7da29cd68",
+      "values_digest": "801fd3a270258c3292179eddf79c942d045f4f06d23d666f633412f9c59340b8",
       "rendered_digest": "079525186b170b21283c458c8076934c1c4e48b2aac29dfd6d6cfddcfba68e30",
       "ast_digest": "77fd95a3eb427c7a9b47e353b46456107d8167bd7cbdfa07114fb419d1fc99fa"
     },
     "stp": {
-      "values_digest": "b9a5f4ed04dfad65a0798001cb2f65104219befb635b6255734192617ed20487",
+      "values_digest": "fd01918850a9b8642592d6910b6e5c8d59ba05712899f1f4915d0bcd82c99be1",
       "rendered_digest": "95ed4d8f973edf87afd24417b1d6eddcb9ce964cf8d5c7e5a71613587d1ff916",
       "ast_digest": "90af51e55128247a385506b2b74374675dc25fb2952916eb1a174f89d0916aa3"
     },
     "spp": {
-      "values_digest": "99c070c93e71ec98874cde7fe315f224723a39bf26a1befe5cd30f7b388ef72b",
+      "values_digest": "0d6d70297364a2bcf02aac0a89441037a9f30052eee70d784c015c2699ef913b",
       "rendered_digest": "4a57458a8e009975e1de765d6a24a2b0a3a4b1960fec65c2ffe62b123b6b88bb",
       "ast_digest": "2dd29753ae6ce2aac52559348c1ba342aa504e48deead982db9aef91ae2524f8"
     },
     "vpp": {
-      "values_digest": "900320311dcbe11792fb993722eca6a9a006720894bc2cb749770b5bbbcb00f3",
+      "values_digest": "3ad19224e3531f29fb1b122f6ad1cd5b737e064a9bfbe26016816e015d87037b",
       "rendered_digest": "7c8230e6c1c972122bf66c76e04b6440d9eaca0761eb71c6de988d3e3294e0a4",
       "ast_digest": "fd4c3afb4c301fe3eb3db27c2bb2fee085a122061fbf60fa02dbb1d42027e819"
     },
     "srp": {
-      "values_digest": "91de76bbff00f8c23d2fb9bf2f115331c4e5c1ef29fc7497aeb2cd53a3825e0d",
+      "values_digest": "7d15b952debaf2baab0ff675079f94528459e9f7abdd9cf4370c8b4af236b802",
       "rendered_digest": "aa8709b6e97218c6101301df2ffa099271806f83e261178acb4a3e2d3cf32d7e",
       "ast_digest": "3e13d49403a66b9c4e76fdc51bdf271435b14ee76cc11f55b83c9513f21da8ed"
     },
     "sor": {
-      "values_digest": "e33e506239b5d7e9b259cf4407ad99ab1ebcc3dce1ab0c264da3d2fc5f0ddafd",
+      "values_digest": "bf1acd80be7de36e37cd0576d9635b939bc29392c893b6eead886a5ee32ea9b7",
       "rendered_digest": "c35e3a2370128e19cd1bf072c3c138127fc4a031eed139f0199a05eae40def89",
       "ast_digest": "f492f6064bcb9e5598b2d476d894e6441bed5f81fb09ff67ebd4934d3a4b4906"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "advance initialized #203 package to ready after current-main resync and clean validation"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -244,6 +252,13 @@
       "actor": "codex:/root/review_202_impl_final",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 28,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "advance initialized #203 package to ready after current-main resync and clean validation",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }
