@@ -8,7 +8,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/199/v16/"
+PREFIX = ".csdlc/evidence/199/v17/"
 PROOF_RELATIVE = "#{PREFIX}execution-proof.json"
 EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/mod.rs adl-runtime/src/distributed/authority_protocol.rs
@@ -85,7 +85,7 @@ end
 
 proof = JSON.parse(File.binread(ordinary(PROOF_RELATIVE)))
 fail_receipt("top-level key mismatch") unless proof.keys.sort == %w[assertions cases commands issue protected_files required_main_ancestor schema source_revision source_tree subassertions test_summary]
-fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue199.governed_membership_transition_proof.v16" && proof["issue"] == 199
+fail_receipt("schema/issue mismatch") unless proof["schema"] == "adl.issue199.governed_membership_transition_proof.v17" && proof["issue"] == 199
 source = proof.fetch("source_revision")
 source_tree = proof.fetch("source_tree")
 main = proof.fetch("required_main_ancestor")
