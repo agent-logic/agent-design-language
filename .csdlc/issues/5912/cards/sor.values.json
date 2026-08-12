@@ -7,16 +7,50 @@
     "title": "Add production birth-witness policy provisioning and invocation boundary",
     "slug": "runtime-birth-witness-boundary",
     "version": "1.0.0",
-    "generation": 3
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Added a Runtime-owned service that provisions opaque birth-witness policy, builds and validates packets, and emits canonical caveated receipts through a production path.",
+      "actual_changes": [
+        "Added public trusted Runtime authority configuration and an opaque RuntimeBirthWitnessService.",
+        "Added one build-validate-emit path that emits only canonical receipt bytes after successful packet validation.",
+        "Added an external integration test that provisions the production service, signs witnesses, and verifies exact receipt emission."
+      ],
+      "artifacts": [
+        "adl-runtime-kernel/src/birth_witness.rs",
+        "adl-runtime-kernel/tests/birth_witness.rs",
+        ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh",
+        ".csdlc/evidence/5912"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Reject warnings or invalid production and test API usage.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-birth-witness-clippy.log"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh"
+          ],
+          "purpose": "Run the exact production-path integration test with a positive test count.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-birth-witness-production-path.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

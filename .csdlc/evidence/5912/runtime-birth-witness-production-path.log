@@ -1,0 +1,9 @@
+
+running 1 test
+test runtime_service_builds_validates_and_emits_receipt ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.01s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-5912-runtime-birth-witness/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.94s
+     Running tests/birth_witness.rs (adl-runtime-kernel/target/debug/deps/birth_witness-b750c19997fc0fec)

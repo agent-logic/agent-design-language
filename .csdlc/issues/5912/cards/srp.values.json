@@ -7,7 +7,7 @@
     "title": "Add production birth-witness policy provisioning and invocation boundary",
     "slug": "runtime-birth-witness-boundary",
     "version": "1.0.0",
-    "generation": 3
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
