@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 44,
-  "digest": "29ad63e70e8228862c1714a326b294793bfc56a1960f30a04f71260e4582142b",
+  "digest": "ee8355aa0061a8a7290ab0e6ee3ec310c2981250d5b61eafc440d0c64c0725c5",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ae7f63d4-5339-4d28-98cb-ecf5e4cfe1bb",
+    "assigned_by": "codex:issue-298",
+    "revision": "git-blake3:ada3f603f038912e216578e7cc5fbb4567f27b7e:c6f750e994a86126634fd19a4fc6b091ff49a54927142897b2dc85461625286f",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "de6d6c09a7031ac889c7876fd418c934a8c2b0e6f421a549af3c5c428914dee1",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "5c250fcebc8c43cdc760bef059d38073670339eee060be38304f11cf5c583101",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "1ee20231573d60e45b4e68765964de3faa0681d9be09a3f490568b25cefef6f4",
@@ -532,6 +547,13 @@
       "actor": "codex:issue-298",
       "reason": "record fail-closed partial receipt remediation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Reject symlinked and nonregular recovery receipts before partial-attempt resume mutation\",\"changes\":[\"Required receipt and predecessor paths to remain regular non-symlink files when reading immutable receipt authority\",\"Required existing receipts and predecessors to remain regular non-symlink files during deterministic resume\",\"Added a partial PREPARED receipt symlink substitution regression proving failure before preserved evidence mutation\",\"Validated the exact regression, the 30-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene\",\"Retained evidence log was not refreshed and is not claimed as current\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 63,
+      "generation": 44,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
