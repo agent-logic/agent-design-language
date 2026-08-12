@@ -1,18 +1,19 @@
 {
   "issue": 112,
   "card": "sor",
-  "expected_generation": 35,
-  "expected_digest": "79919de6965b64761380a049db70cb66dfb086068679a366c0eb6fef3b0be70e",
+  "expected_generation": 37,
+  "expected_digest": "abd600904a9d72649dfe862852b15ad3aa8d8690c40a27587bc0e907d340c75d",
   "actor": "codex-session-112",
-  "reason": "Record exact-current execution after requiring agent-originated acknowledgements and binding all Runtime API outer fields to the signed request.",
+  "reason": "Record exact-current execution after binding the authenticated signing identity to Runtime authority evidence and adding simultaneous audit serialization proof.",
   "operation": {
     "operation": "replace_execution",
-    "summary": "Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity, capability, and agent and Polis policy evidence; signed requests bound to authorized fields; recipient-agent-originated acknowledgements; serialized tamper-evident audit; retry-safe refusal handling; and exact-current issue 244 integration.",
+    "summary": "Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; and exact-current issue 244 integration.",
     "changes": [
       "Load current identity evidence, pre-existing capabilities, and separate agent and Polis policies from an external authority profile instead of constructing request-shaped authority.",
       "Keep only recipient public keys in the control authority; require the recipient agent execution boundary to sign and return the acknowledgement through canonical ingress before delivery.",
       "Bind action, conversation, recipient, replay, and correlation outer fields to the verified signed request and require exact acknowledgement replay identity.",
-      "Serialize audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.",
+      "Bind the verified sender principal, polis, and signing-key id to independently loaded Runtime identity evidence before capability and policy evaluation.",
+      "Serialize simultaneous audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.",
       "Keep retryable policy refusals from consuming replay identities and preflight conversation capacity before durable authorization.",
       "Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation."
     ],
@@ -63,7 +64,7 @@
         ],
         "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, and refusal proof.",
         "outcome": "passed",
-        "evidence_ref": ".csdlc/evidence/112/layer8-authority-contract.log (11 passed)"
+        "evidence_ref": ".csdlc/evidence/112/layer8-authority-contract.log (12 passed)"
       },
       {
         "command": [

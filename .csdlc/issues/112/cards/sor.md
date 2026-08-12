@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity, capability, and agent and Polis policy evidence; signed requests bound to authorized fields; recipient-agent-originated acknowledgements; serialized tamper-evident audit; retry-safe refusal handling; and exact-current issue 244 integration.
+Implemented and remediated Runtime-owned Layer 8 conversation authority with independently loaded current identity, capability, and agent and Polis policy evidence; authenticated sender-to-authority binding; recipient-agent-originated acknowledgements; concurrently serialized tamper-evident audit; retry-safe refusal handling; and exact-current issue 244 integration.
 
 ## Artifacts
 
@@ -34,7 +34,8 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
 - Load current identity evidence, pre-existing capabilities, and separate agent and Polis policies from an external authority profile instead of constructing request-shaped authority.
 - Keep only recipient public keys in the control authority; require the recipient agent execution boundary to sign and return the acknowledgement through canonical ingress before delivery.
 - Bind action, conversation, recipient, replay, and correlation outer fields to the verified signed request and require exact acknowledgement replay identity.
-- Serialize audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.
+- Bind the verified sender principal, polis, and signing-key id to independently loaded Runtime identity evidence before capability and policy evaluation.
+- Serialize simultaneous audit appends across store handles with an exclusive file lock and current-head reload, preserving a valid chain before returning grants.
 - Keep retryable policy refusals from consuming replay identities and preflight conversation capacity before durable authorization.
 - Reconcile merged issue 244 conversation tests and preserve disclosure-safe Observatory presentation.
 
@@ -73,7 +74,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
     ],
     "purpose": "Run identity, least-privilege authority, signed-message, acknowledgement, replay, audit, and refusal proof.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-authority-contract.log (11 passed)"
+    "evidence_ref": ".csdlc/evidence/112/layer8-authority-contract.log (12 passed)"
   },
   {
     "command": [
@@ -141,7 +142,7 @@ Implemented and remediated Runtime-owned Layer 8 conversation authority with ind
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
