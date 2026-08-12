@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 27,
-  "digest": "b248b886c60a9142cc8f3b5a27db736d00ade87054b8bd61c84e63e4eb8f3c19",
+  "digest": "61316780748498283ddb9bdc503d851426054c65aeb8356b64bedc578e9170d5",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:d4da3139-4f55-40a6-9a4b-ba9b8b5d60b5",
+    "assigned_by": "codex:issue-298",
+    "revision": "git-blake3:d312e8ab263dd493166f2ac5e0895b239644429f:9ecf1e1e485135629bea0f53d85c367a111c2f80bc06255175ecd3138f0a0e2a",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "fc0df5738f835d5cf17d4349db8d7430a0f68ff638f9e5f10f4d096c878f8cbf",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "6a67078b08a857f59ddcf079feff98d9072176f43e0399a335383cdff87899d4",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "2adc29a1a32b6fb641508438bb4e5b73c1e17bf0047dffab0ff410d49372b54e",
@@ -329,6 +344,13 @@
       "actor": "codex:issue-298",
       "reason": "Recover stale r6 assignment because the focused recovery evidence log was refreshed after assigned revision 123ad65a; assign a new fresh session at the exact current clean head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
