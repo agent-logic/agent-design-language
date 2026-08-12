@@ -1621,6 +1621,19 @@ async fn real_four_node_learner_replication() {
         .expire_learner_admission(admission.deadline_unix_seconds)
         .await
         .unwrap();
+    let mut drifted_authority = runtime.authority().clone();
+    drifted_authority
+        .raft_ids
+        .insert(b"guardian-1".to_vec(), 99);
+    let exact_authority = runtime.replace_authority_for_test(drifted_authority);
+    assert_eq!(
+        runtime
+            .enroll_non_voting(&recovery_admission, now, enrollment_log_index)
+            .await,
+        Err(MembershipCoordinatorError::WrongStableMap),
+        "enrollment must reject local authority/Raft parity drift before journaling or #202 effects"
+    );
+    runtime.replace_authority_for_test(exact_authority);
     for boundary in [
         MembershipCrashBoundary::BeforeEnrollmentJournal,
         MembershipCrashBoundary::AfterEnrollmentJournal,

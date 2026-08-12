@@ -311,6 +311,7 @@ impl GovernedMembershipRuntime {
                 now_unix_seconds,
                 membership_event_log_index,
                 &self.authority,
+                &self.raft,
                 &mut self.membership,
             )
             .await
@@ -386,6 +387,14 @@ impl GovernedMembershipRuntime {
     ) {
         drop(self.coordinator.take());
         self.coordinator = Some(MembershipCoordinator::open(root, checkpoint).unwrap());
+    }
+
+    #[cfg(test)]
+    pub(crate) fn replace_authority_for_test(
+        &mut self,
+        authority: AuthorityMembership,
+    ) -> AuthorityMembership {
+        std::mem::replace(&mut self.authority, authority)
     }
 }
 
@@ -972,6 +981,7 @@ impl MembershipCoordinator {
     /// Governed non-voting enrollment and rejoin entrypoint. Exact retries
     /// re-observe the #202 generation, idempotently repair the local Join
     /// event, and return the same durable published result.
+    #[allow(clippy::too_many_arguments)]
     async fn enroll_non_voting_to_published(
         &mut self,
         admission: &VerifiedLearnerAdmission,
@@ -979,6 +989,7 @@ impl MembershipCoordinator {
         now_unix_seconds: i64,
         membership_event_log_index: u64,
         authority: &AuthorityMembership,
+        raft: &PolisRaft,
         membership: &mut MembershipState,
     ) -> MembershipCoordinatorResult<[u8; 32]> {
         if let Some(published) =
@@ -1016,6 +1027,7 @@ impl MembershipCoordinator {
         if self.envelope.payload().active.is_some() {
             return Err(MembershipCoordinatorError::StateRegression);
         }
+        validate_enrollment_old_parity(membership, authority, raft)?;
         let identity = admission.identity();
         let old_stable_ids = if self.envelope.payload().stable_id_registry.is_empty() {
             authority.raft_ids.clone()
@@ -1675,6 +1687,51 @@ fn prepare_enrollment_stable_ids(
         target_sha256: stable_map_sha256(&target_stable_ids)?,
         target: target_stable_ids,
     })
+}
+
+fn validate_enrollment_old_parity(
+    membership: &MembershipState,
+    authority: &AuthorityMembership,
+    raft: &PolisRaft,
+) -> MembershipCoordinatorResult<()> {
+    let expected_voters = authority
+        .raft_membership
+        .voter_ids()
+        .collect::<BTreeSet<_>>();
+    if authority.raft_membership.get_joint_config().len() != 1
+        || membership.trust_domain().as_bytes() != authority.trust_domain_id
+        || !raft_membership_is_exact_old(raft, &expected_voters)
+        || authority
+            .raft_ids
+            .values()
+            .copied()
+            .collect::<BTreeSet<_>>()
+            != expected_voters
+    {
+        return Err(MembershipCoordinatorError::WrongStableMap);
+    }
+    let voters = membership
+        .members()
+        .filter(|member| member.role == MemberRole::Voter)
+        .map(|member| (member.guardian_id.as_bytes(), member))
+        .collect::<BTreeMap<_, _>>();
+    if voters.len() != authority.voters.len()
+        || authority.voters.iter().any(|(guardian, voter)| {
+            voters.get(guardian.as_slice()).is_none_or(|member| {
+                authority
+                    .raft_ids
+                    .get(guardian)
+                    .copied()
+                    .unwrap_or_default()
+                    == 0
+                    || member.guardian_control_public_key != voter.control_public_key
+                    || member.identity_generation != voter.certificate_generation
+            })
+        })
+    {
+        return Err(MembershipCoordinatorError::WrongIdentity);
+    }
+    Ok(())
 }
 
 fn observe_old_parity(
