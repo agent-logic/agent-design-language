@@ -40,8 +40,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5f63a68189e1ca23406f34ac3da6549f4d39aea5:a4bd706a71e09cb206c2c0c0a65e00669cb0c1c9120695c4ded9bcd383ad3289")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:rereview_248_process_precedence")
 
-Result: pre_review
+Result: pass

@@ -7,15 +7,15 @@
     "title": "Make process-backend output-limit and timeout precedence deterministic",
     "slug": "process-backend-terminal-precedence",
     "version": "1.0.0",
-    "generation": 3
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/src/parity.rs\nadl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs\nadl-runtime-kernel/tests/parity.rs\n.csdlc/issues/248\n.csdlc/prepared/issues/248\n.csdlc/evidence/248",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:5f63a68189e1ca23406f34ac3da6549f4d39aea5:a4bd706a71e09cb206c2c0c0a65e00669cb0c1c9120695c4ded9bcd383ad3289",
+      "reviewer": "codex-subagent:rereview_248_process_precedence",
       "review_prompts": [
         "Is precedence derived from observable server-owned state rather than timing?",
         "Can either terminal path leave an output artifact or live descendant?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
