@@ -10,10 +10,19 @@ use redb::{Database, Durability, ReadableTable, ReadableTableMetadata, TableDefi
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+#[cfg(not(test))]
+use super::authority_store_adapters::AuthorityBoundCertificateStore;
+#[cfg(test)]
+use super::certificates::DistributedCertificateStore;
 use super::{
-    certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
+    certificates::{AuthorityCertificate, CertificatePurpose},
     fencing::{ActiveLeaseCheck, FencingStore},
 };
+
+#[cfg(not(test))]
+pub type SnapshotCertificateStore = AuthorityBoundCertificateStore;
+#[cfg(test)]
+pub type SnapshotCertificateStore = DistributedCertificateStore;
 
 pub const SNAPSHOT_CATALOG_SCHEMA: &str = "adl.distributed.snapshot_catalog_entry.v1";
 pub const TRANSFER_MANIFEST_SCHEMA: &str = "adl.distributed.snapshot_transfer_manifest.v1";
@@ -491,14 +500,14 @@ struct ReplayRecord {
 }
 
 pub struct SnapshotCatalogVerifier {
-    certificate_store: Arc<DistributedCertificateStore>,
+    certificate_store: Arc<SnapshotCertificateStore>,
     policy: SnapshotCatalogPolicy,
     replay_database: Database,
 }
 
 impl SnapshotCatalogVerifier {
     pub fn open(
-        certificate_store: Arc<DistributedCertificateStore>,
+        certificate_store: Arc<SnapshotCertificateStore>,
         policy: SnapshotCatalogPolicy,
         replay_database_path: impl AsRef<Path>,
     ) -> SnapshotResult<Self> {
