@@ -180,9 +180,12 @@ fn certificate_store() -> (Arc<DistributedCertificateStore>, SigningKey) {
         .canonicalize()
         .unwrap()
         .join("certificates.redb");
-    let store =
-        DistributedCertificateStore::open(&TEST_CERTIFICATE_STORE_ACCESS, database, certificate_policy)
-            .unwrap();
+    let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
+        database,
+        certificate_policy,
+    )
+    .unwrap();
     let _ = directory.keep();
     (Arc::new(store), root)
 }

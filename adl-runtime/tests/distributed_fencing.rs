@@ -503,14 +503,25 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
 
     fs::write(directory.path().join("fencing-state.json"), &old_state).unwrap();
     assert_eq!(
-        FencingStore::open(&TEST_FENCING_STORE_ACCESS, directory.path(), fencing_policy(), authority.clone()).unwrap_err(),
+        FencingStore::open(
+            &TEST_FENCING_STORE_ACCESS,
+            directory.path(),
+            fencing_policy(),
+            authority.clone()
+        )
+        .unwrap_err(),
         FencingError::Rollback
     );
     marker("rollback_below_floor", "denied");
     fs::write(directory.path().join("fencing-state.json"), current_state).unwrap();
 
-    let reopened =
-        FencingStore::open(&TEST_FENCING_STORE_ACCESS, directory.path(), fencing_policy(), authority.clone()).unwrap();
+    let reopened = FencingStore::open(
+        &TEST_FENCING_STORE_ACCESS,
+        directory.path(),
+        fencing_policy(),
+        authority.clone(),
+    )
+    .unwrap();
     assert_eq!(reopened.floor(LINEAGE).unwrap().epoch, 2);
     marker("restart_floor_retained", "fenced");
 
@@ -568,8 +579,13 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
         stale_authority.clone(),
     )
     .unwrap();
-    let mut stale =
-        FencingStore::open(&TEST_FENCING_STORE_ACCESS, stale_dir.path(), fencing_policy(), stale_authority.clone()).unwrap();
+    let mut stale = FencingStore::open(
+        &TEST_FENCING_STORE_ACCESS,
+        stale_dir.path(),
+        fencing_policy(),
+        stale_authority.clone(),
+    )
+    .unwrap();
     commit(
         &mut writer,
         &fixture,
