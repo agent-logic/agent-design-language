@@ -1507,14 +1507,14 @@ pub fn recover_initialized_design_envelope(
         audit_sequence: None,
         phase: "prepared".into(),
     };
-    write_recovery_journal(store.root(), &journal)?;
+    let mut journal_identity = write_recovery_journal(store.root(), &journal, None)?;
     journal.design_identity = Some(stage_and_install_authored(
         store.root(),
         Path::new(&request.new_design_path),
         &design_bytes,
     )?);
     journal.phase = "design_installed".into();
-    write_recovery_journal(store.root(), &journal)?;
+    journal_identity = write_recovery_journal(store.root(), &journal, Some(journal_identity))?;
     cleanup_stage(
         store.root(),
         Path::new(&request.new_design_path),
@@ -1537,7 +1537,7 @@ pub fn recover_initialized_design_envelope(
         }
     }
     journal.phase = "artifacts_installed".into();
-    write_recovery_journal(store.root(), &journal)?;
+    journal_identity = write_recovery_journal(store.root(), &journal, Some(journal_identity))?;
     cleanup_stage(
         store.root(),
         Path::new(&request.new_diagram_path),
@@ -1599,13 +1599,13 @@ pub fn recover_initialized_design_envelope(
     journal.post_state_digest = Some(canonical_recovery_post_state_digest(&record)?);
     journal.audit_sequence = record.audit.last().map(|event| event.sequence);
     journal.phase = "state_prepared".into();
-    write_recovery_journal(store.root(), &journal)?;
+    journal_identity = write_recovery_journal(store.root(), &journal, Some(journal_identity))?;
     record.digest = record_digest(&record)?;
     if let Err(error) = store.commit(request.issue, &record, &cards, false) {
         if store.load_record(request.issue).is_ok_and(|installed| {
             installed.digest == record.digest && recovery_post_state_matches(&installed, &journal)
         }) {
-            let _ = remove_recovery_journal(store.root(), request.issue);
+            let _ = remove_recovery_journal(store.root(), request.issue, journal_identity);
             return Ok(record);
         }
         let _ = remove_authored_if_owned(
@@ -1622,7 +1622,7 @@ pub fn recover_initialized_design_envelope(
         );
         return Err(error);
     }
-    remove_recovery_journal(store.root(), request.issue)?;
+    remove_recovery_journal(store.root(), request.issue, journal_identity)?;
     Ok(record)
 }
 
@@ -1640,15 +1640,46 @@ fn git_common_dir(root: &Path) -> Result<PathBuf> {
         .to_path_buf())
 }
 
-fn write_recovery_journal(root: &Path, journal: &DesignEnvelopeRecoveryJournal) -> Result<()> {
-    write_anchored_replace(
-        &git_common_dir(root)?,
-        &recovery_journal_relative(journal.issue),
-        &serde_json::to_vec_pretty(journal)?,
-    )
+fn write_recovery_journal(
+    root: &Path,
+    journal: &DesignEnvelopeRecoveryJournal,
+    expected_identity: Option<(u64, u64)>,
+) -> Result<(u64, u64)> {
+    let common = git_common_dir(root)?;
+    let relative = recovery_journal_relative(journal.issue);
+    let bytes = serde_json::to_vec_pretty(journal)?;
+    let temp = relative.with_extension(format!("json.tmp-{}", digest(&bytes)));
+    if let Ok(identity) = file_identity_no_follow(&common, &temp) {
+        unlink_owned_anchored(&common, &temp, &digest(&bytes), identity)?;
+    }
+    write_authored_exclusive(&common, &temp, &bytes)?;
+    let temp_identity = file_identity_no_follow(&common, &temp)?;
+    if let Some(identity) = expected_identity {
+        let old = relative.with_extension(format!("json.old-{}-{}", identity.0, identity.1));
+        rename_no_replace_anchored(&common, &relative, &old)?;
+        if file_identity_no_follow(&common, &old)? != identity {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "journal inode changed before replacement",
+            ));
+        }
+        rename_no_replace_anchored(&common, &temp, &relative)?;
+        unlink_owned_anchored(
+            &common,
+            &old,
+            &digest(&std::fs::read(common.join(&old))?),
+            identity,
+        )?;
+    } else {
+        rename_no_replace_anchored(&common, &temp, &relative)?;
+    }
+    Ok(temp_identity)
 }
 
-fn read_recovery_journal(root: &Path, issue: u64) -> Result<Option<DesignEnvelopeRecoveryJournal>> {
+fn read_recovery_journal(
+    root: &Path,
+    issue: u64,
+) -> Result<Option<(DesignEnvelopeRecoveryJournal, (u64, u64))>> {
     let common = git_common_dir(root)?;
     let Some(bytes) = read_regular_authored_artifact_with_hook(
         &common,
@@ -1658,15 +1689,21 @@ fn read_recovery_journal(root: &Path, issue: u64) -> Result<Option<DesignEnvelop
     else {
         return Ok(None);
     };
-    Ok(Some(serde_json::from_slice(&bytes)?))
+    let relative = recovery_journal_relative(issue);
+    Ok(Some((
+        serde_json::from_slice(&bytes)?,
+        file_identity_no_follow(&common, &relative)?,
+    )))
 }
 
-fn remove_recovery_journal(root: &Path, issue: u64) -> Result<()> {
-    unlink_anchored(
-        &git_common_dir(root)?,
-        &recovery_journal_relative(issue),
-        None,
-    )
+fn remove_recovery_journal(root: &Path, issue: u64, identity: (u64, u64)) -> Result<()> {
+    let common = git_common_dir(root)?;
+    let relative = recovery_journal_relative(issue);
+    let bytes =
+        read_regular_authored_artifact_with_hook(&common, &relative, |_| {})?.ok_or_else(|| {
+            V2Error::new(ErrorCode::ReconciliationRequired, "recovery journal absent")
+        })?;
+    unlink_owned_anchored(&common, &relative, &digest(&bytes), identity)
 }
 
 fn recovery_post_state_matches(
@@ -1711,7 +1748,8 @@ fn canonical_recovery_post_state_digest(record: &IssueRecord) -> Result<String> 
 }
 
 fn reconcile_design_envelope_journal(store: &Store, record: &IssueRecord) -> Result<()> {
-    let Some(journal) = read_recovery_journal(store.root(), record.issue)? else {
+    let Some((journal, journal_identity)) = read_recovery_journal(store.root(), record.issue)?
+    else {
         return Ok(());
     };
     if journal.schema != "csdlc.initialized_design_envelope_recovery_journal.v1"
@@ -1733,7 +1771,7 @@ fn reconcile_design_envelope_journal(store: &Store, record: &IssueRecord) -> Res
             &journal.new_diagram_path,
             &journal.diagram_digest,
         )?;
-        return remove_recovery_journal(store.root(), record.issue);
+        return remove_recovery_journal(store.root(), record.issue, journal_identity);
     }
     if record.generation == journal.pre_generation
         && record.digest == journal.pre_digest
@@ -1752,7 +1790,7 @@ fn reconcile_design_envelope_journal(store: &Store, record: &IssueRecord) -> Res
             &journal.diagram_digest,
             journal.diagram_identity,
         )?;
-        return remove_recovery_journal(store.root(), record.issue);
+        return remove_recovery_journal(store.root(), record.issue, journal_identity);
     }
     Err(V2Error::new(
         ErrorCode::ReconciliationRequired,
@@ -1962,22 +2000,6 @@ fn write_authored_exclusive(root: &Path, relative: &Path, bytes: &[u8]) -> Resul
 }
 
 #[cfg(unix)]
-fn write_anchored_replace(root: &Path, relative: &Path, bytes: &[u8]) -> Result<()> {
-    let temp = relative.with_extension("json.tmp");
-    let _ = unlink_anchored(root, &temp, None);
-    write_authored_exclusive(root, &temp, bytes)?;
-    rename_replace_anchored(root, &temp, relative)
-}
-
-#[cfg(not(unix))]
-fn write_anchored_replace(_root: &Path, _relative: &Path, _bytes: &[u8]) -> Result<()> {
-    Err(V2Error::new(
-        ErrorCode::UnsafeCheckout,
-        "anchored replacement unavailable",
-    ))
-}
-
-#[cfg(unix)]
 fn open_parent_no_follow(root: &Path, relative: &Path) -> Result<(File, std::ffi::CString)> {
     use std::ffi::CString;
     use std::os::unix::ffi::OsStrExt;
@@ -2040,26 +2062,6 @@ fn link_no_replace_anchored(root: &Path, source: &Path, destination: &Path) -> R
             dest_parent.as_raw_fd(),
             dest_name.as_ptr(),
             0,
-        )
-    } != 0
-    {
-        return Err(std::io::Error::last_os_error().into());
-    }
-    dest_parent.sync_all()?;
-    Ok(())
-}
-
-#[cfg(unix)]
-fn rename_replace_anchored(root: &Path, source: &Path, destination: &Path) -> Result<()> {
-    use std::os::unix::io::AsRawFd;
-    let (source_parent, source_name) = open_parent_no_follow(root, source)?;
-    let (dest_parent, dest_name) = open_parent_no_follow(root, destination)?;
-    if unsafe {
-        libc::renameat(
-            source_parent.as_raw_fd(),
-            source_name.as_ptr(),
-            dest_parent.as_raw_fd(),
-            dest_name.as_ptr(),
         )
     } != 0
     {
