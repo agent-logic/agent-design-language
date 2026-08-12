@@ -67,11 +67,11 @@ Implemented and locally proved a sealed Runtime-owned birth-witness operator wit
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

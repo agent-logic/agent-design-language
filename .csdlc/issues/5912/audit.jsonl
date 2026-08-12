@@ -24,3 +24,4 @@
 {"sequence":24,"generation":16,"actor":"codex:5912-runtime-birth-witness","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":25,"generation":17,"actor":"codex:5912-runtime-birth-witness","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":26,"generation":18,"actor":"codex:5912-runtime-birth-witness","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":27,"generation":19,"actor":"codex:5912-runtime-birth-witness","reason":"Recover stale review and publication truth so merged Runtime cleanup fix 8ecbeb88fd2a8293d06a9ae7c518e45b2689cfc4 can become ancestral before fresh proof and review.","operation":"recover_review"}
