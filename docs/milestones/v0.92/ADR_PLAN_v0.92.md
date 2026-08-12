@@ -51,7 +51,7 @@ casually.
 | ADR 0065 | ACIP Schema Catalog And Governed Projection Boundary | Deferred | Implementation exists, but retained #5832 validation outcomes are empty and must be reproven. | WP-14 |
 | ADR 0066 | Distributed Guardian Membership, Authority, And Fencing Boundary | Deferred | Library contracts are landed, but operational Guardian/kernel and polis proof remains open #142. | WP-04 |
 | ADR 0067 | Runtime Transport And TLS Stack Boundary | Proposed | Runtime transport uses one Rustls-backed trust model with explicit production certificate input. | WP-03, WP-04, WP-14 |
-| ADR 0068 | Birthday-To-Governance Handoff Boundary | Deferred | v0.92 evidence does not complete v0.93 governance. | WP-18, WP-19 |
+| ADR 0068 | Birthday-To-Governance Handoff Boundary | Proposed | v0.92 evidence can be mapped for accepted v0.93 planning consumption, but it does not complete v0.93 governance. | WP-18, WP-19 |
 | ADR 0069 | Observatory Governed Runtime Consumer Boundary | Deferred | Real Observatory and Unity consumer proof remains WP-18A work. | WP-18A |
 | ADR 0070 | Cross-Polis Continuity Transfer Planning Boundary | Proposed | Copying is not continuity; operational migration remains deferred. | WP-17 |
 | ADR 0071 | Provider-Neutral Multi-Agent Proof Boundary | Deferred | Provider-neutral executable proof remains WP-18B work. | WP-18B |
@@ -61,6 +61,9 @@ casually.
 - Candidate ADRs should be drafted only from landed feature work, tests,
   fixtures, demos, review findings, and milestone docs.
 - Candidate ADRs remain proposed until human review accepts them.
+- ADR 0068 is proposed only as a handoff-boundary record: it does not grant
+  citizenship, does not grant standing, does not assign rights or duties, and
+  does not accept or implement v0.93 governance.
 - Accepted ADRs should live in `docs/adr/`.
 - Candidate/provenance copies should live in `docs/architecture/adr/` if the
   milestone follows the existing ADR promotion pattern.
