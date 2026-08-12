@@ -1,0 +1,7 @@
+status=SUPERSEDED
+reason=The retained two-argument receipt predates the validator's governed three-revision contract and is not current proof.
+required_command=.csdlc/prepared/issues/109/validate-fresh-session-srp.sh <immutable-base-sha> <exact-final-head-sha> <exact-reviewed-substantive-sha>
+proof_boundary=Run after typed exact-revision review and publication metadata are committed; do not record PASS before those prerequisites exist.
+pre_review_command=.csdlc/prepared/issues/109/validate-fresh-session-srp.sh 081988dfe4632e27062f3acc72b7c5d226cd0802 363ecba5b47bfc4ed8b30e1f6c572fc0fd537807 614dc3319c7c043355796505e50074ff9b650993
+pre_review_result=FAIL
+pre_review_blocker=fresh-session review assignment missing

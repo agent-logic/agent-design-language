@@ -1,0 +1,81 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 109,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Use fresh sessions for standard SRP review",
+    "slug": "fresh-session-standard-srp-review",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Update the existing review skill and add one concise runbook and focused validator.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Document fresh-session standard SRP handoff",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Document finding resolution and exact-head repeat",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Validate bounded scope and non-goals",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+        "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md",
+        ".csdlc/prepared/issues/109/design.md",
+        ".csdlc/prepared/issues/109/diagram.mmd",
+        ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
+        ".csdlc/issues/109"
+      ],
+      "invariants": [
+        "standard SRP remains canonical",
+        "fresh reviewer receives exact SHA",
+        "substantive fixes invalidate prior review"
+      ],
+      "risks": [
+        "review session inherits implementation framing",
+        "stale exact-head authority"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "solution requires new review machinery",
+        "standard SRP cannot express the review request"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/109/design.md",
+      "design_digest": "57095ceeb0de2c8e74d473f78c657972794346d68ba427dc61e4503d0b828a2d",
+      "diagram_ref": ".csdlc/prepared/issues/109/diagram.mmd",
+      "diagram_digest": "9e63fc68ff3e4c13300440792a894601a21b64d1dcab69eb2ccd9ef80b1719e2"
+    }
+  }
+}
