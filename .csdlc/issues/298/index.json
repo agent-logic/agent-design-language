@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "50917e57a1b2a10a4788025d6a06ad19e0073243b4544fc7e2998937a8016d9d",
+  "generation": 23,
+  "digest": "8ac2499d4f2f9192ab8d6c997e823b0b3aa851c4a07867bfa093058a70267ba5",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "728c6e7e04d530e7b92f0247b1c509f2975083411fc187766708821ca96877b7",
+      "values_digest": "64516bb5a051fc1188a715e1a0ce99d0b116718851f79d6e5baef352a9adbb49",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "1ab79fb1103581df2c19eac083f5b4bd6a89bb73338ca9a33e8ec77740c7b314",
+      "values_digest": "c6d2ee70ab3611eabd99d62f3195bbef8a431c07f562da0dc2f3629a2be2e996",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "0cb63ff83d95597099caa1a238b8f68a18ca827b91c391dd119ea054263be28a",
+      "values_digest": "1e16b58a610934d9034f2785d41a3370e5b05fe80847f7017cab2f01856e4602",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "189a5c27e23b8e99e26072b56dcb256431953a9e894e820f97cbd9dcc86d7a59",
+      "values_digest": "6e3962ec94b89eb9a87449e6a8b3eb7827fd742f3f00733b924db25dd6de04c4",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "8c692f2ccb8e9a993e68a399530811b211fe36aefdadc875c905f70a0f8668ac",
+      "values_digest": "0e1c9b1f26aa9fb63ae5b704a314a4329e4e02a5af63121f2ec0fe5a324452ce",
       "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
       "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "c62e40bc85a961563bc845ed73e9d3fa95a310a39841c7d3832e380da6716cc8",
-      "rendered_digest": "320e63061bbdcd7d86a3f1f5cbf4bf4d7207dbb4d5e8e036ca87b80042c289c7",
-      "ast_digest": "d0f7cd37fb2942c36ccfbe2dcb0683b82007b9b05ccdfc1f9900c20d024b7f4a"
+      "values_digest": "b435006a23d43209a0a2fc0238a86a49fe1160f9cc01ecf5fd21d0b9c2cd7031",
+      "rendered_digest": "dbc28236d60382be4e278e8bc26212f2fc59aff17ec1c0c7f8761fa62e6a76b9",
+      "ast_digest": "9a28a1b0d54968c3d595eee68c077abaf238725e5328d51e09cb16fe0f77b815"
     }
   },
   "transitions": [
@@ -287,6 +287,13 @@
       "actor": "codex:issue-298",
       "reason": "Recover failed exact review r5 at 2de992a5: receipt states 2 through 12 are only envelope and hash-chain checked and canonical recovery audit authority is accepted through substring containment; require exact typed semantic validation of every state against PREPARED request and prior state, parse canonical audit operation structurally with exact operation id, classification, anchor, lineage, archive, canonical, and terminal equality, and prove a coherently forged full chain plus audit fails closed",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:issue-298",
+      "reason": "record bounded anchored projection classification and resumable recovery implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Validate recovery intermediate state semantics and exact canonical audit commitment\",\"changes\":[\"Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299\",\"Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation\",\"Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart\",\"Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery\",\"Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery\",\"Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions\",\"Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed\",\"Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection\",\"Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange\",\"Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt\",\"Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart\",\"Inventoried recovery attempts and classified matching completed recovery as already_recovered\",\"Added distinct terminal receipt tamper and already-recovered classification proof\",\"Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader\",\"Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames\",\"Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof\",\"Persisted and recomputed the full PREPARED typed request authority\",\"Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations\",\"Revalidated exact retained-parent child identity immediately before dirfd rename/exchange\",\"Proved two successive ordinary commits after recovery\",\"Retained the exact checked source child descriptor until rename/exchange completion\",\"Validated typed request authority and durable canonical recovery audit\",\"Added post-exchange candidate name-swap fail-closed proof\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
     }
   ]
 }

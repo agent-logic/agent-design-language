@@ -12,10 +12,15 @@ Status: pre_phase
 
 ## Summary
 
-Bind recovery semantics and retain checked child descriptors through mutation syscalls
+Validate recovery intermediate state semantics and exact canonical audit commitment
 
 ## Artifacts
 
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/src/schema.rs
+- csdlc-v2/src/bin/csdlc-issue.rs
+- csdlc-v2/tests/gate5.rs
 - csdlc-v2/src/projection_recovery.rs
 - csdlc-v2/src/store.rs
 - csdlc-v2/src/schema.rs
@@ -135,6 +140,29 @@ Bind recovery semantics and retain checked child descriptors through mutation sy
 - Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations
 - Revalidated exact retained-parent child identity immediately before dirfd rename/exchange
 - Proved two successive ordinary commits after recovery
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader
+- Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames
+- Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof
+- Persisted and recomputed the full PREPARED typed request authority
+- Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations
+- Revalidated exact retained-parent child identity immediately before dirfd rename/exchange
+- Proved two successive ordinary commits after recovery
+- Retained the exact checked source child descriptor until rename/exchange completion
+- Validated typed request authority and durable canonical recovery audit
+- Added post-exchange candidate name-swap fail-closed proof
 - Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
 - Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
 - Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
