@@ -43,7 +43,7 @@ def require_nextest_contract(source)
     tools = step.fetch("with", {}).fetch("tool", "").to_s.split(/[\s,]+/).reject(&:empty?)
     selected << [step, tools] if tools.any? { |tool| tool.match?(/\A(?:cargo-)?nextest(?:@.*)?\z/) }
   end
-  raise NextestContractError, "CI must retain exactly seven declared nextest install steps" unless nextest_steps.length == 7
+  raise NextestContractError, "CI must retain exactly six declared nextest install steps" unless nextest_steps.length == 6
 
   nextest_steps.each do |step, tools|
     name = step.fetch("name", "unnamed nextest install")
@@ -570,7 +570,7 @@ if "cargo llvm-cov nextest" in workflow:
 
 workspace_coverage_step = step_run("Workspace coverage run and summary (json)")
 for required_fragment in (
-    '--name "coverage-workspace-profraw-shard-${{ matrix.shard }}" --log-root ci-step-logs',
+    '--name "coverage-workspace-summary-json" --log-root ci-step-logs',
     'run_authoritative_coverage_lane.sh --profile workspace',
     '--authority "${{ needs.adl_path_policy.outputs.coverage_authority }}"',
     '--event-name "${{ github.event_name }}"',
@@ -582,14 +582,14 @@ for required_fragment in (
         )
 workspace_coverage_block = step_block("Workspace coverage run and summary (json)")
 for required_fragment in (
-    "ADL_AUTHORITATIVE_COVERAGE_REPORT_MODE: collect",
-    "ADL_AUTHORITATIVE_COVERAGE_SHARD_COUNT: 2",
-    "ADL_AUTHORITATIVE_COVERAGE_SHARD_INDEX: ${{ matrix.shard }}",
-    "ADL_COVERAGE_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}-workspace-shard-${{ matrix.shard }}",
+    "ADL_AUTHORITATIVE_COVERAGE_REPORT_MODE: run-and-report",
+    "ADL_AUTHORITATIVE_COVERAGE_SHARD_COUNT: 1",
+    "ADL_AUTHORITATIVE_COVERAGE_SHARD_INDEX: 1",
+    "ADL_COVERAGE_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}-workspace",
 ):
     if required_fragment not in workspace_coverage_block:
         raise SystemExit(
-            "workspace producer must collect run-scoped profraw profiles for its assigned shard; "
+            "workspace producer must compile once and emit the authoritative workspace summary; "
             f"missing fragment: {required_fragment}"
         )
 
@@ -635,14 +635,14 @@ if "cargo llvm-cov report --lcov" in workspace_job + workspace_fast_job:
 selected_runner = "runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}"
 if selected_runner not in runtime_job or selected_runner not in workspace_job or selected_runner not in workspace_fast_job:
     raise SystemExit("Rust coverage producers must use the selected 16-core GitHub-hosted runner")
-if selected_runner not in hosted_aggregator:
-    raise SystemExit("heavyweight hosted coverage aggregation must use the selected 16-core GitHub-hosted runner")
-if "runs-on: ubuntu-latest" in hosted_aggregator:
-    raise SystemExit("heavyweight hosted coverage aggregation must not use the standard runner")
+if selected_runner in hosted_aggregator:
+    raise SystemExit("hosted coverage aggregation must not use the 16-core Rust producer runner")
+if "runs-on: ubuntu-latest" not in hosted_aggregator:
+    raise SystemExit("hosted coverage aggregation must use the standard runner after producer summaries exist")
 if "needs.adl_path_policy.outputs.runtime_coverage_required == 'true'" not in runtime_job.split("runs-on:", 1)[0]:
     raise SystemExit("runtime coverage producer must use its explicit job-level selector")
 if "needs.adl_path_policy.outputs.workspace_full_coverage_required == 'true'" not in workspace_job.split("runs-on:", 1)[0]:
-    raise SystemExit("workspace shard producer must use its explicit job-level selector")
+    raise SystemExit("workspace producer must use its explicit job-level selector")
 if "needs.adl_path_policy.outputs.workspace_fast_coverage_required == 'true'" not in workspace_fast_job.split("runs-on:", 1)[0]:
     raise SystemExit("workspace fast producer must use its explicit job-level selector")
 for producer in (runtime_job, workspace_job):
@@ -668,17 +668,17 @@ for required_fragment in (
     if required_fragment not in workspace_fast_job:
         raise SystemExit(f"workspace fast producer artifact is missing {required_fragment}")
 for required_fragment in (
-    "matrix:\n        shard: [1, 2]",
-    "adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}",
-    "adl/target/llvm-cov-target/${{ github.run_id }}-${{ github.run_attempt }}-workspace-shard-${{ matrix.shard }}/workspace/*.profraw",
+    "adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}",
+    "adl/coverage-summary.adl.json",
     "coverage-provenance.workspace.json",
-    "COVERAGE_SHARD_COUNT: 2",
     "ci-step-logs/",
 ):
     if required_fragment not in workspace_job:
-        raise SystemExit(f"workspace shard producer artifact is missing {required_fragment}")
-if '"shard_count": os.environ["COVERAGE_SHARD_COUNT"]' not in workspace_job or '"shard_count": os.environ["COVERAGE_SHARD_COUNT"]' in workspace_fast_job:
-    raise SystemExit("only full workspace shard provenance may include shard_count")
+        raise SystemExit(f"workspace producer artifact is missing {required_fragment}")
+if "matrix:\n        shard: [1, 2]" in workspace_job or "workspace-profraw" in workspace_job:
+    raise SystemExit("workspace producer must not split into profraw shard artifacts")
+if '"shard_count": os.environ["COVERAGE_SHARD_COUNT"]' in workspace_job or '"shard_count": os.environ["COVERAGE_SHARD_COUNT"]' in workspace_fast_job:
+    raise SystemExit("workspace coverage provenance must not retain removed shard metadata")
 if "adl/ci-step-logs/" in runtime_job or "adl/ci-step-logs/" in workspace_job or "adl/ci-step-logs/" in workspace_fast_job:
     raise SystemExit("coverage log artifacts must upload from repo-root ci-step-logs/")
 
@@ -707,21 +707,15 @@ for required_fragment in (
     "actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131",
     "coverage-artifacts/runtime",
     "coverage-artifacts/workspace",
-    "coverage-artifacts/workspace-profraw",
-    "pattern: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-*",
     'document != expected',
     'coverage provenance mismatch',
-    "expected 2 workspace shard provenance files",
-    '"shard_count": "2"',
-    'seen_shards != {"1", "2"}',
-    "workspace shard profraw profiles missing",
+    "workspace coverage summary is missing",
     'RUNTIME_REQUIRED: ${{ needs.adl_path_policy.outputs.runtime_coverage_required }}',
     'WORKSPACE_FAST_REQUIRED: ${{ needs.adl_path_policy.outputs.workspace_fast_coverage_required }}',
     'WORKSPACE_FULL_REQUIRED: ${{ needs.adl_path_policy.outputs.workspace_full_coverage_required }}',
     'bash adl/tools/verify_coverage_producer_results.sh',
-    "ADL_AUTHORITATIVE_COVERAGE_REPORT_MODE: report",
-    "ADL_AUTHORITATIVE_COVERAGE_IMPORT_PROFRAW_DIR: ${{ github.workspace }}/coverage-artifacts/workspace-profraw",
-    '--name "coverage-workspace-aggregate-summary-json" --log-root ci-step-logs',
+    "Install workspace coverage summary",
+    "cp coverage-artifacts/workspace/adl/coverage-summary.adl.json adl/coverage-summary.adl.json",
     "python3 adl/tools/merge_coverage_summaries.py",
     "--workspace adl/coverage-summary.adl.json",
     "--adl-runtime coverage-artifacts/runtime/adl/coverage-summary.adl-runtime.json",
@@ -729,6 +723,16 @@ for required_fragment in (
 ):
     if required_fragment not in hosted_aggregator:
         raise SystemExit(f"hosted coverage aggregator is missing fail-closed evidence handling: {required_fragment}")
+for forbidden_fragment in (
+    "coverage-artifacts/workspace-profraw",
+    "pattern: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-*",
+    "ADL_AUTHORITATIVE_COVERAGE_REPORT_MODE: report",
+    "ADL_AUTHORITATIVE_COVERAGE_IMPORT_PROFRAW_DIR",
+    '--name "coverage-workspace-aggregate-summary-json" --log-root ci-step-logs',
+    "run_authoritative_coverage_lane.sh --profile workspace",
+):
+    if forbidden_fragment in hosted_aggregator:
+        raise SystemExit(f"hosted coverage aggregator must not recompile or aggregate profraw profiles: {forbidden_fragment}")
 
 if "Enforce coverage policy gates (workspace + per-file)" not in hosted_aggregator:
     raise SystemExit("existing coverage gates must run in the hosted aggregator after summary merge")
@@ -1001,14 +1005,6 @@ if workspace_artifact_if != expected_workspace_artifact_if:
         "non-full workspace summary/log evidence must upload from the dedicated PR-fast producer; "
         f"found: {workspace_artifact_if}"
     )
-workspace_profile_artifact_if = step_if("Upload workspace coverage shard profiles")
-expected_workspace_profile_artifact_if = "always()"
-if workspace_profile_artifact_if != expected_workspace_profile_artifact_if:
-    raise SystemExit(
-        "full workspace profraw shard evidence must upload even when a shard producer fails; "
-        f"found: {workspace_profile_artifact_if}"
-    )
-
 rust_test_job = job_block("adl_rust_tests")
 if selected_runner not in rust_test_job:
     raise SystemExit("adl-rust-tests must use the selected 16-core GitHub-hosted runner")
@@ -1031,8 +1027,8 @@ for required_fragment in (
     if required_fragment not in adl_ci_job:
         raise SystemExit(f"adl-ci narrow Rust-test route is missing {required_fragment}")
 
-if workflow.count(selected_runner) != 11:
-    raise SystemExit("all eleven heavy jobs must share the centralized ADL_HEAVY_RUNNER selector")
+if workflow.count(selected_runner) != 10:
+    raise SystemExit("all ten Rust-producing heavy jobs must share the centralized ADL_HEAVY_RUNNER selector")
 if "runs-on: adl-ubuntu-24.04-16core" in workflow:
     raise SystemExit("heavy runner selection must not be duplicated outside the centralized variable expression")
 
