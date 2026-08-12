@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 45,
-  "digest": "5a55e311a5143ce7968733672f41d003e5cb4ef0f23b57ec9e70592de0de1e59",
+  "digest": "047c8e7a67786ab26fc695a0a9bf8865dcf814fbd010d8ae1c78ade468446eb0",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:4f0bccb0-bda0-49bb-9b7d-8b01ef8e4ecd",
+    "assigned_by": "codex:issue-298",
+    "revision": "git-blake3:bbb80221265b990a6f7e53a0b9427fb0beead8a0:ea751aa5c2ae7cb8afa1b5d4bd83f31428cf9ae5c5e9ada354ce0f53eea36ce5",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "c967843a4824864032f3280cf472196fb61b7be6fac6f759df1d209d2f10df63",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "3c1a09f145e1684f10ce48c79c6d3ddaac9b0375dfdc99c68ada08a80b495875",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "1d8d50dfc829e4941212ad6a36c57f244a853db4ce8930cc0a27574282a5c0ce",
@@ -546,6 +561,13 @@
       "actor": "codex:issue-298",
       "reason": "Recover failed exact review r16 at ada3f603: receipt regular-file validation checks metadata and then reopens by pathname, leaving current, predecessor, and idempotent restart reads vulnerable to a symlink or nonregular pathname swap; require O_NOFOLLOW same-handle validation and deterministic swap regressions.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 45,
+      "actor": "codex:issue-298",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
