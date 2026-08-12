@@ -1,0 +1,377 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5912,
+  "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "7607073d7ba9e8235645ccf9fd3f55d27fe86ad5c4e2148afa330bcec8953e64",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "971e7acdc56e16fb2de61d7f69d76d108a06f0faffcf2f5cbb1f642f0313cc67",
+  "branch": "codex/5912-runtime-birth-witness",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5912-runtime-birth-witness",
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
+    "assigned_by": "codex:5912-runtime-birth-witness",
+    "revision": "git-blake3:751b9dff86fec02428ed932f50391a5e2efa0238:0ac992afa842597046c35f9610d54e81785e2bc666acdf8d941de2a51316e078",
+    "scope": [
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/tests/guardian_cli.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      ".csdlc/prepared/issues/5912",
+      ".csdlc/evidence/5912",
+      ".csdlc/issues/5912"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
+    "scope": [
+      "adl-runtime-kernel/src/birth_witness.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/birth_witness.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/tests/guardian_cli.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "infra/runtime-v3/runtime-init.toml",
+      ".csdlc/prepared/issues/5912",
+      ".csdlc/evidence/5912",
+      ".csdlc/issues/5912"
+    ],
+    "reviewed_revision": "git-blake3:751b9dff86fec02428ed932f50391a5e2efa0238:0ac992afa842597046c35f9610d54e81785e2bc666acdf8d941de2a51316e078",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains pending after republication.",
+      "Lifecycle soak was compile-checked rather than executed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5912/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5912/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-authorized-followup",
+      "revision": "ef9a5c90f5bd38565ef962e36c0d863024be35c84af3da6fc575e6c3042f4a2b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c8854965d4a72a613258477093bea6db3d635ad3a3e818cf076f2a8f19c61ed1",
+      "rendered_digest": "91eab6869cb804874c22497f8c1d473cbefda583e397409a42203dba41b49c9c",
+      "ast_digest": "7d6bc05c963875f2d4ce7eeb358121a8b1e3bf87338cfe00ef17007d190df0e4"
+    },
+    "stp": {
+      "values_digest": "ebea1a828257fdb61f5e48a5b519f9eff2a44b2e0d0d8ad4c573c11fe0f0b1f6",
+      "rendered_digest": "c672c8d61d27aed70c8b7d7c27df460bb9a0389a801be3830e0077f086c500c4",
+      "ast_digest": "622b534250f3e071a19601e6495d872c34ceddc5fc0d09b1b9ddcfa6da9402ea"
+    },
+    "spp": {
+      "values_digest": "54982b0988dff034fa4ca03d0ee5d3e57b25f0097c99b0ee045c695917025051",
+      "rendered_digest": "06056e59aebebc44a1a461289f70a8d8979e1c97a3ccbd63c795aec2756e68c1",
+      "ast_digest": "9f2897c0cb6226274f69ba3b8b694dc6600f55084beeea3dbe7bbf1a4807d780"
+    },
+    "vpp": {
+      "values_digest": "375830dc01a8d92bf0bcf59446cecad824b3fb3c6fac7dea36651780b7e04df5",
+      "rendered_digest": "90c74684a044cf49f56a5d7fda3d0a2fbbd40c30cefd400faa97b86d2805f4c5",
+      "ast_digest": "65db1fcd7113863997e16ae9b309fe6b967cdbacef1f09a5f49f9225af3f998e"
+    },
+    "srp": {
+      "values_digest": "93eebb43e6a5823bd84c135de2f283663080f7242ed8047e345e11d9e5063988",
+      "rendered_digest": "0f82de96e61f9bf527fc1325735f36035874300368483121e921c45e4f996bd8",
+      "ast_digest": "bfc2919dd136e4655fd0fccaeee51f485c62a521a81a39605f494404fcf71406"
+    },
+    "sor": {
+      "values_digest": "1fd54318e403939c10353149ecde7b5c63023766f2cde055df9bcaea7b84b722",
+      "rendered_digest": "3e9d2bd838a92b544b024d4bff73c8747befbd4ed73b77a88dfde73f84dd92a7",
+      "ast_digest": "f0537769efc4dc1fd2170be5398ca3baa3c6cd70c8fcbf4c2199974a64ece6d3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-5912",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Recover stale review and publication truth before integrating current main at 7d41ed0413864a902a133e2e02346a1777d77ef1; require focused revalidation and fresh independent exact-head review before republishing PR #243."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_final",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Recover stale review and publication truth so merged Runtime cleanup fix 8ecbeb88fd2a8293d06a9ae7c518e45b2689cfc4 can become ancestral before fresh proof and review."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
+      "reason": "exact scoped review passed"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Use the existing external birth_witness integration target as the production-path proof surface so readiness validates before implementation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-birth-witness-production-path\",\"proof_role\":\"focused production-path integration proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"birth_witness\"],\"parallel_group\":\"runtime-focused\",\"defer_reason\":null},{\"lane\":\"runtime-birth-witness-clippy\",\"proof_role\":\"strict compile and lint proof\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Declare an issue-owned focused runner as the validation denominator while retaining the exact external integration target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-birth-witness-production-path\",\"proof_role\":\"focused production-path integration proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\"],\"parallel_group\":\"runtime-focused\",\"defer_reason\":null},{\"lane\":\"runtime-birth-witness-clippy\",\"proof_role\":\"strict compile and lint proof\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Declare the issue-local focused runner as an owned validation surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "subagent:review-5912",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Recover stale review and publication truth before integrating current main at 7d41ed0413864a902a133e2e02346a1777d77ef1; require focused revalidation and fresh independent exact-head review before republishing PR #243.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Own the Runtime boot-trusted manifest provisioning boundary and the widened security regression runner required by fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Own the boot-validated Runtime init field, serve bootstrap consumption, fixture support, and deployed init surface required by exact-head review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Replace stale pre-review execution truth with exact current boot-trust, serve-bootstrap, production-path, retained-security, and strict-lint evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved Runtime-owned birth-witness trust loading, service provisioning, canonical receipt staging, and fail-closed validation without exposing caller-nominated authority construction.\",\"changes\":[\"Made direct authority construction and RuntimeBirthWitnessService provisioning crate-private.\",\"Added an opaque trust object loaded only from the manifest path in validated Runtime credential initialization.\",\"Loaded the trust object during the production adl-runtime-kernel serve bootstrap.\",\"Proved the external production receipt path and all thirteen retained authority, privacy, canonicalization, and rejection cases.\"],\"artifacts\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912/runtime-birth-witness-production-path.log\",\".csdlc/evidence/5912/runtime-birth-witness-clippy.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\"],\"purpose\":\"Prove validated Runtime-init trust loading, canonical production emission, fail-closed preparation, and all thirteen retained security regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5912/runtime-birth-witness-production-path.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free production and test targets for the Runtime kernel.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5912/runtime-birth-witness-clippy.log\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Record the sealed Runtime owner, boot-semantic validation, production invocation boundary, and refreshed exact-head proof after independent findings.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved a sealed Runtime-owned birth-witness operator that validates boot trust, provisions opaque policy, invokes canonical build and validation, and stages receipts fail closed.\",\"changes\":[\"Made the configured trust-manifest path private and revalidated Runtime init before every owner construction.\",\"Validated complete authority context, roles, uniqueness, and keys while constructing the boot-owned operator.\",\"Added RuntimeBirthWitnessOwner as the sole public production invocation boundary and retained it during serve bootstrap.\",\"Proved external owner invocation plus all thirteen retained security cases.\"],\"artifacts\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912/runtime-birth-witness-production-path.log\",\".csdlc/evidence/5912/runtime-birth-witness-clippy.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\"],\"purpose\":\"Prove sealed Runtime owner provisioning and invocation, canonical emission, fail-closed preparation, and thirteen retained security regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5912/runtime-birth-witness-production-path.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free Runtime production and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5912/runtime-birth-witness-clippy.log\"}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Own the downstream guardian and lifecycle-soak Runtime config consumers required by exact-head review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime/tests/guardian_cli.rs\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Record downstream Runtime configuration continuity and refreshed exact-head validation after final review remediation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and locally proved a sealed Runtime-owned birth-witness operator with boot trust validation, production invocation, downstream configuration continuity, and fail-closed canonical receipt staging.\",\"changes\":[\"Sealed authority construction, manifest path mutation, and direct service provisioning behind validated Runtime ownership.\",\"Validated complete trust semantics during boot owner construction and retained the owner in production serve.\",\"Provisioned deterministic test/soak trust manifests through existing Runtime configuration boundaries without reopening caller nomination.\",\"Proved the external owner path, thirteen retained security cases, guardian consumer, lifecycle-soak build, and strict lint.\"],\"artifacts\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime/tests/guardian_cli.rs\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"infra/runtime-v3/runtime-init.toml\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\",\".csdlc/evidence/5912/runtime-birth-witness-production-path.log\",\".csdlc/evidence/5912/runtime-birth-witness-clippy.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/5912/validate-runtime-birth-witness.sh\"],\"purpose\":\"Prove sealed Runtime owner invocation, downstream config continuity, canonical emission, fail-closed preparation, and retained security regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5912/runtime-birth-witness-production-path.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free Runtime kernel production and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5912/runtime-birth-witness-clippy.log\"}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_final",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "Recover stale review and publication truth so merged Runtime cleanup fix 8ecbeb88fd2a8293d06a9ae7c518e45b2689cfc4 can become ancestral before fresh proof and review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:5912-runtime-birth-witness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5912,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Add production birth-witness policy provisioning and invocation boundary",
+    "slug": "runtime-birth-witness-boundary",
+    "version": "1.0.0",
+    "generation": 20
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/birth_witness.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/tests/birth_witness.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\nadl-runtime/tests/guardian_cli.rs\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\ninfra/runtime-v3/runtime-init.toml\n.csdlc/prepared/issues/5912\n.csdlc/evidence/5912\n.csdlc/issues/5912",
+      "review_revision": "git-blake3:751b9dff86fec02428ed932f50391a5e2efa0238:0ac992afa842597046c35f9610d54e81785e2bc666acdf8d941de2a51316e078",
+      "reviewer": "codex-subagent:/root/fix_5833_birth_witness_runtime/review_5912_cleanup_ancestry",
+      "review_prompts": [
+        "Can an external caller forge or bypass trusted birth-witness authority?",
+        "Can any receipt be emitted before successful validation?",
+        "Does the integration test exercise a non-test production consumer?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Hosted CI remains pending after republication.",
+        "Lifecycle soak was compile-checked rather than executed."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
