@@ -124,6 +124,10 @@ struct DurableMembershipTransition {
 struct DurableEnrollment {
     operation_sha256: [u8; 32],
     membership_event_log_index: u64,
+    candidate_stable_raft_id: u64,
+    old_stable_map_sha256: [u8; 32],
+    target_stable_map_sha256: [u8; 32],
+    target_stable_ids: Vec<(Vec<u8>, u64)>,
     external_receipt: Option<DurableAuthorityReceiptProjection>,
 }
 
@@ -143,6 +147,8 @@ struct MembershipCoordinatorState {
     active: Option<DurableMembershipTransition>,
     #[serde(default)]
     active_enrollment: Option<DurableEnrollment>,
+    #[serde(default)]
+    stable_id_registry: Vec<(Vec<u8>, u64)>,
     published_operation_sha256: Option<[u8; 32]>,
     published_result_sha256: Option<[u8; 32]>,
     #[serde(default)]
@@ -297,6 +303,7 @@ impl GovernedMembershipRuntime {
                 &self.factory,
                 now_unix_seconds,
                 membership_event_log_index,
+                &self.authority,
                 &mut self.membership,
             )
             .await
@@ -778,7 +785,11 @@ impl MembershipCoordinator {
         self.advance(operation_sha256, MembershipCoordinatorPhase::Checkpointed)
     }
 
-    fn publish(&mut self, operation_sha256: [u8; 32]) -> MembershipCoordinatorResult<[u8; 32]> {
+    fn publish(
+        &mut self,
+        operation_sha256: [u8; 32],
+        target_stable_ids: &BTreeMap<Vec<u8>, u64>,
+    ) -> MembershipCoordinatorResult<[u8; 32]> {
         let mut next = self.envelope.payload().clone();
         if let Some(published) = published_result(&next, operation_sha256) {
             return Ok(published.result_sha256);
@@ -804,6 +815,10 @@ impl MembershipCoordinator {
             .ok_or(MembershipCoordinatorError::StateRegression)?;
         next.published_operation_sha256 = Some(operation_sha256);
         next.published_result_sha256 = Some(result_sha256);
+        next.stable_id_registry = target_stable_ids
+            .iter()
+            .map(|(guardian, raft_id)| (guardian.clone(), *raft_id))
+            .collect();
         record_published_result(
             &mut next,
             operation_sha256,
@@ -956,6 +971,7 @@ impl MembershipCoordinator {
         factory: &SecurePolisNetworkFactory,
         now_unix_seconds: i64,
         membership_event_log_index: u64,
+        authority: &AuthorityMembership,
         membership: &mut MembershipState,
     ) -> MembershipCoordinatorResult<[u8; 32]> {
         if let Some(published) =
@@ -975,17 +991,45 @@ impl MembershipCoordinator {
         if self.envelope.payload().active.is_some() {
             return Err(MembershipCoordinatorError::StateRegression);
         }
+        let identity = admission.identity();
+        let old_stable_ids = if self.envelope.payload().stable_id_registry.is_empty() {
+            authority.raft_ids.clone()
+        } else {
+            self.envelope
+                .payload()
+                .stable_id_registry
+                .iter()
+                .cloned()
+                .collect()
+        };
+        let (target_stable_ids, old_stable_map_sha256, target_stable_map_sha256) =
+            prepare_enrollment_stable_ids(&old_stable_ids, identity)?;
         self.crash_at(MembershipCrashBoundary::BeforeEnrollmentJournal)?;
         match self.envelope.payload().active_enrollment.as_ref() {
             Some(active)
                 if active.operation_sha256 == admission.operation_sha256()
-                    && active.membership_event_log_index == membership_event_log_index => {}
+                    && active.membership_event_log_index == membership_event_log_index
+                    && active.candidate_stable_raft_id == identity.stable_raft_id
+                    && active.old_stable_map_sha256 == old_stable_map_sha256
+                    && active.target_stable_map_sha256 == target_stable_map_sha256
+                    && active.target_stable_ids
+                        == target_stable_ids
+                            .iter()
+                            .map(|(guardian, raft_id)| (guardian.clone(), *raft_id))
+                            .collect::<Vec<_>>() => {}
             Some(_) => return Err(MembershipCoordinatorError::StateRegression),
             None => {
                 let mut next = self.envelope.payload().clone();
                 next.active_enrollment = Some(DurableEnrollment {
                     operation_sha256: admission.operation_sha256(),
                     membership_event_log_index,
+                    candidate_stable_raft_id: identity.stable_raft_id,
+                    old_stable_map_sha256,
+                    target_stable_map_sha256,
+                    target_stable_ids: target_stable_ids
+                        .iter()
+                        .map(|(guardian, raft_id)| (guardian.clone(), *raft_id))
+                        .collect(),
                     external_receipt: None,
                 });
                 self.commit(next)?;
@@ -1047,8 +1091,8 @@ impl MembershipCoordinator {
         }
         self.commit(observed_state)?;
         self.crash_at(MembershipCrashBoundary::AfterExternalAuthorityObservation)?;
+        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         let mut staged_membership = membership.clone();
-        let identity = admission.identity();
         match staged_membership.member(&identity.node_id) {
             Some(member)
                 if member.guardian_id == identity.guardian_id
@@ -1073,6 +1117,7 @@ impl MembershipCoordinator {
                 admission.operation_sha256().as_slice(),
                 observed.published_state_sha256().as_slice(),
                 Sha256::digest(membership_bytes).as_slice(),
+                target_stable_map_sha256.as_slice(),
             ]
             .concat(),
         ));
@@ -1084,6 +1129,7 @@ impl MembershipCoordinator {
             .ok_or(MembershipCoordinatorError::StateRegression)?;
         next.published_operation_sha256 = Some(admission.operation_sha256());
         next.published_result_sha256 = Some(result_sha256);
+        next.stable_id_registry = target_stable_ids.into_iter().collect();
         record_published_result(
             &mut next,
             admission.operation_sha256(),
@@ -1149,7 +1195,6 @@ impl MembershipCoordinator {
             return Ok(published.result_sha256);
         }
         observe_old_parity(membership, authority, transition)?;
-        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         self.crash_at(MembershipCrashBoundary::BeforeExternalAuthorityCall)?;
         let receipt = factory
             .observe_learner_admission_receipt(promotion.enrollment_operation_sha256)
@@ -1169,6 +1214,7 @@ impl MembershipCoordinator {
             &mut staged_authority,
             candidate_authority,
         )?;
+        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         self.crash_at(MembershipCrashBoundary::AfterLocalProjectionPrepared)?;
         let current = factory
             .observe_learner_admission_receipt(promotion.enrollment_operation_sha256)
@@ -1177,7 +1223,12 @@ impl MembershipCoordinator {
             .ok_or(MembershipCoordinatorError::ReceiptMismatch)?;
         let parity =
             ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
-        let result = self.publish_observed_parity(promotion.operation_sha256, &current, parity)?;
+        let result = self.publish_observed_parity(
+            promotion.operation_sha256,
+            &current,
+            &transition.target_stable_ids,
+            parity,
+        )?;
         self.crash_at(MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility)?;
         *membership = staged_membership;
         *authority = staged_authority;
@@ -1253,7 +1304,6 @@ impl MembershipCoordinator {
             return Ok(published.result_sha256);
         }
         observe_old_parity(published_membership, current_authority, transition)?;
-        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         self.begin_removal(&removal, transition)?;
         if self.active_phase() == Some(MembershipCoordinatorPhase::AuthorizedOld) {
             self.crash_at(MembershipCrashBoundary::BeforeExternalAuthorityCall)?;
@@ -1352,6 +1402,7 @@ impl MembershipCoordinator {
             &mut staged_membership,
             &mut staged_authority,
         )?;
+        self.crash_at(MembershipCrashBoundary::AfterStableMapPreparation)?;
         self.crash_at(MembershipCrashBoundary::AfterLocalProjectionPrepared)?;
         let current = factory
             .observe_pending_exclusion_receipt(removal.operation_sha256())
@@ -1360,7 +1411,12 @@ impl MembershipCoordinator {
             .ok_or(MembershipCoordinatorError::ReceiptMismatch)?;
         let parity =
             ObservedMembershipParity::observe(&staged_membership, &staged_authority, transition)?;
-        let result = self.publish_observed_parity(removal.operation_sha256(), &current, parity)?;
+        let result = self.publish_observed_parity(
+            removal.operation_sha256(),
+            &current,
+            &transition.target_stable_ids,
+            parity,
+        )?;
         self.crash_at(MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility)?;
         *published_membership = staged_membership;
         *published_authority = staged_authority;
@@ -1457,6 +1513,7 @@ impl MembershipCoordinator {
         &mut self,
         operation_sha256: [u8; 32],
         observed_receipt: &GovernedMembershipAuthorityReceipt,
+        target_stable_ids: &BTreeMap<Vec<u8>, u64>,
         parity: ObservedMembershipParity,
     ) -> MembershipCoordinatorResult<[u8; 32]> {
         let final_index = self
@@ -1484,7 +1541,7 @@ impl MembershipCoordinator {
             self.checkpoint(operation_sha256)?;
         }
         self.crash_at(MembershipCrashBoundary::AfterCheckpoint)?;
-        self.publish(operation_sha256)
+        self.publish(operation_sha256, target_stable_ids)
     }
 
     fn advance(
@@ -1561,6 +1618,36 @@ fn enrollment_operation(admission: &VerifiedLearnerAdmission) -> MembershipOpera
             role: MemberRole::NonVoting,
         },
     }
+}
+
+fn prepare_enrollment_stable_ids(
+    old_stable_ids: &BTreeMap<Vec<u8>, u64>,
+    identity: &LearnerIdentity,
+) -> MembershipCoordinatorResult<(BTreeMap<Vec<u8>, u64>, [u8; 32], [u8; 32])> {
+    let mut target_stable_ids = old_stable_ids.clone();
+    match target_stable_ids.get(identity.guardian_id.as_bytes()) {
+        Some(existing) if *existing != identity.stable_raft_id => {
+            return Err(MembershipCoordinatorError::WrongStableMap);
+        }
+        Some(_) => {}
+        None => {
+            if target_stable_ids
+                .values()
+                .any(|raft_id| *raft_id == identity.stable_raft_id)
+            {
+                return Err(MembershipCoordinatorError::WrongStableMap);
+            }
+            target_stable_ids.insert(
+                identity.guardian_id.as_bytes().to_vec(),
+                identity.stable_raft_id,
+            );
+        }
+    }
+    Ok((
+        target_stable_ids.clone(),
+        stable_map_sha256(old_stable_ids)?,
+        stable_map_sha256(&target_stable_ids)?,
+    ))
 }
 
 fn observe_old_parity(

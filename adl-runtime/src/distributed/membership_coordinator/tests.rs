@@ -198,6 +198,17 @@ fn stable_map_digest_rejects_collisions_and_zero() {
         &old
     ));
     assert!(!membership_configs_are_exact_old(&[target], &old));
+    assert_eq!(
+        prepare_enrollment_stable_ids(
+            &BTreeMap::from([(b"guardian-other".to_vec(), 4)]),
+            &identity(),
+        ),
+        Err(MembershipCoordinatorError::WrongStableMap)
+    );
+    assert_eq!(
+        prepare_enrollment_stable_ids(&BTreeMap::from([(b"guardian-4".to_vec(), 5)]), &identity(),),
+        Err(MembershipCoordinatorError::WrongStableMap)
+    );
 }
 
 #[test]
@@ -286,14 +297,18 @@ fn durable_saga_requires_exact_current_receipt_and_order() {
         .unwrap();
     drop(coordinator);
     let mut coordinator = MembershipCoordinator::open(root.path(), checkpoint.clone()).unwrap();
-    let result = coordinator.publish(promotion.operation_sha256()).unwrap();
+    let result = coordinator
+        .publish(promotion.operation_sha256(), &target_stable_ids())
+        .unwrap();
     assert_ne!(result, [0; 32]);
     assert_eq!(coordinator.published_generation(), 1);
 
     drop(coordinator);
     let mut restored = MembershipCoordinator::open(root.path(), checkpoint).unwrap();
     assert_eq!(
-        restored.publish(promotion.operation_sha256()).unwrap(),
+        restored
+            .publish(promotion.operation_sha256(), &target_stable_ids())
+            .unwrap(),
         result
     );
     assert_eq!(restored.published_generation(), 1);

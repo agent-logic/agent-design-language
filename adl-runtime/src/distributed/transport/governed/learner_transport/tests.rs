@@ -1487,13 +1487,13 @@ async fn real_four_node_learner_replication() {
         target_membership: removal_target_membership,
     };
     for boundary in [
-        MembershipCrashBoundary::AfterStableMapPreparation,
         MembershipCrashBoundary::BeforeExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityObservation,
         MembershipCrashBoundary::AfterJointHistory,
         MembershipCrashBoundary::AfterFinalHistory,
         MembershipCrashBoundary::AfterJointFinalObservation,
+        MembershipCrashBoundary::AfterStableMapPreparation,
         MembershipCrashBoundary::AfterLocalProjectionPrepared,
         MembershipCrashBoundary::AfterParityReconciliation,
         MembershipCrashBoundary::BeforeCheckpoint,
@@ -1627,6 +1627,7 @@ async fn real_four_node_learner_replication() {
         MembershipCrashBoundary::BeforeExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityObservation,
+        MembershipCrashBoundary::AfterStableMapPreparation,
         MembershipCrashBoundary::AfterLocalProjectionPrepared,
         MembershipCrashBoundary::BeforeCheckpoint,
         MembershipCrashBoundary::AfterCheckpoint,
@@ -1738,7 +1739,6 @@ async fn real_four_node_learner_replication() {
         control_public_key: recovered.guardian_control_public_key,
     };
     for boundary in [
-        MembershipCrashBoundary::AfterStableMapPreparation,
         MembershipCrashBoundary::BeforeExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityObservation,
@@ -1805,6 +1805,7 @@ async fn real_four_node_learner_replication() {
                 MembershipCrashBoundary::AfterJointHistory,
                 MembershipCrashBoundary::AfterFinalHistory,
                 MembershipCrashBoundary::AfterJointFinalObservation,
+                MembershipCrashBoundary::AfterStableMapPreparation,
                 MembershipCrashBoundary::AfterLocalProjectionPrepared,
                 MembershipCrashBoundary::AfterParityReconciliation,
                 MembershipCrashBoundary::BeforeCheckpoint,
