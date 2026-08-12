@@ -13,3 +13,7 @@ test preserved_projection_recovery_rejects_swapped_post_exchange_candidate ... o
 test preserved_projection_recovery_validates_terminal_receipt_chain_and_classifies_completed_attempt ... ok
 test preserved_projection_recovery_archives_builds_installs_and_is_idempotent ... ok
 test preserved_projection_recovery_rejects_forged_terminal_and_broken_earlier_chain ... ok
+test preserved_projection_recovery_resumes_every_recovery_boundary has been running for over 60 seconds
+test preserved_projection_recovery_resumes_every_recovery_boundary ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 92.33s
