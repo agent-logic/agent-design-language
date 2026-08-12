@@ -16,7 +16,7 @@ Verify #5825-#5830 and #5832-#5834; bind to landed schemas; implement the positi
 
 ## Plan
 
-Revision 16
+Revision 17
 
 ## Steps
 
@@ -113,7 +113,7 @@ Revision 16
 
 .csdlc/prepared/issues/5836/design.md
 
-Digest: 389dc25c9c887f4dc46845debdd6505da495c7814187b783bb436620ddcb750a
+Digest: b19911df62992d5d2a7d8185956f3a55bd3b3ea191cb69dac0b256bea8edd87c
 
 ## Diagram
 

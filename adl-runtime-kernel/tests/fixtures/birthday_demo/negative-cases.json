@@ -1,0 +1,6 @@
+[
+  "startup", "wake", "restore", "snapshot", "admission", "copied_state",
+  "simulation", "named_fixture", "missing_identity_root", "missing_continuity_head",
+  "missing_memory_grounding", "missing_capability_envelope", "missing_cognitive_profile",
+  "missing_witness_set", "missing_receipt", "missing_reviewer_validation", "interrupted"
+]

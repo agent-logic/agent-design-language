@@ -16,6 +16,9 @@ Add the WP-18 demo runner, validator, fixtures, artifacts, D1-D6 matrix updates,
 
 ## Deliverables
 
+- Runtime-owned birthday orchestration module with no caller-supplied trust roots
+- Production adl-runtime-birthday-demo entrypoint
+- Focused Runtime integration test and negative fixtures
 - Runnable integrated first-birthday command
 - Runtime-produced positive packet and deterministic validator
 - Not-a-birthday fixture matrix and rejection report

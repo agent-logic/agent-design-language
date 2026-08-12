@@ -20,16 +20,21 @@ A real Runtime-produced birthday packet, deterministic validator, retained revie
 
 ## Scope
 
+- adl-runtime-kernel/src/birthday_demo.rs
+- adl-runtime-kernel/src/bin/adl-runtime-birthday-demo.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/birthday_demo.rs
+- adl-runtime-kernel/tests/fixtures/birthday_demo
 - adl/tools/demo_v092_first_birthday.sh
 - adl/tools/validate_v092_first_birthday_packet.py
 - adl/tools/test_v092_first_birthday_demo.sh
 - demos/v0.92/first-birthday/
 - docs/milestones/v0.92/DEMO_MATRIX_v0.92.md
+- docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md
 - docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md
 - docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md
-- .csdlc/evidence/5836/publication-gate-checklist.json
-- .csdlc/evidence/5836/validate-publication-gate.rb
 - .csdlc/evidence/5836/
+- .csdlc/evidence/5836/validate-publication-gate.rb
 
 ## Authority
 

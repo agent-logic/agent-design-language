@@ -24,6 +24,29 @@ Diagram: .csdlc/prepared/issues/5836/diagram.mmd
 
 [
   {
+    "lane": "wp18-runtime-orchestration",
+    "proof_role": "Prove the production Runtime entrypoint emits the integrated packet without caller-supplied trust roots or positive fixtures.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 3000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--locked",
+      "--test",
+      "birthday_demo"
+    ],
+    "parallel_group": "birthday",
+    "defer_reason": "Implementation must create this issue-owned target before proof execution; this bind-readiness deferral is not validation evidence."
+  },
+  {
     "lane": "wp18-positive-runtime",
     "proof_role": "Prove the integrated Runtime emits one complete birthday packet.",
     "acceptance_ids": [
@@ -63,7 +86,7 @@ Diagram: .csdlc/prepared/issues/5836/diagram.mmd
   },
   {
     "lane": "wp18-native-macos",
-    "proof_role": "Run the packet contract on a native macOS host and pin host class, source revision, argv, result, and artifact digests.",
+    "proof_role": "Run the packet contract on native macOS and pin host class, source revision, argv, result, and artifact digests.",
     "acceptance_ids": [
       "AC-3",
       "AC-6"
@@ -83,7 +106,7 @@ Diagram: .csdlc/prepared/issues/5836/diagram.mmd
   },
   {
     "lane": "wp18-native-linux",
-    "proof_role": "Run the packet contract on a native Linux host and pin host class, source revision, argv, result, and artifact digests.",
+    "proof_role": "Run the packet contract on native Linux and pin host class, source revision, argv, result, and artifact digests.",
     "acceptance_ids": [
       "AC-3",
       "AC-6"
@@ -103,7 +126,7 @@ Diagram: .csdlc/prepared/issues/5836/diagram.mmd
   },
   {
     "lane": "wp18-publication-gate",
-    "proof_role": "Validate both canonical launch documents and fail closed on missing accepted proof, stale review, unsupported claims, unresolved negatives, or absent operator authorization without publishing.",
+    "proof_role": "Validate launch documents and fail closed on missing proof, stale review, unsupported claims, unresolved negatives, or absent operator authorization without publishing.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
@@ -135,6 +158,7 @@ Tokens: 25000
 
 ## Commands
 
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --locked --test birthday_demo`
 - `bash adl/tools/test_v092_first_birthday_demo.sh --positive`
 - `bash adl/tools/test_v092_first_birthday_demo.sh --negative`
 - `bash adl/tools/test_v092_first_birthday_demo.sh --native-platform macos`

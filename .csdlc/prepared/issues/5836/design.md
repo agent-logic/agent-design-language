@@ -18,6 +18,11 @@ events and incomplete evidence.
 
 ## Owned Paths
 
+- `adl-runtime-kernel/src/birthday_demo.rs`
+- `adl-runtime-kernel/src/bin/adl-runtime-birthday-demo.rs`
+- `adl-runtime-kernel/src/lib.rs`
+- `adl-runtime-kernel/tests/birthday_demo.rs`
+- `adl-runtime-kernel/tests/fixtures/birthday_demo`
 - `adl/tools/demo_v092_first_birthday.sh`
 - `adl/tools/validate_v092_first_birthday_packet.py`
 - `adl/tools/test_v092_first_birthday_demo.sh`
@@ -77,6 +82,13 @@ events and incomplete evidence.
 
 ## Proof Architecture
 
+The production `adl-runtime-birthday-demo` entrypoint runs inside the Runtime
+kernel crate so it can consume runtime-provisioned identity, continuity,
+cognitive-profile, and witness authority without making their constructors
+public or allowing a caller to nominate its own trust roots. The orchestration
+module is limited to this proof path and does not modify `serve`, protocol,
+storage, scheduling, or general Runtime behavior.
+
 The runner records exact source revision, command argv, environment posture,
 Runtime-produced birthday record, stable identity, continuity chain, redacted
 memory references, capability envelope, ACP profile, witnesses, receipt,
@@ -90,9 +102,13 @@ capability envelope. Every negative case must produce a typed rejection reason.
 
 ## Execution Plan
 
-1. Verify #5825 through #5830 plus #5832, #5833, and #5834 are landed and identify their exact schemas and commands.
-2. Bind the proof runner to those real outputs without duplicating feature logic.
-3. Implement the positive harness and deterministic packet validator.
+1. Verify #5825 through #5830 plus canonical WP-14 repair #209/PR #215,
+   #5833, and #5834 are reviewed, terminal, ancestral, and expose the exact
+   schemas and commands consumed by the demo.
+2. Add one Runtime-owned orchestration module and one production demo binary
+   that bind those real outputs without exposing or duplicating trust policy.
+3. Implement the positive harness and deterministic packet validator over that
+   production entrypoint.
 4. Implement the negative matrix and ensure failures do not become shell-only success.
 5. Reconcile the canonical public launch copy and reviewer FAQ against accepted
    packet evidence, then emit a fail-closed publication-gate checklist without

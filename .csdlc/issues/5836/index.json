@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5836,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "846869967e550e7f6dc78805815062a71d7c828653ce0a668e7c479663588d00",
-  "phase": "initialized",
-  "generation": 44,
-  "digest": "e45f9365f8eaf2252922d7d7bd052791c616558816935b4d33ef2f865f47ca62",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 50,
+  "digest": "d1477766bcc491d43566a4971a744126ee34f77538d6652182f9d06bd7a6093a",
+  "branch": "codex/5836-wp18-first-birthday-demo",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5836-wp18-first-birthday-demo",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -18,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/5836/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
-      "revision": "389dc25c9c887f4dc46845debdd6505da495c7814187b783bb436620ddcb750a"
+      "reviewer": "/root/sprint5_5836/wp18_design_review",
+      "revision": "b19911df62992d5d2a7d8185956f3a55bd3b3ea191cb69dac0b256bea8edd87c"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "f6b48b1670bb22584a6bddbfb687501564a778dcd4ee3e8031b8b16f264c85cb",
-      "rendered_digest": "cf25b08aaf103ec4b9a16a6f9611137d9db493195b09c0e61fa9ae260140eb6d",
-      "ast_digest": "a4b5bdf34afaacafffabefd4738a841b96ab5b0188e9dba15004eb3357f816fb"
+      "values_digest": "975081e56d57c99f863bb89bcec7993cd37d8db46539d4ea20b02bf539c45418",
+      "rendered_digest": "96663c1ef314280d7630286dd8f84593e4f8fdd535601731c080de4c9ba3f68d",
+      "ast_digest": "7cb61154ea2ae9f00f74974351459e9ffd6a5cbd9a341e56ae30ea9a6c742157"
     },
     "stp": {
-      "values_digest": "b6d06e552e3a83306d9f3c296fb259be9fbccb462d41276b5db0a6afada3da7d",
-      "rendered_digest": "34edb1d0fcf711a6f6b42bfc9a577d8a609be5362b7f78c0f24249b45ee12e57",
-      "ast_digest": "d834130c4b2d8b54a1187c40a557cb38dacf1c385e1f09f4edb57a27d16099b9"
+      "values_digest": "d18a771d884a67aed8edc9772822bedd5f435da57932869811904244cfdebbc5",
+      "rendered_digest": "601b570ce1246fd7be1ec8ca3d822354fc21a9f1a5c60dd13edf21b1691c9622",
+      "ast_digest": "a507239b2f3df57239df796f8283e1f12ea3f253ca3b8acb1c007e90907bede5"
     },
     "spp": {
-      "values_digest": "dffd8c79c203d445c9a09345239222f293e43052587293ac3f0eff4480873edf",
-      "rendered_digest": "d64e4bed430891c63478ad56792dc3add3929b20b371544916ac8e6474a29f5e",
-      "ast_digest": "b0578ac2a5475c2a1cf7ec87e7400b5fcb621d1e615bc717e214085b231219f6"
+      "values_digest": "773ee6ecfcab25d35f805b64053479e77f763e4a06c2eba62c4e960520dc2dc2",
+      "rendered_digest": "e8328e3c2c77c3f89427c7b4ade71d91452ea1f89de66590f2b63e0a858e74fc",
+      "ast_digest": "7804daf29331181a0d421c50d3b37be43874ae896192b3ff9a433365c8ee61f2"
     },
     "vpp": {
-      "values_digest": "33866483366c493ebc8275b8347c80b688fd7d603a32d151f5ae5fce5dd58f30",
-      "rendered_digest": "78cb138cbb603ada758208bf16a9c4fc559098a6464b3e3ed5d9da267ab5ab31",
-      "ast_digest": "c1f5b3d7fdd706dd37c027a59e54469e09f7decf628c43aa7afe8ecbbd20eef6"
+      "values_digest": "19ddb44999956a03d6f71c7721792b6b2abc085ef267d4da0ee15d520f2e7716",
+      "rendered_digest": "b94bb2d875152aa19aba4949a0e78d1e66564c07908c8906e1214ecacef84423",
+      "ast_digest": "04d79b78d5d9b8092c1c7e51e4d25caaa5bd6741d7533336e2ece292aa53f125"
     },
     "srp": {
-      "values_digest": "d2d704c3adcf30a7c08352ebfaa26e20d2480cfb51e1dfca117cfdb0144f524d",
+      "values_digest": "a85ee35e02cc065efd172ed01f5049cf1d602bc52a408dab30e6408d0359d64f",
       "rendered_digest": "effeb2dc571ff39b68bafbe764b5b12d19286a0a856df06d3b68a4d1948ec4ee",
       "ast_digest": "c1221ba532e8cde1ffa3ae6f0e93463333da42ae174fea0d11d2a7c23c1e2198"
     },
     "sor": {
-      "values_digest": "a5af215818128d8f7303086699bb02e7c5b77a58bed325bb217f8740309634ff",
+      "values_digest": "6a1568738e4191d83753e4ab682a0a26200b391ea7a44278259a11564f668f7c",
       "rendered_digest": "4fbc680667c00745e3761cbb9cc6d40c3b11080eee395b41fa5972125cafb61b",
       "ast_digest": "63699a396361f0a5b765229460953191b0069437f235102e2abcd22d70aca6e7"
     }
@@ -75,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -497,6 +512,55 @@
       "actor": "codex:5854-sprint5-readiness-refresh",
       "reason": "Replace the superseded legacy WP-14 dependency with canonical issue #209 and PR #215 authority.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5825, #5826, #5827, #5828, #5829, and #5830 complete\",\"agent-logic/agent-design-language#209 and PR #215 provide accepted WP-14 authority; legacy #5832 is superseded\",\"#5833 and #5834 complete\"]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 44,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 62,
+      "generation": 45,
+      "actor": "/root/sprint5_5836/wp18_design_review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 63,
+      "generation": 46,
+      "actor": "codex:sprint5-5836",
+      "reason": "Bind SIP scope to the independently approved minimal Runtime orchestration design.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl-runtime-kernel/src/birthday_demo.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-birthday-demo.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_demo.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_demo\",\"adl/tools/demo_v092_first_birthday.sh\",\"adl/tools/validate_v092_first_birthday_packet.py\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"demos/v0.92/first-birthday/\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md\",\"docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md\",\"docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md\",\".csdlc/evidence/5836/\"]}"
+    },
+    {
+      "sequence": 64,
+      "generation": 47,
+      "actor": "codex:sprint5-5836",
+      "reason": "Declare the approved production Runtime demo entrypoint and focused proof surfaces as WP-18 deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Runtime-owned birthday orchestration module with no caller-supplied trust roots\",\"Production adl-runtime-birthday-demo entrypoint\",\"Focused Runtime integration test and negative fixtures\",\"Runnable integrated first-birthday command\",\"Runtime-produced positive packet and deterministic validator\",\"Not-a-birthday fixture matrix and rejection report\",\"Reviewer index and D1-D6 exact command/artifact updates\",\"Reconciled PUBLIC_LAUNCH_COPY_v0.92.md\",\"Reconciled REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md\",\"Machine-readable publication-gate checklist and fail-closed validator\",\"adl/tools/test_v092_first_birthday_demo.sh\",\".csdlc/evidence/5836/validate-publication-gate.rb\"]}"
+    },
+    {
+      "sequence": 65,
+      "generation": 48,
+      "actor": "codex:sprint5-5836",
+      "reason": "Align the operative plan with the independently approved minimum Runtime source expansion.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birthday_demo.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-birthday-demo.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_demo.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_demo\",\"adl/tools/demo_v092_first_birthday.sh\",\"adl/tools/validate_v092_first_birthday_packet.py\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"demos/v0.92/first-birthday\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md\",\"docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md\",\"docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md\",\".csdlc/evidence/5836\"]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 49,
+      "actor": "codex:sprint5-5836",
+      "reason": "Add focused proof that the Runtime orchestration owns trust establishment and retain the complete required WP-18 validation DAG.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp18-runtime-orchestration\",\"proof_role\":\"Prove the production Runtime entrypoint emits the integrated packet without caller-supplied trust roots or positive fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"birthday_demo\"],\"parallel_group\":\"birthday\",\"defer_reason\":\"Implementation must create this issue-owned target before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp18-positive-runtime\",\"proof_role\":\"Prove the integrated Runtime emits one complete birthday packet.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":400,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"--positive\"],\"parallel_group\":\"birthday\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp18-negative-replay\",\"proof_role\":\"Prove all not-a-birthday, interruption, replay, and redaction cases fail closed.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":400,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"--negative\"],\"parallel_group\":\"birthday\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp18-native-macos\",\"proof_role\":\"Run the packet contract on native macOS and pin host class, source revision, argv, result, and artifact digests.\",\"acceptance_ids\":[\"AC-3\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"--native-platform\",\"macos\"],\"parallel_group\":\"platform\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp18-native-linux\",\"proof_role\":\"Run the packet contract on native Linux and pin host class, source revision, argv, result, and artifact digests.\",\"acceptance_ids\":[\"AC-3\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"--native-platform\",\"linux\"],\"parallel_group\":\"platform\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"},{\"lane\":\"wp18-publication-gate\",\"proof_role\":\"Validate launch documents and fail closed on missing proof, stale review, unsupported claims, unresolved negatives, or absent operator authorization without publishing.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/evidence/5836/validate-publication-gate.rb\",\"--check-only\"],\"parallel_group\":\"publication\",\"defer_reason\":\"Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence.\"}]}"
+    },
+    {
+      "sequence": 67,
+      "generation": 50,
+      "actor": "codex:sprint5-5836",
+      "reason": "Name the required publication validator as an exact owned deliverable path for typed readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl-runtime-kernel/src/birthday_demo.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-birthday-demo.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday_demo.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_demo\",\"adl/tools/demo_v092_first_birthday.sh\",\"adl/tools/validate_v092_first_birthday_packet.py\",\"adl/tools/test_v092_first_birthday_demo.sh\",\"demos/v0.92/first-birthday/\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md\",\"docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md\",\"docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md\",\".csdlc/evidence/5836/\",\".csdlc/evidence/5836/validate-publication-gate.rb\"]}"
     }
   ]
 }
