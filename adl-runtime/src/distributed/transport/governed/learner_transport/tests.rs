@@ -1487,26 +1487,39 @@ async fn real_four_node_learner_replication() {
         target_membership: removal_target_membership,
     };
     for boundary in [
+        MembershipCrashBoundary::AfterStableMapPreparation,
         MembershipCrashBoundary::BeforeExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityObservation,
+        MembershipCrashBoundary::AfterJointHistory,
+        MembershipCrashBoundary::AfterFinalHistory,
         MembershipCrashBoundary::AfterJointFinalObservation,
         MembershipCrashBoundary::AfterLocalProjectionPrepared,
+        MembershipCrashBoundary::AfterParityReconciliation,
+        MembershipCrashBoundary::BeforeCheckpoint,
+        MembershipCrashBoundary::AfterCheckpoint,
+        MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility,
     ] {
         runtime.inject_crash_boundary(boundary);
+        let removal_attempt = runtime
+            .remove(
+                &removal_result,
+                &removal_identity,
+                voter_cut_sha256,
+                now,
+                &removal_transition,
+            )
+            .await;
         assert_eq!(
-            runtime
-                .remove(
-                    &removal_result,
-                    &removal_identity,
-                    voter_cut_sha256,
-                    now,
-                    &removal_transition,
-                )
-                .await,
+            removal_attempt,
             Err(MembershipCoordinatorError::StateRegression),
             "removal boundary {boundary:?} must fail closed"
         );
+        assert!(
+            runtime.crash_boundary_hit(),
+            "removal boundary {boundary:?} was not reached"
+        );
+        runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
     }
     let removed = tokio::time::timeout(
         Duration::from_secs(20),
@@ -1609,11 +1622,15 @@ async fn real_four_node_learner_replication() {
         .await
         .unwrap();
     for boundary in [
+        MembershipCrashBoundary::BeforeEnrollmentJournal,
+        MembershipCrashBoundary::AfterEnrollmentJournal,
         MembershipCrashBoundary::BeforeExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityObservation,
         MembershipCrashBoundary::AfterLocalProjectionPrepared,
+        MembershipCrashBoundary::BeforeCheckpoint,
         MembershipCrashBoundary::AfterCheckpoint,
+        MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility,
     ] {
         runtime.inject_crash_boundary(boundary);
         assert_eq!(
@@ -1623,6 +1640,11 @@ async fn real_four_node_learner_replication() {
             Err(MembershipCoordinatorError::StateRegression),
             "enrollment boundary {boundary:?} must fail closed"
         );
+        assert!(
+            runtime.crash_boundary_hit(),
+            "enrollment boundary {boundary:?} was not reached"
+        );
+        runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
     }
     assert_eq!(runtime.coordinator().published_generation(), 3);
     assert!(runtime.membership().member(&recovered.node_id).is_none());
@@ -1716,6 +1738,7 @@ async fn real_four_node_learner_replication() {
         control_public_key: recovered.guardian_control_public_key,
     };
     for boundary in [
+        MembershipCrashBoundary::AfterStableMapPreparation,
         MembershipCrashBoundary::BeforeExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityCall,
         MembershipCrashBoundary::AfterExternalAuthorityObservation,
@@ -1730,6 +1753,11 @@ async fn real_four_node_learner_replication() {
             Err(MembershipCoordinatorError::StateRegression),
             "promotion boundary {boundary:?} must fail closed"
         );
+        assert!(
+            runtime.crash_boundary_hit(),
+            "promotion boundary {boundary:?} was not reached"
+        );
+        runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
     }
     runtime.inject_membership_change_no_effect_failure();
     assert_eq!(
@@ -1742,6 +1770,7 @@ async fn real_four_node_learner_replication() {
         runtime.coordinator().active_phase(),
         Some(MembershipCoordinatorPhase::LearnerCaughtUp)
     );
+    runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
     runtime.inject_crash_after_membership_change();
     let rejoined_result = tokio::time::timeout(
         Duration::from_secs(20),
@@ -1771,10 +1800,14 @@ async fn real_four_node_learner_replication() {
             // coordinator wait for exact history instead of repeating the
             // membership-change effect.
             runtime.resume_consensus(nodes[&1].clone(), machines[&1].clone());
+            runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
             for boundary in [
+                MembershipCrashBoundary::AfterJointHistory,
+                MembershipCrashBoundary::AfterFinalHistory,
                 MembershipCrashBoundary::AfterJointFinalObservation,
                 MembershipCrashBoundary::AfterLocalProjectionPrepared,
                 MembershipCrashBoundary::AfterParityReconciliation,
+                MembershipCrashBoundary::BeforeCheckpoint,
                 MembershipCrashBoundary::AfterCheckpoint,
                 MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility,
             ] {
@@ -1786,6 +1819,11 @@ async fn real_four_node_learner_replication() {
                     Err(MembershipCoordinatorError::StateRegression),
                     "promotion boundary {boundary:?} must fail closed"
                 );
+                assert!(
+                    runtime.crash_boundary_hit(),
+                    "promotion boundary {boundary:?} was not reached"
+                );
+                runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
             }
             runtime
                 .promote(&rejoin, &rejoin_transition, recovered_authority.clone())
