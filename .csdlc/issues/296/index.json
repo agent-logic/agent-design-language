@@ -5,10 +5,23 @@
   "initialization_digest": "959b44fd61ec0393ad471311d39b13f254c41ca7f6e910dc8b5256529409cb2d",
   "phase": "implemented",
   "generation": 10,
-  "digest": "06aa080af5bbaed56859ddbeea17b67fb026d8e455824c6b6225a3e48df4b96e",
+  "digest": "1a535a315ab3784e5088c68cf6afcb3b4149388fa80804836738eeeb03ef79ea",
   "branch": "codex/296-implemented-authored-design-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-296-implemented-authored-design-refresh",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:f5bd80a5-a932-4d84-a8a9-cebc02ebbb4c",
+    "assigned_by": "codex:issue-296",
+    "revision": "git-blake3:c28dfe5ca3bbdcf955fcefcf85d62af3ac935d46:448512af73a452bb32458bfe2006908e0b2e3e94a323ceac53620194f63f122b",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/296",
+      ".csdlc/prepared/issues/296",
+      ".csdlc/evidence/296"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +57,9 @@
       "ast_digest": "6b6c3b83f2cfd75e99355f2a9551710c4814ce8cf3823e410065a783e2ccfb82"
     },
     "srp": {
-      "values_digest": "263cf72dfca1f6323fa7fa988ff08095e4cafd937e5aa09893592335204aadc9",
-      "rendered_digest": "9f6660015a337ab5724deb53bfc4a3eba76a277311ca093069379d433ad43416",
-      "ast_digest": "0d52b7027fcaa160851a266410a5d41e8281dc86a753e3f06672bf3c1e7e4ad0"
+      "values_digest": "2b8170713008e1b157ec216c301345e865714465ade22ca7347fc910aacfdc7e",
+      "rendered_digest": "6e2dee44ae5146e273d1a10518b2396609cac3e77a8d63fd2f225605846ecb84",
+      "ast_digest": "632bcaf2f6e29ef9cef3f89cf937ef8c533c70f1cf761a948fee19c02abdc307"
     },
     "sor": {
       "values_digest": "184a3b73780db8e2a1cf3d4404b80f79ffe4a7d784d84b29e9149cdb107181ae",
@@ -168,6 +181,13 @@
       "actor": "codex:issue-296",
       "reason": "Record exact r1 remediation and refreshed proving validation before a new exact-head review",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the typed authored-design refresh and fixed r1 final hardlink/ctime revalidation, Git-common serialized registered-worktree review assignment, and nonzero declared focused tests.\",\"changes\":[\"Reject final-open and final-read artifacts unless nlink remains one and ctime/identity remain stable.\",\"Serialize review assignment with the Git-common binding lock and reject noncanonical registered worktrees.\",\"Add the exact declared implemented_authored_design_refresh and linked_worktree filtered integration tests.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/review.rs\",\"csdlc-v2/tests/card_identity.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\",\"implemented_authored_design_refresh\"],\"purpose\":\"Run the exact declared typed operation filter and prove it executes nonzero tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r1-remediation\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\",\"implemented_authored_design_refresh_linked_worktree\"],\"purpose\":\"Run the exact declared linked-worktree/schema filter and prove it executes nonzero tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r1-remediation\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Run the complete library suite including late hardlink and phase/card authority negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r1-remediation\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict all-target lint cleanliness.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r1-remediation\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-296",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
