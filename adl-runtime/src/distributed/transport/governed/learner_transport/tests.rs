@@ -22,6 +22,11 @@ use crate::distributed::{
         CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
         MembershipState,
     },
+    membership_coordinator::{
+        membership_set_sha256, stable_map_sha256, verify_authorized_transition_inputs,
+        AuthorizedMembershipTransition, MembershipCoordinator, PromoteVoterArtifact,
+        VerifiedPromoteVoter,
+    },
     polis_runtime::{
         serve_authorized_learner_connection, ConsensusCheckpoint, ConsensusCheckpointAuthority,
         PolisCommand, PolisLogStore, PolisRaft, PolisRuntimeError, PolisStateMachineStore,
@@ -1081,6 +1086,9 @@ async fn real_four_node_learner_replication() {
     let learner_address = learner_endpoint.local_addr().unwrap();
     learner_identity.address = learner_address;
     let cut = live_voter_cut([3, 3, 3]);
+    let removal_identity = exact_voter_target(&cut, 3);
+    let voter_cut_sha256 = route_cut_digest(&cut).unwrap();
+    let mut published_authority = cut.authority_membership().clone();
     let (admission, now) = live_admission(learner_identity, learner_address, &cut);
     let voter_authority = ProductionLearnerAuthority::open(
         &raft_root.path().join("voter-authority"),
@@ -1104,7 +1112,7 @@ async fn real_four_node_learner_replication() {
             .observe_learner_admission_receipt(admission.operation_sha256())
             .await
             .unwrap(),
-        Some(admission_receipt)
+        Some(admission_receipt.clone())
     );
     assert_eq!(
         factory
@@ -1122,7 +1130,7 @@ async fn real_four_node_learner_replication() {
     let learner_effect_authority = learner_authority.clone();
     let learner_factory = Arc::new(
         SecureLearnerNetworkFactory::bootstrap(
-            cut,
+            cut.clone(),
             admission.clone(),
             learner_authority,
             &learner_control_identity,
@@ -1164,13 +1172,170 @@ async fn real_four_node_learner_replication() {
         cancellation.child_token(),
     ));
 
-    tokio::time::timeout(
+    let old_stable_ids = published_authority.raft_ids.clone();
+    let mut target_stable_ids = old_stable_ids.clone();
+    target_stable_ids.insert(
+        admission.identity().guardian_id.as_bytes().to_vec(),
+        admission.identity().stable_raft_id,
+    );
+    let old_membership = old_stable_ids.values().copied().collect::<BTreeSet<_>>();
+    let target_membership = target_stable_ids.values().copied().collect::<BTreeSet<_>>();
+    let promotion_artifact = PromoteVoterArtifact::committed(
+        admission.identity().clone(),
+        admission.voter_cut_sha256(),
+        admission.operation_sha256(),
+        admission_receipt.generation(),
+        stable_map_sha256(&old_stable_ids).unwrap(),
+        stable_map_sha256(&target_stable_ids).unwrap(),
+        membership_set_sha256(&target_membership).unwrap(),
+        admission.deadline_unix_seconds,
+    )
+    .unwrap();
+    for sequence in 0..8 {
+        nodes[&leader]
+            .client_write(PolisCommand::GovernedMutation {
+                mutation_id: format!("promotion-authority-boundary-{sequence}"),
+                payload_sha256: format!("{:064x}", sequence + 100),
+            })
+            .await
+            .unwrap();
+    }
+    let authority_index = nodes[&leader]
+        .metrics()
+        .borrow()
+        .last_applied
+        .expect("leader applied authority baseline")
+        .index;
+    let promotion_result = test_published_reconciliation_token(
+        authority_identity(),
+        "real-four-node-promote-4",
+        promotion_artifact,
+        authority_index,
+        CanonicalAuthorityTime {
+            unix_seconds: now,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    let promotion = VerifiedPromoteVoter::from_published(
+        &promotion_result,
+        admission.identity(),
+        admission.voter_cut_sha256(),
+        stable_map_sha256(&old_stable_ids).unwrap(),
+        stable_map_sha256(&target_stable_ids).unwrap(),
+        now,
+    )
+    .unwrap();
+    let mut published_membership =
+        MembershipState::new(MembershipPolicy::new("runtime-prod", 8, 16).unwrap());
+    for node in 1..=3 {
+        let voter = published_authority
+            .voters
+            .get(format!("guardian-{node}").as_bytes())
+            .unwrap();
+        published_membership
+            .apply(&CommittedMembershipEvent::new(
+                "runtime-prod",
+                [node as u8; 32],
+                node,
+                node,
+                MembershipOperation::Join {
+                    member: Member {
+                        node_id: format!("node-{node}"),
+                        guardian_id: format!("guardian-{node}"),
+                        identity_generation: voter.certificate_generation,
+                        guardian_control_public_key: voter.control_public_key,
+                        role: MemberRole::NonVoting,
+                    },
+                },
+            ))
+            .unwrap();
+    }
+    for node in 1..=3 {
+        published_membership
+            .apply(&CommittedMembershipEvent::new(
+                "runtime-prod",
+                [node as u8 + 10; 32],
+                node + 3,
+                node + 3,
+                MembershipOperation::Promote {
+                    node_id: format!("node-{node}"),
+                },
+            ))
+            .unwrap();
+    }
+    published_membership
+        .apply(&CommittedMembershipEvent::new(
+            "runtime-prod",
+            [44; 32],
+            7,
+            7,
+            MembershipOperation::Join {
+                member: Member {
+                    node_id: admission.identity().node_id.clone(),
+                    guardian_id: admission.identity().guardian_id.clone(),
+                    identity_generation: admission.identity().certificate_generation,
+                    guardian_control_public_key: admission.identity().guardian_control_public_key,
+                    role: MemberRole::NonVoting,
+                },
+            },
+        ))
+        .unwrap();
+    published_authority.committed_log_index = published_membership.committed_log_index();
+    let candidate_authority = VoterAuthority {
+        guardian_id: admission.identity().guardian_id.as_bytes().to_vec(),
+        trust_domain_id: admission.identity().trust_domain.as_bytes().to_vec(),
+        certificate_generation: admission.identity().certificate_generation,
+        purpose: ControlCertificatePurpose::AuthorityEndorsement,
+        not_before_unix_seconds: now - 1,
+        not_after_unix_seconds: admission.deadline_unix_seconds,
+        revoked: false,
+        control_public_key: admission.identity().guardian_control_public_key,
+    };
+    let transition = AuthorizedMembershipTransition {
+        old_stable_ids,
+        target_stable_ids,
+        old_membership,
+        target_membership,
+    };
+    let coordinator_root = raft_root.path().join("membership-coordinator");
+    fs::create_dir(&coordinator_root).unwrap();
+    let mut coordinator = MembershipCoordinator::open(
+        &coordinator_root,
+        Arc::clone(&checkpoint) as Arc<dyn ConsensusCheckpointAuthority>,
+    )
+    .unwrap();
+    for message_kind in ["vote", "generic", "unknown"] {
+        assert_eq!(
+            factory.request_bytes(4, message_kind, b"{}".to_vec()).await,
+            Err(PolisRuntimeError::AuthorityDenied)
+        );
+    }
+    let published = tokio::time::timeout(
         Duration::from_secs(20),
-        nodes[&leader].add_learner(4, BasicNode::new("memory://authorized-learner-4"), true),
+        coordinator.promote_voter_to_published(
+            &promotion,
+            &factory,
+            &nodes[&leader],
+            &machines[&leader],
+            &transition,
+            &mut published_membership,
+            &mut published_authority,
+            candidate_authority,
+        ),
     )
     .await
-    .expect("add_learner timed out")
+    .expect("governed promotion timed out")
     .unwrap();
+    assert_ne!(published, [0; 32]);
+    assert_eq!(coordinator.published_generation(), 1);
+    assert_eq!(
+        published_membership
+            .member(&admission.identity().node_id)
+            .unwrap()
+            .role,
+        MemberRole::Voter
+    );
     assert!(
         !learner_server.is_finished(),
         "learner server ended during catch-up"
@@ -1259,13 +1424,7 @@ async fn real_four_node_learner_replication() {
         .flatten()
         .copied()
         .collect::<std::collections::BTreeSet<_>>();
-    assert_eq!(voters, std::collections::BTreeSet::from([1, 2, 3]));
-    for message_kind in ["vote", "generic", "unknown"] {
-        assert_eq!(
-            factory.request_bytes(4, message_kind, b"{}".to_vec()).await,
-            Err(PolisRuntimeError::AuthorityDenied)
-        );
-    }
+    assert_eq!(voters, std::collections::BTreeSet::from([1, 2, 3, 4]));
     assertion(
         "real_four_node_learner_replication",
         "raft_add_learner_replicated",
@@ -1282,6 +1441,205 @@ async fn real_four_node_learner_replication() {
     let voters = BTreeMap::from([(1, "a"), (2, "b"), (3, "c")]);
     assert_eq!(voters.len(), 3);
     assert!(!voters.contains_key(&4));
+
+    let removal_old_stable_ids = published_authority.raft_ids.clone();
+    let mut removal_target_stable_ids = removal_old_stable_ids.clone();
+    removal_target_stable_ids.remove(removal_identity.guardian_id.as_bytes());
+    let removal_old_membership = removal_old_stable_ids
+        .values()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let removal_target_membership = removal_target_stable_ids
+        .values()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let removal_target_sha256 = membership_set_sha256(&removal_target_membership).unwrap();
+    let removal_artifact = LearnerMembershipArtifact::remove_voter(
+        removal_identity.clone(),
+        voter_cut_sha256,
+        removal_target_sha256,
+        admission.deadline_unix_seconds,
+        "real-four-node-remove-3",
+    )
+    .unwrap();
+    let removal_authority_index = nodes[&leader]
+        .metrics()
+        .borrow()
+        .last_applied
+        .unwrap()
+        .index;
+    let removal_result = test_published_reconciliation_token(
+        authority_identity(),
+        "real-four-node-remove-3",
+        removal_artifact,
+        removal_authority_index,
+        CanonicalAuthorityTime {
+            unix_seconds: now,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    let removal_transition = AuthorizedMembershipTransition {
+        old_stable_ids: removal_old_stable_ids,
+        target_stable_ids: removal_target_stable_ids,
+        old_membership: removal_old_membership,
+        target_membership: removal_target_membership,
+    };
+    let current_authority = published_authority.clone();
+    let removed = tokio::time::timeout(
+        Duration::from_secs(20),
+        coordinator.remove_voter_to_published(
+            &removal_result,
+            &removal_identity,
+            voter_cut_sha256,
+            now,
+            &factory,
+            &nodes[&leader],
+            &machines[&leader],
+            &removal_transition,
+            &current_authority,
+            &mut published_membership,
+            &mut published_authority,
+        ),
+    )
+    .await
+    .expect("governed removal timed out")
+    .unwrap();
+    assert_ne!(removed, [0; 32]);
+    assert_eq!(coordinator.published_generation(), 2);
+    assert!(published_membership
+        .member(&removal_identity.node_id)
+        .is_none());
+    assert!(!published_authority
+        .raft_ids
+        .contains_key(removal_identity.guardian_id.as_bytes()));
+
+    let mut recovered = removal_identity.clone();
+    recovered.node_id = "node-3-recovered".to_owned();
+    recovered.guardian_id = "guardian-3-recovered".to_owned();
+    recovered.guardian_control_public_key =
+        SigningKey::from_bytes(&[93; 32]).verifying_key().to_bytes();
+    recovered.certificate_generation += 1;
+    recovered.boot_generation += 1;
+    recovered.address = "127.0.0.1:46303".parse().unwrap();
+    let enrollment_artifact = LearnerMembershipArtifact::enroll_non_voting(
+        recovered.clone(),
+        voter_cut_sha256,
+        Some(admission.operation_sha256()),
+        removal_target_sha256,
+        None,
+        admission.deadline_unix_seconds,
+    )
+    .unwrap();
+    let enrollment_result = test_published_reconciliation_token(
+        authority_identity(),
+        "real-four-node-rejoin-enroll-3",
+        enrollment_artifact,
+        removal_authority_index + 100,
+        CanonicalAuthorityTime {
+            unix_seconds: now,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    let recovery_admission = VerifiedLearnerAdmission::from_published_membership(
+        &enrollment_result,
+        &recovered,
+        &cut,
+        now,
+    )
+    .unwrap();
+    let enrollment_log_index = published_membership.committed_log_index() + 1;
+    factory
+        .expire_learner_admission(admission.deadline_unix_seconds)
+        .await
+        .unwrap();
+    let enrolled = coordinator
+        .enroll_non_voting_to_published(
+            &recovery_admission,
+            &factory,
+            now,
+            enrollment_log_index,
+            &mut published_membership,
+        )
+        .await
+        .unwrap();
+    assert_ne!(enrolled, [0; 32]);
+    assert_eq!(coordinator.published_generation(), 3);
+    assert_eq!(
+        published_membership
+            .member(&recovered.node_id)
+            .unwrap()
+            .role,
+        MemberRole::NonVoting
+    );
+
+    let rejoin_old_stable_ids = published_authority.raft_ids.clone();
+    let mut rejoin_target_stable_ids = rejoin_old_stable_ids.clone();
+    rejoin_target_stable_ids.insert(recovered.guardian_id.as_bytes().to_vec(), 3);
+    let rejoin_old_membership = rejoin_old_stable_ids
+        .values()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let rejoin_target_membership = rejoin_target_stable_ids
+        .values()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let recovery_receipt = factory
+        .observe_learner_admission_receipt(recovery_admission.operation_sha256())
+        .await
+        .unwrap()
+        .unwrap();
+    let rejoin_artifact = PromoteVoterArtifact::committed(
+        recovered.clone(),
+        voter_cut_sha256,
+        recovery_admission.operation_sha256(),
+        recovery_receipt.generation(),
+        stable_map_sha256(&rejoin_old_stable_ids).unwrap(),
+        stable_map_sha256(&rejoin_target_stable_ids).unwrap(),
+        membership_set_sha256(&rejoin_target_membership).unwrap(),
+        admission.deadline_unix_seconds,
+    )
+    .unwrap();
+    let rejoin_authority_index = removal_authority_index + 200;
+    let rejoin_result = test_published_reconciliation_token(
+        authority_identity(),
+        "real-four-node-rejoin-promote-3",
+        rejoin_artifact,
+        rejoin_authority_index,
+        CanonicalAuthorityTime {
+            unix_seconds: now,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    );
+    let rejoin = VerifiedPromoteVoter::from_published(
+        &rejoin_result,
+        &recovered,
+        voter_cut_sha256,
+        stable_map_sha256(&rejoin_old_stable_ids).unwrap(),
+        stable_map_sha256(&rejoin_target_stable_ids).unwrap(),
+        now,
+    )
+    .unwrap();
+    let rejoin_transition = AuthorizedMembershipTransition {
+        old_stable_ids: rejoin_old_stable_ids,
+        target_stable_ids: rejoin_target_stable_ids,
+        old_membership: rejoin_old_membership,
+        target_membership: rejoin_target_membership,
+    };
+    assert_eq!(
+        verify_authorized_transition_inputs(
+            &rejoin,
+            &rejoin_transition.old_stable_ids,
+            &rejoin_transition.target_stable_ids,
+            &rejoin_transition.old_membership,
+            &rejoin_transition.target_membership,
+        ),
+        Ok(())
+    );
+    assert_eq!(coordinator.published_generation(), 3);
+    println!("ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_and_promotion_authority_required");
     for raft in nodes.values() {
         raft.shutdown().await.unwrap();
     }
