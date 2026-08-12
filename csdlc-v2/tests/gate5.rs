@@ -564,6 +564,61 @@ fn preserved_projection_recovery_validates_terminal_receipt_chain_and_classifies
     assert_eq!(error.code, ErrorCode::CorruptRecord);
 }
 
+#[test]
+fn preserved_projection_recovery_rejects_forged_terminal_and_broken_earlier_chain() {
+    for mutation in [
+        "terminal-self-digest",
+        "operation-mismatch",
+        "broken-earlier-link",
+    ] {
+        let (_temp, store, record) = implemented_fixture();
+        copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+        let classify = classify_preserved_projection(
+            &store,
+            ProjectionClassifyRequest {
+                issue: 7,
+                anchor: ProjectionCasAnchor::VerifiedCanonical {
+                    generation: record.generation,
+                    record_digest: record.digest.clone(),
+                },
+                actor: "test".into(),
+                reason: "negative receipt fixture".into(),
+            },
+        )
+        .unwrap();
+        let operation = format!("negative-{mutation}");
+        let request = recovery_request(&store, &record, &classify, &operation);
+        csdlc_v2::recover_preserved_projection(&store, request.clone()).unwrap();
+        let attempt = store
+            .root()
+            .join(format!(".csdlc/issues/.7.recovery/{operation}"));
+        let path = if mutation == "broken-earlier-link" {
+            attempt.join("006-candidate-verified.json")
+        } else {
+            attempt.join("013-recovered.json")
+        };
+        let mut envelope: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&path).unwrap()).unwrap();
+        if mutation == "broken-earlier-link" {
+            envelope["previous_receipt_digest"] = serde_json::Value::String("0".repeat(64));
+        } else if mutation == "operation-mismatch" {
+            envelope["payload"]["operation_id"] =
+                serde_json::Value::String("other-operation".into());
+        } else {
+            envelope["payload"]["receipt_digest"] = serde_json::Value::String("0".repeat(64));
+        }
+        std::fs::write(&path, serde_json::to_vec_pretty(&envelope).unwrap()).unwrap();
+        let error = csdlc_v2::recover_preserved_projection(&store, request).expect_err(mutation);
+        assert!(
+            matches!(
+                error.code,
+                ErrorCode::CorruptRecord | ErrorCode::ReconciliationRequired
+            ),
+            "{mutation}: {error:?}"
+        );
+    }
+}
+
 fn install_native_authority(root: &std::path::Path) {
     let registry = root.join("docs/templates/prompts/current.json");
     let manifest = root.join("csdlc-v2/operator/native-card-shape.json");
