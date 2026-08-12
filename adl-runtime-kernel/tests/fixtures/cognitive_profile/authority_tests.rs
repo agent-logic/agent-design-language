@@ -13,7 +13,7 @@ use std::{
 const H: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 const R: &str = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 
-fn birthday(root: &str) -> BirthdayCandidate {
+pub(crate) fn birthday(root: &str) -> BirthdayCandidate {
     let mut value: BirthdayCandidate = serde_json::from_value(json!({
         "schema":BIRTHDAY_CANDIDATE_SCHEMA,"candidate_id":"candidate-5830","lifecycle_event":"birth_candidate",
         "stable_name":"Aster","identity_root":root,"continuity_head":H,
@@ -39,7 +39,7 @@ fn identity(root: &str) -> BirthdayIdentityRecord {
 fn continuity(identity: &BirthdayIdentityRecord) -> BirthdayContinuityRecord {
     let mut value: BirthdayContinuityRecord=serde_json::from_value(json!({
         "schema":"adl.birthday.continuity_record.v1","identity_root":identity.identity_root,"identity_record_sha256":identity.record_sha256,
-        "predecessor_head":R,"authority_context_sha256":H,"cycles":[{"generation":1,"accepted_through":1,"previous_integrity":R,"integrity":H,"signing_key_id":"key","reference":{"id":"cycle","path":"evidence/cycle.json","sha256":H}}],
+        "predecessor_head":H,"authority_context_sha256":H,"cycles":[{"generation":1,"accepted_through":1,"previous_integrity":H,"integrity":H,"signing_key_id":"key","reference":{"id":"cycle","path":"evidence/cycle.json","sha256":H}}],
         "grade":"evidence_backed","continuity_head":H,"record_sha256":""
     })).unwrap();
     value.record_sha256 = continuity_record_digest(&value).unwrap();
@@ -66,7 +66,7 @@ fn declaration(id: &str, p: &str) -> CapabilityDeclaration {
         provenance_ids: vec![p.into()],
     }
 }
-fn capability(
+pub(crate) fn capability(
     b: &BirthdayCandidate,
     i: &BirthdayIdentityRecord,
 ) -> (CapabilityEnvelope, CapabilityEnvelopePolicy) {
@@ -137,6 +137,38 @@ fn capability(
         build_capability_envelope(b, i, &input, &policy).unwrap(),
         policy,
     )
+}
+
+fn capability_with_continuity(
+    b: &BirthdayCandidate,
+    i: &BirthdayIdentityRecord,
+    continuity: &VerifiedBirthdayContinuity,
+) -> (
+    CapabilityEnvelope,
+    CapabilityEnvelopePolicy,
+    CapabilityAuthorityPolicy,
+) {
+    let (component, policy) = capability(b, i);
+    let input = CapabilityEnvelopeInput {
+        schema: CAPABILITY_ENVELOPE_INPUT_SCHEMA.into(),
+        birthday_candidate_sha256: component.birthday_candidate_sha256,
+        identity_record_sha256: component.identity_record_sha256,
+        evidence: component.evidence,
+        provider_model: component.provider_model,
+        tools: component.tools,
+        skills: component.skills,
+        grants: component.grants,
+        denials: component.denials,
+        resource_limits: component.resource_limits,
+        unsupported_claims: component.unsupported_claims,
+    };
+    let authority = RuntimeCapabilityProvisioner::new()
+        .provision(&policy, continuity)
+        .unwrap();
+    let envelope =
+        build_capability_envelope_with_continuity(b, i, continuity, &authority, &input, &policy)
+            .unwrap();
+    (envelope, policy, authority)
 }
 fn evidence(
     id: &str,
@@ -513,6 +545,241 @@ fn identity_continuity_capability_and_birthday_substitution_fail_closed() {
         }
         assert!(build_cognitive_profile(&bb, &ii, &cc, &cp, &base, &p, None).is_err());
     }
+}
+
+#[tokio::test]
+async fn real_continuity_composes_through_capability_and_cognition() {
+    let (identity, continuity_policy, manifests) =
+        crate::birthday_continuity::authority_tests::real_live_material().await;
+    let cycles = crate::birthday_continuity::authority_tests::verify(
+        &continuity_policy,
+        &identity,
+        &manifests,
+    )
+    .unwrap();
+    let record = build_birthday_continuity(&identity, &cycles).unwrap();
+    let verified = verify_birthday_continuity_record(&record, &identity, &cycles).unwrap();
+
+    // A second fully valid Runtime history can share the identity checkpoint
+    // predecessor while producing a distinct continuity record and head.
+    let authority = CheckpointAuthority::from_bytes("runtime-continuity", &[19; 32]);
+    let mut alternate_manifests = manifests.clone();
+    alternate_manifests[0].snapshots[0].checksum = "d".repeat(64);
+    authority
+        .sign_manifest(&mut alternate_manifests[0])
+        .unwrap();
+    alternate_manifests[1].previous_integrity = Some(alternate_manifests[0].integrity.clone());
+    alternate_manifests[1].snapshots[0].checksum = "e".repeat(64);
+    authority
+        .sign_manifest(&mut alternate_manifests[1])
+        .unwrap();
+    let alternate_cycles = crate::birthday_continuity::authority_tests::verify(
+        &continuity_policy,
+        &identity,
+        &alternate_manifests,
+    )
+    .unwrap();
+    let alternate_record = build_birthday_continuity(&identity, &alternate_cycles).unwrap();
+    let alternate_verified =
+        verify_birthday_continuity_record(&alternate_record, &identity, &alternate_cycles).unwrap();
+    assert_eq!(record.predecessor_head, alternate_record.predecessor_head);
+    assert_ne!(record.record_sha256, alternate_record.record_sha256);
+    assert_ne!(record.continuity_head, alternate_record.continuity_head);
+
+    let mut b = birthday(&identity.identity_root);
+    b.stable_name = identity.stable_name.clone();
+    b.continuity_head = verified.identity_checkpoint_head().to_owned();
+    for cycle in &mut b.bounded_cycles {
+        cycle.continuity_head = b.continuity_head.clone();
+    }
+    b.packet_sha256 = candidate_digest(&b).unwrap();
+    let (capability, capability_policy, capability_authority) =
+        capability_with_continuity(&b, &identity, &verified);
+    validate_capability_envelope_with_continuity(
+        &capability,
+        &b,
+        &identity,
+        &verified,
+        &capability_authority,
+        &capability_policy,
+    )
+    .unwrap();
+    assert!(validate_capability_envelope_with_continuity(
+        &capability,
+        &b,
+        &identity,
+        &alternate_verified,
+        &capability_authority,
+        &capability_policy,
+    )
+    .unwrap_err()
+    .contains(&CapabilityEnvelopeRejection::ContinuityBindingMismatch));
+
+    // Rewrite every caller-controlled capability binding and digest to token
+    // B. Retained authority A still rejects it; only an explicit Runtime
+    // establishment against B authorizes the rewritten envelope.
+    let mut rewritten_capability = capability.clone();
+    rewritten_capability.continuity_head = alternate_verified.continuity_head().to_owned();
+    rewritten_capability.continuity_record_sha256 =
+        alternate_verified.record().record_sha256.clone();
+    rewritten_capability.envelope_sha256 = envelope_digest(&rewritten_capability).unwrap();
+    assert!(validate_capability_envelope_with_continuity(
+        &rewritten_capability,
+        &b,
+        &identity,
+        &alternate_verified,
+        &capability_authority,
+        &capability_policy,
+    )
+    .unwrap_err()
+    .contains(&CapabilityEnvelopeRejection::ContinuityBindingMismatch));
+    let alternate_capability_authority = RuntimeCapabilityProvisioner::new()
+        .provision(&capability_policy, &alternate_verified)
+        .unwrap();
+    validate_capability_envelope_with_continuity(
+        &rewritten_capability,
+        &b,
+        &identity,
+        &alternate_verified,
+        &alternate_capability_authority,
+        &capability_policy,
+    )
+    .unwrap();
+
+    let (_, _, _, _, mut cognitive_policy) = authorities();
+    cognitive_policy.capability_policy = capability_policy;
+    for item in &mut cognitive_policy.evidence {
+        item.sha256 = match item.category {
+            CognitiveEvidenceCategory::Identity => identity.record_sha256.clone(),
+            CognitiveEvidenceCategory::Continuity => record.record_sha256.clone(),
+            CognitiveEvidenceCategory::Capability => capability.envelope_sha256.clone(),
+            _ => item.sha256.clone(),
+        };
+    }
+    let cognitive_input = input(&b, &identity, &record, &capability, &cognitive_policy);
+    let key = SigningKey::from_bytes(&[7; 32]);
+    let authority = trusted(&key, &cognitive_policy, &cognitive_input);
+    let authority_context = context("cognitive-board", "cognitive-key-1", 1, &key);
+    let proof = authority_proof(
+        &cognitive_input,
+        &cognitive_policy,
+        authority_context,
+        &key,
+        None,
+    );
+    let profile = build_governed_cognitive_profile_with_continuity(
+        &b,
+        &identity,
+        &verified,
+        &capability_authority,
+        &capability,
+        &cognitive_input,
+        &cognitive_policy,
+        &[],
+        &authority,
+        &proof,
+    )
+    .unwrap();
+    validate_governed_cognitive_profile_with_continuity(
+        &profile,
+        &b,
+        &identity,
+        &verified,
+        &capability_authority,
+        &capability,
+        &cognitive_policy,
+        &[],
+        &authority,
+    )
+    .unwrap();
+
+    // Rebuild and re-sign every downstream cognitive artifact for the second
+    // valid record. The capability remains bound to the first opaque token,
+    // so substitution still fails closed rather than accepting shared
+    // identity/predecessor fields.
+    let mut substituted_policy = cognitive_policy.clone();
+    for item in &mut substituted_policy.evidence {
+        match item.category {
+            CognitiveEvidenceCategory::Continuity => {
+                item.sha256 = alternate_record.record_sha256.clone();
+            }
+            CognitiveEvidenceCategory::Capability => {
+                item.sha256 = rewritten_capability.envelope_sha256.clone();
+            }
+            _ => {}
+        }
+    }
+    let substituted_input = input(
+        &b,
+        &identity,
+        &alternate_record,
+        &rewritten_capability,
+        &substituted_policy,
+    );
+    let substituted_authority = trusted(&key, &substituted_policy, &substituted_input);
+    let substituted_proof = authority_proof(
+        &substituted_input,
+        &substituted_policy,
+        context("cognitive-board", "cognitive-key-1", 1, &key),
+        &key,
+        None,
+    );
+    assert_eq!(
+        build_governed_cognitive_profile_with_continuity(
+            &b,
+            &identity,
+            &alternate_verified,
+            &capability_authority,
+            &rewritten_capability,
+            &substituted_input,
+            &substituted_policy,
+            &[],
+            &substituted_authority,
+            &substituted_proof,
+        )
+        .unwrap_err(),
+        vec![CognitiveProfileRejection::CapabilityMismatch]
+    );
+
+    let mut wrong_identity = identity.clone();
+    wrong_identity.identity_root = H.into();
+    assert!(validate_capability_envelope_with_continuity(
+        &capability,
+        &b,
+        &wrong_identity,
+        &verified,
+        &capability_authority,
+        &cognitive_policy.capability_policy,
+    )
+    .is_err());
+
+    let mut replayed_candidate = b.clone();
+    replayed_candidate.continuity_head = verified.continuity_head().to_owned();
+    for cycle in &mut replayed_candidate.bounded_cycles {
+        cycle.continuity_head = replayed_candidate.continuity_head.clone();
+    }
+    replayed_candidate.packet_sha256 = candidate_digest(&replayed_candidate).unwrap();
+    assert!(build_capability_envelope_with_continuity(
+        &replayed_candidate,
+        &identity,
+        &verified,
+        &capability_authority,
+        &CapabilityEnvelopeInput {
+            schema: CAPABILITY_ENVELOPE_INPUT_SCHEMA.into(),
+            birthday_candidate_sha256: replayed_candidate.packet_sha256.clone(),
+            identity_record_sha256: identity.record_sha256.clone(),
+            evidence: capability.evidence.clone(),
+            provider_model: capability.provider_model.clone(),
+            tools: capability.tools.clone(),
+            skills: capability.skills.clone(),
+            grants: capability.grants.clone(),
+            denials: capability.denials.clone(),
+            resource_limits: capability.resource_limits.clone(),
+            unsupported_claims: capability.unsupported_claims.clone(),
+        },
+        &cognitive_policy.capability_policy,
+    )
+    .is_err());
 }
 #[test]
 fn unsupported_labels_diagnosis_and_status_inference_fail_closed() {

@@ -70,6 +70,18 @@ pub struct LiveAssembly {
     pub config_hash: String,
     pub canonical_ingress: CanonicalIngress,
     pub(crate) operation_continuity: crate::LiveOperationContinuity,
+    capability_provisioner: crate::RuntimeCapabilityProvisioner,
+}
+
+impl LiveAssembly {
+    /// Explicit Runtime-owned reauthorization boundary for capability policy.
+    pub fn provision_capability_authority(
+        &self,
+        policy: &crate::CapabilityEnvelopePolicy,
+        continuity: &crate::VerifiedBirthdayContinuity,
+    ) -> Result<crate::CapabilityAuthorityPolicy, Vec<crate::CapabilityEnvelopeRejection>> {
+        self.capability_provisioner.provision(policy, continuity)
+    }
 }
 
 /// Construct the continuity registry from the same live handles and durable
@@ -308,6 +320,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         canonical_ingress,
         operation_continuity: crate::LiveOperationContinuity::from_factories(continuity_factories)
             .map_err(|error| AssemblyError::Encoding(error.to_string()))?,
+        capability_provisioner: crate::RuntimeCapabilityProvisioner::new(),
     })
 }
 
@@ -334,6 +347,80 @@ fn enforce_chronosense_foundation(
                 optional: false,
             });
         }
+    }
+}
+
+#[cfg(test)]
+mod capability_authority_tests {
+    use super::*;
+    use ed25519_dalek::SigningKey;
+    use std::{collections::BTreeMap, sync::Arc, time::Duration};
+
+    struct FixedTime;
+
+    #[async_trait::async_trait]
+    impl TimeSampleSource for FixedTime {
+        async fn sample(&self) -> Result<crate::TimeSample, crate::TimeSampleError> {
+            Ok(crate::TimeSample {
+                source: "assembly-authority-test".to_owned(),
+                unix_millis: 1_720_000_000_000,
+                offset_millis: 0,
+                round_trip: Duration::from_millis(1),
+            })
+        }
+    }
+
+    #[tokio::test]
+    async fn live_assembly_is_the_capability_authority_provisioning_boundary() {
+        let root = tempfile::tempdir().unwrap();
+        let recorder = RuntimeRecorder::new(16);
+        let key = SigningKey::from_bytes(&[31; 32]);
+        let assembly = build_live_assembly(LiveBindings {
+            recorder: recorder.clone(),
+            canonical_ingress_capacity: 64,
+            operation_executors: crate::build_production_operation_executors_with_recorder(
+                root.path().join("production"),
+                recorder.clone(),
+            )
+            .unwrap(),
+            permit_keys: BTreeMap::from([("operator".to_owned(), key.verifying_key())]),
+            reasoning: crate::bootstrap_reasoning_services(recorder).unwrap(),
+            time_source: Arc::new(FixedTime),
+            time_bounds: TimeQualificationBounds {
+                timeout: Duration::from_secs(1),
+                max_offset: Duration::from_millis(100),
+                max_round_trip: Duration::from_millis(100),
+                retry_delay: Duration::from_millis(10),
+                refresh_interval: Duration::from_secs(60),
+            },
+        })
+        .unwrap();
+
+        let (identity, continuity_policy, manifests) =
+            crate::birthday_continuity::authority_tests::real_live_material().await;
+        let cycles = crate::birthday_continuity::authority_tests::verify(
+            &continuity_policy,
+            &identity,
+            &manifests,
+        )
+        .unwrap();
+        let record = crate::build_birthday_continuity(&identity, &cycles).unwrap();
+        let continuity =
+            crate::verify_birthday_continuity_record(&record, &identity, &cycles).unwrap();
+        let mut birthday =
+            crate::cognitive_profile::authority_tests::birthday(&identity.identity_root);
+        birthday.stable_name = identity.stable_name.clone();
+        birthday.continuity_head = continuity.identity_checkpoint_head().to_owned();
+        for cycle in &mut birthday.bounded_cycles {
+            cycle.continuity_head = birthday.continuity_head.clone();
+        }
+        birthday.packet_sha256 = crate::candidate_digest(&birthday).unwrap();
+        let (_, policy) =
+            crate::cognitive_profile::authority_tests::capability(&birthday, &identity);
+
+        assembly
+            .provision_capability_authority(&policy, &continuity)
+            .unwrap();
     }
 }
 
