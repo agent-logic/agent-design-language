@@ -540,6 +540,21 @@ fn failpoint(request: &ProjectionRecoverRequest, state: &str) -> Result<()> {
     }
 }
 
+fn inject_post_validation_directory_swap(
+    request: &ProjectionRecoverRequest,
+    state: &str,
+    path: &Path,
+) -> Result<()> {
+    if request.fail_after.as_deref() != Some(state) {
+        return Ok(());
+    }
+    let displaced = path.with_extension(format!("{state}.displaced"));
+    fs::rename(path, &displaced)?;
+    fs::create_dir(path)?;
+    fs::set_permissions(path, fs::Permissions::from_mode(0o700))?;
+    Ok(())
+}
+
 fn request_authority_digest(request: &ProjectionRecoverRequest) -> Result<String> {
     let mut stable = request.clone();
     stable.fail_after = None;
@@ -3269,6 +3284,18 @@ pub fn recover_preserved_projection(
     }
     let attempt_authority = root_authority.open_child(&operation_name, "recovery attempt")?;
     let original_attempt_path = recovery_path.join(&request.operation_id);
+    root_authority.validate_binding(&recovery_path, "recovery root")?;
+    attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
+    inject_post_validation_directory_swap(
+        &request,
+        "swap_recovery_root_after_validation",
+        &recovery_path,
+    )?;
+    inject_post_validation_directory_swap(
+        &request,
+        "swap_recovery_attempt_after_validation",
+        &original_attempt_path,
+    )?;
     root_authority.validate_binding(&recovery_path, "recovery root")?;
     attempt_authority.validate_binding(&original_attempt_path, "recovery attempt")?;
     let attempt = original_attempt_path.clone();

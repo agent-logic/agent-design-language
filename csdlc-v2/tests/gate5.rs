@@ -780,6 +780,51 @@ fn preserved_projection_recovery_rejects_symlinked_partial_receipt_before_resume
     );
 }
 
+#[test]
+fn preserved_projection_recovery_rejects_post_validation_root_and_attempt_swaps_before_mutation() {
+    for (operation, swap) in [
+        (
+            "post-validation-root-swap",
+            "swap_recovery_root_after_validation",
+        ),
+        (
+            "post-validation-attempt-swap",
+            "swap_recovery_attempt_after_validation",
+        ),
+    ] {
+        let (_temp, store, record) = implemented_fixture();
+        let preserved = store.rollback_preserved(7);
+        copy_tree(&store.issue_dir(7), &preserved);
+        let classify = classify_preserved_projection(
+            &store,
+            ProjectionClassifyRequest {
+                issue: 7,
+                anchor: ProjectionCasAnchor::VerifiedCanonical {
+                    generation: record.generation,
+                    record_digest: record.digest.clone(),
+                },
+                actor: "test".into(),
+                reason: swap.into(),
+            },
+        )
+        .expect("classify");
+        let mut request = recovery_request(&store, &record, &classify, operation);
+        request.fail_after = Some(swap.into());
+        let error = csdlc_v2::recover_preserved_projection(&store, request)
+            .expect_err("post-validation substitution must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+        assert!(preserved.is_dir(), "rejected evidence must not be archived");
+        let recovery = store.root().join(".csdlc/issues/.7.recovery");
+        let displaced_root = recovery.with_extension(format!("{swap}.displaced"));
+        let attempts = [recovery.join(operation), displaced_root.join(operation)];
+        for attempt in attempts {
+            assert!(!receipt_path(&attempt, 1, "prepared").exists());
+            assert!(!attempt.join("candidate").exists());
+            assert!(!attempt.join("rejected").exists());
+        }
+    }
+}
+
 #[cfg(unix)]
 #[test]
 fn preserved_projection_recovery_rejects_symlinked_recovery_root() {
