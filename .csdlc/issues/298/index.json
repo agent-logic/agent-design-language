@@ -5,10 +5,25 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 51,
-  "digest": "5223d4d96e13c3b1faf604b080cef92e53e14e5fed7705e957d5417f488ac1d0",
+  "digest": "7bbf21be06dd918c81c315679613e3b97af9a315bd095b7cc62a7079de1207bd",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:0d7d8ab3-204f-4a94-81af-be8c89529b7f",
+    "assigned_by": "codex:issue-298-r19-remediation",
+    "revision": "git-blake3:5d945aa856189a5340cdc35bcc1ec70c3b81819a:dd1dea3b9d25cc2782de19dc16209cac0b8cdb7139e2df58056eff9c4be3e7bc",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/prepared/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "4e9bed1b4d15ae42c725f7c7d23be20b0e4837caf2573416798eae4e7a34b5a2",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "bc282ebf18dcd3c349c154dc935c649a5c52e90506feea541056606248c60c4a",
+      "rendered_digest": "694d6ef3f2c288d011d4e878173b7b2b4e6bbc4dc42554a1d7ff4c4eb98a788d",
+      "ast_digest": "50c67281ccc9ab8b3eaa0223ea1982d4400007a1b537f085de42946a6a3c11c3"
     },
     "sor": {
       "values_digest": "75a2af3f23d52646ca82c583fdbea1c3dd66fd46d24ab6ccedf6f863076ff507",
@@ -609,6 +624,13 @@
       "actor": "codex:issue-298-r19-remediation",
       "reason": "Record retained live recovery workspace authority remediation after exact R19 P1.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Retained live recovery source and workspace descriptors through candidate derivation, archive, displacement, observation, and durability boundaries.\",\"changes\":[\"Replaced both live pathname candidate derivations with exact bytes read from retained source descriptors\",\"Selected restart prior authority from exact current, displaced, or candidate descriptors without pathname rereads\",\"Replaced live attempt, candidate, archive, and displaced sync and observation with retained descriptor operations\",\"Added deterministic late recovery-root and attempt swaps immediately before archive mutation\",\"Preserved early swap, every-boundary restart, receipt, identity, inventory, idempotency, ordinary-commit, initialized/ready, and issue 291 proof\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 74,
+      "generation": 51,
+      "actor": "codex:issue-298-r19-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
