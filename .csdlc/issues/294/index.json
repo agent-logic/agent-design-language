@@ -5,10 +5,24 @@
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
   "generation": 23,
-  "digest": "3e839ef0f60e65a6dc430fd94476a9b33731dbb997897b0e5bed23ffaab90ebe",
+  "digest": "0420eeb5051e6713caeae5adf8da5365353a94964bc37808bd8650d678090454",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:94ae2b3f-baa4-4c01-becc-cc0095b3bf22",
+    "assigned_by": "codex:issue-294",
+    "revision": "git-blake3:86809083305d8830e97907e2118010c1af476c5c:848b858ee8e11b8ca960d25c470d7300c85d0318d92ccd45c103bc47fdf69f2f",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/294",
+      ".csdlc/prepared/issues/294",
+      ".csdlc/evidence/294"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +58,9 @@
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "84facd5369fe103c7c45ef1c574f5fe6ebba729b5058c99d268f28767c6c281e",
-      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
-      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
+      "values_digest": "527cbf838df26b7f18837f365ea4ca65dd4d57a22d9705167c306fe8bc681c64",
+      "rendered_digest": "ed025ea5ee76c57f426a08016f986e7449fca6f9dca31ab40d536cf1152565ee",
+      "ast_digest": "4698b106fc8ca8284dffd7366c9f876e2979574998e78e2d99ffb51832e02367"
     },
     "sor": {
       "values_digest": "21a209406a6e54a3cdf3d50fb7378301cf7783fcf4a7f6cc1978b64cf5bfe5dc",
@@ -308,6 +322,13 @@
       "actor": "codex:issue-294",
       "reason": "Recover failed r8 exact-head assignment at substantive 50b187d1084cc473328d31316447525f91b5565f: inode-owned delete quarantine is not restart-reconciled and identity-none rollback can strand a retained stage after destination deletion; AC-8/AC-9 still lacks typed bind-before/after and deterministic journal/install/stage/state/owned-unlink/ancestor/destination race fixtures; tracked focused evidence is stale",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 23,
+      "actor": "codex:issue-294",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
