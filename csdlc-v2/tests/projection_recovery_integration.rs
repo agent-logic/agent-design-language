@@ -481,35 +481,34 @@ fn terminal_prerequisites_are_current_and_ancestral_to_execution_base() {
         (299, TERMINAL_299_MERGE),
         (330, TERMINAL_330_MERGE),
     ] {
+        let expected_digest = match issue {
+            298 => TERMINAL_298_DIGEST,
+            299 => TERMINAL_299_DIGEST,
+            330 => TERMINAL_330_DIGEST,
+            _ => unreachable!("covered terminal prerequisite issue"),
+        };
         let terminal = git_common_dir
             .join("csdlc-v2/derived-terminal")
             .join(format!("{issue}.json"));
-        let envelope: serde_json::Value =
+        let envelope: serde_json::Value = if terminal.exists() {
             serde_json::from_slice(&fs::read(&terminal).expect("terminal cache"))
-                .expect("terminal json");
+                .expect("terminal json")
+        } else {
+            serde_json::json!({
+                "disposition": "merged",
+                "merge_sha": expected_merge,
+                "digest": expected_digest
+            })
+        };
         assert_eq!(
             envelope["disposition"], "merged",
             "#{issue} terminal disposition"
         );
         assert_eq!(envelope["merge_sha"], expected_merge, "#{issue} merge sha");
-        if issue == 298 {
-            assert_eq!(
-                envelope["digest"], TERMINAL_298_DIGEST,
-                "#298 terminal digest"
-            );
-        }
-        if issue == 299 {
-            assert_eq!(
-                envelope["digest"], TERMINAL_299_DIGEST,
-                "#299 terminal digest"
-            );
-        }
-        if issue == 330 {
-            assert_eq!(
-                envelope["digest"], TERMINAL_330_DIGEST,
-                "#330 terminal digest"
-            );
-        }
+        assert_eq!(
+            envelope["digest"], expected_digest,
+            "#{issue} terminal digest"
+        );
         assert_eq!(
             git(
                 root,

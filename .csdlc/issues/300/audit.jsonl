@@ -27,3 +27,4 @@
 {"sequence":27,"generation":18,"actor":"codex:worker-5","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":28,"generation":19,"actor":"codex:worker-5","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":29,"generation":20,"actor":"codex:worker-5","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":30,"generation":21,"actor":"codex:worker-5","reason":"Recover #300 after published PR #351 CI failed in csdlc-v2-standalone: projection_recovery_integration terminal prerequisite test read operator-local .git/csdlc-v2/derived-terminal cache files that are absent in clean GitHub CI checkouts. Repair remains test-only and must receive fresh validation/review/publication before merge.","operation":"recover_review"}
