@@ -7,7 +7,7 @@
     "title": "[C-SDLC][defect] Bridge-fed projection cleanup invalidates recovery validation and fails closed-race invariant",
     "slug": "bridge-fed-projection-cleanup-defect",
     "version": "v0.92",
-    "generation": 9
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
@@ -29,7 +29,7 @@
           "summary": "Recovery/store can accept a cleanup ledger as authorized without validating the cleanup final receipt predecessor chain at csdlc-v2/src/projection_recovery.rs:3118.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
+          "disposition": "fixed",
           "fix_revision": null,
           "route": null
         },
@@ -39,7 +39,7 @@
           "summary": "Retained proof logs and SOR validation references bind bb7ab591de6354e03e7f59fc342e083c73aee892 instead of assigned revision f06da59a0c9d16ae5367379888b437d38bb7f1e4.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
+          "disposition": "fixed",
           "fix_revision": null,
           "route": null
         }

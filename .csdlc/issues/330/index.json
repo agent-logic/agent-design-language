@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c6c77e32c8a46d340a36b3123af9d9adb0adeafda19c3135b9d47c802997e158",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "c645a0d54c1d504b2226967cccbf299b674099b9af632e4f0c15142b19f4053d",
+  "generation": 12,
+  "digest": "f13422447d884b559c32c4dcabc9c0a93e38e71dceb9e013747b7414f43d0a1f",
   "branch": "codex/330-bridge-fed-projection-cleanup-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-330-bridge-fed-projection-cleanup-defect",
   "review_assignment": {
@@ -73,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "74c93bc956f1bb8aea51d2d473f7b787647e25331a600a98b22b7e8217cc84db",
+      "values_digest": "75b56cf323a8233c944827e96b67945ced74213b87046388bec52a249b0ce6dd",
       "rendered_digest": "70bb77a2b369facefd6ee61dd27831872f9e02008d5deb8778b9b75acb0d8d75",
       "ast_digest": "f7aa1e0edabaef2285c9558e3abc9c5ad236e494418164c26d9492deadcbab17"
     },
     "stp": {
-      "values_digest": "be1f32c4c50b2ed5e755085fdddfc1a1de8b82dfebbba48ef867da3f7da2a91b",
+      "values_digest": "79d90f674a0c3d80fb863fc8b9531efc6a93d98fe4ccf387feaedc694481103a",
       "rendered_digest": "9e5854073d3f56cae3d0fa4f6a560563c62b837038b80bdc0ac9ac705e3983ea",
       "ast_digest": "137b8e001b8a1ce3a3a20d884695db83c8a54cca4d78c386160cb7c1968dd10e"
     },
     "spp": {
-      "values_digest": "aa6dfd83e7c98fb983a88bc9303f89c61286c3de8086b594c2b84f4b4edca987",
+      "values_digest": "becaca618b85884be2147a1bce9e6941768ea370022bdeb36ed53529e5ce9f1b",
       "rendered_digest": "3bfafb809bb9b6ed27a8548d590eae93245ae6c15dd9fca552497af1b9b0f082",
       "ast_digest": "647c5244cc3c748635b3119f2a4a9acfb84dfd959e904e7099c404e1803db962"
     },
     "vpp": {
-      "values_digest": "21909075ae8a6132f30abf33a240bcd5987546c90dae57bcf3f5570525365efb",
+      "values_digest": "de12d107342c0360de8970d7395eecc548359a332c1c538c1f05243d43242929",
       "rendered_digest": "0f439002d1e55bf5aad069ac6f4d648bec3bac2aabec818f9918def1abc2d03d",
       "ast_digest": "8135e07afb687e53ca7797c556ceddcc8d99a36199956cf32e18c7cb8b693682"
     },
     "srp": {
-      "values_digest": "75a029a519cb4303db60964bde423075a7ea873203ca8fbdee404fce0489d5e1",
-      "rendered_digest": "cf95900638621f3f1b8a738a65e6060ec47bf3c17d6a82ea9d9ae74492946070",
-      "ast_digest": "f347b9524a19eee3a281ca19e2558c16f0826f1d34828c0bae84080c5714895e"
+      "values_digest": "783be3faaec9142117236aae033ad6e07e4ae76d257375e36c0349443eb19e4e",
+      "rendered_digest": "ba3f8b4acb420ff4dd580b39f658b20140dc8c0df7583f07f41f1daabf679d82",
+      "ast_digest": "bca5ff88073d5a0639a855cb5b5c0691c0ec6824b0e946fee8223342c267ae15"
     },
     "sor": {
-      "values_digest": "0868aa9db91573b25e7cd309889fb5d733a1725aa9d6620e8536adfabae1fd02",
-      "rendered_digest": "95e577668eeb4bf165b30451783cb700e9bdcbdfb3ad06f0582bd72152c49b1c",
-      "ast_digest": "73caad0b1ff712ec00c210aee611400d5bf9ca58020fad8f9706384624679da5"
+      "values_digest": "0605e1f4fe73bd8d2e37ec3f17ac5a81de60e7be12043e7bee5847a2c804faed",
+      "rendered_digest": "6f051210b07ef7418dbed2aad740ed7fd447a8e33a71380c43a6ae81fa215284",
+      "ast_digest": "150270432ed49470c8ec693f32a741c8e4a3f77351e6b151e49464e20dd126bb"
     }
   },
   "transitions": [
@@ -210,6 +210,27 @@
       "actor": "worker-5",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "worker-5",
+      "reason": "Refresh #330 SOR with exact-head r2 evidence after r1 review findings remediation",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated r1 review findings for #330. Recovery-side cleanup ledger authorization now validates the full cleanup receipt predecessor chain and rejects unexpected cleanup ledger entries before store/classification can skip a cleanup ledger. Evidence was recaptured at corrected immutable head c06f3b00dd9a8320900c215079acd7dd93882b2d. Publication and merge are not yet attempted.\",\"changes\":[\"csdlc-v2/src/projection_cleanup.rs: added pre-mutation raced final receipt rejection without moving the existing prefinal-validation failpoint\",\"csdlc-v2/src/projection_recovery.rs: validates exact cleanup authority, expected cleanup ledger entries, and the full cleanup receipt predecessor chain before accepting a missing/cleaned retained rejected archive\",\"csdlc-v2/src/store.rs: skips cleanup ledger entries during ordinary recovery preflight only when the strict recovery cleanup-authority predicate validates\",\"csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs: added bridge-fed regressions including forged cleanup final predecessor rejection\"],\"artifacts\":[\".csdlc/evidence/330/r2/focused-issue-330.log sha256=69c20eb01d73f1745be6d561174eb5ceb222f5e75a0c74d4049145294d2a202b\",\".csdlc/evidence/330/r2/adjacent-archived-projection-cleanup.log sha256=7d7c8770067a34037f484469ad123ae473d4e16e738690a38449eddac87517c1\",\".csdlc/evidence/330/r2/recovery-authority-gate5.log sha256=109ce16b63266b231f3998f3c68cfa6380b0bb2777fa4858de13071f7029b3b7\",\".csdlc/evidence/330/r2/fmt-check.log sha256=9abc935dbfd8ec08eba11e1a4cce3e1bdf9625e7dbdb5a0923cbb9e77299c2e1\",\".csdlc/evidence/330/r2/diff-check.log sha256=4f79c7d311f36fdb01678e777e85e4c0a9633e6c63a82aef509c9fe10c46be21\",\".csdlc/evidence/330/r2/strict-clippy.log sha256=6e8c9fb6f1f326095ea963d7d38ea311b64e3583026eb71d668992cd94f4a5e5\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"issue_330_bridge_cleanup_defect\",\"--\",\"--nocapture\"],\"purpose\":\"Focused #330 regression proof for bridge cleanup recovery validation, forged cleanup final chain rejection, and pre-mutation raced final zero-mutation behavior\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r2/focused-issue-330.log sha256=69c20eb01d73f1745be6d561174eb5ceb222f5e75a0c74d4049145294d2a202b head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"archived_projection_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Adjacent cleanup regression proof preserving existing cleanup failpoint and manifest-authority behavior\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r2/adjacent-archived-projection-cleanup.log sha256=7d7c8770067a34037f484469ad123ae473d4e16e738690a38449eddac87517c1 head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"preserved_projection_recovery\",\"--\",\"--nocapture\"],\"purpose\":\"Existing recovery authority regression lane declared by #330 VPP\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r2/recovery-authority-gate5.log sha256=109ce16b63266b231f3998f3c68cfa6380b0bb2777fa4858de13071f7029b3b7 head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r2/fmt-check.log sha256=9abc935dbfd8ec08eba11e1a4cce3e1bdf9625e7dbdb5a0923cbb9e77299c2e1 head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0\"},{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"purpose\":\"Whitespace and patch hygiene check\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r2/diff-check.log sha256=4f79c7d311f36fdb01678e777e85e4c0a9633e6c63a82aef509c9fe10c46be21 head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all targets\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r2/strict-clippy.log sha256=6e8c9fb6f1f326095ea963d7d38ea311b64e3583026eb71d668992cd94f4a5e5 head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "worker-5",
+      "reason": "P1 fixed at c06f3b00dd9a8320900c215079acd7dd93882b2d by validating the cleanup ledger predecessor chain before recovery/store skip",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"r1-p1-final-chain\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "worker-5",
+      "reason": "P2 fixed by recapturing all validation evidence at c06f3b00dd9a8320900c215079acd7dd93882b2d and refreshing SOR references to r2 logs",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"r1-p2-stale-evidence-head\",\"disposition\":\"fixed\"}"
     }
   ]
 }

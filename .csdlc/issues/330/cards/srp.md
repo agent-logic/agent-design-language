@@ -35,7 +35,7 @@ csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs
     "summary": "Recovery/store can accept a cleanup ledger as authorized without validating the cleanup final receipt predecessor chain at csdlc-v2/src/projection_recovery.rs:3118.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -45,7 +45,7 @@ csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs
     "summary": "Retained proof logs and SOR validation references bind bb7ab591de6354e03e7f59fc342e083c73aee892 instead of assigned revision f06da59a0c9d16ae5367379888b437d38bb7f1e4.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   }

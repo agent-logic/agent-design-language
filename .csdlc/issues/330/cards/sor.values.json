@@ -7,25 +7,26 @@
     "title": "[C-SDLC][defect] Bridge-fed projection cleanup invalidates recovery validation and fails closed-race invariant",
     "slug": "bridge-fed-projection-cleanup-defect",
     "version": "v0.92",
-    "generation": 9
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented the bounded #330 production repair for bridge-fed projection cleanup: cleanup rejects a raced final receipt before archive mutation using a new before_cleanup_node_mutation failpoint while preserving existing before_prefinal_receipt_chain_validation semantics, and recovery validation accepts post-cleanup retained recovery attempts only when strict cleanup-authority, manifest, completed-recovery receipt, operation-created payload, and final cleanup receipt predicates all validate. Publication and merge are not yet attempted.",
+      "summary": "Remediated r1 review findings for #330. Recovery-side cleanup ledger authorization now validates the full cleanup receipt predecessor chain and rejects unexpected cleanup ledger entries before store/classification can skip a cleanup ledger. Evidence was recaptured at corrected immutable head c06f3b00dd9a8320900c215079acd7dd93882b2d. Publication and merge are not yet attempted.",
       "actual_changes": [
         "csdlc-v2/src/projection_cleanup.rs: added pre-mutation raced final receipt rejection without moving the existing prefinal-validation failpoint",
-        "csdlc-v2/src/projection_recovery.rs: validates exact cleanup authority before accepting a missing/cleaned retained rejected archive",
+        "csdlc-v2/src/projection_recovery.rs: validates exact cleanup authority, expected cleanup ledger entries, and the full cleanup receipt predecessor chain before accepting a missing/cleaned retained rejected archive",
         "csdlc-v2/src/store.rs: skips cleanup ledger entries during ordinary recovery preflight only when the strict recovery cleanup-authority predicate validates",
-        "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs: added focused bridge-fed regression tests for post-cleanup ordinary recovery validation and pre-mutation raced final zero-mutation behavior"
+        "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs: added bridge-fed regressions including forged cleanup final predecessor rejection"
       ],
       "artifacts": [
-        ".csdlc/evidence/330/r1/focused-issue-330.log sha256=fcfc8259877f11bef8fc4e0199fb89a81d073be61a3abd78cc83676e99ef8ba3",
-        ".csdlc/evidence/330/r1/adjacent-archived-projection-cleanup.log sha256=782db846d78102964f6fe5ebc9416cfaf56df6489a08b9b314a09ef372b9d2b3",
-        ".csdlc/evidence/330/r1/fmt-check.log sha256=1261237904e54b11c40f2123f36a4df20544f6804029973d71c1ca3436926b1b",
-        ".csdlc/evidence/330/r1/diff-check.log sha256=ca9a6c1c0875981c9d803678b7cf194b9bebf38cb20762aec37d79d20c0cb001",
-        ".csdlc/evidence/330/r1/strict-clippy.log sha256=828cdd35b042a8b9c9d66533a4dc0aac4a7b9dff4f5ba628a112a75e1b3238ae"
+        ".csdlc/evidence/330/r2/focused-issue-330.log sha256=69c20eb01d73f1745be6d561174eb5ceb222f5e75a0c74d4049145294d2a202b",
+        ".csdlc/evidence/330/r2/adjacent-archived-projection-cleanup.log sha256=7d7c8770067a34037f484469ad123ae473d4e16e738690a38449eddac87517c1",
+        ".csdlc/evidence/330/r2/recovery-authority-gate5.log sha256=109ce16b63266b231f3998f3c68cfa6380b0bb2777fa4858de13071f7029b3b7",
+        ".csdlc/evidence/330/r2/fmt-check.log sha256=9abc935dbfd8ec08eba11e1a4cce3e1bdf9625e7dbdb5a0923cbb9e77299c2e1",
+        ".csdlc/evidence/330/r2/diff-check.log sha256=4f79c7d311f36fdb01678e777e85e4c0a9633e6c63a82aef509c9fe10c46be21",
+        ".csdlc/evidence/330/r2/strict-clippy.log sha256=6e8c9fb6f1f326095ea963d7d38ea311b64e3583026eb71d668992cd94f4a5e5"
       ],
       "actual_validation": [
         {
@@ -39,9 +40,9 @@
             "--",
             "--nocapture"
           ],
-          "purpose": "Focused #330 regression proof for bridge cleanup recovery validation and pre-mutation raced final zero-mutation behavior",
+          "purpose": "Focused #330 regression proof for bridge cleanup recovery validation, forged cleanup final chain rejection, and pre-mutation raced final zero-mutation behavior",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/330/r1/focused-issue-330.log sha256=fcfc8259877f11bef8fc4e0199fb89a81d073be61a3abd78cc83676e99ef8ba3 head=bb7ab591de6354e03e7f59fc342e083c73aee892 status=0"
+          "evidence_ref": ".csdlc/evidence/330/r2/focused-issue-330.log sha256=69c20eb01d73f1745be6d561174eb5ceb222f5e75a0c74d4049145294d2a202b head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0"
         },
         {
           "command": [
@@ -56,7 +57,23 @@
           ],
           "purpose": "Adjacent cleanup regression proof preserving existing cleanup failpoint and manifest-authority behavior",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/330/r1/adjacent-archived-projection-cleanup.log sha256=782db846d78102964f6fe5ebc9416cfaf56df6489a08b9b314a09ef372b9d2b3 head=bb7ab591de6354e03e7f59fc342e083c73aee892 status=0"
+          "evidence_ref": ".csdlc/evidence/330/r2/adjacent-archived-projection-cleanup.log sha256=7d7c8770067a34037f484469ad123ae473d4e16e738690a38449eddac87517c1 head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "preserved_projection_recovery",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Existing recovery authority regression lane declared by #330 VPP",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/330/r2/recovery-authority-gate5.log sha256=109ce16b63266b231f3998f3c68cfa6380b0bb2777fa4858de13071f7029b3b7 head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0"
         },
         {
           "command": [
@@ -68,7 +85,7 @@
           ],
           "purpose": "Rust formatting check",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/330/r1/fmt-check.log sha256=1261237904e54b11c40f2123f36a4df20544f6804029973d71c1ca3436926b1b head=bb7ab591de6354e03e7f59fc342e083c73aee892 status=0"
+          "evidence_ref": ".csdlc/evidence/330/r2/fmt-check.log sha256=9abc935dbfd8ec08eba11e1a4cce3e1bdf9625e7dbdb5a0923cbb9e77299c2e1 head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0"
         },
         {
           "command": [
@@ -79,7 +96,7 @@
           ],
           "purpose": "Whitespace and patch hygiene check",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/330/r1/diff-check.log sha256=ca9a6c1c0875981c9d803678b7cf194b9bebf38cb20762aec37d79d20c0cb001 head=bb7ab591de6354e03e7f59fc342e083c73aee892 status=0"
+          "evidence_ref": ".csdlc/evidence/330/r2/diff-check.log sha256=4f79c7d311f36fdb01678e777e85e4c0a9633e6c63a82aef509c9fe10c46be21 head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0"
         },
         {
           "command": [
@@ -94,7 +111,7 @@
           ],
           "purpose": "Strict Clippy over all targets",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/330/r1/strict-clippy.log sha256=828cdd35b042a8b9c9d66533a4dc0aac4a7b9dff4f5ba628a112a75e1b3238ae head=bb7ab591de6354e03e7f59fc342e083c73aee892 status=0"
+          "evidence_ref": ".csdlc/evidence/330/r2/strict-clippy.log sha256=6e8c9fb6f1f326095ea963d7d38ea311b64e3583026eb71d668992cd94f4a5e5 head=c06f3b00dd9a8320900c215079acd7dd93882b2d status=0"
         }
       ],
       "integration_state": "not_started",
