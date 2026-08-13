@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/lib.rs
+csdlc-v2/src/projection_cleanup.rs
+csdlc-v2/tests/archived_projection_cleanup.rs
+.csdlc/issues/299
+.csdlc/evidence/299
 
 ## Prompts
 
