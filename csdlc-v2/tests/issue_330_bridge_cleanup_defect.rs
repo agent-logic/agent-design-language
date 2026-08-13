@@ -447,6 +447,55 @@ fn forged_cleanup_final_chain_does_not_authorize_recovery_skip() {
 }
 
 #[test]
+fn cleanup_private_namespace_residue_does_not_authorize_recovery_skip() {
+    let (_temp, store, record) = implemented_fixture();
+    completed_recovery_attempt(&store, &record, "op-330-residue-recovery");
+    let bridge =
+        bridge_cleanup_request(&store, "op-330-residue-recovery", "op-330-residue-cleanup");
+    let cleanup = execute_archived_projection_cleanup(&bridge.cleanup_request).expect("cleanup");
+    assert_eq!(cleanup.status, ArchivedProjectionCleanupStatus::Completed);
+
+    let recovery_root = store.root().join(".csdlc/issues/.7.recovery");
+    let operation_root =
+        PathBuf::from(&bridge.cleanup_ledger_root).join(&bridge.cleanup_operation_id);
+    let residue = operation_root.join("private-delete/residue");
+    fs::write(&residue, b"unexpected retained namespace bytes").expect("residue");
+
+    let before_recovery = ledger_snapshot(&recovery_root);
+    let before_issue = ledger_snapshot(&store.issue_dir(7));
+    let recovered_record = store.load_record(7).expect("record after recovery");
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: recovered_record.generation,
+            expected_digest: recovered_record.digest,
+            actor: "test".into(),
+            reason: "ordinary commit after residue cleanup namespace".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "post residue cleanup commit".into(),
+                changes: vec!["src".into()],
+                artifacts: vec![cleanup.final_receipt_digest],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("residue in cleanup private namespace must fail closed");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::CorruptRecord);
+    assert_eq!(
+        ledger_snapshot(&recovery_root),
+        before_recovery,
+        "rejection must not create or rewrite recovery ledger bytes"
+    );
+    assert_eq!(
+        ledger_snapshot(&store.issue_dir(7)),
+        before_issue,
+        "rejection must not mutate issue projection bytes"
+    );
+}
+
+#[test]
 fn raced_final_receipt_before_prefinal_validation_is_zero_mutation() {
     let (_temp, store, record) = implemented_fixture();
     completed_recovery_attempt(&store, &record, "op-330-race-recovery");

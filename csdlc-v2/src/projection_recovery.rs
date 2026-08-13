@@ -3302,10 +3302,18 @@ fn reject_unexpected_cleanup_ledger_entries(
             ));
         }
     }
-    if !operation_root.join("private-delete").is_dir() {
+    let private_root = operation_root.join("private-delete");
+    let metadata = fs::symlink_metadata(&private_root)?;
+    if !metadata.is_dir() {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
             "cleanup private namespace is missing",
+        ));
+    }
+    if fs::read_dir(&private_root)?.next().is_some() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup private namespace contains unexpected entries",
         ));
     }
     Ok(())
