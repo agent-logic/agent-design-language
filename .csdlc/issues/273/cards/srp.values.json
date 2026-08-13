@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 273,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
+    "slug": "shepherd-serving-eligibility",
+    "version": "v0.92",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #273 typed six-card design, terminal #272 dependency, additive non-policy verified-cut API, Shepherd-only state model and proof, disjoint #274 module/test ownership, serialized registration, and exclusion of #205 parent implementation, #272 durable policy/state-machine changes beyond that API, #274 behavior, #275, process/listener, UI, cloud, and provider scope.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are #273 and #274 production modules/tests disjoint, with only one explicitly serialized registration line?",
+        "Can any caller become eligible without the exact current published #272 binding?",
+        "Can replacement, retry, restart, revoke, or expiry expose two owners or revive stale authority?",
+        "Do receipts and projection remain exact and redacted?",
+        "Are all predecessor cache/ancestry, validation, review, CI, and terminal gates explicit?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

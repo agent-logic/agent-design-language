@@ -26,6 +26,7 @@ pub mod projection;
 pub mod recovery;
 pub mod resource_weather;
 pub mod serving_authority;
+pub mod shepherd_serving_eligibility;
 pub mod snapshot_catalog;
 #[path = "transport/root.rs"]
 pub mod transport;
