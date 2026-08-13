@@ -121,7 +121,7 @@ def main() -> None:
     if index.get("issue") != 265:
         fail("index issue is not 265")
     phase = index.get("phase")
-    if phase not in {"initialized", "ready", "bound", "implemented"}:
+    if phase not in {"initialized", "ready", "bound", "implemented", "reviewed", "published"}:
         fail("issue is not in a preparation/execution phase")
     if phase in {"initialized", "ready"}:
         if index.get("branch") is not None or index.get("worktree") is not None:

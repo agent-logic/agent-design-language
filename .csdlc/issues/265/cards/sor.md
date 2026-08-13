@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress, including production startup profile loading and focused Contact plus Continue pre-side-effect refusal/authorization proof. Publication, CI, and terminal closeout remain pending fresh exact review.
+Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress, refreshed onto current origin/main a0d7b2bb before publication, and retained focused Contact plus Continue pre-side-effect refusal/authorization proof. Publication, CI, and terminal closeout remain pending fresh exact review.
 
 ## Artifacts
 
@@ -28,9 +28,11 @@ Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress
 
 ## Execution
 
-- Added a ControlService Layer 8 authority gate that signs and verifies ingress requests, authorizes Contact and Continue actions, and refuses unauthorized requests before conversation session or turn side effects.
-- Added production runtime startup wiring for optional Layer 8 authority/signing profiles, including sender key-byte identity binding, recipient Polis validation, and fail-closed incomplete or invalid configuration.
-- Added focused runtime-kernel regressions proving refused Contact leaves no conversation session, authorized Contact proceeds to dispatch, refused Continue leaves no continuation turn, and authorized Continue proceeds to dispatch.
+- Merged current origin/main a0d7b2bb into the #265 issue worktree after read-only collision checks found only #203 path changes on main and no overlap with #265 touched paths.
+- Kept the #265 Runtime kernel ingress implementation unchanged across the base refresh: ControlService signs/verifies ingress requests, authorizes Contact and Continue, and refuses unauthorized requests before conversation session or turn side effects.
+- Updated the issue-owned preparation validator to accept reviewed/published post-execution phases during base-refresh validation while preserving #112 terminal-cache and child-scope checks.
+- Retained production runtime startup wiring for optional Layer 8 authority/signing profiles, including sender key-byte identity binding, recipient Polis validation, and fail-closed incomplete or invalid configuration.
+- Retained focused runtime-kernel regressions proving refused Contact leaves no conversation session, authorized Contact proceeds to dispatch, refused Continue leaves no continuation turn, and authorized Continue proceeds to dispatch.
 
 ## Validation
 
@@ -40,7 +42,7 @@ Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress
       "python3",
       ".csdlc/prepared/issues/265/validate_preparation_bundle.py"
     ],
-    "purpose": "Verify the refreshed #265 preparation packet recognizes #112 terminal ancestry and preserves child-scope boundaries.",
+    "purpose": "Verify the refreshed #265 preparation packet recognizes #112 terminal ancestry and preserves child-scope boundaries after the main merge.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/265/issue-265-preparation-validator.log"
   },
@@ -55,7 +57,7 @@ Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress
       "--",
       "--nocapture"
     ],
-    "purpose": "Prove Contact and Continue Layer 8 ingress authorization/refusal before session or turn side effects.",
+    "purpose": "Prove Contact and Continue Layer 8 ingress authorization/refusal before session or turn side effects after the main merge.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/265/runtime-kernel-layer8-ingress-focused.log; 4 passed, 0 failed"
   },
@@ -67,7 +69,7 @@ Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress
       "adl-runtime-kernel/Cargo.toml",
       "--check"
     ],
-    "purpose": "Reject Rust formatting drift in the touched runtime kernel crate.",
+    "purpose": "Reject Rust formatting drift in the touched runtime kernel crate after the main merge.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/265/runtime-kernel-fmt.log"
   },
@@ -82,7 +84,7 @@ Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warning regressions across runtime kernel targets after production startup wiring.",
+    "purpose": "Reject warning regressions across runtime kernel targets after production startup wiring and the main merge.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/265/runtime-kernel-strict-clippy.log"
   },
@@ -92,7 +94,7 @@ Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and conflict-marker residue in the issue diff.",
+    "purpose": "Reject whitespace and conflict-marker residue in the issue diff after the main merge.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/265/diff-hygiene.log"
   }
