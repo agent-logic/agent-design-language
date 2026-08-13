@@ -363,7 +363,7 @@ pub struct VerifiedServingAuthorityCut {
 }
 
 impl VerifiedServingAuthorityCut {
-    #[cfg(any(test, debug_assertions))]
+    #[cfg(feature = "internal-test-fixtures")]
     pub fn fixture(
         generation: u64,
         owner_commit_id: String,
