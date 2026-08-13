@@ -260,13 +260,12 @@ printf 'M\tadl/src/cli/mod.rs\n' >"$cli_family"
 cli_family_output="$(bash "$SCRIPT" --changed-files "$cli_family" --print-plan)"
 assert_has "$cli_family_output" "mode=focused"
 assert_has "$cli_family_output" "filter_tokens=cli"
-assert_has "$cli_family_output" "filter_expression=test(/^cli::/) or binary_id(adl::bin/adl-process) or binary_id(adl::bin/adl-session)"
+assert_has "$cli_family_output" "filter_expression=test(/^cli::/) or binary_id(adl::bin/adl-process)"
 
 owner_binary_decomposition="$TMP/owner_binary_decomposition.txt"
 cat >"$owner_binary_decomposition" <<'EOF'
 M	adl/Cargo.toml
 M	adl/src/bin/adl_process.rs
-M	adl/src/bin/adl_session.rs
 M	adl/src/cli/agent_cmd.rs
 M	adl/src/cli/pr_cmd/github/tests/helpers.rs
 M	adl/src/cli/process_cmd.rs
@@ -277,7 +276,7 @@ owner_binary_decomposition_output="$(bash "$SCRIPT" --changed-files "$owner_bina
 assert_has "$owner_binary_decomposition_output" "mode=family"
 assert_has "$owner_binary_decomposition_output" "reason=bounded_rust_surface_runs_family_nextest"
 assert_has "$owner_binary_decomposition_output" "filter_tokens=pr_control_plane,cli"
-assert_has "$owner_binary_decomposition_output" "filter_expression=test(/^cli::pr_cmd::/) or test(/^cli::/) or binary_id(adl::bin/adl-process) or binary_id(adl::bin/adl-session)"
+assert_has "$owner_binary_decomposition_output" "filter_expression=test(/^cli::pr_cmd::/) or test(/^cli::/) or binary_id(adl::bin/adl-process)"
 
 csdlc_binary_taxonomy="$TMP/csdlc_binary_taxonomy.txt"
 cat >"$csdlc_binary_taxonomy" <<'EOF'
@@ -454,7 +453,7 @@ mixed_family_output="$(bash "$SCRIPT" --changed-files "$mixed_family" --print-pl
 assert_has "$mixed_family_output" "mode=family"
 assert_has "$mixed_family_output" "reason=bounded_family_surface_runs_family_nextest"
 assert_has "$mixed_family_output" "filter_tokens=runtime_v2,cli"
-assert_has "$mixed_family_output" "filter_expression=test(runtime_v2) or test(/^cli::/) or binary_id(adl::bin/adl-process) or binary_id(adl::bin/adl-session)"
+assert_has "$mixed_family_output" "filter_expression=test(runtime_v2) or test(/^cli::/) or binary_id(adl::bin/adl-process)"
 
 manifest_plus_finish="$TMP/manifest_plus_finish.txt"
 cat >"$manifest_plus_finish" <<'EOF'

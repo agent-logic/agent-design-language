@@ -12,18 +12,23 @@ Status: pre_phase
 
 ## Summary
 
-Repair #5913 adl-review read-only compatibility routing for verify-repo-contract and deterministic fixture code-review without provider credentials or v1 lifecycle resurrection.
+Repair #5913 adl-review compatibility routing and the PR-fast CI selector needed to validate that routing after publication.
 
 ## Artifacts
 
 - adl/src/cli/mod.rs
 - adl/tools/test_adl_review_compatibility.sh
+- adl/tools/run_pr_fast_test_lane.sh
+- adl/tools/test_run_pr_fast_test_lane.sh
+- .csdlc/evidence/5913/ci-fix-pr-fast-routing.log
 
 ## Execution
 
 - Route adl-review verify-repo-contract to a direct markdown repository-review contract verifier instead of the removed v1 tooling multiplexer.
 - Route adl-review code-review fixture mode to the deterministic CodeBuddy/CodeFriend showcase smoke path and validator, rejecting provider-backed backends for this bounded issue.
 - Update the focused compatibility regression so it no longer uses adl tooling as an oracle and covers good/bad contract packets, deterministic fixture smoke, narrowed help output, and hidden stale command diagnostics without v1/multiplexer wording.
+- Remove the stale `binary_id(adl::bin/adl-session)` selector from the CLI-family PR-fast test lane because `adl-session` is no longer a declared binary.
+- Update the PR-fast selector contract test expectations so the generated focused filter matches the current declared CLI/process binary surface.
 
 ## Validation
 
@@ -77,16 +82,43 @@ Repair #5913 adl-review read-only compatibility routing for verify-repo-contract
     "purpose": "Strict relevant Rust lint after hidden stale-command diagnostic wording fix",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5913/review-finding-fix-clippy.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_run_pr_fast_test_lane.sh",
+      "+",
+      "bash",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "--base",
+      "5a1d3bfda7108bede1572cbd9dc9e2af19d9eedb",
+      "--head",
+      "HEAD",
+      "--print-plan",
+      "+",
+      "cargo",
+      "nextest",
+      "list",
+      "--workspace",
+      "-E",
+      "test(/^cli::/) or binary_id(adl::bin/adl-process)",
+      "+",
+      "bash",
+      "adl/tools/test_adl_review_compatibility.sh"
+    ],
+    "purpose": "Post-publication CI-fix validation for stale PR-fast nextest binary_id routing plus original adl-review compatibility smoke.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5913/ci-fix-pr-fast-routing.log"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
