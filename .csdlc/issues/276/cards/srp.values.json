@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 276,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04a][114.a] Implement durable conversation journal foundation",
+    "slug": "v0-92-wp-18c-04a-114-a-durable-conversation-journal-foundation",
+    "version": "v0.92.0",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Fresh design/readiness review of #276 refreshed preparation packet only; no implementation review.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #276 remain the first #114 child and only own durable journal foundation scope?",
+        "Do cards and validator correctly consume canonical terminal caches for #112, #265, and #270?",
+        "Do non-goals prevent absorption of #277 replay/watermark/receipt semantics, #278 history/API/Observatory work, #114 parent integration proof, and #270 acknowledgement trust?",
+        "Is it safe to approve design and bind only the dedicated #276 FastWork worktree?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
