@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "268827b0fb47d6237998ae2debc5904f7fe4752e904cbb2c512576098d45d828",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "36a901f4be7a7f74ee54ef67076931e272c01c2d82a84ccef12d8e340dd55709",
+  "generation": 24,
+  "digest": "8f42f464fd7dee2440914324c4d8545058ea6827e43d4d14b7bccc4b065abdf2",
   "branch": "codex/270-trusted-recipient-ack-runtime-api",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-270-trusted-recipient-ack-runtime-api",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "97a278b5c1edba4372abe2d4a6d9445f94f2af59b7cc151972b99448bf4306c4",
+      "values_digest": "292808e9ef4a1ce4c8b94d0196857d3ec7706c0ab6d0c3bbee923a81758bbd8d",
       "rendered_digest": "6942749792da83792154723d092f2d1b3271c25aea7c2c9a533f077e762577be",
       "ast_digest": "10b5187aa61b4641e94c28f6e68f1928a7db64488f1a67c16278796535f384ae"
     },
     "stp": {
-      "values_digest": "19711b8a0cc16a2f206bf636186f51dcb44c9a2a50a6a9507528b05c5b7728c4",
+      "values_digest": "fd46315a4032c9614a8f26be2e8db0f2784bdc385efd5c237953c6c1f135f111",
       "rendered_digest": "92de8eaed653a503d59f8c9c42647a6e5443a3a435f0a4a8759c7fef6b94d917",
       "ast_digest": "dc283e8063279f1feb2adbd342cb558f83f835fc6b579c99cf8fd10582f879eb"
     },
     "spp": {
-      "values_digest": "269c058ad97bb8000f96cf14dc193efa32c90b48b9766fec04394dabca92e6e2",
-      "rendered_digest": "5ed4b67c8562bc26e18c94bda8069bea4f14e433329210ac868e9336c902bdb9",
-      "ast_digest": "370893d53597800bc08cdf8b0a0fddd6281d5e6b22fb13b4501f1075cd8b50ea"
+      "values_digest": "b3ca78b701ebca57093919f38e287aeedde69c4570a8ae890d309014cca274b3",
+      "rendered_digest": "32a2878f1a00ffbc5de7615848a006888c3ad5218fbe27b2765ffebda3dd1fab",
+      "ast_digest": "0d758c5fb5883bc35ced732e4aeeaa80ba1a4138c7af2bf00ee8bb614ed154e6"
     },
     "vpp": {
-      "values_digest": "c79cd561b0b47bc7eeb75d315cc227ea3abe266d60a62e448385fb0484180abd",
+      "values_digest": "4c14782b61232547943fc95c3b904be4f49675557da23f55a4bb6e6f62ac7fff",
       "rendered_digest": "05fc374d3e183fa2408e007bbdc655136d3b09bcf38d849a75a5a63608d83a32",
       "ast_digest": "7773a523ac9e324f4b66d273fa6635b6ae2c68086b1bca95df5fa09b38ee9b7c"
     },
     "srp": {
-      "values_digest": "c785fb13a4ac144acc2052f983eeeebb77998952f87de0eafe20b7be2ca8e252",
+      "values_digest": "279576ef1cd527be8415ba02413a9e31976517e85dfe0b8011722f15e521e216",
       "rendered_digest": "ddf56eacf5b56bd54286d9d76674936ae447394dd8579125a7a927a1ebdb5850",
       "ast_digest": "8eb2cb865e1c79bdd6538dbf75b5cb9175739f9240db5482c8ee24218cd3aa78"
     },
     "sor": {
-      "values_digest": "064689f1461f1612e4da5d65817ea934b2aa831023b408697df71406ba15764e",
+      "values_digest": "96d8c6d6b2b3380d9d13820af621a8d63a33fda7b13845741899b25af67fa9ec",
       "rendered_digest": "ca758003e7494f2e4c05de69159838fae5f9803879e948d6d67bc40afd6474af",
       "ast_digest": "693ee7f2c1b102ec35252807206d756a86a4a868d7172c3cbcd1f27edad3c840"
     }
@@ -211,6 +211,104 @@
       "actor": "codex:/root",
       "reason": "Record implemented-phase #270 P1 review-finding remediation and refreshed exact proof before assigning a new fresh exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented trusted Layer 8 recipient-acknowledgement Runtime API protocol, then remediated the P1 exact-review finding by validating recipient acknowledgement payload semantics before reporting delivery.\",\"changes\":[\"Added the served Runtime Core recipient-acknowledgement route that verifies sender-signed requests and recipient-signed acknowledgements before returning delivery status.\",\"Bound acknowledgement responses to signed credential generations and redacted correlation by returning only a BLAKE3 correlation hash.\",\"Validated the recipient acknowledgement payload itself after signature verification: accepted delivery is required, refused delivery remains refused, and unrelated or recipient-mismatched payloads fail before delivered state.\",\"Added focused regressions for verified delivery, tampered credential-generation refusal before side effects, served-route response redaction, recipient-signed delivery refusal, and unrelated signed acknowledgement payload refusal.\",\"Updated Runtime Core OpenAPI contract and route-inventory proof for the new acknowledgement endpoint.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/openapi.json\",\".csdlc/prepared/issues/270/validate_preparation_bundle.py\",\".csdlc/prepared/issues/270/readiness-packet.md\",\".csdlc/evidence/270\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run git diff hygiene check after #270 P1 acknowledgement-payload remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/270/diff-hygiene.log\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/270/validate_preparation_bundle.py\"],\"purpose\":\"Run the issue-owned preparation validator after #112 and #265 terminal caches are present and the validator accepts bound/implemented phases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/270/issue-270-preparation-validator.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"recipient_ack\",\"--\",\"--nocapture\"],\"purpose\":\"Run the focused #270 Runtime recipient acknowledgement regressions including the P1 fix cases for recipient-signed refusal and unrelated signed acknowledgement payload refusal.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/270/runtime-ack-api-focused.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Run rustfmt check for adl-runtime-kernel after #270 P1 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/270/runtime-kernel-fmt.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for adl-runtime-kernel after #270 P1 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/270/runtime-kernel-strict-clippy.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\",\"--\",\"--nocapture\"],\"purpose\":\"Run the Runtime Core OpenAPI route-inventory contract tests after #270 API route integration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/270/runtime-openapi-contract.log\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:root",
+      "reason": "Fresh review assignment fresh-session:665e1a61-dfdb-4126-b92c-54a3af792957 produced no verdict after a bounded interval and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged #270 P1-remediated revision 700d61eb07442ad7f45a58b34c11da46af1aa704.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "Fresh review assignment fresh-session:53dd0363-5957-4faf-b7b5-753aa4455817 produced no verdict after a bounded interval and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged #270 P1-remediated revision 700d61eb07442ad7f45a58b34c11da46af1aa704.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:root",
+      "reason": "Fresh review assignment fresh-session:8a6468b4-6de5-4976-bdae-d56734aa5ada produced no verdict after a bounded interval and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged #270 P1-remediated revision 700d61eb07442ad7f45a58b34c11da46af1aa704.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:root",
+      "reason": "Fresh review assignment fresh-session:47b003ba-7676-4bcf-9c87-4ad8f163dcbe produced no verdict after one bounded interval and was interrupted once per operator instruction. Preserve assignment truth as no-result and recover review authority before assigning reserved candidate-blind reviewer fresh-session:0aac0f29-09b8-47fb-9e48-b532a88ee5f8 against unchanged #270 P1-remediated revision 700d61eb07442ad7f45a58b34c11da46af1aa704.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:root",
+      "reason": "Fresh review fresh-session:0aac0f29-09b8-47fb-9e48-b532a88ee5f8 returned FAIL with one P2 lifecycle truth finding and no product/code/security findings: .csdlc/issues/270/cards/spp.md lines 20-57 leave S1-S3 pending even though SOR/index prove dependency confirmation, bind, and implementation are complete. Recover review authority before typed SPP plan-step truth repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Repair #270 SPP lifecycle truth after R5 review: S1 dependency/live-scope confirmation is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Repair #270 SPP lifecycle truth after R5 review: S2 typed FastWork bind is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Repair #270 SPP lifecycle truth after R5 review: S3 Runtime acknowledgement API implementation is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "Repair #270 SPP lifecycle truth after R5 review: S4 validation/review/publication/CI/finish lane is in progress, not complete, because fresh review and publication/finish remain open.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
     }
   ]
 }
