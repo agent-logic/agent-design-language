@@ -14,4 +14,3 @@
     "rationale": "The capability token is already governed by the certificate-store authorization API; importing and passing it through adds no predicate, branch, state mutation, or error behavior."
   }]
 }
-

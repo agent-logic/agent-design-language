@@ -33,9 +33,6 @@ write_mapping
 printf '%s\n' 'diff --git a/adl-runtime/src/distributed/transport/core.rs b/adl-runtime/src/distributed/transport/core.rs' '--- a/adl-runtime/src/distributed/transport/core.rs' '+++ b/adl-runtime/src/distributed/transport/core.rs' '@@ -20,1 +20,4 @@' '-use super::certificates::{AuthorityCertificate, CertificatePurpose};' '+use super::certificates::{' '+    AuthorityCertificate, CertificatePurpose,' '+    AUTHORITY_BOUND_CERTIFICATE_ACCESS,' '+};' >"$TEMP_ROOT/change.diff"
 accept
 jq -e '.hunks[0].kind == "import_only"' "$TEMP_ROOT/receipt.json" >/dev/null
-printf '%s\n' 'diff --git a/adl-runtime/src/distributed/transport/core.rs b/adl-runtime/src/distributed/transport/core.rs' '--- a/adl-runtime/src/distributed/transport/core.rs' '+++ b/adl-runtime/src/distributed/transport/core.rs' '@@ -20,1 +20,2 @@' ' use super::lease::VoterAuthority;' '+use super::certificates::AUTHORITY_BOUND_CERTIFICATE_ACCESS;' >"$TEMP_ROOT/change.diff"
-accept
-jq -e '.hunks[0].kind == "import_only"' "$TEMP_ROOT/receipt.json" >/dev/null
 write_diff '+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,'
 accept
 jq -e '.hunks[0].kind == "argument_pass_through"' "$TEMP_ROOT/receipt.json" >/dev/null
