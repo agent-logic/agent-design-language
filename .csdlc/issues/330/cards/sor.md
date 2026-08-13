@@ -121,7 +121,7 @@ Remediated r1 review findings for #330. Recovery-side cleanup ledger authorizati
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
