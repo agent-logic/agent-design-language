@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
-  "phase": "implemented",
-  "generation": 35,
-  "digest": "b1a5a4d5a9a0a2be647f7fb77a4dc68fa29f171d16e96b5156a745650575de35",
+  "phase": "reviewed",
+  "generation": 36,
+  "digest": "17d25b6a58219e19fc6866b9d75e8a92622b243104500034914c7ffdddb642de",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
   "review_assignment": {
@@ -21,7 +21,25 @@
       ".csdlc/evidence/299"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:30dd7666-9512-486d-91b4-c7fe6036e8f2",
+    "scope": [
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/projection_cleanup.rs",
+      "csdlc-v2/tests/archived_projection_cleanup.rs",
+      ".csdlc/issues/299",
+      ".csdlc/evidence/299"
+    ],
+    "reviewed_revision": "git-blake3:aa717ba8043b344ab8f83fbea7ba325009416094:e9d3431dac0c7cdf97dc2ca39d03e7df7c96d5c19a342c60c8d007b941a32e84",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only exact-head inspection and did not rerun validation; it verified the owner-recorded exact-head focused, full hosted-geometry, strict Clippy, fmt, diff-check evidence and SOR hash truth.",
+      "The live worktree HEAD c98d4d7653dc9bbaf146cda997b3bca353bffb2b contains typed assignment metadata only; substantive source/test review was against aa717ba8043b344ab8f83fbea7ba325009416094.",
+      "Earlier r15 gate_github_actions RED remains historical/classified issue truth and is not itself claimed as a PASS; current resynced broad hosted-geometry evidence at 586b24441513f8062b9495eac4fdc70e0b9e9929 is PASS."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9ba9faa0866453bc155a3c2431bf347fe398c3b6ea57b5fe75cd90ddd7e803c6",
+      "values_digest": "d556d33904e0d7fa64a1b9e3dd1d19c971ef4e0bd2f9f211ec61db275e14111d",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "a2f54a822042bd06b5051c9433e8c70b0e736711762628d01877e1e44913dc2c",
+      "values_digest": "4569b48f5156d541cf40464de7ab889f421e2d9a2c1435641d09a545af8e4588",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "e53cebeff1438f06421062edfe9049fc1bc2b69b5f0b26392f27c4fb7f09e24b",
+      "values_digest": "3107ad25fc1847d246e7c4873e84619765d7ce6996b5559c82481d4529e39f76",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "de6b842bfc46a49b4e3e600342c5e63f9eeadf6ab6b1822aa9361a862265742e",
+      "values_digest": "19cc9610b602208cc3618bbe41174ad4bd3f0eaa56590ce66c506a564a3c9334",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "3339be9fd0c64b6576764f43409e93c4913af9d1edad94a16bbdc717bcbb32ad",
-      "rendered_digest": "c4d7e611f2a61e0fe18da577cb3be323f3090814cc8ce0253516dcf88eed4386",
-      "ast_digest": "1790a2d2b809f4d1a3deb73dd52ebe35557a04f77a34bca8159d26f9cadd4f7e"
+      "values_digest": "5849942685cab936c8ce62f423f9379605e95ffec2edf4d89babf97e0f80f5c3",
+      "rendered_digest": "e58a92324ad52c6e11ab61719a83f3931df5bf9693082c1f6bcbe19dee134e83",
+      "ast_digest": "c555d6bc7db646b9301c462837395cc4a10c1b65d4735268b08b0898417b75b6"
     },
     "sor": {
-      "values_digest": "4ab4f5225191bed02e416d96883c5162040866d481f61989804df8739786b6aa",
+      "values_digest": "5b78834ca890703a28824ec964df14ed316df3ff6c0243353d0d715096d33e3e",
       "rendered_digest": "7b609ed7797cc3b1df25460d1ea7630c46914e402afc25d828d29252e5d41d92",
       "ast_digest": "199f50d545395b9bb0789284fbc3d09957f7ef3768d47cc95d6a2d5a484d816f"
     }
@@ -108,6 +126,13 @@
       "to": "implemented",
       "actor": "codex:worker-5",
       "reason": "Recover published PR #325 at git head 3ce1716eeaf277a30d00ff11c92abebe1002962e after hosted CI run 31682167016 failed csdlc-v2-standalone job 94390045054. Exact failure was in csdlc-v2/tests/archived_projection_cleanup.rs: cleanup_rejects_replacement_inode_before_capture and cleanup_preserves_public_replacement_before_placeholder_disposal returned Completed under Linux/CI because replacement fixtures changed content without forcing CleanupNodeIdentity drift; this is #299 test/proof remediation, not merge-ready."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:30dd7666-9512-486d-91b4-c7fe6036e8f2",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -453,6 +478,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 36,
+      "actor": "fresh-session:30dd7666-9512-486d-91b4-c7fe6036e8f2",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

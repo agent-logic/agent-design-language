@@ -37,12 +37,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was read-only exact-head inspection and did not rerun validation; it verified the owner-recorded exact-head focused, full hosted-geometry, strict Clippy, fmt, diff-check evidence and SOR hash truth.
+- The live worktree HEAD c98d4d7653dc9bbaf146cda997b3bca353bffb2b contains typed assignment metadata only; substantive source/test review was against aa717ba8043b344ab8f83fbea7ba325009416094.
+- Earlier r15 gate_github_actions RED remains historical/classified issue truth and is not itself claimed as a PASS; current resynced broad hosted-geometry evidence at 586b24441513f8062b9495eac4fdc70e0b9e9929 is PASS.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:aa717ba8043b344ab8f83fbea7ba325009416094:e9d3431dac0c7cdf97dc2ca39d03e7df7c96d5c19a342c60c8d007b941a32e84")
 
-Reviewer: None
+Reviewer: Some("fresh-session:30dd7666-9512-486d-91b4-c7fe6036e8f2")
 
-Result: pre_review
+Result: pass
