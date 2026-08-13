@@ -1,0 +1,124 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 331,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d10036bad298d32728c965e820139dbff4ce7a3cd93d8badbc46214d1fbc16b0",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "0009def6fdc1f099deac5bb4773d66fa724154b1e0b06d885b619ed14dbc0e6e",
+  "branch": "codex/331-initialized-code-repository-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-331-initialized-code-repository-recovery",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/331/design.md",
+  "diagram_path": ".csdlc/prepared/issues/331/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:/root/issue331_fresh_design_review_8",
+      "revision": "55f1ca7bc01337f2b4f62e3e4b34891200d21c4b8b23c8585126bd1d17d106dd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ab923a62d65e39d2f7ddb4de6f9e9d4709eece538b7b40d44571296ade1e67d9",
+      "rendered_digest": "dd8d6e2fe53c084c79098ab820fc461459cedb17fbd97cc99825f89d63834a49",
+      "ast_digest": "54863410c2ffea851545ccc80dc2783d2b5393dba9a76e5225668e423881f3dd"
+    },
+    "stp": {
+      "values_digest": "dec674f4c9e630377c4817d166dbd2f437944eaa00686897c68e3b801cdb7699",
+      "rendered_digest": "dfb5209f7d7e9113440476b004636572ac9d611db2c85f8f4a21b3e399f8dc32",
+      "ast_digest": "77cbe8b0872ea62c634921e8afb8821ab3694e9aee9698fe0c660c7bdedddf15"
+    },
+    "spp": {
+      "values_digest": "19aa474b2efd818560c9aeadfba17e7a95ce4d84cc1f10126c4c525a1e2dc258",
+      "rendered_digest": "59d56e5aedd317e7f2f30706f0c08488f6222c2f66e3c5d257bb7fe58ba4d5de",
+      "ast_digest": "e7c94237b50ebfc827a047c5fdd6764548dbecc0046bdccc29f9034a1023a30c"
+    },
+    "vpp": {
+      "values_digest": "f65bb4e3e62a92c3ac0c4768777969dc16ebed87303ddef9119bc35ba2e5b78f",
+      "rendered_digest": "c8cf269e07f89d5008b0b9b01744f95d3e50d8adfc219c6c859d03a68ecd9309",
+      "ast_digest": "3257ce6fde5db8710c20706cade47a63fea5620ca3307e398157197d60576860"
+    },
+    "srp": {
+      "values_digest": "f3f014aa07c5dbf6efeec8ad6d2090952c5fb70e23021a67691a787dc265cddf",
+      "rendered_digest": "8815546f18eefbd684e30b1c04b5e3d8d6c238c3f1faaa73512ca8737ac60355",
+      "ast_digest": "66294877c645e16c6e1cd4180ed1cc3d0e42f3b84b633dc335762e212d123ef5"
+    },
+    "sor": {
+      "values_digest": "fb68f0e5f89b25dcd2a177b2eb8badae2402cc82804047f5d1bab41ad455cba2",
+      "rendered_digest": "dbfc3d8f048c3837b1aaa3fafcb008e2f46e2178d3582f8316c6089a2929012f",
+      "ast_digest": "15243083809d3efc3dbad3d447242a1255586e9597c67db7cbc35fbd66d05e58"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair second #331 design-review P1 findings by requiring digest-bound canonical collision evidence and selecting a concrete initialized/unbound report schema.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/331/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/331/diagram.mmd\",\"new_design_digest\":\"55f1ca7bc01337f2b4f62e3e4b34891200d21c4b8b23c8585126bd1d17d106dd\",\"new_diagram_digest\":\"25289d31b866a3f09cc50370502dcfc230789bab74c38e26448449efc81b9a32\",\"old_design_digest\":\"55f1ca7bc01337f2b4f62e3e4b34891200d21c4b8b23c8585126bd1d17d106dd\",\"old_diagram_digest\":\"25289d31b866a3f09cc50370502dcfc230789bab74c38e26448449efc81b9a32\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: A typed request can set code_repository = agent-logic/agent-design-language for an initialized issue whose issue repository remains danielbaustin/agent-design-language.\",\"AC-2: The route requires exact issue, expected generation, expected digest, actor, reason, source issue repository, target code repository, canonical issue collision evidence ref, and collision evidence digest, and fails closed unless source issue repository exactly equals the existing record repository.\",\"AC-3: The route fails closed on stale generation/digest, malformed repository identity, existing code_repository, source-repository mismatch, missing or digest-mismatched collision evidence, unsupported same-number canonical collision disposition, non-null branch/worktree, publication/merge/closeout mutation, or missing reason.\",\"AC-4: The route appends auditable initialized/unbound lifecycle evidence using csdlc.initialized_code_repository_migration_report.v1 / csdlc.initialized_code_repository_migration_evidence.v1, increments generation/digest, permits explicit null branch/worktree only under topology_state initialized_unbound, and does not rewrite prior audit entries, design/diagram bytes, unrelated cards, readiness, review, terminal, or publication state.\",\"AC-5: After the route plus valid design review, csdlc-doctor and csdlc-validate issue can pass for initialized/unbound preparation records that are otherwise ready, proven by a specifically named nonzero regression.\",\"AC-6: Bound/implemented/reviewed migration behavior and the existing csdlc.code_repository_migration_report.v1 / evidence.v1 shapes remain backward compatible.\",\"AC-7: Regression fixtures cover #5837/#5838 style initialized legacy issue authority with canonical code repository and no bind.\"]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Bind the materialized #331 initialized migration validator digest into typed VPP truth before fresh design review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"code-repository-migration-initialized-nonzero-proof\",\"proof_role\":\"Run the issue-owned initialized migration validator at .csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py with SHA-256 b2b8a3792ee7e3bc374044c24443d8730a64c5fd35efe0c400299172b368b47f. The validator must execute exact named regressions for digest-bound collision evidence, initialized/unbound evidence schema, and doctor plus csdlc-validate issue readiness; it must fail closed if its bytes drift, any exact test is missing, Cargo reports running 0 tests, or doctor/validate proof is absent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"python3\",\".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py\",\"--mode\",\"initialized-nonzero\"],\"parallel_group\":\"local\",\"defer_reason\":\"Runs after #331 implementation with the materialized validator digest b2b8a3792ee7e3bc374044c24443d8730a64c5fd35efe0c400299172b368b47f; fail closed on missing validator, digest drift, missing exact tests, zero tests, or missing doctor/validate subproof.\"},{\"lane\":\"code-repository-migration-compatibility-regression\",\"proof_role\":\"Prove existing bound/implemented/reviewed code-repository migration report/evidence compatibility remains unchanged with an exact named regression.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"code_repository_migration\",\"bound_code_repository_migration_report_schema_remains_unchanged\",\"--\",\"--exact\"],\"parallel_group\":\"local\",\"defer_reason\":\"Runs after #331 implementation; the issue-owned initialized validator separately guards zero-test behavior for AC-5.\"},{\"lane\":\"csdlc-v2-fmt\",\"proof_role\":\"Reject formatting drift in the changed C-SDLC v2 crate.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-strict-clippy\",\"proof_role\":\"Reject warning regressions in the changed C-SDLC v2 crate.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:/root/issue331_fresh_design_review_8",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

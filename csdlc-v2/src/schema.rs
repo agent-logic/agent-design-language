@@ -17,7 +17,8 @@ use crate::lifecycle::{BindRequest, BindResult};
 use crate::migration::{
     BoundIssueIdentityMigrationReport, BoundIssueIdentityMigrationRequest,
     BoundTopologyMigrationReport, BoundTopologyMigrationRequest, CodeRepositoryMigrationReport,
-    CodeRepositoryMigrationRequest, ImportReport, LegacyImportRequest, NormalizedOutcome,
+    CodeRepositoryMigrationRequest, ImportReport, InitializedCodeRepositoryMigrationReport,
+    InitializedCodeRepositoryMigrationRequest, LegacyImportRequest, NormalizedOutcome,
     ShadowComparison,
 };
 use crate::model::IssueRecord;
@@ -98,6 +99,8 @@ pub fn public_schema_bundle() -> Value {
         "bound_issue_identity_migration_report": schemars::schema_for!(BoundIssueIdentityMigrationReport),
         "code_repository_migration_request": schemars::schema_for!(CodeRepositoryMigrationRequest),
         "code_repository_migration_report": schemars::schema_for!(CodeRepositoryMigrationReport),
+        "initialized_code_repository_migration_request": schemars::schema_for!(InitializedCodeRepositoryMigrationRequest),
+        "initialized_code_repository_migration_report": schemars::schema_for!(InitializedCodeRepositoryMigrationReport),
         "normalized_outcome": schemars::schema_for!(NormalizedOutcome),
         "shadow_comparison": schemars::schema_for!(ShadowComparison),
         "deletion_eligibility": crate::eligibility::eligibility_schema_bundle(),

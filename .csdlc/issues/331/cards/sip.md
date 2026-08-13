@@ -1,0 +1,49 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 331
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Repair typed C-SDLC repository-identity recovery so initialized legacy-authority records can declare canonical code repository without binding or hand edits.
+
+## Required Outcome
+
+Initialized, unbound legacy issue records such as #5837 and #5838 can record explicit canonical code_repository through a typed owner operation, clearing repository_identity_drift while preserving lifecycle truth.
+
+## Scope
+
+- csdlc-v2/src/migration.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/src/doctor.rs if needed for diagnosis/readiness compatibility
+- csdlc-v2/src/bin/csdlc-issue.rs if needed for CLI/schema routing
+- csdlc-v2/tests/code_repository_migration.rs
+- focused doctor/gate2 repository-identity regressions if needed
+- .csdlc/evidence/331
+
+## Authority
+
+- #331 owns only typed initialized code_repository declaration/recovery
+- #5837 and #5838 remain consumers/reproductions and are not mutated by #331 implementation
+- Issue repository identity remains distinct from canonical code repository identity
+- Typed C-SDLC v2 remains the sole lifecycle authority
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Wait for #330 root projection clearance before bootstrap
+- Never hand-edit lifecycle records
+- Do not alter #5838's still-current design
+- Bind beneath /Volumes/FastWork/adl-worktrees before source edits
+- No raw GitHub lifecycle writes
+- Preserve #5837 recovery packet and current staging

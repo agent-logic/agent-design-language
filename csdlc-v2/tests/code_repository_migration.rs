@@ -3,10 +3,13 @@ use std::process::Command;
 
 use csdlc_v2::cards::{CardKind, PlanStep, ResourceProfile, StepStatus, ValidationLane};
 use csdlc_v2::{
-    bind_issue, edit_issue, migrate_code_repository, prepare_publication, record_review,
-    BindRequest, BootstrapRequest, CodeRepositoryMigrationRequest, EditRequest, ErrorCode,
-    InitialCardInput, LifecyclePhase, PlanningProfile, PublicationLinkageMode, PublicationRequest,
-    ReviewEvidence, ReviewRecordRequest, SemanticOperation, Store,
+    bind_issue, edit_issue, migrate_code_repository, migrate_initialized_code_repository,
+    prepare_publication, record_review, BindRequest, BootstrapRequest,
+    CodeRepositoryMigrationRequest, EditRequest, ErrorCode, InitialCardInput,
+    InitializedCanonicalCollisionDisposition, InitializedCodeRepositoryCollisionEvidence,
+    InitializedCodeRepositoryMigrationRequest, LifecyclePhase, PlanningProfile,
+    PublicationLinkageMode, PublicationRequest, ReviewEvidence, ReviewRecordRequest,
+    SemanticOperation, Store,
 };
 
 const ISSUE: u64 = 90;
@@ -190,6 +193,50 @@ fn fixture() -> (tempfile::TempDir, Store) {
     (temp, store)
 }
 
+fn initialized_fixture() -> (tempfile::TempDir, Store) {
+    let temp = tempfile::tempdir().unwrap();
+    fs::create_dir_all(temp.path().join("docs")).unwrap();
+    fs::create_dir_all(temp.path().join("src")).unwrap();
+    fs::create_dir_all(temp.path().join("evidence")).unwrap();
+    fs::write(temp.path().join("docs/design.md"), "# Approved design\n").unwrap();
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n A --> B\n",
+    )
+    .unwrap();
+    fs::write(temp.path().join("src/lib.rs"), "pub fn fixture() {}\n").unwrap();
+    fs::write(
+        temp.path().join("src/validate.sh"),
+        "#!/usr/bin/env bash\nset -euo pipefail\ntest -f src/lib.rs\n",
+    )
+    .unwrap();
+    install_native_authority(temp.path());
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    git(
+        temp.path(),
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://github.com/agent-logic/agent-design-language.git",
+        ],
+    );
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+
+    let store = Store::new(temp.path());
+    csdlc_v2::initialize_native_json(&store, &serde_json::to_vec(&bootstrap_request()).unwrap())
+        .unwrap();
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "initialize issue"]);
+    (temp, store)
+}
+
 fn request(store: &Store) -> CodeRepositoryMigrationRequest {
     let record = store.load_record(ISSUE).unwrap();
     CodeRepositoryMigrationRequest {
@@ -200,6 +247,51 @@ fn request(store: &Store) -> CodeRepositoryMigrationRequest {
         expected_digest: record.digest,
         actor: "test-migrator".into(),
         reason: "recover pre-field record".into(),
+    }
+}
+
+fn initialized_collision_evidence(
+    root: &std::path::Path,
+    disposition: InitializedCanonicalCollisionDisposition,
+) -> (String, String) {
+    let path = "evidence/initialized-code-repository-collision.json";
+    let target_same_number_issue = match disposition {
+        InitializedCanonicalCollisionDisposition::SameNumberAbsent => None,
+        InitializedCanonicalCollisionDisposition::SameNumberNonAuthoritative
+        | InitializedCanonicalCollisionDisposition::SameNumberSuccessor => Some(ISSUE),
+    };
+    let evidence = InitializedCodeRepositoryCollisionEvidence {
+        schema: "csdlc.initialized_code_repository_collision_evidence.v1".into(),
+        source_issue_repository: ISSUE_REPOSITORY.into(),
+        source_issue: ISSUE,
+        target_code_repository: CODE_REPOSITORY.into(),
+        target_same_number_issue,
+        disposition,
+        observed_state: "open".into(),
+        operation_key: "test-initialized-code-repository-collision".into(),
+    };
+    let bytes = serde_json::to_vec_pretty(&evidence).unwrap();
+    fs::write(root.join(path), &bytes).unwrap();
+    (path.into(), csdlc_v2::cards::digest(&bytes))
+}
+
+fn initialized_request(store: &Store) -> InitializedCodeRepositoryMigrationRequest {
+    let record = store.load_record(ISSUE).unwrap();
+    let (ref_path, evidence_digest) = initialized_collision_evidence(
+        store.root(),
+        InitializedCanonicalCollisionDisposition::SameNumberNonAuthoritative,
+    );
+    InitializedCodeRepositoryMigrationRequest {
+        schema: "csdlc.initialized_code_repository_migration_request.v1".into(),
+        issue: ISSUE,
+        source_issue_repository: ISSUE_REPOSITORY.into(),
+        code_repository: CODE_REPOSITORY.into(),
+        expected_generation: record.generation,
+        expected_digest: record.digest,
+        actor: "test-migrator".into(),
+        reason: "recover initialized legacy record".into(),
+        canonical_issue_collision_evidence_ref: ref_path,
+        canonical_issue_collision_evidence_digest: evidence_digest,
     }
 }
 
@@ -511,10 +603,171 @@ fn reviewed_record_preserves_review_and_passes_split_publication_preflight() {
 }
 
 #[test]
+fn initialized_code_repository_migration_requires_digest_bound_collision_evidence() {
+    let (_temp, store) = initialized_fixture();
+    let before = fs::read(store.issue_dir(ISSUE).join("index.json")).unwrap();
+    let mut stale_generation = initialized_request(&store);
+    stale_generation.expected_generation += 1;
+    assert_eq!(
+        migrate_initialized_code_repository(&store, stale_generation)
+            .unwrap_err()
+            .code,
+        ErrorCode::StaleGeneration
+    );
+
+    let mut mismatched_digest = initialized_request(&store);
+    mismatched_digest.canonical_issue_collision_evidence_digest = "0".repeat(64);
+    assert_eq!(
+        migrate_initialized_code_repository(&store, mismatched_digest)
+            .unwrap_err()
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+
+    let mut mismatched_source = initialized_request(&store);
+    mismatched_source.source_issue_repository = "other/repo".into();
+    assert_eq!(
+        migrate_initialized_code_repository(&store, mismatched_source)
+            .unwrap_err()
+            .code,
+        ErrorCode::InvalidInput
+    );
+
+    let mut bad_collision = initialized_request(&store);
+    let bad_evidence = InitializedCodeRepositoryCollisionEvidence {
+        schema: "csdlc.initialized_code_repository_collision_evidence.v1".into(),
+        source_issue_repository: ISSUE_REPOSITORY.into(),
+        source_issue: ISSUE,
+        target_code_repository: CODE_REPOSITORY.into(),
+        target_same_number_issue: None,
+        disposition: InitializedCanonicalCollisionDisposition::SameNumberSuccessor,
+        observed_state: "open".into(),
+        operation_key: "bad-collision".into(),
+    };
+    let bytes = serde_json::to_vec_pretty(&bad_evidence).unwrap();
+    fs::write(
+        store
+            .root()
+            .join(&bad_collision.canonical_issue_collision_evidence_ref),
+        &bytes,
+    )
+    .unwrap();
+    bad_collision.canonical_issue_collision_evidence_digest = csdlc_v2::cards::digest(&bytes);
+    assert_eq!(
+        migrate_initialized_code_repository(&store, bad_collision)
+            .unwrap_err()
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+
+    assert_eq!(
+        fs::read(store.issue_dir(ISSUE).join("index.json")).unwrap(),
+        before
+    );
+}
+
+#[test]
+fn initialized_code_repository_migration_emits_v1_initialized_unbound_evidence() {
+    let (_temp, store) = initialized_fixture();
+    let before = store.load_record(ISSUE).unwrap();
+    let cards_before = store.load_cards(ISSUE).unwrap();
+    let report = migrate_initialized_code_repository(&store, initialized_request(&store)).unwrap();
+    let after = store.load_record(ISSUE).unwrap();
+    assert_eq!(
+        report.schema,
+        "csdlc.initialized_code_repository_migration_report.v1"
+    );
+    assert_eq!(
+        report.evidence.schema,
+        "csdlc.initialized_code_repository_migration_evidence.v1"
+    );
+    assert_eq!(report.topology_state, "initialized_unbound");
+    assert_eq!(report.branch, None);
+    assert_eq!(report.worktree, None);
+    assert_eq!(report.phase, LifecyclePhase::Initialized);
+    assert_eq!(after.phase, LifecyclePhase::Initialized);
+    assert_eq!(after.branch, None);
+    assert_eq!(after.worktree, None);
+    assert_eq!(after.code_repository.as_deref(), Some(CODE_REPOSITORY));
+    assert_eq!(report.evidence.pre_generation, before.generation);
+    assert_eq!(report.evidence.pre_digest, before.digest);
+    assert_eq!(report.evidence.source_issue_repository, ISSUE_REPOSITORY);
+    assert_eq!(report.evidence.requested_repository, CODE_REPOSITORY);
+    assert_eq!(report.evidence.branch, None);
+    assert_eq!(report.evidence.worktree, None);
+    assert_eq!(report.evidence.topology_state, "initialized_unbound");
+    assert!(!after.audit.last().unwrap().operation.contains("https://"));
+
+    let mut cards_after = store.load_cards(ISSUE).unwrap();
+    for card in cards_after.values_mut() {
+        card.identity.generation = before.generation;
+    }
+    assert_eq!(cards_after, cards_before);
+}
+
+#[test]
+fn initialized_code_repository_migration_clears_doctor_and_validate_issue() {
+    // This regression is intentionally named in the #331 VPP. It is the
+    // nonzero proof that `csdlc-doctor` and `csdlc-validate issue` both pass
+    // after initialized code_repository migration.
+    let (_temp, store) = initialized_fixture();
+    let before = csdlc_v2::doctor::diagnose(&store, ISSUE);
+    assert!(before
+        .findings
+        .iter()
+        .any(|finding| finding.code == "repository_identity_drift"));
+    migrate_initialized_code_repository(&store, initialized_request(&store)).unwrap();
+    let doctor = csdlc_v2::doctor::diagnose(&store, ISSUE);
+    assert_eq!(doctor.status, csdlc_v2::doctor::DoctorStatus::Pass);
+    assert!(doctor
+        .findings
+        .iter()
+        .all(|finding| finding.code != "repository_identity_drift"));
+
+    let validate = Command::new(env!("CARGO_BIN_EXE_csdlc-validate"))
+        .arg("--root")
+        .arg(store.root())
+        .arg("issue")
+        .arg("--issue")
+        .arg(ISSUE.to_string())
+        .output()
+        .unwrap();
+    assert!(
+        validate.status.success(),
+        "csdlc-validate issue failed: {}",
+        String::from_utf8_lossy(&validate.stdout)
+    );
+}
+
+#[test]
+fn bound_code_repository_migration_report_schema_remains_unchanged() {
+    let (_temp, store) = fixture();
+    let report = migrate_code_repository(&store, request(&store)).unwrap();
+    let value = serde_json::to_value(&report).unwrap();
+    assert_eq!(value["schema"], "csdlc.code_repository_migration_report.v1");
+    assert!(value["branch"].is_string());
+    assert!(value["worktree"].is_string());
+    assert!(value.get("topology_state").is_none());
+    assert_eq!(
+        value["evidence"]["schema"],
+        "csdlc.code_repository_migration_evidence.v1"
+    );
+    assert!(value["evidence"]["branch"].is_string());
+    assert!(value["evidence"]["worktree"].is_string());
+    assert!(value["evidence"].get("topology_state").is_none());
+}
+
+#[test]
 fn schema_and_cli_expose_typed_migration_contract() {
     let schema = csdlc_v2::public_schema_bundle();
     assert!(schema.get("code_repository_migration_request").is_some());
     assert!(schema.get("code_repository_migration_report").is_some());
+    assert!(schema
+        .get("initialized_code_repository_migration_request")
+        .is_some());
+    assert!(schema
+        .get("initialized_code_repository_migration_report")
+        .is_some());
     let output = Command::new(env!("CARGO_BIN_EXE_csdlc-issue"))
         .arg("--help")
         .output()
@@ -522,4 +775,5 @@ fn schema_and_cli_expose_typed_migration_contract() {
     let stdout = String::from_utf8_lossy(&output.stdout);
     assert!(output.status.success());
     assert!(stdout.contains("migrate-code-repository"));
+    assert!(stdout.contains("migrate-initialized-code-repository"));
 }
