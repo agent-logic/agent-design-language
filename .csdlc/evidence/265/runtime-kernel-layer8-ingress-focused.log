@@ -1,0 +1,11 @@
+
+running 2 tests
+test control::layer8_conversation_ingress_tests::layer8_ingress_refuses_before_conversation_side_effects ... ok
+test control::layer8_conversation_ingress_tests::layer8_ingress_authorizes_before_dispatch ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 91 filtered out; finished in 0.01s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+adl_event schema=adl.runtime.event.v1 sequence=0 component=shepherd event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=shepherd event=state:Running correlation_id=none

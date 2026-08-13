@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 265,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.02b][112.b] Enforce Layer 8 authority at Runtime kernel conversation ingress",
+    "slug": "v0-92-wp-18c-02b-112-b-layer8-authority-runtime-kernel-ingress",
+    "version": "v0.92.0",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Fresh design/card review of #265 bootstrap packet only; no implementation review.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #265 remain the earliest #112 child and only own Runtime kernel conversation-ingress enforcement?",
+        "Do cards correctly block bind/implementation until #112 is terminal and ancestral?",
+        "Do non-goals prevent absorption of #112 authority definition, #270 served API/recipient acknowledgement protocol, durable transcript storage, #115 room/UI behavior, Observatory/UI, and cloud exposure?",
+        "Is the validation plan sufficient for bootstrap/design readiness without claiming product proof?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

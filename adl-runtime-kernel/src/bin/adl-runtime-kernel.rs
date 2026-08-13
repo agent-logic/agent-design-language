@@ -10,6 +10,10 @@ use std::{
 #[path = "../observability.rs"]
 mod observability;
 
+use adl_runtime_kernel::layer8_authority::{
+    ConversationAuthorityProfile, ConversationSigningProfile, Layer8AuthorityStore,
+    Layer8ConversationAuthority, Layer8SignedExchange,
+};
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly, build_live_continuity_registry,
     build_mutual_tls_server_config, build_production_operation_executors_with_recorder,
@@ -507,18 +511,87 @@ async fn main() -> ExitCode {
             )]));
             let (lifecycle, mut shutdown_requests) =
                 CheckpointingControl::channel(init.kernel.checkpoint_channel_capacity);
-            let service = Arc::new(
-                ControlService::new_with_observatory_config_and_agents(
-                    instance_id.clone(),
-                    recorder.clone(),
-                    lifecycle,
-                    authority,
-                    init.kernel.control_history_capacity,
-                    init.observatory_allowed_origins(),
-                    AgentPopulationFeed::resident_shepherd(),
-                )
-                .with_canonical_ingress(assembly.canonical_ingress.clone()),
-            );
+            let layer8 = match (
+                std::env::var_os("ADL_LAYER8_AUTHORITY_PROFILE"),
+                std::env::var_os("ADL_LAYER8_SIGNING_PROFILE"),
+            ) {
+                (None, None) => None,
+                (Some(profile_path), Some(signing_profile_path)) => {
+                    let profile = std::fs::read(profile_path).ok().and_then(|bytes| {
+                        serde_json::from_slice::<ConversationAuthorityProfile>(&bytes).ok()
+                    });
+                    let signing_profile =
+                        std::fs::read(signing_profile_path).ok().and_then(|bytes| {
+                            serde_json::from_slice::<ConversationSigningProfile>(&bytes).ok()
+                        });
+                    let loaded = profile.zip(signing_profile).and_then(
+                        |(authority_profile, signing_profile)| {
+                            let sender = &signing_profile.sender;
+                            if authority_profile.evidence.polis_id != instance_id
+                                || sender.principal_id != authority_profile.evidence.principal_id
+                                || sender.polis_id != authority_profile.evidence.polis_id
+                                || sender.signing_key_id
+                                    != authority_profile.evidence.signing_key_id
+                                || std::fs::read_to_string(&sender.private_key_file)
+                                    .ok()
+                                    .and_then(|encoded| hex::decode(encoded.trim()).ok())
+                                    .and_then(|secret| <[u8; 32]>::try_from(secret).ok())
+                                    .map(|secret| {
+                                        hex::encode(
+                                            ed25519_dalek::SigningKey::from_bytes(&secret)
+                                                .verifying_key()
+                                                .to_bytes(),
+                                        )
+                                    })
+                                    .as_deref()
+                                    != Some(&authority_profile.evidence.verifying_key_hex)
+                                || signing_profile
+                                    .recipients
+                                    .iter()
+                                    .any(|recipient| recipient.polis_id != instance_id)
+                            {
+                                return None;
+                            }
+                            let store = Layer8AuthorityStore::open(
+                                operation_state_identity
+                                    .join("authority/layer8-conversation-audit.jsonl"),
+                            )
+                            .ok()?;
+                            Some((
+                                Layer8ConversationAuthority::new(store, authority_profile).ok()?,
+                                Layer8SignedExchange::load(signing_profile).ok()?,
+                            ))
+                        },
+                    );
+                    match loaded {
+                        Some(value) => Some(value),
+                        None => {
+                            eprintln!("runtime Layer 8 authority configuration invalid");
+                            return ExitCode::from(78);
+                        }
+                    }
+                }
+                _ => {
+                    eprintln!("runtime Layer 8 authority configuration incomplete");
+                    return ExitCode::from(78);
+                }
+            };
+            let mut service = ControlService::new_with_observatory_config_and_agents(
+                instance_id.clone(),
+                recorder.clone(),
+                lifecycle,
+                authority,
+                init.kernel.control_history_capacity,
+                init.observatory_allowed_origins(),
+                AgentPopulationFeed::resident_shepherd(),
+            )
+            .with_canonical_ingress(assembly.canonical_ingress.clone());
+            if let Some((authority, exchange)) = layer8 {
+                service = service
+                    .with_layer8_authority(authority)
+                    .with_layer8_signed_exchange(exchange);
+            }
+            let service = Arc::new(service);
             service.set_agent_roster_token_key(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.continuity.v1",
                 &continuity_secret,

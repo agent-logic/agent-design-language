@@ -1,0 +1,99 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 265,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.02b][112.b] Enforce Layer 8 authority at Runtime kernel conversation ingress",
+    "slug": "v0-92-wp-18c-02b-112-b-layer8-authority-runtime-kernel-ingress",
+    "version": "v0.92.0",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress.",
+      "actual_changes": [
+        "Added a ControlService Layer 8 authority gate that signs and verifies ingress requests, authorizes Contact and Continue actions, and refuses unauthorized requests before conversation session or turn side effects.",
+        "Added production runtime startup wiring for optional Layer 8 authority/signing profiles, including sender key-byte identity binding, recipient Polis validation, and fail-closed incomplete or invalid configuration.",
+        "Added focused runtime-kernel regressions proving refused ingress leaves no conversation session and authorized ingress proceeds to dispatch."
+      ],
+      "artifacts": [
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        ".csdlc/prepared/issues/265/validate_preparation_bundle.py",
+        ".csdlc/prepared/issues/265/readiness-packet.md",
+        ".csdlc/evidence/265"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Run git diff hygiene check.",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/265/validate_preparation_bundle.py"
+          ],
+          "purpose": "Run the issue-owned preparation validator after #112 terminal cache is present.",
+          "outcome": "passed",
+          "evidence_ref": "issue-265-preparation-validator.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--check"
+          ],
+          "purpose": "Run rustfmt check for adl-runtime-kernel.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-kernel-fmt.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "layer8_ingress",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Run the focused #265 runtime kernel ingress regressions.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-kernel-layer8-ingress-focused.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy for adl-runtime-kernel.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-kernel-strict-clippy.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
