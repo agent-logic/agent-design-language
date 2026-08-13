@@ -183,11 +183,11 @@ Repair #5913 adl-review compatibility routing, PR-fast CI selector routing, fenc
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

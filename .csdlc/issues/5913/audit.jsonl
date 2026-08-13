@@ -35,3 +35,4 @@
 {"sequence":35,"generation":26,"actor":"codex:/root","reason":"Recover #5913 after fresh-session 51a4890e review assignment exceeded wait intervals and was interrupted without a result; implementation head remains unchanged and requires a different fresh no-context reviewer.","operation":"recover_review"}
 {"sequence":36,"generation":26,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":37,"generation":27,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":38,"generation":28,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
