@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 25,
-  "digest": "814b1bb649490162dd63b7444d5a2ff3d88dd0c4dca73a4c05780eedb67a4916",
+  "generation": 26,
+  "digest": "d42ff1e88a32686bbb76fac73b1c9b9b822fbf4b2435bf189d4dffa01880ae74",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
-  "review_assignment": {
-    "reviewer": "fresh-session:8bc11ff4-6f8d-4d30-9f20-a22dc90c9a19",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:1f20e1ad208a96bc6fad2bd50c53fffa2c1ce3d7:727df9dedbffdd97d295713caae831e2ef00cf74238a293890cfc7d03385935d",
-    "scope": [
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/tests/archived_projection_cleanup.rs",
-      ".csdlc/issues/299",
-      ".csdlc/evidence/299"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2ee3304529ab67deffcea59b0896301259efaccaf59d85e57a236c2fa76d8a64",
+      "values_digest": "d824061506810112865d116a86699e6066119a19b8fce13b2234619377702970",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "847e59517a7e119e15cddfaf708e5088078b40c82d3c79b63cfe7888b468f4f6",
+      "values_digest": "0485485e4d86be47722bafd75a73d8ef374815e383371d375dbc5fd9529a26ab",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "f442cf31fa03069754fb9dca865b872904967ef70b04065222e9830edf6a0278",
+      "values_digest": "48427646330db0d11e86f77f82947df07dc575269620f6cea333653a8dcfb65f",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "0976b2b3c1f86c9a4175f379e37e7a6149bd8229a3df8f7084959ed463361fed",
+      "values_digest": "60fa3854c1bda1a1fd8d76ac2292133cafad51cf0be1856392870a4da4018888",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "fdcd512b96506fcf16d9067f8e22217cd6011e1d46c977b70dafb0340560021d",
-      "rendered_digest": "c4d7e611f2a61e0fe18da577cb3be323f3090814cc8ce0253516dcf88eed4386",
-      "ast_digest": "1790a2d2b809f4d1a3deb73dd52ebe35557a04f77a34bca8159d26f9cadd4f7e"
+      "values_digest": "30c13a7bc2642c794735401d50cc149b43dac13e5df8d1cab7992769827d1d25",
+      "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
+      "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "770473c362de689ff36b4826ece55ea9b99d612af26d3a96c1f8474bdc6847bb",
+      "values_digest": "153a501a29781ed178a33d1e919daa3497bc964d895d027e9dc97ae9e2bde4fa",
       "rendered_digest": "77b4470d4433a3cae13dfe3ce1ad0868f090c2886e3e5fccda1c178692848afd",
       "ast_digest": "5032223b08166ca50bc24319847c8c536b1c9741f6df22592ea371e33378750a"
     }
@@ -348,6 +337,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "codex:worker-5",
+      "reason": "Recover stale r9 review assignment before accepting any result: origin/main advanced to da7994f18 after assignment, so review bound to git-blake3:1f20e1ad208a96bc6fad2bd50c53fffa2c1ce3d7:727df9dedbffdd97d295713caae831e2ef00cf74238a293890cfc7d03385935d is no longer current for publication. Reviewer was interrupted before PASS/record.",
+      "operation": "recover_review"
     }
   ]
 }
