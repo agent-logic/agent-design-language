@@ -727,6 +727,10 @@ impl ObservatoryBindingFixture {
         self.0.transition_action = action;
         self.0.predecessor_operation_ref = predecessor.map(str::to_owned);
     }
+    pub fn set_operation(&mut self, operation_id: &str, committed_log_index: u64) {
+        self.0.operation_id = operation_id.to_owned();
+        self.0.committed_log_index = committed_log_index;
+    }
 
     pub fn mutate(&mut self, mutation: ObservatoryBindingMutation) {
         match mutation {

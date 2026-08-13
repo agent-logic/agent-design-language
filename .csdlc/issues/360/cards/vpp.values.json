@@ -1,0 +1,84 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 360,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Add authentic distinct Observatory transition fixture builder",
+    "slug": "observatory-authentic-transition-fixture",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "focused",
+          "proof_role": "Prove authentic distinct Observatory fixture and mismatch denial.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 12000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_authority_projection",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "--test-threads=1"
+          ],
+          "parallel_group": "360-serial-01",
+          "defer_reason": "Deferred until implementation."
+        },
+        {
+          "lane": "clippy",
+          "proof_role": "Reject warnings in exact target.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_authority_projection",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "360-serial-02",
+          "defer_reason": "Deferred until implementation."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on production exposure scope drift mismatch acceptance review finding CI failure or nonterminal ancestry.",
+      "design_ref": ".csdlc/prepared/issues/360/design.md",
+      "design_digest": "5a34035d5daa13e70999eff868c613d927fc38d111a28ac10429bf3309affda3",
+      "diagram_ref": ".csdlc/prepared/issues/360/diagram.mmd",
+      "diagram_digest": "a669246c88ac3cdef6e2801668b48a6a4f0efd30da4b867a9cc0bf710e83a20a"
+    }
+  }
+}

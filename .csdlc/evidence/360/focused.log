@@ -1,0 +1,19 @@
+
+running 10 tests
+test authentic_distinct_transition_builder_cross_binds_real_verifier ... ok
+test every_binding_field_mismatch_fails_closed ... ok
+test exact_pair_matrix_only_matching_pairs_pass ... ok
+test i_json_integer_bounds_accept_max_and_reject_zero_or_above_max ... ok
+test identifier_grammar_rejects_unicode_whitespace_control_and_punctuation ... ok
+test noncanonical_unknown_missing_and_digest_encodings_fail_closed ... ok
+test projection_is_redacted_and_deadline_is_committed ... ok
+test sealed_projection_accessors_match_verified_redacted_values ... ok
+test sealed_quorum_restore_mutations_fail_closed ... ok
+test sealed_transition_intent_and_full_canonical_time_are_authenticated ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-360-observatory-authentic-transition-fixture/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-360-observatory-authentic-transition-fixture/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.05s
+     Running tests/distributed_observatory_authority_projection.rs (adl-runtime/target/debug/deps/distributed_observatory_authority_projection-eec5b7d78181956c)

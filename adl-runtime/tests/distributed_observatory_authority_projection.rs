@@ -5,7 +5,7 @@ use adl_runtime::distributed::{
         test_observatory_authority_mutation_rejected,
         test_observatory_durable_restore_mutation_rejected, test_observatory_durable_round_trip,
         test_observatory_legacy_durable_state_rejected, test_observatory_published_authority,
-        ObservatoryAuthorityMutation,
+        test_observatory_published_authority_for_operation, ObservatoryAuthorityMutation,
     },
     serving_authority::{
         verify_observatory_authority_projection, ObservatoryBindingFixture,
@@ -13,6 +13,87 @@ use adl_runtime::distributed::{
         ObservatoryTransitionAction, VerifiedServingAuthorityCut,
     },
 };
+
+fn distinct_pair(
+    suffix: &str,
+    operation: &str,
+    index: u64,
+    fence: u64,
+    action: ObservatoryTransitionAction,
+    predecessor: Option<&str>,
+) -> (
+    adl_runtime::distributed::authority_protocol::PublishedAuthorityResult,
+    VerifiedServingAuthorityCut,
+) {
+    let mut fixture = ObservatoryBindingFixture::new(suffix);
+    fixture.set_operation(operation, index);
+    fixture.set_integers(index, 1, fence);
+    fixture.set_transition(action, predecessor);
+    let authority = test_observatory_published_authority_for_operation(
+        fixture.artifact_bytes(),
+        operation,
+        index,
+    );
+    let cut = VerifiedServingAuthorityCut::fixture_from_observatory(&fixture);
+    (authority, cut)
+}
+
+#[test]
+fn authentic_distinct_transition_builder_cross_binds_real_verifier() {
+    for (operation, index, fence, action, predecessor) in [
+        ("acquire", 2, 1, ObservatoryTransitionAction::Acquire, None),
+        (
+            "renew",
+            3,
+            2,
+            ObservatoryTransitionAction::Renew,
+            Some("acquire"),
+        ),
+        (
+            "transfer",
+            4,
+            3,
+            ObservatoryTransitionAction::Transfer,
+            Some("renew"),
+        ),
+        (
+            "revoke",
+            5,
+            4,
+            ObservatoryTransitionAction::Revoke,
+            Some("transfer"),
+        ),
+    ] {
+        let (authority, cut) =
+            distinct_pair("distinct", operation, index, fence, action, predecessor);
+        let projection = verify_observatory_authority_projection(&authority, &cut).unwrap();
+        assert_eq!(projection.transition_action(), action);
+        assert_eq!(projection.committed_log_index(), index);
+        assert_eq!(projection.fencing_generation(), fence);
+        assert_eq!(
+            projection.predecessor_operation_ref().is_some(),
+            predecessor.is_some()
+        );
+    }
+    let (authority_a, cut_a) = distinct_pair(
+        "a",
+        "operation-a",
+        2,
+        1,
+        ObservatoryTransitionAction::Acquire,
+        None,
+    );
+    let (authority_b, cut_b) = distinct_pair(
+        "b",
+        "operation-b",
+        3,
+        2,
+        ObservatoryTransitionAction::Renew,
+        Some("operation-a"),
+    );
+    assert!(verify_observatory_authority_projection(&authority_a, &cut_b).is_err());
+    assert!(verify_observatory_authority_projection(&authority_b, &cut_a).is_err());
+}
 
 fn pair(
     suffix: &str,

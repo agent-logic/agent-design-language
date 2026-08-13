@@ -1126,6 +1126,15 @@ impl PublishedAuthorityResult {
 
 #[cfg(feature = "internal-test-fixtures")]
 pub fn test_observatory_published_authority(bytes: Vec<u8>) -> PublishedAuthorityResult {
+    test_observatory_published_authority_for_operation(bytes, "operation", 2)
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+pub fn test_observatory_published_authority_for_operation(
+    bytes: Vec<u8>,
+    operation_id: &str,
+    committed_log_index: u64,
+) -> PublishedAuthorityResult {
     test_published_reconciliation_token(
         AuthorityNodeIdentity {
             trust_domain: "trust-domain".into(),
@@ -1134,10 +1143,10 @@ pub fn test_observatory_published_authority(bytes: Vec<u8>) -> PublishedAuthorit
             guardian_id: "guardian".into(),
             boot_generation: 1,
         },
-        "operation",
+        operation_id,
         CommittedAuthorityArtifact::observatory_serving_fixture(bytes)
             .expect("observatory fixture artifact"),
-        2,
+        committed_log_index,
         CanonicalAuthorityTime {
             unix_seconds: 1_700_000_000,
             nanos: 123_456_789,
