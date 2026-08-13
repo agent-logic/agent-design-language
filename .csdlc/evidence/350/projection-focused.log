@@ -1,0 +1,12 @@
+
+running 3 tests
+test exact_pair_projects_and_cross_pairs_fail_closed ... ok
+test identifiers_and_noncanonical_artifacts_fail_closed ... ok
+test projection_is_redacted_and_deadline_is_committed ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-350-sealed-observatory-authority-projection/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-350-sealed-observatory-authority-projection/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.91s
+     Running tests/distributed_observatory_authority_projection.rs (adl-runtime/target/debug/deps/distributed_observatory_authority_projection-5eb8e991d354d1a3)

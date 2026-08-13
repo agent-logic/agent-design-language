@@ -16,10 +16,11 @@ Exact #350 design/cards and authority_protocol/serving_authority contracts, dura
 
 ## Prompts
 
-- Can any caller construct, substitute, or combine authority fields?
-- Is the committed deadline durable and validated against canonical finalization?
-- Are every cut/operation/identity/quorum/lineage binding and legacy-state behavior exact?
-- Are output and errors redacted and #274/#273/#203/#205/#275 excluded?
+- Can any caller, legacy-direct result, config value, or unrelated valid authority/cut pair construct, substitute, or combine sealed authority fields?
+- Does replicated publication alone capture the complete authoritative old/joint voter eligibility basis and committed inclusive deadline, with restore revalidation and no synthetic legacy quorum truth?
+- Does authority_protocol_contract_tests.rs remain a bounded compatibility-only change and does its exact 52-case denominator prove existing behavior on the replicated sealed path?
+- Are canonical JCS bytes, every cut/operation/identity/quorum/lineage binding, deadline ordering, restore behavior, output, and errors exact and redacted?
+- Do changed paths remain inside #350 while #274/#273/#203/#205/#275 stay excluded?
 
 ## Findings
 

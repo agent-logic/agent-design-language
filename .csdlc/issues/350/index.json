@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "431657c3fcc04d4171d624dc5d980f8244793a2e408fa5093e97149b3fe9f95d",
-  "phase": "bound",
-  "generation": 8,
-  "digest": "0208742018e1f0ac371b867694c05de701cebf238e9b0d0e39862e2f4c517872",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "0dc522c7017747370a7c655dc6bdfaef382b8300a196b654d614847b729ea443",
   "branch": "codex/350-sealed-observatory-authority-projection",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-350-sealed-observatory-authority-projection",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6092b1cd29c6701d402ab83677d0ca4a361d982b2121c24cd4f3c15e54b385d8",
+      "values_digest": "46811cb75da69f642ab99c6dc981934c0d05c4e6020d8fe254d8b1c3c04b6b15",
       "rendered_digest": "7f0e44a1dfac8578dc36c52e3e53a5a046b08c66bc50d2fba4ba935f3a098812",
       "ast_digest": "5a7bf7b0ca0c8c6f6943b188693b906ec4342f7d0489043dd450952e5e2cc159"
     },
     "stp": {
-      "values_digest": "860c9431e5cde3a93afda7e37971f3b6388f9feeaa880224c5199d12f93279b6",
+      "values_digest": "b195ed7d952adf46f7e20a0d89635809f5d76c49e2eec53dbc5ca739256c73bc",
       "rendered_digest": "ee155302e4f2a69054630725ea7223c7cce431f9561fa1d903e5398d94d27029",
       "ast_digest": "cd0c0ed37217622d30931fee31559c5692b42a65b79a3c47f70a01a57fa5e853"
     },
     "spp": {
-      "values_digest": "9da7e67e3612b7af01b7371e072875854b69fef3a242cdfd0ee3d8ce4592af6a",
+      "values_digest": "04c3bbd4e0b19eaafc0442986a3bfd33d2dc10c373f1719951730f2a5bff6beb",
       "rendered_digest": "8dfc9ca7bf568d4ac0ce602eaf350621f99c6e2805662ee327b0de4356eff925",
       "ast_digest": "b20845f025226ce3024e8a04cad86735311924d744a72767b6a48cc664a009f2"
     },
     "vpp": {
-      "values_digest": "e0baf7b9557db40f9967eec43a90611c40ee63f914838c3a20e24a594e8d4359",
+      "values_digest": "ba8b0ad0d65f204bb483960d21eae165175e734cdbf1b883fbf13b1cf35944bd",
       "rendered_digest": "ee8c6d6ff4a6d72081e4166b84a039da1c7cee2432bd2daa291b16f426bede8e",
       "ast_digest": "a6e4535fff1652ced679751f7e686c768d8e35fae0c328879320aa5975bd3a80"
     },
     "srp": {
-      "values_digest": "75a9488e2338cd773b045ff3bd16dffa8f85a83267a48548c84dd0fd304f0e81",
-      "rendered_digest": "db4b9db965c22ac28d410709ee37c72c2f87e32432dd657c023e9789d1444ad3",
-      "ast_digest": "7e6d1a542b3009ce34a21d326c396490f4894417bb8e8397fae92a1dec702a18"
+      "values_digest": "1ce777759d6f372570b1ccfacf554b377d1b9a1daeedd786e146d866f3e134d8",
+      "rendered_digest": "41528fffb3de0505e12dbf7f55421a963c01f104159b252b7fcea35462beaddb",
+      "ast_digest": "08b683e829566a11c2c72e4be62fb6d89af7a46d36c065037542697e7b0ffe75"
     },
     "sor": {
-      "values_digest": "5958612ec20ddb58e24195b878a081c27876dc2f020c669609d700c11b4771ed",
-      "rendered_digest": "65a9d0b17130d1e4f686031d2e385ee3f1fcdeb012208b59adc5e8d4de568aa0",
-      "ast_digest": "f11d992f40d75b7b709bc9d651deccac8bbb71573f081f088ae70dc87792dc89"
+      "values_digest": "68d82d3f763e078a64c037d82754cb2f5113ede86ac1356dd5c00fd09adba67e",
+      "rendered_digest": "5a468827d2d7079d0a4791ef31efd89ab1f3e0c58ca7f891a3471ad9d582ea51",
+      "ast_digest": "122be2469197b84307b127ba2f366d4e21c5098485b8e387c7078bdcee466194"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:350-sealed-projection-implementation",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -141,6 +148,20 @@
       "actor": "fresh-session:541e80e6-955f-4610-b39f-7b004afb09d0",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:350-sealed-projection-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:350-implemented-review-scope",
+      "reason": "Prepare exact implementation review prompts for the widened compatibility denominator after typed implementation finalization.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can any caller, legacy-direct result, config value, or unrelated valid authority/cut pair construct, substitute, or combine sealed authority fields?\",\"Does replicated publication alone capture the complete authoritative old/joint voter eligibility basis and committed inclusive deadline, with restore revalidation and no synthetic legacy quorum truth?\",\"Does authority_protocol_contract_tests.rs remain a bounded compatibility-only change and does its exact 52-case denominator prove existing behavior on the replicated sealed path?\",\"Are canonical JCS bytes, every cut/operation/identity/quorum/lineage binding, deadline ordering, restore behavior, output, and errors exact and redacted?\",\"Do changed paths remain inside #350 while #274/#273/#203/#205/#275 stay excluded?\"]}"
     }
   ]
 }
