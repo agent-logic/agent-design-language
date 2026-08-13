@@ -1,0 +1,579 @@
+//! Durable, reconcile-before-publish serving-authority foundation.
+//!
+//! This module is a replica of sealed authority, never an authority issuer.
+
+use std::{collections::BTreeMap, path::Path, sync::Arc};
+
+use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
+
+use super::{
+    authority_store_adapters::PublishedStoreAuthorityReceiptView,
+    polis_runtime::{
+        CheckpointMetadata, CheckpointMetadataSource, CheckpointedJson,
+        ConsensusCheckpointAuthority, DurableEnvelope, PolisRuntimeError,
+    },
+};
+
+const BINDING_SCHEMA: &str = "adl.serving-authority-foundation.binding.v1";
+const PROJECTION_SCHEMA: &str = "adl.serving-authority-foundation.projection.v1";
+const DOMAIN: &[u8] = b"ADL-SERVING-AUTHORITY-FOUNDATION-BINDING-V1\0";
+const MAX_PREIMAGE_BYTES: usize = 4096;
+const MAX_IDENTIFIER_BYTES: usize = 128;
+const MAX_CAPACITY: usize = 4096;
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ServingAuthorityError {
+    InvalidIdentity,
+    InvalidBinding,
+    ReceiptMismatch,
+    PriorStateMismatch,
+    RetryConflict,
+    CapacityExceeded,
+    Serialization,
+    Storage,
+    StateRegression,
+}
+
+pub type ServingAuthorityResult<T> = Result<T, ServingAuthorityError>;
+
+impl From<PolisRuntimeError> for ServingAuthorityError {
+    fn from(value: PolisRuntimeError) -> Self {
+        match value {
+            PolisRuntimeError::StateRegression => Self::StateRegression,
+            PolisRuntimeError::Serialization | PolisRuntimeError::FrameTooLarge => {
+                Self::Serialization
+            }
+            _ => Self::Storage,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ServingAuthorityIdentity {
+    pub trust_domain: String,
+    pub polis_id: String,
+    pub node_id: String,
+    pub guardian_id: String,
+    pub boot_generation: u64,
+}
+
+impl ServingAuthorityIdentity {
+    fn validate(&self) -> ServingAuthorityResult<()> {
+        for value in [
+            &self.trust_domain,
+            &self.polis_id,
+            &self.node_id,
+            &self.guardian_id,
+        ] {
+            validate_identifier(value)?;
+        }
+        if self.boot_generation == 0 {
+            return Err(ServingAuthorityError::InvalidIdentity);
+        }
+        Ok(())
+    }
+
+    fn object(&self) -> String {
+        let digest = Sha256::digest(format!(
+            "{}\0{}\0{}\0{}\0{}",
+            self.trust_domain, self.polis_id, self.node_id, self.guardian_id, self.boot_generation
+        ));
+        format!("serving-authority:{}", hex::encode(digest))
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ServingAuthorityBinding {
+    schema: String,
+    trust_domain: String,
+    polis_id: String,
+    lineage_id: String,
+    operation_id: String,
+    adapter_kind: String,
+    adapter_version: u32,
+    action_class: String,
+    published_generation: u64,
+    owner_commit_id: String,
+    fencing_generation: u64,
+    lease_id: String,
+    prior_state_sha256: String,
+    candidate_state_sha256: String,
+    receipt_digest: String,
+}
+
+impl ServingAuthorityBinding {
+    #[allow(clippy::too_many_arguments)]
+    pub fn new(
+        trust_domain: String,
+        polis_id: String,
+        lineage_id: String,
+        operation_id: String,
+        adapter_kind: String,
+        adapter_version: u32,
+        action_class: String,
+        published_generation: u64,
+        owner_commit_id: String,
+        fencing_generation: u64,
+        lease_id: String,
+        prior_state_sha256: String,
+        candidate_state_sha256: String,
+        receipt_digest: String,
+    ) -> Self {
+        Self {
+            schema: BINDING_SCHEMA.into(),
+            trust_domain,
+            polis_id,
+            lineage_id,
+            operation_id,
+            adapter_kind,
+            adapter_version,
+            action_class,
+            published_generation,
+            owner_commit_id,
+            fencing_generation,
+            lease_id,
+            prior_state_sha256,
+            candidate_state_sha256,
+            receipt_digest,
+        }
+    }
+
+    pub fn canonical_preimage(&self) -> ServingAuthorityResult<Vec<u8>> {
+        self.validate()?;
+        let jcs = serde_jcs::to_vec(self).map_err(|_| ServingAuthorityError::Serialization)?;
+        let len: u32 = jcs
+            .len()
+            .try_into()
+            .map_err(|_| ServingAuthorityError::InvalidBinding)?;
+        let mut framed = Vec::with_capacity(DOMAIN.len() + 4 + jcs.len());
+        framed.extend_from_slice(DOMAIN);
+        framed.extend_from_slice(&len.to_be_bytes());
+        framed.extend_from_slice(&jcs);
+        if framed.len() > MAX_PREIMAGE_BYTES {
+            return Err(ServingAuthorityError::InvalidBinding);
+        }
+        Ok(framed)
+    }
+
+    fn validate(&self) -> ServingAuthorityResult<()> {
+        if self.schema != BINDING_SCHEMA
+            || self.adapter_version == 0
+            || self.published_generation == 0
+            || self.fencing_generation == 0
+        {
+            return Err(ServingAuthorityError::InvalidBinding);
+        }
+        for value in [
+            &self.trust_domain,
+            &self.polis_id,
+            &self.lineage_id,
+            &self.operation_id,
+            &self.adapter_kind,
+            &self.action_class,
+            &self.owner_commit_id,
+            &self.lease_id,
+        ] {
+            validate_identifier(value).map_err(|_| ServingAuthorityError::InvalidBinding)?;
+        }
+        for digest in [
+            &self.prior_state_sha256,
+            &self.candidate_state_sha256,
+            &self.receipt_digest,
+        ] {
+            validate_digest(digest)?;
+        }
+        if self.prior_state_sha256 == self.candidate_state_sha256 {
+            return Err(ServingAuthorityError::InvalidBinding);
+        }
+        Ok(())
+    }
+}
+
+trait SealedReceipt {
+    fn lineage_id(&self) -> &str;
+    fn operation_id(&self) -> &str;
+    fn action_class(&self) -> &str;
+    fn adapter_kind(&self) -> &str;
+    fn adapter_version(&self) -> u32;
+    fn generation(&self) -> u64;
+    fn receipt_sha256(&self) -> [u8; 32];
+    fn result_sha256(&self) -> [u8; 32];
+}
+
+impl SealedReceipt for PublishedStoreAuthorityReceiptView {
+    fn lineage_id(&self) -> &str {
+        self.lineage_id()
+    }
+    fn operation_id(&self) -> &str {
+        self.operation_id()
+    }
+    fn action_class(&self) -> &str {
+        self.action_class()
+    }
+    fn adapter_kind(&self) -> &str {
+        self.adapter_kind()
+    }
+    fn adapter_version(&self) -> u32 {
+        self.adapter_version()
+    }
+    fn generation(&self) -> u64 {
+        self.generation()
+    }
+    fn receipt_sha256(&self) -> [u8; 32] {
+        self.receipt_sha256()
+    }
+    fn result_sha256(&self) -> [u8; 32] {
+        self.result_sha256()
+    }
+}
+
+#[cfg(any(test, debug_assertions))]
+#[derive(Clone, Debug)]
+pub struct ServingAuthorityReceiptFixture {
+    pub lineage_id: String,
+    pub operation_id: String,
+    pub action_class: String,
+    pub adapter_kind: String,
+    pub adapter_version: u32,
+    pub generation: u64,
+    pub receipt_sha256: [u8; 32],
+    pub result_sha256: [u8; 32],
+}
+
+#[cfg(any(test, debug_assertions))]
+impl SealedReceipt for ServingAuthorityReceiptFixture {
+    fn lineage_id(&self) -> &str {
+        &self.lineage_id
+    }
+    fn operation_id(&self) -> &str {
+        &self.operation_id
+    }
+    fn action_class(&self) -> &str {
+        &self.action_class
+    }
+    fn adapter_kind(&self) -> &str {
+        &self.adapter_kind
+    }
+    fn adapter_version(&self) -> u32 {
+        self.adapter_version
+    }
+    fn generation(&self) -> u64 {
+        self.generation
+    }
+    fn receipt_sha256(&self) -> [u8; 32] {
+        self.receipt_sha256
+    }
+    fn result_sha256(&self) -> [u8; 32] {
+        self.result_sha256
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+enum Phase {
+    Pending,
+    Reconciled,
+    Published,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Operation {
+    phase: Phase,
+    generation: u64,
+    binding_sha256: String,
+    prior_state_sha256: String,
+    candidate_state_sha256: String,
+    receipt_digest: String,
+}
+
+#[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct State {
+    revision: u64,
+    operations: BTreeMap<String, Operation>,
+    published_operation: Option<String>,
+}
+
+impl CheckpointMetadataSource for State {
+    fn checkpoint_metadata(&self) -> Result<CheckpointMetadata, PolisRuntimeError> {
+        let bytes = serde_jcs::to_vec(self).map_err(|_| PolisRuntimeError::Serialization)?;
+        Ok(CheckpointMetadata {
+            committed_log_index: Some(self.revision),
+            state_sha256: Some(hex::encode(Sha256::digest(bytes))),
+            snapshot_log_index: None,
+            snapshot_sha256: None,
+        })
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct ServingAuthorityProjection {
+    pub schema: String,
+    pub polis_ref: String,
+    pub lineage_ref: String,
+    pub generation: u64,
+    pub state_sha256: String,
+    pub result_sha256: String,
+    pub receipt_generation: u64,
+    pub receipt_digest: String,
+    pub readiness: String,
+}
+
+pub struct ServingAuthorityStore {
+    store: CheckpointedJson<State>,
+    envelope: DurableEnvelope<State>,
+    identity: ServingAuthorityIdentity,
+    capacity: usize,
+}
+
+#[cfg(any(test, debug_assertions))]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ServingAuthorityTestBoundary {
+    Pending,
+    Reconciled,
+}
+
+impl ServingAuthorityStore {
+    pub fn open(
+        root: &Path,
+        identity: ServingAuthorityIdentity,
+        authority: Arc<dyn ConsensusCheckpointAuthority>,
+        capacity: usize,
+    ) -> ServingAuthorityResult<Self> {
+        identity.validate()?;
+        if capacity == 0 || capacity > MAX_CAPACITY {
+            return Err(ServingAuthorityError::CapacityExceeded);
+        }
+        let object = identity.object();
+        let (store, envelope) = CheckpointedJson::open(
+            root,
+            &object,
+            "serving-authority.json",
+            State::default(),
+            authority,
+        )?;
+        if envelope.payload().operations.len() > capacity {
+            return Err(ServingAuthorityError::CapacityExceeded);
+        }
+        Ok(Self {
+            store,
+            envelope,
+            identity,
+            capacity,
+        })
+    }
+
+    pub fn reconcile_and_publish(
+        &mut self,
+        receipt: &PublishedStoreAuthorityReceiptView,
+        binding: &ServingAuthorityBinding,
+    ) -> ServingAuthorityResult<ServingAuthorityProjection> {
+        self.apply(receipt, binding)
+    }
+
+    #[cfg(any(test, debug_assertions))]
+    pub fn reconcile_and_publish_fixture(
+        &mut self,
+        receipt: &ServingAuthorityReceiptFixture,
+        binding: &ServingAuthorityBinding,
+    ) -> ServingAuthorityResult<ServingAuthorityProjection> {
+        self.apply(receipt, binding)
+    }
+
+    #[cfg(any(test, debug_assertions))]
+    pub fn persist_fixture_boundary(
+        &mut self,
+        receipt: &ServingAuthorityReceiptFixture,
+        binding: &ServingAuthorityBinding,
+        boundary: ServingAuthorityTestBoundary,
+    ) -> ServingAuthorityResult<()> {
+        self.apply_until(receipt, binding, Some(boundary))
+            .map(|_| ())
+    }
+
+    fn apply(
+        &mut self,
+        receipt: &dyn SealedReceipt,
+        binding: &ServingAuthorityBinding,
+    ) -> ServingAuthorityResult<ServingAuthorityProjection> {
+        self.apply_until(receipt, binding, None)?
+            .ok_or(ServingAuthorityError::StateRegression)
+    }
+
+    fn apply_until(
+        &mut self,
+        receipt: &dyn SealedReceipt,
+        binding: &ServingAuthorityBinding,
+        #[cfg(any(test, debug_assertions))] stop: Option<ServingAuthorityTestBoundary>,
+        #[cfg(not(any(test, debug_assertions)))] _stop: Option<()>,
+    ) -> ServingAuthorityResult<Option<ServingAuthorityProjection>> {
+        verify(&self.identity, receipt, binding)?;
+        let binding_sha256 = hex::encode(Sha256::digest(binding.canonical_preimage()?));
+        if let Some(existing) = self
+            .envelope
+            .payload()
+            .operations
+            .get(&binding.operation_id)
+        {
+            if existing.phase == Phase::Published && existing.binding_sha256 == binding_sha256 {
+                return projection(&self.identity, binding, receipt, existing).map(Some);
+            }
+            if existing.binding_sha256 != binding_sha256
+                || existing.prior_state_sha256 != binding.prior_state_sha256
+                || existing.candidate_state_sha256 != binding.candidate_state_sha256
+                || existing.receipt_digest != binding.receipt_digest
+            {
+                return Err(ServingAuthorityError::RetryConflict);
+            }
+        } else {
+            if self.envelope.payload().operations.len() >= self.capacity {
+                return Err(ServingAuthorityError::CapacityExceeded);
+            }
+            let prior = current_state_sha256(self.envelope.payload())?;
+            if binding.prior_state_sha256 != prior {
+                return Err(ServingAuthorityError::PriorStateMismatch);
+            }
+            let mut next = self.envelope.payload().clone();
+            next.revision += 1;
+            next.operations.insert(
+                binding.operation_id.clone(),
+                Operation {
+                    phase: Phase::Pending,
+                    generation: binding.published_generation,
+                    binding_sha256: binding_sha256.clone(),
+                    prior_state_sha256: binding.prior_state_sha256.clone(),
+                    candidate_state_sha256: binding.candidate_state_sha256.clone(),
+                    receipt_digest: binding.receipt_digest.clone(),
+                },
+            );
+            self.envelope = self.store.commit(&self.envelope, next)?;
+        }
+        #[cfg(any(test, debug_assertions))]
+        if stop == Some(ServingAuthorityTestBoundary::Pending) {
+            return Ok(None);
+        }
+        if self
+            .envelope
+            .payload()
+            .operations
+            .get(&binding.operation_id)
+            .ok_or(ServingAuthorityError::StateRegression)?
+            .phase
+            == Phase::Pending
+        {
+            self.advance(&binding.operation_id, Phase::Reconciled)?;
+        }
+        #[cfg(any(test, debug_assertions))]
+        if stop == Some(ServingAuthorityTestBoundary::Reconciled) {
+            return Ok(None);
+        }
+        self.advance(&binding.operation_id, Phase::Published)?;
+        let operation = self
+            .envelope
+            .payload()
+            .operations
+            .get(&binding.operation_id)
+            .ok_or(ServingAuthorityError::StateRegression)?;
+        projection(&self.identity, binding, receipt, operation).map(Some)
+    }
+
+    fn advance(&mut self, operation_id: &str, phase: Phase) -> ServingAuthorityResult<()> {
+        let mut next = self.envelope.payload().clone();
+        next.revision += 1;
+        let operation = next
+            .operations
+            .get_mut(operation_id)
+            .ok_or(ServingAuthorityError::StateRegression)?;
+        if operation.phase == phase {
+            return Ok(());
+        }
+        operation.phase = phase;
+        if phase == Phase::Published {
+            next.published_operation = Some(operation_id.to_owned());
+        }
+        self.envelope = self.store.commit(&self.envelope, next)?;
+        Ok(())
+    }
+}
+
+fn verify(
+    identity: &ServingAuthorityIdentity,
+    receipt: &dyn SealedReceipt,
+    binding: &ServingAuthorityBinding,
+) -> ServingAuthorityResult<()> {
+    binding.validate()?;
+    if binding.trust_domain != identity.trust_domain
+        || binding.polis_id != identity.polis_id
+        || binding.lineage_id != receipt.lineage_id()
+        || binding.operation_id != receipt.operation_id()
+        || binding.action_class != receipt.action_class()
+        || binding.adapter_kind != receipt.adapter_kind()
+        || binding.adapter_version != receipt.adapter_version()
+        || binding.published_generation != receipt.generation()
+        || binding.receipt_digest != hex::encode(receipt.receipt_sha256())
+        || Sha256::digest(binding.canonical_preimage()?).as_slice() != receipt.result_sha256()
+    {
+        return Err(ServingAuthorityError::ReceiptMismatch);
+    }
+    Ok(())
+}
+
+fn projection(
+    identity: &ServingAuthorityIdentity,
+    binding: &ServingAuthorityBinding,
+    receipt: &dyn SealedReceipt,
+    operation: &Operation,
+) -> ServingAuthorityResult<ServingAuthorityProjection> {
+    Ok(ServingAuthorityProjection {
+        schema: PROJECTION_SCHEMA.into(),
+        polis_ref: keyed_ref("polis", &identity.polis_id),
+        lineage_ref: keyed_ref("lineage", &binding.lineage_id),
+        generation: operation.generation,
+        state_sha256: operation.candidate_state_sha256.clone(),
+        result_sha256: hex::encode(receipt.result_sha256()),
+        receipt_generation: receipt.generation(),
+        receipt_digest: operation.receipt_digest.clone(),
+        readiness: if operation.phase == Phase::Published {
+            "published"
+        } else {
+            "pending"
+        }
+        .into(),
+    })
+}
+
+fn current_state_sha256(state: &State) -> ServingAuthorityResult<String> {
+    serde_jcs::to_vec(state)
+        .map(|b| hex::encode(Sha256::digest(b)))
+        .map_err(|_| ServingAuthorityError::Serialization)
+}
+fn keyed_ref(domain: &str, value: &str) -> String {
+    hex::encode(Sha256::digest(format!(
+        "ADL-SERVING-REF-V1\0{domain}\0{value}"
+    )))
+}
+fn validate_identifier(value: &str) -> ServingAuthorityResult<()> {
+    if value.is_empty() || value.len() > MAX_IDENTIFIER_BYTES {
+        Err(ServingAuthorityError::InvalidIdentity)
+    } else {
+        Ok(())
+    }
+}
+fn validate_digest(value: &str) -> ServingAuthorityResult<()> {
+    if value.len() == 64
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+    {
+        Ok(())
+    } else {
+        Err(ServingAuthorityError::InvalidBinding)
+    }
+}
+
+pub fn empty_state_sha256() -> String {
+    current_state_sha256(&State::default()).expect("default state is serializable")
+}
