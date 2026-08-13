@@ -4,13 +4,45 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6a5a8a2f2350b7ffe3899f5dad5e5b39a2054da2f0c9138ac388b2c93b8ff5e7",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "4cc104942545bd0969820499d8fb28b8309ddecd0b13e2241a014dc9a085c718",
+  "phase": "reviewed",
+  "generation": 27,
+  "digest": "d451453bf7db16665aebafd9f155cf89e637332539d200f0e9127e96ca9ea99c",
   "branch": "codex/5913-repair-adl-review-compatibility-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:aef4db36-d5be-4dc2-80df-00067c3cac7d",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:88aea76500cacf1cbdec935c477b438331397bc3:576a799a9129870d5b9af64b7545f39ecf05ffebed9933c7e5ec55e4f7089fe0",
+    "scope": [
+      ".csdlc/evidence/5913",
+      ".csdlc/issues/5913",
+      ".csdlc/prepared/issues/5913",
+      "adl/src/cli/mod.rs",
+      "adl/tools/test_adl_review_compatibility.sh",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:aef4db36-d5be-4dc2-80df-00067c3cac7d",
+    "scope": [
+      ".csdlc/evidence/5913",
+      ".csdlc/issues/5913",
+      ".csdlc/prepared/issues/5913",
+      "adl/src/cli/mod.rs",
+      "adl/tools/test_adl_review_compatibility.sh",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh"
+    ],
+    "reviewed_revision": "git-blake3:88aea76500cacf1cbdec935c477b438331397bc3:576a799a9129870d5b9af64b7545f39ecf05ffebed9933c7e5ec55e4f7089fe0",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to #5913 assigned scope and focused local validation; full workspace tests, hosted CI, publication, merge, terminal finish, provider credential calls, and broad lifecycle/GitHub writes were not run by the reviewer.",
+      "The reviewer observed pre-existing typed assignment/recovery projection dirt plus .csdlc/locks/5913.lock; their local validation dirtied adl/Cargo.lock, which was restored by the implementation session as generated churn outside #5913 scope."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4ebf5988b3de57b5d26fd573792312f126d3b2b3fd4989f9177bd1831aefbd80",
+      "values_digest": "9d29df0c6c7db91b546a423ba779977bcd4f69dc00448de5fb3452cabd3489ce",
       "rendered_digest": "34e93594d22d0195e945568476646f2084febad9f0f18b2232e969179fa51b19",
       "ast_digest": "8a3784fb1584110103a35108a68d7e983f1c62444d54a010be1ad799cc5b96ee"
     },
     "stp": {
-      "values_digest": "1cd22858ee29ab6b0ef12363688bbd391cfa14989d32dca6956f41067ee28bd1",
+      "values_digest": "6f252be332bff064d5738f55349853dd089db3bb033a482c68e682296701d597",
       "rendered_digest": "e61895bbba87ace15a7e53bb5136efc29bc2105ea06c81e503a14e471defed04",
       "ast_digest": "52ae355f59153da999d724c2133a1aa190245ed3cae203677f9876be3df89695"
     },
     "spp": {
-      "values_digest": "ad37cf724976ef91c02e2f74f06a3a70fc013e73d1acae9c60bc7108ce219c57",
+      "values_digest": "8a8f91bd539ce6590bb46e4968a9fee19707d1941814bee2e90a98c394c336b3",
       "rendered_digest": "5ea449b178e9fa4c571afac0d4731e45b73cd16ad467d4ee392615b957e0108c",
       "ast_digest": "81b8b8e01ed790ee1cf2da35404bb201d22fcccc25fb2186107f8a1c9b629aa5"
     },
     "vpp": {
-      "values_digest": "b36244b1250e7d446d77819bdafde3b453a206523aae663179a7c58f1805c9c3",
+      "values_digest": "4bca4a2167c1553d2d8c209633334bf7ab1f9015e13d3b87bf610524b7958b0f",
       "rendered_digest": "d07e6e27fd8972968faa8dc97c4aa23317033aef1913f1a4818c41e696c66117",
       "ast_digest": "2220360798039c1e52115627c0868afe1bd7f8cd523c639bb8905c068c9c6b86"
     },
     "srp": {
-      "values_digest": "d276fe888414e998daf3b4627a3184d9d2a8976936a44de74e3728adaca40dd1",
-      "rendered_digest": "d08570989652cbecbd0bf33fa1225afc1b96f91c800c8037cc16171f6185d7d9",
-      "ast_digest": "ecf0737f581d2dbc15721bcd086c1a9367b52b4f6f9bb1ebc04179c93adbc831"
+      "values_digest": "c3fc640bfb8dd2a91191339a5e706b8f27c45aeb23acf5c24f754cb554ea46e0",
+      "rendered_digest": "c482b035b24833789475636c85007b95394808707be9d0fab7bc0d9978ad64df",
+      "ast_digest": "5acd3e4fd5abe3fa8b87a69f81f2207491654bd31962086a8618d4a257f47fd1"
     },
     "sor": {
-      "values_digest": "a6d615756eaa44637f2b4fe3216d4e9cdefea0fd52a797365e338f3eb896c2f5",
+      "values_digest": "f823ccfbbc524738102add46ad1a3135a19fb82812a76e838128f81c762ab1cc",
       "rendered_digest": "096e18421b5fa84973a7010ca4b603c140757142042e7d4dcea8f64912f17d54",
       "ast_digest": "0f0e141aa56d9259e6af6a1902b948788b910f3cef254b883bbaa2f3c04f82bb"
     }
@@ -97,6 +129,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #5913 after published PR #320 CI found stale PR-fast nextest binary_id routing for removed adl-session binary; fix requires a new substantive commit and fresh exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -330,6 +369,34 @@
       "actor": "codex:/root",
       "reason": "Record focused validation for the long-fence contract bypass fix.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--\",\"--check\",\"+\",\"bash\",\"adl/tools/test_adl_review_compatibility.sh\",\"+\",\"bash\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\"+\",\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Focused validation for long-fence-safe repo-review contract verification, preserved adl-review compatibility behavior, PR-fast selector contract, formatting, and strict relevant Rust lint.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-long-fence-contract.log\"}}"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after fresh-session 51a4890e review assignment exceeded wait intervals and was interrupted without a result; implementation head remains unchanged and requires a different fresh no-context reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
