@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "3e0536246cb28fe24393ab94ef8b46110f93674c597f79ba1e455e59eee9ea77",
+  "generation": 28,
+  "digest": "87327f5a821076634758795a206d582ed5182543124b4882c8f8698b98eafa72",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
-  "review_assignment": {
-    "reviewer": "fresh-session:4d0e5d3b-0b7a-4ec3-97b5-0f1da7b079a1",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:5cd3de6292d38f31b63a9493118858f5f4b1652a:3963049675428c50d9f6295291516520e5e9765562548b9d8bc42f7d5cf2774b",
-    "scope": [
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/tests/archived_projection_cleanup.rs",
-      ".csdlc/issues/299",
-      ".csdlc/evidence/299"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bcbc8843900592e6443bc943ca75ed6324ca79a7363d6dae3682587a2c4755f1",
+      "values_digest": "15849c474f34a6b1c8ef88a8a4488b01802b1df1d5d178b2099cf5e72d85249d",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "e0623bb89e0a747570f2f7556909b8391b2fd87cd3369b1a30e1ab1006bab94c",
+      "values_digest": "6ec62a840700240923e2c78898f20469a83b11fd472ee46445733a58762f5801",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "381043dbb8728dee1615ff55ea845a6a2332baed765b350343acc882e5faf002",
+      "values_digest": "69e4c52dd7c7ed02834e2ed25b72ee3b8e3b28a9f52c069473f53cd4029192af",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "3049a26b388622346d7c29644a3fccc0b652fabdc4c0ae103373b1efde68adee",
+      "values_digest": "9c253171e9156cba91f85c6ab5b79026c04276cda48594eccdcd51e81849f48b",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "2c1ed7f8eb812129a19ab719d199aedfeb6bc6e85906b8dd6996733b3b356e70",
-      "rendered_digest": "c4d7e611f2a61e0fe18da577cb3be323f3090814cc8ce0253516dcf88eed4386",
-      "ast_digest": "1790a2d2b809f4d1a3deb73dd52ebe35557a04f77a34bca8159d26f9cadd4f7e"
+      "values_digest": "d5deb8a68c67ae7176cf52d0c8f52be72dfa5ca4e66bf63b19b89b65199fb125",
+      "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
+      "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "9ba7f5415ba00a8cc0330f813e1a8084d3e8a09cc5a4f11e2631f795c73eba8a",
+      "values_digest": "449e8a5437dc74320ca18d19680c9f4b0abe11d96b758dac99beadc027308368",
       "rendered_digest": "5ac8e2cdf8dcafa4bd299ec5a96ee75fb975532963a33deed09b8caa6cb6ddbb",
       "ast_digest": "83bd9dd3b4f7bbb8cde59fa9200e04314c0ae9a05eeaabdb857efe6cea1e6f5c"
     }
@@ -369,6 +358,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 28,
+      "actor": "codex:worker-5",
+      "reason": "Recover failed exact review r10 at git-blake3:5cd3de6292d38f31b63a9493118858f5f4b1652a:3963049675428c50d9f6295291516520e5e9765562548b9d8bc42f7d5cf2774b. Finding preserved: P2 pre-finalization cleanup does not validate the operation ledger allowlist/semantic chain before creating 900-cleanup-complete.json, so an unexpected valid-looking receipt such as 777-removed.json present before finalization can become the previous_receipt_digest predecessor and mutate the ledger instead of failing closed with zero mutation.",
+      "operation": "recover_review"
     }
   ]
 }
