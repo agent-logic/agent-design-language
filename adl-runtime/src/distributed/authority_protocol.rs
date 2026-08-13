@@ -1155,6 +1155,9 @@ pub enum ObservatoryAuthorityMutation {
     EmptySigners,
     SignerGeneration,
     DeadlineBeforeFinalization,
+    ExtraSigner,
+    ResultDigest,
+    RetryDigest,
 }
 
 #[cfg(feature = "internal-test-fixtures")]
@@ -1204,8 +1207,106 @@ pub fn test_observatory_authority_mutation_rejected(
             published.operation.inclusive_deadline.unix_seconds =
                 published.operation.finalization_time.unix_seconds - 1;
         }
+        ObservatoryAuthorityMutation::ExtraSigner => {
+            published
+                .operation
+                .signer_eligibility
+                .push(QuorumEligibilityEntry {
+                    guardian_id: b"extra-guardian".to_vec(),
+                    certificate_generation: 1,
+                    boot_generation: 1,
+                });
+        }
+        ObservatoryAuthorityMutation::ResultDigest => published.result_sha256[0] ^= 1,
+        ObservatoryAuthorityMutation::RetryDigest => published.retry_sha256[0] ^= 1,
     }
     published.observatory_projection().is_err()
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+pub fn test_observatory_durable_restore_mutation_rejected(
+    bytes: Vec<u8>,
+    mutation: ObservatoryAuthorityMutation,
+) -> bool {
+    let published = test_observatory_published_authority(bytes);
+    let mut durable = DurablePublishedAuthorityResult {
+        operation_id: published.operation_id.clone(),
+        intent_sha256: published.intent_sha256,
+        result_sha256: published.result_sha256,
+        retry_sha256: published.retry_sha256,
+        committed_log_index: published.committed_log_index,
+        finalization_time: published.operation.finalization_time.clone(),
+        artifact: published.operation.artifact.clone(),
+        signer_guardian_ids: published.operation.signer_guardian_ids.clone(),
+        signer_eligibility: published.operation.signer_eligibility.clone(),
+        inclusive_deadline: published.operation.inclusive_deadline.clone(),
+        quorum_basis: published.operation.quorum_basis.clone().unwrap(),
+    };
+    durable.result_sha256 =
+        result_digest(&durable.verified_operation(), durable.committed_log_index).unwrap();
+    durable.retry_sha256 = retry_digest(&durable).unwrap();
+    match mutation {
+        ObservatoryAuthorityMutation::MissingQuorumBasis => return false,
+        ObservatoryAuthorityMutation::NonMajorityThreshold => {
+            durable.quorum_basis.configurations[0].threshold = 2;
+            durable.quorum_basis.configurations[0].digest = canonical_domain_digest(
+                QUORUM_CONFIG_DOMAIN,
+                &(
+                    durable.quorum_basis.configurations[0].threshold,
+                    &durable.quorum_basis.configurations[0].entries,
+                ),
+            )
+            .unwrap();
+        }
+        ObservatoryAuthorityMutation::OversizedGuardianId => {
+            durable.quorum_basis.configurations[0].entries[0].guardian_id =
+                vec![b'x'; MAX_IDENTITY_BYTES + 1];
+        }
+        ObservatoryAuthorityMutation::EmptySigners => durable.signer_eligibility.clear(),
+        ObservatoryAuthorityMutation::SignerGeneration => {
+            durable.signer_eligibility[0].boot_generation += 1;
+        }
+        ObservatoryAuthorityMutation::DeadlineBeforeFinalization => {
+            durable.inclusive_deadline.unix_seconds = durable.finalization_time.unix_seconds - 1;
+        }
+        ObservatoryAuthorityMutation::ExtraSigner => {
+            durable.signer_eligibility.push(QuorumEligibilityEntry {
+                guardian_id: b"extra-guardian".to_vec(),
+                certificate_generation: 1,
+                boot_generation: 1,
+            });
+        }
+        ObservatoryAuthorityMutation::ResultDigest => durable.result_sha256[0] ^= 1,
+        ObservatoryAuthorityMutation::RetryDigest => durable.retry_sha256[0] ^= 1,
+    }
+    let state = AuthorityProtocolState {
+        committed_log_index: durable.committed_log_index,
+        published: BTreeMap::from([(durable.operation_id.clone(), durable)]),
+    };
+    let restored: AuthorityProtocolState =
+        serde_json::from_slice(&serde_jcs::to_vec(&state).unwrap()).unwrap();
+    validate_protocol_state(&restored).is_err()
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+pub fn test_observatory_legacy_durable_state_rejected(bytes: Vec<u8>) -> bool {
+    let published = test_observatory_published_authority(bytes);
+    let mut value = serde_json::to_value(AuthorityProtocolState {
+        committed_log_index: published.committed_log_index,
+        published: BTreeMap::new(),
+    })
+    .unwrap();
+    value["published"] = serde_json::json!({"operation": {
+        "operation_id": published.operation_id,
+        "intent_sha256": published.intent_sha256,
+        "result_sha256": published.result_sha256,
+        "retry_sha256": published.retry_sha256,
+        "committed_log_index": published.committed_log_index,
+        "finalization_time": published.operation.finalization_time,
+        "artifact": published.operation.artifact,
+        "signer_guardian_ids": published.operation.signer_guardian_ids
+    }});
+    serde_json::from_value::<AuthorityProtocolState>(value).is_err()
 }
 
 #[cfg(any(test, feature = "internal-test-fixtures"))]
@@ -1906,7 +2007,13 @@ fn validate_quorum_basis(
         && (signers.is_empty()
             || signers
                 .windows(2)
-                .any(|pair| pair[0].guardian_id >= pair[1].guardian_id))
+                .any(|pair| pair[0].guardian_id >= pair[1].guardian_id)
+            || signers.iter().any(|signer| {
+                !snapshot
+                    .configurations
+                    .iter()
+                    .any(|config| config.entries.contains(signer))
+            }))
     {
         return Err(AuthorityProtocolError::MissingQuorum);
     }

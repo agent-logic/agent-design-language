@@ -1,0 +1,4 @@
+command: git diff --check
+candidate_precommit: working-tree remediation after a2c6f6c6b7e8bf81583b784d1e0b6c663c1db849
+result: PASS
+summary: exit 0; no output

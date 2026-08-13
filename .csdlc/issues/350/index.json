@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "431657c3fcc04d4171d624dc5d980f8244793a2e408fa5093e97149b3fe9f95d",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "116e0fdad57306596cd7d2fddf793b606f787c856eb004ea20963573b11ae81e",
+  "generation": 19,
+  "digest": "032d9c7143381b3eba4d7e26b322f9082854473fe634500e0663bae7246a7fb8",
   "branch": "codex/350-sealed-observatory-authority-projection",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-350-sealed-observatory-authority-projection",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "49322350c117d340dbcfc57561b3f01639679c217f21aaf5a6fac0a5e59d9f94",
+      "values_digest": "cf23f98f762987ab8a9ce0c1df31a010568da3ede212e72531e2518ce8fe3206",
       "rendered_digest": "7f0e44a1dfac8578dc36c52e3e53a5a046b08c66bc50d2fba4ba935f3a098812",
       "ast_digest": "5a7bf7b0ca0c8c6f6943b188693b906ec4342f7d0489043dd450952e5e2cc159"
     },
     "stp": {
-      "values_digest": "0e45a859a2200597716c76903a2f5ab84664ddbbac7e543a92d334a2996ef118",
+      "values_digest": "6c80bbd034a6a9eec4db1db25a78c7b6115e5537844138aad36c6a3c7b9be300",
       "rendered_digest": "ee155302e4f2a69054630725ea7223c7cce431f9561fa1d903e5398d94d27029",
       "ast_digest": "cd0c0ed37217622d30931fee31559c5692b42a65b79a3c47f70a01a57fa5e853"
     },
     "spp": {
-      "values_digest": "4ea5739625b8ab0020c9d86abc264ac78218efbc2e9cbe59fef0c8e4fef0be1d",
+      "values_digest": "5173e269883412c1f8d0ba232ff9a19297c0045ad9d574516c36a536fbeb5666",
       "rendered_digest": "8dfc9ca7bf568d4ac0ce602eaf350621f99c6e2805662ee327b0de4356eff925",
       "ast_digest": "b20845f025226ce3024e8a04cad86735311924d744a72767b6a48cc664a009f2"
     },
     "vpp": {
-      "values_digest": "9ced763bf828883779b6bd1fe687e7c6d8865044ca719fdf6bd4c376d2034c0f",
+      "values_digest": "220823fd1f7382260f65d1ba839506ff7078de78238f694a48965c81a0bbd513",
       "rendered_digest": "ee8c6d6ff4a6d72081e4166b84a039da1c7cee2432bd2daa291b16f426bede8e",
       "ast_digest": "a6e4535fff1652ced679751f7e686c768d8e35fae0c328879320aa5975bd3a80"
     },
     "srp": {
-      "values_digest": "d1018db33f9c6df73c9b2338cf5993f8fc101ff411b0cd52df8dff0f62a636d2",
+      "values_digest": "1b607177c373c21856115c758b09dc6a50f49f0355c3dbc5e512a77cf9da7377",
       "rendered_digest": "2c6178ffde1b7f3dc146678c7504a7c42bd29d715b5bb0f8480a7bd744e5d887",
       "ast_digest": "6a972df97aae08a8c9a3268a1f7917a3e0f06e264bb8e5f3abc13f0f5ea866e1"
     },
     "sor": {
-      "values_digest": "604e4c92b34becffd0bfa9b6d760c55ab3c7096922156b8f60539a404b944619",
+      "values_digest": "4add7799e5b65ff805ad350d073af092a1954f982340970bf004d58061754ee4",
       "rendered_digest": "fed15502e01c7eb18ebc316d38f1535fddb471ddcc54efa35654a00b3ecd25bf",
       "ast_digest": "99a7d3ab4355bd0bab64b004b72701da6a6ae1076cd20bf3e0db01f10d7ba5f2"
     }
@@ -225,6 +225,27 @@
       "actor": "codex:350-r1-remediation",
       "reason": "Record exact post-remediation diff hygiene before fresh review assignment.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject patch whitespace and conflict-marker hygiene defects across the complete candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact remediation candidate 7ba526f2 against origin/main: exit 0, no output\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:350-r2b-implementation-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "fresh-session:fa6a2abb-3b42-45cf-a329-1a37e0fed899",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:350-r2b-remediation",
+      "reason": "Recover failed R2b review before durable restore, signer exactness, retained evidence, and exhaustive vector remediation; preserve exact finding truth in audit.",
+      "operation": "recover_review"
     }
   ]
 }

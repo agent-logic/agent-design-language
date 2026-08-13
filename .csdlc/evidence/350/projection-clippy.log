@@ -1,3 +1,4 @@
-    Checking adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-350-sealed-observatory-authority-projection/adl-runtime-kernel)
-    Checking adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-350-sealed-observatory-authority-projection/adl-runtime)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.15s
+command: cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --features internal-test-fixtures --test distributed_observatory_authority_projection -- -D warnings
+candidate_precommit: working-tree remediation after a2c6f6c6b7e8bf81583b784d1e0b6c663c1db849
+result: PASS
+summary: Finished dev profile with no warnings or errors.

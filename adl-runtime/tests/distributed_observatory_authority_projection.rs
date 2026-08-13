@@ -2,12 +2,15 @@
 
 use adl_runtime::distributed::{
     authority_protocol::{
-        test_observatory_authority_mutation_rejected, test_observatory_published_authority,
+        test_observatory_authority_mutation_rejected,
+        test_observatory_durable_restore_mutation_rejected,
+        test_observatory_legacy_durable_state_rejected, test_observatory_published_authority,
         ObservatoryAuthorityMutation,
     },
     serving_authority::{
         verify_observatory_authority_projection, ObservatoryBindingFixture,
-        ObservatoryBindingMutation, VerifiedServingAuthorityCut,
+        ObservatoryBindingMutation, ObservatoryDigestField, ObservatoryIdentifierField,
+        VerifiedServingAuthorityCut,
     },
 };
 
@@ -64,13 +67,24 @@ fn every_binding_field_mismatch_fails_closed() {
 
 #[test]
 fn identifier_grammar_rejects_unicode_whitespace_control_and_punctuation() {
-    for suffix in ["bad space", "bad☃", "bad/char", "bad\nline", "bad@char"] {
-        let (fixture, authority, cut) = pair(suffix);
-        assert!(
-            verify_observatory_authority_projection(&authority, &cut).is_err(),
-            "{}",
-            fixture.artifact_bytes().len()
-        );
+    for field in [
+        ObservatoryIdentifierField::TrustDomain,
+        ObservatoryIdentifierField::PolisId,
+        ObservatoryIdentifierField::LineageId,
+        ObservatoryIdentifierField::OperationId,
+        ObservatoryIdentifierField::OwnerCommitId,
+        ObservatoryIdentifierField::LeaseId,
+    ] {
+        for value in ["bad space", "bad☃", "bad/char", "bad\nline", "bad@char"] {
+            let mut fixture = ObservatoryBindingFixture::new("identifier");
+            fixture.set_invalid_identifier(field, value);
+            let authority = test_observatory_published_authority(fixture.artifact_bytes());
+            let cut = VerifiedServingAuthorityCut::fixture_from_observatory(&fixture);
+            assert!(
+                verify_observatory_authority_projection(&authority, &cut).is_err(),
+                "{field:?} {value:?}"
+            );
+        }
     }
 }
 
@@ -85,6 +99,25 @@ fn noncanonical_unknown_missing_and_digest_encodings_fail_closed() {
         &cut
     )
     .is_err());
+    let text = String::from_utf8(canonical.clone()).unwrap();
+    for noncanonical in [
+        text.replace("\"committed_log_index\":2", "\"committed_log_index\":2.0"),
+        text.replace("\"committed_log_index\":2", "\"committed_log_index\":2e0"),
+        format!(
+            "{{{}}}",
+            text[1..text.len() - 1]
+                .split(',')
+                .rev()
+                .collect::<Vec<_>>()
+                .join(",")
+        ),
+    ] {
+        assert!(verify_observatory_authority_projection(
+            &test_observatory_published_authority(noncanonical.into_bytes()),
+            &cut
+        )
+        .is_err());
+    }
 
     let mut value: serde_json::Value = serde_json::from_slice(&canonical).unwrap();
     value
@@ -104,14 +137,21 @@ fn noncanonical_unknown_missing_and_digest_encodings_fail_closed() {
     )
     .is_err());
 
-    for digest in ["ABCDEF", "sha256:00", "AA", "00"] {
-        let mut value: serde_json::Value = serde_json::from_slice(&canonical).unwrap();
-        value["foundation_state_sha256"] = digest.into();
-        assert!(verify_observatory_authority_projection(
-            &test_observatory_published_authority(serde_jcs::to_vec(&value).unwrap()),
-            &cut
-        )
-        .is_err());
+    for field in [
+        ObservatoryDigestField::State,
+        ObservatoryDigestField::Result,
+        ObservatoryDigestField::Receipt,
+    ] {
+        for digest in ["ABCDEF", "sha256:00", "AA", "00", "Zm9v"] {
+            let mut fixture = ObservatoryBindingFixture::new("digest");
+            fixture.set_digest_encoding(field, digest);
+            let authority = test_observatory_published_authority(fixture.artifact_bytes());
+            let cut = VerifiedServingAuthorityCut::fixture_from_observatory(&fixture);
+            assert!(
+                verify_observatory_authority_projection(&authority, &cut).is_err(),
+                "{field:?} {digest}"
+            );
+        }
     }
 }
 
@@ -152,12 +192,32 @@ fn sealed_quorum_restore_mutations_fail_closed() {
         ObservatoryAuthorityMutation::EmptySigners,
         ObservatoryAuthorityMutation::SignerGeneration,
         ObservatoryAuthorityMutation::DeadlineBeforeFinalization,
+        ObservatoryAuthorityMutation::ExtraSigner,
+        ObservatoryAuthorityMutation::ResultDigest,
+        ObservatoryAuthorityMutation::RetryDigest,
     ] {
-        assert!(
-            test_observatory_authority_mutation_rejected(fixture.artifact_bytes(), mutation),
-            "{mutation:?}"
-        );
+        if !matches!(
+            mutation,
+            ObservatoryAuthorityMutation::ResultDigest | ObservatoryAuthorityMutation::RetryDigest
+        ) {
+            assert!(
+                test_observatory_authority_mutation_rejected(fixture.artifact_bytes(), mutation),
+                "{mutation:?}"
+            );
+        }
+        if !matches!(mutation, ObservatoryAuthorityMutation::MissingQuorumBasis) {
+            assert!(
+                test_observatory_durable_restore_mutation_rejected(
+                    fixture.artifact_bytes(),
+                    mutation
+                ),
+                "durable {mutation:?}"
+            );
+        }
     }
+    assert!(test_observatory_legacy_durable_state_rejected(
+        fixture.artifact_bytes()
+    ));
 }
 
 #[test]

@@ -565,6 +565,25 @@ pub enum ObservatoryBindingMutation {
 }
 
 #[cfg(feature = "internal-test-fixtures")]
+#[derive(Clone, Copy, Debug)]
+pub enum ObservatoryIdentifierField {
+    TrustDomain,
+    PolisId,
+    LineageId,
+    OperationId,
+    OwnerCommitId,
+    LeaseId,
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+#[derive(Clone, Copy, Debug)]
+pub enum ObservatoryDigestField {
+    State,
+    Result,
+    Receipt,
+}
+
+#[cfg(feature = "internal-test-fixtures")]
 impl ObservatoryBindingFixture {
     pub fn new(suffix: &str) -> Self {
         let digest = hex::encode(Sha256::digest(suffix.as_bytes()));
@@ -616,6 +635,25 @@ impl ObservatoryBindingFixture {
         self.0.committed_log_index = committed;
         self.0.foundation_generation = generation;
         self.0.fencing_generation = fencing;
+    }
+
+    pub fn set_invalid_identifier(&mut self, field: ObservatoryIdentifierField, value: &str) {
+        *match field {
+            ObservatoryIdentifierField::TrustDomain => &mut self.0.trust_domain,
+            ObservatoryIdentifierField::PolisId => &mut self.0.polis_id,
+            ObservatoryIdentifierField::LineageId => &mut self.0.lineage_id,
+            ObservatoryIdentifierField::OperationId => &mut self.0.operation_id,
+            ObservatoryIdentifierField::OwnerCommitId => &mut self.0.owner_commit_id,
+            ObservatoryIdentifierField::LeaseId => &mut self.0.lease_id,
+        } = value.to_owned();
+    }
+
+    pub fn set_digest_encoding(&mut self, field: ObservatoryDigestField, value: &str) {
+        *match field {
+            ObservatoryDigestField::State => &mut self.0.foundation_state_sha256,
+            ObservatoryDigestField::Result => &mut self.0.foundation_result_sha256,
+            ObservatoryDigestField::Receipt => &mut self.0.foundation_receipt_sha256,
+        } = value.to_owned();
     }
 }
 
