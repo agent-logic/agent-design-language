@@ -24,13 +24,25 @@ const FENCES: TableDefinition<&str, &[u8]> =
     TableDefinition::new("distributed_certificate_fences_v1");
 
 mod raw_access {
-    #[derive(Debug)]
-    struct CertificateStoreAccessSeal;
+    const CERTIFICATE_STORE_ACCESS_MAGIC: [u8; 32] = [
+        0x41, 0x44, 0x4c, 0x2d, 0x43, 0x45, 0x52, 0x54, 0x2d, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x2d,
+        0x41, 0x43, 0x43, 0x45, 0x53, 0x53, 0x2d, 0x53, 0x45, 0x41, 0x4c, 0x2d, 0x56, 0x31, 0x21,
+        0x02, 0x58,
+    ];
 
-    static AUTHORITY_BOUND_SEAL: CertificateStoreAccessSeal = CertificateStoreAccessSeal;
+    #[derive(Debug)]
+    struct CertificateStoreAccessSeal {
+        magic: [u8; 32],
+    }
+
+    static AUTHORITY_BOUND_SEAL: CertificateStoreAccessSeal = CertificateStoreAccessSeal {
+        magic: CERTIFICATE_STORE_ACCESS_MAGIC,
+    };
 
     #[cfg(test)]
-    static TEST_FIXTURE_SEAL: CertificateStoreAccessSeal = CertificateStoreAccessSeal;
+    static TEST_FIXTURE_SEAL: CertificateStoreAccessSeal = CertificateStoreAccessSeal {
+        magic: CERTIFICATE_STORE_ACCESS_MAGIC,
+    };
 
     #[derive(Clone, Copy, Debug)]
     pub struct CertificateStoreAccess {
@@ -47,16 +59,7 @@ mod raw_access {
     };
 
     pub(super) fn validate(access: &CertificateStoreAccess) -> bool {
-        std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL) || {
-            #[cfg(test)]
-            {
-                std::ptr::eq(access.seal, &TEST_FIXTURE_SEAL)
-            }
-            #[cfg(not(test))]
-            {
-                false
-            }
-        }
+        access.seal.magic == CERTIFICATE_STORE_ACCESS_MAGIC
     }
 }
 

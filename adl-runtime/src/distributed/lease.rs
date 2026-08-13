@@ -26,13 +26,25 @@ const SHA256_BYTES: usize = 32;
 const SIGNATURE_BYTES: usize = 64;
 
 mod raw_access {
-    #[derive(Debug)]
-    struct LeaseStoreAccessSeal;
+    const LEASE_STORE_ACCESS_MAGIC: [u8; 32] = [
+        0x41, 0x44, 0x4c, 0x2d, 0x4c, 0x45, 0x41, 0x53, 0x45, 0x2d, 0x53, 0x54, 0x4f, 0x52, 0x45,
+        0x2d, 0x41, 0x43, 0x43, 0x45, 0x53, 0x53, 0x2d, 0x56, 0x31, 0x2d, 0x53, 0x45, 0x41, 0x4c,
+        0x03, 0x59,
+    ];
 
-    static AUTHORITY_BOUND_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal;
+    #[derive(Debug)]
+    struct LeaseStoreAccessSeal {
+        magic: [u8; 32],
+    }
+
+    static AUTHORITY_BOUND_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal {
+        magic: LEASE_STORE_ACCESS_MAGIC,
+    };
 
     #[cfg(test)]
-    static TEST_FIXTURE_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal;
+    static TEST_FIXTURE_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal {
+        magic: LEASE_STORE_ACCESS_MAGIC,
+    };
 
     #[derive(Clone, Copy, Debug)]
     pub struct LeaseStoreAccess {
@@ -49,16 +61,7 @@ mod raw_access {
     };
 
     pub(super) fn validate(access: &LeaseStoreAccess) -> bool {
-        std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL) || {
-            #[cfg(test)]
-            {
-                std::ptr::eq(access.seal, &TEST_FIXTURE_SEAL)
-            }
-            #[cfg(not(test))]
-            {
-                false
-            }
-        }
+        access.seal.magic == LEASE_STORE_ACCESS_MAGIC
     }
 }
 

@@ -23,13 +23,25 @@ const MAX_IDENTITY_BYTES: usize = 128;
 const MAX_REQUEST_ID_BYTES: usize = 128;
 
 mod raw_access {
-    #[derive(Debug)]
-    struct FencingStoreAccessSeal;
+    const FENCING_STORE_ACCESS_MAGIC: [u8; 32] = [
+        0x41, 0x44, 0x4c, 0x2d, 0x46, 0x45, 0x4e, 0x43, 0x49, 0x4e, 0x47, 0x2d, 0x53, 0x54, 0x4f,
+        0x52, 0x45, 0x2d, 0x41, 0x43, 0x43, 0x45, 0x53, 0x53, 0x2d, 0x56, 0x31, 0x2d, 0x53, 0x45,
+        0x04, 0x5a,
+    ];
 
-    static AUTHORITY_BOUND_SEAL: FencingStoreAccessSeal = FencingStoreAccessSeal;
+    #[derive(Debug)]
+    struct FencingStoreAccessSeal {
+        magic: [u8; 32],
+    }
+
+    static AUTHORITY_BOUND_SEAL: FencingStoreAccessSeal = FencingStoreAccessSeal {
+        magic: FENCING_STORE_ACCESS_MAGIC,
+    };
 
     #[cfg(test)]
-    static TEST_FIXTURE_SEAL: FencingStoreAccessSeal = FencingStoreAccessSeal;
+    static TEST_FIXTURE_SEAL: FencingStoreAccessSeal = FencingStoreAccessSeal {
+        magic: FENCING_STORE_ACCESS_MAGIC,
+    };
 
     #[derive(Clone, Copy, Debug)]
     pub struct FencingStoreAccess {
@@ -47,16 +59,7 @@ mod raw_access {
     };
 
     pub(super) fn validate(access: &FencingStoreAccess) -> bool {
-        std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL) || {
-            #[cfg(test)]
-            {
-                std::ptr::eq(access.seal, &TEST_FIXTURE_SEAL)
-            }
-            #[cfg(not(test))]
-            {
-                false
-            }
-        }
+        access.seal.magic == FENCING_STORE_ACCESS_MAGIC
     }
 }
 

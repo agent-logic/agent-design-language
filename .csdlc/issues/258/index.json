@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
   "phase": "implemented",
-  "generation": 43,
-  "digest": "73a30226f61a8909a3eb8a3bed85b2ded5dbd1dd6d206b13b51996ddc7c4602d",
+  "generation": 46,
+  "digest": "ed21431bf7eb89fe4ffb552ddbb44dfa5340c5f22389d96645550ae54bc82961",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b66711935029f13f55018b64d5bca27c5494c00feb6975eab27e206cef608279",
+      "values_digest": "ce12697b97d06dd90a4e65d2731e6cee78e91c6ce94a3687cf84d3ccd0b54ebb",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "1ed4531f2fe180882f53a4bbf059bdd2b8a3a840a3c0132cb586515e0f88259c",
+      "values_digest": "6e250df90f79902c699b7e0e1b9f889a57aa5ed7b9463a9995e39046959618c5",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "543b3a86dad17b22522d9f8fb8887f4a5c8e994a5dee6f55a77f854aaddf18d9",
+      "values_digest": "6e5f01c356960ee22e32c48658ac2cc028c57ac482c444fa99012f50eeaad64f",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "baf46d8c4580be5a20882a4cbd821e68827a02f5d635d08299dc53ca17208191",
+      "values_digest": "b6f5131b98eebb11eb898c8c7d1f23c064a5a5a0abfe806bee88fc470f68808b",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "402975f9a6333aca8313724e64e68859ab97e567d513419e8ca671c4335e5b57",
+      "values_digest": "cb96a785e899458caf528dfd4d105c6ed3a5049e2af7ee552b26e27c8a1cccfd",
       "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
       "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
     },
     "sor": {
-      "values_digest": "ae6d8eb038310a79faca4d0886e7cf5fed1c5e407d3c04a21eb85c0451bb29bd",
-      "rendered_digest": "e943b1935ed0c4b317a6e6604089026218f53887efdffd8444689f6e0b852e35",
-      "ast_digest": "ce0f0ad2f2ee9f465748cd8cce6d3fd8864211e029a9bb11f56340b2dfa4ec84"
+      "values_digest": "a95e137faf47ef611ab2daf5fcf4d10e324321c8a7af1546875465a3f5056171",
+      "rendered_digest": "47351cea1ef66ef86f0e107b6fbeaff77713235c717b915e0b878abcbb08f9ed",
+      "ast_digest": "c5e69854a172a92b138b76cc0c085f7a8379ef0cc154050f917b7fee0f80f880"
     }
   },
   "transitions": [
@@ -554,6 +554,34 @@
       "actor": "codex:/root",
       "reason": "Append final typed validation after the post-publication stale-helper r2 forgeability SOR update.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate typed #258 lifecycle truth after the private-static-seal r2 SOR update.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/csdlc-validate.log\"}}"
+    },
+    {
+      "sequence": 57,
+      "generation": 43,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 44,
+      "actor": "codex:/root",
+      "reason": "Recover invalid candidate 2d5f1d94 after local executable runtime transport proof failed: distributed_runtime_transport::authority_approved_certificate_overlap_is_valid_then_expires_closed panicked at tests/distributed_runtime_transport.rs:55 because test_certificate_store_access() was left as a compile-only panic sentinel. Reviewer fresh-session:1ef66cef-cc6e-46bb-9953-e1c27c7e2216 was interrupted after activity, so a new typed assignment is required after fixing the executable setup without restoring unsafe token forgery or public test-token exposure.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 45,
+      "actor": "codex:/root",
+      "reason": "Record corrected #258 post-publication stale-helper r3 repair after candidate 2d5f1d94 left distributed_runtime_transport executable tests behind a panic sentinel.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed earlier over-scope transport authorization seams; repaired the r2 MaybeUninit token-forgery issue; and repaired the r3 stale transport helper regression. Candidate 2d5f1d94 was invalid because distributed_runtime_transport still used a panic sentinel instead of an executable certificate-store fixture. The current repair keeps test access unavailable to ordinary dev-profile dependents, uses a test-internal source fixture capability for the large runtime transport integration target, validates sealed raw access with private magic, and proves ordinary external unit/zeroed forgeries fail to compile.\",\"changes\":[\"Changed CertificateStoreAccess, LeaseStoreAccess, and FencingStoreAccess validation from pointer-identity-only seals to private sealed-magic capabilities so a source-included test fixture can exercise integration tests while ordinary external unit/zeroed forgeries remain compile-denied.\",\"Replaced the distributed_runtime_transport panic sentinel with a test-internal certificate-store source fixture capability bridge and restored all seven previously ignored large runtime transport tests to executable status.\",\"Confirmed distributed_runtime_transport now runs the full target with 14 passed, 0 failed, and 0 ignored, including the seven runtime transport tests requested by Planning.\",\"Retained the focused external rustc proof denying TEST_* fixture imports, unsafe transmute(()) unit forging, and zeroed MaybeUninit forging for certificate, lease, and fencing access capability types.\",\"Retained the #258 authority-store boundary and coverage-classifier scope; #203/#259 transport architecture remains frozen/non-goal, with no new production transport authorization seams added in this repair.\",\"Used repo-local TMPDIR for hosted-equivalent preflight evidence and did not use /private/tmp.\"],\"artifacts\":[\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-test-distributed-runtime-transport.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-test-distributed-identity-lease-authority.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-test-distributed-guardian-no-run.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-check-adl-runtime.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-clippy-distributed-identity-lease-authority.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-clippy-distributed-runtime-transport.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r3/hosted-equivalent-check-coverage-impact.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r3/test-mechanical-coverage-fallout.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r3/git-diff-check.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Exercise all runtime transport integration tests with the test-internal source fixture and prove the previous panic sentinel/ignored-test regression is gone.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-test-distributed-runtime-transport.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Exercise the focused #258 authority-store boundary and external compile-fail authority proof, including TEST_* import denial, unit transmute denial, and zeroed MaybeUninit denial.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-test-distributed-identity-lease-authority.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_guardian\",\"--no-run\"],\"purpose\":\"Compile guard for distributed_guardian after the raw-store token seal repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-test-distributed-guardian-no-run.log\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Compile-check the runtime crate after the executable fixture and sealed-token repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-check-adl-runtime.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the focused #258 authority-store boundary test target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-clippy-distributed-identity-lease-authority.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the restored executable runtime transport target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/cargo-clippy-distributed-runtime-transport.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Hosted-equivalent coverage-impact preflight for the #258 coverage classifier and current changed-source selection.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/hosted-equivalent-check-coverage-impact.log\"},{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Retain the deterministic mechanical coverage fallout policy proof for the #258 coverage classifier.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/test-mechanical-coverage-fallout.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors across the r3 repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/git-diff-check.log\"}]}"
+    },
+    {
+      "sequence": 60,
+      "generation": 46,
+      "actor": "codex:/root",
+      "reason": "Append final typed validation after the post-publication stale-helper r3 executable runtime transport SOR update.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate typed #258 lifecycle truth after restoring executable runtime transport tests with the test-internal source fixture.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/csdlc-validate.log\"}}"
     }
   ]
 }
