@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl/src/cli/mod.rs\nadl/tests/issue_327_removed_tooling.rs\n.csdlc/issues/327",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+adl/src/cli/mod.rs
+adl/tests/issue_327_removed_tooling.rs
+.csdlc/issues/327
 
 ## Prompts
 

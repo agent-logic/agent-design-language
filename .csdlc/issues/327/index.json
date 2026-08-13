@@ -6,10 +6,19 @@
   "initialization_digest": "4c11af5db97bf747fda030cf8022c5c9a7dc1f107d60165655873661ac7c4288",
   "phase": "implemented",
   "generation": 5,
-  "digest": "89b5e07dff78c2c829b15cf8ff66a83404ca6032addfd05ad79d9cf562e971db",
+  "digest": "0a0f86dda695342bdd2d68e27bcdfa18253a39ac528a158e3d4c32ba1a31f1fc",
   "branch": "codex/327-real-tooling-dead-code",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-327-real-tooling-dead-code",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:80c733e0-3450-4efd-ac29-f82fbd99205c",
+    "assigned_by": "codex:baseline-ci-real-tooling",
+    "revision": "git-blake3:ab46fff7544ef8353838454363cb9789cadf6067:a95e79ea0157542ab5c8411689efb83cc902dfe1cd54b79f789082eb29817714",
+    "scope": [
+      "adl/src/cli/mod.rs",
+      "adl/tests/issue_327_removed_tooling.rs",
+      ".csdlc/issues/327"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +54,9 @@
       "ast_digest": "b1e5b2e1351645dbf6408fc24bc57789e3a3c5cbb49262d95cd642e9c934ebea"
     },
     "srp": {
-      "values_digest": "12f6ed1ce2440e583161b6fb842e920fed5549008bf2debafb42dbaf0dbc27c8",
-      "rendered_digest": "07953f10d55d1b25ceb3b49a3122a900eddb2209af60e2ddc8e25f77db615823",
-      "ast_digest": "2e0120b5d50dcd6a7a709083fa1e7e77aab5c8831dd0f9b4b854d2308d832c34"
+      "values_digest": "d08549926bb6628faca0dcbec074e4e4d85a6a2b6faa4a0a73f3bd3ae722827a",
+      "rendered_digest": "7fe0bb92344f10541c277ca5c92e11ca59d9009f89bfb8154dbbb9bc2f243fb9",
+      "ast_digest": "9af46caa4a4a53d0ec46f67a6aaad83a3e2aaed9f3275617b9d1b2d989128338"
     },
     "sor": {
       "values_digest": "fd2a61811f392d907f3aa023316b21e4ecf28df427b59d92e54dbf878a07d8c2",
@@ -155,6 +164,13 @@
       "actor": "codex:baseline-ci-real-tooling",
       "reason": "Recover review authority onto the first publication metadata commit so terminal delivery can verify canonical review evidence from an ancestral commit containing the tracked issue index.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
