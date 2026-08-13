@@ -91,11 +91,11 @@ Remediated the #300 PR #351 hosted CI failure without production edits. The fail
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
