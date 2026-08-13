@@ -120,11 +120,11 @@ Migrated all declared non-transport Runtime authority callers to governed adapte
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
