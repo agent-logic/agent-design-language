@@ -5,10 +5,23 @@
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
   "phase": "implemented",
   "generation": 68,
-  "digest": "0556c12d9b36b776a6fc770093463303e96af9085c7f19882064c84d68a5660c",
+  "digest": "ae872390a74dc8d0e80cf0a709f86167b32553ee659de5449faf4b9bc4bea988",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:aee63902-3a08-4f0b-8f9f-6676a5ef1352",
+    "assigned_by": "codex:issue-298-r26-main-merge-reconciliation",
+    "revision": "git-blake3:222abd504d99a3bedc224699c0b68d302aac25b7:84e0aadc005c93ddf4bf88ac30533059fc92a2038fae8d23f727d44885c3e4fd",
+    "scope": [
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/298",
+      ".csdlc/evidence/298"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +57,9 @@
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "e574027f0b7a711f8827063b58bff9dd34b616c4a98117e1e0b3343f92a2c4eb",
-      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
-      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
+      "values_digest": "af72e6f54f60f136453d1b03618689f10b76a56da78a37a0fe86f93a34b2ca3a",
+      "rendered_digest": "c2696764358f798d7e811366c6f08aaa1bf244c37137752123248a30b4e26b8a",
+      "ast_digest": "bb8c5e78f52623947e37420103ce6f7603aae55893dcde43d49a05370ab8c099"
     },
     "sor": {
       "values_digest": "6e582812a4cd711aeed96076f84f1eda7e9af02d3aaa0fe9e2fb7491caab0155",
@@ -833,6 +846,13 @@
       "actor": "codex:issue-298-r26-main-merge-reconciliation",
       "reason": "Recover stale published review after owner-preserving merge of current origin/main into PR #305 at f4fa3e64a83a14fb10365fd40993464f4cdf753c to resolve merge conflict in csdlc-v2/src/store.rs. Require refreshed exact-head review, republication, and hosted CI before terminal finish.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 97,
+      "generation": 68,
+      "actor": "codex:issue-298-r26-main-merge-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
