@@ -7,17 +7,18 @@
     "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
     "slug": "issue-203-authority-store-boundary-slice1",
     "version": "v0.92",
-    "generation": 52
+    "generation": 55
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Repaired #258 with concrete private non-zero-sized certificate, lease, and fencing access seals validated by exact static pointer identity plus private magic. The legitimate runtime transport integration token remains available only under the non-default internal-test-fixtures feature, whose target is explicitly feature-gated. The no-feature external denial proof now rejects the prior fat-trait-pointer attack and selects only the newest no-feature rlib, failing if that artifact predates current Cargo.toml or source inputs.",
+      "summary": "Repaired #258 with concrete private non-zero-sized certificate, lease, and fencing access seals validated by exact static pointer identity plus private magic. The legitimate runtime transport integration token remains available only under the non-default internal-test-fixtures feature, whose target is explicitly feature-gated. The no-feature external denial proof rejects the prior fat-trait-pointer attack and selects only the newest no-feature rlib, failing if that artifact predates current Cargo.toml or source inputs. A direct runtime regression now copies each exact magic value, transmutes its same-layout thin reference into the public access type, and proves every raw-store entrypoint rejects it before mutation.",
       "actual_changes": [
         "Replaced forgeable trait-object seals with private 32-byte concrete seals and exact known-static pointer identity checks.",
         "Added external compile denial for the exact compatible fat-trait-pointer transmute attack reported by review.",
         "Made no-feature artifact selection deterministic by newest modification time and rejected artifacts older than any current manifest/source input.",
+        "Added a direct runtime denial for copied-magic same-layout thin-reference forgeries across certificate, lease, and fencing public raw-store entrypoints.",
         "Retained non-default internal-test-fixtures and required-features gating for the 14-test runtime transport integration target.",
         "Preserved frozen #203 and did not absorb #203/#259 transport architecture scope."
       ],

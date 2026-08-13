@@ -8,8 +8,17 @@ use std::{
 use adl_runtime::distributed::{
     authority_reconciliation::{AuthorityReconciliationBarrier, AuthorityReconciliationIdentity},
     authority_store_adapters::{AuthorityStoreAdapterError, AuthorityStoreAdapterRegistry},
+    certificates::{
+        CertificateError, CertificatePolicy, CertificateStoreAccess, DistributedCertificateStore,
+    },
+    fencing::{
+        FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy, FencingStore,
+        FencingStoreAccess,
+    },
+    lease::{AuthorityError, AuthorityLedger, LeasePolicy, LeaseStoreAccess},
     polis_runtime::{ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisRuntimeError},
 };
+use ed25519_dalek::SigningKey;
 
 // PVF: lane=identity-lease-fencing-authority-boundary; proof=#258 authority-store-boundary
 // security-boundary guardrail; deterministic=true; resource_profile=small;
@@ -36,6 +45,23 @@ impl ConsensusCheckpointAuthority for MemoryCheckpoint {
         }
         values.insert(candidate.object.clone(), candidate.clone());
         Ok(())
+    }
+}
+
+#[derive(Debug, Default)]
+struct RejectUnusedCheckpoint;
+
+impl FencingCheckpointAuthority for RejectUnusedCheckpoint {
+    fn current(&self) -> Result<Option<FencingCheckpoint>, FencingError> {
+        Ok(None)
+    }
+
+    fn compare_and_swap(
+        &self,
+        _expected: Option<FencingCheckpoint>,
+        _next: FencingCheckpoint,
+    ) -> Result<(), FencingError> {
+        panic!("forged fencing access must be rejected before checkpoint mutation")
     }
 }
 
@@ -433,6 +459,76 @@ fn external_dev_profile_caller_cannot_import_authority_store_test_access() {
             "unexpected compile failure for {module} zeroed forge: {stderr}"
         );
     }
+}
+
+#[test]
+fn copied_magic_thin_pointer_cannot_authorize_raw_store_entrypoints() {
+    static CERTIFICATE_MAGIC_COPY: [u8; 32] = [
+        0x41, 0x44, 0x4c, 0x2d, 0x43, 0x45, 0x52, 0x54, 0x2d, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x2d,
+        0x41, 0x43, 0x43, 0x45, 0x53, 0x53, 0x2d, 0x53, 0x45, 0x41, 0x4c, 0x2d, 0x56, 0x31, 0x21,
+        0x02, 0x58,
+    ];
+    static LEASE_MAGIC_COPY: [u8; 32] = [
+        0x41, 0x44, 0x4c, 0x2d, 0x4c, 0x45, 0x41, 0x53, 0x45, 0x2d, 0x53, 0x54, 0x4f, 0x52, 0x45,
+        0x2d, 0x41, 0x43, 0x43, 0x45, 0x53, 0x53, 0x2d, 0x56, 0x31, 0x2d, 0x53, 0x45, 0x41, 0x4c,
+        0x03, 0x59,
+    ];
+    static FENCING_MAGIC_COPY: [u8; 32] = [
+        0x41, 0x44, 0x4c, 0x2d, 0x46, 0x45, 0x4e, 0x43, 0x49, 0x4e, 0x47, 0x2d, 0x53, 0x54, 0x4f,
+        0x52, 0x45, 0x2d, 0x41, 0x43, 0x43, 0x45, 0x53, 0x53, 0x2d, 0x56, 0x31, 0x2d, 0x53, 0x45,
+        0x04, 0x5a,
+    ];
+    let certificate_access = unsafe {
+        std::mem::transmute::<&'static [u8; 32], CertificateStoreAccess>(&CERTIFICATE_MAGIC_COPY)
+    };
+    let lease_access =
+        unsafe { std::mem::transmute::<&'static [u8; 32], LeaseStoreAccess>(&LEASE_MAGIC_COPY) };
+    let fencing_access = unsafe {
+        std::mem::transmute::<&'static [u8; 32], FencingStoreAccess>(&FENCING_MAGIC_COPY)
+    };
+
+    let directory = repo_local_root();
+    let certificate_policy = CertificatePolicy::new(
+        "runtime-prod",
+        [SigningKey::from_bytes(&[29; 32]).verifying_key()],
+    )
+    .unwrap();
+    assert!(matches!(
+        DistributedCertificateStore::open(
+            &certificate_access,
+            directory.path().join("forged-certificates.redb"),
+            certificate_policy,
+        ),
+        Err(CertificateError::IssuerNotApproved)
+    ));
+    assert!(matches!(
+        AuthorityLedger::new(
+            &lease_access,
+            LeasePolicy {
+                max_lease_duration_millis: 60_000,
+                max_clock_uncertainty_millis: 100,
+                message_delay_margin_millis: 100,
+                max_lineages: 16,
+                max_snapshot_bytes: 4096,
+            },
+        ),
+        Err(AuthorityError::CertificateUnauthorized)
+    ));
+    assert!(matches!(
+        FencingStore::create(
+            &fencing_access,
+            directory.path().join("forged-fencing"),
+            FencingPolicy {
+                max_lineages: 16,
+                max_receipts: 32,
+                max_state_bytes: 4096,
+                max_clock_uncertainty_millis: 100,
+                message_delay_margin_millis: 100,
+            },
+            Arc::new(RejectUnusedCheckpoint),
+        ),
+        Err(FencingError::UnauthorizedOperation)
+    ));
 }
 
 #[test]
