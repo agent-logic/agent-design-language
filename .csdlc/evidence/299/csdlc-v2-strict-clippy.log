@@ -1,0 +1,5 @@
+HEAD e912bfc63761d03524ac0a4986df10ed03dfbd88
+ARGV env CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2 cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings
+    Checking csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/csdlc-v2)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.71s
+STATUS 0

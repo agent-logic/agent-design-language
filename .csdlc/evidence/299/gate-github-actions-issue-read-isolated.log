@@ -1,0 +1,26 @@
+HEAD e912bfc63761d03524ac0a4986df10ed03dfbd88
+ARGV env CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-read cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions issue_read_failures_are_typed_redacted_and_action_scoped -- --test-threads=1
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running tests/gate_github_actions.rs (/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-read/debug/deps/gate_github_actions-e2722390dfc8bcd5)
+
+running 1 test
+test issue_read_failures_are_typed_redacted_and_action_scoped ... FAILED
+
+failures:
+
+---- issue_read_failures_are_typed_redacted_and_action_scoped stdout ----
+
+thread 'issue_read_failures_are_typed_redacted_and_action_scoped' (82327941) panicked at tests/gate_github_actions.rs:212:9:
+assertion `left == right` failed: case 7
+  left: String("remote_transport")
+ right: "remote_rate_limited"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    issue_read_failures_are_typed_redacted_and_action_scoped
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 1.22s
+
+error: test failed, to rerun pass `--test gate_github_actions`
+STATUS 101

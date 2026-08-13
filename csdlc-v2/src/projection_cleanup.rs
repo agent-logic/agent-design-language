@@ -45,6 +45,7 @@ pub struct ArchivedProjectionNode {
 pub struct CleanupNodeIdentity {
     pub device: u64,
     pub inode: u64,
+    pub links: u64,
     pub uid: u32,
     pub gid: u32,
     pub mode: u32,
@@ -93,11 +94,15 @@ pub fn execute_archived_projection_cleanup(
             "cleanup ledger must be outside the archived projection tree",
         ));
     }
+    require_same_device(&archived_root, &ledger_root, "cleanup ledger")?;
     let operation_root = ledger_root.join(&request.operation_id);
     ensure_private_component(&request.operation_id, "operation id")?;
+    failpoint(request, "operation_create_intent")?;
     fs::create_dir_all(&operation_root)?;
     sync_directory(&ledger_root)?;
+    failpoint(request, "operation_created_before_receipt")?;
     receipt(
+        request,
         &operation_root,
         1,
         "operation-created",
@@ -112,10 +117,13 @@ pub fn execute_archived_projection_cleanup(
     failpoint(request, "operation_created")?;
 
     let private_root = operation_root.join("private-delete");
+    failpoint(request, "namespace_create_intent")?;
     fs::create_dir_all(&private_root)?;
     set_private_permissions(&private_root)?;
     sync_directory(&operation_root)?;
+    failpoint(request, "namespace_created_before_receipt")?;
     receipt(
+        request,
         &operation_root,
         2,
         "namespace-created",
@@ -125,6 +133,7 @@ pub fn execute_archived_projection_cleanup(
 
     let final_path = receipt_path(&operation_root, 900, "cleanup-complete");
     if final_path.is_file() {
+        let _: Value = receipt_payload(&final_path)?;
         let digest = blake3::hash(&read_regular_no_symlink(&final_path)?)
             .to_hex()
             .to_string();
@@ -154,6 +163,7 @@ pub fn execute_archived_projection_cleanup(
     }
 
     receipt(
+        request,
         &operation_root,
         900,
         "cleanup-complete",
@@ -196,89 +206,139 @@ fn cleanup_one_node(
     if !capture_receipt.is_file() {
         let observed = observe_existing(&source)?;
         if observed != node.identity {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "archived node identity does not match cleanup authority",
-            ));
-        }
-        if node.identity.node_type == CleanupNodeType::Directory
-            && fs::read_dir(&source)?.next().is_some()
-        {
-            return Err(V2Error::new(
-                ErrorCode::UnsafeCheckout,
-                "cleanup refuses non-empty archived directories",
-            ));
-        }
-        create_placeholder(&private, node.identity.node_type)?;
-        let placeholder_identity = observe_existing(&private)?;
-        receipt(
-            operation_root,
-            base,
-            "placeholder-created",
-            &json!({"path":node.relative_path,"private":relative_to(private_root, &private)?,"identity":placeholder_identity}),
-        )?;
-        failpoint(request, "placeholder_created")?;
-        exchange_paths(&source, &private)?;
-        sync_directory(
-            source.parent().ok_or_else(|| {
+            let expected_placeholder = recorded_placeholder_identity(operation_root, base).ok();
+            let captured_private = observe_existing(&private).ok();
+            if expected_placeholder.as_ref() == Some(&observed)
+                && captured_private.as_ref() == Some(&node.identity)
+            {
+                receipt(
+                    request,
+                    operation_root,
+                    base + 3,
+                    "captured",
+                    &json!({"path":node.relative_path,"expected_identity":node.identity,"placeholder_identity":observed,"adopted_after_exchange":true}),
+                )?;
+                failpoint(request, "captured")?;
+            } else {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "archived node identity does not match cleanup authority",
+                ));
+            }
+        } else {
+            if node.identity.node_type == CleanupNodeType::RegularFile && observed.links != 1 {
+                return Err(V2Error::new(
+                    ErrorCode::UnsafeCheckout,
+                    "cleanup refuses hardlinked archived files",
+                ));
+            }
+            if node.identity.node_type == CleanupNodeType::Directory
+                && fs::read_dir(&source)?.next().is_some()
+            {
+                return Err(V2Error::new(
+                    ErrorCode::UnsafeCheckout,
+                    "cleanup refuses non-empty archived directories",
+                ));
+            }
+            failpoint(request, "capture_intent")?;
+            let placeholder_identity = if private.exists() {
+                let identity = observe_existing(&private)?;
+                let expected_placeholder = recorded_placeholder_identity(operation_root, base)?;
+                if identity != expected_placeholder {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "private placeholder identity drifted before exchange",
+                    ));
+                }
+                identity
+            } else {
+                create_placeholder(&private, node.identity.node_type)?;
+                let placeholder_identity = observe_existing(&private)?;
+                receipt(
+                    request,
+                    operation_root,
+                    base,
+                    "placeholder-created",
+                    &json!({"path":node.relative_path,"private":relative_to(private_root, &private)?,"identity":placeholder_identity}),
+                )?;
+                failpoint(request, "placeholder_created")?;
+                placeholder_identity
+            };
+            failpoint(request, "exchange_intent")?;
+            exchange_paths(&source, &private)?;
+            failpoint(request, "exchanged_before_parent_fsync")?;
+            sync_directory(source.parent().ok_or_else(|| {
                 V2Error::new(ErrorCode::InvalidInput, "source path has no parent")
-            })?,
-        )?;
-        sync_directory(private_root)?;
-        receipt(
-            operation_root,
-            base + 3,
-            "captured",
-            &json!({"path":node.relative_path,"expected_identity":node.identity,"placeholder_identity":placeholder_identity}),
-        )?;
-        failpoint(request, "captured")?;
+            })?)?;
+            sync_directory(private_root)?;
+            failpoint(request, "exchanged_parent_fsynced")?;
+            receipt(
+                request,
+                operation_root,
+                base + 3,
+                "captured",
+                &json!({"path":node.relative_path,"expected_identity":node.identity,"placeholder_identity":placeholder_identity}),
+            )?;
+            failpoint(request, "captured")?;
+        }
     }
 
     if !removed_receipt.is_file() {
-        let captured = observe_existing(&private)?;
-        if captured != node.identity {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "captured private node identity does not match cleanup authority",
-            ));
-        }
-        match node.identity.node_type {
-            CleanupNodeType::RegularFile => fs::remove_file(&private)?,
-            CleanupNodeType::Directory => fs::remove_dir(&private)?,
+        if private.try_exists()? {
+            let captured = observe_existing(&private)?;
+            if captured != node.identity {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "captured private node identity does not match cleanup authority",
+                ));
+            }
+            failpoint(request, "removal_intent")?;
+            match node.identity.node_type {
+                CleanupNodeType::RegularFile => fs::remove_file(&private)?,
+                CleanupNodeType::Directory => fs::remove_dir(&private)?,
+            }
+            failpoint(request, "removed_before_parent_fsync")?;
         }
         sync_directory(private_root)?;
+        failpoint(request, "removed_parent_fsynced")?;
         receipt(
+            request,
             operation_root,
             base + 6,
             "removed",
-            &json!({"path":node.relative_path,"removed_identity":node.identity}),
+            &json!({"path":node.relative_path,"removed_identity":node.identity,"adopted_after_unlink":!private.try_exists()?}),
         )?;
         failpoint(request, "removed")?;
     }
 
     if !disposed_receipt.is_file() {
-        let placeholder = observe_existing(&source)?;
         let expected_placeholder = recorded_placeholder_identity(operation_root, base)?;
-        if placeholder != expected_placeholder {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "public placeholder identity drifted before disposal",
-            ));
-        }
-        match placeholder.node_type {
-            CleanupNodeType::RegularFile => fs::remove_file(&source)?,
-            CleanupNodeType::Directory => fs::remove_dir(&source)?,
+        if source.try_exists()? {
+            let placeholder = observe_existing(&source)?;
+            if placeholder != expected_placeholder {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "public placeholder identity drifted before disposal",
+                ));
+            }
+            match placeholder.node_type {
+                CleanupNodeType::RegularFile => fs::remove_file(&source)?,
+                CleanupNodeType::Directory => fs::remove_dir(&source)?,
+            }
+            failpoint(request, "placeholder_disposed_before_parent_fsync")?;
         }
         sync_directory(
             source.parent().ok_or_else(|| {
                 V2Error::new(ErrorCode::InvalidInput, "source path has no parent")
             })?,
         )?;
+        failpoint(request, "placeholder_disposed_parent_fsynced")?;
         receipt(
+            request,
             operation_root,
             base + 8,
             "placeholder-disposed",
-            &json!({"path":node.relative_path,"placeholder_identity":placeholder}),
+            &json!({"path":node.relative_path,"placeholder_identity":expected_placeholder,"adopted_after_unlink":!source.try_exists()?}),
         )?;
         failpoint(request, "placeholder_disposed")?;
     }
@@ -377,7 +437,13 @@ fn validate_terminal_gate(request: &ArchivedProjectionCleanupRequest) -> Result<
     Ok(())
 }
 
-fn receipt(dir: &Path, seq: u32, state: &str, payload: &Value) -> Result<String> {
+fn receipt(
+    request: &ArchivedProjectionCleanupRequest,
+    dir: &Path,
+    seq: u32,
+    state: &str,
+    payload: &Value,
+) -> Result<String> {
     let path = receipt_path(dir, seq, state);
     let previous = if seq == 1 {
         None
@@ -393,6 +459,8 @@ fn receipt(dir: &Path, seq: u32, state: &str, payload: &Value) -> Result<String>
     });
     let mut bytes = serde_json::to_vec_pretty(&envelope)?;
     bytes.push(b'\n');
+    let failpoint_prefix = state.replace('-', "_");
+    failpoint(request, &format!("receipt_{failpoint_prefix}_before_temp"))?;
     if path.exists() {
         let existing = read_regular_no_symlink(&path)?;
         if existing == bytes {
@@ -404,16 +472,74 @@ fn receipt(dir: &Path, seq: u32, state: &str, payload: &Value) -> Result<String>
         ));
     }
     let tmp = path.with_extension("json.tmp");
+    if tmp.exists() {
+        let existing = read_regular_no_symlink(&tmp)?;
+        if existing.is_empty() {
+            fs::remove_file(&tmp)?;
+            sync_directory(dir)?;
+        } else if existing == bytes || temp_receipt_matches(&existing, seq, state, payload)? {
+            fs::rename(&tmp, &path)?;
+            sync_directory(dir)?;
+            return Ok(blake3::hash(&existing).to_hex().to_string());
+        } else {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup receipt temporary file is incomplete or corrupt",
+            ));
+        }
+    }
     {
         let mut options = OpenOptions::new();
         options.write(true).create_new(true);
         let mut file = options.open(&tmp)?;
+        failpoint(request, &format!("receipt_{failpoint_prefix}_temp_created"))?;
         file.write_all(&bytes)?;
+        file.flush()?;
+        failpoint(request, &format!("receipt_{failpoint_prefix}_written"))?;
         file.sync_all()?;
+        failpoint(request, &format!("receipt_{failpoint_prefix}_fsynced"))?;
     }
     fs::rename(&tmp, &path)?;
+    failpoint(request, &format!("receipt_{failpoint_prefix}_renamed"))?;
     sync_directory(dir)?;
+    failpoint(
+        request,
+        &format!("receipt_{failpoint_prefix}_parent_fsynced"),
+    )?;
     Ok(blake3::hash(&bytes).to_hex().to_string())
+}
+
+fn temp_receipt_matches(bytes: &[u8], seq: u32, state: &str, payload: &Value) -> Result<bool> {
+    let value: Value = serde_json::from_slice(bytes)?;
+    Ok(value.get("schema").and_then(Value::as_str)
+        == Some("csdlc.archived_projection_cleanup_receipt.v1")
+        && value.get("sequence").and_then(Value::as_u64) == Some(seq as u64)
+        && value.get("state").and_then(Value::as_str) == Some(state)
+        && receipt_payload_matches(state, value.get("payload"), payload))
+}
+
+fn receipt_payload_matches(state: &str, existing: Option<&Value>, expected: &Value) -> bool {
+    if existing == Some(expected) {
+        return true;
+    }
+    let Some(existing) = existing else {
+        return false;
+    };
+    match state {
+        "captured" => {
+            existing.get("path") == expected.get("path")
+                && existing.get("expected_identity") == expected.get("expected_identity")
+        }
+        "removed" => {
+            existing.get("path") == expected.get("path")
+                && existing.get("removed_identity") == expected.get("removed_identity")
+        }
+        "placeholder-disposed" => {
+            existing.get("path") == expected.get("path")
+                && existing.get("placeholder_identity") == expected.get("placeholder_identity")
+        }
+        _ => false,
+    }
 }
 
 fn previous_receipt_digest(dir: &Path, seq: u32) -> Result<Option<String>> {
@@ -444,6 +570,14 @@ fn previous_receipt_digest(dir: &Path, seq: u32) -> Result<Option<String>> {
 fn receipt_payload<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
     let bytes = read_regular_no_symlink(path)?;
     let value: Value = serde_json::from_slice(&bytes)?;
+    if value.get("schema").and_then(Value::as_str)
+        != Some("csdlc.archived_projection_cleanup_receipt.v1")
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup receipt schema is invalid",
+        ));
+    }
     serde_json::from_value(value.get("payload").cloned().ok_or_else(|| {
         V2Error::new(
             ErrorCode::CorruptRecord,
@@ -489,6 +623,7 @@ fn observe_existing(path: &Path) -> Result<CleanupNodeIdentity> {
     Ok(CleanupNodeIdentity {
         device: metadata.dev(),
         inode: metadata.ino(),
+        links: metadata.nlink(),
         uid: metadata.uid(),
         gid: metadata.gid(),
         mode: metadata.permissions().mode(),
@@ -618,6 +753,18 @@ fn open_directory(path: &Path) -> Result<File> {
         options.custom_flags(libc::O_DIRECTORY | libc::O_NOFOLLOW);
     }
     Ok(options.open(path)?)
+}
+
+fn require_same_device(left: &Path, right: &Path, label: &str) -> Result<()> {
+    let left_device = fs::symlink_metadata(left)?.dev();
+    let right_device = fs::symlink_metadata(right)?.dev();
+    if left_device != right_device {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!("{label} must be on the archived projection device for atomic exchange"),
+        ));
+    }
+    Ok(())
 }
 
 fn sync_directory(path: &Path) -> Result<()> {

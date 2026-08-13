@@ -1,0 +1,11 @@
+HEAD e912bfc63761d03524ac0a4986df10ed03dfbd88
+ARGV env CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-marker cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions operation_marker_is_stable_and_idempotent -- --test-threads=1
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/gate_github_actions.rs (/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-marker/debug/deps/gate_github_actions-e2722390dfc8bcd5)
+
+running 1 test
+test operation_marker_is_stable_and_idempotent ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+STATUS 0

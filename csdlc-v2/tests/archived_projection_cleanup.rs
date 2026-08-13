@@ -3,6 +3,7 @@ mod projection_cleanup;
 
 use std::fs;
 use std::os::unix::fs::MetadataExt;
+use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
@@ -81,6 +82,7 @@ fn identity(path: &Path, node_type: CleanupNodeType) -> CleanupNodeIdentity {
     CleanupNodeIdentity {
         device: metadata.dev(),
         inode: metadata.ino(),
+        links: metadata.nlink(),
         uid: metadata.uid(),
         gid: metadata.gid(),
         mode: metadata.mode(),
@@ -235,6 +237,7 @@ fn cleanup_rejects_symlink_and_non_empty_directory() {
             identity: CleanupNodeIdentity {
                 device: 0,
                 inode: 0,
+                links: 0,
                 uid: 0,
                 gid: 0,
                 mode: 0,
@@ -323,5 +326,198 @@ fn cleanup_preserves_public_replacement_before_placeholder_disposal() {
     assert_eq!(
         fs::read_to_string(&node).expect("replacement retained"),
         "{\"third_party\":true}\n"
+    );
+}
+
+fn single_file_request() -> (
+    tempfile::TempDir,
+    PathBuf,
+    ArchivedProjectionCleanupRequest,
+    PathBuf,
+) {
+    let (temp, root, merge_sha) = repo();
+    let archived = root.join("archived");
+    fs::create_dir(&archived).expect("archived");
+    let node = archived.join("stale.json");
+    fs::write(&node, "{}\n").expect("node");
+    let (terminal_path, terminal_digest) = terminal(&root, &merge_sha);
+    let req = request(
+        &root,
+        &merge_sha,
+        &terminal_path,
+        &terminal_digest,
+        vec![ArchivedProjectionNode {
+            relative_path: "stale.json".into(),
+            identity: identity(&node, CleanupNodeType::RegularFile),
+        }],
+    );
+    (temp, root, req, node)
+}
+
+#[test]
+fn cleanup_restarts_across_intent_receipt_fsync_and_disposal_boundaries() {
+    let failpoints = [
+        "operation_create_intent",
+        "operation_created_before_receipt",
+        "receipt_operation_created_temp_created",
+        "receipt_operation_created_written",
+        "receipt_operation_created_fsynced",
+        "receipt_operation_created_renamed",
+        "receipt_operation_created_parent_fsynced",
+        "namespace_create_intent",
+        "namespace_created_before_receipt",
+        "receipt_namespace_created_temp_created",
+        "receipt_namespace_created_written",
+        "receipt_namespace_created_fsynced",
+        "receipt_namespace_created_renamed",
+        "receipt_namespace_created_parent_fsynced",
+        "capture_intent",
+        "placeholder_created",
+        "exchange_intent",
+        "exchanged_before_parent_fsync",
+        "exchanged_parent_fsynced",
+        "receipt_captured_temp_created",
+        "receipt_captured_written",
+        "receipt_captured_fsynced",
+        "receipt_captured_renamed",
+        "receipt_captured_parent_fsynced",
+        "removal_intent",
+        "removed_before_parent_fsync",
+        "removed_parent_fsynced",
+        "receipt_removed_temp_created",
+        "receipt_removed_written",
+        "receipt_removed_fsynced",
+        "receipt_removed_renamed",
+        "receipt_removed_parent_fsynced",
+        "placeholder_disposed_before_parent_fsync",
+        "placeholder_disposed_parent_fsynced",
+        "receipt_placeholder_disposed_temp_created",
+        "receipt_placeholder_disposed_written",
+        "receipt_placeholder_disposed_fsynced",
+        "receipt_placeholder_disposed_renamed",
+        "receipt_placeholder_disposed_parent_fsynced",
+        "receipt_cleanup_complete_temp_created",
+        "receipt_cleanup_complete_written",
+        "receipt_cleanup_complete_fsynced",
+        "receipt_cleanup_complete_renamed",
+        "receipt_cleanup_complete_parent_fsynced",
+        "cleanup_complete",
+    ];
+    for failpoint in failpoints {
+        let (_temp, _root, mut req, node) = single_file_request();
+        req.fail_after = Some(failpoint.into());
+        assert!(
+            execute_archived_projection_cleanup(&req).is_err(),
+            "injected failpoint {failpoint} should fail"
+        );
+        req.fail_after = None;
+        let result = execute_archived_projection_cleanup(&req)
+            .unwrap_or_else(|error| panic!("resume after {failpoint}: {error:?}"));
+        assert!(
+            matches!(
+                result.status,
+                ArchivedProjectionCleanupStatus::Completed
+                    | ArchivedProjectionCleanupStatus::AlreadyCompleted
+            ),
+            "resume after {failpoint} returned {:?}",
+            result.status
+        );
+        assert!(!node.exists(), "node should be absent after {failpoint}");
+    }
+}
+
+#[test]
+fn cleanup_rejects_hardlink_and_mode_drift_before_mutation() {
+    let (_temp, root, merge_sha) = repo();
+    let archived = root.join("archived");
+    fs::create_dir(&archived).expect("archived");
+    let node = archived.join("stale.json");
+    fs::write(&node, "{}\n").expect("node");
+    fs::hard_link(&node, archived.join("linked.json")).expect("hardlink");
+    let hardlink_identity = identity(&node, CleanupNodeType::RegularFile);
+    let (terminal_path, terminal_digest) = terminal(&root, &merge_sha);
+    let hardlink_req = request(
+        &root,
+        &merge_sha,
+        &terminal_path,
+        &terminal_digest,
+        vec![ArchivedProjectionNode {
+            relative_path: "stale.json".into(),
+            identity: hardlink_identity,
+        }],
+    );
+    assert_eq!(
+        execute_archived_projection_cleanup(&hardlink_req)
+            .expect_err("hardlink rejected")
+            .code,
+        csdlc_v2::ErrorCode::UnsafeCheckout
+    );
+
+    fs::remove_file(archived.join("linked.json")).expect("remove hardlink");
+    let mode_identity = identity(&node, CleanupNodeType::RegularFile);
+    fs::set_permissions(&node, fs::Permissions::from_mode(0o600)).expect("mode drift");
+    let mode_req = request(
+        &root,
+        &merge_sha,
+        &terminal_path,
+        &terminal_digest,
+        vec![ArchivedProjectionNode {
+            relative_path: "stale.json".into(),
+            identity: mode_identity,
+        }],
+    );
+    assert_eq!(
+        execute_archived_projection_cleanup(&mode_req)
+            .expect_err("mode drift rejected")
+            .code,
+        csdlc_v2::ErrorCode::ReconciliationRequired
+    );
+    assert!(node.exists());
+}
+
+#[test]
+fn cleanup_rejects_parent_replacement_and_corrupt_receipt() {
+    let (_temp, root, merge_sha) = repo();
+    let archived = root.join("archived");
+    let nested = archived.join("nested");
+    fs::create_dir_all(&nested).expect("nested");
+    let node = nested.join("stale.json");
+    fs::write(&node, "{}\n").expect("node");
+    let original = identity(&node, CleanupNodeType::RegularFile);
+    fs::rename(&nested, archived.join("nested.old")).expect("replace parent");
+    fs::create_dir(&nested).expect("new nested");
+    fs::write(&node, "{\"replacement\":true}\n").expect("replacement");
+    let (terminal_path, terminal_digest) = terminal(&root, &merge_sha);
+    let parent_req = request(
+        &root,
+        &merge_sha,
+        &terminal_path,
+        &terminal_digest,
+        vec![ArchivedProjectionNode {
+            relative_path: "nested/stale.json".into(),
+            identity: original,
+        }],
+    );
+    assert_eq!(
+        execute_archived_projection_cleanup(&parent_req)
+            .expect_err("parent replacement rejected")
+            .code,
+        csdlc_v2::ErrorCode::ReconciliationRequired
+    );
+    assert_eq!(
+        fs::read_to_string(&node).expect("replacement retained"),
+        "{\"replacement\":true}\n"
+    );
+
+    let (_temp, root, mut req, _node) = single_file_request();
+    execute_archived_projection_cleanup(&req).expect("initial cleanup");
+    let final_receipt = root.join("cleanup-ledger/op-299/900-cleanup-complete.json");
+    fs::write(&final_receipt, b"{\"schema\":\"wrong\"}\n").expect("corrupt receipt");
+    req.fail_after = None;
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("corrupt receipt rejected")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
     );
 }

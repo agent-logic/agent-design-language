@@ -1,0 +1,5 @@
+HEAD e912bfc63761d03524ac0a4986df10ed03dfbd88
+ARGV cargo fmt --manifest-path csdlc-v2/Cargo.toml --check
+STATUS cargo-fmt 0
+ARGV git diff --check
+STATUS git-diff-check 0
