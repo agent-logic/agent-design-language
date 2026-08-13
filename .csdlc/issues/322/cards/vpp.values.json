@@ -1,0 +1,93 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 322,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Sprint 6][tools] Repair adl-review compatibility routing",
+    "slug": "repair-adl-review-compatibility-routing",
+    "version": "v0.92",
+    "generation": 30
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "adl-review-compatibility",
+          "proof_role": "Focused compatibility regression for adl-review help/dispatch and CodeFriend deterministic smoke routing",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "bash",
+            "adl/tools/test_adl_review_compatibility.sh"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "strict-clippy-adl-review",
+          "proof_role": "Strict relevant Rust lint for adl-review dispatch changes",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 2500,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--bin",
+            "adl-review",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "fresh-exact-head-review",
+          "proof_role": "Typed fresh-session exact-head review gate before publication; not a Rust lint proof",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 5000,
+          "argv": [
+            ".adl/bin/csdlc-v2/csdlc-review",
+            "--root",
+            ".",
+            "assign",
+            "--request",
+            ".git/csdlc-v2/requests/5913-review-assign.json"
+          ],
+          "parallel_group": "review",
+          "defer_reason": "Runs only after #5913 reaches implemented phase with a clean substantive exact head."
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed if a command would route through removed v1 lifecycle logic, mutate active lifecycle state, require provider credentials, or overclaim CodeFriend product completion.",
+      "design_ref": ".csdlc/prepared/issues/5913/design.md",
+      "design_digest": "61e3dce4250f315ea1afafe8a84d54e1433ca4bd1621a47e75e1c66c0fd85df3",
+      "diagram_ref": ".csdlc/prepared/issues/5913/diagram.mmd",
+      "diagram_digest": "a67429101e30164192a2e66b9be496fe1f7cc3f07907e79241a4b2fcb270ce15"
+    }
+  }
+}

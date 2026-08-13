@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 306,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish",
+    "slug": "publication-metadata-tail-exact-clean-finish",
+    "version": "v0.92",
+    "generation": 45
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/bin/csdlc-publish.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/tests/publication_tail.rs\n.csdlc/issues/306\n.csdlc/prepared/issues/306",
+      "review_revision": "git-blake3:308e65651b2812a836db1be53b4a5936d098ae24:486b5385fb23cb41e8d090f0486e5944ba4bb58132b08f948fcea204b47642cb",
+      "reviewer": "fresh-session:8749ae45-5b88-4483-acba-13d50c93d9c7",
+      "review_prompts": [
+        "publication ordering and metadata tail safety",
+        "exact-clean finish preservation",
+        "retry and interruption determinism, including interrupted-after-intent, interrupted-after-push, and interrupted-after-record",
+        "no broad untracked metadata allowlist",
+        "Sprint 6 finish-blocking map"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Focused exact-head review only; local validation covered cargo test --manifest-path csdlc-v2/Cargo.toml --test publication_tail with 8 passed and strict clippy for publication_tail; full Rust suite deferred.",
+        "Reviewer did not perform GitHub writes, live PR mutation, lifecycle writes, CI observation, or merge; publication remains to be performed through typed csdlc-publish."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

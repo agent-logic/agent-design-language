@@ -1,0 +1,18 @@
+{
+  "issue": 295,
+  "expected_generation": 13,
+  "expected_digest": "b22d0282a68a792bc36ab9fee0d109e48462f8df9c98b2add86384d62f47d40f",
+  "reviewer": "fresh-session:fc6342c4-8dcd-4fd1-9567-3a5c363503a4",
+  "assigned_by": "codex:issue-295",
+  "scope": [
+    "adl/config/mechanical_coverage_fallout.v1.json",
+    "adl/config/validation_lane_selector.v0.91.6.json",
+    "adl/tools/check_coverage_impact.sh",
+    "adl/tools/mechanical_coverage_fallout.py",
+    "adl/tools/test_mechanical_coverage_fallout.sh",
+    "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md",
+    ".csdlc/evidence/295",
+    ".csdlc/issues/295",
+    ".csdlc/prepared/issues/295"
+  ]
+}

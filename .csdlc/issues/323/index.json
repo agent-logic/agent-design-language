@@ -1,0 +1,254 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 323,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "3949790af8703058a8e6bd057cd1d93ab700d8f4de8d902346bc07f007c89afb",
+  "phase": "published",
+  "generation": 13,
+  "digest": "0bfdad4e55d6e46b0b11669164979bac5f1f8be318c1f5da993269470a6da0ca",
+  "branch": "codex/323-bound-issue-identity-migration",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-323-bound-identity-migration",
+  "review_assignment": {
+    "reviewer": "fresh-session:93d2f508-e849-4528-a3ff-45aca09faa31",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:f0038c54e50b70dc1e16589e423fd6e5858427db:6fe0369bf428fe0cf3d945d11c7673e33c8057cd6f5321f3b919d2a27702e69b",
+    "scope": [
+      ".csdlc/issues/323",
+      ".csdlc/prepared/issues/323",
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/topology_migration.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:93d2f508-e849-4528-a3ff-45aca09faa31",
+    "scope": [
+      ".csdlc/issues/323",
+      ".csdlc/prepared/issues/323",
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/topology_migration.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md"
+    ],
+    "reviewed_revision": "git-blake3:f0038c54e50b70dc1e16589e423fd6e5858427db:6fe0369bf428fe0cf3d945d11c7673e33c8057cd6f5321f3b919d2a27702e69b",
+    "findings": [],
+    "residual_risks": [
+      "The operation requires repo-local typed target issue evidence rather than performing a live GitHub lookup itself.",
+      "The #5913 PR #320 must be republished/relinked to canonical current issue #322 after this operation lands; this review does not merge #320."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 323,
+    "pull_request": 324,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/324",
+    "base": "main",
+    "head": "codex/323-bound-issue-identity-migration",
+    "revision": "git-blake3:54b63258c08ef62d512135fbfc3aae4256ed8dbc:da8edbcead8768556935d7dd6c53f1ff7c1063a4aafe4728e6c6623ee3f09a34",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/323/design.md",
+  "diagram_path": ".csdlc/prepared/issues/323/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root-design-bounded",
+      "revision": "35d6b4863cc00f61360b746971834a36d46e41df57f7729a41a6cc466306b270"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2191586e37635b843b1220ed1b0808213b2318fd2edd36dd4aec00d4ed11acfa",
+      "rendered_digest": "9db40b118494067e35710cdbc053149101c18938f368b404ecdd0d4cd4c79d78",
+      "ast_digest": "c285d1c4c3f057e39b8fd22af671e5e2e70b5fc8bea199e65290478155cce5b4"
+    },
+    "stp": {
+      "values_digest": "e1f7ff096db639e833e553cce7fa437fb68092f6c0240fb4018c3ee82102ea06",
+      "rendered_digest": "35e4c54308904b58fbc48fb069c6afd00bca508b1b4a050bc236243de353b4c8",
+      "ast_digest": "62e28c8f7fcef02b4e24bcfcce861fc2890f80613500fe863b9b0e4fb4c91439"
+    },
+    "spp": {
+      "values_digest": "82215baa91bcda6208518feeb03fdd3be486bf0a2c7b7ef44dd219d174ab7ea4",
+      "rendered_digest": "c0af22a9de3efe59c5ad0187749133b9b92177391f3d65418b057951502fef6c",
+      "ast_digest": "85fe88f88ac21ab15968456442143f4f6a7c4065e68e9dab04916a8c84580618"
+    },
+    "vpp": {
+      "values_digest": "08bd835bb9b4987bbba04ea0b3dfa87a4f33c230af6a65e8cfa6dd86ef27433d",
+      "rendered_digest": "9da3b6e6e9c952f83946aeb55a21adbf93c3053445d031043bcc222c9978c7b7",
+      "ast_digest": "198c846fb75e1bcb4b4e591df6b6aeb443bf08aea77e6cf6afee610ed14f3dfd"
+    },
+    "srp": {
+      "values_digest": "6048199a9171b2227a97c2cd6b76ea873f6fa6f4f7fcd56757803749e35ee16b",
+      "rendered_digest": "0369ec95f4863032fab8946bab42ea38fe118c187797c0b0dd25ada80c43360f",
+      "ast_digest": "04437b5d75cf638c410da541fca0955c5e158517261f837f594c5fa401266bf4"
+    },
+    "sor": {
+      "values_digest": "5dbdd73d2cc6519040757152ea08da2e7a16de645f83712a860eb2b3d64410d0",
+      "rendered_digest": "b8430d89e6b19ba8dffbbfc58a5715b7ecc6fb0c989188bac8409b1c963e7793",
+      "ast_digest": "a33ff6a53993d11a027a00c00204d73e43675d3c92de5179710642c5eab2f551"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #323 after doctor-ready typed design readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #323 after bounded implementation record"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root-design-bounded",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Repair #323 readiness by declaring the focused issue-owned test target selected by validation lanes",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/src/migration.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md\",\"csdlc-v2/tests/bound_issue_identity.rs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Repair #323 validation lane to select the issue-owned integration test target",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-issue-migration-tests\",\"proof_role\":\"Focused Rust regression coverage for bound issue identity migration and finish identity invariants\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"bound_issue_identity\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-clippy\",\"proof_role\":\"Strict relevant Rust lint for C-SDLC v2 owner changes\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Repair #323 readiness by using an existing focused topology migration test target",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/src/migration.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md\",\"csdlc-v2/tests/topology_migration.rs\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Repair #323 validation lane to select existing topology_migration integration target",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-issue-migration-tests\",\"proof_role\":\"Focused Rust regression coverage for bound issue identity migration and finish identity invariants\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"topology_migration\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-clippy\",\"proof_role\":\"Strict relevant Rust lint for C-SDLC v2 owner changes\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Advance #323 after doctor-ready typed design readiness",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record #323 bounded owner operation implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented a typed C-SDLC v2 bound issue identity migration operation that retargets an active nonterminal issue namespace to a canonical issue identity without hand-editing lifecycle records.\",\"changes\":[\"Added BoundIssueIdentityMigrationRequest/Report/Evidence schemas and migration owner implementation.\",\"Exposed migrate_bound_issue_identity through lib exports and csdlc-issue migrate-bound-issue-identity.\",\"Updated public schema bundle and csdlc-v2-init operator note.\",\"Added topology_migration regression coverage for published #5913 -> #322 shape plus stale, conflicting target, dirty worktree, and terminal refusal cases.\"],\"artifacts\":[\"csdlc-v2/src/migration.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/topology_migration.rs\",\"csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Advance #323 after bounded implementation record",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record #323 focused topology migration validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"topology_migration\"],\"purpose\":\"Focused Rust integration proof for bound issue identity migration and existing topology migration invariants.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:topology_migration:11-passed\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record #323 strict clippy validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for C-SDLC v2 owner operation changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:csdlc-v2-clippy:passed\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Record #323 CLI and schema exposure smoke validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-issue\",\"--\",\"--help\",\"and\",\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-edit\",\"--\",\"schema\"],\"purpose\":\"Smoke proof that csdlc-issue exposes migrate-bound-issue-identity and the public schema includes bound_issue_identity_migration_request/report.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:cli-schema-smoke:passed\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
