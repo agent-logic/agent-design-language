@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 358,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Seal Observatory transition intent and full canonical time",
+    "slug": "observatory-transition-intent-time",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #358 packet and terminal #350/#356 seams, action/predecessor rules, full time, tests, redaction and exclusions.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is action/predecessor authenticated by canonical bytes?",
+        "Are full time components durable and exact?",
+        "Does private construction/redaction remain?",
+        "Is scope exactly three product paths?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

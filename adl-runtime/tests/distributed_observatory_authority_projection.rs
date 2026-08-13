@@ -10,7 +10,7 @@ use adl_runtime::distributed::{
     serving_authority::{
         verify_observatory_authority_projection, ObservatoryBindingFixture,
         ObservatoryBindingMutation, ObservatoryDigestField, ObservatoryIdentifierField,
-        VerifiedServingAuthorityCut,
+        ObservatoryTransitionAction, VerifiedServingAuthorityCut,
     },
 };
 
@@ -25,6 +25,47 @@ fn pair(
     let authority = test_observatory_published_authority(fixture.artifact_bytes());
     let cut = VerifiedServingAuthorityCut::fixture_from_observatory(&fixture);
     (fixture, authority, cut)
+}
+
+#[test]
+fn sealed_transition_intent_and_full_canonical_time_are_authenticated() {
+    for (action, predecessor) in [
+        (ObservatoryTransitionAction::Acquire, None),
+        (ObservatoryTransitionAction::Renew, Some("prior-renew")),
+        (
+            ObservatoryTransitionAction::Transfer,
+            Some("prior-transfer"),
+        ),
+        (ObservatoryTransitionAction::Revoke, Some("prior-revoke")),
+    ] {
+        let mut fixture = ObservatoryBindingFixture::new("transition");
+        fixture.set_transition(action, predecessor);
+        let authority = test_observatory_published_authority(fixture.artifact_bytes());
+        let cut = VerifiedServingAuthorityCut::fixture_from_observatory(&fixture);
+        let projection = verify_observatory_authority_projection(&authority, &cut).unwrap();
+        assert_eq!(projection.transition_action(), action);
+        assert_eq!(
+            projection.predecessor_operation_ref().is_some(),
+            predecessor.is_some()
+        );
+        assert!(projection.inclusive_deadline_nanos() < 1_000_000_000);
+        assert!(projection.finalization_nanos() < 1_000_000_000);
+        assert!(projection.inclusive_deadline_uncertainty_millis() > 0);
+        assert!(projection.finalization_uncertainty_millis() > 0);
+    }
+
+    for (action, predecessor) in [
+        (ObservatoryTransitionAction::Acquire, Some("unexpected")),
+        (ObservatoryTransitionAction::Renew, None),
+        (ObservatoryTransitionAction::Transfer, Some("operation")),
+        (ObservatoryTransitionAction::Revoke, None),
+    ] {
+        let mut fixture = ObservatoryBindingFixture::new("invalid-transition");
+        fixture.set_transition(action, predecessor);
+        let authority = test_observatory_published_authority(fixture.artifact_bytes());
+        let cut = VerifiedServingAuthorityCut::fixture_from_observatory(&fixture);
+        assert!(verify_observatory_authority_projection(&authority, &cut).is_err());
+    }
 }
 
 #[test]
