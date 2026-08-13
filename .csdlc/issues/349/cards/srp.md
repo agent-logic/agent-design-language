@@ -13,10 +13,9 @@ Status: pre_phase
 ## Scope
 
 csdlc-v2/src/cards.rs
-csdlc-v2/src/doctor.rs
 csdlc-v2/tests/gate2.rs
-.csdlc/prepared/issues/349
 .csdlc/issues/349
+.csdlc/evidence/349
 
 ## Prompts
 
@@ -36,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Fresh inspection verified the immutable assigned commit and independently reran both exact Gate 2 tests plus diff hygiene. Hosted CI remains deferred to publication. Post-commit typed assignment projections were excluded from substantive review, as intended.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ffa42c7dd9b791e3758ed1b8551954ecfcfa94cf:a2071607330777626935bd888173658acb10a2835da8cd9b3369d4c292ca0d8c")
 
-Reviewer: None
+Reviewer: Some("/root/issue_349_prepare/fresh_impl_review")
 
-Result: pre_review
+Result: pass

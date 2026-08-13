@@ -4,13 +4,38 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "340e5118c1f57c82d2f683cb6401f377a5a472c61b57fbe107d6f2df2fc599a1",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "a264206fd01f4135ce0bc3ea641befe0639bd1e67971dfc411ce8678020fc497",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "b1569c6799d2a01a9a537f9cc823398a3844d2b70a95b1d4c25e2a3bbb2505ba",
   "branch": "codex/349-ready-deferred-validator-admission",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-349-ready-deferred-validator-admission",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/issue_349_prepare/fresh_impl_review",
+    "assigned_by": "codex:issue-349-implementation",
+    "revision": "git-blake3:ffa42c7dd9b791e3758ed1b8551954ecfcfa94cf:a2071607330777626935bd888173658acb10a2835da8cd9b3369d4c292ca0d8c",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/349",
+      ".csdlc/evidence/349"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/issue_349_prepare/fresh_impl_review",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/349",
+      ".csdlc/evidence/349"
+    ],
+    "reviewed_revision": "git-blake3:ffa42c7dd9b791e3758ed1b8551954ecfcfa94cf:a2071607330777626935bd888173658acb10a2835da8cd9b3369d4c292ca0d8c",
+    "findings": [],
+    "residual_risks": [
+      "Fresh inspection verified the immutable assigned commit and independently reran both exact Gate 2 tests plus diff hygiene. Hosted CI remains deferred to publication. Post-commit typed assignment projections were excluded from substantive review, as intended."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d9a6ebb6f765cd94e5b8d1c9c110608ac6caba180cc9f4c86f5c9cdb24e055c2",
+      "values_digest": "7978961e5988480ff56adc872173276d49d6b283347fa3699b936d4e0b1a206c",
       "rendered_digest": "d7d13b0f0c69af7f44bee9483e5d7f15873120847bb563ca3feebf4e19afcc41",
       "ast_digest": "fc6a4f87f994cfdcb23677d2985bdce92cba57716c7e081e740b96e78db50bcf"
     },
     "stp": {
-      "values_digest": "3b4416498ddf6b74cc9156ee24036bc7fcd38cbcdb7104c1c0e3f026a0dd8edb",
+      "values_digest": "ee79fa8126a98bc05b851acff94edf7da985d0858217dc56fb6d2c448938e1bf",
       "rendered_digest": "c53c38ff0b6341444e176ae0bf18d489acd4d57ceddc9c93cee1c5036a9f3e89",
       "ast_digest": "992911b92358c2253b931bf546e2173a9ff49ab492abf3ec77eacf6930bc4d2b"
     },
     "spp": {
-      "values_digest": "1481a65fb0c6b0b489be6ad19d5b26eb9c00dd946122488b88593e45189d25b4",
+      "values_digest": "196b70f764de08b5175b1fa249cfb923f544691ba00c191029d5fb9d97f30b93",
       "rendered_digest": "132818788dec9eaa690605be61d446b6a23d7c67e2cff8caf935c78873d9180c",
       "ast_digest": "8328735149e2966a6755567c96dbb4e3b6f2a9f3f123f91bae00fe490a91f32e"
     },
     "vpp": {
-      "values_digest": "2ef2d169c41d553225a6ca2f9d0a7ace8326364aff88639ec4c572820440c451",
+      "values_digest": "45823e8f11b79db600c5e1ec0650f8a288fd2f830c76c5f6742cf7840685c516",
       "rendered_digest": "e8270b935f196259307fff008e652ed59fbb4f17b2f60b53adb76b979abe4977",
       "ast_digest": "98bc2b3c8c496edc9b161278bb6febe6c34e629d49a9363f7b451404f4e67ce0"
     },
     "srp": {
-      "values_digest": "1a562d09af8e8d92dd3b4129f80e4ccefbaad0d87bf43fd810c21b106c271708",
-      "rendered_digest": "f6fd49155509e86133bb72f42f1a8a2ec117b6307e6e05712e6c8f851143a6b1",
-      "ast_digest": "2266c76c6cea0e3345a485cb8fa1bfc63054202e516092e3ff5931d515ed3803"
+      "values_digest": "e914b3635e8219f5cb3cef25f704ced5970bd5accd08c8b16aae40afe9fc7a6e",
+      "rendered_digest": "30bce782f3e601a85bedebc5e5450f6ab24431ecdb8593af773db0c8fd792e1a",
+      "ast_digest": "d318f6e49ecc3e59692b9034bf277d98c607a59a5ab2d0bc9f53a534fdd4cdca"
     },
     "sor": {
-      "values_digest": "0b66d864ddeffd10c746490a44aae6f831fde855aa788afdfe11cd432c4521fe",
+      "values_digest": "afa6764ebe2968ade7357af9fdcb681c060febfd6e27dc7ba212da75c46958b8",
       "rendered_digest": "95a810dd4bb4b9b65832483daa4663ba7b2620d1ffa083e4aaa700f1f18da74d",
       "ast_digest": "76c56b6b46bb6d649070516e2e3ceb7b77e233af89d92e4ced357343b8125e18"
     }
@@ -76,6 +101,13 @@
       "to": "implemented",
       "actor": "codex:issue-349-implementation",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/issue_349_prepare/fresh_impl_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -127,6 +159,20 @@
       "actor": "codex:issue-349-implementation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-349-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "/root/issue_349_prepare/fresh_impl_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
