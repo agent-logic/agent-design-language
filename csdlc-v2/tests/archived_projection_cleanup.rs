@@ -88,6 +88,12 @@ fn identity(path: &Path, node_type: CleanupNodeType) -> CleanupNodeIdentity {
     }
 }
 
+fn write_distinct_replacement(path: &Path, contents: &str) {
+    fs::write(path, contents).expect("replacement");
+    fs::set_permissions(path, fs::Permissions::from_mode(0o600))
+        .expect("replacement mode drift");
+}
+
 fn authority(
     root: &Path,
     terminal_digest: &str,
@@ -458,7 +464,7 @@ fn cleanup_rejects_replacement_inode_before_capture() {
     fs::write(&node, "{}\n").expect("node");
     let original = identity(&node, CleanupNodeType::RegularFile);
     fs::remove_file(&node).expect("remove original");
-    fs::write(&node, "{\"replacement\":true}\n").expect("replacement");
+    write_distinct_replacement(&node, "{\"replacement\":true}\n");
     let (terminal_path, terminal_digest) = terminal(&root, &merge_sha);
     let req = request(
         &root,
@@ -578,7 +584,7 @@ fn cleanup_preserves_public_replacement_before_placeholder_disposal() {
     req.fail_after = Some("removed".into());
     execute_archived_projection_cleanup(&req).expect_err("injected removed failure");
     fs::remove_file(&node).expect("remove operation placeholder");
-    fs::write(&node, "{\"third_party\":true}\n").expect("replacement");
+    write_distinct_replacement(&node, "{\"third_party\":true}\n");
     req.fail_after = None;
     let error =
         execute_archived_projection_cleanup(&req).expect_err("replacement must be preserved");

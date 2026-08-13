@@ -4,53 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
-  "phase": "published",
-  "generation": 23,
-  "digest": "6986b30c852e4955266b995269d6ac36df6a9ef0310c6814eb48ac60b94a1d8e",
+  "phase": "implemented",
+  "generation": 24,
+  "digest": "1a085da34e9cff7dca95ba1c5d51dbde6a11fc8c97c234523adb5ae614a50495",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
-  "review_assignment": {
-    "reviewer": "fresh-session:2d97c7db-3bf8-4613-85ec-4428272d6ad3",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:203c5aa4b10abd00645a2f4c2b3250596c00c7ec:555a95f593bce60087da1ca698c742220a7e4f2370e07c17d6e536568dec1b57",
-    "scope": [
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/tests/archived_projection_cleanup.rs",
-      ".csdlc/issues/299",
-      ".csdlc/evidence/299"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:2d97c7db-3bf8-4613-85ec-4428272d6ad3",
-    "scope": [
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/tests/archived_projection_cleanup.rs",
-      ".csdlc/issues/299",
-      ".csdlc/evidence/299"
-    ],
-    "reviewed_revision": "git-blake3:203c5aa4b10abd00645a2f4c2b3250596c00c7ec:555a95f593bce60087da1ca698c742220a7e4f2370e07c17d6e536568dec1b57",
-    "findings": [],
-    "residual_risks": [
-      "Review was inspection-only and did not rerun validation; it verified the owner-recorded exact-head focused, strict Clippy, fmt, and diff evidence plus SOR truth.",
-      "Prior serial full-suite RED in gate_github_actions remains preserved and is not converted to PASS by focused #299 proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 299,
-    "pull_request": 325,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/325",
-    "base": "main",
-    "head": "codex/299-exact-authority-archived-projection-cleanup",
-    "revision": "git-blake3:ea669abbf135246a60ff5a2f006e6eb3f65c4a4d:73e3f1d08ef6061b7c86555ade6a86348aeb48d5ea79afb6c6d83a7efab05b89",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -64,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "48449624d3883e28e964358f0a7e8375065ad5d533cff0019f88e3d989082818",
+      "values_digest": "a05f51ba3a9ebcc5ee99fef84b23e4a76dfe4018aa005422d163f1936ce618a6",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "ce36b1a22565215628507b3ed344da253ab3541b18deb7f145890ff2f46cd22b",
+      "values_digest": "4ce2805e0ea53cb88750262ff48533116b1f41db366db87f137292c3593ebb2b",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "909df1d31258b96c5dbf5d373dc6165166fba7bb291a3e97702e99545e3a25c5",
+      "values_digest": "01019c107f2c0d7e53bcdea63a5dbba5dc47ac6d09f3512873962345ed495295",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "c1b37bb795ecc09f085ababba0f30dcbef7bb45b8304a62a7763fcc66842e337",
+      "values_digest": "cdf21ea9ce6ead0e4f2206bdef9e4905bc07f87dfdcff34088d024c82e536ae6",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "8fa6abe195c7dd12aab935f895a254774816ce0c6faa4793e72811b622a42c96",
-      "rendered_digest": "dcef1b79ca9154721caa887332c9cb9a54c05ada6d6cc6e3cc585a0655119f62",
-      "ast_digest": "354645eaf62721682422cb7016397ad7f03c4adcf51ffdf27c36a5a974bba224"
+      "values_digest": "5e7197e3ea2f4c8f7d62b506cfb79b9829298c75a81d89a873251c1a8ca35f82",
+      "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
+      "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "431f698fdec44a7d39e008a33c0c78d87a20f74d0ff71669060201244c89aa8c",
-      "rendered_digest": "70e8e4b87395f88ba019887b031b7a071f3eba4c5ebd82918147fcf58acdc867",
-      "ast_digest": "a18d91b6a5ea150059b4516ab0151df61e98ac228f4dd3533010936bfd5e900c"
+      "values_digest": "5bdc6aea2afc15d6822d401828b4ef732700597cd5206502ed8af66a7c60492b",
+      "rendered_digest": "7f4bde4605ae7db01d5e5635fe7228b15025dd5bde1937c280749b8a64b7d08b",
+      "ast_digest": "c911fcc20915d4994c9eb9f7e36271d0a118faad881b3e7f80a26eb98f221823"
     }
   },
   "transitions": [
@@ -129,6 +90,13 @@
       "to": "published",
       "actor": "codex:worker-5",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-5",
+      "reason": "Recover published PR #325 at git head 3ce1716eeaf277a30d00ff11c92abebe1002962e after hosted CI run 31682167016 failed csdlc-v2-standalone job 94390045054. Exact failure was in csdlc-v2/tests/archived_projection_cleanup.rs: cleanup_rejects_replacement_inode_before_capture and cleanup_preserves_public_replacement_before_placeholder_disposal returned Completed under Linux/CI because replacement fixtures changed content without forcing CleanupNodeIdentity drift; this is #299 test/proof remediation, not merge-ready."
     }
   ],
   "audit": [
@@ -348,6 +316,13 @@
       "actor": "codex:worker-5",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:worker-5",
+      "reason": "Recover published PR #325 at git head 3ce1716eeaf277a30d00ff11c92abebe1002962e after hosted CI run 31682167016 failed csdlc-v2-standalone job 94390045054. Exact failure was in csdlc-v2/tests/archived_projection_cleanup.rs: cleanup_rejects_replacement_inode_before_capture and cleanup_preserves_public_replacement_before_placeholder_disposal returned Completed under Linux/CI because replacement fixtures changed content without forcing CleanupNodeIdentity drift; this is #299 test/proof remediation, not merge-ready.",
+      "operation": "recover_review"
     }
   ]
 }

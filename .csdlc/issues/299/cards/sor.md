@@ -158,11 +158,11 @@ Implemented #299 exact-authority archived-projection cleanup, remediated prior r
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
