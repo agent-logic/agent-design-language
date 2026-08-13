@@ -63,23 +63,30 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         csdlc_v2::publication::resume_recorded_publication_intent(&store, &request)?
     {
         verify_git_remote(&cli.root, &request.remote, &intent)?;
-        if let Some(metadata_head) =
+        let metadata_head = if let Some(metadata_head) =
             csdlc_v2::publication::commit_publication_metadata_tail(&cli.root, request.issue)?
         {
             push(&cli.root, &request.remote, &request.head)?;
-            let observed = find_pr(&crab, &intent).await?.ok_or_else(|| {
-                V2Error::new(
-                    ErrorCode::ReconciliationRequired,
-                    "resumed metadata publication head could not be reconciled",
-                )
-            })?;
-            let publication = normalize(&intent, &observed)?;
+            metadata_head
+        } else {
+            csdlc_v2::git::run(&cli.root, &["rev-parse", "HEAD"])?.stdout
+        };
+        let observed = find_pr(&crab, &intent).await?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "resumed metadata publication head could not be reconciled",
+            )
+        })?;
+        let publication = normalize(&intent, &observed)?;
+        if metadata_head == intent.commit_sha {
+            csdlc_v2::publication::validate_remote(&intent, &publication)?;
+        } else {
             validate_metadata_followup_remote(&cli.root, &intent, &publication, &metadata_head)?;
-            let record = store.load_record(request.issue)?;
-            return Ok(
-                serde_json::json!({"schema":"csdlc.publication_result.v1","publication":publication,"generation":record.generation,"digest":record.digest}),
-            );
         }
+        let record = store.load_record(request.issue)?;
+        return Ok(
+            serde_json::json!({"schema":"csdlc.publication_result.v1","publication":publication,"generation":record.generation,"digest":record.digest}),
+        );
     }
     let intent = prepare_publication(&store, &request)?;
     let observed = find_pr(&crab, &intent).await?;
