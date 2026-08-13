@@ -372,7 +372,7 @@ fn transport_authorization(
     store
         .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, unix_now())
         .unwrap();
-    TransportAuthorization::new(Arc::clone(store), &certificate).unwrap()
+    TransportAuthorization::new_for_test(Arc::clone(store), &certificate).unwrap()
 }
 
 async fn live_learner_pair(

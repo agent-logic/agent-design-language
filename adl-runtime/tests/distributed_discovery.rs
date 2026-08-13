@@ -11,6 +11,31 @@ mod lease;
 #[allow(dead_code)]
 #[path = "../src/distributed/membership.rs"]
 mod membership;
+mod authority_store_adapters {
+    use super::certificates::{CertificateError, CertificatePurpose, VerifiedCertificate};
+
+    #[derive(Clone)]
+    pub struct AuthorityBoundCertificateStore;
+
+    #[allow(dead_code)]
+    #[derive(Clone, Debug, Eq, PartialEq)]
+    pub enum AuthorityStoreAdapterError {
+        Certificate(CertificateError),
+        Reconciliation,
+    }
+
+    impl AuthorityBoundCertificateStore {
+        pub fn authorize(
+            &self,
+            _holder_id: &str,
+            _purpose: CertificatePurpose,
+            _generation: u64,
+            _now_unix_secs: u64,
+        ) -> Result<VerifiedCertificate, AuthorityStoreAdapterError> {
+            Err(AuthorityStoreAdapterError::Reconciliation)
+        }
+    }
+}
 #[allow(dead_code)]
 #[path = "../src/distributed/transport.rs"]
 mod transport;
@@ -213,7 +238,7 @@ fn transport_authorization(
     store
         .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, now())
         .unwrap();
-    TransportAuthorization::new(store.clone(), &certificate).unwrap()
+    TransportAuthorization::new_for_test(store.clone(), &certificate).unwrap()
 }
 
 fn transport_limits() -> TransportLimits {
