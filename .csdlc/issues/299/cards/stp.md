@@ -16,11 +16,11 @@ Issue #299 archived-projection cleanup only; no #298 recovery/classification imp
 
 ## Deliverables
 
-- Typed cleanup request/result schema and command route
-- Immutable cleanup receipt ledger
-- Exact identity/type archive capture and placeholder disposal engine
-- Restart/adoption logic for partial cleanup
-- Focused cleanup test matrix
+- csdlc-v2/src/projection_cleanup.rs
+- csdlc-v2/tests/archived_projection_cleanup.rs
+- csdlc-v2/src/schema.rs
+- csdlc-v2/src/bin/csdlc-edit.rs
+- .csdlc/evidence/299
 - Exact-head #119 review and publication-ready PR after gates
 
 ## Acceptance
@@ -28,7 +28,7 @@ Issue #299 archived-projection cleanup only; no #298 recovery/classification imp
 1. AC-1: Cleanup cannot start without terminal+ancestral #298 recovery authority and an exact completed recovery/canonical/archive binding.
 2. AC-2: No recursive deletion, symlink following, digest-only ownership, path-authoritative unlink, or removal of an unrecorded inode is possible.
 3. AC-3: Regular files, empty directories, root placeholder, per-node tombstones, and type-matched disposal counterparts follow explicit pre/post exchange and identity-specific removal states.
-4. AC-4: Restart adopts only exact receipt-owned identities and parent manifests; collisions, replacements, unsupported types, non-empty directories, topology/ownership drift, or third states preserve everything and fail closed.
+4. AC-4: Restart adopts only exact receipt-owned identities and parent manifests across terminal gate, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final receipt, and completed-repeat boundaries; collisions, replacements, unsupported types, non-empty directories, topology/ownership drift, or third states preserve everything and fail closed.
 5. AC-5: Partial cleanup resumes at the first incomplete recorded node; repeating a complete cleanup is idempotent.
 6. AC-6: Immutable cleanup ledger and recovery evidence survive successful cleanup.
 7. AC-7: Unrelated sentinels and replacement inodes survive every failure and race case.

@@ -54,10 +54,12 @@ Implement the destructive cleanup half that consumes only completed #298 recover
   - namespace creation;
   - public archive capture;
   - each leaf/directory exchange;
+  - capture receipt durability before removal intent;
   - each unlink/rmdir;
   - each file fsync;
   - each parent fsync;
   - placeholder disposal;
+  - placeholder-disposal durability before final cleanup receipt;
   - final completion.
 - Repeating an already complete operation returns the same completed result without deleting anything new.
 
@@ -122,14 +124,20 @@ Implement the destructive cleanup half that consumes only completed #298 recover
 | T12 | AC-4 | Private namespace owner/mode drift | fails closed |
 | T13 | AC-4 | Mount or parent identity drift | fails closed |
 | T14 | AC-4 | Unsupported node type in manifest | fails closed |
-| T15 | AC-5 | Crash after intent before exchange | restart resumes safely without deletion |
-| T16 | AC-5 | Crash after exchange before unlink/rmdir | restart adopts exact captured inode only |
-| T17 | AC-5 | Crash after unlink before parent fsync receipt | restart completes or fails closed from exact receipts |
-| T18 | AC-5 | Repeat complete cleanup | idempotent completed result |
-| T19 | AC-6 | Cleanup success | recovery evidence and cleanup ledger survive |
-| T20 | AC-7 | Sentinel adjacent to archived tree | sentinel survives success and every failure |
-| T21 | AC-7 | Replacement inode at former public path | replacement survives |
-| T22 | AC-8 | Exact-head review finding unresolved | publication blocked |
+| T15 | AC-4/5 | Crash after terminal gate and recovery receipt load, before cleanup namespace creation | restart revalidates #298 terminal ancestry and mutates nothing |
+| T16 | AC-4/5 | Crash after cleanup namespace creation, before any capture intent | restart adopts only the exact operation namespace or fails closed without removing unrelated node |
+| T17 | AC-4/5 | Crash after capture intent before exchange | restart resumes safely without deletion |
+| T18 | AC-4/5 | Crash after exchange before capture receipt | restart refuses ambiguous post-exchange state unless exact operation-owned identity and parent manifest match |
+| T19 | AC-4/5 | Crash after capture receipt before removal intent | restart resumes removal only from the receipt-owned private inode |
+| T20 | AC-5 | Crash after unlink/rmdir before parent fsync receipt | restart completes or fails closed from exact receipts |
+| T21 | AC-5/6 | Crash after parent fsync before completion receipt | restart records completion only when all durable receipt prerequisites match |
+| T22 | AC-5/6 | Crash during placeholder disposal | restart disposes only operation-owned type-matched placeholders and preserves third-party replacements |
+| T23 | AC-5/6 | Crash after placeholder disposal before final cleanup receipt | restart records final immutable receipt without re-deleting |
+| T24 | AC-5 | Repeat complete cleanup | idempotent completed result |
+| T25 | AC-6 | Cleanup success | recovery evidence and cleanup ledger survive |
+| T26 | AC-7 | Sentinel adjacent to archived tree | sentinel survives success and every failure |
+| T27 | AC-7 | Replacement inode at former public path | replacement survives |
+| T28 | AC-8 | Exact-head review finding unresolved | publication blocked |
 
 ## Owned file map
 

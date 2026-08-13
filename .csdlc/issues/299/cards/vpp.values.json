@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][297.b][defect] Implement exact-authority archived-projection cleanup",
     "slug": "exact-authority-archived-projection-cleanup",
     "version": "v0.92",
-    "generation": 0
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "archived-projection-cleanup-focused",
-          "proof_role": "Prove exact capture, type-correct removal, restart, idempotence, and sentinel preservation for AC-1 through AC-7.",
+          "proof_role": "Prove exact capture, type-correct removal, restart, idempotence, and sentinel preservation for AC-1 through AC-7, including terminal gate, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final receipt, and completed-repeat restart boundaries.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -33,14 +33,16 @@
           "budget_tokens": 6000,
           "argv": [
             "cargo",
-            "test",
+            "nextest",
+            "run",
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
             "--test",
-            "archived_projection_cleanup"
+            "archived_projection_cleanup",
+            "--no-tests=fail"
           ],
           "parallel_group": "local",
-          "defer_reason": null
+          "defer_reason": "Deferred until implementation creates csdlc-v2/tests/archived_projection_cleanup.rs with #[path = \"../src/projection_cleanup.rs\"] coverage for csdlc-v2/src/projection_cleanup.rs and enumerates the #299 cleanup restart cuts: terminal gate/read, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final cleanup receipt, and completed repeat."
         },
         {
           "lane": "csdlc-v2-strict-clippy",
@@ -65,33 +67,15 @@
           ],
           "parallel_group": "local",
           "defer_reason": null
-        },
-        {
-          "lane": "hosted-required-checks",
-          "proof_role": "Confirm published PR required checks are green before any merge authority.",
-          "acceptance_ids": [
-            "AC-8"
-          ],
-          "deterministic": true,
-          "resource_profile": "small",
-          "budget_seconds": 1200,
-          "budget_tokens": 1500,
-          "argv": [
-            "csdlc-shepherd",
-            "--input",
-            ".csdlc/prepared/issues/299/post-publish-shepherd-input.json"
-          ],
-          "parallel_group": "hosted",
-          "defer_reason": "Runs after csdlc-publish creates the #299 PR."
         }
       ],
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on missing #298 terminal ancestry, receipt/canonical/archive mismatch, unsafe topology, symlink/special node, unsupported type, replacement, non-empty directory, mount/owner/mode drift, parent identity drift, stale generation/digest, or unresolved review finding.",
       "design_ref": ".csdlc/prepared/issues/299/design.md",
-      "design_digest": "3e97c9192dd6fc95fef49a103d9399a13e5999956ee72aff4c81a5636c5d9d6b",
+      "design_digest": "33db4cc9f41106f4ad0ae5b002a3fb6befc8454ca5f156e6dd0e6f7b62219f32",
       "diagram_ref": ".csdlc/prepared/issues/299/diagram.mmd",
-      "diagram_digest": "b50298f4d85aac55fd158bc66039d9add2a12ff720209de69378c59d57c5ab45"
+      "diagram_digest": "af7a53b44961b3010199ac739e88d0ea14d8e0526e5523c5a3681a51bdf80d77"
     }
   }
 }

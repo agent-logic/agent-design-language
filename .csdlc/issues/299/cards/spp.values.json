@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][297.b][defect] Implement exact-authority archived-projection cleanup",
     "slug": "exact-authority-archived-projection-cleanup",
     "version": "v0.92",
-    "generation": 0
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -98,9 +98,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/299/design.md",
-      "design_digest": "3e97c9192dd6fc95fef49a103d9399a13e5999956ee72aff4c81a5636c5d9d6b",
+      "design_digest": "33db4cc9f41106f4ad0ae5b002a3fb6befc8454ca5f156e6dd0e6f7b62219f32",
       "diagram_ref": ".csdlc/prepared/issues/299/diagram.mmd",
-      "diagram_digest": "b50298f4d85aac55fd158bc66039d9add2a12ff720209de69378c59d57c5ab45"
+      "diagram_digest": "af7a53b44961b3010199ac739e88d0ea14d8e0526e5523c5a3681a51bdf80d77"
     }
   }
 }

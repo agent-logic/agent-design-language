@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "3c8f83dd05ab9ad5c6153726ebe1babb1a0d7e39bdd19906ea955a1f31a2659e",
+  "generation": 4,
+  "digest": "7a5fc287e42fc66f8ae7cdcfd959625d4bb0f469a3413c783f7ecb2c6d18f25b",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "f3578460728c6a7664827cab74366aad7d8edac2ddd06cfde1ac277c403b8976",
+      "values_digest": "7c6e5bec7c9f6dac9c897de2694ffa8d8ba468731f540bb94fee2e0e320002b7",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "ecfcc6e85546ca2361b49c764868f69179a7429d5d6f72d7a18af31954d9384d",
-      "rendered_digest": "9eebd15903ecc2536a97cc2de9b0375baf440e4f4b2e201580da47bf286d9a71",
-      "ast_digest": "0e1d6b0ee58707699e247fbb6de2ae385e89abfd644b4ade73716dd91523c039"
+      "values_digest": "694261f2bcce4db250ebcef9e9f0f5cbacb050eede12e6519286fb32fe3af888",
+      "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
+      "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "f9eef3c00408bf5fe2702b1a327a784b0568accddef2317ee4c89b1865221398",
-      "rendered_digest": "93d8af583d5d4488aa55f3358b78b96339d69adace938c9781f5c98188a227d5",
-      "ast_digest": "695d8f860e6714c7a36f3c35f1142e4205ee241f849d3be1b44cc6a877d4dae9"
+      "values_digest": "c3b983018121f463fb44fc816a4a1941ab9a63a4eebb690d52ec02ddbb05778a",
+      "rendered_digest": "e7b64726406c5664b87eac7bb3193fce6134bc69d92d729324502b46c49be020",
+      "ast_digest": "16f3d3fb95117840815175419a94817c32f2bb99b01492486f4b4a3e111e9d67"
     },
     "vpp": {
-      "values_digest": "4fddb62b3de1afbb431706ad124749e95bf1faba9900471064abed09f0923a4b",
-      "rendered_digest": "cdcab7dc34b7a9ef13f55654261c1e3b82e89b8881ed2ba9928f9df68c5e2384",
-      "ast_digest": "43280025f83aa660cc2597432ff693cc8162c6efcc20cb7b57e02b0b97a28bba"
+      "values_digest": "fd9a964c137c935b9aeae6080c1bcf3efffa25874a22e7e0a2fd2b37b10c04ca",
+      "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
+      "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "bb247b92834a0e79fde1b4deba12ce730973f844836417facb7d1b3989b44de5",
+      "values_digest": "6bec7f1576c47aa470f301d9131a00e66c9dd12c84e1aaf73b378038e5c7c487",
       "rendered_digest": "74e60556ac876c4c67f4005aeab09f087c0cb546a4dec35e81506dd41180dd67",
       "ast_digest": "32f61b8bd1e3279de7d7b5c27b12bb49ec20f0ae37f61e9d71efec0072eaefd4"
     },
     "sor": {
-      "values_digest": "7fd441403e0cdf1dfae763f0df6a5bf2d8f530a0305a4c94bf996738757fba51",
+      "values_digest": "db7db90ad9244fc69ff1ecd332acea7f9fc049995e30aac082f73308e1fb64da",
       "rendered_digest": "9d5429f5ff903079a067ccfadeaeecbf2f7c4292171fb0a9dc6436050eba2344",
       "ast_digest": "1386ea60422c194068901441785ae26bcb5268eb68d9f704089ea8470bceae2b"
     }
@@ -57,6 +57,34 @@
       "actor": "codex:issue-299-planning",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-5",
+      "reason": "refresh repaired #299 design/diagram bindings and make restart durability acceptance explicit after design review",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/299/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/299/diagram.mmd\",\"new_design_digest\":\"33db4cc9f41106f4ad0ae5b002a3fb6befc8454ca5f156e6dd0e6f7b62219f32\",\"new_diagram_digest\":\"af7a53b44961b3010199ac739e88d0ea14d8e0526e5523c5a3681a51bdf80d77\",\"old_design_digest\":\"3e97c9192dd6fc95fef49a103d9399a13e5999956ee72aff4c81a5636c5d9d6b\",\"old_diagram_digest\":\"b50298f4d85aac55fd158bc66039d9add2a12ff720209de69378c59d57c5ab45\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Cleanup cannot start without terminal+ancestral #298 recovery authority and an exact completed recovery/canonical/archive binding.\",\"AC-2: No recursive deletion, symlink following, digest-only ownership, path-authoritative unlink, or removal of an unrecorded inode is possible.\",\"AC-3: Regular files, empty directories, root placeholder, per-node tombstones, and type-matched disposal counterparts follow explicit pre/post exchange and identity-specific removal states.\",\"AC-4: Restart adopts only exact receipt-owned identities and parent manifests across terminal gate, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final receipt, and completed-repeat boundaries; collisions, replacements, unsupported types, non-empty directories, topology/ownership drift, or third states preserve everything and fail closed.\",\"AC-5: Partial cleanup resumes at the first incomplete recorded node; repeating a complete cleanup is idempotent.\",\"AC-6: Immutable cleanup ledger and recovery evidence survive successful cleanup.\",\"AC-7: Unrelated sentinels and replacement inodes survive every failure and race case.\",\"AC-8: Exact-head #119 review has no unresolved actionable finding.\"]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-5",
+      "reason": "repair #299 design-review finding by making owned implementation and focused test deliverables exact before bind",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/projection_cleanup.rs: typed cleanup request/result schema, terminal+ancestral gate, cleanup ledger, exact identity/type capture, type-correct removal, restart/adoption, and placeholder disposal implementation.\",\"csdlc-v2/tests/archived_projection_cleanup.rs: focused nextest integration matrix using #[path = \\\"../src/projection_cleanup.rs\\\"] until the cleanup module is installed in crate routing.\",\"csdlc-v2/src/schema.rs and csdlc-v2/src/bin/csdlc-edit.rs only if the typed cleanup request/result schema requires exported schema or command wiring.\",\".csdlc/evidence/299: immutable local validation, review, publication, and cleanup evidence generated by typed lifecycle operations.\",\"Exact-head #119 review and publication-ready PR after gates.\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:worker-5",
+      "reason": "repair #299 design-review finding and pre-bind doctor lane diagnostics by making the deferred focused target exact and removing hosted CI from local VPP proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"archived-projection-cleanup-focused\",\"proof_role\":\"Prove exact capture, type-correct removal, restart, idempotence, and sentinel preservation for AC-1 through AC-7, including terminal gate, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final receipt, and completed-repeat restart boundaries.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"archived_projection_cleanup\",\"--no-tests=fail\"],\"parallel_group\":\"local\",\"defer_reason\":\"Deferred until implementation creates csdlc-v2/tests/archived_projection_cleanup.rs with #[path = \\\"../src/projection_cleanup.rs\\\"] coverage for csdlc-v2/src/projection_cleanup.rs and enumerates the #299 cleanup restart cuts: terminal gate/read, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final cleanup receipt, and completed repeat.\"},{\"lane\":\"csdlc-v2-strict-clippy\",\"proof_role\":\"Reject warning and target regressions in the cleanup implementation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--workspace\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:worker-5",
+      "reason": "make #299 owned implementation and deferred focused validator deliverables exact path strings required by doctor",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/tests/archived_projection_cleanup.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-edit.rs\",\".csdlc/evidence/299\",\"Exact-head #119 review and publication-ready PR after gates\"]}"
     }
   ]
 }

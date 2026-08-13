@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/299/diagram.mmd
 [
   {
     "lane": "archived-projection-cleanup-focused",
-    "proof_role": "Prove exact capture, type-correct removal, restart, idempotence, and sentinel preservation for AC-1 through AC-7.",
+    "proof_role": "Prove exact capture, type-correct removal, restart, idempotence, and sentinel preservation for AC-1 through AC-7, including terminal gate, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final receipt, and completed-repeat restart boundaries.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -41,14 +41,16 @@ Diagram: .csdlc/prepared/issues/299/diagram.mmd
     "budget_tokens": 6000,
     "argv": [
       "cargo",
-      "test",
+      "nextest",
+      "run",
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
       "--test",
-      "archived_projection_cleanup"
+      "archived_projection_cleanup",
+      "--no-tests=fail"
     ],
     "parallel_group": "local",
-    "defer_reason": null
+    "defer_reason": "Deferred until implementation creates csdlc-v2/tests/archived_projection_cleanup.rs with #[path = \"../src/projection_cleanup.rs\"] coverage for csdlc-v2/src/projection_cleanup.rs and enumerates the #299 cleanup restart cuts: terminal gate/read, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final cleanup receipt, and completed repeat."
   },
   {
     "lane": "csdlc-v2-strict-clippy",
@@ -73,24 +75,6 @@ Diagram: .csdlc/prepared/issues/299/diagram.mmd
     ],
     "parallel_group": "local",
     "defer_reason": null
-  },
-  {
-    "lane": "hosted-required-checks",
-    "proof_role": "Confirm published PR required checks are green before any merge authority.",
-    "acceptance_ids": [
-      "AC-8"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 1200,
-    "budget_tokens": 1500,
-    "argv": [
-      "csdlc-shepherd",
-      "--input",
-      ".csdlc/prepared/issues/299/post-publish-shepherd-input.json"
-    ],
-    "parallel_group": "hosted",
-    "defer_reason": "Runs after csdlc-publish creates the #299 PR."
   }
 ]
 
@@ -106,9 +90,8 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo test --manifest-path csdlc-v2/Cargo.toml --test archived_projection_cleanup`
+- `cargo nextest run --manifest-path csdlc-v2/Cargo.toml --test archived_projection_cleanup --no-tests=fail`
 - `cargo clippy --manifest-path csdlc-v2/Cargo.toml --workspace --all-targets -- -D warnings`
-- `csdlc-shepherd --input .csdlc/prepared/issues/299/post-publish-shepherd-input.json`
 
 ## Failure Semantics
 
