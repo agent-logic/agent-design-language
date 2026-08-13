@@ -28,7 +28,7 @@ impl From<PolisRuntimeError> for ShepherdEligibilityError {
     }
 }
 
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 enum Status {
     Vacant,
@@ -46,6 +46,8 @@ struct Grant {
     lease_sha256: String,
     foundation_state_sha256: String,
     foundation_result_sha256: String,
+    foundation_generation: u64,
+    foundation_receipt_sha256: String,
     fencing_generation: u64,
     expires_at: u64,
     status: Status,
@@ -58,6 +60,23 @@ struct Receipt {
     input_sha256: String,
     prior_state_sha256: String,
     candidate_state_sha256: String,
+    transition: String,
+    result: StoredProjection,
+    owner_commit_sha256: String,
+    lease_sha256: String,
+    foundation_receipt_sha256: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct StoredProjection {
+    status: String,
+    subject_ref: Option<String>,
+    fencing_generation: u64,
+    expiry_class: String,
+    foundation_generation: Option<u64>,
+    foundation_state_sha256: Option<String>,
+    foundation_result_sha256: Option<String>,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
@@ -88,6 +107,8 @@ pub struct ShepherdEligibilityProjection {
     pub fencing_generation: u64,
     pub expiry_class: String,
     pub foundation_state_sha256: Option<String>,
+    pub foundation_generation: Option<u64>,
+    pub foundation_result_sha256: Option<String>,
     pub state_sha256: String,
     pub receipt_sha256: String,
 }
@@ -147,7 +168,15 @@ impl ShepherdEligibilityStore {
         {
             return Err(ShepherdEligibilityError::StaleAuthority);
         }
-        self.transition(operation_id, subject, permit, cut, expires_at, logical_now)
+        self.transition(
+            operation_id,
+            subject,
+            permit,
+            cut,
+            expires_at,
+            logical_now,
+            "acquire",
+        )
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -169,7 +198,15 @@ impl ShepherdEligibilityStore {
         {
             return Err(ShepherdEligibilityError::StaleAuthority);
         }
-        self.transition(operation_id, subject, permit, cut, expires_at, logical_now)
+        self.transition(
+            operation_id,
+            subject,
+            permit,
+            cut,
+            expires_at,
+            logical_now,
+            "replace",
+        )
     }
 
     pub fn revoke(
@@ -188,6 +225,7 @@ impl ShepherdEligibilityStore {
         self.end(operation_id, cut, Status::Expired, logical_now)
     }
 
+    #[allow(clippy::too_many_arguments)]
     fn transition(
         &mut self,
         operation_id: &str,
@@ -196,6 +234,7 @@ impl ShepherdEligibilityStore {
         cut: &VerifiedServingAuthorityCut,
         expires_at: u64,
         logical_now: u64,
+        transition: &str,
     ) -> Result<ShepherdEligibilityProjection, ShepherdEligibilityError> {
         validate_id(operation_id)?;
         validate_id(subject)?;
@@ -217,11 +256,13 @@ impl ShepherdEligibilityStore {
             lease_sha256: keyed("lease", cut.lease_id()),
             foundation_state_sha256: cut.state_sha256().into(),
             foundation_result_sha256: cut.result_sha256().into(),
+            foundation_generation: cut.generation(),
+            foundation_receipt_sha256: cut.receipt_digest().into(),
             fencing_generation: cut.fencing_generation(),
             expires_at,
             status: Status::Eligible,
         };
-        self.commit(operation_id, grant)
+        self.commit(operation_id, grant, transition)
     }
     fn end(
         &mut self,
@@ -231,6 +272,25 @@ impl ShepherdEligibilityStore {
         now: u64,
     ) -> Result<ShepherdEligibilityProjection, ShepherdEligibilityError> {
         validate_id(operation_id)?;
+        if let Some(old) = self.envelope.payload().operations.get(operation_id) {
+            if old.transition
+                != if status == Status::Expired {
+                    "expire"
+                } else {
+                    "revoke"
+                }
+                || old.result.fencing_generation != cut.fencing_generation()
+                || old.result.foundation_generation != Some(cut.generation())
+                || old.result.foundation_state_sha256.as_deref() != Some(cut.state_sha256())
+                || old.result.foundation_result_sha256.as_deref() != Some(cut.result_sha256())
+                || old.owner_commit_sha256 != keyed("owner", cut.owner_commit_id())
+                || old.lease_sha256 != keyed("lease", cut.lease_id())
+                || old.foundation_receipt_sha256 != cut.receipt_digest()
+            {
+                return Err(ShepherdEligibilityError::RetryConflict);
+            }
+            return projection_from_receipt(old);
+        }
         let mut grant = self
             .envelope
             .payload()
@@ -239,17 +299,28 @@ impl ShepherdEligibilityStore {
             .ok_or(ShepherdEligibilityError::StaleAuthority)?;
         if grant.fencing_generation != cut.fencing_generation()
             || grant.foundation_state_sha256 != cut.state_sha256()
+            || grant.foundation_result_sha256 != cut.result_sha256()
+            || grant.foundation_generation != cut.generation()
+            || grant.foundation_receipt_sha256 != cut.receipt_digest()
+            || grant.owner_commit_sha256 != keyed("owner", cut.owner_commit_id())
+            || grant.lease_sha256 != keyed("lease", cut.lease_id())
             || (status == Status::Expired && now < grant.expires_at)
         {
             return Err(ShepherdEligibilityError::StaleAuthority);
         }
         grant.status = status;
-        self.commit(operation_id, grant)
+        let transition = if status == Status::Expired {
+            "expire"
+        } else {
+            "revoke"
+        };
+        self.commit(operation_id, grant, transition)
     }
     fn commit(
         &mut self,
         operation_id: &str,
         grant: Grant,
+        transition: &str,
     ) -> Result<ShepherdEligibilityProjection, ShepherdEligibilityError> {
         let prior = state_digest(self.envelope.payload())?;
         let input = hex::encode(Sha256::digest(
@@ -259,7 +330,7 @@ impl ShepherdEligibilityStore {
             if old.input_sha256 != input {
                 return Err(ShepherdEligibilityError::RetryConflict);
             }
-            return projection(self.envelope.payload(), old);
+            return projection_from_receipt(old);
         }
         if self.envelope.payload().operations.len() >= self.capacity {
             return Err(ShepherdEligibilityError::CapacityExceeded);
@@ -267,13 +338,19 @@ impl ShepherdEligibilityStore {
         let mut next = self.envelope.payload().clone();
         next.revision += 1;
         next.fence_floor = next.fence_floor.max(grant.fencing_generation);
-        next.current = Some(grant);
+        next.current = Some(grant.clone());
         let candidate = state_digest(&next)?;
+        let stored = stored_projection(&next);
         let receipt = Receipt {
             operation_id: operation_id.into(),
             input_sha256: input,
             prior_state_sha256: prior,
             candidate_state_sha256: candidate,
+            transition: transition.into(),
+            result: stored,
+            owner_commit_sha256: grant.owner_commit_sha256.clone(),
+            lease_sha256: grant.lease_sha256.clone(),
+            foundation_receipt_sha256: grant.foundation_receipt_sha256.clone(),
         };
         next.operations.insert(operation_id.into(), receipt.clone());
         self.envelope = self.store.commit(&self.envelope, next)?;
@@ -284,9 +361,12 @@ fn projection(
     state: &State,
     receipt: &Receipt,
 ) -> Result<ShepherdEligibilityProjection, ShepherdEligibilityError> {
+    let _ = state;
+    projection_from_receipt(receipt)
+}
+fn stored_projection(state: &State) -> StoredProjection {
     let grant = state.current.as_ref();
-    Ok(ShepherdEligibilityProjection {
-        schema: "adl.shepherd-serving-eligibility.projection.v1".into(),
+    StoredProjection {
         status: grant
             .map_or("vacant", |g| match g.status {
                 Status::Eligible => "eligible",
@@ -307,7 +387,24 @@ fn projection(
             })
             .into(),
         foundation_state_sha256: grant.map(|g| g.foundation_state_sha256.clone()),
-        state_sha256: state_digest(state)?,
+        foundation_generation: grant.map(|g| g.foundation_generation),
+        foundation_result_sha256: grant.map(|g| g.foundation_result_sha256.clone()),
+    }
+}
+fn projection_from_receipt(
+    receipt: &Receipt,
+) -> Result<ShepherdEligibilityProjection, ShepherdEligibilityError> {
+    let result = &receipt.result;
+    Ok(ShepherdEligibilityProjection {
+        schema: "adl.shepherd-serving-eligibility.projection.v1".into(),
+        status: result.status.clone(),
+        subject_ref: result.subject_ref.clone(),
+        fencing_generation: result.fencing_generation,
+        expiry_class: result.expiry_class.clone(),
+        foundation_state_sha256: result.foundation_state_sha256.clone(),
+        foundation_generation: result.foundation_generation,
+        foundation_result_sha256: result.foundation_result_sha256.clone(),
+        state_sha256: receipt.candidate_state_sha256.clone(),
         receipt_sha256: hex::encode(Sha256::digest(
             serde_jcs::to_vec(receipt).map_err(|_| ShepherdEligibilityError::Serialization)?,
         )),

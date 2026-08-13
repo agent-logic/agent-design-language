@@ -157,7 +157,7 @@ impl ServingAuthorityBinding {
         Ok(framed)
     }
 
-    #[cfg(any(test, debug_assertions))]
+    #[cfg(feature = "internal-test-fixtures")]
     pub fn from_canonical_preimage_fixture(bytes: &[u8]) -> ServingAuthorityResult<Self> {
         if bytes.len() > MAX_PREIMAGE_BYTES
             || !bytes.starts_with(DOMAIN)

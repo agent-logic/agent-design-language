@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
     "slug": "shepherd-serving-eligibility",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #273 typed six-card design, terminal #272 dependency, additive non-policy verified-cut API, Shepherd-only state model and proof, disjoint #274 module/test ownership, serialized registration, and exclusion of #205 parent implementation, #272 durable policy/state-machine changes beyond that API, #274 behavior, #275, process/listener, UI, cloud, and provider scope.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

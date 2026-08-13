@@ -88,7 +88,7 @@ Implemented the bounded Shepherd serving-eligibility authority over a non-forgea
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

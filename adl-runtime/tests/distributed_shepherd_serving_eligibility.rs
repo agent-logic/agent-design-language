@@ -98,6 +98,19 @@ fn acquire_retry_replace_never_exposes_two_shepherds() {
         .unwrap();
     assert_eq!(p2.status, "eligible");
     assert_ne!(p2.subject_ref, p1.subject_ref);
+    assert_eq!(
+        store
+            .acquire(
+                "acquire-1",
+                "shepherd-a",
+                b"permit-a",
+                &cut(9, "11"),
+                100,
+                1,
+            )
+            .unwrap(),
+        p1
+    );
 }
 
 #[test]
@@ -144,6 +157,11 @@ fn revoke_and_expiry_are_terminal_for_old_cut() {
     assert_eq!(
         store.expire("expire", &newer, 10).unwrap().status,
         "expired"
+    );
+    assert_eq!(store.revoke("r", &c).unwrap(), revoked);
+    assert_eq!(
+        store.revoke("r", &newer),
+        Err(ShepherdEligibilityError::RetryConflict)
     );
 }
 

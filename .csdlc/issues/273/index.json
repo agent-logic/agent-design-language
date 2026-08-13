@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ba4ad0b09850192b19172ddfc16a2cb280a6b9c3430dfe1df59c493d7bd5a9d0",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "4a43c1da46fa61e9a947b3593c5952f8f32e18cf1ef298af716eb5015fc56f50",
+  "generation": 5,
+  "digest": "6542f607868965d7b6ea7d4181a0c3bfeda8b017151405c11fcd4742433c05de",
   "branch": "codex/273-shepherd-serving-eligibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-273-shepherd-serving-eligibility",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fbc5229aaec3f71f869bf018d118b85c3431c8396cd9643c6b5d1f887b34476d",
+      "values_digest": "5ab4e84f4a8b35c79285c4ae2ff23e31b5767cc9287ad158b5e2821eeb0b8f0c",
       "rendered_digest": "fde850d82a2c2a13c971d804d5d989ee796c4ad2705e336561eb4acc9e3adee2",
       "ast_digest": "d2f326bb27e14cbe6fe91df173e64cc1f78255fe33c8ab01168482ec034d3b2f"
     },
     "stp": {
-      "values_digest": "54d8a35481864ebcad500522780231bb7d2cd3720f31c30264f975dc1ee43b57",
+      "values_digest": "62269ec1d8e27ff56d92bfe99af18d7d84ecad52976daa0f515bb1827997da05",
       "rendered_digest": "b8a5809f2d2cba141fb56e3739d1444c7768eaf39ea60e8244bf7930d521f3c2",
       "ast_digest": "890dd17f1d76d7fcda68a57dff7d3b3fb2e5208fbc819021e5479b7a7e429e78"
     },
     "spp": {
-      "values_digest": "277b2f7c6fe28d03970abaeecc9ea3512e88b0a3452650fb0b23013181562f88",
+      "values_digest": "02fe7478f9a98ad234918eae49ebc210c8bf940343d9fd44afd9e9a5d8e58db1",
       "rendered_digest": "51400db6a5b8e0548e6799856b1a657f2bf43400616c8eec00cd17984db8406c",
       "ast_digest": "66047768e02ad804e109beaf5abee417c297304aecbbba9e00f9c3fb4e283b9e"
     },
     "vpp": {
-      "values_digest": "a02a44616ebf77ede563b4ef1725429712d32e4ebd34b7e7ab5b8ccd8bfc6114",
+      "values_digest": "5b5ee9773016ed7aa58d619755bd8a88b33e3cfda364183dc2ef928851e79f6a",
       "rendered_digest": "c2e4c514afb0e3836ae33c330adeabc6497f0469f7a32679396816ddfb693f54",
       "ast_digest": "06c6b5fddd64e1b97e791059d272b4f6473f94983b328047009ab6c3d1112ccb"
     },
     "srp": {
-      "values_digest": "994e8bee742bc2189aab79e19d8334349e4d8a36fa7deea1f29bf9178aaac599",
-      "rendered_digest": "67c102344fe33ca283c1c6b90daea82e83dc1edf8c54fa05cff9f19c89148c91",
-      "ast_digest": "f95a38f88ebc975dbcb3dd7426205649d3f6a3e7c8435bae42febe508cf66fe6"
+      "values_digest": "84b99341f8b735d4fcf9d2112911fa7094e24cf9d7f67d17d6ffdc7319bcedab",
+      "rendered_digest": "d26b500a7142a7e623ed6f6e33adde1d4ce3f0d8dec0dd51422d5dd76d42a6a0",
+      "ast_digest": "8d0a111f496337c7f6f343bea02cfce00130254195f68943add4449e218d8c65"
     },
     "sor": {
-      "values_digest": "f070e7abb25d22b1ad08a7adb21f19fa4149657d3198b0f0ca7a62a3c201beb4",
-      "rendered_digest": "0a72a24760eb434025b1ed8e5c6ece2ee6a47333c416c2221b3055d913e00be0",
-      "ast_digest": "9619ee8cad6e850de17d80c8f5b2093536a6d0add7b5eeeca721f19b47b4e3ba"
+      "values_digest": "5ced0acca465c6ad0df1f01178016ea36d8a46e3748b899933b0572185cc9acd",
+      "rendered_digest": "859f25c5ad368147a5e643d5986da7df663585a539355d01c3add0dae2ba9896",
+      "ast_digest": "7f4af193d55ee88b9188703598c41ffde28210db7546c77acfaf1f6ac7678ce8"
     }
   },
   "transitions": [
@@ -120,6 +120,20 @@
       "actor": "codex:planning2-issue273-owner",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "Recover failed fresh-session:8f36bd2e-522c-4ef8-91c9-c134d66cc5e3 exact-head review: remove debug cut forgery, persist exact historical replay results, validate every cut binding on terminal operations, and bind receipts/projection fields before a new fresh assignment.",
+      "operation": "recover_review"
     }
   ]
 }

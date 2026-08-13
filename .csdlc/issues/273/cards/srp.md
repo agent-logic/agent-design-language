@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #273 typed six-card design, terminal #272 dependency, additive non-policy verified-cut API, Shepherd-only state model and proof, disjoint #274 module/test ownership, serialized registration, and exclusion of #205 parent implementation, #272 durable policy/state-machine changes beyond that API, #274 behavior, #275, process/listener, UI, cloud, and provider scope.
+
 
 ## Prompts
 

@@ -4,3 +4,5 @@
 {"sequence":4,"generation":2,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":5,"generation":3,"actor":"fresh-session:12b8190b-d522-450f-b168-4112faf36ef7","reason":"reapprove changed issue design","operation":"approve_design"}
 {"sequence":6,"generation":4,"actor":"codex:planning2-issue273-owner","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":7,"generation":4,"actor":"codex:planning2-issue273-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":8,"generation":5,"actor":"codex:planning2-issue273-owner","reason":"Recover failed fresh-session:8f36bd2e-522c-4ef8-91c9-c134d66cc5e3 exact-head review: remove debug cut forgery, persist exact historical replay results, validate every cut binding on terminal operations, and bind receipts/projection fields before a new fresh assignment.","operation":"recover_review"}
