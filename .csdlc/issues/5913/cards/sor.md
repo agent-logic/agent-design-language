@@ -23,7 +23,7 @@ Repair #5913 adl-review read-only compatibility routing for verify-repo-contract
 
 - Route adl-review verify-repo-contract to a direct markdown repository-review contract verifier instead of the removed v1 tooling multiplexer.
 - Route adl-review code-review fixture mode to the deterministic CodeBuddy/CodeFriend showcase smoke path and validator, rejecting provider-backed backends for this bounded issue.
-- Update the focused compatibility regression so it no longer uses adl tooling as an oracle and covers good/bad contract packets plus deterministic fixture smoke.
+- Update the focused compatibility regression so it no longer uses adl tooling as an oracle and covers good/bad contract packets, deterministic fixture smoke, narrowed help output, and hidden stale command diagnostics without v1/multiplexer wording.
 
 ## Validation
 
@@ -33,7 +33,7 @@ Repair #5913 adl-review read-only compatibility routing for verify-repo-contract
       "bash",
       "adl/tools/test_adl_review_compatibility.sh"
     ],
-    "purpose": "Prove the repaired adl-review read-only compatibility surface and fail-closed command boundaries",
+    "purpose": "Initial focused compatibility regression for repaired adl-review read-only compatibility surface and fail-closed command boundaries",
     "outcome": "passed",
     "evidence_ref": "adl-review-compatibility.log"
   },
@@ -49,7 +49,7 @@ Repair #5913 adl-review read-only compatibility routing for verify-repo-contract
       "-D",
       "warnings"
     ],
-    "purpose": "Prove the repaired adl-review Rust dispatch compiles cleanly under strict Clippy",
+    "purpose": "Initial strict relevant Rust lint for repaired adl-review dispatch changes",
     "outcome": "passed",
     "evidence_ref": "strict-clippy-adl-review.log"
   },
@@ -58,7 +58,7 @@ Repair #5913 adl-review read-only compatibility routing for verify-repo-contract
       "bash",
       "adl/tools/test_adl_review_compatibility.sh"
     ],
-    "purpose": "Focused compatibility regression after stale-help finding fix",
+    "purpose": "Focused compatibility regression after hidden stale-command diagnostic wording fix",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5913/review-finding-fix-compatibility.log"
   },
@@ -74,32 +74,7 @@ Repair #5913 adl-review read-only compatibility routing for verify-repo-contract
       "-D",
       "warnings"
     ],
-    "purpose": "Strict relevant Rust lint after stale-help finding fix",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5913/review-finding-fix-clippy.log"
-  },
-  {
-    "command": [
-      "bash",
-      "adl/tools/test_adl_review_compatibility.sh"
-    ],
-    "purpose": "Focused compatibility regression after stale-help finding fix",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5913/review-finding-fix-compatibility.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "clippy",
-      "--manifest-path",
-      "adl/Cargo.toml",
-      "--bin",
-      "adl-review",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "purpose": "Strict relevant Rust lint after stale-help finding fix",
+    "purpose": "Strict relevant Rust lint after hidden stale-command diagnostic wording fix",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5913/review-finding-fix-clippy.log"
   }
