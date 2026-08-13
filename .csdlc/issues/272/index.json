@@ -4,13 +4,43 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f93934d7effdf8514fffeaedd928b6f7b927df58bf1010f2ca0e8ee302fd5497",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "5b0a1c882b35b62e7bf4a2c02fe86b70cbbf40480e578a8518537ce7e323dcf8",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "821c9f12459dd90b313d2c1ed72eb089d3d1f6901191cae6b9b51902c9934b6a",
   "branch": "codex/272-serving-authority-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-272-serving-authority-foundation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:97b655fd-7cc7-4b6b-8785-4994b6df35b7",
+    "assigned_by": "codex:planning2-issue272-owner",
+    "revision": "git-blake3:08015fbb363ef8d31b31b17844f856fd48f3b6d0:a58ceb4c66c321372482bf1dc84b4d6a3c6bff97f323ced8ed3601aefc6846c9",
+    "scope": [
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/tests/distributed_serving_authority_foundation.rs",
+      ".csdlc/issues/272",
+      ".csdlc/prepared/issues/272",
+      ".csdlc/evidence/272"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:97b655fd-7cc7-4b6b-8785-4994b6df35b7",
+    "scope": [
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/tests/distributed_serving_authority_foundation.rs",
+      ".csdlc/issues/272",
+      ".csdlc/prepared/issues/272",
+      ".csdlc/evidence/272"
+    ],
+    "reviewed_revision": "git-blake3:08015fbb363ef8d31b31b17844f856fd48f3b6d0:a58ceb4c66c321372482bf1dc84b4d6a3c6bff97f323ced8ed3601aefc6846c9",
+    "findings": [],
+    "residual_risks": [
+      "Broad all-target strict Clippy remains baseline-red in unrelated pre-existing Runtime test surfaces; the production library and exact #272 integration target are strict-Clippy clean.",
+      "Review is limited to #272 foundation behavior and does not approve #273-#275 eligibility or integrated behavior."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cd2275c729253239fce4e187ea674d7c325483fa2648bab1aa184925af9a1538",
+      "values_digest": "86d74f2a3091d73c78aba1ffc729f0416b6e6be24299d56d1f04ca7eedfb549b",
       "rendered_digest": "1f19f3794fe2aae1774a4448d8d562eb89d7508813709c16c32d9a2f24d86a67",
       "ast_digest": "ca44581ccef27929e5fd033c948e375c2027c6e24ab3cd18f32163fb387accc7"
     },
     "stp": {
-      "values_digest": "6b7a6841b881656e29eccbbd186d68ec2f16c6bf2a3426b1215ff25258f18d88",
+      "values_digest": "7112d4a1b87f0643c67047b4ac2c1a855d83d81d788b887a46ed5cd3eeb4c407",
       "rendered_digest": "1a546f237b31932f6f52154a82bc69800cb744a3e9a6982a0f3b736d1b25616e",
       "ast_digest": "f0f01363a49c960987bc2671ea4a9e3c7da82f6acfe31ea2910d1b2c4c45319e"
     },
     "spp": {
-      "values_digest": "6167ee072229c0ff86b5d268f5666ac9c077329df5844099a2913754facef383",
+      "values_digest": "6a1813c6a876fb64ed9398f503d2dd08cfee61a1ac9630a25e376def476d6331",
       "rendered_digest": "bda7bc1d368023c02931566b5017be3f3aa2a1409d6e260921ef30876ccfee0b",
       "ast_digest": "6cbdca12af675a6d398d07e0a08dc14bc0a0abad874310f363e7bdad50d61342"
     },
     "vpp": {
-      "values_digest": "7af94cb9fa6ee0a4d8f692131e8222b63895782de3609fe8c3c3e1b1b9d13dfd",
+      "values_digest": "2a4a3eb92116be6dd5802959409e76b6c3d02a03c60b01a2cf63ce2f6445cb53",
       "rendered_digest": "90f504e37880ad273675fc5f2c598bd345ffd28415a7f636357de34f8870c01a",
       "ast_digest": "dde84048aa85a2f3e705b98ddd5349d6a8dd74d7be875597cdfae831061fda47"
     },
     "srp": {
-      "values_digest": "b71068520c1953fbe89c28b2436a647ae817d271e6fa41eeca49a6f6c1a5b5d3",
-      "rendered_digest": "990ad0d0149f4438e6e32bc2910da18a006038657c3084662ca60c4a972c8610",
-      "ast_digest": "99ecb2d710e7c1b051ad0f5c0a188634eef64689a9404edd6490cc07ab9b1f7b"
+      "values_digest": "915a37dcbf3f38d55c6ee0bceee4bc9bb68fdfb91920640cf2a55b7a62fbc295",
+      "rendered_digest": "4f6baba2891a9faabd9d04246164eb1c231c7f1e26f6d48af8693e2288d7c18d",
+      "ast_digest": "c9f024b037ad59b108fd6059885e869f24cfc0e2e8afd78dfd39000837fd129e"
     },
     "sor": {
-      "values_digest": "256d09877da0e91cc30029b4fc99c809b4d844b1edc09428f67ef6a5e21f648c",
+      "values_digest": "a74dc343fdefbe29095ddcb1390780483cfb2026cbf78192053535ad1f6d4ca5",
       "rendered_digest": "067d4e95514db1bf9751bdc15eac82cdeeff6725e78427ec61bdeef2f2d27553",
       "ast_digest": "df809d92b176e246cf202e945f9e972a938e2d57c1ad470beb8f6daf51f037ff"
     }
@@ -76,6 +106,13 @@
       "to": "implemented",
       "actor": "codex:planning2-issue272-owner",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -120,6 +157,34 @@
       "actor": "codex:planning2-issue272-owner",
       "reason": "Recover failed fresh-session:80077170-5a85-4c91-815f-16372cff214b exact-head review at 48cd0e7b: add the missing explicit canonical/schema/bounds/embedded-binding substitution, retry conflict, malformed-state, capacity atomicity, and pre-publication visibility proof before a new immutable head and fresh assignment.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "Recover nonresponsive fresh-session:5e555370-1cb7-446f-afac-a106494b9925 assignment after bounded final prompt; candidate head 08015fbb remains unchanged and requires a new fresh exact-head reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
