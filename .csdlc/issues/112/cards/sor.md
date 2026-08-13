@@ -94,11 +94,11 @@ Forward-recovered the authoritative bound #112 branch to the decomposed Layer 8 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
