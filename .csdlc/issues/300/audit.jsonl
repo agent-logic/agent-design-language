@@ -22,3 +22,4 @@
 {"sequence":22,"generation":15,"actor":"codex:worker-5","reason":"Recover reviewed state after doctor still reported review_publication_dead_end: the post-review range included .csdlc/requests/300/assign-review-bridge-fed-r6.json because assign_review records the pre-assignment HEAD revision.","operation":"recover_review"}
 {"sequence":23,"generation":15,"actor":"codex:worker-5","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":24,"generation":16,"actor":"codex:worker-5","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":25,"generation":17,"actor":"codex:worker-5","reason":"Recover reviewed state after merging current origin/main 3160fb8be575ba9a27748b05ea5dd911e4375deb into #300; review evidence must be refreshed at merged head e100f200c5351b906df56dfbbf0f0604cf32c594 before publication.","operation":"recover_review"}

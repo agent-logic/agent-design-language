@@ -1,0 +1,7 @@
+{
+  "issue": 300,
+  "expected_generation": 16,
+  "expected_digest": "a8d35ee6d708d2a5c6098a1d7e53dfe8b8e175ec7c85ed80f6d30419164f5fd3",
+  "actor": "codex:worker-5",
+  "reason": "Recover reviewed state after merging current origin/main 3160fb8be575ba9a27748b05ea5dd911e4375deb into #300; review evidence must be refreshed at merged head e100f200c5351b906df56dfbbf0f0604cf32c594 before publication."
+}
