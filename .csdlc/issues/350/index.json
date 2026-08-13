@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "431657c3fcc04d4171d624dc5d980f8244793a2e408fa5093e97149b3fe9f95d",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "032d9c7143381b3eba4d7e26b322f9082854473fe634500e0663bae7246a7fb8",
+  "generation": 20,
+  "digest": "9c647d640967c887d40f44f9c44882f0948e4dda6de79f3967847172f982caf1",
   "branch": "codex/350-sealed-observatory-authority-projection",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-350-sealed-observatory-authority-projection",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cf23f98f762987ab8a9ce0c1df31a010568da3ede212e72531e2518ce8fe3206",
+      "values_digest": "8e46e9546f224ce5d9d8f86d3041c31f1ba326b92d90b5e84f1f93ee92460891",
       "rendered_digest": "7f0e44a1dfac8578dc36c52e3e53a5a046b08c66bc50d2fba4ba935f3a098812",
       "ast_digest": "5a7bf7b0ca0c8c6f6943b188693b906ec4342f7d0489043dd450952e5e2cc159"
     },
     "stp": {
-      "values_digest": "6c80bbd034a6a9eec4db1db25a78c7b6115e5537844138aad36c6a3c7b9be300",
+      "values_digest": "09a27b09f6ea6cd8201eea9a705120895e6443bd3d3ec579ba2533a1ab66aa06",
       "rendered_digest": "ee155302e4f2a69054630725ea7223c7cce431f9561fa1d903e5398d94d27029",
       "ast_digest": "cd0c0ed37217622d30931fee31559c5692b42a65b79a3c47f70a01a57fa5e853"
     },
     "spp": {
-      "values_digest": "5173e269883412c1f8d0ba232ff9a19297c0045ad9d574516c36a536fbeb5666",
+      "values_digest": "285fa3c2988f23cb5b6dc304349c03b0c7e2730cdb741f01e14a2f5f7196834f",
       "rendered_digest": "8dfc9ca7bf568d4ac0ce602eaf350621f99c6e2805662ee327b0de4356eff925",
       "ast_digest": "b20845f025226ce3024e8a04cad86735311924d744a72767b6a48cc664a009f2"
     },
     "vpp": {
-      "values_digest": "220823fd1f7382260f65d1ba839506ff7078de78238f694a48965c81a0bbd513",
+      "values_digest": "53ce19df6b5d8459e2513ab0f39c32fc24c9c064098318a18f999be89edc682a",
       "rendered_digest": "ee8c6d6ff4a6d72081e4166b84a039da1c7cee2432bd2daa291b16f426bede8e",
       "ast_digest": "a6e4535fff1652ced679751f7e686c768d8e35fae0c328879320aa5975bd3a80"
     },
     "srp": {
-      "values_digest": "1b607177c373c21856115c758b09dc6a50f49f0355c3dbc5e512a77cf9da7377",
+      "values_digest": "96354f6c4494f23fb1de94232eacaf3fe5aef4c4c4b44c07a3eddb655f17e2bd",
       "rendered_digest": "2c6178ffde1b7f3dc146678c7504a7c42bd29d715b5bb0f8480a7bd744e5d887",
       "ast_digest": "6a972df97aae08a8c9a3268a1f7917a3e0f06e264bb8e5f3abc13f0f5ea866e1"
     },
     "sor": {
-      "values_digest": "4add7799e5b65ff805ad350d073af092a1954f982340970bf004d58061754ee4",
-      "rendered_digest": "fed15502e01c7eb18ebc316d38f1535fddb471ddcc54efa35654a00b3ecd25bf",
-      "ast_digest": "99a7d3ab4355bd0bab64b004b72701da6a6ae1076cd20bf3e0db01f10d7ba5f2"
+      "values_digest": "6cf50c7c210da677dd1f3f8ce334d8872db8f6aad86fa0ea92d3fcd8b31b9fc4",
+      "rendered_digest": "ba89be73340d98b7e565203c93b62d9d4381448f89c68946350acf752a428ea6",
+      "ast_digest": "55818b8d5ca20e8fab1b03e796f1cb0c8e82945b482f4afd79c5ed021b71ae84"
     }
   },
   "transitions": [
@@ -246,6 +246,13 @@
       "actor": "codex:350-r2b-remediation",
       "reason": "Recover failed R2b review before durable restore, signer exactness, retained evidence, and exhaustive vector remediation; preserve exact finding truth in audit.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:350-r2b-remediation",
+      "reason": "Record exact hashed R2b remediation evidence and map it to every prior finding ID.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test/clippy/fmt\",\"exact #350 declared lanes at source commit 76215e811783d3b753434fc5300d1ea2bfe55f4d\"],\"purpose\":\"Close 350-R2B-P1-DURABLE-RESTORE, 350-R2B-P1-EXTRA-SIGNER, 350-R2B-P1-EVIDENCE-TRUTH, and 350-R2B-P2-MATRIX-GAPS with exact source-bound tracked evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"projection-focused=f3d1ba96d376686917db5bf5fe18b0d90c7a3bc6ee26f2e264f4a4ecdd02bb29; authority-protocol=25765175d7fcdaa488f9d3334dd7141b76c997212b5c49b439d1874868f32357; clippy=43cd963d94709fa4b174fa3dbd314977f9480e1abc71e279109909d7a1ed4bd3; diff=af064573279fbea66256552e6e2bce10b4fda7670ac404b7dbe578a9cc97f455\"}}"
     }
   ]
 }

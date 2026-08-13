@@ -1,5 +1,5 @@
 command: cargo test --locked --manifest-path adl-runtime/Cargo.toml --features internal-test-fixtures --test distributed_observatory_authority_projection -- --test-threads=1
-candidate_precommit: working-tree remediation after a2c6f6c6b7e8bf81583b784d1e0b6c663c1db849
+candidate_source_commit: 76215e811783d3b753434fc5300d1ea2bfe55f4d
 result: PASS
 tests: 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 cases:

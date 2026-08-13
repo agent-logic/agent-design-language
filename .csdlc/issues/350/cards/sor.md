@@ -165,6 +165,16 @@ Seal replicated Observatory authority with durable quorum, deadline, exact servi
     "purpose": "Reject patch whitespace and conflict-marker hygiene defects across the complete candidate.",
     "outcome": "passed",
     "evidence_ref": "exact remediation candidate 7ba526f2 against origin/main: exit 0, no output"
+  },
+  {
+    "command": [
+      "cargo",
+      "test/clippy/fmt",
+      "exact #350 declared lanes at source commit 76215e811783d3b753434fc5300d1ea2bfe55f4d"
+    ],
+    "purpose": "Close 350-R2B-P1-DURABLE-RESTORE, 350-R2B-P1-EXTRA-SIGNER, 350-R2B-P1-EVIDENCE-TRUTH, and 350-R2B-P2-MATRIX-GAPS with exact source-bound tracked evidence.",
+    "outcome": "passed",
+    "evidence_ref": "projection-focused=f3d1ba96d376686917db5bf5fe18b0d90c7a3bc6ee26f2e264f4a4ecdd02bb29; authority-protocol=25765175d7fcdaa488f9d3334dd7141b76c997212b5c49b439d1874868f32357; clippy=43cd963d94709fa4b174fa3dbd314977f9480e1abc71e279109909d7a1ed4bd3; diff=af064573279fbea66256552e6e2bce10b4fda7670ac404b7dbe578a9cc97f455"
   }
 ]
 
