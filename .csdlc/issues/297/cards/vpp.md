@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/297/diagram.mmd
 [
   {
     "lane": "parent-recovery-cleanup-bridge",
-    "proof_role": "Prove the parent integration bridge with targets available in this #297 worktree: production recovery authority must connect to cleanup-consumable completed recovery receipt and canonical archive manifest authority, with terminal/canonical/archive binding and no test-authored authority.",
+    "proof_role": "Prove production recovery validates a completed recovery attempt, emits cleanup-consumable completed recovery receipt and canonical archive manifest authority, and feeds cleanup without test-authored authority.",
     "acceptance_ids": [
       "AC-2",
       "AC-5",
@@ -42,40 +42,16 @@ Diagram: .csdlc/prepared/issues/297/diagram.mmd
       "csdlc-v2/Cargo.toml",
       "--test",
       "gate5",
-      "preserved_projection_recovery"
-    ],
-    "parallel_group": "local",
-    "defer_reason": "Deferred until #297 bridge implementation or an explicitly split child lands; current #300 Noether r1 found no production bridge for cleanup to consume."
-  },
-  {
-    "lane": "cleanup-authority-regression",
-    "proof_role": "Retain cleanup authority regressions available in this #297 worktree while making clear they do not substitute for #300's later integrated matrix unless #300 mechanically invokes or enumerates them.",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-3",
-      "AC-4",
-      "AC-7",
-      "AC-8",
-      "AC-9"
-    ],
-    "deterministic": true,
-    "resource_profile": "medium",
-    "budget_seconds": 1200,
-    "budget_tokens": 7000,
-    "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate_cleanup"
+      "recovery_bridge_emits_cleanup_authority_consumed_by_cleanup",
+      "--",
+      "--nocapture"
     ],
     "parallel_group": "local",
     "defer_reason": null
   },
   {
-    "lane": "child-300-integrated-matrix-dependency",
-    "proof_role": "#300 must separately prove the integrated recovery/cleanup matrix using its own target after the bridge lands; this parent card records the dependency and does not claim local proof from a missing #300 test file.",
+    "lane": "recovery-regression-matrix",
+    "proof_role": "Retain full preserved projection recovery regression coverage after adding the bridge API.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -98,10 +74,71 @@ Diagram: .csdlc/prepared/issues/297/diagram.mmd
       "csdlc-v2/Cargo.toml",
       "--test",
       "gate5",
-      "preserved_projection_recovery"
+      "--",
+      "--nocapture"
     ],
     "parallel_group": "local",
-    "defer_reason": "Dependency record only: #300 remains review-failed/unpublished until it proves the bridge-fed integration target and either mechanically invokes or explicitly enumerates the matrix."
+    "defer_reason": null
+  },
+  {
+    "lane": "cleanup-authority-regression",
+    "proof_role": "Retain cleanup authority regressions after allowing directory link-count drift only for the same directory identity during child removal.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-3",
+      "AC-4",
+      "AC-7",
+      "AC-8",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 1200,
+    "budget_tokens": 7000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_cleanup",
+      "--",
+      "--nocapture"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "child-300-integrated-matrix-dependency",
+    "proof_role": "#300 must separately prove the integrated recovery/cleanup matrix using its own target after #297 is terminal and ancestral; this parent card records the dependency and does not claim #300 proof.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8",
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 1200,
+    "budget_tokens": 7000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5",
+      "recovery_bridge_emits_cleanup_authority_consumed_by_cleanup",
+      "--",
+      "--nocapture"
+    ],
+    "parallel_group": "local",
+    "defer_reason": "Dependency record only: #300 remains review-failed/unpublished until it consumes the terminal #297 bridge and mechanically invokes or explicitly enumerates the matrix."
   }
 ]
 
@@ -117,9 +154,10 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate5 preserved_projection_recovery`
-- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_cleanup`
-- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate5 preserved_projection_recovery`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate5 recovery_bridge_emits_cleanup_authority_consumed_by_cleanup -- --nocapture`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate5 -- --nocapture`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_cleanup -- --nocapture`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate5 recovery_bridge_emits_cleanup_authority_consumed_by_cleanup -- --nocapture`
 
 ## Failure Semantics
 
