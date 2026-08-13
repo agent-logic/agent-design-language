@@ -1,0 +1,26 @@
+
+running 18 tests
+test closed_no_pr_requires_canonical_github_approval_label ... ok
+test historical_finish_rejects_open_or_mismatched_remote_identity ... ok
+test historical_request_fields_are_disposition_conditional ... ok
+test open_issue_without_pr_is_not_terminal ... ok
+test historical_finish_requires_one_exact_closing_pr_candidate ... ok
+test canonical_code_pr_derives_terminal_for_legacy_issue_authority ... ok
+test historical_merged_finish_is_exact_and_does_not_invent_publication ... ok
+test historical_non_merged_dispositions_require_explicit_authority ... ok
+test historical_finish_repeat_reuses_stable_terminal_authority ... ok
+test part_of_publication_cannot_authorize_finish ... ok
+test finish_uses_the_canonical_issue_authority_lock ... ok
+test published_finish_accepts_matching_git_topology ... ok
+test terminal_cache_rejects_symlinked_git_common_parent ... ok
+test closed_no_pr_terminal_cache_is_minimal_rebuildable_and_idempotent ... ok
+test concurrent_identical_finish_retention_converges ... ok
+test mutable_terminal_cache_is_replaceable_by_a_fresher_live_observation ... ok
+test finish_binary_validates_cached_terminal_without_remote_mutation ... ok
+test derived_terminal_accepts_publication_metadata_only_head_and_rejects_substantive_drift ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.53s
+
+   Compiling csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-353-publication-review-anchor/csdlc-v2)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.35s
+     Running tests/gate_finish.rs (csdlc-v2/target/debug/deps/gate_finish-40f4285287c99345)

@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 353,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f9123a53c2cc6e11570a192a9d2aa81321ff990ff31ccd823536b6259c3732a5",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "7cecbb3e3460e33c0418cc9801e60bedf1be57369840965a4d94152b1ca14c6c",
+  "branch": "codex/353-publication-review-anchor",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-353-publication-review-anchor",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/353/design.md",
+  "diagram_path": ".csdlc/prepared/issues/353/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:fresh_353_design_r4",
+      "revision": "9187302492c17977bb82a9be665620e961ac703ee2c8a07d8b95fee9935bf1cc"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "02f12424564de24500abc50313a2b8b79292f5da0e36d7bf1321c0f5673e3438",
+      "rendered_digest": "c5369453884c8d19cfd8cdfcae29a8b36c6128a3a6f22ea109acb8fe47dfa200",
+      "ast_digest": "3f454bf54a89127afd537c5b9619f9b792b1783cfa2b87f18fd7aeca17dd27af"
+    },
+    "stp": {
+      "values_digest": "bb0c0926028bd5144685db6fb269a9abca3599ae19d82f2d0bb24d170beba00b",
+      "rendered_digest": "ca6a705dfe2429272b532e2596bb7f9c4ea51de79895e8f29447e47b955d398f",
+      "ast_digest": "f62d3b7de695af9fae411463d42474fa13aab4dab517f646cdd638381309e62f"
+    },
+    "spp": {
+      "values_digest": "14cf382a6e76d39dfb52d609d516a7982c206e4583b654be97fd1c014a77dd78",
+      "rendered_digest": "f015ba713bea2e30a8bb18bbe833ad9f88c34fdc282191453fe35d3302540d12",
+      "ast_digest": "f62cedeae15fb82e31e759cdf764f1d488db4955f33a85193c1edf64f92dd609"
+    },
+    "vpp": {
+      "values_digest": "716fa530df332bbefbbf27d4ce24974d5213b852b4f8eddb62e07730753d663d",
+      "rendered_digest": "811d9c72e0bb14cba0ad53b1fc16d78680ba46b5881b477a4a4e91417bd7d301",
+      "ast_digest": "5c49aaabf52451b3db512a1b02923c7939260ce23b9716bdac07ffca68d5034a"
+    },
+    "srp": {
+      "values_digest": "f7f90296e0d38f7a67491b26724e2ea515ec59b915b4a9ba9c65374fd820000c",
+      "rendered_digest": "798bab8e9dc987e84195f62bae3f5088f19f33f3e245f8a269bcdf59b19a6d2a",
+      "ast_digest": "8e99d6fe432b54560e90096de271f855b54be47088cbf0b213b82b0a62302a4d"
+    },
+    "sor": {
+      "values_digest": "e701bac3a01fd1cf62f3880c57c0171ceac7340b2e8dc445d48a601045b38a65",
+      "rendered_digest": "d76e1b08e5165f052915d660179b81b2d3e18480071490933eb8edc975458096",
+      "ast_digest": "a69d6540fa2810d45a08bc88818a3e0423174369a7ef9cdbe406a2abc67ffb46"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-353-publication-review-anchor",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-353-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-353-r3-repair",
+      "reason": "Bind exact local preparation, gate_finish whole-suite, format, and strict Clippy lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-353-preparation\",\"proof_role\":\"Prove initialized local packet integrity; external #349/#342 freeze is separately observed read-only.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/353/validate_preparation.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-353-finish-suite\",\"proof_role\":\"Run the complete existing gate_finish integration target including new positive/null/unequal/non-governed anchor regressions; Cargo reports the nonzero denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-format\",\"proof_role\":\"Prove formatting.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-clippy\",\"proof_role\":\"Reject warnings in every target.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:fresh_353_design_r4",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-353-publication-review-anchor",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
