@@ -131,7 +131,8 @@ pub fn execute_archived_projection_cleanup(
         ensure_private_component(&request.operation_id, "operation id")?;
         let final_path = receipt_path(&operation_root, 900, "cleanup-complete");
         if final_path.is_file() {
-            let digest = validate_final_receipt(request, &operation_root, &final_path)?;
+            let digest =
+                validate_final_receipt(request, &operation_root, &final_path, &archived_root)?;
             return Ok(result(
                 request,
                 ArchivedProjectionCleanupStatus::AlreadyCompleted,
@@ -183,12 +184,13 @@ pub fn execute_archived_projection_cleanup(
     set_private_permissions(&private_root)?;
     sync_directory(&operation_root)?;
     failpoint(request, "namespace_created_before_receipt")?;
+    let namespace_payload = namespace_created_payload(&operation_root, &private_root)?;
     receipt(
         request,
         &operation_root,
         2,
         "namespace-created",
-        &json!({"private_root":"private-delete","mode":"0700"}),
+        &namespace_payload,
     )?;
     failpoint(request, "namespace_created")?;
 
@@ -740,10 +742,15 @@ fn validate_final_receipt(
     request: &ArchivedProjectionCleanupRequest,
     operation_root: &Path,
     path: &Path,
+    archived_root: &Path,
 ) -> Result<String> {
     let bytes = read_regular_no_symlink(path)?;
     let value: Value = serde_json::from_slice(&bytes)?;
-    let expected_previous = serde_json::to_value(previous_receipt_digest(operation_root, 900)?)?;
+    let expected_previous = serde_json::to_value(validate_expected_receipt_chain(
+        request,
+        operation_root,
+        archived_root,
+    )?)?;
     let expected_payload = json!({
         "issue": request.issue,
         "operation_id": request.operation_id,
@@ -759,6 +766,254 @@ fn validate_final_receipt(
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
             "cleanup completion receipt does not match current request authority",
+        ));
+    }
+    Ok(blake3::hash(&bytes).to_hex().to_string())
+}
+
+fn validate_expected_receipt_chain(
+    request: &ArchivedProjectionCleanupRequest,
+    operation_root: &Path,
+    archived_root: &Path,
+) -> Result<String> {
+    reject_unexpected_operation_entries(request, operation_root)?;
+    let mut previous = validate_receipt_envelope(
+        &receipt_path(operation_root, 1, "operation-created"),
+        1,
+        "operation-created",
+        None,
+    )?;
+    let operation_payload: Value =
+        receipt_payload(&receipt_path(operation_root, 1, "operation-created"))?;
+    let expected_operation_payload = json!({
+        "issue": request.issue,
+        "operation_id": request.operation_id,
+        "terminal_issue": request.terminal_issue,
+        "terminal_digest": request.expected_terminal_digest,
+        "recovery_receipt_digest": request.expected_recovery_receipt_digest,
+        "archive_manifest_digest": request.expected_archive_manifest_digest,
+        "archived_root": archived_root,
+    });
+    if operation_payload != expected_operation_payload {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup operation-created receipt does not match current authority",
+        ));
+    }
+    let private_root = operation_root.join("private-delete");
+    previous = validate_receipt_envelope(
+        &receipt_path(operation_root, 2, "namespace-created"),
+        2,
+        "namespace-created",
+        Some(&previous),
+    )?;
+    let expected_namespace_payload = namespace_created_payload(operation_root, &private_root)?;
+    let namespace_payload: Value =
+        receipt_payload(&receipt_path(operation_root, 2, "namespace-created"))?;
+    if namespace_payload != expected_namespace_payload {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup namespace-created receipt does not match current namespace authority",
+        ));
+    }
+
+    for (index, node) in request.nodes.iter().enumerate() {
+        let ordinal = index as u32 + 1;
+        let base = 100 + ordinal * 10;
+        let placeholder_receipt = validate_receipt_envelope(
+            &receipt_path(operation_root, base, "placeholder-created"),
+            base,
+            "placeholder-created",
+            Some(&previous),
+        )?;
+        let placeholder_payload: Value =
+            receipt_payload(&receipt_path(operation_root, base, "placeholder-created"))?;
+        if placeholder_payload.get("path").and_then(Value::as_str)
+            != Some(node.relative_path.as_str())
+            || placeholder_payload.get("private").and_then(Value::as_str)
+                != Some(format!("node-{ordinal:03}").as_str())
+            || placeholder_payload.get("identity").is_none()
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup placeholder receipt does not match current request authority",
+            ));
+        }
+        let placeholder_identity =
+            placeholder_payload
+                .get("identity")
+                .cloned()
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::CorruptRecord,
+                        "cleanup placeholder receipt identity is missing",
+                    )
+                })?;
+
+        let captured_path = receipt_path(operation_root, base + 3, "captured");
+        let captured_digest = validate_receipt_envelope(
+            &captured_path,
+            base + 3,
+            "captured",
+            Some(&placeholder_receipt),
+        )?;
+        let captured_payload: Value = receipt_payload(&captured_path)?;
+        if captured_payload.get("path").and_then(Value::as_str) != Some(node.relative_path.as_str())
+            || captured_payload.get("expected_identity")
+                != Some(&serde_json::to_value(&node.identity)?)
+            || captured_payload.get("placeholder_identity") != Some(&placeholder_identity)
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup captured receipt does not match current request authority",
+            ));
+        }
+
+        let removed_path = receipt_path(operation_root, base + 6, "removed");
+        let removed_digest =
+            validate_receipt_envelope(&removed_path, base + 6, "removed", Some(&captured_digest))?;
+        let removed_payload: Value = receipt_payload(&removed_path)?;
+        if removed_payload.get("path").and_then(Value::as_str) != Some(node.relative_path.as_str())
+            || removed_payload.get("removed_identity")
+                != Some(&serde_json::to_value(&node.identity)?)
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup removed receipt does not match current request authority",
+            ));
+        }
+
+        let disposed_path = receipt_path(operation_root, base + 8, "placeholder-disposed");
+        previous = validate_receipt_envelope(
+            &disposed_path,
+            base + 8,
+            "placeholder-disposed",
+            Some(&removed_digest),
+        )?;
+        let disposed_payload: Value = receipt_payload(&disposed_path)?;
+        if disposed_payload.get("path").and_then(Value::as_str) != Some(node.relative_path.as_str())
+            || disposed_payload.get("placeholder_identity") != Some(&placeholder_identity)
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup placeholder disposal receipt does not match current request authority",
+            ));
+        }
+    }
+
+    Ok(previous)
+}
+
+fn reject_unexpected_operation_entries(
+    request: &ArchivedProjectionCleanupRequest,
+    operation_root: &Path,
+) -> Result<()> {
+    let mut expected = BTreeSet::from([
+        "001-operation-created.json".to_string(),
+        "002-namespace-created.json".to_string(),
+        "900-cleanup-complete.json".to_string(),
+        "private-delete".to_string(),
+    ]);
+    for (index, _) in request.nodes.iter().enumerate() {
+        let ordinal = index as u32 + 1;
+        let base = 100 + ordinal * 10;
+        expected.insert(format!("{base:03}-placeholder-created.json"));
+        expected.insert(format!("{:03}-captured.json", base + 3));
+        expected.insert(format!("{:03}-removed.json", base + 6));
+        expected.insert(format!("{:03}-placeholder-disposed.json", base + 8));
+    }
+    for entry in fs::read_dir(operation_root)? {
+        let entry = entry?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        if !expected.contains(&name) {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup operation ledger contains unexpected entries",
+            ));
+        }
+    }
+    let private_root = operation_root.join("private-delete");
+    if !private_root.try_exists()? {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup namespace is missing from completed operation ledger",
+        ));
+    }
+    let metadata = fs::symlink_metadata(&private_root)?;
+    if !metadata.is_dir() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup namespace is not a directory",
+        ));
+    }
+    if fs::read_dir(&private_root)?.next().is_some() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup namespace contains unexpected entries",
+        ));
+    }
+    Ok(())
+}
+
+fn namespace_created_payload(operation_root: &Path, private_root: &Path) -> Result<Value> {
+    let operation_metadata = fs::symlink_metadata(operation_root)?;
+    let private_metadata = fs::symlink_metadata(private_root)?;
+    if !private_metadata.is_dir() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup namespace is not a directory",
+        ));
+    }
+    let private_mode = private_metadata.mode() & 0o777;
+    if private_mode != 0o700 {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup namespace mode does not match private authority",
+        ));
+    }
+    if private_metadata.uid() != operation_metadata.uid()
+        || private_metadata.gid() != operation_metadata.gid()
+        || private_metadata.dev() != operation_metadata.dev()
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup namespace owner or mount does not match operation authority",
+        ));
+    }
+    Ok(json!({
+        "private_root": "private-delete",
+        "mode": "0700",
+        "uid": private_metadata.uid(),
+        "gid": private_metadata.gid(),
+        "device": private_metadata.dev(),
+    }))
+}
+
+fn validate_receipt_envelope(
+    path: &Path,
+    seq: u32,
+    state: &str,
+    previous: Option<&String>,
+) -> Result<String> {
+    if !path.is_file() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup receipt chain is incomplete",
+        ));
+    }
+    let bytes = read_regular_no_symlink(path)?;
+    let value: Value = serde_json::from_slice(&bytes)?;
+    let expected_previous = serde_json::to_value(previous)?;
+    if value.get("schema").and_then(Value::as_str)
+        != Some("csdlc.archived_projection_cleanup_receipt.v1")
+        || value.get("sequence").and_then(Value::as_u64) != Some(seq as u64)
+        || value.get("state").and_then(Value::as_str) != Some(state)
+        || value.get("previous_receipt_digest") != Some(&expected_previous)
+        || value.get("payload").is_none()
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup receipt chain does not match current request authority",
         ));
     }
     Ok(blake3::hash(&bytes).to_hex().to_string())

@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "0b7a461d65cb36d56f5deb897fb40904eac954168347c9c3cd46aa0af765d257",
+  "generation": 20,
+  "digest": "a5cf841be603d74e03571e9a181ec5c9ae55fb652074391c80707e03673992fc",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
-  "review_assignment": {
-    "reviewer": "fresh-session:9178cf2b-21ed-4652-9f3e-905174dd95cf",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:126ab448971a4463b1d46099fb08f875e14b8066:0c10615eca7e33ff22d09f4df8e46f2abf620b81f59e1238eca4665121db1400",
-    "scope": [
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/tests/archived_projection_cleanup.rs",
-      ".csdlc/issues/299",
-      ".csdlc/evidence/299"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6bdc8cff17d9830404b4e97cb6745eab4433e2c2db2b2eb66bf0d177f1f7119d",
+      "values_digest": "38386f5e1bfa058d2791f966d1b810a599f894bdff38a868f3b7df1b9be6cfd0",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "8b756288f1272e0eab004e619dfcdb919d58485a7ca952d596e57e20ab667f77",
+      "values_digest": "d492b61d7a50ebd5f4c14ad38b7cb33ba13f54699ef742a2bb0640370ded1f51",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "de3b50fde6724555c8d172d8fb66844570bbb4087f78d3fe27dab928e0c86bbf",
+      "values_digest": "aa17a38dd5186b4793cd652744994382126daa65e6eefb87d6d338f4c6db09c3",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "bd9f3443dcb54b4389864bc4dfb677b53a3dd155b44c5222953a0faaef029bb0",
+      "values_digest": "f5407f1cd8910855dfb884e4cc2a1eb7bcc4f0417f6b3a17655613c858ec466c",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "ce210a2670d555f09cd57a095c27c7bd11c397f06948953a73e3d5404d7a5189",
-      "rendered_digest": "c4d7e611f2a61e0fe18da577cb3be323f3090814cc8ce0253516dcf88eed4386",
-      "ast_digest": "1790a2d2b809f4d1a3deb73dd52ebe35557a04f77a34bca8159d26f9cadd4f7e"
+      "values_digest": "83c45b943d7079a0051c4fa12a018633519902695738e73ac0057c97654dea1a",
+      "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
+      "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "dbed0374dc654e3b7ee40c9d53b7a3226173dc04cbaf9a9455e2bda3e87d494f",
+      "values_digest": "4dd8838330bc1ddda86f6578a895930b8c588f1372d9f1cffc8ee87628d2b461",
       "rendered_digest": "23770f9fda55df1d65e436720fb334443b2a708942c96f8916882183fea2a443",
       "ast_digest": "ea94eb307ffd5aff680062ac531abbd8f17eb615c39e269736cc1c69bfacdfb9"
     }
@@ -271,6 +260,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:worker-5",
+      "reason": "Recover failed exact review r7 at git-blake3:126ab448971a4463b1d46099fb08f875e14b8066:0c10615eca7e33ff22d09f4df8e46f2abf620b81f59e1238eca4665121db1400. Finding preserved: P1 forged final receipt can still short-circuit cleanup if attacker supplies a matching forged predecessor receipt, because final validation compares previous_receipt_digest to the hash of the highest filename prefix below 900 without validating that predecessor is an expected cleanup receipt/state/chain.",
+      "operation": "recover_review"
     }
   ]
 }

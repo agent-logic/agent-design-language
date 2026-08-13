@@ -176,6 +176,53 @@ fn ledger_snapshot(path: &Path) -> BTreeMap<String, Option<Vec<u8>>> {
     out
 }
 
+fn operation_receipt_path(root: &Path, filename: &str) -> PathBuf {
+    root.join("cleanup-ledger/op-299").join(filename)
+}
+
+fn mutate_receipt_payload(
+    root: &Path,
+    filename: &str,
+    mutate: impl FnOnce(&mut serde_json::Value),
+) {
+    let path = operation_receipt_path(root, filename);
+    let mut receipt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&path).expect("read receipt")).expect("receipt json");
+    mutate(receipt.get_mut("payload").expect("payload"));
+    let mut bytes = serde_json::to_vec_pretty(&receipt).expect("receipt bytes");
+    bytes.push(b'\n');
+    fs::write(path, bytes).expect("write mutated receipt");
+}
+
+fn rehash_operation_receipts(root: &Path) {
+    let operation_root = root.join("cleanup-ledger/op-299");
+    let mut entries = fs::read_dir(&operation_root)
+        .expect("operation root")
+        .map(|entry| entry.expect("entry").path())
+        .filter(|path| path.extension().and_then(|ext| ext.to_str()) == Some("json"))
+        .filter_map(|path| {
+            let name = path.file_name()?.to_string_lossy().into_owned();
+            let sequence = name
+                .split_once('-')
+                .and_then(|(prefix, _)| prefix.parse::<u32>().ok())?;
+            Some((sequence, path))
+        })
+        .collect::<Vec<_>>();
+    entries.sort_by_key(|(sequence, _)| *sequence);
+
+    let mut previous: Option<String> = None;
+    for (_, path) in entries {
+        let mut receipt: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).expect("read receipt")).expect("receipt json");
+        receipt["previous_receipt_digest"] =
+            serde_json::to_value(previous.as_ref()).expect("previous digest value");
+        let mut bytes = serde_json::to_vec_pretty(&receipt).expect("receipt bytes");
+        bytes.push(b'\n');
+        fs::write(&path, &bytes).expect("rewrite receipt");
+        previous = Some(blake3::hash(&bytes).to_hex().to_string());
+    }
+}
+
 #[test]
 fn cleanup_requires_terminal_gate_before_mutation() {
     let (_temp, root, merge_sha) = repo();
@@ -724,6 +771,130 @@ fn cleanup_rejects_forged_final_receipt_before_already_completed_shortcut() {
         ledger_snapshot(&ledger_root),
         before,
         "forged final receipt rejection must not create or rewrite ledger, namespace, or receipt bytes"
+    );
+
+    let (_temp, root, req, node) = single_file_request();
+    let ledger_root = root.join("cleanup-ledger");
+    let operation_root = ledger_root.join("op-299");
+    fs::create_dir_all(&operation_root).expect("preexisting operation root");
+    let forged_predecessor = operation_root.join("899-anything.json");
+    fs::write(&forged_predecessor, b"{\"schema\":\"forged\"}\n").expect("forged predecessor");
+    let predecessor_digest = blake3::hash(&fs::read(&forged_predecessor).expect("read forged"))
+        .to_hex()
+        .to_string();
+    let final_receipt = operation_root.join("900-cleanup-complete.json");
+    let forged = serde_json::json!({
+        "schema": "csdlc.archived_projection_cleanup_receipt.v1",
+        "sequence": 900,
+        "state": "cleanup-complete",
+        "previous_receipt_digest": predecessor_digest,
+        "payload": {
+            "issue": 299,
+            "operation_id": "op-299",
+            "nodes": ["stale.json"],
+        }
+    });
+    fs::write(
+        &final_receipt,
+        serde_json::to_vec_pretty(&forged).expect("forged final json"),
+    )
+    .expect("write forged final");
+    let before = ledger_snapshot(&ledger_root);
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("matching forged predecessor receipt rejected")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
+    );
+    assert!(
+        node.exists(),
+        "matching forged predecessor must not skip cleanup while node remains"
+    );
+    assert_eq!(
+        ledger_snapshot(&ledger_root),
+        before,
+        "matching forged predecessor rejection must not create or rewrite ledger, namespace, or receipt bytes"
+    );
+}
+
+#[test]
+fn cleanup_rejects_rehashed_final_chain_forgery_without_mutation() {
+    let (_temp, root, req, node) = single_file_request();
+    execute_archived_projection_cleanup(&req).expect("initial cleanup");
+    fs::write(&node, "{\"forged_reintroduced\":true}\n").expect("reintroduce archived node");
+    mutate_receipt_payload(&root, "001-operation-created.json", |payload| {
+        payload["terminal_digest"] = serde_json::Value::String("forged-terminal".into());
+    });
+    rehash_operation_receipts(&root);
+    let ledger_root = root.join("cleanup-ledger");
+    let before = ledger_snapshot(&ledger_root);
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("rehashed operation-created forgery rejected")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
+    );
+    assert!(node.exists());
+    assert_eq!(
+        ledger_snapshot(&ledger_root),
+        before,
+        "rehashed seq1 forgery rejection must not create or rewrite ledger, namespace, or receipt bytes"
+    );
+
+    let (_temp, root, req, node) = single_file_request();
+    execute_archived_projection_cleanup(&req).expect("initial cleanup");
+    fs::write(&node, "{\"forged_reintroduced\":true}\n").expect("reintroduce archived node");
+    mutate_receipt_payload(&root, "002-namespace-created.json", |payload| {
+        payload["mode"] = serde_json::Value::String("0777".into());
+    });
+    rehash_operation_receipts(&root);
+    let ledger_root = root.join("cleanup-ledger");
+    let before = ledger_snapshot(&ledger_root);
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("rehashed namespace-created forgery rejected")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
+    );
+    assert!(node.exists());
+    assert_eq!(
+        ledger_snapshot(&ledger_root),
+        before,
+        "rehashed seq2 forgery rejection must not create or rewrite ledger, namespace, or receipt bytes"
+    );
+
+    let (_temp, root, req, node) = single_file_request();
+    execute_archived_projection_cleanup(&req).expect("initial cleanup");
+    fs::write(&node, "{\"forged_reintroduced\":true}\n").expect("reintroduce archived node");
+    let extra = operation_receipt_path(&root, "777-removed.json");
+    let extra_receipt = serde_json::json!({
+        "schema": "csdlc.archived_projection_cleanup_receipt.v1",
+        "sequence": 777,
+        "state": "removed",
+        "previous_receipt_digest": null,
+        "payload": {
+            "path": "stale.json",
+            "removed_identity": req.nodes[0].identity,
+            "adopted_after_unlink": true
+        }
+    });
+    let mut bytes = serde_json::to_vec_pretty(&extra_receipt).expect("extra receipt bytes");
+    bytes.push(b'\n');
+    fs::write(extra, bytes).expect("write extra receipt");
+    rehash_operation_receipts(&root);
+    let ledger_root = root.join("cleanup-ledger");
+    let before = ledger_snapshot(&ledger_root);
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("extra rehashed receipt rejected")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
+    );
+    assert!(node.exists());
+    assert_eq!(
+        ledger_snapshot(&ledger_root),
+        before,
+        "extra rehashed receipt rejection must not create or rewrite ledger, namespace, or receipt bytes"
     );
 }
 
