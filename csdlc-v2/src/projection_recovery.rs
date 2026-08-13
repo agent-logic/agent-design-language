@@ -1288,7 +1288,20 @@ pub fn classify_preserved_projection(
                 )
             })?;
             validate_operation_id(name_text)?;
-            let attempt = recovery.open_child(&name, "recovery attempt")?;
+            let attempt = match recovery.open_child(&name, "recovery attempt") {
+                Ok(attempt) => attempt,
+                Err(error) => {
+                    if is_authorized_cleanup_ledger_entry(
+                        store,
+                        request.issue,
+                        &recovery,
+                        name_text,
+                    )? {
+                        continue;
+                    }
+                    return Err(error);
+                }
+            };
             let recovered: Vec<_> = directory_names(&attempt.file)?
                 .into_iter()
                 .filter(|v| v.to_string_lossy().ends_with("-recovered.json"))
@@ -2457,7 +2470,30 @@ fn validate_completed_recovery_attempt_retained(
         serde_json::json!({"source":rejected_observation,"destination":"rejected"}),
         "archive intent receipt does not match typed recovery sources",
     )?;
-    let archived = observe_child(retained_attempt, "rejected", store.root(), "archive", issue)?;
+    let archived: CandidateObservation =
+        receipt_payload_at(retained_attempt, 3, "rejected-archived")?;
+    match observe_child(retained_attempt, "rejected", store.root(), "archive", issue) {
+        Ok(live_archived) => {
+            if live_archived != archived {
+                validate_completed_recovery_cleanup_authority(
+                    store,
+                    issue,
+                    retained_attempt,
+                    &operation,
+                    &attempt_path,
+                    &archived,
+                )?;
+            }
+        }
+        Err(_) => validate_completed_recovery_cleanup_authority(
+            store,
+            issue,
+            retained_attempt,
+            &operation,
+            &attempt_path,
+            &archived,
+        )?,
+    }
     require_receipt_payload_at(
         retained_attempt,
         3,
@@ -2968,6 +3004,234 @@ fn validate_cleanup_authority_namespace(
             serde_json::from_slice(&operation.read_regular_child(&receipt_name)?)?;
     }
     Ok(())
+}
+
+fn validate_completed_recovery_cleanup_authority(
+    store: &Store,
+    issue: u64,
+    attempt: &PrivateRecoveryDir,
+    recovery_operation: &str,
+    attempt_path: &Path,
+    archived: &CandidateObservation,
+) -> Result<()> {
+    let namespace_name = std::ffi::CString::new("cleanup-authority").map_err(|_| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "cleanup authority name contains NUL",
+        )
+    })?;
+    let namespace = attempt.open_child(&namespace_name, "cleanup authority namespace")?;
+    let operation_names = namespace.names()?;
+    if operation_names.len() != 1 {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup authority namespace is missing or ambiguous",
+        ));
+    }
+    let cleanup_operation_name = &operation_names[0];
+    let cleanup_operation = cleanup_operation_name.to_str().map_err(|_| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup authority operation name is not UTF-8",
+        )
+    })?;
+    validate_operation_id(cleanup_operation)?;
+    if cleanup_operation == recovery_operation {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup authority operation must be distinct from recovery operation",
+        ));
+    }
+    let authority = namespace.open_child(cleanup_operation_name, "cleanup authority operation")?;
+    let manifest_name = std::ffi::CString::new("canonical-archive-manifest.json")
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "manifest name contains NUL"))?;
+    let receipt_name = std::ffi::CString::new("completed-recovery-receipt.json")
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "receipt name contains NUL"))?;
+    let manifest_bytes = authority.read_regular_child(&manifest_name)?;
+    let manifest_digest = blake3::hash(&manifest_bytes).to_hex().to_string();
+    let manifest: serde_json::Value = serde_json::from_slice(&manifest_bytes)?;
+    let archived_root = fs::canonicalize(attempt_path)?.join("rejected");
+    let expected_nodes = cleanup_nodes_from_archive_observation(archived)?;
+    if manifest.get("schema").and_then(|value| value.as_str())
+        != Some("csdlc.canonical_archive_manifest.v1")
+        || manifest.get("issue").and_then(|value| value.as_u64()) != Some(issue)
+        || manifest.get("archived_root") != Some(&serde_json::to_value(&archived_root)?)
+        || manifest.get("nodes") != Some(&serde_json::to_value(&expected_nodes)?)
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup authority manifest does not bind retained archive receipt",
+        ));
+    }
+    let terminal_digest = manifest
+        .get("terminal_digest")
+        .and_then(|value| value.as_str())
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup authority manifest terminal digest is missing",
+            )
+        })?;
+    let receipt_bytes = authority.read_regular_child(&receipt_name)?;
+    let receipt_digest = blake3::hash(&receipt_bytes).to_hex().to_string();
+    let receipt: serde_json::Value = serde_json::from_slice(&receipt_bytes)?;
+    if receipt.get("schema").and_then(|value| value.as_str())
+        != Some("csdlc.completed_recovery_receipt.v1")
+        || receipt.get("issue").and_then(|value| value.as_u64()) != Some(issue)
+        || receipt.get("state").and_then(|value| value.as_str()) != Some("completed")
+        || receipt
+            .get("terminal_digest")
+            .and_then(|value| value.as_str())
+            != Some(terminal_digest)
+        || receipt
+            .get("canonical_archive_manifest_digest")
+            .and_then(|value| value.as_str())
+            != Some(manifest_digest.as_str())
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup authority receipt does not bind terminal and archive manifest",
+        ));
+    }
+
+    let cleanup_operation_root = recovery_root(store, issue)
+        .join(cleanup_operation)
+        .join(cleanup_operation);
+    let operation_payload =
+        cleanup_receipt_payload(&cleanup_operation_root.join("001-operation-created.json"))?;
+    if operation_payload
+        != serde_json::json!({
+            "issue": issue,
+            "operation_id": cleanup_operation,
+            "terminal_issue": issue,
+            "terminal_digest": terminal_digest,
+            "recovery_receipt_digest": receipt_digest,
+            "archive_manifest_digest": manifest_digest,
+            "archived_root": archived_root,
+        })
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup ledger does not bind completed recovery authority",
+        ));
+    }
+    let final_receipt_path = cleanup_operation_root.join("900-cleanup-complete.json");
+    let final_receipt = cleanup_receipt_envelope(&final_receipt_path)?;
+    if final_receipt.get("schema").and_then(|value| value.as_str())
+        != Some("csdlc.archived_projection_cleanup_receipt.v1")
+        || final_receipt
+            .get("sequence")
+            .and_then(|value| value.as_u64())
+            != Some(900)
+        || final_receipt.get("state").and_then(|value| value.as_str()) != Some("cleanup-complete")
+        || final_receipt
+            .get("previous_receipt_digest")
+            .and_then(|value| value.as_str())
+            .is_none()
+        || final_receipt.get("payload")
+            != Some(&serde_json::json!({
+                "issue": issue,
+                "operation_id": cleanup_operation,
+                "nodes": expected_nodes.iter().map(|node| node.relative_path.as_str()).collect::<Vec<_>>(),
+            }))
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup final receipt does not bind retained recovery authority",
+        ));
+    }
+    Ok(())
+}
+
+pub(crate) fn is_authorized_cleanup_ledger_entry(
+    store: &Store,
+    issue: u64,
+    recovery: &PrivateRecoveryDir,
+    cleanup_operation: &str,
+) -> Result<bool> {
+    for attempt_name in recovery.names()? {
+        let recovery_operation = attempt_name.to_str().map_err(|_| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery namespace contains a non-UTF8 entry",
+            )
+        })?;
+        if recovery_operation == cleanup_operation {
+            continue;
+        }
+        let Ok(attempt) = recovery.open_child(&attempt_name, "recovery attempt") else {
+            continue;
+        };
+        let namespace_name = std::ffi::CString::new("cleanup-authority").map_err(|_| {
+            V2Error::new(
+                ErrorCode::InvalidInput,
+                "cleanup authority name contains NUL",
+            )
+        })?;
+        let Ok(namespace) = attempt.open_child(&namespace_name, "cleanup authority namespace")
+        else {
+            continue;
+        };
+        let operation_name =
+            std::ffi::CString::new(cleanup_operation.as_bytes()).map_err(|_| {
+                V2Error::new(ErrorCode::InvalidInput, "cleanup operation id contains NUL")
+            })?;
+        if namespace
+            .open_child(&operation_name, "cleanup authority operation")
+            .is_err()
+        {
+            continue;
+        }
+        let archived: CandidateObservation =
+            match receipt_payload_at(&attempt, 3, "rejected-archived") {
+                Ok(archived) => archived,
+                Err(_) => continue,
+            };
+        validate_completed_recovery_cleanup_authority(
+            store,
+            issue,
+            &attempt,
+            recovery_operation,
+            &recovery_root(store, issue).join(recovery_operation),
+            &archived,
+        )?;
+        return Ok(true);
+    }
+    Ok(false)
+}
+
+fn cleanup_receipt_envelope(path: &Path) -> Result<serde_json::Value> {
+    let bytes = read_cleanup_receipt_file(path)?;
+    serde_json::from_slice(&bytes).map_err(Into::into)
+}
+
+fn read_cleanup_receipt_file(path: &Path) -> Result<Vec<u8>> {
+    let metadata = fs::symlink_metadata(path)?;
+    if !metadata.is_file() || metadata.file_type().is_symlink() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup receipt is not a regular non-symlink file",
+        ));
+    }
+    fs::read(path).map_err(Into::into)
+}
+
+fn cleanup_receipt_payload(path: &Path) -> Result<serde_json::Value> {
+    let envelope = cleanup_receipt_envelope(path)?;
+    if envelope.get("schema").and_then(|value| value.as_str())
+        != Some("csdlc.archived_projection_cleanup_receipt.v1")
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup receipt schema is invalid",
+        ));
+    }
+    envelope.get("payload").cloned().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup receipt payload is missing",
+        )
+    })
 }
 
 fn bridge_cleanup_authority_dir(

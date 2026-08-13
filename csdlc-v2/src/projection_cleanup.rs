@@ -194,6 +194,9 @@ pub fn execute_archived_projection_cleanup(
     )?;
     failpoint(request, "namespace_created")?;
 
+    failpoint(request, "before_cleanup_node_mutation")?;
+    reject_existing_final_receipt_before_mutation(&operation_root)?;
+
     let mut seen = BTreeSet::new();
     for (index, node) in request.nodes.iter().enumerate() {
         if !seen.insert(node.relative_path.clone()) {
@@ -238,6 +241,17 @@ pub fn execute_archived_projection_cleanup(
         ArchivedProjectionCleanupStatus::Completed,
         digest,
     ))
+}
+
+fn reject_existing_final_receipt_before_mutation(operation_root: &Path) -> Result<()> {
+    let final_path = receipt_path(operation_root, 900, "cleanup-complete");
+    if final_path.exists() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup completion receipt appeared before cleanup mutation",
+        ));
+    }
+    Ok(())
 }
 
 fn cleanup_one_node(
