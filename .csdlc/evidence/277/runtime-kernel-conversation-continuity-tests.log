@@ -1,15 +1,15 @@
    Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-277-conversation-watermarks-idempotency-replay-receipts/adl-runtime-kernel)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.10s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.02s
      Running tests/conversation_continuity.rs (adl-runtime-kernel/target/debug/deps/conversation_continuity-d7bd8a9cf47df725)
 
 running 8 tests
+test completed_attempt_is_idempotent_after_restart ... ok
+test ambiguous_dispatch_remains_ambiguous_after_restart ... ok
+test idempotency_is_scoped_by_conversation_after_restart ... ok
 test replay_decision_is_owned_and_restored ... ok
+test stale_acknowledgement_watermark_is_refused ... ok
 test pre_dispatch_retryable_attempt_does_not_block_retry_after_restart ... ok
 test deleted_conversation_events_are_not_replayed_into_continuity_snapshot ... ok
-test stale_acknowledgement_watermark_is_refused ... ok
-test completed_attempt_is_idempotent_after_restart ... ok
-test idempotency_is_scoped_by_conversation_after_restart ... ok
-test ambiguous_dispatch_remains_ambiguous_after_restart ... ok
 test continuity_watermarks_and_receipts_survive_restart ... ok
 
-test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s

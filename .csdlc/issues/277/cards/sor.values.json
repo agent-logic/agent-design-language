@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.04b][114.b] Persist conversation watermarks, idempotency, replay, and receipts",
     "slug": "v0-92-wp-18c-04b-114-b-conversation-watermarks-idempotency-replay-receipts",
     "version": "v0.92.0",
-    "generation": 11
+    "generation": 13
   },
   "status": "pre_phase",
   "content": {
@@ -101,6 +101,18 @@
             "git diff --check"
           ],
           "purpose": "Focused #277 post-review proof for bounded dependency/scope validation, formatting, 8-test conversation continuity behavior including scoped idempotency, strict Clippy, and diff whitespace hygiene.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/277/issue-277-preparation-validator.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-fmt.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-tests.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-clippy.log; git diff --check PASS"
+        },
+        {
+          "command": [
+            "python3 .csdlc/prepared/issues/277/validate_preparation_bundle.py",
+            "cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check",
+            "cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_continuity",
+            "cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_continuity -- -D warnings",
+            "git diff --check"
+          ],
+          "purpose": "Post-base-refresh #277 proof after merging current origin/main with no touched-path collision; reprove dependency/scope validation, formatting, 8-test conversation continuity behavior, strict Clippy, and diff whitespace hygiene.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/277/issue-277-preparation-validator.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-fmt.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-tests.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-clippy.log; git diff --check PASS"
         }
