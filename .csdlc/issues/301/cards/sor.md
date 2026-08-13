@@ -88,11 +88,11 @@ Recovered stale #301 publication after PR #304 conflicted with current main, mer
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
