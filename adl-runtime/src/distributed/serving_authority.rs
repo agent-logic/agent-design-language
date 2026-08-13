@@ -425,6 +425,8 @@ struct ObservatoryAuthorityBinding {
     polis_id: String,
     lineage_id: String,
     operation_id: String,
+    transition_action: ObservatoryTransitionAction,
+    predecessor_operation_ref: Option<String>,
     committed_log_index: u64,
     foundation_generation: u64,
     owner_commit_id: String,
@@ -435,6 +437,15 @@ struct ObservatoryAuthorityBinding {
     foundation_receipt_sha256: String,
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ObservatoryTransitionAction {
+    Acquire,
+    Renew,
+    Transfer,
+    Revoke,
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
 pub struct VerifiedObservatoryAuthorityProjection {
     schema: &'static str,
@@ -442,6 +453,8 @@ pub struct VerifiedObservatoryAuthorityProjection {
     polis_ref: String,
     lineage_ref: String,
     operation_ref: String,
+    transition_action: ObservatoryTransitionAction,
+    predecessor_operation_ref: Option<String>,
     committed_log_index: u64,
     foundation_generation: u64,
     fencing_generation: u64,
@@ -449,10 +462,24 @@ pub struct VerifiedObservatoryAuthorityProjection {
     signer_set_sha256: String,
     signer_count: usize,
     inclusive_deadline_unix_seconds: i64,
+    inclusive_deadline_nanos: u32,
+    inclusive_deadline_uncertainty_millis: u64,
     finalization_unix_seconds: i64,
+    finalization_nanos: u32,
+    finalization_uncertainty_millis: u64,
 }
 
 impl VerifiedObservatoryAuthorityProjection {
+    pub fn is_expired_at(&self, unix_seconds: i64, nanos: u32) -> ServingAuthorityResult<bool> {
+        if unix_seconds <= 0 || nanos >= 1_000_000_000 {
+            return Err(ServingAuthorityError::InvalidBinding);
+        }
+        Ok((unix_seconds, nanos)
+            > (
+                self.inclusive_deadline_unix_seconds,
+                self.inclusive_deadline_nanos,
+            ))
+    }
     pub fn trust_domain_ref(&self) -> &str {
         &self.trust_domain_ref
     }
@@ -467,6 +494,12 @@ impl VerifiedObservatoryAuthorityProjection {
 
     pub fn operation_ref(&self) -> &str {
         &self.operation_ref
+    }
+    pub fn transition_action(&self) -> ObservatoryTransitionAction {
+        self.transition_action
+    }
+    pub fn predecessor_operation_ref(&self) -> Option<&str> {
+        self.predecessor_operation_ref.as_deref()
     }
 
     pub fn committed_log_index(&self) -> u64 {
@@ -496,9 +529,21 @@ impl VerifiedObservatoryAuthorityProjection {
     pub fn inclusive_deadline_unix_seconds(&self) -> i64 {
         self.inclusive_deadline_unix_seconds
     }
+    pub fn inclusive_deadline_nanos(&self) -> u32 {
+        self.inclusive_deadline_nanos
+    }
+    pub fn inclusive_deadline_uncertainty_millis(&self) -> u64 {
+        self.inclusive_deadline_uncertainty_millis
+    }
 
     pub fn finalization_unix_seconds(&self) -> i64 {
         self.finalization_unix_seconds
+    }
+    pub fn finalization_nanos(&self) -> u32 {
+        self.finalization_nanos
+    }
+    pub fn finalization_uncertainty_millis(&self) -> u64 {
+        self.finalization_uncertainty_millis
     }
 }
 
@@ -548,6 +593,19 @@ pub fn verify_observatory_authority_projection(
     ] {
         validate_digest(digest)?;
     }
+    match (
+        binding.transition_action,
+        binding.predecessor_operation_ref.as_deref(),
+    ) {
+        (ObservatoryTransitionAction::Acquire, None) => {}
+        (
+            ObservatoryTransitionAction::Renew
+            | ObservatoryTransitionAction::Transfer
+            | ObservatoryTransitionAction::Revoke,
+            Some(predecessor),
+        ) if predecessor != binding.operation_id => validate_observatory_identifier(predecessor)?,
+        _ => return Err(ServingAuthorityError::InvalidBinding),
+    }
     if binding.committed_log_index == 0
         || binding.committed_log_index > I_JSON_MAX_INTEGER
         || binding.foundation_generation == 0
@@ -564,6 +622,11 @@ pub fn verify_observatory_authority_projection(
         polis_ref: keyed_ref("polis", &binding.polis_id),
         lineage_ref: keyed_ref("lineage", &binding.lineage_id),
         operation_ref: keyed_ref("operation", &binding.operation_id),
+        transition_action: binding.transition_action,
+        predecessor_operation_ref: binding
+            .predecessor_operation_ref
+            .as_deref()
+            .map(|value| keyed_ref("operation", value)),
         committed_log_index: binding.committed_log_index,
         foundation_generation: binding.foundation_generation,
         fencing_generation: binding.fencing_generation,
@@ -571,7 +634,11 @@ pub fn verify_observatory_authority_projection(
         signer_set_sha256: hex::encode(source.signer_set_sha256),
         signer_count: source.signer_count,
         inclusive_deadline_unix_seconds: source.inclusive_deadline.unix_seconds,
+        inclusive_deadline_nanos: source.inclusive_deadline.nanos,
+        inclusive_deadline_uncertainty_millis: source.inclusive_deadline.uncertainty_millis,
         finalization_unix_seconds: source.finalization_time.unix_seconds,
+        finalization_nanos: source.finalization_time.nanos,
+        finalization_uncertainty_millis: source.finalization_time.uncertainty_millis,
     })
 }
 
@@ -637,6 +704,8 @@ impl ObservatoryBindingFixture {
             polis_id: "polis".into(),
             lineage_id: format!("lineage-{suffix}"),
             operation_id: "operation".into(),
+            transition_action: ObservatoryTransitionAction::Acquire,
+            predecessor_operation_ref: None,
             committed_log_index: 2,
             foundation_generation: 1,
             owner_commit_id: format!("owner-{suffix}"),
@@ -649,6 +718,14 @@ impl ObservatoryBindingFixture {
     }
     pub fn artifact_bytes(&self) -> Vec<u8> {
         serde_jcs::to_vec(&self.0).expect("fixture JCS")
+    }
+    pub fn set_transition(
+        &mut self,
+        action: ObservatoryTransitionAction,
+        predecessor: Option<&str>,
+    ) {
+        self.0.transition_action = action;
+        self.0.predecessor_operation_ref = predecessor.map(str::to_owned);
     }
 
     pub fn mutate(&mut self, mutation: ObservatoryBindingMutation) {
