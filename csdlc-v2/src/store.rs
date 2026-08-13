@@ -1101,6 +1101,44 @@ impl Store {
         Ok((record, evidence))
     }
 
+    pub(crate) fn commit_initialized_code_repository_migration(
+        &self,
+        request: &crate::migration::InitializedCodeRepositoryMigrationRequest,
+    ) -> Result<(
+        IssueRecord,
+        crate::migration::InitializedCodeRepositoryMigrationEvidence,
+    )> {
+        let _lock = self.lock(request.issue)?;
+        self.recover_if_needed(request.issue)?;
+        let mut record = self.load_record(request.issue)?;
+        let mut cards = self.load_cards(request.issue)?;
+        verify_cards(self, &record, &cards)?;
+        authorize_initialized_code_repository_migration(&self.root, &record, request)?;
+
+        // Re-read and reauthorize immediately before mutation while both the
+        // binding and issue locks remain held.
+        record = self.load_record(request.issue)?;
+        let evidence =
+            authorize_initialized_code_repository_migration(&self.root, &record, request)?;
+        record.code_repository = Some(request.code_repository.clone());
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor: request.actor.clone(),
+            reason: request.reason.clone(),
+            operation: serde_json::to_string(&evidence)?,
+        });
+        validate_updated_cards(self, &record, &cards)?;
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(request.issue, &record, &cards, false)?;
+        Ok((record, evidence))
+    }
+
     pub(crate) fn commit_publication(
         &self,
         issue: u64,
@@ -1617,6 +1655,147 @@ fn authorize_code_repository_migration(
         worktree: registered_root.to_string_lossy().into_owned(),
         clean_worktree: true,
     })
+}
+
+fn authorize_initialized_code_repository_migration(
+    root: &Path,
+    record: &IssueRecord,
+    request: &crate::migration::InitializedCodeRepositoryMigrationRequest,
+) -> Result<crate::migration::InitializedCodeRepositoryMigrationEvidence> {
+    if record.issue != request.issue || record.repository != request.source_issue_repository {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "initialized code repository migration issue identity does not match",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "initialized code repository migration digest is stale",
+        ));
+    }
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "initialized code repository migration generation is stale",
+        ));
+    }
+    if record.phase != LifecyclePhase::Initialized {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "initialized code repository migration requires initialized phase",
+        ));
+    }
+    if record.code_repository.is_some() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "initialized code repository migration requires an absent code_repository",
+        ));
+    }
+    if record.branch.is_some()
+        || record.worktree.is_some()
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "initialized code repository migration requires unbound topology and no later lifecycle evidence",
+        ));
+    }
+    let evidence_path = root.join(&request.canonical_issue_collision_evidence_ref);
+    let evidence_bytes = fs::read(&evidence_path)?;
+    let evidence_digest = crate::cards::digest(&evidence_bytes);
+    if evidence_digest != request.canonical_issue_collision_evidence_digest {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "canonical issue collision evidence digest does not match request",
+        ));
+    }
+    let collision: crate::migration::InitializedCodeRepositoryCollisionEvidence =
+        serde_json::from_slice(&evidence_bytes)?;
+    if collision.schema != "csdlc.initialized_code_repository_collision_evidence.v1"
+        || collision.source_issue_repository != request.source_issue_repository
+        || collision.source_issue != request.issue
+        || !collision
+            .target_code_repository
+            .eq_ignore_ascii_case(&request.code_repository)
+        || collision.observed_state.trim().is_empty()
+        || collision.operation_key.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "canonical issue collision evidence does not match request",
+        ));
+    }
+    match collision.disposition {
+        crate::migration::InitializedCanonicalCollisionDisposition::SameNumberAbsent => {
+            if collision.target_same_number_issue.is_some() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "same-number-absent collision evidence must not name a target issue",
+                ));
+            }
+        }
+        crate::migration::InitializedCanonicalCollisionDisposition::SameNumberNonAuthoritative
+        | crate::migration::InitializedCanonicalCollisionDisposition::SameNumberSuccessor => {
+            if collision.target_same_number_issue != Some(request.issue) {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "same-number collision evidence must name the matching target issue number",
+                ));
+            }
+        }
+    }
+    let origins = crate::git::github_remote_repositories(root, "origin")?.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "initialized code repository migration requires an origin remote",
+        )
+    })?;
+    let mut identities = origins.fetch.iter().chain(&origins.push);
+    let canonical = identities.next().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "origin repository identity is unavailable",
+        )
+    })?;
+    if identities.any(|identity| !identity.eq_ignore_ascii_case(canonical))
+        || !request.code_repository.eq_ignore_ascii_case(canonical)
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "requested code repository does not match every origin fetch and push identity",
+        ));
+    }
+    Ok(
+        crate::migration::InitializedCodeRepositoryMigrationEvidence {
+            schema: "csdlc.initialized_code_repository_migration_evidence.v1".into(),
+            issue: record.issue,
+            actor: request.actor.clone(),
+            reason: request.reason.clone(),
+            pre_generation: record.generation,
+            pre_digest: record.digest.clone(),
+            previous_code_repository: None,
+            source_issue_repository: request.source_issue_repository.clone(),
+            requested_repository: request.code_repository.clone(),
+            canonical_issue_collision_evidence_ref: request
+                .canonical_issue_collision_evidence_ref
+                .clone(),
+            canonical_issue_collision_evidence_digest: request
+                .canonical_issue_collision_evidence_digest
+                .clone(),
+            canonical_issue_collision_disposition: collision.disposition.clone(),
+            cross_repository_authority_disposition:
+                "legacy_issue_authority_with_canonical_code_repository".into(),
+            topology_state: "initialized_unbound".into(),
+            phase: record.phase,
+            branch: None,
+            worktree: None,
+        },
+    )
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
