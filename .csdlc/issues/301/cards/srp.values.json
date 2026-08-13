@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 301,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Persist provenance for title-only issue updates",
+    "slug": "title-only-issue-update-operation-provenance",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/301\n.csdlc/prepared/issues/301\n.csdlc/evidence/301\ncsdlc-v2/src/github.rs\ncsdlc-v2/tests/gate_github_actions.rs",
+      "review_revision": "git-blake3:ff721a1da16fa64e04fef9c3aca1246a41ffd433:a83e545e0958852ba878a31c99a5002eb06f9c2cea11b83ca3916570a3f4e0f7",
+      "reviewer": "fresh-session:6eb51c7c-f750-4572-8dbe-c3a6b651cc4a",
+      "review_prompts": [
+        "body byte preservation",
+        "operation marker durability",
+        "retry and conflict behavior",
+        "readback reconciliation truth"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Review was read-only from an inline exact evidence packet and did not rerun cargo, csdlc-validate, lifecycle, GitHub state checks, publication, or CI.",
+        "Several prior fresh review assignments after pagination remediation produced no verdict and were typed-recovered as no-result before this fresh-session PASS.",
+        "Operational zero-byte .csdlc/locks/301.lock recurred during typed owner commands and was preserved recoverably in Git-common quarantine outside tracked source."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
