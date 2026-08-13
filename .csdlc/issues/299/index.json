@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
-  "phase": "bound",
-  "generation": 7,
-  "digest": "c08dcf377a4bc34c93aefaad7b5da9f84c2b119bec02c5e30f596562bc528248",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "04986eb4a7100dddc6b73a9c8f5d7638a4a6b58b446d1c9e8d5c358065f2d6f6",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3d9587366c3d1336fed7bf553059e99feddd3827469be6d8ad5e846c0e899f92",
+      "values_digest": "b65292f2163107032bb6239deb88ed0d89441b710708d2bfd38eb4e1c3abc3e5",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "6672adac84dd0de33582fde8a1493f75cbca9da826f4f6136f4763784df0bd25",
+      "values_digest": "79776d04b54b01001a0f16f801902e89ff79fde8f2f210c00f4a9eba46226750",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "ebedfc14eabf06c7dd5f2e18c7cdaeb0599d7a16909905ad47fcd99e5706df27",
+      "values_digest": "9519ad138d8228b9a76699ee578cf6ba82e01cc1edcf219c7c625686b1fc1031",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "9322bb43e10dcd3967aee1042addfe1df0f392bda9d5e7938f35de384b3d334f",
+      "values_digest": "f6808b1c6b57ed5c1eff2ac106a01af0399acade63e42abb9c8887d41c0f5caa",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "18b5e7623c1f023a11c450ec9c5002feee45e5ca0338d6f57658b4bf88fa7c13",
+      "values_digest": "9c3358d7434f0b6b2050288deb8295b850e9221774155bf1ffd7a8338a69ab0c",
       "rendered_digest": "74e60556ac876c4c67f4005aeab09f087c0cb546a4dec35e81506dd41180dd67",
       "ast_digest": "32f61b8bd1e3279de7d7b5c27b12bb49ec20f0ae37f61e9d71efec0072eaefd4"
     },
     "sor": {
-      "values_digest": "962f68c38a1d55ace130e1249dba059cfecdb43c2fe6b5bbd9cfa685676ac2d0",
+      "values_digest": "16748d6199a2d8f17d753155087ceb8bf4408d965f7faa601c74d370daf5b60d",
       "rendered_digest": "0d7830e8a0d4d91448e8c58689e1efaf6985ca7250efb565d26e51f2b6ec4914",
       "ast_digest": "e49ea6489b48af0b10bdc5f0b95016048089d5b3ea608e9a5942ac599c5d3528"
     }
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-5",
+      "reason": "advance #299 after bounded execution and green local validation"
     }
   ],
   "audit": [
@@ -134,6 +141,13 @@
       "actor": "codex:worker-5",
       "reason": "record bounded archived-projection cleanup implementation and local validation evidence",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the initial #299 exact-authority archived-projection cleanup engine in a new isolated module with a focused test harness. The implementation validates cached #298 terminal merge authority and ancestry, creates an immutable cleanup ledger outside the private delete namespace, captures receipt-owned regular files and empty directories through atomic exchange with operation-owned placeholders, removes only captured private inodes with type-correct unlink/rmdir, fsyncs parent boundaries, validates placeholder identity before disposal, preserves third-party replacements, and resumes idempotently from recorded receipts.\",\"changes\":[\"Added csdlc-v2/src/projection_cleanup.rs with typed cleanup request/result structures, terminal envelope and ancestry gate, immutable receipt ledger, safe relative path checks, exact identity capture, atomic exchange, type-correct removal, placeholder disposal, and replay handling.\",\"Added csdlc-v2/tests/archived_projection_cleanup.rs as the focused #[path = \\\"../src/projection_cleanup.rs\\\"] harness required by the pre-bind validator.\",\"Proved terminal gate fail-closed before mutation, exact file and empty-directory cleanup, idempotent repeat, replacement-inode preservation before capture, symlink and non-empty-directory rejection, resume after capture, and public replacement preservation before placeholder disposal.\",\"Kept initial implementation ownership to csdlc-v2/src/projection_cleanup.rs and csdlc-v2/tests/archived_projection_cleanup.rs; did not edit projection_recovery.rs, store.rs, or gate5.rs.\"],\"artifacts\":[\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/tests/archived_projection_cleanup.rs\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:worker-5",
+      "reason": "advance #299 after bounded execution and green local validation",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
