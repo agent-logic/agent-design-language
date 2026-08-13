@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "csdlc-v2/tests/projection_recovery_integration.rs\n.csdlc/evidence/300/bridge-fed-r11\n.csdlc/evidence/300/bridge-fed-r9/projection-recovery-integration.log\n.csdlc/evidence/300/bridge-fed-r10/projection-recovery-integration.log\n.csdlc/requests/300/replace-sor-bridge-fed-r11.json",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
