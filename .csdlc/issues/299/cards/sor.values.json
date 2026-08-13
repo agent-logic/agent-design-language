@@ -7,37 +7,32 @@
     "title": "[v0.92][C-SDLC][297.b][defect] Implement exact-authority archived-projection cleanup",
     "slug": "exact-authority-archived-projection-cleanup",
     "version": "v0.92",
-    "generation": 24
+    "generation": 25
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented #299 exact-authority archived-projection cleanup, remediated prior review findings, and closed the final receipt predecessor-chain forgery gap. Existing final receipt detection remains read-only immediately after deriving operation_root from an existing ledger and before creating operation directories, namespaces, or receipts. Final-chain validation now requires the expected receipt filenames, exact operation-created authority payload, exact namespace-created private namespace authority, and rejects unexpected receipt entries; coherent fully rehashed seq1, seq2, and extra-receipt forgeries are rejected with byte-for-byte ledger snapshots unchanged.",
+      "summary": "Recovered #299 after PR #325 hosted CI failed csdlc-v2-standalone at head 3ce1716eeaf277a30d00ff11c92abebe1002962e. Typed recovery cleared publication/review truth back to implemented, the branch was resynced over origin/main 2ad315b33, and the replacement-race fixtures were hardened to force CleanupNodeIdentity drift on Linux/CI rather than relying on remove-and-recreate content drift. The production cleanup contract remains identity-authority based; the repair is test/proof-only and preserves prior final-chain authority behavior.",
       "actual_changes": [
-        "Recovered the failed r7 review assignment without recording PASS. Preserved reviewer finding exactly in audit/SRP: P1 forged final receipt could short-circuit cleanup if an attacker supplied a matching forged predecessor receipt because the final validator used the highest numeric predecessor without validating the expected cleanup receipt chain.",
-        "Changed final receipt validation to validate the exact expected cleanup receipt chain before accepting AlreadyCompleted: operation-created, namespace-created, per-node placeholder-created/captured/removed/placeholder-disposed receipts, and cleanup-complete must match expected sequence/state/previous digest chain.",
-        "Added seq1 operation-created semantic validation: payload must exactly bind current issue, cleanup operation_id, terminal issue/digest, completed recovery receipt digest, canonical archive manifest digest, and canonical archived root authority.",
-        "Changed seq2 namespace-created receipts to include private namespace owner/mount authority and validate it read-only: private_root == private-delete, mode == 0700, uid/gid match operation root, and device/mount matches operation root.",
-        "Rejected unexpected operation ledger entries and nonempty private-delete namespace contents during final-chain validation instead of ignoring extra receipt filenames or sequence entries.",
-        "Added coherent fully rehashed forgery regressions for operation-created payload drift, namespace-created payload drift, and a valid-looking unexpected 777-removed.json receipt; each rehashes the full chain and asserts the entire cleanup ledger snapshot including file bytes remains unchanged after rejection.",
-        "Mapped incomplete preexisting completed-operation ledgers with missing private namespace to CorruptRecord rather than leaking raw Io, preserving the typed corrupt-record contract and zero-mutation behavior.",
-        "Preserved prior remediations: production crate API wiring through csdlc_v2, completed recovery receipt plus canonical archive manifest authority before cleanup mutation, temp receipt previous_receipt_digest and placeholder_identity validation, archive-local ledger rejection before descendant creation, and early forged-final zero-mutation handling.",
-        "Preserved ownership boundaries: source/test edits are limited to csdlc-v2/src/projection_cleanup.rs and csdlc-v2/tests/archived_projection_cleanup.rs for this remediation; did not edit projection_recovery.rs, store.rs, or gate5.rs.",
-        "Recaptured exact clean-head evidence at 4a8c7a7ec37fe4cea3ac99acbe6b6152fc3f2a71: focused 75f0e9e43db0b7a2fb06cae612bcccc5feafd129b460d3055b0ec974f9be53d0; strict Clippy cb53beda9e4de2bedf8a8fd1c4c19bce1a9253fdc502e93eea44b71d1d60d69f; fmt 6891abe17bce7452dd3f23fbe619eae4277b4aea5ba79dcfa134cdb1d173466d; diff-check c1616950de8893bbfe2f15e4ab642f79112f9ff9c17abea168da0403a75672c6; full serial RED cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6; isolated read c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c; isolated marker 3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6.",
-        "Preserved full-suite RED truth: the prior serial full suite remains failed in gate_github_actions outside the #299-owned cleanup surface; current focused proof and isolated gate reruns do not convert the broad suite result to PASS."
+        "Observed PR #325 run 31682167016 terminal RED: csdlc-v2-standalone job 94390045054 failed in tests/archived_projection_cleanup.rs with cleanup_rejects_replacement_inode_before_capture and cleanup_preserves_public_replacement_before_placeholder_disposal unexpectedly returning Completed; adl-ci failed as the split-lane aggregator.",
+        "Diagnosed the failure as #299 test/proof-related rather than merge-ready or main-advance-only: the two replacement fixtures changed file contents but did not force a modeled CleanupNodeIdentity drift, so Linux/CI could produce a replacement still accepted by the identity-only authority model.",
+        "Applied typed review/publication recovery at generation 23/digest 6986b30c852e4955266b995269d6ac36df6a9ef0310c6814eb48ac60b94a1d8e; resulting issue state is implemented generation 24/digest 1a085da34e9cff7dca95ba1c5d51dbde6a11fc8c97c234523adb5ae614a50495 with review and publication cleared.",
+        "Committed recovery and initial fixture repair at 9e227ea9d, merged origin/main 2ad315b33 (#324 typed bound issue identity/repository migration) cleanly into the #299 worktree at c2215e38c, then committed the final rustfmt-only fixture shape at 9306ad0c9205f2c270aab2351edbf55b61025e11.",
+        "Changed only csdlc-v2/tests/archived_projection_cleanup.rs for the CI repair: added write_distinct_replacement to write replacement content and set mode 0600, and used it in the two replacement-preservation regressions.",
+        "Preserved the production #299 behavior from the reviewed implementation: final receipt detection remains early/read-only, final-chain validation still binds exact seq1 operation authority, seq2 namespace authority, expected receipt filenames, and unexpected receipt rejection with zero ledger/namespace/receipt mutation.",
+        "Preserved ownership boundaries: no #298 worktree/files were touched; projection_recovery.rs, store.rs, and gate5.rs remain untouched by this remediation.",
+        "Recaptured exact evidence at 9306ad0c9205f2c270aab2351edbf55b61025e11 after resync and fixture repair: focused 15/15 PASS, full hosted-geometry cargo test PASS, strict Clippy PASS, fmt PASS, and diff-check PASS."
       ],
       "artifacts": [
         "csdlc-v2/src/lib.rs",
         "csdlc-v2/src/projection_cleanup.rs",
         "csdlc-v2/tests/archived_projection_cleanup.rs",
-        ".csdlc/evidence/299/archived-projection-cleanup-focused.log#sha256=75f0e9e43db0b7a2fb06cae612bcccc5feafd129b460d3055b0ec974f9be53d0",
-        ".csdlc/evidence/299/csdlc-v2-strict-clippy.log#sha256=cb53beda9e4de2bedf8a8fd1c4c19bce1a9253fdc502e93eea44b71d1d60d69f",
-        ".csdlc/evidence/299/fmt-check.log#sha256=6891abe17bce7452dd3f23fbe619eae4277b4aea5ba79dcfa134cdb1d173466d",
-        ".csdlc/evidence/299/diff-check-origin-main-head.log#sha256=c1616950de8893bbfe2f15e4ab642f79112f9ff9c17abea168da0403a75672c6",
-        ".csdlc/evidence/299/csdlc-v2-full-serial.log#sha256=cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6",
-        ".csdlc/evidence/299/gate-github-actions-issue-read-isolated.log#sha256=c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c",
-        ".csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log#sha256=3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6"
+        ".csdlc/evidence/299/archived-projection-cleanup-focused.log#sha256=578730329c4b0b8fb9c0c9b52afa7219441412191ef3b83eecf8053205819fd2",
+        ".csdlc/evidence/299/csdlc-v2-full-hosted-geometry.log#sha256=1a76b79c029f612d1e8f255b279624d0927944b994ae8b28a63edd0d9c879dc2",
+        ".csdlc/evidence/299/csdlc-v2-strict-clippy.log#sha256=abbc7048e9218779d0c05f7a73b2a356d2b048fff557bf0562ade6988c2c0699",
+        ".csdlc/evidence/299/fmt-check.log#sha256=5e276467dcb6a823995d84d349e199c9e87c780b42b5491ec883c9910f7b46b5",
+        ".csdlc/evidence/299/diff-check-origin-main-head.log#sha256=0a07f1ecd579d8fb940e30c97830d246698ab7dc68eee75b614301a8b504d861"
       ],
       "actual_validation": [
         {
@@ -46,6 +41,7 @@
             "CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target",
             "cargo",
             "test",
+            "--locked",
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
             "--test",
@@ -53,9 +49,23 @@
             "--",
             "--nocapture"
           ],
-          "purpose": "Focused #299 archived-projection cleanup matrix after final-chain authority remediation; recaptured from clean committed head 4a8c7a7ec37fe4cea3ac99acbe6b6152fc3f2a71 with explicit SHA, argv, and status. Proves 15/15 including crate-level API reachability, final receipt read-only shortcut validation, seq1 operation authority binding, seq2 namespace authority binding, unexpected receipt rejection with valid-looking 777-removed.json, coherent fully rehashed forgery negatives, and byte-for-byte zero ledger/namespace/receipt mutation. Evidence sha256 75f0e9e43db0b7a2fb06cae612bcccc5feafd129b460d3055b0ec974f9be53d0.",
+          "purpose": "Focused #299 archived-projection cleanup matrix after hosted CI fixture remediation and base resync; recaptured at 9306ad0c9205f2c270aab2351edbf55b61025e11 with explicit SHA, argv, and status. Proves 15/15 including replacement identity drift regressions, final receipt read-only shortcut validation, seq1/seq2 authority binding, unexpected receipt rejection, coherent fully rehashed forgery negatives, and byte-for-byte zero ledger/namespace/receipt mutation.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/299/archived-projection-cleanup-focused.log"
+        },
+        {
+          "command": [
+            "env",
+            "CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target-hosted-geometry",
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml"
+          ],
+          "purpose": "Exact local reproduction of the hosted csdlc-v2-standalone command geometry after the PR #325 CI failure; recaptured at 9306ad0c9205f2c270aab2351edbf55b61025e11 with explicit SHA, argv, and status. The formerly failing archived_projection_cleanup replacement tests passed, and the full csdlc-v2 test command exited 0.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/299/csdlc-v2-full-hosted-geometry.log"
         },
         {
           "command": [
@@ -63,6 +73,7 @@
             "CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target",
             "cargo",
             "clippy",
+            "--locked",
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
             "--all-targets",
@@ -71,7 +82,7 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Strict Rust lint proof for #299 source and tests after final-chain authority remediation; recaptured from clean committed head 4a8c7a7ec37fe4cea3ac99acbe6b6152fc3f2a71 with explicit SHA, argv, and status; evidence sha256 cb53beda9e4de2bedf8a8fd1c4c19bce1a9253fdc502e93eea44b71d1d60d69f.",
+          "purpose": "Strict Rust lint proof for #299 after hosted CI fixture remediation and base resync; recaptured at 9306ad0c9205f2c270aab2351edbf55b61025e11 with explicit SHA, argv, and status.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/299/csdlc-v2-strict-clippy.log"
         },
@@ -84,7 +95,7 @@
             "--",
             "--check"
           ],
-          "purpose": "Formatting proof after final-chain authority remediation; recaptured from clean committed head 4a8c7a7ec37fe4cea3ac99acbe6b6152fc3f2a71 with explicit SHA, argv, and status; evidence sha256 6891abe17bce7452dd3f23fbe619eae4277b4aea5ba79dcfa134cdb1d173466d.",
+          "purpose": "Formatting proof for #299 after hosted CI fixture remediation and base resync; recaptured at 9306ad0c9205f2c270aab2351edbf55b61025e11 with explicit SHA, argv, and status.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/299/fmt-check.log"
         },
@@ -95,60 +106,9 @@
             "--check",
             "origin/main...HEAD"
           ],
-          "purpose": "Committed-range whitespace hygiene after final-chain authority remediation; recaptured from clean committed head 4a8c7a7ec37fe4cea3ac99acbe6b6152fc3f2a71 with explicit SHA, argv, and status; evidence sha256 c1616950de8893bbfe2f15e4ab642f79112f9ff9c17abea168da0403a75672c6.",
+          "purpose": "Committed-range whitespace hygiene for #299 after hosted CI fixture remediation and base resync; recaptured at 9306ad0c9205f2c270aab2351edbf55b61025e11 with explicit SHA, argv, and status.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/299/diff-check-origin-main-head.log"
-        },
-        {
-          "command": [
-            "env",
-            "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2",
-            "cargo",
-            "nextest",
-            "run",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml",
-            "--workspace"
-          ],
-          "purpose": "Prior serial full csdlc-v2 suite attempt before review readiness; remains RED in gate_github_actions and was not rerun or converted to PASS by focused #299 remediation proof; evidence sha256 cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6.",
-          "outcome": "failed",
-          "evidence_ref": ".csdlc/evidence/299/csdlc-v2-full-serial.log"
-        },
-        {
-          "command": [
-            "env",
-            "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-read",
-            "cargo",
-            "test",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml",
-            "--test",
-            "gate_github_actions",
-            "issue_read_failures_are_typed_redacted_and_action_scoped",
-            "--",
-            "--test-threads=1"
-          ],
-          "purpose": "Prior clean isolated rerun of the gate_github_actions read-failure case from the serial full-suite RED; passed but does not clear the preserved serial full-suite RED; evidence sha256 c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/299/gate-github-actions-issue-read-isolated.log"
-        },
-        {
-          "command": [
-            "env",
-            "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-marker",
-            "cargo",
-            "test",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml",
-            "--test",
-            "gate_github_actions",
-            "operation_marker_is_stable_and_idempotent",
-            "--",
-            "--test-threads=1"
-          ],
-          "purpose": "Prior clean isolated rerun of the gate_github_actions operation-marker case from the serial full-suite RED; passed and does not clear the preserved serial full-suite RED; evidence sha256 3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log"
         }
       ],
       "integration_state": "worktree_only",

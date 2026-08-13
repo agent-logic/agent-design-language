@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "1a085da34e9cff7dca95ba1c5d51dbde6a11fc8c97c234523adb5ae614a50495",
+  "generation": 25,
+  "digest": "a2b531c8c5191b1caf8a2be1ec90947b4abb1ab5736bde0d6098dd82024477c7",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a05f51ba3a9ebcc5ee99fef84b23e4a76dfe4018aa005422d163f1936ce618a6",
+      "values_digest": "2ee3304529ab67deffcea59b0896301259efaccaf59d85e57a236c2fa76d8a64",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "4ce2805e0ea53cb88750262ff48533116b1f41db366db87f137292c3593ebb2b",
+      "values_digest": "847e59517a7e119e15cddfaf708e5088078b40c82d3c79b63cfe7888b468f4f6",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "01019c107f2c0d7e53bcdea63a5dbba5dc47ac6d09f3512873962345ed495295",
+      "values_digest": "f442cf31fa03069754fb9dca865b872904967ef70b04065222e9830edf6a0278",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "cdf21ea9ce6ead0e4f2206bdef9e4905bc07f87dfdcff34088d024c82e536ae6",
+      "values_digest": "0976b2b3c1f86c9a4175f379e37e7a6149bd8229a3df8f7084959ed463361fed",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "5e7197e3ea2f4c8f7d62b506cfb79b9829298c75a81d89a873251c1a8ca35f82",
+      "values_digest": "275b6aa52e03c2a960f4102633e1e886e51c38cc55919c9b9012bb3ce9662944",
       "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
       "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "5bdc6aea2afc15d6822d401828b4ef732700597cd5206502ed8af66a7c60492b",
-      "rendered_digest": "7f4bde4605ae7db01d5e5635fe7228b15025dd5bde1937c280749b8a64b7d08b",
-      "ast_digest": "c911fcc20915d4994c9eb9f7e36271d0a118faad881b3e7f80a26eb98f221823"
+      "values_digest": "770473c362de689ff36b4826ece55ea9b99d612af26d3a96c1f8474bdc6847bb",
+      "rendered_digest": "77b4470d4433a3cae13dfe3ce1ad0868f090c2886e3e5fccda1c178692848afd",
+      "ast_digest": "5032223b08166ca50bc24319847c8c536b1c9741f6df22592ea371e33378750a"
     }
   },
   "transitions": [
@@ -323,6 +323,13 @@
       "actor": "codex:worker-5",
       "reason": "Recover published PR #325 at git head 3ce1716eeaf277a30d00ff11c92abebe1002962e after hosted CI run 31682167016 failed csdlc-v2-standalone job 94390045054. Exact failure was in csdlc-v2/tests/archived_projection_cleanup.rs: cleanup_rejects_replacement_inode_before_capture and cleanup_preserves_public_replacement_before_placeholder_disposal returned Completed under Linux/CI because replacement fixtures changed content without forcing CleanupNodeIdentity drift; this is #299 test/proof remediation, not merge-ready.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:worker-5",
+      "reason": "record #299 hosted CI recovery, base resync to origin/main 2ad315b33, exact replacement-fixture repair, and refreshed evidence at 9306ad0c9205f2c270aab2351edbf55b61025e11",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered #299 after PR #325 hosted CI failed csdlc-v2-standalone at head 3ce1716eeaf277a30d00ff11c92abebe1002962e. Typed recovery cleared publication/review truth back to implemented, the branch was resynced over origin/main 2ad315b33, and the replacement-race fixtures were hardened to force CleanupNodeIdentity drift on Linux/CI rather than relying on remove-and-recreate content drift. The production cleanup contract remains identity-authority based; the repair is test/proof-only and preserves prior final-chain authority behavior.\",\"changes\":[\"Observed PR #325 run 31682167016 terminal RED: csdlc-v2-standalone job 94390045054 failed in tests/archived_projection_cleanup.rs with cleanup_rejects_replacement_inode_before_capture and cleanup_preserves_public_replacement_before_placeholder_disposal unexpectedly returning Completed; adl-ci failed as the split-lane aggregator.\",\"Diagnosed the failure as #299 test/proof-related rather than merge-ready or main-advance-only: the two replacement fixtures changed file contents but did not force a modeled CleanupNodeIdentity drift, so Linux/CI could produce a replacement still accepted by the identity-only authority model.\",\"Applied typed review/publication recovery at generation 23/digest 6986b30c852e4955266b995269d6ac36df6a9ef0310c6814eb48ac60b94a1d8e; resulting issue state is implemented generation 24/digest 1a085da34e9cff7dca95ba1c5d51dbde6a11fc8c97c234523adb5ae614a50495 with review and publication cleared.\",\"Committed recovery and initial fixture repair at 9e227ea9d, merged origin/main 2ad315b33 (#324 typed bound issue identity/repository migration) cleanly into the #299 worktree at c2215e38c, then committed the final rustfmt-only fixture shape at 9306ad0c9205f2c270aab2351edbf55b61025e11.\",\"Changed only csdlc-v2/tests/archived_projection_cleanup.rs for the CI repair: added write_distinct_replacement to write replacement content and set mode 0600, and used it in the two replacement-preservation regressions.\",\"Preserved the production #299 behavior from the reviewed implementation: final receipt detection remains early/read-only, final-chain validation still binds exact seq1 operation authority, seq2 namespace authority, expected receipt filenames, and unexpected receipt rejection with zero ledger/namespace/receipt mutation.\",\"Preserved ownership boundaries: no #298 worktree/files were touched; projection_recovery.rs, store.rs, and gate5.rs remain untouched by this remediation.\",\"Recaptured exact evidence at 9306ad0c9205f2c270aab2351edbf55b61025e11 after resync and fixture repair: focused 15/15 PASS, full hosted-geometry cargo test PASS, strict Clippy PASS, fmt PASS, and diff-check PASS.\"],\"artifacts\":[\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/tests/archived_projection_cleanup.rs\",\".csdlc/evidence/299/archived-projection-cleanup-focused.log#sha256=578730329c4b0b8fb9c0c9b52afa7219441412191ef3b83eecf8053205819fd2\",\".csdlc/evidence/299/csdlc-v2-full-hosted-geometry.log#sha256=1a76b79c029f612d1e8f255b279624d0927944b994ae8b28a63edd0d9c879dc2\",\".csdlc/evidence/299/csdlc-v2-strict-clippy.log#sha256=abbc7048e9218779d0c05f7a73b2a356d2b048fff557bf0562ade6988c2c0699\",\".csdlc/evidence/299/fmt-check.log#sha256=5e276467dcb6a823995d84d349e199c9e87c780b42b5491ec883c9910f7b46b5\",\".csdlc/evidence/299/diff-check-origin-main-head.log#sha256=0a07f1ecd579d8fb940e30c97830d246698ab7dc68eee75b614301a8b504d861\"],\"validation\":[{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"archived_projection_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Focused #299 archived-projection cleanup matrix after hosted CI fixture remediation and base resync; recaptured at 9306ad0c9205f2c270aab2351edbf55b61025e11 with explicit SHA, argv, and status. Proves 15/15 including replacement identity drift regressions, final receipt read-only shortcut validation, seq1/seq2 authority binding, unexpected receipt rejection, coherent fully rehashed forgery negatives, and byte-for-byte zero ledger/namespace/receipt mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/archived-projection-cleanup-focused.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target-hosted-geometry\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Exact local reproduction of the hosted csdlc-v2-standalone command geometry after the PR #325 CI failure; recaptured at 9306ad0c9205f2c270aab2351edbf55b61025e11 with explicit SHA, argv, and status. The formerly failing archived_projection_cleanup replacement tests passed, and the full csdlc-v2 test command exited 0.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/csdlc-v2-full-hosted-geometry.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target\",\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--all-features\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Rust lint proof for #299 after hosted CI fixture remediation and base resync; recaptured at 9306ad0c9205f2c270aab2351edbf55b61025e11 with explicit SHA, argv, and status.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/csdlc-v2-strict-clippy.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Formatting proof for #299 after hosted CI fixture remediation and base resync; recaptured at 9306ad0c9205f2c270aab2351edbf55b61025e11 with explicit SHA, argv, and status.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/fmt-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Committed-range whitespace hygiene for #299 after hosted CI fixture remediation and base resync; recaptured at 9306ad0c9205f2c270aab2351edbf55b61025e11 with explicit SHA, argv, and status.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/diff-check-origin-main-head.log\"}]}"
     }
   ]
 }
