@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "0c9c15c26e5372509683cd94a382edcc8757e7bf4957c09dff1b0669117194f2",
+  "generation": 20,
+  "digest": "0532f6e17e4e121f69f74cbd7ac27dba3db626e07f6589ef97d39d0678ec8997",
   "branch": "codex/301-title-only-operation-provenance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f18ded7aff19e2ebff614f0ce8e25606856aa82d6e619a8ed3f8b1378448c04d",
+      "values_digest": "b7b4093fb46d6cf2d2c766efc792ce8efbdc1a3932ae881ed493a82b162be3b3",
       "rendered_digest": "1f602d55abfde140b71a7cdd01db213d96b4e5da322e26363d45f7fde7749164",
       "ast_digest": "dd6e1f4ed857ac2203d39182ca287b0e7a6cb9b24ca5f57bf858eb994e976e6d"
     },
     "stp": {
-      "values_digest": "2cb9b9246cbc7b3f9fed38bdaecbc9db58c42716953ace1c425fdf7a3d84375f",
+      "values_digest": "da6966396350af97a1c717f818c027235d365cf16792e49bea66ebb809d12b33",
       "rendered_digest": "e6a832def0573767be1fad1b65f7745f1277478e67daca8f569ead5a5ddfbbb1",
       "ast_digest": "b57938e52b725b7ba654620cd7afc3cd854bd01a38e08c1f4cf3175bf509490f"
     },
     "spp": {
-      "values_digest": "52f304dfbc62f4b33017113559f44973e06b56a2d080502f5fb0ed5477686bf4",
+      "values_digest": "3b31094d8a39f1621676f50c578231720fb7730c29e70c2d9e466f911ecde178",
       "rendered_digest": "cfe63ad0859216ac10f3217783f8024247bbf7c0bc8ed373fa58e0a50b5b4f0a",
       "ast_digest": "580e50826ca988c2d4e57d3adb21c05509ce8e82651820a1cb58146525c63451"
     },
     "vpp": {
-      "values_digest": "675d099712f37b6b9eb67f3409fdca2c43a4f28cf8e49f5dbca0008d499a8a7c",
+      "values_digest": "1c30901c871b08267dadf4def577a0bf4e80160f2f9206bc397e5feb499de647",
       "rendered_digest": "4ef60e2e9967dfbcb0f5394ace805d298cc2a813aecf357f6a480cc32c9fddd8",
       "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
     },
     "srp": {
-      "values_digest": "4e51ea406aa11cd8de74d22492065c47199ea8991b33ff113d8dbb5c5999c326",
+      "values_digest": "183df2c71725345c49bfee60122fa4522abadf5f21dc1844313a15b58b2596cb",
       "rendered_digest": "7cbe15aed7e484b25dbf57ca12c2050226860f294132192032d5109a82bcd9a4",
       "ast_digest": "8923177b498751ced3d5aa7bca4cc2d01b420bbd668c4dbaf4292c8b2323a62b"
     },
     "sor": {
-      "values_digest": "72a86c2333219b29f71bb7dbf830d5c57068639f3694be6ede95e3eff3e1d364",
-      "rendered_digest": "73261ca3e696de9c913b566adfe5a124661a9bc69e4f34e60c2bb4eb5d60b4f6",
-      "ast_digest": "077ea3a03d4e69aa6ca9577975ef5715be7d4a8083eabf565ef437d5549e720c"
+      "values_digest": "0375c9d621315a9d59ea4e3390359490961ce5bf9fd4cb5a14f14b4caa8bca2a",
+      "rendered_digest": "f5059c4ee24d914853b4f968eee0926b628bceec16cd6b1dcc825e8a8a7fa1ef",
+      "ast_digest": "256bbe164163a926187cd975872b7be7cc9b4e1eb01b6102e70090d590bdd323"
     }
   },
   "transitions": [
@@ -309,6 +309,13 @@
       "actor": "codex:issue-301-janitor",
       "reason": "Fresh exact review fresh-session:fbaa979a-f3ae-4622-85dc-f38d822c0b51 found actionable P2: title-only provenance receipt lookup inspects only the first 100 issue comments, so valid same-key retries can fail when the durable receipt is on a later GitHub comments page. Recover review authority before bounded pagination remediation and different fresh reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Record remediation for fresh review P2 on paginated title-only provenance receipt lookup before reassignment.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered stale #301 review after fresh-session:fbaa979a found first-page-only provenance receipt lookup, paginated title-only issue comment receipt discovery, and added a page-2 receipt regression while preserving post-#258 resync behavior.\",\"changes\":[\"Recovered failed fresh review truth through typed csdlc-review recover at generation 19.\",\"Updated title-only provenance receipt lookup to scan GitHub issue comment pages with per_page=100 until the final short page.\",\"Added a focused regression where 100 filler comments push the durable receipt to page 2, proving initial receipt readback and same-key retry both reconcile without a second PATCH.\",\"Preserved #301 durable title-only operation provenance semantics and post-193f77d24 main ancestry.\"],\"artifacts\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\",\".csdlc/issues/301\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"title_only_issue_update_finds_provenance_receipts_across_comment_pages\"],\"purpose\":\"Focused regression for the fresh-review pagination finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:paginated-title-only-receipt-test:1-passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Formatter check after pagination remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:cargo-fmt-csdlc-v2:formatted\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Focused GitHub issue owner proof including #301 title-only provenance pagination, drift, ambiguity, and current main redaction coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:gate-github-actions:11-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for the touched GitHub owner test target after pagination remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:clippy-gate-github-actions:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"301\"],\"purpose\":\"Typed C-SDLC issue validation after pagination remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:csdlc-validate-issue-301:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and conflict-marker hygiene for the pagination remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:git-diff-check:passed\"}]}"
     }
   ]
 }

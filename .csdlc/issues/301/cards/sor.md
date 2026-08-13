@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Recovered stale #301 publication after origin/main advanced to 193f77d24a693f955a2fcf3bdfc759ad1db8aff4, merged current main into codex/301-title-only-operation-provenance without manual conflicts, and preserved title-only GitHub issue update provenance behavior.
+Recovered stale #301 review after fresh-session:fbaa979a found first-page-only provenance receipt lookup, paginated title-only issue comment receipt discovery, and added a page-2 receipt regression while preserving post-#258 resync behavior.
 
 ## Artifacts
 
@@ -22,14 +22,28 @@ Recovered stale #301 publication after origin/main advanced to 193f77d24a693f955
 
 ## Execution
 
-- Recovered stale review/publication truth through typed csdlc-review recover after PR #304 was observed behind current origin/main with overlapping #258/#301 paths.
-- Merged origin/main 193f77d24a693f955a2fcf3bdfc759ad1db8aff4 into codex/301-title-only-operation-provenance.
-- Observed the merge completed cleanly with no manual conflict resolution.
-- Preserved #301's durable title-only operation provenance implementation and focused regression coverage.
+- Recovered failed fresh review truth through typed csdlc-review recover at generation 19.
+- Updated title-only provenance receipt lookup to scan GitHub issue comment pages with per_page=100 until the final short page.
+- Added a focused regression where 100 filler comments push the durable receipt to page 2, proving initial receipt readback and same-key retry both reconcile without a second PATCH.
+- Preserved #301 durable title-only operation provenance semantics and post-193f77d24 main ancestry.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_github_actions",
+      "title_only_issue_update_finds_provenance_receipts_across_comment_pages"
+    ],
+    "purpose": "Focused regression for the fresh-review pagination finding.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:paginated-title-only-receipt-test:1-passed"
+  },
   {
     "command": [
       "cargo",
@@ -38,22 +52,9 @@ Recovered stale #301 publication after origin/main advanced to 193f77d24a693f955
       "csdlc-v2/Cargo.toml",
       "--check"
     ],
-    "purpose": "Formatter check for the #301 branch after merging origin/main 193f77d24.",
+    "purpose": "Formatter check after pagination remediation.",
     "outcome": "passed",
-    "evidence_ref": "local-command:18323f4c4d5456fe3f19023203665e932d8ec356:cargo-fmt-csdlc-v2-check:passed"
-  },
-  {
-    "command": [
-      "csdlc-validate",
-      "--root",
-      ".",
-      "issue",
-      "--issue",
-      "301"
-    ],
-    "purpose": "Typed C-SDLC issue validation after stale-publication recovery and current-main resync.",
-    "outcome": "passed",
-    "evidence_ref": "local-command:18323f4c4d5456fe3f19023203665e932d8ec356:csdlc-validate-issue-301:passed"
+    "evidence_ref": "local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:cargo-fmt-csdlc-v2:formatted"
   },
   {
     "command": [
@@ -64,9 +65,9 @@ Recovered stale #301 publication after origin/main advanced to 193f77d24a693f955
       "--test",
       "gate_github_actions"
     ],
-    "purpose": "Focused GitHub issue owner proof including #301 title-only provenance regressions and current main's action-scoped redaction coverage.",
+    "purpose": "Focused GitHub issue owner proof including #301 title-only provenance pagination, drift, ambiguity, and current main redaction coverage.",
     "outcome": "passed",
-    "evidence_ref": "local-command:18323f4c4d5456fe3f19023203665e932d8ec356:gate-github-actions:10-passed"
+    "evidence_ref": "local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:gate-github-actions:11-passed"
   },
   {
     "command": [
@@ -80,9 +81,32 @@ Recovered stale #301 publication after origin/main advanced to 193f77d24a693f955
       "-D",
       "warnings"
     ],
-    "purpose": "Strict warning-free proof for the touched GitHub owner test target after current-main resync.",
+    "purpose": "Strict warning-free proof for the touched GitHub owner test target after pagination remediation.",
     "outcome": "passed",
-    "evidence_ref": "local-command:18323f4c4d5456fe3f19023203665e932d8ec356:clippy-gate-github-actions:passed"
+    "evidence_ref": "local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:clippy-gate-github-actions:passed"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      ".",
+      "issue",
+      "--issue",
+      "301"
+    ],
+    "purpose": "Typed C-SDLC issue validation after pagination remediation.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:csdlc-validate-issue-301:passed"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Whitespace and conflict-marker hygiene for the pagination remediation diff.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:git-diff-check:passed"
   }
 ]
 
