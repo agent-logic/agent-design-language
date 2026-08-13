@@ -1,0 +1,11 @@
+flowchart TD
+  A["Changed Rust file below 80 percent"] --> B["Parse exact unified diff"]
+  B -->|"Malformed or semantic change"| G["Apply unchanged 80 percent gate"]
+  B -->|"Import-only or mapped argument pass-through"| C["Resolve governed token mapping"]
+  C -->|"Missing token, owner, or API path"| G
+  C --> D["Verify compile proof for every hunk"]
+  D -->|"Any hunk unproved"| G
+  D --> E["Verify behavioral proof for every owning API path"]
+  E -->|"Any owner path unproved"| G
+  E --> F["Emit machine receipt: file, hunk, token, owner, tests, rationale"]
+  F --> H["Mechanical fallout classified; PR-fast remains non-authoritative"]

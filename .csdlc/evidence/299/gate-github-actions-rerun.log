@@ -1,0 +1,8 @@
+
+running 5 tests
+test issue_create_and_comment_reconcile_by_marker_with_exact_readback ... ok
+test issue_read_failures_are_typed_redacted_and_action_scoped ... ok
+test operation_marker_is_stable_and_idempotent ... ok
+test split_github_binaries_reject_the_wrong_surface_before_network ... ok
+test split_github_schema_commands_accept_early_stdout_close ... ok
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.68s

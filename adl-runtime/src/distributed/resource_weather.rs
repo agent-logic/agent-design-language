@@ -16,7 +16,10 @@ use redb::{
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
-use super::certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore};
+use super::certificates::{
+    AuthorityCertificate, CertificatePurpose, DistributedCertificateStore,
+    AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+};
 
 pub const RESOURCE_WEATHER_SCHEMA: &str = "adl.distributed.resource_weather.v1";
 const SIGNING_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-RESOURCE-WEATHER-V1\0";
@@ -602,6 +605,7 @@ impl ResourceWeatherStore {
         }
         let authorized = certificates
             .authorize(
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                 &claims.holder_id,
                 CertificatePurpose::AdvertisementSigning,
                 claims.certificate_generation,

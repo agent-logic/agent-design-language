@@ -15,6 +15,7 @@ use crate::github::{
 };
 use crate::lifecycle::{BindRequest, BindResult};
 use crate::migration::{
+    BoundIssueIdentityMigrationReport, BoundIssueIdentityMigrationRequest,
     BoundTopologyMigrationReport, BoundTopologyMigrationRequest, CodeRepositoryMigrationReport,
     CodeRepositoryMigrationRequest, ImportReport, LegacyImportRequest, NormalizedOutcome,
     ShadowComparison,
@@ -22,8 +23,8 @@ use crate::migration::{
 use crate::model::IssueRecord;
 use crate::model::TerminalReceipt;
 use crate::projection_recovery::{
-    ProjectionClassification, ProjectionClassifyRequest, ProjectionCleanupRequest,
-    ProjectionCleanupResult, ProjectionRecoverRequest, ProjectionRecoveryResult,
+    ProjectionClassification, ProjectionClassifyRequest, ProjectionRecoverRequest,
+    ProjectionRecoveryResult,
 };
 use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
 use crate::pvf::{
@@ -34,7 +35,10 @@ use crate::review::{
     PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest, ReviewRecoveryRequest,
 };
 use crate::runner_preflight::{RunnerPreflightPacket, RunnerPreflightRequest};
-use crate::store::ApproveDesignRequest;
+use crate::store::{
+    ApproveDesignRequest, InitializedDecompositionRecoveryRequest,
+    InitializedDecompositionRecoveryResult,
+};
 use crate::store::{BootstrapRequest, EditRequest};
 
 pub fn public_schema_bundle() -> Value {
@@ -46,14 +50,14 @@ pub fn public_schema_bundle() -> Value {
         "projection_classification": schemars::schema_for!(ProjectionClassification),
         "projection_recover_request": schemars::schema_for!(ProjectionRecoverRequest),
         "projection_recovery_result": schemars::schema_for!(ProjectionRecoveryResult),
-        "projection_cleanup_request": schemars::schema_for!(ProjectionCleanupRequest),
-        "projection_cleanup_result": schemars::schema_for!(ProjectionCleanupResult),
         "legacy_terminal_index_request": schemars::schema_for!(LegacyTerminalIndexRequest),
         "legacy_terminal_index": schemars::schema_for!(LegacyTerminalIndex),
         "terminal_census_report": schemars::schema_for!(TerminalCensusReport),
         "bootstrap_request": schemars::schema_for!(BootstrapRequest),
         "approve_design_request": schemars::schema_for!(ApproveDesignRequest),
         "edit_request": schemars::schema_for!(EditRequest),
+        "initialized_decomposition_recovery_request": schemars::schema_for!(InitializedDecompositionRecoveryRequest),
+        "initialized_decomposition_recovery_result": schemars::schema_for!(InitializedDecompositionRecoveryResult),
         "bind_request": schemars::schema_for!(BindRequest),
         "bind_result": schemars::schema_for!(BindResult),
         "issue_record": schemars::schema_for!(IssueRecord),
@@ -90,6 +94,8 @@ pub fn public_schema_bundle() -> Value {
         "legacy_import_report": schemars::schema_for!(ImportReport),
         "bound_topology_migration_request": schemars::schema_for!(BoundTopologyMigrationRequest),
         "bound_topology_migration_report": schemars::schema_for!(BoundTopologyMigrationReport),
+        "bound_issue_identity_migration_request": schemars::schema_for!(BoundIssueIdentityMigrationRequest),
+        "bound_issue_identity_migration_report": schemars::schema_for!(BoundIssueIdentityMigrationReport),
         "code_repository_migration_request": schemars::schema_for!(CodeRepositoryMigrationRequest),
         "code_repository_migration_report": schemars::schema_for!(CodeRepositoryMigrationReport),
         "normalized_outcome": schemars::schema_for!(NormalizedOutcome),

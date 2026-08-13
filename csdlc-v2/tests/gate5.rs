@@ -3,11 +3,1017 @@ use csdlc_v2::model::TransitionEvent;
 use csdlc_v2::{
     assign_review, bind_issue, classify_preserved_projection, edit_issue,
     evaluate_publication_review, evaluate_publication_review_in_repo, record_review, BindRequest,
-    BootstrapRequest, CardKind, EditRequest, ErrorCode, InitialCardInput, LifecyclePhase,
-    NonSubstantiveProof, PlanningProfile, ProjectionCasAnchor, ProjectionClassifyRequest,
-    ReviewAssignmentRequest, ReviewEvidence, ReviewFindingEvidence, ReviewRecordRequest,
-    ReviewRecoveryRequest, SemanticOperation, Store,
+    BootstrapRequest, CardKind, EditRequest, ErrorCode, FailedOperationLineage, InitialCardInput,
+    LifecyclePhase, NonSubstantiveProof, PlanningProfile, ProjectionCasAnchor,
+    ProjectionClassifyRequest, ProjectionRecoverRequest, ReviewAssignmentRequest, ReviewEvidence,
+    ReviewFindingEvidence, ReviewRecordRequest, ReviewRecoveryRequest, SemanticOperation, Store,
 };
+use std::os::unix::fs::PermissionsExt;
+
+fn copy_tree(source: &std::path::Path, destination: &std::path::Path) {
+    std::fs::create_dir(destination).expect("create copied projection root");
+    for entry in std::fs::read_dir(source).expect("read copied projection") {
+        let entry = entry.expect("projection entry");
+        let target = destination.join(entry.file_name());
+        if entry.file_type().expect("entry type").is_dir() {
+            copy_tree(&entry.path(), &target);
+        } else {
+            std::fs::copy(entry.path(), target).expect("copy projection file");
+        }
+    }
+}
+
+fn recovery_request(
+    store: &Store,
+    record: &csdlc_v2::IssueRecord,
+    classify: &csdlc_v2::ProjectionClassification,
+    operation_id: &str,
+) -> ProjectionRecoverRequest {
+    ProjectionRecoverRequest {
+        issue: 7,
+        operation_id: operation_id.into(),
+        classify_receipt_digest: classify.receipt_digest.clone(),
+        classification: classify.clone(),
+        failed_operation_lineage: FailedOperationLineage {
+            prior_generation: record.generation,
+            prior_record_digest: record.digest.clone(),
+            rejected_manifest_digest: classify.preserved.manifest_digest.clone().unwrap(),
+            failure_boundary: "verifier_rejected_after_install".into(),
+        },
+        anchor: ProjectionCasAnchor::VerifiedCanonical {
+            generation: classify.canonical.generation.unwrap(),
+            record_digest: classify.canonical.record_digest.clone().unwrap(),
+        },
+        actor: "test".into(),
+        reason: "recover receipt fixture".into(),
+        branch: "issue-7".into(),
+        worktree: store.root().to_string_lossy().into_owned(),
+        fail_after: None,
+    }
+}
+
+fn receipt_path(attempt: &std::path::Path, seq: u32, state: &str) -> std::path::PathBuf {
+    attempt.join(format!("{seq:03}-{state}.json"))
+}
+
+fn rewrite_receipt_payload_and_rechain(
+    attempt: &std::path::Path,
+    seq: u32,
+    state: &str,
+    payload: serde_json::Value,
+) {
+    let path = receipt_path(attempt, seq, state);
+    let mut envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&path).expect("receipt")).expect("receipt json");
+    envelope["payload"] = payload;
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("receipt bytes");
+    bytes.push(b'\n');
+    std::fs::write(&path, bytes).expect("write forged receipt");
+    let states = [
+        "prepared",
+        "archive-intent",
+        "rejected-archived",
+        "candidate-plan",
+        "candidate-created",
+        "candidate-verified",
+        "install-intent",
+        "canonical-installed",
+        "displace-intent",
+        "prior-displaced",
+        "canonical-verified",
+        "recovery-complete-intent",
+        "recovered",
+    ];
+    for next in (seq + 1)..=13 {
+        let prior = receipt_path(attempt, next - 1, states[next as usize - 2]);
+        let next_path = receipt_path(attempt, next, states[next as usize - 1]);
+        let digest = blake3::hash(&std::fs::read(prior).expect("prior receipt"))
+            .to_hex()
+            .to_string();
+        let mut next_envelope: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&next_path).expect("next receipt"))
+                .expect("next receipt json");
+        next_envelope["previous_receipt_digest"] = serde_json::Value::String(digest);
+        let mut next_bytes = serde_json::to_vec_pretty(&next_envelope).expect("next bytes");
+        next_bytes.push(b'\n');
+        std::fs::write(next_path, next_bytes).expect("write rechained receipt");
+    }
+}
+
+fn add_receipt_envelope_field_and_rechain(
+    attempt: &std::path::Path,
+    seq: u32,
+    state: &str,
+    key: &str,
+    value: serde_json::Value,
+) {
+    let path = receipt_path(attempt, seq, state);
+    let mut envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&path).expect("receipt")).expect("receipt json");
+    envelope[key] = value;
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("receipt bytes");
+    bytes.push(b'\n');
+    std::fs::write(&path, bytes).expect("write forged receipt envelope");
+    let states = [
+        "prepared",
+        "archive-intent",
+        "rejected-archived",
+        "candidate-plan",
+        "candidate-created",
+        "candidate-verified",
+        "install-intent",
+        "canonical-installed",
+        "displace-intent",
+        "prior-displaced",
+        "canonical-verified",
+        "recovery-complete-intent",
+        "recovered",
+    ];
+    for next in (seq + 1)..=13 {
+        let prior = receipt_path(attempt, next - 1, states[next as usize - 2]);
+        let next_path = receipt_path(attempt, next, states[next as usize - 1]);
+        let digest = blake3::hash(&std::fs::read(prior).expect("prior receipt"))
+            .to_hex()
+            .to_string();
+        let mut next_envelope: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&next_path).expect("next receipt"))
+                .expect("next receipt json");
+        next_envelope["previous_receipt_digest"] = serde_json::Value::String(digest);
+        let mut next_bytes = serde_json::to_vec_pretty(&next_envelope).expect("next bytes");
+        next_bytes.push(b'\n');
+        std::fs::write(next_path, next_bytes).expect("write rechained receipt");
+    }
+}
+
+fn rewrite_single_receipt_payload(
+    attempt: &std::path::Path,
+    seq: u32,
+    state: &str,
+    payload: serde_json::Value,
+) {
+    let path = receipt_path(attempt, seq, state);
+    let mut envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&path).expect("receipt")).expect("receipt json");
+    envelope["payload"] = payload;
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("receipt bytes");
+    bytes.push(b'\n');
+    std::fs::write(path, bytes).expect("write forged receipt");
+}
+
+fn append_extra_terminal_receipt(attempt: &std::path::Path) {
+    let previous = receipt_path(attempt, 13, "recovered");
+    let previous_digest = blake3::hash(&std::fs::read(previous).expect("terminal receipt"))
+        .to_hex()
+        .to_string();
+    let envelope = serde_json::json!({
+        "schema":"csdlc.projection_recovery_receipt.v1",
+        "sequence":14,
+        "state":"post-terminal",
+        "previous_receipt_digest":previous_digest,
+        "payload":{"forged":true}
+    });
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("extra receipt");
+    bytes.push(b'\n');
+    std::fs::write(receipt_path(attempt, 14, "post-terminal"), bytes)
+        .expect("write extra terminal receipt");
+}
+
+#[cfg(unix)]
+fn append_extra_terminal_symlink(attempt: &std::path::Path) {
+    std::os::unix::fs::symlink(
+        receipt_path(attempt, 13, "recovered"),
+        receipt_path(attempt, 14, "post-terminal"),
+    )
+    .expect("create extra terminal symlink");
+}
+
+fn append_extra_terminal_directory(attempt: &std::path::Path) {
+    std::fs::create_dir(receipt_path(attempt, 14, "post-terminal"))
+        .expect("create extra terminal directory");
+}
+
+#[cfg(unix)]
+fn append_extra_terminal_fifo(attempt: &std::path::Path) {
+    use std::ffi::CString;
+    use std::os::unix::ffi::OsStrExt;
+
+    let path = receipt_path(attempt, 14, "post-terminal");
+    let path = CString::new(path.as_os_str().as_bytes()).expect("FIFO path has no NUL");
+    // SAFETY: `path` is a live NUL-terminated pathname and `mkfifo` does not retain it.
+    let result = unsafe { libc::mkfifo(path.as_ptr(), 0o600) };
+    assert_eq!(
+        result,
+        0,
+        "create extra terminal FIFO: {}",
+        std::io::Error::last_os_error()
+    );
+}
+
+fn completed_recovery_attempt(
+    store: &Store,
+    record: &csdlc_v2::IssueRecord,
+    operation_id: &str,
+) -> (ProjectionRecoverRequest, std::path::PathBuf) {
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: format!("{operation_id} fixture"),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(store, record, &classify, operation_id);
+    csdlc_v2::recover_preserved_projection(store, request.clone()).expect("recover");
+    let attempt = store
+        .root()
+        .join(format!(".csdlc/issues/.7.recovery/{operation_id}"));
+    (request, attempt)
+}
+
+fn node_receipt_path(
+    attempt: &std::path::Path,
+    ordinal: usize,
+    seq: u32,
+    state: &str,
+) -> std::path::PathBuf {
+    receipt_path(&attempt.join(format!("node-{ordinal:03}")), seq, state)
+}
+
+fn append_extra_node_receipt(attempt: &std::path::Path, ordinal: usize) {
+    let previous = node_receipt_path(attempt, ordinal, 10, "node-created");
+    let previous_digest = blake3::hash(&std::fs::read(previous).expect("terminal node receipt"))
+        .to_hex()
+        .to_string();
+    let envelope = serde_json::json!({
+        "schema":"csdlc.projection_recovery_receipt.v1",
+        "sequence":11,
+        "state":"post-node",
+        "previous_receipt_digest":previous_digest,
+        "payload":{"forged":true}
+    });
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("extra node receipt");
+    bytes.push(b'\n');
+    std::fs::write(node_receipt_path(attempt, ordinal, 11, "post-node"), bytes)
+        .expect("write extra node receipt");
+}
+
+#[cfg(unix)]
+fn append_extra_node_symlink(attempt: &std::path::Path, ordinal: usize) {
+    std::os::unix::fs::symlink(
+        node_receipt_path(attempt, ordinal, 10, "node-created"),
+        node_receipt_path(attempt, ordinal, 11, "post-node"),
+    )
+    .expect("create extra node symlink");
+}
+
+fn append_extra_node_directory(attempt: &std::path::Path, ordinal: usize) {
+    std::fs::create_dir(node_receipt_path(attempt, ordinal, 11, "post-node"))
+        .expect("create extra node directory");
+}
+
+fn rewrite_node_receipt_payload_and_rechain(
+    attempt: &std::path::Path,
+    ordinal: usize,
+    seq: u32,
+    state: &str,
+    payload: serde_json::Value,
+) {
+    let ledger = attempt.join(format!("node-{ordinal:03}"));
+    let path = receipt_path(&ledger, seq, state);
+    let mut envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&path).expect("node receipt"))
+            .expect("node receipt json");
+    envelope["payload"] = payload;
+    let mut bytes = serde_json::to_vec_pretty(&envelope).expect("node receipt bytes");
+    bytes.push(b'\n');
+    std::fs::write(&path, bytes).expect("write forged node receipt");
+    let states = [
+        "create-intent",
+        "created-identity",
+        "write-intent",
+        "write-completed",
+        "node-fsync-intent",
+        "node-fsync-completed",
+        "parent-fsync-intent",
+        "parent-fsync-completed",
+        "publish-intent",
+        "node-created",
+    ];
+    for next in (seq + 1)..=10 {
+        let prior = receipt_path(&ledger, next - 1, states[next as usize - 2]);
+        let next_path = receipt_path(&ledger, next, states[next as usize - 1]);
+        let digest = blake3::hash(&std::fs::read(prior).expect("prior node receipt"))
+            .to_hex()
+            .to_string();
+        let mut next_envelope: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&next_path).expect("next node receipt"))
+                .expect("next node receipt json");
+        next_envelope["previous_receipt_digest"] = serde_json::Value::String(digest);
+        let mut next_bytes = serde_json::to_vec_pretty(&next_envelope).expect("next node bytes");
+        next_bytes.push(b'\n');
+        std::fs::write(next_path, next_bytes).expect("write rechained node receipt");
+    }
+}
+
+fn rewrite_observation_index(observation: &mut serde_json::Value, index_bytes: &[u8]) {
+    let entries = observation["entries"]
+        .as_array_mut()
+        .expect("observation entries");
+    let index = entries
+        .iter_mut()
+        .find(|entry| entry["path"] == "index.json")
+        .expect("index observation");
+    index["size"] = serde_json::json!(index_bytes.len());
+    index["digest"] = serde_json::json!(blake3::hash(index_bytes).to_hex().to_string());
+    observation["manifest_digest"] = serde_json::json!(blake3::hash(
+        &serde_json::to_vec(entries).expect("manifest bytes")
+    )
+    .to_hex()
+    .to_string());
+}
+
+#[test]
+fn preserved_projection_recovery_archives_builds_installs_and_is_idempotent() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "classify retained failed projection".into(),
+        },
+    )
+    .expect("classify recoverable projection");
+    assert_eq!(classify.disposition, "recoverable");
+    let rejected_manifest = classify
+        .preserved
+        .manifest_digest
+        .clone()
+        .expect("manifest");
+    let worktree = store.root().to_string_lossy().into_owned();
+    let request = ProjectionRecoverRequest {
+        issue: 7,
+        operation_id: "fixture-recovery".into(),
+        classify_receipt_digest: classify.receipt_digest.clone(),
+        classification: classify.clone(),
+        failed_operation_lineage: FailedOperationLineage {
+            prior_generation: record.generation,
+            prior_record_digest: record.digest,
+            rejected_manifest_digest: rejected_manifest,
+            failure_boundary: "verifier_rejected_after_install".into(),
+        },
+        anchor: ProjectionCasAnchor::VerifiedCanonical {
+            generation: classify.canonical.generation.expect("generation"),
+            record_digest: classify.canonical.record_digest.clone().expect("digest"),
+        },
+        actor: "test".into(),
+        reason: "recover retained failed projection".into(),
+        branch: "issue-7".into(),
+        worktree,
+        fail_after: None,
+    };
+    let first = csdlc_v2::recover_preserved_projection(&store, request.clone())
+        .expect("recover projection");
+    let second =
+        csdlc_v2::recover_preserved_projection(&store, request).expect("repeat same recovery");
+    assert_eq!(first.receipt_digest, second.receipt_digest);
+    assert!(store
+        .root()
+        .join(".csdlc/issues/.7.recovery/fixture-recovery/rejected")
+        .is_dir());
+    assert!(store
+        .root()
+        .join(".csdlc/issues/.7.recovery/fixture-recovery/displaced")
+        .is_dir());
+    assert!(!store.rollback_preserved(7).exists());
+    assert_eq!(
+        store.load_record(7).expect("recovered record").generation,
+        first.canonical_generation
+    );
+    let recovered_record = store.load_record(7).expect("record for later commit");
+    let after_first_commit = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: recovered_record.generation,
+            expected_digest: recovered_record.digest,
+            actor: "test".into(),
+            reason: "ordinary commit after recovery".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "post recovery".into(),
+                changes: vec!["none".into()],
+                artifacts: vec!["none".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("ordinary typed commit after complete recovery");
+    edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: after_first_commit.generation,
+            expected_digest: after_first_commit.digest,
+            actor: "test".into(),
+            reason: "second ordinary commit after recovery".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "second post recovery".into(),
+                changes: vec!["none".into()],
+                artifacts: vec!["none".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("second ordinary typed commit after complete recovery");
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_lineage_and_replacement_without_mutation() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "classify negative".into(),
+        },
+    )
+    .expect("classification");
+    let mut request = ProjectionRecoverRequest {
+        issue: 7,
+        operation_id: "negative".into(),
+        classify_receipt_digest: classify.receipt_digest.clone(),
+        classification: classify.clone(),
+        failed_operation_lineage: FailedOperationLineage {
+            prior_generation: record.generation,
+            prior_record_digest: record.digest.clone(),
+            rejected_manifest_digest: "wrong".into(),
+            failure_boundary: "verifier".into(),
+        },
+        anchor: ProjectionCasAnchor::VerifiedCanonical {
+            generation: record.generation,
+            record_digest: record.digest,
+        },
+        actor: "test".into(),
+        reason: "negative".into(),
+        branch: "issue-7".into(),
+        worktree: store.root().to_string_lossy().into_owned(),
+        fail_after: None,
+    };
+    assert_eq!(
+        csdlc_v2::recover_preserved_projection(&store, request.clone())
+            .expect_err("lineage mismatch")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    assert!(preserved.is_dir());
+    request.failed_operation_lineage.rejected_manifest_digest = classify
+        .preserved
+        .manifest_digest
+        .expect("rejected manifest");
+    let replacement = store.root().join("replacement");
+    copy_tree(&preserved, &replacement);
+    std::fs::remove_dir_all(&preserved).expect("remove classified inode");
+    std::fs::rename(&replacement, &preserved).expect("replace after classify");
+    assert_eq!(
+        csdlc_v2::recover_preserved_projection(&store, request)
+            .expect_err("replacement race")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    assert!(preserved.is_dir());
+}
+
+#[test]
+fn preserved_projection_recovery_classifies_hardlink_as_unsafe() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    std::fs::hard_link(preserved.join("index.json"), preserved.join("index.alias"))
+        .expect("hardlink alias");
+    let classified = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest,
+            },
+            actor: "test".into(),
+            reason: "unsafe alias".into(),
+        },
+    )
+    .expect("classification reports unsafe");
+    assert_eq!(classified.disposition, "unsafe");
+    assert!(preserved.is_dir());
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_wrong_topology_and_unsafe_mode() {
+    use std::os::unix::fs::PermissionsExt;
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "topology negative".into(),
+        },
+    )
+    .expect("classification");
+    let request = ProjectionRecoverRequest {
+        issue: 7,
+        operation_id: "wrong-topology".into(),
+        classify_receipt_digest: classify.receipt_digest.clone(),
+        classification: classify.clone(),
+        failed_operation_lineage: FailedOperationLineage {
+            prior_generation: record.generation,
+            prior_record_digest: record.digest,
+            rejected_manifest_digest: classify.preserved.manifest_digest.expect("manifest"),
+            failure_boundary: "verifier".into(),
+        },
+        anchor: ProjectionCasAnchor::VerifiedCanonical {
+            generation: classify.canonical.generation.expect("generation"),
+            record_digest: classify.canonical.record_digest.clone().expect("digest"),
+        },
+        actor: "test".into(),
+        reason: "wrong topology".into(),
+        branch: "not-the-bound-branch".into(),
+        worktree: store.root().to_string_lossy().into_owned(),
+        fail_after: None,
+    };
+    assert_eq!(
+        csdlc_v2::recover_preserved_projection(&store, request)
+            .expect_err("wrong branch")
+            .code,
+        ErrorCode::UnsafeCheckout
+    );
+    std::fs::set_permissions(
+        preserved.join("index.json"),
+        std::fs::Permissions::from_mode(0o666),
+    )
+    .expect("unsafe mode");
+    let classified = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: classify.canonical.generation.expect("generation"),
+                record_digest: classify.canonical.record_digest.clone().expect("digest"),
+            },
+            actor: "test".into(),
+            reason: "unsafe mode".into(),
+        },
+    )
+    .expect("classification reports unsafe mode");
+    assert_eq!(classified.disposition, "unsafe");
+}
+
+#[test]
+fn preserved_projection_recovery_keeps_initialized_and_ready_and_291_semantics_unchanged() {
+    let temp = tempfile::tempdir().expect("temp");
+    std::fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    std::fs::write(temp.path().join("docs/design.md"), "# design\n").expect("design");
+    std::fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n A-->B\n",
+    )
+    .expect("diagram");
+    std::fs::create_dir_all(temp.path().join("src")).expect("src");
+    install_native_authority(temp.path());
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+    let store = Store::new(temp.path());
+    let initialized = bootstrap_issue(
+        &store,
+        BootstrapRequest {
+            issue: 291,
+            repository: "example/repo".into(),
+            actor: "agent".into(),
+            design_path: "docs/design.md".into(),
+            diagram_path: "docs/diagram.mmd".into(),
+            design_reviewer: "architect".into(),
+            design_approved: true,
+            initial: fixture_initial_input(),
+        },
+    )
+    .expect("initialized #291-compatible fixture");
+    assert_eq!(initialized.phase, LifecyclePhase::Initialized);
+    let ready = edit_issue(
+        &store,
+        EditRequest {
+            issue: 291,
+            card: CardKind::Sip,
+            expected_generation: initialized.generation,
+            expected_digest: initialized.digest,
+            actor: "agent".into(),
+            reason: "ready regression".into(),
+            operation: SemanticOperation::AdvancePhase {
+                phase: LifecyclePhase::Ready,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("ready behavior remains available");
+    assert_eq!(ready.phase, LifecyclePhase::Ready);
+    assert!(!store.rollback_preserved(291).exists());
+    assert!(!store.root().join(".csdlc/issues/.291.recovery").exists());
+}
+
+#[test]
+fn preserved_projection_recovery_resumes_every_recovery_boundary() {
+    for state in [
+        "prepared",
+        "archive_intent",
+        "archive_renamed",
+        "rejected_archived",
+        "candidate_plan",
+        "node_create_intent",
+        "node_created_identity",
+        "node_write_completed",
+        "node_fsynced",
+        "node_parent_fsynced",
+        "node_published",
+        "candidate_created",
+        "candidate_verified",
+        "install_intent",
+        "install_exchanged",
+        "canonical_installed",
+        "displace_intent",
+        "prior_displaced_renamed",
+        "prior_displaced",
+        "canonical_verified",
+        "recovery_complete_intent",
+    ] {
+        let (_temp, store, record) = implemented_fixture();
+        let preserved = store.rollback_preserved(7);
+        copy_tree(&store.issue_dir(7), &preserved);
+        let classify = classify_preserved_projection(
+            &store,
+            ProjectionClassifyRequest {
+                issue: 7,
+                anchor: ProjectionCasAnchor::VerifiedCanonical {
+                    generation: record.generation,
+                    record_digest: record.digest.clone(),
+                },
+                actor: "test".into(),
+                reason: "classify failpoint fixture".into(),
+            },
+        )
+        .expect("classify failpoint fixture");
+        let mut request = ProjectionRecoverRequest {
+            issue: 7,
+            operation_id: format!("fail-{state}"),
+            classify_receipt_digest: classify.receipt_digest.clone(),
+            classification: classify.clone(),
+            failed_operation_lineage: FailedOperationLineage {
+                prior_generation: record.generation,
+                prior_record_digest: record.digest,
+                rejected_manifest_digest: classify
+                    .preserved
+                    .manifest_digest
+                    .clone()
+                    .expect("rejected manifest"),
+                failure_boundary: "verifier_rejected_after_install".into(),
+            },
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: classify.canonical.generation.expect("generation"),
+                record_digest: classify.canonical.record_digest.clone().expect("digest"),
+            },
+            actor: "test".into(),
+            reason: "recover after deterministic failpoint".into(),
+            branch: "issue-7".into(),
+            worktree: store.root().to_string_lossy().into_owned(),
+            fail_after: Some(state.into()),
+        };
+        let interrupted = csdlc_v2::recover_preserved_projection(&store, request.clone())
+            .expect_err("failpoint must interrupt");
+        assert_eq!(
+            interrupted.code,
+            ErrorCode::InterruptedTransaction,
+            "{state}"
+        );
+        request.fail_after = None;
+        let recovered = csdlc_v2::recover_preserved_projection(&store, request)
+            .unwrap_or_else(|error| panic!("restart after {state}: {error:?}"));
+        assert_eq!(
+            store
+                .load_record(7)
+                .expect("canonical after restart")
+                .digest,
+            recovered.canonical_digest,
+            "{state}"
+        );
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_symlinked_partial_receipt_before_resume_mutation() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "partial symlink fixture".into(),
+        },
+    )
+    .expect("classify");
+    let mut request = recovery_request(&store, &record, &classify, "partial-symlink-receipt");
+    request.fail_after = Some("prepared".into());
+    csdlc_v2::recover_preserved_projection(&store, request.clone())
+        .expect_err("prepared failpoint interrupts");
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/partial-symlink-receipt");
+    let prepared = receipt_path(&attempt, 1, "prepared");
+    let copy = attempt.join("001-prepared-copy.json");
+    std::fs::copy(&prepared, &copy).expect("copy prepared receipt");
+    std::fs::remove_file(&prepared).expect("remove regular prepared receipt");
+    std::os::unix::fs::symlink(&copy, &prepared).expect("symlink prepared receipt");
+    request.fail_after = None;
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("symlinked partial receipt must fail before resume");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert!(
+        preserved.is_dir(),
+        "resume must fail before archiving preserved evidence"
+    );
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_post_validation_root_and_attempt_swaps_before_mutation() {
+    for (operation, swap) in [
+        (
+            "post-validation-root-swap",
+            "swap_recovery_root_after_validation",
+        ),
+        (
+            "post-validation-attempt-swap",
+            "swap_recovery_attempt_after_validation",
+        ),
+        (
+            "pre-archive-root-swap",
+            "swap_recovery_root_before_archive_mutation",
+        ),
+        (
+            "pre-archive-attempt-swap",
+            "swap_recovery_attempt_before_archive_mutation",
+        ),
+    ] {
+        let (_temp, store, record) = implemented_fixture();
+        let preserved = store.rollback_preserved(7);
+        copy_tree(&store.issue_dir(7), &preserved);
+        let classify = classify_preserved_projection(
+            &store,
+            ProjectionClassifyRequest {
+                issue: 7,
+                anchor: ProjectionCasAnchor::VerifiedCanonical {
+                    generation: record.generation,
+                    record_digest: record.digest.clone(),
+                },
+                actor: "test".into(),
+                reason: swap.into(),
+            },
+        )
+        .expect("classify");
+        let mut request = recovery_request(&store, &record, &classify, operation);
+        request.fail_after = Some(swap.into());
+        let error = csdlc_v2::recover_preserved_projection(&store, request)
+            .expect_err("post-validation substitution must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+        assert!(preserved.is_dir(), "rejected evidence must not be archived");
+        let recovery = store.root().join(".csdlc/issues/.7.recovery");
+        let displaced_root = recovery.with_extension(format!("{swap}.displaced"));
+        let attempts = [recovery.join(operation), displaced_root.join(operation)];
+        for attempt in attempts {
+            if !swap.contains("before_archive") {
+                assert!(!receipt_path(&attempt, 1, "prepared").exists());
+            }
+            assert!(!receipt_path(&attempt, 2, "archive-intent").exists());
+            assert!(!attempt.join("candidate").exists());
+            assert!(!attempt.join("rejected").exists());
+        }
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_symlinked_recovery_root() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let external = store.root().join("external-recovery-root");
+    std::fs::create_dir(&external).expect("external recovery root");
+    std::os::unix::fs::symlink(&external, store.root().join(".csdlc/issues/.7.recovery"))
+        .expect("symlink recovery root");
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "symlinked recovery root fixture".into(),
+        },
+    )
+    .expect_err("classification must reject symlinked recovery root before reading it");
+    assert_eq!(classify.code, ErrorCode::CorruptRecord);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "symlinked recovery root fixture after removal".into(),
+        },
+    )
+    .expect_err("recover also requires fail-closed classification authority");
+    assert_eq!(classify.code, ErrorCode::CorruptRecord);
+    assert!(
+        preserved.is_dir(),
+        "symlinked root must fail before archiving preserved evidence"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_blocks_ordinary_commit_on_symlinked_recovery_root() {
+    let (_temp, store, record) = implemented_fixture();
+    let external = store
+        .root()
+        .join("external-recovery-root-for-ordinary-commit");
+    std::fs::create_dir(&external).expect("external recovery root");
+    std::os::unix::fs::symlink(&external, store.root().join(".csdlc/issues/.7.recovery"))
+        .expect("symlink recovery root");
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            actor: "test".into(),
+            reason: "must block symlinked recovery root".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "blocked".into(),
+                changes: vec!["none".into()],
+                artifacts: vec!["none".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("ordinary commit must reject symlinked recovery root");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_symlinked_recovery_root_before_recover_mutation() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "clean classification before symlinked root".into(),
+        },
+    )
+    .expect("classify before symlinked root");
+    let external = store.root().join("external-recovery-root");
+    std::fs::create_dir(&external).expect("external recovery root");
+    std::os::unix::fs::symlink(&external, store.root().join(".csdlc/issues/.7.recovery"))
+        .expect("symlink recovery root");
+    let request = recovery_request(&store, &record, &classify, "symlinked-root");
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("symlinked recovery root must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert!(
+        preserved.is_dir(),
+        "symlinked root must fail before archiving preserved evidence"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_hardlinked_terminal_receipt() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "hardlinked-receipt");
+    std::fs::hard_link(
+        receipt_path(&attempt, 13, "recovered"),
+        store.root().join("hardlinked-recovered-receipt.json"),
+    )
+    .expect("hardlink terminal receipt");
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("hardlinked receipt must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_permissive_terminal_receipt() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "permissive-receipt");
+    let receipt = receipt_path(&attempt, 13, "recovered");
+    let mut permissions = std::fs::metadata(&receipt)
+        .expect("receipt metadata")
+        .permissions();
+    permissions.set_mode(0o644);
+    std::fs::set_permissions(&receipt, permissions).expect("chmod receipt");
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("permissive receipt must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_swapped_post_exchange_candidate() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "classify swapped post-exchange fixture".into(),
+        },
+    )
+    .expect("classify swapped post-exchange fixture");
+    let mut request = recovery_request(&store, &record, &classify, "swap-after-exchange");
+    request.fail_after = Some("canonical_installed".into());
+    let interrupted = csdlc_v2::recover_preserved_projection(&store, request.clone())
+        .expect_err("failpoint must interrupt after canonical install");
+    assert_eq!(interrupted.code, ErrorCode::InterruptedTransaction);
+
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/swap-after-exchange");
+    let candidate = attempt.join("candidate");
+    let swapped_aside = attempt.join("candidate.real");
+    std::fs::rename(&candidate, &swapped_aside).expect("move real post-exchange prior aside");
+    std::fs::create_dir(&candidate).expect("replacement candidate");
+    std::fs::write(candidate.join("index.json"), b"{}").expect("replacement marker");
+
+    request.fail_after = None;
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("swapped post-exchange prior must fail closed");
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert!(swapped_aside.is_dir());
+    assert!(candidate.is_dir());
+    assert!(!attempt.join("displaced").is_dir());
+}
 
 #[test]
 fn preserved_projection_recovery_classifies_without_mutation_and_rejects_symlink() {
@@ -34,6 +1040,8 @@ fn preserved_projection_recovery_classifies_without_mutation_and_rejects_symlink
                 node_type: "directory".into(),
             },
             manifest_digest: String::new(),
+            backup_generation: record.generation,
+            backup_record_digest: record.digest.clone(),
         },
         actor: "test".into(),
         reason: "classify".into(),
@@ -88,6 +1096,826 @@ fn preserved_projection_recovery_blocks_ordinary_commit_until_typed_recovery() {
     assert_eq!(error.code, ErrorCode::ReconciliationRequired);
 }
 
+#[test]
+fn preserved_projection_recovery_validates_terminal_receipt_chain_and_classifies_completed_attempt()
+{
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "terminal receipt fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "receipt-chain");
+    let recovered =
+        csdlc_v2::recover_preserved_projection(&store, request.clone()).expect("recover");
+    let completed = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: recovered.canonical_generation,
+                record_digest: recovered.canonical_digest,
+            },
+            actor: "test".into(),
+            reason: "classify completed".into(),
+        },
+    )
+    .expect("classify completed");
+    assert_eq!(completed.disposition, "already_recovered");
+
+    let terminal = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/receipt-chain/013-recovered.json");
+    let mut envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&terminal).unwrap()).unwrap();
+    envelope["previous_receipt_digest"] = serde_json::Value::String("tampered".into());
+    std::fs::write(&terminal, serde_json::to_vec_pretty(&envelope).unwrap()).unwrap();
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("tampered chain rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_extra_post_terminal_receipt() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "extra terminal receipt fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "extra-terminal");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).expect("recover");
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/extra-terminal");
+    append_extra_terminal_receipt(&attempt);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra post-terminal receipt must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_extra_post_terminal_symlink() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "extra terminal symlink fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "extra-terminal-symlink");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).expect("recover");
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/extra-terminal-symlink");
+    append_extra_terminal_symlink(&attempt);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra post-terminal symlink must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_extra_post_terminal_directory() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "extra terminal directory fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "extra-terminal-directory");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).expect("recover");
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/extra-terminal-directory");
+    append_extra_terminal_directory(&attempt);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra post-terminal directory must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_extra_post_terminal_fifo() {
+    let (_temp, store, record) = implemented_fixture();
+    let preserved = store.rollback_preserved(7);
+    copy_tree(&store.issue_dir(7), &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "extra terminal FIFO fixture".into(),
+        },
+    )
+    .expect("classify");
+    let request = recovery_request(&store, &record, &classify, "extra-terminal-fifo");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).expect("recover");
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/extra-terminal-fifo");
+    append_extra_terminal_fifo(&attempt);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra post-terminal FIFO must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_extra_node_receipt() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "extra-node-receipt");
+    append_extra_node_receipt(&attempt, 0);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra node receipt must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[cfg(unix)]
+#[test]
+fn preserved_projection_recovery_rejects_extra_node_symlink() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "extra-node-symlink");
+    append_extra_node_symlink(&attempt, 0);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra node symlink must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_extra_node_directory() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "extra-node-directory");
+    append_extra_node_directory(&attempt, 0);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("extra node directory must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_node_payload_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "node-payload-forgery");
+    rewrite_node_receipt_payload_and_rechain(
+        &attempt,
+        2,
+        3,
+        "write-intent",
+        serde_json::json!({"digest":"0".repeat(64),"size":1}),
+    );
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("rehashed node payload must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_node_final_path_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "node-final-path-forgery");
+    let ordinal = 2;
+    let forged = "cards/attacker-controlled.values.json";
+    let mutations = [(1, "create-intent"), (9, "publish-intent")];
+    for (seq, state) in mutations {
+        let path = node_receipt_path(&attempt, ordinal, seq, state);
+        let envelope: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(path).expect("node receipt"))
+                .expect("node receipt json");
+        let mut payload = envelope["payload"].clone();
+        payload["final"] = serde_json::Value::String(forged.into());
+        rewrite_node_receipt_payload_and_rechain(&attempt, ordinal, seq, state, payload);
+    }
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("coherently rehashed final paths must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_node_created_identity_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) =
+        completed_recovery_attempt(&store, &record, "node-created-identity-forgery");
+    let ordinal = 2;
+    let path = node_receipt_path(&attempt, ordinal, 2, "created-identity");
+    let envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(path).expect("node receipt"))
+            .expect("node receipt json");
+    let mut payload = envelope["payload"].clone();
+    payload["inode"] = serde_json::json!(payload["inode"].as_u64().expect("inode") + 1);
+    rewrite_node_receipt_payload_and_rechain(&attempt, ordinal, 2, "created-identity", payload);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("coherently rehashed created identity must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_node_terminal_identity_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) =
+        completed_recovery_attempt(&store, &record, "node-terminal-identity-forgery");
+    let ordinal = 2;
+    let path = node_receipt_path(&attempt, ordinal, 10, "node-created");
+    let envelope: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(path).expect("node receipt"))
+            .expect("node receipt json");
+    let mut payload = envelope["payload"].clone();
+    payload["identity"]["inode"] =
+        serde_json::json!(payload["identity"]["inode"].as_u64().expect("inode") + 1);
+    rewrite_node_receipt_payload_and_rechain(&attempt, ordinal, 10, "node-created", payload);
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("coherently rehashed terminal identity must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_intermediate_payload_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "intermediate forgery fixture".into(),
+        },
+    )
+    .unwrap();
+    let request = recovery_request(&store, &record, &classify, "intermediate-forgery");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).unwrap();
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/intermediate-forgery");
+    let mut candidate_created: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(receipt_path(&attempt, 5, "candidate-created")).unwrap(),
+    )
+    .unwrap();
+    candidate_created["payload"]["record"]["repository"] =
+        serde_json::Value::String("forged/repo".into());
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        5,
+        "candidate-created",
+        candidate_created["payload"].clone(),
+    );
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("rehashed intermediate payload must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_envelope_extension() {
+    let (_temp, store, record) = implemented_fixture();
+    let (request, attempt) = completed_recovery_attempt(&store, &record, "envelope-extension");
+    add_receipt_envelope_field_and_rechain(
+        &attempt,
+        5,
+        "candidate-created",
+        "forged_authority",
+        serde_json::json!({"accepted":true}),
+    );
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("top-level receipt envelope extension must fail closed");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_uses_backup_source_when_canonical_absent() {
+    let (_temp, store, record) = implemented_fixture();
+    let backup = store.interrupted_backup(7);
+    let preserved = store.rollback_preserved(7);
+    std::fs::rename(store.issue_dir(7), &backup).expect("move canonical to backup");
+    copy_tree(&backup, &preserved);
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::ExpectedCanonicalAbsent {
+                backup_generation: record.generation,
+                backup_record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "expected absent canonical fixture".into(),
+        },
+    )
+    .expect("classify absent canonical");
+    assert_eq!(classify.disposition, "recoverable");
+    assert_eq!(
+        classify.backup.record_digest.as_deref(),
+        Some(record.digest.as_str())
+    );
+    assert_eq!(classify.canonical.state, "absent");
+    let request = ProjectionRecoverRequest {
+        issue: 7,
+        operation_id: "expected-absent-canonical".into(),
+        classify_receipt_digest: classify.receipt_digest.clone(),
+        classification: classify.clone(),
+        failed_operation_lineage: FailedOperationLineage {
+            prior_generation: record.generation,
+            prior_record_digest: record.digest.clone(),
+            rejected_manifest_digest: classify.preserved.manifest_digest.clone().unwrap(),
+            failure_boundary: "canonical_absent_after_backup_preserved".into(),
+        },
+        anchor: ProjectionCasAnchor::ExpectedCanonicalAbsent {
+            backup_generation: record.generation,
+            backup_record_digest: record.digest.clone(),
+        },
+        actor: "test".into(),
+        reason: "recover from backup while canonical absent".into(),
+        branch: "issue-7".into(),
+        worktree: store.root().to_string_lossy().into_owned(),
+        fail_after: None,
+    };
+    let recovered =
+        csdlc_v2::recover_preserved_projection(&store, request).expect("recover from backup");
+    assert_eq!(recovered.canonical_generation, record.generation + 1);
+    assert_eq!(
+        store.load_record(7).expect("recovered canonical").digest,
+        recovered.canonical_digest
+    );
+}
+
+#[test]
+fn preserved_projection_recovery_restarts_nonexchange_anchors_after_displacement() {
+    for anchor_kind in ["expected-absent", "exact-invalid"] {
+        for state in [
+            "candidate_installed",
+            "canonical_installed",
+            "canonical_verified",
+        ] {
+            let (_temp, store, record) = implemented_fixture();
+            let backup = store.interrupted_backup(7);
+            let preserved = store.rollback_preserved(7);
+            copy_tree(&store.issue_dir(7), &backup);
+
+            let (classify, anchor, rejected_manifest_digest) = if anchor_kind == "expected-absent" {
+                std::fs::rename(store.issue_dir(7), &preserved)
+                    .expect("preserve canonical while making canonical absent");
+                let classify = classify_preserved_projection(
+                    &store,
+                    ProjectionClassifyRequest {
+                        issue: 7,
+                        anchor: ProjectionCasAnchor::ExpectedCanonicalAbsent {
+                            backup_generation: record.generation,
+                            backup_record_digest: record.digest.clone(),
+                        },
+                        actor: "test".into(),
+                        reason: "nonexchange restart absent fixture".into(),
+                    },
+                )
+                .expect("classify absent canonical");
+                (
+                    classify.clone(),
+                    ProjectionCasAnchor::ExpectedCanonicalAbsent {
+                        backup_generation: record.generation,
+                        backup_record_digest: record.digest.clone(),
+                    },
+                    classify.preserved.manifest_digest.clone().unwrap(),
+                )
+            } else {
+                std::fs::create_dir(&preserved).expect("create invalid observed projection");
+                std::fs::write(preserved.join("index.json"), b"{}\n")
+                    .expect("write invalid observed projection");
+                let probe = classify_preserved_projection(
+                    &store,
+                    ProjectionClassifyRequest {
+                        issue: 7,
+                        anchor: ProjectionCasAnchor::VerifiedCanonical {
+                            generation: record.generation,
+                            record_digest: record.digest.clone(),
+                        },
+                        actor: "test".into(),
+                        reason: "capture exact invalid observation".into(),
+                    },
+                )
+                .expect("observe invalid preserved projection");
+                let mut invalid = probe.preserved;
+                std::fs::remove_dir_all(store.issue_dir(7)).expect("remove valid canonical");
+                std::fs::rename(&preserved, store.issue_dir(7))
+                    .expect("install exact invalid canonical");
+                copy_tree(&store.issue_dir(7), &preserved);
+                use std::os::unix::fs::MetadataExt;
+                let canonical_meta = std::fs::symlink_metadata(store.issue_dir(7))
+                    .expect("invalid canonical metadata after rename");
+                let mount_id = invalid.entries.first().unwrap().identity.mount_id.clone();
+                invalid.entries.first_mut().unwrap().identity = csdlc_v2::NodeIdentity {
+                    device: canonical_meta.dev(),
+                    mount_id,
+                    inode: canonical_meta.ino(),
+                    ctime_seconds: canonical_meta.ctime(),
+                    ctime_nanoseconds: canonical_meta.ctime_nsec(),
+                    links: canonical_meta.nlink(),
+                    uid: canonical_meta.uid(),
+                    gid: canonical_meta.gid(),
+                    mode: canonical_meta.mode(),
+                    node_type: "directory".into(),
+                };
+                invalid.manifest_digest = Some(
+                    blake3::hash(&serde_json::to_vec(&invalid.entries).unwrap())
+                        .to_hex()
+                        .to_string(),
+                );
+                let anchor = ProjectionCasAnchor::ExactObservedInvalid {
+                    canonical_identity: invalid.entries.first().unwrap().identity.clone(),
+                    manifest_digest: invalid.manifest_digest.clone().unwrap(),
+                    backup_generation: record.generation,
+                    backup_record_digest: record.digest.clone(),
+                };
+                let classify = classify_preserved_projection(
+                    &store,
+                    ProjectionClassifyRequest {
+                        issue: 7,
+                        anchor: anchor.clone(),
+                        actor: "test".into(),
+                        reason: "nonexchange restart invalid fixture".into(),
+                    },
+                )
+                .expect("classify exact invalid canonical");
+                (
+                    classify.clone(),
+                    anchor,
+                    classify.preserved.manifest_digest.clone().unwrap(),
+                )
+            };
+
+            let mut request = ProjectionRecoverRequest {
+                issue: 7,
+                operation_id: format!("restart-{anchor_kind}-{state}"),
+                classify_receipt_digest: classify.receipt_digest.clone(),
+                classification: classify,
+                failed_operation_lineage: FailedOperationLineage {
+                    prior_generation: record.generation,
+                    prior_record_digest: record.digest.clone(),
+                    rejected_manifest_digest,
+                    failure_boundary: "nonexchange_prior_displaced".into(),
+                },
+                anchor,
+                actor: "test".into(),
+                reason: "restart nonexchange recovery after displacement".into(),
+                branch: "issue-7".into(),
+                worktree: store.root().to_string_lossy().into_owned(),
+                fail_after: Some(state.into()),
+            };
+            let interrupted = csdlc_v2::recover_preserved_projection(&store, request.clone())
+                .expect_err("failpoint must interrupt nonexchange recovery");
+            assert_eq!(
+                interrupted.code,
+                ErrorCode::InterruptedTransaction,
+                "{anchor_kind} at {state}: {interrupted:?}"
+            );
+            request.fail_after = None;
+            let recovered = csdlc_v2::recover_preserved_projection(&store, request)
+                .unwrap_or_else(|error| panic!("restart {anchor_kind} after {state}: {error:?}"));
+            assert_eq!(
+                store
+                    .load_record(7)
+                    .expect("canonical after restart")
+                    .digest,
+                recovered.canonical_digest
+            );
+        }
+    }
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_rehashed_prepared_classification_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "prepared forgery fixture".into(),
+        },
+    )
+    .unwrap();
+    let request = recovery_request(&store, &record, &classify, "prepared-forgery");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).unwrap();
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/prepared-forgery");
+    let mut prepared: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(receipt_path(&attempt, 1, "prepared")).unwrap())
+            .unwrap();
+    prepared["payload"]["classification"]["actor"] =
+        serde_json::Value::String("forged-actor".into());
+    rewrite_receipt_payload_and_rechain(&attempt, 1, "prepared", prepared["payload"].clone());
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("rehashed PREPARED classification must be rejected");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_coherent_candidate_chain_forgery() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "coherent candidate forgery fixture".into(),
+        },
+    )
+    .unwrap();
+    let request = recovery_request(&store, &record, &classify, "coherent-candidate-forgery");
+    csdlc_v2::recover_preserved_projection(&store, request.clone()).unwrap();
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/coherent-candidate-forgery");
+
+    let candidate_path = receipt_path(&attempt, 5, "candidate-created");
+    let mut candidate: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&candidate_path).unwrap()).unwrap();
+    let mut forged_record: csdlc_v2::IssueRecord =
+        serde_json::from_value(candidate["payload"]["record"].clone()).unwrap();
+    forged_record.repository = "forged/repository".into();
+    forged_record.digest.clear();
+    forged_record.digest = csdlc_v2::cards::digest(&serde_json::to_vec(&forged_record).unwrap());
+    let mut forged_index = serde_json::to_vec_pretty(&forged_record).unwrap();
+    forged_index.push(b'\n');
+    std::fs::write(store.issue_dir(7).join("index.json"), &forged_index).unwrap();
+
+    let mut candidate_observation = candidate["payload"]["candidate"].clone();
+    candidate_observation["record_digest"] = serde_json::json!(forged_record.digest);
+    rewrite_observation_index(&mut candidate_observation, &forged_index);
+    candidate["payload"]["record"] = serde_json::to_value(&forged_record).unwrap();
+    candidate["payload"]["candidate"] = candidate_observation.clone();
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        5,
+        "candidate-created",
+        candidate["payload"].clone(),
+    );
+
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        6,
+        "candidate-verified",
+        serde_json::json!({"candidate":candidate_observation,"record_digest":forged_record.digest,"generation":forged_record.generation}),
+    );
+    let mut installed = candidate_observation.clone();
+    installed["name"] = serde_json::json!("canonical");
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        7,
+        "install-intent",
+        serde_json::json!({"exchange":true,"candidate":candidate_observation,"canonical":classify.canonical}),
+    );
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        8,
+        "canonical-installed",
+        serde_json::json!({"canonical":installed}),
+    );
+    let archived: serde_json::Value = serde_json::from_value::<serde_json::Value>(
+        serde_json::from_slice::<serde_json::Value>(
+            &std::fs::read(receipt_path(&attempt, 11, "canonical-verified")).unwrap(),
+        )
+        .unwrap()["payload"]["archive"]
+            .clone(),
+    )
+    .unwrap();
+    let displaced = serde_json::from_slice::<serde_json::Value>(
+        &std::fs::read(receipt_path(&attempt, 10, "prior-displaced")).unwrap(),
+    )
+    .unwrap()["payload"]
+        .clone();
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        11,
+        "canonical-verified",
+        serde_json::json!({"canonical":installed,"archive":archived,"displaced":displaced}),
+    );
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        12,
+        "recovery-complete-intent",
+        serde_json::json!({"canonical_digest":forged_record.digest,"generation":forged_record.generation}),
+    );
+    let mut terminal: csdlc_v2::ProjectionRecoveryResult = serde_json::from_value(
+        serde_json::from_slice::<serde_json::Value>(
+            &std::fs::read(receipt_path(&attempt, 13, "recovered")).unwrap(),
+        )
+        .unwrap()["payload"]
+            .clone(),
+    )
+    .unwrap();
+    terminal.canonical_digest = forged_record.digest;
+    terminal.receipt_digest.clear();
+    terminal.receipt_digest = blake3::hash(&serde_json::to_vec(&terminal).unwrap())
+        .to_hex()
+        .to_string();
+    rewrite_receipt_payload_and_rechain(
+        &attempt,
+        13,
+        "recovered",
+        serde_json::to_value(terminal).unwrap(),
+    );
+
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("coherent candidate chain forgery must fail closed");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert_eq!(
+        error.message,
+        "candidate file node observation does not match authorized contents"
+    );
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_forged_candidate_created_resume_before_install() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "active candidate forgery fixture".into(),
+        },
+    )
+    .unwrap();
+    let mut request = recovery_request(&store, &record, &classify, "active-candidate-forgery");
+    request.fail_after = Some("candidate_created".into());
+    let interrupted = csdlc_v2::recover_preserved_projection(&store, request.clone())
+        .expect_err("candidate-created failpoint interrupts");
+    assert_eq!(interrupted.code, ErrorCode::InterruptedTransaction);
+
+    let attempt = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/active-candidate-forgery");
+    let candidate_path = receipt_path(&attempt, 5, "candidate-created");
+    let mut candidate: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&candidate_path).unwrap()).unwrap();
+    let mut forged_record: csdlc_v2::IssueRecord =
+        serde_json::from_value(candidate["payload"]["record"].clone()).unwrap();
+    forged_record.repository = "forged/repository".into();
+    forged_record.digest.clear();
+    forged_record.digest = csdlc_v2::cards::digest(&serde_json::to_vec(&forged_record).unwrap());
+    let mut forged_index = serde_json::to_vec_pretty(&forged_record).unwrap();
+    forged_index.push(b'\n');
+    std::fs::write(attempt.join("candidate/index.json"), &forged_index).unwrap();
+    let mut candidate_observation = candidate["payload"]["candidate"].clone();
+    candidate_observation["record_digest"] = serde_json::json!(forged_record.digest);
+    rewrite_observation_index(&mut candidate_observation, &forged_index);
+    candidate["payload"]["record"] = serde_json::to_value(&forged_record).unwrap();
+    candidate["payload"]["candidate"] = candidate_observation;
+    rewrite_single_receipt_payload(
+        &attempt,
+        5,
+        "candidate-created",
+        candidate["payload"].clone(),
+    );
+
+    request.fail_after = None;
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("forged active candidate receipt must fail before install");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert!(!receipt_path(&attempt, 8, "canonical-installed").exists());
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_malformed_request_classification_before_mutation() {
+    let (_temp, store, record) = implemented_fixture();
+    copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+    let classify = classify_preserved_projection(
+        &store,
+        ProjectionClassifyRequest {
+            issue: 7,
+            anchor: ProjectionCasAnchor::VerifiedCanonical {
+                generation: record.generation,
+                record_digest: record.digest.clone(),
+            },
+            actor: "test".into(),
+            reason: "malformed request fixture".into(),
+        },
+    )
+    .unwrap();
+    let mut request = recovery_request(&store, &record, &classify, "malformed-request");
+    request.classification.actor = "forged-actor".into();
+    let error = csdlc_v2::recover_preserved_projection(&store, request)
+        .expect_err("malformed request classification must fail before mutation");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert!(store.rollback_preserved(7).is_dir());
+    assert!(store.issue_dir(7).is_dir());
+    assert!(!store
+        .root()
+        .join(".csdlc/issues/.7.recovery/malformed-request")
+        .exists());
+}
+
+#[test]
+fn preserved_projection_recovery_rejects_forged_terminal_and_broken_earlier_chain() {
+    for mutation in [
+        "terminal-self-digest",
+        "operation-mismatch",
+        "broken-earlier-link",
+    ] {
+        let (_temp, store, record) = implemented_fixture();
+        copy_tree(&store.issue_dir(7), &store.rollback_preserved(7));
+        let classify = classify_preserved_projection(
+            &store,
+            ProjectionClassifyRequest {
+                issue: 7,
+                anchor: ProjectionCasAnchor::VerifiedCanonical {
+                    generation: record.generation,
+                    record_digest: record.digest.clone(),
+                },
+                actor: "test".into(),
+                reason: "negative receipt fixture".into(),
+            },
+        )
+        .unwrap();
+        let operation = format!("negative-{mutation}");
+        let request = recovery_request(&store, &record, &classify, &operation);
+        csdlc_v2::recover_preserved_projection(&store, request.clone()).unwrap();
+        let attempt = store
+            .root()
+            .join(format!(".csdlc/issues/.7.recovery/{operation}"));
+        let path = if mutation == "broken-earlier-link" {
+            attempt.join("006-candidate-verified.json")
+        } else {
+            attempt.join("013-recovered.json")
+        };
+        let mut envelope: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&path).unwrap()).unwrap();
+        if mutation == "broken-earlier-link" {
+            envelope["previous_receipt_digest"] = serde_json::Value::String("0".repeat(64));
+        } else if mutation == "operation-mismatch" {
+            envelope["payload"]["operation_id"] =
+                serde_json::Value::String("other-operation".into());
+        } else {
+            envelope["payload"]["receipt_digest"] = serde_json::Value::String("0".repeat(64));
+        }
+        std::fs::write(&path, serde_json::to_vec_pretty(&envelope).unwrap()).unwrap();
+        let error = csdlc_v2::recover_preserved_projection(&store, request).expect_err(mutation);
+        assert!(
+            matches!(
+                error.code,
+                ErrorCode::CorruptRecord | ErrorCode::ReconciliationRequired
+            ),
+            "{mutation}: {error:?}"
+        );
+    }
+}
+
 fn install_native_authority(root: &std::path::Path) {
     let registry = root.join("docs/templates/prompts/current.json");
     let manifest = root.join("csdlc-v2/operator/native-card-shape.json");
@@ -122,6 +1950,52 @@ fn finding(id: &str) -> ReviewFindingEvidence {
         disposition: FindingDisposition::Fixed,
         fix_revision: Some("rev-2".into()),
         route: None,
+    }
+}
+
+fn fixture_initial_input() -> InitialCardInput {
+    InitialCardInput {
+        title: "review fixture".into(),
+        slug: "review-fixture".into(),
+        version: "v0.91.7".into(),
+        goal: "prove review".into(),
+        required_outcome: "review truth".into(),
+        declared_scope: vec!["src".into()],
+        authority_boundary: vec!["no network".into()],
+        operator_constraints: vec!["none".into()],
+        task_boundary: "review only".into(),
+        deliverables: vec!["src/validate.sh".into()],
+        acceptance_criteria: vec!["review current".into()],
+        dependencies: vec!["none".into()],
+        repo_inputs: vec!["src".into()],
+        non_goals: vec!["publish".into()],
+        plan_summary: "implement then review".into(),
+        steps: vec![csdlc_v2::cards::PlanStep {
+            id: "one".into(),
+            action: "review".into(),
+            acceptance_ids: vec!["AC-1".into()],
+            status: csdlc_v2::cards::StepStatus::Pending,
+        }],
+        affected_areas: vec!["src".into(), "src/validate.sh".into()],
+        invariants: vec!["exact revision".into()],
+        risks: vec!["stale".into()],
+        planning_profile: PlanningProfile::Small,
+        stop_conditions: vec!["stale".into()],
+        validation_lanes: vec![csdlc_v2::cards::ValidationLane {
+            lane: "focused".into(),
+            proof_role: "review".into(),
+            acceptance_ids: vec!["AC-1".into()],
+            deterministic: true,
+            resource_profile: csdlc_v2::cards::ResourceProfile::Small,
+            budget_seconds: 60,
+            budget_tokens: 100,
+            argv: vec!["bash".into(), "src/validate.sh".into()],
+            parallel_group: "local".into(),
+            defer_reason: None,
+        }],
+        failure_policy: "fail closed".into(),
+        review_prompts: vec!["review correctness".into()],
+        review_scope: "fixture".into(),
     }
 }
 

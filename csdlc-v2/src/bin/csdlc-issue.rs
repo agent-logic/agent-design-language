@@ -1,9 +1,9 @@
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
-    classify_preserved_projection, cleanup_preserved_projection, initialize_native_json,
+    classify_preserved_projection, initialize_native_json, migrate_bound_issue_identity,
     migrate_bound_topology, migrate_code_repository, recover_preserved_projection,
-    BoundTopologyMigrationRequest, CodeRepositoryMigrationRequest, ProjectionClassifyRequest,
-    ProjectionCleanupRequest, ProjectionRecoverRequest, Store,
+    BoundIssueIdentityMigrationRequest, BoundTopologyMigrationRequest,
+    CodeRepositoryMigrationRequest, ProjectionClassifyRequest, ProjectionRecoverRequest, Store,
 };
 use std::{fs, path::PathBuf};
 
@@ -29,15 +29,15 @@ enum Command {
         #[arg(long)]
         request: PathBuf,
     },
+    MigrateBoundIssueIdentity {
+        #[arg(long)]
+        request: PathBuf,
+    },
     ClassifyPreservedProjection {
         #[arg(long)]
         request: PathBuf,
     },
     RecoverPreservedProjection {
-        #[arg(long)]
-        request: PathBuf,
-    },
-    CleanupPreservedProjection {
         #[arg(long)]
         request: PathBuf,
     },
@@ -66,6 +66,14 @@ fn main() {
             })
             .and_then(|request| migrate_code_repository(&Store::new(cli.root), request))
             .and_then(|report| serde_json::to_value(report).map_err(csdlc_v2::V2Error::from)),
+        Command::MigrateBoundIssueIdentity { request } => fs::read(request)
+            .map_err(csdlc_v2::V2Error::from)
+            .and_then(|bytes| {
+                serde_json::from_slice::<BoundIssueIdentityMigrationRequest>(&bytes)
+                    .map_err(csdlc_v2::V2Error::from)
+            })
+            .and_then(|request| migrate_bound_issue_identity(&Store::new(cli.root), request))
+            .and_then(|report| serde_json::to_value(report).map_err(csdlc_v2::V2Error::from)),
         Command::ClassifyPreservedProjection { request } => {
             read::<ProjectionClassifyRequest>(&request)
                 .and_then(|request| classify_preserved_projection(&Store::new(cli.root), request))
@@ -74,11 +82,6 @@ fn main() {
         Command::RecoverPreservedProjection { request } => {
             read::<ProjectionRecoverRequest>(&request)
                 .and_then(|request| recover_preserved_projection(&Store::new(cli.root), request))
-                .and_then(|value| serde_json::to_value(value).map_err(csdlc_v2::V2Error::from))
-        }
-        Command::CleanupPreservedProjection { request } => {
-            read::<ProjectionCleanupRequest>(&request)
-                .and_then(|request| cleanup_preserved_projection(&Store::new(cli.root), request))
                 .and_then(|value| serde_json::to_value(value).map_err(csdlc_v2::V2Error::from))
         }
     };

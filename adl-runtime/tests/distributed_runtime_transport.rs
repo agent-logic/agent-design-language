@@ -20,7 +20,8 @@ use adl_runtime::distributed::polis_runtime::{
 use adl_runtime::distributed::{
     certificates::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-        CertificateValidity, DistributedCertificateStore,
+        CertificateStoreAccess, CertificateValidity, DistributedCertificateStore,
+        TEST_CERTIFICATE_STORE_ACCESS,
     },
     learner_transport::ProductionLearnerAuthority,
     lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
@@ -50,6 +51,10 @@ use tokio_util::sync::CancellationToken;
 
 const DOMAIN: &str = "polis.secure.test";
 const POLIS: &str = "polis-alpha";
+
+fn test_certificate_store_access() -> CertificateStoreAccess {
+    TEST_CERTIFICATE_STORE_ACCESS
+}
 
 #[derive(Default)]
 struct MemoryCheckpointAuthority {
@@ -160,6 +165,13 @@ fn now() -> u64 {
         .as_secs()
 }
 
+fn repo_tempdir() -> tempfile::TempDir {
+    let root = std::env::current_dir()
+        .and_then(std::fs::canonicalize)
+        .unwrap();
+    tempfile::TempDir::new_in(root).unwrap()
+}
+
 fn limits() -> TransportLimits {
     TransportLimits::bounded(
         256 * 1024,
@@ -180,8 +192,9 @@ fn certificate_store() -> (
         .unwrap()
         .with_bounds(3600, 60, 60, 128, 128)
         .unwrap();
-    let directory = tempfile::tempdir().unwrap();
+    let directory = repo_tempdir();
     let store = DistributedCertificateStore::open(
+        &test_certificate_store_access(),
         directory
             .path()
             .canonicalize()
@@ -208,13 +221,15 @@ fn transport_authorization(
         generation,
         CertificateValidity {
             issued_at_unix_secs: issued,
-            expires_at_unix_secs: issued + 300,
+            expires_at_unix_secs: issued + 600,
         },
         key,
         &root.verifying_key(),
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
-    store.activate(&certificate, now()).unwrap();
+    store
+        .activate(&test_certificate_store_access(), &certificate, now())
+        .unwrap();
     TransportAuthorization::new(Arc::clone(store), &certificate).unwrap()
 }
 
@@ -701,9 +716,10 @@ fn runtime_authority_initializer(
         .unwrap()
         .with_bounds(3600, 60, 60, 16, 16)
         .unwrap();
-    let directory = tempfile::tempdir().unwrap();
+    let directory = repo_tempdir();
     let store = Arc::new(
         DistributedCertificateStore::open(
+            &test_certificate_store_access(),
             directory
                 .path()
                 .canonicalize()
@@ -734,7 +750,9 @@ fn runtime_authority_initializer(
                 &signing_root,
             )
             .unwrap();
-            store.activate(&certificate, 100).unwrap();
+            store
+                .activate(&test_certificate_store_access(), &certificate, 100)
+                .unwrap();
             (guardian.clone(), certificate)
         })
         .collect::<BTreeMap<_, _>>();
@@ -1590,8 +1608,9 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
         .unwrap()
         .with_bounds(3600, 60, 60, 16, 16)
         .unwrap();
-    let directory = tempfile::tempdir().unwrap();
+    let directory = repo_tempdir();
     let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         directory
             .path()
             .canonicalize()
@@ -1620,16 +1639,38 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
     };
     let first = make(1, 41);
     let second = make(2, 42);
-    store.activate(&first, 100).unwrap();
-    store.activate(&second, 100).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &first, 100)
+        .unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &second, 100)
+        .unwrap();
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 1, 159)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            1,
+            159
+        )
         .is_ok());
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 1, 160)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            1,
+            160
+        )
         .is_err());
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 2, 160)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            2,
+            160
+        )
         .is_ok());
     eprintln!("ADL_ISSUE_191_CASE certificate_overlap_boundary=passed");
 }
@@ -1752,7 +1793,7 @@ fn durable_store_rejects_symlinked_ancestors_and_oversized_state() {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 6)]
 async fn three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state() {
-    let root = tempfile::tempdir().unwrap();
+    let root = repo_tempdir();
     let root_path = root.path().canonicalize().unwrap();
     let authority = Arc::new(MemoryCheckpointAuthority::default());
     let mesh = three_node_mesh().await;

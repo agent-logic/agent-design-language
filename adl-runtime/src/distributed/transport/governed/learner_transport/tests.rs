@@ -14,7 +14,7 @@ use crate::distributed::{
     },
     certificates::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-        CertificateValidity, DistributedCertificateStore,
+        CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
     },
     identity::LocalNodeGuardianIdentity,
     lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
@@ -363,13 +363,15 @@ fn transport_authorization(
         4,
         CertificateValidity {
             issued_at_unix_secs: issued,
-            expires_at_unix_secs: issued + 300,
+            expires_at_unix_secs: issued + 600,
         },
         key,
         &root.verifying_key(),
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
-    store.activate(&certificate, unix_now()).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, unix_now())
+        .unwrap();
     TransportAuthorization::new(Arc::clone(store), &certificate).unwrap()
 }
 
@@ -408,8 +410,12 @@ async fn live_learner_pair_for(
         .unwrap();
     let store_dir = portable_tempdir();
     let store = Arc::new(
-        DistributedCertificateStore::open(store_dir.path().join("certificates.redb"), policy)
-            .unwrap(),
+        DistributedCertificateStore::open(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            store_dir.path().join("certificates.redb"),
+            policy,
+        )
+        .unwrap(),
     );
     let voter_authorization = transport_authorization(
         &store,
