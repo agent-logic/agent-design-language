@@ -261,7 +261,11 @@ fn cleanup_one_node(
 
     if !capture_receipt.is_file() {
         let observed = observe_existing(&source)?;
-        if !cleanup_identity_matches(&observed, &node.identity) {
+        if !cleanup_identity_matches(
+            &observed,
+            &node.identity,
+            has_authorized_child_nodes(request, &node.relative_path),
+        ) {
             let expected_placeholder = recorded_placeholder_identity(operation_root, base).ok();
             let captured_private = observe_existing(&private).ok();
             if expected_placeholder.as_ref() == Some(&observed)
@@ -345,7 +349,11 @@ fn cleanup_one_node(
     if !removed_receipt.is_file() {
         if private.try_exists()? {
             let captured = observe_existing(&private)?;
-            if !cleanup_identity_matches(&captured, &node.identity) {
+            if !cleanup_identity_matches(
+                &captured,
+                &node.identity,
+                has_authorized_child_nodes(request, &node.relative_path),
+            ) {
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
                     "captured private node identity does not match cleanup authority",
@@ -419,17 +427,27 @@ fn recorded_placeholder_identity(operation_root: &Path, base: u32) -> Result<Cle
 fn cleanup_identity_matches(
     observed: &CleanupNodeIdentity,
     expected: &CleanupNodeIdentity,
+    allow_directory_link_count_drift: bool,
 ) -> bool {
     if observed == expected {
         return true;
     }
-    expected.node_type == CleanupNodeType::Directory
+    allow_directory_link_count_drift
+        && expected.node_type == CleanupNodeType::Directory
         && observed.node_type == CleanupNodeType::Directory
         && observed.device == expected.device
         && observed.inode == expected.inode
         && observed.uid == expected.uid
         && observed.gid == expected.gid
         && observed.mode == expected.mode
+}
+
+fn has_authorized_child_nodes(request: &ArchivedProjectionCleanupRequest, parent: &str) -> bool {
+    let prefix = format!("{parent}/");
+    request
+        .nodes
+        .iter()
+        .any(|node| node.relative_path.starts_with(&prefix))
 }
 
 fn result(

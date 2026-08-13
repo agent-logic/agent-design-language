@@ -1735,6 +1735,10 @@ fn validate_receipt_inventory_at(dir: &PrivateRecoveryDir) -> Result<usize> {
             }
             continue;
         }
+        if text == "cleanup-authority" {
+            validate_cleanup_authority_namespace(dir, &name)?;
+            continue;
+        }
         if let Some(ordinal) = text
             .strip_prefix("node-")
             .filter(|suffix| suffix.len() == 3)
@@ -2817,13 +2821,15 @@ pub fn build_archived_projection_cleanup_request_from_recovery(
         "archived_root": archived_root,
         "nodes": nodes,
     });
-    let manifest_name = std::ffi::CString::new(format!(
-        "{}-canonical-archive-manifest.json",
-        request.cleanup_operation_id
-    ))
-    .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "cleanup operation id contains NUL"))?;
-    let manifest_digest = write_bridge_json_child(&attempt_authority, &manifest_name, &manifest)?;
-    let manifest_path = attempt_path.join(manifest_name.to_string_lossy().as_ref());
+    let cleanup_authority =
+        bridge_cleanup_authority_dir(&attempt_authority, &request.cleanup_operation_id)?;
+    let authority_path = attempt_path
+        .join("cleanup-authority")
+        .join(&request.cleanup_operation_id);
+    let manifest_name = std::ffi::CString::new("canonical-archive-manifest.json")
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "manifest name contains NUL"))?;
+    let manifest_digest = write_bridge_json_child(&cleanup_authority, &manifest_name, &manifest)?;
+    let manifest_path = authority_path.join(manifest_name.to_string_lossy().as_ref());
 
     let receipt = serde_json::json!({
         "schema": "csdlc.completed_recovery_receipt.v1",
@@ -2832,13 +2838,10 @@ pub fn build_archived_projection_cleanup_request_from_recovery(
         "terminal_digest": request.expected_terminal_digest,
         "canonical_archive_manifest_digest": manifest_digest,
     });
-    let receipt_name = std::ffi::CString::new(format!(
-        "{}-completed-recovery-receipt.json",
-        request.cleanup_operation_id
-    ))
-    .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "cleanup operation id contains NUL"))?;
-    let receipt_digest = write_bridge_json_child(&attempt_authority, &receipt_name, &receipt)?;
-    let receipt_path = attempt_path.join(receipt_name.to_string_lossy().as_ref());
+    let receipt_name = std::ffi::CString::new("completed-recovery-receipt.json")
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "receipt name contains NUL"))?;
+    let receipt_digest = write_bridge_json_child(&cleanup_authority, &receipt_name, &receipt)?;
+    let receipt_path = authority_path.join(receipt_name.to_string_lossy().as_ref());
 
     let cleanup_request = ArchivedProjectionCleanupRequest {
         schema: "csdlc.archived_projection_cleanup_request.v1".into(),
@@ -2922,6 +2925,85 @@ fn cleanup_nodes_from_archive_observation(
             .then_with(|| left.relative_path.cmp(&right.relative_path))
     });
     Ok(nodes)
+}
+
+fn validate_cleanup_authority_namespace(
+    attempt: &PrivateRecoveryDir,
+    name: &std::ffi::CStr,
+) -> Result<()> {
+    let namespace = attempt.open_child(name, "cleanup authority namespace")?;
+    for operation_name in namespace.names()? {
+        let operation = namespace.open_child(&operation_name, "cleanup authority operation")?;
+        let mut names = operation
+            .names()?
+            .into_iter()
+            .map(|entry| {
+                entry.to_str().map(str::to_owned).map_err(|_| {
+                    V2Error::new(
+                        ErrorCode::CorruptRecord,
+                        "cleanup authority artifact name is not UTF-8",
+                    )
+                })
+            })
+            .collect::<Result<Vec<_>>>()?;
+        names.sort();
+        if names
+            != [
+                "canonical-archive-manifest.json",
+                "completed-recovery-receipt.json",
+            ]
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup authority namespace contains unexpected artifacts",
+            ));
+        }
+        let manifest_name = std::ffi::CString::new("canonical-archive-manifest.json")
+            .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "manifest name contains NUL"))?;
+        let receipt_name = std::ffi::CString::new("completed-recovery-receipt.json")
+            .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "receipt name contains NUL"))?;
+        let _: serde_json::Value =
+            serde_json::from_slice(&operation.read_regular_child(&manifest_name)?)?;
+        let _: serde_json::Value =
+            serde_json::from_slice(&operation.read_regular_child(&receipt_name)?)?;
+    }
+    Ok(())
+}
+
+fn bridge_cleanup_authority_dir(
+    attempt: &PrivateRecoveryDir,
+    cleanup_operation_id: &str,
+) -> Result<PrivateRecoveryDir> {
+    let namespace_name = std::ffi::CString::new("cleanup-authority").map_err(|_| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "cleanup authority name contains NUL",
+        )
+    })?;
+    if attempt
+        .open_child(&namespace_name, "cleanup authority namespace")
+        .is_err()
+    {
+        attempt.create_private_child(&namespace_name)?;
+    }
+    let namespace = attempt.open_child(&namespace_name, "cleanup authority namespace")?;
+    let operation_name = std::ffi::CString::new(cleanup_operation_id.as_bytes())
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "cleanup operation id contains NUL"))?;
+    for existing in namespace.names()? {
+        if existing.as_c_str() != operation_name.as_c_str() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "cleanup bridge authority already exists for a different operation",
+            ));
+        }
+    }
+    if namespace
+        .open_child(&operation_name, "cleanup authority operation")
+        .is_err()
+    {
+        namespace.create_private_child(&operation_name)?;
+    }
+    namespace.open_child(&operation_name, "cleanup authority operation")
 }
 
 fn write_bridge_json_child(

@@ -307,27 +307,53 @@ fn recovery_bridge_emits_cleanup_authority_consumed_by_cleanup() {
         .root()
         .join(".csdlc/issues/.7.recovery/bridge-cleanup-cleanup");
 
-    let bridge = build_archived_projection_cleanup_request_from_recovery(
-        &store,
-        ProjectionRecoveryCleanupBridgeRequest {
-            schema: "csdlc.projection_recovery_cleanup_bridge_request.v1".into(),
-            issue: 7,
-            recovery_operation_id: "bridge-cleanup".into(),
-            cleanup_issue: 7,
-            cleanup_operation_id: "bridge-cleanup-cleanup".into(),
-            repository_root: store.root().to_string_lossy().into_owned(),
-            execution_base: merge_sha.clone(),
-            terminal_issue: 7,
-            terminal_envelope: terminal_path.to_string_lossy().into_owned(),
-            expected_terminal_digest: terminal_digest.clone(),
-            expected_terminal_merge_sha: merge_sha,
-            cleanup_ledger_root: cleanup_ledger.to_string_lossy().into_owned(),
-            branch: "issue-7".into(),
-            worktree: store.root().to_string_lossy().into_owned(),
-            fail_after: None,
-        },
-    )
-    .expect("build cleanup authority from recovery");
+    let request = ProjectionRecoveryCleanupBridgeRequest {
+        schema: "csdlc.projection_recovery_cleanup_bridge_request.v1".into(),
+        issue: 7,
+        recovery_operation_id: "bridge-cleanup".into(),
+        cleanup_issue: 7,
+        cleanup_operation_id: "bridge-cleanup-cleanup".into(),
+        repository_root: store.root().to_string_lossy().into_owned(),
+        execution_base: merge_sha.clone(),
+        terminal_issue: 7,
+        terminal_envelope: terminal_path.to_string_lossy().into_owned(),
+        expected_terminal_digest: terminal_digest.clone(),
+        expected_terminal_merge_sha: merge_sha,
+        cleanup_ledger_root: cleanup_ledger.to_string_lossy().into_owned(),
+        branch: "issue-7".into(),
+        worktree: store.root().to_string_lossy().into_owned(),
+        fail_after: None,
+    };
+
+    let bridge = build_archived_projection_cleanup_request_from_recovery(&store, request.clone())
+        .expect("build cleanup authority from recovery");
+    let replay = build_archived_projection_cleanup_request_from_recovery(&store, request.clone())
+        .expect("same cleanup bridge operation replays idempotently");
+    assert_eq!(
+        replay.expected_recovery_receipt_digest,
+        bridge.expected_recovery_receipt_digest
+    );
+    assert_eq!(
+        replay.expected_archive_manifest_digest,
+        bridge.expected_archive_manifest_digest
+    );
+    assert_eq!(
+        replay.completed_recovery_receipt,
+        bridge.completed_recovery_receipt
+    );
+    assert_eq!(
+        replay.canonical_archive_manifest,
+        bridge.canonical_archive_manifest
+    );
+
+    let mut conflicting = request.clone();
+    conflicting.cleanup_operation_id = "bridge-cleanup-other".into();
+    assert_eq!(
+        build_archived_projection_cleanup_request_from_recovery(&store, conflicting)
+            .expect_err("different cleanup operation is not co-authorized")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
 
     assert!(bridge
         .completed_recovery_receipt
