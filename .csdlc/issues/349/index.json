@@ -4,38 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "340e5118c1f57c82d2f683cb6401f377a5a472c61b57fbe107d6f2df2fc599a1",
-  "phase": "reviewed",
-  "generation": 6,
-  "digest": "b1569c6799d2a01a9a537f9cc823398a3844d2b70a95b1d4c25e2a3bbb2505ba",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "de39341960b803d12bba0687391be3440958ad003c0e6b5bf88d0298a0aa6c04",
   "branch": "codex/349-ready-deferred-validator-admission",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-349-ready-deferred-validator-admission",
-  "review_assignment": {
-    "reviewer": "/root/issue_349_prepare/fresh_impl_review",
-    "assigned_by": "codex:issue-349-implementation",
-    "revision": "git-blake3:ffa42c7dd9b791e3758ed1b8551954ecfcfa94cf:a2071607330777626935bd888173658acb10a2835da8cd9b3369d4c292ca0d8c",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/349",
-      ".csdlc/evidence/349"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/issue_349_prepare/fresh_impl_review",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/349",
-      ".csdlc/evidence/349"
-    ],
-    "reviewed_revision": "git-blake3:ffa42c7dd9b791e3758ed1b8551954ecfcfa94cf:a2071607330777626935bd888173658acb10a2835da8cd9b3369d4c292ca0d8c",
-    "findings": [],
-    "residual_risks": [
-      "Fresh inspection verified the immutable assigned commit and independently reran both exact Gate 2 tests plus diff hygiene. Hosted CI remains deferred to publication. Post-commit typed assignment projections were excluded from substantive review, as intended."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -50,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7978961e5988480ff56adc872173276d49d6b283347fa3699b936d4e0b1a206c",
+      "values_digest": "22f20e0cab8221b95eba145c2f2051ddca2ba85516e1fb2e5f9bc4a6e3a24a40",
       "rendered_digest": "d7d13b0f0c69af7f44bee9483e5d7f15873120847bb563ca3feebf4e19afcc41",
       "ast_digest": "fc6a4f87f994cfdcb23677d2985bdce92cba57716c7e081e740b96e78db50bcf"
     },
     "stp": {
-      "values_digest": "ee79fa8126a98bc05b851acff94edf7da985d0858217dc56fb6d2c448938e1bf",
+      "values_digest": "93048b772b760a6024f4faa4423528ec01f0b7ee58833e0624bc5c85990f1b13",
       "rendered_digest": "c53c38ff0b6341444e176ae0bf18d489acd4d57ceddc9c93cee1c5036a9f3e89",
       "ast_digest": "992911b92358c2253b931bf546e2173a9ff49ab492abf3ec77eacf6930bc4d2b"
     },
     "spp": {
-      "values_digest": "196b70f764de08b5175b1fa249cfb923f544691ba00c191029d5fb9d97f30b93",
+      "values_digest": "d640cd783fd84d010dea809039f62fde3aec66c87a0cbe09218f7c13091f998c",
       "rendered_digest": "132818788dec9eaa690605be61d446b6a23d7c67e2cff8caf935c78873d9180c",
       "ast_digest": "8328735149e2966a6755567c96dbb4e3b6f2a9f3f123f91bae00fe490a91f32e"
     },
     "vpp": {
-      "values_digest": "45823e8f11b79db600c5e1ec0650f8a288fd2f830c76c5f6742cf7840685c516",
+      "values_digest": "b985bcb8c5edfceddb5b41a818d9ed751f9160eb86a900f7398ab79edeb4f9a4",
       "rendered_digest": "e8270b935f196259307fff008e652ed59fbb4f17b2f60b53adb76b979abe4977",
       "ast_digest": "98bc2b3c8c496edc9b161278bb6febe6c34e629d49a9363f7b451404f4e67ce0"
     },
     "srp": {
-      "values_digest": "e914b3635e8219f5cb3cef25f704ced5970bd5accd08c8b16aae40afe9fc7a6e",
-      "rendered_digest": "30bce782f3e601a85bedebc5e5450f6ab24431ecdb8593af773db0c8fd792e1a",
-      "ast_digest": "d318f6e49ecc3e59692b9034bf277d98c607a59a5ab2d0bc9f53a534fdd4cdca"
+      "values_digest": "119f40748611a30c68621f2419409b1cc157e451a9de35d5e7b87efae033e1e9",
+      "rendered_digest": "030d6150e7fe655603e59f6430507bc0fc87e5166b39deeca90fd15755eb4b18",
+      "ast_digest": "c28c68f712afe31b6fac582cbd2a6b2895e267cbd9e3436cf83d57b7aa9b1be5"
     },
     "sor": {
-      "values_digest": "afa6764ebe2968ade7357af9fdcb681c060febfd6e27dc7ba212da75c46958b8",
-      "rendered_digest": "95a810dd4bb4b9b65832483daa4663ba7b2620d1ffa083e4aaa700f1f18da74d",
-      "ast_digest": "76c56b6b46bb6d649070516e2e3ceb7b77e233af89d92e4ced357343b8125e18"
+      "values_digest": "4ea6f4231506943e87685312cd92918d19aa92d1e58a7b2c81f735aa4a913bd5",
+      "rendered_digest": "3b6e1ac251ab21fc7baf2a5fc545d2e8e195e1b4ef7e8a308f2a0d216bca95ea",
+      "ast_digest": "0df484e22f755b458819bcd2949d19a7a59e3c8e35e3a1819e52eb6ec43846e2"
     }
   },
   "transitions": [
@@ -108,6 +83,13 @@
       "to": "reviewed",
       "actor": "/root/issue_349_prepare/fresh_impl_review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-349-implementation",
+      "reason": "Recover review authority onto the exact governed review-metadata commit after publication correctly rejected stale scoped lifecycle projections."
     }
   ],
   "audit": [
@@ -173,6 +155,13 @@
       "actor": "/root/issue_349_prepare/fresh_impl_review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-349-implementation",
+      "reason": "Recover review authority onto the exact governed review-metadata commit after publication correctly rejected stale scoped lifecycle projections.",
+      "operation": "recover_review"
     }
   ]
 }

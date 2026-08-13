@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC v2][defect] Keep deferred-validator admission consistent across ready transition",
     "slug": "deferred-validator-ready-consistency",
     "version": "v0.92",
-    "generation": 6
+    "generation": 7
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/tests/gate2.rs\n.csdlc/issues/349\n.csdlc/evidence/349",
-      "review_revision": "git-blake3:ffa42c7dd9b791e3758ed1b8551954ecfcfa94cf:a2071607330777626935bd888173658acb10a2835da8cd9b3369d4c292ca0d8c",
-      "reviewer": "/root/issue_349_prepare/fresh_impl_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the design preserve every #79 exact-path and fail-closed predicate?",
         "Is deferred admission limited exactly to initialized and ready before bind?",
@@ -24,10 +24,8 @@
         "Is #342 completely read-only and outside all owned paths?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Fresh inspection verified the immutable assigned commit and independently reran both exact Gate 2 tests plus diff hygiene. Hosted CI remains deferred to publication. Post-commit typed assignment projections were excluded from substantive review, as intended."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

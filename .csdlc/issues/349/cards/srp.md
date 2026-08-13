@@ -8,14 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-csdlc-v2/src/cards.rs
-csdlc-v2/tests/gate2.rs
-.csdlc/issues/349
-.csdlc/evidence/349
+
 
 ## Prompts
 
@@ -35,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Fresh inspection verified the immutable assigned commit and independently reran both exact Gate 2 tests plus diff hygiene. Hosted CI remains deferred to publication. Post-commit typed assignment projections were excluded from substantive review, as intended.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:ffa42c7dd9b791e3758ed1b8551954ecfcfa94cf:a2071607330777626935bd888173658acb10a2835da8cd9b3369d4c292ca0d8c")
+Revision: None
 
-Reviewer: Some("/root/issue_349_prepare/fresh_impl_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

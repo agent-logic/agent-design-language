@@ -101,7 +101,7 @@ Keep exact deferred validator admission coherent across the doctor-advertised re
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
