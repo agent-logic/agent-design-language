@@ -3,53 +3,14 @@
   "issue": 306,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8bb2ff2896c949a93ee1154957c6140e9893cbaa3f729b0f073ea70e7507a449",
-  "phase": "published",
-  "generation": 31,
-  "digest": "f23dd956527071b33518374c801abd79242521e32e61a2579d652275ffca3761",
+  "phase": "implemented",
+  "generation": 32,
+  "digest": "90da14c21e2d35e2a7e1dd330fcbc583d8fa44973bf761e719ffb2a0f62e2bc3",
   "branch": "codex/306-publication-tail-exact-clean-finish",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-306-publication-tail-exact-clean-finish",
-  "review_assignment": {
-    "reviewer": "fresh-session:3a77f416-cd8d-49f2-bbc7-22e7baae54f6",
-    "assigned_by": "codex:worker-4",
-    "revision": "git-blake3:e7a846174f5bd7fffbff3993d7bd7f1305c58bbf:9224484b4b2a0e44c61bc4067731f48b5e820394702edae35b6706ad25bd8802",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-publish.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/tests/publication_tail.rs",
-      ".csdlc/issues/306",
-      ".csdlc/prepared/issues/306"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:3a77f416-cd8d-49f2-bbc7-22e7baae54f6",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-publish.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/tests/publication_tail.rs",
-      ".csdlc/issues/306",
-      ".csdlc/prepared/issues/306"
-    ],
-    "reviewed_revision": "git-blake3:e7a846174f5bd7fffbff3993d7bd7f1305c58bbf:9224484b4b2a0e44c61bc4067731f48b5e820394702edae35b6706ad25bd8802",
-    "findings": [],
-    "residual_risks": [
-      "Focused exact-head review only; reviewer ran cargo test --manifest-path csdlc-v2/Cargo.toml --test publication_tail with 6 passed, but did not run the full Rust suite.",
-      "Reviewer did not perform GitHub writes, live PR mutation, or lifecycle writes; publication remains to be performed through typed csdlc-publish."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 306,
-    "pull_request": 321,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/321",
-    "base": "main",
-    "head": "codex/306-publication-tail-exact-clean-finish",
-    "revision": "git-blake3:0e4ce9e93684f8bf3829440a867c35e286efda78:1b5f943d8f9471b440ad08503b008b1ed81a283a50e7aca6eef5a764e502d645",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -63,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8499bacd0f238d29cab3fda03582c55593d55ecb315b9dd267249798809faceb",
+      "values_digest": "b6656b7ad607a56604d27b445f36b3ccfe60264d18fe9e80ab5990bf830aa814",
       "rendered_digest": "5e282111ad7af07bc3be9ea05d50610cf0f18d605edc14136763b56fe579e2a4",
       "ast_digest": "a477566ba17a0e2ca9d702e826008f60fbe771d9f531506f425399d0610cceb6"
     },
     "stp": {
-      "values_digest": "7faaee7396e888743c10ce3e4ee19f2d3597df88d7f827748868596bf35f24fd",
+      "values_digest": "3cc08221fd15ac5019c8a54ca11373c487cea855407012ec331f7ce34471e697",
       "rendered_digest": "d0e7b81f767703370ad04d61626800ffce4250fcb76d5374a8286571286d50c1",
       "ast_digest": "57880522df6be2e924cb4716ad672ca998cb05c78a81f21cde7ff7ab7cb4f097"
     },
     "spp": {
-      "values_digest": "773fa702272ef8aa032b87183c69ac0788efa5a66ec3e7088f585b6ad9550f88",
+      "values_digest": "3b04eeed9f31544041ec2785bc759cf7fd325f844ce6b3f02c0f91144838c272",
       "rendered_digest": "acb89f97e1f5ae23f001f5f517372234ecfb99fe8c7e7b26dec5cdd56f77168f",
       "ast_digest": "8cf742e13d6da873db13d987281a349fcf924b92f1a787edf3823d29069a7dfb"
     },
     "vpp": {
-      "values_digest": "58ff3a153382d9131b889c088826ad297723d2274500838ad1f3902616ff563a",
+      "values_digest": "306d751560c6b3687479d34817a0e64b6bf95e68f67d85cd8bfd091abfa5d691",
       "rendered_digest": "c1a82830a1d964f39970fe5572b327eb1ce07dc9cc5f7ebb9a1679a8efee44f0",
       "ast_digest": "ff5f61cad263c8dd506ae1e3cc9d06ff43a367dcd86bf8200ec9df2c5ae751ee"
     },
     "srp": {
-      "values_digest": "d14c062e3f1d93c120b381492b6770e75252a28887540163f9dd00f98cc49662",
-      "rendered_digest": "b08d1e51687c1b1b688387a13b9de40e4ff05b574f888052434af385b58625c0",
-      "ast_digest": "6ec83e9424f53ca5d07e2633003855d4509d822a983438c81a73fb46d5ed335c"
+      "values_digest": "0ce0c021b09d24c883be25d1e9b4c8ba988b9cd15578a18a350435e30f67a8b3",
+      "rendered_digest": "5b99bf3ed754ec68b728409d617ff029b982494b1c47e338a84249f36a17c6c3",
+      "ast_digest": "01734958f83d08dbebdbad4616c6b7bfd294e1693b7a75b994d98a2286d118f9"
     },
     "sor": {
-      "values_digest": "e0c11dc85b08dd2d598f8080cc66d453c9ba9843b165ddb0178891ae47ead219",
-      "rendered_digest": "3b9a8ec7ef0c81445243a969d0d36f33d9acb2b79804179347cf000286dc6b26",
-      "ast_digest": "4563e8d8644ee67bb44204020541700cdbb28b4883f22dd075eab4bb39090f2e"
+      "values_digest": "06cdad751b712d9605a5984cb98620c082f032bda88bb21841c7b75b695e5e23",
+      "rendered_digest": "bff83f22510eed3f2fa43eb63ce70e9c20e2e65a068de4e2b9290b4f8c7cdae1",
+      "ast_digest": "dd303afaa6d0d14b34ce7517444a31f8f11cc0b21d0526a4b1fbcf5bcfe9d04c"
     }
   },
   "transitions": [
@@ -128,6 +89,13 @@
       "to": "published",
       "actor": "codex:worker-4",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-4",
+      "reason": "Recover #306 from published back to implemented after post-publication resume-idempotence source fix changed the reviewed/published head"
     }
   ],
   "audit": [
@@ -382,6 +350,13 @@
       "actor": "codex:worker-4",
       "reason": "Record strict #306 clippy validation after post-metadata publish resume fix",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof after making already-recorded publication resume idempotent once the metadata follow-up head is already pushed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:b313d0c0d642fc9f60f86c488262cf652e9ae15a:cargo-clippy-publication-tail:passed\"}}"
+    },
+    {
+      "sequence": 37,
+      "generation": 32,
+      "actor": "codex:worker-4",
+      "reason": "Recover #306 from published back to implemented after post-publication resume-idempotence source fix changed the reviewed/published head",
+      "operation": "recover_review"
     }
   ]
 }

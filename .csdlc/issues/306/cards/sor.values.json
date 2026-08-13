@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish",
     "slug": "publication-metadata-tail-exact-clean-finish",
     "version": "v0.92",
-    "generation": 31
+    "generation": 32
   },
   "status": "pre_phase",
   "content": {
@@ -144,8 +144,8 @@
           "evidence_ref": "local-command:b313d0c0d642fc9f60f86c488262cf652e9ae15a:cargo-clippy-publication-tail:passed"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
