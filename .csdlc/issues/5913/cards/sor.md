@@ -82,11 +82,11 @@ Repair #5913 adl-review read-only compatibility routing for verify-repo-contract
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
