@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 270,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.02c][112.c] Define and serve trusted recipient-acknowledgement Runtime API protocol",
+    "slug": "v0-92-wp-18c-02c-112-c-trusted-recipient-acknowledgement-runtime-api",
+    "version": "v0.92.0",
+    "generation": 12
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Fresh design/card review of #270 bootstrap packet only; no implementation review.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #270 remain the trusted recipient-acknowledgement Runtime API child and only own served acknowledgement protocol scope?",
+        "Do cards correctly block bind/implementation until #112 and #265 are terminal and ancestral?",
+        "Do non-goals prevent absorption of #112 authority definition, #265 ingress enforcement, #115 room/UI, durable transcript storage, Observatory/UI, acknowledgement-watermark persistence, and cloud exposure?",
+        "Is the validation plan sufficient for bootstrap/design readiness without claiming product proof?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
