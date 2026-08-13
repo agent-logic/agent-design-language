@@ -4,13 +4,53 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ba4ad0b09850192b19172ddfc16a2cb280a6b9c3430dfe1df59c493d7bd5a9d0",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "10f0a16c3e15b335b00049df2510e64583c6af1f38026540ac281377f2f10ebb",
+  "phase": "reviewed",
+  "generation": 26,
+  "digest": "0ada36c0c81a3ecc6d9e78a088727cd4287993e34a1e8e5be1bb0479048da46d",
   "branch": "codex/273-shepherd-serving-eligibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-273-shepherd-serving-eligibility",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:51bfaaca-42c2-4aa0-85a4-e6e9d44d9d53",
+    "assigned_by": "codex:planning2-issue273-owner",
+    "revision": "git-blake3:eca7071874c9e93914ac4c142cd667dcac9a3929:54c7c21be952c812f3040ceead21cb8ded3da4b9f3de9371396b3e9a3f217c3b",
+    "scope": [
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/src/distributed/shepherd_serving_eligibility.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/tests/distributed_shepherd_serving_eligibility.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh",
+      ".csdlc/issues/273",
+      ".csdlc/prepared/issues/273",
+      ".csdlc/evidence/273"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:51bfaaca-42c2-4aa0-85a4-e6e9d44d9d53",
+    "scope": [
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/src/distributed/shepherd_serving_eligibility.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/tests/distributed_shepherd_serving_eligibility.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh",
+      ".csdlc/issues/273",
+      ".csdlc/prepared/issues/273",
+      ".csdlc/evidence/273"
+    ],
+    "reviewed_revision": "git-blake3:eca7071874c9e93914ac4c142cd667dcac9a3929:54c7c21be952c812f3040ceead21cb8ded3da4b9f3de9371396b3e9a3f217c3b",
+    "findings": [],
+    "residual_risks": [
+      "The focused coverage route intentionally enables internal-test-fixtures only for the exact Shepherd eligibility selector; ordinary builds exclude the fixture constructor.",
+      "#274 remains unbound and serialized behind terminal and ancestral #273 before consuming the verified cut or touching shared registration."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +65,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d8314a1a94f18fec50dc017654ad50b06f99a68d33da6661441d5847bac95371",
+      "values_digest": "1b597d086681e35c9b7814685af5aec147cdb25a0aa519bf90126f8d4a13985f",
       "rendered_digest": "fde850d82a2c2a13c971d804d5d989ee796c4ad2705e336561eb4acc9e3adee2",
       "ast_digest": "d2f326bb27e14cbe6fe91df173e64cc1f78255fe33c8ab01168482ec034d3b2f"
     },
     "stp": {
-      "values_digest": "b986fe6f1d8f960556b6aeb2157ac9309c2db1519be3e93f8a5646699acf0077",
+      "values_digest": "ecd4cfc4ce31812d1aabed59a184957ebea21104914a1c9b59a015bbd80d6ec3",
       "rendered_digest": "b8a5809f2d2cba141fb56e3739d1444c7768eaf39ea60e8244bf7930d521f3c2",
       "ast_digest": "890dd17f1d76d7fcda68a57dff7d3b3fb2e5208fbc819021e5479b7a7e429e78"
     },
     "spp": {
-      "values_digest": "d64adc989614d446ba0704b227ed98cabcf0ea5f36d1576b1c11207599d93329",
+      "values_digest": "94cbf87054fca907e7992987f819c00e66f7837437aaff7dcbfd0967468e2f5a",
       "rendered_digest": "808d97382a92a8344cfa141f9c97674cb275e5cd5bb8906c7b22267c43be43fc",
       "ast_digest": "79bbacd8927810a49ec8602f5ec871b4a531e7becb84f6659299ce81a3ac3a24"
     },
     "vpp": {
-      "values_digest": "25559a27e01d151f3727adb6dace17c335864250cb06134b590d2b8a3ea4ae41",
+      "values_digest": "7ca963cf00eaaf8e470daae03cb2c59ddc90bf32818c67fa70d35e92896c7f0e",
       "rendered_digest": "7c5154773aac6c8d3404325822e58e8134d0f7cb2e2fad1a2283461d8feed3a4",
       "ast_digest": "75f9d7021381e3b840005ab7dbac5e84457305546998ff6fce97e76d2ad100bd"
     },
     "srp": {
-      "values_digest": "57888b9864c0f7a431f460113a4ea97d93118d022fdef654bb0d8d64761277cc",
-      "rendered_digest": "d26b500a7142a7e623ed6f6e33adde1d4ce3f0d8dec0dd51422d5dd76d42a6a0",
-      "ast_digest": "8d0a111f496337c7f6f343bea02cfce00130254195f68943add4449e218d8c65"
+      "values_digest": "34bd00a38e3795010d33604b879714dadfddcca4e04684ef57134715a5205728",
+      "rendered_digest": "4d2529a4e3b4bb3964a1d835b6d6a627011ce8c58eb8fd56cf8f9e70e1f1879c",
+      "ast_digest": "584e2893a96888c65d3a37297c3077a16085c0beb376687c5124dc99f01fdd37"
     },
     "sor": {
-      "values_digest": "1eb76772389d192f1638f9cf7a228076213e2101c9a9b66d7ce4912344656895",
+      "values_digest": "6e70bfdb153970b6f8338d772bc0221950294f91f5512d63f413effe8ed1f899",
       "rendered_digest": "8189b4ba77742395cc0ca6f1e6b8fbd7648963bf1b957a4d0aa764f8ff896508",
       "ast_digest": "bd7dd0622aa90fb2cad86299ec5e061abdb19dd2eb1422804e4bb7196d9da199"
     }
@@ -118,6 +158,13 @@
       "to": "implemented",
       "actor": "codex:planning2-issue273-owner",
       "reason": "recover published review after required coverage aggregate proved the new Shepherd module lacked its explicit focused coverage-impact mapping"
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -365,6 +412,20 @@
       "actor": "codex:planning2-issue273-owner",
       "reason": "Align operative plan steps with the bounded post-publication coverage mapping repair.",
       "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Validate live issue, exact prerequisite terminal caches and ancestry, typed cards, disjoint ownership, and obtain fresh design review before approval, doctor, and bind.\",\"acceptance_ids\":[\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement only the Shepherd state machine, redacted receipt and projection, bounded persistence behavior, feature-gated focused test, and additive registration.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run feature-enabled focused test and strict Clippy, ordinary build, exact scope and diff proof, and record immutable evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"After required coverage aggregate exposes the unmapped new module, add only the exact coverage-impact classifier, runtime-only internal-test-fixtures route, classifier and runner regressions, focused 97.01 percent coverage, and impact preflight.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Obtain a distinct fresh exact-head review of the repaired mapping and lifecycle truth, repair findings, republish PR #339, shepherd renewed required CI, finish, and validate terminal ancestry before releasing #274.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 25,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 26,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
