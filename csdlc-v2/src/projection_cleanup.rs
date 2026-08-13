@@ -14,7 +14,7 @@ use serde_json::{json, Value};
 
 use csdlc_v2::{ErrorCode, Result, V2Error};
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct ArchivedProjectionCleanupRequest {
     pub schema: String,
@@ -26,6 +26,10 @@ pub struct ArchivedProjectionCleanupRequest {
     pub terminal_envelope: String,
     pub expected_terminal_digest: String,
     pub expected_terminal_merge_sha: String,
+    pub completed_recovery_receipt: String,
+    pub expected_recovery_receipt_digest: String,
+    pub canonical_archive_manifest: String,
+    pub expected_archive_manifest_digest: String,
     pub archived_root: String,
     pub cleanup_ledger_root: String,
     pub nodes: Vec<ArchivedProjectionNode>,
@@ -33,7 +37,7 @@ pub struct ArchivedProjectionCleanupRequest {
     pub fail_after: Option<String>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct ArchivedProjectionNode {
     pub relative_path: String,
@@ -41,6 +45,26 @@ pub struct ArchivedProjectionNode {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+struct CompletedRecoveryReceipt {
+    schema: String,
+    issue: u64,
+    state: String,
+    terminal_digest: String,
+    canonical_archive_manifest_digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+struct CanonicalArchiveManifest {
+    schema: String,
+    issue: u64,
+    terminal_digest: String,
+    archived_root: String,
+    nodes: Vec<ArchivedProjectionNode>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct CleanupNodeIdentity {
     pub device: u64,
@@ -52,7 +76,9 @@ pub struct CleanupNodeIdentity {
     pub node_type: CleanupNodeType,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum CleanupNodeType {
     RegularFile,
@@ -86,6 +112,7 @@ pub fn execute_archived_projection_cleanup(
 
     let archived_root =
         canonical_real_directory(Path::new(&request.archived_root), "archived root")?;
+    validate_recovery_authority(request, &archived_root)?;
     let ledger_root =
         canonical_or_create_directory(Path::new(&request.cleanup_ledger_root), "cleanup ledger")?;
     if archived_root == ledger_root || ledger_root.starts_with(&archived_root) {
@@ -111,6 +138,8 @@ pub fn execute_archived_projection_cleanup(
             "operation_id": request.operation_id,
             "terminal_issue": request.terminal_issue,
             "terminal_digest": request.expected_terminal_digest,
+            "recovery_receipt_digest": request.expected_recovery_receipt_digest,
+            "archive_manifest_digest": request.expected_archive_manifest_digest,
             "archived_root": archived_root,
         }),
     )?;
@@ -384,6 +413,10 @@ fn validate_request(request: &ArchivedProjectionCleanupRequest) -> Result<()> {
         || request.terminal_issue == 0
         || request.expected_terminal_digest.trim().is_empty()
         || request.expected_terminal_merge_sha.trim().is_empty()
+        || request.completed_recovery_receipt.trim().is_empty()
+        || request.expected_recovery_receipt_digest.trim().is_empty()
+        || request.canonical_archive_manifest.trim().is_empty()
+        || request.expected_archive_manifest_digest.trim().is_empty()
         || request.nodes.is_empty()
     {
         return Err(V2Error::new(
@@ -432,6 +465,91 @@ fn validate_terminal_gate(request: &ArchivedProjectionCleanupRequest) -> Result<
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
             "terminal merge SHA is not ancestral to cleanup execution base",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_recovery_authority(
+    request: &ArchivedProjectionCleanupRequest,
+    archived_root: &Path,
+) -> Result<()> {
+    let receipt_bytes = read_regular_no_symlink(Path::new(&request.completed_recovery_receipt))?;
+    let receipt_digest = blake3::hash(&receipt_bytes).to_hex().to_string();
+    if receipt_digest != request.expected_recovery_receipt_digest {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "completed recovery receipt digest does not match cleanup authority",
+        ));
+    }
+    let receipt: CompletedRecoveryReceipt = serde_json::from_slice(&receipt_bytes)?;
+    if receipt.schema != "csdlc.completed_recovery_receipt.v1"
+        || receipt.issue != request.terminal_issue
+        || receipt.state != "completed"
+        || receipt.terminal_digest != request.expected_terminal_digest
+        || receipt.canonical_archive_manifest_digest != request.expected_archive_manifest_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "completed recovery receipt does not bind terminal and archive authority",
+        ));
+    }
+
+    let manifest_bytes = read_regular_no_symlink(Path::new(&request.canonical_archive_manifest))?;
+    let manifest_digest = blake3::hash(&manifest_bytes).to_hex().to_string();
+    if manifest_digest != request.expected_archive_manifest_digest {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "canonical archive manifest digest does not match cleanup authority",
+        ));
+    }
+    let manifest: CanonicalArchiveManifest = serde_json::from_slice(&manifest_bytes)?;
+    if manifest.schema != "csdlc.canonical_archive_manifest.v1"
+        || manifest.issue != request.terminal_issue
+        || manifest.terminal_digest != request.expected_terminal_digest
+        || Path::new(&manifest.archived_root) != archived_root
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "canonical archive manifest does not bind cleanup root and recovery authority",
+        ));
+    }
+    let mut request_nodes = BTreeSet::new();
+    for node in &request.nodes {
+        ensure_safe_relative(&node.relative_path)?;
+        if node.identity.node_type == CleanupNodeType::RegularFile && node.identity.links != 1 {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "cleanup authority refuses hardlinked archived files",
+            ));
+        }
+        if !request_nodes.insert((&node.relative_path, &node.identity)) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "cleanup request contains duplicate authority nodes",
+            ));
+        }
+    }
+    let mut manifest_nodes = BTreeSet::new();
+    for node in &manifest.nodes {
+        ensure_safe_relative(&node.relative_path)?;
+        if node.identity.node_type == CleanupNodeType::RegularFile && node.identity.links != 1 {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "canonical archive manifest refuses hardlinked archived files",
+            ));
+        }
+        if !manifest_nodes.insert((&node.relative_path, &node.identity)) {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "canonical archive manifest contains duplicate authority nodes",
+            ));
+        }
+    }
+    if request_nodes != manifest_nodes {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "cleanup nodes do not match completed recovery archive manifest",
         ));
     }
     Ok(())

@@ -90,6 +90,39 @@ fn identity(path: &Path, node_type: CleanupNodeType) -> CleanupNodeIdentity {
     }
 }
 
+fn authority(
+    root: &Path,
+    terminal_digest: &str,
+    archived: &Path,
+    nodes: &[ArchivedProjectionNode],
+) -> (PathBuf, String, PathBuf, String) {
+    let manifest_path = root.join("canonical-archive-manifest-298.json");
+    let manifest = serde_json::json!({
+        "schema": "csdlc.canonical_archive_manifest.v1",
+        "issue": 298,
+        "terminal_digest": terminal_digest,
+        "archived_root": fs::canonicalize(archived).expect("canonical archived"),
+        "nodes": nodes,
+    });
+    let manifest_bytes = serde_json::to_vec_pretty(&manifest).expect("manifest json");
+    fs::write(&manifest_path, &manifest_bytes).expect("manifest");
+    let manifest_digest = blake3::hash(&manifest_bytes).to_hex().to_string();
+
+    let receipt_path = root.join("completed-recovery-receipt-298.json");
+    let receipt = serde_json::json!({
+        "schema": "csdlc.completed_recovery_receipt.v1",
+        "issue": 298,
+        "state": "completed",
+        "terminal_digest": terminal_digest,
+        "canonical_archive_manifest_digest": manifest_digest,
+    });
+    let receipt_bytes = serde_json::to_vec_pretty(&receipt).expect("receipt json");
+    fs::write(&receipt_path, &receipt_bytes).expect("receipt");
+    let receipt_digest = blake3::hash(&receipt_bytes).to_hex().to_string();
+
+    (receipt_path, receipt_digest, manifest_path, manifest_digest)
+}
+
 fn request(
     root: &Path,
     merge_sha: &str,
@@ -97,6 +130,9 @@ fn request(
     terminal_digest: &str,
     nodes: Vec<ArchivedProjectionNode>,
 ) -> ArchivedProjectionCleanupRequest {
+    let archived = root.join("archived");
+    let (receipt_path, receipt_digest, manifest_path, manifest_digest) =
+        authority(root, terminal_digest, &archived, &nodes);
     ArchivedProjectionCleanupRequest {
         schema: "csdlc.archived_projection_cleanup_request.v1".into(),
         issue: 299,
@@ -107,7 +143,11 @@ fn request(
         terminal_envelope: terminal_path.to_string_lossy().into_owned(),
         expected_terminal_digest: terminal_digest.into(),
         expected_terminal_merge_sha: merge_sha.into(),
-        archived_root: root.join("archived").to_string_lossy().into_owned(),
+        completed_recovery_receipt: receipt_path.to_string_lossy().into_owned(),
+        expected_recovery_receipt_digest: receipt_digest,
+        canonical_archive_manifest: manifest_path.to_string_lossy().into_owned(),
+        expected_archive_manifest_digest: manifest_digest,
+        archived_root: archived.to_string_lossy().into_owned(),
         cleanup_ledger_root: root.join("cleanup-ledger").to_string_lossy().into_owned(),
         nodes,
         fail_after: None,
@@ -140,6 +180,122 @@ fn cleanup_requires_terminal_gate_before_mutation() {
         "terminal failure must not mutate archived node"
     );
     assert!(!root.join("cleanup-ledger").exists());
+}
+
+#[test]
+fn cleanup_requires_completed_recovery_and_manifest_before_mutation() {
+    let (_temp, root, merge_sha) = repo();
+    let archived = root.join("archived");
+    fs::create_dir(&archived).expect("archived");
+    let node = archived.join("stale.json");
+    fs::write(&node, "{}\n").expect("node");
+    let (terminal_path, terminal_digest) = terminal(&root, &merge_sha);
+    let req = request(
+        &root,
+        &merge_sha,
+        &terminal_path,
+        &terminal_digest,
+        vec![ArchivedProjectionNode {
+            relative_path: "stale.json".into(),
+            identity: identity(&node, CleanupNodeType::RegularFile),
+        }],
+    );
+
+    let mut bad_manifest = req.clone();
+    fs::write(
+        &bad_manifest.canonical_archive_manifest,
+        b"{\"schema\":\"csdlc.canonical_archive_manifest.v1\",\"issue\":298,\"terminal_digest\":\"wrong\",\"archived_root\":\"/nope\",\"nodes\":[]}",
+    )
+    .expect("bad manifest");
+    bad_manifest.expected_archive_manifest_digest =
+        blake3::hash(&fs::read(&bad_manifest.canonical_archive_manifest).expect("read bad"))
+            .to_hex()
+            .to_string();
+    assert_eq!(
+        execute_archived_projection_cleanup(&bad_manifest)
+            .expect_err("bad canonical manifest rejected")
+            .code,
+        csdlc_v2::ErrorCode::ReconciliationRequired
+    );
+    assert!(node.exists());
+    assert!(
+        !root.join("cleanup-ledger").exists(),
+        "manifest failure must not create cleanup namespace or receipts"
+    );
+
+    let missing_receipt = req.clone();
+    fs::remove_file(&missing_receipt.completed_recovery_receipt).expect("remove receipt");
+    assert_eq!(
+        execute_archived_projection_cleanup(&missing_receipt)
+            .expect_err("missing completed receipt rejected")
+            .code,
+        csdlc_v2::ErrorCode::Io
+    );
+    assert!(node.exists());
+    assert!(
+        !root.join("cleanup-ledger").exists(),
+        "authority failure must not create cleanup namespace or receipts"
+    );
+}
+
+#[test]
+fn cleanup_rejects_coherent_caller_identity_forgery_without_manifest_binding() {
+    let (_temp, root, merge_sha) = repo();
+    let archived = root.join("archived");
+    fs::create_dir(&archived).expect("archived");
+    let authorized = archived.join("authorized.json");
+    fs::write(&authorized, "{}\n").expect("authorized");
+    let forged = archived.join("forged.json");
+    fs::write(&forged, "{\"forged\":true}\n").expect("forged");
+    let (terminal_path, terminal_digest) = terminal(&root, &merge_sha);
+    let authorized_node = ArchivedProjectionNode {
+        relative_path: "authorized.json".into(),
+        identity: identity(&authorized, CleanupNodeType::RegularFile),
+    };
+    let (receipt_path, receipt_digest, manifest_path, manifest_digest) = authority(
+        &root,
+        &terminal_digest,
+        &archived,
+        std::slice::from_ref(&authorized_node),
+    );
+
+    let forged_req = ArchivedProjectionCleanupRequest {
+        schema: "csdlc.archived_projection_cleanup_request.v1".into(),
+        issue: 299,
+        operation_id: "op-299".into(),
+        repository_root: root.to_string_lossy().into_owned(),
+        execution_base: merge_sha.clone(),
+        terminal_issue: 298,
+        terminal_envelope: terminal_path.to_string_lossy().into_owned(),
+        expected_terminal_digest: terminal_digest,
+        expected_terminal_merge_sha: merge_sha,
+        completed_recovery_receipt: receipt_path.to_string_lossy().into_owned(),
+        expected_recovery_receipt_digest: receipt_digest,
+        canonical_archive_manifest: manifest_path.to_string_lossy().into_owned(),
+        expected_archive_manifest_digest: manifest_digest,
+        archived_root: archived.to_string_lossy().into_owned(),
+        cleanup_ledger_root: root.join("cleanup-ledger").to_string_lossy().into_owned(),
+        nodes: vec![ArchivedProjectionNode {
+            relative_path: "forged.json".into(),
+            identity: identity(&forged, CleanupNodeType::RegularFile),
+        }],
+        fail_after: None,
+    };
+    assert_eq!(
+        execute_archived_projection_cleanup(&forged_req)
+            .expect_err("caller-supplied coherent identity cannot replace manifest authority")
+            .code,
+        csdlc_v2::ErrorCode::ReconciliationRequired
+    );
+    assert_eq!(
+        fs::read_to_string(&forged).expect("forged preserved"),
+        "{\"forged\":true}\n"
+    );
+    assert!(authorized.exists());
+    assert!(
+        !root.join("cleanup-ledger").exists(),
+        "forgery must fail before cleanup namespace or receipt mutation"
+    );
 }
 
 #[test]

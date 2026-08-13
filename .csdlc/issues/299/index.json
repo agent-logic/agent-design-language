@@ -5,21 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "be3f68f29b47002551bb846e3920e7a38a9c8e6f5912bbc0fad91262c194064d",
+  "generation": 13,
+  "digest": "dabcda1be7829a4632085dfdf55beb5b75656b890c047b03a852ee62557c2756",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
-  "review_assignment": {
-    "reviewer": "fresh-session:b006efd6-ed2a-41c6-b498-9851c44b99cb",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:71eb424d379b1b869dd49ead393788ba2632c3b7:bf5782d42f132d8d3a8e31a5d1cb5e5f1a1a7ffb79657e05e3f18255f8c8a62d",
-    "scope": [
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/tests/archived_projection_cleanup.rs",
-      ".csdlc/issues/299",
-      ".csdlc/evidence/299"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -35,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "04db2de9af2d6c22c3121f191f51a5ab2d4ef0c1bd8f6b972e224bd934480486",
+      "values_digest": "7a940cb9908fce1f09906ae9bd21b07e84134e1fa9ba8c343ffb354423c87ae3",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "ed6e22fe1fef2ac2615ad60c3e7be9907c0eed678a43971e7d3df7a7e14d3030",
+      "values_digest": "e2ad3b55590a9e85d9e95cbb1516d8be797b2a9ddf0d1dc1d22e2bfd9b605722",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "e89093afcf7e9cb3d08b1c465abce897dad7e6a9ce12f7ae657d083f87ac621f",
+      "values_digest": "120df922bd7813de3f9e71c6d04040f760a3d7a5cedf141ceed83b9cdf02a0e2",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "e6a37854f962eeee640329389e0129067ec30427de47195c537b68c8cc5245ac",
+      "values_digest": "30d3d8fc71b99b81b12acd3dc274f163a2f8c5ff19414976301139ca9b1e78e4",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "821c6404bdd97430226dc155b64e1fb740b82d082a2d19950f4810091418ff04",
-      "rendered_digest": "9931ccee70c3e0335852b8fd8c8caf1ff73f3dc05ae944e1468ebbbfbf9eae9a",
-      "ast_digest": "d49e369f68a95a5a6deb952a3940504871238520aeaa13ee9d89d01780512d00"
+      "values_digest": "c8e9c05deeaea44b85567ea3ce5ad8822fe31c8a9e88ac61a5eb308d3e094ef8",
+      "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
+      "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "b81ead603292005e89cbc3128cbf3460bc6e83934cda0b3ce66d506f962ea37a",
+      "values_digest": "a486f1fcc33c1f59b2ba52bfe4a27435f8305e3137b0b04ad0da398fdaabe58c",
       "rendered_digest": "70b9cb88c94b5be3580e422c77514cb1bb37acd51f70a55fbdde59b2c47bc6f8",
       "ast_digest": "17bbab1090d7cf0b8e8f5cd5688a6a44d83e307f7bbc59191c99b806e8bb96e3"
     }
@@ -200,6 +190,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:worker-5",
+      "reason": "Recover failed exact review r3: cleanup validated terminal ancestry but did not require a completed #298 recovery receipt and canonical/archive manifest binding before mutation, so arbitrary same-device archived roots with caller-supplied identities could be cleaned.",
+      "operation": "recover_review"
     }
   ]
 }
