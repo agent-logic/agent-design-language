@@ -7,47 +7,49 @@
     "title": "[v0.92][C-SDLC][defect] Recover and classify preserved failed issue projections",
     "slug": "preserved-failed-projection-recovery",
     "version": "v0.92",
-    "generation": 14
+    "generation": 18
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 9,
+      "plan_revision": 10,
       "summary": "Independently approve the crash/restart protocol, bind #297, implement typed classification/recovery/cleanup with immutable receipts and inode authority, prove all failure boundaries and regressions, obtain a fresh exact-head review, publish ready, and stop before merge.",
       "steps": [
         {
           "id": "S1",
-          "action": "Review and approve the namespace, identity, immutable-ledger, restart, and cleanup protocol.",
+          "action": "Preserve the old #297 broad candidate as historical non-authoritative evidence and keep #300 review-failed/unpublished while Noether P1s are open.",
           "acceptance_ids": [
-            "AC-1",
-            "AC-3",
-            "AC-4",
-            "AC-6",
-            "AC-7"
+            "AC-8",
+            "AC-9"
           ],
           "status": "pending"
         },
         {
           "id": "S2",
-          "action": "Implement typed classify, recover, restart, audit, and separate cleanup operations under the issue lock.",
+          "action": "Define and implement or explicitly split the production recovery-to-cleanup authority bridge: recovery must emit cleanup-consumable completed recovery receipt and canonical archive manifest authority without test-authored JSON.",
           "acceptance_ids": [
             "AC-2",
-            "AC-5"
+            "AC-5",
+            "AC-6"
           ],
           "status": "pending"
         },
         {
           "id": "S3",
-          "action": "Add real projection integration, failpoint, collision, race, corruption, topology, CAS, idempotency, and regression proof.",
+          "action": "Update #300 after the bridge lands so its integration target consumes production-generated bridge artifacts and mechanically invokes or enumerates the approved recovery/cleanup failpoint and adversarial matrix.",
           "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-4",
+            "AC-7",
             "AC-8"
           ],
           "status": "pending"
         },
         {
           "id": "S4",
-          "action": "Validate, independently exact-head review, publish ready, and shepherd required CI without merge.",
+          "action": "Only after #300 passes fresh review and terminal/ancestral checks, complete parent #297 integrated reconciliation, exact review, publication, CI, and terminal closeout before releasing #296.",
           "acceptance_ids": [
             "AC-9"
           ],

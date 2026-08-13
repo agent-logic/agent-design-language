@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "1fc7dc3546fea00d49c8d762d53c41ca5099c36f7fb6322d5c27fc5f4e793680",
+  "generation": 18,
+  "digest": "d84998d84f263c06c8d5e8f303150fb1d418082e89250a8fb02dac0017e2a528",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:70f2092e-82a4-4df9-b6ef-af5e91c8cc29",
-    "assigned_by": "codex:issue-297",
-    "revision": "git-blake3:2d84616d5b309f0f4bd8d1a21dfc82bf907a8812:8b5e559303ebed42c99d43b592848797cbef8633394f21cbcf33e538831e1470",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/297",
-      ".csdlc/prepared/issues/297",
-      ".csdlc/evidence/297"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a8638773e3aac1053cfdd0fc25b3881adfe32fdbd9a24b64f2688ff2fe92c72c",
+      "values_digest": "70ef252d59a405df1c439a488055bbb388ae1d659d09adb2922b44400c411cbd",
       "rendered_digest": "df823d86637cd9489e801629df7a5212ac8097bc372257554eaec7c9a9d0660e",
       "ast_digest": "1bc768342db5a416f8bb25942901fb3f59ba10dc488a47dea6f0ef806aabb7e0"
     },
     "stp": {
-      "values_digest": "d7c0271a340cc3c5de92956ef1e6b60805b86568c03046f458e70ed6af04a6e3",
+      "values_digest": "08f523029b3beac9c3dc6d0b3bb630faa4133121b782a95f01e70e9e79906e32",
       "rendered_digest": "97ad2e897d196aba11055627fae7c5e07537626d42ad815337c564dffb664688",
       "ast_digest": "9a54ff529a22712e2dcb9f5efb93efb1ca9fd290304b932f98ab76803bc6ae26"
     },
     "spp": {
-      "values_digest": "0fb19c73685e9640406c6af3a8cf4cfb6cfbe39a7d9dc01ccbf44fe92d95fcae",
-      "rendered_digest": "4e76e66487c3fc2fe933bd08cef3d1402afd52047034a8012e313925a73f1c35",
-      "ast_digest": "0840d7be9036b9e08927f71421e21b62df630f5cb21946bd6cf204c00d24729d"
+      "values_digest": "be49c36d109ab625a6b1c20098f3898c2b66fc814b3475e4ad47a1f54b7d786d",
+      "rendered_digest": "fa63db138c67e3b6f0dcc7b043441a904bc1b204caba77a341487ee29044ee85",
+      "ast_digest": "54f9f595bf82e5ffdc39b757b258613f1b63921c05d8a99da88effc26aa1acbc"
     },
     "vpp": {
-      "values_digest": "faf8946c60f44fa69f3b346628edc2ec6ecd23519d54d9a233c0eb8c76f852d6",
-      "rendered_digest": "0b69dc6c07901591ea965a1a35f8607a2c96f9233eb74689d814f5384df20ca1",
-      "ast_digest": "8e95b4571cde6288076cbf1bb565d27344aaa3b7fa0025ab19ec504023e44f56"
+      "values_digest": "e6dd0006bcf69ed79727f3b17b682ab490b951e565bf0954c7e9e0c16eb050d1",
+      "rendered_digest": "2fd595dda46cb9061a242db516e4f7cdb94af25c3585e4d95cf98947bf95d0a7",
+      "ast_digest": "0bb6d8f472ad7f48699346992ec546eaa8a77cfca874500c37eeeae66c0f7a83"
     },
     "srp": {
-      "values_digest": "c971cc040a3e289309e9a84e210ed5521b96f8c3b9e620d5667fbf7a800899dd",
-      "rendered_digest": "d303d95f5736a89a1232696a77bf87cd4dc56ce4d79bcb09b4601952bd4ede64",
-      "ast_digest": "cf678bbc03e8647457f58863be77485dcf8b9c3e1ee54632f5ab7d73723e925c"
+      "values_digest": "5e1d51cba6da1f0f72b2a1dea6b9a7f465c97e14e85ba91ce68e166486bff2d2",
+      "rendered_digest": "ef04c3dfd5e0eadb2913a6706f7e9e8dd54eeade7e1edb43bc97e1f3204379be",
+      "ast_digest": "4a9b0580c70bbd10c0feac72bda62f208af9285f0f199aaaad3dc38c20ae79ae"
     },
     "sor": {
-      "values_digest": "c1627431d50f7ee1308ecc97e294d795921f472023f194f8a52c4a73563e914e",
-      "rendered_digest": "8e4222f488b6b62df432d16fe0a8054141de72cdd3242a1295aec7a439c3fac8",
-      "ast_digest": "e9b84cb933bf5f5c799027d6dd28799381b01f36792d6bfdd876d24d174bdafd"
+      "values_digest": "27953f470391fb50b7a6b4bbd1bbe21cd694f3593d8fb19b3350ece1ab057402",
+      "rendered_digest": "f1d649dad2877d1e2b99c5cd1ebc46cd2b6a88c1c23baf5c91f0c7a145d43d99",
+      "ast_digest": "8b343e25a7a498f5489a160fcbe0134f86d21787cfe0cd23b76f720fefe016f5"
     }
   },
   "transitions": [
@@ -211,6 +196,34 @@
       "actor": "codex:issue-297",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:issue-297",
+      "reason": "Recover the premature r1 assignment: implementation rejects incomplete recovery attempts instead of deterministic restart/resume and two focused tests do not prove the approved crash-state, tagged-CAS, collision, topology, ownership, cleanup, and idempotency matrix",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:worker-5",
+      "reason": "Replace broad stale #297 plan steps with narrow parent-integration routing after #300 Noether P1 findings.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Preserve the old #297 broad candidate as historical non-authoritative evidence and keep #300 review-failed/unpublished while Noether P1s are open.\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Define and implement or explicitly split the production recovery-to-cleanup authority bridge: recovery must emit cleanup-consumable completed recovery receipt and canonical archive manifest authority without test-authored JSON.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Update #300 after the bridge lands so its integration target consumes production-generated bridge artifacts and mechanically invokes or enumerates the approved recovery/cleanup failpoint and adversarial matrix.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Only after #300 passes fresh review and terminal/ancestral checks, complete parent #297 integrated reconciliation, exact review, publication, CI, and terminal closeout before releasing #296.\",\"acceptance_ids\":[\"AC-9\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:worker-5",
+      "reason": "Correct #297 validation truth after #300 Noether P1 findings: gate5 alone is not parent integration proof until bridge and #300 matrix are mechanically proven.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"parent-recovery-cleanup-bridge\",\"proof_role\":\"Prove production recovery emits or exposes cleanup-consumable completed recovery receipt and canonical archive manifest authority, with terminal/canonical/archive binding and no test-authored authority.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"projection_recovery_integration\",\"recovery_cleanup_bridge\"],\"parallel_group\":\"local\",\"defer_reason\":\"Deferred until the parent #297 bridge implementation or explicitly split child lands; current #300 Noether r1 found no production bridge to consume.\"},{\"lane\":\"child-300-integrated-matrix\",\"proof_role\":\"Prove #300 mechanically invokes or enumerates the integrated recovery/cleanup before-after failpoint matrix, conflicting-operation rejection, adversarial topology/identity cases, and later ordinary typed commit using production bridge artifacts.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"projection_recovery_integration\"],\"parallel_group\":\"local\",\"defer_reason\":\"Deferred while #300 has open Noether P1 bridge and matrix findings.\"},{\"lane\":\"existing-deep-regression\",\"proof_role\":\"Retain existing deep recovery/cleanup regression proof, but do not claim it substitutes for the integrated #300 bridge/matrix lane unless mechanically selected by #300.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"preserved_projection_recovery\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:worker-5",
+      "reason": "Repair #297 validation truth after Noether routing: do not name #300-only test targets inside the #297 worktree; record #300 matrix as an external dependency until the bridge lands.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"parent-recovery-cleanup-bridge\",\"proof_role\":\"Prove the parent integration bridge with targets available in this #297 worktree: production recovery authority must connect to cleanup-consumable completed recovery receipt and canonical archive manifest authority, with terminal/canonical/archive binding and no test-authored authority.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"preserved_projection_recovery\"],\"parallel_group\":\"local\",\"defer_reason\":\"Deferred until #297 bridge implementation or an explicitly split child lands; current #300 Noether r1 found no production bridge for cleanup to consume.\"},{\"lane\":\"cleanup-authority-regression\",\"proof_role\":\"Retain cleanup authority regressions available in this #297 worktree while making clear they do not substitute for #300's later integrated matrix unless #300 mechanically invokes or enumerates them.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_cleanup\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"child-300-integrated-matrix-dependency\",\"proof_role\":\"#300 must separately prove the integrated recovery/cleanup matrix using its own target after the bridge lands; this parent card records the dependency and does not claim local proof from a missing #300 test file.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"preserved_projection_recovery\"],\"parallel_group\":\"local\",\"defer_reason\":\"Dependency record only: #300 remains review-failed/unpublished until it proves the bridge-fed integration target and either mechanically invokes or explicitly enumerates the matrix.\"}]}"
     }
   ]
 }

@@ -83,7 +83,7 @@ Implement typed evidence-preserving recovery for rollback-preserved issue projec
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
