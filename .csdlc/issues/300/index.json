@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "812e76425072c39de0d33f7240ac7901873d4a425f3b26e754bdda158d7c02ed",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "8facd5e5b6464aa6aac7f7a018746f6dbfee4fca9f41c0673445bb965e71f3c3",
+  "generation": 7,
+  "digest": "22de510da2551f46cd13195247c0ee2727aaabefe5621264e00f8fe259f2dd4b",
   "branch": "codex/300-projection-recovery-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-300-projection-recovery-integration-proof",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7befd3cd91245743137449e51907790933c385834d84de7221d5e89497aa0d30",
+      "values_digest": "3380768159d4746d2e72012ff394b837e1da2882290c76651276a70e39377eba",
       "rendered_digest": "b003b1d51dd3f4296ef4d8be0536d419fce23991df68d3ae3445937fdb901bfc",
       "ast_digest": "dea7ce3fd1e50f827b7a10dbc279ee19c71112032939c98b713d79c7acd4c982"
     },
     "stp": {
-      "values_digest": "fe7442c3d7bd5a334858a437a33565f6a55a3fbc4281b3a5532676b26b1d8587",
+      "values_digest": "c25d7e29324459df5b2221875f6228180fe35449f58db8bc576be5a0ed88ebb3",
       "rendered_digest": "9c318b641757d4bd27b306ec8864bae2f757a8eec46cbc9cd24384d545113499",
       "ast_digest": "f6bc49a3310d58c810276f43df1e69dc2d772d6083d6cfd61a0d2fe42614be8a"
     },
     "spp": {
-      "values_digest": "60931f31a668f074894f9e813538f606e5b0f27992bef6ff7d05680b7f65a356",
+      "values_digest": "e669fe4e6fc70e20549f21ac32b18cce552cc846056d3b9850b5110d1871770b",
       "rendered_digest": "17e42670b0aa901f572e0d422b009f4ef9e5bd8463e2f2b61a45a149164f4db2",
       "ast_digest": "cf94d7413d244fdd54d34005a149163a5c22e668e99ef82213ae2d2058146948"
     },
     "vpp": {
-      "values_digest": "6cb416204334303877a6b67a59635e48074d254e689c498f7c4697246fa370c6",
+      "values_digest": "961a1e7c20bef47c3e2d0bf657176830e4f6813896a3c3478ace8a8683c372c3",
       "rendered_digest": "ffac1c06684198b62ee6b72a4bda262c0b08d3cd971b68b5dc435b3e77c2e38a",
       "ast_digest": "b4d732c61fe93217e1fa7e266913c6e871b739351895d1446deb4ee19ecdcc43"
     },
     "srp": {
-      "values_digest": "b9616550fd605191b06d54de2462b4b27db1ffae74b488b585e091b433e3f0b8",
+      "values_digest": "4d4f6e7f1b0e2f4b142a6d39ad4904bf6b7292d424b13d835f9f68f9746fdf7b",
       "rendered_digest": "1dc71914fee67d02363980d13ba23e0ce1129c18abbf5fe3708b313cc2d5b217",
       "ast_digest": "381ec1de550ff20f74e29536aeb8eb752b69a08680db6c96ba500273e37a41e8"
     },
     "sor": {
-      "values_digest": "460d02ebe3bb72531e70b95688d2740fd76ba4858aed07eba4ce4dd057d6f4df",
-      "rendered_digest": "eb59787fd5fcfa5b369cfac7f32059b5bb5342838bd4e4ccf535684d7706215d",
-      "ast_digest": "697ea2852942c9777a9f03ef630260249be082e32611fe100ef3b7c7aebf1e92"
+      "values_digest": "f643f670d3280fa5f0e81866b1ccd802b86fed47ba1f3c1df8e95a76a0672091",
+      "rendered_digest": "1f1f13c575bfaa101784369fc0d4555c197ddef98f51ffb7438d5843cbe1cfe9",
+      "ast_digest": "dcb0ca17ae8fe0285b281b49fbde1a54a52a30b2baa5ed6aefd6251b04411904"
     }
   },
   "transitions": [
@@ -141,6 +141,13 @@
       "actor": "codex:worker-5",
       "reason": "Route Noether r1 P1 matrix finding: existing deep tests may support #300 only if the integration target mechanically invokes or otherwise proves the required cases.",
       "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"NOETHER-R1-P1-MATRIX\",\"severity\":\"p1\",\"summary\":\"The #300 integration target does not itself enumerate or mechanically prove the approved before/after recovery and cleanup failpoint matrix, conflicting-operation rejection, or full adversarial filesystem/request matrix; gate5 evidence cannot be overclaimed unless #300 mechanically invokes/proves those cases.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":\"Either make the #300 integration target mechanically invoke/prove the existing deep matrix cases or enumerate the missing integration cases explicitly before fresh review.\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:worker-5",
+      "reason": "Refresh #300 SOR after #330 terminal ancestry, bridge-fed fixture repair, and exact-head r3 validation evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the issue-owned projection recovery integration proof target without production edits, then refreshed it after #330 terminal ancestry so the test mechanically exercises the real recovery-derived cleanup authority bridge and the post-#330 race boundary.\",\"changes\":[\"Added and repaired csdlc-v2/tests/projection_recovery_integration.rs to verify #298, #299, and #330 terminal ancestry before #300 execution.\",\"Proved production recovery-to-cleanup composition by deriving cleanup authority from recovered projection receipts, replaying archived cleanup, rejecting conflicting cleanup authority, and permitting a later ordinary typed commit.\",\"Aligned the test fixture with production recovery-root cleanup ledger layout introduced by the #297/#330 bridge, without editing production files.\",\"Retained fail-closed race coverage by injecting a forged final cleanup receipt after recovery-derived authority construction and before cleanup node mutation, asserting no new ledger, namespace, or receipt bytes are created or rewritten.\",\"Kept the mechanical matrix proof in the #300 integration target so the existing gate5 recovery and archived cleanup suites remain invoked from the integration surface rather than merely cited.\"],\"artifacts\":[\"csdlc-v2/tests/projection_recovery_integration.rs\",\".csdlc/evidence/300/bridge-fed-r3/projection-recovery-integration.log sha256=31f0fd494db9c26edb00554e7f8f5fdd9eed9f581a4364be80d9d529d8f07d74\",\".csdlc/evidence/300/bridge-fed-r3/csdlc-v2-strict-clippy.log sha256=2f19254f02c5da2e27adfe12dd1921a9d6302d1befadf657395f91e644c1877c\",\".csdlc/evidence/300/bridge-fed-r3/csdlc-v2-fmt-check.log sha256=fa5b890143793fc543ec313b5793817ed72f64c4bcf91106d50b6be181238bb5\",\".csdlc/evidence/300/bridge-fed-r3/git-diff-check-head.log sha256=95157b4d111f1094b679326e9611f9af48846492feab3965f19ef8dd5e8ea2ad\",\".csdlc/evidence/300/bridge-fed-r3/projection-recovery-integration.harness-failed.log sha256=d3ab53e64742f3fba91a87097c45cd66aa27e1da3f63db1d2c8ad1d0614b186b non_proving_harness_failure\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"projection_recovery_integration\",\"--\",\"--nocapture\"],\"purpose\":\"Run the issue-owned bridge-fed projection recovery integration target, including terminal prerequisite ancestry, recovery-to-cleanup bridge replay/rejection, later typed commit, raced-final fail-closed no-mutation proof, and mechanical invocation of approved recovery and cleanup matrix tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/300/bridge-fed-r3/projection-recovery-integration.log sha256=31f0fd494db9c26edb00554e7f8f5fdd9eed9f581a4364be80d9d529d8f07d74 head=f9cd01a44391729d2d46c799e20ea9cf5f5ab335 status=0\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy with warnings denied across the C-SDLC v2 crate and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/300/bridge-fed-r3/csdlc-v2-strict-clippy.log sha256=2f19254f02c5da2e27adfe12dd1921a9d6302d1befadf657395f91e644c1877c head=f9cd01a44391729d2d46c799e20ea9cf5f5ab335 status=0\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Verify Rust formatting at the exact immutable source checkpoint.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/300/bridge-fed-r3/csdlc-v2-fmt-check.log sha256=fa5b890143793fc543ec313b5793817ed72f64c4bcf91106d50b6be181238bb5 head=f9cd01a44391729d2d46c799e20ea9cf5f5ab335 status=0\"},{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"purpose\":\"Verify whitespace hygiene for the exact source checkpoint plus evidence/card dirt before evidence commit.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/300/bridge-fed-r3/git-diff-check-head.log sha256=95157b4d111f1094b679326e9611f9af48846492feab3965f19ef8dd5e8ea2ad head=f9cd01a44391729d2d46c799e20ea9cf5f5ab335 status=0\"}]}"
     }
   ]
 }

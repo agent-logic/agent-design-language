@@ -12,16 +12,24 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the issue-owned projection recovery integration proof target without production edits.
+Implemented the issue-owned projection recovery integration proof target without production edits, then refreshed it after #330 terminal ancestry so the test mechanically exercises the real recovery-derived cleanup authority bridge and the post-#330 race boundary.
 
 ## Artifacts
 
 - csdlc-v2/tests/projection_recovery_integration.rs
-- .csdlc/evidence/300
+- .csdlc/evidence/300/bridge-fed-r3/projection-recovery-integration.log sha256=31f0fd494db9c26edb00554e7f8f5fdd9eed9f581a4364be80d9d529d8f07d74
+- .csdlc/evidence/300/bridge-fed-r3/csdlc-v2-strict-clippy.log sha256=2f19254f02c5da2e27adfe12dd1921a9d6302d1befadf657395f91e644c1877c
+- .csdlc/evidence/300/bridge-fed-r3/csdlc-v2-fmt-check.log sha256=fa5b890143793fc543ec313b5793817ed72f64c4bcf91106d50b6be181238bb5
+- .csdlc/evidence/300/bridge-fed-r3/git-diff-check-head.log sha256=95157b4d111f1094b679326e9611f9af48846492feab3965f19ef8dd5e8ea2ad
+- .csdlc/evidence/300/bridge-fed-r3/projection-recovery-integration.harness-failed.log sha256=d3ab53e64742f3fba91a87097c45cd66aa27e1da3f63db1d2c8ad1d0614b186b non_proving_harness_failure
 
 ## Execution
 
-- Added csdlc-v2/tests/projection_recovery_integration.rs to verify #298/#299 terminal ancestry, production recovery-to-cleanup composition, idempotent repeats, cleanup race fail-closed behavior, and a later ordinary typed commit.
+- Added and repaired csdlc-v2/tests/projection_recovery_integration.rs to verify #298, #299, and #330 terminal ancestry before #300 execution.
+- Proved production recovery-to-cleanup composition by deriving cleanup authority from recovered projection receipts, replaying archived cleanup, rejecting conflicting cleanup authority, and permitting a later ordinary typed commit.
+- Aligned the test fixture with production recovery-root cleanup ledger layout introduced by the #297/#330 bridge, without editing production files.
+- Retained fail-closed race coverage by injecting a forged final cleanup receipt after recovery-derived authority construction and before cleanup node mutation, asserting no new ledger, namespace, or receipt bytes are created or rewritten.
+- Kept the mechanical matrix proof in the #300 integration target so the existing gate5 recovery and archived cleanup suites remain invoked from the integration surface rather than merely cited.
 
 ## Validation
 
@@ -29,44 +37,55 @@ Implemented the issue-owned projection recovery integration proof target without
   {
     "command": [
       "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "projection_recovery_integration",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Run the issue-owned bridge-fed projection recovery integration target, including terminal prerequisite ancestry, recovery-to-cleanup bridge replay/rejection, later typed commit, raced-final fail-closed no-mutation proof, and mechanical invocation of approved recovery and cleanup matrix tests.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r3/projection-recovery-integration.log sha256=31f0fd494db9c26edb00554e7f8f5fdd9eed9f581a4364be80d9d529d8f07d74 head=f9cd01a44391729d2d46c799e20ea9cf5f5ab335 status=0"
+  },
+  {
+    "command": [
+      "cargo",
       "clippy",
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
-      "--workspace",
       "--all-targets",
       "--",
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict Clippy with warnings denied.",
+    "purpose": "Run strict Clippy with warnings denied across the C-SDLC v2 crate and tests.",
     "outcome": "passed",
-    "evidence_ref": "csdlc-v2-strict-clippy.log"
+    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r3/csdlc-v2-strict-clippy.log sha256=2f19254f02c5da2e27adfe12dd1921a9d6302d1befadf657395f91e644c1877c head=f9cd01a44391729d2d46c799e20ea9cf5f5ab335 status=0"
   },
   {
     "command": [
       "cargo",
-      "test",
+      "fmt",
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
-      "--test",
-      "projection_recovery_integration"
+      "--check"
     ],
-    "purpose": "Run the issue-owned integration target.",
+    "purpose": "Verify Rust formatting at the exact immutable source checkpoint.",
     "outcome": "passed",
-    "evidence_ref": "projection-recovery-integration.log"
+    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r3/csdlc-v2-fmt-check.log sha256=fa5b890143793fc543ec313b5793817ed72f64c4bcf91106d50b6be181238bb5 head=f9cd01a44391729d2d46c799e20ea9cf5f5ab335 status=0"
   },
   {
     "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate5"
+      "git",
+      "diff",
+      "--check",
+      "HEAD"
     ],
-    "purpose": "Run existing gate5 regression target read-only.",
+    "purpose": "Verify whitespace hygiene for the exact source checkpoint plus evidence/card dirt before evidence commit.",
     "outcome": "passed",
-    "evidence_ref": "projection-recovery-regression.log"
+    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r3/git-diff-check-head.log sha256=95157b4d111f1094b679326e9611f9af48846492feab3965f19ef8dd5e8ea2ad head=f9cd01a44391729d2d46c799e20ea9cf5f5ab335 status=0"
   }
 ]
 
