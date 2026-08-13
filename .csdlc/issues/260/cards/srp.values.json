@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 260,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1a][203.c] Migrate distributed Runtime callers to authority adapters",
+    "slug": "issue-260-distributed-runtime-authority-adapters",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Pre-bind #260 C-SDLC cards, design, diagram, and post-#259 bind handoff boundaries only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Check whether #260 is execution-ready after #259 terminal without allowing bind/source implementation before that gate.",
+        "Check whether #260 scope is limited to non-transport distributed Runtime caller migration and preserves #258/#259/#203 ownership.",
+        "Check whether validation lanes are focused and truthful, especially where selector finalization is deferred until post-#259 inventory."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

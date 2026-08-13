@@ -1,0 +1,77 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 260,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1a][203.c] Migrate distributed Runtime callers to authority adapters",
+    "slug": "issue-260-distributed-runtime-authority-adapters",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-distributed-caller-compile",
+          "proof_role": "Compile proof for migrated distributed Runtime callers",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "check",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-distributed-authority-adapter-callers-260",
+          "proof_role": "Issue-owned focused harness for #260 distributed Runtime caller migration after #259 terminal",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 360,
+          "budget_tokens": 1800,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_authority_adapter_callers_260",
+            "--no-tests=fail"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "The issue-owned post-#259 harness adl-runtime/tests/distributed_authority_adapter_callers_260.rs must be created in the #260 bound worktree after #259 is terminal and ancestral; pre-bind preparation records this denominator without creating source/test files on main."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on #259 nonterminal gate, scope overlap with #258/#259/#203, stale main, validation failure, stale review, or typed publication mismatch.",
+      "design_ref": ".csdlc/prepared/issues/260/design.md",
+      "design_digest": "268386db6870d5e1a1b1895d982c18d936ca2dc41f958f6592f4b170d6f07dda",
+      "diagram_ref": ".csdlc/prepared/issues/260/diagram.mmd",
+      "diagram_digest": "eac1d44f45d2f05d26ce8e15561981a4e618d4cbdab648eab3a417750761d0c1"
+    }
+  }
+}

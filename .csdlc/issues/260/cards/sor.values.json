@@ -1,0 +1,89 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 260,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1a][203.c] Migrate distributed Runtime callers to authority adapters",
+    "slug": "issue-260-distributed-runtime-authority-adapters",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Migrate non-transport distributed Runtime callers to governed authority-store adapters",
+      "actual_changes": [
+        "Require governed certificate adapters for capability-advertisement and snapshot-catalog production verification.",
+        "Require governed certificate authority for resource-weather and placement production reads.",
+        "Require governed certificate, lease, and fencing adapters for production projection reads.",
+        "Route migration and recovery lease/fencing transitions through fail-closed governed adapter helpers while keeping raw seams cfg(test)-only."
+      ],
+      "artifacts": [
+        "adl-runtime/src/distributed/capability_advertisement.rs",
+        "adl-runtime/src/distributed/migration.rs",
+        "adl-runtime/src/distributed/placement.rs",
+        "adl-runtime/src/distributed/projection.rs",
+        "adl-runtime/src/distributed/recovery.rs",
+        "adl-runtime/src/distributed/resource_weather.rs",
+        "adl-runtime/src/distributed/snapshot_catalog.rs",
+        "adl-runtime/tests/distributed_authority_adapter_callers_260.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_authority_adapter_callers_260",
+            "--",
+            "--test-threads=1"
+          ],
+          "purpose": "Run the issue-owned exact caller boundary guard.",
+          "outcome": "passed",
+          "evidence_ref": "authority-adapter-callers-260.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_migration",
+            "--test",
+            "distributed_recovery",
+            "--",
+            "--test-threads=1"
+          ],
+          "purpose": "Run focused migration and recovery integration tests.",
+          "outcome": "passed",
+          "evidence_ref": "migration-recovery.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict library Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-lib-clippy.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

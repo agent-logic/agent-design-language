@@ -11,15 +11,16 @@ use sha2::{Digest, Sha256};
 
 use super::{
     capability_advertisement::{CapabilityAdvertisementVerifier, VerifiedCapabilityAdvertisement},
-    certificates::{
-        CertificatePurpose, DistributedCertificateStore, AUTHORITY_BOUND_CERTIFICATE_ACCESS,
-    },
+    certificates::CertificatePurpose,
     fencing::{FenceReceipt, FencingStore},
     lease::{
         decode_certificate, AuthorityLedger, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA,
     },
     membership::{Member, MemberRole, MembershipState},
-    resource_weather::{PlacementWeather, ResourceWeatherStore, WeatherAvailability},
+    resource_weather::{
+        PlacementWeather, ResourceWeatherCertificateAuthority, ResourceWeatherStore,
+        WeatherAvailability,
+    },
 };
 
 const MAX_TEXT_BYTES: usize = 128;
@@ -224,9 +225,9 @@ impl std::ops::Deref for BoundWeather {
 }
 
 impl PlacementWeatherSnapshot {
-    pub fn capture(
+    pub fn capture<C: ResourceWeatherCertificateAuthority>(
         store: &ResourceWeatherStore,
-        certificates: &DistributedCertificateStore,
+        certificates: &C,
         now_unix_secs: u64,
     ) -> PlacementResult<Self> {
         let projected = store
@@ -236,8 +237,7 @@ impl PlacementWeatherSnapshot {
             .into_iter()
             .map(|row| {
                 let authorized = certificates
-                    .authorize(
-                        &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+                    .authorize_weather(
                         &row.holder_id,
                         CertificatePurpose::AdvertisementSigning,
                         row.certificate_generation,
