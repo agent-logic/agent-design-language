@@ -7,3 +7,5 @@
 {"sequence":7,"generation":4,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":8,"generation":5,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":9,"generation":6,"actor":"codex:/root","reason":"Recover stale #331 review truth after merging current origin/main into the bound branch; no #331 source conflict resolution was required, but the reviewed revision no longer matches HEAD.","operation":"recover_review"}
+{"sequence":10,"generation":6,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":7,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

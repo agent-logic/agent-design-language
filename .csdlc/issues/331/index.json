@@ -3,13 +3,57 @@
   "issue": 331,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d10036bad298d32728c965e820139dbff4ce7a3cd93d8badbc46214d1fbc16b0",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "54e6c9934e858767de872394ae976f14040777e1250bf4c132111af1de09b801",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "325db81cb3288aecbe448816a8f09c5bf87f69d21e96f82743cecc8faf5dca84",
   "branch": "codex/331-initialized-code-repository-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-331-initialized-code-repository-recovery",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:4589c316-ed35-4957-b82d-c9f6f5131fd5",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:a9c11f378b70949a887adc211781057d08c9af31:46f4f67ae0dddfb8df6c1fdc24ff7adae71d316399946a7644f8ebb77c906473",
+    "scope": [
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      ".csdlc/issues/331",
+      ".csdlc/evidence/331",
+      ".csdlc/prepared/issues/331/design.md",
+      ".csdlc/prepared/issues/331/diagram.mmd",
+      ".csdlc/prepared/issues/331/finalize-implementation.json",
+      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
+      ".csdlc/prepared/issues/331/review-recover-after-main-merge.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:4589c316-ed35-4957-b82d-c9f6f5131fd5",
+    "scope": [
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      ".csdlc/issues/331",
+      ".csdlc/evidence/331",
+      ".csdlc/prepared/issues/331/design.md",
+      ".csdlc/prepared/issues/331/diagram.mmd",
+      ".csdlc/prepared/issues/331/finalize-implementation.json",
+      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
+      ".csdlc/prepared/issues/331/review-recover-after-main-merge.json"
+    ],
+    "reviewed_revision": "git-blake3:a9c11f378b70949a887adc211781057d08c9af31:46f4f67ae0dddfb8df6c1fdc24ff7adae71d316399946a7644f8ebb77c906473",
+    "findings": [],
+    "residual_risks": [
+      "Read-only review; validation commands were not re-run by this review session.",
+      "Working tree had lifecycle/index/SRP noise and an untracked lock/assignment file, so review was pinned to immutable HEAD objects."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "03f65e6b0036fa7a4add4e5dd3f77175554e7f20cd34f36ceb48b21724708354",
+      "values_digest": "ce8912ad73c6c5bc034021e09a8930b2dbfc5edbfe6af1f3a9a67c2287e1afcc",
       "rendered_digest": "dd8d6e2fe53c084c79098ab820fc461459cedb17fbd97cc99825f89d63834a49",
       "ast_digest": "54863410c2ffea851545ccc80dc2783d2b5393dba9a76e5225668e423881f3dd"
     },
     "stp": {
-      "values_digest": "127c56acbf4717b59fbf0aa50a0c587c50c92d591097abd98c036836f0aff02e",
+      "values_digest": "cec4c68cd9f100a957c0e8304462166c44ff91483ac8be6f546c705882159b6d",
       "rendered_digest": "dfb5209f7d7e9113440476b004636572ac9d611db2c85f8f4a21b3e399f8dc32",
       "ast_digest": "77cbe8b0872ea62c634921e8afb8821ab3694e9aee9698fe0c660c7bdedddf15"
     },
     "spp": {
-      "values_digest": "524c039a1d44f289f64afbf384d6dcdc25782d4d847ef9bdd8a4e7e2779e234d",
+      "values_digest": "5b0fd8808e64f90bcf1a5ca8438dd6ac368f318549cb4015b621945a3921c3c8",
       "rendered_digest": "59d56e5aedd317e7f2f30706f0c08488f6222c2f66e3c5d257bb7fe58ba4d5de",
       "ast_digest": "e7c94237b50ebfc827a047c5fdd6764548dbecc0046bdccc29f9034a1023a30c"
     },
     "vpp": {
-      "values_digest": "860c9016057bd468332d6a3c22479f8efd227bef04c8654a17e31f5f609c0381",
+      "values_digest": "5ef695584e21758757061a81327e3bcb8d60cdde6db7619fa08b78139c26483e",
       "rendered_digest": "c8cf269e07f89d5008b0b9b01744f95d3e50d8adfc219c6c859d03a68ecd9309",
       "ast_digest": "3257ce6fde5db8710c20706cade47a63fea5620ca3307e398157197d60576860"
     },
     "srp": {
-      "values_digest": "89cca904721b808fa0c4843b4254c64c9ecafe40b4649522bfb21e236eeccd4e",
-      "rendered_digest": "bbaeaaf7a844c786b89263e3f1903361b7d5f9b1411e2cc978be6a1d2c34f188",
-      "ast_digest": "312fb9b2e3f5dc4d1558c2b56b5b06cb4fa892ee4b86b6c6e3865f3218e03b6e"
+      "values_digest": "b905484b41edf5a9271d6e51c2fc5aadbffc2718f615086205060e6b2843bed0",
+      "rendered_digest": "91b98f4a3a16902b0bff0843aa07e9fe5241252c56a72906d2a8c0b55b3fc5c2",
+      "ast_digest": "3292f524f9077ce11003c0db8b137ffde0e833ec54345b4ede5caea9b81ebed4"
     },
     "sor": {
-      "values_digest": "f64a343d630a97fec01cbfc8cd4710c461042311bb8fb00c7f53c81792e6ca24",
+      "values_digest": "2fab6f50e103db64eb467947dbc93f4ee5b8676eaf4c969d9a17133a54148ff8",
       "rendered_digest": "0ad76492469e5719d9737f091b6dbd8ed57f80af805b19d1832c354e91651013",
       "ast_digest": "e0b8ece61375ab286ab5b911290d381c90ce009e1e1606d88fd2e056d128d2ea"
     }
@@ -89,6 +133,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover stale #331 review truth after merging current origin/main into the bound branch; no #331 source conflict resolution was required, but the reviewed revision no longer matches HEAD."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -154,6 +205,20 @@
       "actor": "codex:/root",
       "reason": "Recover stale #331 review truth after merging current origin/main into the bound branch; no #331 source conflict resolution was required, but the reviewed revision no longer matches HEAD.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
