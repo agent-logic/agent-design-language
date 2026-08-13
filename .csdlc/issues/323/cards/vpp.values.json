@@ -1,0 +1,75 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 323,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tools] Add typed bound issue identity/repository migration for split-authority recovery",
+    "slug": "typed-bound-issue-identity-migration",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-v2-issue-migration-tests",
+          "proof_role": "Focused Rust regression coverage for bound issue identity migration and finish identity invariants",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "topology_migration"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-clippy",
+          "proof_role": "Strict relevant Rust lint for C-SDLC v2 owner changes",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed if the operation cannot prove source identity, target issue provenance, clean topology, nonterminal phase, and safe publication/review handling.",
+      "design_ref": ".csdlc/prepared/issues/323/design.md",
+      "design_digest": "35d6b4863cc00f61360b746971834a36d46e41df57f7729a41a6cc466306b270",
+      "diagram_ref": ".csdlc/prepared/issues/323/diagram.mmd",
+      "diagram_digest": "46c5608ffec4e90eb969e119d97fb5f733be2c4e17cc9995de004a89f1d903c7"
+    }
+  }
+}
