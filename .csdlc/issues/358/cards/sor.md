@@ -64,6 +64,24 @@ Seal Observatory transition action/predecessor and full canonical time.
     "purpose": "Run projection target.",
     "outcome": "passed",
     "evidence_ref": "focused.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_observatory_authority_projection",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "--test-threads=1"
+    ],
+    "purpose": "Prove every action shape, exact same-second nanos before/equal/after expiry behavior, durable serialize/reopen retention of action/predecessor/full time, mismatch denial, and redaction.",
+    "outcome": "passed",
+    "evidence_ref": "9 passed, 0 failed/ignored at remediation source f7b10c1c9; explicit assertions aggregate every action and boundary"
   }
 ]
 
