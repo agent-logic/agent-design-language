@@ -1,0 +1,140 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 349,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][defect] Keep deferred-validator admission consistent across ready transition",
+    "slug": "deferred-validator-ready-consistency",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-349-preparation",
+          "proof_role": "Prove exact generation/digest and six-card integrity, authored design bindings, and absence of local #342 paths or status mutations.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/349/validate_preparation.rb"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "gate2-deferred-ready-sequence",
+          "proof_role": "Exercise initialized doctor PASS, advertised advance_ready, unchanged ready doctor and bind, bound missing-target failure, and materialized-target PASS.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2",
+            "initialized_deferred_distributed_targets_bind_only_through_exact_path_harnesses"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "Runs after typed bind and the bounded lifecycle/test correction exists."
+        },
+        {
+          "lane": "gate2-deferred-negative-predicate-matrix",
+          "proof_role": "Prove each missing #79 admission predicate fails closed: exact ownership, validator deliverable, bounded non-placeholder deferral, proving route, and failure policy remain mandatory.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2",
+            "deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-format-check",
+          "proof_role": "Prove the touched C-SDLC v2 Rust source and regression remain canonically formatted.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all",
+            "--",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-strict-clippy",
+          "proof_role": "Reject warnings and lifecycle implementation defects in the touched C-SDLC v2 crate.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on stale topology, scope collision, #342 mutation, widened deferred admission, weakened #79 predicates, post-bind admission, validation failure, or stale review.",
+      "design_ref": ".csdlc/prepared/issues/349/design.md",
+      "design_digest": "e601e50fd2ddad122e9f9e75aa1e11d03ef5468de831f03aa4ec7519187f7e5e",
+      "diagram_ref": ".csdlc/prepared/issues/349/diagram.mmd",
+      "diagram_digest": "f7dd343d9d3d6e027cd6ae566cd613a706652037eab5a8a706001f5b1003fd3d"
+    }
+  }
+}

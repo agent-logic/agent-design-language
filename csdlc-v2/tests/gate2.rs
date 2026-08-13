@@ -730,6 +730,28 @@ fn initialized_deferred_distributed_targets_bind_only_through_exact_path_harness
         assert_eq!(initialized.status, csdlc_v2::doctor::DoctorStatus::Pass);
         assert!(initialized.ready);
         assert!(initialized.findings.is_empty());
+        assert_eq!(initialized.next_operation.as_deref(), Some("advance_ready"));
+
+        apply_edit(
+            &repo,
+            temp.path(),
+            issue,
+            "spp",
+            "follow-advertised-ready-transition",
+            serde_json::json!({
+                "operation": "advance_phase",
+                "phase": "ready"
+            }),
+        );
+        let ready = csdlc_v2::doctor::diagnose_with_code_repository(
+            &Store::new(&repo),
+            issue,
+            Some("agent-logic/agent-design-language"),
+        );
+        assert_eq!(ready.status, csdlc_v2::doctor::DoctorStatus::Pass);
+        assert!(!ready.ready);
+        assert!(ready.findings.is_empty());
+        assert_eq!(ready.next_operation.as_deref(), Some("inspect_phase"));
 
         let worktree = temp.path().join(format!("worktrees/issue-{issue}"));
         bind_issue(
