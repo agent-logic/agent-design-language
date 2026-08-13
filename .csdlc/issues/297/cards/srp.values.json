@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "csdlc-v2/src/projection_recovery.rs\ncsdlc-v2/src/projection_cleanup.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/297\n.csdlc/evidence/297/bridge-r2\n.csdlc/evidence/297/noether-300-routing-bridge-gap.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -5,10 +5,23 @@
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
   "phase": "implemented",
   "generation": 21,
-  "digest": "fff675a8088a8d98bb91d5a5a6480a227a7967682c34bc8e42fc862161cfd647",
+  "digest": "8a620f9733f68917a7e44cadd9345019080d24249fc65e049cda4073b1d98bfd",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:564aca81-5882-4af7-8bbd-3958a9caa14a",
+    "assigned_by": "codex:worker-5",
+    "revision": "git-blake3:2320074475180ed1f52a42f9104236dad6896c8a:a289cbfe49163ddfb7f0e757fd09fb1c751e5167bd060263c6b79779c42256d1",
+    "scope": [
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/src/projection_cleanup.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/297",
+      ".csdlc/evidence/297/bridge-r2",
+      ".csdlc/evidence/297/noether-300-routing-bridge-gap.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +57,9 @@
       "ast_digest": "f1c7789048ef56244afbbe53bd36196d5d4296a699769383a2e2b10c96b5eee3"
     },
     "srp": {
-      "values_digest": "3b4a650d14d98f7b992b6dd48dd8b73755e54439e07920c12b4bd3996eedc75c",
-      "rendered_digest": "ef04c3dfd5e0eadb2913a6706f7e9e8dd54eeade7e1edb43bc97e1f3204379be",
-      "ast_digest": "4a9b0580c70bbd10c0feac72bda62f208af9285f0f199aaaad3dc38c20ae79ae"
+      "values_digest": "c1f4d62e54209b49addc213279f338ff62bf4f63c6dc63d372fd4fcc0341d236",
+      "rendered_digest": "2e1a6292fff4b3b684db1f9ce67df2e12bd83b283be92451b91d60a2fe745ed7",
+      "ast_digest": "c9b330f7fb57e31afbe045e99078c295019922d81b5d0603343081b74455892c"
     },
     "sor": {
       "values_digest": "59630c62208501f3fa6c40e76824c15e3ac332ff3a9c84a30e3e58c74155569e",
@@ -245,6 +258,13 @@
       "actor": "codex:worker-5",
       "reason": "record the minimal production recovery-to-cleanup bridge implementation and exact-head validation evidence after #300 Noether P1 routing",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the minimal #297 production recovery-to-cleanup authority bridge required to unblock #300. The bridge validates a completed projection recovery attempt, derives cleanup node authority from the recovery-retained archived projection, writes production-generated completed recovery receipt and canonical archive manifest artifacts into the recovery attempt, and returns an ArchivedProjectionCleanupRequest that cleanup consumes without test-authored receipt or manifest JSON.\",\"changes\":[\"Added ProjectionRecoveryCleanupBridgeRequest and ProjectionRecoveryCleanupBridgeResult plus build_archived_projection_cleanup_request_from_recovery in csdlc-v2/src/projection_recovery.rs.\",\"The bridge validates the completed recovery receipt chain and canonical recovery audit before deriving cleanup authority, binds terminal issue/digest/merge inputs, writes no-follow/exclusive bridge authority artifacts in the recovery attempt, and returns exact receipt/manifest paths plus BLAKE3 digests.\",\"Exported the bridge API from csdlc-v2/src/lib.rs for #300 to consume after #297 is terminal and ancestral.\",\"Added gate5 regression recovery_bridge_emits_cleanup_authority_consumed_by_cleanup proving a real recovery attempt feeds execute_archived_projection_cleanup through bridge-produced authority files, with no synthetic cleanup authority created by the test harness.\",\"Adjusted cleanup identity comparison so directory link-count drift caused by already-removed children does not invalidate the same directory identity; regular-file link count and all other identity fields remain strict.\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/evidence/297/bridge-r2/gate5-bridge.log#sha256=c988023ec28d73ed6632b4f26187eb4b69382b0bad47b3d945cf0f3251fca724\",\".csdlc/evidence/297/bridge-r2/gate5-full.log#sha256=53e763ee3cd41324930337b3bc43509f21603497e784ada5b3875de4d0b6fcfa\",\".csdlc/evidence/297/bridge-r2/gate-cleanup.log#sha256=fe15fe7f510e18850dafae8668314f43857366f58d24c546cef15365879511d4\",\".csdlc/evidence/297/bridge-r2/strict-clippy.log#sha256=bd014e8b6cfdd4e7e194f8128edbcd166503d422118840703b5e9315debf5242\",\".csdlc/evidence/297/bridge-r2/fmt-check.log#sha256=c43948e2856e8a2045911d85d52b244776d72eb5d283a766016970c946a33b49\",\".csdlc/evidence/297/bridge-r2/diff-check.log#sha256=fcc88a21e54dfc032455002171ca7ea66e05ed7ab5e3bc920a7892c1525703cc\",\".csdlc/evidence/297/bridge-r2/csdlc-validate.log#sha256=b706e59dbb4670d9f15794263facc0a83a37a236d505e4e4f20999eb4023eefd\",\".csdlc/evidence/297/bridge-r2/csdlc-doctor.log#sha256=912967014ea3de09f04a7234f0672d5877d81f56ad64833abf8470ea683fd0d1\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"recovery_bridge_emits_cleanup_authority_consumed_by_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Focused production recovery-to-cleanup bridge proof at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/gate5-bridge.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"--\",\"--nocapture\"],\"purpose\":\"Full gate5 recovery/review regression lane after adding bridge API, at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/gate5-full.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Cleanup authority regression lane after directory identity comparison adjustment, at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/gate-cleanup.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all csdlc-v2 targets at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/strict-clippy.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/fmt-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\",\"&&\",\"git\",\"diff\",\"--check\"],\"purpose\":\"Committed-range and worktree diff hygiene at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/diff-check.log\"},{\"command\":[\"csdlc-validate\",\"issue\",\"--issue\",\"297\"],\"purpose\":\"Typed issue validation after VPP cycle-break and bridge validation-plan edits at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/csdlc-validate.log\"},{\"command\":[\"csdlc-doctor\",\"--issue\",\"297\"],\"purpose\":\"Typed doctor check after VPP cycle-break and bridge validation-plan edits at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/csdlc-doctor.log\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:worker-5",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
