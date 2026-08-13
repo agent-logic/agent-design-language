@@ -2,7 +2,7 @@
      Running tests/distributed_runtime_transport.rs (adl-runtime/target/debug/deps/distributed_runtime_transport-fdba6062feba61e2)
 
 running 1 test
-test three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state ... 
+test three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state ...
 thread 'three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state' (82444178) panicked at tests/distributed_runtime_transport.rs:537:6:
 three secure voters elect one leader: Elapsed(())
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
