@@ -6,3 +6,4 @@
 {"sequence":6,"generation":4,"actor":"codex:/root/issue_259_takeover","reason":"Record completed source-flow and #258 adapter API inspection before final validation.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"}
 {"sequence":7,"generation":5,"actor":"codex:/root/issue_259_takeover","reason":"Record completed governed transport binding with no public or dependent-crate raw-store constructor.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"}
 {"sequence":8,"generation":6,"actor":"codex:/root/issue_259_takeover","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":9,"generation":6,"actor":"codex:/root/issue_259_takeover","reason":"assign bounded exact-revision review","operation":"assign_review"}

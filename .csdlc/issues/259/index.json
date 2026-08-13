@@ -6,10 +6,27 @@
   "initialization_digest": "5757d863164a5f2f3330a01f212d5f6558c25c177a44f06d9f585657ca692015",
   "phase": "implemented",
   "generation": 6,
-  "digest": "3565274db4f20148dcc68477499a890c8bc209689bfd85adecf12bf7ec1d5b43",
+  "digest": "8b724a97bee778305f0f1996a46a178d869ca0778ef0cc45106b7aecf10e615f",
   "branch": "codex/259-governed-transport-authority-adapters",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-259-governed-transport-authority-adapters",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/issue_259_takeover/review_259_exact_r1",
+    "assigned_by": "codex:/root/issue_259_takeover",
+    "revision": "git-blake3:ff450597f3b6324888c587456d087ca3228af03f:75dc60933e77220c0ac24e82c3de0aa596ae4c195e10edfacb46561f5517619a",
+    "scope": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_reconciliation.rs",
+      "adl-runtime/src/distributed/transport/core.rs",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      ".csdlc/issues/259",
+      ".csdlc/prepared/issues/259",
+      ".csdlc/evidence/259"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "b352db0068ef3bc7eee400634e00670e48e8f8201aeeb4397228a9ca8b36d540"
     },
     "srp": {
-      "values_digest": "2ea1e171f364ef843d012f51f97a8884be0a5598ab1bce4973a31efc026b4e0b",
-      "rendered_digest": "46dede5359e4a118b390a418e4b4bd1bc1f0f72e385be82e980390768e1e9dc2",
-      "ast_digest": "df91d42e639090549d300ead5ca9a46d9a654b6522e9ea3e998f17b27dd823a2"
+      "values_digest": "e97c80dc7dadcd57559707d3f116435a9bcba28f3927b2bf7c88bb2d5270d7cd",
+      "rendered_digest": "cd7f5ac1f2a4d6df2f983b9f614eb8dbe022d6748420f005aee72c274c913ff5",
+      "ast_digest": "74030fd1ebd58a6bd4b642cc5967ed6704255e9e399cc82d2c379f08cab05884"
     },
     "sor": {
       "values_digest": "a30529f1fc8888a3ea84e6e1439c18b3412a7838982f85846543f437618b4903",
@@ -134,6 +151,13 @@
       "actor": "codex:/root/issue_259_takeover",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
