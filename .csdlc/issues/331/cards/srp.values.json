@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][defect] Support initialized code-repository declaration for legacy issue authority",
     "slug": "initialized-code-repository-recovery",
     "version": "v0.92.0",
-    "generation": 19
+    "generation": 20
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/migration.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/bin/csdlc-issue.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/code_repository_migration.rs\n.csdlc/evidence/331\n.csdlc/prepared/issues/331/design.md\n.csdlc/prepared/issues/331/diagram.mmd\n.csdlc/prepared/issues/331/finalize-implementation.json\n.csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py\n.csdlc/prepared/issues/331/sor-record-post-p1-remediation.json",
-      "review_revision": "git-blake3:6b9e81098a7620a263f7fc7cb5901ef76673b669:9c5cb7ecdf54bc47807a625fa65a1fb96e6da38df61c02ecb90d231535c5fc46",
-      "reviewer": "fresh-session:a5d0d458-5c86-405f-98cd-0d240a3e5433",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the new route only allow initialized repository declaration without broad lifecycle identity rewrite?",
         "Are stale CAS, existing code_repository, branch/worktree, publication, terminal, and ambiguous repository cases fail-closed?",
@@ -23,11 +23,8 @@
         "Is existing bound/implemented/reviewed migration behavior unchanged?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Review was read-only and bounded to the assigned scope and immutable HEAD; uncommitted lifecycle/review bookkeeping in .csdlc/issues/331 was not treated as substantive implementation scope.",
-        "Validation evidence was inspected as recorded proof, but validation commands were not rerun by this reviewer."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

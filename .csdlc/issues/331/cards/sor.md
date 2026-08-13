@@ -108,11 +108,11 @@ Implemented initialized/unbound code_repository migration authority for legacy i
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

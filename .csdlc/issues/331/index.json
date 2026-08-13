@@ -3,67 +3,14 @@
   "issue": 331,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d10036bad298d32728c965e820139dbff4ce7a3cd93d8badbc46214d1fbc16b0",
-  "phase": "published",
-  "generation": 19,
-  "digest": "aba84ea0edab952c4721d9df92b0a9948e19d45805b33e0364fb43807eb6700b",
+  "phase": "implemented",
+  "generation": 20,
+  "digest": "c90f8be3549700582001aa487ff5cff6b48efdae761ebdf108667a1636247e40",
   "branch": "codex/331-initialized-code-repository-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-331-initialized-code-repository-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:a5d0d458-5c86-405f-98cd-0d240a3e5433",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:6b9e81098a7620a263f7fc7cb5901ef76673b669:9c5cb7ecdf54bc47807a625fa65a1fb96e6da38df61c02ecb90d231535c5fc46",
-    "scope": [
-      "csdlc-v2/src/migration.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/code_repository_migration.rs",
-      ".csdlc/evidence/331",
-      ".csdlc/prepared/issues/331/design.md",
-      ".csdlc/prepared/issues/331/diagram.mmd",
-      ".csdlc/prepared/issues/331/finalize-implementation.json",
-      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
-      ".csdlc/prepared/issues/331/sor-record-post-p1-remediation.json"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:a5d0d458-5c86-405f-98cd-0d240a3e5433",
-    "scope": [
-      "csdlc-v2/src/migration.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/code_repository_migration.rs",
-      ".csdlc/evidence/331",
-      ".csdlc/prepared/issues/331/design.md",
-      ".csdlc/prepared/issues/331/diagram.mmd",
-      ".csdlc/prepared/issues/331/finalize-implementation.json",
-      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
-      ".csdlc/prepared/issues/331/sor-record-post-p1-remediation.json"
-    ],
-    "reviewed_revision": "git-blake3:6b9e81098a7620a263f7fc7cb5901ef76673b669:9c5cb7ecdf54bc47807a625fa65a1fb96e6da38df61c02ecb90d231535c5fc46",
-    "findings": [],
-    "residual_risks": [
-      "Review was read-only and bounded to the assigned scope and immutable HEAD; uncommitted lifecycle/review bookkeeping in .csdlc/issues/331 was not treated as substantive implementation scope.",
-      "Validation evidence was inspected as recorded proof, but validation commands were not rerun by this reviewer."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 331,
-    "pull_request": 332,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/332",
-    "base": "main",
-    "head": "codex/331-initialized-code-repository-recovery",
-    "revision": "git-blake3:6b9e81098a7620a263f7fc7cb5901ef76673b669:9c5cb7ecdf54bc47807a625fa65a1fb96e6da38df61c02ecb90d231535c5fc46",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -77,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8e4f1f9fbd098d19166b71d79432f1369d3937187330ebd4609224cf6d7d3c1d",
+      "values_digest": "60d32a27cdcf778db5c03a2ea431ca5d4d2db3fbc8fb0c850c415883aa36311f",
       "rendered_digest": "dd8d6e2fe53c084c79098ab820fc461459cedb17fbd97cc99825f89d63834a49",
       "ast_digest": "54863410c2ffea851545ccc80dc2783d2b5393dba9a76e5225668e423881f3dd"
     },
     "stp": {
-      "values_digest": "fa96936ce005f64afeb5a57ebdcd7d7177b9b35bd4d89eb2dbe6bee3eac69ada",
+      "values_digest": "f34d171baa8c035a11234a309fcb78492c702bd4d459f4294e56d0480353bbb6",
       "rendered_digest": "dfb5209f7d7e9113440476b004636572ac9d611db2c85f8f4a21b3e399f8dc32",
       "ast_digest": "77cbe8b0872ea62c634921e8afb8821ab3694e9aee9698fe0c660c7bdedddf15"
     },
     "spp": {
-      "values_digest": "4e3b8f2cfca8cf614a5f885abd5d3290271f22986d4f4faa82b9544691cb2599",
+      "values_digest": "e452f722c569cd178a2e875977527ec4b54857f92d5a0c743c016752980fc0aa",
       "rendered_digest": "59d56e5aedd317e7f2f30706f0c08488f6222c2f66e3c5d257bb7fe58ba4d5de",
       "ast_digest": "e7c94237b50ebfc827a047c5fdd6764548dbecc0046bdccc29f9034a1023a30c"
     },
     "vpp": {
-      "values_digest": "9af7150d62ab9db526f9742618cf14aa1864784cf89e23c36348ef81d79e847c",
+      "values_digest": "7dc3b0f97f66311cfe33e55a294e9e0daec22f60745791821a79927ce4e5e2ca",
       "rendered_digest": "c8cf269e07f89d5008b0b9b01744f95d3e50d8adfc219c6c859d03a68ecd9309",
       "ast_digest": "3257ce6fde5db8710c20706cade47a63fea5620ca3307e398157197d60576860"
     },
     "srp": {
-      "values_digest": "893087c7df2323eccf4a0425dc34c78355ddb9e5594374d974e9e5b9f544a761",
-      "rendered_digest": "1cf0d93c0f6aff41887be0617b72f9e81a2a6704317509db701fcdf69e0a0b58",
-      "ast_digest": "0d0a0f79f509f08f08d9ecd008999dbd5e40e53e31013f8c4942c57191ebe9da"
+      "values_digest": "995e184bec1869d308464d6b5b89c706469c4c06ab9815bb568fff1a08e9b04f",
+      "rendered_digest": "bbaeaaf7a844c786b89263e3f1903361b7d5f9b1411e2cc978be6a1d2c34f188",
+      "ast_digest": "312fb9b2e3f5dc4d1558c2b56b5b06cb4fa892ee4b86b6c6e3865f3218e03b6e"
     },
     "sor": {
-      "values_digest": "fa5926fb01712844caa10b0a7f6a34e91209912ef8cd698ed209589bf9e9b0af",
-      "rendered_digest": "dc023da094b070cb2e3fcd3985d4b77dfb8e091b1c539ced213e15a7b869c007",
-      "ast_digest": "119692a226cdc576154d7b2dfb86be992f5d1ecc1cf3443f489d3c54e1564a9d"
+      "values_digest": "25120edbb9edc2f8679f66b1407a04bc93662a9ca53b4b5ec18dcf1b3ccfc94e",
+      "rendered_digest": "35f3daf72244850e461b5a2ec06fe597d82df97d201115b3fbf0d42e0812cd16",
+      "ast_digest": "869e13d53b90ee4abb465fa52781efc16f0e7018642dc01491f46c86089cf48a"
     }
   },
   "transitions": [
@@ -198,6 +145,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover post-publication #331 truth after csdlc-finish proved review evidence changed after the publication commit; normalize exact review/publication evidence through supported lifecycle recovery before new review and republication."
     }
   ],
   "audit": [
@@ -410,6 +364,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 31,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Recover post-publication #331 truth after csdlc-finish proved review evidence changed after the publication commit; normalize exact review/publication evidence through supported lifecycle recovery before new review and republication.",
+      "operation": "recover_review"
     }
   ]
 }
