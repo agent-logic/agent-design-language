@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 323,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tools] Add typed bound issue identity/repository migration for split-authority recovery",
+    "slug": "typed-bound-issue-identity-migration",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/323\n.csdlc/prepared/issues/323\ncsdlc-v2/src/migration.rs\ncsdlc-v2/src/bin/csdlc-issue.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/tests/topology_migration.rs\ncsdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
+      "review_revision": "git-blake3:f0038c54e50b70dc1e16589e423fd6e5858427db:6fe0369bf428fe0cf3d945d11c7673e33c8057cd6f5321f3b919d2a27702e69b",
+      "reviewer": "fresh-session:93d2f508-e849-4528-a3ff-45aca09faa31",
+      "review_prompts": [
+        "Does the new operation avoid becoming a generic state editor?",
+        "Does it preserve finish identity invariants while making #5913 -> #322 recoverable?",
+        "Does it fail closed on stale, terminal, conflicting, or unsafe topology cases?",
+        "Does it preserve source provenance and validation truth?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The operation requires repo-local typed target issue evidence rather than performing a live GitHub lookup itself.",
+        "The #5913 PR #320 must be republished/relinked to canonical current issue #322 after this operation lands; this review does not merge #320."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

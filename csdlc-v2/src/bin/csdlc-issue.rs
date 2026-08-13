@@ -1,7 +1,8 @@
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
-    classify_preserved_projection, initialize_native_json, migrate_bound_topology,
-    migrate_code_repository, recover_preserved_projection, BoundTopologyMigrationRequest,
+    classify_preserved_projection, initialize_native_json, migrate_bound_issue_identity,
+    migrate_bound_topology, migrate_code_repository, recover_preserved_projection,
+    BoundIssueIdentityMigrationRequest, BoundTopologyMigrationRequest,
     CodeRepositoryMigrationRequest, ProjectionClassifyRequest, ProjectionRecoverRequest, Store,
 };
 use std::{fs, path::PathBuf};
@@ -25,6 +26,10 @@ enum Command {
         request: PathBuf,
     },
     MigrateCodeRepository {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    MigrateBoundIssueIdentity {
         #[arg(long)]
         request: PathBuf,
     },
@@ -60,6 +65,14 @@ fn main() {
                     .map_err(csdlc_v2::V2Error::from)
             })
             .and_then(|request| migrate_code_repository(&Store::new(cli.root), request))
+            .and_then(|report| serde_json::to_value(report).map_err(csdlc_v2::V2Error::from)),
+        Command::MigrateBoundIssueIdentity { request } => fs::read(request)
+            .map_err(csdlc_v2::V2Error::from)
+            .and_then(|bytes| {
+                serde_json::from_slice::<BoundIssueIdentityMigrationRequest>(&bytes)
+                    .map_err(csdlc_v2::V2Error::from)
+            })
+            .and_then(|request| migrate_bound_issue_identity(&Store::new(cli.root), request))
             .and_then(|report| serde_json::to_value(report).map_err(csdlc_v2::V2Error::from)),
         Command::ClassifyPreservedProjection { request } => {
             read::<ProjectionClassifyRequest>(&request)
