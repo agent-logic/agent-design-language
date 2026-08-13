@@ -42,12 +42,39 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "observatory-focused",
-    "proof_role": "Prove authenticated acquire, renew, transfer, revoke, nanos expiry, replay/restart, overlap denial, sealed-authority mismatch, and redaction.",
+    "lane": "observatory-transition-unit",
+    "proof_role": "Prove the private post-verification command guard with genuinely distinct acquire, renew, transfer, revoke, stale predecessor, overlap, and terminal-revival cases.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1200,
+    "budget_tokens": 10000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "observatory_serving_eligibility::tests",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "--test-threads=1"
+    ],
+    "parallel_group": "274-serial-02a",
+    "defer_reason": null
+  },
+  {
+    "lane": "observatory-focused",
+    "proof_role": "Prove authentic verifier acquire/restart, nanos expiry, replay, sealed-authority mismatch, and redaction.",
+    "acceptance_ids": [
+      "AC-1",
       "AC-4",
       "AC-5"
     ],
@@ -69,7 +96,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "--test-threads=1"
     ],
     "parallel_group": "274-serial-02",
-    "defer_reason": "Deferred until approved bind creates the exact module and test target."
+    "defer_reason": null
   },
   {
     "lane": "observatory-clippy",
@@ -169,6 +196,7 @@ Tokens: 50000
 ## Commands
 
 - `python3 .csdlc/prepared/issues/274/validate_preparation_bundle.py`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib observatory_serving_eligibility::tests --features internal-test-fixtures -- --test-threads=1`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_observatory_serving_eligibility --features internal-test-fixtures -- --test-threads=1`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_observatory_serving_eligibility --features internal-test-fixtures -- -D warnings`
 - `python3 .csdlc/prepared/issues/274/validate_scope.py`

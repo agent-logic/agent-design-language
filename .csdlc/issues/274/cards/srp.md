@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #274 initialized packet, live issue identity, stable design/diagram, canonical terminal ancestry for #191/#199/#200/#201/#202/#203/#272/#273/#350/#356/#358, sealed authenticated action/predecessor/full canonical time, Observatory-only state machine, disjoint module/test ownership, one-line shared registration after #273, proof matrix, redaction, and exclusion of #272/#273/#350/#356/#358/#203/#205 owned source plus UI/listener/transport/cloud/provider work.
+
 
 ## Prompts
 

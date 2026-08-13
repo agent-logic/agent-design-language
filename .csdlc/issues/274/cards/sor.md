@@ -70,7 +70,7 @@ Implement sealed Observatory serving eligibility.
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

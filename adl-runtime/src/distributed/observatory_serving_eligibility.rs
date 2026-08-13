@@ -89,6 +89,21 @@ struct State {
     current: Option<Grant>,
     operations: BTreeMap<String, Receipt>,
 }
+#[derive(Clone, Debug)]
+struct TransitionCommand {
+    grant: Grant,
+    action: ObservatoryTransitionAction,
+    predecessor: Option<String>,
+}
+impl TransitionCommand {
+    fn verified(p: &VerifiedObservatoryAuthorityProjection) -> Self {
+        Self {
+            grant: grant(p, Status::Eligible),
+            action: p.transition_action(),
+            predecessor: p.predecessor_operation_ref().map(str::to_owned),
+        }
+    }
+}
 impl CheckpointMetadataSource for State {
     fn checkpoint_metadata(&self) -> Result<CheckpointMetadata, PolisRuntimeError> {
         let b = serde_jcs::to_vec(self).map_err(|_| PolisRuntimeError::Serialization)?;
@@ -156,7 +171,7 @@ impl ObservatoryEligibilityStore {
     ) -> Result<ObservatoryEligibilityProjection, ObservatoryEligibilityError> {
         let p = verify_observatory_authority_projection(authority, cut)
             .map_err(|_| ObservatoryEligibilityError::InvalidAuthority)?;
-        let op = p.operation_ref().to_owned();
+        let op = p.authority_result_sha256().to_owned();
         let input = input_digest(&p, seconds, nanos)?;
         if let Some(old) = self.envelope.payload().operations.get(&op) {
             if old.input != input {
@@ -170,43 +185,16 @@ impl ObservatoryEligibilityStore {
         let expired = p
             .is_expired_at(seconds, nanos)
             .map_err(|_| ObservatoryEligibilityError::InvalidAuthority)?;
-        self.commit(&p, input, expired)
+        self.commit(TransitionCommand::verified(&p), input, expired)
     }
     fn commit(
         &mut self,
-        p: &VerifiedObservatoryAuthorityProjection,
+        command: TransitionCommand,
         input: String,
         expired: bool,
     ) -> Result<ObservatoryEligibilityProjection, ObservatoryEligibilityError> {
-        let current = self.envelope.payload().current.as_ref();
-        match p.transition_action() {
-            ObservatoryTransitionAction::Acquire => {
-                if current.is_some_and(|g| g.status == Status::Eligible)
-                    || p.predecessor_operation_ref().is_some()
-                {
-                    return Err(ObservatoryEligibilityError::StaleAuthority);
-                }
-            }
-            ObservatoryTransitionAction::Renew
-            | ObservatoryTransitionAction::Transfer
-            | ObservatoryTransitionAction::Revoke => {
-                let prior = current.ok_or(ObservatoryEligibilityError::StaleAuthority)?;
-                if prior.status != Status::Eligible
-                    || p.predecessor_operation_ref() != Some(prior.operation.as_str())
-                    || p.lineage_ref() != prior.lineage
-                    || p.trust_domain_ref() != prior.trust
-                    || p.polis_ref() != prior.polis
-                    || p.committed_log_index() <= prior.index
-                    || p.fencing_generation() <= prior.fence
-                {
-                    return Err(ObservatoryEligibilityError::StaleAuthority);
-                }
-            }
-        }
-        if expired && p.transition_action() == ObservatoryTransitionAction::Acquire {
-            return Err(ObservatoryEligibilityError::StaleAuthority);
-        }
-        let status = if p.transition_action() == ObservatoryTransitionAction::Revoke {
+        validate_transition(self.envelope.payload().current.as_ref(), &command, expired)?;
+        let status = if command.action == ObservatoryTransitionAction::Revoke {
             Status::Revoked
         } else if expired {
             Status::Expired
@@ -216,22 +204,60 @@ impl ObservatoryEligibilityStore {
         let prior = digest(self.envelope.payload())?;
         let mut next = self.envelope.payload().clone();
         next.revision += 1;
-        next.current = Some(grant(p, status));
-        let result_state = digest(&next)?;
-        let receipt = Receipt {
-            operation: p.operation_ref().into(),
+        let mut resulting_grant = command.grant.clone();
+        resulting_grant.status = status;
+        next.current = Some(resulting_grant);
+        let mut receipt = Receipt {
+            operation: command.grant.operation.clone(),
             input,
             prior,
-            result_state,
-            action: p.transition_action(),
-            predecessor: p.predecessor_operation_ref().map(str::to_owned),
+            result_state: String::new(),
+            action: command.action,
+            predecessor: command.predecessor.clone(),
             projection: stored(&next),
         };
         next.operations
-            .insert(p.operation_ref().into(), receipt.clone());
+            .insert(command.grant.result.clone(), receipt.clone());
+        // Hash the complete durable state with only this self-referential digest
+        // field cleared; this canonical convention avoids recursive hashing.
+        receipt.result_state = digest(&next)?;
+        next.operations
+            .insert(command.grant.result, receipt.clone());
         self.envelope = self.store.commit(&self.envelope, next)?;
         output(&receipt)
     }
+}
+fn validate_transition(
+    current: Option<&Grant>,
+    command: &TransitionCommand,
+    expired: bool,
+) -> Result<(), ObservatoryEligibilityError> {
+    match command.action {
+        ObservatoryTransitionAction::Acquire => {
+            if current.is_some() || command.predecessor.is_some() {
+                return Err(ObservatoryEligibilityError::StaleAuthority);
+            }
+        }
+        ObservatoryTransitionAction::Renew
+        | ObservatoryTransitionAction::Transfer
+        | ObservatoryTransitionAction::Revoke => {
+            let prior = current.ok_or(ObservatoryEligibilityError::StaleAuthority)?;
+            if prior.status != Status::Eligible
+                || command.predecessor.as_deref() != Some(prior.operation.as_str())
+                || command.grant.lineage != prior.lineage
+                || command.grant.trust != prior.trust
+                || command.grant.polis != prior.polis
+                || command.grant.index < prior.index
+                || command.grant.fence <= prior.fence
+            {
+                return Err(ObservatoryEligibilityError::StaleAuthority);
+            }
+        }
+    }
+    if expired && command.action == ObservatoryTransitionAction::Acquire {
+        return Err(ObservatoryEligibilityError::StaleAuthority);
+    }
+    Ok(())
 }
 fn grant(p: &VerifiedObservatoryAuthorityProjection, status: Status) -> Grant {
     Grant {
@@ -327,4 +353,116 @@ fn input_digest(
     serde_jcs::to_vec(&value)
         .map(|b| hex::encode(Sha256::digest(b)))
         .map_err(|_| ObservatoryEligibilityError::Serialization)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    fn grant(operation: &str, fence: u64, status: Status) -> Grant {
+        Grant {
+            trust: "trust".into(),
+            polis: "polis".into(),
+            lineage: "lineage".into(),
+            operation: operation.into(),
+            index: 2,
+            generation: 1,
+            fence,
+            result: format!("result-{operation}"),
+            signers: "signers".into(),
+            signer_count: 3,
+            deadline_seconds: 10,
+            deadline_nanos: 5,
+            deadline_uncertainty: 1,
+            final_seconds: 9,
+            final_nanos: 5,
+            final_uncertainty: 1,
+            status,
+        }
+    }
+    fn command(
+        action: ObservatoryTransitionAction,
+        operation: &str,
+        predecessor: Option<&str>,
+        fence: u64,
+    ) -> TransitionCommand {
+        TransitionCommand {
+            grant: grant(operation, fence, Status::Eligible),
+            action,
+            predecessor: predecessor.map(str::to_owned),
+        }
+    }
+    #[test]
+    fn distinct_authenticated_transition_guard_is_monotone() {
+        let acquired = grant("acquire", 1, Status::Eligible);
+        assert!(validate_transition(
+            None,
+            &command(ObservatoryTransitionAction::Acquire, "acquire", None, 1),
+            false
+        )
+        .is_ok());
+        assert!(validate_transition(
+            Some(&acquired),
+            &command(
+                ObservatoryTransitionAction::Renew,
+                "renew",
+                Some("acquire"),
+                2
+            ),
+            false
+        )
+        .is_ok());
+        let renewed = grant("renew", 2, Status::Eligible);
+        assert!(validate_transition(
+            Some(&renewed),
+            &command(
+                ObservatoryTransitionAction::Transfer,
+                "transfer",
+                Some("renew"),
+                3
+            ),
+            false
+        )
+        .is_ok());
+        let transferred = grant("transfer", 3, Status::Eligible);
+        assert!(validate_transition(
+            Some(&transferred),
+            &command(
+                ObservatoryTransitionAction::Revoke,
+                "revoke",
+                Some("transfer"),
+                4
+            ),
+            false
+        )
+        .is_ok());
+        assert_eq!(
+            validate_transition(
+                Some(&grant("revoke", 4, Status::Revoked)),
+                &command(ObservatoryTransitionAction::Acquire, "revive", None, 5),
+                false
+            ),
+            Err(ObservatoryEligibilityError::StaleAuthority)
+        );
+        assert_eq!(
+            validate_transition(
+                Some(&grant("expired", 4, Status::Expired)),
+                &command(ObservatoryTransitionAction::Acquire, "revive", None, 5),
+                false
+            ),
+            Err(ObservatoryEligibilityError::StaleAuthority)
+        );
+        assert_eq!(
+            validate_transition(
+                Some(&transferred),
+                &command(
+                    ObservatoryTransitionAction::Transfer,
+                    "stale",
+                    Some("wrong"),
+                    4
+                ),
+                false
+            ),
+            Err(ObservatoryEligibilityError::StaleAuthority)
+        );
+    }
 }

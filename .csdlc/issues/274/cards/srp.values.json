@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b3.1b][205.c] Add Observatory quorum serving authority",
     "slug": "observatory-quorum-serving-authority",
     "version": "v0.92",
-    "generation": 4
+    "generation": 7
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #274 initialized packet, live issue identity, stable design/diagram, canonical terminal ancestry for #191/#199/#200/#201/#202/#203/#272/#273/#350/#356/#358, sealed authenticated action/predecessor/full canonical time, Observatory-only state machine, disjoint module/test ownership, one-line shared registration after #273, proof matrix, redaction, and exclusion of #272/#273/#350/#356/#358/#203/#205 owned source plus UI/listener/transport/cloud/provider work.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

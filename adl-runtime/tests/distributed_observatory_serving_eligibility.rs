@@ -44,7 +44,13 @@ fn pair(
     let mut f = ObservatoryBindingFixture::new(s);
     f.set_invalid_identifier(ObservatoryIdentifierField::LineageId, "lineage-shared");
     f.set_invalid_identifier(ObservatoryIdentifierField::OperationId, "operation");
-    f.set_integers(2, 1, 1);
+    let fence = match a {
+        ObservatoryTransitionAction::Acquire => 1,
+        ObservatoryTransitionAction::Renew => 2,
+        ObservatoryTransitionAction::Transfer => 3,
+        ObservatoryTransitionAction::Revoke => 4,
+    };
+    f.set_integers(2, 1, fence);
     f.set_transition(a, p);
     let authority = test_observatory_published_authority(f.artifact_bytes());
     let cut = VerifiedServingAuthorityCut::fixture_from_observatory(&f);
@@ -77,7 +83,7 @@ fn stale_predecessor_overlap_and_conflicting_retry_fail_closed() {
     let (other, oc, _) = pair("other", ObservatoryTransitionAction::Acquire, None);
     assert_eq!(
         s.apply(&other, &oc, 1_700_000_000, 123_456_789),
-        Err(ObservatoryEligibilityError::RetryConflict)
+        Err(ObservatoryEligibilityError::StaleAuthority)
     );
     let (r, rc, _) = pair(
         "wrong",
@@ -86,7 +92,7 @@ fn stale_predecessor_overlap_and_conflicting_retry_fail_closed() {
     );
     assert_eq!(
         s.apply(&r, &rc, 1_700_000_000, 123_456_789),
-        Err(ObservatoryEligibilityError::RetryConflict)
+        Err(ObservatoryEligibilityError::StaleAuthority)
     );
     assert_eq!(
         s.apply(&a, &c, 1_700_000_001, 0),
