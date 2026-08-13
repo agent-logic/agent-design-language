@@ -397,6 +397,56 @@ fn bridge_cleanup_does_not_poison_later_recovery_validation() {
 }
 
 #[test]
+fn forged_cleanup_final_chain_does_not_authorize_recovery_skip() {
+    let (_temp, store, record) = implemented_fixture();
+    completed_recovery_attempt(&store, &record, "op-330-forged-chain-recovery");
+    let bridge = bridge_cleanup_request(
+        &store,
+        "op-330-forged-chain-recovery",
+        "op-330-forged-chain-cleanup",
+    );
+    let cleanup = execute_archived_projection_cleanup(&bridge.cleanup_request).expect("cleanup");
+    assert_eq!(cleanup.status, ArchivedProjectionCleanupStatus::Completed);
+
+    let final_receipt = PathBuf::from(&bridge.cleanup_ledger_root)
+        .join(&bridge.cleanup_operation_id)
+        .join("900-cleanup-complete.json");
+    let mut forged: serde_json::Value =
+        serde_json::from_slice(&fs::read(&final_receipt).expect("final receipt"))
+            .expect("final json");
+    forged["previous_receipt_digest"] = serde_json::Value::String("forged-predecessor".into());
+    let mut bytes = serde_json::to_vec_pretty(&forged).expect("forged bytes");
+    bytes.push(b'\n');
+    fs::write(&final_receipt, bytes).expect("write forged final");
+
+    let recovered_record = store.load_record(7).expect("record after recovery");
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: recovered_record.generation,
+            expected_digest: recovered_record.digest,
+            actor: "test".into(),
+            reason: "ordinary commit after forged cleanup chain".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "post forged cleanup commit".into(),
+                changes: vec!["src".into()],
+                artifacts: vec![cleanup.final_receipt_digest],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("forged cleanup chain must not authorize recovery skip");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::CorruptRecord);
+    assert!(
+        error.message.contains("cleanup") || error.message.contains("recovery"),
+        "unexpected error: {}",
+        error.message
+    );
+}
+
+#[test]
 fn raced_final_receipt_before_prefinal_validation_is_zero_mutation() {
     let (_temp, store, record) = implemented_fixture();
     completed_recovery_attempt(&store, &record, "op-330-race-recovery");

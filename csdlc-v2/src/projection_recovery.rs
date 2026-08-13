@@ -3115,6 +3115,8 @@ fn validate_completed_recovery_cleanup_authority(
             "cleanup ledger does not bind completed recovery authority",
         ));
     }
+    let final_previous =
+        validate_completed_cleanup_ledger_chain(&cleanup_operation_root, &expected_nodes)?;
     let final_receipt_path = cleanup_operation_root.join("900-cleanup-complete.json");
     let final_receipt = cleanup_receipt_envelope(&final_receipt_path)?;
     if final_receipt.get("schema").and_then(|value| value.as_str())
@@ -3127,7 +3129,7 @@ fn validate_completed_recovery_cleanup_authority(
         || final_receipt
             .get("previous_receipt_digest")
             .and_then(|value| value.as_str())
-            .is_none()
+            != Some(final_previous.as_str())
         || final_receipt.get("payload")
             != Some(&serde_json::json!({
                 "issue": issue,
@@ -3141,6 +3143,200 @@ fn validate_completed_recovery_cleanup_authority(
         ));
     }
     Ok(())
+}
+
+fn validate_completed_cleanup_ledger_chain(
+    operation_root: &Path,
+    expected_nodes: &[ArchivedProjectionNode],
+) -> Result<String> {
+    reject_unexpected_cleanup_ledger_entries(operation_root, expected_nodes)?;
+    let (mut previous, operation_payload) = cleanup_receipt_envelope_digest(
+        &operation_root.join("001-operation-created.json"),
+        1,
+        "operation-created",
+        None,
+    )?;
+    if !operation_payload.is_object() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup operation-created receipt payload is invalid",
+        ));
+    }
+    let (namespace_digest, namespace_payload) = cleanup_receipt_envelope_digest(
+        &operation_root.join("002-namespace-created.json"),
+        2,
+        "namespace-created",
+        Some(&previous),
+    )?;
+    if namespace_payload
+        .get("private_root")
+        .and_then(|value| value.as_str())
+        != Some("private-delete")
+        || namespace_payload
+            .get("mode")
+            .and_then(|value| value.as_str())
+            != Some("0700")
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup namespace-created receipt payload is invalid",
+        ));
+    }
+    previous = namespace_digest;
+    for (index, node) in expected_nodes.iter().enumerate() {
+        let ordinal = index as u32 + 1;
+        let base = 100 + ordinal * 10;
+        let (placeholder_digest, placeholder_payload) = cleanup_receipt_envelope_digest(
+            &operation_root.join(format!("{base:03}-placeholder-created.json")),
+            base,
+            "placeholder-created",
+            Some(&previous),
+        )?;
+        if placeholder_payload
+            .get("path")
+            .and_then(|value| value.as_str())
+            != Some(node.relative_path.as_str())
+            || placeholder_payload
+                .get("private")
+                .and_then(|value| value.as_str())
+                != Some(format!("node-{ordinal:03}").as_str())
+            || placeholder_payload.get("identity").is_none()
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup placeholder receipt does not match retained recovery authority",
+            ));
+        }
+        let placeholder_identity =
+            placeholder_payload
+                .get("identity")
+                .cloned()
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::CorruptRecord,
+                        "cleanup placeholder identity is missing",
+                    )
+                })?;
+        let (captured_digest, captured_payload) = cleanup_receipt_envelope_digest(
+            &operation_root.join(format!("{:03}-captured.json", base + 3)),
+            base + 3,
+            "captured",
+            Some(&placeholder_digest),
+        )?;
+        if captured_payload
+            .get("path")
+            .and_then(|value| value.as_str())
+            != Some(node.relative_path.as_str())
+            || captured_payload.get("expected_identity")
+                != Some(&serde_json::to_value(&node.identity)?)
+            || captured_payload.get("placeholder_identity") != Some(&placeholder_identity)
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup captured receipt does not match retained recovery authority",
+            ));
+        }
+        let (removed_digest, removed_payload) = cleanup_receipt_envelope_digest(
+            &operation_root.join(format!("{:03}-removed.json", base + 6)),
+            base + 6,
+            "removed",
+            Some(&captured_digest),
+        )?;
+        if removed_payload.get("path").and_then(|value| value.as_str())
+            != Some(node.relative_path.as_str())
+            || removed_payload.get("removed_identity")
+                != Some(&serde_json::to_value(&node.identity)?)
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup removed receipt does not match retained recovery authority",
+            ));
+        }
+        let (disposed_digest, disposed_payload) = cleanup_receipt_envelope_digest(
+            &operation_root.join(format!("{:03}-placeholder-disposed.json", base + 8)),
+            base + 8,
+            "placeholder-disposed",
+            Some(&removed_digest),
+        )?;
+        if disposed_payload
+            .get("path")
+            .and_then(|value| value.as_str())
+            != Some(node.relative_path.as_str())
+            || disposed_payload.get("placeholder_identity") != Some(&placeholder_identity)
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup placeholder disposal receipt does not match retained recovery authority",
+            ));
+        }
+        previous = disposed_digest;
+    }
+    Ok(previous)
+}
+
+fn reject_unexpected_cleanup_ledger_entries(
+    operation_root: &Path,
+    expected_nodes: &[ArchivedProjectionNode],
+) -> Result<()> {
+    let mut expected = BTreeSet::from([
+        "001-operation-created.json".to_string(),
+        "002-namespace-created.json".to_string(),
+        "900-cleanup-complete.json".to_string(),
+        "private-delete".to_string(),
+    ]);
+    for (index, _) in expected_nodes.iter().enumerate() {
+        let ordinal = index as u32 + 1;
+        let base = 100 + ordinal * 10;
+        expected.insert(format!("{base:03}-placeholder-created.json"));
+        expected.insert(format!("{:03}-captured.json", base + 3));
+        expected.insert(format!("{:03}-removed.json", base + 6));
+        expected.insert(format!("{:03}-placeholder-disposed.json", base + 8));
+    }
+    for entry in fs::read_dir(operation_root)? {
+        let entry = entry?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        if !expected.contains(&name) {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup operation ledger contains unexpected entries",
+            ));
+        }
+    }
+    if !operation_root.join("private-delete").is_dir() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup private namespace is missing",
+        ));
+    }
+    Ok(())
+}
+
+fn cleanup_receipt_envelope_digest(
+    path: &Path,
+    sequence: u32,
+    state: &str,
+    previous: Option<&String>,
+) -> Result<(String, serde_json::Value)> {
+    let bytes = read_cleanup_receipt_file(path)?;
+    let envelope: serde_json::Value = serde_json::from_slice(&bytes)?;
+    if envelope.get("schema").and_then(|value| value.as_str())
+        != Some("csdlc.archived_projection_cleanup_receipt.v1")
+        || envelope.get("sequence").and_then(|value| value.as_u64()) != Some(sequence as u64)
+        || envelope.get("state").and_then(|value| value.as_str()) != Some(state)
+        || envelope.get("previous_receipt_digest") != Some(&serde_json::to_value(previous)?)
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup receipt predecessor chain is invalid",
+        ));
+    }
+    let payload = envelope.get("payload").cloned().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup receipt payload is missing",
+        )
+    })?;
+    Ok((blake3::hash(&bytes).to_hex().to_string(), payload))
 }
 
 pub(crate) fn is_authorized_cleanup_ledger_entry(
