@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][defect] Support initialized code-repository declaration for legacy issue authority",
     "slug": "initialized-code-repository-recovery",
     "version": "v0.92.0",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/migration.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/doctor.rs\ncsdlc-v2/src/bin/csdlc-issue.rs if changed\ncsdlc-v2/tests/code_repository_migration.rs\nfocused gate2/doctor tests if changed\n.csdlc/issues/331\n.csdlc/evidence/331",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/migration.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/bin/csdlc-issue.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/code_repository_migration.rs\n.csdlc/issues/331\n.csdlc/evidence/331\n.csdlc/prepared/issues/331/design.md\n.csdlc/prepared/issues/331/diagram.mmd\n.csdlc/prepared/issues/331/finalize-implementation.json\n.csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
+      "review_revision": "git-blake3:24e99238dd88daa437a6adf973baf4a1741e2de8:4e283a5a997f1e74d13dbedcb1b6e8d8d02f45a8c51dcb0eba96a2133df6bfb7",
+      "reviewer": "fresh-session:f74e271b-ec76-4ab6-bfcb-2f81865f8327",
       "review_prompts": [
         "Does the new route only allow initialized repository declaration without broad lifecycle identity rewrite?",
         "Are stale CAS, existing code_repository, branch/worktree, publication, terminal, and ambiguous repository cases fail-closed?",
@@ -23,8 +23,11 @@
         "Is existing bound/implemented/reviewed migration behavior unchanged?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was read-only; validation evidence was inspected from retained logs rather than re-executed.",
+        "GitHub/PR state and hosted CI were outside this exact-head implementation review."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -14,12 +14,16 @@ Status: pre_phase
 
 csdlc-v2/src/migration.rs
 csdlc-v2/src/store.rs
-csdlc-v2/src/doctor.rs
-csdlc-v2/src/bin/csdlc-issue.rs if changed
+csdlc-v2/src/bin/csdlc-issue.rs
+csdlc-v2/src/schema.rs
+csdlc-v2/src/lib.rs
 csdlc-v2/tests/code_repository_migration.rs
-focused gate2/doctor tests if changed
 .csdlc/issues/331
 .csdlc/evidence/331
+.csdlc/prepared/issues/331/design.md
+.csdlc/prepared/issues/331/diagram.mmd
+.csdlc/prepared/issues/331/finalize-implementation.json
+.csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py
 
 ## Prompts
 
@@ -38,12 +42,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was read-only; validation evidence was inspected from retained logs rather than re-executed.
+- GitHub/PR state and hosted CI were outside this exact-head implementation review.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:24e99238dd88daa437a6adf973baf4a1741e2de8:4e283a5a997f1e74d13dbedcb1b6e8d8d02f45a8c51dcb0eba96a2133df6bfb7")
 
-Reviewer: None
+Reviewer: Some("fresh-session:f74e271b-ec76-4ab6-bfcb-2f81865f8327")
 
-Result: pre_review
+Result: pass

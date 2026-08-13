@@ -3,13 +3,55 @@
   "issue": 331,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d10036bad298d32728c965e820139dbff4ce7a3cd93d8badbc46214d1fbc16b0",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "0009def6fdc1f099deac5bb4773d66fa724154b1e0b06d885b619ed14dbc0e6e",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "e265c22934ffdef123e08c0c295faad7bc1e42e3d6026576cbb3345fa7baf4f1",
   "branch": "codex/331-initialized-code-repository-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-331-initialized-code-repository-recovery",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:f74e271b-ec76-4ab6-bfcb-2f81865f8327",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:24e99238dd88daa437a6adf973baf4a1741e2de8:4e283a5a997f1e74d13dbedcb1b6e8d8d02f45a8c51dcb0eba96a2133df6bfb7",
+    "scope": [
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      ".csdlc/issues/331",
+      ".csdlc/evidence/331",
+      ".csdlc/prepared/issues/331/design.md",
+      ".csdlc/prepared/issues/331/diagram.mmd",
+      ".csdlc/prepared/issues/331/finalize-implementation.json",
+      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:f74e271b-ec76-4ab6-bfcb-2f81865f8327",
+    "scope": [
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      ".csdlc/issues/331",
+      ".csdlc/evidence/331",
+      ".csdlc/prepared/issues/331/design.md",
+      ".csdlc/prepared/issues/331/diagram.mmd",
+      ".csdlc/prepared/issues/331/finalize-implementation.json",
+      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py"
+    ],
+    "reviewed_revision": "git-blake3:24e99238dd88daa437a6adf973baf4a1741e2de8:4e283a5a997f1e74d13dbedcb1b6e8d8d02f45a8c51dcb0eba96a2133df6bfb7",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only; validation evidence was inspected from retained logs rather than re-executed.",
+      "GitHub/PR state and hosted CI were outside this exact-head implementation review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +66,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ab923a62d65e39d2f7ddb4de6f9e9d4709eece538b7b40d44571296ade1e67d9",
+      "values_digest": "2ad47d346202cb4dce8db8da5af51e27b35222f092b541872fcf9a2e487787ba",
       "rendered_digest": "dd8d6e2fe53c084c79098ab820fc461459cedb17fbd97cc99825f89d63834a49",
       "ast_digest": "54863410c2ffea851545ccc80dc2783d2b5393dba9a76e5225668e423881f3dd"
     },
     "stp": {
-      "values_digest": "dec674f4c9e630377c4817d166dbd2f437944eaa00686897c68e3b801cdb7699",
+      "values_digest": "ff6059b41935c77b1de054a4a93329a3dcf97bdd6c11b41a62c13599fbd6e634",
       "rendered_digest": "dfb5209f7d7e9113440476b004636572ac9d611db2c85f8f4a21b3e399f8dc32",
       "ast_digest": "77cbe8b0872ea62c634921e8afb8821ab3694e9aee9698fe0c660c7bdedddf15"
     },
     "spp": {
-      "values_digest": "19aa474b2efd818560c9aeadfba17e7a95ce4d84cc1f10126c4c525a1e2dc258",
+      "values_digest": "c2ba290f7dd4da91795add2903d4261f721b3b2ec2ae2d6a9480b5f208d731d4",
       "rendered_digest": "59d56e5aedd317e7f2f30706f0c08488f6222c2f66e3c5d257bb7fe58ba4d5de",
       "ast_digest": "e7c94237b50ebfc827a047c5fdd6764548dbecc0046bdccc29f9034a1023a30c"
     },
     "vpp": {
-      "values_digest": "f65bb4e3e62a92c3ac0c4768777969dc16ebed87303ddef9119bc35ba2e5b78f",
+      "values_digest": "f0c82b233b091c27ba9bd042815c6830aa6ce5defc998680287564948eaf540e",
       "rendered_digest": "c8cf269e07f89d5008b0b9b01744f95d3e50d8adfc219c6c859d03a68ecd9309",
       "ast_digest": "3257ce6fde5db8710c20706cade47a63fea5620ca3307e398157197d60576860"
     },
     "srp": {
-      "values_digest": "f3f014aa07c5dbf6efeec8ad6d2090952c5fb70e23021a67691a787dc265cddf",
-      "rendered_digest": "8815546f18eefbd684e30b1c04b5e3d8d6c238c3f1faaa73512ca8737ac60355",
-      "ast_digest": "66294877c645e16c6e1cd4180ed1cc3d0e42f3b84b633dc335762e212d123ef5"
+      "values_digest": "97e7ca16b971256ea35b9bd7951688947d2a7eb3131d37197cb5e3bbb4236d7b",
+      "rendered_digest": "ede5efcd550ac8649977162b69e0cc50457b272229ea20458747d944c0495573",
+      "ast_digest": "f7ddf2e936e85949d90c2ff5049dd7ae634f173679f663d913b1f36e75aa0420"
     },
     "sor": {
-      "values_digest": "fb68f0e5f89b25dcd2a177b2eb8badae2402cc82804047f5d1bab41ad455cba2",
+      "values_digest": "b7369d33b4bb6fd5e9c07439407d1a043935deec1af8641552b373a3bd99cb16",
       "rendered_digest": "dbfc3d8f048c3837b1aaa3fafcb008e2f46e2178d3582f8316c6089a2929012f",
       "ast_digest": "15243083809d3efc3dbad3d447242a1255586e9597c67db7cbc35fbd66d05e58"
     }
@@ -75,6 +117,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -119,6 +168,20 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
