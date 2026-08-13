@@ -5,8 +5,9 @@ use std::collections::BTreeMap;
 
 use csdlc_v2::finish::validate_publication_head_in_repo;
 use csdlc_v2::publication::{
-    commit_publication_metadata_tail, persist_publication_intent, publication_intent_dir,
-    reconcile_action, resume_recorded_publication_intent, PublicationAction,
+    commit_publication_metadata_tail, governed_publication_metadata_followup_paths,
+    persist_publication_intent, publication_intent_dir, reconcile_action,
+    resume_recorded_publication_intent, PublicationAction,
 };
 use csdlc_v2::{
     DesignReview, FinishRequest, IssueRecord, LifecyclePhase, MergeMethod, PublicationEvidence,
@@ -155,11 +156,77 @@ fn publication_metadata_tail_is_committed_as_finish_ready_metadata_only_head() {
         csdlc_v2::git::metadata_only_changed_paths(temp.path(), &published_head, &metadata_head),
         Ok(paths) if paths == vec![".csdlc/issues/306/index.json"]
     ));
+    assert_eq!(
+        governed_publication_metadata_followup_paths(
+            temp.path(),
+            306,
+            &published_head,
+            &metadata_head
+        )
+        .expect("governed publication metadata paths"),
+        vec![".csdlc/issues/306/index.json"]
+    );
 
     let mut request = finish_request();
     request.expected_head_sha = Some(metadata_head);
     validate_publication_head_in_repo(temp.path(), &published, &request)
         .expect("metadata-only publication tail remains finish-ready");
+}
+
+#[test]
+fn publication_followup_rejects_unrelated_safe_metadata_paths() {
+    let temp = tempfile::tempdir().expect("temp repo");
+    init_repo(temp.path());
+
+    let published_head = git_out(temp.path(), &["rev-parse", "HEAD"]);
+    let mut published = record(LifecyclePhase::Published, None);
+    published.publication = Some(PublicationEvidence {
+        repository: "agent-logic/agent-design-language".into(),
+        issue: 306,
+        pull_request: 306,
+        url: "https://github.com/agent-logic/agent-design-language/pull/306".into(),
+        base: "main".into(),
+        head: "codex/306-publication-tail-exact-clean-finish".into(),
+        revision: csdlc_v2::git::clean_commit_revision(&published_head),
+        linkage_mode: Some(PublicationLinkageMode::Closing),
+        draft: false,
+        observed_state: "open".into(),
+    });
+    write_issue_record(temp.path(), &published);
+    std::fs::create_dir_all(temp.path().join(".csdlc/evidence/999")).expect("evidence dir");
+    std::fs::write(
+        temp.path().join(".csdlc/evidence/999/unrelated.json"),
+        "{\"unrelated\":true}\n",
+    )
+    .expect("unrelated evidence");
+    git(
+        temp.path(),
+        &[
+            "add",
+            ".csdlc/issues/306/index.json",
+            ".csdlc/evidence/999/unrelated.json",
+        ],
+    );
+    git(temp.path(), &["commit", "-q", "-m", "mixed metadata tail"]);
+    let metadata_head = git_out(temp.path(), &["rev-parse", "HEAD"]);
+
+    assert!(matches!(
+        csdlc_v2::git::metadata_only_changed_paths(temp.path(), &published_head, &metadata_head),
+        Ok(paths)
+            if paths
+                == vec![
+                    ".csdlc/evidence/999/unrelated.json",
+                    ".csdlc/issues/306/index.json"
+                ]
+    ));
+    let error = governed_publication_metadata_followup_paths(
+        temp.path(),
+        306,
+        &published_head,
+        &metadata_head,
+    )
+    .expect_err("unrelated safe metadata must not satisfy publication follow-up");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
 }
 
 #[test]

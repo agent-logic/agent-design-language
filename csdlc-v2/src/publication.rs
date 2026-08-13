@@ -498,6 +498,30 @@ fn publication_metadata_path(issue: u64, path: &str) -> bool {
     matches!(rest, "index.json" | "audit.jsonl")
 }
 
+pub fn governed_publication_metadata_path(issue: u64, path: &str) -> bool {
+    publication_metadata_path(issue, path)
+}
+
+pub fn governed_publication_metadata_followup_paths(
+    root: &Path,
+    issue: u64,
+    published_head: &str,
+    metadata_head: &str,
+) -> Result<Vec<String>> {
+    let paths = crate::git::metadata_only_changed_paths(root, published_head, metadata_head)?;
+    if paths.is_empty()
+        || paths
+            .iter()
+            .any(|path| !governed_publication_metadata_path(issue, path))
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "metadata publication head is not a governed metadata-only follow-up",
+        ));
+    }
+    Ok(paths)
+}
+
 fn verify_record(record: &IssueRecord, request: &PublicationRequest) -> Result<()> {
     let record_code_repository = record
         .code_repository

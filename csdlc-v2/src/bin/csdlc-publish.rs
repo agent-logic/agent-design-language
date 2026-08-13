@@ -210,15 +210,12 @@ fn validate_metadata_followup_remote(
             "metadata publication PR did not converge to the exact governed follow-up head",
         ));
     }
-    if !matches!(
-        csdlc_v2::git::metadata_only_changed_paths(root, &intent.commit_sha, metadata_head),
-        Ok(paths) if !paths.is_empty()
-    ) {
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "metadata publication head is not a governed metadata-only follow-up",
-        ));
-    }
+    csdlc_v2::publication::governed_publication_metadata_followup_paths(
+        root,
+        intent.issue,
+        &intent.commit_sha,
+        metadata_head,
+    )?;
     Ok(())
 }
 
