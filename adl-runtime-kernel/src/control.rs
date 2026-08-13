@@ -30,6 +30,10 @@ use tokio_util::sync::CancellationToken;
 use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
+use crate::layer8_authority::{
+    AuthorityDecision, Layer8Action, Layer8ConversationAuthority, Layer8SignedExchange,
+};
+
 use crate::{
     decode_acip_envelope, AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy,
     AgentRosterQuery, AgentRuntimeEvidence, BootstrapEvent, CanonicalIngress, CheckpointManifest,
@@ -708,6 +712,8 @@ pub struct ControlService<C> {
     control_addr: Mutex<SocketAddr>,
     public_base_url: Mutex<String>,
     canonical_ingress: Option<CanonicalIngress>,
+    layer8_authority: Option<Arc<Layer8ConversationAuthority>>,
+    layer8_signed_exchange: Option<Arc<Layer8SignedExchange>>,
     agent_roster_token_key: Mutex<[u8; 32]>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
     #[cfg(test)]
@@ -796,6 +802,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
             public_base_url: Mutex::new("https://localhost".to_owned()),
             canonical_ingress: None,
+            layer8_authority: None,
+            layer8_signed_exchange: None,
             agent_roster_token_key: Mutex::new(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.ephemeral.v1",
                 uuid::Uuid::new_v4().as_bytes(),
@@ -854,6 +862,16 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
         self.canonical_ingress = Some(ingress);
+        self
+    }
+
+    pub fn with_layer8_authority(mut self, authority: Layer8ConversationAuthority) -> Self {
+        self.layer8_authority = Some(Arc::new(authority));
+        self
+    }
+
+    pub fn with_layer8_signed_exchange(mut self, exchange: Layer8SignedExchange) -> Self {
+        self.layer8_signed_exchange = Some(Arc::new(exchange));
         self
     }
 
@@ -947,6 +965,89 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .conversation_sessions
             .lock()
             .expect("conversation sessions mutex poisoned");
+        let existing_turn_present = sessions
+            .sessions
+            .get(&intent.conversation_id)
+            .and_then(|session| session.turns.get(&intent.turn_id))
+            .is_some();
+        if !existing_turn_present {
+            let action = if sessions.sessions.contains_key(&intent.conversation_id) {
+                Layer8Action::Continue
+            } else {
+                Layer8Action::Contact
+            };
+            if let Some(authority) = self.layer8_authority.as_ref() {
+                let Some(exchange) = self.layer8_signed_exchange.as_ref() else {
+                    return ConversationAcceptance::Response(outcome(
+                        "failed",
+                        "conversation_signing_unavailable",
+                        None,
+                    ));
+                };
+                let now_epoch_secs = now_unix_millis() / 1_000;
+                let replay_id = format!(
+                    "{}:{}:{}",
+                    self.instance_id, intent.conversation_id, intent.turn_id
+                );
+                let payload_json = match serde_jcs::to_string(&serde_json::json!({
+                    "action": action.clone(),
+                    "message": intent.message,
+                    "recipient_id": intent.recipient_id,
+                })) {
+                    Ok(payload) => payload,
+                    Err(_) => {
+                        return ConversationAcceptance::Response(outcome(
+                            "refused",
+                            "invalid_conversation_intent",
+                            None,
+                        ))
+                    }
+                };
+                let signed_request = match exchange.signed_request(
+                    &intent.recipient_id,
+                    &intent.conversation_id,
+                    &intent.correlation_id,
+                    &replay_id,
+                    payload_json,
+                    now_epoch_secs,
+                ) {
+                    Ok(request) => request,
+                    Err(_) => {
+                        return ConversationAcceptance::Response(outcome(
+                            "failed",
+                            "conversation_signing_unavailable",
+                            None,
+                        ))
+                    }
+                };
+                if exchange
+                    .verify_request(&signed_request, now_epoch_secs)
+                    .is_err()
+                {
+                    return ConversationAcceptance::Response(outcome(
+                        "refused",
+                        "conversation_request_signature_invalid",
+                        None,
+                    ));
+                }
+                let decision = authority.authorize(
+                    &exchange.sender_verifying_identity(),
+                    action,
+                    intent.conversation_id.clone(),
+                    intent.recipient_id.clone(),
+                    replay_id,
+                    intent.correlation_id.clone(),
+                    now_epoch_secs,
+                );
+                if !matches!(decision, AuthorityDecision::Authorized(_)) {
+                    return ConversationAcceptance::Response(outcome(
+                        "refused",
+                        "conversation_authority_refused",
+                        None,
+                    ));
+                }
+            }
+        }
         if !sessions.sessions.contains_key(&intent.conversation_id) {
             if !sessions.retain_capacity_for_new_session(self.max_records) {
                 return ConversationAcceptance::Response(outcome(
@@ -3132,6 +3233,300 @@ fn constant_time_eq(left: &[u8], right: &[u8]) -> bool {
                 difference | (left ^ right)
             })
             == 0
+}
+
+#[cfg(test)]
+mod layer8_conversation_ingress_tests {
+    use super::*;
+    use crate::layer8_authority::{
+        AuthorityScope, CommunicationKeyDescriptor, CommunicationVerifyingDescriptor,
+        ConversationAuthorityProfile, ConversationSigningProfile, Layer8AuthorityStore,
+        Layer8Capability, Layer8Policy, RuntimeIdentityEvidence,
+    };
+
+    struct FakeLifecycle;
+
+    #[async_trait]
+    impl LifecycleControl for FakeLifecycle {
+        async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
+            Ok(KernelExit::Clean)
+        }
+    }
+
+    struct Layer8Fixture {
+        root: tempfile::TempDir,
+        authority: Layer8ConversationAuthority,
+        exchange: Layer8SignedExchange,
+    }
+
+    fn layer8_fixture(contact_recipient: &str, continue_recipient: &str) -> Layer8Fixture {
+        let temp_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join(".adl")
+            .join("tmp");
+        std::fs::create_dir_all(&temp_root).expect("create test temp root");
+        let root = tempfile::tempdir_in(temp_root).expect("create layer8 fixture");
+        let sender_key = SigningKey::from_bytes(&[41; 32]);
+        let recipient_key = SigningKey::from_bytes(&[42; 32]);
+        let sender_key_file = root.path().join("operator.key");
+        std::fs::write(&sender_key_file, hex::encode(sender_key.to_bytes()))
+            .expect("write sender key");
+        let evidence = RuntimeIdentityEvidence {
+            principal_id: "operator".to_owned(),
+            polis_id: "conversation-runtime".to_owned(),
+            signing_key_id: "operator-key".to_owned(),
+            verifying_key_hex: hex::encode(sender_key.verifying_key().to_bytes()),
+            credential_generation: 1,
+            current_credential_generation: 1,
+            expires_at_epoch_secs: u64::MAX,
+            revoked: false,
+            authenticated: true,
+        };
+        let scope = |action, recipient: &str| AuthorityScope {
+            polis_id: "conversation-runtime".to_owned(),
+            action,
+            conversation_id: None,
+            recipients: BTreeSet::from([recipient.to_owned()]),
+            attachment_id: None,
+        };
+        let contact_scope = scope(Layer8Action::Contact, contact_recipient);
+        let continue_scope = scope(Layer8Action::Continue, continue_recipient);
+        let capabilities = [
+            ("contact-capability", contact_scope.clone()),
+            ("continue-capability", continue_scope.clone()),
+        ]
+        .into_iter()
+        .map(|(capability_id, scope)| Layer8Capability {
+            capability_id: capability_id.to_owned(),
+            principal_id: evidence.principal_id.clone(),
+            scope,
+            epoch: 1,
+            expires_at_epoch_secs: u64::MAX,
+            revoked: false,
+        })
+        .collect();
+        let agent_policies = [
+            ("agent-contact-policy", contact_scope.clone()),
+            ("agent-continue-policy", continue_scope.clone()),
+        ]
+        .into_iter()
+        .map(|(policy_id, scope)| Layer8Policy {
+            policy_id: policy_id.to_owned(),
+            available: true,
+            scope,
+            epoch: 1,
+        })
+        .collect();
+        let polis_policies = [
+            ("polis-contact-policy", contact_scope),
+            ("polis-continue-policy", continue_scope),
+        ]
+        .into_iter()
+        .map(|(policy_id, scope)| Layer8Policy {
+            policy_id: policy_id.to_owned(),
+            available: true,
+            scope,
+            epoch: 1,
+        })
+        .collect();
+        let authority = Layer8ConversationAuthority::new(
+            Layer8AuthorityStore::open(root.path().join("audit.jsonl")).expect("open audit"),
+            ConversationAuthorityProfile {
+                evidence: evidence.clone(),
+                capabilities,
+                agent_policies,
+                polis_policies,
+            },
+        )
+        .expect("authority profile is valid");
+        let exchange = Layer8SignedExchange::load(ConversationSigningProfile {
+            sender: CommunicationKeyDescriptor {
+                principal_id: "operator".to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: "operator-key".to_owned(),
+                credential_generation: 1,
+                private_key_file: sender_key_file,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            },
+            recipients: vec![CommunicationVerifyingDescriptor {
+                principal_id: "shepherd".to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: "shepherd-key".to_owned(),
+                credential_generation: 1,
+                verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
+                revoked: false,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            }],
+        })
+        .expect("exchange profile is valid");
+        Layer8Fixture {
+            root,
+            authority,
+            exchange,
+        }
+    }
+
+    fn service_with_layer8(
+        contact_recipient: &str,
+        continue_recipient: &str,
+    ) -> (ControlService<FakeLifecycle>, tempfile::TempDir) {
+        let recorder = RuntimeRecorder::new(16);
+        let now = now_unix_millis();
+        recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Running);
+        assert!(recorder.record_agent_admission(
+            "shepherd",
+            now,
+            now + 30_000,
+            "1111111111111111111111111111111111111111",
+        ));
+        let ingress = CanonicalIngress::new(4, recorder.clone(), BTreeMap::new());
+        let fixture = layer8_fixture(contact_recipient, continue_recipient);
+        let service = ControlService::new_with_observatory_config_and_agents(
+            "conversation-runtime",
+            recorder,
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            8,
+            ["https://observatory.example.test".to_owned()],
+            AgentPopulationFeed::resident_shepherd(),
+        )
+        .with_canonical_ingress(ingress)
+        .with_layer8_authority(fixture.authority)
+        .with_layer8_signed_exchange(fixture.exchange);
+        (service, fixture.root)
+    }
+
+    fn intent() -> ObservatoryConversationIntent {
+        ObservatoryConversationIntent {
+            schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
+            conversation_id: "conversation-layer8".to_owned(),
+            turn_id: "turn-layer8".to_owned(),
+            recipient_id: "shepherd".to_owned(),
+            correlation_id: "12121212121212121212121212121212".to_owned(),
+            message: "Hello".to_owned(),
+        }
+    }
+
+    fn continue_intent(turn_id: &str) -> ObservatoryConversationIntent {
+        ObservatoryConversationIntent {
+            turn_id: turn_id.to_owned(),
+            message: format!("Continue with {turn_id}"),
+            ..intent()
+        }
+    }
+
+    #[test]
+    fn layer8_ingress_refuses_before_conversation_side_effects() {
+        let (service, _root) = service_with_layer8("agent-other", "agent-other");
+        let response = match service.accept_conversation_intent(&intent()) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => {
+                panic!("unauthorized conversation dispatched")
+            }
+        };
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("conversation_authority_refused"));
+        assert!(
+            service
+                .conversation_sessions
+                .lock()
+                .expect("conversation sessions mutex poisoned")
+                .sessions
+                .is_empty(),
+            "authority refusal must happen before session or turn mutation"
+        );
+    }
+
+    #[test]
+    fn layer8_ingress_authorizes_before_dispatch() {
+        let (service, _root) = service_with_layer8("shepherd", "shepherd");
+        let accepted = match service.accept_conversation_intent(&intent()) {
+            ConversationAcceptance::Dispatch { accepted, .. } => accepted,
+            ConversationAcceptance::Response(response) => {
+                panic!("authorized conversation was refused: {:?}", response.error)
+            }
+        };
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.error, None);
+        assert_eq!(
+            service
+                .conversation_sessions
+                .lock()
+                .expect("conversation sessions mutex poisoned")
+                .sessions
+                .len(),
+            1,
+            "authorized ingress may create the session after authority grants"
+        );
+    }
+
+    #[test]
+    fn layer8_ingress_continue_refuses_before_turn_side_effects() {
+        let (service, _root) = service_with_layer8("shepherd", "agent-other");
+        match service.accept_conversation_intent(&intent()) {
+            ConversationAcceptance::Dispatch { .. } => {}
+            ConversationAcceptance::Response(response) => {
+                panic!("initial contact was refused: {:?}", response.error)
+            }
+        }
+
+        let response = match service.accept_conversation_intent(&continue_intent("turn-continue")) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => {
+                panic!("unauthorized continue dispatched")
+            }
+        };
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("conversation_authority_refused"));
+        let sessions = service
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let session = sessions
+            .sessions
+            .get("conversation-layer8")
+            .expect("initial authorized contact created a session");
+        assert_eq!(session.turns.len(), 1);
+        assert!(
+            !session.turns.contains_key("turn-continue"),
+            "authority refusal must happen before adding a continuation turn"
+        );
+    }
+
+    #[test]
+    fn layer8_ingress_continue_authorizes_before_dispatch() {
+        let (service, _root) = service_with_layer8("shepherd", "shepherd");
+        match service.accept_conversation_intent(&intent()) {
+            ConversationAcceptance::Dispatch { .. } => {}
+            ConversationAcceptance::Response(response) => {
+                panic!("initial contact was refused: {:?}", response.error)
+            }
+        }
+
+        let accepted = match service.accept_conversation_intent(&continue_intent("turn-continue")) {
+            ConversationAcceptance::Dispatch { accepted, .. } => accepted,
+            ConversationAcceptance::Response(response) => {
+                panic!("authorized continue was refused: {:?}", response.error)
+            }
+        };
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.error, None);
+        let sessions = service
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let session = sessions
+            .sessions
+            .get("conversation-layer8")
+            .expect("initial authorized contact created a session");
+        assert_eq!(
+            session.turns.len(),
+            2,
+            "authorized continuation may add the turn after authority grants"
+        );
+        assert!(session.turns.contains_key("turn-continue"));
+    }
 }
 
 pub fn write_payload(
