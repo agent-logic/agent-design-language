@@ -1,0 +1,12 @@
+flowchart TD
+    A["#258 terminal authority-store boundary"] --> B["#259 terminal governed transport binding"]
+    B --> C["#260 bind gate opens"]
+    C --> D["Inventory non-transport distributed Runtime callers"]
+    D --> E["Migrate callers to governed adapter facade"]
+    E --> F["Focused Runtime caller validation"]
+    F --> G["Fresh exact-head review and publication"]
+    G --> H["#203 parent integration gate"]
+
+    X["No #258 boundary changes"] -. non-goal .-> E
+    Y["No #259 transport ownership"] -. non-goal .-> E
+    Z["No #203 closeout"] -. non-goal .-> G

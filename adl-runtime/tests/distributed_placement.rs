@@ -431,9 +431,12 @@ fn signed_capability_bytes_are_verified_before_placement() {
         .canonicalize()
         .unwrap()
         .join("placement-capability-replay.redb");
-    let verifier =
-        CapabilityAdvertisementVerifier::open(certificates.store.clone(), policy.clone(), replay)
-            .unwrap();
+    let verifier = CapabilityAdvertisementVerifier::open_for_test(
+        certificates.store.clone(),
+        policy.clone(),
+        replay,
+    )
+    .unwrap();
     let certificate = advertisement_certificate("guardian-1", 3);
     let seed = "guardian-1"
         .bytes()

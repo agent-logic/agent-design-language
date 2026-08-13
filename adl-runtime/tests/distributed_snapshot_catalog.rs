@@ -289,7 +289,7 @@ impl Fixture {
     }
 
     fn verifier(&self) -> SnapshotCatalogVerifier {
-        SnapshotCatalogVerifier::open(
+        SnapshotCatalogVerifier::open_for_test(
             self.certificate_store.clone(),
             self.policy.clone(),
             &self.replay_path,
@@ -676,7 +676,7 @@ fn oversized_and_unsafe_replay_state_paths_fail_closed() {
         SnapshotError::InvalidSnapshot,
     );
     assert_eq!(
-        SnapshotCatalogVerifier::open(
+        SnapshotCatalogVerifier::open_for_test(
             fixture.certificate_store.clone(),
             fixture.policy.clone(),
             "relative.redb",
