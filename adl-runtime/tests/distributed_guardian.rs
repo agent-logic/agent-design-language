@@ -12,8 +12,8 @@ use ed25519_dalek::SigningKey;
 use lease::{
     activation_signature, encode_certificate, endorse, AuthorityApplication,
     AuthorityCertificateBodyV1, AuthorityCertificateV1, AuthorityError, AuthorityLedger,
-    AuthorityMembership, ControlCertificatePurpose, LeasePolicy, OperationClass, VoterAuthority,
-    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519, TEST_LEASE_STORE_ACCESS,
+    AuthorityMembership, ControlCertificatePurpose, LeasePolicy, LeaseStoreAccess, OperationClass,
+    VoterAuthority, AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519,
 };
 use sha2::{Digest, Sha256};
 use transport::{decode_frame, encode_frame, TransportEnvelope, TransportError, TransportLimits};
@@ -23,6 +23,13 @@ const LINEAGE: &[u8] = b"lineage-a";
 const NODE: &[u8] = b"node-a";
 const GUARDIAN: &[u8] = b"guardian-a";
 const NOW: i64 = 1_787_000_100;
+
+fn test_lease_store_access() -> LeaseStoreAccess {
+    // See the certificate counterpart in distributed_runtime_transport: the
+    // library's safe test fixture stays crate-private while this legacy
+    // integration test uses an explicitly unsafe, test-local ZST construction.
+    unsafe { std::mem::transmute(()) }
+}
 
 fn marker(case: &str, result: &str) {
     println!("ADL_ISSUE_5878_NEGATIVE_CASE_V1 {case} {result}");
@@ -191,11 +198,11 @@ fn signed_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain() {
     let body = grant_body(TRUST, &activation);
     let proof = activation_signature(&body, &activation);
     let certificate = fixture.certificate(body);
-    let mut ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
+    let mut ledger = AuthorityLedger::new(&test_lease_store_access(), lease_policy()).unwrap();
 
     let lease = ledger
         .apply(
-            &TEST_LEASE_STORE_ACCESS,
+            &test_lease_store_access(),
             &certificate,
             &fixture.membership,
             application(&activation, &proof),
@@ -208,7 +215,7 @@ fn signed_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain() {
 
     assert_eq!(
         ledger.apply(
-            &TEST_LEASE_STORE_ACCESS,
+            &test_lease_store_access(),
             &certificate,
             &fixture.membership,
             application(&activation, &proof),
@@ -220,10 +227,11 @@ fn signed_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain() {
     let wrong_body = grant_body(b"other.test", &activation);
     let wrong_proof = activation_signature(&wrong_body, &activation);
     let wrong_certificate = fixture.certificate(wrong_body);
-    let mut wrong_ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
+    let mut wrong_ledger =
+        AuthorityLedger::new(&test_lease_store_access(), lease_policy()).unwrap();
     assert_eq!(
         wrong_ledger.apply(
-            &TEST_LEASE_STORE_ACCESS,
+            &test_lease_store_access(),
             &wrong_certificate,
             &fixture.membership,
             application(&activation, &wrong_proof),

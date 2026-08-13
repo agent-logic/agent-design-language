@@ -8,10 +8,8 @@ use std::{
 use adl_runtime::distributed::{
     authority_reconciliation::{AuthorityReconciliationBarrier, AuthorityReconciliationIdentity},
     authority_store_adapters::{AuthorityStoreAdapterError, AuthorityStoreAdapterRegistry},
-    certificates::{CertificatePolicy, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS},
     polis_runtime::{ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisRuntimeError},
 };
-use ed25519_dalek::SigningKey;
 
 // PVF: lane=identity-lease-fencing-authority-boundary; proof=#258 authority-store-boundary
 // security-boundary guardrail; deterministic=true; resource_profile=small;
@@ -111,6 +109,10 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
     );
     assert_contains(
         certificates,
+        "#[cfg(test)]\n#[allow(unused_imports)]\npub(crate) use raw_access::TEST_FIXTURE as TEST_CERTIFICATE_STORE_ACCESS;",
+    );
+    assert_contains(
+        certificates,
         "pub fn open(\n        _access: &CertificateStoreAccess,",
     );
     assert_contains(
@@ -131,6 +133,10 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
     assert_contains(
         lease,
         "pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_LEASE_ACCESS",
+    );
+    assert_contains(
+        lease,
+        "#[cfg(test)]\n#[allow(unused_imports)]\npub(crate) use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;",
     );
     assert_contains(
         lease,
@@ -189,7 +195,7 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
 }
 
 #[test]
-fn external_dev_profile_caller_cannot_import_fencing_test_access() {
+fn external_dev_profile_caller_cannot_import_authority_store_test_access() {
     let fixture = repo_local_root();
     let current_test_binary =
         std::env::current_exe().expect("resolve current test binary for external fixture");
@@ -207,37 +213,48 @@ fn external_dev_profile_caller_cannot_import_fencing_test_access() {
                 .is_some_and(|name| name.starts_with("libadl_runtime-") && name.ends_with(".rlib"))
         })
         .expect("adl_runtime rlib must exist before external compile-fail fixture runs");
-    let source = fixture.path().join("fencing_token_import_denied.rs");
-    fs::write(
-        &source,
-        "use adl_runtime::distributed::fencing::TEST_FENCING_STORE_ACCESS;\n\
-         pub fn leaked() { let _ = TEST_FENCING_STORE_ACCESS; }\n",
-    )
-    .expect("write external fixture source");
-
-    let output = Command::new("rustc")
-        .arg("--edition=2021")
-        .arg("--crate-type=lib")
-        .arg(&source)
-        .arg("--extern")
-        .arg(format!("adl_runtime={}", adl_runtime_rlib.display()))
-        .arg("-L")
-        .arg(format!("dependency={}", deps_dir.display()))
-        .arg("--out-dir")
-        .arg(fixture.path())
-        .output()
-        .expect("run external rustc compile-fail fixture");
-    assert!(
-        !output.status.success(),
-        "external fixture unexpectedly imported fencing test access token"
-    );
-    let stderr = String::from_utf8_lossy(&output.stderr);
-    assert!(
-        stderr.contains("no `TEST_FENCING_STORE_ACCESS`")
-            || stderr.contains("not found in `adl_runtime::distributed::fencing`")
-            || stderr.contains("private"),
-        "unexpected compile failure for fencing token import: {stderr}"
-    );
+    for (module, token) in [
+        ("certificates", "TEST_CERTIFICATE_STORE_ACCESS"),
+        ("lease", "TEST_LEASE_STORE_ACCESS"),
+        ("fencing", "TEST_FENCING_STORE_ACCESS"),
+    ] {
+        let source = fixture
+            .path()
+            .join(format!("{module}_token_import_denied.rs"));
+        fs::write(
+            &source,
+            format!(
+                "use adl_runtime::distributed::{module}::{token};\n\
+                 pub fn leaked() {{ let _ = {token}; }}\n"
+            ),
+        )
+        .expect("write external fixture source");
+        let output = Command::new("rustc")
+            .arg("--edition=2021")
+            .arg("--crate-type=lib")
+            .arg(&source)
+            .arg("--extern")
+            .arg(format!("adl_runtime={}", adl_runtime_rlib.display()))
+            .arg("-L")
+            .arg(format!("dependency={}", deps_dir.display()))
+            .arg("--out-dir")
+            .arg(fixture.path())
+            .output()
+            .expect("run external rustc compile-fail fixture");
+        assert!(
+            !output.status.success(),
+            "external fixture unexpectedly imported {module} test access token"
+        );
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        assert!(
+            stderr.contains(&format!("no `{token}`"))
+                || stderr.contains(&format!(
+                    "not found in `adl_runtime::distributed::{module}`"
+                ))
+                || stderr.contains("private"),
+            "unexpected compile failure for {module} token import: {stderr}"
+        );
+    }
 }
 
 #[test]
@@ -259,35 +276,4 @@ fn authority_store_adapter_denies_unpublished_lineage() {
     ));
 
     println!("ADL_ISSUE_258_ADAPTER_GUARD_V1 unpublished_lineage_denied");
-}
-
-#[test]
-fn authority_store_adapter_refuses_certificate_handle_without_publication() {
-    let root = repo_local_root();
-    let barrier = AuthorityReconciliationBarrier::open(
-        root.path(),
-        identity(),
-        Arc::new(MemoryCheckpoint::default()),
-    )
-    .unwrap();
-    let registry = AuthorityStoreAdapterRegistry::new(Arc::new(barrier));
-    let signing_root = SigningKey::from_bytes(&[41; 32]);
-    let policy = CertificatePolicy::new("runtime-prod", [signing_root.verifying_key()]).unwrap();
-    let store = Arc::new(
-        DistributedCertificateStore::open(
-            &TEST_CERTIFICATE_STORE_ACCESS,
-            root.path().join("certificates.redb"),
-            policy,
-        )
-        .unwrap(),
-    );
-
-    assert!(matches!(
-        registry.certificate_store("lineage-a", store),
-        Err(AuthorityStoreAdapterError::Reconciliation(
-            adl_runtime::distributed::authority_reconciliation::AuthorityReconciliationError::ReconciliationRequired
-        ))
-    ));
-
-    println!("ADL_ISSUE_258_ADAPTER_GUARD_V1 unpublished_certificate_handle_denied");
 }

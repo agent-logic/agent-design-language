@@ -20,7 +20,7 @@ use adl_runtime::distributed::polis_runtime::{
 use adl_runtime::distributed::{
     certificates::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-        CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
+        CertificateStoreAccess, CertificateValidity, DistributedCertificateStore,
     },
     learner_transport::ProductionLearnerAuthority,
     lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
@@ -50,6 +50,14 @@ use tokio_util::sync::CancellationToken;
 
 const DOMAIN: &str = "polis.secure.test";
 const POLIS: &str = "polis-alpha";
+
+fn test_certificate_store_access() -> CertificateStoreAccess {
+    // Integration tests compile adl-runtime as a normal dependency, so the
+    // crate-private cfg(test) fixture is intentionally unavailable. This
+    // unsafe construction stays test-local and cannot create a safe external
+    // capability path in the library API.
+    unsafe { std::mem::transmute(()) }
+}
 
 #[derive(Default)]
 struct MemoryCheckpointAuthority {
@@ -189,7 +197,7 @@ fn certificate_store() -> (
         .unwrap();
     let directory = repo_tempdir();
     let store = DistributedCertificateStore::open(
-        &TEST_CERTIFICATE_STORE_ACCESS,
+        &test_certificate_store_access(),
         directory
             .path()
             .canonicalize()
@@ -223,7 +231,7 @@ fn transport_authorization(
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
     store
-        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, now())
+        .activate(&test_certificate_store_access(), &certificate, now())
         .unwrap();
     TransportAuthorization::new(Arc::clone(store), &certificate).unwrap()
 }
@@ -714,7 +722,7 @@ fn runtime_authority_initializer(
     let directory = repo_tempdir();
     let store = Arc::new(
         DistributedCertificateStore::open(
-            &TEST_CERTIFICATE_STORE_ACCESS,
+            &test_certificate_store_access(),
             directory
                 .path()
                 .canonicalize()
@@ -746,7 +754,7 @@ fn runtime_authority_initializer(
             )
             .unwrap();
             store
-                .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, 100)
+                .activate(&test_certificate_store_access(), &certificate, 100)
                 .unwrap();
             (guardian.clone(), certificate)
         })
@@ -1605,7 +1613,7 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
         .unwrap();
     let directory = repo_tempdir();
     let store = DistributedCertificateStore::open(
-        &TEST_CERTIFICATE_STORE_ACCESS,
+        &test_certificate_store_access(),
         directory
             .path()
             .canonicalize()
@@ -1635,14 +1643,14 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
     let first = make(1, 41);
     let second = make(2, 42);
     store
-        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &first, 100)
+        .activate(&test_certificate_store_access(), &first, 100)
         .unwrap();
     store
-        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &second, 100)
+        .activate(&test_certificate_store_access(), &second, 100)
         .unwrap();
     assert!(store
         .authorize(
-            &TEST_CERTIFICATE_STORE_ACCESS,
+            &test_certificate_store_access(),
             "overlap-node",
             CertificatePurpose::Transport,
             1,
@@ -1651,7 +1659,7 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
         .is_ok());
     assert!(store
         .authorize(
-            &TEST_CERTIFICATE_STORE_ACCESS,
+            &test_certificate_store_access(),
             "overlap-node",
             CertificatePurpose::Transport,
             1,
@@ -1660,7 +1668,7 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
         .is_err());
     assert!(store
         .authorize(
-            &TEST_CERTIFICATE_STORE_ACCESS,
+            &test_certificate_store_access(),
             "overlap-node",
             CertificatePurpose::Transport,
             2,

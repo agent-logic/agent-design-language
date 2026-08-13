@@ -32,17 +32,16 @@ mod raw_access {
     pub(crate) const AUTHORITY_BOUND: CertificateStoreAccess =
         CertificateStoreAccess { _private: () };
 
-    #[cfg(debug_assertions)]
-    #[doc(hidden)]
-    pub const TEST_FIXTURE: CertificateStoreAccess = CertificateStoreAccess { _private: () };
+    #[cfg(test)]
+    pub(crate) const TEST_FIXTURE: CertificateStoreAccess = CertificateStoreAccess { _private: () };
 }
 
 pub use raw_access::CertificateStoreAccess;
 #[allow(unused_imports)]
 pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_CERTIFICATE_ACCESS;
-#[cfg(debug_assertions)]
+#[cfg(test)]
 #[allow(unused_imports)]
-pub use raw_access::TEST_FIXTURE as TEST_CERTIFICATE_STORE_ACCESS;
+pub(crate) use raw_access::TEST_FIXTURE as TEST_CERTIFICATE_STORE_ACCESS;
 
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]

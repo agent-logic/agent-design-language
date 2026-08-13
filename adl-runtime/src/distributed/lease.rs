@@ -33,17 +33,16 @@ mod raw_access {
 
     pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess { _private: () };
 
-    #[cfg(debug_assertions)]
-    #[doc(hidden)]
-    pub const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess { _private: () };
+    #[cfg(test)]
+    pub(crate) const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess { _private: () };
 }
 
 pub use raw_access::LeaseStoreAccess;
 #[allow(unused_imports)]
 pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_LEASE_ACCESS;
-#[cfg(debug_assertions)]
+#[cfg(test)]
 #[allow(unused_imports)]
-pub use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;
+pub(crate) use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(u32)]

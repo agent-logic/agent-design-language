@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "2ff1a7ba8ef0b3dc5e53623b656d41cb123b993fc0fb7cee29f160c1f9f6dc68",
+  "generation": 32,
+  "digest": "204ffff90e676bd9fb5f5229d341821d0cf036c846f7c699710b7039f507d0ce",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d7bb8dbb39239ef065d7da8809c0c23900452f7e3d057c19a06e978ab4d49b11",
+      "values_digest": "4f5eb83ad0decd164f6bf2d76da4207606672581617603921a7f1a5311981bd3",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "781fd3e723a0970b0f2148eb0b7b29ec21c6c6067e0f6446a63ceb509a820384",
+      "values_digest": "f885b73f2710ca4e09629d695dc851b65c1e4657bab16c23d32f63cd1b4521f1",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "d2e1ac48e889fb947103eccc3a7523c18e52ac73e6011edec7cbd1ad7d4899ad",
+      "values_digest": "b97b5a7168e00036c1b339150bea710e55a6ad4b4d0f8ceb2b2b275457400f33",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "0fc2cab2c62b5cde74d7987c295468567271c9274b9d583f2b033e2cd90e0a24",
+      "values_digest": "385371b1107b1cf18f0db44d323a93ae35a84b251d3d4bd092aadb866c7596d1",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "792b5b29721f0ddd7b1e16465cf5ddd684f545ccf8ac5cbf0b85367ad50c5059",
+      "values_digest": "87bfb64952fd83a081c88931508a3e4698bc606f48b48667f3a04da9660fa21e",
       "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
       "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
     },
     "sor": {
-      "values_digest": "e742f9c93b36844c75dc0a4afcf164f742211730471cdeac5d4c54273a484202",
+      "values_digest": "0994482c154e297130c16ac50f8709ca7158f9dbd961ae39b10f3514fea3e0f0",
       "rendered_digest": "3d29125fa844e25faf3ee44dff284589146f02a28029fbc12ac32e3a5906781e",
       "ast_digest": "aa2ec592486ad87fa14835d3be471ea911eb77fa4eeca5e9bb2dcb567d158950"
     }
@@ -420,6 +420,20 @@
       "generation": 31,
       "actor": "codex:/root",
       "reason": "Recover PR #290 current publication/review to implemented after current-head run 31598860366 failed stable adl-coverage: hosted producers passed, aggregate changed-source coverage gate failed because #258 branch includes over-broad #259/#260 runtime-caller/transport contamination outside the slice1 authority-store boundary.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 31,
+      "actor": "codex:/root/issue_258_coverage_repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 32,
+      "actor": "codex:/root/issue_258_coverage_repair",
+      "reason": "Fresh exact reviewer fresh-session:934ef955-9120-4c85-ae3f-258caf7c04d8 returned FAIL at fc8329f80: certificate and lease TEST_FIXTURE access tokens remain public under cfg(debug_assertions), allowing ordinary dev-profile non-test dependents to bypass the authority-bound adapters. Recover before sealing both tokens to cfg(test) pub(crate), extending external denial proof across all three store tokens, and assigning a different fresh reviewer.",
       "operation": "recover_review"
     }
   ]
