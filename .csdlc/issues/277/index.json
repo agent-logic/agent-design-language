@@ -3,13 +3,43 @@
   "issue": 277,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8abf1e7d8e6479933fdb92fc4fd87d1f005691870061fffae4f35c021efdbe1f",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "c899c18db80ccc87c8e9d68d3516f0baf826786c05c64daf171d6bc341833160",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "2a7e160178235505db835ef83edbad61f1bb41b260708415f4f08a467a78f0d3",
   "branch": "codex/277-conversation-watermarks-idempotency-replay-receipts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-277-conversation-watermarks-idempotency-replay-receipts",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:cbfe2bad-945f-4f98-9dc4-9d53b62ff69b",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:f0f8b4d42b9f537c65569c664bd60b41e1a50132:a1fcc24bb7ff8c8e0e94220cdeafea21ef0e23c29e2a37db17095cc526d24739",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_continuity.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/conversation_continuity.rs",
+      ".csdlc/issues/277",
+      ".csdlc/prepared/issues/277",
+      ".csdlc/evidence/277"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:cbfe2bad-945f-4f98-9dc4-9d53b62ff69b",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_continuity.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/conversation_continuity.rs",
+      ".csdlc/issues/277",
+      ".csdlc/prepared/issues/277",
+      ".csdlc/evidence/277"
+    ],
+    "reviewed_revision": "git-blake3:f0f8b4d42b9f537c65569c664bd60b41e1a50132:a1fcc24bb7ff8c8e0e94220cdeafea21ef0e23c29e2a37db17095cc526d24739",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer inspected retained proof logs rather than rerunning validation; implementation session retained local preparation validator, fmt, focused 8-test conversation_continuity target, strict Clippy, doctor, validate, and diff hygiene proof.",
+      "This issue consumes #270 trusted acknowledgement protocol and #276 journal foundation; it does not implement #278 history restoration, #114 parent integration, #115 browser behavior, or #270 trust semantics."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8a2e368de496f099db33d20a9eb0d8c5861115594268fa089c46eb841aeea0ee",
+      "values_digest": "97cd7f3976236a90e380084d5ff694b8e33c1dbcb7ee4ee4654dd54b203fb4da",
       "rendered_digest": "38023301ecaa1651bc67c6c5fbf142718be945b719ed187a3ccac7796896b901",
       "ast_digest": "3b2671a967f9d3fdd4e4d2664f9c767836910c8f1b614ece194621286211af4c"
     },
     "stp": {
-      "values_digest": "7e93009f5f55703820761df63c634201a99a76b408c20666fcc315fd615c73a1",
+      "values_digest": "d5bcd47ec3011a7dbfde29fb0f7b8722cfbe2964b0791f4fa217d819ef32aded",
       "rendered_digest": "c40d00d7c319dc1338f81b05db12f8da597e1928f3c7a0dfd67169243ffbf5a6",
       "ast_digest": "ddf7524037bbbba1213c37b91ce4c513a92d119d242df78ff3098a3885abfbdc"
     },
     "spp": {
-      "values_digest": "f25ed10f8128941faf36ef09713cbb7e7436a67ddfff90b4baff7c08f0ea6b37",
+      "values_digest": "3c9c922d79cee8b7c894ae0ff269239a54ef0ccbb6408d83e3b93fcd9ce83f0b",
       "rendered_digest": "641ded53d7d7950487c12d19f76109158b7a4ce9d25394bbdaedd5070a2a1ac0",
       "ast_digest": "5af6aa5abe7369ae06a120ce08781939158e9e8c2e0f172427c87f81db15908d"
     },
     "vpp": {
-      "values_digest": "976ecfdc2167c9a6d40a6b1fbfb3056ade9ba9ab5a7d7fd524a336e07fd7522e",
+      "values_digest": "4d9bee43c40b582ea95779cf11d9a39b549c6281491a2a45f2c59e63e2eb1449",
       "rendered_digest": "6f623f8f2345537604ad791ef90b6731516c51b6d0b11d873d39c8b21d724270",
       "ast_digest": "85dd24ac7b25a3c943825a51f6037804025e75f155a0d5fe5efd30fb18fa41f2"
     },
     "srp": {
-      "values_digest": "674ff1fb9d2f8654989b9168e8d5c7ed0912f7dc204cd5b1f94a21f328239438",
-      "rendered_digest": "185778300793cd486ea428cbc1cf3e34469042577b705c38b411b8d1b77640ea",
-      "ast_digest": "d3f8ac83b8cccde87eebd7f304ec88b1df09695c99b6e0d7902e3c8ddd5e004b"
+      "values_digest": "6dd0a2c0905533b59353b3b005acd7ab6641e67530e2e2bd38cfe9dec8a8f29e",
+      "rendered_digest": "f360ffa3c17cfd3ac7d5ac9b063735958dd408fef096fff0475378d2e14eb27b",
+      "ast_digest": "952f062b01c9b96150327a6687269d39225603f399438061eebb00977f77d13c"
     },
     "sor": {
-      "values_digest": "0a7b1e181bb295610231e9b0e310999b79898b66ac6e61a673054e79b005cb41",
+      "values_digest": "0419f3f0d20b3241a943a6b0cbb50efa437e9355323615ac2b04c1b588805e2d",
       "rendered_digest": "5e79a08e5f94840762ffd1ee0d10ef660c89546cad34a9ebe96915f1b28646fb",
       "ast_digest": "25ddbceab0ccb723268a31102ba52f76c0cc62a36bf1c636c68c27563965ca65"
     }
@@ -75,6 +105,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:cbfe2bad-945f-4f98-9dc4-9d53b62ff69b",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -168,6 +205,20 @@
       "actor": "codex:/root",
       "reason": "Record refreshed #277 proof after post-review conversation-scoped idempotency remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/277/validate_preparation_bundle.py\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_continuity\",\"cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_continuity -- -D warnings\",\"git diff --check\"],\"purpose\":\"Focused #277 post-review proof for bounded dependency/scope validation, formatting, 8-test conversation continuity behavior including scoped idempotency, strict Clippy, and diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/277/issue-277-preparation-validator.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-fmt.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-tests.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-clippy.log; git diff --check PASS\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "fresh-session:cbfe2bad-945f-4f98-9dc4-9d53b62ff69b",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
