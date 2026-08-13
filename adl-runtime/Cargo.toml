@@ -17,6 +17,11 @@ name = "distributed_runtime_transport"
 path = "tests/distributed_runtime_transport.rs"
 required-features = ["internal-test-fixtures"]
 
+[[test]]
+name = "distributed_observatory_authority_projection"
+path = "tests/distributed_observatory_authority_projection.rs"
+required-features = ["internal-test-fixtures"]
+
 [dependencies]
 adl-resilience = { path = "../adl-resilience" }
 adl-runtime-kernel = { path = "../adl-runtime-kernel" }

@@ -8,12 +8,16 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use super::{
+    authority_protocol::PublishedAuthorityResult,
     authority_store_adapters::PublishedStoreAuthorityReceiptView,
     polis_runtime::{
         CheckpointMetadata, CheckpointMetadataSource, CheckpointedJson,
         ConsensusCheckpointAuthority, DurableEnvelope, PolisRuntimeError,
     },
 };
+
+const OBSERVATORY_BINDING_DOMAIN: &str = "adl.observatory-serving-authority-binding.v1";
+const I_JSON_MAX_INTEGER: u64 = 9_007_199_254_740_991;
 
 const BINDING_SCHEMA: &str = "adl.serving-authority-foundation.binding.v1";
 const PROJECTION_SCHEMA: &str = "adl.serving-authority-foundation.projection.v1";
@@ -353,6 +357,7 @@ pub struct ServingAuthorityProjection {
 /// upgrading a redacted projection or naked digests into serving authority.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct VerifiedServingAuthorityCut {
+    lineage_id: String,
     generation: u64,
     owner_commit_id: String,
     fencing_generation: u64,
@@ -364,7 +369,9 @@ pub struct VerifiedServingAuthorityCut {
 
 impl VerifiedServingAuthorityCut {
     #[cfg(feature = "internal-test-fixtures")]
+    #[allow(clippy::too_many_arguments)]
     pub fn fixture(
+        lineage_id: String,
         generation: u64,
         owner_commit_id: String,
         fencing_generation: u64,
@@ -374,6 +381,7 @@ impl VerifiedServingAuthorityCut {
         receipt_digest: String,
     ) -> Self {
         Self {
+            lineage_id,
             generation,
             owner_commit_id,
             fencing_generation,
@@ -385,6 +393,9 @@ impl VerifiedServingAuthorityCut {
     }
     pub fn generation(&self) -> u64 {
         self.generation
+    }
+    pub fn lineage_id(&self) -> &str {
+        &self.lineage_id
     }
     pub fn owner_commit_id(&self) -> &str {
         &self.owner_commit_id
@@ -403,6 +414,263 @@ impl VerifiedServingAuthorityCut {
     }
     pub fn receipt_digest(&self) -> &str {
         &self.receipt_digest
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ObservatoryAuthorityBinding {
+    domain: String,
+    trust_domain: String,
+    polis_id: String,
+    lineage_id: String,
+    operation_id: String,
+    committed_log_index: u64,
+    foundation_generation: u64,
+    owner_commit_id: String,
+    fencing_generation: u64,
+    lease_id: String,
+    foundation_state_sha256: String,
+    foundation_result_sha256: String,
+    foundation_receipt_sha256: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct VerifiedObservatoryAuthorityProjection {
+    schema: &'static str,
+    trust_domain_ref: String,
+    polis_ref: String,
+    lineage_ref: String,
+    operation_ref: String,
+    committed_log_index: u64,
+    foundation_generation: u64,
+    fencing_generation: u64,
+    authority_result_sha256: String,
+    signer_set_sha256: String,
+    signer_count: usize,
+    inclusive_deadline_unix_seconds: i64,
+    finalization_unix_seconds: i64,
+}
+
+impl VerifiedObservatoryAuthorityProjection {
+    pub fn inclusive_deadline_unix_seconds(&self) -> i64 {
+        self.inclusive_deadline_unix_seconds
+    }
+}
+
+pub fn verify_observatory_authority_projection(
+    authority: &PublishedAuthorityResult,
+    cut: &VerifiedServingAuthorityCut,
+) -> ServingAuthorityResult<VerifiedObservatoryAuthorityProjection> {
+    let source = authority
+        .observatory_projection()
+        .map_err(|_| ServingAuthorityError::InvalidBinding)?;
+    let binding: ObservatoryAuthorityBinding = serde_json::from_slice(source.artifact_bytes)
+        .map_err(|_| ServingAuthorityError::InvalidBinding)?;
+    let canonical =
+        serde_jcs::to_vec(&binding).map_err(|_| ServingAuthorityError::Serialization)?;
+    if canonical != source.artifact_bytes
+        || <[u8; 32]>::from(Sha256::digest(&canonical)) != source.artifact_sha256
+        || binding.domain != OBSERVATORY_BINDING_DOMAIN
+        || binding.trust_domain != source.trust_domain
+        || binding.polis_id != source.polis_id
+        || binding.operation_id != source.operation_id
+        || binding.lineage_id != cut.lineage_id
+        || binding.committed_log_index != source.committed_log_index
+        || binding.foundation_generation != cut.generation
+        || binding.owner_commit_id != cut.owner_commit_id
+        || binding.fencing_generation != cut.fencing_generation
+        || binding.lease_id != cut.lease_id
+        || binding.foundation_state_sha256 != cut.state_sha256
+        || binding.foundation_result_sha256 != cut.result_sha256
+        || binding.foundation_receipt_sha256 != cut.receipt_digest
+    {
+        return Err(ServingAuthorityError::InvalidBinding);
+    }
+    for value in [
+        &binding.trust_domain,
+        &binding.polis_id,
+        &binding.lineage_id,
+        &binding.operation_id,
+        &binding.owner_commit_id,
+        &binding.lease_id,
+    ] {
+        validate_observatory_identifier(value)?;
+    }
+    for digest in [
+        &binding.foundation_state_sha256,
+        &binding.foundation_result_sha256,
+        &binding.foundation_receipt_sha256,
+    ] {
+        validate_digest(digest)?;
+    }
+    if binding.committed_log_index == 0
+        || binding.committed_log_index > I_JSON_MAX_INTEGER
+        || binding.foundation_generation == 0
+        || binding.foundation_generation > I_JSON_MAX_INTEGER
+        || binding.fencing_generation == 0
+        || binding.fencing_generation > I_JSON_MAX_INTEGER
+        || source.signer_count == 0
+    {
+        return Err(ServingAuthorityError::InvalidBinding);
+    }
+    Ok(VerifiedObservatoryAuthorityProjection {
+        schema: "adl.observatory-authority-projection.v1",
+        trust_domain_ref: keyed_ref("trust-domain", &binding.trust_domain),
+        polis_ref: keyed_ref("polis", &binding.polis_id),
+        lineage_ref: keyed_ref("lineage", &binding.lineage_id),
+        operation_ref: keyed_ref("operation", &binding.operation_id),
+        committed_log_index: binding.committed_log_index,
+        foundation_generation: binding.foundation_generation,
+        fencing_generation: binding.fencing_generation,
+        authority_result_sha256: hex::encode(source.result_sha256),
+        signer_set_sha256: hex::encode(source.signer_set_sha256),
+        signer_count: source.signer_count,
+        inclusive_deadline_unix_seconds: source.inclusive_deadline.unix_seconds,
+        finalization_unix_seconds: source.finalization_time.unix_seconds,
+    })
+}
+
+fn validate_observatory_identifier(value: &str) -> ServingAuthorityResult<()> {
+    if value.is_empty()
+        || value.len() > MAX_IDENTIFIER_BYTES
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'_' | b'-' | b'.' | b':'))
+    {
+        return Err(ServingAuthorityError::InvalidIdentity);
+    }
+    Ok(())
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+pub struct ObservatoryBindingFixture(ObservatoryAuthorityBinding);
+
+#[cfg(feature = "internal-test-fixtures")]
+#[derive(Clone, Copy, Debug)]
+pub enum ObservatoryBindingMutation {
+    Domain,
+    TrustDomain,
+    PolisId,
+    LineageId,
+    OperationId,
+    CommittedLogIndex,
+    FoundationGeneration,
+    OwnerCommitId,
+    FencingGeneration,
+    LeaseId,
+    StateDigest,
+    ResultDigest,
+    ReceiptDigest,
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+#[derive(Clone, Copy, Debug)]
+pub enum ObservatoryIdentifierField {
+    TrustDomain,
+    PolisId,
+    LineageId,
+    OperationId,
+    OwnerCommitId,
+    LeaseId,
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+#[derive(Clone, Copy, Debug)]
+pub enum ObservatoryDigestField {
+    State,
+    Result,
+    Receipt,
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+impl ObservatoryBindingFixture {
+    pub fn new(suffix: &str) -> Self {
+        let digest = hex::encode(Sha256::digest(suffix.as_bytes()));
+        Self(ObservatoryAuthorityBinding {
+            domain: OBSERVATORY_BINDING_DOMAIN.into(),
+            trust_domain: "trust-domain".into(),
+            polis_id: "polis".into(),
+            lineage_id: format!("lineage-{suffix}"),
+            operation_id: "operation".into(),
+            committed_log_index: 2,
+            foundation_generation: 1,
+            owner_commit_id: format!("owner-{suffix}"),
+            fencing_generation: 1,
+            lease_id: format!("lease-{suffix}"),
+            foundation_state_sha256: digest.clone(),
+            foundation_result_sha256: digest.clone(),
+            foundation_receipt_sha256: digest,
+        })
+    }
+    pub fn artifact_bytes(&self) -> Vec<u8> {
+        serde_jcs::to_vec(&self.0).expect("fixture JCS")
+    }
+
+    pub fn mutate(&mut self, mutation: ObservatoryBindingMutation) {
+        match mutation {
+            ObservatoryBindingMutation::Domain => self.0.domain.push_str(".wrong"),
+            ObservatoryBindingMutation::TrustDomain => self.0.trust_domain.push('x'),
+            ObservatoryBindingMutation::PolisId => self.0.polis_id.push('x'),
+            ObservatoryBindingMutation::LineageId => self.0.lineage_id.push('x'),
+            ObservatoryBindingMutation::OperationId => self.0.operation_id.push('x'),
+            ObservatoryBindingMutation::CommittedLogIndex => self.0.committed_log_index += 1,
+            ObservatoryBindingMutation::FoundationGeneration => self.0.foundation_generation += 1,
+            ObservatoryBindingMutation::OwnerCommitId => self.0.owner_commit_id.push('x'),
+            ObservatoryBindingMutation::FencingGeneration => self.0.fencing_generation += 1,
+            ObservatoryBindingMutation::LeaseId => self.0.lease_id.push('x'),
+            ObservatoryBindingMutation::StateDigest => {
+                self.0.foundation_state_sha256.replace_range(0..1, "f")
+            }
+            ObservatoryBindingMutation::ResultDigest => {
+                self.0.foundation_result_sha256.replace_range(0..1, "f")
+            }
+            ObservatoryBindingMutation::ReceiptDigest => {
+                self.0.foundation_receipt_sha256.replace_range(0..1, "f")
+            }
+        }
+    }
+
+    pub fn set_integers(&mut self, committed: u64, generation: u64, fencing: u64) {
+        self.0.committed_log_index = committed;
+        self.0.foundation_generation = generation;
+        self.0.fencing_generation = fencing;
+    }
+
+    pub fn set_invalid_identifier(&mut self, field: ObservatoryIdentifierField, value: &str) {
+        *match field {
+            ObservatoryIdentifierField::TrustDomain => &mut self.0.trust_domain,
+            ObservatoryIdentifierField::PolisId => &mut self.0.polis_id,
+            ObservatoryIdentifierField::LineageId => &mut self.0.lineage_id,
+            ObservatoryIdentifierField::OperationId => &mut self.0.operation_id,
+            ObservatoryIdentifierField::OwnerCommitId => &mut self.0.owner_commit_id,
+            ObservatoryIdentifierField::LeaseId => &mut self.0.lease_id,
+        } = value.to_owned();
+    }
+
+    pub fn set_digest_encoding(&mut self, field: ObservatoryDigestField, value: &str) {
+        *match field {
+            ObservatoryDigestField::State => &mut self.0.foundation_state_sha256,
+            ObservatoryDigestField::Result => &mut self.0.foundation_result_sha256,
+            ObservatoryDigestField::Receipt => &mut self.0.foundation_receipt_sha256,
+        } = value.to_owned();
+    }
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+impl VerifiedServingAuthorityCut {
+    pub fn fixture_from_observatory(fixture: &ObservatoryBindingFixture) -> Self {
+        let binding = &fixture.0;
+        Self::fixture(
+            binding.lineage_id.clone(),
+            binding.foundation_generation,
+            binding.owner_commit_id.clone(),
+            binding.fencing_generation,
+            binding.lease_id.clone(),
+            binding.foundation_state_sha256.clone(),
+            binding.foundation_result_sha256.clone(),
+            binding.foundation_receipt_sha256.clone(),
+        )
     }
 }
 
@@ -467,6 +735,7 @@ impl ServingAuthorityStore {
     ) -> ServingAuthorityResult<(ServingAuthorityProjection, VerifiedServingAuthorityCut)> {
         let projection = self.apply(receipt, binding)?;
         let cut = VerifiedServingAuthorityCut {
+            lineage_id: binding.lineage_id.clone(),
             generation: binding.published_generation,
             owner_commit_id: binding.owner_commit_id.clone(),
             fencing_generation: binding.fencing_generation,

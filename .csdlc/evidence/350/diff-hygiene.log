@@ -1,0 +1,4 @@
+command: git diff --check
+candidate_source_commit: 76215e811783d3b753434fc5300d1ea2bfe55f4d
+result: PASS
+summary: exit 0; no output
