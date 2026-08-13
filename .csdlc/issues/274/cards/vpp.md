@@ -1,0 +1,184 @@
+# Validation Planning Prompt
+
+Template: 1.0.0
+
+Issue: 274
+
+Repository: agent-logic/agent-design-language
+
+Card: vpp
+
+Status: ready
+
+## Summary
+
+Execute the smallest proving validation DAG.
+
+## Lane Inputs
+
+Design: .csdlc/prepared/issues/274/design.md
+
+Diagram: .csdlc/prepared/issues/274/diagram.mmd
+
+## Selected Lanes
+
+[
+  {
+    "lane": "preparation-contract",
+    "proof_role": "Prove packet identity and terminal ancestry for #191/#199/#200/#201/#202/#203/#272/#273/#350/#356/#358.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 2000,
+    "argv": [
+      "python3",
+      ".csdlc/prepared/issues/274/validate_preparation_bundle.py"
+    ],
+    "parallel_group": "274-serial-01",
+    "defer_reason": null
+  },
+  {
+    "lane": "observatory-focused",
+    "proof_role": "Prove authenticated acquire, renew, transfer, revoke, nanos expiry, replay/restart, overlap denial, sealed-authority mismatch, and redaction.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1800,
+    "budget_tokens": 18000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_observatory_serving_eligibility",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "--test-threads=1"
+    ],
+    "parallel_group": "274-serial-02",
+    "defer_reason": "Deferred until approved bind creates the exact module and test target."
+  },
+  {
+    "lane": "observatory-clippy",
+    "proof_role": "Reject warnings in the exact focused target.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1200,
+    "budget_tokens": 10000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_observatory_serving_eligibility",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "274-serial-03",
+    "defer_reason": "Deferred until approved bind creates the target."
+  },
+  {
+    "lane": "exact-scope",
+    "proof_role": "Prove exact two new product paths and the single additive distributed/mod.rs declaration against immutable #358 merge base.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 2000,
+    "argv": [
+      "python3",
+      ".csdlc/prepared/issues/274/validate_scope.py"
+    ],
+    "parallel_group": "274-serial-04",
+    "defer_reason": "Deferred until the bound implementation exists."
+  },
+  {
+    "lane": "diff-hygiene",
+    "proof_role": "Reject whitespace errors across the exact immutable implementation-base diff.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 1000,
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "cd0feef31240b95d344c5ae9b774325506586a5d...HEAD"
+    ],
+    "parallel_group": "274-serial-05",
+    "defer_reason": "Deferred until the bound implementation exists."
+  },
+  {
+    "lane": "terminal-ancestry",
+    "proof_role": "After typed finish, prove canonical merged terminal cache and merge ancestry to origin/main.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 1000,
+    "argv": [
+      "python3",
+      ".csdlc/prepared/issues/274/validate_terminal.py"
+    ],
+    "parallel_group": "274-serial-06",
+    "defer_reason": "Deferred until typed finish creates terminal authority."
+  }
+]
+
+## Parallelization
+
+Only declared parallel groups may overlap.
+
+## Budgets
+
+Seconds: 7200
+
+Tokens: 50000
+
+## Commands
+
+- `python3 .csdlc/prepared/issues/274/validate_preparation_bundle.py`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_observatory_serving_eligibility --features internal-test-fixtures -- --test-threads=1`
+- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_observatory_serving_eligibility --features internal-test-fixtures -- -D warnings`
+- `python3 .csdlc/prepared/issues/274/validate_scope.py`
+- `git diff --check cd0feef31240b95d344c5ae9b774325506586a5d...HEAD`
+- `python3 .csdlc/prepared/issues/274/validate_terminal.py`
+
+## Failure Semantics
+
+Fail closed on stale or nonancestral authority, wrong quorum/lease/OwnerCommit/fence/generation/receipt, overlapping transfer, replay conflict, restart ambiguity, revoked or expired revival, redaction leak, scope drift, premature bind, review finding, CI failure, or noncanonical terminal ancestry.
+
+## Handoff
+
+Retain typed evidence before convergence.

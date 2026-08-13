@@ -1,0 +1,113 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 274
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Bootstrap and validate the exact initialized #274 packet on current origin/main; obtain a separate fresh design review later; keep approval/bind blocked. A future implementation owns only the Observatory module/test and serializes any unavoidable distributed/mod.rs registration after terminal+ancestral #273.
+
+## Plan
+
+Revision 2
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Bootstrap the six cards from stable issue-owned design/diagram files and run preparation validation against exact terminal #191/#199/#200/#201/#202/#203/#272/#273/#350/#356/#358 ancestry.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Obtain a new #119-compliant fresh-session design review of the exact initialized generation/digest and artifacts, emphasizing disjoint ownership and the shared registration gate.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "After separate authorization and PASS, approve/doctor and bind only from a base satisfying the #273 registration gate, then implement the Observatory module and test without widening scope.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Run focused product proof, strict Clippy, exact scope/diff proof, fresh exact-head review, ordinary CI, and typed finish before releasing #275.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- At most one exact committed Observatory quorum lease is eligible for a lineage/generation
+- No stale, revoked, expired, minority, partitioned, superseded, or conflicting authority can regain eligibility
+- Transfer cannot expose overlapping incompatible quorums
+- Retry and restart return the exact prior committed result or fail closed
+- Receipts and projections are deterministic, bounded, and redacted
+- #272, #273, #203, and #205 owned paths remain outside #274
+
+## Risks
+
+- Shared distributed/mod.rs registration could collide with #273 if implementation is not serialized
+- Caller-supplied quorum evidence could be mistaken for committed authority
+- Transfer could briefly overlap predecessor and successor eligibility
+- Revoked or expired authority could revive after replay or restart
+- Projection or receipt could leak quorum membership or authority material
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/prepared/issues/274/design.md
+
+Digest: 9ac0d31a9ba3ab3940f7bc80a6546fb67980d5484ce9b34d66b04e90bfee1645
+
+## Diagram
+
+.csdlc/prepared/issues/274/diagram.mmd
+
+Digest: c03f4ac687b7786ea70f3a825d876658e65b564cddd1634eb9d37ed688141d84
+
+## Stop Conditions
+
+- Any required terminal cache is noncanonical or nonancestral
+- Any design or card claims ownership of serving_authority.rs, a Shepherd path, authority_store_adapters.rs, or #205
+- Any bind or implementation is attempted before fresh design PASS and separate approval authority
+- distributed/mod.rs is required while #273 is not terminal and ancestral
+- Implementation requires UI, listener, transport, cloud, provider, or any undeclared product path
+- Any validation, review, CI, terminal-cache, or ancestry gate fails
+
+## Handoff
+
+Proceed only after doctor readiness.

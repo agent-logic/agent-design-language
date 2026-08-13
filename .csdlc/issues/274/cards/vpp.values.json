@@ -1,0 +1,159 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 274,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][205.c] Add Observatory quorum serving authority",
+    "slug": "observatory-quorum-serving-authority",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preparation-contract",
+          "proof_role": "Prove packet identity and terminal ancestry for #191/#199/#200/#201/#202/#203/#272/#273/#350/#356/#358.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 2000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/274/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "274-serial-01",
+          "defer_reason": null
+        },
+        {
+          "lane": "observatory-focused",
+          "proof_role": "Prove authenticated acquire, renew, transfer, revoke, nanos expiry, replay/restart, overlap denial, sealed-authority mismatch, and redaction.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1800,
+          "budget_tokens": 18000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_serving_eligibility",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "--test-threads=1"
+          ],
+          "parallel_group": "274-serial-02",
+          "defer_reason": "Deferred until approved bind creates the exact module and test target."
+        },
+        {
+          "lane": "observatory-clippy",
+          "proof_role": "Reject warnings in the exact focused target.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 10000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_serving_eligibility",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "274-serial-03",
+          "defer_reason": "Deferred until approved bind creates the target."
+        },
+        {
+          "lane": "exact-scope",
+          "proof_role": "Prove exact two new product paths and the single additive distributed/mod.rs declaration against immutable #358 merge base.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 2000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/274/validate_scope.py"
+          ],
+          "parallel_group": "274-serial-04",
+          "defer_reason": "Deferred until the bound implementation exists."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace errors across the exact immutable implementation-base diff.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "diff",
+            "--check",
+            "cd0feef31240b95d344c5ae9b774325506586a5d...HEAD"
+          ],
+          "parallel_group": "274-serial-05",
+          "defer_reason": "Deferred until the bound implementation exists."
+        },
+        {
+          "lane": "terminal-ancestry",
+          "proof_role": "After typed finish, prove canonical merged terminal cache and merge ancestry to origin/main.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/274/validate_terminal.py"
+          ],
+          "parallel_group": "274-serial-06",
+          "defer_reason": "Deferred until typed finish creates terminal authority."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on stale or nonancestral authority, wrong quorum/lease/OwnerCommit/fence/generation/receipt, overlapping transfer, replay conflict, restart ambiguity, revoked or expired revival, redaction leak, scope drift, premature bind, review finding, CI failure, or noncanonical terminal ancestry.",
+      "design_ref": ".csdlc/prepared/issues/274/design.md",
+      "design_digest": "9ac0d31a9ba3ab3940f7bc80a6546fb67980d5484ce9b34d66b04e90bfee1645",
+      "diagram_ref": ".csdlc/prepared/issues/274/diagram.mmd",
+      "diagram_digest": "c03f4ac687b7786ea70f3a825d876658e65b564cddd1634eb9d37ed688141d84"
+    }
+  }
+}

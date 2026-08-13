@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 274,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "48064f99d9aa8a79c297f4f9370d05d6eeea655c719b05fc554949a2468b4297",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "359d7daaa065c0c30b5e2505b20e000fd4b5d6ceae291a6967dd9b9f87506dfe",
+  "branch": "codex/274-observatory-serving-eligibility",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-274-observatory-serving-eligibility",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/274/design.md",
+  "diagram_path": ".csdlc/prepared/issues/274/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:c09111df-abeb-4bb2-89c6-b95b841cac7d",
+      "revision": "9ac0d31a9ba3ab3940f7bc80a6546fb67980d5484ce9b34d66b04e90bfee1645"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a5070f91aed1039a08ebd7d9de56b942d9825bd60b2071fd04ddc24a03950dce",
+      "rendered_digest": "6f7c35bb003a878dc6be81b6d711ac832a77e7cdbc7b8b097aabb1f75e211d87",
+      "ast_digest": "7e395891bbd5ab0cba2ffcff2ffc27bf44552469af4fd1629f9cefb46a51c31b"
+    },
+    "stp": {
+      "values_digest": "a4c228516ef67f5d35d161c9809a1caff99e8366dc859309a8e3f0be138a1231",
+      "rendered_digest": "b11e528ad56c0c99b39537d06e06f8b450fde857a543b2d111a73210be95a370",
+      "ast_digest": "e16c28cd4fe468f4e5ac30958fae42d0444329d1b133a3e11bf1cefe285c8156"
+    },
+    "spp": {
+      "values_digest": "a5bfaeb41cf9b2873c97a2142dc4323c649fbfc1e49cc83df0464a39137a0ace",
+      "rendered_digest": "1c3fe6e8bdc41ddb2bcca4f14158accda83e38337387dff78d4ab07629aa0289",
+      "ast_digest": "dd77aca88f7bae10c8cb6e9e1e05003afcf54e181bc879f61a548f3259b1da84"
+    },
+    "vpp": {
+      "values_digest": "2645e875cbeb3f67225162ebf1399efd176671e33bcd08922547c161827191d8",
+      "rendered_digest": "af06f521659888b18ad3a80f85804217c65f13955fac9d1844d160d4b9555027",
+      "ast_digest": "ac925b691ff1ed78b1161add0172cd41c7e06612aee5af8332665dba3363613b"
+    },
+    "srp": {
+      "values_digest": "4d66cff602a1a50aec9619b60b6534634f5ed28929d766783c827b747f464776",
+      "rendered_digest": "2667bfc625289a7a7a9f86f6cf6648ddf1a45218f90434e1feceac26686fb004",
+      "ast_digest": "f08467faf2e7b88f7b2bb352077e20e13c2ca61511b6d7ace8afdeb9a171a869"
+    },
+    "sor": {
+      "values_digest": "b1e8821eca6b7c4452e3dd0dd0802f976e905ec5ac58c0e3fd544884dd4f6153",
+      "rendered_digest": "db0bddc5dc05afd3af34409a1f50369d6f303fdf5aae7bfb5df3cf4dde77af46",
+      "ast_digest": "024a50523fbedf7bd966e8801c30b4e3d66a7e10031a803a82ccc25966ca7e04"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:planning2-issue274-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-274-post-358-release",
+      "reason": "Declare the one-line additive Rust module route and all issue-owned validators.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/observatory_serving_eligibility.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/tests/distributed_observatory_serving_eligibility.rs\",\".csdlc/prepared/issues/274/design.md\",\".csdlc/prepared/issues/274/diagram.mmd\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\",\".csdlc/prepared/issues/274/validate_scope.py\",\".csdlc/prepared/issues/274/validate_terminal.py\",\".csdlc/evidence/274\",\".csdlc/issues/274\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-274-r1-repair",
+      "reason": "Declare every executable proving denominator and keep lifecycle review and hosted observation outside PVF lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Prove packet identity and terminal ancestry for #191/#199/#200/#201/#202/#203/#272/#273/#350/#356/#358.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-serial-01\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Prove authenticated acquire, renew, transfer, revoke, nanos expiry, replay/restart, overlap denial, sealed-authority mismatch, and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":18000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-serial-02\",\"defer_reason\":\"Deferred until approved bind creates the exact module and test target.\"},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in the exact focused target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-serial-03\",\"defer_reason\":\"Deferred until approved bind creates the target.\"},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact two new product paths and the single additive distributed/mod.rs declaration against immutable #358 merge base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-serial-04\",\"defer_reason\":\"Deferred until the bound implementation exists.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors across the exact immutable implementation-base diff.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"cd0feef31240b95d344c5ae9b774325506586a5d...HEAD\"],\"parallel_group\":\"274-serial-05\",\"defer_reason\":\"Deferred until the bound implementation exists.\"},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After typed finish, prove canonical merged terminal cache and merge ancestry to origin/main.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-serial-06\",\"defer_reason\":\"Deferred until typed finish creates terminal authority.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:c09111df-abeb-4bb2-89c6-b95b841cac7d",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}
