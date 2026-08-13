@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.02c][112.c] Define and serve trusted recipient-acknowledgement Runtime API protocol",
     "slug": "v0-92-wp-18c-02c-112-c-trusted-recipient-acknowledgement-runtime-api",
     "version": "v0.92.0",
-    "generation": 24
+    "generation": 25
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/openapi_contract.rs\ndocs/api/runtime-v3/v1/openapi.json\n.csdlc/issues/270\n.csdlc/prepared/issues/270\n.csdlc/evidence/270",
+      "review_revision": "git-blake3:7f7622cf87ecd4444f6058c22c896ff8f13f1ab6:0c29c0bfbea02e11324ba77021da6152d93a1a60a786a2b1e41f2c6f4e1d7a07",
+      "reviewer": "fresh-session:7973b3e0-7b62-4f39-8ed1-a77b0852add3",
       "review_prompts": [
         "Does #270 remain the trusted recipient-acknowledgement Runtime API child and only own served acknowledgement protocol scope?",
         "Do cards correctly block bind/implementation until #112 and #265 are terminal and ancestral?",
@@ -23,8 +23,11 @@
         "Is the validation plan sufficient for bootstrap/design readiness without claiming product proof?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was read-only and bounded to #270 assigned scope; reviewer did not rerun tests or lifecycle commands.",
+        "Reviewer observed post-HEAD review-assignment metadata dirt and treated the verdict as pinned to immutable assigned revision 7f7622cf87ecd4444f6058c22c896ff8f13f1ab6."
+      ],
+      "review_result": "pass"
     }
   }
 }

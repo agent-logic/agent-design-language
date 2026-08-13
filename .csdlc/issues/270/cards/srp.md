@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/tests/openapi_contract.rs
+docs/api/runtime-v3/v1/openapi.json
+.csdlc/issues/270
+.csdlc/prepared/issues/270
+.csdlc/evidence/270
 
 ## Prompts
 
@@ -31,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was read-only and bounded to #270 assigned scope; reviewer did not rerun tests or lifecycle commands.
+- Reviewer observed post-HEAD review-assignment metadata dirt and treated the verdict as pinned to immutable assigned revision 7f7622cf87ecd4444f6058c22c896ff8f13f1ab6.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7f7622cf87ecd4444f6058c22c896ff8f13f1ab6:0c29c0bfbea02e11324ba77021da6152d93a1a60a786a2b1e41f2c6f4e1d7a07")
 
-Reviewer: None
+Reviewer: Some("fresh-session:7973b3e0-7b62-4f39-8ed1-a77b0852add3")
 
-Result: pre_review
+Result: pass

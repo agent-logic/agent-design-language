@@ -4,13 +4,43 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "268827b0fb47d6237998ae2debc5904f7fe4752e904cbb2c512576098d45d828",
-  "phase": "implemented",
-  "generation": 24,
-  "digest": "8f42f464fd7dee2440914324c4d8545058ea6827e43d4d14b7bccc4b065abdf2",
+  "phase": "reviewed",
+  "generation": 25,
+  "digest": "1805fafbd864ac280ef5ee978efb5ecf2d181e7f15e8b39b5b525d6b9d47b7b0",
   "branch": "codex/270-trusted-recipient-ack-runtime-api",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-270-trusted-recipient-ack-runtime-api",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:7973b3e0-7b62-4f39-8ed1-a77b0852add3",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:7f7622cf87ecd4444f6058c22c896ff8f13f1ab6:0c29c0bfbea02e11324ba77021da6152d93a1a60a786a2b1e41f2c6f4e1d7a07",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      ".csdlc/issues/270",
+      ".csdlc/prepared/issues/270",
+      ".csdlc/evidence/270"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:7973b3e0-7b62-4f39-8ed1-a77b0852add3",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/openapi.json",
+      ".csdlc/issues/270",
+      ".csdlc/prepared/issues/270",
+      ".csdlc/evidence/270"
+    ],
+    "reviewed_revision": "git-blake3:7f7622cf87ecd4444f6058c22c896ff8f13f1ab6:0c29c0bfbea02e11324ba77021da6152d93a1a60a786a2b1e41f2c6f4e1d7a07",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and bounded to #270 assigned scope; reviewer did not rerun tests or lifecycle commands.",
+      "Reviewer observed post-HEAD review-assignment metadata dirt and treated the verdict as pinned to immutable assigned revision 7f7622cf87ecd4444f6058c22c896ff8f13f1ab6."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "292808e9ef4a1ce4c8b94d0196857d3ec7706c0ab6d0c3bbee923a81758bbd8d",
+      "values_digest": "c702a95964150edcff7bc8c55a6607eca2539a13febc86ffa4973086fd3aa65b",
       "rendered_digest": "6942749792da83792154723d092f2d1b3271c25aea7c2c9a533f077e762577be",
       "ast_digest": "10b5187aa61b4641e94c28f6e68f1928a7db64488f1a67c16278796535f384ae"
     },
     "stp": {
-      "values_digest": "fd46315a4032c9614a8f26be2e8db0f2784bdc385efd5c237953c6c1f135f111",
+      "values_digest": "e2d445d2109d693916dcc6282b45d82d7dd16cf3e0f587e608088603c62b0b9a",
       "rendered_digest": "92de8eaed653a503d59f8c9c42647a6e5443a3a435f0a4a8759c7fef6b94d917",
       "ast_digest": "dc283e8063279f1feb2adbd342cb558f83f835fc6b579c99cf8fd10582f879eb"
     },
     "spp": {
-      "values_digest": "b3ca78b701ebca57093919f38e287aeedde69c4570a8ae890d309014cca274b3",
+      "values_digest": "e933880a882bc06413c1634d0f450db84be2235ce1c7091744c9215c0f818e8d",
       "rendered_digest": "32a2878f1a00ffbc5de7615848a006888c3ad5218fbe27b2765ffebda3dd1fab",
       "ast_digest": "0d758c5fb5883bc35ced732e4aeeaa80ba1a4138c7af2bf00ee8bb614ed154e6"
     },
     "vpp": {
-      "values_digest": "4c14782b61232547943fc95c3b904be4f49675557da23f55a4bb6e6f62ac7fff",
+      "values_digest": "aaface91267d9db0bed137002b177d553364a291fc5f876e6afcd7b17ae6a14f",
       "rendered_digest": "05fc374d3e183fa2408e007bbdc655136d3b09bcf38d849a75a5a63608d83a32",
       "ast_digest": "7773a523ac9e324f4b66d273fa6635b6ae2c68086b1bca95df5fa09b38ee9b7c"
     },
     "srp": {
-      "values_digest": "279576ef1cd527be8415ba02413a9e31976517e85dfe0b8011722f15e521e216",
-      "rendered_digest": "ddf56eacf5b56bd54286d9d76674936ae447394dd8579125a7a927a1ebdb5850",
-      "ast_digest": "8eb2cb865e1c79bdd6538dbf75b5cb9175739f9240db5482c8ee24218cd3aa78"
+      "values_digest": "e57e5aae4b975c36196a9bab81aefa2438b4eeb2db7bf019eea8e8b6db4cc469",
+      "rendered_digest": "49fd7d97784cf79999c676d39468b784b75b67def32aa0ff857b02efbe0c32ff",
+      "ast_digest": "c8a9eea7f0d2d36a037de133352d40198a1f427d50c219beb4431230d8b173c1"
     },
     "sor": {
-      "values_digest": "96d8c6d6b2b3380d9d13820af621a8d63a33fda7b13845741899b25af67fa9ec",
+      "values_digest": "8ef2d508a2f9c2fd948c529a4c5cd894d5b44592682809345a9fad3bb5e4d2af",
       "rendered_digest": "ca758003e7494f2e4c05de69159838fae5f9803879e948d6d67bc40afd6474af",
       "ast_digest": "693ee7f2c1b102ec35252807206d756a86a4a868d7172c3cbcd1f27edad3c840"
     }
@@ -76,6 +106,13 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -309,6 +346,20 @@
       "actor": "codex:/root",
       "reason": "Repair #270 SPP lifecycle truth after R5 review: S4 validation/review/publication/CI/finish lane is in progress, not complete, because fresh review and publication/finish remain open.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
