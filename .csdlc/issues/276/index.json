@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e8a36e73588ecfae5810762f177c6995b8d48a8f05122bcb7a65d240465761fe",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "cfc8727b112baeb5b0d885391de76114180d9c4989e0a21a65f22dd38a74947d",
+  "generation": 8,
+  "digest": "f0afef94d8c23bfec75ebbc68c2581a8d0c7d8ce1b790a7dcd88a6c0d6545992",
   "branch": "codex/276-durable-conversation-journal-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-276-durable-conversation-journal-foundation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b52d9dd6cb18d46f0759848455f56154eddf428aa8781f6861b5cdb990cc0ee7",
+      "values_digest": "4226e156a619eb4b4294179a603da383d5942008194bd111a77423a60bdb9331",
       "rendered_digest": "4f5f260f2006c2e6ff3fd952f2d70264850379c50db1f075a86467a89cf1fa14",
       "ast_digest": "9a35b98ec4cc65e3b3cb7f64bd5ebdb7733a9f14656a265c80a351efec6522cf"
     },
     "stp": {
-      "values_digest": "8a52d7ef02de4a6dffcd635e47b19f74a3a894f7c2019a00869cf9f70d362cf4",
+      "values_digest": "f49a194f052b5bac3cecbc252a1c2ad46ee8a558fc75b25a4cac866574d98a6b",
       "rendered_digest": "d76e5646cf7c40b5d3e59824e8b3496d4f860f4c55968e1252c9ef9bcfbcfaca",
       "ast_digest": "3fdf04b24ef9ad1b1f4f9a70afd7ef366222caf9290fc18bdd8b38f4e4990a92"
     },
     "spp": {
-      "values_digest": "71dbbf704a194899fd3b58620683f49cf0036f7bbec42edaebedc6b0a32bb415",
+      "values_digest": "1fd1f6b0361774ac498ad5f522958e6daf935354e1d2a9a4ca951f1bbbd955d9",
       "rendered_digest": "26740818992620ae292500e29c76d3cbc98a6b98da1cdca0108a1ce35ed5ad1f",
       "ast_digest": "c0f33c83340a05a3a99c63bd3a6858d9d39a70cc4aa8e957e82f8cb621b3d023"
     },
     "vpp": {
-      "values_digest": "274cea09c7e4ee49dc44a719e18081bf75d25ba257e21bb06bc73f7cca1e0e8e",
-      "rendered_digest": "5f138512c7a2eb60d0e8c20a04ff8846031f5cd0b382366d60445ac774c8a5bf",
-      "ast_digest": "c3b06ffa9c43efd1b4268def33b96628fc66b5757907b728f660120637d11401"
+      "values_digest": "03a66f8d510403397591c43fa05ab841661a007b782f58b654e68b1e76066fb8",
+      "rendered_digest": "943438bde12aba2c177eb614804b4b07ab9fea1c647840f1b3496c6b6c670ef3",
+      "ast_digest": "72fb449b908ac68371474b44a6be7ebc6420dce20d60d81540a4e5064a7bd075"
     },
     "srp": {
-      "values_digest": "81db2f8fdc69b6342d24fe69bab3106fc434fc602737d7ce6651f1dcf3caa79b",
-      "rendered_digest": "0b07bf62decd9ecf2ac072edace0289b90357785d51d86c311a6a54c6d26594b",
-      "ast_digest": "a78e4adff6adc4e8216e5d20ff531a60b089f026ba5137e9b84c8a4ad071c8c8"
+      "values_digest": "ffa322d871074ed6f93f021384e21746f3b45961d20baa0aa780c1c315f20583",
+      "rendered_digest": "f4704c6a7aa5048834df852127bc106f50f41bae8c0f0a90ac376ef9afa45cff",
+      "ast_digest": "a828a8da69004e7e94dab552a222ecddc8b832a234d29a8f45d7b3fe3048ef71"
     },
     "sor": {
-      "values_digest": "44ac83a6ec21fa92a63450cf474af0fca1d74c687bf4643c2f5ca299c78742c9",
-      "rendered_digest": "2da397ad583698c5cacbe32e192f9492ea83daf5e2bc6e4ef4647fadcfc905b0",
-      "ast_digest": "53d9c45f0610bc869f58fb540c310f0eea9edeca026253ef84a66ae65bde115b"
+      "values_digest": "6967bd95bfa958c446973e25748d978f42dbe46b15aa960335f24b6897f6e0b4",
+      "rendered_digest": "42db61598d1de0fa141383da31ffe644351191fcba05499bf27557f7f5863441",
+      "ast_digest": "5793c1079201c8614700918eebc0396f05299dfbaa4ec89b0196fe806f0f9865"
     }
   },
   "transitions": [
@@ -126,6 +126,34 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "fresh-session:214af78c-bfec-4b51-88a4-0ab18da96e19",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:214af78c-bfec-4b51-88a4-0ab18da96e19 before repairing P1 stale VPP implementation-lane truth through typed card tooling.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Resolve exact review P1 by aligning #276 VPP validation-planning truth with the implemented durable journal runtime proof lanes retained in SOR evidence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-276-preparation-validator\",\"proof_role\":\"Prove #276 remains scoped to durable journal foundation and validates canonical #112/#265/#270 derived-terminal caches ancestral to current origin/main.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/276/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-journal-fmt\",\"proof_role\":\"Reject Rust formatting drift for the #276 kernel journal change.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-journal-tests\",\"proof_role\":\"Prove durable journal schema/storage/restart/corruption/retention/deletion foundation behavior.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_journal\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-journal-clippy\",\"proof_role\":\"Reject warning regressions in the #276 focused kernel target.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_journal\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
     }
   ]
 }

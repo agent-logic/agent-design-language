@@ -192,9 +192,9 @@ def main() -> None:
     if index.get("issue") != 276:
         fail("index issue is not 276")
     phase = index.get("phase")
-    if phase not in {"initialized", "ready", "bound"}:
-        fail("issue is not initialized, ready, or bound")
-    if phase == "bound":
+    if phase not in {"initialized", "ready", "bound", "implemented"}:
+        fail("issue is not initialized, ready, bound, or implemented")
+    if phase in {"bound", "implemented"}:
         if index.get("branch") != "codex/276-durable-conversation-journal-foundation":
             fail("bound issue branch is not the dedicated #276 branch")
         if (

@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.04a][114.a] Implement durable conversation journal foundation",
     "slug": "v0-92-wp-18c-04a-114-a-durable-conversation-journal-foundation",
     "version": "v0.92.0",
-    "generation": 5
+    "generation": 8
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Fresh design/readiness review of #276 refreshed preparation packet only; no implementation review.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

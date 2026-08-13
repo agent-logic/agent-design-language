@@ -46,6 +46,74 @@ Diagram: .csdlc/prepared/issues/276/diagram.mmd
     ],
     "parallel_group": "local",
     "defer_reason": null
+  },
+  {
+    "lane": "runtime-kernel-conversation-journal-fmt",
+    "proof_role": "Reject Rust formatting drift for the #276 kernel journal change.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 500,
+    "argv": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--check"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-kernel-conversation-journal-tests",
+    "proof_role": "Prove durable journal schema/storage/restart/corruption/retention/deletion foundation behavior.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "conversation_journal"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-kernel-conversation-journal-clippy",
+    "proof_role": "Reject warning regressions in the #276 focused kernel target.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "conversation_journal",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
   }
 ]
 
@@ -62,6 +130,9 @@ Tokens: 25000
 ## Commands
 
 - `python3 .csdlc/prepared/issues/276/validate_preparation_bundle.py`
+- `cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_journal`
+- `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_journal -- -D warnings`
 
 ## Failure Semantics
 

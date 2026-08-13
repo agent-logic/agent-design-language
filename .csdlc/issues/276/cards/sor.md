@@ -85,7 +85,7 @@ Implemented the durable conversation journal foundation for #276 without absorbi
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
