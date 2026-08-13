@@ -97,10 +97,11 @@ pub use projection_cleanup::{
     CleanupNodeIdentity, CleanupNodeType,
 };
 pub use projection_recovery::{
-    classify_preserved_projection, recover_preserved_projection, CandidateObservation,
-    FailedOperationLineage, ManifestEntry, NodeIdentity, ProjectionCasAnchor,
-    ProjectionClassification, ProjectionClassifyRequest, ProjectionRecoverRequest,
-    ProjectionRecoveryResult,
+    build_archived_projection_cleanup_request_from_recovery, classify_preserved_projection,
+    recover_preserved_projection, CandidateObservation, FailedOperationLineage, ManifestEntry,
+    NodeIdentity, ProjectionCasAnchor, ProjectionClassification, ProjectionClassifyRequest,
+    ProjectionRecoverRequest, ProjectionRecoveryCleanupBridgeRequest,
+    ProjectionRecoveryCleanupBridgeResult, ProjectionRecoveryResult,
 };
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{

@@ -1,14 +1,17 @@
 use csdlc_v2::cards::{FindingDisposition, FindingSeverity, PublicationState};
 use csdlc_v2::model::TransitionEvent;
 use csdlc_v2::{
-    assign_review, bind_issue, classify_preserved_projection, edit_issue,
-    evaluate_publication_review, evaluate_publication_review_in_repo, record_review, BindRequest,
-    BootstrapRequest, CardKind, EditRequest, ErrorCode, FailedOperationLineage, InitialCardInput,
+    assign_review, bind_issue, build_archived_projection_cleanup_request_from_recovery,
+    classify_preserved_projection, edit_issue, evaluate_publication_review,
+    evaluate_publication_review_in_repo, execute_archived_projection_cleanup, record_review,
+    ArchivedProjectionCleanupStatus, BindRequest, BootstrapRequest, CardKind, CleanupNodeIdentity,
+    CleanupNodeType, EditRequest, ErrorCode, FailedOperationLineage, InitialCardInput,
     LifecyclePhase, NonSubstantiveProof, PlanningProfile, ProjectionCasAnchor,
-    ProjectionClassifyRequest, ProjectionRecoverRequest, ReviewAssignmentRequest, ReviewEvidence,
-    ReviewFindingEvidence, ReviewRecordRequest, ReviewRecoveryRequest, SemanticOperation, Store,
+    ProjectionClassifyRequest, ProjectionRecoverRequest, ProjectionRecoveryCleanupBridgeRequest,
+    ReviewAssignmentRequest, ReviewEvidence, ReviewFindingEvidence, ReviewRecordRequest,
+    ReviewRecoveryRequest, SemanticOperation, Store,
 };
-use std::os::unix::fs::PermissionsExt;
+use std::os::unix::fs::{MetadataExt, PermissionsExt};
 
 fn copy_tree(source: &std::path::Path, destination: &std::path::Path) {
     std::fs::create_dir(destination).expect("create copied projection root");
@@ -234,6 +237,132 @@ fn completed_recovery_attempt(
         .root()
         .join(format!(".csdlc/issues/.7.recovery/{operation_id}"));
     (request, attempt)
+}
+
+fn terminal_envelope(
+    root: &std::path::Path,
+    issue: u64,
+    merge_sha: &str,
+) -> (std::path::PathBuf, String) {
+    let path = root.join(format!("derived-terminal-{issue}.json"));
+    let mut value = serde_json::json!({
+        "schema": "csdlc.derived_terminal.v1",
+        "issue": issue,
+        "repository": "example/repo",
+        "initialization_digest": "init",
+        "canonical_generation": 70,
+        "canonical_digest": "canonical",
+        "pull_request": 305,
+        "disposition": "merged",
+        "head_sha": merge_sha,
+        "merge_sha": merge_sha,
+        "issue_state": "closed_by_merged_pr",
+        "pr_state": "closed",
+        "approved_reason": null,
+        "observed_unix_seconds": 1,
+        "mutable_fresh_until_unix_seconds": null,
+        "source": "test",
+        "digest": ""
+    });
+    let digest = blake3::hash(&serde_json::to_vec(&value).expect("terminal vec"))
+        .to_hex()
+        .to_string();
+    value["digest"] = serde_json::Value::String(digest.clone());
+    std::fs::write(
+        &path,
+        serde_json::to_vec_pretty(&value).expect("terminal json"),
+    )
+    .expect("write terminal");
+    (path, digest)
+}
+
+fn cleanup_identity(path: &std::path::Path) -> CleanupNodeIdentity {
+    let metadata = std::fs::symlink_metadata(path).expect("metadata");
+    let node_type = if metadata.is_file() {
+        CleanupNodeType::RegularFile
+    } else if metadata.is_dir() {
+        CleanupNodeType::Directory
+    } else {
+        panic!("unsupported node type");
+    };
+    CleanupNodeIdentity {
+        device: metadata.dev(),
+        inode: metadata.ino(),
+        links: metadata.nlink(),
+        uid: metadata.uid(),
+        gid: metadata.gid(),
+        mode: metadata.mode(),
+        node_type,
+    }
+}
+
+#[test]
+fn recovery_bridge_emits_cleanup_authority_consumed_by_cleanup() {
+    let (_temp, store, record) = implemented_fixture();
+    let (_recovery_request, attempt) =
+        completed_recovery_attempt(&store, &record, "bridge-cleanup");
+    let merge_sha = git_out(store.root(), &["rev-parse", "HEAD"]);
+    let (terminal_path, terminal_digest) = terminal_envelope(store.root(), 7, &merge_sha);
+    let cleanup_ledger = store
+        .root()
+        .join(".csdlc/issues/.7.recovery/bridge-cleanup-cleanup");
+
+    let bridge = build_archived_projection_cleanup_request_from_recovery(
+        &store,
+        ProjectionRecoveryCleanupBridgeRequest {
+            schema: "csdlc.projection_recovery_cleanup_bridge_request.v1".into(),
+            issue: 7,
+            recovery_operation_id: "bridge-cleanup".into(),
+            cleanup_issue: 7,
+            cleanup_operation_id: "bridge-cleanup-cleanup".into(),
+            repository_root: store.root().to_string_lossy().into_owned(),
+            execution_base: merge_sha.clone(),
+            terminal_issue: 7,
+            terminal_envelope: terminal_path.to_string_lossy().into_owned(),
+            expected_terminal_digest: terminal_digest.clone(),
+            expected_terminal_merge_sha: merge_sha,
+            cleanup_ledger_root: cleanup_ledger.to_string_lossy().into_owned(),
+            branch: "issue-7".into(),
+            worktree: store.root().to_string_lossy().into_owned(),
+            fail_after: None,
+        },
+    )
+    .expect("build cleanup authority from recovery");
+
+    assert!(bridge
+        .completed_recovery_receipt
+        .starts_with(&attempt.to_string_lossy().to_string()));
+    assert!(bridge
+        .canonical_archive_manifest
+        .starts_with(&attempt.to_string_lossy().to_string()));
+    assert_eq!(
+        bridge.cleanup_request.completed_recovery_receipt,
+        bridge.completed_recovery_receipt
+    );
+    assert_eq!(
+        bridge.cleanup_request.expected_archive_manifest_digest,
+        bridge.expected_archive_manifest_digest
+    );
+    assert!(!bridge.nodes.iter().any(|node| node.relative_path == "."));
+    assert!(bridge
+        .nodes
+        .iter()
+        .any(|node| node.relative_path == "index.json"));
+    for node in &bridge.nodes {
+        let observed = cleanup_identity(
+            &std::path::PathBuf::from(&bridge.archived_root).join(&node.relative_path),
+        );
+        assert_eq!(observed, node.identity, "{}", node.relative_path);
+    }
+
+    let cleanup = execute_archived_projection_cleanup(&bridge.cleanup_request)
+        .expect("cleanup consumes production bridge authority");
+    assert_eq!(cleanup.status, ArchivedProjectionCleanupStatus::Completed);
+    assert_eq!(cleanup.terminal_digest, terminal_digest);
+    assert!(!store
+        .root()
+        .join(".csdlc/issues/.7.recovery/bridge-cleanup/rejected/index.json")
+        .exists());
 }
 
 fn node_receipt_path(

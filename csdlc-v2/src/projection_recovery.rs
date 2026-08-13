@@ -9,6 +9,9 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::cards::{render, CardContent, CardKind, CardValues};
+use crate::projection_cleanup::{
+    ArchivedProjectionCleanupRequest, ArchivedProjectionNode, CleanupNodeIdentity, CleanupNodeType,
+};
 use crate::{ErrorCode, IssueRecord, Result, Store, V2Error};
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -216,6 +219,45 @@ pub struct ProjectionRecoveryResult {
     pub canonical_generation: u64,
     pub canonical_digest: String,
     pub receipt_digest: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct ProjectionRecoveryCleanupBridgeRequest {
+    pub schema: String,
+    pub issue: u64,
+    pub recovery_operation_id: String,
+    pub cleanup_issue: u64,
+    pub cleanup_operation_id: String,
+    pub repository_root: String,
+    pub execution_base: String,
+    pub terminal_issue: u64,
+    pub terminal_envelope: String,
+    pub expected_terminal_digest: String,
+    pub expected_terminal_merge_sha: String,
+    pub cleanup_ledger_root: String,
+    pub branch: String,
+    pub worktree: String,
+    #[serde(default)]
+    pub fail_after: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct ProjectionRecoveryCleanupBridgeResult {
+    pub schema: String,
+    pub issue: u64,
+    pub recovery_operation_id: String,
+    pub cleanup_issue: u64,
+    pub cleanup_operation_id: String,
+    pub completed_recovery_receipt: String,
+    pub expected_recovery_receipt_digest: String,
+    pub canonical_archive_manifest: String,
+    pub expected_archive_manifest_digest: String,
+    pub archived_root: String,
+    pub cleanup_ledger_root: String,
+    pub nodes: Vec<ArchivedProjectionNode>,
+    pub cleanup_request: ArchivedProjectionCleanupRequest,
 }
 
 fn issue_parent(store: &Store) -> PathBuf {
@@ -2691,6 +2733,219 @@ pub(crate) fn validate_completed_recovery_attempt_from_dir(
     operation: &str,
 ) -> Result<ProjectionRecoveryResult> {
     validate_completed_recovery_attempt_retained(store, issue, attempt, operation)
+}
+
+pub fn build_archived_projection_cleanup_request_from_recovery(
+    store: &Store,
+    request: ProjectionRecoveryCleanupBridgeRequest,
+) -> Result<ProjectionRecoveryCleanupBridgeResult> {
+    if request.schema != "csdlc.projection_recovery_cleanup_bridge_request.v1"
+        || request.issue == 0
+        || request.cleanup_issue == 0
+        || request.terminal_issue == 0
+        || request.recovery_operation_id.trim().is_empty()
+        || request.cleanup_operation_id.trim().is_empty()
+        || request.repository_root.trim().is_empty()
+        || request.execution_base.trim().is_empty()
+        || request.terminal_envelope.trim().is_empty()
+        || request.expected_terminal_digest.trim().is_empty()
+        || request.expected_terminal_merge_sha.trim().is_empty()
+        || request.cleanup_ledger_root.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "projection recovery cleanup bridge request is incomplete",
+        ));
+    }
+    if request.terminal_issue != request.issue {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "cleanup bridge terminal issue must match the recovered issue",
+        ));
+    }
+    validate_operation_id(&request.recovery_operation_id)?;
+    validate_operation_id(&request.cleanup_operation_id)?;
+    verify_topology(store, &request.branch, &request.worktree)?;
+    let _lock = store.authority_projection_lock(request.issue)?;
+
+    let recovery_path = recovery_root(store, request.issue);
+    let attempt_path = recovery_path.join(&request.recovery_operation_id);
+    let result = validate_completed_recovery_attempt(store, request.issue, &attempt_path)?;
+    if result.operation_id != request.recovery_operation_id || result.issue != request.issue {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "completed recovery result does not match bridge request",
+        ));
+    }
+
+    let issues = open_root_no_follow(&issue_parent(store))?;
+    let root_authority = open_private_recovery_dir(&recovery_path, "recovery root", Some(&issues))?;
+    root_authority.validate_binding(&recovery_path, "recovery root")?;
+    let operation_name = std::ffi::CString::new(request.recovery_operation_id.as_bytes())
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "operation id contains NUL"))?;
+    let attempt_authority = root_authority.open_child(&operation_name, "recovery attempt")?;
+    attempt_authority.validate_binding(&attempt_path, "recovery attempt")?;
+
+    let archived_observation = observe_child(
+        &attempt_authority,
+        "rejected",
+        store.root(),
+        "archive",
+        request.issue,
+    )?;
+    if archived_observation.manifest_digest.as_deref()
+        != Some(result.archived_manifest_digest.as_str())
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recovery archive observation does not match terminal recovery result",
+        ));
+    }
+    let archived_root = fs::canonicalize(attempt_path.join("rejected"))?;
+    let nodes = cleanup_nodes_from_archive_observation(&archived_observation)?;
+    if nodes.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "completed recovery archive has no cleanup-authorized nodes",
+        ));
+    }
+
+    let manifest = serde_json::json!({
+        "schema": "csdlc.canonical_archive_manifest.v1",
+        "issue": request.terminal_issue,
+        "terminal_digest": request.expected_terminal_digest,
+        "archived_root": archived_root,
+        "nodes": nodes,
+    });
+    let manifest_name = std::ffi::CString::new(format!(
+        "{}-canonical-archive-manifest.json",
+        request.cleanup_operation_id
+    ))
+    .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "cleanup operation id contains NUL"))?;
+    let manifest_digest = write_bridge_json_child(&attempt_authority, &manifest_name, &manifest)?;
+    let manifest_path = attempt_path.join(manifest_name.to_string_lossy().as_ref());
+
+    let receipt = serde_json::json!({
+        "schema": "csdlc.completed_recovery_receipt.v1",
+        "issue": request.terminal_issue,
+        "state": "completed",
+        "terminal_digest": request.expected_terminal_digest,
+        "canonical_archive_manifest_digest": manifest_digest,
+    });
+    let receipt_name = std::ffi::CString::new(format!(
+        "{}-completed-recovery-receipt.json",
+        request.cleanup_operation_id
+    ))
+    .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "cleanup operation id contains NUL"))?;
+    let receipt_digest = write_bridge_json_child(&attempt_authority, &receipt_name, &receipt)?;
+    let receipt_path = attempt_path.join(receipt_name.to_string_lossy().as_ref());
+
+    let cleanup_request = ArchivedProjectionCleanupRequest {
+        schema: "csdlc.archived_projection_cleanup_request.v1".into(),
+        issue: request.cleanup_issue,
+        operation_id: request.cleanup_operation_id.clone(),
+        repository_root: request.repository_root,
+        execution_base: request.execution_base,
+        terminal_issue: request.terminal_issue,
+        terminal_envelope: request.terminal_envelope,
+        expected_terminal_digest: request.expected_terminal_digest,
+        expected_terminal_merge_sha: request.expected_terminal_merge_sha,
+        completed_recovery_receipt: receipt_path.to_string_lossy().into_owned(),
+        expected_recovery_receipt_digest: receipt_digest.clone(),
+        canonical_archive_manifest: manifest_path.to_string_lossy().into_owned(),
+        expected_archive_manifest_digest: manifest_digest.clone(),
+        archived_root: archived_root.to_string_lossy().into_owned(),
+        cleanup_ledger_root: request.cleanup_ledger_root.clone(),
+        nodes: nodes.clone(),
+        fail_after: request.fail_after,
+    };
+
+    Ok(ProjectionRecoveryCleanupBridgeResult {
+        schema: "csdlc.projection_recovery_cleanup_bridge_result.v1".into(),
+        issue: request.issue,
+        recovery_operation_id: request.recovery_operation_id,
+        cleanup_issue: request.cleanup_issue,
+        cleanup_operation_id: request.cleanup_operation_id,
+        completed_recovery_receipt: cleanup_request.completed_recovery_receipt.clone(),
+        expected_recovery_receipt_digest: receipt_digest,
+        canonical_archive_manifest: cleanup_request.canonical_archive_manifest.clone(),
+        expected_archive_manifest_digest: manifest_digest,
+        archived_root: cleanup_request.archived_root.clone(),
+        cleanup_ledger_root: request.cleanup_ledger_root,
+        nodes,
+        cleanup_request,
+    })
+}
+
+fn cleanup_nodes_from_archive_observation(
+    observation: &CandidateObservation,
+) -> Result<Vec<ArchivedProjectionNode>> {
+    if matches!(observation.state.as_str(), "absent" | "unsafe") {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "completed recovery archive is not cleanup-authorized",
+        ));
+    }
+    let mut nodes = Vec::new();
+    for entry in &observation.entries {
+        if entry.path == "." {
+            continue;
+        }
+        let node_type = match entry.identity.node_type.as_str() {
+            "regular" => CleanupNodeType::RegularFile,
+            "directory" => CleanupNodeType::Directory,
+            _ => {
+                return Err(V2Error::new(
+                    ErrorCode::UnsafeCheckout,
+                    "completed recovery archive contains an unsupported node type",
+                ));
+            }
+        };
+        nodes.push(ArchivedProjectionNode {
+            relative_path: entry.path.clone(),
+            identity: CleanupNodeIdentity {
+                device: entry.identity.device,
+                inode: entry.identity.inode,
+                links: entry.identity.links,
+                uid: entry.identity.uid,
+                gid: entry.identity.gid,
+                mode: entry.identity.mode,
+                node_type,
+            },
+        });
+    }
+    nodes.sort_by(|left, right| {
+        let left_depth = left.relative_path.matches('/').count();
+        let right_depth = right.relative_path.matches('/').count();
+        right_depth
+            .cmp(&left_depth)
+            .then_with(|| left.relative_path.cmp(&right.relative_path))
+    });
+    Ok(nodes)
+}
+
+fn write_bridge_json_child(
+    dir: &PrivateRecoveryDir,
+    name: &std::ffi::CStr,
+    value: &serde_json::Value,
+) -> Result<String> {
+    let mut bytes = serde_json::to_vec_pretty(value)?;
+    bytes.push(b'\n');
+    match dir.read_regular_child(name) {
+        Ok(existing) => {
+            if existing == bytes {
+                return Ok(blake3::hash(&existing).to_hex().to_string());
+            }
+            Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "cleanup bridge authority artifact already exists with different contents",
+            ))
+        }
+        Err(_) => {
+            dir.create_regular_child(name, &bytes)?;
+            Ok(blake3::hash(&bytes).to_hex().to_string())
+        }
+    }
 }
 
 fn exact_observation(path: &Path, expected: &CandidateObservation, issue: u64) -> Result<bool> {
