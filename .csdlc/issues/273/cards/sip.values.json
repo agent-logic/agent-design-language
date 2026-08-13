@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 273,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
+    "slug": "shepherd-serving-eligibility",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement deterministic single-Shepherd serving eligibility over terminal #272 without changing the durable foundation or absorbing #274.",
+      "required_outcome": "Acquire, atomically replace, revoke, and expire exactly one Shepherd eligibility grant using the exact published #272 foundation binding, with fenced replay-safe transitions, exact receipts, and a redacted projection.",
+      "declared_scope": [
+        "Shepherd-only acquire, replace, revoke, and expiry state machine",
+        "Exact #272 foundation, OwnerCommit, fence, lease, permit, prior/candidate state, and operation bindings",
+        "Deterministic receipt and redacted projection",
+        "Focused integration proof and one serialized module registration"
+      ],
+      "authority_boundary": [
+        "#205 is coordination-only and owns no product implementation",
+        "#273 may add only an opaque unconstructible VerifiedServingAuthorityCut API to serving_authority.rs; it must reuse sealed verification and make no eligibility decision",
+        "#273 owns a new shepherd_serving_eligibility.rs module, its focused test, the bounded verified-cut API, and additive registration only",
+        "#274 owns Observatory quorum eligibility and must not share #273 product files",
+        "Eligibility derives only from exact published #272 state; caller claims, process state, and cached booleans are not authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Preparation base is exact current origin/main b1c38cd53573c03cdc4ad818ed5ead5eba570981",
+        "Do not touch dirty primary main or #205 parent",
+        "Do not approve or bind before a #119-compliant fresh design review proves file/module disjointness and #272 cache ancestry",
+        "Serialize shared distributed/mod.rs registration: #273 terminal and ancestral before #274 product edits",
+        "Use canonical codex/273-shepherd-serving-eligibility under /Volumes/FastWork/adl-worktrees only through typed bind"
+      ]
+    }
+  }
+}
