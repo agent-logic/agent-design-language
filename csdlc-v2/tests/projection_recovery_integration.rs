@@ -21,7 +21,7 @@ const TERMINAL_298_DIGEST: &str =
 const TERMINAL_299_DIGEST: &str =
     "8a108811e5ed40a3f643ac159fc6255081e0b4a2824db1a386aecd1015415179";
 const TERMINAL_330_DIGEST: &str =
-    "0fd19c9694fe67a062c6cbd29b5adce3dee183faea6ddb2fef499101addc5817";
+    "8faeb1d546ba22b89aa0c1cb73c6e7d6c7cc48780eade6aefa70a19ff0bf1778";
 
 fn git(root: &Path, args: &[&str]) -> String {
     let output = Command::new("git")
