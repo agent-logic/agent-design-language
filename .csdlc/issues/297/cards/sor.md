@@ -190,11 +190,11 @@ Remediated the #297 bridge r2 review findings and revalidated the minimal produc
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
