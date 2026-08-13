@@ -134,6 +134,44 @@ set -e
 assert_status_nonzero "$bad_status" "bad review contract"
 assert_contains "repo review contract violation" "$bad_output" "bad review contract diagnostic"
 
+fenced_review="$TMP_DIR/fenced-review.md"
+cat >"$fenced_review" <<'EOF'
+This is not a review packet; the required markers below are example text only.
+
+```markdown
+## Metadata
+- Review Type: fixture
+- Reviewer: fixture
+
+## Scope
+- Reviewed: review compatibility surface
+- Not Reviewed: runtime behavior
+- Review Mode: fixture
+
+## Findings
+No material findings.
+
+## System-Level Assessment
+Example only.
+
+## Recommended Action Plan
+Example only.
+
+## Follow-ups / Deferred Work
+Example only.
+
+## Final Assessment
+Example only.
+```
+EOF
+
+set +e
+fenced_output="$(run_review verify-repo-contract --review "$fenced_review" 2>&1)"
+fenced_status=$?
+set -e
+assert_status_nonzero "$fenced_status" "fenced review contract"
+assert_contains "repo review contract violation" "$fenced_output" "fenced review contract diagnostic"
+
 code_review_out="$TMP_DIR/code-review-smoke"
 code_review_output="$(run_review code-review --out "$code_review_out" --backend fixture --visibility read-only-repo)"
 assert_contains "code-review fixture: ok" "$code_review_output" "code-review fixture"

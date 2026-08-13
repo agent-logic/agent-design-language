@@ -456,6 +456,8 @@ fn run_review_verify_repo_contract(args: &[String]) -> Result<()> {
 
 #[allow(dead_code)]
 fn verify_repo_review_contract(text: &str) -> Result<()> {
+    let visible_text = markdown_without_fenced_code_blocks(text);
+    let text = visible_text.as_str();
     let required_sections = [
         "## Metadata",
         "## Scope",
@@ -503,6 +505,32 @@ fn verify_repo_review_contract(text: &str) -> Result<()> {
     }
 
     Ok(())
+}
+
+#[allow(dead_code)]
+fn markdown_without_fenced_code_blocks(text: &str) -> String {
+    let mut visible = String::with_capacity(text.len());
+    let mut fence_marker: Option<&'static str> = None;
+    for line in text.lines() {
+        let trimmed = line.trim_start();
+        if fence_marker.is_none() {
+            if trimmed.starts_with("```") {
+                fence_marker = Some("```");
+                continue;
+            }
+            if trimmed.starts_with("~~~") {
+                fence_marker = Some("~~~");
+                continue;
+            }
+            visible.push_str(line);
+            visible.push('\n');
+            continue;
+        }
+        if fence_marker.is_some_and(|marker| trimmed.starts_with(marker)) {
+            fence_marker = None;
+        }
+    }
+    visible
 }
 
 #[allow(dead_code)]
