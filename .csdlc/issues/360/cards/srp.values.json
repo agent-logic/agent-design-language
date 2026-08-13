@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 360,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Add authentic distinct Observatory transition fixture builder",
+    "slug": "observatory-authentic-transition-fixture",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact cfg-gated helper mapping across authority_protocol serving_authority and existing integration test; no production behavior or #274 source.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are all helpers cfg-gated?",
+        "Do published result artifact and cut bind identical distinct values?",
+        "Are positive A/R/T/R and negative mismatch cases authentic?",
+        "Is production behavior unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
