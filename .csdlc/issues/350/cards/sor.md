@@ -99,6 +99,61 @@ Seal replicated Observatory authority with durable quorum, deadline, exact servi
     "purpose": "Run focused Observatory authority projection proof.",
     "outcome": "passed",
     "evidence_ref": "projection-focused.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--features",
+      "internal-test-fixtures",
+      "--test",
+      "distributed_observatory_authority_projection",
+      "--",
+      "--test-threads=1"
+    ],
+    "purpose": "Prove expanded explicit cross-binding, encoding, restore mutation, integer-bound, and redaction matrix.",
+    "outcome": "passed",
+    "evidence_ref": "exact remediation run at a2024a186: 7 passed, 0 failed, 0 ignored, 0 filtered"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--features",
+      "internal-test-fixtures",
+      "--lib",
+      "authority_protocol",
+      "--",
+      "--test-threads=1"
+    ],
+    "purpose": "Prove real replicated compatibility path and explicit legacy direct publication denial.",
+    "outcome": "passed",
+    "evidence_ref": "exact remediation run at a2024a186: 53 passed, 0 failed, 0 ignored, 267 filtered"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--features",
+      "internal-test-fixtures",
+      "--test",
+      "distributed_observatory_authority_projection",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject warning and API regressions after R1 remediation.",
+    "outcome": "passed",
+    "evidence_ref": "exact remediation run at a2024a186: finished dev profile with no warnings/errors"
   }
 ]
 

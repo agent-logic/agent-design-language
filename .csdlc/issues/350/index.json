@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "431657c3fcc04d4171d624dc5d980f8244793a2e408fa5093e97149b3fe9f95d",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "8ea8d37c5d10ecd6fe47640410eb5b12cefa47b28e0aeec587444ec5197ae8bc",
+  "generation": 15,
+  "digest": "9f435d0220e0d7c144e63d90f0303d76ee4fd85d3886ac53c21bede7c5430669",
   "branch": "codex/350-sealed-observatory-authority-projection",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-350-sealed-observatory-authority-projection",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "62af50dd6c5fbd6189038514e408df7176b4a44cb8f0aa5ac64c7b5a3616fabd",
+      "values_digest": "99efa1c0215f4e5dcc2278bc5e9ac4b7d61c0a031f36bc1179496dd41d8d322f",
       "rendered_digest": "7f0e44a1dfac8578dc36c52e3e53a5a046b08c66bc50d2fba4ba935f3a098812",
       "ast_digest": "5a7bf7b0ca0c8c6f6943b188693b906ec4342f7d0489043dd450952e5e2cc159"
     },
     "stp": {
-      "values_digest": "48b942259645b4f4b6c26f07aa399b3a45706731072066efa0fa1117e29b5929",
+      "values_digest": "b7f97055310404c54c13bbf20b738acd2aceabbe79ed1b0189af5e51e72e9983",
       "rendered_digest": "ee155302e4f2a69054630725ea7223c7cce431f9561fa1d903e5398d94d27029",
       "ast_digest": "cd0c0ed37217622d30931fee31559c5692b42a65b79a3c47f70a01a57fa5e853"
     },
     "spp": {
-      "values_digest": "6feb5c5975dae802f50ecf2ee021fe874ce79a4d54314ef99b3531f7ca7f9541",
+      "values_digest": "8485d0e55bcec059168185025104af8f6f5025957ee1f6533337d9fbe95332da",
       "rendered_digest": "8dfc9ca7bf568d4ac0ce602eaf350621f99c6e2805662ee327b0de4356eff925",
       "ast_digest": "b20845f025226ce3024e8a04cad86735311924d744a72767b6a48cc664a009f2"
     },
     "vpp": {
-      "values_digest": "1eccdc7b0fc3201b0b95b76378a81b6f662d1fbf1a972053755205432fd79bf1",
+      "values_digest": "77aeb718b91089b9aff0cdd2653f3ffd0a8a7cdb2d2a119529c596cc4a8832a5",
       "rendered_digest": "ee8c6d6ff4a6d72081e4166b84a039da1c7cee2432bd2daa291b16f426bede8e",
       "ast_digest": "a6e4535fff1652ced679751f7e686c768d8e35fae0c328879320aa5975bd3a80"
     },
     "srp": {
-      "values_digest": "fa2c16da7204cfd91ccc2e2e90d732290c9252078f1a3e6fb6d71bd225f7ccce",
+      "values_digest": "c87c88c745787fb5c300c3333da6764869844cda2a85629a31ebdc4ab7e6241a",
       "rendered_digest": "2c6178ffde1b7f3dc146678c7504a7c42bd29d715b5bb0f8480a7bd744e5d887",
       "ast_digest": "6a972df97aae08a8c9a3268a1f7917a3e0f06e264bb8e5f3abc13f0f5ea866e1"
     },
     "sor": {
-      "values_digest": "8d417858ad90aa448e16f02e5fab19d6a20a18710aff9a3262174ba8ab10b103",
-      "rendered_digest": "9a62679f91f053ad3b300e5541cd7dbea0d969ae12f35df5d5526c794d21dec0",
-      "ast_digest": "a134f0f70712af7beb62a845893da2f4975f65fdf6b8ff8d844ee7f805564714"
+      "values_digest": "082d1ea9b31056b073162e482f1affc1ed568d66ce0018fe582edae7e31bedc7",
+      "rendered_digest": "fc59d749aed2fb2b7c82ed1b15c968cc4dc65d5d5ae3a4485d3520e13be726de",
+      "ast_digest": "b222000ac1c1c3a88c1135207e4cbaeb20df94e7bc2e2af0992841a949335b70"
     }
   },
   "transitions": [
@@ -183,6 +183,27 @@
       "actor": "codex:350-r1-remediation",
       "reason": "Recover the failed exact review before remediating synthetic legacy provenance, restore invariants, the incomplete proof matrix, and I-JSON integer bounds; preserve all recorded finding truth for disposition after a new substantive revision.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:350-r1-remediation",
+      "reason": "Record passing R1 focused remediation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--test\",\"distributed_observatory_authority_projection\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove expanded explicit cross-binding, encoding, restore mutation, integer-bound, and redaction matrix.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact remediation run at a2024a186: 7 passed, 0 failed, 0 ignored, 0 filtered\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:350-r1-remediation",
+      "reason": "Record passing R1 authority-protocol remediation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--lib\",\"authority_protocol\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove real replicated compatibility path and explicit legacy direct publication denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact remediation run at a2024a186: 53 passed, 0 failed, 0 ignored, 267 filtered\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:350-r1-remediation",
+      "reason": "Record passing strict Clippy remediation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--test\",\"distributed_observatory_authority_projection\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warning and API regressions after R1 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact remediation run at a2024a186: finished dev profile with no warnings/errors\"}}"
     }
   ]
 }
