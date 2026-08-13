@@ -95,6 +95,12 @@ def parse_simple_use(lines: list[str]) -> tuple[str, list[str]] | None:
     return prefix, members
 
 def import_only(added: list[str], removed: list[str], token: str, import_path: str) -> bool:
+    # A standalone import of the exact governed token is mechanical and avoids
+    # rewriting an existing nested import group solely to add the capability.
+    meaningful_added = [line.strip() for line in added if line.strip()]
+    meaningful_removed = [line.strip() for line in removed if line.strip()]
+    if not meaningful_removed and meaningful_added == [f"use {import_path}::{token};"]:
+        return True
     old, new = parse_simple_use(removed), parse_simple_use(added)
     if old is None or new is None or old[0] != import_path or new[0] != import_path:
         return False
