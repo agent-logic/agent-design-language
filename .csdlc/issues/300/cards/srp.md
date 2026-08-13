@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/tests/projection_recovery_integration.rs
+.csdlc/evidence/300/bridge-fed-r12
+.csdlc/requests/300/replace-sor-bridge-fed-r12.json
 
 ## Prompts
 
