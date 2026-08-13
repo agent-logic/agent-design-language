@@ -20,6 +20,7 @@ COMMANDS = {
   "caller-guard" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_adapter_callers_260 -- --test-threads=1],
   "strict-clippy" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- -D warnings]
 }.freeze
+FINISH = ROOT.join(".adl/bin/csdlc-v2/csdlc-finish").to_s
 
 if PROOF.file?
   ok = system("ruby", ".csdlc/prepared/issues/203/validate-proof-receipt.rb", chdir: ROOT.to_s)
@@ -44,6 +45,19 @@ CHILDREN.each do |issue, (head, merge)|
   abort("child ##{issue} merge is not ancestral") unless system("git", "merge-base", "--is-ancestor", merge, main, chdir: ROOT.to_s)
 end
 
+terminal_children = {}
+CHILDREN.each do |issue, (_head, expected_merge)|
+  raw = run(FINISH, "--root", ROOT.to_s, "--validate-cached-issue", issue)
+  result = JSON.parse(raw)
+  terminal = result.fetch("terminal")
+  abort("child ##{issue} cache is not canonical") unless result["canonical_match"] == true
+  abort("child ##{issue} terminal disposition mismatch") unless terminal["disposition"] == "merged" && terminal["issue_state"] == "closed_by_merged_pr"
+  abort("child ##{issue} cache merge mismatch") unless terminal["merge_sha"] == expected_merge
+  terminal_children[issue] = {"canonical_match"=>true,"canonical_generation"=>terminal["canonical_generation"],
+    "canonical_digest"=>terminal["canonical_digest"],"head_sha"=>terminal["head_sha"],"merge_sha"=>terminal["merge_sha"],
+    "terminal_digest"=>terminal["digest"],"issue_state"=>terminal["issue_state"]}
+end
+
 FileUtils.mkdir_p(OUT, mode: 0o700)
 commands = {}
 COMMANDS.each do |name, argv|
@@ -62,7 +76,7 @@ abort("identity boundary denominator mismatch") unless identity.include?("test r
 abort("caller guard denominator mismatch") unless guard.include?("test result: ok. 5 passed; 0 failed;")
 
 proof = {"schema"=>"adl.issue203.integration_closeout_proof.v3","issue"=>203,"source_revision"=>source,
-  "required_main_ancestor"=>main,"product_diff_paths"=>[],"terminal_children"=>CHILDREN,
+  "required_main_ancestor"=>main,"product_diff_paths"=>[],"terminal_children"=>terminal_children,
   "commands"=>commands,"historical_proof_disposition"=>"superseded_nonclaim",
   "nonclaims"=>["No #205 serving eligibility implementation.","No #204 migration/recovery workflow implementation.","No resurrection of the historical synthetic 44-case marker denominator."]}
 File.binwrite(PROOF, JSON.generate(proof)+"\n")

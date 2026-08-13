@@ -19,6 +19,16 @@ abort("proof source not ancestral") unless system("git", "merge-base", "--is-anc
 abort("main binding drift") unless proof["required_main_ancestor"] == git("rev-parse", "origin/main").strip
 abort("product drift") unless git("diff", "--name-only", "origin/main...HEAD", "--", "adl-runtime", "adl/Cargo.lock").empty?
 abort("historical proof disposition missing") unless proof["historical_proof_disposition"] == "superseded_nonclaim"
+expected_merges = {"258"=>"193f77d24a693f955a2fcf3bdfc759ad1db8aff4","259"=>"119bab39d4eb98cd4013c95633ff070908e4c59c","260"=>"0b5aefd6e75e56ccac59e761a7037902f581c76d"}
+finish = ROOT.join(".adl/bin/csdlc-v2/csdlc-finish").to_s
+expected_merges.each do |issue, expected_merge|
+  raw, err, status = Open3.capture3(finish, "--root", ROOT.to_s, "--validate-cached-issue", issue, chdir: ROOT.to_s)
+  abort("terminal cache validation failed ##{issue}: #{err}") unless status.success?
+  live = JSON.parse(raw)
+  bound = proof.fetch("terminal_children").fetch(issue)
+  abort("terminal cache is not canonical ##{issue}") unless live["canonical_match"] == true && bound["canonical_match"] == true
+  abort("terminal cache binding drift ##{issue}") unless live.fetch("terminal").fetch("digest") == bound["terminal_digest"] && bound["merge_sha"] == expected_merge
+end
 protected = [".csdlc/prepared/issues/203/produce-proof-receipt.rb", ".csdlc/prepared/issues/203/validate-proof-receipt.rb"]
 abort("proof helpers changed after proof source") unless git("diff", "--name-only", "#{source}..HEAD", "--", *protected).empty?
 expected = {"identity-boundary"=>4,"caller-guard"=>5,"strict-clippy"=>nil}
