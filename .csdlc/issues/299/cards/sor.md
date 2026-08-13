@@ -12,32 +12,30 @@ Status: pre_phase
 
 ## Summary
 
-Recovered #299 after PR #325 hosted CI failed csdlc-v2-standalone, repaired the replacement-race fixtures, recovered the stale r9 review after origin/main advanced to da7994f18, resynced the #299 branch, and recaptured exact clean-head evidence at 612924a9b45adf78e757d4fef4f94afe429b027e. The production cleanup contract remains identity-authority based; the CI repair is test/proof-only and preserves the prior final-chain authority behavior.
+Recovered and remediated the r10 P2 review finding for #299: pre-final cleanup now validates the expected operation receipt chain and operation-ledger allowlist before writing 900-cleanup-complete.json, while still allowing the legitimate 900-cleanup-complete.json.tmp crash-recovery boundary. The branch was then resynced over origin/main 193f77d24 (#258 authority-store boundary), and exact clean-head evidence was recaptured at bb2e6fdd992f98b2816d4690f655ef9f8842385f.
 
 ## Artifacts
 
 - csdlc-v2/src/lib.rs
 - csdlc-v2/src/projection_cleanup.rs
 - csdlc-v2/tests/archived_projection_cleanup.rs
-- .csdlc/evidence/299/archived-projection-cleanup-focused.log#sha256=a78762838d589c7fc6c7f7b2b7adfa0eb4e2b2510ffe4d64498de8f0da766004
-- .csdlc/evidence/299/csdlc-v2-full-hosted-geometry.log#sha256=fb3073c5c3fe11fb107e5bfee29fafb2058cad3e83b972cb4fea41cc301cd6a9
-- .csdlc/evidence/299/csdlc-v2-strict-clippy.log#sha256=3bcbf41b6d19e1e5ca6f2d4d415f4105980d59ca398cb24839a3e5b56d360057
-- .csdlc/evidence/299/fmt-check.log#sha256=9aadc03304c330057233c05463b11a9e5aea18af422808ef791d8586d2b100a4
-- .csdlc/evidence/299/diff-check-origin-main-head.log#sha256=b9551aa4926add4fd9299572b2b8c77d2e6a0237b15ce00784275b1ef49c840d
+- .csdlc/evidence/299/archived-projection-cleanup-focused.log#sha256=e82a106b834d6523ef7f551cba8da67e68f109dabf2c16e9b236643b125e85e5
+- .csdlc/evidence/299/csdlc-v2-full-hosted-geometry.log#sha256=894fcaccec3b2ba7d5e99b298465e1e9aac5b24091ff39aa348c5af296cddffe
+- .csdlc/evidence/299/csdlc-v2-strict-clippy.log#sha256=ce3dcd7c5c168403b2a88ed1380b890e26d1a638285fd4f930fa40949fe03504
+- .csdlc/evidence/299/fmt-check.log#sha256=afe0170c3a1d11233bf281911ee18572a0f8108d962e7531d37faa1c1a8c825d
+- .csdlc/evidence/299/diff-check-origin-main-head.log#sha256=d5a99d56589531ba391afea9242decb5cc0d6606643fcb4a520e9d24091e312a
 
 ## Execution
 
-- Observed PR #325 run 31682167016 terminal RED: csdlc-v2-standalone job 94390045054 failed in tests/archived_projection_cleanup.rs with cleanup_rejects_replacement_inode_before_capture and cleanup_preserves_public_replacement_before_placeholder_disposal unexpectedly returning Completed; adl-ci failed as the split-lane aggregator.
-- Diagnosed the hosted failure as #299 test/proof-related rather than merge-ready or main-advance-only: the two replacement fixtures changed file contents but did not force modeled CleanupNodeIdentity drift, so Linux/CI could produce a replacement still accepted by the identity-only authority model.
-- Applied typed review/publication recovery from published generation 23/digest 6986b30c852e4955266b995269d6ac36df6a9ef0310c6814eb48ac60b94a1d8e; review and publication truth were cleared before any source/test repair.
-- Committed recovery and initial fixture repair at 9e227ea9d, merged origin/main 2ad315b33 (#324 typed bound issue identity/repository migration) cleanly into the #299 worktree at c2215e38c, and committed the final fixture/rustfmt repair at 9306ad0c9205f2c270aab2351edbf55b61025e11.
-- Inspected the failed c2215e38c same-geometry evidence marker: it was not review-ready because the evidence command was recorded failed before the final formatted fixture repair and before the later main resync; no review is being assigned against that failed marker.
-- Recovered the stale r9 review assignment after origin/main advanced to da7994f18 (#320 adl-review compatibility routing) before accepting any result; reviewer fresh-session:8bc11ff4-6f8d-4d30-9f20-a22dc90c9a19 was interrupted before PASS/record.
-- Merged origin/main da7994f18 cleanly into the #299 worktree at 612924a9b45adf78e757d4fef4f94afe429b027e. The main-side changes were ADL review compatibility/#5913/#322 tooling and lifecycle records, with no overlap on #299 cleanup source/test behavior.
-- Changed only csdlc-v2/tests/archived_projection_cleanup.rs for the CI repair: added write_distinct_replacement to write replacement content and set mode 0600, and used it in the two replacement-preservation regressions.
-- Preserved the production #299 behavior from the reviewed implementation: final receipt detection remains early/read-only, final-chain validation still binds exact seq1 operation authority, seq2 namespace authority, expected receipt filenames, and unexpected receipt rejection with zero ledger/namespace/receipt mutation.
-- Preserved ownership boundaries: no #298 worktree/files were touched; projection_recovery.rs, store.rs, and gate5.rs remain untouched by this remediation.
-- Recaptured exact evidence at 612924a9b45adf78e757d4fef4f94afe429b027e after stale-review recovery and base resync: focused 15/15 PASS, full hosted-geometry cargo test PASS, strict Clippy PASS, fmt PASS, and diff-check PASS.
+- Recovered failed exact review r10 without recording PASS. Preserved reviewer finding exactly in audit/SRP: P2 pre-finalization cleanup did not validate operation ledger allowlist/semantic chain before creating 900-cleanup-complete.json, allowing an unexpected valid-looking 777-removed.json present before finalization to become previous_receipt_digest predecessor and mutate the ledger.
+- Added pre-final expected receipt-chain validation immediately before final cleanup receipt creation, so unexpected operation ledger entries fail closed before 900-cleanup-complete.json can be created or adopted.
+- Split final-chain validation into completed-ledger validation and pre-final validation; the pre-final path allows only the legitimate 900-cleanup-complete.json.tmp crash-recovery artifact, while already-completed validation remains strict.
+- Added cleanup_rejects_prefinal_extra_receipt_without_final_mutation, which stops before final receipt creation, injects a valid-looking unexpected 777-removed.json, and asserts CorruptRecord, no 900-cleanup-complete.json, and byte-for-byte ledger snapshot preservation.
+- Preserved the existing final receipt and semantic-chain protections: early read-only final receipt detection, seq1 operation authority binding, seq2 namespace authority binding, unexpected receipt rejection on completed ledgers, coherent rehashed forgery negatives, and byte-for-byte zero mutation assertions.
+- Merged origin/main 193f77d24 (#258 authority-store boundary slice) after source/test remediation and before review; the merge was clean, branch is ahead 43/behind 0, and the current evidence binds the resynced head.
+- Archived stale pre-resync r12 logs under /Volumes/FastWork/adl-builds/299/evidence-r12-pre-main-193f77d24 and did not commit them as review proof.
+- Preserved ownership boundaries: source/test edits for this remediation remain limited to csdlc-v2/src/projection_cleanup.rs and csdlc-v2/tests/archived_projection_cleanup.rs; did not edit projection_recovery.rs, store.rs, gate5.rs, or any #298 worktree/evidence/lifecycle.
+- Recaptured exact evidence at bb2e6fdd992f98b2816d4690f655ef9f8842385f after post-#258 resync: focused 16/16 PASS, full hosted-geometry cargo test PASS, strict Clippy PASS, fmt PASS, and diff-check PASS.
 
 ## Validation
 
@@ -45,7 +43,7 @@ Recovered #299 after PR #325 hosted CI failed csdlc-v2-standalone, repaired the 
   {
     "command": [
       "env",
-      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target-focused-r10",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target-focused-r13",
       "cargo",
       "test",
       "--locked",
@@ -56,28 +54,28 @@ Recovered #299 after PR #325 hosted CI failed csdlc-v2-standalone, repaired the 
       "--",
       "--nocapture"
     ],
-    "purpose": "Focused #299 archived-projection cleanup matrix after hosted CI fixture remediation, stale-review recovery, and base resync to origin/main da7994f18; recaptured at 612924a9b45adf78e757d4fef4f94afe429b027e with explicit SHA, argv, and status. Proves 15/15 including replacement identity drift regressions, final receipt read-only shortcut validation, seq1/seq2 authority binding, unexpected receipt rejection, coherent fully rehashed forgery negatives, and byte-for-byte zero ledger/namespace/receipt mutation.",
+    "purpose": "Focused #299 archived-projection cleanup matrix after r10 P2 pre-final ledger remediation and post-#258 main resync; recaptured at bb2e6fdd992f98b2816d4690f655ef9f8842385f with explicit SHA, argv, and status. Proves 16/16 including the new pre-final extra-receipt zero-mutation regression.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/archived-projection-cleanup-focused.log"
   },
   {
     "command": [
       "env",
-      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target-hosted-r10",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target-hosted-r13",
       "cargo",
       "test",
       "--locked",
       "--manifest-path",
       "csdlc-v2/Cargo.toml"
     ],
-    "purpose": "Exact local reproduction of the hosted csdlc-v2-standalone command geometry after the PR #325 CI failure, recaptured after stale-review recovery and base resync; recaptured at 612924a9b45adf78e757d4fef4f94afe429b027e with explicit SHA, argv, and status. The formerly failing archived_projection_cleanup replacement tests passed, and the full csdlc-v2 test command exited 0.",
+    "purpose": "Exact local reproduction of the hosted csdlc-v2-standalone command geometry after r10 remediation and post-#258 main resync; recaptured at bb2e6fdd992f98b2816d4690f655ef9f8842385f with explicit SHA, argv, and status.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/csdlc-v2-full-hosted-geometry.log"
   },
   {
     "command": [
       "env",
-      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target-clippy-r10",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup/adl/target-clippy-r13",
       "cargo",
       "clippy",
       "--locked",
@@ -89,7 +87,7 @@ Recovered #299 after PR #325 hosted CI failed csdlc-v2-standalone, repaired the 
       "-D",
       "warnings"
     ],
-    "purpose": "Strict Rust lint proof for #299 after hosted CI fixture remediation, stale-review recovery, and base resync; recaptured at 612924a9b45adf78e757d4fef4f94afe429b027e with explicit SHA, argv, and status.",
+    "purpose": "Strict Rust lint proof for #299 after r10 remediation and post-#258 main resync; recaptured at bb2e6fdd992f98b2816d4690f655ef9f8842385f with explicit SHA, argv, and status.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/csdlc-v2-strict-clippy.log"
   },
@@ -102,7 +100,7 @@ Recovered #299 after PR #325 hosted CI failed csdlc-v2-standalone, repaired the 
       "--",
       "--check"
     ],
-    "purpose": "Formatting proof for #299 after hosted CI fixture remediation, stale-review recovery, and base resync; recaptured at 612924a9b45adf78e757d4fef4f94afe429b027e with explicit SHA, argv, and status.",
+    "purpose": "Formatting proof for #299 after r10 remediation and post-#258 main resync; recaptured at bb2e6fdd992f98b2816d4690f655ef9f8842385f with explicit SHA, argv, and status.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/fmt-check.log"
   },
@@ -113,7 +111,7 @@ Recovered #299 after PR #325 hosted CI failed csdlc-v2-standalone, repaired the 
       "--check",
       "origin/main...HEAD"
     ],
-    "purpose": "Committed-range whitespace hygiene for #299 after hosted CI fixture remediation, stale-review recovery, and base resync; recaptured at 612924a9b45adf78e757d4fef4f94afe429b027e with explicit SHA, argv, and status.",
+    "purpose": "Committed-range whitespace hygiene for #299 after r10 remediation and post-#258 main resync; recaptured at bb2e6fdd992f98b2816d4690f655ef9f8842385f with explicit SHA, argv, and status.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/diff-check-origin-main-head.log"
   }
