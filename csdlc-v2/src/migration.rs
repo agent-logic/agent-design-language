@@ -242,6 +242,8 @@ pub struct InitializedCodeRepositoryMigrationEvidence {
     pub requested_repository: String,
     pub canonical_issue_collision_evidence_ref: String,
     pub canonical_issue_collision_evidence_digest: String,
+    pub canonical_issue_collision_disposition: InitializedCanonicalCollisionDisposition,
+    pub cross_repository_authority_disposition: String,
     pub topology_state: String,
     pub phase: LifecyclePhase,
     pub branch: Option<String>,

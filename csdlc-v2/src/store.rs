@@ -1787,6 +1787,9 @@ fn authorize_initialized_code_repository_migration(
             canonical_issue_collision_evidence_digest: request
                 .canonical_issue_collision_evidence_digest
                 .clone(),
+            canonical_issue_collision_disposition: collision.disposition.clone(),
+            cross_repository_authority_disposition:
+                "legacy_issue_authority_with_canonical_code_repository".into(),
             topology_state: "initialized_unbound".into(),
             phase: record.phase,
             branch: None,

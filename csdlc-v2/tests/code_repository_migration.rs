@@ -693,6 +693,14 @@ fn initialized_code_repository_migration_emits_v1_initialized_unbound_evidence()
     assert_eq!(report.evidence.pre_digest, before.digest);
     assert_eq!(report.evidence.source_issue_repository, ISSUE_REPOSITORY);
     assert_eq!(report.evidence.requested_repository, CODE_REPOSITORY);
+    assert_eq!(
+        report.evidence.canonical_issue_collision_disposition,
+        InitializedCanonicalCollisionDisposition::SameNumberNonAuthoritative
+    );
+    assert_eq!(
+        report.evidence.cross_repository_authority_disposition,
+        "legacy_issue_authority_with_canonical_code_repository"
+    );
     assert_eq!(report.evidence.branch, None);
     assert_eq!(report.evidence.worktree, None);
     assert_eq!(report.evidence.topology_state, "initialized_unbound");

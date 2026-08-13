@@ -3,55 +3,13 @@
   "issue": 331,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d10036bad298d32728c965e820139dbff4ce7a3cd93d8badbc46214d1fbc16b0",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "ced879f67c263c9a82bcfedfc275d7b08baee6a82c880eb8feea23672dd9fe92",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "f1e322a4da584dfa9f2008ffb8c679279514973168177d42399d64b409fce31b",
   "branch": "codex/331-initialized-code-repository-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-331-initialized-code-repository-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:8cf72c63-c5f6-4615-84d2-086f56cad1ce",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:efb0183888b4bd3f5fac5d525da4564aca123a10:db15387873e558955ca6c77b94261880a8c013dd84642c7670e84d6fd5f60a5d",
-    "scope": [
-      "csdlc-v2/src/migration.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/code_repository_migration.rs",
-      ".csdlc/evidence/331",
-      ".csdlc/prepared/issues/331/design.md",
-      ".csdlc/prepared/issues/331/diagram.mmd",
-      ".csdlc/prepared/issues/331/finalize-implementation.json",
-      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
-      ".csdlc/prepared/issues/331/review-recover-after-main-merge.json"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:8cf72c63-c5f6-4615-84d2-086f56cad1ce",
-    "scope": [
-      "csdlc-v2/src/migration.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/code_repository_migration.rs",
-      ".csdlc/evidence/331",
-      ".csdlc/prepared/issues/331/design.md",
-      ".csdlc/prepared/issues/331/diagram.mmd",
-      ".csdlc/prepared/issues/331/finalize-implementation.json",
-      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
-      ".csdlc/prepared/issues/331/review-recover-after-main-merge.json"
-    ],
-    "reviewed_revision": "git-blake3:efb0183888b4bd3f5fac5d525da4564aca123a10:db15387873e558955ca6c77b94261880a8c013dd84642c7670e84d6fd5f60a5d",
-    "findings": [],
-    "residual_risks": [
-      "Read-only exact-head review only; no mutation performed.",
-      "Worktree had dirty lifecycle/review metadata outside the assigned acceptance scope, so this PASS is limited to the assigned scoped paths at HEAD efb0183888b4bd3f5fac5d525da4564aca123a10."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -66,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1b284f68ea30818e2ceb5517402dbf899f7889a50f08d6a2cb179118284bc325",
+      "values_digest": "c719de38ec45069d42e6e27d944386fdd250457c88088775c22a78ab5243731c",
       "rendered_digest": "dd8d6e2fe53c084c79098ab820fc461459cedb17fbd97cc99825f89d63834a49",
       "ast_digest": "54863410c2ffea851545ccc80dc2783d2b5393dba9a76e5225668e423881f3dd"
     },
     "stp": {
-      "values_digest": "5c9171b18418cdabf4e6c42aa19a1e2d5f6d42e902964024a41201d55de8aaad",
+      "values_digest": "8533af9b01a47ab9faf9ab8c40ccd1bff3233fb5d0adab538a15387fe143ca48",
       "rendered_digest": "dfb5209f7d7e9113440476b004636572ac9d611db2c85f8f4a21b3e399f8dc32",
       "ast_digest": "77cbe8b0872ea62c634921e8afb8821ab3694e9aee9698fe0c660c7bdedddf15"
     },
     "spp": {
-      "values_digest": "3cff32e153044d8796b12926b593bc099f2a464f6a54292ed436567215c99b71",
+      "values_digest": "243de7fbc65b35cecbfd754db2bb22e742b1d1559bda94a153772d281e052318",
       "rendered_digest": "59d56e5aedd317e7f2f30706f0c08488f6222c2f66e3c5d257bb7fe58ba4d5de",
       "ast_digest": "e7c94237b50ebfc827a047c5fdd6764548dbecc0046bdccc29f9034a1023a30c"
     },
     "vpp": {
-      "values_digest": "1c2b9f6ae05ed8da8ebe95ca88f1f55f1222d38f61ee05eb0079661875da6d25",
+      "values_digest": "0f8899110a968c2cc98ac7558454b541a2cee1ee14160d11c604bcd1f59136ca",
       "rendered_digest": "c8cf269e07f89d5008b0b9b01744f95d3e50d8adfc219c6c859d03a68ecd9309",
       "ast_digest": "3257ce6fde5db8710c20706cade47a63fea5620ca3307e398157197d60576860"
     },
     "srp": {
-      "values_digest": "b1b2ed729399886398e25f00660fd9d4378c256934e29e697f50583ff8d8488b",
-      "rendered_digest": "623d7670d59d0ddcbe59d70c7b64e22c56daca75eb47578551eaa3a6b2b56b28",
-      "ast_digest": "20404f8e5710248e3059dc26017f22e4345a6d135e6f585b4ec1ccc554e1f977"
+      "values_digest": "31d2e756663d3723efb0a65617899abcd591f3e2f9ed6f466570f3d6599d6caa",
+      "rendered_digest": "bbaeaaf7a844c786b89263e3f1903361b7d5f9b1411e2cc978be6a1d2c34f188",
+      "ast_digest": "312fb9b2e3f5dc4d1558c2b56b5b06cb4fa892ee4b86b6c6e3865f3218e03b6e"
     },
     "sor": {
-      "values_digest": "bda66da5e101080b0f45e26975bccd79f0ccdec34c8aaef84ff94889ad9ffc57",
-      "rendered_digest": "0ad76492469e5719d9737f091b6dbd8ed57f80af805b19d1832c354e91651013",
-      "ast_digest": "e0b8ece61375ab286ab5b911290d381c90ce009e1e1606d88fd2e056d128d2ea"
+      "values_digest": "65f47da2fde7c9505a2ff18c8816ec80e6f7babf26078759e0f0aac5d6385fe9",
+      "rendered_digest": "35f3daf72244850e461b5a2ec06fe597d82df97d201115b3fbf0d42e0812cd16",
+      "ast_digest": "869e13d53b90ee4abb465fa52781efc16f0e7018642dc01491f46c86089cf48a"
     }
   },
   "transitions": [
@@ -152,6 +110,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review truth after committed review request packets advanced HEAD and invalidated the previous reviewed revision; reassign against current HEAD and leave the final record uncommitted for publication guard."
     }
   ],
   "audit": [
@@ -280,6 +245,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover review truth after committed review request packets advanced HEAD and invalidated the previous reviewed revision; reassign against current HEAD and leave the final record uncommitted for publication guard.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover current-head review assignment after fresh-session:59cee9b5-b473-4c4e-999f-be886f8751ad returned a P1 finding requiring initialized migration evidence to record collision disposition and cross-repository authority disposition.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record the supported implemented-phase remediation for the fresh-review P1 requiring initialized migration evidence to include collision disposition and explicit cross-repository authority disposition.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented initialized/unbound code_repository migration authority for legacy issue records and repaired review-found evidence disposition reporting without widening existing bound migration behavior.\",\"changes\":[\"Added a typed initialized_code_repository migration request/report/evidence contract for initialized, unbound issue records.\",\"Authorized migration only when exact generation/digest, source issue repository, canonical target repository, clean initialized topology, and digest-bound collision evidence all match.\",\"Recorded the parsed canonical collision evidence disposition in initialized migration evidence.\",\"Recorded the explicit cross-repository authority disposition as legacy_issue_authority_with_canonical_code_repository in initialized migration evidence.\",\"Preserved existing bound/implemented/reviewed code-repository migration report schema and behavior while adding a separate initialized/unbound route.\",\"Exposed the route through csdlc-issue and the public schema surface.\",\"Added and reran issue-owned regression proof for digest-bound evidence, initialized/unbound evidence shape including disposition fields, doctor/validate readiness, and existing bound migration compatibility.\"],\"artifacts\":[\"csdlc-v2/src/migration.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/bin/csdlc-issue.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/tests/code_repository_migration.rs\",\".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py\",\".csdlc/evidence/331/post-p1-initialized-validator.log\",\".csdlc/evidence/331/post-p1-code-repository-migration.log\",\".csdlc/evidence/331/post-p1-fmt.log\",\".csdlc/evidence/331/post-p1-check.log\",\".csdlc/evidence/331/post-p1-clippy.log\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py\",\"--mode\",\"initialized-nonzero\"],\"purpose\":\"Run the issue-owned validator that verifies its own digest, exact nonzero initialized migration regressions, and doctor plus csdlc-validate readiness coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/331/post-p1-initialized-validator.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"code_repository_migration\"],\"purpose\":\"Run the full code_repository_migration integration target covering initialized migration evidence disposition fields and existing bound migration compatibility.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/331/post-p1-code-repository-migration.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Reject Rust formatting drift in the changed C-SDLC v2 crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/331/post-p1-fmt.log\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Confirm the changed C-SDLC v2 crate compiles after the evidence disposition remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/331/post-p1-check.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warning regressions across all C-SDLC v2 targets after the evidence disposition remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/331/post-p1-clippy.log\"}]}"
     }
   ]
 }
