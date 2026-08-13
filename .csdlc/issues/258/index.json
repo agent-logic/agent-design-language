@@ -4,13 +4,49 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
-  "phase": "implemented",
-  "generation": 55,
-  "digest": "51b6043bbf8740f4a67d1ead2dab832859d0e7de3818316e42f9461802b9ee5b",
+  "phase": "reviewed",
+  "generation": 56,
+  "digest": "95d9694677f9e0b4c97e480f6b5b9b8db360c17ba4c61cc01dde1cb4b8f9236c",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:9beade3c-58ad-451d-b6b6-e1883766f61c",
+    "assigned_by": "codex:/root/issue_258_takeover_r4",
+    "revision": "git-blake3:707fdca541faa65da7fa4340ad3803f83cfca9a3:348499fe649b7cd19a0ecb2684f1e5d87a95ce4e996ef1cf6a6cab2147bb06ed",
+    "scope": [
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/distributed/certificates.rs",
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_identity_lease_authority.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      ".csdlc/issues/258",
+      ".csdlc/prepared/issues/258",
+      ".csdlc/evidence/258/postpub-stale-helper-repair-r4"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:9beade3c-58ad-451d-b6b6-e1883766f61c",
+    "scope": [
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/distributed/certificates.rs",
+      "adl-runtime/src/distributed/fencing.rs",
+      "adl-runtime/src/distributed/lease.rs",
+      "adl-runtime/tests/distributed_identity_lease_authority.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      ".csdlc/issues/258",
+      ".csdlc/prepared/issues/258",
+      ".csdlc/evidence/258/postpub-stale-helper-repair-r4"
+    ],
+    "reviewed_revision": "git-blake3:707fdca541faa65da7fa4340ad3803f83cfca9a3:348499fe649b7cd19a0ecb2684f1e5d87a95ce4e996ef1cf6a6cab2147bb06ed",
+    "findings": [],
+    "residual_risks": [
+      "Inspection-only review relied on retained proving logs and immutable source inspection; hosted CI remains required after republication.",
+      "The access boundary rejects defined copied-magic and representation attacks but does not claim safety against arbitrary undefined behavior."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c61450971b3cba592a2d9e1c6e23042bae126ff3350d5fbc514c083e9a33b9d4",
+      "values_digest": "1b1956470273cdd9a54b2b074dfe532cdbcb916a344879a55cbbed44ca970ca2",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "c8c98fd5a85e008973306b6b10814eba644506692a9440a7b45fa5387ac89076",
+      "values_digest": "0f361a3071d4c9ded9cb505d998dc1cd33ac5292707fe133fc8a3d5459effdde",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "ae2fbdc517692479ff76569775a06bcceb86d02fc4601d726ecac4842f1908cd",
+      "values_digest": "8b900fb112957c999cbdd1a5e47c5b08773aaa6e1fa030f1e462fc1f37134940",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "d7c5c0bab979b8f25241354021ef3686cee8a6629d0164f14ddae99b057b7387",
+      "values_digest": "8e22f70481e4b653c74399567993d6dce649f9939e55a9215a6a4be454866a8d",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "f73b26c80a99dd270dc347fad98f0a5978734321a1a608480d647cfe44fae356",
-      "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
-      "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
+      "values_digest": "e7e281d72d4985a6680b2aba2e33c8348cdfc5bd2835f194ba20a1e369611dba",
+      "rendered_digest": "452c9cf71124f620f6212d3f3e3666199d5d10142db3ffc1fc36f779b6eb75f3",
+      "ast_digest": "fffac10e682e008125135e58c659dbde46ce59e7f82f4006cb36a21394ae1b77"
     },
     "sor": {
-      "values_digest": "74c611d815cec0f4e55c0c4dac14a3c67aa9995e35d0d1f457c6f93fffaf5dcb",
+      "values_digest": "964e5ef29d74fc06a1137082fa8c1e0107188a32910da654c11fe3510ef853c0",
       "rendered_digest": "71df00afcbe5b3fc07ae7740a1e5103cb642dd6619a8c8562d4db8045f77747b",
       "ast_digest": "b4cb55c484a1d546021f30be65d13c5c76eaa027f521244721875e4ff6209082"
     }
@@ -160,6 +196,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover post-publication PR #290 head after hosted-equivalent coverage-impact preflight contract reproduced a causal compile failure: ordinary integration tests distributed_guardian.rs and distributed_runtime_transport.rs still compile stale unsafe transmute(()) helper functions for raw LeaseStoreAccess/CertificateStoreAccess. The non-ZST capability seal is correct; repair must remove stale compiled unsafe helpers from ordinary integration tests, preserve the dedicated compile-fail authority proof, rerun hosted-equivalent preflight/focused validation, refresh SOR/review, and republish."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue_258_takeover_r4",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -666,6 +709,20 @@
       "actor": "codex:/root/issue_258_takeover_r4",
       "reason": "Append current typed validation after the r5 pointer-identity repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate canonical lifecycle truth after r5 repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r4/csdlc-validate.log\"}}"
+    },
+    {
+      "sequence": 73,
+      "generation": 55,
+      "actor": "codex:/root/issue_258_takeover_r4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 74,
+      "generation": 56,
+      "actor": "codex:/root/issue_258_takeover_r4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
