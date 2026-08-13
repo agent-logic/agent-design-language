@@ -4,65 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "660c8fbd931fc937e2dae82027a2178b77169064b96c83fbcabace917b1c19d1",
+  "generation": 23,
+  "digest": "6c9f1714341b6015ae3ccc1cc4eda5bcd92ebe033728c38490d25dd22df888e1",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:564aca81-5882-4af7-8bbd-3958a9caa14a",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:2320074475180ed1f52a42f9104236dad6896c8a:a289cbfe49163ddfb7f0e757fd09fb1c751e5167bd060263c6b79779c42256d1",
-    "scope": [
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/297",
-      ".csdlc/evidence/297/bridge-r2",
-      ".csdlc/evidence/297/noether-300-routing-bridge-gap.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:564aca81-5882-4af7-8bbd-3958a9caa14a",
-    "scope": [
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/297",
-      ".csdlc/evidence/297/bridge-r2",
-      ".csdlc/evidence/297/noether-300-routing-bridge-gap.md"
-    ],
-    "reviewed_revision": "git-blake3:2320074475180ed1f52a42f9104236dad6896c8a:a289cbfe49163ddfb7f0e757fd09fb1c751e5167bd060263c6b79779c42256d1",
-    "findings": [
-      {
-        "id": "297-bridge-r2-p1-replay-poisons-recovery-validator",
-        "severity": "p1",
-        "summary": "The bridge writes cleanup authority JSON directly into the completed recovery attempt root, so a same-operation replay causes the completed-recovery validator to see extra receipt-shaped JSON before the bridge can exercise idempotent artifact handling.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "Keep bridge authority in a validator-recognized namespace, preserve same-operation replay, reject conflicting cleanup authority, and add focused replay/conflict proof."
-      },
-      {
-        "id": "297-bridge-r2-p2-directory-link-count-relaxation-too-broad",
-        "severity": "p2",
-        "summary": "Cleanup identity comparison ignores directory link count for every directory comparison, including initial source capture and leaf-directory removal, instead of only allowing drift caused by previously authorized child-directory cleanup.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "Constrain directory link-count drift to directories with authorized child nodes after child cleanup, keep leaf and file identity strict, and add regression proof."
-      }
-    ],
-    "residual_risks": [
-      "Review was inspection-only and did not run dynamic validation.",
-      "Publication, hosted CI, and #300 bridge-fed integration proof remain deferred until remediation and fresh exact-head review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -77,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2930cd7cb67bfed503268322ff898ca70961ab65db18885eaf0ef3aacc1367a0",
+      "values_digest": "0b5e79cab4bf7efc9f5d6137598528da7871cf0b83f3b246b900ee63b46bd807",
       "rendered_digest": "df823d86637cd9489e801629df7a5212ac8097bc372257554eaec7c9a9d0660e",
       "ast_digest": "1bc768342db5a416f8bb25942901fb3f59ba10dc488a47dea6f0ef806aabb7e0"
     },
     "stp": {
-      "values_digest": "c2b3b58de6dad77ff9159afddcf23208686b6e996d5ac68c4a97f85940af8712",
+      "values_digest": "3558008b8de7fc46e809dac9b3475d5383ff40f0c6279677d104007d3513e692",
       "rendered_digest": "97ad2e897d196aba11055627fae7c5e07537626d42ad815337c564dffb664688",
       "ast_digest": "9a54ff529a22712e2dcb9f5efb93efb1ca9fd290304b932f98ab76803bc6ae26"
     },
     "spp": {
-      "values_digest": "c80d8b3b58fa618a202312abe5aa02788588c8f825689692f80c61d3e8893626",
+      "values_digest": "14f446cd7d72dcae40b7e6679a714d5e496508939d29335415f54b4bac488179",
       "rendered_digest": "e3b65c0055739979fc4ca41f0994e1ec2b50cbc3769189d2d9716089249db0bc",
       "ast_digest": "146f8c8308fc4b01d8049188b9ebf3bc7b41c3e59cac6fc8a3ec8a3957c157bd"
     },
     "vpp": {
-      "values_digest": "4a23eb4c1ec3c1c981c08ba8abd986d35463d4b64aa72e728d3e6942ab2fda0e",
+      "values_digest": "f22cc98a4ca565d925b420953c3daeeaa55e65f75d767974c5c2ddf80596c2a7",
       "rendered_digest": "13f04d3e97db4d4fcba16b1a60538f791ca635def45dd6a5ceda8dcd9c807f58",
       "ast_digest": "f1c7789048ef56244afbbe53bd36196d5d4296a699769383a2e2b10c96b5eee3"
     },
     "srp": {
-      "values_digest": "284f42faefa041c5d5715b13684d2607b4f685aa4580ce0c772db92911236a2a",
-      "rendered_digest": "c7e2b3d054d384a093736de7303442fb982311a64940946256299466dc649bee",
-      "ast_digest": "263072dc25e16b0aa5775ec98c5e65bafde218caa179fd95ff6fec97b48814f5"
+      "values_digest": "fed89bfa19df2d7a265c510e9028b1295d49cc8ab148c501023d29e9b423f6a7",
+      "rendered_digest": "ef04c3dfd5e0eadb2913a6706f7e9e8dd54eeade7e1edb43bc97e1f3204379be",
+      "ast_digest": "4a9b0580c70bbd10c0feac72bda62f208af9285f0f199aaaad3dc38c20ae79ae"
     },
     "sor": {
-      "values_digest": "e6d61bb64d073912c8511f79f5e2b43277ef92ea7f7ffb21233fb1db5e0153a0",
+      "values_digest": "698412e0825e1d95a5327fad9d69a61e72c3ec160af7c3dc48a59047fa888945",
       "rendered_digest": "f3ebd4a3dd97fe76a02faf9e16e093f12f0af3f45fadcc65dec717449fb5b29f",
       "ast_digest": "ecad0c30567184bdae78d77fb42cd4f3eefc0acae9df3fcb3002ad04a312424b"
     }
@@ -312,6 +259,13 @@
       "actor": "fresh-session:564aca81-5882-4af7-8bbd-3958a9caa14a",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex:worker-5",
+      "reason": "Recover failed #297 bridge r2 review after remediating P1 bridge replay poisoning and P2 over-broad directory link-count relaxation with a new source/test commit; require exact-head evidence and a different fresh reviewer before publication.",
+      "operation": "recover_review"
     }
   ]
 }
