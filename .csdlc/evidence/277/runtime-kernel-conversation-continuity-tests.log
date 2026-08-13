@@ -1,0 +1,16 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/conversation_continuity.rs (adl-runtime-kernel/target/debug/deps/conversation_continuity-d7bd8a9cf47df725)
+
+running 10 tests
+test replay_decision_is_owned_and_restored ... ok
+test ambiguous_dispatch_remains_ambiguous_after_restart ... ok
+test stale_acknowledgement_watermark_is_refused ... ok
+test completed_attempt_is_idempotent_after_restart ... ok
+test pre_dispatch_retryable_attempt_does_not_block_retry_after_restart ... ok
+test retryable_attempt_cannot_downgrade_completed_attempt_after_restart ... ok
+test idempotency_is_scoped_by_conversation_after_restart ... ok
+test retryable_attempt_cannot_downgrade_ambiguous_attempt_after_restart ... ok
+test deleted_conversation_events_are_not_replayed_into_continuity_snapshot ... ok
+test continuity_watermarks_and_receipts_survive_restart ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
