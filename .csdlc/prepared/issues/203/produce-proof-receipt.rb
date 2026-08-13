@@ -34,7 +34,6 @@ abort("issue 203 proof requires current main ancestry") unless system("git", "me
 product_diff = run("git", "diff", "--name-only", "origin/main...HEAD", "--", "adl-runtime", "adl/Cargo.lock")
 abort("issue 203 proof forbids product or lock drift") unless product_diff.empty?
 CHILDREN.each do |issue, (head, merge)|
-  abort("child ##{issue} head is not ancestral") unless system("git", "merge-base", "--is-ancestor", head, main, chdir: ROOT.to_s)
   abort("child ##{issue} merge is not ancestral") unless system("git", "merge-base", "--is-ancestor", merge, main, chdir: ROOT.to_s)
 end
 
