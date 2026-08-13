@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f28ef2531dd3c0896858b6fc22cd67e3bd9c43ed2c8deead0f9f650135932e20",
   "phase": "bound",
-  "generation": 1,
-  "digest": "4ed5baa50755a4b8a0682ef404b783e1c1e32544b419237c9b59a4dc0d0fdb40",
+  "generation": 3,
+  "digest": "aa37ffc03cf934ffc3eba15653845731b58fedd738a0ec9571b1980e7c5714e0",
   "branch": "codex/356-sealed-observatory-projection-accessors",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-356-sealed-observatory-projection-accessors-implementation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bb16d1dc44cae42e90c6debc84db8bba66f9edbc52e858db64329432c27b7e6b",
+      "values_digest": "757b972c59c0867099c1b3befeeea5bfc3157f3dbe223eb93411f659423a19a2",
       "rendered_digest": "a5deafb4a917e034a1492c5d49ba5910644f8ad3518de81ebb9fcabd5d8807dd",
       "ast_digest": "8e200870beb7670be281efa1bcb60c455b434759ab914f9c8df0713c60329e0d"
     },
     "stp": {
-      "values_digest": "731576322a7dffe62393b8fe327aaf33a70ea6817dad775f461360d7f6492382",
+      "values_digest": "d9ca2b02658fb4eace18427fe26027fefbc1098c0bac066d559d8947cade2afd",
       "rendered_digest": "7e301b9621eec2aff0b2bfd3ffaf20227fd19af0d3267f5a164029c4d7cab06c",
       "ast_digest": "2e80251d61a7bbb6b2b125b09ea1728f420b71de2c22be72fd4a74f2c274440d"
     },
     "spp": {
-      "values_digest": "54fb10450e00a43d8b75f27da899a3e56558550a24be8d95391acb2e6d87e9ff",
+      "values_digest": "94d8a41b920fa83b5a157e54a14f44cd15e2280e23e2f07bf9ff1532c47cdfb7",
       "rendered_digest": "c69848b5732c48a4880c631b16758517c01e4062d3f61541c5f33410edc34d87",
       "ast_digest": "d2efa3595435ba2daa02175f7fbe7e2b57dd973945f817f31d7f9edec3bcb08e"
     },
     "vpp": {
-      "values_digest": "8796f101a4df4049f0a4a10d15615ce3c8142656999d371251929b89cf75c723",
+      "values_digest": "1ab835202f09a0355b0468c426f55154077b09cde1e8f7fcc151b6b5bad7d1e5",
       "rendered_digest": "2e869ca54777670b4637d26e8bb13601103a88ae85a65a24aec6832824f8b17d",
       "ast_digest": "39a9725e580b49085f137891778c9d916db7f44e2523c6bc8e511036052c2235"
     },
     "srp": {
-      "values_digest": "a09f10b433e31010561ef84cf201684dc36742553899b4bfcb50e1a5f3beffce",
+      "values_digest": "3cf15431d274e622a9a41d3c992aab8e84f3d4224176f8c143cc7977325568aa",
       "rendered_digest": "28729fc3b7e65e5df611abe6bfcf0a106ebada137f5e511e0091f646142a3697",
       "ast_digest": "57fac1d918ac376eb9e3bff890681314ca5c1c3afaef5c5b94aec24a80334ef3"
     },
     "sor": {
-      "values_digest": "d1af2c81757f47aae6ecfc95b5762c0efe05e6c765f7a518ab4c15a70a05fc1e",
-      "rendered_digest": "25d45c00eed1da1bf98f14620cd4df8a8d3601daa2de00df303a09bb4d86d08b",
-      "ast_digest": "9a3c6c9965dca260f32e0a22ae210cce6dc3066801fc3d6b9f1f04202e0a8cae"
+      "values_digest": "00228340ccf7c96dbfb7b623e11150c16b7ffc1faf6b868c4804965835b19a57",
+      "rendered_digest": "f451864788b289b4852526aaac1a3235da0c2a6e7adf28a80ab0bbd2c1ae9f2f",
+      "ast_digest": "8ad3249c4d7ffb3f6097d3d04ef3d9091f444cd467f76b8c3f40a110ffb09013"
     }
   },
   "transitions": [
@@ -91,6 +91,20 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-356-accessor-implementation",
+      "reason": "Record exact focused accessor and sealed authority denominator proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove all sealed projection accessors, A/B mismatch denial, canonical binding, durable quorum restore rejection, integer bounds, and redaction.\",\"outcome\":\"passed\",\"evidence_ref\":\"8 tests passed; 0 failed; 0 ignored at source commit 8ab811777\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-356-accessor-implementation",
+      "reason": "Record strict Clippy proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings in exact accessor source and focused target.\",\"outcome\":\"passed\",\"evidence_ref\":\"strict Clippy completed successfully at source commit 8ab811777\"}}"
     }
   ]
 }
