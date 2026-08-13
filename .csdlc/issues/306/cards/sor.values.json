@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish",
     "slug": "publication-metadata-tail-exact-clean-finish",
     "version": "v0.92",
-    "generation": 37
+    "generation": 40
   },
   "status": "pre_phase",
   "content": {
@@ -171,10 +171,39 @@
           "purpose": "Strict warning-free proof after narrowing publication follow-up validation to issue-scoped governed metadata paths.",
           "outcome": "passed",
           "evidence_ref": "local-command:working-tree-after-r13-p1-fix:cargo-clippy-publication-tail:passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "publication_tail"
+          ],
+          "purpose": "Focused Rust integration proof for #306 publication metadata tail ordering, idempotent resume, governed follow-up validation, exact-clean finish-readiness, and normalized metadata head comparison.",
+          "outcome": "passed",
+          "evidence_ref": "local-command:working-tree-after-r15-head-trim-fix:cargo-test-publication-tail:7-passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "publication_tail",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Strict warning-free proof after normalizing metadata follow-up head SHA for strict remote convergence.",
+          "outcome": "passed",
+          "evidence_ref": "local-command:working-tree-after-r15-head-trim-fix:cargo-clippy-publication-tail:passed"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

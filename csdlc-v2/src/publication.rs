@@ -449,7 +449,10 @@ pub fn commit_publication_metadata_tail(root: &Path, issue: u64) -> Result<Optio
         ));
     }
 
-    let before = crate::git::run(root, &["rev-parse", "HEAD"])?.stdout;
+    let before = crate::git::run(root, &["rev-parse", "HEAD"])?
+        .stdout
+        .trim()
+        .to_owned();
     crate::git::run(root, &["add", &issue_dir])?;
     let staged =
         crate::git::run(root, &["diff", "--cached", "--name-only", "--", &issue_dir])?.stdout;
@@ -468,7 +471,10 @@ pub fn commit_publication_metadata_tail(root: &Path, issue: u64) -> Result<Optio
 
     let message = format!("Record C-SDLC publication metadata for #{issue}");
     crate::git::run(root, &["commit", "-m", &message, "--", &issue_dir])?;
-    let after = crate::git::run(root, &["rev-parse", "HEAD"])?.stdout;
+    let after = crate::git::run(root, &["rev-parse", "HEAD"])?
+        .stdout
+        .trim()
+        .to_owned();
     if !matches!(
         crate::git::metadata_only_changed_paths(root, &before, &after),
         Ok(paths) if !paths.is_empty()

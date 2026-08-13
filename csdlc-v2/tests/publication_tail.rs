@@ -151,6 +151,11 @@ fn publication_metadata_tail_is_committed_as_finish_ready_metadata_only_head() {
     let metadata_head = commit_publication_metadata_tail(temp.path(), 306)
         .expect("commit metadata tail")
         .expect("metadata tail committed");
+    assert_eq!(
+        metadata_head.trim(),
+        metadata_head,
+        "metadata follow-up head must be normalized before strict remote equality"
+    );
     assert!(csdlc_v2::git::worktree_is_clean(temp.path()).expect("worktree clean"));
     assert!(matches!(
         csdlc_v2::git::metadata_only_changed_paths(temp.path(), &published_head, &metadata_head),
