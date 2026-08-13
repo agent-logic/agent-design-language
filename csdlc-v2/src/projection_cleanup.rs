@@ -212,6 +212,7 @@ pub fn execute_archived_projection_cleanup(
         )?;
     }
 
+    failpoint(request, "before_prefinal_receipt_chain_validation")?;
     validate_prefinal_receipt_chain(request, &operation_root, &archived_root)?;
     receipt(
         request,
@@ -930,11 +931,12 @@ fn reject_unexpected_operation_entries(
     let mut expected = BTreeSet::from([
         "001-operation-created.json".to_string(),
         "002-namespace-created.json".to_string(),
-        "900-cleanup-complete.json".to_string(),
         "private-delete".to_string(),
     ]);
     if allow_final_temp {
         expected.insert("900-cleanup-complete.json.tmp".to_string());
+    } else {
+        expected.insert("900-cleanup-complete.json".to_string());
     }
     for (index, _) in request.nodes.iter().enumerate() {
         let ordinal = index as u32 + 1;

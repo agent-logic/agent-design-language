@@ -946,6 +946,47 @@ fn cleanup_rejects_prefinal_extra_receipt_without_final_mutation() {
 }
 
 #[test]
+fn cleanup_rejects_real_final_receipt_race_before_prefinal_validation() {
+    let (_temp, root, mut req, _node) = single_file_request();
+    req.fail_after = Some("before_prefinal_receipt_chain_validation".into());
+    execute_archived_projection_cleanup(&req).expect_err("stop at prefinal validation boundary");
+    req.fail_after = None;
+
+    let forged_final = serde_json::json!({
+        "schema": "csdlc.archived_projection_cleanup_receipt.v1",
+        "sequence": 900,
+        "state": "cleanup-complete",
+        "previous_receipt_digest": "raced-before-prefinal-validation",
+        "payload": {
+            "issue": 299,
+            "operation_id": "op-299",
+            "nodes": ["stale.json"],
+        }
+    });
+    let mut bytes = serde_json::to_vec_pretty(&forged_final).expect("forged final bytes");
+    bytes.push(b'\n');
+    fs::write(
+        operation_receipt_path(&root, "900-cleanup-complete.json"),
+        bytes,
+    )
+    .expect("write raced real final receipt");
+
+    let ledger_root = root.join("cleanup-ledger");
+    let before = ledger_snapshot(&ledger_root);
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("raced real final receipt rejected")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
+    );
+    assert_eq!(
+        ledger_snapshot(&ledger_root),
+        before,
+        "raced real final receipt rejection must not create or rewrite ledger, namespace, or receipt bytes"
+    );
+}
+
+#[test]
 fn cleanup_rejects_hardlink_and_mode_drift_before_mutation() {
     let (_temp, root, merge_sha) = repo();
     let archived = root.join("archived");
