@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5913,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/5913-repair-adl-review-compatibility-routing",
+  "title": "[v0.92][Sprint 6][tools] Repair adl-review compatibility routing",
+  "body": "## Summary\n\n- Repairs `adl-review verify-repo-contract` so it validates repository-review packets through the supported read-only compatibility path.\n- Repairs deterministic fixture-mode `adl-review code-review` routing for the CodeFriend/CodeBuddy smoke surface without provider credentials.\n- Narrows stale/hidden `adl-review` help and diagnostics so removed v1 lifecycle/provider surfaces fail closed without advertising unsupported routing.\n- Keeps PR-fast CLI selector routing current by removing the removed `adl-session` binary id and preserving `adl-process` coverage.\n- Hardens `verify-repo-contract` against review markers hidden inside fenced code blocks, including longer fences containing shorter fence marker lines.\n\n## Validation\n\n- `cargo fmt --manifest-path adl/Cargo.toml -- --check`\n- `bash adl/tools/test_adl_review_compatibility.sh`\n- `bash adl/tools/test_run_pr_fast_test_lane.sh`\n- `cargo clippy --manifest-path adl/Cargo.toml --bin adl-review -- -D warnings`\n- Fresh exact-head C-SDLC review: `fresh-session:aef4db36-d5be-4dc2-80df-00067c3cac7d` PASS at assigned revision `git-blake3:88aea76500cacf1cbdec935c477b438331397bc3:576a799a9129870d5b9af64b7545f39ecf05ffebed9933c7e5ec55e4f7089fe0`.\n\nCloses #5913\n",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:83ded4a0ede36582cd129e345b0c48decb4ae3f1:f6e5864c83055f101f4a2f4dfe8eec032794bff8f79cb197554fefab26c05662",
+  "commit_sha": "83ded4a0ede36582cd129e345b0c48decb4ae3f1"
+}
