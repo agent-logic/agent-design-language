@@ -8,16 +8,18 @@ use csdlc_v2::{
     bind_issue, build_archived_projection_cleanup_request_from_recovery,
     classify_preserved_projection, edit_issue, execute_archived_projection_cleanup,
     initialize_native_json, recover_preserved_projection, ArchivedProjectionCleanupStatus,
-    BindRequest, BootstrapRequest, CardKind, EditRequest, FailedOperationLineage,
-    InitialCardInput, LifecyclePhase, PlanningProfile, ProjectionCasAnchor,
-    ProjectionClassifyRequest, ProjectionRecoverRequest, ProjectionRecoveryCleanupBridgeRequest,
-    SemanticOperation, Store,
+    BindRequest, BootstrapRequest, CardKind, EditRequest, FailedOperationLineage, InitialCardInput,
+    LifecyclePhase, PlanningProfile, ProjectionCasAnchor, ProjectionClassifyRequest,
+    ProjectionRecoverRequest, ProjectionRecoveryCleanupBridgeRequest, SemanticOperation, Store,
 };
 
 const TERMINAL_298_MERGE: &str = "5a1d3bfda7108bede1572cbd9dc9e2af19d9eedb";
 const TERMINAL_299_MERGE: &str = "649a20bf32d07e3aae221ab4b2352c2d1a9f80c5";
+const TERMINAL_330_MERGE: &str = "879683620e2a3b86b49580910aedb9eb8d312bef";
 const TERMINAL_298_DIGEST: &str =
     "d1f780991343708beacfab8aa6648a83ed3117b422158085e5a0825945af87cb";
+const TERMINAL_330_DIGEST: &str =
+    "0fd19c9694fe67a062c6cbd29b5adce3dee183faea6ddb2fef499101addc5817";
 
 fn git(root: &Path, args: &[&str]) -> String {
     let output = Command::new("git")
@@ -304,14 +306,20 @@ fn ledger_snapshot(path: &Path) -> BTreeMap<String, Option<Vec<u8>>> {
     out
 }
 
-fn operation_receipt(root: &Path, name: &str) -> PathBuf {
-    root.join("cleanup-ledger/op-300").join(name)
+fn operation_receipt(
+    bridge: &csdlc_v2::ProjectionRecoveryCleanupBridgeResult,
+    name: &str,
+) -> PathBuf {
+    PathBuf::from(&bridge.cleanup_ledger_root)
+        .join(&bridge.cleanup_operation_id)
+        .join(name)
 }
 
 fn terminal_envelope(root: &Path, issue: u64, merge_sha: &str) -> (PathBuf, String) {
     let terminal_path = root.join(format!("derived-terminal-{issue}.json"));
-    let terminal_digest =
-        blake3::hash(format!("terminal:{issue}:{merge_sha}").as_bytes()).to_hex().to_string();
+    let terminal_digest = blake3::hash(format!("terminal:{issue}:{merge_sha}").as_bytes())
+        .to_hex()
+        .to_string();
     let terminal = serde_json::json!({
         "schema": "csdlc.derived_terminal.v1",
         "issue": issue,
@@ -351,7 +359,12 @@ fn bridge_cleanup_request(
             terminal_envelope: terminal_path.to_string_lossy().into_owned(),
             expected_terminal_digest: terminal_digest,
             expected_terminal_merge_sha: merge_sha.into(),
-            cleanup_ledger_root: store.root().join("cleanup-ledger").to_string_lossy().into_owned(),
+            cleanup_ledger_root: store
+                .root()
+                .join(".csdlc/issues/.7.recovery")
+                .join(cleanup_operation_id)
+                .to_string_lossy()
+                .into_owned(),
             branch: "issue-7".into(),
             worktree: store.root().to_string_lossy().into_owned(),
             fail_after: None,
@@ -434,14 +447,22 @@ fn production_bridge_replays_and_rejects_conflicting_cleanup_authority() {
             terminal_envelope: terminal_path.to_string_lossy().into_owned(),
             expected_terminal_digest: terminal_digest,
             expected_terminal_merge_sha: merge_sha,
-            cleanup_ledger_root: store.root().join("cleanup-ledger").to_string_lossy().into_owned(),
+            cleanup_ledger_root: store
+                .root()
+                .join(".csdlc/issues/.7.recovery")
+                .join("op-300-conflicting-cleanup")
+                .to_string_lossy()
+                .into_owned(),
             branch: "issue-7".into(),
             worktree: store.root().to_string_lossy().into_owned(),
             fail_after: None,
         },
     )
     .expect_err("conflicting bridge cleanup operation rejected");
-    assert_eq!(conflicting.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert_eq!(
+        conflicting.code,
+        csdlc_v2::ErrorCode::ReconciliationRequired
+    );
 }
 
 #[test]
@@ -453,7 +474,11 @@ fn terminal_prerequisites_are_current_and_ancestral_to_execution_base() {
         root,
         &["rev-parse", "--path-format=absolute", "--git-common-dir"],
     ));
-    for (issue, expected_merge) in [(298, TERMINAL_298_MERGE), (299, TERMINAL_299_MERGE)] {
+    for (issue, expected_merge) in [
+        (298, TERMINAL_298_MERGE),
+        (299, TERMINAL_299_MERGE),
+        (330, TERMINAL_330_MERGE),
+    ] {
         let terminal = git_common_dir
             .join("csdlc-v2/derived-terminal")
             .join(format!("{issue}.json"));
@@ -469,6 +494,12 @@ fn terminal_prerequisites_are_current_and_ancestral_to_execution_base() {
             assert_eq!(
                 envelope["digest"], TERMINAL_298_DIGEST,
                 "#298 terminal digest"
+            );
+        }
+        if issue == 330 {
+            assert_eq!(
+                envelope["digest"], TERMINAL_330_DIGEST,
+                "#330 terminal digest"
             );
         }
         assert_eq!(
@@ -553,10 +584,11 @@ fn raced_cleanup_final_receipt_after_recovery_fails_closed_without_mutation() {
     assert_eq!(recovery.disposition, "recovered");
     let bridge = bridge_cleanup_request(&store, &merge_sha, "op-300-race-recovery", "op-300");
     let archived_index = PathBuf::from(&bridge.archived_root).join("index.json");
+    let raced_final_receipt = operation_receipt(&bridge, "900-cleanup-complete.json");
     assert!(archived_index.exists(), "bridge points at retained archive");
     let mut cleanup = bridge.cleanup_request;
-    cleanup.fail_after = Some("before_prefinal_receipt_chain_validation".into());
-    execute_archived_projection_cleanup(&cleanup).expect_err("stop before prefinal validation");
+    cleanup.fail_after = Some("before_cleanup_node_mutation".into());
+    execute_archived_projection_cleanup(&cleanup).expect_err("stop before cleanup mutation");
     cleanup.fail_after = None;
 
     let raced_final = serde_json::json!({
@@ -572,12 +604,8 @@ fn raced_cleanup_final_receipt_after_recovery_fails_closed_without_mutation() {
     });
     let mut bytes = serde_json::to_vec_pretty(&raced_final).expect("raced final bytes");
     bytes.push(b'\n');
-    fs::write(
-        operation_receipt(store.root(), "900-cleanup-complete.json"),
-        bytes,
-    )
-    .expect("write raced final");
-    let ledger_root = store.root().join("cleanup-ledger");
+    fs::write(raced_final_receipt, bytes).expect("write raced final");
+    let ledger_root = PathBuf::from(&cleanup.cleanup_ledger_root);
     let before = ledger_snapshot(&ledger_root);
     let error = execute_archived_projection_cleanup(&cleanup).expect_err("raced final rejected");
     assert_eq!(error.code, csdlc_v2::ErrorCode::CorruptRecord);
