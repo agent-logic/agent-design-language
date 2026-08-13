@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ba4ad0b09850192b19172ddfc16a2cb280a6b9c3430dfe1df59c493d7bd5a9d0",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "0ff236ce7f4a8ac713eec86ca24ed42e8015f7eeb5a6e529a311c25eecb7052a",
+  "generation": 21,
+  "digest": "3552e52420ac7fd82115c03a0863cad2ddb15eccc2b300162e216da6309dc936",
   "branch": "codex/273-shepherd-serving-eligibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-273-shepherd-serving-eligibility",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "db4e606b1702684b406d4d68fd01d808ad2aa9b34641dfd93a356365eb5e263d",
+      "values_digest": "11ff63960247ea450dee5e1f1ff8c175c1248d63f40f4a17d3745a6bdab80751",
       "rendered_digest": "fde850d82a2c2a13c971d804d5d989ee796c4ad2705e336561eb4acc9e3adee2",
       "ast_digest": "d2f326bb27e14cbe6fe91df173e64cc1f78255fe33c8ab01168482ec034d3b2f"
     },
     "stp": {
-      "values_digest": "471bef8a37a09bb0d3ae53a12013fe28f1a9244862513f7a5a61f181b4aae383",
+      "values_digest": "b146a6e52aa330a26b2d7ad4f3efa618d9ad8ae2268a35e0eed063b57df58580",
       "rendered_digest": "b8a5809f2d2cba141fb56e3739d1444c7768eaf39ea60e8244bf7930d521f3c2",
       "ast_digest": "890dd17f1d76d7fcda68a57dff7d3b3fb2e5208fbc819021e5479b7a7e429e78"
     },
     "spp": {
-      "values_digest": "609c73a8afd88603b710f05ea6416491acc6910c70cf8bbfcff74db5200a2edb",
+      "values_digest": "b5de1d4685d3e14c77416217623e0a28fded5fee0ab702740979bc29dbcd76f7",
       "rendered_digest": "4ec6d8aefffba0152e2c46ed24f1a6a59045e3c06c8e438a0fdd6873f877d916",
       "ast_digest": "ddb7eb7105e3ed5d1866d77d3a62274648b2077c2979337ad49af02a90dd988c"
     },
     "vpp": {
-      "values_digest": "54798dd1cd365a7b349be4bb1e4356efd699f7044a653186e5d9b94f58e711a7",
+      "values_digest": "02c145ad829e488faf93c92cdad9ec6e4da7a59758d8cb8f8dcacb8eeb420a75",
       "rendered_digest": "7c5154773aac6c8d3404325822e58e8134d0f7cb2e2fad1a2283461d8feed3a4",
       "ast_digest": "75f9d7021381e3b840005ab7dbac5e84457305546998ff6fce97e76d2ad100bd"
     },
     "srp": {
-      "values_digest": "be37a3df66bd17d9f8771d3e60ad983676e713c3f84b2e961132453dcc1e56ea",
+      "values_digest": "0d0e399ee5b7fb66faabbf086a0e34659044e3a1be2f0ece4c8ab54eb44f0432",
       "rendered_digest": "d26b500a7142a7e623ed6f6e33adde1d4ce3f0d8dec0dd51422d5dd76d42a6a0",
       "ast_digest": "8d0a111f496337c7f6f343bea02cfce00130254195f68943add4449e218d8c65"
     },
     "sor": {
-      "values_digest": "83669d5c2e087c831e0b273f633411b9179ddbf69d75b8b28619ea30844fd34c",
-      "rendered_digest": "859f25c5ad368147a5e643d5986da7df663585a539355d01c3add0dae2ba9896",
-      "ast_digest": "7f4af193d55ee88b9188703598c41ffde28210db7546c77acfaf1f6ac7678ce8"
+      "values_digest": "a968988460fa45ffbbfba92efe06b0ba3ced588707dc70b5761aac6dff576172",
+      "rendered_digest": "fc1b7e584b33c727a6b898b790c691a98761c5ce3452661a3b1e19bc3f6d431c",
+      "ast_digest": "244cf18ed12c5e0241c4b98960b3e87e4c54709ce5ff84579dacccca5359e6d1"
     }
   },
   "transitions": [
@@ -295,6 +295,34 @@
       "actor": "codex:planning2-issue273-owner",
       "reason": "Record the exact coverage classifier, runner contract, focused module coverage, and impact preflight that repair the failed required aggregate.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Prove typed identity, exact predecessor terminal ancestry, disjoint ownership, serial registration order, and declared post-bind targets.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/273/validate_preparation_bundle.py\"],\"parallel_group\":\"273-serial-01\",\"defer_reason\":\"Preparation-only lane; initialized phase required and no post-bind claim.\"},{\"lane\":\"shepherd-focused\",\"proof_role\":\"Prove acquire, replace, revoke, expiry, exact historical retry, restart, full binding rejection, capacity, receipt, and redaction under the explicit test-fixture feature.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--test\",\"distributed_shepherd_serving_eligibility\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"273-serial-02\",\"defer_reason\":null},{\"lane\":\"shepherd-clippy\",\"proof_role\":\"Reject warnings and API misuse in the exact feature-gated Shepherd integration target.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--test\",\"distributed_shepherd_serving_eligibility\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"273-serial-03\",\"defer_reason\":null},{\"lane\":\"ordinary-build\",\"proof_role\":\"Prove ordinary builds do not expose the internal fixture constructor.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"parallel_group\":\"273-serial-04\",\"defer_reason\":null},{\"lane\":\"coverage-map-contract\",\"proof_role\":\"Prove the new Shepherd module maps exactly once to its dedicated coverage token and expression.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"273-serial-05\",\"defer_reason\":null},{\"lane\":\"coverage-runner-contract\",\"proof_role\":\"Prove the dedicated filter routes only to the runtime companion with internal-test-fixtures enabled.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"parallel_group\":\"273-serial-06\",\"defer_reason\":null},{\"lane\":\"focused-module-coverage\",\"proof_role\":\"Execute the exact mapped Shepherd integration target and emit the production module coverage summary.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_shepherd_serving_eligibility)\"],\"parallel_group\":\"273-serial-07\",\"defer_reason\":null},{\"lane\":\"coverage-impact-preflight\",\"proof_role\":\"Require the focused summary to satisfy the changed production module impact denominator before publication.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--changed-files\",\".csdlc/evidence/273/coverage-impact-changed-files.txt\",\"--summary\",\"adl/target/coverage-impact-summary.json\"],\"parallel_group\":\"273-serial-08\",\"defer_reason\":null},{\"lane\":\"shepherd-scope\",\"proof_role\":\"Require the exact four product paths, four coverage-policy paths, and #273-local records while rejecting unrelated, parent, or #274 paths.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/273/validate_scope.py\"],\"parallel_group\":\"273-serial-09\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace, conflict marker, and patch hygiene defects.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"273-serial-10\",\"defer_reason\":null},{\"lane\":\"terminal-authority\",\"proof_role\":\"Require canonical merged #273 terminal cache and ancestry before #274 shared registration.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/273/validate_terminal.py\"],\"parallel_group\":\"273-serial-11\",\"defer_reason\":\"Deferred until required CI is green and typed finish creates terminal authority; no optional or paid runner authorized.\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "Record the passing coverage mapping contract regression.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove exact production-path classifier and filter-expression mapping.\",\"outcome\":\"passed\",\"evidence_ref\":\"coverage-map-contract.log\"}}"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "Record the passing dedicated runtime coverage runner contract.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"purpose\":\"Prove runtime-only routing and internal-test-fixtures activation for the dedicated filter.\",\"outcome\":\"passed\",\"evidence_ref\":\"coverage-runner-contract.log\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "Record exact focused coverage for the new Shepherd eligibility module.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_shepherd_serving_eligibility)\"],\"purpose\":\"Execute the mapped six-test target and prove the new production module denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused-module-coverage.log\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "Record the passing coverage-impact preflight against the focused summary.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--changed-files\",\".csdlc/evidence/273/coverage-impact-changed-files.txt\",\"--summary\",\"adl/target/coverage-impact-summary.json\"],\"purpose\":\"Prove the changed production module satisfies its required coverage-impact denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\"coverage-impact-preflight.log\"}}"
     }
   ]
 }

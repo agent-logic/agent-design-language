@@ -83,6 +83,48 @@ Implemented the bounded Shepherd serving-eligibility authority over a non-forgea
     "purpose": "Run fail-closed issue scope proof.",
     "outcome": "passed",
     "evidence_ref": "issue273-scope.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "purpose": "Prove exact production-path classifier and filter-expression mapping.",
+    "outcome": "passed",
+    "evidence_ref": "coverage-map-contract.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "purpose": "Prove runtime-only routing and internal-test-fixtures activation for the dedicated filter.",
+    "outcome": "passed",
+    "evidence_ref": "coverage-runner-contract.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "--filter-expression",
+      "binary_id(adl-runtime::distributed_shepherd_serving_eligibility)"
+    ],
+    "purpose": "Execute the mapped six-test target and prove the new production module denominator.",
+    "outcome": "passed",
+    "evidence_ref": "focused-module-coverage.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/check_coverage_impact.sh",
+      "--changed-files",
+      ".csdlc/evidence/273/coverage-impact-changed-files.txt",
+      "--summary",
+      "adl/target/coverage-impact-summary.json"
+    ],
+    "purpose": "Prove the changed production module satisfies its required coverage-impact denominator.",
+    "outcome": "passed",
+    "evidence_ref": "coverage-impact-preflight.log"
   }
 ]
 

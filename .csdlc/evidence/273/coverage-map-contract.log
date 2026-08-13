@@ -1,0 +1,3 @@
+command: bash adl/tools/test_check_coverage_impact.sh
+result: PASS
+proof: the new production path maps exactly once to runtime_v3_shepherd_serving_eligibility and binary_id(adl-runtime::distributed_shepherd_serving_eligibility)
