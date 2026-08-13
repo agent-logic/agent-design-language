@@ -7,17 +7,17 @@
     "title": "[v0.92][WP-04.16b3.1b][205.c] Add Observatory quorum serving authority",
     "slug": "observatory-quorum-serving-authority",
     "version": "v0.92",
-    "generation": 10
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implement sealed Observatory serving eligibility.",
+      "summary": "Implement sealed Observatory serving eligibility using terminal #360 authentic transition fixtures.",
       "actual_changes": [
-        "Authenticated action-driven eligibility lifecycle",
-        "Durable replay-safe redacted state and receipts",
-        "Exact focused proof and one-line module registration"
+        "Authentic sealed Acquire/Renew/Transfer/Revoke lifecycle with fail-closed overlap, stale, superseded, revival, replay and substitution behavior",
+        "Named normalized final-state digest over the committed receipt state with recomputation and tamper sensitivity",
+        "Exact three-path implementation against terminal #360 merge base"
       ],
       "artifacts": [
         "adl-runtime/src/distributed/observatory_serving_eligibility.rs",
@@ -28,21 +28,20 @@
         {
           "command": [
             "cargo",
-            "clippy",
+            "test",
             "--locked",
             "--manifest-path",
             "adl-runtime/Cargo.toml",
-            "--test",
-            "distributed_observatory_serving_eligibility",
+            "--lib",
+            "observatory_serving_eligibility",
             "--features",
             "internal-test-fixtures",
             "--",
-            "-D",
-            "warnings"
+            "--test-threads=1"
           ],
-          "purpose": "Strict Clippy.",
+          "purpose": "Prove state-machine guard plus normalized final-state digest recomputation and tamper sensitivity; closes R2 digest-convention finding.",
           "outcome": "passed",
-          "evidence_ref": "clippy.log"
+          "evidence_ref": "2 passed at source 9a27e5987"
         },
         {
           "command": [
@@ -58,9 +57,48 @@
             "--",
             "--test-threads=1"
           ],
-          "purpose": "Run exact focused target.",
+          "purpose": "Prove authentic sealed A/R/T/R, restart/replay, overlap, stale/superseded predecessor, revoked revival, nanos expiry, A/B mismatch and redaction through terminal #360 fixtures; closes R2 mapping-boundary finding.",
           "outcome": "passed",
-          "evidence_ref": "focused.log"
+          "evidence_ref": "4 passed at source 9a27e5987"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_serving_eligibility",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Strict feature-bearing Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "clippy PASS at source 9a27e5987"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/274/validate_scope.py"
+          ],
+          "purpose": "Prove exact issue scope and one additive mod.rs registration against immutable #360 merge.",
+          "outcome": "passed",
+          "evidence_ref": "scope PASS base dae957c435b73d87af1f36d4e15fb088f6fd055b"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD"
+          ],
+          "purpose": "Reject diff hygiene errors.",
+          "outcome": "passed",
+          "evidence_ref": "no output at source 9a27e5987"
         }
       ],
       "integration_state": "worktree_only",
